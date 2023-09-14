@@ -72,6 +72,11 @@ public abstract class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<Store> Stores { get; set; } = new();
 
+    public virtual void CreateRefToStore(Store relatedStore)
+    {
+        Stores.Add(relatedStore);
+    }
+
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

@@ -82,6 +82,11 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
     /// </summary>
     public Nox.Types.CountryCode2 VendingMachineInstallationCountryId { get; set; } = null!;
 
+    public virtual void CreateRefToCountry(Country relatedCountry)
+    {
+        VendingMachineInstallationCountry = relatedCountry;
+    }
+
     /// <summary>
     /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
@@ -92,20 +97,40 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
     /// </summary>
     public Nox.Types.AutoNumber VendingMachineContractedAreaLandLordId { get; set; } = null!;
 
+    public virtual void CreateRefToLandLord(LandLord relatedLandLord)
+    {
+        VendingMachineContractedAreaLandLord = relatedLandLord;
+    }
+
     /// <summary>
     /// VendingMachine related to ZeroOrMany Bookings
     /// </summary>
     public virtual List<Booking> VendingMachineRelatedBookings { get; set; } = new();
+
+    public virtual void CreateRefToBooking(Booking relatedBooking)
+    {
+        VendingMachineRelatedBookings.Add(relatedBooking);
+    }
 
     /// <summary>
     /// VendingMachine related to ZeroOrMany CashStockOrders
     /// </summary>
     public virtual List<CashStockOrder> VendingMachineRelatedCashStockOrders { get; set; } = new();
 
+    public virtual void CreateRefToCashStockOrder(CashStockOrder relatedCashStockOrder)
+    {
+        VendingMachineRelatedCashStockOrders.Add(relatedCashStockOrder);
+    }
+
     /// <summary>
     /// VendingMachine required ZeroOrMany MinimumCashStocks
     /// </summary>
     public virtual List<MinimumCashStock> VendingMachineRequiredMinimumCashStocks { get; set; } = new();
+
+    public virtual void CreateRefToMinimumCashStock(MinimumCashStock relatedMinimumCashStock)
+    {
+        VendingMachineRequiredMinimumCashStocks.Add(relatedMinimumCashStock);
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

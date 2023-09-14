@@ -36,4 +36,9 @@ public abstract class PaymentProviderCreateDtoBase : IEntityCreateDto<PaymentPro
     [Required(ErrorMessage = "PaymentProviderType is required")]
     
     public virtual System.String PaymentProviderType { get; set; } = default!;
+
+    /// <summary>
+    /// PaymentProvider related to ZeroOrMany PaymentDetails
+    /// </summary>
+    public virtual List<PaymentDetailCreateDto> PaymentProviderRelatedPaymentDetails { get; set; } = new();
 }

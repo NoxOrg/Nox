@@ -27,6 +27,8 @@ public partial class GetMinimumCashStockByIdQueryHandler:  QueryBase<MinimumCash
     {    
         var item = DataDbContext.MinimumCashStocks
             .AsNoTracking()
+            .Include(r => r.MinimumCashStocksRequiredByVendingMachines)
+            .Include(r => r.MinimumCashStockRelatedCurrency)
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);

@@ -48,6 +48,11 @@ public abstract class CountryCreateDtoBase : IEntityCreateDto<Country>
     public virtual System.String? ShortDescription { get; set; }
 
     /// <summary>
+    /// Country Country workplaces ZeroOrMany Workplaces
+    /// </summary>
+    public virtual List<WorkplaceCreateDto> PhysicalWorkplaces { get; set; } = new();
+
+    /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
     public virtual List<CountryLocalNameCreateDto> CountryLocalNames { get; set; } = new();

@@ -67,6 +67,11 @@ public abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.AutoNumber TransactionForCustomerId { get; set; } = null!;
 
+    public virtual void CreateRefToCustomer(Customer relatedCustomer)
+    {
+        TransactionForCustomer = relatedCustomer;
+    }
+
     /// <summary>
     /// Transaction for ExactlyOne Bookings
     /// </summary>
@@ -76,6 +81,11 @@ public abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent
     /// Foreign key for relationship ExactlyOne to entity Booking
     /// </summary>
     public Nox.Types.DatabaseGuid TransactionForBookingId { get; set; } = null!;
+
+    public virtual void CreateRefToBooking(Booking relatedBooking)
+    {
+        TransactionForBooking = relatedBooking;
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

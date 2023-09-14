@@ -67,15 +67,30 @@ public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<PaymentDetail> CustomerRelatedPaymentDetails { get; set; } = new();
 
+    public virtual void CreateRefToPaymentDetail(PaymentDetail relatedPaymentDetail)
+    {
+        CustomerRelatedPaymentDetails.Add(relatedPaymentDetail);
+    }
+
     /// <summary>
     /// Customer related to ZeroOrMany Bookings
     /// </summary>
     public virtual List<Booking> CustomerRelatedBookings { get; set; } = new();
 
+    public virtual void CreateRefToBooking(Booking relatedBooking)
+    {
+        CustomerRelatedBookings.Add(relatedBooking);
+    }
+
     /// <summary>
     /// Customer related to ZeroOrMany Transactions
     /// </summary>
     public virtual List<Transaction> CustomerRelatedTransactions { get; set; } = new();
+
+    public virtual void CreateRefToTransaction(Transaction relatedTransaction)
+    {
+        CustomerRelatedTransactions.Add(relatedTransaction);
+    }
 
     /// <summary>
     /// Customer based in ExactlyOne Countries
@@ -86,6 +101,11 @@ public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
     /// Foreign key for relationship ExactlyOne to entity Country
     /// </summary>
     public Nox.Types.CountryCode2 CustomerBaseCountryId { get; set; } = null!;
+
+    public virtual void CreateRefToCountry(Country relatedCountry)
+    {
+        CustomerBaseCountry = relatedCountry;
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

@@ -109,6 +109,15 @@ public abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if ent
     public Nox.Types.{{relationship.Related.Entity.Keys[0].Type}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}}Id { get; set; } = null!;
     {{- end}}
     {{-end}}
+
+    public virtual void CreateRefTo{{relationship.Entity}}({{relationship.Entity}} related{{relationship.Entity}})
+    {
+        {{- if relationship.WithSingleEntity }}
+        {{relationship.Name}} = related{{relationship.Entity}};
+        {{- else}}
+        {{relationship.Name}}.Add(related{{relationship.Entity}});
+        {{- end }}
+    }
 {{- end }}
 {{- for relationship in entity.OwnedRelationships #TODO how to reuse as partial template?}}
 

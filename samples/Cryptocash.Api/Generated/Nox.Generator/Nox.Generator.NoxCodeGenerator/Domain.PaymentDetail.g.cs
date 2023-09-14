@@ -62,6 +62,11 @@ public abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.AutoNumber PaymentDetailsUsedByCustomerId { get; set; } = null!;
 
+    public virtual void CreateRefToCustomer(Customer relatedCustomer)
+    {
+        PaymentDetailsUsedByCustomer = relatedCustomer;
+    }
+
     /// <summary>
     /// PaymentDetail related to ExactlyOne PaymentProviders
     /// </summary>
@@ -71,6 +76,11 @@ public abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent
     /// Foreign key for relationship ExactlyOne to entity PaymentProvider
     /// </summary>
     public Nox.Types.AutoNumber PaymentDetailsRelatedPaymentProviderId { get; set; } = null!;
+
+    public virtual void CreateRefToPaymentProvider(PaymentProvider relatedPaymentProvider)
+    {
+        PaymentDetailsRelatedPaymentProvider = relatedPaymentProvider;
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

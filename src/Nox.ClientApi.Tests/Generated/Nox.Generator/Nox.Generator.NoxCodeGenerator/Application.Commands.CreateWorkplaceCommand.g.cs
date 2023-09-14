@@ -23,15 +23,18 @@ public partial class CreateWorkplaceCommandHandler: CommandBase<CreateWorkplaceC
 {
 	private readonly ClientApiDbContext _dbContext;
 	private readonly IEntityFactory<Workplace,WorkplaceCreateDto> _entityFactory;
+    private readonly IEntityFactory<Country,CountryCreateDto> _countryfactory;
 
 	public CreateWorkplaceCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<Country,CountryCreateDto> countryfactory,
         IEntityFactory<Workplace,WorkplaceCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;
+		_entityFactory = entityFactory;        
+        _countryfactory = countryfactory;
 	}
 
 	public async Task<WorkplaceKeyDto> Handle(CreateWorkplaceCommand request, CancellationToken cancellationToken)
@@ -40,6 +43,11 @@ public partial class CreateWorkplaceCommandHandler: CommandBase<CreateWorkplaceC
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		if(request.EntityDto.BelongsToCountry is not null)
+		{ 
+			var relatedEntity = _countryfactory.CreateEntity(request.EntityDto.BelongsToCountry);
+			entityToCreate.CreateRefToCountry(relatedEntity);
+		}
 					
 		OnCompleted(request, entityToCreate);
 		_dbContext.Workplaces.Add(entityToCreate);

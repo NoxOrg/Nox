@@ -47,7 +47,7 @@ public abstract class StoreCreateDtoBase : IEntityCreateDto<Store>
     /// Store Owner of the Store ZeroOrOne StoreOwners
     /// </summary>
     
-    public System.String? OwnershipId { get; set; } = default!;
+    public virtual StoreOwnerCreateDto? Ownership { get; set; } = null!;
 
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses

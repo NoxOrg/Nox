@@ -24,15 +24,18 @@ public partial class CreateStoreOwnerCommandHandler: CommandBase<CreateStoreOwne
 {
 	private readonly ClientApiDbContext _dbContext;
 	private readonly IEntityFactory<StoreOwner,StoreOwnerCreateDto> _entityFactory;
+    private readonly IEntityFactory<Store,StoreCreateDto> _storefactory;
 
 	public CreateStoreOwnerCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<Store,StoreCreateDto> storefactory,
         IEntityFactory<StoreOwner,StoreOwnerCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;
+		_entityFactory = entityFactory;        
+        _storefactory = storefactory;
 	}
 
 	public async Task<StoreOwnerKeyDto> Handle(CreateStoreOwnerCommand request, CancellationToken cancellationToken)
@@ -41,6 +44,11 @@ public partial class CreateStoreOwnerCommandHandler: CommandBase<CreateStoreOwne
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		foreach(var relatedCreateDto in request.EntityDto.Stores)
+		{
+			var relatedEntity = _storefactory.CreateEntity(relatedCreateDto);
+			entityToCreate.CreateRefToStore(relatedEntity);
+		}
 					
 		OnCompleted(request, entityToCreate);
 		_dbContext.StoreOwners.Add(entityToCreate);

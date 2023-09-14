@@ -32,8 +32,13 @@ public abstract class MinimumCashStockCreateDtoBase : IEntityCreateDto<MinimumCa
     public virtual MoneyDto Amount { get; set; } = default!;
 
     /// <summary>
+    /// MinimumCashStock required by ZeroOrMany VendingMachines
+    /// </summary>
+    public virtual List<VendingMachineCreateDto> MinimumCashStocksRequiredByVendingMachines { get; set; } = new();
+
+    /// <summary>
     /// MinimumCashStock related to ExactlyOne Currencies
     /// </summary>
     [Required(ErrorMessage = "MinimumCashStockRelatedCurrency is required")]
-    public System.String MinimumCashStockRelatedCurrencyId { get; set; } = default!;
+    public virtual CurrencyCreateDto MinimumCashStockRelatedCurrency { get; set; } = null!;
 }

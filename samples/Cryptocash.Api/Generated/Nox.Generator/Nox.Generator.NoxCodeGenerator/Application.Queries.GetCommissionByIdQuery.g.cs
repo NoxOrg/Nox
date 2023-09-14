@@ -27,6 +27,8 @@ public partial class GetCommissionByIdQueryHandler:  QueryBase<CommissionDto?>, 
     {    
         var item = DataDbContext.Commissions
             .AsNoTracking()
+            .Include(r => r.CommissionFeesForCountry)
+            .Include(r => r.CommissionFeesForBooking)
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);
