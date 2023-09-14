@@ -7,33 +7,27 @@ using AutoFixture.AutoMoq;
 namespace ClientApi.Tests.Tests
 {
     [Collection("Sequential")]
-    public class GenerateODataEndPointHtmlRoutingTests
+    public class GenerateODataEndPointHtmlRoutingTests : NoxIntegrationTestBase
     {
-        private readonly Fixture _fixture;
-        private readonly ODataFixture _oDataFixture;
-
-        public GenerateODataEndPointHtmlRoutingTests()
-        {
-            _fixture = new Fixture();
-            _fixture.Customize(new AutoMoqCustomization());
-            _oDataFixture = _fixture.Create<ODataFixture>();
-        }
-
         [Fact]
         public async Task Generate_OdataRouting_HTML()
         {
-            var result = await _oDataFixture.GetAsync("$odata");
+            var result = await GetAsync("$odata");
             var content = await result.Content.ReadAsStringAsync();
                        
             File.WriteAllText("../../../odata.html", content);
+
+            content.Should().NotBeEmpty();
         }
         [Fact]
         public async Task Generate_OdataMetadata()
         {
-            var result = await _oDataFixture.GetAsync("api/$metadata");
+            var result = await GetAsync("api/$metadata");
             var content = await result.Content.ReadAsStringAsync();
 
             File.WriteAllText("../../../metadata.xml", content);
+
+            content.Should().NotBeEmpty();
         }
     }
 }

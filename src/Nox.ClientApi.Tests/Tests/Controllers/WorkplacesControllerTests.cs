@@ -7,20 +7,10 @@ using AutoFixture.AutoMoq;
 namespace ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
-    public class WorkplacesControllerTests : IClassFixture<NoxTestApplicationFactory>
+    public class WorkplacesControllerTests : NoxIntegrationTestBase
     {
         private const string EntityPluralName = "workplaces";
         private const string EntityUrl = $"api/{EntityPluralName}";
-
-        private readonly Fixture _fixture;
-        private readonly ODataFixture _oDataFixture;
-
-        public WorkplacesControllerTests(NoxTestApplicationFactory appFactory)
-        {
-            _fixture = new Fixture();
-            _fixture.Customize(new AutoMoqCustomization());
-            _oDataFixture = new ODataFixture(appFactory);
-        }
 
         [Fact]
         public async Task Post_ToEntityWithNuid_NuidIsCreated()
@@ -32,7 +22,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, createDto);
+            var result = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, createDto);
 
             //Assert
             result.Should().NotBeNull();
@@ -55,12 +45,12 @@ namespace ClientApi.Tests.Tests.Controllers
                 Name = _fixture.Create<string>(),
             };
 
-            var postResult = await _oDataFixture.PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, createDto);
+            var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, createDto);
 
-            var headers = _oDataFixture.CreateEtagHeader(postResult?.Etag);
+            var headers = CreateEtagHeader(postResult?.Etag);
 
             // Act
-            var putResult = await _oDataFixture.PutAsync<WorkplaceUpdateDto, WorkplaceDto>($"{EntityUrl}/{postResult!.Id}", updateDto, headers);
+            var putResult = await PutAsync<WorkplaceUpdateDto, WorkplaceDto>($"{EntityUrl}/{postResult!.Id}", updateDto, headers);
 
             //Assert
             putResult.Should().NotBeNull();
@@ -82,11 +72,11 @@ namespace ClientApi.Tests.Tests.Controllers
                 Name = expectedName
             };
 
-            var postResult = await _oDataFixture.PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, createDto);
+            var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, createDto);
 
             // Act
 
-            var patchResult = await _oDataFixture.PatchAsync<WorkplaceUpdateDto, WorkplaceDto>($"{EntityUrl}/{postResult!.Id}", updateDto);
+            var patchResult = await PatchAsync<WorkplaceUpdateDto, WorkplaceDto>($"{EntityUrl}/{postResult!.Id}", updateDto);
 
             //Assert
             patchResult.Should().NotBeNull();
@@ -102,12 +92,12 @@ namespace ClientApi.Tests.Tests.Controllers
                 Name = _fixture.Create<string>(),
             };
 
-            var result = await _oDataFixture.PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, createDto);
-            var headers = _oDataFixture.CreateEtagHeader(result?.Etag);
+            var result = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, createDto);
+            var headers = CreateEtagHeader(result?.Etag);
 
             // Act
-            await _oDataFixture.DeleteAsync($"{EntityUrl}/{result!.Id}", headers);
-            var queryResult = await _oDataFixture.GetAsync($"{EntityUrl}/{result!.Id}");
+            await DeleteAsync($"{EntityUrl}/{result!.Id}", headers);
+            var queryResult = await GetAsync($"{EntityUrl}/{result!.Id}");
 
             // Assert
 

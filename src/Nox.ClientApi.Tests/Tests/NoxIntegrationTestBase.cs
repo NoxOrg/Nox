@@ -1,10 +1,14 @@
 ﻿using AutoFixture;
+using AutoFixture.AutoMoq;
+using AutoFixture.Kernel;
 using ClientApi.Tests.Tests.Models;
 using FluentAssertions;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Newtonsoft.Json;
 
 using System.Collections.Generic;
 using System.Net.Http.Headers;
+using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -12,15 +16,64 @@ using Testcontainers.PostgreSql;
 
 namespace ClientApi.Tests;
 
+//public class NoxContainerCustomization : ISpecimenBuilder
+//{
+//    private readonly string _connectionString;
 
-public class ODataFixture
+//    public NoxContainerCustomization(string connectionString)
+//    {
+//        this._connectionString = connectionString;
+//    }
+
+//    public object Create(object request, ISpecimenContext context)
+//    {
+//        var pi = request as ParameterInfo;
+//        if (pi == null)
+//            return new NoSpecimen();
+
+
+//        if (pi.Member.DeclaringType != typeof(NoxTestApplicationFactory) ||
+//             pi.ParameterType != typeof(NoxTestApplicationFactory))
+//                return new NoSpecimen();
+
+//        return new NoxTestApplicationFactory(_connectionString);
+//    }
+//}
+
+
+public abstract class NoxIntegrationTestBase : IAsyncLifetime
 {
     private readonly NoxTestApplicationFactory _appFactory;
+    protected readonly Fixture _fixture;
 
-    public ODataFixture(NoxTestApplicationFactory appFactory)
+    protected NoxIntegrationTestBase()
     {
-        _appFactory = appFactory;
+        _fixture = new Fixture();
+        _fixture.Customize(new AutoMoqCustomization());
+
+        _appFactory = _fixture.Create<NoxTestApplicationFactory>();
+        _appFactory.ConnectionStringGetter = () => _postgreSqlContainer.GetConnectionString();
     }
+
+
+    private readonly PostgreSqlContainer _postgreSqlContainer = new PostgreSqlBuilder()
+      .WithImage("postgres:14.7")
+      .WithDatabase("db")
+      .WithUsername("postgres")
+      .WithPassword("postgres")
+      .WithCleanUp(true)
+      .Build();
+
+    public Task DisposeAsync()
+    {
+        return _postgreSqlContainer.DisposeAsync().AsTask();
+    }
+
+    public Task InitializeAsync()
+    {
+        return _postgreSqlContainer.StartAsync();
+    }
+
 
     /// <summary>
     ///  Get collection result from Odata End Point

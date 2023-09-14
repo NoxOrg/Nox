@@ -6,19 +6,10 @@ using AutoFixture;
 namespace ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
-    public class StoresControllerTests 
+    public class StoresControllerTests : NoxIntegrationTestBase
     {
         private const string StoresControllerName = "api/stores";
 
-        private readonly Fixture _fixture;
-        private readonly ODataFixture _oDataFixture;
-
-        public StoresControllerTests()
-        {
-            _fixture = new Fixture();
-            _fixture.Customize(new AutoMoqCustomization());
-            _oDataFixture = _fixture.Create<ODataFixture>();
-        }
 
         [Fact]
         public async Task Post_ReturnsNuidId()
@@ -35,7 +26,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<StoreCreateDto, StoreDto>(StoresControllerName, createDto);
+            var result = await PostAsync<StoreCreateDto, StoreDto>(StoresControllerName, createDto);
 
             //Assert
             result.Should().NotBeNull();

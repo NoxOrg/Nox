@@ -2,41 +2,22 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using Nox.EntityFramework.Postgres;
-using Nox.EntityFramework.SqlServer;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
-using Testcontainers.PostgreSql;
 
 namespace ClientApi.Tests;
 
-public class NoxTestApplicationFactory : WebApplicationFactory<StartupFixture>, IAsyncLifetime
+public class NoxTestApplicationFactory : WebApplicationFactory<StartupFixture>
 {
-    private readonly PostgreSqlContainer _postgreSqlContainer = new PostgreSqlBuilder()
-      .WithImage("postgres:14.7")
-      .WithDatabase("db")
-      .WithUsername("postgres")
-      .WithPassword("postgres")
-      .WithCleanUp(true)
-      .Build();
-
-    Task IAsyncLifetime.DisposeAsync()
-    {
-        return _postgreSqlContainer.DisposeAsync().AsTask();
-    }
-
-    public Task InitializeAsync()
-    {
-        return _postgreSqlContainer.StartAsync();
-    }
+    public Func<string> ConnectionStringGetter = () => string.Empty;
 
     protected override IWebHostBuilder? CreateWebHostBuilder()
     {
         var host = WebHost.CreateDefaultBuilder(null!)
-            .UseStartup<StartupFixture>().ConfigureTestServices(services =>
+            .UseStartup<StartupFixture>()
+            .ConfigureTestServices(services =>
             {
-                // Remove AppDbContext
                 var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(INoxDatabaseProvider));
                 if (descriptor != null)
                 {
@@ -45,21 +26,8 @@ public class NoxTestApplicationFactory : WebApplicationFactory<StartupFixture>, 
                 services.AddScoped<INoxDatabaseProvider>(sp=>
                 {
                     var configurations = sp.GetServices<INoxTypeDatabaseConfigurator>();
-                    return new PostgreSqlTestProvider(_postgreSqlContainer.GetConnectionString(), configurations);
+                    return new PostgreSqlTestProvider(ConnectionStringGetter(), configurations);
                 });
-
-
-
-                //// Add DB context pointing to test container
-                //services.AddDbContext<AppDbContext>(options => { options.UseNpgsql("the new connection string"); });
-
-                //// Ensure schema gets created
-                //var serviceProvider = services.BuildServiceProvider();
-
-                //using var scope = serviceProvider.CreateScope();
-                //var scopedServices = scope.ServiceProvider;
-                //var context = scopedServices.GetRequiredService<AppDbContext>();
-                //context.Database.EnsureCreated();
             });
         return host;
     }
@@ -73,21 +41,10 @@ public class PostgreSqlTestProvider : PostgresDatabaseProvider
     }
 
     public override DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)
-    {/*
-          Host = dbServer.ServerUri,
-            Port = dbServer.Port ?? 5432,
-            Username = dbServer.User,
-            Password = dbServer.Password,
-            Database = dbServer.Name,
-            ApplicationName = applicationName,
-      */
-        return optionsBuilder
-         //.UseLazyLoadingProxies()
-         .UseNpgsql(ConnectionString, opts => { opts.MigrationsHistoryTable("MigrationsHistory", "migrations"); });
-        //var dbServer = new DatabaseServer 
-        //{ 
-
-        //};
-        //return base.ConfigureDbContext(optionsBuilder, applicationName, dbServer );
+    {
+        return optionsBuilder.UseNpgsql(ConnectionString, opts => 
+        { 
+            opts.MigrationsHistoryTable("MigrationsHistory", "migrations"); 
+        });
     }
 }
