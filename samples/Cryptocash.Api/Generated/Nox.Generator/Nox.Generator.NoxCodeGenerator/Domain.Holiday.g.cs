@@ -5,14 +5,28 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
 public partial class Holiday:HolidayBase
 {
 
 }
+/// <summary>
+/// Record for Holiday created event.
+/// </summary>
+public record HolidayCreated(Holiday Holiday) : IDomainEvent;
+/// <summary>
+/// Record for Holiday updated event.
+/// </summary>
+public record HolidayUpdated(Holiday Holiday) : IDomainEvent;
+/// <summary>
+/// Record for Holiday deleted event.
+/// </summary>
+public record HolidayDeleted(Holiday Holiday) : IDomainEvent;
+
 /// <summary>
 /// Holiday related to country.
 /// </summary>

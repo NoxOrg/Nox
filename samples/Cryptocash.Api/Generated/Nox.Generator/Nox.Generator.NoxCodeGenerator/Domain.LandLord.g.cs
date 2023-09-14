@@ -5,14 +5,28 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
 public partial class LandLord:LandLordBase
 {
 
 }
+/// <summary>
+/// Record for LandLord created event.
+/// </summary>
+public record LandLordCreated(LandLord LandLord) : IDomainEvent;
+/// <summary>
+/// Record for LandLord updated event.
+/// </summary>
+public record LandLordUpdated(LandLord LandLord) : IDomainEvent;
+/// <summary>
+/// Record for LandLord deleted event.
+/// </summary>
+public record LandLordDeleted(LandLord LandLord) : IDomainEvent;
+
 /// <summary>
 /// Landlord related data.
 /// </summary>

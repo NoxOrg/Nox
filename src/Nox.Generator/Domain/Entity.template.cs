@@ -1,18 +1,40 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace {{codeGeneratorState.DomainNameSpace}};
 public partial class {{className}}:{{className}}Base
 {
 
 }
+{{- if entity.Persistence.Create.RaiseEvents }}
+/// <summary>
+/// Record for {{entity.Name}} created event.
+/// </summary>
+public record {{entity.Name}}Created({{entity.Name}} {{entity.Name}}) : IDomainEvent;
+{{- end}}
+
+{{- if entity.Persistence.Update.RaiseEvents }}
+/// <summary>
+/// Record for {{entity.Name}} updated event.
+/// </summary>
+public record {{entity.Name}}Updated({{entity.Name}} {{entity.Name}}) : IDomainEvent;
+{{- end}}
+
+{{- if entity.Persistence.Delete.RaiseEvents }}
+/// <summary>
+/// Record for {{entity.Name}} deleted event.
+/// </summary>
+public record {{entity.Name}}Deleted({{entity.Name}} {{entity.Name}}) : IDomainEvent;
+{{- end}}
+
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>

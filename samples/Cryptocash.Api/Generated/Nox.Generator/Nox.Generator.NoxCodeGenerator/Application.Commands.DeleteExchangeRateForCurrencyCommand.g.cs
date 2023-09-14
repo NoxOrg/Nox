@@ -13,13 +13,13 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
-public record DeleteHolidayCommand(CountryKeyDto ParentKeyDto, HolidayKeyDto EntityKeyDto) : IRequest <bool>;
+public record DeleteExchangeRateForCurrencyCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateKeyDto EntityKeyDto) : IRequest <bool>;
 
-public partial class DeleteHolidayCommandHandler: CommandBase<DeleteHolidayCommand, Holiday>, IRequestHandler <DeleteHolidayCommand, bool>
+public partial class DeleteExchangeRateForCurrencyCommandHandler: CommandBase<DeleteExchangeRateForCurrencyCommand, ExchangeRate>, IRequestHandler <DeleteExchangeRateForCurrencyCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public DeleteHolidayCommandHandler(
+	public DeleteExchangeRateForCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -27,23 +27,23 @@ public partial class DeleteHolidayCommandHandler: CommandBase<DeleteHolidayComma
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeleteHolidayCommand request, CancellationToken cancellationToken)
+	public async Task<bool> Handle(DeleteExchangeRateForCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Country,CountryCode2>("Id", request.ParentKeyDto.keyId);
-		var parentEntity = await DbContext.Countries.FindAsync(keyId);
+		var keyId = CreateNoxTypeForKey<Currency,CurrencyCode3>("Id", request.ParentKeyDto.keyId);
+		var parentEntity = await DbContext.Currencies.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return false;
 		}
-		var ownedId = CreateNoxTypeForKey<Holiday,AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.Holidays.SingleOrDefault(x => x.Id == ownedId);
+		var ownedId = CreateNoxTypeForKey<ExchangeRate,AutoNumber>("Id", request.EntityKeyDto.keyId);
+		var entity = parentEntity.ExchangeRates.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
 			return false;
 		}
-		parentEntity.Holidays.Remove(entity);
+		parentEntity.ExchangeRates.Remove(entity);
 		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Deleted;

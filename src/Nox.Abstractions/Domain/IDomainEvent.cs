@@ -1,6 +1,6 @@
 ﻿namespace Nox.Abstractions;
 
-public interface INoxDomainEvent
+public interface IDomainEvent
 {
     
 }

@@ -5,14 +5,28 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
 public partial class Customer:CustomerBase
 {
 
 }
+/// <summary>
+/// Record for Customer created event.
+/// </summary>
+public record CustomerCreated(Customer Customer) : IDomainEvent;
+/// <summary>
+/// Record for Customer updated event.
+/// </summary>
+public record CustomerUpdated(Customer Customer) : IDomainEvent;
+/// <summary>
+/// Record for Customer deleted event.
+/// </summary>
+public record CustomerDeleted(Customer Customer) : IDomainEvent;
+
 /// <summary>
 /// Customer definition and related data.
 /// </summary>

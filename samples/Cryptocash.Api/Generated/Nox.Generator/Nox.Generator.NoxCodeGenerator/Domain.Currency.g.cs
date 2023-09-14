@@ -5,14 +5,28 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
 public partial class Currency:CurrencyBase
 {
 
 }
+/// <summary>
+/// Record for Currency created event.
+/// </summary>
+public record CurrencyCreated(Currency Currency) : IDomainEvent;
+/// <summary>
+/// Record for Currency updated event.
+/// </summary>
+public record CurrencyUpdated(Currency Currency) : IDomainEvent;
+/// <summary>
+/// Record for Currency deleted event.
+/// </summary>
+public record CurrencyDeleted(Currency Currency) : IDomainEvent;
+
 /// <summary>
 /// Currency and related data.
 /// </summary>

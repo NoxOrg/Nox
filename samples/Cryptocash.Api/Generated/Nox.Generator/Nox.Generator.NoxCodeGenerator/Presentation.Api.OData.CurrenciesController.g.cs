@@ -186,7 +186,7 @@ public abstract class CurrenciesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var createdKey = await _mediator.Send(new AddBankNoteCommand(new CurrencyKeyDto(key), bankNote, etag));
+        var createdKey = await _mediator.Send(new CreateBankNoteForCurrencyCommand(new CurrencyKeyDto(key), bankNote, etag));
         if (createdKey == null)
         {
             return NotFound();
@@ -210,7 +210,7 @@ public abstract class CurrenciesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateBankNoteCommand(new CurrencyKeyDto(key), new BankNoteKeyDto(relatedKey), bankNote, etag));
+        var updatedKey = await _mediator.Send(new UpdateBankNoteForCurrencyCommand(new CurrencyKeyDto(key), new BankNoteKeyDto(relatedKey), bankNote, etag));
         if (updatedKey == null)
         {
             return NotFound();
@@ -243,7 +243,7 @@ public abstract class CurrenciesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateBankNoteCommand(new CurrencyKeyDto(key), new BankNoteKeyDto(relatedKey), updateProperties, etag));
+        var updated = await _mediator.Send(new PartialUpdateBankNoteForCurrencyCommand(new CurrencyKeyDto(key), new BankNoteKeyDto(relatedKey), updateProperties, etag));
         
         if (updated is null)
         {
@@ -265,7 +265,7 @@ public abstract class CurrenciesControllerBase : ODataController
         {
             return BadRequest(ModelState);
         }
-        var result = await _mediator.Send(new DeleteBankNoteCommand(new CurrencyKeyDto(key), new BankNoteKeyDto(relatedKey)));
+        var result = await _mediator.Send(new DeleteBankNoteForCurrencyCommand(new CurrencyKeyDto(key), new BankNoteKeyDto(relatedKey)));
         if (!result)
         {
             return NotFound();
@@ -322,7 +322,7 @@ public abstract class CurrenciesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var createdKey = await _mediator.Send(new AddExchangeRateCommand(new CurrencyKeyDto(key), exchangeRate, etag));
+        var createdKey = await _mediator.Send(new CreateExchangeRateForCurrencyCommand(new CurrencyKeyDto(key), exchangeRate, etag));
         if (createdKey == null)
         {
             return NotFound();
@@ -346,7 +346,7 @@ public abstract class CurrenciesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateExchangeRateCommand(new CurrencyKeyDto(key), new ExchangeRateKeyDto(relatedKey), exchangeRate, etag));
+        var updatedKey = await _mediator.Send(new UpdateExchangeRateForCurrencyCommand(new CurrencyKeyDto(key), new ExchangeRateKeyDto(relatedKey), exchangeRate, etag));
         if (updatedKey == null)
         {
             return NotFound();
@@ -379,7 +379,7 @@ public abstract class CurrenciesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateExchangeRateCommand(new CurrencyKeyDto(key), new ExchangeRateKeyDto(relatedKey), updateProperties, etag));
+        var updated = await _mediator.Send(new PartialUpdateExchangeRateForCurrencyCommand(new CurrencyKeyDto(key), new ExchangeRateKeyDto(relatedKey), updateProperties, etag));
         
         if (updated is null)
         {
@@ -401,7 +401,7 @@ public abstract class CurrenciesControllerBase : ODataController
         {
             return BadRequest(ModelState);
         }
-        var result = await _mediator.Send(new DeleteExchangeRateCommand(new CurrencyKeyDto(key), new ExchangeRateKeyDto(relatedKey)));
+        var result = await _mediator.Send(new DeleteExchangeRateForCurrencyCommand(new CurrencyKeyDto(key), new ExchangeRateKeyDto(relatedKey)));
         if (!result)
         {
             return NotFound();

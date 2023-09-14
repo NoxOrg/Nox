@@ -5,14 +5,28 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
 public partial class MinimumCashStock:MinimumCashStockBase
 {
 
 }
+/// <summary>
+/// Record for MinimumCashStock created event.
+/// </summary>
+public record MinimumCashStockCreated(MinimumCashStock MinimumCashStock) : IDomainEvent;
+/// <summary>
+/// Record for MinimumCashStock updated event.
+/// </summary>
+public record MinimumCashStockUpdated(MinimumCashStock MinimumCashStock) : IDomainEvent;
+/// <summary>
+/// Record for MinimumCashStock deleted event.
+/// </summary>
+public record MinimumCashStockDeleted(MinimumCashStock MinimumCashStock) : IDomainEvent;
+
 /// <summary>
 /// Minimum cash stock required for vending machine.
 /// </summary>

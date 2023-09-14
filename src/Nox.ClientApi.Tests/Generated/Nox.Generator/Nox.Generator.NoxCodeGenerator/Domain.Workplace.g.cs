@@ -5,14 +5,28 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace ClientApi.Domain;
 public partial class Workplace:WorkplaceBase
 {
 
 }
+/// <summary>
+/// Record for Workplace created event.
+/// </summary>
+public record WorkplaceCreated(Workplace Workplace) : IDomainEvent;
+/// <summary>
+/// Record for Workplace updated event.
+/// </summary>
+public record WorkplaceUpdated(Workplace Workplace) : IDomainEvent;
+/// <summary>
+/// Record for Workplace deleted event.
+/// </summary>
+public record WorkplaceDeleted(Workplace Workplace) : IDomainEvent;
+
 /// <summary>
 /// Workplace.
 /// </summary>
