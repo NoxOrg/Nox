@@ -13,15 +13,15 @@ using ClientApi.Domain;
 using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.Commands;
-public record PartialUpdateCountryBarCodeCommand(CountryKeyDto ParentKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CountryBarCodeKeyDto?>;
+public record UpdateCountryBarCodeForCountryCommand(CountryKeyDto ParentKeyDto, CountryBarCodeUpdateDto EntityDto, System.Guid? Etag) : IRequest <CountryBarCodeKeyDto?>;
 
 
-public partial class PartialUpdateCountryBarCodeCommandHandler: CommandBase<PartialUpdateCountryBarCodeCommand, CountryBarCode>, IRequestHandler <PartialUpdateCountryBarCodeCommand, CountryBarCodeKeyDto?>
+public partial class UpdateCountryBarCodeForCountryCommandHandler: CommandBase<UpdateCountryBarCodeForCountryCommand, CountryBarCode>, IRequestHandler <UpdateCountryBarCodeForCountryCommand, CountryBarCodeKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<CountryBarCode> EntityMapper { get; }
 
-	public PartialUpdateCountryBarCodeCommandHandler(
+	public UpdateCountryBarCodeForCountryCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -31,27 +31,25 @@ public partial class PartialUpdateCountryBarCodeCommandHandler: CommandBase<Part
 		EntityMapper = entityMapper;
 	}
 
-	public async Task<CountryBarCodeKeyDto?> Handle(PartialUpdateCountryBarCodeCommand request, CancellationToken cancellationToken)
+	public async Task<CountryBarCodeKeyDto?> Handle(UpdateCountryBarCodeForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Country,AutoNumber>("Id", request.ParentKeyDto.keyId);
-
 		var parentEntity = await DbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return null;
 		}
 		var entity = parentEntity.CountryBarCode;
-			
+				
 		if (entity == null)
 		{
 			return null;
 		}
 
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<CountryBarCode>(), request.UpdatedProperties);
+		EntityMapper.MapToEntity(entity, GetEntityDefinition<CountryBarCode>(), request.EntityDto);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-
 		OnCompleted(request, entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;

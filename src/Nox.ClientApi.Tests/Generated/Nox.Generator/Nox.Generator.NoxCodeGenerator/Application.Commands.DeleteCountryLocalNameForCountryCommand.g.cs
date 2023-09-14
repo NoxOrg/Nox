@@ -13,13 +13,13 @@ using ClientApi.Domain;
 using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.Commands;
-public record DeleteCountryLocalNameCommand(CountryKeyDto ParentKeyDto, CountryLocalNameKeyDto EntityKeyDto) : IRequest <bool>;
+public record DeleteCountryLocalNameForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameKeyDto EntityKeyDto) : IRequest <bool>;
 
-public partial class DeleteCountryLocalNameCommandHandler: CommandBase<DeleteCountryLocalNameCommand, CountryLocalName>, IRequestHandler <DeleteCountryLocalNameCommand, bool>
+public partial class DeleteCountryLocalNameForCountryCommandHandler: CommandBase<DeleteCountryLocalNameForCountryCommand, CountryLocalName>, IRequestHandler <DeleteCountryLocalNameForCountryCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 
-	public DeleteCountryLocalNameCommandHandler(
+	public DeleteCountryLocalNameForCountryCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -27,7 +27,7 @@ public partial class DeleteCountryLocalNameCommandHandler: CommandBase<DeleteCou
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeleteCountryLocalNameCommand request, CancellationToken cancellationToken)
+	public async Task<bool> Handle(DeleteCountryLocalNameForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

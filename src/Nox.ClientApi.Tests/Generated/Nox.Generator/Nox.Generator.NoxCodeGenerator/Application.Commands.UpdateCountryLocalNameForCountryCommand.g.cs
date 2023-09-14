@@ -13,14 +13,14 @@ using ClientApi.Domain;
 using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.Commands;
-public record UpdateCountryLocalNameCommand(CountryKeyDto ParentKeyDto, CountryLocalNameKeyDto EntityKeyDto, CountryLocalNameUpdateDto EntityDto, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto?>;
+public record UpdateCountryLocalNameForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameKeyDto EntityKeyDto, CountryLocalNameUpdateDto EntityDto, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto?>;
 
-public partial class UpdateCountryLocalNameCommandHandler: CommandBase<UpdateCountryLocalNameCommand, CountryLocalName>, IRequestHandler <UpdateCountryLocalNameCommand, CountryLocalNameKeyDto?>
+public partial class UpdateCountryLocalNameForCountryCommandHandler: CommandBase<UpdateCountryLocalNameForCountryCommand, CountryLocalName>, IRequestHandler <UpdateCountryLocalNameForCountryCommand, CountryLocalNameKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<CountryLocalName> EntityMapper { get; }
 
-	public UpdateCountryLocalNameCommandHandler(
+	public UpdateCountryLocalNameForCountryCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -30,7 +30,7 @@ public partial class UpdateCountryLocalNameCommandHandler: CommandBase<UpdateCou
 		EntityMapper = entityMapper;
 	}
 
-	public async Task<CountryLocalNameKeyDto?> Handle(UpdateCountryLocalNameCommand request, CancellationToken cancellationToken)
+	public async Task<CountryLocalNameKeyDto?> Handle(UpdateCountryLocalNameForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

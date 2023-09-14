@@ -31,7 +31,7 @@ internal class DeleteOwnedCommandGenerator : INoxCodeGenerator
                 var ownedKeysFindQuery = string.Join(" && ", ownedEntity.Keys.Select(k => $"x.{k.Name} == owned{k.Name}"));
 
                 new TemplateCodeBuilder(context, codeGeneratorState)
-                    .WithClassName($"Delete{ownedEntity.Name}Command")
+                    .WithClassName($"Delete{ownedEntity.Name}For{entity.Name}Command")
                     .WithFileNamePrefix($"Application.Commands")
                     .WithObject("entity", ownedEntity)
                     .WithObject("parent", entity)

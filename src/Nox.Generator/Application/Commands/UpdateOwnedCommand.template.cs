@@ -15,17 +15,17 @@ using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
 {{- if isSingleRelationship }}
-public record Update{{entity.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}UpdateDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
+public record Update{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}UpdateDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
 {{ else }}
-public record Update{{entity.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}KeyDto EntityKeyDto, {{entity.Name}}UpdateDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
+public record Update{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}KeyDto EntityKeyDto, {{entity.Name}}UpdateDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
 {{- end }}
 
-public partial class Update{{entity.Name}}CommandHandler: CommandBase<Update{{entity.Name}}Command, {{entity.Name}}>, IRequestHandler <Update{{entity.Name}}Command, {{entity.Name}}KeyDto?>
+public partial class Update{{entity.Name}}For{{parent.Name}}CommandHandler: CommandBase<Update{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}>, IRequestHandler <Update{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}KeyDto?>
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
 	public IEntityMapper<{{entity.Name}}> EntityMapper { get; }
 
-	public Update{{entity.Name}}CommandHandler(
+	public Update{{entity.Name}}For{{parent.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -35,7 +35,7 @@ public partial class Update{{entity.Name}}CommandHandler: CommandBase<Update{{en
 		EntityMapper = entityMapper;
 	}
 
-	public async Task<{{entity.Name}}KeyDto?> Handle(Update{{entity.Name}}Command request, CancellationToken cancellationToken)
+	public async Task<{{entity.Name}}KeyDto?> Handle(Update{{entity.Name}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

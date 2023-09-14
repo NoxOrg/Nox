@@ -13,14 +13,14 @@ using ClientApi.Domain;
 using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.Commands;
-public record DeleteCountryBarCodeCommand(CountryKeyDto ParentKeyDto) : IRequest <bool>;
+public record DeleteCountryBarCodeForCountryCommand(CountryKeyDto ParentKeyDto) : IRequest <bool>;
 
 
-public partial class DeleteCountryBarCodeCommandHandler: CommandBase<DeleteCountryBarCodeCommand, CountryBarCode>, IRequestHandler <DeleteCountryBarCodeCommand, bool>
+public partial class DeleteCountryBarCodeForCountryCommandHandler: CommandBase<DeleteCountryBarCodeForCountryCommand, CountryBarCode>, IRequestHandler <DeleteCountryBarCodeForCountryCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 
-	public DeleteCountryBarCodeCommandHandler(
+	public DeleteCountryBarCodeForCountryCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -28,7 +28,7 @@ public partial class DeleteCountryBarCodeCommandHandler: CommandBase<DeleteCount
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeleteCountryBarCodeCommand request, CancellationToken cancellationToken)
+	public async Task<bool> Handle(DeleteCountryBarCodeForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

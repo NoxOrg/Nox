@@ -13,15 +13,15 @@ using ClientApi.Domain;
 using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.Commands;
-public record UpdateEmailAddressCommand(StoreKeyDto ParentKeyDto, EmailAddressUpdateDto EntityDto, System.Guid? Etag) : IRequest <EmailAddressKeyDto?>;
+public record PartialUpdateEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <EmailAddressKeyDto?>;
 
 
-public partial class UpdateEmailAddressCommandHandler: CommandBase<UpdateEmailAddressCommand, EmailAddress>, IRequestHandler <UpdateEmailAddressCommand, EmailAddressKeyDto?>
+public partial class PartialUpdateEmailAddressForStoreCommandHandler: CommandBase<PartialUpdateEmailAddressForStoreCommand, EmailAddress>, IRequestHandler <PartialUpdateEmailAddressForStoreCommand, EmailAddressKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<EmailAddress> EntityMapper { get; }
 
-	public UpdateEmailAddressCommandHandler(
+	public PartialUpdateEmailAddressForStoreCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -31,25 +31,27 @@ public partial class UpdateEmailAddressCommandHandler: CommandBase<UpdateEmailAd
 		EntityMapper = entityMapper;
 	}
 
-	public async Task<EmailAddressKeyDto?> Handle(UpdateEmailAddressCommand request, CancellationToken cancellationToken)
+	public async Task<EmailAddressKeyDto?> Handle(PartialUpdateEmailAddressForStoreCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Store,DatabaseGuid>("Id", request.ParentKeyDto.keyId);
+
 		var parentEntity = await DbContext.Stores.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return null;
 		}
 		var entity = parentEntity.EmailAddress;
-				
+			
 		if (entity == null)
 		{
 			return null;
 		}
 
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<EmailAddress>(), request.EntityDto);
+		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<EmailAddress>(), request.UpdatedProperties);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
 		OnCompleted(request, entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;

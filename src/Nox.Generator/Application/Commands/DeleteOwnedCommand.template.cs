@@ -14,16 +14,16 @@ using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 {{- if isSingleRelationship }}
-public record Delete{{entity.Name}}Command({{parent.Name}}KeyDto ParentKeyDto) : IRequest <bool>;
+public record Delete{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto) : IRequest <bool>;
 {{ else }}
-public record Delete{{entity.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}KeyDto EntityKeyDto) : IRequest <bool>;
+public record Delete{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}KeyDto EntityKeyDto) : IRequest <bool>;
 {{- end }}
 
-public partial class Delete{{entity.Name}}CommandHandler: CommandBase<Delete{{entity.Name}}Command, {{entity.Name}}>, IRequestHandler <Delete{{entity.Name}}Command, bool>
+public partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandler: CommandBase<Delete{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}>, IRequestHandler <Delete{{entity.Name}}For{{parent.Name}}Command, bool>
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
 
-	public Delete{{entity.Name}}CommandHandler(
+	public Delete{{entity.Name}}For{{parent.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -31,7 +31,7 @@ public partial class Delete{{entity.Name}}CommandHandler: CommandBase<Delete{{en
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(Delete{{entity.Name}}Command request, CancellationToken cancellationToken)
+	public async Task<bool> Handle(Delete{{entity.Name}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

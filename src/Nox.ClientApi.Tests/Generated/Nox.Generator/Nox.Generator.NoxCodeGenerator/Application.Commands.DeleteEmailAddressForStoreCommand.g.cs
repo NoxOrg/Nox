@@ -13,14 +13,14 @@ using ClientApi.Domain;
 using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.Commands;
-public record DeleteEmailAddressCommand(StoreKeyDto ParentKeyDto) : IRequest <bool>;
+public record DeleteEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto) : IRequest <bool>;
 
 
-public partial class DeleteEmailAddressCommandHandler: CommandBase<DeleteEmailAddressCommand, EmailAddress>, IRequestHandler <DeleteEmailAddressCommand, bool>
+public partial class DeleteEmailAddressForStoreCommandHandler: CommandBase<DeleteEmailAddressForStoreCommand, EmailAddress>, IRequestHandler <DeleteEmailAddressForStoreCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 
-	public DeleteEmailAddressCommandHandler(
+	public DeleteEmailAddressForStoreCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -28,7 +28,7 @@ public partial class DeleteEmailAddressCommandHandler: CommandBase<DeleteEmailAd
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeleteEmailAddressCommand request, CancellationToken cancellationToken)
+	public async Task<bool> Handle(DeleteEmailAddressForStoreCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

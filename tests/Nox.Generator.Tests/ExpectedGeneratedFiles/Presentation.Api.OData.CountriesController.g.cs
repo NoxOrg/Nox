@@ -215,7 +215,7 @@ public abstract class CountriesControllerBase : ODataController
         {
             return BadRequest(ModelState);
         }
-        var result = await _mediator.Send(new DeleteCountryLocalNameCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey)));
+        var result = await _mediator.Send(new DeleteCountryLocalNameForCountryCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey)));
         if (!result)
         {
             return NotFound();

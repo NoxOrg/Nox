@@ -34,7 +34,7 @@ internal class UpdateOwnedCommandGenerator : INoxCodeGenerator
                 var ownedKeysFindQuery = string.Join(" && ", ownedEntity.Keys.Select(k => $"x.{k.Name} == owned{k.Name}"));
 
                 new TemplateCodeBuilder(context, codeGeneratorState)
-                    .WithClassName($"Update{ownedEntity.Name}Command")
+                    .WithClassName($"Update{ownedEntity.Name}For{entity.Name}Command")
                     .WithFileNamePrefix($"Application.Commands")
                     .WithObject("entity", ownedEntity)
                     .WithObject("parent", entity)
