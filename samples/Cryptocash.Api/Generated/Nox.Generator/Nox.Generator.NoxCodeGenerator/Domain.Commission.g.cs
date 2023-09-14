@@ -43,10 +43,20 @@ public abstract class CommissionBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.CountryCode2? CommissionFeesForCountryId { get; set; } = null!;
 
+    public virtual void CreateRefToCountry(Country relatedCountry)
+    {
+        CommissionFeesForCountry = relatedCountry;
+    }
+
     /// <summary>
     /// Commission fees for ZeroOrMany Bookings
     /// </summary>
     public virtual List<Booking> CommissionFeesForBooking { get; set; } = new();
+
+    public virtual void CreateRefToBooking(Booking relatedBooking)
+    {
+        CommissionFeesForBooking.Add(relatedBooking);
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

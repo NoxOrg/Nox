@@ -13,14 +13,14 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
-public record UpdateExchangeRateCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateKeyDto EntityKeyDto, ExchangeRateUpdateDto EntityDto, System.Guid? Etag) : IRequest <ExchangeRateKeyDto?>;
+public record UpdateExchangeRateForCurrencyCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateKeyDto EntityKeyDto, ExchangeRateUpdateDto EntityDto, System.Guid? Etag) : IRequest <ExchangeRateKeyDto?>;
 
-public partial class UpdateExchangeRateCommandHandler: CommandBase<UpdateExchangeRateCommand, ExchangeRate>, IRequestHandler <UpdateExchangeRateCommand, ExchangeRateKeyDto?>
+public partial class UpdateExchangeRateForCurrencyCommandHandler: CommandBase<UpdateExchangeRateForCurrencyCommand, ExchangeRate>, IRequestHandler <UpdateExchangeRateForCurrencyCommand, ExchangeRateKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<ExchangeRate> EntityMapper { get; }
 
-	public UpdateExchangeRateCommandHandler(
+	public UpdateExchangeRateForCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -30,7 +30,7 @@ public partial class UpdateExchangeRateCommandHandler: CommandBase<UpdateExchang
 		EntityMapper = entityMapper;
 	}
 
-	public async Task<ExchangeRateKeyDto?> Handle(UpdateExchangeRateCommand request, CancellationToken cancellationToken)
+	public async Task<ExchangeRateKeyDto?> Handle(UpdateExchangeRateForCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

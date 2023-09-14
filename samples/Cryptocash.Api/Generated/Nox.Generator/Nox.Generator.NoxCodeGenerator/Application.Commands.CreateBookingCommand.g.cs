@@ -24,15 +24,27 @@ public partial class CreateBookingCommandHandler: CommandBase<CreateBookingComma
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<Booking,BookingCreateDto> _entityFactory;
+    private readonly IEntityFactory<Customer,CustomerCreateDto> _customerfactory;
+    private readonly IEntityFactory<VendingMachine,VendingMachineCreateDto> _vendingmachinefactory;
+    private readonly IEntityFactory<Commission,CommissionCreateDto> _commissionfactory;
+    private readonly IEntityFactory<Transaction,TransactionCreateDto> _transactionfactory;
 
 	public CreateBookingCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<Customer,CustomerCreateDto> customerfactory,
+        IEntityFactory<VendingMachine,VendingMachineCreateDto> vendingmachinefactory,
+        IEntityFactory<Commission,CommissionCreateDto> commissionfactory,
+        IEntityFactory<Transaction,TransactionCreateDto> transactionfactory,
         IEntityFactory<Booking,BookingCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;
+		_entityFactory = entityFactory;        
+        _customerfactory = customerfactory;        
+        _vendingmachinefactory = vendingmachinefactory;        
+        _commissionfactory = commissionfactory;        
+        _transactionfactory = transactionfactory;
 	}
 
 	public async Task<BookingKeyDto> Handle(CreateBookingCommand request, CancellationToken cancellationToken)
@@ -41,6 +53,26 @@ public partial class CreateBookingCommandHandler: CommandBase<CreateBookingComma
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		if(request.EntityDto.BookingForCustomer is not null)
+		{ 
+			var relatedEntity = _customerfactory.CreateEntity(request.EntityDto.BookingForCustomer);
+			entityToCreate.CreateRefToCustomer(relatedEntity);
+		}
+		if(request.EntityDto.BookingRelatedVendingMachine is not null)
+		{ 
+			var relatedEntity = _vendingmachinefactory.CreateEntity(request.EntityDto.BookingRelatedVendingMachine);
+			entityToCreate.CreateRefToVendingMachine(relatedEntity);
+		}
+		if(request.EntityDto.BookingFeesForCommission is not null)
+		{ 
+			var relatedEntity = _commissionfactory.CreateEntity(request.EntityDto.BookingFeesForCommission);
+			entityToCreate.CreateRefToCommission(relatedEntity);
+		}
+		if(request.EntityDto.BookingRelatedTransaction is not null)
+		{ 
+			var relatedEntity = _transactionfactory.CreateEntity(request.EntityDto.BookingRelatedTransaction);
+			entityToCreate.CreateRefToTransaction(relatedEntity);
+		}
 					
 		OnCompleted(request, entityToCreate);
 		_dbContext.Bookings.Add(entityToCreate);

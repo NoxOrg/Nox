@@ -27,6 +27,10 @@ public partial class GetCountryByIdQueryHandler:  QueryBase<CountryDto?>, IReque
     {    
         var item = DataDbContext.Countries
             .AsNoTracking()
+            .Include(r => r.CountryUsedByCurrency)
+            .Include(r => r.CountryUsedByCommissions)
+            .Include(r => r.CountryUsedByVendingMachines)
+            .Include(r => r.CountryUsedByCustomers)
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);

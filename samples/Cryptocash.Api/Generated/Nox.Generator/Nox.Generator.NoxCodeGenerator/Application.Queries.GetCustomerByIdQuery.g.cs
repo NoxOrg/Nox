@@ -27,6 +27,10 @@ public partial class GetCustomerByIdQueryHandler:  QueryBase<CustomerDto?>, IReq
     {    
         var item = DataDbContext.Customers
             .AsNoTracking()
+            .Include(r => r.CustomerRelatedPaymentDetails)
+            .Include(r => r.CustomerRelatedBookings)
+            .Include(r => r.CustomerRelatedTransactions)
+            .Include(r => r.CustomerBaseCountry)
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);

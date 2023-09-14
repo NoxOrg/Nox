@@ -13,13 +13,13 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
-public record DeleteEmployeePhoneNumberCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberKeyDto EntityKeyDto) : IRequest <bool>;
+public record DeleteBankNoteForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteKeyDto EntityKeyDto) : IRequest <bool>;
 
-public partial class DeleteEmployeePhoneNumberCommandHandler: CommandBase<DeleteEmployeePhoneNumberCommand, EmployeePhoneNumber>, IRequestHandler <DeleteEmployeePhoneNumberCommand, bool>
+public partial class DeleteBankNoteForCurrencyCommandHandler: CommandBase<DeleteBankNoteForCurrencyCommand, BankNote>, IRequestHandler <DeleteBankNoteForCurrencyCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public DeleteEmployeePhoneNumberCommandHandler(
+	public DeleteBankNoteForCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -27,23 +27,23 @@ public partial class DeleteEmployeePhoneNumberCommandHandler: CommandBase<Delete
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeleteEmployeePhoneNumberCommand request, CancellationToken cancellationToken)
+	public async Task<bool> Handle(DeleteBankNoteForCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Employee,AutoNumber>("Id", request.ParentKeyDto.keyId);
-		var parentEntity = await DbContext.Employees.FindAsync(keyId);
+		var keyId = CreateNoxTypeForKey<Currency,CurrencyCode3>("Id", request.ParentKeyDto.keyId);
+		var parentEntity = await DbContext.Currencies.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return false;
 		}
-		var ownedId = CreateNoxTypeForKey<EmployeePhoneNumber,AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.EmployeePhoneNumbers.SingleOrDefault(x => x.Id == ownedId);
+		var ownedId = CreateNoxTypeForKey<BankNote,AutoNumber>("Id", request.EntityKeyDto.keyId);
+		var entity = parentEntity.BankNotes.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
 			return false;
 		}
-		parentEntity.EmployeePhoneNumbers.Remove(entity);
+		parentEntity.BankNotes.Remove(entity);
 		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Deleted;

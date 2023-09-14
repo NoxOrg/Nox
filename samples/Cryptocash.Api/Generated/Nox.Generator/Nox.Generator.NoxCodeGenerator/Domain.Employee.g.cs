@@ -63,6 +63,11 @@ public abstract class EmployeeBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.AutoNumber EmployeeReviewingCashStockOrderId { get; set; } = null!;
 
+    public virtual void CreateRefToCashStockOrder(CashStockOrder relatedCashStockOrder)
+    {
+        EmployeeReviewingCashStockOrder = relatedCashStockOrder;
+    }
+
     /// <summary>
     /// Employee contacted by ZeroOrMany EmployeePhoneNumbers
     /// </summary>

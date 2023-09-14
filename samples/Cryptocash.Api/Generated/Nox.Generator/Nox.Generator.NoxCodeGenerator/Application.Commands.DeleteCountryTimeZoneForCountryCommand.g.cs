@@ -13,13 +13,13 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
-public record DeleteBankNoteCommand(CurrencyKeyDto ParentKeyDto, BankNoteKeyDto EntityKeyDto) : IRequest <bool>;
+public record DeleteCountryTimeZoneForCountryCommand(CountryKeyDto ParentKeyDto, CountryTimeZoneKeyDto EntityKeyDto) : IRequest <bool>;
 
-public partial class DeleteBankNoteCommandHandler: CommandBase<DeleteBankNoteCommand, BankNote>, IRequestHandler <DeleteBankNoteCommand, bool>
+public partial class DeleteCountryTimeZoneForCountryCommandHandler: CommandBase<DeleteCountryTimeZoneForCountryCommand, CountryTimeZone>, IRequestHandler <DeleteCountryTimeZoneForCountryCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public DeleteBankNoteCommandHandler(
+	public DeleteCountryTimeZoneForCountryCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -27,23 +27,23 @@ public partial class DeleteBankNoteCommandHandler: CommandBase<DeleteBankNoteCom
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeleteBankNoteCommand request, CancellationToken cancellationToken)
+	public async Task<bool> Handle(DeleteCountryTimeZoneForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Currency,CurrencyCode3>("Id", request.ParentKeyDto.keyId);
-		var parentEntity = await DbContext.Currencies.FindAsync(keyId);
+		var keyId = CreateNoxTypeForKey<Country,CountryCode2>("Id", request.ParentKeyDto.keyId);
+		var parentEntity = await DbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return false;
 		}
-		var ownedId = CreateNoxTypeForKey<BankNote,AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.BankNotes.SingleOrDefault(x => x.Id == ownedId);
+		var ownedId = CreateNoxTypeForKey<CountryTimeZone,AutoNumber>("Id", request.EntityKeyDto.keyId);
+		var entity = parentEntity.CountryTimeZones.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
 			return false;
 		}
-		parentEntity.BankNotes.Remove(entity);
+		parentEntity.CountryTimeZones.Remove(entity);
 		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Deleted;

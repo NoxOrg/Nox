@@ -13,24 +13,24 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
-public record PartialUpdateCountryTimeZoneCommand(CountryKeyDto ParentKeyDto, CountryTimeZoneKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CountryTimeZoneKeyDto?>;
+public record PartialUpdateHolidayForCountryCommand(CountryKeyDto ParentKeyDto, HolidayKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <HolidayKeyDto?>;
 
-public partial class PartialUpdateCountryTimeZoneCommandHandler: CommandBase<PartialUpdateCountryTimeZoneCommand, CountryTimeZone>, IRequestHandler <PartialUpdateCountryTimeZoneCommand, CountryTimeZoneKeyDto?>
+public partial class PartialUpdateHolidayForCountryCommandHandler: CommandBase<PartialUpdateHolidayForCountryCommand, Holiday>, IRequestHandler <PartialUpdateHolidayForCountryCommand, HolidayKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<CountryTimeZone> EntityMapper { get; }
+	public IEntityMapper<Holiday> EntityMapper { get; }
 
-	public PartialUpdateCountryTimeZoneCommandHandler(
+	public PartialUpdateHolidayForCountryCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<CountryTimeZone> entityMapper): base(noxSolution, serviceProvider)
+		IEntityMapper<Holiday> entityMapper): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityMapper = entityMapper;
 	}
 
-	public async Task<CountryTimeZoneKeyDto?> Handle(PartialUpdateCountryTimeZoneCommand request, CancellationToken cancellationToken)
+	public async Task<HolidayKeyDto?> Handle(PartialUpdateHolidayForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
@@ -41,14 +41,14 @@ public partial class PartialUpdateCountryTimeZoneCommandHandler: CommandBase<Par
 		{
 			return null;
 		}
-		var ownedId = CreateNoxTypeForKey<CountryTimeZone,AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.CountryTimeZones.SingleOrDefault(x => x.Id == ownedId);	
+		var ownedId = CreateNoxTypeForKey<Holiday,AutoNumber>("Id", request.EntityKeyDto.keyId);
+		var entity = parentEntity.Holidays.SingleOrDefault(x => x.Id == ownedId);	
 		if (entity == null)
 		{
 			return null;
 		}
 
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<CountryTimeZone>(), request.UpdatedProperties);
+		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Holiday>(), request.UpdatedProperties);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
@@ -60,6 +60,6 @@ public partial class PartialUpdateCountryTimeZoneCommandHandler: CommandBase<Par
 			return null;
 		}
 
-		return new CountryTimeZoneKeyDto(entity.Id.Value);
+		return new HolidayKeyDto(entity.Id.Value);
 	}
 }

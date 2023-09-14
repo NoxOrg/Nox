@@ -27,6 +27,7 @@ public partial class GetEmployeeByIdQueryHandler:  QueryBase<EmployeeDto?>, IReq
     {    
         var item = DataDbContext.Employees
             .AsNoTracking()
+            .Include(r => r.EmployeeReviewingCashStockOrder)
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);

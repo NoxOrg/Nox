@@ -48,6 +48,11 @@ public abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.Text? OwnershipId { get; set; } = null!;
 
+    public virtual void CreateRefToStoreOwner(StoreOwner relatedStoreOwner)
+    {
+        Ownership = relatedStoreOwner;
+    }
+
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>

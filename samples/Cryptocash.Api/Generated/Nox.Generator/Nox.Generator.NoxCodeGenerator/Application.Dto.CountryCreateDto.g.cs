@@ -90,7 +90,22 @@ public abstract class CountryCreateDtoBase : IEntityCreateDto<Country>
     /// Country used by ExactlyOne Currencies
     /// </summary>
     [Required(ErrorMessage = "CountryUsedByCurrency is required")]
-    public System.String CountryUsedByCurrencyId { get; set; } = default!;
+    public virtual CurrencyCreateDto CountryUsedByCurrency { get; set; } = null!;
+
+    /// <summary>
+    /// Country used by OneOrMany Commissions
+    /// </summary>
+    public virtual List<CommissionCreateDto> CountryUsedByCommissions { get; set; } = new();
+
+    /// <summary>
+    /// Country used by ZeroOrMany VendingMachines
+    /// </summary>
+    public virtual List<VendingMachineCreateDto> CountryUsedByVendingMachines { get; set; } = new();
+
+    /// <summary>
+    /// Country used by ZeroOrMany Customers
+    /// </summary>
+    public virtual List<CustomerCreateDto> CountryUsedByCustomers { get; set; } = new();
 
     /// <summary>
     /// Country owned OneOrMany CountryTimeZones

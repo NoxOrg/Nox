@@ -88,10 +88,20 @@ public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<Country> CurrencyUsedByCountry { get; set; } = new();
 
+    public virtual void CreateRefToCountry(Country relatedCountry)
+    {
+        CurrencyUsedByCountry.Add(relatedCountry);
+    }
+
     /// <summary>
     /// Currency used by ZeroOrMany MinimumCashStocks
     /// </summary>
     public virtual List<MinimumCashStock> CurrencyUsedByMinimumCashStocks { get; set; } = new();
+
+    public virtual void CreateRefToMinimumCashStock(MinimumCashStock relatedMinimumCashStock)
+    {
+        CurrencyUsedByMinimumCashStocks.Add(relatedMinimumCashStock);
+    }
 
     /// <summary>
     /// Currency commonly used ZeroOrMany BankNotes

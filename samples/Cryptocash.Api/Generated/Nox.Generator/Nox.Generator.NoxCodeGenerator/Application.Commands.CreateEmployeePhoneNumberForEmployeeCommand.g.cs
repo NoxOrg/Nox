@@ -17,14 +17,14 @@ using Cryptocash.Application.Dto;
 using EmployeePhoneNumber = Cryptocash.Domain.EmployeePhoneNumber;
 
 namespace Cryptocash.Application.Commands;
-public record AddEmployeePhoneNumberCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberCreateDto EntityDto, System.Guid? Etag) : IRequest <EmployeePhoneNumberKeyDto?>;
+public record CreateEmployeePhoneNumberForEmployeeCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberCreateDto EntityDto, System.Guid? Etag) : IRequest <EmployeePhoneNumberKeyDto?>;
 
-public partial class AddEmployeePhoneNumberCommandHandler: CommandBase<AddEmployeePhoneNumberCommand, EmployeePhoneNumber>, IRequestHandler <AddEmployeePhoneNumberCommand, EmployeePhoneNumberKeyDto?>
+public partial class CreateEmployeePhoneNumberForEmployeeCommandHandler: CommandBase<CreateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumber>, IRequestHandler<CreateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumberKeyDto?>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<EmployeePhoneNumber,EmployeePhoneNumberCreateDto> _entityFactory;
 
-	public AddEmployeePhoneNumberCommandHandler(
+	public CreateEmployeePhoneNumberForEmployeeCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
         IEntityFactory<EmployeePhoneNumber,EmployeePhoneNumberCreateDto> entityFactory,
@@ -34,7 +34,7 @@ public partial class AddEmployeePhoneNumberCommandHandler: CommandBase<AddEmploy
 		_entityFactory = entityFactory;	
 	}
 
-	public async Task<EmployeePhoneNumberKeyDto?> Handle(AddEmployeePhoneNumberCommand request, CancellationToken cancellationToken)
+	public async Task<EmployeePhoneNumberKeyDto?> Handle(CreateEmployeePhoneNumberForEmployeeCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Employee,AutoNumber>("Id", request.ParentKeyDto.keyId);

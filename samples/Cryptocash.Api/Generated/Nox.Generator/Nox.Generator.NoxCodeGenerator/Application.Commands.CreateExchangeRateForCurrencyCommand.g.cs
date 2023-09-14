@@ -17,14 +17,14 @@ using Cryptocash.Application.Dto;
 using ExchangeRate = Cryptocash.Domain.ExchangeRate;
 
 namespace Cryptocash.Application.Commands;
-public record AddExchangeRateCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateCreateDto EntityDto, System.Guid? Etag) : IRequest <ExchangeRateKeyDto?>;
+public record CreateExchangeRateForCurrencyCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateCreateDto EntityDto, System.Guid? Etag) : IRequest <ExchangeRateKeyDto?>;
 
-public partial class AddExchangeRateCommandHandler: CommandBase<AddExchangeRateCommand, ExchangeRate>, IRequestHandler <AddExchangeRateCommand, ExchangeRateKeyDto?>
+public partial class CreateExchangeRateForCurrencyCommandHandler: CommandBase<CreateExchangeRateForCurrencyCommand, ExchangeRate>, IRequestHandler<CreateExchangeRateForCurrencyCommand, ExchangeRateKeyDto?>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<ExchangeRate,ExchangeRateCreateDto> _entityFactory;
 
-	public AddExchangeRateCommandHandler(
+	public CreateExchangeRateForCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
         IEntityFactory<ExchangeRate,ExchangeRateCreateDto> entityFactory,
@@ -34,7 +34,7 @@ public partial class AddExchangeRateCommandHandler: CommandBase<AddExchangeRateC
 		_entityFactory = entityFactory;	
 	}
 
-	public async Task<ExchangeRateKeyDto?> Handle(AddExchangeRateCommand request, CancellationToken cancellationToken)
+	public async Task<ExchangeRateKeyDto?> Handle(CreateExchangeRateForCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Currency,CurrencyCode3>("Id", request.ParentKeyDto.keyId);

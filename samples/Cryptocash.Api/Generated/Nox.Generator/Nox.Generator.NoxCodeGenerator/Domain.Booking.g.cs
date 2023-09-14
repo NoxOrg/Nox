@@ -77,6 +77,11 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.AutoNumber BookingForCustomerId { get; set; } = null!;
 
+    public virtual void CreateRefToCustomer(Customer relatedCustomer)
+    {
+        BookingForCustomer = relatedCustomer;
+    }
+
     /// <summary>
     /// Booking related to ExactlyOne VendingMachines
     /// </summary>
@@ -86,6 +91,11 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
     /// Foreign key for relationship ExactlyOne to entity VendingMachine
     /// </summary>
     public Nox.Types.DatabaseGuid BookingRelatedVendingMachineId { get; set; } = null!;
+
+    public virtual void CreateRefToVendingMachine(VendingMachine relatedVendingMachine)
+    {
+        BookingRelatedVendingMachine = relatedVendingMachine;
+    }
 
     /// <summary>
     /// Booking fees for ExactlyOne Commissions
@@ -97,10 +107,20 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.AutoNumber BookingFeesForCommissionId { get; set; } = null!;
 
+    public virtual void CreateRefToCommission(Commission relatedCommission)
+    {
+        BookingFeesForCommission = relatedCommission;
+    }
+
     /// <summary>
     /// Booking related to ExactlyOne Transactions
     /// </summary>
     public virtual Transaction BookingRelatedTransaction { get; set; } = null!;
+
+    public virtual void CreateRefToTransaction(Transaction relatedTransaction)
+    {
+        BookingRelatedTransaction = relatedTransaction;
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

@@ -27,6 +27,8 @@ public partial class GetCashStockOrderByIdQueryHandler:  QueryBase<CashStockOrde
     {    
         var item = DataDbContext.CashStockOrders
             .AsNoTracking()
+            .Include(r => r.CashStockOrderForVendingMachine)
+            .Include(r => r.CashStockOrderReviewedByEmployee)
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);

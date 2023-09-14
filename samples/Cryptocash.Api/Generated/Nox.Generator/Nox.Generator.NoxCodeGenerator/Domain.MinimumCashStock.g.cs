@@ -33,6 +33,11 @@ public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurr
     /// </summary>
     public virtual List<VendingMachine> MinimumCashStocksRequiredByVendingMachines { get; set; } = new();
 
+    public virtual void CreateRefToVendingMachine(VendingMachine relatedVendingMachine)
+    {
+        MinimumCashStocksRequiredByVendingMachines.Add(relatedVendingMachine);
+    }
+
     /// <summary>
     /// MinimumCashStock related to ExactlyOne Currencies
     /// </summary>
@@ -42,6 +47,11 @@ public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurr
     /// Foreign key for relationship ExactlyOne to entity Currency
     /// </summary>
     public Nox.Types.CurrencyCode3 MinimumCashStockRelatedCurrencyId { get; set; } = null!;
+
+    public virtual void CreateRefToCurrency(Currency relatedCurrency)
+    {
+        MinimumCashStockRelatedCurrency = relatedCurrency;
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

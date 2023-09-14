@@ -41,5 +41,10 @@ public abstract class CommissionCreateDtoBase : IEntityCreateDto<Commission>
     /// Commission fees for ZeroOrOne Countries
     /// </summary>
     
-    public System.String? CommissionFeesForCountryId { get; set; } = default!;
+    public virtual CountryCreateDto? CommissionFeesForCountry { get; set; } = null!;
+
+    /// <summary>
+    /// Commission fees for ZeroOrMany Bookings
+    /// </summary>
+    public virtual List<BookingCreateDto> CommissionFeesForBooking { get; set; } = new();
 }

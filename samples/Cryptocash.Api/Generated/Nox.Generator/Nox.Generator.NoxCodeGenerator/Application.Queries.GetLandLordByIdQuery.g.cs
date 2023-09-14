@@ -27,6 +27,7 @@ public partial class GetLandLordByIdQueryHandler:  QueryBase<LandLordDto?>, IReq
     {    
         var item = DataDbContext.LandLords
             .AsNoTracking()
+            .Include(r => r.ContractedAreasForVendingMachines)
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);

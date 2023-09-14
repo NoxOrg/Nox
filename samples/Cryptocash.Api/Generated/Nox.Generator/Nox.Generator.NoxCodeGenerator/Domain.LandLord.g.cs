@@ -38,6 +38,11 @@ public abstract class LandLordBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<VendingMachine> ContractedAreasForVendingMachines { get; set; } = new();
 
+    public virtual void CreateRefToVendingMachine(VendingMachine relatedVendingMachine)
+    {
+        ContractedAreasForVendingMachines.Add(relatedVendingMachine);
+    }
+
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>
