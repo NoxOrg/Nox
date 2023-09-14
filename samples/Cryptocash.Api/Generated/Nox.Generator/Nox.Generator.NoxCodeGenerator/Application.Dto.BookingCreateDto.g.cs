@@ -18,7 +18,12 @@ namespace Cryptocash.Application.Dto;
 /// Exchange booking and related data.
 /// </summary>
 public partial class BookingCreateDto : IEntityCreateDto<Booking>
-{    
+{
+    /// <summary>
+    /// Booking unique identifier (Required).
+    /// </summary>
+    [Required(ErrorMessage = "Id is required")]
+    public System.Guid Id { get; set; } = default!;    
     /// <summary>
     /// Booking's amount exchanged from (Required).
     /// </summary>

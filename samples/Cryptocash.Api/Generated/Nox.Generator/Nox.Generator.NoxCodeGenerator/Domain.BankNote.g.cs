@@ -18,7 +18,7 @@ public partial class BankNote : EntityBase, IOwnedEntity
     /// <summary>
     /// Currency bank note unique identifier (Required).
     /// </summary>
-    public AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Currency's cash bank note identifier (Required).

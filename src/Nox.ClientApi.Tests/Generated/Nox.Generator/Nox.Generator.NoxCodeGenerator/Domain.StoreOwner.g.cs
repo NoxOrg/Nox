@@ -18,7 +18,7 @@ public partial class StoreOwner : AuditableEntityBase
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
     /// Owner Name (Required).

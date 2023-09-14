@@ -18,7 +18,7 @@ public partial class MinimumCashStock : AuditableEntityBase
     /// <summary>
     /// Vending machine cash stock unique identifier (Required).
     /// </summary>
-    public AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Cash stock amount (Required).

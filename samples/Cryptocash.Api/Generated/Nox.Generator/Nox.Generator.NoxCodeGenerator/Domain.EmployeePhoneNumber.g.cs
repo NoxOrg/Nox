@@ -18,7 +18,7 @@ public partial class EmployeePhoneNumber : EntityBase, IOwnedEntity
     /// <summary>
     /// Employee's phone number identifier (Required).
     /// </summary>
-    public AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Employee's phone number type (Required).

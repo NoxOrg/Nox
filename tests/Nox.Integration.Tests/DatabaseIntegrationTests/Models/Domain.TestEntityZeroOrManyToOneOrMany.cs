@@ -18,7 +18,7 @@ public partial class TestEntityZeroOrManyToOneOrMany : AuditableEntityBase
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
     ///  (Required).

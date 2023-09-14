@@ -18,7 +18,7 @@ public partial class CashStockOrder : AuditableEntityBase
     /// <summary>
     /// Vending machine's order unique identifier (Required).
     /// </summary>
-    public AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Order amount (Required).

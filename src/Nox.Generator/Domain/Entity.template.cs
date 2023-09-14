@@ -46,12 +46,9 @@ public partial class {{className}}{{ if !entity.IsOwnedEntity }} : {{if entity.P
 		}
 	}
 
-	{{- else if key.Type == "Guid" -}}
-
-	public Nox.Types.{{key.Type}} {{key.Name}} { get; set; } = null!;
     {{- else -}}
 
-    public {{key.Type}} {{key.Name}} { get; set; } = null!;
+    public Nox.Types.{{key.Type}} {{key.Name}} { get; set; } = null!;
     {{- end}}
 {{- end }}
 {{- for attribute in entity.Attributes }}

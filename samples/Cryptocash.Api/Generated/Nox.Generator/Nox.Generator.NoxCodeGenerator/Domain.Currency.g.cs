@@ -18,7 +18,7 @@ public partial class Currency : AuditableEntityBase
     /// <summary>
     /// Currency unique identifier (Required).
     /// </summary>
-    public CurrencyCode3 Id { get; set; } = null!;
+    public Nox.Types.CurrencyCode3 Id { get; set; } = null!;
 
     /// <summary>
     /// Currency's name (Required).

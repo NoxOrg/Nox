@@ -1,4 +1,4 @@
-﻿// Generated
+﻿using System;// Generated
 
 #nullable enable
 
@@ -39,8 +39,8 @@ public abstract class WorkplaceFactoryBase: IEntityFactory<Workplace,WorkplaceCr
     private ClientApi.Domain.Workplace ToEntity(WorkplaceCreateDto createDto)
     {
         var entity = new ClientApi.Domain.Workplace();
+        entity.EnsureId();
         entity.Name = ClientApi.Domain.Workplace.CreateName(createDto.Name);
-		entity.EnsureId();
         return entity;
     }
 }

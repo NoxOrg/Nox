@@ -18,7 +18,7 @@ public partial class SecondTestEntityOwnedRelationshipZeroOrOne : EntityBase, IO
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id1 { get; set; } = null!;
+    public Nox.Types.Text Id1 { get; set; } = null!;
 
     /// <summary>
     ///  (Required).

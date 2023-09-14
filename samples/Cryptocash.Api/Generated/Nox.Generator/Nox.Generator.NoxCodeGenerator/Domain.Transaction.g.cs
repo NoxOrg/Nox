@@ -18,7 +18,7 @@ public partial class Transaction : AuditableEntityBase
     /// <summary>
     /// Customer transaction unique identifier (Required).
     /// </summary>
-    public AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Transaction type (Required).
