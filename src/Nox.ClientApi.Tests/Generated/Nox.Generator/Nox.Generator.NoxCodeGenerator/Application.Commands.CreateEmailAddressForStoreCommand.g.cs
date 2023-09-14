@@ -17,14 +17,14 @@ using ClientApi.Application.Dto;
 using EmailAddress = ClientApi.Domain.EmailAddress;
 
 namespace ClientApi.Application.Commands;
-public record AddEmailAddressCommand(StoreKeyDto ParentKeyDto, EmailAddressCreateDto EntityDto, System.Guid? Etag) : IRequest <EmailAddressKeyDto?>;
+public record CreateEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto, EmailAddressCreateDto EntityDto, System.Guid? Etag) : IRequest <EmailAddressKeyDto?>;
 
-public partial class AddEmailAddressCommandHandler: CommandBase<AddEmailAddressCommand, EmailAddress>, IRequestHandler <AddEmailAddressCommand, EmailAddressKeyDto?>
+public partial class CreateEmailAddressForStoreCommandHandler: CommandBase<CreateEmailAddressForStoreCommand, EmailAddress>, IRequestHandler<CreateEmailAddressForStoreCommand, EmailAddressKeyDto?>
 {
 	private readonly ClientApiDbContext _dbContext;
 	private readonly IEntityFactory<EmailAddress,EmailAddressCreateDto> _entityFactory;
 
-	public AddEmailAddressCommandHandler(
+	public CreateEmailAddressForStoreCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
         IEntityFactory<EmailAddress,EmailAddressCreateDto> entityFactory,
@@ -34,7 +34,7 @@ public partial class AddEmailAddressCommandHandler: CommandBase<AddEmailAddressC
 		_entityFactory = entityFactory;	
 	}
 
-	public async Task<EmailAddressKeyDto?> Handle(AddEmailAddressCommand request, CancellationToken cancellationToken)
+	public async Task<EmailAddressKeyDto?> Handle(CreateEmailAddressForStoreCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Store,DatabaseGuid>("Id", request.ParentKeyDto.keyId);

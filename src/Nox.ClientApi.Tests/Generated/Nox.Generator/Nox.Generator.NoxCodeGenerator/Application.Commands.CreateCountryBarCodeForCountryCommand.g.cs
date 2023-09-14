@@ -17,14 +17,14 @@ using ClientApi.Application.Dto;
 using CountryBarCode = ClientApi.Domain.CountryBarCode;
 
 namespace ClientApi.Application.Commands;
-public record AddCountryBarCodeCommand(CountryKeyDto ParentKeyDto, CountryBarCodeCreateDto EntityDto, System.Guid? Etag) : IRequest <CountryBarCodeKeyDto?>;
+public record CreateCountryBarCodeForCountryCommand(CountryKeyDto ParentKeyDto, CountryBarCodeCreateDto EntityDto, System.Guid? Etag) : IRequest <CountryBarCodeKeyDto?>;
 
-public partial class AddCountryBarCodeCommandHandler: CommandBase<AddCountryBarCodeCommand, CountryBarCode>, IRequestHandler <AddCountryBarCodeCommand, CountryBarCodeKeyDto?>
+public partial class CreateCountryBarCodeForCountryCommandHandler: CommandBase<CreateCountryBarCodeForCountryCommand, CountryBarCode>, IRequestHandler<CreateCountryBarCodeForCountryCommand, CountryBarCodeKeyDto?>
 {
 	private readonly ClientApiDbContext _dbContext;
 	private readonly IEntityFactory<CountryBarCode,CountryBarCodeCreateDto> _entityFactory;
 
-	public AddCountryBarCodeCommandHandler(
+	public CreateCountryBarCodeForCountryCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
         IEntityFactory<CountryBarCode,CountryBarCodeCreateDto> entityFactory,
@@ -34,7 +34,7 @@ public partial class AddCountryBarCodeCommandHandler: CommandBase<AddCountryBarC
 		_entityFactory = entityFactory;	
 	}
 
-	public async Task<CountryBarCodeKeyDto?> Handle(AddCountryBarCodeCommand request, CancellationToken cancellationToken)
+	public async Task<CountryBarCodeKeyDto?> Handle(CreateCountryBarCodeForCountryCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Country,AutoNumber>("Id", request.ParentKeyDto.keyId);

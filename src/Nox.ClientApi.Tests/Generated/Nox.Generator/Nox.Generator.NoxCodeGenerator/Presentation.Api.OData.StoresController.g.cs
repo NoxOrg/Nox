@@ -169,7 +169,7 @@ public abstract class StoresControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var createdKey = await _mediator.Send(new AddEmailAddressCommand(new StoreKeyDto(key), emailAddress, etag));
+        var createdKey = await _mediator.Send(new CreateEmailAddressForStoreCommand(new StoreKeyDto(key), emailAddress, etag));
         if (createdKey == null)
         {
             return NotFound();

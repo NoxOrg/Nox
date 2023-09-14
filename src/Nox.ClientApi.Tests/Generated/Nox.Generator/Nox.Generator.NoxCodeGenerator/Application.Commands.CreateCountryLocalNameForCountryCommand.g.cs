@@ -17,14 +17,14 @@ using ClientApi.Application.Dto;
 using CountryLocalName = ClientApi.Domain.CountryLocalName;
 
 namespace ClientApi.Application.Commands;
-public record AddCountryLocalNameCommand(CountryKeyDto ParentKeyDto, CountryLocalNameCreateDto EntityDto, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto?>;
+public record CreateCountryLocalNameForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameCreateDto EntityDto, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto?>;
 
-public partial class AddCountryLocalNameCommandHandler: CommandBase<AddCountryLocalNameCommand, CountryLocalName>, IRequestHandler <AddCountryLocalNameCommand, CountryLocalNameKeyDto?>
+public partial class CreateCountryLocalNameForCountryCommandHandler: CommandBase<CreateCountryLocalNameForCountryCommand, CountryLocalName>, IRequestHandler<CreateCountryLocalNameForCountryCommand, CountryLocalNameKeyDto?>
 {
 	private readonly ClientApiDbContext _dbContext;
 	private readonly IEntityFactory<CountryLocalName,CountryLocalNameCreateDto> _entityFactory;
 
-	public AddCountryLocalNameCommandHandler(
+	public CreateCountryLocalNameForCountryCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
         IEntityFactory<CountryLocalName,CountryLocalNameCreateDto> entityFactory,
@@ -34,7 +34,7 @@ public partial class AddCountryLocalNameCommandHandler: CommandBase<AddCountryLo
 		_entityFactory = entityFactory;	
 	}
 
-	public async Task<CountryLocalNameKeyDto?> Handle(AddCountryLocalNameCommand request, CancellationToken cancellationToken)
+	public async Task<CountryLocalNameKeyDto?> Handle(CreateCountryLocalNameForCountryCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Country,AutoNumber>("Id", request.ParentKeyDto.keyId);

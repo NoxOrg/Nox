@@ -32,7 +32,7 @@ internal class CreateOwnedCommandGenerator : INoxCodeGenerator
                 var primaryKeysReturnQuery = string.Join(", ", ownedEntity.Keys.Select(k => $"entity.{k.Name}.Value"));
 
                 new TemplateCodeBuilder(context, codeGeneratorState)
-                    .WithClassName($"Add{ownedEntity.Name}Command")
+                    .WithClassName($"Create{ownedEntity.Name}For{entity.Name}Command")
                     .WithFileNamePrefix($"Application.Commands")
                     .WithObject("entity", ownedEntity)
                     .WithObject("parent", entity)
