@@ -38,12 +38,12 @@ public partial class DeleteHolidayCommandHandler: CommandBase<DeleteHolidayComma
 			return false;
 		}
 		var ownedId = CreateNoxTypeForKey<Holiday,AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.Holidays.SingleOrDefault(x => x.Id == ownedId);
+		var entity = parentEntity.CountryOwnedHolidays.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
 			return false;
 		}
-		parentEntity.Holidays.Remove(entity);
+		parentEntity.CountryOwnedHolidays.Remove(entity);
 		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Deleted;

@@ -51,7 +51,7 @@ public abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
-     public virtual EmailAddress? EmailAddress { get; set; } = null!;
+     public virtual EmailAddress? VerifiedEmails { get; set; } = null!;
 
     /// <summary>
     /// Entity tag used as concurrency token.

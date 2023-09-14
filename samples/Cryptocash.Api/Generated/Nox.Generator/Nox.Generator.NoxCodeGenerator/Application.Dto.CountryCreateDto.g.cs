@@ -95,10 +95,10 @@ public abstract class CountryCreateDtoBase : IEntityCreateDto<Country>
     /// <summary>
     /// Country owned OneOrMany CountryTimeZones
     /// </summary>
-    public virtual List<CountryTimeZoneCreateDto> CountryTimeZones { get; set; } = new();
+    public virtual List<CountryTimeZoneCreateDto> CountryOwnedTimeZones { get; set; } = new();
 
     /// <summary>
     /// Country owned ZeroOrMany Holidays
     /// </summary>
-    public virtual List<HolidayCreateDto> Holidays { get; set; } = new();
+    public virtual List<HolidayCreateDto> CountryOwnedHolidays { get; set; } = new();
 }

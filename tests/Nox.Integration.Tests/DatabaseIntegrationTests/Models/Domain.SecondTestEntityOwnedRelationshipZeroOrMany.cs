@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace TestWebApp.Domain;
+public partial class SecondTestEntityOwnedRelationshipZeroOrMany:SecondTestEntityOwnedRelationshipZeroOrManyBase
+{
 
+}
 /// <summary>
 /// .
 /// </summary>
-public partial class SecondTestEntityOwnedRelationshipZeroOrMany : EntityBase, IOwnedEntity
+public abstract class SecondTestEntityOwnedRelationshipZeroOrManyBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     ///  (Required).

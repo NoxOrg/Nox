@@ -41,7 +41,7 @@ public partial class UpdateCountryLocalNameCommandHandler: CommandBase<UpdateCou
 			return null;
 		}
 		var ownedId = CreateNoxTypeForKey<CountryLocalName,AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.CountryLocalNames.SingleOrDefault(x => x.Id == ownedId);		
+		var entity = parentEntity.CountryShortNames.SingleOrDefault(x => x.Id == ownedId);		
 		if (entity == null)
 		{
 			return null;

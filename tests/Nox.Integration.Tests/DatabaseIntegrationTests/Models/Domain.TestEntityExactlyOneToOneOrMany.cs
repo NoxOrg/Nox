@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace TestWebApp.Domain;
+public partial class TestEntityExactlyOneToOneOrMany:TestEntityExactlyOneToOneOrManyBase
+{
 
+}
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public partial class TestEntityExactlyOneToOneOrMany : AuditableEntityBase, IEntityConcurrent
+public abstract class TestEntityExactlyOneToOneOrManyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).

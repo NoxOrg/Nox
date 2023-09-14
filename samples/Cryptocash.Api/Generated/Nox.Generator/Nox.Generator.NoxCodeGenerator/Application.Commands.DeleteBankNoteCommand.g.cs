@@ -38,12 +38,12 @@ public partial class DeleteBankNoteCommandHandler: CommandBase<DeleteBankNoteCom
 			return false;
 		}
 		var ownedId = CreateNoxTypeForKey<BankNote,AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.BankNotes.SingleOrDefault(x => x.Id == ownedId);
+		var entity = parentEntity.CurrencyCommonBankNotes.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
 			return false;
 		}
-		parentEntity.BankNotes.Remove(entity);
+		parentEntity.CurrencyCommonBankNotes.Remove(entity);
 		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Deleted;

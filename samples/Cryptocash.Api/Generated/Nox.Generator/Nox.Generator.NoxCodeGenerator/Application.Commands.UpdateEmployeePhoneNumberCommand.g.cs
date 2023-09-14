@@ -41,7 +41,7 @@ public partial class UpdateEmployeePhoneNumberCommandHandler: CommandBase<Update
 			return null;
 		}
 		var ownedId = CreateNoxTypeForKey<EmployeePhoneNumber,AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.EmployeePhoneNumbers.SingleOrDefault(x => x.Id == ownedId);		
+		var entity = parentEntity.EmployeeContactPhoneNumbers.SingleOrDefault(x => x.Id == ownedId);		
 		if (entity == null)
 		{
 			return null;

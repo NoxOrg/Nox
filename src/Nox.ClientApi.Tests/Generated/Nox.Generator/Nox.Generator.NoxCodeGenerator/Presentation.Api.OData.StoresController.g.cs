@@ -158,7 +158,7 @@ public abstract class StoresControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok(item.EmailAddress);
+        return Ok(item.VerifiedEmails);
     }
     
     public virtual async Task<ActionResult> PostToEmailAddress([FromRoute] System.Guid key, [FromBody] EmailAddressCreateDto emailAddress)
@@ -175,7 +175,7 @@ public abstract class StoresControllerBase : ODataController
             return NotFound();
         }
         
-        var child = (await _mediator.Send(new GetStoreByIdQuery(key)))?.EmailAddress;
+        var child = (await _mediator.Send(new GetStoreByIdQuery(key)))?.VerifiedEmails;
         if (child == null)
         {
             return NotFound();
@@ -198,7 +198,7 @@ public abstract class StoresControllerBase : ODataController
             return NotFound();
         }
         
-        var child = (await _mediator.Send(new GetStoreByIdQuery(key)))?.EmailAddress;
+        var child = (await _mediator.Send(new GetStoreByIdQuery(key)))?.VerifiedEmails;
         if (child == null)
         {
             return NotFound();
@@ -230,7 +230,7 @@ public abstract class StoresControllerBase : ODataController
         {
             return NotFound();
         }
-        var child = (await _mediator.Send(new GetStoreByIdQuery(key)))?.EmailAddress;
+        var child = (await _mediator.Send(new GetStoreByIdQuery(key)))?.VerifiedEmails;
         if (child == null)
         {
             return NotFound();

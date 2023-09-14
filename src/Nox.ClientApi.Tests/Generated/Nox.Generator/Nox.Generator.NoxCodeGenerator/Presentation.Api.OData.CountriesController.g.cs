@@ -158,7 +158,7 @@ public abstract class CountriesControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok(item.CountryLocalNames);
+        return Ok(item.CountryShortNames);
     }
     
     [EnableQuery]
@@ -277,7 +277,7 @@ public abstract class CountriesControllerBase : ODataController
     private async Task<CountryLocalNameDto?> TryGetCountryLocalName(System.Int64 key, CountryLocalNameKeyDto childKeyDto)
     {
         var parent = await _mediator.Send(new GetCountryByIdQuery(key));
-        return parent?.CountryLocalNames.SingleOrDefault(x => x.Id == childKeyDto.keyId);
+        return parent?.CountryShortNames.SingleOrDefault(x => x.Id == childKeyDto.keyId);
     }
     
     [EnableQuery]

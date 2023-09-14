@@ -41,7 +41,7 @@ public partial class UpdateBankNoteCommandHandler: CommandBase<UpdateBankNoteCom
 			return null;
 		}
 		var ownedId = CreateNoxTypeForKey<BankNote,AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.BankNotes.SingleOrDefault(x => x.Id == ownedId);		
+		var entity = parentEntity.CurrencyCommonBankNotes.SingleOrDefault(x => x.Id == ownedId);		
 		if (entity == null)
 		{
 			return null;

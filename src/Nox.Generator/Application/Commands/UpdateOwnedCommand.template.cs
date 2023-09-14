@@ -50,12 +50,12 @@ public partial class Update{{entity.Name}}CommandHandler: CommandBase<Update{{en
 		}
 
 		{{- if isSingleRelationship }}
-		var entity = parentEntity.{{entity.Name}};
+		var entity = parentEntity.{{relationship.Name}};
 		{{ else }}
 		{{- for key in entity.Keys }}
 		var owned{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.EntityKeyDto.key{{key.Name}});
 		{{- end }}
-		var entity = parentEntity.{{entity.PluralName}}.SingleOrDefault(x => {{ownedKeysFindQuery}});
+		var entity = parentEntity.{{relationship.Name}}.SingleOrDefault(x => {{ownedKeysFindQuery}});
 		{{- end }}		
 		if (entity == null)
 		{

@@ -158,7 +158,7 @@ public abstract class CountriesControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok(item.CountryTimeZones);
+        return Ok(item.CountryOwnedTimeZones);
     }
     
     [EnableQuery]
@@ -277,7 +277,7 @@ public abstract class CountriesControllerBase : ODataController
     private async Task<CountryTimeZoneDto?> TryGetCountryTimeZone(System.String key, CountryTimeZoneKeyDto childKeyDto)
     {
         var parent = await _mediator.Send(new GetCountryByIdQuery(key));
-        return parent?.CountryTimeZones.SingleOrDefault(x => x.Id == childKeyDto.keyId);
+        return parent?.CountryOwnedTimeZones.SingleOrDefault(x => x.Id == childKeyDto.keyId);
     }
     
     [EnableQuery]
@@ -294,7 +294,7 @@ public abstract class CountriesControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok(item.Holidays);
+        return Ok(item.CountryOwnedHolidays);
     }
     
     [EnableQuery]
@@ -413,7 +413,7 @@ public abstract class CountriesControllerBase : ODataController
     private async Task<HolidayDto?> TryGetHoliday(System.String key, HolidayKeyDto childKeyDto)
     {
         var parent = await _mediator.Send(new GetCountryByIdQuery(key));
-        return parent?.Holidays.SingleOrDefault(x => x.Id == childKeyDto.keyId);
+        return parent?.CountryOwnedHolidays.SingleOrDefault(x => x.Id == childKeyDto.keyId);
     }
     
     #endregion

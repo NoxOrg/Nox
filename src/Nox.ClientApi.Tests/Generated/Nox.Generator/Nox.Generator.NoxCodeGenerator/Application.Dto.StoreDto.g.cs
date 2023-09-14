@@ -53,7 +53,7 @@ public partial class StoreDto
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
-    public virtual EmailAddressDto? EmailAddress { get; set; } = null!;
+    public virtual EmailAddressDto? VerifiedEmails { get; set; } = null!;
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

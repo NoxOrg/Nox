@@ -158,7 +158,7 @@ public abstract class CurrenciesControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok(item.BankNotes);
+        return Ok(item.CurrencyCommonBankNotes);
     }
     
     [EnableQuery]
@@ -277,7 +277,7 @@ public abstract class CurrenciesControllerBase : ODataController
     private async Task<BankNoteDto?> TryGetBankNote(System.String key, BankNoteKeyDto childKeyDto)
     {
         var parent = await _mediator.Send(new GetCurrencyByIdQuery(key));
-        return parent?.BankNotes.SingleOrDefault(x => x.Id == childKeyDto.keyId);
+        return parent?.CurrencyCommonBankNotes.SingleOrDefault(x => x.Id == childKeyDto.keyId);
     }
     
     [EnableQuery]
@@ -294,7 +294,7 @@ public abstract class CurrenciesControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok(item.ExchangeRates);
+        return Ok(item.CurrencyExchangedFromRates);
     }
     
     [EnableQuery]
@@ -413,7 +413,7 @@ public abstract class CurrenciesControllerBase : ODataController
     private async Task<ExchangeRateDto?> TryGetExchangeRate(System.String key, ExchangeRateKeyDto childKeyDto)
     {
         var parent = await _mediator.Send(new GetCurrencyByIdQuery(key));
-        return parent?.ExchangeRates.SingleOrDefault(x => x.Id == childKeyDto.keyId);
+        return parent?.CurrencyExchangedFromRates.SingleOrDefault(x => x.Id == childKeyDto.keyId);
     }
     
     #endregion

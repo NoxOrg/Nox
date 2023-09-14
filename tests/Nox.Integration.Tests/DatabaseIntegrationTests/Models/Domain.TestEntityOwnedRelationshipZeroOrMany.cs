@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace TestWebApp.Domain;
+public partial class TestEntityOwnedRelationshipZeroOrMany:TestEntityOwnedRelationshipZeroOrManyBase
+{
 
+}
 /// <summary>
 /// .
 /// </summary>
-public partial class TestEntityOwnedRelationshipZeroOrMany : AuditableEntityBase, IEntityConcurrent
+public abstract class TestEntityOwnedRelationshipZeroOrManyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -28,9 +31,7 @@ public partial class TestEntityOwnedRelationshipZeroOrMany : AuditableEntityBase
     /// <summary>
     /// TestEntityOwnedRelationshipZeroOrMany Test entity relationship to SecondTestEntityOwnedRelationshipZeroOrMany ZeroOrMany SecondTestEntityOwnedRelationshipZeroOrManies
     /// </summary>
-    public virtual List<SecondTestEntityOwnedRelationshipZeroOrMany> SecondTestEntityOwnedRelationshipZeroOrManies { get; set; } = new();
-
-    public List<SecondTestEntityOwnedRelationshipZeroOrMany> SecondTestEntityOwnedRelationshipZeroOrMany => SecondTestEntityOwnedRelationshipZeroOrManies;
+    public virtual List<SecondTestEntityOwnedRelationshipZeroOrMany> SecondTestEntityOwnedRelationshipZeroOrMany { get; set; } = new();
 
     /// <summary>
     /// Entity tag used as concurrency token.

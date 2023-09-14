@@ -46,7 +46,7 @@ public partial class AddBankNoteCommandHandler: CommandBase<AddBankNoteCommand, 
 		}
 
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
-		parentEntity.BankNotes.Add(entity);
+		parentEntity.CurrencyCommonBankNotes.Add(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);
 	

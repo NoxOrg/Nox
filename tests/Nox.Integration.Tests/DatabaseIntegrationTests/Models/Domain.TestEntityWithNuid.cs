@@ -9,18 +9,21 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace TestWebApp.Domain;
+public partial class TestEntityWithNuid:TestEntityWithNuidBase
+{
 
+}
 /// <summary>
 /// Entity created for testing nuid.
 /// </summary>
-public partial class TestEntityWithNuid : AuditableEntityBase, IEntityConcurrent
+public abstract class TestEntityWithNuidBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
     /// </summary>
     public Nuid Id {get; set;} = null!;
     
-    	public void EnsureId()
+    	public virtual void EnsureId()
     	{
     		if(Id is null)
     		{

@@ -354,14 +354,14 @@ internal class EntityControllerGenerator : INoxCodeGenerator
                 }
 
                 if (!relationship.WithSingleEntity())
-                    GeneratePrivateChildrenGetById(solution, child, entity, code);
+                    GeneratePrivateChildrenGetById(solution, relationship, child, entity, code);
             }
             code.AppendLine($"#endregion");
             code.AppendLine();
         }
     }
 
-    private static void GeneratePrivateChildrenGetById(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
+    private static void GeneratePrivateChildrenGetById(NoxSolution solution, EntityRelationship relationship, Entity child, Entity parent, CodeBuilder code)
     {
         code.AppendLine($"private async Task<{child.Name}Dto?> TryGet{child.Name}({PrimaryKeysFromRoute(parent, solution, attributePrefix: "")}, {child.Name}KeyDto childKeyDto)");
 
@@ -369,7 +369,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine($"var parent = await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)}));");
 
         var param = string.Join(" && ", child.Keys.Select(k => $"x.{k.Name} == childKeyDto.key{k.Name}"));
-        code.AppendLine($"return parent?.{child.PluralName}.SingleOrDefault(x => {param});");
+        code.AppendLine($"return parent?.{relationship.Name}.SingleOrDefault(x => {param});");
 
         code.EndBlock();
         code.AppendLine();
@@ -428,10 +428,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.EndBlock();
         code.AppendLine();
 
-        if(isSingleRelationship)
-            code.AppendLine($"return Ok(item.{child.Name});");
-        else
-            code.AppendLine($"return Ok(item.{child.PluralName});");
+        code.AppendLine($"return Ok(item.{relationship.Name});");
 
         code.EndBlock();
         code.AppendLine();
@@ -463,7 +460,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine();
 
         if (isSingleRelationship)
-            code.AppendLine($"var child = (await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)})))?.{child.Name};");
+            code.AppendLine($"var child = (await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)})))?.{relationship.Name};");
         else
             code.AppendLine($"var child = await TryGet{child.Name}({PrimaryKeysQuery(parent)}, createdKey);");
 
@@ -523,7 +520,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine();
 
         if (isSingleRelationship)
-            code.AppendLine($"var child = (await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)})))?.{child.Name};");
+            code.AppendLine($"var child = (await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)})))?.{relationship.Name};");
         else
             code.AppendLine($"var child = await TryGet{child.Name}({PrimaryKeysQuery(parent)}, updatedKey);");
 
@@ -594,7 +591,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.EndBlock();
 
         if (isSingleRelationship)
-            code.AppendLine($"var child = (await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)})))?.{child.Name};");
+            code.AppendLine($"var child = (await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)})))?.{relationship.Name};");
         else
             code.AppendLine($"var child = await TryGet{child.Name}({PrimaryKeysQuery(parent)}, updated);");
 

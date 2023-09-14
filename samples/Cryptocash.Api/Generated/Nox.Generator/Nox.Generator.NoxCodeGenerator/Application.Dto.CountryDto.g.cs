@@ -118,12 +118,12 @@ public partial class CountryDto
     /// <summary>
     /// Country owned OneOrMany CountryTimeZones
     /// </summary>
-    public virtual List<CountryTimeZoneDto> CountryTimeZones { get; set; } = new();
+    public virtual List<CountryTimeZoneDto> CountryOwnedTimeZones { get; set; } = new();
 
     /// <summary>
     /// Country owned ZeroOrMany Holidays
     /// </summary>
-    public virtual List<HolidayDto> Holidays { get; set; } = new();
+    public virtual List<HolidayDto> CountryOwnedHolidays { get; set; } = new();
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

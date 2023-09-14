@@ -42,7 +42,7 @@ public partial class PartialUpdateEmailAddressCommandHandler: CommandBase<Partia
 		{
 			return null;
 		}
-		var entity = parentEntity.EmailAddress;
+		var entity = parentEntity.VerifiedEmails;
 			
 		if (entity == null)
 		{

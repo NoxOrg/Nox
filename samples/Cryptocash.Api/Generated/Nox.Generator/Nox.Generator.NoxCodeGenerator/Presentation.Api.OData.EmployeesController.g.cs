@@ -158,7 +158,7 @@ public abstract class EmployeesControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok(item.EmployeePhoneNumbers);
+        return Ok(item.EmployeeContactPhoneNumbers);
     }
     
     [EnableQuery]
@@ -277,7 +277,7 @@ public abstract class EmployeesControllerBase : ODataController
     private async Task<EmployeePhoneNumberDto?> TryGetEmployeePhoneNumber(System.Int64 key, EmployeePhoneNumberKeyDto childKeyDto)
     {
         var parent = await _mediator.Send(new GetEmployeeByIdQuery(key));
-        return parent?.EmployeePhoneNumbers.SingleOrDefault(x => x.Id == childKeyDto.keyId);
+        return parent?.EmployeeContactPhoneNumbers.SingleOrDefault(x => x.Id == childKeyDto.keyId);
     }
     
     #endregion

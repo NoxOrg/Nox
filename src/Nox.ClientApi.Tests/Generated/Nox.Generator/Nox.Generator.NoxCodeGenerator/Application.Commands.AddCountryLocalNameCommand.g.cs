@@ -46,7 +46,7 @@ public partial class AddCountryLocalNameCommandHandler: CommandBase<AddCountryLo
 		}
 
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
-		parentEntity.CountryLocalNames.Add(entity);
+		parentEntity.CountryShortNames.Add(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);
 	

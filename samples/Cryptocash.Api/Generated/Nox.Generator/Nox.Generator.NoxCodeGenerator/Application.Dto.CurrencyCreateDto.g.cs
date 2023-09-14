@@ -101,10 +101,10 @@ public abstract class CurrencyCreateDtoBase : IEntityCreateDto<Currency>
     /// <summary>
     /// Currency commonly used ZeroOrMany BankNotes
     /// </summary>
-    public virtual List<BankNoteCreateDto> BankNotes { get; set; } = new();
+    public virtual List<BankNoteCreateDto> CurrencyCommonBankNotes { get; set; } = new();
 
     /// <summary>
     /// Currency exchanged from OneOrMany ExchangeRates
     /// </summary>
-    public virtual List<ExchangeRateCreateDto> ExchangeRates { get; set; } = new();
+    public virtual List<ExchangeRateCreateDto> CurrencyExchangedFromRates { get; set; } = new();
 }

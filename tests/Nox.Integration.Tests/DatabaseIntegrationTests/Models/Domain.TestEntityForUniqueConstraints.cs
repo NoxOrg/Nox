@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace TestWebApp.Domain;
+public partial class TestEntityForUniqueConstraints:TestEntityForUniqueConstraintsBase
+{
 
+}
 /// <summary>
 /// Entity created for testing constraints.
 /// </summary>
-public partial class TestEntityForUniqueConstraints : EntityBase, IEntityConcurrent
+public abstract class TestEntityForUniqueConstraintsBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).

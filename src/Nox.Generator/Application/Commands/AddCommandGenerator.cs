@@ -28,7 +28,8 @@ internal class AddCommandGenerator : INoxCodeGenerator
             if (parent is null)
                 continue;
 
-            var isSingleRelationship = parent.OwnedRelationships.First(o => o.Entity == entity.Name).WithSingleEntity;
+            var relationship = parent.OwnedRelationships.First(o => o.Entity == entity.Name);
+            var isSingleRelationship = relationship.WithSingleEntity;
 
             var parentKeysFindQuery = string.Join(", ", parent.Keys.Select(k => $"key{k.Name}"));
             var primaryKeysReturnQuery = string.Join(", ", entity.Keys.Select(k => $"entity.{k.Name}.Value"));
@@ -36,6 +37,7 @@ internal class AddCommandGenerator : INoxCodeGenerator
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"Add{entity.Name}Command")
                 .WithFileNamePrefix($"Application.Commands")
+                .WithObject("relationship", relationship)
                 .WithObject("entity", entity)
                 .WithObject("parent", parent)
                 .WithObject("isSingleRelationship", isSingleRelationship)

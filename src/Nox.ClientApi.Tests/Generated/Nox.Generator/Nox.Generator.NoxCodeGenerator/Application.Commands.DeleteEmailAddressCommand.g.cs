@@ -38,13 +38,13 @@ public partial class DeleteEmailAddressCommandHandler: CommandBase<DeleteEmailAd
 		{
 			return false;
 		}
-		var entity = parentEntity.EmailAddress;
+		var entity = parentEntity.VerifiedEmails;
 		if (entity == null)
 		{
 			return false;
 		}
 
-		parentEntity.EmailAddress = null;
+		parentEntity.VerifiedEmails = null;
 		
 		OnCompleted(request, entity);
 

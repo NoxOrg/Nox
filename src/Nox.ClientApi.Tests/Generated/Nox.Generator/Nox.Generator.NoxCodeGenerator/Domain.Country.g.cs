@@ -60,9 +60,7 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
-    public virtual List<CountryLocalName> CountryLocalNames { get; set; } = new();
-
-    public List<CountryLocalName> CountryShortNames => CountryLocalNames;
+    public virtual List<CountryLocalName> CountryShortNames { get; set; } = new();
 
     /// <summary>
     /// Country is also coded as ZeroOrOne CountryBarCodes
