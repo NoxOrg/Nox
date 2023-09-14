@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace Cryptocash.Domain;
+public partial class Booking:BookingBase
+{
 
+}
 /// <summary>
 /// Exchange booking and related data.
 /// </summary>
-public partial class Booking : AuditableEntityBase, IEntityConcurrent
+public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Booking unique identifier (Required).

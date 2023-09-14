@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace Cryptocash.Domain;
+public partial class PaymentProvider:PaymentProviderBase
+{
 
+}
 /// <summary>
 /// Payment provider related data.
 /// </summary>
-public partial class PaymentProvider : AuditableEntityBase, IEntityConcurrent
+public abstract class PaymentProviderBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Payment provider unique identifier (Required).

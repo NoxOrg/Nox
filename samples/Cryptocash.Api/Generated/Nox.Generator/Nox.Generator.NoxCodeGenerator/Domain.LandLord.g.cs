@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace Cryptocash.Domain;
+public partial class LandLord:LandLordBase
+{
 
+}
 /// <summary>
 /// Landlord related data.
 /// </summary>
-public partial class LandLord : AuditableEntityBase, IEntityConcurrent
+public abstract class LandLordBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Landlord unique identifier (Required).

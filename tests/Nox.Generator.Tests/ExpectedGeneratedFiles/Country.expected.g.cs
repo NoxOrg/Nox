@@ -9,18 +9,21 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace SampleWebApp.Domain;
+public partial class Country:CountryBase
+{
 
+}
 /// <summary>
 /// The list of countries.
 /// </summary>
-public partial class Country : AuditableEntityBase, IEntityConcurrent
+public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
     /// </summary>
     public Nuid Id {get; set;} = null!;
     
-    	public void EnsureId()
+    	public virtual void EnsureId()
     	{
     		if(Id is null)
     		{

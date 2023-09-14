@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace Cryptocash.Domain;
+public partial class CountryTimeZone:CountryTimeZoneBase
+{
 
+}
 /// <summary>
 /// Time zone related to country.
 /// </summary>
-public partial class CountryTimeZone : EntityBase, IOwnedEntity
+public abstract class CountryTimeZoneBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// Country's time zone unique identifier (Required).

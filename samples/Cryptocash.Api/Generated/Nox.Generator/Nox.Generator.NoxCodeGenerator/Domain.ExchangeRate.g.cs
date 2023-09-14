@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace Cryptocash.Domain;
+public partial class ExchangeRate:ExchangeRateBase
+{
 
+}
 /// <summary>
 /// Exchange rate and related data.
 /// </summary>
-public partial class ExchangeRate : EntityBase, IOwnedEntity
+public abstract class ExchangeRateBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// Exchange rate unique identifier (Required).

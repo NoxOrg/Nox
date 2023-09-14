@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace Cryptocash.Domain;
+public partial class Employee:EmployeeBase
+{
 
+}
 /// <summary>
 /// Employee definition and related data.
 /// </summary>
-public partial class Employee : AuditableEntityBase, IEntityConcurrent
+public abstract class EmployeeBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Employee's unique identifier (Required).

@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace Cryptocash.Domain;
+public partial class Country:CountryBase
+{
 
+}
 /// <summary>
 /// Country and related data.
 /// </summary>
-public partial class Country : AuditableEntityBase, IEntityConcurrent
+public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Country unique identifier (Required).

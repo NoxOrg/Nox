@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace Cryptocash.Domain;
+public partial class EmployeePhoneNumber:EmployeePhoneNumberBase
+{
 
+}
 /// <summary>
 /// Employee phone number and related data.
 /// </summary>
-public partial class EmployeePhoneNumber : EntityBase, IOwnedEntity
+public abstract class EmployeePhoneNumberBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// Employee's phone number identifier (Required).

@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace Cryptocash.Domain;
+public partial class VendingMachine:VendingMachineBase
+{
 
+}
 /// <summary>
 /// Vending machine definition and related data.
 /// </summary>
-public partial class VendingMachine : AuditableEntityBase, IEntityConcurrent
+public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Vending machine unique identifier (Required).

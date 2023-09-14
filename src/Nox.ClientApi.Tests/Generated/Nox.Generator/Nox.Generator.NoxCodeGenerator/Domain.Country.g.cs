@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace ClientApi.Domain;
+public partial class Country:CountryBase
+{
 
+}
 /// <summary>
 /// Country Entity.
 /// </summary>
-public partial class Country : AuditableEntityBase, IEntityConcurrent
+public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// The unique identifier (Required).

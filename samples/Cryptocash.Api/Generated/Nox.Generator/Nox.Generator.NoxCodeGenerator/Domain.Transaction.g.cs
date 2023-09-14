@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace Cryptocash.Domain;
+public partial class Transaction:TransactionBase
+{
 
+}
 /// <summary>
 /// Customer transaction log and related data.
 /// </summary>
-public partial class Transaction : AuditableEntityBase, IEntityConcurrent
+public abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Customer transaction unique identifier (Required).

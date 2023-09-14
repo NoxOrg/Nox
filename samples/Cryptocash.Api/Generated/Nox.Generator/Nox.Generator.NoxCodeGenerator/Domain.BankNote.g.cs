@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace Cryptocash.Domain;
+public partial class BankNote:BankNoteBase
+{
 
+}
 /// <summary>
 /// Currencies related frequent and rare bank notes.
 /// </summary>
-public partial class BankNote : EntityBase, IOwnedEntity
+public abstract class BankNoteBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// Currency bank note unique identifier (Required).

@@ -9,18 +9,21 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace ClientApi.Domain;
+public partial class Workplace:WorkplaceBase
+{
 
+}
 /// <summary>
 /// Workplace.
 /// </summary>
-public partial class Workplace : EntityBase, IEntityConcurrent
+public abstract class WorkplaceBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Workplace unique identifier (Required).
     /// </summary>
     public Nuid Id {get; set;} = null!;
     
-    	public void EnsureId()
+    	public virtual void EnsureId()
     	{
     		if(Id is null)
     		{

@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace ClientApi.Domain;
+public partial class CountryBarCode:CountryBarCodeBase
+{
 
+}
 /// <summary>
 /// Bar code for country.
 /// </summary>
-public partial class CountryBarCode : EntityBase, IOwnedEntity
+public abstract class CountryBarCodeBase : EntityBase, IOwnedEntity
 {
 
     /// <summary>

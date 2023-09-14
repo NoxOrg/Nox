@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace ClientApi.Domain;
+public partial class EmailAddress:EmailAddressBase
+{
 
+}
 /// <summary>
 /// Verified Email Address.
 /// </summary>
-public partial class EmailAddress : EntityBase, IOwnedEntity
+public abstract class EmailAddressBase : EntityBase, IOwnedEntity
 {
 
     /// <summary>

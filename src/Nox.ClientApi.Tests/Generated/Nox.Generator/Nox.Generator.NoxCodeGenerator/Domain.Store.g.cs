@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace ClientApi.Domain;
+public partial class Store:StoreBase
+{
 
+}
 /// <summary>
 /// Stores.
 /// </summary>
-public partial class Store : AuditableEntityBase, IEntityConcurrent
+public abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
