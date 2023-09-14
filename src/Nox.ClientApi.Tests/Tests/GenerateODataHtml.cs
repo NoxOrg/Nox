@@ -9,6 +9,10 @@ namespace ClientApi.Tests.Tests
     [Collection("Sequential")]
     public class GenerateODataEndPointHtmlRoutingTests : NoxIntegrationTestBase
     {
+        public GenerateODataEndPointHtmlRoutingTests(NoxTestContainerService containerService) : base(containerService)
+        {
+        }
+
         [Fact]
         public async Task Generate_OdataRouting_HTML()
         {

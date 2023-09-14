@@ -12,6 +12,10 @@ namespace ClientApi.Tests.Tests.Controllers
         private const string EntityPluralName = "workplaces";
         private const string EntityUrl = $"api/{EntityPluralName}";
 
+        public WorkplacesControllerTests(NoxTestContainerService containerService) : base(containerService)
+        {
+        }
+
         [Fact]
         public async Task Post_ToEntityWithNuid_NuidIsCreated()
         {

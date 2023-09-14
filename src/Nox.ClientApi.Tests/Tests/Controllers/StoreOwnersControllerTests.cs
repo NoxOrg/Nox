@@ -12,6 +12,10 @@ namespace ClientApi.Tests.Tests.Controllers
     {
         private const string StoreOwnersControllerName = "api/storeowners";
 
+        public StoreOwnersControllerTests(NoxTestContainerService containerService) : base(containerService)
+        {
+        }
+
         [Fact]
         public async Task Post_WhenNullId_ReturnsBadRequest()
         {

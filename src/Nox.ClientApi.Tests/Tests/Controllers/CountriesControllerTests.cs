@@ -12,6 +12,10 @@ namespace ClientApi.Tests.Tests.Controllers
         private const string EntityPluralName = "countries";
         private const string EntityUrl = $"api/{EntityPluralName}";
 
+        public CountriesControllerTests(NoxTestContainerService containerService) : base(containerService)
+        {
+        }
+
         #region EXAMPLES
 
         #region GET

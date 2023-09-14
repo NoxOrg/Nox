@@ -10,6 +10,9 @@ namespace ClientApi.Tests.Tests.Controllers
     {
         private const string StoresControllerName = "api/stores";
 
+        public StoresControllerTests(NoxTestContainerService containerService) : base(containerService)
+        {
+        }
 
         [Fact]
         public async Task Post_ReturnsNuidId()

@@ -1,7 +1,5 @@
 ﻿using FluentAssertions;
 using ClientApi.Application.Dto;
-using AutoFixture.AutoMoq;
-using AutoFixture;
 
 namespace ClientApi.Tests.Tests.Controllers;
 
@@ -9,6 +7,10 @@ namespace ClientApi.Tests.Tests.Controllers;
 public class CreateCountryCommandHandlerTests : NoxIntegrationTestBase
 {
     private const string CountryControllerName = "api/countries";
+
+    public CreateCountryCommandHandlerTests(NoxTestContainerService containerService) : base(containerService)
+    {
+    }
 
     /// <summary>
     /// Test a command extension for <see cref="CreateCountryCommandHandler"/>

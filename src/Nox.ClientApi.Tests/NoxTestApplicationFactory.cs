@@ -10,7 +10,7 @@ namespace ClientApi.Tests;
 
 public class NoxTestApplicationFactory : WebApplicationFactory<StartupFixture>
 {
-    public Func<string> ConnectionStringGetter = () => string.Empty;
+    public Func<string> ConnectionStringGetter { get; internal set; } = () => string.Empty;
 
     protected override IWebHostBuilder? CreateWebHostBuilder()
     {

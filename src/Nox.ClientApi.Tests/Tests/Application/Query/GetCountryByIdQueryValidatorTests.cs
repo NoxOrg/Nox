@@ -2,7 +2,6 @@
 using ClientApi.Application.Dto;
 using AutoFixture;
 using System.Net;
-using AutoFixture.AutoMoq;
 using ClientApi.Tests.Tests.Models;
 
 namespace ClientApi.Tests.Tests.Controllers
@@ -11,6 +10,10 @@ namespace ClientApi.Tests.Tests.Controllers
     public class GetCountryByIdQueryValidatorTests : NoxIntegrationTestBase
     {
         private const string CountryControllerName = "api/countries";
+
+        public GetCountryByIdQueryValidatorTests(NoxTestContainerService containerService) : base(containerService)
+        {
+        }
 
         /// <summary>
         /// Test a Query or Command Validation, that can be used for security checks
