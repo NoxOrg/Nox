@@ -18,12 +18,10 @@ public partial class Store:StoreBase
 /// Record for Store created event.
 /// </summary>
 public record StoreCreated(Store Store) : IDomainEvent;
-
 /// <summary>
 /// Record for Store updated event.
 /// </summary>
 public record StoreUpdated(Store Store) : IDomainEvent;
-
 /// <summary>
 /// Record for Store deleted event.
 /// </summary>

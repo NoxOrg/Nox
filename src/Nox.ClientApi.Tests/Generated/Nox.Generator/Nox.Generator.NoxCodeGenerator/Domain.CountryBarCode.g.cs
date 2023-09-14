@@ -18,12 +18,10 @@ public partial class CountryBarCode:CountryBarCodeBase
 /// Record for CountryBarCode created event.
 /// </summary>
 public record CountryBarCodeCreated(CountryBarCode CountryBarCode) : IDomainEvent;
-
 /// <summary>
 /// Record for CountryBarCode updated event.
 /// </summary>
 public record CountryBarCodeUpdated(CountryBarCode CountryBarCode) : IDomainEvent;
-
 /// <summary>
 /// Record for CountryBarCode deleted event.
 /// </summary>

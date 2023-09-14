@@ -18,12 +18,10 @@ public partial class StoreOwner:StoreOwnerBase
 /// Record for StoreOwner created event.
 /// </summary>
 public record StoreOwnerCreated(StoreOwner StoreOwner) : IDomainEvent;
-
 /// <summary>
 /// Record for StoreOwner updated event.
 /// </summary>
 public record StoreOwnerUpdated(StoreOwner StoreOwner) : IDomainEvent;
-
 /// <summary>
 /// Record for StoreOwner deleted event.
 /// </summary>

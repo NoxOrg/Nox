@@ -18,12 +18,10 @@ public partial class BankNote:BankNoteBase
 /// Record for BankNote created event.
 /// </summary>
 public record BankNoteCreated(BankNote BankNote) : IDomainEvent;
-
 /// <summary>
 /// Record for BankNote updated event.
 /// </summary>
 public record BankNoteUpdated(BankNote BankNote) : IDomainEvent;
-
 /// <summary>
 /// Record for BankNote deleted event.
 /// </summary>

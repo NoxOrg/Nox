@@ -18,12 +18,10 @@ public partial class MinimumCashStock:MinimumCashStockBase
 /// Record for MinimumCashStock created event.
 /// </summary>
 public record MinimumCashStockCreated(MinimumCashStock MinimumCashStock) : IDomainEvent;
-
 /// <summary>
 /// Record for MinimumCashStock updated event.
 /// </summary>
 public record MinimumCashStockUpdated(MinimumCashStock MinimumCashStock) : IDomainEvent;
-
 /// <summary>
 /// Record for MinimumCashStock deleted event.
 /// </summary>

@@ -17,14 +17,14 @@ using Cryptocash.Application.Dto;
 using BankNote = Cryptocash.Domain.BankNote;
 
 namespace Cryptocash.Application.Commands;
-public record AddBankNoteCommand(CurrencyKeyDto ParentKeyDto, BankNoteCreateDto EntityDto, System.Guid? Etag) : IRequest <BankNoteKeyDto?>;
+public record CreateBankNoteForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteCreateDto EntityDto, System.Guid? Etag) : IRequest <BankNoteKeyDto?>;
 
-public partial class AddBankNoteCommandHandler: CommandBase<AddBankNoteCommand, BankNote>, IRequestHandler <AddBankNoteCommand, BankNoteKeyDto?>
+public partial class CreateBankNoteForCurrencyCommandHandler: CommandBase<CreateBankNoteForCurrencyCommand, BankNote>, IRequestHandler<CreateBankNoteForCurrencyCommand, BankNoteKeyDto?>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<BankNote,BankNoteCreateDto> _entityFactory;
 
-	public AddBankNoteCommandHandler(
+	public CreateBankNoteForCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
         IEntityFactory<BankNote,BankNoteCreateDto> entityFactory,
@@ -34,7 +34,7 @@ public partial class AddBankNoteCommandHandler: CommandBase<AddBankNoteCommand, 
 		_entityFactory = entityFactory;	
 	}
 
-	public async Task<BankNoteKeyDto?> Handle(AddBankNoteCommand request, CancellationToken cancellationToken)
+	public async Task<BankNoteKeyDto?> Handle(CreateBankNoteForCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Currency,CurrencyCode3>("Id", request.ParentKeyDto.keyId);

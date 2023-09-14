@@ -18,12 +18,10 @@ public partial class CountryLocalName:CountryLocalNameBase
 /// Record for CountryLocalName created event.
 /// </summary>
 public record CountryLocalNameCreated(CountryLocalName CountryLocalName) : IDomainEvent;
-
 /// <summary>
 /// Record for CountryLocalName updated event.
 /// </summary>
 public record CountryLocalNameUpdated(CountryLocalName CountryLocalName) : IDomainEvent;
-
 /// <summary>
 /// Record for CountryLocalName deleted event.
 /// </summary>

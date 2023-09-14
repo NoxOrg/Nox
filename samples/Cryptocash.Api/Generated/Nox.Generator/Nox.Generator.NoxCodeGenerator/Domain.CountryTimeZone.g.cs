@@ -18,12 +18,10 @@ public partial class CountryTimeZone:CountryTimeZoneBase
 /// Record for CountryTimeZone created event.
 /// </summary>
 public record CountryTimeZoneCreated(CountryTimeZone CountryTimeZone) : IDomainEvent;
-
 /// <summary>
 /// Record for CountryTimeZone updated event.
 /// </summary>
 public record CountryTimeZoneUpdated(CountryTimeZone CountryTimeZone) : IDomainEvent;
-
 /// <summary>
 /// Record for CountryTimeZone deleted event.
 /// </summary>

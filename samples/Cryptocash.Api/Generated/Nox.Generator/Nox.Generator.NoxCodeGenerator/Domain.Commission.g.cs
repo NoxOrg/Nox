@@ -18,12 +18,10 @@ public partial class Commission:CommissionBase
 /// Record for Commission created event.
 /// </summary>
 public record CommissionCreated(Commission Commission) : IDomainEvent;
-
 /// <summary>
 /// Record for Commission updated event.
 /// </summary>
 public record CommissionUpdated(Commission Commission) : IDomainEvent;
-
 /// <summary>
 /// Record for Commission deleted event.
 /// </summary>

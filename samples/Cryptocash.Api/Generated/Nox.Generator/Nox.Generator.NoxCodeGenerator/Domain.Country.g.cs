@@ -18,12 +18,10 @@ public partial class Country:CountryBase
 /// Record for Country created event.
 /// </summary>
 public record CountryCreated(Country Country) : IDomainEvent;
-
 /// <summary>
 /// Record for Country updated event.
 /// </summary>
 public record CountryUpdated(Country Country) : IDomainEvent;
-
 /// <summary>
 /// Record for Country deleted event.
 /// </summary>

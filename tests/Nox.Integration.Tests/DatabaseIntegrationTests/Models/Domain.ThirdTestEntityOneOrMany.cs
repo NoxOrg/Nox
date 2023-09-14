@@ -10,17 +10,18 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
+public partial class ThirdTestEntityOneOrMany:ThirdTestEntityOneOrManyBase
+{
 
+}
 /// <summary>
 /// Record for ThirdTestEntityOneOrMany created event.
 /// </summary>
 public record ThirdTestEntityOneOrManyCreated(ThirdTestEntityOneOrMany ThirdTestEntityOneOrMany) : IDomainEvent;
-
 /// <summary>
 /// Record for ThirdTestEntityOneOrMany updated event.
 /// </summary>
 public record ThirdTestEntityOneOrManyUpdated(ThirdTestEntityOneOrMany ThirdTestEntityOneOrMany) : IDomainEvent;
-
 /// <summary>
 /// Record for ThirdTestEntityOneOrMany deleted event.
 /// </summary>
@@ -29,7 +30,7 @@ public record ThirdTestEntityOneOrManyDeleted(ThirdTestEntityOneOrMany ThirdTest
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public partial class ThirdTestEntityOneOrMany : AuditableEntityBase, IEntityConcurrent
+public abstract class ThirdTestEntityOneOrManyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).

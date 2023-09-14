@@ -18,12 +18,10 @@ public partial class Transaction:TransactionBase
 /// Record for Transaction created event.
 /// </summary>
 public record TransactionCreated(Transaction Transaction) : IDomainEvent;
-
 /// <summary>
 /// Record for Transaction updated event.
 /// </summary>
 public record TransactionUpdated(Transaction Transaction) : IDomainEvent;
-
 /// <summary>
 /// Record for Transaction deleted event.
 /// </summary>

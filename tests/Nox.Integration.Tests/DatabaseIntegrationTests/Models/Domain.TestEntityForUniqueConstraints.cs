@@ -10,17 +10,18 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
+public partial class TestEntityForUniqueConstraints:TestEntityForUniqueConstraintsBase
+{
 
+}
 /// <summary>
 /// Record for TestEntityForUniqueConstraints created event.
 /// </summary>
 public record TestEntityForUniqueConstraintsCreated(TestEntityForUniqueConstraints TestEntityForUniqueConstraints) : IDomainEvent;
-
 /// <summary>
 /// Record for TestEntityForUniqueConstraints updated event.
 /// </summary>
 public record TestEntityForUniqueConstraintsUpdated(TestEntityForUniqueConstraints TestEntityForUniqueConstraints) : IDomainEvent;
-
 /// <summary>
 /// Record for TestEntityForUniqueConstraints deleted event.
 /// </summary>
@@ -29,7 +30,7 @@ public record TestEntityForUniqueConstraintsDeleted(TestEntityForUniqueConstrain
 /// <summary>
 /// Entity created for testing constraints.
 /// </summary>
-public partial class TestEntityForUniqueConstraints : EntityBase, IEntityConcurrent
+public abstract class TestEntityForUniqueConstraintsBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).

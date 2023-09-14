@@ -18,12 +18,10 @@ public partial class PaymentDetail:PaymentDetailBase
 /// Record for PaymentDetail created event.
 /// </summary>
 public record PaymentDetailCreated(PaymentDetail PaymentDetail) : IDomainEvent;
-
 /// <summary>
 /// Record for PaymentDetail updated event.
 /// </summary>
 public record PaymentDetailUpdated(PaymentDetail PaymentDetail) : IDomainEvent;
-
 /// <summary>
 /// Record for PaymentDetail deleted event.
 /// </summary>

@@ -10,17 +10,18 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
+public partial class SecondTestEntityOwnedRelationshipZeroOrMany:SecondTestEntityOwnedRelationshipZeroOrManyBase
+{
 
+}
 /// <summary>
 /// Record for SecondTestEntityOwnedRelationshipZeroOrMany created event.
 /// </summary>
 public record SecondTestEntityOwnedRelationshipZeroOrManyCreated(SecondTestEntityOwnedRelationshipZeroOrMany SecondTestEntityOwnedRelationshipZeroOrMany) : IDomainEvent;
-
 /// <summary>
 /// Record for SecondTestEntityOwnedRelationshipZeroOrMany updated event.
 /// </summary>
 public record SecondTestEntityOwnedRelationshipZeroOrManyUpdated(SecondTestEntityOwnedRelationshipZeroOrMany SecondTestEntityOwnedRelationshipZeroOrMany) : IDomainEvent;
-
 /// <summary>
 /// Record for SecondTestEntityOwnedRelationshipZeroOrMany deleted event.
 /// </summary>
@@ -29,7 +30,7 @@ public record SecondTestEntityOwnedRelationshipZeroOrManyDeleted(SecondTestEntit
 /// <summary>
 /// .
 /// </summary>
-public partial class SecondTestEntityOwnedRelationshipZeroOrMany : EntityBase, IOwnedEntity
+public abstract class SecondTestEntityOwnedRelationshipZeroOrManyBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     ///  (Required).

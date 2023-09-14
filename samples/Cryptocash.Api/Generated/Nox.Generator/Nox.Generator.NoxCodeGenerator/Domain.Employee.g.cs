@@ -18,12 +18,10 @@ public partial class Employee:EmployeeBase
 /// Record for Employee created event.
 /// </summary>
 public record EmployeeCreated(Employee Employee) : IDomainEvent;
-
 /// <summary>
 /// Record for Employee updated event.
 /// </summary>
 public record EmployeeUpdated(Employee Employee) : IDomainEvent;
-
 /// <summary>
 /// Record for Employee deleted event.
 /// </summary>

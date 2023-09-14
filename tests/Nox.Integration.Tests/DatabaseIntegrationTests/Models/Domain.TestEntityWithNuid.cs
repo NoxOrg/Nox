@@ -10,17 +10,18 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
+public partial class TestEntityWithNuid:TestEntityWithNuidBase
+{
 
+}
 /// <summary>
 /// Record for TestEntityWithNuid created event.
 /// </summary>
 public record TestEntityWithNuidCreated(TestEntityWithNuid TestEntityWithNuid) : IDomainEvent;
-
 /// <summary>
 /// Record for TestEntityWithNuid updated event.
 /// </summary>
 public record TestEntityWithNuidUpdated(TestEntityWithNuid TestEntityWithNuid) : IDomainEvent;
-
 /// <summary>
 /// Record for TestEntityWithNuid deleted event.
 /// </summary>
@@ -29,14 +30,14 @@ public record TestEntityWithNuidDeleted(TestEntityWithNuid TestEntityWithNuid) :
 /// <summary>
 /// Entity created for testing nuid.
 /// </summary>
-public partial class TestEntityWithNuid : AuditableEntityBase, IEntityConcurrent
+public abstract class TestEntityWithNuidBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
     /// </summary>
     public Nuid Id {get; set;} = null!;
     
-    	public void EnsureId()
+    	public virtual void EnsureId()
     	{
     		if(Id is null)
     		{

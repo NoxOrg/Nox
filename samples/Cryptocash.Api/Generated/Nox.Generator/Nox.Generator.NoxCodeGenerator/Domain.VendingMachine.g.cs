@@ -18,12 +18,10 @@ public partial class VendingMachine:VendingMachineBase
 /// Record for VendingMachine created event.
 /// </summary>
 public record VendingMachineCreated(VendingMachine VendingMachine) : IDomainEvent;
-
 /// <summary>
 /// Record for VendingMachine updated event.
 /// </summary>
 public record VendingMachineUpdated(VendingMachine VendingMachine) : IDomainEvent;
-
 /// <summary>
 /// Record for VendingMachine deleted event.
 /// </summary>

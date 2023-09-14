@@ -18,12 +18,10 @@ public partial class ExchangeRate:ExchangeRateBase
 /// Record for ExchangeRate created event.
 /// </summary>
 public record ExchangeRateCreated(ExchangeRate ExchangeRate) : IDomainEvent;
-
 /// <summary>
 /// Record for ExchangeRate updated event.
 /// </summary>
 public record ExchangeRateUpdated(ExchangeRate ExchangeRate) : IDomainEvent;
-
 /// <summary>
 /// Record for ExchangeRate deleted event.
 /// </summary>

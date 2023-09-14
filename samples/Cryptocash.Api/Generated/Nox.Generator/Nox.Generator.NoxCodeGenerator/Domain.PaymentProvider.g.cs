@@ -18,12 +18,10 @@ public partial class PaymentProvider:PaymentProviderBase
 /// Record for PaymentProvider created event.
 /// </summary>
 public record PaymentProviderCreated(PaymentProvider PaymentProvider) : IDomainEvent;
-
 /// <summary>
 /// Record for PaymentProvider updated event.
 /// </summary>
 public record PaymentProviderUpdated(PaymentProvider PaymentProvider) : IDomainEvent;
-
 /// <summary>
 /// Record for PaymentProvider deleted event.
 /// </summary>

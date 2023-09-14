@@ -18,12 +18,10 @@ public partial class Booking:BookingBase
 /// Record for Booking created event.
 /// </summary>
 public record BookingCreated(Booking Booking) : IDomainEvent;
-
 /// <summary>
 /// Record for Booking updated event.
 /// </summary>
 public record BookingUpdated(Booking Booking) : IDomainEvent;
-
 /// <summary>
 /// Record for Booking deleted event.
 /// </summary>

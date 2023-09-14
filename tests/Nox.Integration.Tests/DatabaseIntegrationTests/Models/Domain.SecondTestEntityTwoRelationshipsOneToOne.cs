@@ -10,17 +10,18 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
+public partial class SecondTestEntityTwoRelationshipsOneToOne:SecondTestEntityTwoRelationshipsOneToOneBase
+{
 
+}
 /// <summary>
 /// Record for SecondTestEntityTwoRelationshipsOneToOne created event.
 /// </summary>
 public record SecondTestEntityTwoRelationshipsOneToOneCreated(SecondTestEntityTwoRelationshipsOneToOne SecondTestEntityTwoRelationshipsOneToOne) : IDomainEvent;
-
 /// <summary>
 /// Record for SecondTestEntityTwoRelationshipsOneToOne updated event.
 /// </summary>
 public record SecondTestEntityTwoRelationshipsOneToOneUpdated(SecondTestEntityTwoRelationshipsOneToOne SecondTestEntityTwoRelationshipsOneToOne) : IDomainEvent;
-
 /// <summary>
 /// Record for SecondTestEntityTwoRelationshipsOneToOne deleted event.
 /// </summary>
@@ -29,7 +30,7 @@ public record SecondTestEntityTwoRelationshipsOneToOneDeleted(SecondTestEntityTw
 /// <summary>
 /// .
 /// </summary>
-public partial class SecondTestEntityTwoRelationshipsOneToOne : EntityBase, IEntityConcurrent
+public abstract class SecondTestEntityTwoRelationshipsOneToOneBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).

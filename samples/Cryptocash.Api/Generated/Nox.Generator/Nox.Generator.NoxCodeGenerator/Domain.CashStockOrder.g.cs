@@ -18,12 +18,10 @@ public partial class CashStockOrder:CashStockOrderBase
 /// Record for CashStockOrder created event.
 /// </summary>
 public record CashStockOrderCreated(CashStockOrder CashStockOrder) : IDomainEvent;
-
 /// <summary>
 /// Record for CashStockOrder updated event.
 /// </summary>
 public record CashStockOrderUpdated(CashStockOrder CashStockOrder) : IDomainEvent;
-
 /// <summary>
 /// Record for CashStockOrder deleted event.
 /// </summary>

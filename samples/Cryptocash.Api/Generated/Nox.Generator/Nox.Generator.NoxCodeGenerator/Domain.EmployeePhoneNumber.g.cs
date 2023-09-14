@@ -18,12 +18,10 @@ public partial class EmployeePhoneNumber:EmployeePhoneNumberBase
 /// Record for EmployeePhoneNumber created event.
 /// </summary>
 public record EmployeePhoneNumberCreated(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent;
-
 /// <summary>
 /// Record for EmployeePhoneNumber updated event.
 /// </summary>
 public record EmployeePhoneNumberUpdated(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent;
-
 /// <summary>
 /// Record for EmployeePhoneNumber deleted event.
 /// </summary>

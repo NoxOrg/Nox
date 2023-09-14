@@ -18,12 +18,10 @@ public partial class Workplace:WorkplaceBase
 /// Record for Workplace created event.
 /// </summary>
 public record WorkplaceCreated(Workplace Workplace) : IDomainEvent;
-
 /// <summary>
 /// Record for Workplace updated event.
 /// </summary>
 public record WorkplaceUpdated(Workplace Workplace) : IDomainEvent;
-
 /// <summary>
 /// Record for Workplace deleted event.
 /// </summary>

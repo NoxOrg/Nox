@@ -18,12 +18,10 @@ public partial class Customer:CustomerBase
 /// Record for Customer created event.
 /// </summary>
 public record CustomerCreated(Customer Customer) : IDomainEvent;
-
 /// <summary>
 /// Record for Customer updated event.
 /// </summary>
 public record CustomerUpdated(Customer Customer) : IDomainEvent;
-
 /// <summary>
 /// Record for Customer deleted event.
 /// </summary>

@@ -13,13 +13,13 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
-public record DeleteCountryTimeZoneCommand(CountryKeyDto ParentKeyDto, CountryTimeZoneKeyDto EntityKeyDto) : IRequest <bool>;
+public record DeleteHolidayForCountryCommand(CountryKeyDto ParentKeyDto, HolidayKeyDto EntityKeyDto) : IRequest <bool>;
 
-public partial class DeleteCountryTimeZoneCommandHandler: CommandBase<DeleteCountryTimeZoneCommand, CountryTimeZone>, IRequestHandler <DeleteCountryTimeZoneCommand, bool>
+public partial class DeleteHolidayForCountryCommandHandler: CommandBase<DeleteHolidayForCountryCommand, Holiday>, IRequestHandler <DeleteHolidayForCountryCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public DeleteCountryTimeZoneCommandHandler(
+	public DeleteHolidayForCountryCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -27,7 +27,7 @@ public partial class DeleteCountryTimeZoneCommandHandler: CommandBase<DeleteCoun
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeleteCountryTimeZoneCommand request, CancellationToken cancellationToken)
+	public async Task<bool> Handle(DeleteHolidayForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
@@ -37,13 +37,13 @@ public partial class DeleteCountryTimeZoneCommandHandler: CommandBase<DeleteCoun
 		{
 			return false;
 		}
-		var ownedId = CreateNoxTypeForKey<CountryTimeZone,AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.CountryTimeZones.SingleOrDefault(x => x.Id == ownedId);
+		var ownedId = CreateNoxTypeForKey<Holiday,AutoNumber>("Id", request.EntityKeyDto.keyId);
+		var entity = parentEntity.Holidays.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
 			return false;
 		}
-		parentEntity.CountryTimeZones.Remove(entity);
+		parentEntity.Holidays.Remove(entity);
 		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Deleted;

@@ -18,12 +18,10 @@ public partial class LandLord:LandLordBase
 /// Record for LandLord created event.
 /// </summary>
 public record LandLordCreated(LandLord LandLord) : IDomainEvent;
-
 /// <summary>
 /// Record for LandLord updated event.
 /// </summary>
 public record LandLordUpdated(LandLord LandLord) : IDomainEvent;
-
 /// <summary>
 /// Record for LandLord deleted event.
 /// </summary>

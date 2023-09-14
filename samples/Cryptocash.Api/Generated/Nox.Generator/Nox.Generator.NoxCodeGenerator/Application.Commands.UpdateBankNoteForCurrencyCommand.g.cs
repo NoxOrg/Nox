@@ -13,44 +13,42 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
-public record PartialUpdateExchangeRateCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <ExchangeRateKeyDto?>;
+public record UpdateBankNoteForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteKeyDto EntityKeyDto, BankNoteUpdateDto EntityDto, System.Guid? Etag) : IRequest <BankNoteKeyDto?>;
 
-public partial class PartialUpdateExchangeRateCommandHandler: CommandBase<PartialUpdateExchangeRateCommand, ExchangeRate>, IRequestHandler <PartialUpdateExchangeRateCommand, ExchangeRateKeyDto?>
+public partial class UpdateBankNoteForCurrencyCommandHandler: CommandBase<UpdateBankNoteForCurrencyCommand, BankNote>, IRequestHandler <UpdateBankNoteForCurrencyCommand, BankNoteKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<ExchangeRate> EntityMapper { get; }
+	public IEntityMapper<BankNote> EntityMapper { get; }
 
-	public PartialUpdateExchangeRateCommandHandler(
+	public UpdateBankNoteForCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<ExchangeRate> entityMapper): base(noxSolution, serviceProvider)
+		IEntityMapper<BankNote> entityMapper): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityMapper = entityMapper;
 	}
 
-	public async Task<ExchangeRateKeyDto?> Handle(PartialUpdateExchangeRateCommand request, CancellationToken cancellationToken)
+	public async Task<BankNoteKeyDto?> Handle(UpdateBankNoteForCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Currency,CurrencyCode3>("Id", request.ParentKeyDto.keyId);
-
 		var parentEntity = await DbContext.Currencies.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return null;
 		}
-		var ownedId = CreateNoxTypeForKey<ExchangeRate,AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.ExchangeRates.SingleOrDefault(x => x.Id == ownedId);	
+		var ownedId = CreateNoxTypeForKey<BankNote,AutoNumber>("Id", request.EntityKeyDto.keyId);
+		var entity = parentEntity.BankNotes.SingleOrDefault(x => x.Id == ownedId);		
 		if (entity == null)
 		{
 			return null;
 		}
 
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<ExchangeRate>(), request.UpdatedProperties);
+		EntityMapper.MapToEntity(entity, GetEntityDefinition<BankNote>(), request.EntityDto);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-
 		OnCompleted(request, entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
@@ -60,6 +58,6 @@ public partial class PartialUpdateExchangeRateCommandHandler: CommandBase<Partia
 			return null;
 		}
 
-		return new ExchangeRateKeyDto(entity.Id.Value);
+		return new BankNoteKeyDto(entity.Id.Value);
 	}
 }

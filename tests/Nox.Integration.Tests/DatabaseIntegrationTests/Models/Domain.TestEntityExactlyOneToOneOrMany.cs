@@ -10,17 +10,18 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
+public partial class TestEntityExactlyOneToOneOrMany:TestEntityExactlyOneToOneOrManyBase
+{
 
+}
 /// <summary>
 /// Record for TestEntityExactlyOneToOneOrMany created event.
 /// </summary>
 public record TestEntityExactlyOneToOneOrManyCreated(TestEntityExactlyOneToOneOrMany TestEntityExactlyOneToOneOrMany) : IDomainEvent;
-
 /// <summary>
 /// Record for TestEntityExactlyOneToOneOrMany updated event.
 /// </summary>
 public record TestEntityExactlyOneToOneOrManyUpdated(TestEntityExactlyOneToOneOrMany TestEntityExactlyOneToOneOrMany) : IDomainEvent;
-
 /// <summary>
 /// Record for TestEntityExactlyOneToOneOrMany deleted event.
 /// </summary>
@@ -29,7 +30,7 @@ public record TestEntityExactlyOneToOneOrManyDeleted(TestEntityExactlyOneToOneOr
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public partial class TestEntityExactlyOneToOneOrMany : AuditableEntityBase, IEntityConcurrent
+public abstract class TestEntityExactlyOneToOneOrManyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).

@@ -10,17 +10,18 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
+public partial class TestEntityForTypes:TestEntityForTypesBase
+{
 
+}
 /// <summary>
 /// Record for TestEntityForTypes created event.
 /// </summary>
 public record TestEntityForTypesCreated(TestEntityForTypes TestEntityForTypes) : IDomainEvent;
-
 /// <summary>
 /// Record for TestEntityForTypes updated event.
 /// </summary>
 public record TestEntityForTypesUpdated(TestEntityForTypes TestEntityForTypes) : IDomainEvent;
-
 /// <summary>
 /// Record for TestEntityForTypes deleted event.
 /// </summary>
@@ -29,7 +30,7 @@ public record TestEntityForTypesDeleted(TestEntityForTypes TestEntityForTypes) :
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public partial class TestEntityForTypes : AuditableEntityBase, IEntityConcurrent
+public abstract class TestEntityForTypesBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).

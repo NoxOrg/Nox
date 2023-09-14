@@ -18,12 +18,10 @@ public partial class EmailAddress:EmailAddressBase
 /// Record for EmailAddress created event.
 /// </summary>
 public record EmailAddressCreated(EmailAddress EmailAddress) : IDomainEvent;
-
 /// <summary>
 /// Record for EmailAddress updated event.
 /// </summary>
 public record EmailAddressUpdated(EmailAddress EmailAddress) : IDomainEvent;
-
 /// <summary>
 /// Record for EmailAddress deleted event.
 /// </summary>

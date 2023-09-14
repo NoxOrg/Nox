@@ -18,12 +18,10 @@ public partial class Holiday:HolidayBase
 /// Record for Holiday created event.
 /// </summary>
 public record HolidayCreated(Holiday Holiday) : IDomainEvent;
-
 /// <summary>
 /// Record for Holiday updated event.
 /// </summary>
 public record HolidayUpdated(Holiday Holiday) : IDomainEvent;
-
 /// <summary>
 /// Record for Holiday deleted event.
 /// </summary>

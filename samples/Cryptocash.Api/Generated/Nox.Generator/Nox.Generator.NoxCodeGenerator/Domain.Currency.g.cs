@@ -18,12 +18,10 @@ public partial class Currency:CurrencyBase
 /// Record for Currency created event.
 /// </summary>
 public record CurrencyCreated(Currency Currency) : IDomainEvent;
-
 /// <summary>
 /// Record for Currency updated event.
 /// </summary>
 public record CurrencyUpdated(Currency Currency) : IDomainEvent;
-
 /// <summary>
 /// Record for Currency deleted event.
 /// </summary>

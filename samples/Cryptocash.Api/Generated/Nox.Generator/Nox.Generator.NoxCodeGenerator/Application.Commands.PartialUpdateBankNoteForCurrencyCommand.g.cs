@@ -13,14 +13,14 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
-public record UpdateBankNoteCommand(CurrencyKeyDto ParentKeyDto, BankNoteKeyDto EntityKeyDto, BankNoteUpdateDto EntityDto, System.Guid? Etag) : IRequest <BankNoteKeyDto?>;
+public record PartialUpdateBankNoteForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <BankNoteKeyDto?>;
 
-public partial class UpdateBankNoteCommandHandler: CommandBase<UpdateBankNoteCommand, BankNote>, IRequestHandler <UpdateBankNoteCommand, BankNoteKeyDto?>
+public partial class PartialUpdateBankNoteForCurrencyCommandHandler: CommandBase<PartialUpdateBankNoteForCurrencyCommand, BankNote>, IRequestHandler <PartialUpdateBankNoteForCurrencyCommand, BankNoteKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<BankNote> EntityMapper { get; }
 
-	public UpdateBankNoteCommandHandler(
+	public PartialUpdateBankNoteForCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -30,25 +30,27 @@ public partial class UpdateBankNoteCommandHandler: CommandBase<UpdateBankNoteCom
 		EntityMapper = entityMapper;
 	}
 
-	public async Task<BankNoteKeyDto?> Handle(UpdateBankNoteCommand request, CancellationToken cancellationToken)
+	public async Task<BankNoteKeyDto?> Handle(PartialUpdateBankNoteForCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Currency,CurrencyCode3>("Id", request.ParentKeyDto.keyId);
+
 		var parentEntity = await DbContext.Currencies.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return null;
 		}
 		var ownedId = CreateNoxTypeForKey<BankNote,AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.BankNotes.SingleOrDefault(x => x.Id == ownedId);		
+		var entity = parentEntity.BankNotes.SingleOrDefault(x => x.Id == ownedId);	
 		if (entity == null)
 		{
 			return null;
 		}
 
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<BankNote>(), request.EntityDto);
+		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<BankNote>(), request.UpdatedProperties);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
 		OnCompleted(request, entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
