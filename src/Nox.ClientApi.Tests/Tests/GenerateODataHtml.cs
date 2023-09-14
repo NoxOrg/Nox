@@ -3,6 +3,8 @@ using AutoFixture;
 using AutoFixture.AutoMoq;
 using System.Text;
 using System.Xml;
+using Nox.Solution;
+using Nox.Docs.Extensions;
 
 namespace ClientApi.Tests.Tests
 {
@@ -37,6 +39,20 @@ namespace ClientApi.Tests.Tests
 
             content.Should().NotBeNull();
             File.WriteAllText("../../../metadata.xml", BeautifyXml(content));
+        }
+
+        [Fact]
+        public void Generate_Readme()
+        {
+            var rootPath = "../../../.nox";
+
+            var noxSolution = new NoxSolutionBuilder()
+                .UseYamlFile($"{rootPath}/design/clientapi.solution.nox.yaml")
+                .Build();
+
+            var action = () => noxSolution.GenerateMarkdownReadme($"{rootPath}/docs");
+
+            action.Should().NotThrow();
         }
 
         public static string BeautifyXml(string xmlString)

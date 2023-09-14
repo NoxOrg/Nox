@@ -14,15 +14,19 @@ This document provides information about the various endpoints available in our 
 
 ### Create Employee
 - **POST** `/api/Employees`
-  - Description: Create a new Employee with the provided data.
+  - Description: Create a new Employee.
 
 ### Update Employee
 - **PUT** `/api/Employees/{key}`
-  - Description: Update an existing Employee by ID with the provided data.
+  - Description: Update an existing Employee.
+
+### Partially Update Employee
+- **PATCH** `/api/Employees/{key}`
+  - Description: Partially update an existing Employee.
  
 ### Delete Employee
 - **DELETE** `/api/Employees/{key}`
-  - Description: Delete an existing Employee by its ID.
+  - Description: Delete an existing Employee.
 
 ## Owned Relationships Endpoints
 
@@ -46,8 +50,36 @@ This document provides information about the various endpoints available in our 
 
 #### Delete EmployeePhoneNumber
 - **DELETE** `/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}`
-  - Description: Delete an existing EmployeePhoneNumber by its ID for a specific Employee.
+  - Description: Delete an existing EmployeePhoneNumber for a specific Employee.
 
 ## Relationships Endpoints
 
-[CashStockOrder Endpoints](CashStockOrderEndpoints.md)
+### CashStockOrder
+
+#### Get CashStockOrder relation by ID
+- **GET** `/api/Employees/{key}/CashStockOrders/{relatedKey}/$ref`
+  - Description: Retrieve an existing CashStockOrders relation for a specific Employee.
+
+#### Get CashStockOrder relations
+- **GET** `/api/Employees/{key}/CashStockOrders/$ref`
+  - Description: Retrieve all CashStockOrders relations for a specific Employee.
+  
+#### Create CashStockOrder relation
+- **POST** `/api/Employees/{key}/CashStockOrders/{relatedKey}/$ref`
+  - Description: Create a new CashStockOrder relation for a specific Employee.
+  
+#### Update CashStockOrder relation
+- **PUT** `/api/Employees/{key}/CashStockOrders/{relatedKey}/$ref`
+  - Description: Update an existing CashStockOrder relation for a specific Employee.
+  
+#### Partially Update CashStockOrder relation
+- **PATCH** `/api/Employees/{key}/CashStockOrders/{relatedKey}/$ref`
+  - Description: Partially update an existing CashStockOrder relation for a specific Employee.
+
+#### Delete CashStockOrder relation
+- **DELETE** `/api/Employees/{key}/CashStockOrders/{relatedKey}/$ref`
+  - Description: Delete an existing CashStockOrder relation for a specific Employee.
+
+## Related Entities
+
+[CashStockOrder](CashStockOrderEndpoints.md)

@@ -14,15 +14,19 @@ This document provides information about the various endpoints available in our 
 
 ### Create Currency
 - **POST** `/api/Currencies`
-  - Description: Create a new Currency with the provided data.
+  - Description: Create a new Currency.
 
 ### Update Currency
 - **PUT** `/api/Currencies/{key}`
-  - Description: Update an existing Currency by ID with the provided data.
+  - Description: Update an existing Currency.
+
+### Partially Update Currency
+- **PATCH** `/api/Currencies/{key}`
+  - Description: Partially update an existing Currency.
  
 ### Delete Currency
 - **DELETE** `/api/Currencies/{key}`
-  - Description: Delete an existing Currency by its ID.
+  - Description: Delete an existing Currency.
 
 ## Owned Relationships Endpoints
 
@@ -46,7 +50,7 @@ This document provides information about the various endpoints available in our 
 
 #### Delete BankNote
 - **DELETE** `/api/Currencies/{key}/BankNotes/{relatedKey}`
-  - Description: Delete an existing BankNote by its ID for a specific Currency.
+  - Description: Delete an existing BankNote for a specific Currency.
 
 ### ExchangeRate
 
@@ -68,10 +72,64 @@ This document provides information about the various endpoints available in our 
 
 #### Delete ExchangeRate
 - **DELETE** `/api/Currencies/{key}/ExchangeRates/{relatedKey}`
-  - Description: Delete an existing ExchangeRate by its ID for a specific Currency.
+  - Description: Delete an existing ExchangeRate for a specific Currency.
 
 ## Relationships Endpoints
 
-[Country Endpoints](CountryEndpoints.md)
+### Country
 
-[MinimumCashStock Endpoints](MinimumCashStockEndpoints.md)
+#### Get Country relation by ID
+- **GET** `/api/Currencies/{key}/Countries/{relatedKey}/$ref`
+  - Description: Retrieve an existing Countries relation for a specific Currency.
+
+#### Get Country relations
+- **GET** `/api/Currencies/{key}/Countries/$ref`
+  - Description: Retrieve all Countries relations for a specific Currency.
+  
+#### Create Country relation
+- **POST** `/api/Currencies/{key}/Countries/{relatedKey}/$ref`
+  - Description: Create a new Country relation for a specific Currency.
+  
+#### Update Country relation
+- **PUT** `/api/Currencies/{key}/Countries/{relatedKey}/$ref`
+  - Description: Update an existing Country relation for a specific Currency.
+  
+#### Partially Update Country relation
+- **PATCH** `/api/Currencies/{key}/Countries/{relatedKey}/$ref`
+  - Description: Partially update an existing Country relation for a specific Currency.
+
+#### Delete Country relation
+- **DELETE** `/api/Currencies/{key}/Countries/{relatedKey}/$ref`
+  - Description: Delete an existing Country relation for a specific Currency.
+
+### MinimumCashStock
+
+#### Get MinimumCashStock relation by ID
+- **GET** `/api/Currencies/{key}/MinimumCashStocks/{relatedKey}/$ref`
+  - Description: Retrieve an existing MinimumCashStocks relation for a specific Currency.
+
+#### Get MinimumCashStock relations
+- **GET** `/api/Currencies/{key}/MinimumCashStocks/$ref`
+  - Description: Retrieve all MinimumCashStocks relations for a specific Currency.
+  
+#### Create MinimumCashStock relation
+- **POST** `/api/Currencies/{key}/MinimumCashStocks/{relatedKey}/$ref`
+  - Description: Create a new MinimumCashStock relation for a specific Currency.
+  
+#### Update MinimumCashStock relation
+- **PUT** `/api/Currencies/{key}/MinimumCashStocks/{relatedKey}/$ref`
+  - Description: Update an existing MinimumCashStock relation for a specific Currency.
+  
+#### Partially Update MinimumCashStock relation
+- **PATCH** `/api/Currencies/{key}/MinimumCashStocks/{relatedKey}/$ref`
+  - Description: Partially update an existing MinimumCashStock relation for a specific Currency.
+
+#### Delete MinimumCashStock relation
+- **DELETE** `/api/Currencies/{key}/MinimumCashStocks/{relatedKey}/$ref`
+  - Description: Delete an existing MinimumCashStock relation for a specific Currency.
+
+## Related Entities
+
+[Country](CountryEndpoints.md)
+
+[MinimumCashStock](MinimumCashStockEndpoints.md)

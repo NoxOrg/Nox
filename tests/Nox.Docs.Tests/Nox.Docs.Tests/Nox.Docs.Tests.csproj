@@ -29,7 +29,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="files\sample.solution.nox.yaml">
+    <None Update="Files\Design\sample-for-endpoints.solution.nox.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Files\Design\sample.solution.nox.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Files\Markdown\ContinentEndpoints.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Files\Markdown\CountryEndpoints.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Files\Markdown\EntityEndpoint.template.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
