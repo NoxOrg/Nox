@@ -1,6 +1,6 @@
 ﻿namespace Nox.Domain;
 
-public interface IAuditUpdated
+public interface IEntityAuditUpdated
 {
     Types.User? LastUpdatedBy { get; }
     Types.Text? LastUpdatedVia { get; }

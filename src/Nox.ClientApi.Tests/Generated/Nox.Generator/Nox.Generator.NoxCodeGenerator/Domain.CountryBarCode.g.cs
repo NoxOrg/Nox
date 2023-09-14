@@ -10,7 +10,10 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace ClientApi.Domain;
+public partial class CountryBarCode:CountryBarCodeBase
+{
 
+}
 /// <summary>
 /// Record for CountryBarCode created event.
 /// </summary>
@@ -29,7 +32,7 @@ public record CountryBarCodeDeleted(CountryBarCode CountryBarCode) : IDomainEven
 /// <summary>
 /// Bar code for country.
 /// </summary>
-public partial class CountryBarCode : EntityBase, IOwnedEntity
+public abstract class CountryBarCodeBase : EntityBase, IOwnedEntity
 {
 
     /// <summary>

@@ -10,7 +10,10 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
+public partial class Commission:CommissionBase
+{
 
+}
 /// <summary>
 /// Record for Commission created event.
 /// </summary>
@@ -29,7 +32,7 @@ public record CommissionDeleted(Commission Commission) : IDomainEvent;
 /// <summary>
 /// Exchange commission rate and amount.
 /// </summary>
-public partial class Commission : AuditableEntityBase, IEntityConcurrent
+public abstract class CommissionBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Commission unique identifier (Required).

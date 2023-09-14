@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -10,7 +10,10 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace {{codeGeneratorState.DomainNameSpace}};
+public partial class {{className}}:{{className}}Base
+{
 
+}
 {{- if entity.Persistence.Create.RaiseEvents }}
 /// <summary>
 /// Record for {{entity.Name}} created event.
@@ -35,7 +38,7 @@ public record {{entity.Name}}Deleted({{entity.Name}} {{entity.Name}}) : IDomainE
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public partial class {{className}}{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase, IEntityConcurrent{{else}}EntityBase, IEntityConcurrent{{end}}{{else}} : EntityBase, IOwnedEntity{{end}}
+public abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase, IEntityConcurrent{{else}}EntityBase, IEntityConcurrent{{end}}{{else}} : EntityBase, IOwnedEntity{{end}}
 {
 {{- for key in entity.Keys }}
     /// <summary>
@@ -52,7 +55,7 @@ public partial class {{className}}{{ if !entity.IsOwnedEntity }} : {{if entity.P
     {{- codeGeneratorNuidGetter = "Nuid.From(\""+prefix+"\" + string.Join(\""+key.NuidTypeOptions.Separator +"\", "+ (key.NuidTypeOptions.PropertyNames | array.join "," @(do; ret $0 + ".Value.ToString()"; end)) +"))" -}}
     public {{key.Type}} {{key.Name}} {get; set;} = null!;
 
-	public void Ensure{{ key.Name}}()
+	public virtual void Ensure{{ key.Name}}()
 	{
 		if({{key.Name}} is null)
 		{

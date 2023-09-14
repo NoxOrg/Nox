@@ -10,7 +10,10 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
+public partial class MinimumCashStock:MinimumCashStockBase
+{
 
+}
 /// <summary>
 /// Record for MinimumCashStock created event.
 /// </summary>
@@ -29,7 +32,7 @@ public record MinimumCashStockDeleted(MinimumCashStock MinimumCashStock) : IDoma
 /// <summary>
 /// Minimum cash stock required for vending machine.
 /// </summary>
-public partial class MinimumCashStock : AuditableEntityBase, IEntityConcurrent
+public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Vending machine cash stock unique identifier (Required).

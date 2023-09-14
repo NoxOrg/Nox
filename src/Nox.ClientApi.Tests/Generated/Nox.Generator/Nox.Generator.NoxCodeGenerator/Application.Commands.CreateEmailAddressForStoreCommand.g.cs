@@ -14,40 +14,39 @@ using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
-using CountryLocalName = ClientApi.Domain.CountryLocalName;
+using EmailAddress = ClientApi.Domain.EmailAddress;
 
 namespace ClientApi.Application.Commands;
-public record AddCountryLocalNameCommand(CountryKeyDto ParentKeyDto, CountryLocalNameCreateDto EntityDto, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto?>;
+public record CreateEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto, EmailAddressCreateDto EntityDto, System.Guid? Etag) : IRequest <EmailAddressKeyDto?>;
 
-public partial class AddCountryLocalNameCommandHandler: CommandBase<AddCountryLocalNameCommand, CountryLocalName>, IRequestHandler <AddCountryLocalNameCommand, CountryLocalNameKeyDto?>
+public partial class CreateEmailAddressForStoreCommandHandler: CommandBase<CreateEmailAddressForStoreCommand, EmailAddress>, IRequestHandler<CreateEmailAddressForStoreCommand, EmailAddressKeyDto?>
 {
 	private readonly ClientApiDbContext _dbContext;
-	private readonly IEntityFactory<CountryLocalName,CountryLocalNameCreateDto> _entityFactory;
+	private readonly IEntityFactory<EmailAddress,EmailAddressCreateDto> _entityFactory;
 
-	public AddCountryLocalNameCommandHandler(
+	public CreateEmailAddressForStoreCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<CountryLocalName,CountryLocalNameCreateDto> entityFactory,
+        IEntityFactory<EmailAddress,EmailAddressCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;	
 	}
 
-	public async Task<CountryLocalNameKeyDto?> Handle(AddCountryLocalNameCommand request, CancellationToken cancellationToken)
+	public async Task<EmailAddressKeyDto?> Handle(CreateEmailAddressForStoreCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Country,AutoNumber>("Id", request.ParentKeyDto.keyId);
+		var keyId = CreateNoxTypeForKey<Store,DatabaseGuid>("Id", request.ParentKeyDto.keyId);
 
-		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
+		var parentEntity = await _dbContext.Stores.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return null;
 		}
 
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
-		
-		parentEntity.CountryLocalNames.Add(entity);
+		parentEntity.EmailAddress = entity;
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);
 	
@@ -58,6 +57,6 @@ public partial class AddCountryLocalNameCommandHandler: CommandBase<AddCountryLo
 			return null;
 		}
 
-		return new CountryLocalNameKeyDto(entity.Id.Value);
+		return new EmailAddressKeyDto();
 	}
 }

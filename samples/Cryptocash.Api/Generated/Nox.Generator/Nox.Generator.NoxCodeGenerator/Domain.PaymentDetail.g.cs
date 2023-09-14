@@ -10,7 +10,10 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
+public partial class PaymentDetail:PaymentDetailBase
+{
 
+}
 /// <summary>
 /// Record for PaymentDetail created event.
 /// </summary>
@@ -29,7 +32,7 @@ public record PaymentDetailDeleted(PaymentDetail PaymentDetail) : IDomainEvent;
 /// <summary>
 /// Customer payment account related data.
 /// </summary>
-public partial class PaymentDetail : AuditableEntityBase, IEntityConcurrent
+public abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Customer payment account unique identifier (Required).

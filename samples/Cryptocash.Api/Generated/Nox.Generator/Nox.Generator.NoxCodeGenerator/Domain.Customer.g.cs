@@ -10,7 +10,10 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
+public partial class Customer:CustomerBase
+{
 
+}
 /// <summary>
 /// Record for Customer created event.
 /// </summary>
@@ -29,7 +32,7 @@ public record CustomerDeleted(Customer Customer) : IDomainEvent;
 /// <summary>
 /// Customer definition and related data.
 /// </summary>
-public partial class Customer : AuditableEntityBase, IEntityConcurrent
+public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Customer's unique identifier (Required).

@@ -10,7 +10,10 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace ClientApi.Domain;
+public partial class CountryLocalName:CountryLocalNameBase
+{
 
+}
 /// <summary>
 /// Record for CountryLocalName created event.
 /// </summary>
@@ -29,7 +32,7 @@ public record CountryLocalNameDeleted(CountryLocalName CountryLocalName) : IDoma
 /// <summary>
 /// Local names for countries.
 /// </summary>
-public partial class CountryLocalName : EntityBase, IOwnedEntity
+public abstract class CountryLocalNameBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// The unique identifier (Required).

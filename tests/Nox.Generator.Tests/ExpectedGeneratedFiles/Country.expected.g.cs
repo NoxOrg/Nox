@@ -10,7 +10,10 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace SampleWebApp.Domain;
+public partial class Country:CountryBase
+{
 
+}
 /// <summary>
 /// Record for Country created event.
 /// </summary>
@@ -29,14 +32,14 @@ public record CountryDeleted(Country Country) : IDomainEvent;
 /// <summary>
 /// The list of countries.
 /// </summary>
-public partial class Country : AuditableEntityBase, IEntityConcurrent
+public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
     /// </summary>
     public Nuid Id {get; set;} = null!;
     
-    	public void EnsureId()
+    	public virtual void EnsureId()
     	{
     		if(Id is null)
     		{

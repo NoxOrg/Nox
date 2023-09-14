@@ -10,7 +10,10 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
+public partial class Transaction:TransactionBase
+{
 
+}
 /// <summary>
 /// Record for Transaction created event.
 /// </summary>
@@ -29,7 +32,7 @@ public record TransactionDeleted(Transaction Transaction) : IDomainEvent;
 /// <summary>
 /// Customer transaction log and related data.
 /// </summary>
-public partial class Transaction : AuditableEntityBase, IEntityConcurrent
+public abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Customer transaction unique identifier (Required).

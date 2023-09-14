@@ -10,7 +10,10 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
+public partial class Employee:EmployeeBase
+{
 
+}
 /// <summary>
 /// Record for Employee created event.
 /// </summary>
@@ -29,7 +32,7 @@ public record EmployeeDeleted(Employee Employee) : IDomainEvent;
 /// <summary>
 /// Employee definition and related data.
 /// </summary>
-public partial class Employee : AuditableEntityBase, IEntityConcurrent
+public abstract class EmployeeBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Employee's unique identifier (Required).

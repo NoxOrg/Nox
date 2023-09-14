@@ -10,7 +10,10 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace ClientApi.Domain;
+public partial class StoreOwner:StoreOwnerBase
+{
 
+}
 /// <summary>
 /// Record for StoreOwner created event.
 /// </summary>
@@ -29,7 +32,7 @@ public record StoreOwnerDeleted(StoreOwner StoreOwner) : IDomainEvent;
 /// <summary>
 /// Store owners.
 /// </summary>
-public partial class StoreOwner : AuditableEntityBase, IEntityConcurrent
+public abstract class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).

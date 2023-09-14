@@ -10,7 +10,10 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
+public partial class VendingMachine:VendingMachineBase
+{
 
+}
 /// <summary>
 /// Record for VendingMachine created event.
 /// </summary>
@@ -29,7 +32,7 @@ public record VendingMachineDeleted(VendingMachine VendingMachine) : IDomainEven
 /// <summary>
 /// Vending machine definition and related data.
 /// </summary>
-public partial class VendingMachine : AuditableEntityBase, IEntityConcurrent
+public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Vending machine unique identifier (Required).

@@ -10,7 +10,10 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace ClientApi.Domain;
+public partial class Country:CountryBase
+{
 
+}
 /// <summary>
 /// Record for Country created event.
 /// </summary>
@@ -29,7 +32,7 @@ public record CountryDeleted(Country Country) : IDomainEvent;
 /// <summary>
 /// Country Entity.
 /// </summary>
-public partial class Country : AuditableEntityBase, IEntityConcurrent
+public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// The unique identifier (Required).
@@ -59,7 +62,7 @@ public partial class Country : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// The Formula (Optional).
     /// </summary>
-    public String? ShortDescription
+    public string? ShortDescription
     { 
         get { return $"{Name} has a population of {Population} people."; }
         private set { }

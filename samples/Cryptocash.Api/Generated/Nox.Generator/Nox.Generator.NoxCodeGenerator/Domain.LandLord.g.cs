@@ -10,7 +10,10 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
+public partial class LandLord:LandLordBase
+{
 
+}
 /// <summary>
 /// Record for LandLord created event.
 /// </summary>
@@ -29,7 +32,7 @@ public record LandLordDeleted(LandLord LandLord) : IDomainEvent;
 /// <summary>
 /// Landlord related data.
 /// </summary>
-public partial class LandLord : AuditableEntityBase, IEntityConcurrent
+public abstract class LandLordBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Landlord unique identifier (Required).

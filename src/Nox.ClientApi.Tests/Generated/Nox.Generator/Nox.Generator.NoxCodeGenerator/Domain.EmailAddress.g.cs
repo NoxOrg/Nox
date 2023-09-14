@@ -10,7 +10,10 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace ClientApi.Domain;
+public partial class EmailAddress:EmailAddressBase
+{
 
+}
 /// <summary>
 /// Record for EmailAddress created event.
 /// </summary>
@@ -29,7 +32,7 @@ public record EmailAddressDeleted(EmailAddress EmailAddress) : IDomainEvent;
 /// <summary>
 /// Verified Email Address.
 /// </summary>
-public partial class EmailAddress : EntityBase, IOwnedEntity
+public abstract class EmailAddressBase : EntityBase, IOwnedEntity
 {
 
     /// <summary>
