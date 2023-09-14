@@ -14,6 +14,6 @@ public static class EntityExtensions
         }
 
         return allEntities.FirstOrDefault(e => 
-            e.OwnedRelationships?.Any(o => o.Entity == ownedEntity.Name && !o.WithSingleEntity) == true);
+            e.OwnedRelationships?.Any(o => o.Entity == ownedEntity.Name) == true);
     }
 }

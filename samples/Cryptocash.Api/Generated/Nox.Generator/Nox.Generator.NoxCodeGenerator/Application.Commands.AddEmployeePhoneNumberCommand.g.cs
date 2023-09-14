@@ -46,7 +46,6 @@ public partial class AddEmployeePhoneNumberCommandHandler: CommandBase<AddEmploy
 		}
 
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
-		
 		parentEntity.EmployeePhoneNumbers.Add(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);

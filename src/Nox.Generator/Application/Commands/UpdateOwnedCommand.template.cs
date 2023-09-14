@@ -14,7 +14,11 @@ using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
+{{- if isSingleRelationship }}
+public record Update{{entity.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}UpdateDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
+{{ else }}
 public record Update{{entity.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}KeyDto EntityKeyDto, {{entity.Name}}UpdateDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
+{{- end }}
 
 public partial class Update{{entity.Name}}CommandHandler: CommandBase<Update{{entity.Name}}Command, {{entity.Name}}>, IRequestHandler <Update{{entity.Name}}Command, {{entity.Name}}KeyDto?>
 {
@@ -45,10 +49,14 @@ public partial class Update{{entity.Name}}CommandHandler: CommandBase<Update{{en
 			return null;
 		}
 
+		{{- if isSingleRelationship }}
+		var entity = parentEntity.{{entity.Name}};
+		{{ else }}
 		{{- for key in entity.Keys }}
 		var owned{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.EntityKeyDto.key{{key.Name}});
 		{{- end }}
 		var entity = parentEntity.{{entity.PluralName}}.SingleOrDefault(x => {{ownedKeysFindQuery}});
+		{{- end }}		
 		if (entity == null)
 		{
 			return null;

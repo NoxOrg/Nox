@@ -56,7 +56,11 @@ public partial class Add{{entity.Name}}CommandHandler: CommandBase<Add{{entity.N
 		{{- end }}
 		{{- end }}
 		
+		{{- if isSingleRelationship }}
+		parentEntity.{{entity.Name}} = entity;		
+		{{- else }}
 		parentEntity.{{entity.PluralName}}.Add(entity);
+		{{- end }}
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);
 	

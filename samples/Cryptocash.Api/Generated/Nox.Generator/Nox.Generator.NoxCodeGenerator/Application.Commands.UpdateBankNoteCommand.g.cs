@@ -13,7 +13,6 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
-
 public record UpdateBankNoteCommand(CurrencyKeyDto ParentKeyDto, BankNoteKeyDto EntityKeyDto, BankNoteUpdateDto EntityDto, System.Guid? Etag) : IRequest <BankNoteKeyDto?>;
 
 public partial class UpdateBankNoteCommandHandler: CommandBase<UpdateBankNoteCommand, BankNote>, IRequestHandler <UpdateBankNoteCommand, BankNoteKeyDto?>
@@ -42,7 +41,7 @@ public partial class UpdateBankNoteCommandHandler: CommandBase<UpdateBankNoteCom
 			return null;
 		}
 		var ownedId = CreateNoxTypeForKey<BankNote,AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.BankNotes.SingleOrDefault(x => x.Id == ownedId);
+		var entity = parentEntity.BankNotes.SingleOrDefault(x => x.Id == ownedId);		
 		if (entity == null)
 		{
 			return null;

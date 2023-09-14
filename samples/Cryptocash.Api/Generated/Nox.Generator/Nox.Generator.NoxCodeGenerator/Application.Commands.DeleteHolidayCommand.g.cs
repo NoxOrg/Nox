@@ -43,12 +43,11 @@ public partial class DeleteHolidayCommandHandler: CommandBase<DeleteHolidayComma
 		{
 			return false;
 		}
-
 		parentEntity.Holidays.Remove(entity);
-		
 		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Deleted;
+	
 		var result = await DbContext.SaveChangesAsync(cancellationToken);
 		if (result < 1)
 		{

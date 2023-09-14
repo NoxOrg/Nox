@@ -13,13 +13,14 @@ using ClientApi.Domain;
 using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.Commands;
-public record DeleteCountryLocalNameCommand(CountryKeyDto ParentKeyDto, CountryLocalNameKeyDto EntityKeyDto) : IRequest <bool>;
+public record DeleteCountryBarCodeCommand(CountryKeyDto ParentKeyDto) : IRequest <bool>;
 
-public partial class DeleteCountryLocalNameCommandHandler: CommandBase<DeleteCountryLocalNameCommand, CountryLocalName>, IRequestHandler <DeleteCountryLocalNameCommand, bool>
+
+public partial class DeleteCountryBarCodeCommandHandler: CommandBase<DeleteCountryBarCodeCommand, CountryBarCode>, IRequestHandler <DeleteCountryBarCodeCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 
-	public DeleteCountryLocalNameCommandHandler(
+	public DeleteCountryBarCodeCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -27,7 +28,7 @@ public partial class DeleteCountryLocalNameCommandHandler: CommandBase<DeleteCou
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeleteCountryLocalNameCommand request, CancellationToken cancellationToken)
+	public async Task<bool> Handle(DeleteCountryBarCodeCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
@@ -37,16 +38,18 @@ public partial class DeleteCountryLocalNameCommandHandler: CommandBase<DeleteCou
 		{
 			return false;
 		}
-		var ownedId = CreateNoxTypeForKey<CountryLocalName,AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.CountryLocalNames.SingleOrDefault(x => x.Id == ownedId);
+		var entity = parentEntity.CountryBarCode;
 		if (entity == null)
 		{
 			return false;
 		}
-		parentEntity.CountryLocalNames.Remove(entity);
+
+		parentEntity.CountryBarCode = null;
+		
 		OnCompleted(request, entity);
 
-		DbContext.Entry(entity).State = EntityState.Deleted;
+		DbContext.Entry(parentEntity).State = EntityState.Modified;
+		
 	
 		var result = await DbContext.SaveChangesAsync(cancellationToken);
 		if (result < 1)
