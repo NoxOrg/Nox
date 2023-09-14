@@ -13,11 +13,20 @@ public static class NoxSolutionEntityEndpointExtensions
         var template = ResourceName.ReadScribanTemplate();
 
         var entities = noxSolution.Domain?.Entities?
-            .Where(x => !x.IsOwnedEntity).ToArray()
+            .Where(ShouldCreateEndpoints).ToArray()
             ?? Array.Empty<Entity>();
 
         return CreateMarkdownEntityEndpoints(template, entities);
     }
+
+    private static bool ShouldCreateEndpoints(Entity entity)
+        => !entity.IsOwnedEntity && HasAtLeastOneCrudOperationEnabled(entity);
+
+    private static bool HasAtLeastOneCrudOperationEnabled(Entity entity)
+        => entity.Persistence?.Create.IsEnabled == true
+        || entity.Persistence?.Read.IsEnabled == true
+        || entity.Persistence?.Update.IsEnabled == true
+        || entity.Persistence?.Delete.IsEnabled == true;
 
     private static IEnumerable<EntityMarkdownFile> CreateMarkdownEntityEndpoints(Template template, Entity[] entities)
     {

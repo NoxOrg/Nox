@@ -9,6 +9,30 @@ description: Nox solution yaml configuration for generating entity endpoints mar
 
 domain:
   entities:
+    - name: ShouldNotGenerateEndpointMarkdown
+      description: Endpoint markdown should not be generated for this entity, since it does not have at least one CRUD operation enabled
+
+      persistence:
+        isAudited: false
+        tableName: ShouldNotGenerateEndpointMarkdown
+        schema: dbo
+        create:
+          isEnabled: false
+          raiseEvents: false
+        read:
+          isEnabled: false
+        update:
+          isEnabled: false
+          raiseEvents: false
+        delete:
+          isEnabled: false
+          raiseEvents: false
+
+      keys:
+        - name: Id
+          type: autoNumber
+          isRequired: true
+
     - name: Continent
       description: The list of continents
 
