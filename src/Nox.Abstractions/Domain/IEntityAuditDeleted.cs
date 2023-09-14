@@ -1,6 +1,6 @@
 ﻿namespace Nox.Domain;
 
-public interface IAuditDeleted
+public interface IEntityAuditDeleted
 {
     Types.User? DeletedBy { get; }
     Types.Text? DeletedVia { get; }
