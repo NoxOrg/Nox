@@ -41,7 +41,7 @@ public abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurren
     /// <summary>
     /// Order status (Optional).
     /// </summary>
-    public String? Status
+    public string? Status
     { 
         get { return DeliveryDateTime != null ? "delivered" : "ordered"; }
         private set { }

@@ -56,7 +56,7 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Booking's status (Optional).
     /// </summary>
-    public String? Status
+    public string? Status
     { 
         get { return CancelledDateTime != null ? "cancelled" : (PickedUpDateTime != null ? "picked-up" : (ExpiryDateTime != null ? "expired" : "booked")); }
         private set { }
