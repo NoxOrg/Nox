@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Nox.Generator.Application.Commands;
 
-internal class DeleteOwnedCommandGenerator : INoxCodeGenerator
+internal class CreateOwnedCommandGenerator : INoxCodeGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
 
@@ -19,28 +19,29 @@ internal class DeleteOwnedCommandGenerator : INoxCodeGenerator
             return;
         }
 
-        var templateName = @"Application.Commands.DeleteOwnedCommand";
+        var templateName = @"Application.Commands.CreateOwnedCommand";
         foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
-            foreach (var ownedRelationship in entity.OwnedRelationships)
+
+            foreach(var ownedRelationship in entity.OwnedRelationships)
             {
                 var ownedEntity = codeGeneratorState.Solution.Domain.Entities.Single(entity => entity.Name == ownedRelationship.Entity);
 
                 var parentKeysFindQuery = string.Join(", ", entity.Keys.Select(k => $"key{k.Name}"));
-                var ownedKeysFindQuery = string.Join(" && ", ownedEntity.Keys.Select(k => $"x.{k.Name} == owned{k.Name}"));
+                var primaryKeysReturnQuery = string.Join(", ", ownedEntity.Keys.Select(k => $"entity.{k.Name}.Value"));
 
                 new TemplateCodeBuilder(context, codeGeneratorState)
-                    .WithClassName($"Delete{ownedEntity.Name}Command")
+                    .WithClassName($"Add{ownedEntity.Name}Command")
                     .WithFileNamePrefix($"Application.Commands")
                     .WithObject("entity", ownedEntity)
                     .WithObject("parent", entity)
                     .WithObject("isSingleRelationship", ownedRelationship.WithSingleEntity)
                     .WithObject("parentKeysFindQuery", parentKeysFindQuery)
-                    .WithObject("ownedKeysFindQuery", ownedKeysFindQuery)
+                    .WithObject("primaryKeysReturnQuery", primaryKeysReturnQuery)
                     .GenerateSourceCodeFromResource(templateName);
-
             }
+           
         }
     }
 }

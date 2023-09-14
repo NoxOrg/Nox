@@ -21,30 +21,30 @@ internal class UpdateOwnedCommandGenerator : INoxCodeGenerator
 
         var templateName = @"Application.Commands.UpdateOwnedCommand";
 
-        foreach (var entity in codeGeneratorState.Solution.Domain.Entities.Where(x => x.IsOwnedEntity))
+        foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            var parent = entity.TryGetParent(codeGeneratorState.Solution.Domain.Entities);
-            if (parent is null)
-                continue;
+            foreach (var ownedRelationship in entity.OwnedRelationships)
+            {
+                var ownedEntity = codeGeneratorState.Solution.Domain.Entities.Single(entity => entity.Name == ownedRelationship.Entity);
+                               
+                var primaryKeysReturnQuery = string.Join(", ", ownedEntity.Keys.Select(k => $"entity.{k.Name}.Value"));
+                var parentKeysFindQuery = string.Join(", ", entity.Keys.Select(k => $"key{k.Name}"));
+                var ownedKeysFindQuery = string.Join(" && ", ownedEntity.Keys.Select(k => $"x.{k.Name} == owned{k.Name}"));
 
-            var isSingleRelationship = parent.OwnedRelationships.First(o => o.Entity == entity.Name).WithSingleEntity;
+                new TemplateCodeBuilder(context, codeGeneratorState)
+                    .WithClassName($"Update{ownedEntity.Name}Command")
+                    .WithFileNamePrefix($"Application.Commands")
+                    .WithObject("entity", ownedEntity)
+                    .WithObject("parent", entity)
+                    .WithObject("isSingleRelationship", ownedRelationship.WithSingleEntity)
+                    .WithObject("primaryKeysReturnQuery", primaryKeysReturnQuery)
+                    .WithObject("parentKeysFindQuery", parentKeysFindQuery)
+                    .WithObject("ownedKeysFindQuery", ownedKeysFindQuery)
+                    .GenerateSourceCodeFromResource(templateName);
+            }
 
-            var primaryKeysReturnQuery = string.Join(", ", entity.Keys.Select(k => $"entity.{k.Name}.Value"));
-            var parentKeysFindQuery = string.Join(", ", parent.Keys.Select(k => $"key{k.Name}"));
-            var ownedKeysFindQuery = string.Join(" && ", entity.Keys.Select(k => $"x.{k.Name} == owned{k.Name}"));
-
-            new TemplateCodeBuilder(context, codeGeneratorState)
-                .WithClassName($"Update{entity.Name}Command")
-                .WithFileNamePrefix($"Application.Commands")
-                .WithObject("entity", entity)
-                .WithObject("parent", parent)
-                .WithObject("isSingleRelationship", isSingleRelationship)
-                .WithObject("primaryKeysReturnQuery", primaryKeysReturnQuery)
-                .WithObject("parentKeysFindQuery", parentKeysFindQuery)
-                .WithObject("ownedKeysFindQuery", ownedKeysFindQuery)
-                .GenerateSourceCodeFromResource(templateName);
         }
     }
 }
