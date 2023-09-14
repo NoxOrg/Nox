@@ -78,8 +78,6 @@ erDiagram
 
 Exchange booking and related data. _This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected._
 
-[Endpoints](./endpoints/BookingEndpoints.md)
-
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 | Member              | Type          | Description                                                  | Info                        |
@@ -111,8 +109,6 @@ Exchange booking and related data. _This entity is auditable and tracks info abo
 
 Vending machine cash stock order and related data. _This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected._
 
-[Endpoints](./endpoints/CashStockOrderEndpoints.md)
-
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 | Member                | Type         | Description                                                  | Info                        |
@@ -136,8 +132,6 @@ Vending machine cash stock order and related data. _This entity is auditable and
 
 Exchange commission rate and amount. _This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected._
 
-[Endpoints](./endpoints/CommissionEndpoints.md)
-
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 | Member        | Type         | Description                                                  | Info                        |
@@ -158,8 +152,6 @@ Exchange commission rate and amount. _This entity is auditable and tracks info a
 ### Country
 
 Country and related data. _This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected._
-
-[Endpoints](./endpoints/CountryEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -221,8 +213,6 @@ Holiday related to country.
 
 Currency and related data. _This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected._
 
-[Endpoints](./endpoints/CurrencyEndpoints.md)
-
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 | Member                      | Type           | Description                                                  | Info                                  |
@@ -279,8 +269,6 @@ Exchange rate and related data.
 
 Customer definition and related data. _This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected._
 
-[Endpoints](./endpoints/CustomerEndpoints.md)
-
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 | Member        | Type          | Description                                                  | Info                                  |
@@ -306,8 +294,6 @@ Customer definition and related data. _This entity is auditable and tracks info 
 ### Employee
 
 Employee definition and related data. _This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected._
-
-[Endpoints](./endpoints/EmployeeEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -345,8 +331,6 @@ Employee phone number and related data.
 
 Landlord related data. _This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected._
 
-[Endpoints](./endpoints/LandLordEndpoints.md)
-
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 | Member        | Type          | Description                                                  | Info                                  |
@@ -365,8 +349,6 @@ Landlord related data. _This entity is auditable and tracks info about who, whic
 ### MinimumCashStock
 
 Minimum cash stock required for vending machine. _This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected._
-
-[Endpoints](./endpoints/MinimumCashStockEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -388,8 +370,6 @@ Minimum cash stock required for vending machine. _This entity is auditable and t
 ### PaymentDetail
 
 Customer payment account related data. _This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected._
-
-[Endpoints](./endpoints/PaymentDetailEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -414,8 +394,6 @@ Customer payment account related data. _This entity is auditable and tracks info
 
 Payment provider related data. _This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected._
 
-[Endpoints](./endpoints/PaymentProviderEndpoints.md)
-
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 | Member              | Type       | Description                                                  | Info                                  |
@@ -434,8 +412,6 @@ Payment provider related data. _This entity is auditable and tracks info about w
 ### Transaction
 
 Customer transaction log and related data. _This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected._
-
-[Endpoints](./endpoints/TransactionEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -459,8 +435,6 @@ Customer transaction log and related data. _This entity is auditable and tracks 
 ### VendingMachine
 
 Vending machine definition and related data. _This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected._
-
-[Endpoints](./endpoints/VendingMachineEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
