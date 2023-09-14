@@ -23,7 +23,7 @@ public enum MarkdownDetail
 
 public static class NoxSolutionMarkdownExtensions
 {
-    public static MarkdownReadme ToMarkdownReadme(this NoxSolution noxSolution, MarkdownDetail detail = MarkdownDetail.Normal)
+    public static MarkdownFile ToMarkdownReadme(this NoxSolution noxSolution, MarkdownDetail detail = MarkdownDetail.Normal)
     {
         var mermaidText = noxSolution.ToMermaidErd(ErdDetail.Summary);
         var entityEndpoints = noxSolution.ToMarkdownEntityEndpoints();
@@ -49,15 +49,15 @@ public static class NoxSolutionMarkdownExtensions
         
         """;
 
-        return new MarkdownReadme
+        return new MarkdownFile
         {
             Name = "README.md",
             Content = docs,
-            ReferencedMarkdowns = entityEndpoints.Select(x => (MarkdownFile)x).ToArray(),
+            ReferencedFiles = entityEndpoints.Select(x => (MarkdownFile)x),
         };
     }
 
-    private static string DomainDecription(NoxSolution noxSolution, EntityMarkdownFile[] entityEndpoints)
+    private static string DomainDecription(NoxSolution noxSolution, IEnumerable<EntityMarkdownFile> entityEndpoints)
     {
         var sb = new StringBuilder();
 
