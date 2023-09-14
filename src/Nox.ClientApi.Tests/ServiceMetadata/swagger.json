@@ -5240,8 +5240,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -5345,8 +5345,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -5452,8 +5452,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -5641,8 +5641,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -5747,8 +5747,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],

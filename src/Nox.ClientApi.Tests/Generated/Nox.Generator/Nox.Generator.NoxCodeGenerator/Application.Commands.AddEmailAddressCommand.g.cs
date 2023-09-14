@@ -37,7 +37,7 @@ public partial class AddEmailAddressCommandHandler: CommandBase<AddEmailAddressC
 	public async Task<EmailAddressKeyDto?> Handle(AddEmailAddressCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Store,Nuid>("Id", request.ParentKeyDto.keyId);
+		var keyId = CreateNoxTypeForKey<Store,DatabaseGuid>("Id", request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.Stores.FindAsync(keyId);
 		if (parentEntity == null)

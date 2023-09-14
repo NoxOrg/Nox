@@ -35,7 +35,7 @@ public partial class PartialUpdateEmailAddressCommandHandler: CommandBase<Partia
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Store,Nuid>("Id", request.ParentKeyDto.keyId);
+		var keyId = CreateNoxTypeForKey<Store,DatabaseGuid>("Id", request.ParentKeyDto.keyId);
 
 		var parentEntity = await DbContext.Stores.FindAsync(keyId);
 		if (parentEntity == null)

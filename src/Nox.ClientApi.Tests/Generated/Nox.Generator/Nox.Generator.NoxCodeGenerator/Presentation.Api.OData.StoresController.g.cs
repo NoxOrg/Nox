@@ -145,7 +145,7 @@ public abstract class StoresControllerBase : ODataController
     #region Owned Relationships
     
     [EnableQuery]
-    public virtual async Task<ActionResult<EmailAddressDto>> GetEmailAddress([FromRoute] System.UInt32 key)
+    public virtual async Task<ActionResult<EmailAddressDto>> GetEmailAddress([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {
@@ -161,7 +161,7 @@ public abstract class StoresControllerBase : ODataController
         return Ok(item.EmailAddress);
     }
     
-    public virtual async Task<ActionResult> PostToEmailAddress([FromRoute] System.UInt32 key, [FromBody] EmailAddressCreateDto emailAddress)
+    public virtual async Task<ActionResult> PostToEmailAddress([FromRoute] System.Guid key, [FromBody] EmailAddressCreateDto emailAddress)
     {
         if (!ModelState.IsValid)
         {
@@ -184,7 +184,7 @@ public abstract class StoresControllerBase : ODataController
         return Created(child);
     }
     
-    public virtual async Task<ActionResult<EmailAddressDto>> PutToEmailAddress(System.UInt32 key, [FromBody] EmailAddressUpdateDto emailAddress)
+    public virtual async Task<ActionResult<EmailAddressDto>> PutToEmailAddress(System.Guid key, [FromBody] EmailAddressUpdateDto emailAddress)
     {
         if (!ModelState.IsValid)
         {
@@ -207,7 +207,7 @@ public abstract class StoresControllerBase : ODataController
         return Ok(child);
     }
     
-    public virtual async Task<ActionResult> PatchToEmailAddress(System.UInt32 key, [FromBody] Delta<EmailAddressDto> emailAddress)
+    public virtual async Task<ActionResult> PatchToEmailAddress(System.Guid key, [FromBody] Delta<EmailAddressDto> emailAddress)
     {
         if (!ModelState.IsValid)
         {
@@ -240,7 +240,7 @@ public abstract class StoresControllerBase : ODataController
     }
     
     [HttpDelete("api/Stores/{key}/EmailAddress")]
-    public virtual async Task<ActionResult> DeleteEmailAddressNonConventional(System.UInt32 key)
+    public virtual async Task<ActionResult> DeleteEmailAddressNonConventional(System.Guid key)
     {
         if (!ModelState.IsValid)
         {
