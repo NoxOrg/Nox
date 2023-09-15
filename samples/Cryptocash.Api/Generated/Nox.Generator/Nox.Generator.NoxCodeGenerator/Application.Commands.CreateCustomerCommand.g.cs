@@ -24,15 +24,27 @@ public partial class CreateCustomerCommandHandler: CommandBase<CreateCustomerCom
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<Customer,CustomerCreateDto> _entityFactory;
+    private readonly IEntityFactory<PaymentDetail,PaymentDetailCreateDto> _paymentdetailfactory;
+    private readonly IEntityFactory<Booking,BookingCreateDto> _bookingfactory;
+    private readonly IEntityFactory<Transaction,TransactionCreateDto> _transactionfactory;
+    private readonly IEntityFactory<Country,CountryCreateDto> _countryfactory;
 
 	public CreateCustomerCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<PaymentDetail,PaymentDetailCreateDto> paymentdetailfactory,
+        IEntityFactory<Booking,BookingCreateDto> bookingfactory,
+        IEntityFactory<Transaction,TransactionCreateDto> transactionfactory,
+        IEntityFactory<Country,CountryCreateDto> countryfactory,
         IEntityFactory<Customer,CustomerCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;
+		_entityFactory = entityFactory;        
+        _paymentdetailfactory = paymentdetailfactory;        
+        _bookingfactory = bookingfactory;        
+        _transactionfactory = transactionfactory;        
+        _countryfactory = countryfactory;
 	}
 
 	public async Task<CustomerKeyDto> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
@@ -41,6 +53,26 @@ public partial class CreateCustomerCommandHandler: CommandBase<CreateCustomerCom
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		foreach(var relatedCreateDto in request.EntityDto.CustomerRelatedPaymentDetails)
+		{
+			var relatedEntity = _paymentdetailfactory.CreateEntity(relatedCreateDto);
+			entityToCreate.CreateRefToPaymentDetail(relatedEntity);
+		}
+		foreach(var relatedCreateDto in request.EntityDto.CustomerRelatedBookings)
+		{
+			var relatedEntity = _bookingfactory.CreateEntity(relatedCreateDto);
+			entityToCreate.CreateRefToBooking(relatedEntity);
+		}
+		foreach(var relatedCreateDto in request.EntityDto.CustomerRelatedTransactions)
+		{
+			var relatedEntity = _transactionfactory.CreateEntity(relatedCreateDto);
+			entityToCreate.CreateRefToTransaction(relatedEntity);
+		}
+		if(request.EntityDto.CustomerBaseCountry is not null)
+		{ 
+			var relatedEntity = _countryfactory.CreateEntity(request.EntityDto.CustomerBaseCountry);
+			entityToCreate.CreateRefToCountry(relatedEntity);
+		}
 					
 		OnCompleted(request, entityToCreate);
 		_dbContext.Customers.Add(entityToCreate);

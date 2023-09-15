@@ -34,16 +34,28 @@ public partial class StoreMapper : EntityMapperBase<Store>
         {
             throw new NullReferenceException("Name is required can not be set to null");
         }     
-        entity.Name = noxTypeValue;
+        entity.Name = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "Address", dto.Address);
+        if (noxTypeValue == null)
+        {
+            throw new NullReferenceException("Address is required can not be set to null");
+        }     
+        entity.Address = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition, "Location", dto.Location);
+        if (noxTypeValue == null)
+        {
+            throw new NullReferenceException("Location is required can not be set to null");
+        }     
+        entity.Location = noxTypeValue;
     
 
         /// <summary>
-        /// Store Store owner relationship ZeroOrOne StoreOwners
+        /// Store Owner of the Store ZeroOrOne StoreOwners
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "OwnerRel", dto.OwnerRelId);
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Ownership", dto.OwnershipId);
         if (noxTypeValue != null)
         {        
-            entity.OwnerRelId = noxTypeValue;
+            entity.OwnershipId = noxTypeValue;
         }
     }
 
@@ -66,17 +78,45 @@ public partial class StoreMapper : EntityMapperBase<Store>
                 }
             }
         }
+        {
+            if (updatedProperties.TryGetValue("Address", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "Address", value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("Store", "Address");
+                }
+                else
+                {
+                    entity.Address = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("Location", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition, "Location", value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("Store", "Location");
+                }
+                else
+                {
+                    entity.Location = noxTypeValue;
+                }
+            }
+        }
     
     
         /// <summary>
-        /// Store Store owner relationship ZeroOrOne StoreOwners
+        /// Store Owner of the Store ZeroOrOne StoreOwners
         /// </summary>
         if (updatedProperties.TryGetValue("StoreOwnerId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "OwnerRel", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Ownership", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.OwnerRelId = noxRelationshipTypeValue;
+                entity.OwnershipId = noxRelationshipTypeValue;
             }
         }
     }

@@ -206,12 +206,9 @@ public class ODataFixture
         }
     }
 
-    private TResult? DeserializeResponse<TResult>(string? response)
+    private TResult? DeserializeResponse<TResult>(string response)
     {
-        if (response == null)
-            return default;
-
-        return System.Text.Json.JsonSerializer.Deserialize<TResult>(response!, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new JsonStringEnumConverter() } });
+        return JsonSerializer.Deserialize<TResult>(response, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new JsonStringEnumConverter() } });
     }
 
     private void EnsureOdataSingleResponse(string content)

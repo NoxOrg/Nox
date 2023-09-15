@@ -56,7 +56,7 @@ public abstract class StoresControllerBase : ODataController
     }
     
     [EnableQuery]
-    public async Task<ActionResult<StoreDto>> Get([FromRoute] System.UInt32 key)
+    public async Task<ActionResult<StoreDto>> Get([FromRoute] System.Guid key)
     {
         var item = await _mediator.Send(new GetStoreByIdQuery(key));
         
@@ -81,7 +81,7 @@ public abstract class StoresControllerBase : ODataController
         return Created(item);
     }
     
-    public virtual async Task<ActionResult<StoreDto>> Put([FromRoute] System.UInt32 key, [FromBody] StoreUpdateDto store)
+    public virtual async Task<ActionResult<StoreDto>> Put([FromRoute] System.Guid key, [FromBody] StoreUpdateDto store)
     {
         if (!ModelState.IsValid)
         {
@@ -101,7 +101,7 @@ public abstract class StoresControllerBase : ODataController
         return Ok(item);
     }
     
-    public virtual async Task<ActionResult<StoreDto>> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<StoreDto> store)
+    public virtual async Task<ActionResult<StoreDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<StoreDto> store)
     {
         if (!ModelState.IsValid)
         {
@@ -129,7 +129,7 @@ public abstract class StoresControllerBase : ODataController
         return Ok(item);
     }
     
-    public virtual async Task<ActionResult> Delete([FromRoute] System.UInt32 key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.Guid key)
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteStoreByIdCommand(key, etag));
@@ -143,6 +143,117 @@ public abstract class StoresControllerBase : ODataController
     }
     
     #region Owned Relationships
+    
+    [EnableQuery]
+    public virtual async Task<ActionResult<EmailAddressDto>> GetEmailAddress([FromRoute] System.Guid key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var item = await _mediator.Send(new GetStoreByIdQuery(key));
+        
+        if (item is null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item.EmailAddress);
+    }
+    
+    public virtual async Task<ActionResult> PostToEmailAddress([FromRoute] System.Guid key, [FromBody] EmailAddressCreateDto emailAddress)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var createdKey = await _mediator.Send(new CreateEmailAddressForStoreCommand(new StoreKeyDto(key), emailAddress, etag));
+        if (createdKey == null)
+        {
+            return NotFound();
+        }
+        
+        var child = (await _mediator.Send(new GetStoreByIdQuery(key)))?.EmailAddress;
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Created(child);
+    }
+    
+    public virtual async Task<ActionResult<EmailAddressDto>> PutToEmailAddress(System.Guid key, [FromBody] EmailAddressUpdateDto emailAddress)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updatedKey = await _mediator.Send(new UpdateEmailAddressForStoreCommand(new StoreKeyDto(key), emailAddress, etag));
+        if (updatedKey == null)
+        {
+            return NotFound();
+        }
+        
+        var child = (await _mediator.Send(new GetStoreByIdQuery(key)))?.EmailAddress;
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
+    public virtual async Task<ActionResult> PatchToEmailAddress(System.Guid key, [FromBody] Delta<EmailAddressDto> emailAddress)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in emailAddress.GetChangedPropertyNames())
+        {
+            if(emailAddress.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateEmailAddressForStoreCommand(new StoreKeyDto(key), updateProperties, etag));
+        
+        if (updated is null)
+        {
+            return NotFound();
+        }
+        var child = (await _mediator.Send(new GetStoreByIdQuery(key)))?.EmailAddress;
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
+    [HttpDelete("api/Stores/{key}/EmailAddress")]
+    public virtual async Task<ActionResult> DeleteEmailAddressNonConventional(System.Guid key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var result = await _mediator.Send(new DeleteEmailAddressForStoreCommand(new StoreKeyDto(key)));
+        if (!result)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
     
     #endregion
     

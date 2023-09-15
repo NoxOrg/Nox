@@ -27,6 +27,8 @@ public partial class GetPaymentDetailByIdQueryHandler:  QueryBase<PaymentDetailD
     {    
         var item = DataDbContext.PaymentDetails
             .AsNoTracking()
+            .Include(r => r.PaymentDetailsUsedByCustomer)
+            .Include(r => r.PaymentDetailsRelatedPaymentProvider)
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);

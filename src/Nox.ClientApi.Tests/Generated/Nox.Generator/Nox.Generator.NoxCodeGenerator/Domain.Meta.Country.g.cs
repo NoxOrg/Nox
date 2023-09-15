@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -49,12 +49,15 @@ public partial class Country
             => Nox.Types.Number.From(value);
         
     
-        /// <summary>
-        /// Factory for property 'CountryDebt'
-        /// </summary>
-        public static Nox.Types.Money CreateCountryDebt(IMoney value)
-            => Nox.Types.Money.From(value);
-        
+
+    /// <summary>
+    /// Type options and factory for property 'ShortDescription'
+    /// </summary>
+    public static Nox.Types.FormulaTypeOptions ShortDescriptionTypeOptions {get; private set;} = new ()
+    {
+        Expression = "$\"{Name} has a population of {Population} people.\"",
+        Returns = Nox.Types.FormulaReturnType.@string,
+    };
     
         /// <summary>
         /// Factory for property 'FirstLanguageCode'

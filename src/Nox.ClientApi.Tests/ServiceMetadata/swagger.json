@@ -1068,82 +1068,82 @@
           "content": {
             "application/json;odata.metadata=minimal;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "application/json;odata.metadata=minimal": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "application/json;odata.metadata=full": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "application/json;odata.metadata=none": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "application/json;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "application/json;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "text/plain": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             }
           }
@@ -2020,82 +2020,82 @@
           "content": {
             "application/json;odata.metadata=minimal;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "application/json;odata.metadata=minimal": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "application/json;odata.metadata=full": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "application/json;odata.metadata=none": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "application/json;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "application/json;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "text/plain": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             }
           }
@@ -2123,6 +2123,538 @@
           },
           {
             "name": "relatedKey",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Countries/{key}/CountryBarCode": {
+      "get": {
+        "tags": [
+          "Countries"
+        ],
+        "operationId": "api/Countries/{key}/CountryBarCode",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;odata.metadata=minimal;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "application/json;odata.metadata=minimal;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "application/json;odata.metadata=minimal": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "application/json;odata.metadata=full": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "application/json;odata.metadata=none": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "application/json;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "application/json;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "application/octet-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Countries"
+        ],
+        "operationId": "api/Countries/{key}/CountryBarCode",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;odata.metadata=minimal;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeCreateDto"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeCreateDto"
+              }
+            },
+            "application/json;odata.metadata=minimal": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeCreateDto"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeCreateDto"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeCreateDto"
+              }
+            },
+            "application/json;odata.metadata=full": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeCreateDto"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeCreateDto"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeCreateDto"
+              }
+            },
+            "application/json;odata.metadata=none": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeCreateDto"
+              }
+            },
+            "application/json;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeCreateDto"
+              }
+            },
+            "application/json;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeCreateDto"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeCreateDto"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeCreateDto"
+              }
+            },
+            "text/plain": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeCreateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeCreateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeCreateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Countries"
+        ],
+        "operationId": "api/Countries/{key}/CountryBarCode",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;odata.metadata=minimal;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeUpdateDto"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeUpdateDto"
+              }
+            },
+            "application/json;odata.metadata=minimal": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeUpdateDto"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeUpdateDto"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeUpdateDto"
+              }
+            },
+            "application/json;odata.metadata=full": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeUpdateDto"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeUpdateDto"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeUpdateDto"
+              }
+            },
+            "application/json;odata.metadata=none": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeUpdateDto"
+              }
+            },
+            "application/json;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeUpdateDto"
+              }
+            },
+            "application/json;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeUpdateDto"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeUpdateDto"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeUpdateDto"
+              }
+            },
+            "text/plain": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeUpdateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeUpdateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeUpdateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;odata.metadata=minimal;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "application/json;odata.metadata=minimal;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "application/json;odata.metadata=minimal": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "application/json;odata.metadata=full": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "application/json;odata.metadata=none": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "application/json;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "application/json;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "application/octet-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CountryBarCodeDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Countries"
+        ],
+        "operationId": "api/Countries/{key}/CountryBarCode",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;odata.metadata=minimal;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeDtoDelta"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeDtoDelta"
+              }
+            },
+            "application/json;odata.metadata=minimal": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeDtoDelta"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeDtoDelta"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeDtoDelta"
+              }
+            },
+            "application/json;odata.metadata=full": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeDtoDelta"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeDtoDelta"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeDtoDelta"
+              }
+            },
+            "application/json;odata.metadata=none": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeDtoDelta"
+              }
+            },
+            "application/json;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeDtoDelta"
+              }
+            },
+            "application/json;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeDtoDelta"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeDtoDelta"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeDtoDelta"
+              }
+            },
+            "text/plain": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeDtoDelta"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeDtoDelta"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CountryBarCodeDtoDelta"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Countries"
+        ],
+        "parameters": [
+          {
+            "name": "key",
             "in": "path",
             "required": true,
             "style": "simple",
@@ -3533,82 +4065,82 @@
           "content": {
             "application/json;odata.metadata=minimal;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "application/json;odata.metadata=minimal": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "application/json;odata.metadata=full": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "application/json;odata.metadata=none": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "application/json;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "application/json;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "text/plain": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             }
           }
@@ -4200,8 +4732,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -4305,8 +4837,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -4494,8 +5026,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -4503,82 +5035,82 @@
           "content": {
             "application/json;odata.metadata=minimal;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "application/json;odata.metadata=minimal": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "application/json;odata.metadata=full": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "application/json;odata.metadata=none": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "application/json;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "application/json;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "text/plain": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             }
           }
@@ -4683,8 +5215,540 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Stores/{key}/EmailAddress": {
+      "get": {
+        "tags": [
+          "Stores"
+        ],
+        "operationId": "api/Stores/{key}/EmailAddress",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;odata.metadata=minimal;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "application/json;odata.metadata=minimal;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "application/json;odata.metadata=minimal": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "application/json;odata.metadata=full": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "application/json;odata.metadata=none": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "application/json;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "application/json;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "application/octet-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Stores"
+        ],
+        "operationId": "api/Stores/{key}/EmailAddress",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;odata.metadata=minimal;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressCreateDto"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressCreateDto"
+              }
+            },
+            "application/json;odata.metadata=minimal": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressCreateDto"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressCreateDto"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressCreateDto"
+              }
+            },
+            "application/json;odata.metadata=full": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressCreateDto"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressCreateDto"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressCreateDto"
+              }
+            },
+            "application/json;odata.metadata=none": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressCreateDto"
+              }
+            },
+            "application/json;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressCreateDto"
+              }
+            },
+            "application/json;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressCreateDto"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressCreateDto"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressCreateDto"
+              }
+            },
+            "text/plain": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressCreateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressCreateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressCreateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Stores"
+        ],
+        "operationId": "api/Stores/{key}/EmailAddress",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;odata.metadata=minimal;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressUpdateDto"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressUpdateDto"
+              }
+            },
+            "application/json;odata.metadata=minimal": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressUpdateDto"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressUpdateDto"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressUpdateDto"
+              }
+            },
+            "application/json;odata.metadata=full": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressUpdateDto"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressUpdateDto"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressUpdateDto"
+              }
+            },
+            "application/json;odata.metadata=none": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressUpdateDto"
+              }
+            },
+            "application/json;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressUpdateDto"
+              }
+            },
+            "application/json;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressUpdateDto"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressUpdateDto"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressUpdateDto"
+              }
+            },
+            "text/plain": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressUpdateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressUpdateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressUpdateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;odata.metadata=minimal;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "application/json;odata.metadata=minimal;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "application/json;odata.metadata=minimal": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "application/json;odata.metadata=full": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "application/json;odata.metadata=none": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "application/json;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "application/json;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "application/octet-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAddressDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Stores"
+        ],
+        "operationId": "api/Stores/{key}/EmailAddress",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json;odata.metadata=minimal;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressDtoDelta"
+              }
+            },
+            "application/json;odata.metadata=minimal;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressDtoDelta"
+              }
+            },
+            "application/json;odata.metadata=minimal": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressDtoDelta"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressDtoDelta"
+              }
+            },
+            "application/json;odata.metadata=full;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressDtoDelta"
+              }
+            },
+            "application/json;odata.metadata=full": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressDtoDelta"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressDtoDelta"
+              }
+            },
+            "application/json;odata.metadata=none;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressDtoDelta"
+              }
+            },
+            "application/json;odata.metadata=none": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressDtoDelta"
+              }
+            },
+            "application/json;odata.streaming=true": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressDtoDelta"
+              }
+            },
+            "application/json;odata.streaming=false": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressDtoDelta"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressDtoDelta"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressDtoDelta"
+              }
+            },
+            "text/plain": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressDtoDelta"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressDtoDelta"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailAddressDtoDelta"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Stores"
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -5474,82 +6538,82 @@
           "content": {
             "application/json;odata.metadata=minimal;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "application/json;odata.metadata=minimal": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "application/json;odata.metadata=full": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "application/json;odata.metadata=none": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "application/json;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "application/json;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "text/plain": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             }
           }
@@ -5912,6 +6976,80 @@
         },
         "additionalProperties": false
       },
+      "CountryBarCodeCreateDto": {
+        "required": [
+          "barCodeName"
+        ],
+        "type": "object",
+        "properties": {
+          "barCodeName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "barCodeNumber": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CountryBarCodeDto": {
+        "type": "object",
+        "properties": {
+          "barCodeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "barCodeNumber": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CountryBarCodeDtoDelta": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "$ref": "#/components/schemas/DeltaItemKind"
+          },
+          "structuredType": {
+            "$ref": "#/components/schemas/Type"
+          },
+          "expectedClrType": {
+            "$ref": "#/components/schemas/Type"
+          },
+          "updatableProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CountryBarCodeUpdateDto": {
+        "required": [
+          "barCodeName"
+        ],
+        "type": "object",
+        "properties": {
+          "barCodeName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "barCodeNumber": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "CountryCode": {
         "enum": [
           4,
@@ -6193,12 +7331,22 @@
             "type": "string",
             "nullable": true
           },
+          "physicalWorkplaces": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkplaceCreateDto"
+            },
+            "nullable": true
+          },
           "countryLocalNames": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CountryLocalNameCreateDto"
             },
             "nullable": true
+          },
+          "countryBarCode": {
+            "$ref": "#/components/schemas/CountryBarCodeCreateDto"
           }
         },
         "additionalProperties": false
@@ -6230,12 +7378,22 @@
             "type": "string",
             "nullable": true
           },
+          "physicalWorkplaces": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkplaceDto"
+            },
+            "nullable": true
+          },
           "countryLocalNames": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CountryLocalNameDto"
             },
             "nullable": true
+          },
+          "countryBarCode": {
+            "$ref": "#/components/schemas/CountryBarCodeDto"
           },
           "deletedAtUtc": {
             "type": "string",
@@ -6249,47 +7407,7 @@
         },
         "additionalProperties": false
       },
-      "CountryLocalNameCreateDto": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "minLength": 1,
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "CountryLocalNameDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "CountryLocalNameUpdateDto": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "minLength": 1,
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "CountryLocalNameUpdateDtoDelta": {
+      "CountryDtoDelta": {
         "type": "object",
         "properties": {
           "kind": {
@@ -6308,6 +7426,81 @@
             },
             "nullable": true,
             "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CountryLocalNameCreateDto": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "nativeName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CountryLocalNameDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "nativeName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CountryLocalNameDtoDelta": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "$ref": "#/components/schemas/DeltaItemKind"
+          },
+          "structuredType": {
+            "$ref": "#/components/schemas/Type"
+          },
+          "expectedClrType": {
+            "$ref": "#/components/schemas/Type"
+          },
+          "updatableProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CountryLocalNameUpdateDto": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "nativeName": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -6333,29 +7526,9 @@
           "firstLanguageCode": {
             "type": "string",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "CountryUpdateDtoDelta": {
-        "type": "object",
-        "properties": {
-          "kind": {
-            "$ref": "#/components/schemas/DeltaItemKind"
           },
-          "structuredType": {
-            "$ref": "#/components/schemas/Type"
-          },
-          "expectedClrType": {
-            "$ref": "#/components/schemas/Type"
-          },
-          "updatableProperties": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true,
-            "readOnly": true
+          "countryBarCode": {
+            "$ref": "#/components/schemas/CountryBarCodeUpdateDto"
           }
         },
         "additionalProperties": false
@@ -6704,6 +7877,43 @@
         "additionalProperties": false
       },
       "EmailAddressDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "isVerified": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EmailAddressDtoDelta": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "$ref": "#/components/schemas/DeltaItemKind"
+          },
+          "structuredType": {
+            "$ref": "#/components/schemas/Type"
+          },
+          "expectedClrType": {
+            "$ref": "#/components/schemas/Type"
+          },
+          "updatableProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EmailAddressUpdateDto": {
         "type": "object",
         "properties": {
           "email": {
@@ -7155,6 +8365,20 @@
       },
       "IntPtr": {
         "type": "object",
+        "additionalProperties": false
+      },
+      "LatLongDto": {
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double"
+          }
+        },
         "additionalProperties": false
       },
       "LayoutKind": {
@@ -7926,7 +9150,9 @@
       },
       "StoreCreateDto": {
         "required": [
+          "address",
           "isTemporary",
+          "location",
           "name"
         ],
         "type": "object",
@@ -7935,9 +9161,14 @@
             "minLength": 1,
             "type": "string"
           },
-          "ownerRelId": {
-            "type": "string",
-            "nullable": true
+          "address": {
+            "$ref": "#/components/schemas/StreetAddressDto"
+          },
+          "location": {
+            "$ref": "#/components/schemas/LatLongDto"
+          },
+          "ownership": {
+            "$ref": "#/components/schemas/StoreOwnerCreateDto"
           },
           "emailAddress": {
             "$ref": "#/components/schemas/EmailAddressCreateDto"
@@ -7952,18 +9183,24 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "integer",
-            "format": "int32"
+            "type": "string",
+            "format": "uuid"
           },
           "name": {
             "type": "string",
             "nullable": true
           },
-          "ownerRelId": {
+          "address": {
+            "$ref": "#/components/schemas/StreetAddressDto"
+          },
+          "location": {
+            "$ref": "#/components/schemas/LatLongDto"
+          },
+          "ownershipId": {
             "type": "string",
             "nullable": true
           },
-          "ownerRel": {
+          "ownership": {
             "$ref": "#/components/schemas/StoreOwnerDto"
           },
           "emailAddress": {
@@ -7977,6 +9214,29 @@
           "@odata.etag": {
             "type": "string",
             "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StoreDtoDelta": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "$ref": "#/components/schemas/DeltaItemKind"
+          },
+          "structuredType": {
+            "$ref": "#/components/schemas/Type"
+          },
+          "expectedClrType": {
+            "$ref": "#/components/schemas/Type"
+          },
+          "updatableProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true,
+            "readOnly": true
           }
         },
         "additionalProperties": false
@@ -8013,6 +9273,13 @@
           "notes": {
             "type": "string",
             "nullable": true
+          },
+          "stores": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StoreCreateDto"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -8045,7 +9312,7 @@
             "type": "string",
             "nullable": true
           },
-          "storeRel": {
+          "stores": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/StoreDto"
@@ -8060,6 +9327,29 @@
           "@odata.etag": {
             "type": "string",
             "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StoreOwnerDtoDelta": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "$ref": "#/components/schemas/DeltaItemKind"
+          },
+          "structuredType": {
+            "$ref": "#/components/schemas/Type"
+          },
+          "expectedClrType": {
+            "$ref": "#/components/schemas/Type"
+          },
+          "updatableProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true,
+            "readOnly": true
           }
         },
         "additionalProperties": false
@@ -8095,31 +9385,10 @@
         },
         "additionalProperties": false
       },
-      "StoreOwnerUpdateDtoDelta": {
-        "type": "object",
-        "properties": {
-          "kind": {
-            "$ref": "#/components/schemas/DeltaItemKind"
-          },
-          "structuredType": {
-            "$ref": "#/components/schemas/Type"
-          },
-          "expectedClrType": {
-            "$ref": "#/components/schemas/Type"
-          },
-          "updatableProperties": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false
-      },
       "StoreUpdateDto": {
         "required": [
+          "address",
+          "location",
           "name"
         ],
         "type": "object",
@@ -8128,32 +9397,18 @@
             "minLength": 1,
             "type": "string"
           },
-          "ownerRelId": {
+          "address": {
+            "$ref": "#/components/schemas/StreetAddressDto"
+          },
+          "location": {
+            "$ref": "#/components/schemas/LatLongDto"
+          },
+          "ownershipId": {
             "type": "string",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "StoreUpdateDtoDelta": {
-        "type": "object",
-        "properties": {
-          "kind": {
-            "$ref": "#/components/schemas/DeltaItemKind"
           },
-          "structuredType": {
-            "$ref": "#/components/schemas/Type"
-          },
-          "expectedClrType": {
-            "$ref": "#/components/schemas/Type"
-          },
-          "updatableProperties": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true,
-            "readOnly": true
+          "emailAddress": {
+            "$ref": "#/components/schemas/EmailAddressUpdateDto"
           }
         },
         "additionalProperties": false
@@ -8944,6 +10199,9 @@
           "greeting": {
             "type": "string",
             "nullable": true
+          },
+          "belongsToCountry": {
+            "$ref": "#/components/schemas/CountryCreateDto"
           }
         },
         "additionalProperties": false
@@ -8963,6 +10221,14 @@
             "type": "string",
             "nullable": true
           },
+          "belongsToCountryId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "belongsToCountry": {
+            "$ref": "#/components/schemas/CountryDto"
+          },
           "@odata.etag": {
             "type": "string",
             "format": "uuid"
@@ -8970,20 +10236,7 @@
         },
         "additionalProperties": false
       },
-      "WorkplaceUpdateDto": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "minLength": 1,
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "WorkplaceUpdateDtoDelta": {
+      "WorkplaceDtoDelta": {
         "type": "object",
         "properties": {
           "kind": {
@@ -9002,6 +10255,24 @@
             },
             "nullable": true,
             "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "WorkplaceUpdateDto": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "belongsToCountryId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
           }
         },
         "additionalProperties": false

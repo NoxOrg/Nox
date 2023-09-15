@@ -27,6 +27,8 @@ public partial class GetCurrencyByIdQueryHandler:  QueryBase<CurrencyDto?>, IReq
     {    
         var item = DataDbContext.Currencies
             .AsNoTracking()
+            .Include(r => r.CurrencyUsedByCountry)
+            .Include(r => r.CurrencyUsedByMinimumCashStocks)
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);

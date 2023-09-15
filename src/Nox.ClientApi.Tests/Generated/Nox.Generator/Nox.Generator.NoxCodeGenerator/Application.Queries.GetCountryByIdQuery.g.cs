@@ -27,6 +27,7 @@ public partial class GetCountryByIdQueryHandler:  QueryBase<CountryDto?>, IReque
     {    
         var item = DataDbContext.Countries
             .AsNoTracking()
+            .Include(r => r.PhysicalWorkplaces)
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);

@@ -15,7 +15,7 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public record StoreKeyDto(System.UInt32 keyId);
+public record StoreKeyDto(System.Guid keyId);
 
 /// <summary>
 /// Stores.
@@ -24,9 +24,9 @@ public partial class StoreDto
 {
 
     /// <summary>
-    /// NuidField Type (Required).
+    ///  (Required).
     /// </summary>
-    public System.UInt32 Id { get; set; } = default!;
+    public System.Guid Id { get; set; } = default!;
 
     /// <summary>
     /// Store Name (Required).
@@ -34,11 +34,21 @@ public partial class StoreDto
     public System.String Name { get; set; } = default!;
 
     /// <summary>
-    /// Store Store owner relationship ZeroOrOne StoreOwners
+    /// Street Address (Required).
+    /// </summary>
+    public StreetAddressDto Address { get; set; } = default!;
+
+    /// <summary>
+    /// Location (Required).
+    /// </summary>
+    public LatLongDto Location { get; set; } = default!;
+
+    /// <summary>
+    /// Store Owner of the Store ZeroOrOne StoreOwners
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.String? OwnerRelId { get; set; } = default!;
-    public virtual StoreOwnerDto? OwnerRel { get; set; } = null!;
+    public System.String? OwnershipId { get; set; } = default!;
+    public virtual StoreOwnerDto? Ownership { get; set; } = null!;
 
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses

@@ -5,15 +5,32 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
+public partial class EmployeePhoneNumber:EmployeePhoneNumberBase
+{
+
+}
+/// <summary>
+/// Record for EmployeePhoneNumber created event.
+/// </summary>
+public record EmployeePhoneNumberCreated(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent;
+/// <summary>
+/// Record for EmployeePhoneNumber updated event.
+/// </summary>
+public record EmployeePhoneNumberUpdated(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent;
+/// <summary>
+/// Record for EmployeePhoneNumber deleted event.
+/// </summary>
+public record EmployeePhoneNumberDeleted(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent;
 
 /// <summary>
 /// Employee phone number and related data.
 /// </summary>
-public partial class EmployeePhoneNumber : EntityBase, IOwnedEntity
+public abstract class EmployeePhoneNumberBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// Employee's phone number identifier (Required).

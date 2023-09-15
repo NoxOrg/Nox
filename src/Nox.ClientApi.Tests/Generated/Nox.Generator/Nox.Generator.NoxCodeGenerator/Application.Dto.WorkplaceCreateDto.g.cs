@@ -34,4 +34,10 @@ public abstract class WorkplaceCreateDtoBase : IEntityCreateDto<Workplace>
     /// The Formula (Optional).
     /// </summary>
     public virtual System.String? Greeting { get; set; }
+
+    /// <summary>
+    /// Workplace Workplace country ZeroOrOne Countries
+    /// </summary>
+    
+    public virtual CountryCreateDto? BelongsToCountry { get; set; } = null!;
 }

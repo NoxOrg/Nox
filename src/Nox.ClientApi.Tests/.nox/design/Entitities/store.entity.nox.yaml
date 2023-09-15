@@ -11,13 +11,8 @@ description: Stores
 keys:
 
   - name: Id
+    type: databaseGuid
     isRequired: true
-    description: NuidField Type
-    type: nuid
-    nuidTypeOptions:
-        separator: "."
-        propertyNames:
-            - "Name" 
 
 attributes:
 
@@ -29,10 +24,20 @@ attributes:
       maxLength: 63
     isRequired: true
 
+  - name: Address
+    description: Street Address
+    type: streetAddress
+    isRequired: true
+
+  - name: Location
+    description: Location
+    type: latLong
+    isRequired: true
+
 relationships:
 
-    - name: OwnerRel
-      description: Store owner relationship
+    - name: Ownership
+      description: Owner of the Store
       relationship: zeroOrOne
       entity: StoreOwner
 

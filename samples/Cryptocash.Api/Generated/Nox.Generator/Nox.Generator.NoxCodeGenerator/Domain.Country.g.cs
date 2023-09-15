@@ -5,15 +5,32 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
+public partial class Country:CountryBase
+{
+
+}
+/// <summary>
+/// Record for Country created event.
+/// </summary>
+public record CountryCreated(Country Country) : IDomainEvent;
+/// <summary>
+/// Record for Country updated event.
+/// </summary>
+public record CountryUpdated(Country Country) : IDomainEvent;
+/// <summary>
+/// Record for Country deleted event.
+/// </summary>
+public record CountryDeleted(Country Country) : IDomainEvent;
 
 /// <summary>
 /// Country and related data.
 /// </summary>
-public partial class Country : AuditableEntityBase, IEntityConcurrent
+public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Country unique identifier (Required).
@@ -95,20 +112,40 @@ public partial class Country : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.CurrencyCode3 CountryUsedByCurrencyId { get; set; } = null!;
 
+    public virtual void CreateRefToCurrency(Currency relatedCurrency)
+    {
+        CountryUsedByCurrency = relatedCurrency;
+    }
+
     /// <summary>
     /// Country used by OneOrMany Commissions
     /// </summary>
     public virtual List<Commission> CountryUsedByCommissions { get; set; } = new();
+
+    public virtual void CreateRefToCommission(Commission relatedCommission)
+    {
+        CountryUsedByCommissions.Add(relatedCommission);
+    }
 
     /// <summary>
     /// Country used by ZeroOrMany VendingMachines
     /// </summary>
     public virtual List<VendingMachine> CountryUsedByVendingMachines { get; set; } = new();
 
+    public virtual void CreateRefToVendingMachine(VendingMachine relatedVendingMachine)
+    {
+        CountryUsedByVendingMachines.Add(relatedVendingMachine);
+    }
+
     /// <summary>
     /// Country used by ZeroOrMany Customers
     /// </summary>
     public virtual List<Customer> CountryUsedByCustomers { get; set; } = new();
+
+    public virtual void CreateRefToCustomer(Customer relatedCustomer)
+    {
+        CountryUsedByCustomers.Add(relatedCustomer);
+    }
 
     /// <summary>
     /// Country owned OneOrMany CountryTimeZones

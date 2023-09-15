@@ -5,15 +5,32 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace TestWebApp.Domain;
+public partial class ThirdTestEntityZeroOrOne:ThirdTestEntityZeroOrOneBase
+{
+
+}
+/// <summary>
+/// Record for ThirdTestEntityZeroOrOne created event.
+/// </summary>
+public record ThirdTestEntityZeroOrOneCreated(ThirdTestEntityZeroOrOne ThirdTestEntityZeroOrOne) : IDomainEvent;
+/// <summary>
+/// Record for ThirdTestEntityZeroOrOne updated event.
+/// </summary>
+public record ThirdTestEntityZeroOrOneUpdated(ThirdTestEntityZeroOrOne ThirdTestEntityZeroOrOne) : IDomainEvent;
+/// <summary>
+/// Record for ThirdTestEntityZeroOrOne deleted event.
+/// </summary>
+public record ThirdTestEntityZeroOrOneDeleted(ThirdTestEntityZeroOrOne ThirdTestEntityZeroOrOne) : IDomainEvent;
 
 /// <summary>
 /// .
 /// </summary>
-public partial class ThirdTestEntityZeroOrOne : AuditableEntityBase, IEntityConcurrent
+public abstract class ThirdTestEntityZeroOrOneBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).

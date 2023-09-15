@@ -5,15 +5,32 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace TestWebApp.Domain;
+public partial class TestEntityTwoRelationshipsOneToMany:TestEntityTwoRelationshipsOneToManyBase
+{
+
+}
+/// <summary>
+/// Record for TestEntityTwoRelationshipsOneToMany created event.
+/// </summary>
+public record TestEntityTwoRelationshipsOneToManyCreated(TestEntityTwoRelationshipsOneToMany TestEntityTwoRelationshipsOneToMany) : IDomainEvent;
+/// <summary>
+/// Record for TestEntityTwoRelationshipsOneToMany updated event.
+/// </summary>
+public record TestEntityTwoRelationshipsOneToManyUpdated(TestEntityTwoRelationshipsOneToMany TestEntityTwoRelationshipsOneToMany) : IDomainEvent;
+/// <summary>
+/// Record for TestEntityTwoRelationshipsOneToMany deleted event.
+/// </summary>
+public record TestEntityTwoRelationshipsOneToManyDeleted(TestEntityTwoRelationshipsOneToMany TestEntityTwoRelationshipsOneToMany) : IDomainEvent;
 
 /// <summary>
 /// .
 /// </summary>
-public partial class TestEntityTwoRelationshipsOneToMany : AuditableEntityBase, IEntityConcurrent
+public abstract class TestEntityTwoRelationshipsOneToManyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).

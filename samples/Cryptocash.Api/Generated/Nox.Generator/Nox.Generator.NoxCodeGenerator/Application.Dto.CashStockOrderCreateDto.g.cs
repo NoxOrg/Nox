@@ -49,5 +49,11 @@ public abstract class CashStockOrderCreateDtoBase : IEntityCreateDto<CashStockOr
     /// CashStockOrder for ExactlyOne VendingMachines
     /// </summary>
     [Required(ErrorMessage = "CashStockOrderForVendingMachine is required")]
-    public System.Guid CashStockOrderForVendingMachineId { get; set; } = default!;
+    public virtual VendingMachineCreateDto CashStockOrderForVendingMachine { get; set; } = null!;
+
+    /// <summary>
+    /// CashStockOrder reviewed by ExactlyOne Employees
+    /// </summary>
+    [Required(ErrorMessage = "CashStockOrderReviewedByEmployee is required")]
+    public virtual EmployeeCreateDto CashStockOrderReviewedByEmployee { get; set; } = null!;
 }

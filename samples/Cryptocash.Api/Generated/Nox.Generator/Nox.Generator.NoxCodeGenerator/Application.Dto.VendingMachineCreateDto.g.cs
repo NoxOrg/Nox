@@ -67,11 +67,26 @@ public abstract class VendingMachineCreateDtoBase : IEntityCreateDto<VendingMach
     /// VendingMachine installed in ExactlyOne Countries
     /// </summary>
     [Required(ErrorMessage = "VendingMachineInstallationCountry is required")]
-    public System.String VendingMachineInstallationCountryId { get; set; } = default!;
+    public virtual CountryCreateDto VendingMachineInstallationCountry { get; set; } = null!;
 
     /// <summary>
     /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
     [Required(ErrorMessage = "VendingMachineContractedAreaLandLord is required")]
-    public System.Int64 VendingMachineContractedAreaLandLordId { get; set; } = default!;
+    public virtual LandLordCreateDto VendingMachineContractedAreaLandLord { get; set; } = null!;
+
+    /// <summary>
+    /// VendingMachine related to ZeroOrMany Bookings
+    /// </summary>
+    public virtual List<BookingCreateDto> VendingMachineRelatedBookings { get; set; } = new();
+
+    /// <summary>
+    /// VendingMachine related to ZeroOrMany CashStockOrders
+    /// </summary>
+    public virtual List<CashStockOrderCreateDto> VendingMachineRelatedCashStockOrders { get; set; } = new();
+
+    /// <summary>
+    /// VendingMachine required ZeroOrMany MinimumCashStocks
+    /// </summary>
+    public virtual List<MinimumCashStockCreateDto> VendingMachineRequiredMinimumCashStocks { get; set; } = new();
 }

@@ -24,15 +24,21 @@ public partial class CreateCashStockOrderCommandHandler: CommandBase<CreateCashS
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<CashStockOrder,CashStockOrderCreateDto> _entityFactory;
+    private readonly IEntityFactory<VendingMachine,VendingMachineCreateDto> _vendingmachinefactory;
+    private readonly IEntityFactory<Employee,EmployeeCreateDto> _employeefactory;
 
 	public CreateCashStockOrderCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<VendingMachine,VendingMachineCreateDto> vendingmachinefactory,
+        IEntityFactory<Employee,EmployeeCreateDto> employeefactory,
         IEntityFactory<CashStockOrder,CashStockOrderCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;
+		_entityFactory = entityFactory;        
+        _vendingmachinefactory = vendingmachinefactory;        
+        _employeefactory = employeefactory;
 	}
 
 	public async Task<CashStockOrderKeyDto> Handle(CreateCashStockOrderCommand request, CancellationToken cancellationToken)
@@ -41,6 +47,16 @@ public partial class CreateCashStockOrderCommandHandler: CommandBase<CreateCashS
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		if(request.EntityDto.CashStockOrderForVendingMachine is not null)
+		{ 
+			var relatedEntity = _vendingmachinefactory.CreateEntity(request.EntityDto.CashStockOrderForVendingMachine);
+			entityToCreate.CreateRefToVendingMachine(relatedEntity);
+		}
+		if(request.EntityDto.CashStockOrderReviewedByEmployee is not null)
+		{ 
+			var relatedEntity = _employeefactory.CreateEntity(request.EntityDto.CashStockOrderReviewedByEmployee);
+			entityToCreate.CreateRefToEmployee(relatedEntity);
+		}
 					
 		OnCompleted(request, entityToCreate);
 		_dbContext.CashStockOrders.Add(entityToCreate);

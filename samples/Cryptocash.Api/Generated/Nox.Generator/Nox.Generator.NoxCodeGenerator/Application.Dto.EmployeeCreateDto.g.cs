@@ -63,7 +63,7 @@ public abstract class EmployeeCreateDtoBase : IEntityCreateDto<Employee>
     /// Employee reviewing ExactlyOne CashStockOrders
     /// </summary>
     [Required(ErrorMessage = "EmployeeReviewingCashStockOrder is required")]
-    public System.Int64 EmployeeReviewingCashStockOrderId { get; set; } = default!;
+    public virtual CashStockOrderCreateDto EmployeeReviewingCashStockOrder { get; set; } = null!;
 
     /// <summary>
     /// Employee contacted by ZeroOrMany EmployeePhoneNumbers

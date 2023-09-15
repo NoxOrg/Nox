@@ -27,6 +27,8 @@ public partial class GetTransactionByIdQueryHandler:  QueryBase<TransactionDto?>
     {    
         var item = DataDbContext.Transactions
             .AsNoTracking()
+            .Include(r => r.TransactionForCustomer)
+            .Include(r => r.TransactionForBooking)
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);
