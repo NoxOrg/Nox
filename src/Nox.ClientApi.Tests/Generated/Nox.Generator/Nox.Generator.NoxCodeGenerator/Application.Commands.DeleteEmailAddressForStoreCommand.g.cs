@@ -38,14 +38,14 @@ public partial class DeleteEmailAddressForStoreCommandHandler: CommandBase<Delet
 		{
 			return false;
 		}
-		var entity = parentEntity.EmailAddress;
+		var entity = parentEntity.VerifiedEmails;
 		if (entity == null)
 		{
 			return false;
 		}
 
-		parentEntity.EmailAddress = null;
-		
+		parentEntity.VerifiedEmails = null;
+
 		OnCompleted(request, entity);
 
 		DbContext.Entry(parentEntity).State = EntityState.Modified;

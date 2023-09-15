@@ -40,6 +40,8 @@ Country Entity. *This entity is auditable and tracks info about who, which syste
 
 [Endpoints](./endpoints/CountryEndpoints.md)
 
+[Domain Events](./domainEvents/CountryDomainEvents.md)
+
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 Member|Type|Description|Info
@@ -65,6 +67,8 @@ Country workplaces|ZeroOrMany|Workplace|PhysicalWorkplaces|Yes
 
 Bar code for country.
 
+[Domain Events](./domainEvents/CountryBarCodeDomainEvents.md)
+
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 Member|Type|Description|Info
@@ -78,6 +82,8 @@ BarCodeNumber|Number|Bar code number.|
 ### Country.CountryLocalName (Owned by Country)
 
 Local names for countries.
+
+[Domain Events](./domainEvents/CountryLocalNameDomainEvents.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -95,6 +101,8 @@ NativeName|Text|Local name in native tongue.|MinLength: 4, MaxLength: 63
 Stores. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
 [Endpoints](./endpoints/StoreEndpoints.md)
+
+[Domain Events](./domainEvents/StoreDomainEvents.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -119,6 +127,8 @@ Owner of the Store|ZeroOrOne|StoreOwner|Ownership|Yes
 
 Verified Email Address.
 
+[Domain Events](./domainEvents/EmailAddressDomainEvents.md)
+
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 Member|Type|Description|Info
@@ -134,6 +144,8 @@ IsVerified|Boolean|Verified.|
 Store owners. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
 [Endpoints](./endpoints/StoreOwnerEndpoints.md)
+
+[Domain Events](./domainEvents/StoreOwnerDomainEvents.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -161,6 +173,8 @@ Set of stores that this owner owns|ZeroOrMany|Store|Stores|Yes
 Workplace.
 
 [Endpoints](./endpoints/WorkplaceEndpoints.md)
+
+[Domain Events](./domainEvents/WorkplaceDomainEvents.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 

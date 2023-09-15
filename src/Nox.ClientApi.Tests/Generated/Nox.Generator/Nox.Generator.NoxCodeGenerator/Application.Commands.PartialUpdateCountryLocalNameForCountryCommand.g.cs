@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -41,8 +41,8 @@ public partial class PartialUpdateCountryLocalNameForCountryCommandHandler: Comm
 		{
 			return null;
 		}
-		var ownedId = CreateNoxTypeForKey<CountryLocalName,Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.CountryLocalNames.SingleOrDefault(x => x.Id == ownedId);	
+		var ownedId = CreateNoxTypeForKey<CountryLocalName,AutoNumber>("Id", request.EntityKeyDto.keyId);
+		var entity = parentEntity.CountryShortNames.SingleOrDefault(x => x.Id == ownedId);	
 		if (entity == null)
 		{
 			return null;

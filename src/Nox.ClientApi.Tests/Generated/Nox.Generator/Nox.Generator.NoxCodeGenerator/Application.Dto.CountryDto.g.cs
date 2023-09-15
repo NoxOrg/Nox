@@ -61,7 +61,7 @@ public partial class CountryDto
     /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
-    public virtual List<CountryLocalNameDto> CountryLocalNames { get; set; } = new();
+    public virtual List<CountryLocalNameDto> CountryShortNames { get; set; } = new();
 
     /// <summary>
     /// Country is also coded as ZeroOrOne CountryBarCodes

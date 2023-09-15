@@ -94,11 +94,11 @@ public abstract class {{className}}Base: IEntityFactory<{{entity.Name}},{{entity
 
         {{- for relationship in entity.OwnedRelationships }}
             {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-        entity.{{relationship.EntityPlural}} = createDto.{{relationship.EntityPlural}}.Select(dto => {{relationship.Entity}}Factory.CreateEntity(dto)).ToList();
+        entity.{{relationship.Name}} = createDto.{{relationship.Name}}.Select(dto => {{relationship.Entity}}Factory.CreateEntity(dto)).ToList();
             {{- else}}
-        if(createDto.{{relationship.Entity}} is not null)
+        if (createDto.{{relationship.Name}} is not null)
         {
-            entity.{{relationship.Entity}} = {{relationship.Entity}}Factory.CreateEntity(createDto.{{relationship.Entity}});
+            entity.{{relationship.Name}} = {{relationship.Entity}}Factory.CreateEntity(createDto.{{relationship.Name}});
         }        
             {{-end}}
         {{- end }}

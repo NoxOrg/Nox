@@ -45,7 +45,7 @@ public partial class DeleteCountryBarCodeForCountryCommandHandler: CommandBase<D
 		}
 
 		parentEntity.CountryBarCode = null;
-		
+
 		OnCompleted(request, entity);
 
 		DbContext.Entry(parentEntity).State = EntityState.Modified;

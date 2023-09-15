@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -41,8 +41,8 @@ public partial class PartialUpdateExchangeRateForCurrencyCommandHandler: Command
 		{
 			return null;
 		}
-		var ownedId = CreateNoxTypeForKey<ExchangeRate,Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.ExchangeRates.SingleOrDefault(x => x.Id == ownedId);	
+		var ownedId = CreateNoxTypeForKey<ExchangeRate,AutoNumber>("Id", request.EntityKeyDto.keyId);
+		var entity = parentEntity.CurrencyExchangedFromRates.SingleOrDefault(x => x.Id == ownedId);	
 		if (entity == null)
 		{
 			return null;

@@ -4,22 +4,22 @@ using Scriban;
 
 namespace Nox.Docs.Extensions;
 
-public static class NoxSolutionEntityEndpointExtensions
+public static class NoxSolutionEntityEndpointsMarkdownExtensions
 {
-    private const string ResourceName = "Nox.Docs.Templates.EntityEndpoint.template.md";
+    private const string ResourceName = "Nox.Docs.Templates.EntityEndpoints.template.md";
 
     public static IEnumerable<EntityMarkdownFile> ToMarkdownEntityEndpoints(this NoxSolution noxSolution)
     {
         var template = ResourceName.ReadScribanTemplate();
 
         var entities = noxSolution.Domain?.Entities?
-            .Where(ShouldCreateEndpoints).ToArray()
+            .Where(ShouldCreateMarkdown).ToArray()
             ?? Array.Empty<Entity>();
 
         return CreateMarkdownEntityEndpoints(template, entities);
     }
 
-    private static bool ShouldCreateEndpoints(Entity entity)
+    private static bool ShouldCreateMarkdown(Entity entity)
         => !entity.IsOwnedEntity && HasAtLeastOneCrudOperationEnabled(entity);
 
     private static bool HasAtLeastOneCrudOperationEnabled(Entity entity)

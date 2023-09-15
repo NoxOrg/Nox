@@ -12,7 +12,7 @@
                 <Property Name="CountryDebt" Type="ClientApi.Application.Dto.MoneyDto" />
                 <Property Name="FirstLanguageCode" Type="Edm.String" />
                 <Property Name="ShortDescription" Type="Edm.String" />
-                <NavigationProperty Name="CountryLocalNames" Type="Collection(ClientApi.Application.Dto.CountryLocalNameDto)" ContainsTarget="true" />
+                <NavigationProperty Name="CountryShortNames" Type="Collection(ClientApi.Application.Dto.CountryLocalNameDto)" ContainsTarget="true" />
                 <NavigationProperty Name="CountryBarCode" Type="ClientApi.Application.Dto.CountryBarCodeDto" ContainsTarget="true" />
                 <NavigationProperty Name="PhysicalWorkplaces" Type="Collection(ClientApi.Application.Dto.WorkplaceDto)" />
             </EntityType>
@@ -37,7 +37,7 @@
                 <Property Name="Address" Type="ClientApi.Application.Dto.StreetAddressDto" Nullable="false" />
                 <Property Name="Location" Type="ClientApi.Application.Dto.LatLongDto" Nullable="false" />
                 <Property Name="OwnershipId" Type="Edm.String" />
-                <NavigationProperty Name="EmailAddress" Type="ClientApi.Application.Dto.EmailAddressDto" ContainsTarget="true" />
+                <NavigationProperty Name="VerifiedEmails" Type="ClientApi.Application.Dto.EmailAddressDto" ContainsTarget="true" />
                 <NavigationProperty Name="Ownership" Type="ClientApi.Application.Dto.StoreOwnerDto" />
             </EntityType>
             <EntityType Name="WorkplaceDto">

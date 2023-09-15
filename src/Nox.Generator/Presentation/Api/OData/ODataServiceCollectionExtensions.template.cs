@@ -30,11 +30,11 @@ public static class ODataServiceCollectionExtensions
         {{- if entity.OwnedRelationships != null }}
             {{- for ownedRelationship in entity.OwnedRelationships }}
                 {{- if ownedRelationship.Relationship == "ExactlyOne" }}
-        builder.EntityType<{{entity.Name}}Dto>().ContainsRequired(e => e.{{ownedRelationship.Related.Entity.Name}}).AutoExpand = true;
+        builder.EntityType<{{entity.Name}}Dto>().ContainsRequired(e => e.{{ownedRelationship.Name}}).AutoExpand = true;
                 {{- else if ownedRelationship.Relationship == "ZeroOrOne" }}
-        builder.EntityType<{{entity.Name}}Dto>().ContainsOptional(e => e.{{ownedRelationship.Related.Entity.Name}}).AutoExpand = true;        
+        builder.EntityType<{{entity.Name}}Dto>().ContainsOptional(e => e.{{ownedRelationship.Name}}).AutoExpand = true;
                 {{- else }}
-        builder.EntityType<{{entity.Name}}Dto>().ContainsMany(e => e.{{ownedRelationship.Related.Entity.PluralName}}).AutoExpand = true;
+        builder.EntityType<{{entity.Name}}Dto>().ContainsMany(e => e.{{ownedRelationship.Name}}).AutoExpand = true;
                 {{- end }}
             {{- end }}
         {{- end }}

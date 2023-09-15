@@ -682,20 +682,20 @@ public class SqliteIntegrationTests : SqliteTestBase
             TextTestField2 = Text.From(text),
         };
 
-        newItem.SecondTestEntityOwnedRelationshipZeroOrManies.Add(newItem2);
+        newItem.SecondTestEntityOwnedRelationshipZeroOrMany.Add(newItem2);
         DbContext.TestEntityOwnedRelationshipZeroOrManies.Add(newItem);
         DbContext.SaveChanges();
 
         // Force the recreation of DBContext and ensure we have fresh data from database
         RecreateDbContext();
 
-        var testEntity = DbContext.TestEntityOwnedRelationshipZeroOrManies.Include(x => x.SecondTestEntityOwnedRelationshipZeroOrManies).First();
-        var secondTestEntity = testEntity.SecondTestEntityOwnedRelationshipZeroOrManies[0];
+        var testEntity = DbContext.TestEntityOwnedRelationshipZeroOrManies.Include(x => x.SecondTestEntityOwnedRelationshipZeroOrMany).First();
+        var secondTestEntity = testEntity.SecondTestEntityOwnedRelationshipZeroOrMany[0];
 
         Assert.Equal(testEntity.Id.Value, textId1);
         Assert.Equal(secondTestEntity.Id.Value, textId2);
-        Assert.NotEmpty(testEntity.SecondTestEntityOwnedRelationshipZeroOrManies);
-        Assert.Equal(testEntity.SecondTestEntityOwnedRelationshipZeroOrManies[0].Id.Value, textId2);
+        Assert.NotEmpty(testEntity.SecondTestEntityOwnedRelationshipZeroOrMany);
+        Assert.Equal(testEntity.SecondTestEntityOwnedRelationshipZeroOrMany[0].Id.Value, textId2);
     }
 
     [Fact]
@@ -723,13 +723,13 @@ public class SqliteIntegrationTests : SqliteTestBase
         // Force the recreation of DBContext and ensure we have fresh data from database
         RecreateDbContext();
 
-        var testEntity = DbContext.TestEntityOwnedRelationshipOneOrManies.Include(x => x.SecondTestEntityOwnedRelationshipOneOrManies).First();
-        var secondTestEntity = testEntity.SecondTestEntityOwnedRelationshipOneOrManies[0];
+        var testEntity = DbContext.TestEntityOwnedRelationshipOneOrManies.Include(x => x.SecondTestEntityOwnedRelationshipOneOrMany).First();
+        var secondTestEntity = testEntity.SecondTestEntityOwnedRelationshipOneOrMany[0];
 
         Assert.Equal(testEntity.Id.Value, textId1);
         Assert.Equal(secondTestEntity.Id.Value, textId2);
-        Assert.NotEmpty(testEntity.SecondTestEntityOwnedRelationshipOneOrManies);
-        Assert.Equal(testEntity.SecondTestEntityOwnedRelationshipOneOrManies[0].Id.Value, textId2);
+        Assert.NotEmpty(testEntity.SecondTestEntityOwnedRelationshipOneOrMany);
+        Assert.Equal(testEntity.SecondTestEntityOwnedRelationshipOneOrMany[0].Id.Value, textId2);
     }
 
     [Fact]

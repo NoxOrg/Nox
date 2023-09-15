@@ -46,7 +46,7 @@ public partial class CreateExchangeRateForCurrencyCommandHandler: CommandBase<Cr
 		}
 
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
-		parentEntity.ExchangeRates.Add(entity);
+		parentEntity.CurrencyExchangedFromRates.Add(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);
 	

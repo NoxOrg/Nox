@@ -120,16 +120,12 @@ public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Currency commonly used ZeroOrMany BankNotes
     /// </summary>
-    public virtual List<BankNote> BankNotes { get; set; } = new();
-
-    public List<BankNote> CurrencyCommonBankNotes => BankNotes;
+    public virtual List<BankNote> CurrencyCommonBankNotes { get; set; } = new();
 
     /// <summary>
     /// Currency exchanged from OneOrMany ExchangeRates
     /// </summary>
-    public virtual List<ExchangeRate> ExchangeRates { get; set; } = new();
-
-    public List<ExchangeRate> CurrencyExchangedFromRates => ExchangeRates;
+    public virtual List<ExchangeRate> CurrencyExchangedFromRates { get; set; } = new();
 
     /// <summary>
     /// Entity tag used as concurrency token.

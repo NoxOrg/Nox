@@ -30,7 +30,7 @@ public static class ODataServiceCollectionExtensions
         builder.EntityType<EmailAddressDto>().HasKey(e => new { });
 
         builder.EntitySet<CountryDto>("Countries");
-        builder.EntityType<CountryDto>().ContainsMany(e => e.CountryLocalNames).AutoExpand = true;
+        builder.EntityType<CountryDto>().ContainsMany(e => e.CountryShortNames).AutoExpand = true;
         builder.EntityType<CountryDto>().ContainsOptional(e => e.CountryBarCode).AutoExpand = true;
 
         builder.EntityType<CountryDto>();
@@ -42,7 +42,7 @@ public static class ODataServiceCollectionExtensions
 
         builder.EntityType<CountryBarCodeDto>();
         builder.EntitySet<StoreDto>("Stores");
-        builder.EntityType<StoreDto>().ContainsOptional(e => e.EmailAddress).AutoExpand = true;
+        builder.EntityType<StoreDto>().ContainsOptional(e => e.VerifiedEmails).AutoExpand = true;
 
         builder.EntityType<StoreDto>();
         builder.EntityType<StoreDto>().Ignore(e => e.DeletedAtUtc);

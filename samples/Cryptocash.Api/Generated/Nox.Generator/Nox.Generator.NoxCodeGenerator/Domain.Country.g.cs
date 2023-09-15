@@ -150,16 +150,12 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Country owned OneOrMany CountryTimeZones
     /// </summary>
-    public virtual List<CountryTimeZone> CountryTimeZones { get; set; } = new();
-
-    public List<CountryTimeZone> CountryOwnedTimeZones => CountryTimeZones;
+    public virtual List<CountryTimeZone> CountryOwnedTimeZones { get; set; } = new();
 
     /// <summary>
     /// Country owned ZeroOrMany Holidays
     /// </summary>
-    public virtual List<Holiday> Holidays { get; set; } = new();
-
-    public List<Holiday> CountryOwnedHolidays => Holidays;
+    public virtual List<Holiday> CountryOwnedHolidays { get; set; } = new();
 
     /// <summary>
     /// Entity tag used as concurrency token.

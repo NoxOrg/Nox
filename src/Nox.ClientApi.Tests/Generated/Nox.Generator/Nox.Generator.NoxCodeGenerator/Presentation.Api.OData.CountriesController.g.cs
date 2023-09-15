@@ -145,7 +145,7 @@ public abstract class CountriesControllerBase : ODataController
     #region Owned Relationships
     
     [EnableQuery]
-    public virtual async Task<ActionResult<IQueryable<CountryLocalNameDto>>> GetCountryLocalNames([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult<IQueryable<CountryLocalNameDto>>> GetCountryShortNames([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
@@ -158,18 +158,18 @@ public abstract class CountriesControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok(item.CountryLocalNames);
+        return Ok(item.CountryShortNames);
     }
     
     [EnableQuery]
-    [HttpGet("api/Countries/{key}/CountryLocalNames/{relatedKey}")]
-    public virtual async Task<ActionResult<CountryLocalNameDto>> GetCountryLocalNameNonConventional(System.Int64 key, System.Int64 relatedKey)
+    [HttpGet("api/Countries/{key}/CountryShortNames/{relatedKey}")]
+    public virtual async Task<ActionResult<CountryLocalNameDto>> GetCountryShortNamesNonConventional(System.Int64 key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var child = await TryGetCountryLocalName(key, new CountryLocalNameKeyDto(relatedKey));
+        var child = await TryGetCountryShortNames(key, new CountryLocalNameKeyDto(relatedKey));
         if (child == null)
         {
             return NotFound();
@@ -178,7 +178,7 @@ public abstract class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    public virtual async Task<ActionResult> PostToCountryLocalNames([FromRoute] System.Int64 key, [FromBody] CountryLocalNameCreateDto countryLocalName)
+    public virtual async Task<ActionResult> PostToCountryShortNames([FromRoute] System.Int64 key, [FromBody] CountryLocalNameCreateDto countryLocalName)
     {
         if (!ModelState.IsValid)
         {
@@ -192,7 +192,7 @@ public abstract class CountriesControllerBase : ODataController
             return NotFound();
         }
         
-        var child = await TryGetCountryLocalName(key, createdKey);
+        var child = await TryGetCountryShortNames(key, createdKey);
         if (child == null)
         {
             return NotFound();
@@ -201,7 +201,7 @@ public abstract class CountriesControllerBase : ODataController
         return Created(child);
     }
     
-    [HttpPut("api/Countries/{key}/CountryLocalNames/{relatedKey}")]
+    [HttpPut("api/Countries/{key}/CountryShortNames/{relatedKey}")]
     public virtual async Task<ActionResult<CountryLocalNameDto>> PutToCountryLocalNamesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] CountryLocalNameUpdateDto countryLocalName)
     {
         if (!ModelState.IsValid)
@@ -216,7 +216,7 @@ public abstract class CountriesControllerBase : ODataController
             return NotFound();
         }
         
-        var child = await TryGetCountryLocalName(key, updatedKey);
+        var child = await TryGetCountryShortNames(key, updatedKey);
         if (child == null)
         {
             return NotFound();
@@ -225,7 +225,7 @@ public abstract class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpPatch("api/Countries/{key}/CountryLocalNames/{relatedKey}")]
+    [HttpPatch("api/Countries/{key}/CountryShortNames/{relatedKey}")]
     public virtual async Task<ActionResult> PatchToCountryLocalNamesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<CountryLocalNameDto> countryLocalName)
     {
         if (!ModelState.IsValid)
@@ -249,7 +249,7 @@ public abstract class CountriesControllerBase : ODataController
         {
             return NotFound();
         }
-        var child = await TryGetCountryLocalName(key, updated);
+        var child = await TryGetCountryShortNames(key, updated);
         if (child == null)
         {
             return NotFound();
@@ -258,7 +258,7 @@ public abstract class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("api/Countries/{key}/CountryLocalNames/{relatedKey}")]
+    [HttpDelete("api/Countries/{key}/CountryShortNames/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteCountryLocalNameNonConventional(System.Int64 key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -274,10 +274,10 @@ public abstract class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    private async Task<CountryLocalNameDto?> TryGetCountryLocalName(System.Int64 key, CountryLocalNameKeyDto childKeyDto)
+    private async Task<CountryLocalNameDto?> TryGetCountryShortNames(System.Int64 key, CountryLocalNameKeyDto childKeyDto)
     {
         var parent = await _mediator.Send(new GetCountryByIdQuery(key));
-        return parent?.CountryLocalNames.SingleOrDefault(x => x.Id == childKeyDto.keyId);
+        return parent?.CountryShortNames.SingleOrDefault(x => x.Id == childKeyDto.keyId);
     }
     
     [EnableQuery]

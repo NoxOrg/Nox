@@ -60,8 +60,8 @@ public abstract class CurrencyFactoryBase: IEntityFactory<Currency,CurrencyCreat
         entity.MinorToMajorValue = Cryptocash.Domain.Currency.CreateMinorToMajorValue(createDto.MinorToMajorValue);
         //entity.Countries = Countries.Select(dto => dto.ToEntity()).ToList();
         //entity.MinimumCashStocks = MinimumCashStocks.Select(dto => dto.ToEntity()).ToList();
-        entity.BankNotes = createDto.BankNotes.Select(dto => BankNoteFactory.CreateEntity(dto)).ToList();
-        entity.ExchangeRates = createDto.ExchangeRates.Select(dto => ExchangeRateFactory.CreateEntity(dto)).ToList();
+        entity.CurrencyCommonBankNotes = createDto.CurrencyCommonBankNotes.Select(dto => BankNoteFactory.CreateEntity(dto)).ToList();
+        entity.CurrencyExchangedFromRates = createDto.CurrencyExchangedFromRates.Select(dto => ExchangeRateFactory.CreateEntity(dto)).ToList();
         return entity;
     }
 }

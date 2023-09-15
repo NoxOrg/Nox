@@ -63,8 +63,8 @@ public abstract class CountryFactoryBase: IEntityFactory<Country,CountryCreateDt
         //entity.Commissions = Commissions.Select(dto => dto.ToEntity()).ToList();
         //entity.VendingMachines = VendingMachines.Select(dto => dto.ToEntity()).ToList();
         //entity.Customers = Customers.Select(dto => dto.ToEntity()).ToList();
-        entity.CountryTimeZones = createDto.CountryTimeZones.Select(dto => CountryTimeZoneFactory.CreateEntity(dto)).ToList();
-        entity.Holidays = createDto.Holidays.Select(dto => HolidayFactory.CreateEntity(dto)).ToList();
+        entity.CountryOwnedTimeZones = createDto.CountryOwnedTimeZones.Select(dto => CountryTimeZoneFactory.CreateEntity(dto)).ToList();
+        entity.CountryOwnedHolidays = createDto.CountryOwnedHolidays.Select(dto => HolidayFactory.CreateEntity(dto)).ToList();
         return entity;
     }
 }

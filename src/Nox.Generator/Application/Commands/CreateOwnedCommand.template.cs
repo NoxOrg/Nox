@@ -57,9 +57,9 @@ public partial class Create{{entity.Name}}For{{parent.Name}}CommandHandler: Comm
 		{{- end }}
 		
 		{{- if isSingleRelationship }}
-		parentEntity.{{entity.Name}} = entity;		
+		parentEntity.{{relationship.Name}} = entity;
 		{{- else }}
-		parentEntity.{{entity.PluralName}}.Add(entity);
+		parentEntity.{{relationship.Name}}.Add(entity);
 		{{- end }}
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);

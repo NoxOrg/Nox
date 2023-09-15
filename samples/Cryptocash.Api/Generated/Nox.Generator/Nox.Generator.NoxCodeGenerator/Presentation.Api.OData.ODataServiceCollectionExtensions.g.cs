@@ -51,8 +51,8 @@ public static class ODataServiceCollectionExtensions
         builder.EntityType<CommissionDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<CommissionDto>().Ignore(e => e.Etag);
         builder.EntitySet<CountryDto>("Countries");
-        builder.EntityType<CountryDto>().ContainsMany(e => e.CountryTimeZones).AutoExpand = true;
-        builder.EntityType<CountryDto>().ContainsMany(e => e.Holidays).AutoExpand = true;
+        builder.EntityType<CountryDto>().ContainsMany(e => e.CountryOwnedTimeZones).AutoExpand = true;
+        builder.EntityType<CountryDto>().ContainsMany(e => e.CountryOwnedHolidays).AutoExpand = true;
 
         builder.EntityType<CountryDto>();
         builder.EntityType<CountryDto>().Ignore(e => e.DeletedAtUtc);
@@ -64,8 +64,8 @@ public static class ODataServiceCollectionExtensions
 
         builder.EntityType<CountryTimeZoneDto>();
         builder.EntitySet<CurrencyDto>("Currencies");
-        builder.EntityType<CurrencyDto>().ContainsMany(e => e.BankNotes).AutoExpand = true;
-        builder.EntityType<CurrencyDto>().ContainsMany(e => e.ExchangeRates).AutoExpand = true;
+        builder.EntityType<CurrencyDto>().ContainsMany(e => e.CurrencyCommonBankNotes).AutoExpand = true;
+        builder.EntityType<CurrencyDto>().ContainsMany(e => e.CurrencyExchangedFromRates).AutoExpand = true;
 
         builder.EntityType<CurrencyDto>();
         builder.EntityType<CurrencyDto>().Ignore(e => e.DeletedAtUtc);
@@ -89,7 +89,7 @@ public static class ODataServiceCollectionExtensions
         builder.EntityType<TransactionDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TransactionDto>().Ignore(e => e.Etag);
         builder.EntitySet<EmployeeDto>("Employees");
-        builder.EntityType<EmployeeDto>().ContainsMany(e => e.EmployeePhoneNumbers).AutoExpand = true;
+        builder.EntityType<EmployeeDto>().ContainsMany(e => e.EmployeeContactPhoneNumbers).AutoExpand = true;
 
         builder.EntityType<EmployeeDto>();
         builder.EntityType<EmployeeDto>().Ignore(e => e.DeletedAtUtc);
