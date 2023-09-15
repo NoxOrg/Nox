@@ -79,6 +79,8 @@ Exchange booking and related data. *This entity is auditable and tracks info abo
 
 [Endpoints](./endpoints/BookingEndpoints.md)
 
+[Domain Events](./domainEvents/BookingDomainEvents.md)
+
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 Member|Type|Description|Info
@@ -114,6 +116,8 @@ Vending machine cash stock order and related data. *This entity is auditable and
 
 [Endpoints](./endpoints/CashStockOrderEndpoints.md)
 
+[Domain Events](./domainEvents/CashStockOrderDomainEvents.md)
+
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 Member|Type|Description|Info
@@ -141,6 +145,8 @@ Exchange commission rate and amount. *This entity is auditable and tracks info a
 
 [Endpoints](./endpoints/CommissionEndpoints.md)
 
+[Domain Events](./domainEvents/CommissionDomainEvents.md)
+
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 Member|Type|Description|Info
@@ -165,6 +171,8 @@ fees for|ZeroOrMany|Booking|CommissionFeesForBooking|Yes
 Country and related data. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
 [Endpoints](./endpoints/CountryEndpoints.md)
+
+[Domain Events](./domainEvents/CountryDomainEvents.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -204,6 +212,8 @@ used by|ZeroOrMany|Customer|CountryUsedByCustomers|Yes
 
 Time zone related to country.
 
+[Domain Events](./domainEvents/CountryTimeZoneDomainEvents.md)
+
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 Member|Type|Description|Info
@@ -217,6 +227,8 @@ TimeZoneCode|TimeZoneCode|Country's related time zone code.|Required
 ### Country.Holiday (Owned by Country)
 
 Holiday related to country.
+
+[Domain Events](./domainEvents/HolidayDomainEvents.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -235,6 +247,8 @@ Date|Date|Country holiday date.|Required
 Currency and related data. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
 [Endpoints](./endpoints/CurrencyEndpoints.md)
+
+[Domain Events](./domainEvents/CurrencyDomainEvents.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -270,6 +284,8 @@ used by|ZeroOrMany|MinimumCashStock|CurrencyUsedByMinimumCashStocks|Yes
 
 Currencies related frequent and rare bank notes.
 
+[Domain Events](./domainEvents/BankNoteDomainEvents.md)
+
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 Member|Type|Description|Info
@@ -284,6 +300,8 @@ Value|Money|Bank note value.|Required
 ### Currency.ExchangeRate (Owned by Currency)
 
 Exchange rate and related data.
+
+[Domain Events](./domainEvents/ExchangeRateDomainEvents.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -301,6 +319,8 @@ EffectiveAt|DateTime|Exchange rate conversion amount.|Required
 Customer definition and related data. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
 [Endpoints](./endpoints/CustomerEndpoints.md)
+
+[Domain Events](./domainEvents/CustomerDomainEvents.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -332,6 +352,8 @@ Employee definition and related data. *This entity is auditable and tracks info 
 
 [Endpoints](./endpoints/EmployeeEndpoints.md)
 
+[Domain Events](./domainEvents/EmployeeDomainEvents.md)
+
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 Member|Type|Description|Info
@@ -358,6 +380,8 @@ reviewing|ExactlyOne|CashStockOrder|EmployeeReviewingCashStockOrder|Yes
 
 Employee phone number and related data.
 
+[Domain Events](./domainEvents/EmployeePhoneNumberDomainEvents.md)
+
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 Member|Type|Description|Info
@@ -374,6 +398,8 @@ PhoneNumber|PhoneNumber|Employee's phone number.|Required
 Landlord related data. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
 [Endpoints](./endpoints/LandLordEndpoints.md)
+
+[Domain Events](./domainEvents/LandLordDomainEvents.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -397,6 +423,8 @@ leases an area to house|ZeroOrMany|VendingMachine|ContractedAreasForVendingMachi
 Minimum cash stock required for vending machine. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
 [Endpoints](./endpoints/MinimumCashStockEndpoints.md)
+
+[Domain Events](./domainEvents/MinimumCashStockDomainEvents.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -422,6 +450,8 @@ related to|ExactlyOne|Currency|MinimumCashStockRelatedCurrency|Yes
 Customer payment account related data. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
 [Endpoints](./endpoints/PaymentDetailEndpoints.md)
+
+[Domain Events](./domainEvents/PaymentDetailDomainEvents.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -450,6 +480,8 @@ Payment provider related data. *This entity is auditable and tracks info about w
 
 [Endpoints](./endpoints/PaymentProviderEndpoints.md)
 
+[Domain Events](./domainEvents/PaymentProviderDomainEvents.md)
+
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 Member|Type|Description|Info
@@ -472,6 +504,8 @@ related to|ZeroOrMany|PaymentDetail|PaymentProviderRelatedPaymentDetails|Yes
 Customer transaction log and related data. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
 [Endpoints](./endpoints/TransactionEndpoints.md)
+
+[Domain Events](./domainEvents/TransactionDomainEvents.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -499,6 +533,8 @@ for|ExactlyOne|Booking|TransactionForBooking|Yes
 Vending machine definition and related data. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
 [Endpoints](./endpoints/VendingMachineEndpoints.md)
+
+[Domain Events](./domainEvents/VendingMachineDomainEvents.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
