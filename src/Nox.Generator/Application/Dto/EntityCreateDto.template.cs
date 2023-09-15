@@ -27,8 +27,7 @@ public abstract class {{className}}Base : IEntityCreateDto<{{entity.Name}}>
 {{- for key in entity.Keys }}
     {{- if key.Type == "Nuid" || key.Type == "AutoNumber" -}}
     {{ continue; -}}
-    {{- end }}
-    {{- if key.Type == "Guid" -}}
+    {{- else if key.Type == "Guid" -}}
     
     /// <summary>
     /// {{key.Description}} (Optional).
