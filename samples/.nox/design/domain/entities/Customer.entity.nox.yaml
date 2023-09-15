@@ -6,7 +6,12 @@
 
 name: Customer
 
+pluralName: Customers
+
 description: Customer definition and related data
+
+userInterface: 
+  icon: Customers
 
 keys:
 

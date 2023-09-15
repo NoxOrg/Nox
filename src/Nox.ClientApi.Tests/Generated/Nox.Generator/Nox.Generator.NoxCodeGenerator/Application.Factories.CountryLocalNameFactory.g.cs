@@ -40,6 +40,7 @@ public abstract class CountryLocalNameFactoryBase: IEntityFactory<CountryLocalNa
     {
         var entity = new ClientApi.Domain.CountryLocalName();
         entity.Name = ClientApi.Domain.CountryLocalName.CreateName(createDto.Name);
+        if (createDto.NativeName is not null)entity.NativeName = ClientApi.Domain.CountryLocalName.CreateNativeName(createDto.NativeName.NonNullValue<System.String>());
         return entity;
     }
 }

@@ -24,15 +24,21 @@ public partial class CreateTransactionCommandHandler: CommandBase<CreateTransact
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<Transaction,TransactionCreateDto> _entityFactory;
+    private readonly IEntityFactory<Customer,CustomerCreateDto> _customerfactory;
+    private readonly IEntityFactory<Booking,BookingCreateDto> _bookingfactory;
 
 	public CreateTransactionCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<Customer,CustomerCreateDto> customerfactory,
+        IEntityFactory<Booking,BookingCreateDto> bookingfactory,
         IEntityFactory<Transaction,TransactionCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;
+		_entityFactory = entityFactory;        
+        _customerfactory = customerfactory;        
+        _bookingfactory = bookingfactory;
 	}
 
 	public async Task<TransactionKeyDto> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
@@ -41,6 +47,16 @@ public partial class CreateTransactionCommandHandler: CommandBase<CreateTransact
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		if(request.EntityDto.TransactionForCustomer is not null)
+		{ 
+			var relatedEntity = _customerfactory.CreateEntity(request.EntityDto.TransactionForCustomer);
+			entityToCreate.CreateRefToCustomer(relatedEntity);
+		}
+		if(request.EntityDto.TransactionForBooking is not null)
+		{ 
+			var relatedEntity = _bookingfactory.CreateEntity(request.EntityDto.TransactionForBooking);
+			entityToCreate.CreateRefToBooking(relatedEntity);
+		}
 					
 		OnCompleted(request, entityToCreate);
 		_dbContext.Transactions.Add(entityToCreate);

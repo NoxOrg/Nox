@@ -24,15 +24,21 @@ public partial class CreateCommissionCommandHandler: CommandBase<CreateCommissio
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<Commission,CommissionCreateDto> _entityFactory;
+    private readonly IEntityFactory<Country,CountryCreateDto> _countryfactory;
+    private readonly IEntityFactory<Booking,BookingCreateDto> _bookingfactory;
 
 	public CreateCommissionCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<Country,CountryCreateDto> countryfactory,
+        IEntityFactory<Booking,BookingCreateDto> bookingfactory,
         IEntityFactory<Commission,CommissionCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;
+		_entityFactory = entityFactory;        
+        _countryfactory = countryfactory;        
+        _bookingfactory = bookingfactory;
 	}
 
 	public async Task<CommissionKeyDto> Handle(CreateCommissionCommand request, CancellationToken cancellationToken)
@@ -41,6 +47,16 @@ public partial class CreateCommissionCommandHandler: CommandBase<CreateCommissio
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		if(request.EntityDto.CommissionFeesForCountry is not null)
+		{ 
+			var relatedEntity = _countryfactory.CreateEntity(request.EntityDto.CommissionFeesForCountry);
+			entityToCreate.CreateRefToCountry(relatedEntity);
+		}
+		foreach(var relatedCreateDto in request.EntityDto.CommissionFeesForBooking)
+		{
+			var relatedEntity = _bookingfactory.CreateEntity(relatedCreateDto);
+			entityToCreate.CreateRefToBooking(relatedEntity);
+		}
 					
 		OnCompleted(request, entityToCreate);
 		_dbContext.Commissions.Add(entityToCreate);

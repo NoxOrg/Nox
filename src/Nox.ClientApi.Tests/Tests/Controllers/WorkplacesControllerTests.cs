@@ -16,6 +16,44 @@ namespace ClientApi.Tests.Tests.Controllers
         {
         }
 
+        #region RELATIONSHIPS
+
+        #region POST
+
+        #region POST Entity With Related Entity /api/{EntityPluralName} => api/workplaces
+        [Fact]
+        public async Task Post_WithSingleRelatedEntity_Success()
+        {
+            // Arrange
+            var expectedCountryName = _fixture.Create<string>();
+            var dto = new WorkplaceCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                BelongsToCountry = new CountryCreateDto()
+                {
+                    Name = expectedCountryName
+                }
+            };
+            // Act
+            var result = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, dto);
+            const string oDataRequest = $"$expand={nameof(WorkplaceDto.BelongsToCountry)}";
+            var getCountryResponse = await GetODataSimpleResponseAsync<WorkplaceDto>($"{EntityUrl}/{result!.Id}?{oDataRequest}");
+
+            //Assert
+            result.Should().NotBeNull();
+            result!.Id.Should().BeGreaterThan(0);
+
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.BelongsToCountry.Should().NotBeNull();
+            getCountryResponse!.BelongsToCountry!.Name.Should().Be(expectedCountryName);
+        }
+        #endregion
+
+        #endregion
+
+        #endregion
+
         [Fact]
         public async Task Post_ToEntityWithNuid_NuidIsCreated()
         {

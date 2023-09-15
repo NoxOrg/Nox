@@ -5,15 +5,32 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
+public partial class Currency:CurrencyBase
+{
+
+}
+/// <summary>
+/// Record for Currency created event.
+/// </summary>
+public record CurrencyCreated(Currency Currency) : IDomainEvent;
+/// <summary>
+/// Record for Currency updated event.
+/// </summary>
+public record CurrencyUpdated(Currency Currency) : IDomainEvent;
+/// <summary>
+/// Record for Currency deleted event.
+/// </summary>
+public record CurrencyDeleted(Currency Currency) : IDomainEvent;
 
 /// <summary>
 /// Currency and related data.
 /// </summary>
-public partial class Currency : AuditableEntityBase, IEntityConcurrent
+public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Currency unique identifier (Required).
@@ -85,10 +102,20 @@ public partial class Currency : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<Country> CurrencyUsedByCountry { get; set; } = new();
 
+    public virtual void CreateRefToCountry(Country relatedCountry)
+    {
+        CurrencyUsedByCountry.Add(relatedCountry);
+    }
+
     /// <summary>
     /// Currency used by ZeroOrMany MinimumCashStocks
     /// </summary>
     public virtual List<MinimumCashStock> CurrencyUsedByMinimumCashStocks { get; set; } = new();
+
+    public virtual void CreateRefToMinimumCashStock(MinimumCashStock relatedMinimumCashStock)
+    {
+        CurrencyUsedByMinimumCashStocks.Add(relatedMinimumCashStock);
+    }
 
     /// <summary>
     /// Currency commonly used ZeroOrMany BankNotes

@@ -6,7 +6,12 @@
 
 name: Employee
 
+pluralName: Employees
+
 description: Employee definition and related data
+
+userInterface: 
+  icon: Employees
 
 keys:
 

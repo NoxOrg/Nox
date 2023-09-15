@@ -5,15 +5,32 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
+public partial class Transaction:TransactionBase
+{
+
+}
+/// <summary>
+/// Record for Transaction created event.
+/// </summary>
+public record TransactionCreated(Transaction Transaction) : IDomainEvent;
+/// <summary>
+/// Record for Transaction updated event.
+/// </summary>
+public record TransactionUpdated(Transaction Transaction) : IDomainEvent;
+/// <summary>
+/// Record for Transaction deleted event.
+/// </summary>
+public record TransactionDeleted(Transaction Transaction) : IDomainEvent;
 
 /// <summary>
 /// Customer transaction log and related data.
 /// </summary>
-public partial class Transaction : AuditableEntityBase, IEntityConcurrent
+public abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Customer transaction unique identifier (Required).
@@ -50,6 +67,11 @@ public partial class Transaction : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.AutoNumber TransactionForCustomerId { get; set; } = null!;
 
+    public virtual void CreateRefToCustomer(Customer relatedCustomer)
+    {
+        TransactionForCustomer = relatedCustomer;
+    }
+
     /// <summary>
     /// Transaction for ExactlyOne Bookings
     /// </summary>
@@ -59,6 +81,11 @@ public partial class Transaction : AuditableEntityBase, IEntityConcurrent
     /// Foreign key for relationship ExactlyOne to entity Booking
     /// </summary>
     public Nox.Types.DatabaseGuid TransactionForBookingId { get; set; } = null!;
+
+    public virtual void CreateRefToBooking(Booking relatedBooking)
+    {
+        TransactionForBooking = relatedBooking;
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

@@ -24,15 +24,30 @@ public partial class CreateVendingMachineCommandHandler: CommandBase<CreateVendi
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<VendingMachine,VendingMachineCreateDto> _entityFactory;
+    private readonly IEntityFactory<Country,CountryCreateDto> _countryfactory;
+    private readonly IEntityFactory<LandLord,LandLordCreateDto> _landlordfactory;
+    private readonly IEntityFactory<Booking,BookingCreateDto> _bookingfactory;
+    private readonly IEntityFactory<CashStockOrder,CashStockOrderCreateDto> _cashstockorderfactory;
+    private readonly IEntityFactory<MinimumCashStock,MinimumCashStockCreateDto> _minimumcashstockfactory;
 
 	public CreateVendingMachineCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<Country,CountryCreateDto> countryfactory,
+        IEntityFactory<LandLord,LandLordCreateDto> landlordfactory,
+        IEntityFactory<Booking,BookingCreateDto> bookingfactory,
+        IEntityFactory<CashStockOrder,CashStockOrderCreateDto> cashstockorderfactory,
+        IEntityFactory<MinimumCashStock,MinimumCashStockCreateDto> minimumcashstockfactory,
         IEntityFactory<VendingMachine,VendingMachineCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;
+		_entityFactory = entityFactory;        
+        _countryfactory = countryfactory;        
+        _landlordfactory = landlordfactory;        
+        _bookingfactory = bookingfactory;        
+        _cashstockorderfactory = cashstockorderfactory;        
+        _minimumcashstockfactory = minimumcashstockfactory;
 	}
 
 	public async Task<VendingMachineKeyDto> Handle(CreateVendingMachineCommand request, CancellationToken cancellationToken)
@@ -41,6 +56,31 @@ public partial class CreateVendingMachineCommandHandler: CommandBase<CreateVendi
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		if(request.EntityDto.VendingMachineInstallationCountry is not null)
+		{ 
+			var relatedEntity = _countryfactory.CreateEntity(request.EntityDto.VendingMachineInstallationCountry);
+			entityToCreate.CreateRefToCountry(relatedEntity);
+		}
+		if(request.EntityDto.VendingMachineContractedAreaLandLord is not null)
+		{ 
+			var relatedEntity = _landlordfactory.CreateEntity(request.EntityDto.VendingMachineContractedAreaLandLord);
+			entityToCreate.CreateRefToLandLord(relatedEntity);
+		}
+		foreach(var relatedCreateDto in request.EntityDto.VendingMachineRelatedBookings)
+		{
+			var relatedEntity = _bookingfactory.CreateEntity(relatedCreateDto);
+			entityToCreate.CreateRefToBooking(relatedEntity);
+		}
+		foreach(var relatedCreateDto in request.EntityDto.VendingMachineRelatedCashStockOrders)
+		{
+			var relatedEntity = _cashstockorderfactory.CreateEntity(relatedCreateDto);
+			entityToCreate.CreateRefToCashStockOrder(relatedEntity);
+		}
+		foreach(var relatedCreateDto in request.EntityDto.VendingMachineRequiredMinimumCashStocks)
+		{
+			var relatedEntity = _minimumcashstockfactory.CreateEntity(relatedCreateDto);
+			entityToCreate.CreateRefToMinimumCashStock(relatedEntity);
+		}
 					
 		OnCompleted(request, entityToCreate);
 		_dbContext.VendingMachines.Add(entityToCreate);

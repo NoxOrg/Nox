@@ -21,7 +21,12 @@ using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
-public partial class CountriesController : ODataController
+public partial class CountriesController : CountriesControllerBase
+            {
+                public CountriesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+                {}
+            }
+public abstract class CountriesControllerBase : ODataController
 {
     
     /// <summary>
@@ -39,7 +44,7 @@ public partial class CountriesController : ODataController
     /// </summary>
     protected readonly GetCountriesByContinentQueryBase _getCountriesByContinent;
     
-    public CountriesController(
+    public CountriesControllerBase(
         DtoDbContext databaseContext,
         IMediator mediator,
         GetCountriesByContinentQueryBase getCountriesByContinent
@@ -51,7 +56,7 @@ public partial class CountriesController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<CountryDto>>> Get()
+    public virtual async Task<ActionResult<IQueryable<CountryDto>>> Get()
     {
         var result = await _mediator.Send(new GetCountriesQuery());
         return Ok(result);
@@ -70,7 +75,7 @@ public partial class CountriesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult<CountryDto>> Post([FromBody]CountryCreateDto country)
+    public virtual async Task<ActionResult<CountryDto>> Post([FromBody]CountryCreateDto country)
     {
         if (!ModelState.IsValid)
         {
@@ -83,8 +88,12 @@ public partial class CountriesController : ODataController
         return Created(item);
     }
     
-    public async Task<ActionResult<CountryDto>> Put([FromRoute] System.String key, [FromBody] CountryUpdateDto country)
+    public virtual async Task<ActionResult<CountryDto>> Put([FromRoute] System.String key, [FromBody] CountryUpdateDto country)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCountryCommand(key, country, etag));
@@ -99,7 +108,7 @@ public partial class CountriesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult<CountryDto>> Patch([FromRoute] System.String key, [FromBody] Delta<CountryUpdateDto> country)
+    public virtual async Task<ActionResult<CountryDto>> Patch([FromRoute] System.String key, [FromBody] Delta<CountryDto> country)
     {
         if (!ModelState.IsValid)
         {
@@ -127,7 +136,7 @@ public partial class CountriesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.String key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteCountryByIdCommand(key, etag));
@@ -139,6 +148,90 @@ public partial class CountriesController : ODataController
         
         return NoContent();
     }
+    
+    #region Owned Relationships
+    
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<CountryLocalNameDto>>> GetCountryLocalNames([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var item = await _mediator.Send(new GetCountryByIdQuery(key));
+        
+        if (item is null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item.CountryLocalNames);
+    }
+    
+    [EnableQuery]
+    [HttpGet("api/Countries/{key}/CountryLocalNames/{relatedKey}")]
+    public virtual async Task<ActionResult<CountryLocalNameDto>> GetCountryLocalNameNonConventional(System.String key, System.String relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var child = await TryGetCountryLocalName(key, new CountryLocalNameKeyDto(relatedKey));
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
+    public virtual async Task<ActionResult> PostToCountryLocalNames([FromRoute] System.String key, [FromBody] CountryLocalNameCreateDto countryLocalName)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var createdKey = await _mediator.Send(new CreateCountryLocalNameForCountryCommand(new CountryKeyDto(key), countryLocalName, etag));
+        if (createdKey == null)
+        {
+            return NotFound();
+        }
+        
+        var child = await TryGetCountryLocalName(key, createdKey);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Created(child);
+    }
+    
+    [HttpDelete("api/Countries/{key}/CountryLocalNames/{relatedKey}")]
+    public virtual async Task<ActionResult> DeleteCountryLocalNameNonConventional(System.String key, System.String relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var result = await _mediator.Send(new DeleteCountryLocalNameForCountryCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey)));
+        if (!result)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    private async Task<CountryLocalNameDto?> TryGetCountryLocalName(System.String key, CountryLocalNameKeyDto childKeyDto)
+    {
+        var parent = await _mediator.Send(new GetCountryByIdQuery(key));
+        return parent?.CountryLocalNames.SingleOrDefault(x => x.Id == childKeyDto.keyId);
+    }
+    
+    #endregion
+    
     
     /// <summary>
     /// Returns a list of countries for a given continent.

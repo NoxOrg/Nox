@@ -54,6 +54,7 @@ public abstract class NoxIntegrationTestBase :  IClassFixture<NoxTestContainerSe
         result.Headers.Single(h => h.Key == "OData-Version").Value.First().Should().Be("4.0");
 
         var content = await result.Content.ReadAsStringAsync();
+        EnsureOdataSingleResponse(content);
 
         var oDataResponse = DeserializeResponse<ODataSigleResponse>(content);
         oDataResponse.Should().NotBeNull();
@@ -91,6 +92,8 @@ public abstract class NoxIntegrationTestBase :  IClassFixture<NoxTestContainerSe
         message.EnsureSuccessStatusCode();
 
         var content = await message.Content.ReadAsStringAsync();
+        EnsureOdataSingleResponse(content);
+
         var result = DeserializeResponse<TResult>(content);
 
         return result;
@@ -130,6 +133,8 @@ public abstract class NoxIntegrationTestBase :  IClassFixture<NoxTestContainerSe
         message.EnsureSuccessStatusCode();
 
         var content = await message.Content.ReadAsStringAsync();
+        EnsureOdataSingleResponse(content);
+
         var result = DeserializeResponse<TResult>(content);
 
         return result;
@@ -168,6 +173,8 @@ public abstract class NoxIntegrationTestBase :  IClassFixture<NoxTestContainerSe
         request.EnsureSuccessStatusCode();
 
         var content = await request.Content.ReadAsStringAsync();
+        EnsureOdataSingleResponse(content);
+
         var result = DeserializeResponse<TResult>(content);
 
         return result;
@@ -212,11 +219,15 @@ public abstract class NoxIntegrationTestBase :  IClassFixture<NoxTestContainerSe
         }
     }
 
-    private TResult? DeserializeResponse<TResult>(string? response)
+    private TResult? DeserializeResponse<TResult>(string response)
     {
-        if (response == null)
-            return default;
+        return JsonSerializer.Deserialize<TResult>(response, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new JsonStringEnumConverter() } });
+    }
 
-        return System.Text.Json.JsonSerializer.Deserialize<TResult>(response!, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new JsonStringEnumConverter() } });
+    private void EnsureOdataSingleResponse(string content)
+    {
+        var oDataResponse = DeserializeResponse<ODataSigleResponse>(content);
+        oDataResponse.Should().NotBeNull();
+        oDataResponse!.Context.Should().NotBeNullOrEmpty();
     }
 }

@@ -54,9 +54,19 @@ public partial class CountryDto
     public System.String? ShortDescription { get; set; }
 
     /// <summary>
+    /// Country Country workplaces ZeroOrMany Workplaces
+    /// </summary>
+    public virtual List<WorkplaceDto> PhysicalWorkplaces { get; set; } = new();
+
+    /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
     public virtual List<CountryLocalNameDto> CountryLocalNames { get; set; } = new();
+
+    /// <summary>
+    /// Country is also coded as ZeroOrOne CountryBarCodes
+    /// </summary>
+    public virtual CountryBarCodeDto? CountryBarCode { get; set; } = null!;
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

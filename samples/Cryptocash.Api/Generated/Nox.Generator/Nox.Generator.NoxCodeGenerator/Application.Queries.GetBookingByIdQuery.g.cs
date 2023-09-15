@@ -27,6 +27,10 @@ public partial class GetBookingByIdQueryHandler:  QueryBase<BookingDto?>, IReque
     {    
         var item = DataDbContext.Bookings
             .AsNoTracking()
+            .Include(r => r.BookingForCustomer)
+            .Include(r => r.BookingRelatedVendingMachine)
+            .Include(r => r.BookingFeesForCommission)
+            .Include(r => r.BookingRelatedTransaction)
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);

@@ -21,7 +21,12 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-public partial class LandLordsController : ODataController
+public partial class LandLordsController : LandLordsControllerBase
+            {
+                public LandLordsController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+                {}
+            }
+public abstract class LandLordsControllerBase : ODataController
 {
     
     /// <summary>
@@ -34,7 +39,7 @@ public partial class LandLordsController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public LandLordsController(
+    public LandLordsControllerBase(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -44,7 +49,7 @@ public partial class LandLordsController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<LandLordDto>>> Get()
+    public virtual async Task<ActionResult<IQueryable<LandLordDto>>> Get()
     {
         var result = await _mediator.Send(new GetLandLordsQuery());
         return Ok(result);
@@ -63,7 +68,7 @@ public partial class LandLordsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult<LandLordDto>> Post([FromBody]LandLordCreateDto landLord)
+    public virtual async Task<ActionResult<LandLordDto>> Post([FromBody]LandLordCreateDto landLord)
     {
         if (!ModelState.IsValid)
         {
@@ -76,8 +81,12 @@ public partial class LandLordsController : ODataController
         return Created(item);
     }
     
-    public async Task<ActionResult<LandLordDto>> Put([FromRoute] System.Int64 key, [FromBody] LandLordUpdateDto landLord)
+    public virtual async Task<ActionResult<LandLordDto>> Put([FromRoute] System.Int64 key, [FromBody] LandLordUpdateDto landLord)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateLandLordCommand(key, landLord, etag));
@@ -92,7 +101,7 @@ public partial class LandLordsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult<LandLordDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<LandLordUpdateDto> landLord)
+    public virtual async Task<ActionResult<LandLordDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<LandLordDto> landLord)
     {
         if (!ModelState.IsValid)
         {
@@ -120,7 +129,7 @@ public partial class LandLordsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteLandLordByIdCommand(key, etag));

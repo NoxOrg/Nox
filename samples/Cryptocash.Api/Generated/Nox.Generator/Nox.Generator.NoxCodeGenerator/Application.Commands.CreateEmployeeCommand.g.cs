@@ -24,15 +24,18 @@ public partial class CreateEmployeeCommandHandler: CommandBase<CreateEmployeeCom
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<Employee,EmployeeCreateDto> _entityFactory;
+    private readonly IEntityFactory<CashStockOrder,CashStockOrderCreateDto> _cashstockorderfactory;
 
 	public CreateEmployeeCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<CashStockOrder,CashStockOrderCreateDto> cashstockorderfactory,
         IEntityFactory<Employee,EmployeeCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;
+		_entityFactory = entityFactory;        
+        _cashstockorderfactory = cashstockorderfactory;
 	}
 
 	public async Task<EmployeeKeyDto> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
@@ -41,6 +44,11 @@ public partial class CreateEmployeeCommandHandler: CommandBase<CreateEmployeeCom
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		if(request.EntityDto.EmployeeReviewingCashStockOrder is not null)
+		{ 
+			var relatedEntity = _cashstockorderfactory.CreateEntity(request.EntityDto.EmployeeReviewingCashStockOrder);
+			entityToCreate.CreateRefToCashStockOrder(relatedEntity);
+		}
 					
 		OnCompleted(request, entityToCreate);
 		_dbContext.Employees.Add(entityToCreate);

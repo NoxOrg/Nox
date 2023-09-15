@@ -21,7 +21,12 @@ using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
-public partial class CompoundKeysEntitiesController : ODataController
+public partial class CompoundKeysEntitiesController : CompoundKeysEntitiesControllerBase
+            {
+                public CompoundKeysEntitiesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+                {}
+            }
+public abstract class CompoundKeysEntitiesControllerBase : ODataController
 {
     
     /// <summary>
@@ -34,7 +39,7 @@ public partial class CompoundKeysEntitiesController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public CompoundKeysEntitiesController(
+    public CompoundKeysEntitiesControllerBase(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -44,7 +49,7 @@ public partial class CompoundKeysEntitiesController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<CompoundKeysEntityDto>>> Get()
+    public virtual async Task<ActionResult<IQueryable<CompoundKeysEntityDto>>> Get()
     {
         var result = await _mediator.Send(new GetCompoundKeysEntitiesQuery());
         return Ok(result);
@@ -63,7 +68,7 @@ public partial class CompoundKeysEntitiesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult<CompoundKeysEntityDto>> Post([FromBody]CompoundKeysEntityCreateDto compoundKeysEntity)
+    public virtual async Task<ActionResult<CompoundKeysEntityDto>> Post([FromBody]CompoundKeysEntityCreateDto compoundKeysEntity)
     {
         if (!ModelState.IsValid)
         {
@@ -76,8 +81,12 @@ public partial class CompoundKeysEntitiesController : ODataController
         return Created(item);
     }
     
-    public async Task<ActionResult<CompoundKeysEntityDto>> Put([FromRoute] System.String keyId1, [FromRoute] System.String keyId2, [FromBody] CompoundKeysEntityUpdateDto compoundKeysEntity)
+    public virtual async Task<ActionResult<CompoundKeysEntityDto>> Put([FromRoute] System.String keyId1, [FromRoute] System.String keyId2, [FromBody] CompoundKeysEntityUpdateDto compoundKeysEntity)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCompoundKeysEntityCommand(keyId1, keyId2, compoundKeysEntity, etag));
@@ -92,7 +101,7 @@ public partial class CompoundKeysEntitiesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult<CompoundKeysEntityDto>> Patch([FromRoute] System.String keyId1, [FromRoute] System.String keyId2, [FromBody] Delta<CompoundKeysEntityUpdateDto> compoundKeysEntity)
+    public virtual async Task<ActionResult<CompoundKeysEntityDto>> Patch([FromRoute] System.String keyId1, [FromRoute] System.String keyId2, [FromBody] Delta<CompoundKeysEntityDto> compoundKeysEntity)
     {
         if (!ModelState.IsValid)
         {
@@ -120,7 +129,7 @@ public partial class CompoundKeysEntitiesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.String keyId1, [FromRoute] System.String keyId2)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.String keyId1, [FromRoute] System.String keyId2)
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteCompoundKeysEntityByIdCommand(keyId1, keyId2, etag));

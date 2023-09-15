@@ -27,6 +27,9 @@ public partial class Get{{entity.Name}}ByIdQueryHandler:  QueryBase<{{entity.Nam
     {    
         var item = DataDbContext.{{entity.PluralName}}
             .AsNoTracking()
+        {{- for relationship in entity.Relationships}}
+            .Include(r => r.{{relationship.Name}})
+        {{- end }}
             .SingleOrDefault(r =>                  
             {{- for key in entity.Keys }}
                 r.{{key.Name}}.Equals(request.key{{key.Name}}) && 

@@ -3,7 +3,7 @@
 
 @inherits MainLayoutBase
 
-<PageTitle>@GlobalData.ApiName</PageTitle>
+<PageTitle>@GlobalData?.CurrentDomainEntity</PageTitle>
 
 <MudThemeProvider />
 
@@ -25,17 +25,7 @@
                 </tr>
             </table>
         </MudDrawerHeader>
-        <MudNavMenu Style="margin-top:20px;">
-            @if (GlobalData.ApiDefinitions != null)
-            {
-                @foreach (ApiDefinition CurrentApiDefinition in GlobalData.ApiDefinitions!)
-                {
-                    var Icon = CurrentApiDefinition.Icon;
-                    var Href = CurrentApiDefinition.PageLink;
-                    <MudNavLink Match="NavLinkMatch.Prefix" Icon="@Icon" IconColor="Color.Inherit" Href="@Href" ActiveClass="custom-linkHighlighted">@CurrentApiDefinition.Name</MudNavLink>
-                }
-            }           
-        </MudNavMenu>
+        <UiNavigationMenu_g />
     </MudDrawer>
     <CascadingValue Value="@GlobalData">        
         <div>
