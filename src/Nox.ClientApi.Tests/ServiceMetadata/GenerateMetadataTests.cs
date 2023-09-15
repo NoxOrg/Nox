@@ -39,7 +39,7 @@ namespace ClientApi.ServiceMetadata
             var content = await result.Content.ReadAsStringAsync();
 
             content.Should().NotBeNull();
-            File.WriteAllText("../../../ServiceMetadata/oDataMetadata.xml", content);
+            File.WriteAllText("../../../ServiceMetadata/oDataMetadata.xml", BeautifyXml(content));
         }
         [Fact]
         public async Task Generate_Swagger_Html()
