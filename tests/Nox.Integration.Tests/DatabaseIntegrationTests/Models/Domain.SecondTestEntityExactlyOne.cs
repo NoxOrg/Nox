@@ -47,7 +47,7 @@ public abstract class SecondTestEntityExactlyOneBase : AuditableEntityBase, IEnt
     /// </summary>
     public virtual TestEntityExactlyOne TestEntityExactlyOneRelationship { get; set; } = null!;
 
-    public virtual void CreateRefToTestEntityExactlyOne(TestEntityExactlyOne relatedTestEntityExactlyOne)
+    public virtual void CreateRefToTestEntityExactlyOneTestEntityExactlyOneRelationship(TestEntityExactlyOne relatedTestEntityExactlyOne)
     {
         TestEntityExactlyOneRelationship = relatedTestEntityExactlyOne;
     }

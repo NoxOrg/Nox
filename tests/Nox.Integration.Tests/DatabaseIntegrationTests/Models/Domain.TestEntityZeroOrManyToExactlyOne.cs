@@ -47,7 +47,7 @@ public abstract class TestEntityZeroOrManyToExactlyOneBase : AuditableEntityBase
     /// </summary>
     public virtual List<TestEntityExactlyOneToZeroOrMany> TestEntityExactlyOneToZeroOrMany { get; set; } = new();
 
-    public virtual void CreateRefToTestEntityExactlyOneToZeroOrMany(TestEntityExactlyOneToZeroOrMany relatedTestEntityExactlyOneToZeroOrMany)
+    public virtual void CreateRefToTestEntityExactlyOneToZeroOrManyTestEntityExactlyOneToZeroOrMany(TestEntityExactlyOneToZeroOrMany relatedTestEntityExactlyOneToZeroOrMany)
     {
         TestEntityExactlyOneToZeroOrMany.Add(relatedTestEntityExactlyOneToZeroOrMany);
     }

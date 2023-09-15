@@ -47,7 +47,7 @@ public abstract class SecondTestEntityOneOrManyBase : AuditableEntityBase, IEnti
     /// </summary>
     public virtual List<TestEntityOneOrMany> TestEntityOneOrManyRelationship { get; set; } = new();
 
-    public virtual void CreateRefToTestEntityOneOrMany(TestEntityOneOrMany relatedTestEntityOneOrMany)
+    public virtual void CreateRefToTestEntityOneOrManyTestEntityOneOrManyRelationship(TestEntityOneOrMany relatedTestEntityOneOrMany)
     {
         TestEntityOneOrManyRelationship.Add(relatedTestEntityOneOrMany);
     }

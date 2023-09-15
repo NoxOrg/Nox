@@ -52,7 +52,7 @@ public abstract class TestEntityZeroOrOneToOneOrManyBase : AuditableEntityBase, 
     /// </summary>
     public Nox.Types.Text? TestEntityOneOrManyToZeroOrOneId { get; set; } = null!;
 
-    public virtual void CreateRefToTestEntityOneOrManyToZeroOrOne(TestEntityOneOrManyToZeroOrOne relatedTestEntityOneOrManyToZeroOrOne)
+    public virtual void CreateRefToTestEntityOneOrManyToZeroOrOneTestEntityOneOrManyToZeroOrOne(TestEntityOneOrManyToZeroOrOne relatedTestEntityOneOrManyToZeroOrOne)
     {
         TestEntityOneOrManyToZeroOrOne = relatedTestEntityOneOrManyToZeroOrOne;
     }

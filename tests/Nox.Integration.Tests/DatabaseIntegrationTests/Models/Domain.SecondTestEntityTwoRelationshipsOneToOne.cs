@@ -47,7 +47,7 @@ public abstract class SecondTestEntityTwoRelationshipsOneToOneBase : EntityBase,
     /// </summary>
     public virtual TestEntityTwoRelationshipsOneToOne? TestRelationshipOneOnOtherSide { get; set; } = null!;
 
-    public virtual void CreateRefToTestEntityTwoRelationshipsOneToOne(TestEntityTwoRelationshipsOneToOne relatedTestEntityTwoRelationshipsOneToOne)
+    public virtual void CreateRefToTestEntityTwoRelationshipsOneToOneTestRelationshipOneOnOtherSide(TestEntityTwoRelationshipsOneToOne relatedTestEntityTwoRelationshipsOneToOne)
     {
         TestRelationshipOneOnOtherSide = relatedTestEntityTwoRelationshipsOneToOne;
     }
@@ -57,7 +57,7 @@ public abstract class SecondTestEntityTwoRelationshipsOneToOneBase : EntityBase,
     /// </summary>
     public virtual TestEntityTwoRelationshipsOneToOne? TestRelationshipTwoOnOtherSide { get; set; } = null!;
 
-    public virtual void CreateRefToTestEntityTwoRelationshipsOneToOne(TestEntityTwoRelationshipsOneToOne relatedTestEntityTwoRelationshipsOneToOne)
+    public virtual void CreateRefToTestEntityTwoRelationshipsOneToOneTestRelationshipTwoOnOtherSide(TestEntityTwoRelationshipsOneToOne relatedTestEntityTwoRelationshipsOneToOne)
     {
         TestRelationshipTwoOnOtherSide = relatedTestEntityTwoRelationshipsOneToOne;
     }

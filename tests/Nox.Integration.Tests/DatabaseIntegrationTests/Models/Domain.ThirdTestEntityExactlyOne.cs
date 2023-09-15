@@ -52,7 +52,7 @@ public abstract class ThirdTestEntityExactlyOneBase : AuditableEntityBase, IEnti
     /// </summary>
     public Nox.Types.Text ThirdTestEntityZeroOrOneRelationshipId { get; set; } = null!;
 
-    public virtual void CreateRefToThirdTestEntityZeroOrOne(ThirdTestEntityZeroOrOne relatedThirdTestEntityZeroOrOne)
+    public virtual void CreateRefToThirdTestEntityZeroOrOneThirdTestEntityZeroOrOneRelationship(ThirdTestEntityZeroOrOne relatedThirdTestEntityZeroOrOne)
     {
         ThirdTestEntityZeroOrOneRelationship = relatedThirdTestEntityZeroOrOne;
     }

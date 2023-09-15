@@ -47,7 +47,7 @@ public abstract class TestEntityTwoRelationshipsManyToManyBase : AuditableEntity
     /// </summary>
     public virtual List<SecondTestEntityTwoRelationshipsManyToMany> TestRelationshipOne { get; set; } = new();
 
-    public virtual void CreateRefToSecondTestEntityTwoRelationshipsManyToMany(SecondTestEntityTwoRelationshipsManyToMany relatedSecondTestEntityTwoRelationshipsManyToMany)
+    public virtual void CreateRefToSecondTestEntityTwoRelationshipsManyToManyTestRelationshipOne(SecondTestEntityTwoRelationshipsManyToMany relatedSecondTestEntityTwoRelationshipsManyToMany)
     {
         TestRelationshipOne.Add(relatedSecondTestEntityTwoRelationshipsManyToMany);
     }
@@ -57,7 +57,7 @@ public abstract class TestEntityTwoRelationshipsManyToManyBase : AuditableEntity
     /// </summary>
     public virtual List<SecondTestEntityTwoRelationshipsManyToMany> TestRelationshipTwo { get; set; } = new();
 
-    public virtual void CreateRefToSecondTestEntityTwoRelationshipsManyToMany(SecondTestEntityTwoRelationshipsManyToMany relatedSecondTestEntityTwoRelationshipsManyToMany)
+    public virtual void CreateRefToSecondTestEntityTwoRelationshipsManyToManyTestRelationshipTwo(SecondTestEntityTwoRelationshipsManyToMany relatedSecondTestEntityTwoRelationshipsManyToMany)
     {
         TestRelationshipTwo.Add(relatedSecondTestEntityTwoRelationshipsManyToMany);
     }

@@ -47,7 +47,7 @@ public abstract class SecondTestEntityZeroOrOneBase : AuditableEntityBase, IEnti
     /// </summary>
     public virtual TestEntityZeroOrOne? TestEntityZeroOrOneRelationship { get; set; } = null!;
 
-    public virtual void CreateRefToTestEntityZeroOrOne(TestEntityZeroOrOne relatedTestEntityZeroOrOne)
+    public virtual void CreateRefToTestEntityZeroOrOneTestEntityZeroOrOneRelationship(TestEntityZeroOrOne relatedTestEntityZeroOrOne)
     {
         TestEntityZeroOrOneRelationship = relatedTestEntityZeroOrOne;
     }

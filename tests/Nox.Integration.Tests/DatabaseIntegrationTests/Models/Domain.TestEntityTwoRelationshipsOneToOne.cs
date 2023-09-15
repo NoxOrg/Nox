@@ -52,7 +52,7 @@ public abstract class TestEntityTwoRelationshipsOneToOneBase : AuditableEntityBa
     /// </summary>
     public Nox.Types.Text TestRelationshipOneId { get; set; } = null!;
 
-    public virtual void CreateRefToSecondTestEntityTwoRelationshipsOneToOne(SecondTestEntityTwoRelationshipsOneToOne relatedSecondTestEntityTwoRelationshipsOneToOne)
+    public virtual void CreateRefToSecondTestEntityTwoRelationshipsOneToOneTestRelationshipOne(SecondTestEntityTwoRelationshipsOneToOne relatedSecondTestEntityTwoRelationshipsOneToOne)
     {
         TestRelationshipOne = relatedSecondTestEntityTwoRelationshipsOneToOne;
     }
@@ -67,7 +67,7 @@ public abstract class TestEntityTwoRelationshipsOneToOneBase : AuditableEntityBa
     /// </summary>
     public Nox.Types.Text TestRelationshipTwoId { get; set; } = null!;
 
-    public virtual void CreateRefToSecondTestEntityTwoRelationshipsOneToOne(SecondTestEntityTwoRelationshipsOneToOne relatedSecondTestEntityTwoRelationshipsOneToOne)
+    public virtual void CreateRefToSecondTestEntityTwoRelationshipsOneToOneTestRelationshipTwo(SecondTestEntityTwoRelationshipsOneToOne relatedSecondTestEntityTwoRelationshipsOneToOne)
     {
         TestRelationshipTwo = relatedSecondTestEntityTwoRelationshipsOneToOne;
     }
