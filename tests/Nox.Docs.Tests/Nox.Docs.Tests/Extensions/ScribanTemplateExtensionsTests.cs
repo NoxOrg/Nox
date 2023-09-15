@@ -11,10 +11,10 @@ public class ScribanTemplateExtensionsTests
     {
         // Arrange
         // Act
-        var actual = "Nox.Docs.Templates.EntityEndpoint.template.md".ReadScribanTemplate();
+        var actual = "Nox.Docs.Templates.EntityEndpoints.template.md".ReadScribanTemplate();
 
         // Assert
-        var expected = ReadMarkdownFile("EntityEndpoint.template.md");
+        var expected = ReadMarkdownFile("EntityEndpoints.template.md");
 
         actual.Page.ToString().Should().Be(expected);
     }
@@ -32,7 +32,7 @@ public class ScribanTemplateExtensionsTests
             ["entity"] = noxSolution.Domain!.Entities.First(x => x.Name == "Country"),
         };
 
-        var template = "Nox.Docs.Templates.EntityEndpoint.template.md".ReadScribanTemplate();
+        var template = "Nox.Docs.Templates.EntityEndpoints.template.md".ReadScribanTemplate();
 
         // Act
         var actual = template.RenderScribanTemplate(model);

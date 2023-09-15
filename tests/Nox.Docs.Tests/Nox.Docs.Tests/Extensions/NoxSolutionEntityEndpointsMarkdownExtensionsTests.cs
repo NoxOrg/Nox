@@ -5,10 +5,10 @@ using Nox.Solution;
 
 namespace Nox.Docs.Tests.Extensions;
 
-public class NoxSolutionEntityEndpointExtensionsTests
+public class NoxSolutionEntityEndpointsMarkdownExtensionsTests
 {
     [Fact]
-    public void Solution_Creates_Valid_EntityEndpoint_Markdown()
+    public void Solution_Creates_Valid_EntityEndpoints_Markdown()
     {
         // Arrange
         var noxSolution = new NoxSolutionBuilder()
