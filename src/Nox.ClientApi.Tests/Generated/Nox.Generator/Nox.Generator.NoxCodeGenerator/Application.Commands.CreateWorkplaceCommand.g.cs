@@ -46,7 +46,7 @@ public partial class CreateWorkplaceCommandHandler: CommandBase<CreateWorkplaceC
 		if(request.EntityDto.BelongsToCountry is not null)
 		{ 
 			var relatedEntity = _countryfactory.CreateEntity(request.EntityDto.BelongsToCountry);
-			entityToCreate.CreateRefToCountry(relatedEntity);
+			entityToCreate.CreateRefToCountryBelongsToCountry(relatedEntity);
 		}
 					
 		OnCompleted(request, entityToCreate);

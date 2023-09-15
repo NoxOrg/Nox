@@ -14,32 +14,32 @@ namespace Cryptocash.Domain;
 /// </summary>
 public partial class Commission
 {
-    /// <summary>
-    /// Type options and factory for property 'Id'
-    /// </summary>
-    public static Nox.Types.AutoNumber CreateId(System.Int64 value)
-        => Nox.Types.AutoNumber.From(value);
     
-
-    /// <summary>
-    /// Type options and factory for property 'Rate'
-    /// </summary>
-    public static Nox.Types.Percentage CreateRate(System.Single value)
-        => Nox.Types.Percentage.From(value);
+        /// <summary>
+        /// Factory for property 'Id'
+        /// </summary>
+        public static Nox.Types.AutoNumber CreateId(System.Int64 value)
+            => Nox.Types.AutoNumber.From(value);
+        
     
-
-    /// <summary>
-    /// Type options and factory for property 'EffectiveAt'
-    /// </summary>
-    public static Nox.Types.DateTime CreateEffectiveAt(System.DateTimeOffset value)
-        => Nox.Types.DateTime.From(value);
+        /// <summary>
+        /// Factory for property 'Rate'
+        /// </summary>
+        public static Nox.Types.Percentage CreateRate(System.Single value)
+            => Nox.Types.Percentage.From(value);
+        
     
-
-    /// <summary>
-    /// Type options and factory for property 'CountryId'
-    /// </summary>
-    public static Nox.Types.CountryCode2 CreateCountryId(System.String value)
-        => Nox.Types.CountryCode2.From(value);
+        /// <summary>
+        /// Factory for property 'EffectiveAt'
+        /// </summary>
+        public static Nox.Types.DateTime CreateEffectiveAt(System.DateTimeOffset value)
+            => Nox.Types.DateTime.From(value);
+        
     
-
+        /// <summary>
+        /// Factory for property 'CountryId'
+        /// </summary>
+        public static Nox.Types.CountryCode2 CreateCountryId(System.String value)
+            => Nox.Types.CountryCode2.From(value);
+        
 }

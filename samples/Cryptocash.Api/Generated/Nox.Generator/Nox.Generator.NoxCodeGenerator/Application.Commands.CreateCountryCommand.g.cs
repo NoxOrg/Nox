@@ -56,22 +56,22 @@ public partial class CreateCountryCommandHandler: CommandBase<CreateCountryComma
 		if(request.EntityDto.CountryUsedByCurrency is not null)
 		{ 
 			var relatedEntity = _currencyfactory.CreateEntity(request.EntityDto.CountryUsedByCurrency);
-			entityToCreate.CreateRefToCurrency(relatedEntity);
+			entityToCreate.CreateRefToCurrencyCountryUsedByCurrency(relatedEntity);
 		}
 		foreach(var relatedCreateDto in request.EntityDto.CountryUsedByCommissions)
 		{
 			var relatedEntity = _commissionfactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToCommission(relatedEntity);
+			entityToCreate.CreateRefToCommissionCountryUsedByCommissions(relatedEntity);
 		}
 		foreach(var relatedCreateDto in request.EntityDto.CountryUsedByVendingMachines)
 		{
 			var relatedEntity = _vendingmachinefactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToVendingMachine(relatedEntity);
+			entityToCreate.CreateRefToVendingMachineCountryUsedByVendingMachines(relatedEntity);
 		}
 		foreach(var relatedCreateDto in request.EntityDto.CountryUsedByCustomers)
 		{
 			var relatedEntity = _customerfactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToCustomer(relatedEntity);
+			entityToCreate.CreateRefToCustomerCountryUsedByCustomers(relatedEntity);
 		}
 					
 		OnCompleted(request, entityToCreate);
