@@ -65,7 +65,7 @@ public abstract class {{className}}Base: IEntityFactory<{{entity.Name}},{{entity
         entity.Ensure{{key.Name}}();
             {{- end }}
             {{- if key.Type == "Guid" }}
-        entity.{{key.Name}} = ( createDto.{{key.Name}} == null || System.Guid.Empty.Equals(createDto.{{key.Name}}) ) ? Nox.Types.Guid.From(System.Guid.NewGuid()) : {{ entity.Name }}.Create{{key.Name}}(createDto.{{key.Name}});  
+        entity.{{key.Name}} = System.Guid.Empty.Equals(createDto.{{key.Name}}) ? Nox.Types.Guid.From(System.Guid.NewGuid()) : {{ entity.Name }}.Create{{key.Name}}(createDto.{{key.Name}});  
             {{- end }}
         {{- end }}
         {{- for attribute in entity.Attributes }}

@@ -11,7 +11,7 @@ description: Stores
 keys:
 
   - name: Id
-    type: databaseGuid
+    type: guid
     isRequired: true
 
 attributes:
