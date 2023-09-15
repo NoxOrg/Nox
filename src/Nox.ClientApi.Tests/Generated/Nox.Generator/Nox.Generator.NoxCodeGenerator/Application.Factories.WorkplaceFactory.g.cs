@@ -1,4 +1,4 @@
-using System;// Generated
+﻿using System;// Generated
 
 #nullable enable
 
@@ -41,7 +41,6 @@ public abstract class WorkplaceFactoryBase: IEntityFactory<Workplace,WorkplaceCr
         var entity = new ClientApi.Domain.Workplace();
         entity.EnsureId();
         entity.Name = ClientApi.Domain.Workplace.CreateName(createDto.Name);
-		entity.EnsureId();
         //entity.Country = Country?.ToEntity();
         return entity;
     }

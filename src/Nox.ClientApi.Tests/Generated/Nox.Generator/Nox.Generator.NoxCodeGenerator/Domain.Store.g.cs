@@ -35,7 +35,7 @@ public abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     ///  (Required).
     /// </summary>
-    public DatabaseGuid Id { get; set; } = null!;
+    public Nox.Types.Guid Id { get; set; } = null!;
 
     /// <summary>
     /// Store Name (Required).

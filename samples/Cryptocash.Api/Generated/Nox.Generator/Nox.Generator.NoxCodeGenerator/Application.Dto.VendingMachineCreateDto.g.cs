@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 using System.Collections.Generic;
@@ -23,7 +23,7 @@ public partial class VendingMachineCreateDto: VendingMachineCreateDtoBase
 /// Vending machine definition and related data.
 /// </summary>
 public abstract class VendingMachineCreateDtoBase : IEntityCreateDto<VendingMachine>
-{    
+{
     /// <summary>
     /// Vending machine unique identifier (Required).
     /// </summary>

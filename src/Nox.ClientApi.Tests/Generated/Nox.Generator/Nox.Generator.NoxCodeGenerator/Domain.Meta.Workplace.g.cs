@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -47,15 +47,6 @@ public partial class Workplace
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
-
-    /// <summary>
-    /// Type options and factory for property 'Greeting'
-    /// </summary>
-    public static Nox.Types.FormulaTypeOptions GreetingTypeOptions {get; private set;} = new ()
-    {
-        Expression = "$\"Hello, {Name.Value}!\"",
-        Returns = Nox.Types.FormulaReturnType.@string,
-    };
     
         /// <summary>
         /// Factory for property 'Name'
@@ -64,12 +55,27 @@ public partial class Workplace
             => Nox.Types.Text.From(value, NameTypeOptions);
         
     
-
-    /// <summary>
-    /// Type options and factory for property 'CountryId'
-    /// </summary>
-    public static Nox.Types.AutoNumber CreateCountryId(System.Int64 value)
-        => Nox.Types.AutoNumber.From(value);
+        /// <summary>
+        /// Type options for property 'Greeting'
+        /// </summary>
+        public static Nox.Types.FormulaTypeOptions GreetingTypeOptions {get; private set;} = new ()
+        {
+            Expression = "$\"Hello, {Name.Value}!\"",
+            Returns = Nox.Types.FormulaReturnType.@string,
+        };
     
-
+    
+        /// <summary>
+        /// Factory for property 'Greeting'
+        /// </summary>
+        public static Nox.Types.Formula CreateGreeting(System.String value)
+            => Nox.Types.Formula.From(value, GreetingTypeOptions);
+        
+    
+        /// <summary>
+        /// Factory for property 'CountryId'
+        /// </summary>
+        public static Nox.Types.AutoNumber CreateCountryId(System.Int64 value)
+            => Nox.Types.AutoNumber.From(value);
+        
 }

@@ -39,7 +39,7 @@ public abstract class VendingMachineFactoryBase: IEntityFactory<VendingMachine,V
     private Cryptocash.Domain.VendingMachine ToEntity(VendingMachineCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.VendingMachine();
-        entity.Id = ( createDto.Id == null || System.Guid.Empty.Equals(createDto.Id) ) ? Nox.Types.Guid.From(System.Guid.NewGuid()) : VendingMachine.CreateId(createDto.Id);
+        entity.Id = System.Guid.Empty.Equals(createDto.Id)s ? Nox.Types.Guid.From(System.Guid.NewGuid()) : VendingMachine.CreateId(createDto.Id);
         entity.MacAddress = Cryptocash.Domain.VendingMachine.CreateMacAddress(createDto.MacAddress);
         entity.PublicIp = Cryptocash.Domain.VendingMachine.CreatePublicIp(createDto.PublicIp);
         entity.GeoLocation = Cryptocash.Domain.VendingMachine.CreateGeoLocation(createDto.GeoLocation);

@@ -23,7 +23,12 @@ public partial class StoreCreateDto: StoreCreateDtoBase
 /// Stores.
 /// </summary>
 public abstract class StoreCreateDtoBase : IEntityCreateDto<Store>
-{    
+{
+    /// <summary>
+    ///  (Required).
+    /// </summary>
+    [Required(ErrorMessage = "Id is required")]
+    public System.Guid Id { get; set; } = default!;    
     /// <summary>
     /// Store Name (Required).
     /// </summary>

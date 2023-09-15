@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -31,7 +31,7 @@ public class DeleteStoreByIdCommandHandler: CommandBase<DeleteStoreByIdCommand,S
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Store,DatabaseGuid>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Store,Nox.Types.Guid>("Id", request.keyId);
 
 		var entity = await DbContext.Stores.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted.Value == true)

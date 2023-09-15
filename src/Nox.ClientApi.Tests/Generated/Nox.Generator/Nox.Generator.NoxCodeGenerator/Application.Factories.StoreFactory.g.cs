@@ -1,4 +1,4 @@
-using System;// Generated
+﻿using System;// Generated
 
 #nullable enable
 
@@ -42,7 +42,7 @@ public abstract class StoreFactoryBase: IEntityFactory<Store,StoreCreateDto>
     private ClientApi.Domain.Store ToEntity(StoreCreateDto createDto)
     {
         var entity = new ClientApi.Domain.Store();
-        entity.EnsureId();
+        entity.Id = ( createDto.Id == null || System.Guid.Empty.Equals(createDto.Id) ) ? Nox.Types.Guid.From(System.Guid.NewGuid()) : Store.CreateId(createDto.Id);
         entity.Name = ClientApi.Domain.Store.CreateName(createDto.Name);
         entity.Address = ClientApi.Domain.Store.CreateAddress(createDto.Address);
         entity.Location = ClientApi.Domain.Store.CreateLocation(createDto.Location);

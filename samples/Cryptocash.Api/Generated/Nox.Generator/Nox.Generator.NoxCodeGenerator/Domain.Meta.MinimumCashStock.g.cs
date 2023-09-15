@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -32,8 +32,8 @@ public partial class MinimumCashStock
         /// <summary>
         /// Factory for property 'VendingMachineId'
         /// </summary>
-        public static Nox.Types.DatabaseGuid CreateVendingMachineId(System.Guid value)
-            => Nox.Types.DatabaseGuid.From(value);
+        public static Nox.Types.Guid CreateVendingMachineId(System.Guid value)
+            => Nox.Types.Guid.From(value);
         
     
         /// <summary>

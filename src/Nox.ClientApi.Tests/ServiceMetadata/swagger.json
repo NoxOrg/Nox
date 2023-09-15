@@ -9151,12 +9151,17 @@
       "StoreCreateDto": {
         "required": [
           "address",
+          "id",
           "isTemporary",
           "location",
           "name"
         ],
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
           "name": {
             "minLength": 1,
             "type": "string"
