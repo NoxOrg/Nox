@@ -52,6 +52,11 @@ public abstract class TestEntityExactlyOneBase : AuditableEntityBase, IEntityCon
     /// </summary>
     public Nox.Types.Text SecondTestEntityExactlyOneRelationshipId { get; set; } = null!;
 
+    public virtual void CreateRefToSecondTestEntityExactlyOneRelationship(SecondTestEntityExactlyOne relatedSecondTestEntityExactlyOne)
+    {
+        SecondTestEntityExactlyOneRelationship = relatedSecondTestEntityExactlyOne;
+    }
+
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

@@ -52,6 +52,11 @@ public abstract class TestEntityExactlyOneToZeroOrManyBase : AuditableEntityBase
     /// </summary>
     public Nox.Types.Text TestEntityZeroOrManyToExactlyOneId { get; set; } = null!;
 
+    public virtual void CreateRefToTestEntityZeroOrManyToExactlyOne(TestEntityZeroOrManyToExactlyOne relatedTestEntityZeroOrManyToExactlyOne)
+    {
+        TestEntityZeroOrManyToExactlyOne = relatedTestEntityZeroOrManyToExactlyOne;
+    }
+
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

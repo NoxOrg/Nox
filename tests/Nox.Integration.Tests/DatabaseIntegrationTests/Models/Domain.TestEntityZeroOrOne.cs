@@ -52,6 +52,11 @@ public abstract class TestEntityZeroOrOneBase : AuditableEntityBase, IEntityConc
     /// </summary>
     public Nox.Types.Text? SecondTestEntityZeroOrOneRelationshipId { get; set; } = null!;
 
+    public virtual void CreateRefToSecondTestEntityZeroOrOneRelationship(SecondTestEntityZeroOrOne relatedSecondTestEntityZeroOrOne)
+    {
+        SecondTestEntityZeroOrOneRelationship = relatedSecondTestEntityZeroOrOne;
+    }
+
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

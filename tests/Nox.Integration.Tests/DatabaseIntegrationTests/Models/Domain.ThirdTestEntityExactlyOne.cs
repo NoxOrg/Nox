@@ -52,6 +52,11 @@ public abstract class ThirdTestEntityExactlyOneBase : AuditableEntityBase, IEnti
     /// </summary>
     public Nox.Types.Text ThirdTestEntityZeroOrOneRelationshipId { get; set; } = null!;
 
+    public virtual void CreateRefToThirdTestEntityZeroOrOneRelationship(ThirdTestEntityZeroOrOne relatedThirdTestEntityZeroOrOne)
+    {
+        ThirdTestEntityZeroOrOneRelationship = relatedThirdTestEntityZeroOrOne;
+    }
+
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

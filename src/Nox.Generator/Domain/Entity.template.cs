@@ -110,7 +110,7 @@ public abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if ent
     {{- end}}
     {{-end}}
 
-    public virtual void CreateRefTo{{relationship.Entity}}({{relationship.Entity}} related{{relationship.Entity}})
+    public virtual void CreateRefTo{{relationship.Name}}({{relationship.Entity}} related{{relationship.Entity}})
     {
         {{- if relationship.WithSingleEntity }}
         {{relationship.Name}} = related{{relationship.Entity}};

@@ -47,10 +47,20 @@ public abstract class TestEntityTwoRelationshipsOneToManyBase : AuditableEntityB
     /// </summary>
     public virtual List<SecondTestEntityTwoRelationshipsOneToMany> TestRelationshipOne { get; set; } = new();
 
+    public virtual void CreateRefToTestRelationshipOne(SecondTestEntityTwoRelationshipsOneToMany relatedSecondTestEntityTwoRelationshipsOneToMany)
+    {
+        TestRelationshipOne.Add(relatedSecondTestEntityTwoRelationshipsOneToMany);
+    }
+
     /// <summary>
     /// TestEntityTwoRelationshipsOneToMany Second relationship to the same entity ZeroOrMany SecondTestEntityTwoRelationshipsOneToManies
     /// </summary>
     public virtual List<SecondTestEntityTwoRelationshipsOneToMany> TestRelationshipTwo { get; set; } = new();
+
+    public virtual void CreateRefToTestRelationshipTwo(SecondTestEntityTwoRelationshipsOneToMany relatedSecondTestEntityTwoRelationshipsOneToMany)
+    {
+        TestRelationshipTwo.Add(relatedSecondTestEntityTwoRelationshipsOneToMany);
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

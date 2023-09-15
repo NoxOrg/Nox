@@ -40,7 +40,6 @@ internal class DeleteOwnedCommandGenerator : INoxCodeGenerator
                     .WithObject("parentKeysFindQuery", parentKeysFindQuery)
                     .WithObject("ownedKeysFindQuery", ownedKeysFindQuery)
                     .GenerateSourceCodeFromResource(templateName);
-
             }
         }
     }

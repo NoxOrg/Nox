@@ -7338,7 +7338,7 @@
             },
             "nullable": true
           },
-          "countryLocalNames": {
+          "countryShortNames": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CountryLocalNameCreateDto"

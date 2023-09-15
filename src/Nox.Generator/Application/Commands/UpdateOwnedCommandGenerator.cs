@@ -45,7 +45,6 @@ internal class UpdateOwnedCommandGenerator : INoxCodeGenerator
                     .WithObject("ownedKeysFindQuery", ownedKeysFindQuery)
                     .GenerateSourceCodeFromResource(templateName);
             }
-
         }
     }
 }

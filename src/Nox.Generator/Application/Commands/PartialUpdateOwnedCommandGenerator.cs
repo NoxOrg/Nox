@@ -44,9 +44,7 @@ internal class PartialUpdateOwnedCommandGenerator : INoxCodeGenerator
                 .WithObject("parentKeysFindQuery", parentKeysFindQuery)
                 .WithObject("ownedKeysFindQuery", ownedKeysFindQuery)
                 .GenerateSourceCodeFromResource(templateName);
-
             }
-
         }
     }
 }
