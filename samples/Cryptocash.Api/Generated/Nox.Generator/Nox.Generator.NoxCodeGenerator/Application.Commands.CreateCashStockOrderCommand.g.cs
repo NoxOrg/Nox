@@ -50,12 +50,12 @@ public partial class CreateCashStockOrderCommandHandler: CommandBase<CreateCashS
 		if(request.EntityDto.CashStockOrderForVendingMachine is not null)
 		{ 
 			var relatedEntity = _vendingmachinefactory.CreateEntity(request.EntityDto.CashStockOrderForVendingMachine);
-			entityToCreate.CreateRefToVendingMachine(relatedEntity);
+			entityToCreate.CreateRefToCashStockOrderForVendingMachine(relatedEntity);
 		}
 		if(request.EntityDto.CashStockOrderReviewedByEmployee is not null)
 		{ 
 			var relatedEntity = _employeefactory.CreateEntity(request.EntityDto.CashStockOrderReviewedByEmployee);
-			entityToCreate.CreateRefToEmployee(relatedEntity);
+			entityToCreate.CreateRefToCashStockOrderReviewedByEmployee(relatedEntity);
 		}
 					
 		OnCompleted(request, entityToCreate);

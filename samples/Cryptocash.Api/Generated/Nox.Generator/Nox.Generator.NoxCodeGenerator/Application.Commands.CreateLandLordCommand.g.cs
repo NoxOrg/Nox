@@ -47,7 +47,7 @@ public partial class CreateLandLordCommandHandler: CommandBase<CreateLandLordCom
 		foreach(var relatedCreateDto in request.EntityDto.ContractedAreasForVendingMachines)
 		{
 			var relatedEntity = _vendingmachinefactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToVendingMachine(relatedEntity);
+			entityToCreate.CreateRefToContractedAreasForVendingMachines(relatedEntity);
 		}
 					
 		OnCompleted(request, entityToCreate);

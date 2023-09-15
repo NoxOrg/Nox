@@ -71,7 +71,7 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<Workplace> PhysicalWorkplaces { get; set; } = new();
 
-    public virtual void CreateRefToWorkplace(Workplace relatedWorkplace)
+    public virtual void CreateRefToPhysicalWorkplaces(Workplace relatedWorkplace)
     {
         PhysicalWorkplaces.Add(relatedWorkplace);
     }

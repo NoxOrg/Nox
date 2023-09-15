@@ -47,7 +47,7 @@ public partial class CreateEmployeeCommandHandler: CommandBase<CreateEmployeeCom
 		if(request.EntityDto.EmployeeReviewingCashStockOrder is not null)
 		{ 
 			var relatedEntity = _cashstockorderfactory.CreateEntity(request.EntityDto.EmployeeReviewingCashStockOrder);
-			entityToCreate.CreateRefToCashStockOrder(relatedEntity);
+			entityToCreate.CreateRefToEmployeeReviewingCashStockOrder(relatedEntity);
 		}
 					
 		OnCompleted(request, entityToCreate);

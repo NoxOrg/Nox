@@ -50,12 +50,12 @@ public partial class CreateCommissionCommandHandler: CommandBase<CreateCommissio
 		if(request.EntityDto.CommissionFeesForCountry is not null)
 		{ 
 			var relatedEntity = _countryfactory.CreateEntity(request.EntityDto.CommissionFeesForCountry);
-			entityToCreate.CreateRefToCountry(relatedEntity);
+			entityToCreate.CreateRefToCommissionFeesForCountry(relatedEntity);
 		}
 		foreach(var relatedCreateDto in request.EntityDto.CommissionFeesForBooking)
 		{
 			var relatedEntity = _bookingfactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToBooking(relatedEntity);
+			entityToCreate.CreateRefToCommissionFeesForBooking(relatedEntity);
 		}
 					
 		OnCompleted(request, entityToCreate);

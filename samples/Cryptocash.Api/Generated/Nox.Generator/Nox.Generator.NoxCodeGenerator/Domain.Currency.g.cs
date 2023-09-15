@@ -102,7 +102,7 @@ public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<Country> CurrencyUsedByCountry { get; set; } = new();
 
-    public virtual void CreateRefToCountry(Country relatedCountry)
+    public virtual void CreateRefToCurrencyUsedByCountry(Country relatedCountry)
     {
         CurrencyUsedByCountry.Add(relatedCountry);
     }
@@ -112,7 +112,7 @@ public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<MinimumCashStock> CurrencyUsedByMinimumCashStocks { get; set; } = new();
 
-    public virtual void CreateRefToMinimumCashStock(MinimumCashStock relatedMinimumCashStock)
+    public virtual void CreateRefToCurrencyUsedByMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
     {
         CurrencyUsedByMinimumCashStocks.Add(relatedMinimumCashStock);
     }

@@ -52,7 +52,7 @@ public abstract class LandLordBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<VendingMachine> ContractedAreasForVendingMachines { get; set; } = new();
 
-    public virtual void CreateRefToVendingMachine(VendingMachine relatedVendingMachine)
+    public virtual void CreateRefToContractedAreasForVendingMachines(VendingMachine relatedVendingMachine)
     {
         ContractedAreasForVendingMachines.Add(relatedVendingMachine);
     }

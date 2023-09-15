@@ -59,27 +59,27 @@ public partial class CreateVendingMachineCommandHandler: CommandBase<CreateVendi
 		if(request.EntityDto.VendingMachineInstallationCountry is not null)
 		{ 
 			var relatedEntity = _countryfactory.CreateEntity(request.EntityDto.VendingMachineInstallationCountry);
-			entityToCreate.CreateRefToCountry(relatedEntity);
+			entityToCreate.CreateRefToVendingMachineInstallationCountry(relatedEntity);
 		}
 		if(request.EntityDto.VendingMachineContractedAreaLandLord is not null)
 		{ 
 			var relatedEntity = _landlordfactory.CreateEntity(request.EntityDto.VendingMachineContractedAreaLandLord);
-			entityToCreate.CreateRefToLandLord(relatedEntity);
+			entityToCreate.CreateRefToVendingMachineContractedAreaLandLord(relatedEntity);
 		}
 		foreach(var relatedCreateDto in request.EntityDto.VendingMachineRelatedBookings)
 		{
 			var relatedEntity = _bookingfactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToBooking(relatedEntity);
+			entityToCreate.CreateRefToVendingMachineRelatedBookings(relatedEntity);
 		}
 		foreach(var relatedCreateDto in request.EntityDto.VendingMachineRelatedCashStockOrders)
 		{
 			var relatedEntity = _cashstockorderfactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToCashStockOrder(relatedEntity);
+			entityToCreate.CreateRefToVendingMachineRelatedCashStockOrders(relatedEntity);
 		}
 		foreach(var relatedCreateDto in request.EntityDto.VendingMachineRequiredMinimumCashStocks)
 		{
 			var relatedEntity = _minimumcashstockfactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToMinimumCashStock(relatedEntity);
+			entityToCreate.CreateRefToVendingMachineRequiredMinimumCashStocks(relatedEntity);
 		}
 					
 		OnCompleted(request, entityToCreate);

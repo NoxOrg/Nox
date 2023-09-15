@@ -56,22 +56,22 @@ public partial class CreateCustomerCommandHandler: CommandBase<CreateCustomerCom
 		foreach(var relatedCreateDto in request.EntityDto.CustomerRelatedPaymentDetails)
 		{
 			var relatedEntity = _paymentdetailfactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToPaymentDetail(relatedEntity);
+			entityToCreate.CreateRefToCustomerRelatedPaymentDetails(relatedEntity);
 		}
 		foreach(var relatedCreateDto in request.EntityDto.CustomerRelatedBookings)
 		{
 			var relatedEntity = _bookingfactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToBooking(relatedEntity);
+			entityToCreate.CreateRefToCustomerRelatedBookings(relatedEntity);
 		}
 		foreach(var relatedCreateDto in request.EntityDto.CustomerRelatedTransactions)
 		{
 			var relatedEntity = _transactionfactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToTransaction(relatedEntity);
+			entityToCreate.CreateRefToCustomerRelatedTransactions(relatedEntity);
 		}
 		if(request.EntityDto.CustomerBaseCountry is not null)
 		{ 
 			var relatedEntity = _countryfactory.CreateEntity(request.EntityDto.CustomerBaseCountry);
-			entityToCreate.CreateRefToCountry(relatedEntity);
+			entityToCreate.CreateRefToCustomerBaseCountry(relatedEntity);
 		}
 					
 		OnCompleted(request, entityToCreate);

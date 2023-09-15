@@ -91,7 +91,7 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.AutoNumber BookingForCustomerId { get; set; } = null!;
 
-    public virtual void CreateRefToCustomer(Customer relatedCustomer)
+    public virtual void CreateRefToBookingForCustomer(Customer relatedCustomer)
     {
         BookingForCustomer = relatedCustomer;
     }
@@ -106,7 +106,7 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.DatabaseGuid BookingRelatedVendingMachineId { get; set; } = null!;
 
-    public virtual void CreateRefToVendingMachine(VendingMachine relatedVendingMachine)
+    public virtual void CreateRefToBookingRelatedVendingMachine(VendingMachine relatedVendingMachine)
     {
         BookingRelatedVendingMachine = relatedVendingMachine;
     }
@@ -121,7 +121,7 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.AutoNumber BookingFeesForCommissionId { get; set; } = null!;
 
-    public virtual void CreateRefToCommission(Commission relatedCommission)
+    public virtual void CreateRefToBookingFeesForCommission(Commission relatedCommission)
     {
         BookingFeesForCommission = relatedCommission;
     }
@@ -131,7 +131,7 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual Transaction BookingRelatedTransaction { get; set; } = null!;
 
-    public virtual void CreateRefToTransaction(Transaction relatedTransaction)
+    public virtual void CreateRefToBookingRelatedTransaction(Transaction relatedTransaction)
     {
         BookingRelatedTransaction = relatedTransaction;
     }

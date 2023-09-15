@@ -50,12 +50,12 @@ public partial class CreateTransactionCommandHandler: CommandBase<CreateTransact
 		if(request.EntityDto.TransactionForCustomer is not null)
 		{ 
 			var relatedEntity = _customerfactory.CreateEntity(request.EntityDto.TransactionForCustomer);
-			entityToCreate.CreateRefToCustomer(relatedEntity);
+			entityToCreate.CreateRefToTransactionForCustomer(relatedEntity);
 		}
 		if(request.EntityDto.TransactionForBooking is not null)
 		{ 
 			var relatedEntity = _bookingfactory.CreateEntity(request.EntityDto.TransactionForBooking);
-			entityToCreate.CreateRefToBooking(relatedEntity);
+			entityToCreate.CreateRefToTransactionForBooking(relatedEntity);
 		}
 					
 		OnCompleted(request, entityToCreate);

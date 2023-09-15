@@ -57,7 +57,7 @@ public abstract class CommissionBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.CountryCode2? CommissionFeesForCountryId { get; set; } = null!;
 
-    public virtual void CreateRefToCountry(Country relatedCountry)
+    public virtual void CreateRefToCommissionFeesForCountry(Country relatedCountry)
     {
         CommissionFeesForCountry = relatedCountry;
     }
@@ -67,7 +67,7 @@ public abstract class CommissionBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<Booking> CommissionFeesForBooking { get; set; } = new();
 
-    public virtual void CreateRefToBooking(Booking relatedBooking)
+    public virtual void CreateRefToCommissionFeesForBooking(Booking relatedBooking)
     {
         CommissionFeesForBooking.Add(relatedBooking);
     }

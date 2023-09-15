@@ -62,13 +62,13 @@ public partial class Create{{entity.Name}}CommandHandler: CommandBase<Create{{en
 		if(request.EntityDto.{{relationship.Name}} is not null)
 		{ 
 			var relatedEntity = _{{fieldFactoryName relationship.Entity}}.CreateEntity(request.EntityDto.{{relationship.Name}});
-			entityToCreate.CreateRefTo{{relationship.Entity}}(relatedEntity);
+			entityToCreate.CreateRefTo{{relationship.Name}}(relatedEntity);
 		}		
 		{{- else}}
 		foreach(var relatedCreateDto in request.EntityDto.{{relationship.Name}})
 		{
 			var relatedEntity = _{{fieldFactoryName relationship.Entity}}.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefTo{{relationship.Entity}}(relatedEntity);
+			entityToCreate.CreateRefTo{{relationship.Name}}(relatedEntity);
 		}
 		{{-end}}
 	{{- end }}

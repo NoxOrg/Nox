@@ -47,7 +47,7 @@ public partial class CreateCountryCommandHandler: CommandBase<CreateCountryComma
 		foreach(var relatedCreateDto in request.EntityDto.PhysicalWorkplaces)
 		{
 			var relatedEntity = _workplacefactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToWorkplace(relatedEntity);
+			entityToCreate.CreateRefToPhysicalWorkplaces(relatedEntity);
 		}
 					
 		OnCompleted(request, entityToCreate);
