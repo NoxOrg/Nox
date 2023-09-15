@@ -35,7 +35,23 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Booking unique identifier (Required).
     /// </summary>
-    public Nox.Types.Guid Id { get; set; } = null!;
+    public Nox.Types.Guid Id {get; set;} = null!;
+    
+    	public virtual void EnsureId(System.Guid guid)
+    	{
+    		if(System.Guid.Empty.Equals(guid))
+    		{
+    			Id = Nox.Types.Guid.From(System.Guid.NewGuid());
+    		}
+    		else
+    		{
+    			var currentGuid = Nox.Types.Guid.From(guid);
+    			if(Id != currentGuid)
+    			{
+    				throw new NoxGuidTypeException("Immutable guid property Id value is different since it has been initialized");
+    			}
+    		}
+    	}
 
     /// <summary>
     /// Booking's amount exchanged from (Required).

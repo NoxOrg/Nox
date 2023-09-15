@@ -29,6 +29,7 @@ public abstract class {{className}}Base : IEntityCreateDto<{{entity.Name}}>
     {{ continue; -}}
     {{- end }}
     {{- if key.Type == "Guid" -}}
+    
     /// <summary>
     /// {{key.Description}} (Optional).
     /// </summary>

@@ -17,7 +17,7 @@ Amount|Money|Order amount
 RequestedDeliveryDate|Date|Order requested delivery date
 DeliveryDateTime|DateTime|Order delivery date
 Status|Formula|Order status
-VendingMachineId|DatabaseGuid|Vending machine unique identifier
+VendingMachineId|Guid|Vending machine unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -34,7 +34,7 @@ Amount|Money|Order amount
 RequestedDeliveryDate|Date|Order requested delivery date
 DeliveryDateTime|DateTime|Order delivery date
 Status|Formula|Order status
-VendingMachineId|DatabaseGuid|Vending machine unique identifier
+VendingMachineId|Guid|Vending machine unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -51,6 +51,6 @@ Amount|Money|Order amount
 RequestedDeliveryDate|Date|Order requested delivery date
 DeliveryDateTime|DateTime|Order delivery date
 Status|Formula|Order status
-VendingMachineId|DatabaseGuid|Vending machine unique identifier
+VendingMachineId|Guid|Vending machine unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 

@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 using System.Collections.Generic;
@@ -25,9 +25,8 @@ public partial class VendingMachineCreateDto: VendingMachineCreateDtoBase
 public abstract class VendingMachineCreateDtoBase : IEntityCreateDto<VendingMachine>
 {
     /// <summary>
-    /// Vending machine unique identifier (Required).
+    /// Vending machine unique identifier (Optional).
     /// </summary>
-    [Required(ErrorMessage = "Id is required")]
     public System.Guid Id { get; set; } = default!;    
     /// <summary>
     /// Vending machine mac address (Required).

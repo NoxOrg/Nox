@@ -1,5 +1,3 @@
-using System;
-
 {{- ownedEntities = entity.OwnedRelationships | array.map "Entity" }}
 {{- func fieldFactoryName 
     ret (string.downcase $0 + "Factory")
@@ -8,6 +6,7 @@ end -}}
 
 #nullable enable
 
+using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
@@ -60,14 +59,6 @@ public abstract class {{className}}Base: IEntityFactory<{{entity.Name}},{{entity
             {{- end }}
         entity.{{key.Name}} = {{ entity.Name }}.Create{{key.Name}}(createDto.{{key.Name}});
         {{- end }}
-        {{- for key in entity.Keys ~}}
-            {{- if key.Type == "Nuid" }}
-        entity.Ensure{{key.Name}}();
-            {{- end }}
-            {{- if key.Type == "Guid" }}
-        entity.{{key.Name}} = System.Guid.Empty.Equals(createDto.{{key.Name}}) ? Nox.Types.Guid.From(System.Guid.NewGuid()) : {{ entity.Name }}.Create{{key.Name}}(createDto.{{key.Name}});  
-            {{- end }}
-        {{- end }}
         {{- for attribute in entity.Attributes }}
             {{- if !IsNoxTypeReadable attribute.Type || attribute.Type == "Formula" -}}
                 {{ continue; }}
@@ -83,6 +74,15 @@ public abstract class {{className}}Base: IEntityFactory<{{entity.Name}},{{entity
         entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}.Create{{attribute.Name}}(createDto.{{attribute.Name}});
         {{- end }}
         {{- end }}
+
+        {{- for key in entity.Keys ~}}
+		    {{- if key.Type == "Nuid" }}
+		entity.Ensure{{key.Name}}();
+		    {{- end }}
+            {{- if key.Type == "Guid" }}
+        entity.Ensure{{key.Name}}(createDto.{{key.Name}});
+            {{- end }}
+		{{- end }}
 
         {{- for relationship in entity.Relationships }}
             {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}

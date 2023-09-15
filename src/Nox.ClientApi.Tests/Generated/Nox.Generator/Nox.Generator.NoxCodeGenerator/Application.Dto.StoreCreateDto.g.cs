@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 using System.Collections.Generic;
@@ -25,9 +25,8 @@ public partial class StoreCreateDto: StoreCreateDtoBase
 public abstract class StoreCreateDtoBase : IEntityCreateDto<Store>
 {
     /// <summary>
-    ///  (Required).
+    ///  (Optional).
     /// </summary>
-    [Required(ErrorMessage = "Id is required")]
     public System.Guid Id { get; set; } = default!;    
     /// <summary>
     /// Store Name (Required).

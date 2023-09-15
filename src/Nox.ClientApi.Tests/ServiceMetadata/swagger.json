@@ -9151,7 +9151,6 @@
       "StoreCreateDto": {
         "required": [
           "address",
-          "id",
           "isTemporary",
           "location",
           "name"

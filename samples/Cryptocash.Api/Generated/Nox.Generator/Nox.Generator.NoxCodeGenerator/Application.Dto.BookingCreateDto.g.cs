@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 using System.Collections.Generic;
@@ -25,9 +25,8 @@ public partial class BookingCreateDto: BookingCreateDtoBase
 public abstract class BookingCreateDtoBase : IEntityCreateDto<Booking>
 {
     /// <summary>
-    /// Booking unique identifier (Required).
+    /// Booking unique identifier (Optional).
     /// </summary>
-    [Required(ErrorMessage = "Id is required")]
     public System.Guid Id { get; set; } = default!;    
     /// <summary>
     /// Booking's amount exchanged from (Required).

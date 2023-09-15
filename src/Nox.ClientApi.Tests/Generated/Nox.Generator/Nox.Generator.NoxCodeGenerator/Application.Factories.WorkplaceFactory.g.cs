@@ -1,7 +1,8 @@
-﻿using System;// Generated
+﻿// Generated
 
 #nullable enable
 
+using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
@@ -39,8 +40,8 @@ public abstract class WorkplaceFactoryBase: IEntityFactory<Workplace,WorkplaceCr
     private ClientApi.Domain.Workplace ToEntity(WorkplaceCreateDto createDto)
     {
         var entity = new ClientApi.Domain.Workplace();
-        entity.EnsureId();
         entity.Name = ClientApi.Domain.Workplace.CreateName(createDto.Name);
+		entity.EnsureId();
         //entity.Country = Country?.ToEntity();
         return entity;
     }

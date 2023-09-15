@@ -12,7 +12,7 @@ This event is triggered when a new Booking is created.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|DatabaseGuid|Booking unique identifier
+Id|Guid|Booking unique identifier
 AmountFrom|Money|Booking's amount exchanged from
 AmountTo|Money|Booking's amount exchanged to
 RequestedPickUpDate|DateTimeRange|Booking's requested pick up date
@@ -22,7 +22,7 @@ CancelledDateTime|DateTime|Booking's cancelled date
 Status|Formula|Booking's status
 VatNumber|VatNumber|Booking's related vat number
 CustomerId|AutoNumber|Customer's unique identifier
-VendingMachineId|DatabaseGuid|Vending machine unique identifier
+VendingMachineId|Guid|Vending machine unique identifier
 CommissionId|AutoNumber|Commission unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
@@ -35,7 +35,7 @@ This event is triggered when an existing Booking is updated.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|DatabaseGuid|Booking unique identifier
+Id|Guid|Booking unique identifier
 AmountFrom|Money|Booking's amount exchanged from
 AmountTo|Money|Booking's amount exchanged to
 RequestedPickUpDate|DateTimeRange|Booking's requested pick up date
@@ -45,7 +45,7 @@ CancelledDateTime|DateTime|Booking's cancelled date
 Status|Formula|Booking's status
 VatNumber|VatNumber|Booking's related vat number
 CustomerId|AutoNumber|Customer's unique identifier
-VendingMachineId|DatabaseGuid|Vending machine unique identifier
+VendingMachineId|Guid|Vending machine unique identifier
 CommissionId|AutoNumber|Commission unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
@@ -58,7 +58,7 @@ This event is triggered when an existing Booking is deleted.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|DatabaseGuid|Booking unique identifier
+Id|Guid|Booking unique identifier
 AmountFrom|Money|Booking's amount exchanged from
 AmountTo|Money|Booking's amount exchanged to
 RequestedPickUpDate|DateTimeRange|Booking's requested pick up date
@@ -68,7 +68,7 @@ CancelledDateTime|DateTime|Booking's cancelled date
 Status|Formula|Booking's status
 VatNumber|VatNumber|Booking's related vat number
 CustomerId|AutoNumber|Customer's unique identifier
-VendingMachineId|DatabaseGuid|Vending machine unique identifier
+VendingMachineId|Guid|Vending machine unique identifier
 CommissionId|AutoNumber|Commission unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 

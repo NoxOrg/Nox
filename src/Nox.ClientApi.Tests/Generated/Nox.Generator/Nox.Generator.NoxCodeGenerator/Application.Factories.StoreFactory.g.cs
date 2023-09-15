@@ -1,7 +1,8 @@
-﻿using System;// Generated
+﻿// Generated
 
 #nullable enable
 
+using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
@@ -42,10 +43,10 @@ public abstract class StoreFactoryBase: IEntityFactory<Store,StoreCreateDto>
     private ClientApi.Domain.Store ToEntity(StoreCreateDto createDto)
     {
         var entity = new ClientApi.Domain.Store();
-        entity.Id = System.Guid.Empty.Equals(createDto.Id) ? Nox.Types.Guid.From(System.Guid.NewGuid()) : Store.CreateId(createDto.Id);
         entity.Name = ClientApi.Domain.Store.CreateName(createDto.Name);
         entity.Address = ClientApi.Domain.Store.CreateAddress(createDto.Address);
         entity.Location = ClientApi.Domain.Store.CreateLocation(createDto.Location);
+        entity.EnsureId(createDto.Id);
         //entity.StoreOwner = StoreOwner?.ToEntity();
         if (createDto.VerifiedEmails is not null)
         {

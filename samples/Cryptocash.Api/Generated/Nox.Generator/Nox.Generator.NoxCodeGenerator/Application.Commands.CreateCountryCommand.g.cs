@@ -30,13 +30,14 @@ public partial class CreateCountryCommandHandler: CreateCountryCommandHandlerBas
         IEntityFactory<VendingMachine,VendingMachineCreateDto> vendingmachinefactory,
         IEntityFactory<Customer,CustomerCreateDto> customerfactory,
         IEntityFactory<Country,CountryCreateDto> entityFactory,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution,currencyfactory,commissionfactory,vendingmachinefactory,customerfactory,entityFactory, serviceProvider)
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution,currencyfactory,commissionfactory,vendingmachinefactory,customerfactory,entityFactory, serviceProvider)
 	{
 	}
 }
 
 
-public partial class CreateCountryCommandHandlerBase: CommandBase<CreateCountryCommand,Country>, IRequestHandler <CreateCountryCommand, CountryKeyDto>
+public abstract class CreateCountryCommandHandlerBase: CommandBase<CreateCountryCommand,Country>, IRequestHandler <CreateCountryCommand, CountryKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<Country,CountryCreateDto> _entityFactory;
@@ -63,7 +64,7 @@ public partial class CreateCountryCommandHandlerBase: CommandBase<CreateCountryC
         _customerfactory = customerfactory;
 	}
 
-	public async Task<CountryKeyDto> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CountryKeyDto> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
