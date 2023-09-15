@@ -47,6 +47,11 @@ public abstract class TestEntityZeroOrOneToExactlyOneBase : AuditableEntityBase,
     /// </summary>
     public virtual TestEntityExactlyOneToZeroOrOne? TestEntityExactlyOneToZeroOrOne { get; set; } = null!;
 
+    public virtual void CreateRefToTestEntityExactlyOneToZeroOrOneTestEntityExactlyOneToZeroOrOne(TestEntityExactlyOneToZeroOrOne relatedTestEntityExactlyOneToZeroOrOne)
+    {
+        TestEntityExactlyOneToZeroOrOne = relatedTestEntityExactlyOneToZeroOrOne;
+    }
+
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

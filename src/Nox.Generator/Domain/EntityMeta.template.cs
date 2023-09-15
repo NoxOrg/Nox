@@ -14,11 +14,30 @@ namespace {{codeGeneratorState.DomainNameSpace}};
 /// </summary>
 public partial class {{className}}
 {
-{{- for entry in propertiesWithSource }}
+{{- for entityMetaData in entitiesMetaData }}
+    {{ if entityMetaData.HasTypeOptions == true }}
     /// <summary>
-    /// Type options and factory for property '{{entry.TypeDef.Name}}'
+    /// Type options for property '{{entityMetaData.Name}}'
     /// </summary>
-    {{entry.Source}}
+    public static Nox.Types.{{entityMetaData.Type}}TypeOptions {{entityMetaData.Name}}TypeOptions {get; private set;} = new ()
+    {
+        {{- for property in entityMetaData.OptionsProperties }}
+        {{property}}
+        {{- end }}
+    };
 
+
+    /// <summary>
+    /// Factory for property '{{entityMetaData.Name}}'
+    /// </summary>
+    public static Nox.Types.{{entityMetaData.Type}} Create{{entityMetaData.Name}}({{entityMetaData.InParams}})
+        => Nox.Types.{{entityMetaData.Type}}.From(value, {{entityMetaData.Name}}TypeOptions);
+    {{ else }}
+    /// <summary>
+    /// Factory for property '{{entityMetaData.Name}}'
+    /// </summary>
+    public static Nox.Types.{{entityMetaData.Type}} Create{{entityMetaData.Name}}({{entityMetaData.InParams}})
+        => Nox.Types.{{entityMetaData.Type}}.From(value);
+    {{ end }}
 {{- end }}
 }

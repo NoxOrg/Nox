@@ -71,7 +71,7 @@ public abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurren
     /// </summary>
     public Nox.Types.Guid CashStockOrderForVendingMachineId { get; set; } = null!;
 
-    public virtual void CreateRefToVendingMachine(VendingMachine relatedVendingMachine)
+    public virtual void CreateRefToVendingMachineCashStockOrderForVendingMachine(VendingMachine relatedVendingMachine)
     {
         CashStockOrderForVendingMachine = relatedVendingMachine;
     }
@@ -81,7 +81,7 @@ public abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurren
     /// </summary>
     public virtual Employee CashStockOrderReviewedByEmployee { get; set; } = null!;
 
-    public virtual void CreateRefToEmployee(Employee relatedEmployee)
+    public virtual void CreateRefToEmployeeCashStockOrderReviewedByEmployee(Employee relatedEmployee)
     {
         CashStockOrderReviewedByEmployee = relatedEmployee;
     }

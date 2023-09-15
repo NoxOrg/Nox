@@ -52,7 +52,7 @@ public abstract class PaymentProviderBase : AuditableEntityBase, IEntityConcurre
     /// </summary>
     public virtual List<PaymentDetail> PaymentProviderRelatedPaymentDetails { get; set; } = new();
 
-    public virtual void CreateRefToPaymentDetail(PaymentDetail relatedPaymentDetail)
+    public virtual void CreateRefToPaymentDetailPaymentProviderRelatedPaymentDetails(PaymentDetail relatedPaymentDetail)
     {
         PaymentProviderRelatedPaymentDetails.Add(relatedPaymentDetail);
     }

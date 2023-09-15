@@ -14,18 +14,18 @@ namespace Cryptocash.Domain;
 /// </summary>
 public partial class CountryTimeZone
 {
-    /// <summary>
-    /// Type options and factory for property 'Id'
-    /// </summary>
-    public static Nox.Types.AutoNumber CreateId(System.Int64 value)
-        => Nox.Types.AutoNumber.From(value);
     
-
-    /// <summary>
-    /// Type options and factory for property 'TimeZoneCode'
-    /// </summary>
-    public static Nox.Types.TimeZoneCode CreateTimeZoneCode(System.String value)
-        => Nox.Types.TimeZoneCode.From(value);
+        /// <summary>
+        /// Factory for property 'Id'
+        /// </summary>
+        public static Nox.Types.AutoNumber CreateId(System.Int64 value)
+            => Nox.Types.AutoNumber.From(value);
+        
     
-
+        /// <summary>
+        /// Factory for property 'TimeZoneCode'
+        /// </summary>
+        public static Nox.Types.TimeZoneCode CreateTimeZoneCode(System.String value)
+            => Nox.Types.TimeZoneCode.From(value);
+        
 }

@@ -47,6 +47,11 @@ public abstract class ThirdTestEntityZeroOrOneBase : AuditableEntityBase, IEntit
     /// </summary>
     public virtual ThirdTestEntityExactlyOne? ThirdTestEntityExactlyOneRelationship { get; set; } = null!;
 
+    public virtual void CreateRefToThirdTestEntityExactlyOneThirdTestEntityExactlyOneRelationship(ThirdTestEntityExactlyOne relatedThirdTestEntityExactlyOne)
+    {
+        ThirdTestEntityExactlyOneRelationship = relatedThirdTestEntityExactlyOne;
+    }
+
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>
