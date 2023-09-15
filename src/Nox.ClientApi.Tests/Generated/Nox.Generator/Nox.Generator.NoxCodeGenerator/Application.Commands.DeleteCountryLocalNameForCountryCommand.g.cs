@@ -1,4 +1,4 @@
-﻿// Generated
+﻿﻿// Generated
 
 #nullable enable
 
@@ -37,7 +37,7 @@ public partial class DeleteCountryLocalNameForCountryCommandHandler: CommandBase
 		{
 			return false;
 		}
-		var ownedId = CreateNoxTypeForKey<CountryLocalName,AutoNumber>("Id", request.EntityKeyDto.keyId);
+		var ownedId = CreateNoxTypeForKey<CountryLocalName,Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);
 		var entity = parentEntity.CountryShortNames.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{

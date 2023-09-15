@@ -27,11 +27,11 @@ public partial class PaymentDetail
         /// </summary>
         public static Nox.Types.TextTypeOptions PaymentAccountNameTypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
@@ -47,11 +47,11 @@ public partial class PaymentDetail
         /// </summary>
         public static Nox.Types.TextTypeOptions PaymentAccountNumberTypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
@@ -67,11 +67,11 @@ public partial class PaymentDetail
         /// </summary>
         public static Nox.Types.TextTypeOptions PaymentAccountSortCodeTypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     

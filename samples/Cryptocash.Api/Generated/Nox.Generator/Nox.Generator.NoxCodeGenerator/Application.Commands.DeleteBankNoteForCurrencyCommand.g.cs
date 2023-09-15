@@ -1,4 +1,4 @@
-﻿// Generated
+﻿﻿// Generated
 
 #nullable enable
 
@@ -37,7 +37,7 @@ public partial class DeleteBankNoteForCurrencyCommandHandler: CommandBase<Delete
 		{
 			return false;
 		}
-		var ownedId = CreateNoxTypeForKey<BankNote,AutoNumber>("Id", request.EntityKeyDto.keyId);
+		var ownedId = CreateNoxTypeForKey<BankNote,Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);
 		var entity = parentEntity.CurrencyCommonBankNotes.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{

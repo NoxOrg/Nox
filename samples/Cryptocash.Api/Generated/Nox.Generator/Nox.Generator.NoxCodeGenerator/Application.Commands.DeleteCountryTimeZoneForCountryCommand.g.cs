@@ -1,4 +1,4 @@
-﻿// Generated
+﻿﻿// Generated
 
 #nullable enable
 
@@ -37,7 +37,7 @@ public partial class DeleteCountryTimeZoneForCountryCommandHandler: CommandBase<
 		{
 			return false;
 		}
-		var ownedId = CreateNoxTypeForKey<CountryTimeZone,AutoNumber>("Id", request.EntityKeyDto.keyId);
+		var ownedId = CreateNoxTypeForKey<CountryTimeZone,Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);
 		var entity = parentEntity.CountryOwnedTimeZones.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
