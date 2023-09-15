@@ -47,6 +47,11 @@ public abstract class TestEntityOneOrManyToZeroOrOneBase : AuditableEntityBase, 
     /// </summary>
     public virtual List<TestEntityZeroOrOneToOneOrMany> TestEntityZeroOrOneToOneOrMany { get; set; } = new();
 
+    public virtual void CreateRefToTestEntityZeroOrOneToOneOrManyTestEntityZeroOrOneToOneOrMany(TestEntityZeroOrOneToOneOrMany relatedTestEntityZeroOrOneToOneOrMany)
+    {
+        TestEntityZeroOrOneToOneOrMany.Add(relatedTestEntityZeroOrOneToOneOrMany);
+    }
+
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>
