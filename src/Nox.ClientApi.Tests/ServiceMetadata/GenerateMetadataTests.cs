@@ -1,6 +1,4 @@
 ﻿using FluentAssertions;
-using AutoFixture;
-using AutoFixture.AutoMoq;
 using System.Text;
 using System.Xml;
 using Nox.Solution;

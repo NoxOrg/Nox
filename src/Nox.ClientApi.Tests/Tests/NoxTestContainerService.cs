@@ -54,7 +54,7 @@ public class NoxTestContainerService : IAsyncLifetime
 
                 break;
             default:
-                throw new NotImplementedException($"{DbProviderKind} is not suported");
+                throw new NotImplementedException($"{DbProviderKind} is not supported");
         }
 
         return _dockerContainer.StartAsync();
