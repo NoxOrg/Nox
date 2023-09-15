@@ -47,6 +47,11 @@ public abstract class SecondTestEntityExactlyOneBase : AuditableEntityBase, IEnt
     /// </summary>
     public virtual TestEntityExactlyOne TestEntityExactlyOneRelationship { get; set; } = null!;
 
+    public virtual void CreateRefToTestEntityExactlyOne(TestEntityExactlyOne relatedTestEntityExactlyOne)
+    {
+        TestEntityExactlyOneRelationship = relatedTestEntityExactlyOne;
+    }
+
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

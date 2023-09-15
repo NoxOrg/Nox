@@ -52,6 +52,11 @@ public abstract class TestEntityTwoRelationshipsOneToOneBase : AuditableEntityBa
     /// </summary>
     public Nox.Types.Text TestRelationshipOneId { get; set; } = null!;
 
+    public virtual void CreateRefToSecondTestEntityTwoRelationshipsOneToOne(SecondTestEntityTwoRelationshipsOneToOne relatedSecondTestEntityTwoRelationshipsOneToOne)
+    {
+        TestRelationshipOne = relatedSecondTestEntityTwoRelationshipsOneToOne;
+    }
+
     /// <summary>
     /// TestEntityTwoRelationshipsOneToOne Second relationship to the same entity ExactlyOne SecondTestEntityTwoRelationshipsOneToOnes
     /// </summary>
@@ -61,6 +66,11 @@ public abstract class TestEntityTwoRelationshipsOneToOneBase : AuditableEntityBa
     /// Foreign key for relationship ExactlyOne to entity SecondTestEntityTwoRelationshipsOneToOne
     /// </summary>
     public Nox.Types.Text TestRelationshipTwoId { get; set; } = null!;
+
+    public virtual void CreateRefToSecondTestEntityTwoRelationshipsOneToOne(SecondTestEntityTwoRelationshipsOneToOne relatedSecondTestEntityTwoRelationshipsOneToOne)
+    {
+        TestRelationshipTwo = relatedSecondTestEntityTwoRelationshipsOneToOne;
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

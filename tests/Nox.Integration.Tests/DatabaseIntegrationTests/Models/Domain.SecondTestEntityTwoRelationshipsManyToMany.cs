@@ -47,10 +47,20 @@ public abstract class SecondTestEntityTwoRelationshipsManyToManyBase : EntityBas
     /// </summary>
     public virtual List<TestEntityTwoRelationshipsManyToMany> TestRelationshipOneOnOtherSide { get; set; } = new();
 
+    public virtual void CreateRefToTestEntityTwoRelationshipsManyToMany(TestEntityTwoRelationshipsManyToMany relatedTestEntityTwoRelationshipsManyToMany)
+    {
+        TestRelationshipOneOnOtherSide.Add(relatedTestEntityTwoRelationshipsManyToMany);
+    }
+
     /// <summary>
     /// SecondTestEntityTwoRelationshipsManyToMany Second relationship to the same entity on the other side ZeroOrMany TestEntityTwoRelationshipsManyToManies
     /// </summary>
     public virtual List<TestEntityTwoRelationshipsManyToMany> TestRelationshipTwoOnOtherSide { get; set; } = new();
+
+    public virtual void CreateRefToTestEntityTwoRelationshipsManyToMany(TestEntityTwoRelationshipsManyToMany relatedTestEntityTwoRelationshipsManyToMany)
+    {
+        TestRelationshipTwoOnOtherSide.Add(relatedTestEntityTwoRelationshipsManyToMany);
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

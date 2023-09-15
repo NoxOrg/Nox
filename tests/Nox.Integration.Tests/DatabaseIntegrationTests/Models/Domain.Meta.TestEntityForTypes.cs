@@ -422,7 +422,7 @@ public partial class TestEntityForTypes
         public static Nox.Types.FormulaTypeOptions FormulaTestFieldTypeOptions {get; private set;} = new ()
         {
             Expression = "2 + 2",
-            Returns = Nox.Types.FormulaReturnType.Int,
+            Returns = Nox.Types.FormulaReturnType.@int,
         };
     
     

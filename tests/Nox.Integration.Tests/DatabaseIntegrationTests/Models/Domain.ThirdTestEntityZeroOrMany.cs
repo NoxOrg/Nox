@@ -47,6 +47,11 @@ public abstract class ThirdTestEntityZeroOrManyBase : AuditableEntityBase, IEnti
     /// </summary>
     public virtual List<ThirdTestEntityOneOrMany> ThirdTestEntityOneOrManyRelationship { get; set; } = new();
 
+    public virtual void CreateRefToThirdTestEntityOneOrMany(ThirdTestEntityOneOrMany relatedThirdTestEntityOneOrMany)
+    {
+        ThirdTestEntityOneOrManyRelationship.Add(relatedThirdTestEntityOneOrMany);
+    }
+
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

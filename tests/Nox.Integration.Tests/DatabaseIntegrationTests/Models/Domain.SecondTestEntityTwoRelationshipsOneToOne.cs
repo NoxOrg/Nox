@@ -47,10 +47,20 @@ public abstract class SecondTestEntityTwoRelationshipsOneToOneBase : EntityBase,
     /// </summary>
     public virtual TestEntityTwoRelationshipsOneToOne? TestRelationshipOneOnOtherSide { get; set; } = null!;
 
+    public virtual void CreateRefToTestEntityTwoRelationshipsOneToOne(TestEntityTwoRelationshipsOneToOne relatedTestEntityTwoRelationshipsOneToOne)
+    {
+        TestRelationshipOneOnOtherSide = relatedTestEntityTwoRelationshipsOneToOne;
+    }
+
     /// <summary>
     /// SecondTestEntityTwoRelationshipsOneToOne Second relationship to the same entity on the other side ZeroOrOne TestEntityTwoRelationshipsOneToOnes
     /// </summary>
     public virtual TestEntityTwoRelationshipsOneToOne? TestRelationshipTwoOnOtherSide { get; set; } = null!;
+
+    public virtual void CreateRefToTestEntityTwoRelationshipsOneToOne(TestEntityTwoRelationshipsOneToOne relatedTestEntityTwoRelationshipsOneToOne)
+    {
+        TestRelationshipTwoOnOtherSide = relatedTestEntityTwoRelationshipsOneToOne;
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

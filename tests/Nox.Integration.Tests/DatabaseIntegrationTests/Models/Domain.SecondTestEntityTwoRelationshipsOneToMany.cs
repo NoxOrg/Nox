@@ -52,6 +52,11 @@ public abstract class SecondTestEntityTwoRelationshipsOneToManyBase : EntityBase
     /// </summary>
     public Nox.Types.Text? TestRelationshipOneOnOtherSideId { get; set; } = null!;
 
+    public virtual void CreateRefToTestEntityTwoRelationshipsOneToMany(TestEntityTwoRelationshipsOneToMany relatedTestEntityTwoRelationshipsOneToMany)
+    {
+        TestRelationshipOneOnOtherSide = relatedTestEntityTwoRelationshipsOneToMany;
+    }
+
     /// <summary>
     /// SecondTestEntityTwoRelationshipsOneToMany Second relationship to the same entity on the other side ZeroOrOne TestEntityTwoRelationshipsOneToManies
     /// </summary>
@@ -61,6 +66,11 @@ public abstract class SecondTestEntityTwoRelationshipsOneToManyBase : EntityBase
     /// Foreign key for relationship ZeroOrOne to entity TestEntityTwoRelationshipsOneToMany
     /// </summary>
     public Nox.Types.Text? TestRelationshipTwoOnOtherSideId { get; set; } = null!;
+
+    public virtual void CreateRefToTestEntityTwoRelationshipsOneToMany(TestEntityTwoRelationshipsOneToMany relatedTestEntityTwoRelationshipsOneToMany)
+    {
+        TestRelationshipTwoOnOtherSide = relatedTestEntityTwoRelationshipsOneToMany;
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

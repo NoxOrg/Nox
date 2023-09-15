@@ -47,6 +47,11 @@ public abstract class TestEntityOneOrManyBase : AuditableEntityBase, IEntityConc
     /// </summary>
     public virtual List<SecondTestEntityOneOrMany> SecondTestEntityOneOrManyRelationship { get; set; } = new();
 
+    public virtual void CreateRefToSecondTestEntityOneOrMany(SecondTestEntityOneOrMany relatedSecondTestEntityOneOrMany)
+    {
+        SecondTestEntityOneOrManyRelationship.Add(relatedSecondTestEntityOneOrMany);
+    }
+
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>
