@@ -46,7 +46,7 @@ namespace ClientApi.Tests.Tests.Controllers
                     PostalCode: "KT16 0RS",
                     CountryId: CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
-                EmailAddress = expectedEmail,
+                VerifiedEmails = expectedEmail,
             };
             var postResult = await _oDataFixture.PostAsync<StoreCreateDto, StoreDto>(EntityUrl, createDto);
             // Act
@@ -55,7 +55,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             response.Should().NotBeNull();
-            response!.EmailAddress.Should().BeEquivalentTo(expectedEmail);
+            response!.VerifiedEmails.Should().BeEquivalentTo(expectedEmail);
         }
         #endregion
 
@@ -157,7 +157,7 @@ namespace ClientApi.Tests.Tests.Controllers
                     PostalCode: "KT16 0RS",
                     CountryId: CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
-                EmailAddress = new EmailAddressCreateDto
+                VerifiedEmails = new EmailAddressCreateDto
                 {
                     Email = "test@gmail.com",
                     IsVerified = false

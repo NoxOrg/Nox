@@ -46,7 +46,7 @@ public partial class CreateEmailAddressForStoreCommandHandler: CommandBase<Creat
 		}
 
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
-		parentEntity.EmailAddress = entity;
+		parentEntity.VerifiedEmails = entity;
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);
 	

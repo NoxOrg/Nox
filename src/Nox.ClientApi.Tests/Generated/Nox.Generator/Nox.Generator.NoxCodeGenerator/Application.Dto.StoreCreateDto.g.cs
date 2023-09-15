@@ -52,5 +52,5 @@ public abstract class StoreCreateDtoBase : IEntityCreateDto<Store>
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
-    public virtual EmailAddressCreateDto? EmailAddress { get; set; } = null!;
+    public virtual EmailAddressCreateDto? VerifiedEmails { get; set; } = null!;
 }

@@ -44,16 +44,16 @@ public partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandler: Comm
 		{
 			return false;
 		}		
-	
+
 		{{- if isSingleRelationship }}
-		var entity = parentEntity.{{entity.Name}};
+		var entity = parentEntity.{{relationship.Name}};
 		if (entity == null)
 		{
 			return false;
 		}
 
-		parentEntity.{{entity.Name}} = null;
-		
+		parentEntity.{{relationship.Name}} = null;
+
 		OnCompleted(request, entity);
 
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
@@ -61,12 +61,12 @@ public partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandler: Comm
 		{{- for key in entity.Keys }}
 		var owned{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.EntityKeyDto.key{{key.Name}});
 		{{- end }}
-		var entity = parentEntity.{{entity.PluralName}}.SingleOrDefault(x => {{ownedKeysFindQuery}});
+		var entity = parentEntity.{{relationship.Name}}.SingleOrDefault(x => {{ownedKeysFindQuery}});
 		if (entity == null)
 		{
 			return false;
 		}
-		parentEntity.{{entity.PluralName}}.Remove(entity);
+		parentEntity.{{relationship.Name}}.Remove(entity);
 		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Deleted;

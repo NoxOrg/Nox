@@ -41,7 +41,7 @@ public partial class UpdateHolidayForCountryCommandHandler: CommandBase<UpdateHo
 			return null;
 		}
 		var ownedId = CreateNoxTypeForKey<Holiday,AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.Holidays.SingleOrDefault(x => x.Id == ownedId);		
+		var entity = parentEntity.CountryOwnedHolidays.SingleOrDefault(x => x.Id == ownedId);		
 		if (entity == null)
 		{
 			return null;

@@ -46,7 +46,7 @@ public partial class CreateCountryTimeZoneForCountryCommandHandler: CommandBase<
 		}
 
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
-		parentEntity.CountryTimeZones.Add(entity);
+		parentEntity.CountryOwnedTimeZones.Add(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);
 	

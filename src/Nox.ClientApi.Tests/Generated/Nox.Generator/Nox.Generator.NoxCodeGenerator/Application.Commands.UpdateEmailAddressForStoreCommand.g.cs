@@ -41,7 +41,7 @@ public partial class UpdateEmailAddressForStoreCommandHandler: CommandBase<Updat
 		{
 			return null;
 		}
-		var entity = parentEntity.EmailAddress;
+		var entity = parentEntity.VerifiedEmails;
 				
 		if (entity == null)
 		{

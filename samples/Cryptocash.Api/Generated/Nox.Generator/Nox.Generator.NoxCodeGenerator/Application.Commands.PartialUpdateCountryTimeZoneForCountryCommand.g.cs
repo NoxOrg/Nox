@@ -42,7 +42,7 @@ public partial class PartialUpdateCountryTimeZoneForCountryCommandHandler: Comma
 			return null;
 		}
 		var ownedId = CreateNoxTypeForKey<CountryTimeZone,AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.CountryTimeZones.SingleOrDefault(x => x.Id == ownedId);	
+		var entity = parentEntity.CountryOwnedTimeZones.SingleOrDefault(x => x.Id == ownedId);	
 		if (entity == null)
 		{
 			return null;

@@ -38,12 +38,12 @@ public partial class DeleteCountryTimeZoneForCountryCommandHandler: CommandBase<
 			return false;
 		}
 		var ownedId = CreateNoxTypeForKey<CountryTimeZone,AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.CountryTimeZones.SingleOrDefault(x => x.Id == ownedId);
+		var entity = parentEntity.CountryOwnedTimeZones.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
 			return false;
 		}
-		parentEntity.CountryTimeZones.Remove(entity);
+		parentEntity.CountryOwnedTimeZones.Remove(entity);
 		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Deleted;
