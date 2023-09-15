@@ -5,15 +5,32 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
+public partial class LandLord:LandLordBase
+{
+
+}
+/// <summary>
+/// Record for LandLord created event.
+/// </summary>
+public record LandLordCreated(LandLord LandLord) : IDomainEvent;
+/// <summary>
+/// Record for LandLord updated event.
+/// </summary>
+public record LandLordUpdated(LandLord LandLord) : IDomainEvent;
+/// <summary>
+/// Record for LandLord deleted event.
+/// </summary>
+public record LandLordDeleted(LandLord LandLord) : IDomainEvent;
 
 /// <summary>
 /// Landlord related data.
 /// </summary>
-public partial class LandLord : AuditableEntityBase
+public abstract class LandLordBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Landlord unique identifier (Required).
@@ -34,4 +51,14 @@ public partial class LandLord : AuditableEntityBase
     /// LandLord leases an area to house ZeroOrMany VendingMachines
     /// </summary>
     public virtual List<VendingMachine> ContractedAreasForVendingMachines { get; set; } = new();
+
+    public virtual void CreateRefToVendingMachine(VendingMachine relatedVendingMachine)
+    {
+        ContractedAreasForVendingMachines.Add(relatedVendingMachine);
+    }
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

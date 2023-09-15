@@ -1,4 +1,4 @@
-﻿using System;// Generated
+using System;// Generated
 
 #nullable enable
 
@@ -44,6 +44,8 @@ public abstract class StoreFactoryBase: IEntityFactory<Store,StoreCreateDto>
         var entity = new ClientApi.Domain.Store();
         entity.EnsureId();
         entity.Name = ClientApi.Domain.Store.CreateName(createDto.Name);
+        entity.Address = ClientApi.Domain.Store.CreateAddress(createDto.Address);
+        entity.Location = ClientApi.Domain.Store.CreateLocation(createDto.Location);
         //entity.StoreOwner = StoreOwner?.ToEntity();
         if(createDto.EmailAddress is not null)
         {

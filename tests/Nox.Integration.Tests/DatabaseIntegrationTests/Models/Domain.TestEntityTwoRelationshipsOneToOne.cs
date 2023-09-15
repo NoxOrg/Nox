@@ -5,15 +5,32 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace TestWebApp.Domain;
+public partial class TestEntityTwoRelationshipsOneToOne:TestEntityTwoRelationshipsOneToOneBase
+{
+
+}
+/// <summary>
+/// Record for TestEntityTwoRelationshipsOneToOne created event.
+/// </summary>
+public record TestEntityTwoRelationshipsOneToOneCreated(TestEntityTwoRelationshipsOneToOne TestEntityTwoRelationshipsOneToOne) : IDomainEvent;
+/// <summary>
+/// Record for TestEntityTwoRelationshipsOneToOne updated event.
+/// </summary>
+public record TestEntityTwoRelationshipsOneToOneUpdated(TestEntityTwoRelationshipsOneToOne TestEntityTwoRelationshipsOneToOne) : IDomainEvent;
+/// <summary>
+/// Record for TestEntityTwoRelationshipsOneToOne deleted event.
+/// </summary>
+public record TestEntityTwoRelationshipsOneToOneDeleted(TestEntityTwoRelationshipsOneToOne TestEntityTwoRelationshipsOneToOne) : IDomainEvent;
 
 /// <summary>
 /// .
 /// </summary>
-public partial class TestEntityTwoRelationshipsOneToOne : AuditableEntityBase
+public abstract class TestEntityTwoRelationshipsOneToOneBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -44,4 +61,9 @@ public partial class TestEntityTwoRelationshipsOneToOne : AuditableEntityBase
     /// Foreign key for relationship ExactlyOne to entity SecondTestEntityTwoRelationshipsOneToOne
     /// </summary>
     public Nox.Types.Text TestRelationshipTwoId { get; set; } = null!;
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

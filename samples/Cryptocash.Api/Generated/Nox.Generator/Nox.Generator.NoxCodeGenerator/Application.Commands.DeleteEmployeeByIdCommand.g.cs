@@ -13,7 +13,7 @@ using Employee = Cryptocash.Domain.Employee;
 
 namespace Cryptocash.Application.Commands;
 
-public record DeleteEmployeeByIdCommand(System.Int64 keyId) : IRequest<bool>;
+public record DeleteEmployeeByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
 public class DeleteEmployeeByIdCommandHandler: CommandBase<DeleteEmployeeByIdCommand,Employee>, IRequestHandler<DeleteEmployeeByIdCommand, bool>
 {
@@ -38,6 +38,8 @@ public class DeleteEmployeeByIdCommandHandler: CommandBase<DeleteEmployeeByIdCom
 		{
 			return false;
 		}
+
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;

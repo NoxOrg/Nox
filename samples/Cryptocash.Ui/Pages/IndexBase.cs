@@ -33,15 +33,20 @@ namespace Cryptocash.Ui.Pages
         private void CheckInitialDefaultAndRedirect()
         {
             if (GlobalData != null
-                && GlobalData!.ApiDefinitions != null
-                && GlobalData!.CurrentApiDefinition == null)
+                && GlobalData?.CurrentDomainEntity == null)
             {
-                GlobalData!.CurrentApiDefinition = GlobalData!.ApiDefinitions!.FirstOrDefault(ApiDefinition => ApiDefinition.IsDefault);
 
-                if (GlobalData!.CurrentApiDefinition != null
-                    && !String.IsNullOrWhiteSpace(GlobalData!.CurrentApiDefinition.PageLink))
+                if (!String.IsNullOrWhiteSpace(GlobalData?.CurrentDomainEntity))
                 {
-                    NavigationHelper?.ChangePage(GlobalData!.CurrentApiDefinition!.PageLink!);
+                    NavigationHelper?.ChangePage(GlobalData?.CurrentDomainEntity!);
+                }
+                else
+                {
+                    if (!String.IsNullOrWhiteSpace(GlobalData?.DefaultDomainEntity))
+                    {
+                        GlobalData!.CurrentDomainEntity = GlobalData?.DefaultDomainEntity!;
+                        NavigationHelper?.ChangePage(GlobalData?.DefaultDomainEntity!);
+                    }
                 }
             }
         }

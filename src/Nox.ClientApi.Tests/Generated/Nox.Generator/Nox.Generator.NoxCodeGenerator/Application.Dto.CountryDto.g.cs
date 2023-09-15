@@ -10,7 +10,7 @@ using MediatR;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-
+using System.Text.Json.Serialization;
 using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
@@ -54,8 +54,21 @@ public partial class CountryDto
     public System.String? ShortDescription { get; set; }
 
     /// <summary>
+    /// Country Country workplaces ZeroOrMany Workplaces
+    /// </summary>
+    public virtual List<WorkplaceDto> PhysicalWorkplaces { get; set; } = new();
+
+    /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
     public virtual List<CountryLocalNameDto> CountryLocalNames { get; set; } = new();
-    public System.DateTime? DeletedAtUtc { get; set; }    
+
+    /// <summary>
+    /// Country is also coded as ZeroOrOne CountryBarCodes
+    /// </summary>
+    public virtual CountryBarCodeDto? CountryBarCode { get; set; } = null!;
+    public System.DateTime? DeletedAtUtc { get; set; }
+
+    [JsonPropertyName("@odata.etag")]
+    public System.Guid Etag { get; init; }
 }

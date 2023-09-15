@@ -27,6 +27,7 @@ public partial class GetWorkplaceByIdQueryHandler:  QueryBase<WorkplaceDto?>, IR
     {    
         var item = DataDbContext.Workplaces
             .AsNoTracking()
+            .Include(r => r.BelongsToCountry)
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
                 true

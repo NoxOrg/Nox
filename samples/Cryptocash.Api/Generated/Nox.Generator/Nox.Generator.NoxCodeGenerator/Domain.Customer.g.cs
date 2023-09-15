@@ -5,15 +5,32 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
+public partial class Customer:CustomerBase
+{
+
+}
+/// <summary>
+/// Record for Customer created event.
+/// </summary>
+public record CustomerCreated(Customer Customer) : IDomainEvent;
+/// <summary>
+/// Record for Customer updated event.
+/// </summary>
+public record CustomerUpdated(Customer Customer) : IDomainEvent;
+/// <summary>
+/// Record for Customer deleted event.
+/// </summary>
+public record CustomerDeleted(Customer Customer) : IDomainEvent;
 
 /// <summary>
 /// Customer definition and related data.
 /// </summary>
-public partial class Customer : AuditableEntityBase
+public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Customer's unique identifier (Required).
@@ -50,15 +67,30 @@ public partial class Customer : AuditableEntityBase
     /// </summary>
     public virtual List<PaymentDetail> CustomerRelatedPaymentDetails { get; set; } = new();
 
+    public virtual void CreateRefToPaymentDetail(PaymentDetail relatedPaymentDetail)
+    {
+        CustomerRelatedPaymentDetails.Add(relatedPaymentDetail);
+    }
+
     /// <summary>
     /// Customer related to ZeroOrMany Bookings
     /// </summary>
     public virtual List<Booking> CustomerRelatedBookings { get; set; } = new();
 
+    public virtual void CreateRefToBooking(Booking relatedBooking)
+    {
+        CustomerRelatedBookings.Add(relatedBooking);
+    }
+
     /// <summary>
     /// Customer related to ZeroOrMany Transactions
     /// </summary>
     public virtual List<Transaction> CustomerRelatedTransactions { get; set; } = new();
+
+    public virtual void CreateRefToTransaction(Transaction relatedTransaction)
+    {
+        CustomerRelatedTransactions.Add(relatedTransaction);
+    }
 
     /// <summary>
     /// Customer based in ExactlyOne Countries
@@ -69,4 +101,14 @@ public partial class Customer : AuditableEntityBase
     /// Foreign key for relationship ExactlyOne to entity Country
     /// </summary>
     public Nox.Types.CountryCode2 CustomerBaseCountryId { get; set; } = null!;
+
+    public virtual void CreateRefToCountry(Country relatedCountry)
+    {
+        CustomerBaseCountry = relatedCountry;
+    }
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Extensions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
 using Cryptocash.Application.Queries;
@@ -19,7 +21,12 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-public partial class CommissionsController : ODataController
+public partial class CommissionsController : CommissionsControllerBase
+            {
+                public CommissionsController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+                {}
+            }
+public abstract class CommissionsControllerBase : ODataController
 {
     
     /// <summary>
@@ -32,7 +39,7 @@ public partial class CommissionsController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public CommissionsController(
+    public CommissionsControllerBase(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -42,7 +49,7 @@ public partial class CommissionsController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<CommissionDto>>> Get()
+    public virtual async Task<ActionResult<IQueryable<CommissionDto>>> Get()
     {
         var result = await _mediator.Send(new GetCommissionsQuery());
         return Ok(result);
@@ -61,7 +68,7 @@ public partial class CommissionsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult<CommissionDto>> Post([FromBody]CommissionCreateDto commission)
+    public virtual async Task<ActionResult<CommissionDto>> Post([FromBody]CommissionCreateDto commission)
     {
         if (!ModelState.IsValid)
         {
@@ -74,10 +81,16 @@ public partial class CommissionsController : ODataController
         return Created(item);
     }
     
-    public async Task<ActionResult<CommissionDto>> Put([FromRoute] System.Int64 key, [FromBody] CommissionUpdateDto commission)
+    public virtual async Task<ActionResult<CommissionDto>> Put([FromRoute] System.Int64 key, [FromBody] CommissionUpdateDto commission)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         
-        var updated = await _mediator.Send(new UpdateCommissionCommand(key, commission));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateCommissionCommand(key, commission, etag));
+        
         if (updated is null)
         {
             return NotFound();
@@ -88,12 +101,13 @@ public partial class CommissionsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult<CommissionDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CommissionUpdateDto> commission)
+    public virtual async Task<ActionResult<CommissionDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CommissionDto> commission)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
+        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in commission.GetChangedPropertyNames())
@@ -104,7 +118,8 @@ public partial class CommissionsController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCommissionCommand(key, updateProperties));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCommissionCommand(key, updateProperties, etag));
         
         if (updated is null)
         {
@@ -114,9 +129,11 @@ public partial class CommissionsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
-        var result = await _mediator.Send(new DeleteCommissionByIdCommand(key));
+        var etag = Request.GetDecodedEtagHeader();
+        var result = await _mediator.Send(new DeleteCommissionByIdCommand(key, etag));
+        
         if (!result)
         {
             return NotFound();

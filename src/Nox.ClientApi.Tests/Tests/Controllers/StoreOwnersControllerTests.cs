@@ -10,7 +10,7 @@ namespace ClientApi.Tests.Tests.Controllers
     [Collection("Sequential")]
     public class StoreOwnersControllerTests 
     {
-        private const string StoreOwnersControllerName = "api/storeowners";
+        public const string EntityUrl = "api/storeowners";
         private readonly Fixture _fixture;
         private readonly ODataFixture _oDataFixture;
 
@@ -31,7 +31,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync(StoreOwnersControllerName, createDto);
+            var result = await _oDataFixture.PostAsync(EntityUrl, createDto);
 
             //Assert
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -47,12 +47,16 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync(StoreOwnersControllerName, createDto);
+            var result = await _oDataFixture.PostAsync(EntityUrl, createDto);
 
             // Assert
             // represent a nox type exception
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+        /// <summary>
+        /// TemporaryOwnerName is required but not for the post, see StoreOwnersController extension
+        /// </summary>
+        /// <returns></returns>
         [Fact]
         public async Task Post_WhenValidId_ReturnCreated()
         {
@@ -64,10 +68,25 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync(StoreOwnersControllerName, createDto);
+            var result = await _oDataFixture.PostAsync(EntityUrl, createDto);
 
             //Assert
             result.StatusCode.Should().Be(HttpStatusCode.Created);
+        }
+        [Fact]
+        public async Task Post_WhenNotRequiredFields_ReturnBadRequest()
+        {
+            // Arrange
+            var createDto = new StoreOwnerCreateDto
+            {
+                Id = "001",                
+            };
+
+            // Act
+            var result = await _oDataFixture.PostAsync(EntityUrl, createDto);
+
+            // Assert
+            result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
 
@@ -84,7 +103,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(StoreOwnersControllerName, createDto);
+            var result = await _oDataFixture.PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(EntityUrl, createDto);
 
             //Assert
             result.Should().NotBeNull();
@@ -117,7 +136,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(StoreOwnersControllerName, createDto);
+            var result = await _oDataFixture.PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(EntityUrl, createDto);
 
             //Assert
             result.Should().NotBeNull();
@@ -149,7 +168,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(StoreOwnersControllerName, createDto);
+            var result = await _oDataFixture.PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(EntityUrl, createDto);
 
             //Assert
             result.Should().NotBeNull();
@@ -179,7 +198,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync(StoreOwnersControllerName, createDto);
+            var result = await _oDataFixture.PostAsync(EntityUrl, createDto);
 
             //Assert
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -207,7 +226,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync(StoreOwnersControllerName, createDto);
+            var result = await _oDataFixture.PostAsync(EntityUrl, createDto);
 
             //Assert
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -235,10 +254,72 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync(StoreOwnersControllerName, createDto);
+            var result = await _oDataFixture.PostAsync(EntityUrl, createDto);
 
             //Assert
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        #region Put
+        [Fact]
+        public async Task Put_NoteToNull_ShouldReturnSuccess()
+        {
+            // Arrange
+            var createDto = new StoreOwnerCreateDto
+            {
+                Id = "001",
+                Name = _fixture.Create<string>(),
+                Notes = _fixture.Create<string>()
+
+            };
+            var postResult = await _oDataFixture.PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(EntityUrl, createDto);
+            var updateDto = new StoreOwnerUpdateDto
+            {
+                Name = _fixture.Create<string>(),
+                TemporaryOwnerName  = postResult!.TemporaryOwnerName,
+                Notes = null
+            };
+            var headers = _oDataFixture.CreateEtagHeader(postResult?.Etag);
+            
+            // Act
+            var putResult = await _oDataFixture.PutAsync<StoreOwnerUpdateDto, StoreOwnerDto>($"{EntityUrl}/{postResult!.Id}", updateDto, headers);
+
+            // Assert
+            putResult!.Notes.Should().BeNull();
+        }
+        #endregion
+
+        [Fact]
+        public async Task Deleted_ShouldPerformSoftDelete()
+        {
+            // Arrange
+            var createDto = new StoreOwnerCreateDto
+            {
+                Id = "002",
+                Name = _fixture.Create<string>(),
+                StreetAddress = new StreetAddressDto(
+                    StreetNumber: null!,
+                    AddressLine1: "3000 Hillswood Business Park",
+                    AddressLine2: null!,
+                    Route: null!,
+                    Locality: null!,
+                    Neighborhood: null!,
+                    AdministrativeArea1: null!,
+                    AdministrativeArea2: null!,
+                    PostalCode: "KT16 0RS",
+                    CountryId: CountryCode.GB),
+            };
+
+            // Act
+            var result = await _oDataFixture.PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(EntityUrl, createDto);
+            var headers = _oDataFixture.CreateEtagHeader(result?.Etag);
+
+            await _oDataFixture.DeleteAsync($"{EntityUrl}/{result!.Id}", headers);
+
+            // Assert
+            var queryResult = await _oDataFixture.GetAsync($"{EntityUrl}/{result!.Id}");
+
+            queryResult.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
     }
 }

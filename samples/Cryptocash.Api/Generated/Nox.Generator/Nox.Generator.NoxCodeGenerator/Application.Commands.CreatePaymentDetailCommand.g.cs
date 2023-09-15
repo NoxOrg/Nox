@@ -24,15 +24,21 @@ public partial class CreatePaymentDetailCommandHandler: CommandBase<CreatePaymen
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<PaymentDetail,PaymentDetailCreateDto> _entityFactory;
+    private readonly IEntityFactory<Customer,CustomerCreateDto> _customerfactory;
+    private readonly IEntityFactory<PaymentProvider,PaymentProviderCreateDto> _paymentproviderfactory;
 
 	public CreatePaymentDetailCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<Customer,CustomerCreateDto> customerfactory,
+        IEntityFactory<PaymentProvider,PaymentProviderCreateDto> paymentproviderfactory,
         IEntityFactory<PaymentDetail,PaymentDetailCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;
+		_entityFactory = entityFactory;        
+        _customerfactory = customerfactory;        
+        _paymentproviderfactory = paymentproviderfactory;
 	}
 
 	public async Task<PaymentDetailKeyDto> Handle(CreatePaymentDetailCommand request, CancellationToken cancellationToken)
@@ -41,6 +47,16 @@ public partial class CreatePaymentDetailCommandHandler: CommandBase<CreatePaymen
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		if(request.EntityDto.PaymentDetailsUsedByCustomer is not null)
+		{ 
+			var relatedEntity = _customerfactory.CreateEntity(request.EntityDto.PaymentDetailsUsedByCustomer);
+			entityToCreate.CreateRefToCustomer(relatedEntity);
+		}
+		if(request.EntityDto.PaymentDetailsRelatedPaymentProvider is not null)
+		{ 
+			var relatedEntity = _paymentproviderfactory.CreateEntity(request.EntityDto.PaymentDetailsRelatedPaymentProvider);
+			entityToCreate.CreateRefToPaymentProvider(relatedEntity);
+		}
 					
 		OnCompleted(request, entityToCreate);
 		_dbContext.PaymentDetails.Add(entityToCreate);

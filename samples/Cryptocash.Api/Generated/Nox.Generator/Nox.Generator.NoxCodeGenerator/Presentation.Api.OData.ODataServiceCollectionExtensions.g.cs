@@ -44,16 +44,19 @@ public static class ODataServiceCollectionExtensions
 
         builder.EntityType<BookingDto>();
         builder.EntityType<BookingDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<BookingDto>().Ignore(e => e.Etag);
         builder.EntitySet<CommissionDto>("Commissions");
 
         builder.EntityType<CommissionDto>();
         builder.EntityType<CommissionDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<CommissionDto>().Ignore(e => e.Etag);
         builder.EntitySet<CountryDto>("Countries");
         builder.EntityType<CountryDto>().ContainsMany(e => e.CountryTimeZones).AutoExpand = true;
         builder.EntityType<CountryDto>().ContainsMany(e => e.Holidays).AutoExpand = true;
 
         builder.EntityType<CountryDto>();
         builder.EntityType<CountryDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<CountryDto>().Ignore(e => e.Etag);
         builder.EntitySet<HolidayDto>("Holidays");
 
         builder.EntityType<HolidayDto>();
@@ -66,6 +69,7 @@ public static class ODataServiceCollectionExtensions
 
         builder.EntityType<CurrencyDto>();
         builder.EntityType<CurrencyDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<CurrencyDto>().Ignore(e => e.Etag);
         builder.EntitySet<BankNoteDto>("BankNotes");
 
         builder.EntityType<BankNoteDto>();
@@ -73,19 +77,23 @@ public static class ODataServiceCollectionExtensions
 
         builder.EntityType<CustomerDto>();
         builder.EntityType<CustomerDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<CustomerDto>().Ignore(e => e.Etag);
         builder.EntitySet<PaymentDetailDto>("PaymentDetails");
 
         builder.EntityType<PaymentDetailDto>();
         builder.EntityType<PaymentDetailDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<PaymentDetailDto>().Ignore(e => e.Etag);
         builder.EntitySet<TransactionDto>("Transactions");
 
         builder.EntityType<TransactionDto>();
         builder.EntityType<TransactionDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<TransactionDto>().Ignore(e => e.Etag);
         builder.EntitySet<EmployeeDto>("Employees");
         builder.EntityType<EmployeeDto>().ContainsMany(e => e.EmployeePhoneNumbers).AutoExpand = true;
 
         builder.EntityType<EmployeeDto>();
         builder.EntityType<EmployeeDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<EmployeeDto>().Ignore(e => e.Etag);
         builder.EntitySet<EmployeePhoneNumberDto>("EmployeePhoneNumbers");
 
         builder.EntityType<EmployeePhoneNumberDto>();
@@ -96,22 +104,27 @@ public static class ODataServiceCollectionExtensions
 
         builder.EntityType<LandLordDto>();
         builder.EntityType<LandLordDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<LandLordDto>().Ignore(e => e.Etag);
         builder.EntitySet<MinimumCashStockDto>("MinimumCashStocks");
 
         builder.EntityType<MinimumCashStockDto>();
         builder.EntityType<MinimumCashStockDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<MinimumCashStockDto>().Ignore(e => e.Etag);
         builder.EntitySet<PaymentProviderDto>("PaymentProviders");
 
         builder.EntityType<PaymentProviderDto>();
         builder.EntityType<PaymentProviderDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<PaymentProviderDto>().Ignore(e => e.Etag);
         builder.EntitySet<VendingMachineDto>("VendingMachines");
 
         builder.EntityType<VendingMachineDto>();
         builder.EntityType<VendingMachineDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<VendingMachineDto>().Ignore(e => e.Etag);
         builder.EntitySet<CashStockOrderDto>("CashStockOrders");
 
         builder.EntityType<CashStockOrderDto>();
         builder.EntityType<CashStockOrderDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<CashStockOrderDto>().Ignore(e => e.Etag);
 
         if(configure != null) configure(builder);
 
@@ -126,7 +139,10 @@ public static class ODataServiceCollectionExtensions
                         .Expand()
                         .SkipToken()
                         .SetMaxTop(100);
-                    var routeOptions = options.AddRouteComponents("api", builder.GetEdmModel(), service => service.AddSingleton<IODataSerializerProvider, NoxODataSerializerProvider>()).RouteOptions;
+                    var routeOptions = options.AddRouteComponents("api", builder.GetEdmModel(),
+                        service => service
+                            .AddSingleton<IODataSerializerProvider, NoxODataSerializerProvider>())
+                        .RouteOptions;
                     routeOptions.EnableKeyInParenthesis = false;
                 }
             );

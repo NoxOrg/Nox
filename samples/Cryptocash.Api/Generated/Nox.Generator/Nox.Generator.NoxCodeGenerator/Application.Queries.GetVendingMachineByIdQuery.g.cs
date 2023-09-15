@@ -27,6 +27,11 @@ public partial class GetVendingMachineByIdQueryHandler:  QueryBase<VendingMachin
     {    
         var item = DataDbContext.VendingMachines
             .AsNoTracking()
+            .Include(r => r.VendingMachineInstallationCountry)
+            .Include(r => r.VendingMachineContractedAreaLandLord)
+            .Include(r => r.VendingMachineRelatedBookings)
+            .Include(r => r.VendingMachineRelatedCashStockOrders)
+            .Include(r => r.VendingMachineRequiredMinimumCashStocks)
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);

@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -47,6 +47,13 @@ public partial class StoreOwner
     
 
     /// <summary>
+    /// Type options and factory for property 'TemporaryOwnerName'
+    /// </summary>
+    public static Nox.Types.Text CreateTemporaryOwnerName(System.String value)
+        => Nox.Types.Text.From(value);
+    
+
+    /// <summary>
     /// Type options and factory for property 'VatNumber'
     /// </summary>
     public static Nox.Types.VatNumber CreateVatNumber(IVatNumber value)
@@ -72,6 +79,13 @@ public partial class StoreOwner
     
     public static TranslatedText CreateLocalGreeting(ITranslatedText value)
         => Nox.Types.TranslatedText.From(value, LocalGreetingTypeOptions);
+    
+
+    /// <summary>
+    /// Type options and factory for property 'Notes'
+    /// </summary>
+    public static Nox.Types.Text CreateNotes(System.String value)
+        => Nox.Types.Text.From(value);
     
 
 }

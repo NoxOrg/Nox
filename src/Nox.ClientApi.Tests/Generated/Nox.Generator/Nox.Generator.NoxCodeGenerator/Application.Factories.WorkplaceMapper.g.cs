@@ -28,14 +28,23 @@ public partial class WorkplaceMapper : EntityMapperBase<Workplace>
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used
-            
+    #pragma warning restore CS0168 // Variable is declared but never used        
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
+        if (noxTypeValue == null)
+        {
+            throw new NullReferenceException("Name is required can not be set to null");
+        }     
+        entity.Name = noxTypeValue;
+    
+
+        /// <summary>
+        /// Workplace Workplace country ZeroOrOne Countries
+        /// </summary>
+        noxTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "BelongsToCountry", dto.BelongsToCountryId);
         if (noxTypeValue != null)
         {        
-            entity.Name = noxTypeValue;
+            entity.BelongsToCountryId = noxTypeValue;
         }
-    
     }
 
     public override void PartialMapToEntity(Workplace entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
@@ -59,5 +68,16 @@ public partial class WorkplaceMapper : EntityMapperBase<Workplace>
         }
     
     
+        /// <summary>
+        /// Workplace Workplace country ZeroOrOne Countries
+        /// </summary>
+        if (updatedProperties.TryGetValue("CountryId", out value))
+        {
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "BelongsToCountry", value);
+            if (noxRelationshipTypeValue != null)
+            {        
+                entity.BelongsToCountryId = noxRelationshipTypeValue;
+            }
+        }
     }
 }

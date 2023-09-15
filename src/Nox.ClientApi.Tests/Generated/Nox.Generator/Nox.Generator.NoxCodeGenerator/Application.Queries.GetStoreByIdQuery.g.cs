@@ -12,7 +12,7 @@ using ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 
-public record GetStoreByIdQuery(System.UInt32 keyId) : IRequest <StoreDto?>;
+public record GetStoreByIdQuery(System.Guid keyId) : IRequest <StoreDto?>;
 
 public partial class GetStoreByIdQueryHandler:  QueryBase<StoreDto?>, IRequestHandler<GetStoreByIdQuery, StoreDto?>
 {
@@ -27,6 +27,7 @@ public partial class GetStoreByIdQueryHandler:  QueryBase<StoreDto?>, IRequestHa
     {    
         var item = DataDbContext.Stores
             .AsNoTracking()
+            .Include(r => r.Ownership)
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);

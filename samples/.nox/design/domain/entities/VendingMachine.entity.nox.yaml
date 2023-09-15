@@ -6,7 +6,12 @@
 
 name: VendingMachine
 
+pluralName: VendingMachines
+
 description: Vending machine definition and related data
+
+userInterface: 
+  icon: VendingMachines
 
 keys:
 

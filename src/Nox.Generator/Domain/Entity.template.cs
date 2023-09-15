@@ -1,19 +1,44 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace {{codeGeneratorState.DomainNameSpace}};
+public partial class {{className}}:{{className}}Base
+{
+
+}
+{{- if entity.Persistence.Create.RaiseEvents }}
+/// <summary>
+/// Record for {{entity.Name}} created event.
+/// </summary>
+public record {{entity.Name}}Created({{entity.Name}} {{entity.Name}}) : IDomainEvent;
+{{- end}}
+
+{{- if entity.Persistence.Update.RaiseEvents }}
+/// <summary>
+/// Record for {{entity.Name}} updated event.
+/// </summary>
+public record {{entity.Name}}Updated({{entity.Name}} {{entity.Name}}) : IDomainEvent;
+{{- end}}
+
+{{- if entity.Persistence.Delete.RaiseEvents }}
+/// <summary>
+/// Record for {{entity.Name}} deleted event.
+/// </summary>
+public record {{entity.Name}}Deleted({{entity.Name}} {{entity.Name}}) : IDomainEvent;
+{{- end}}
 
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public partial class {{className}}{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase{{else}}EntityBase{{end}}{{else}} : EntityBase, IOwnedEntity{{end}}
+public abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase, IEntityConcurrent{{else}}EntityBase, IEntityConcurrent{{end}}{{else}} : EntityBase, IOwnedEntity{{end}}
 {
 {{- for key in entity.Keys }}
     /// <summary>
@@ -30,7 +55,7 @@ public partial class {{className}}{{ if !entity.IsOwnedEntity }} : {{if entity.P
     {{- codeGeneratorNuidGetter = "Nuid.From(\""+prefix+"\" + string.Join(\""+key.NuidTypeOptions.Separator +"\", "+ (key.NuidTypeOptions.PropertyNames | array.join "," @(do; ret $0 + ".Value.ToString()"; end)) +"))" -}}
     public {{key.Type}} {{key.Name}} {get; set;} = null!;
 
-	public void Ensure{{ key.Name}}()
+	public virtual void Ensure{{ key.Name}}()
 	{
 		if({{key.Name}} is null)
 		{
@@ -84,6 +109,15 @@ public partial class {{className}}{{ if !entity.IsOwnedEntity }} : {{if entity.P
     public Nox.Types.{{relationship.Related.Entity.Keys[0].Type}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}}Id { get; set; } = null!;
     {{- end}}
     {{-end}}
+
+    public virtual void CreateRefTo{{relationship.Entity}}({{relationship.Entity}} related{{relationship.Entity}})
+    {
+        {{- if relationship.WithSingleEntity }}
+        {{relationship.Name}} = related{{relationship.Entity}};
+        {{- else}}
+        {{relationship.Name}}.Add(related{{relationship.Entity}});
+        {{- end }}
+    }
 {{- end }}
 {{- for relationship in entity.OwnedRelationships #TODO how to reuse as partial template?}}
 
@@ -100,4 +134,11 @@ public partial class {{className}}{{ if !entity.IsOwnedEntity }} : {{if entity.P
      public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
     {{-end}}
 {{- end }}
+
+{{ if !entity.IsOwnedEntity ~}}
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
+{{ end ~}}
 }

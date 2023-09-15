@@ -14,10 +14,15 @@ using {{codeGeneratorState.DomainNameSpace}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto;
 
+public partial class {{className}}: {{className}}Base
+{
+
+}
+
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public partial class {{className}} : IEntityCreateDto<{{entity.Name}}>
+public abstract class {{className}}Base : IEntityCreateDto<{{entity.Name}}>
 {
 {{- for key in entity.Keys }}
     {{- if key.Type == "Nuid" || key.Type == "AutoNumber" -}}
@@ -42,20 +47,22 @@ public partial class {{className}} : IEntityCreateDto<{{entity.Name}}>
     [Required(ErrorMessage = "{{attribute.Name}} is required")]
     {{ end}}
     {{ if componentsInfo[attribute.Name].IsSimpleType -}}
-    public {{componentsInfo[attribute.Name].ComponentType}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
+    public virtual {{componentsInfo[attribute.Name].ComponentType}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
     {{- else -}}
-    public {{attribute.Type}}Dto{{- if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
+    public virtual {{attribute.Type}}Dto{{- if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
     {{- end}}
 {{- end }}
 
 {{- for relationship in entity.Relationships}}
-    {{- if relationship.WithSingleEntity && relationship.ShouldGenerateForeignOnThisSide}}
 
     /// <summary>
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
+    {{- if relationship.WithSingleEntity }}
     {{ if relationship.Relationship == "ExactlyOne" }}[Required(ErrorMessage = "{{relationship.Name}} is required")]{{-end}}
-    public System.{{relationship.ForeignKeyPrimitiveType}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}}Id { get; set; } = default!;
+    public virtual {{relationship.Entity}}CreateDto{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}} { get; set; } = null!;
+    {{- else }}
+    public virtual List<{{relationship.Entity}}CreateDto> {{relationship.Name}} { get; set; } = new();
     {{-end}}
 {{- end }}
 {{- for relationship in entity.OwnedRelationships #TODO how to reuse as partial template?}}

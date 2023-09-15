@@ -5,15 +5,32 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace TestWebApp.Domain;
+public partial class TestEntityExactlyOneToZeroOrOne:TestEntityExactlyOneToZeroOrOneBase
+{
+
+}
+/// <summary>
+/// Record for TestEntityExactlyOneToZeroOrOne created event.
+/// </summary>
+public record TestEntityExactlyOneToZeroOrOneCreated(TestEntityExactlyOneToZeroOrOne TestEntityExactlyOneToZeroOrOne) : IDomainEvent;
+/// <summary>
+/// Record for TestEntityExactlyOneToZeroOrOne updated event.
+/// </summary>
+public record TestEntityExactlyOneToZeroOrOneUpdated(TestEntityExactlyOneToZeroOrOne TestEntityExactlyOneToZeroOrOne) : IDomainEvent;
+/// <summary>
+/// Record for TestEntityExactlyOneToZeroOrOne deleted event.
+/// </summary>
+public record TestEntityExactlyOneToZeroOrOneDeleted(TestEntityExactlyOneToZeroOrOne TestEntityExactlyOneToZeroOrOne) : IDomainEvent;
 
 /// <summary>
 /// .
 /// </summary>
-public partial class TestEntityExactlyOneToZeroOrOne : AuditableEntityBase
+public abstract class TestEntityExactlyOneToZeroOrOneBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -34,4 +51,9 @@ public partial class TestEntityExactlyOneToZeroOrOne : AuditableEntityBase
     /// Foreign key for relationship ExactlyOne to entity TestEntityZeroOrOneToExactlyOne
     /// </summary>
     public Nox.Types.Text TestEntityZeroOrOneToExactlyOneId { get; set; } = null!;
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

@@ -29,30 +29,19 @@ public partial class {{className}} : EntityMapperBase<{{entity.Name}}>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    {{ for key in entity.Keys -}}
-    {{- if key.Type == "Nuid" || key.Type == "AutoNumber" || key.Type == "Formula" -}}
-    {{ continue; -}}
-    {{- end }}        
-    {{ if key.Type == "EntityId" -}}
-        noxTypeValue = CreateNoxType<Nox.Types.{{SingleKeyTypeForEntity key.EntityIdTypeOptions.Entity}}>(entityDefinition, "{{key.Name}}", dto.{{key.Name}});
-    {{- else -}}
-        noxTypeValue = CreateNoxType<Nox.Types.{{key.Type}}>(entityDefinition, "{{key.Name}}", dto.{{key.Name}});
-    {{- end}}        
-        if (noxTypeValue != null)
-        {        
-            entity.{{key.Name}} = noxTypeValue;
-        }
-    {{- end -}}
 
-    {{ for attribute in entity.Attributes }}  
+    {{- for attribute in entity.Attributes }}  
     {{- if attribute.Type == "Formula" -}}
-    {{ continue; -}}
+    {{- continue; }}
     {{- end }}        
         noxTypeValue = CreateNoxType<Nox.Types.{{attribute.Type}}>(entityDefinition, "{{attribute.Name}}", dto.{{attribute.Name}});
-        if (noxTypeValue != null)
-        {        
-            entity.{{attribute.Name}} = noxTypeValue;
-        }        
+        {{- if attribute.IsRequired }}
+        if (noxTypeValue == null)
+        {
+            throw new NullReferenceException("{{attribute.Name}} is required can not be set to null");
+        } 
+        {{- end }}     
+        entity.{{attribute.Name}} = noxTypeValue;
     {{- end }}
     {{ for relationship in entity.Relationships }}
     {{- if relationship.WithSingleEntity && relationship.ShouldGenerateForeignOnThisSide}}
@@ -65,7 +54,7 @@ public partial class {{className}} : EntityMapperBase<{{entity.Name}}>
         {        
             entity.{{relationship.Name}}Id = noxTypeValue;
         }
-    {{-end}}
+    {{- end }}
     {{- end }}
     }
 

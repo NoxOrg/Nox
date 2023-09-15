@@ -13,7 +13,7 @@ using Country = Cryptocash.Domain.Country;
 
 namespace Cryptocash.Application.Commands;
 
-public record DeleteCountryByIdCommand(System.String keyId) : IRequest<bool>;
+public record DeleteCountryByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
 
 public class DeleteCountryByIdCommandHandler: CommandBase<DeleteCountryByIdCommand,Country>, IRequestHandler<DeleteCountryByIdCommand, bool>
 {
@@ -38,6 +38,8 @@ public class DeleteCountryByIdCommandHandler: CommandBase<DeleteCountryByIdComma
 		{
 			return false;
 		}
+
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;

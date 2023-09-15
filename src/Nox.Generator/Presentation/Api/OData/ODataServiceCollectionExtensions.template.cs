@@ -43,6 +43,7 @@ public static class ODataServiceCollectionExtensions
         {{- if !entity.IsOwnedEntity && entity.Persistence?.IsAudited ~}}
 
         builder.EntityType<{{entity.Name}}Dto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<{{entity.Name}}Dto>().Ignore(e => e.Etag);
 
         {{- end }}
         {{- end }}
@@ -60,7 +61,10 @@ public static class ODataServiceCollectionExtensions
                         .Expand()
                         .SkipToken()
                         .SetMaxTop(100);
-                    var routeOptions = options.AddRouteComponents("api", builder.GetEdmModel(), service => service.AddSingleton<IODataSerializerProvider, NoxODataSerializerProvider>()).RouteOptions;
+                    var routeOptions = options.AddRouteComponents("api", builder.GetEdmModel(),
+                        service => service
+                            .AddSingleton<IODataSerializerProvider, NoxODataSerializerProvider>())
+                        .RouteOptions;
                     routeOptions.EnableKeyInParenthesis = false;
                 }
             );

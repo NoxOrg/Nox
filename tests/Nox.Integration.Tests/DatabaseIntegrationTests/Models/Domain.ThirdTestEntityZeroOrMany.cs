@@ -5,15 +5,32 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace TestWebApp.Domain;
+public partial class ThirdTestEntityZeroOrMany:ThirdTestEntityZeroOrManyBase
+{
+
+}
+/// <summary>
+/// Record for ThirdTestEntityZeroOrMany created event.
+/// </summary>
+public record ThirdTestEntityZeroOrManyCreated(ThirdTestEntityZeroOrMany ThirdTestEntityZeroOrMany) : IDomainEvent;
+/// <summary>
+/// Record for ThirdTestEntityZeroOrMany updated event.
+/// </summary>
+public record ThirdTestEntityZeroOrManyUpdated(ThirdTestEntityZeroOrMany ThirdTestEntityZeroOrMany) : IDomainEvent;
+/// <summary>
+/// Record for ThirdTestEntityZeroOrMany deleted event.
+/// </summary>
+public record ThirdTestEntityZeroOrManyDeleted(ThirdTestEntityZeroOrMany ThirdTestEntityZeroOrMany) : IDomainEvent;
 
 /// <summary>
 /// .
 /// </summary>
-public partial class ThirdTestEntityZeroOrMany : AuditableEntityBase
+public abstract class ThirdTestEntityZeroOrManyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -29,4 +46,9 @@ public partial class ThirdTestEntityZeroOrMany : AuditableEntityBase
     /// ThirdTestEntityZeroOrMany Test entity relationship to ThirdTestEntityOneOrMany ZeroOrMany ThirdTestEntityOneOrManies
     /// </summary>
     public virtual List<ThirdTestEntityOneOrMany> ThirdTestEntityOneOrManyRelationship { get; set; } = new();
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

@@ -24,15 +24,18 @@ public partial class CreatePaymentProviderCommandHandler: CommandBase<CreatePaym
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<PaymentProvider,PaymentProviderCreateDto> _entityFactory;
+    private readonly IEntityFactory<PaymentDetail,PaymentDetailCreateDto> _paymentdetailfactory;
 
 	public CreatePaymentProviderCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<PaymentDetail,PaymentDetailCreateDto> paymentdetailfactory,
         IEntityFactory<PaymentProvider,PaymentProviderCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;
+		_entityFactory = entityFactory;        
+        _paymentdetailfactory = paymentdetailfactory;
 	}
 
 	public async Task<PaymentProviderKeyDto> Handle(CreatePaymentProviderCommand request, CancellationToken cancellationToken)
@@ -41,6 +44,11 @@ public partial class CreatePaymentProviderCommandHandler: CommandBase<CreatePaym
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		foreach(var relatedCreateDto in request.EntityDto.PaymentProviderRelatedPaymentDetails)
+		{
+			var relatedEntity = _paymentdetailfactory.CreateEntity(relatedCreateDto);
+			entityToCreate.CreateRefToPaymentDetail(relatedEntity);
+		}
 					
 		OnCompleted(request, entityToCreate);
 		_dbContext.PaymentProviders.Add(entityToCreate);

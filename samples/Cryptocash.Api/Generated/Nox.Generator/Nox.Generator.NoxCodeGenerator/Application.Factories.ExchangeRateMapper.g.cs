@@ -28,18 +28,19 @@ public partial class ExchangeRateMapper : EntityMapperBase<ExchangeRate>
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used
-            
+    #pragma warning restore CS0168 // Variable is declared but never used        
         noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition, "EffectiveRate", dto.EffectiveRate);
-        if (noxTypeValue != null)
-        {        
-            entity.EffectiveRate = noxTypeValue;
-        }        
+        if (noxTypeValue == null)
+        {
+            throw new NullReferenceException("EffectiveRate is required can not be set to null");
+        }     
+        entity.EffectiveRate = noxTypeValue;        
         noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "EffectiveAt", dto.EffectiveAt);
-        if (noxTypeValue != null)
-        {        
-            entity.EffectiveAt = noxTypeValue;
-        }
+        if (noxTypeValue == null)
+        {
+            throw new NullReferenceException("EffectiveAt is required can not be set to null");
+        }     
+        entity.EffectiveAt = noxTypeValue;
     
     }
 

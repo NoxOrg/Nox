@@ -5,15 +5,32 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
+public partial class Booking:BookingBase
+{
+
+}
+/// <summary>
+/// Record for Booking created event.
+/// </summary>
+public record BookingCreated(Booking Booking) : IDomainEvent;
+/// <summary>
+/// Record for Booking updated event.
+/// </summary>
+public record BookingUpdated(Booking Booking) : IDomainEvent;
+/// <summary>
+/// Record for Booking deleted event.
+/// </summary>
+public record BookingDeleted(Booking Booking) : IDomainEvent;
 
 /// <summary>
 /// Exchange booking and related data.
 /// </summary>
-public partial class Booking : AuditableEntityBase
+public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Booking unique identifier (Required).
@@ -53,7 +70,7 @@ public partial class Booking : AuditableEntityBase
     /// <summary>
     /// Booking's status (Optional).
     /// </summary>
-    public String? Status
+    public string? Status
     { 
         get { return CancelledDateTime != null ? "cancelled" : (PickedUpDateTime != null ? "picked-up" : (ExpiryDateTime != null ? "expired" : "booked")); }
         private set { }
@@ -74,6 +91,11 @@ public partial class Booking : AuditableEntityBase
     /// </summary>
     public Nox.Types.AutoNumber BookingForCustomerId { get; set; } = null!;
 
+    public virtual void CreateRefToCustomer(Customer relatedCustomer)
+    {
+        BookingForCustomer = relatedCustomer;
+    }
+
     /// <summary>
     /// Booking related to ExactlyOne VendingMachines
     /// </summary>
@@ -83,6 +105,11 @@ public partial class Booking : AuditableEntityBase
     /// Foreign key for relationship ExactlyOne to entity VendingMachine
     /// </summary>
     public Nox.Types.Guid BookingRelatedVendingMachineId { get; set; } = null!;
+
+    public virtual void CreateRefToVendingMachine(VendingMachine relatedVendingMachine)
+    {
+        BookingRelatedVendingMachine = relatedVendingMachine;
+    }
 
     /// <summary>
     /// Booking fees for ExactlyOne Commissions
@@ -94,8 +121,23 @@ public partial class Booking : AuditableEntityBase
     /// </summary>
     public Nox.Types.AutoNumber BookingFeesForCommissionId { get; set; } = null!;
 
+    public virtual void CreateRefToCommission(Commission relatedCommission)
+    {
+        BookingFeesForCommission = relatedCommission;
+    }
+
     /// <summary>
     /// Booking related to ExactlyOne Transactions
     /// </summary>
     public virtual Transaction BookingRelatedTransaction { get; set; } = null!;
+
+    public virtual void CreateRefToTransaction(Transaction relatedTransaction)
+    {
+        BookingRelatedTransaction = relatedTransaction;
+    }
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

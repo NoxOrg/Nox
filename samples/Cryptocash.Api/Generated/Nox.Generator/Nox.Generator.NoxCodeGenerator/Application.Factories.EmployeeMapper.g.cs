@@ -28,38 +28,39 @@ public partial class EmployeeMapper : EntityMapperBase<Employee>
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used
-            
+    #pragma warning restore CS0168 // Variable is declared but never used        
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "FirstName", dto.FirstName);
-        if (noxTypeValue != null)
-        {        
-            entity.FirstName = noxTypeValue;
-        }        
+        if (noxTypeValue == null)
+        {
+            throw new NullReferenceException("FirstName is required can not be set to null");
+        }     
+        entity.FirstName = noxTypeValue;        
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "LastName", dto.LastName);
-        if (noxTypeValue != null)
-        {        
-            entity.LastName = noxTypeValue;
-        }        
+        if (noxTypeValue == null)
+        {
+            throw new NullReferenceException("LastName is required can not be set to null");
+        }     
+        entity.LastName = noxTypeValue;        
         noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition, "EmailAddress", dto.EmailAddress);
-        if (noxTypeValue != null)
-        {        
-            entity.EmailAddress = noxTypeValue;
-        }        
+        if (noxTypeValue == null)
+        {
+            throw new NullReferenceException("EmailAddress is required can not be set to null");
+        }     
+        entity.EmailAddress = noxTypeValue;        
         noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "Address", dto.Address);
-        if (noxTypeValue != null)
-        {        
-            entity.Address = noxTypeValue;
-        }        
+        if (noxTypeValue == null)
+        {
+            throw new NullReferenceException("Address is required can not be set to null");
+        }     
+        entity.Address = noxTypeValue;        
         noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition, "FirstWorkingDay", dto.FirstWorkingDay);
-        if (noxTypeValue != null)
-        {        
-            entity.FirstWorkingDay = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition, "LastWorkingDay", dto.LastWorkingDay);
-        if (noxTypeValue != null)
-        {        
-            entity.LastWorkingDay = noxTypeValue;
-        }
+        if (noxTypeValue == null)
+        {
+            throw new NullReferenceException("FirstWorkingDay is required can not be set to null");
+        }     
+        entity.FirstWorkingDay = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition, "LastWorkingDay", dto.LastWorkingDay);     
+        entity.LastWorkingDay = noxTypeValue;
     
 
         /// <summary>

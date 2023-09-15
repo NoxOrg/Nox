@@ -5,15 +5,32 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace TestWebApp.Domain;
+public partial class SecondTestEntityOneOrMany:SecondTestEntityOneOrManyBase
+{
+
+}
+/// <summary>
+/// Record for SecondTestEntityOneOrMany created event.
+/// </summary>
+public record SecondTestEntityOneOrManyCreated(SecondTestEntityOneOrMany SecondTestEntityOneOrMany) : IDomainEvent;
+/// <summary>
+/// Record for SecondTestEntityOneOrMany updated event.
+/// </summary>
+public record SecondTestEntityOneOrManyUpdated(SecondTestEntityOneOrMany SecondTestEntityOneOrMany) : IDomainEvent;
+/// <summary>
+/// Record for SecondTestEntityOneOrMany deleted event.
+/// </summary>
+public record SecondTestEntityOneOrManyDeleted(SecondTestEntityOneOrMany SecondTestEntityOneOrMany) : IDomainEvent;
 
 /// <summary>
 /// .
 /// </summary>
-public partial class SecondTestEntityOneOrMany : AuditableEntityBase
+public abstract class SecondTestEntityOneOrManyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -29,4 +46,9 @@ public partial class SecondTestEntityOneOrMany : AuditableEntityBase
     /// SecondTestEntityOneOrMany Test entity relationship to TestEntityOneOrMany OneOrMany TestEntityOneOrManies
     /// </summary>
     public virtual List<TestEntityOneOrMany> TestEntityOneOrManyRelationship { get; set; } = new();
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

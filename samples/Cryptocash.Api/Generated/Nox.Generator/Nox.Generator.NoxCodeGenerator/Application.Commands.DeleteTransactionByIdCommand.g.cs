@@ -13,7 +13,7 @@ using Transaction = Cryptocash.Domain.Transaction;
 
 namespace Cryptocash.Application.Commands;
 
-public record DeleteTransactionByIdCommand(System.Int64 keyId) : IRequest<bool>;
+public record DeleteTransactionByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
 public class DeleteTransactionByIdCommandHandler: CommandBase<DeleteTransactionByIdCommand,Transaction>, IRequestHandler<DeleteTransactionByIdCommand, bool>
 {
@@ -38,6 +38,8 @@ public class DeleteTransactionByIdCommandHandler: CommandBase<DeleteTransactionB
 		{
 			return false;
 		}
+
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;

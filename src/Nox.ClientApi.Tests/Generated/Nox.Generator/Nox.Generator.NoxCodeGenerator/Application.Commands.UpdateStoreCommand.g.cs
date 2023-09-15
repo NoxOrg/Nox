@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -15,7 +15,7 @@ using Store = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Commands;
 
-public record UpdateStoreCommand(System.UInt32 keyId, StoreUpdateDto EntityDto) : IRequest<StoreKeyDto?>;
+public record UpdateStoreCommand(System.Guid keyId, StoreUpdateDto EntityDto, System.Guid? Etag) : IRequest<StoreKeyDto?>;
 
 public class UpdateStoreCommandHandler: CommandBase<UpdateStoreCommand, Store>, IRequestHandler<UpdateStoreCommand, StoreKeyDto?>
 {
@@ -36,14 +36,16 @@ public class UpdateStoreCommandHandler: CommandBase<UpdateStoreCommand, Store>, 
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Store,Nox.Types.Nuid>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Store,DatabaseGuid>("Id", request.keyId);
 	
 		var entity = await DbContext.Stores.FindAsync(keyId);
 		if (entity == null)
 		{
 			return null;
 		}
+
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Store>(), request.EntityDto);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
 

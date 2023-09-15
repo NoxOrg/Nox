@@ -5,15 +5,32 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace TestWebApp.Domain;
+public partial class TestEntityTwoRelationshipsManyToMany:TestEntityTwoRelationshipsManyToManyBase
+{
+
+}
+/// <summary>
+/// Record for TestEntityTwoRelationshipsManyToMany created event.
+/// </summary>
+public record TestEntityTwoRelationshipsManyToManyCreated(TestEntityTwoRelationshipsManyToMany TestEntityTwoRelationshipsManyToMany) : IDomainEvent;
+/// <summary>
+/// Record for TestEntityTwoRelationshipsManyToMany updated event.
+/// </summary>
+public record TestEntityTwoRelationshipsManyToManyUpdated(TestEntityTwoRelationshipsManyToMany TestEntityTwoRelationshipsManyToMany) : IDomainEvent;
+/// <summary>
+/// Record for TestEntityTwoRelationshipsManyToMany deleted event.
+/// </summary>
+public record TestEntityTwoRelationshipsManyToManyDeleted(TestEntityTwoRelationshipsManyToMany TestEntityTwoRelationshipsManyToMany) : IDomainEvent;
 
 /// <summary>
 /// .
 /// </summary>
-public partial class TestEntityTwoRelationshipsManyToMany : AuditableEntityBase
+public abstract class TestEntityTwoRelationshipsManyToManyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -34,4 +51,9 @@ public partial class TestEntityTwoRelationshipsManyToMany : AuditableEntityBase
     /// TestEntityTwoRelationshipsManyToMany Second relationship to the same entity OneOrMany SecondTestEntityTwoRelationshipsManyToManies
     /// </summary>
     public virtual List<SecondTestEntityTwoRelationshipsManyToMany> TestRelationshipTwo { get; set; } = new();
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }
