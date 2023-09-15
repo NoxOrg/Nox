@@ -12,9 +12,9 @@ using ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 
-public record GetStoreOwnerByIdQuery(System.String keyId) : IRequest <StoreOwnerDto?>;
+public record GetStoreOwnerByIdQuery(System.String keyId) : IRequest <IQueryable<StoreOwnerDto>>;
 
-public partial class GetStoreOwnerByIdQueryHandler:  QueryBase<StoreOwnerDto?>, IRequestHandler<GetStoreOwnerByIdQuery, StoreOwnerDto?>
+public partial class GetStoreOwnerByIdQueryHandler:  QueryBase<IQueryable<StoreOwnerDto>>, IRequestHandler<GetStoreOwnerByIdQuery, IQueryable<StoreOwnerDto>>
 {
     public  GetStoreOwnerByIdQueryHandler(DtoDbContext dataDbContext)
     {
@@ -23,14 +23,13 @@ public partial class GetStoreOwnerByIdQueryHandler:  QueryBase<StoreOwnerDto?>, 
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<StoreOwnerDto?> Handle(GetStoreOwnerByIdQuery request, CancellationToken cancellationToken)
+    public Task<IQueryable<StoreOwnerDto>> Handle(GetStoreOwnerByIdQuery request, CancellationToken cancellationToken)
     {    
-        var item = DataDbContext.StoreOwners
+        var query = DataDbContext.StoreOwners
             .AsNoTracking()
-            .Include(r => r.Stores)
-            .SingleOrDefault(r =>
+            .Where(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);
-        return Task.FromResult(OnResponse(item));
+        return Task.FromResult(OnResponse(query));
     }
 }

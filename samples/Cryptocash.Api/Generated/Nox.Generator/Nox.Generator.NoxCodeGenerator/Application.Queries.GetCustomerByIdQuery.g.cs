@@ -12,9 +12,9 @@ using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.Application.Queries;
 
-public record GetCustomerByIdQuery(System.Int64 keyId) : IRequest <CustomerDto?>;
+public record GetCustomerByIdQuery(System.Int64 keyId) : IRequest <IQueryable<CustomerDto>>;
 
-public partial class GetCustomerByIdQueryHandler:  QueryBase<CustomerDto?>, IRequestHandler<GetCustomerByIdQuery, CustomerDto?>
+public partial class GetCustomerByIdQueryHandler:  QueryBase<IQueryable<CustomerDto>>, IRequestHandler<GetCustomerByIdQuery, IQueryable<CustomerDto>>
 {
     public  GetCustomerByIdQueryHandler(DtoDbContext dataDbContext)
     {
@@ -23,17 +23,13 @@ public partial class GetCustomerByIdQueryHandler:  QueryBase<CustomerDto?>, IReq
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<CustomerDto?> Handle(GetCustomerByIdQuery request, CancellationToken cancellationToken)
+    public Task<IQueryable<CustomerDto>> Handle(GetCustomerByIdQuery request, CancellationToken cancellationToken)
     {    
-        var item = DataDbContext.Customers
+        var query = DataDbContext.Customers
             .AsNoTracking()
-            .Include(r => r.CustomerRelatedPaymentDetails)
-            .Include(r => r.CustomerRelatedBookings)
-            .Include(r => r.CustomerRelatedTransactions)
-            .Include(r => r.CustomerBaseCountry)
-            .SingleOrDefault(r =>
+            .Where(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);
-        return Task.FromResult(OnResponse(item));
+        return Task.FromResult(OnResponse(query));
     }
 }

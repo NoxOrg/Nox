@@ -19,12 +19,23 @@ using EmployeePhoneNumber = Cryptocash.Domain.EmployeePhoneNumber;
 namespace Cryptocash.Application.Commands;
 public record CreateEmployeePhoneNumberForEmployeeCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberCreateDto EntityDto, System.Guid? Etag) : IRequest <EmployeePhoneNumberKeyDto?>;
 
-public partial class CreateEmployeePhoneNumberForEmployeeCommandHandler: CommandBase<CreateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumber>, IRequestHandler<CreateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumberKeyDto?>
+public partial class CreateEmployeePhoneNumberForEmployeeCommandHandler: CreateEmployeePhoneNumberForEmployeeCommandHandlerBase
+{
+	public CreateEmployeePhoneNumberForEmployeeCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+        IEntityFactory<EmployeePhoneNumber,EmployeePhoneNumberCreateDto> entityFactory,
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution, entityFactory, serviceProvider)
+	{
+	}
+}
+public abstract class CreateEmployeePhoneNumberForEmployeeCommandHandlerBase: CommandBase<CreateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumber>, IRequestHandler<CreateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumberKeyDto?>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<EmployeePhoneNumber,EmployeePhoneNumberCreateDto> _entityFactory;
 
-	public CreateEmployeePhoneNumberForEmployeeCommandHandler(
+	public CreateEmployeePhoneNumberForEmployeeCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
         IEntityFactory<EmployeePhoneNumber,EmployeePhoneNumberCreateDto> entityFactory,
@@ -34,7 +45,7 @@ public partial class CreateEmployeePhoneNumberForEmployeeCommandHandler: Command
 		_entityFactory = entityFactory;	
 	}
 
-	public async Task<EmployeePhoneNumberKeyDto?> Handle(CreateEmployeePhoneNumberForEmployeeCommand request, CancellationToken cancellationToken)
+	public virtual  async Task<EmployeePhoneNumberKeyDto?> Handle(CreateEmployeePhoneNumberForEmployeeCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Employee,AutoNumber>("Id", request.ParentKeyDto.keyId);

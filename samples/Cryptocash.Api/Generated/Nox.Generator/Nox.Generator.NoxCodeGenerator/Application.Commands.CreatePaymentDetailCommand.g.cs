@@ -28,13 +28,14 @@ public partial class CreatePaymentDetailCommandHandler: CreatePaymentDetailComma
         IEntityFactory<Customer,CustomerCreateDto> customerfactory,
         IEntityFactory<PaymentProvider,PaymentProviderCreateDto> paymentproviderfactory,
         IEntityFactory<PaymentDetail,PaymentDetailCreateDto> entityFactory,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution,customerfactory,paymentproviderfactory,entityFactory, serviceProvider)
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution,customerfactory,paymentproviderfactory,entityFactory, serviceProvider)
 	{
 	}
 }
 
 
-public partial class CreatePaymentDetailCommandHandlerBase: CommandBase<CreatePaymentDetailCommand,PaymentDetail>, IRequestHandler <CreatePaymentDetailCommand, PaymentDetailKeyDto>
+public abstract class CreatePaymentDetailCommandHandlerBase: CommandBase<CreatePaymentDetailCommand,PaymentDetail>, IRequestHandler <CreatePaymentDetailCommand, PaymentDetailKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<PaymentDetail,PaymentDetailCreateDto> _entityFactory;
@@ -55,7 +56,7 @@ public partial class CreatePaymentDetailCommandHandlerBase: CommandBase<CreatePa
         _paymentproviderfactory = paymentproviderfactory;
 	}
 
-	public async Task<PaymentDetailKeyDto> Handle(CreatePaymentDetailCommand request, CancellationToken cancellationToken)
+	public virtual async Task<PaymentDetailKeyDto> Handle(CreatePaymentDetailCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

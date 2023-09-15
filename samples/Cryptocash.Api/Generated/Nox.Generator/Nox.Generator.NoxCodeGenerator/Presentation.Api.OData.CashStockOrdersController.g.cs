@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
@@ -56,16 +57,10 @@ public abstract class CashStockOrdersControllerBase : ODataController
     }
     
     [EnableQuery]
-    public async Task<ActionResult<CashStockOrderDto>> Get([FromRoute] System.Int64 key)
+    public async Task<SingleResult<CashStockOrderDto>> Get([FromRoute] System.Int64 key)
     {
-        var item = await _mediator.Send(new GetCashStockOrderByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
+        var query = await _mediator.Send(new GetCashStockOrderByIdQuery(key));
+        return SingleResult.Create(query);
     }
     
     public virtual async Task<ActionResult<CashStockOrderDto>> Post([FromBody]CashStockOrderCreateDto cashStockOrder)
@@ -76,7 +71,7 @@ public abstract class CashStockOrdersControllerBase : ODataController
         }
         var createdKey = await _mediator.Send(new CreateCashStockOrderCommand(cashStockOrder));
         
-        var item = await _mediator.Send(new GetCashStockOrderByIdQuery(createdKey.keyId));
+        var item = (await _mediator.Send(new GetCashStockOrderByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(item);
     }
@@ -96,7 +91,7 @@ public abstract class CashStockOrdersControllerBase : ODataController
             return NotFound();
         }
         
-        var item = await _mediator.Send(new GetCashStockOrderByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetCashStockOrderByIdQuery(updated.keyId))).SingleOrDefault();
         
         return Ok(item);
     }
@@ -125,7 +120,7 @@ public abstract class CashStockOrdersControllerBase : ODataController
         {
             return NotFound();
         }
-        var item = await _mediator.Send(new GetCashStockOrderByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetCashStockOrderByIdQuery(updated.keyId))).SingleOrDefault();
         return Ok(item);
     }
     

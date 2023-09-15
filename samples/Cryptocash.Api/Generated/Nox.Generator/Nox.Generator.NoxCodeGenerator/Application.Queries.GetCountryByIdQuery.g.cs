@@ -12,9 +12,9 @@ using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.Application.Queries;
 
-public record GetCountryByIdQuery(System.String keyId) : IRequest <CountryDto?>;
+public record GetCountryByIdQuery(System.String keyId) : IRequest <IQueryable<CountryDto>>;
 
-public partial class GetCountryByIdQueryHandler:  QueryBase<CountryDto?>, IRequestHandler<GetCountryByIdQuery, CountryDto?>
+public partial class GetCountryByIdQueryHandler:  QueryBase<IQueryable<CountryDto>>, IRequestHandler<GetCountryByIdQuery, IQueryable<CountryDto>>
 {
     public  GetCountryByIdQueryHandler(DtoDbContext dataDbContext)
     {
@@ -23,17 +23,13 @@ public partial class GetCountryByIdQueryHandler:  QueryBase<CountryDto?>, IReque
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<CountryDto?> Handle(GetCountryByIdQuery request, CancellationToken cancellationToken)
+    public Task<IQueryable<CountryDto>> Handle(GetCountryByIdQuery request, CancellationToken cancellationToken)
     {    
-        var item = DataDbContext.Countries
+        var query = DataDbContext.Countries
             .AsNoTracking()
-            .Include(r => r.CountryUsedByCurrency)
-            .Include(r => r.CountryUsedByCommissions)
-            .Include(r => r.CountryUsedByVendingMachines)
-            .Include(r => r.CountryUsedByCustomers)
-            .SingleOrDefault(r =>
+            .Where(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);
-        return Task.FromResult(OnResponse(item));
+        return Task.FromResult(OnResponse(query));
     }
 }

@@ -39,6 +39,18 @@ public static class ODataServiceCollectionExtensions
             {{- end }}
         {{- end }}
 
+        {{- if entity.Relationships != null }}
+            {{- for relationship in entity.Relationships  }}
+                {{- if relationship.Relationship == "ExactlyOne" }}
+        builder.EntityType<{{entity.Name}}Dto>().ContainsRequired(e => e.{{relationship.Name}});
+                {{- else if relationship.Relationship == "ZeroOrOne" }}
+        builder.EntityType<{{entity.Name}}Dto>().ContainsOptional(e => e.{{relationship.Name}});
+                {{- else }}
+        builder.EntityType<{{entity.Name}}Dto>().ContainsMany(e => e.{{relationship.Name}});
+                {{- end }}
+            {{- end }}
+        {{- end }}
+
         builder.EntityType<{{entity.Name}}Dto>();
         {{- if !entity.IsOwnedEntity && entity.Persistence?.IsAudited ~}}
 

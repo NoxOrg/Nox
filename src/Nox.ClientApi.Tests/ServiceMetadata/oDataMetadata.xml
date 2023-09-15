@@ -14,7 +14,7 @@
                 <Property Name="ShortDescription" Type="Edm.String" />
                 <NavigationProperty Name="CountryShortNames" Type="Collection(ClientApi.Application.Dto.CountryLocalNameDto)" ContainsTarget="true" />
                 <NavigationProperty Name="CountryBarCode" Type="ClientApi.Application.Dto.CountryBarCodeDto" ContainsTarget="true" />
-                <NavigationProperty Name="PhysicalWorkplaces" Type="Collection(ClientApi.Application.Dto.WorkplaceDto)" />
+                <NavigationProperty Name="PhysicalWorkplaces" Type="Collection(ClientApi.Application.Dto.WorkplaceDto)" ContainsTarget="true" />
             </EntityType>
             <EntityType Name="CountryLocalNameDto">
                 <Key>
@@ -38,7 +38,7 @@
                 <Property Name="Location" Type="ClientApi.Application.Dto.LatLongDto" Nullable="false" />
                 <Property Name="OwnershipId" Type="Edm.String" />
                 <NavigationProperty Name="VerifiedEmails" Type="ClientApi.Application.Dto.EmailAddressDto" ContainsTarget="true" />
-                <NavigationProperty Name="Ownership" Type="ClientApi.Application.Dto.StoreOwnerDto" />
+                <NavigationProperty Name="Ownership" Type="ClientApi.Application.Dto.StoreOwnerDto" ContainsTarget="true" />
             </EntityType>
             <EntityType Name="WorkplaceDto">
                 <Key>
@@ -49,7 +49,7 @@
                 <Property Name="Greeting" Type="Edm.String" />
                 <Property Name="BelongsToCountryId" Type="Edm.Int64" />
                 <Property Name="Etag" Type="Edm.Guid" Nullable="false" />
-                <NavigationProperty Name="BelongsToCountry" Type="ClientApi.Application.Dto.CountryDto" />
+                <NavigationProperty Name="BelongsToCountry" Type="ClientApi.Application.Dto.CountryDto" ContainsTarget="true" />
             </EntityType>
             <EntityType Name="StoreOwnerDto">
                 <Key>
@@ -62,7 +62,7 @@
                 <Property Name="StreetAddress" Type="ClientApi.Application.Dto.StreetAddressDto" />
                 <Property Name="LocalGreeting" Type="ClientApi.Application.Dto.TranslatedTextDto" />
                 <Property Name="Notes" Type="Edm.String" />
-                <NavigationProperty Name="Stores" Type="Collection(ClientApi.Application.Dto.StoreDto)" />
+                <NavigationProperty Name="Stores" Type="Collection(ClientApi.Application.Dto.StoreDto)" ContainsTarget="true" />
             </EntityType>
             <EntityType Name="EmailAddressDto">
                 <Property Name="Email" Type="Edm.String" />
@@ -546,19 +546,11 @@
                 <ReturnType Type="Collection(ClientApi.Application.Dto.CountryDto)" />
             </Function>
             <EntityContainer Name="Container">
-                <EntitySet Name="Countries" EntityType="ClientApi.Application.Dto.CountryDto">
-                    <NavigationPropertyBinding Path="PhysicalWorkplaces" Target="Workplaces" />
-                </EntitySet>
+                <EntitySet Name="Countries" EntityType="ClientApi.Application.Dto.CountryDto" />
                 <EntitySet Name="CountryLocalNames" EntityType="ClientApi.Application.Dto.CountryLocalNameDto" />
-                <EntitySet Name="Stores" EntityType="ClientApi.Application.Dto.StoreDto">
-                    <NavigationPropertyBinding Path="Ownership" Target="StoreOwners" />
-                </EntitySet>
-                <EntitySet Name="Workplaces" EntityType="ClientApi.Application.Dto.WorkplaceDto">
-                    <NavigationPropertyBinding Path="BelongsToCountry" Target="Countries" />
-                </EntitySet>
-                <EntitySet Name="StoreOwners" EntityType="ClientApi.Application.Dto.StoreOwnerDto">
-                    <NavigationPropertyBinding Path="Stores" Target="Stores" />
-                </EntitySet>
+                <EntitySet Name="Stores" EntityType="ClientApi.Application.Dto.StoreDto" />
+                <EntitySet Name="Workplaces" EntityType="ClientApi.Application.Dto.WorkplaceDto" />
+                <EntitySet Name="StoreOwners" EntityType="ClientApi.Application.Dto.StoreOwnerDto" />
                 <EntitySet Name="Houses" EntityType="ClientApi.Tests.Application.Dto.HouseDto" />
                 <FunctionImport Name="countriesWithDebt" Function="Default.countriesWithDebt" EntitySet="Countries" IncludeInServiceDocument="true" />
             </EntityContainer>

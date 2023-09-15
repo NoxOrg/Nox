@@ -12,9 +12,9 @@ using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.Application.Queries;
 
-public record GetCurrencyByIdQuery(System.String keyId) : IRequest <CurrencyDto?>;
+public record GetCurrencyByIdQuery(System.String keyId) : IRequest <IQueryable<CurrencyDto>>;
 
-public partial class GetCurrencyByIdQueryHandler:  QueryBase<CurrencyDto?>, IRequestHandler<GetCurrencyByIdQuery, CurrencyDto?>
+public partial class GetCurrencyByIdQueryHandler:  QueryBase<IQueryable<CurrencyDto>>, IRequestHandler<GetCurrencyByIdQuery, IQueryable<CurrencyDto>>
 {
     public  GetCurrencyByIdQueryHandler(DtoDbContext dataDbContext)
     {
@@ -23,15 +23,13 @@ public partial class GetCurrencyByIdQueryHandler:  QueryBase<CurrencyDto?>, IReq
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<CurrencyDto?> Handle(GetCurrencyByIdQuery request, CancellationToken cancellationToken)
+    public Task<IQueryable<CurrencyDto>> Handle(GetCurrencyByIdQuery request, CancellationToken cancellationToken)
     {    
-        var item = DataDbContext.Currencies
+        var query = DataDbContext.Currencies
             .AsNoTracking()
-            .Include(r => r.CurrencyUsedByCountry)
-            .Include(r => r.CurrencyUsedByMinimumCashStocks)
-            .SingleOrDefault(r =>
+            .Where(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);
-        return Task.FromResult(OnResponse(item));
+        return Task.FromResult(OnResponse(query));
     }
 }

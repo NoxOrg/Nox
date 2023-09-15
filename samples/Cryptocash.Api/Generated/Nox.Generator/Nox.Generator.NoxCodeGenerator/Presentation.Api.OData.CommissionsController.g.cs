@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
@@ -56,16 +57,10 @@ public abstract class CommissionsControllerBase : ODataController
     }
     
     [EnableQuery]
-    public async Task<ActionResult<CommissionDto>> Get([FromRoute] System.Int64 key)
+    public async Task<SingleResult<CommissionDto>> Get([FromRoute] System.Int64 key)
     {
-        var item = await _mediator.Send(new GetCommissionByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
+        var query = await _mediator.Send(new GetCommissionByIdQuery(key));
+        return SingleResult.Create(query);
     }
     
     public virtual async Task<ActionResult<CommissionDto>> Post([FromBody]CommissionCreateDto commission)
@@ -76,7 +71,7 @@ public abstract class CommissionsControllerBase : ODataController
         }
         var createdKey = await _mediator.Send(new CreateCommissionCommand(commission));
         
-        var item = await _mediator.Send(new GetCommissionByIdQuery(createdKey.keyId));
+        var item = (await _mediator.Send(new GetCommissionByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(item);
     }
@@ -96,7 +91,7 @@ public abstract class CommissionsControllerBase : ODataController
             return NotFound();
         }
         
-        var item = await _mediator.Send(new GetCommissionByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetCommissionByIdQuery(updated.keyId))).SingleOrDefault();
         
         return Ok(item);
     }
@@ -125,7 +120,7 @@ public abstract class CommissionsControllerBase : ODataController
         {
             return NotFound();
         }
-        var item = await _mediator.Send(new GetCommissionByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetCommissionByIdQuery(updated.keyId))).SingleOrDefault();
         return Ok(item);
     }
     

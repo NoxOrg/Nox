@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
@@ -56,16 +57,10 @@ public abstract class StoresControllerBase : ODataController
     }
     
     [EnableQuery]
-    public async Task<ActionResult<StoreDto>> Get([FromRoute] System.Guid key)
+    public async Task<SingleResult<StoreDto>> Get([FromRoute] System.Guid key)
     {
-        var item = await _mediator.Send(new GetStoreByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
+        var query = await _mediator.Send(new GetStoreByIdQuery(key));
+        return SingleResult.Create(query);
     }
     
     public virtual async Task<ActionResult<StoreDto>> Post([FromBody]StoreCreateDto store)
@@ -76,7 +71,7 @@ public abstract class StoresControllerBase : ODataController
         }
         var createdKey = await _mediator.Send(new CreateStoreCommand(store));
         
-        var item = await _mediator.Send(new GetStoreByIdQuery(createdKey.keyId));
+        var item = (await _mediator.Send(new GetStoreByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(item);
     }
@@ -96,7 +91,7 @@ public abstract class StoresControllerBase : ODataController
             return NotFound();
         }
         
-        var item = await _mediator.Send(new GetStoreByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetStoreByIdQuery(updated.keyId))).SingleOrDefault();
         
         return Ok(item);
     }
@@ -125,7 +120,7 @@ public abstract class StoresControllerBase : ODataController
         {
             return NotFound();
         }
-        var item = await _mediator.Send(new GetStoreByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetStoreByIdQuery(updated.keyId))).SingleOrDefault();
         return Ok(item);
     }
     
@@ -151,7 +146,7 @@ public abstract class StoresControllerBase : ODataController
         {
             return BadRequest(ModelState);
         }
-        var item = await _mediator.Send(new GetStoreByIdQuery(key));
+        var item = (await _mediator.Send(new GetStoreByIdQuery(key))).SingleOrDefault();
         
         if (item is null)
         {
@@ -175,7 +170,7 @@ public abstract class StoresControllerBase : ODataController
             return NotFound();
         }
         
-        var child = (await _mediator.Send(new GetStoreByIdQuery(key)))?.VerifiedEmails;
+        var child = (await _mediator.Send(new GetStoreByIdQuery(key))).SingleOrDefault()?.VerifiedEmails;
         if (child == null)
         {
             return NotFound();
@@ -198,7 +193,7 @@ public abstract class StoresControllerBase : ODataController
             return NotFound();
         }
         
-        var child = (await _mediator.Send(new GetStoreByIdQuery(key)))?.VerifiedEmails;
+        var child = (await _mediator.Send(new GetStoreByIdQuery(key))).SingleOrDefault()?.VerifiedEmails;
         if (child == null)
         {
             return NotFound();
@@ -230,7 +225,7 @@ public abstract class StoresControllerBase : ODataController
         {
             return NotFound();
         }
-        var child = (await _mediator.Send(new GetStoreByIdQuery(key)))?.VerifiedEmails;
+        var child = (await _mediator.Send(new GetStoreByIdQuery(key))).SingleOrDefault()?.VerifiedEmails;
         if (child == null)
         {
             return NotFound();

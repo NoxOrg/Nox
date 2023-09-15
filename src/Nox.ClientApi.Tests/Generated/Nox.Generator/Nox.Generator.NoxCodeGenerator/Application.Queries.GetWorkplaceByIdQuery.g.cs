@@ -12,9 +12,9 @@ using ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 
-public record GetWorkplaceByIdQuery(System.UInt32 keyId) : IRequest <WorkplaceDto?>;
+public record GetWorkplaceByIdQuery(System.UInt32 keyId) : IRequest <IQueryable<WorkplaceDto>>;
 
-public partial class GetWorkplaceByIdQueryHandler:  QueryBase<WorkplaceDto?>, IRequestHandler<GetWorkplaceByIdQuery, WorkplaceDto?>
+public partial class GetWorkplaceByIdQueryHandler:  QueryBase<IQueryable<WorkplaceDto>>, IRequestHandler<GetWorkplaceByIdQuery, IQueryable<WorkplaceDto>>
 {
     public  GetWorkplaceByIdQueryHandler(DtoDbContext dataDbContext)
     {
@@ -23,15 +23,14 @@ public partial class GetWorkplaceByIdQueryHandler:  QueryBase<WorkplaceDto?>, IR
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<WorkplaceDto?> Handle(GetWorkplaceByIdQuery request, CancellationToken cancellationToken)
+    public Task<IQueryable<WorkplaceDto>> Handle(GetWorkplaceByIdQuery request, CancellationToken cancellationToken)
     {    
-        var item = DataDbContext.Workplaces
+        var query = DataDbContext.Workplaces
             .AsNoTracking()
-            .Include(r => r.BelongsToCountry)
-            .SingleOrDefault(r =>
+            .Where(r =>
                 r.Id.Equals(request.keyId) &&
                 true
             );
-        return Task.FromResult(OnResponse(item));
+        return Task.FromResult(OnResponse(query));
     }
 }

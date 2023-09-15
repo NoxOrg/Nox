@@ -30,13 +30,14 @@ public partial class CreateCustomerCommandHandler: CreateCustomerCommandHandlerB
         IEntityFactory<Transaction,TransactionCreateDto> transactionfactory,
         IEntityFactory<Country,CountryCreateDto> countryfactory,
         IEntityFactory<Customer,CustomerCreateDto> entityFactory,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution,paymentdetailfactory,bookingfactory,transactionfactory,countryfactory,entityFactory, serviceProvider)
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution,paymentdetailfactory,bookingfactory,transactionfactory,countryfactory,entityFactory, serviceProvider)
 	{
 	}
 }
 
 
-public partial class CreateCustomerCommandHandlerBase: CommandBase<CreateCustomerCommand,Customer>, IRequestHandler <CreateCustomerCommand, CustomerKeyDto>
+public abstract class CreateCustomerCommandHandlerBase: CommandBase<CreateCustomerCommand,Customer>, IRequestHandler <CreateCustomerCommand, CustomerKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<Customer,CustomerCreateDto> _entityFactory;
@@ -63,7 +64,7 @@ public partial class CreateCustomerCommandHandlerBase: CommandBase<CreateCustome
         _countryfactory = countryfactory;
 	}
 
-	public async Task<CustomerKeyDto> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CustomerKeyDto> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
