@@ -19,13 +19,27 @@ namespace ClientApi.Application.Commands;
 
 public record CreateWorkplaceCommand(WorkplaceCreateDto EntityDto) : IRequest<WorkplaceKeyDto>;
 
-public partial class CreateWorkplaceCommandHandler: CommandBase<CreateWorkplaceCommand,Workplace>, IRequestHandler <CreateWorkplaceCommand, WorkplaceKeyDto>
+public partial class CreateWorkplaceCommandHandler: CreateWorkplaceCommandHandlerBase
+{
+	public CreateWorkplaceCommandHandler(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+        IEntityFactory<Country,CountryCreateDto> countryfactory,
+        IEntityFactory<Workplace,WorkplaceCreateDto> entityFactory,
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution,countryfactory,entityFactory, serviceProvider)
+	{
+	}
+}
+
+
+public abstract class CreateWorkplaceCommandHandlerBase: CommandBase<CreateWorkplaceCommand,Workplace>, IRequestHandler <CreateWorkplaceCommand, WorkplaceKeyDto>
 {
 	private readonly ClientApiDbContext _dbContext;
 	private readonly IEntityFactory<Workplace,WorkplaceCreateDto> _entityFactory;
     private readonly IEntityFactory<Country,CountryCreateDto> _countryfactory;
 
-	public CreateWorkplaceCommandHandler(
+	public CreateWorkplaceCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
         IEntityFactory<Country,CountryCreateDto> countryfactory,
@@ -37,7 +51,7 @@ public partial class CreateWorkplaceCommandHandler: CommandBase<CreateWorkplaceC
         _countryfactory = countryfactory;
 	}
 
-	public async Task<WorkplaceKeyDto> Handle(CreateWorkplaceCommand request, CancellationToken cancellationToken)
+	public virtual async Task<WorkplaceKeyDto> Handle(CreateWorkplaceCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

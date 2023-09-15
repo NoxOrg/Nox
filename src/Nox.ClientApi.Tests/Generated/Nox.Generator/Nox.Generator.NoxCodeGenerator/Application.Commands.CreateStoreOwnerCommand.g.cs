@@ -20,13 +20,27 @@ namespace ClientApi.Application.Commands;
 
 public record CreateStoreOwnerCommand(StoreOwnerCreateDto EntityDto) : IRequest<StoreOwnerKeyDto>;
 
-public partial class CreateStoreOwnerCommandHandler: CommandBase<CreateStoreOwnerCommand,StoreOwner>, IRequestHandler <CreateStoreOwnerCommand, StoreOwnerKeyDto>
+public partial class CreateStoreOwnerCommandHandler: CreateStoreOwnerCommandHandlerBase
+{
+	public CreateStoreOwnerCommandHandler(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+        IEntityFactory<Store,StoreCreateDto> storefactory,
+        IEntityFactory<StoreOwner,StoreOwnerCreateDto> entityFactory,
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution,storefactory,entityFactory, serviceProvider)
+	{
+	}
+}
+
+
+public abstract class CreateStoreOwnerCommandHandlerBase: CommandBase<CreateStoreOwnerCommand,StoreOwner>, IRequestHandler <CreateStoreOwnerCommand, StoreOwnerKeyDto>
 {
 	private readonly ClientApiDbContext _dbContext;
 	private readonly IEntityFactory<StoreOwner,StoreOwnerCreateDto> _entityFactory;
     private readonly IEntityFactory<Store,StoreCreateDto> _storefactory;
 
-	public CreateStoreOwnerCommandHandler(
+	public CreateStoreOwnerCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
         IEntityFactory<Store,StoreCreateDto> storefactory,
@@ -38,7 +52,7 @@ public partial class CreateStoreOwnerCommandHandler: CommandBase<CreateStoreOwne
         _storefactory = storefactory;
 	}
 
-	public async Task<StoreOwnerKeyDto> Handle(CreateStoreOwnerCommand request, CancellationToken cancellationToken)
+	public virtual async Task<StoreOwnerKeyDto> Handle(CreateStoreOwnerCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

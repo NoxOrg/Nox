@@ -20,13 +20,26 @@ namespace Cryptocash.Application.Commands;
 
 public record CreateLandLordCommand(LandLordCreateDto EntityDto) : IRequest<LandLordKeyDto>;
 
-public partial class CreateLandLordCommandHandler: CommandBase<CreateLandLordCommand,LandLord>, IRequestHandler <CreateLandLordCommand, LandLordKeyDto>
+public partial class CreateLandLordCommandHandler: CreateLandLordCommandHandlerBase
+{
+	public CreateLandLordCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+        IEntityFactory<VendingMachine,VendingMachineCreateDto> vendingmachinefactory,
+        IEntityFactory<LandLord,LandLordCreateDto> entityFactory,
+		IServiceProvider serviceProvider): base(dbContext, noxSolution,vendingmachinefactory,entityFactory, serviceProvider)
+	{
+	}
+}
+
+
+public partial class CreateLandLordCommandHandlerBase: CommandBase<CreateLandLordCommand,LandLord>, IRequestHandler <CreateLandLordCommand, LandLordKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<LandLord,LandLordCreateDto> _entityFactory;
     private readonly IEntityFactory<VendingMachine,VendingMachineCreateDto> _vendingmachinefactory;
 
-	public CreateLandLordCommandHandler(
+	public CreateLandLordCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
         IEntityFactory<VendingMachine,VendingMachineCreateDto> vendingmachinefactory,

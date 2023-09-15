@@ -20,14 +20,28 @@ namespace Cryptocash.Application.Commands;
 
 public record CreateCurrencyCommand(CurrencyCreateDto EntityDto) : IRequest<CurrencyKeyDto>;
 
-public partial class CreateCurrencyCommandHandler: CommandBase<CreateCurrencyCommand,Currency>, IRequestHandler <CreateCurrencyCommand, CurrencyKeyDto>
+public partial class CreateCurrencyCommandHandler: CreateCurrencyCommandHandlerBase
+{
+	public CreateCurrencyCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+        IEntityFactory<Country,CountryCreateDto> countryfactory,
+        IEntityFactory<MinimumCashStock,MinimumCashStockCreateDto> minimumcashstockfactory,
+        IEntityFactory<Currency,CurrencyCreateDto> entityFactory,
+		IServiceProvider serviceProvider): base(dbContext, noxSolution,countryfactory,minimumcashstockfactory,entityFactory, serviceProvider)
+	{
+	}
+}
+
+
+public partial class CreateCurrencyCommandHandlerBase: CommandBase<CreateCurrencyCommand,Currency>, IRequestHandler <CreateCurrencyCommand, CurrencyKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<Currency,CurrencyCreateDto> _entityFactory;
     private readonly IEntityFactory<Country,CountryCreateDto> _countryfactory;
     private readonly IEntityFactory<MinimumCashStock,MinimumCashStockCreateDto> _minimumcashstockfactory;
 
-	public CreateCurrencyCommandHandler(
+	public CreateCurrencyCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
         IEntityFactory<Country,CountryCreateDto> countryfactory,

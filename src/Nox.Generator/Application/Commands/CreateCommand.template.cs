@@ -26,7 +26,23 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
 public record Create{{entity.Name}}Command({{entity.Name}}CreateDto EntityDto) : IRequest<{{entity.Name}}KeyDto>;
 
-public partial class Create{{entity.Name}}CommandHandler: CommandBase<Create{{entity.Name}}Command,{{entity.Name}}>, IRequestHandler <Create{{entity.Name}}Command, {{entity.Name}}KeyDto>
+public partial class Create{{entity.Name}}CommandHandler: Create{{entity.Name}}CommandHandlerBase
+{
+	public Create{{entity.Name}}CommandHandler(
+		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
+		NoxSolution noxSolution,
+		{{- for relatedEntity in relatedEntities }}
+        IEntityFactory<{{relatedEntity}},{{relatedEntity}}CreateDto> {{fieldFactoryName relatedEntity}},
+        {{- end }}
+        IEntityFactory<{{entity.Name}},{{entity.Name}}CreateDto> entityFactory,
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution, {{- for relatedEntity in relatedEntities}}{{fieldFactoryName relatedEntity}},{{end}}entityFactory, serviceProvider)
+	{
+	}
+}
+
+
+public abstract class Create{{entity.Name}}CommandHandlerBase: CommandBase<Create{{entity.Name}}Command,{{entity.Name}}>, IRequestHandler <Create{{entity.Name}}Command, {{entity.Name}}KeyDto>
 {
 	private readonly {{codeGeneratorState.Solution.Name}}DbContext _dbContext;
 	private readonly IEntityFactory<{{entity.Name}},{{entity.Name}}CreateDto> _entityFactory;
@@ -34,7 +50,7 @@ public partial class Create{{entity.Name}}CommandHandler: CommandBase<Create{{en
     private readonly IEntityFactory<{{relatedEntity}},{{relatedEntity}}CreateDto> _{{fieldFactoryName relatedEntity}};
     {{- end }}
 
-	public Create{{entity.Name}}CommandHandler(
+	public Create{{entity.Name}}CommandHandlerBase(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
 		{{- for relatedEntity in relatedEntities }}
@@ -50,7 +66,7 @@ public partial class Create{{entity.Name}}CommandHandler: CommandBase<Create{{en
         {{- end }}
 	}
 
-	public async Task<{{entity.Name}}KeyDto> Handle(Create{{entity.Name}}Command request, CancellationToken cancellationToken)
+	public virtual async Task<{{entity.Name}}KeyDto> Handle(Create{{entity.Name}}Command request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
