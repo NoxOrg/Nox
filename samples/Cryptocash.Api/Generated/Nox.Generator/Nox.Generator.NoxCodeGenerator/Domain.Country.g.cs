@@ -112,7 +112,7 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.CurrencyCode3 CountryUsedByCurrencyId { get; set; } = null!;
 
-    public virtual void CreateRefToCurrency(Currency relatedCurrency)
+    public virtual void CreateRefToCurrencyCountryUsedByCurrency(Currency relatedCurrency)
     {
         CountryUsedByCurrency = relatedCurrency;
     }
@@ -122,7 +122,7 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<Commission> CountryUsedByCommissions { get; set; } = new();
 
-    public virtual void CreateRefToCommission(Commission relatedCommission)
+    public virtual void CreateRefToCommissionCountryUsedByCommissions(Commission relatedCommission)
     {
         CountryUsedByCommissions.Add(relatedCommission);
     }
@@ -132,7 +132,7 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<VendingMachine> CountryUsedByVendingMachines { get; set; } = new();
 
-    public virtual void CreateRefToVendingMachine(VendingMachine relatedVendingMachine)
+    public virtual void CreateRefToVendingMachineCountryUsedByVendingMachines(VendingMachine relatedVendingMachine)
     {
         CountryUsedByVendingMachines.Add(relatedVendingMachine);
     }
@@ -142,7 +142,7 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<Customer> CountryUsedByCustomers { get; set; } = new();
 
-    public virtual void CreateRefToCustomer(Customer relatedCustomer)
+    public virtual void CreateRefToCustomerCountryUsedByCustomers(Customer relatedCustomer)
     {
         CountryUsedByCustomers.Add(relatedCustomer);
     }

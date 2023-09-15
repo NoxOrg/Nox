@@ -77,7 +77,7 @@ public abstract class WorkplaceBase : EntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.AutoNumber? BelongsToCountryId { get; set; } = null!;
 
-    public virtual void CreateRefToCountry(Country relatedCountry)
+    public virtual void CreateRefToCountryBelongsToCountry(Country relatedCountry)
     {
         BelongsToCountry = relatedCountry;
     }
