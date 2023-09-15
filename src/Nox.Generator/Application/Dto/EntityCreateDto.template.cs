@@ -28,10 +28,16 @@ public abstract class {{className}}Base : IEntityCreateDto<{{entity.Name}}>
     {{- if key.Type == "Nuid" || key.Type == "AutoNumber" -}}
     {{ continue; -}}
     {{- end }}
+    {{- if key.Type == "Guid" -}}
+    /// <summary>
+    /// {{key.Description}} (Optional).
+    /// </summary>
+    {{- else }}
     /// <summary>
     /// {{key.Description}} (Required).
     /// </summary>
     [Required(ErrorMessage = "{{key.Name}} is required")]
+    {{- end }}
     {{ if key.Type == "EntityId" -}}
     public {{SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity}} {{key.Name}} { get; set; } = default!;
     {{- else -}}

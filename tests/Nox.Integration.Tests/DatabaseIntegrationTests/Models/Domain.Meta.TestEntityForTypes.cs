@@ -439,7 +439,6 @@ public partial class TestEntityForTypes
         public static Nox.Types.AutoNumber CreateAutoNumberTestField(System.Int64 value)
             => Nox.Types.AutoNumber.From(value);
         
-        
     
         /// <summary>
         /// Factory for property 'HtmlTestField'
