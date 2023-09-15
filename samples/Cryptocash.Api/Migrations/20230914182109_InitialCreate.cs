@@ -16,6 +16,15 @@ namespace Cryptocash.Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
+                    CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    LastUpdatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LastUpdatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     CurrencyIsoNumeric = table.Column<short>(type: "smallint", nullable: false),
                     Symbol = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
@@ -29,16 +38,7 @@ namespace Cryptocash.Api.Migrations
                     MinorSymbol = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     MinorToMajorValue_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: false),
                     MinorToMajorValue_CurrencyCode = table.Column<int>(type: "int", nullable: false),
-                    Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    LastUpdatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LastUpdatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
-                    DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                    Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -51,6 +51,15 @@ namespace Cryptocash.Api.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    LastUpdatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LastUpdatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     Address_StreetNumber = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: true),
                     Address_AddressLine1 = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
@@ -62,16 +71,7 @@ namespace Cryptocash.Api.Migrations
                     Address_AdministrativeArea2 = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
                     Address_PostalCode = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
                     Address_CountryId = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
-                    Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    LastUpdatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LastUpdatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
-                    DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                    Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -84,9 +84,6 @@ namespace Cryptocash.Api.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PaymentProviderName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    PaymentProviderType = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -95,7 +92,10 @@ namespace Cryptocash.Api.Migrations
                     LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    PaymentProviderName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
+                    PaymentProviderType = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
+                    Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -108,11 +108,11 @@ namespace Cryptocash.Api.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CurrencyId = table.Column<string>(type: "char(3)", nullable: false),
+                    AsAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CashNote = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     Value_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: false),
-                    Value_CurrencyCode = table.Column<int>(type: "int", nullable: false),
-                    CurrencyId = table.Column<string>(type: "char(3)", nullable: false),
-                    AsAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Value_CurrencyCode = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -130,6 +130,15 @@ namespace Cryptocash.Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
+                    CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    LastUpdatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LastUpdatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     OfficialName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: true),
                     CountryIsoNumeric = table.Column<int>(type: "int", nullable: true),
@@ -153,16 +162,7 @@ namespace Cryptocash.Api.Migrations
                     OpenStreetMapsUrl = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: true),
                     StartOfWeek = table.Column<int>(type: "int", nullable: false),
                     CountryUsedByCurrencyId = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: true),
-                    Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    LastUpdatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LastUpdatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
-                    DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                    Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -180,10 +180,10 @@ namespace Cryptocash.Api.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EffectiveRate = table.Column<int>(type: "int", nullable: false),
-                    EffectiveAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CurrencyId = table.Column<string>(type: "char(3)", nullable: false),
-                    AsAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    AsAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EffectiveRate = table.Column<int>(type: "int", nullable: false),
+                    EffectiveAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -202,10 +202,6 @@ namespace Cryptocash.Api.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Amount_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: false),
-                    Amount_CurrencyCode = table.Column<int>(type: "int", nullable: false),
-                    MinimumCashStockRelatedCurrencyId = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: true),
-                    Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -214,7 +210,11 @@ namespace Cryptocash.Api.Migrations
                     LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    Amount_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: false),
+                    Amount_CurrencyCode = table.Column<int>(type: "int", nullable: false),
+                    MinimumCashStockRelatedCurrencyId = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: true),
+                    Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -232,10 +232,6 @@ namespace Cryptocash.Api.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Rate = table.Column<float>(type: "real", maxLength: 2, nullable: false),
-                    EffectiveAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    CommissionFeesForCountryId = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: true),
-                    Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -244,7 +240,11 @@ namespace Cryptocash.Api.Migrations
                     LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    Rate = table.Column<float>(type: "real", maxLength: 2, nullable: false),
+                    EffectiveAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    CommissionFeesForCountryId = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: true),
+                    Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -262,9 +262,9 @@ namespace Cryptocash.Api.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TimeZoneCode = table.Column<string>(type: "varchar(5)", unicode: false, maxLength: 5, nullable: false),
                     CountryId = table.Column<string>(type: "char(2)", nullable: false),
-                    AsAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    AsAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TimeZoneCode = table.Column<string>(type: "varchar(5)", unicode: false, maxLength: 5, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -283,6 +283,15 @@ namespace Cryptocash.Api.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    LastUpdatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LastUpdatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     FirstName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     EmailAddress = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
@@ -298,16 +307,7 @@ namespace Cryptocash.Api.Migrations
                     Address_CountryId = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
                     MobileNumber = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     CustomerBaseCountryId = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: true),
-                    Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    LastUpdatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LastUpdatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
-                    DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                    Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -325,11 +325,11 @@ namespace Cryptocash.Api.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CountryId = table.Column<string>(type: "char(2)", nullable: false),
+                    AsAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     Type = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    Date = table.Column<DateTime>(type: "date", nullable: false),
-                    CountryId = table.Column<string>(type: "char(2)", nullable: false),
-                    AsAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Date = table.Column<DateTime>(type: "date", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -347,6 +347,15 @@ namespace Cryptocash.Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    LastUpdatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LastUpdatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     MacAddress = table.Column<string>(type: "char(12)", unicode: false, fixedLength: true, maxLength: 12, nullable: false),
                     PublicIp = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     GeoLocation_Latitude = table.Column<double>(type: "float", nullable: false),
@@ -367,16 +376,7 @@ namespace Cryptocash.Api.Migrations
                     RentPerSquareMetre_CurrencyCode = table.Column<int>(type: "int", nullable: true),
                     VendingMachineInstallationCountryId = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: true),
                     VendingMachineContractedAreaLandLordId = table.Column<long>(type: "bigint", nullable: true),
-                    Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    LastUpdatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LastUpdatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
-                    DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                    Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -399,12 +399,6 @@ namespace Cryptocash.Api.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PaymentAccountName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    PaymentAccountNumber = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    PaymentAccountSortCode = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: true),
-                    PaymentDetailsUsedByCustomerId = table.Column<long>(type: "bigint", nullable: true),
-                    PaymentDetailsRelatedPaymentProviderId = table.Column<long>(type: "bigint", nullable: true),
-                    Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -413,7 +407,13 @@ namespace Cryptocash.Api.Migrations
                     LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    PaymentAccountName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
+                    PaymentAccountNumber = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
+                    PaymentAccountSortCode = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: true),
+                    PaymentDetailsUsedByCustomerId = table.Column<long>(type: "bigint", nullable: true),
+                    PaymentDetailsRelatedPaymentProviderId = table.Column<long>(type: "bigint", nullable: true),
+                    Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -435,6 +435,15 @@ namespace Cryptocash.Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    LastUpdatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LastUpdatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     AmountFrom_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: false),
                     AmountFrom_CurrencyCode = table.Column<int>(type: "int", nullable: false),
                     AmountTo_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: false),
@@ -451,16 +460,7 @@ namespace Cryptocash.Api.Migrations
                     BookingForCustomerId = table.Column<long>(type: "bigint", nullable: true),
                     BookingRelatedVendingMachineId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     BookingFeesForCommissionId = table.Column<long>(type: "bigint", nullable: true),
-                    Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    LastUpdatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LastUpdatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
-                    DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                    Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -488,13 +488,6 @@ namespace Cryptocash.Api.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Amount_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: false),
-                    Amount_CurrencyCode = table.Column<int>(type: "int", nullable: false),
-                    RequestedDeliveryDate = table.Column<DateTime>(type: "date", nullable: false),
-                    DeliveryDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CashStockOrderForVendingMachineId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -503,7 +496,14 @@ namespace Cryptocash.Api.Migrations
                     LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    Amount_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: false),
+                    Amount_CurrencyCode = table.Column<int>(type: "int", nullable: false),
+                    RequestedDeliveryDate = table.Column<DateTime>(type: "date", nullable: false),
+                    DeliveryDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CashStockOrderForVendingMachineId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -545,14 +545,6 @@ namespace Cryptocash.Api.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TransactionType = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    ProcessedOnDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    Amount_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: false),
-                    Amount_CurrencyCode = table.Column<int>(type: "int", nullable: false),
-                    Reference = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    TransactionForCustomerId = table.Column<long>(type: "bigint", nullable: true),
-                    TransactionForBookingId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -561,7 +553,15 @@ namespace Cryptocash.Api.Migrations
                     LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    TransactionType = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
+                    ProcessedOnDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    Amount_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: false),
+                    Amount_CurrencyCode = table.Column<int>(type: "int", nullable: false),
+                    Reference = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
+                    TransactionForCustomerId = table.Column<long>(type: "bigint", nullable: true),
+                    TransactionForBookingId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -584,6 +584,15 @@ namespace Cryptocash.Api.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    LastUpdatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LastUpdatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     FirstName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     EmailAddress = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
@@ -600,16 +609,7 @@ namespace Cryptocash.Api.Migrations
                     FirstWorkingDay = table.Column<DateTime>(type: "date", nullable: false),
                     LastWorkingDay = table.Column<DateTime>(type: "date", nullable: true),
                     EmployeeReviewingCashStockOrderId = table.Column<long>(type: "bigint", nullable: true),
-                    Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    LastUpdatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LastUpdatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
-                    DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                    Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -627,10 +627,10 @@ namespace Cryptocash.Api.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PhoneNumberType = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     EmployeeId = table.Column<long>(type: "bigint", nullable: false),
-                    AsAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    AsAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PhoneNumberType = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
                 {

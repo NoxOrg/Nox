@@ -79,7 +79,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
 
             // Act            
-            const string oDataRequest = "$select=CountryLocalNames&$expand=CountryLocalNames($filter=Name eq 'Lusitania')";
+            const string oDataRequest = $"$select={nameof(dto.CountryShortNames)}&$expand={nameof(dto.CountryShortNames)}($filter=Name eq 'Lusitania')";
             var response = await _oDataFixture.GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{result!.Id}?{oDataRequest}");
 
 
@@ -113,7 +113,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
 
             // Act
-            var results = await _oDataFixture.GetODataCollectionResponseAsync<IEnumerable<CountryLocalNameDto>>($"{EntityUrl}/{result!.Id}/CountryLocalNames");
+            var results = await _oDataFixture.GetODataCollectionResponseAsync<IEnumerable<CountryLocalNameDto>>($"{EntityUrl}/{result!.Id}/{nameof(dto.CountryShortNames)}");
 
             // Assert
             results.Should()
@@ -144,7 +144,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
 
             // Act
-            var results = await _oDataFixture.GetODataCollectionResponseAsync<IEnumerable<CountryLocalNameDto>>($"{EntityUrl}/{result!.Id}/CountryLocalNames?$filter=Name eq '{expectedName}'");
+            var results = await _oDataFixture.GetODataCollectionResponseAsync<IEnumerable<CountryLocalNameDto>>($"{EntityUrl}/{result!.Id}/{nameof(dto.CountryShortNames)}?$filter=Name eq '{expectedName}'");
 
             // Assert
             results.Should()
@@ -175,7 +175,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             // Act
             var countryLocalName = await _oDataFixture.GetODataSimpleResponseAsync<CountryLocalNameDto>(
-                $"{EntityUrl}/{country!.Id}/CountryLocalNames/{country!.CountryShortNames[0].Id}");
+                $"{EntityUrl}/{country!.Id}/{nameof(dto.CountryShortNames)}/{country!.CountryShortNames[0].Id}");
 
             // Assert
             countryLocalName.Should().NotBeNull();
@@ -262,7 +262,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var headers = _oDataFixture.CreateEtagHeader(result?.Etag);
 
             //Act
-            var ownedResult = await _oDataFixture.PostAsync<CountryLocalNameCreateDto, CountryLocalNameDto>($"{EntityUrl}/{result!.Id}/CountryLocalNames", localNameDto, headers);
+            var ownedResult = await _oDataFixture.PostAsync<CountryLocalNameCreateDto, CountryLocalNameDto>($"{EntityUrl}/{result!.Id}/{nameof(createDto.CountryShortNames)}", localNameDto, headers);
 
             //Assert
             ownedResult.Should().NotBeNull();
@@ -325,7 +325,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var getCountryResponse = await _oDataFixture.GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{postCountryResponse!.Id}");
             var headers = _oDataFixture.CreateEtagHeader(getCountryResponse?.Etag);
             var ownedResult = await _oDataFixture.PutAsync<CountryLocalNameUpdateDto, CountryLocalNameDto>(
-                $"{EntityUrl}/{getCountryResponse!.Id}/CountryLocalNames/{getCountryResponse!.CountryShortNames[0].Id}",
+                $"{EntityUrl}/{getCountryResponse!.Id}/{nameof(dto.CountryShortNames)}/{getCountryResponse!.CountryShortNames[0].Id}",
                 new CountryLocalNameUpdateDto
                 {
                     Name = expectedOwnedName
@@ -399,7 +399,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var getCountryResponse = await _oDataFixture.GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{postCountryResponse!.Id}");
             var headers = _oDataFixture.CreateEtagHeader(getCountryResponse?.Etag);
             var ownedResult = await _oDataFixture.PatchAsync<Dictionary<string, object>, CountryLocalNameDto>(
-                $"{EntityUrl}/{getCountryResponse!.Id}/CountryLocalNames/{getCountryResponse!.CountryShortNames[0].Id}",
+                $"{EntityUrl}/{getCountryResponse!.Id}/{nameof(dto.CountryShortNames)}/{getCountryResponse!.CountryShortNames[0].Id}",
                 dictionary,
                 headers);
 
@@ -471,7 +471,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var country = await _oDataFixture.GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{result!.Id}");
 
             // Act
-            await _oDataFixture.DeleteAsync($"{EntityUrl}/{country!.Id}/CountryLocalNames/{country!.CountryShortNames[0].Id}");
+            await _oDataFixture.DeleteAsync($"{EntityUrl}/{country!.Id}/{nameof(dto.CountryShortNames)}/{country!.CountryShortNames[0].Id}");
             var countryResponse = await _oDataFixture.GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{result!.Id}");
 
             // Assert

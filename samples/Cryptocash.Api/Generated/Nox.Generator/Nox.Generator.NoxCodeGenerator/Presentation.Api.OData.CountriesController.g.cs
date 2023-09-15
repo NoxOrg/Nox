@@ -145,7 +145,7 @@ public abstract class CountriesControllerBase : ODataController
     #region Owned Relationships
     
     [EnableQuery]
-    public virtual async Task<ActionResult<IQueryable<CountryTimeZoneDto>>> GetCountryTimeZones([FromRoute] System.String key)
+    public virtual async Task<ActionResult<IQueryable<CountryTimeZoneDto>>> GetCountryOwnedTimeZones([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
@@ -162,14 +162,14 @@ public abstract class CountriesControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("api/Countries/{key}/CountryTimeZones/{relatedKey}")]
-    public virtual async Task<ActionResult<CountryTimeZoneDto>> GetCountryTimeZoneNonConventional(System.String key, System.Int64 relatedKey)
+    [HttpGet("api/Countries/{key}/CountryOwnedTimeZones/{relatedKey}")]
+    public virtual async Task<ActionResult<CountryTimeZoneDto>> GetCountryOwnedTimeZonesNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var child = await TryGetCountryTimeZone(key, new CountryTimeZoneKeyDto(relatedKey));
+        var child = await TryGetCountryOwnedTimeZones(key, new CountryTimeZoneKeyDto(relatedKey));
         if (child == null)
         {
             return NotFound();
@@ -178,7 +178,7 @@ public abstract class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    public virtual async Task<ActionResult> PostToCountryTimeZones([FromRoute] System.String key, [FromBody] CountryTimeZoneCreateDto countryTimeZone)
+    public virtual async Task<ActionResult> PostToCountryOwnedTimeZones([FromRoute] System.String key, [FromBody] CountryTimeZoneCreateDto countryTimeZone)
     {
         if (!ModelState.IsValid)
         {
@@ -192,7 +192,7 @@ public abstract class CountriesControllerBase : ODataController
             return NotFound();
         }
         
-        var child = await TryGetCountryTimeZone(key, createdKey);
+        var child = await TryGetCountryOwnedTimeZones(key, createdKey);
         if (child == null)
         {
             return NotFound();
@@ -201,7 +201,7 @@ public abstract class CountriesControllerBase : ODataController
         return Created(child);
     }
     
-    [HttpPut("api/Countries/{key}/CountryTimeZones/{relatedKey}")]
+    [HttpPut("api/Countries/{key}/CountryOwnedTimeZones/{relatedKey}")]
     public virtual async Task<ActionResult<CountryTimeZoneDto>> PutToCountryTimeZonesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] CountryTimeZoneUpdateDto countryTimeZone)
     {
         if (!ModelState.IsValid)
@@ -216,7 +216,7 @@ public abstract class CountriesControllerBase : ODataController
             return NotFound();
         }
         
-        var child = await TryGetCountryTimeZone(key, updatedKey);
+        var child = await TryGetCountryOwnedTimeZones(key, updatedKey);
         if (child == null)
         {
             return NotFound();
@@ -225,7 +225,7 @@ public abstract class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpPatch("api/Countries/{key}/CountryTimeZones/{relatedKey}")]
+    [HttpPatch("api/Countries/{key}/CountryOwnedTimeZones/{relatedKey}")]
     public virtual async Task<ActionResult> PatchToCountryTimeZonesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<CountryTimeZoneDto> countryTimeZone)
     {
         if (!ModelState.IsValid)
@@ -249,7 +249,7 @@ public abstract class CountriesControllerBase : ODataController
         {
             return NotFound();
         }
-        var child = await TryGetCountryTimeZone(key, updated);
+        var child = await TryGetCountryOwnedTimeZones(key, updated);
         if (child == null)
         {
             return NotFound();
@@ -258,7 +258,7 @@ public abstract class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("api/Countries/{key}/CountryTimeZones/{relatedKey}")]
+    [HttpDelete("api/Countries/{key}/CountryOwnedTimeZones/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteCountryTimeZoneNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -274,14 +274,14 @@ public abstract class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    private async Task<CountryTimeZoneDto?> TryGetCountryTimeZone(System.String key, CountryTimeZoneKeyDto childKeyDto)
+    private async Task<CountryTimeZoneDto?> TryGetCountryOwnedTimeZones(System.String key, CountryTimeZoneKeyDto childKeyDto)
     {
         var parent = await _mediator.Send(new GetCountryByIdQuery(key));
         return parent?.CountryOwnedTimeZones.SingleOrDefault(x => x.Id == childKeyDto.keyId);
     }
     
     [EnableQuery]
-    public virtual async Task<ActionResult<IQueryable<HolidayDto>>> GetHolidays([FromRoute] System.String key)
+    public virtual async Task<ActionResult<IQueryable<HolidayDto>>> GetCountryOwnedHolidays([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
@@ -298,14 +298,14 @@ public abstract class CountriesControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("api/Countries/{key}/Holidays/{relatedKey}")]
-    public virtual async Task<ActionResult<HolidayDto>> GetHolidayNonConventional(System.String key, System.Int64 relatedKey)
+    [HttpGet("api/Countries/{key}/CountryOwnedHolidays/{relatedKey}")]
+    public virtual async Task<ActionResult<HolidayDto>> GetCountryOwnedHolidaysNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var child = await TryGetHoliday(key, new HolidayKeyDto(relatedKey));
+        var child = await TryGetCountryOwnedHolidays(key, new HolidayKeyDto(relatedKey));
         if (child == null)
         {
             return NotFound();
@@ -314,7 +314,7 @@ public abstract class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    public virtual async Task<ActionResult> PostToHolidays([FromRoute] System.String key, [FromBody] HolidayCreateDto holiday)
+    public virtual async Task<ActionResult> PostToCountryOwnedHolidays([FromRoute] System.String key, [FromBody] HolidayCreateDto holiday)
     {
         if (!ModelState.IsValid)
         {
@@ -328,7 +328,7 @@ public abstract class CountriesControllerBase : ODataController
             return NotFound();
         }
         
-        var child = await TryGetHoliday(key, createdKey);
+        var child = await TryGetCountryOwnedHolidays(key, createdKey);
         if (child == null)
         {
             return NotFound();
@@ -337,7 +337,7 @@ public abstract class CountriesControllerBase : ODataController
         return Created(child);
     }
     
-    [HttpPut("api/Countries/{key}/Holidays/{relatedKey}")]
+    [HttpPut("api/Countries/{key}/CountryOwnedHolidays/{relatedKey}")]
     public virtual async Task<ActionResult<HolidayDto>> PutToHolidaysNonConventional(System.String key, System.Int64 relatedKey, [FromBody] HolidayUpdateDto holiday)
     {
         if (!ModelState.IsValid)
@@ -352,7 +352,7 @@ public abstract class CountriesControllerBase : ODataController
             return NotFound();
         }
         
-        var child = await TryGetHoliday(key, updatedKey);
+        var child = await TryGetCountryOwnedHolidays(key, updatedKey);
         if (child == null)
         {
             return NotFound();
@@ -361,7 +361,7 @@ public abstract class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpPatch("api/Countries/{key}/Holidays/{relatedKey}")]
+    [HttpPatch("api/Countries/{key}/CountryOwnedHolidays/{relatedKey}")]
     public virtual async Task<ActionResult> PatchToHolidaysNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<HolidayDto> holiday)
     {
         if (!ModelState.IsValid)
@@ -385,7 +385,7 @@ public abstract class CountriesControllerBase : ODataController
         {
             return NotFound();
         }
-        var child = await TryGetHoliday(key, updated);
+        var child = await TryGetCountryOwnedHolidays(key, updated);
         if (child == null)
         {
             return NotFound();
@@ -394,7 +394,7 @@ public abstract class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("api/Countries/{key}/Holidays/{relatedKey}")]
+    [HttpDelete("api/Countries/{key}/CountryOwnedHolidays/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteHolidayNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -410,7 +410,7 @@ public abstract class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    private async Task<HolidayDto?> TryGetHoliday(System.String key, HolidayKeyDto childKeyDto)
+    private async Task<HolidayDto?> TryGetCountryOwnedHolidays(System.String key, HolidayKeyDto childKeyDto)
     {
         var parent = await _mediator.Send(new GetCountryByIdQuery(key));
         return parent?.CountryOwnedHolidays.SingleOrDefault(x => x.Id == childKeyDto.keyId);

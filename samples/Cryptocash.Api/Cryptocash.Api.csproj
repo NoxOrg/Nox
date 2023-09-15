@@ -55,5 +55,5 @@
 	    <ProjectReference Include="..\..\src\Nox.Lib\Nox.Lib.csproj" />
 	    <ProjectReference Include="..\..\src\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj" />
      </ItemGroup>
-
+  
 </Project>

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cryptocash.Api.Migrations
 {
     [DbContext(typeof(CryptocashDbContext))]
-    [Migration("20230912180401_InitialCreate")]
+    [Migration("20230914182109_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Cryptocash.Api.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.10")
+                .HasAnnotation("ProductVersion", "7.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -1400,7 +1400,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasForeignKey("CountryId");
                         });
 
-                    b.OwnsMany("Cryptocash.Domain.CountryTimeZone", "CountryTimeZones", b1 =>
+                    b.OwnsMany("Cryptocash.Domain.CountryTimeZone", "CountryOwnedTimeZones", b1 =>
                         {
                             b1.Property<long>("Id")
                                 .ValueGeneratedOnAdd()
@@ -1431,7 +1431,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasForeignKey("CountryId");
                         });
 
-                    b.OwnsMany("Cryptocash.Domain.Holiday", "Holidays", b1 =>
+                    b.OwnsMany("Cryptocash.Domain.Holiday", "CountryOwnedHolidays", b1 =>
                         {
                             b1.Property<long>("Id")
                                 .ValueGeneratedOnAdd()
@@ -1475,7 +1475,9 @@ namespace Cryptocash.Api.Migrations
 
                     b.Navigation("CoatOfArmsSvg");
 
-                    b.Navigation("CountryTimeZones");
+                    b.Navigation("CountryOwnedHolidays");
+
+                    b.Navigation("CountryOwnedTimeZones");
 
                     b.Navigation("CountryUsedByCurrency");
 
@@ -1484,13 +1486,11 @@ namespace Cryptocash.Api.Migrations
                     b.Navigation("FlagSvg");
 
                     b.Navigation("GeoCoords");
-
-                    b.Navigation("Holidays");
                 });
 
             modelBuilder.Entity("Cryptocash.Domain.Currency", b =>
                 {
-                    b.OwnsMany("Cryptocash.Domain.BankNote", "BankNotes", b1 =>
+                    b.OwnsMany("Cryptocash.Domain.BankNote", "CurrencyCommonBankNotes", b1 =>
                         {
                             b1.Property<long>("Id")
                                 .ValueGeneratedOnAdd()
@@ -1562,7 +1562,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasForeignKey("CurrencyId");
                         });
 
-                    b.OwnsMany("Cryptocash.Domain.ExchangeRate", "ExchangeRates", b1 =>
+                    b.OwnsMany("Cryptocash.Domain.ExchangeRate", "CurrencyExchangedFromRates", b1 =>
                         {
                             b1.Property<long>("Id")
                                 .ValueGeneratedOnAdd()
@@ -1593,9 +1593,9 @@ namespace Cryptocash.Api.Migrations
                                 .HasForeignKey("CurrencyId");
                         });
 
-                    b.Navigation("BankNotes");
+                    b.Navigation("CurrencyCommonBankNotes");
 
-                    b.Navigation("ExchangeRates");
+                    b.Navigation("CurrencyExchangedFromRates");
 
                     b.Navigation("MinorToMajorValue")
                         .IsRequired();
@@ -1731,7 +1731,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasForeignKey("EmployeeId");
                         });
 
-                    b.OwnsMany("Cryptocash.Domain.EmployeePhoneNumber", "EmployeePhoneNumbers", b1 =>
+                    b.OwnsMany("Cryptocash.Domain.EmployeePhoneNumber", "EmployeeContactPhoneNumbers", b1 =>
                         {
                             b1.Property<long>("Id")
                                 .ValueGeneratedOnAdd()
@@ -1769,7 +1769,7 @@ namespace Cryptocash.Api.Migrations
                     b.Navigation("Address")
                         .IsRequired();
 
-                    b.Navigation("EmployeePhoneNumbers");
+                    b.Navigation("EmployeeContactPhoneNumbers");
 
                     b.Navigation("EmployeeReviewingCashStockOrder");
                 });

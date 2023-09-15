@@ -45,7 +45,7 @@ public partial class DeleteEmailAddressCommandHandler: CommandBase<DeleteEmailAd
 		}
 
 		parentEntity.VerifiedEmails = null;
-		
+
 		OnCompleted(request, entity);
 
 		DbContext.Entry(parentEntity).State = EntityState.Modified;

@@ -145,7 +145,7 @@ public abstract class CurrenciesControllerBase : ODataController
     #region Owned Relationships
     
     [EnableQuery]
-    public virtual async Task<ActionResult<IQueryable<BankNoteDto>>> GetBankNotes([FromRoute] System.String key)
+    public virtual async Task<ActionResult<IQueryable<BankNoteDto>>> GetCurrencyCommonBankNotes([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
@@ -162,14 +162,14 @@ public abstract class CurrenciesControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("api/Currencies/{key}/BankNotes/{relatedKey}")]
-    public virtual async Task<ActionResult<BankNoteDto>> GetBankNoteNonConventional(System.String key, System.Int64 relatedKey)
+    [HttpGet("api/Currencies/{key}/CurrencyCommonBankNotes/{relatedKey}")]
+    public virtual async Task<ActionResult<BankNoteDto>> GetCurrencyCommonBankNotesNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var child = await TryGetBankNote(key, new BankNoteKeyDto(relatedKey));
+        var child = await TryGetCurrencyCommonBankNotes(key, new BankNoteKeyDto(relatedKey));
         if (child == null)
         {
             return NotFound();
@@ -178,7 +178,7 @@ public abstract class CurrenciesControllerBase : ODataController
         return Ok(child);
     }
     
-    public virtual async Task<ActionResult> PostToBankNotes([FromRoute] System.String key, [FromBody] BankNoteCreateDto bankNote)
+    public virtual async Task<ActionResult> PostToCurrencyCommonBankNotes([FromRoute] System.String key, [FromBody] BankNoteCreateDto bankNote)
     {
         if (!ModelState.IsValid)
         {
@@ -192,7 +192,7 @@ public abstract class CurrenciesControllerBase : ODataController
             return NotFound();
         }
         
-        var child = await TryGetBankNote(key, createdKey);
+        var child = await TryGetCurrencyCommonBankNotes(key, createdKey);
         if (child == null)
         {
             return NotFound();
@@ -201,7 +201,7 @@ public abstract class CurrenciesControllerBase : ODataController
         return Created(child);
     }
     
-    [HttpPut("api/Currencies/{key}/BankNotes/{relatedKey}")]
+    [HttpPut("api/Currencies/{key}/CurrencyCommonBankNotes/{relatedKey}")]
     public virtual async Task<ActionResult<BankNoteDto>> PutToBankNotesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] BankNoteUpdateDto bankNote)
     {
         if (!ModelState.IsValid)
@@ -216,7 +216,7 @@ public abstract class CurrenciesControllerBase : ODataController
             return NotFound();
         }
         
-        var child = await TryGetBankNote(key, updatedKey);
+        var child = await TryGetCurrencyCommonBankNotes(key, updatedKey);
         if (child == null)
         {
             return NotFound();
@@ -225,7 +225,7 @@ public abstract class CurrenciesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpPatch("api/Currencies/{key}/BankNotes/{relatedKey}")]
+    [HttpPatch("api/Currencies/{key}/CurrencyCommonBankNotes/{relatedKey}")]
     public virtual async Task<ActionResult> PatchToBankNotesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<BankNoteDto> bankNote)
     {
         if (!ModelState.IsValid)
@@ -249,7 +249,7 @@ public abstract class CurrenciesControllerBase : ODataController
         {
             return NotFound();
         }
-        var child = await TryGetBankNote(key, updated);
+        var child = await TryGetCurrencyCommonBankNotes(key, updated);
         if (child == null)
         {
             return NotFound();
@@ -258,7 +258,7 @@ public abstract class CurrenciesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("api/Currencies/{key}/BankNotes/{relatedKey}")]
+    [HttpDelete("api/Currencies/{key}/CurrencyCommonBankNotes/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteBankNoteNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -274,14 +274,14 @@ public abstract class CurrenciesControllerBase : ODataController
         return NoContent();
     }
     
-    private async Task<BankNoteDto?> TryGetBankNote(System.String key, BankNoteKeyDto childKeyDto)
+    private async Task<BankNoteDto?> TryGetCurrencyCommonBankNotes(System.String key, BankNoteKeyDto childKeyDto)
     {
         var parent = await _mediator.Send(new GetCurrencyByIdQuery(key));
         return parent?.CurrencyCommonBankNotes.SingleOrDefault(x => x.Id == childKeyDto.keyId);
     }
     
     [EnableQuery]
-    public virtual async Task<ActionResult<IQueryable<ExchangeRateDto>>> GetExchangeRates([FromRoute] System.String key)
+    public virtual async Task<ActionResult<IQueryable<ExchangeRateDto>>> GetCurrencyExchangedFromRates([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
@@ -298,14 +298,14 @@ public abstract class CurrenciesControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("api/Currencies/{key}/ExchangeRates/{relatedKey}")]
-    public virtual async Task<ActionResult<ExchangeRateDto>> GetExchangeRateNonConventional(System.String key, System.Int64 relatedKey)
+    [HttpGet("api/Currencies/{key}/CurrencyExchangedFromRates/{relatedKey}")]
+    public virtual async Task<ActionResult<ExchangeRateDto>> GetCurrencyExchangedFromRatesNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var child = await TryGetExchangeRate(key, new ExchangeRateKeyDto(relatedKey));
+        var child = await TryGetCurrencyExchangedFromRates(key, new ExchangeRateKeyDto(relatedKey));
         if (child == null)
         {
             return NotFound();
@@ -314,7 +314,7 @@ public abstract class CurrenciesControllerBase : ODataController
         return Ok(child);
     }
     
-    public virtual async Task<ActionResult> PostToExchangeRates([FromRoute] System.String key, [FromBody] ExchangeRateCreateDto exchangeRate)
+    public virtual async Task<ActionResult> PostToCurrencyExchangedFromRates([FromRoute] System.String key, [FromBody] ExchangeRateCreateDto exchangeRate)
     {
         if (!ModelState.IsValid)
         {
@@ -328,7 +328,7 @@ public abstract class CurrenciesControllerBase : ODataController
             return NotFound();
         }
         
-        var child = await TryGetExchangeRate(key, createdKey);
+        var child = await TryGetCurrencyExchangedFromRates(key, createdKey);
         if (child == null)
         {
             return NotFound();
@@ -337,7 +337,7 @@ public abstract class CurrenciesControllerBase : ODataController
         return Created(child);
     }
     
-    [HttpPut("api/Currencies/{key}/ExchangeRates/{relatedKey}")]
+    [HttpPut("api/Currencies/{key}/CurrencyExchangedFromRates/{relatedKey}")]
     public virtual async Task<ActionResult<ExchangeRateDto>> PutToExchangeRatesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] ExchangeRateUpdateDto exchangeRate)
     {
         if (!ModelState.IsValid)
@@ -352,7 +352,7 @@ public abstract class CurrenciesControllerBase : ODataController
             return NotFound();
         }
         
-        var child = await TryGetExchangeRate(key, updatedKey);
+        var child = await TryGetCurrencyExchangedFromRates(key, updatedKey);
         if (child == null)
         {
             return NotFound();
@@ -361,7 +361,7 @@ public abstract class CurrenciesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpPatch("api/Currencies/{key}/ExchangeRates/{relatedKey}")]
+    [HttpPatch("api/Currencies/{key}/CurrencyExchangedFromRates/{relatedKey}")]
     public virtual async Task<ActionResult> PatchToExchangeRatesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<ExchangeRateDto> exchangeRate)
     {
         if (!ModelState.IsValid)
@@ -385,7 +385,7 @@ public abstract class CurrenciesControllerBase : ODataController
         {
             return NotFound();
         }
-        var child = await TryGetExchangeRate(key, updated);
+        var child = await TryGetCurrencyExchangedFromRates(key, updated);
         if (child == null)
         {
             return NotFound();
@@ -394,7 +394,7 @@ public abstract class CurrenciesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("api/Currencies/{key}/ExchangeRates/{relatedKey}")]
+    [HttpDelete("api/Currencies/{key}/CurrencyExchangedFromRates/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteExchangeRateNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -410,7 +410,7 @@ public abstract class CurrenciesControllerBase : ODataController
         return NoContent();
     }
     
-    private async Task<ExchangeRateDto?> TryGetExchangeRate(System.String key, ExchangeRateKeyDto childKeyDto)
+    private async Task<ExchangeRateDto?> TryGetCurrencyExchangedFromRates(System.String key, ExchangeRateKeyDto childKeyDto)
     {
         var parent = await _mediator.Send(new GetCurrencyByIdQuery(key));
         return parent?.CurrencyExchangedFromRates.SingleOrDefault(x => x.Id == childKeyDto.keyId);
