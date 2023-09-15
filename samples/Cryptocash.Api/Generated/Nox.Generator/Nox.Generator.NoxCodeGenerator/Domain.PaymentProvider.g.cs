@@ -5,14 +5,28 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
 public partial class PaymentProvider:PaymentProviderBase
 {
 
 }
+/// <summary>
+/// Record for PaymentProvider created event.
+/// </summary>
+public record PaymentProviderCreated(PaymentProvider PaymentProvider) : IDomainEvent;
+/// <summary>
+/// Record for PaymentProvider updated event.
+/// </summary>
+public record PaymentProviderUpdated(PaymentProvider PaymentProvider) : IDomainEvent;
+/// <summary>
+/// Record for PaymentProvider deleted event.
+/// </summary>
+public record PaymentProviderDeleted(PaymentProvider PaymentProvider) : IDomainEvent;
+
 /// <summary>
 /// Payment provider related data.
 /// </summary>
@@ -37,6 +51,11 @@ public abstract class PaymentProviderBase : AuditableEntityBase, IEntityConcurre
     /// PaymentProvider related to ZeroOrMany PaymentDetails
     /// </summary>
     public virtual List<PaymentDetail> PaymentProviderRelatedPaymentDetails { get; set; } = new();
+
+    public virtual void CreateRefToPaymentDetail(PaymentDetail relatedPaymentDetail)
+    {
+        PaymentProviderRelatedPaymentDetails.Add(relatedPaymentDetail);
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

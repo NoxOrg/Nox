@@ -53,11 +53,11 @@ public abstract class TransactionCreateDtoBase : IEntityCreateDto<Transaction>
     /// Transaction for ExactlyOne Customers
     /// </summary>
     [Required(ErrorMessage = "TransactionForCustomer is required")]
-    public System.Int64 TransactionForCustomerId { get; set; } = default!;
+    public virtual CustomerCreateDto TransactionForCustomer { get; set; } = null!;
 
     /// <summary>
     /// Transaction for ExactlyOne Bookings
     /// </summary>
     [Required(ErrorMessage = "TransactionForBooking is required")]
-    public System.Guid TransactionForBookingId { get; set; } = default!;
+    public virtual BookingCreateDto TransactionForBooking { get; set; } = null!;
 }

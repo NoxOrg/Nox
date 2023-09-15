@@ -5,14 +5,28 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace TestWebApp.Domain;
 public partial class TestEntityZeroOrManyToExactlyOne:TestEntityZeroOrManyToExactlyOneBase
 {
 
 }
+/// <summary>
+/// Record for TestEntityZeroOrManyToExactlyOne created event.
+/// </summary>
+public record TestEntityZeroOrManyToExactlyOneCreated(TestEntityZeroOrManyToExactlyOne TestEntityZeroOrManyToExactlyOne) : IDomainEvent;
+/// <summary>
+/// Record for TestEntityZeroOrManyToExactlyOne updated event.
+/// </summary>
+public record TestEntityZeroOrManyToExactlyOneUpdated(TestEntityZeroOrManyToExactlyOne TestEntityZeroOrManyToExactlyOne) : IDomainEvent;
+/// <summary>
+/// Record for TestEntityZeroOrManyToExactlyOne deleted event.
+/// </summary>
+public record TestEntityZeroOrManyToExactlyOneDeleted(TestEntityZeroOrManyToExactlyOne TestEntityZeroOrManyToExactlyOne) : IDomainEvent;
+
 /// <summary>
 /// .
 /// </summary>

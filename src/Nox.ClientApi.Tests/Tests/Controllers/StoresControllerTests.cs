@@ -72,13 +72,12 @@ namespace ClientApi.Tests.Tests.Controllers
             {
                 Id = "002",
                 Name = ownerExpectedName,
-                
+                TemporaryOwnerName = _fixture.Create<string>()
+
             };
-            var storeOwner = await _oDataFixture.PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(StoreOwnersControllerTests.EntityUrl, createOwner);
             var createStore = new StoreCreateDto
             {
                 Name = _fixture.Create<string>(),
-                OwnershipId = createOwner.Id,
                 Address = new StreetAddressDto(
                     StreetNumber: null!,
                     AddressLine1: "3000 Hillswood Business Park",
@@ -91,6 +90,7 @@ namespace ClientApi.Tests.Tests.Controllers
                     PostalCode: "KT16 0RS",
                     CountryId: CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
+                Ownership = createOwner
             };
             var store = await _oDataFixture.PostAsync<StoreCreateDto, StoreDto>(EntityUrl, createStore);
 
@@ -100,10 +100,9 @@ namespace ClientApi.Tests.Tests.Controllers
 
 
             //Assert
-            response.Should().NotBeNull();            
-            // TODO uncomment when we are able to create a relation
-            //response!.OwnerRel.Should().NotBeNull();
-            //response.OwnerRel!.Name.Should().Be(ownerExpectedName);
+            response.Should().NotBeNull();
+            response!.Ownership.Should().NotBeNull();
+            response!.Ownership!.Name.Should().Be(ownerExpectedName);
         }
         #endregion
         #endregion

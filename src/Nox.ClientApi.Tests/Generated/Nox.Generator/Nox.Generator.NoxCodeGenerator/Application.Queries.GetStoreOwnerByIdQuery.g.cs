@@ -27,6 +27,7 @@ public partial class GetStoreOwnerByIdQueryHandler:  QueryBase<StoreOwnerDto?>, 
     {    
         var item = DataDbContext.StoreOwners
             .AsNoTracking()
+            .Include(r => r.Stores)
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);

@@ -5,14 +5,28 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace ClientApi.Domain;
 public partial class Store:StoreBase
 {
 
 }
+/// <summary>
+/// Record for Store created event.
+/// </summary>
+public record StoreCreated(Store Store) : IDomainEvent;
+/// <summary>
+/// Record for Store updated event.
+/// </summary>
+public record StoreUpdated(Store Store) : IDomainEvent;
+/// <summary>
+/// Record for Store deleted event.
+/// </summary>
+public record StoreDeleted(Store Store) : IDomainEvent;
+
 /// <summary>
 /// Stores.
 /// </summary>
@@ -47,6 +61,11 @@ public abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
     /// Foreign key for relationship ZeroOrOne to entity StoreOwner
     /// </summary>
     public Nox.Types.Text? OwnershipId { get; set; } = null!;
+
+    public virtual void CreateRefToStoreOwner(StoreOwner relatedStoreOwner)
+    {
+        Ownership = relatedStoreOwner;
+    }
 
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses

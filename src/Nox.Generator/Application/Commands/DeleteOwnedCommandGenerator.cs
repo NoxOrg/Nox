@@ -20,31 +20,28 @@ internal class DeleteOwnedCommandGenerator : INoxCodeGenerator
         }
 
         var templateName = @"Application.Commands.DeleteOwnedCommand";
-
-        foreach (var entity in codeGeneratorState.Solution.Domain.Entities.Where(x => x.IsOwnedEntity))
+        foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
+            foreach (var ownedRelationship in entity.OwnedRelationships)
+            {
+                var ownedEntity = codeGeneratorState.Solution.Domain.Entities.Single(entity => entity.Name == ownedRelationship.Entity);
 
-            var parent = entity.TryGetParent(codeGeneratorState.Solution.Domain.Entities);
-            if (parent is null)
-                continue;
+                var parentKeysFindQuery = string.Join(", ", entity.Keys.Select(k => $"key{k.Name}"));
+                var ownedKeysFindQuery = string.Join(" && ", ownedEntity.Keys.Select(k => $"x.{k.Name} == owned{k.Name}"));
 
-            var relationship = parent.OwnedRelationships.First(o => o.Entity == entity.Name);
-            var isSingleRelationship = relationship.WithSingleEntity;
+                new TemplateCodeBuilder(context, codeGeneratorState)
+                    .WithClassName($"Delete{ownedEntity.Name}For{entity.Name}Command")
+                    .WithFileNamePrefix($"Application.Commands")
+                    .WithObject("relationship", ownedRelationship)
+                    .WithObject("entity", ownedEntity)
+                    .WithObject("parent", entity)
+                    .WithObject("isSingleRelationship", ownedRelationship.WithSingleEntity)
+                    .WithObject("parentKeysFindQuery", parentKeysFindQuery)
+                    .WithObject("ownedKeysFindQuery", ownedKeysFindQuery)
+                    .GenerateSourceCodeFromResource(templateName);
 
-            var parentKeysFindQuery = string.Join(", ", parent.Keys.Select(k => $"key{k.Name}"));
-            var ownedKeysFindQuery = string.Join(" && ", entity.Keys.Select(k => $"x.{k.Name} == owned{k.Name}"));
-
-            new TemplateCodeBuilder(context, codeGeneratorState)
-                .WithClassName($"Delete{entity.Name}Command")
-                .WithFileNamePrefix($"Application.Commands")
-                .WithObject("relationship", relationship)
-                .WithObject("entity", entity)
-                .WithObject("parent", parent)
-                .WithObject("isSingleRelationship", isSingleRelationship)
-                .WithObject("parentKeysFindQuery", parentKeysFindQuery)
-                .WithObject("ownedKeysFindQuery", ownedKeysFindQuery)
-                .GenerateSourceCodeFromResource(templateName);
+            }
         }
     }
 }

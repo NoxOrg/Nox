@@ -45,11 +45,11 @@ public abstract class PaymentDetailCreateDtoBase : IEntityCreateDto<PaymentDetai
     /// PaymentDetail used by ExactlyOne Customers
     /// </summary>
     [Required(ErrorMessage = "PaymentDetailsUsedByCustomer is required")]
-    public System.Int64 PaymentDetailsUsedByCustomerId { get; set; } = default!;
+    public virtual CustomerCreateDto PaymentDetailsUsedByCustomer { get; set; } = null!;
 
     /// <summary>
     /// PaymentDetail related to ExactlyOne PaymentProviders
     /// </summary>
     [Required(ErrorMessage = "PaymentDetailsRelatedPaymentProvider is required")]
-    public System.Int64 PaymentDetailsRelatedPaymentProviderId { get; set; } = default!;
+    public virtual PaymentProviderCreateDto PaymentDetailsRelatedPaymentProvider { get; set; } = null!;
 }

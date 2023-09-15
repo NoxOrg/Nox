@@ -5,14 +5,28 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace TestWebApp.Domain;
 public partial class ThirdTestEntityZeroOrMany:ThirdTestEntityZeroOrManyBase
 {
 
 }
+/// <summary>
+/// Record for ThirdTestEntityZeroOrMany created event.
+/// </summary>
+public record ThirdTestEntityZeroOrManyCreated(ThirdTestEntityZeroOrMany ThirdTestEntityZeroOrMany) : IDomainEvent;
+/// <summary>
+/// Record for ThirdTestEntityZeroOrMany updated event.
+/// </summary>
+public record ThirdTestEntityZeroOrManyUpdated(ThirdTestEntityZeroOrMany ThirdTestEntityZeroOrMany) : IDomainEvent;
+/// <summary>
+/// Record for ThirdTestEntityZeroOrMany deleted event.
+/// </summary>
+public record ThirdTestEntityZeroOrManyDeleted(ThirdTestEntityZeroOrMany ThirdTestEntityZeroOrMany) : IDomainEvent;
+
 /// <summary>
 /// .
 /// </summary>

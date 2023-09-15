@@ -57,4 +57,9 @@ public abstract class StoreOwnerCreateDtoBase : IEntityCreateDto<StoreOwner>
     /// Notes (Optional).
     /// </summary>
     public virtual System.String? Notes { get; set; }
+
+    /// <summary>
+    /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores
+    /// </summary>
+    public virtual List<StoreCreateDto> Stores { get; set; } = new();
 }

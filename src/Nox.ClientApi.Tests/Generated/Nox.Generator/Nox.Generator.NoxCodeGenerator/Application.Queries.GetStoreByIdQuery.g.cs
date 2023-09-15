@@ -27,6 +27,7 @@ public partial class GetStoreByIdQueryHandler:  QueryBase<StoreDto?>, IRequestHa
     {    
         var item = DataDbContext.Stores
             .AsNoTracking()
+            .Include(r => r.Ownership)
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);

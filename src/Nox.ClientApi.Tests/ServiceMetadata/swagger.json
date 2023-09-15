@@ -7331,7 +7331,14 @@
             "type": "string",
             "nullable": true
           },
-          "countryShortNames": {
+          "physicalWorkplaces": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkplaceCreateDto"
+            },
+            "nullable": true
+          },
+          "countryLocalNames": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CountryLocalNameCreateDto"
@@ -9160,9 +9167,8 @@
           "location": {
             "$ref": "#/components/schemas/LatLongDto"
           },
-          "ownershipId": {
-            "type": "string",
-            "nullable": true
+          "ownership": {
+            "$ref": "#/components/schemas/StoreOwnerCreateDto"
           },
           "verifiedEmails": {
             "$ref": "#/components/schemas/EmailAddressCreateDto"
@@ -9266,6 +9272,13 @@
           },
           "notes": {
             "type": "string",
+            "nullable": true
+          },
+          "stores": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StoreCreateDto"
+            },
             "nullable": true
           }
         },
@@ -10187,10 +10200,8 @@
             "type": "string",
             "nullable": true
           },
-          "belongsToCountryId": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
+          "belongsToCountry": {
+            "$ref": "#/components/schemas/CountryCreateDto"
           }
         },
         "additionalProperties": false

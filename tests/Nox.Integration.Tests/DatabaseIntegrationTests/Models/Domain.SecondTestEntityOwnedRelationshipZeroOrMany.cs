@@ -5,14 +5,28 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace TestWebApp.Domain;
 public partial class SecondTestEntityOwnedRelationshipZeroOrMany:SecondTestEntityOwnedRelationshipZeroOrManyBase
 {
 
 }
+/// <summary>
+/// Record for SecondTestEntityOwnedRelationshipZeroOrMany created event.
+/// </summary>
+public record SecondTestEntityOwnedRelationshipZeroOrManyCreated(SecondTestEntityOwnedRelationshipZeroOrMany SecondTestEntityOwnedRelationshipZeroOrMany) : IDomainEvent;
+/// <summary>
+/// Record for SecondTestEntityOwnedRelationshipZeroOrMany updated event.
+/// </summary>
+public record SecondTestEntityOwnedRelationshipZeroOrManyUpdated(SecondTestEntityOwnedRelationshipZeroOrMany SecondTestEntityOwnedRelationshipZeroOrMany) : IDomainEvent;
+/// <summary>
+/// Record for SecondTestEntityOwnedRelationshipZeroOrMany deleted event.
+/// </summary>
+public record SecondTestEntityOwnedRelationshipZeroOrManyDeleted(SecondTestEntityOwnedRelationshipZeroOrMany SecondTestEntityOwnedRelationshipZeroOrMany) : IDomainEvent;
+
 /// <summary>
 /// .
 /// </summary>

@@ -5,14 +5,28 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace ClientApi.Domain;
 public partial class Country:CountryBase
 {
 
 }
+/// <summary>
+/// Record for Country created event.
+/// </summary>
+public record CountryCreated(Country Country) : IDomainEvent;
+/// <summary>
+/// Record for Country updated event.
+/// </summary>
+public record CountryUpdated(Country Country) : IDomainEvent;
+/// <summary>
+/// Record for Country deleted event.
+/// </summary>
+public record CountryDeleted(Country Country) : IDomainEvent;
+
 /// <summary>
 /// Country Entity.
 /// </summary>
@@ -56,6 +70,11 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// Country Country workplaces ZeroOrMany Workplaces
     /// </summary>
     public virtual List<Workplace> PhysicalWorkplaces { get; set; } = new();
+
+    public virtual void CreateRefToWorkplace(Workplace relatedWorkplace)
+    {
+        PhysicalWorkplaces.Add(relatedWorkplace);
+    }
 
     /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames

@@ -36,4 +36,9 @@ public abstract class LandLordCreateDtoBase : IEntityCreateDto<LandLord>
     [Required(ErrorMessage = "Address is required")]
     
     public virtual StreetAddressDto Address { get; set; } = default!;
+
+    /// <summary>
+    /// LandLord leases an area to house ZeroOrMany VendingMachines
+    /// </summary>
+    public virtual List<VendingMachineCreateDto> ContractedAreasForVendingMachines { get; set; } = new();
 }

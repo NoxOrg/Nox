@@ -5,14 +5,28 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace ClientApi.Domain;
 public partial class StoreOwner:StoreOwnerBase
 {
 
 }
+/// <summary>
+/// Record for StoreOwner created event.
+/// </summary>
+public record StoreOwnerCreated(StoreOwner StoreOwner) : IDomainEvent;
+/// <summary>
+/// Record for StoreOwner updated event.
+/// </summary>
+public record StoreOwnerUpdated(StoreOwner StoreOwner) : IDomainEvent;
+/// <summary>
+/// Record for StoreOwner deleted event.
+/// </summary>
+public record StoreOwnerDeleted(StoreOwner StoreOwner) : IDomainEvent;
+
 /// <summary>
 /// Store owners.
 /// </summary>
@@ -57,6 +71,11 @@ public abstract class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent
     /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores
     /// </summary>
     public virtual List<Store> Stores { get; set; } = new();
+
+    public virtual void CreateRefToStore(Store relatedStore)
+    {
+        Stores.Add(relatedStore);
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

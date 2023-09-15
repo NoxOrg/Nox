@@ -5,14 +5,28 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace ClientApi.Domain;
 public partial class Workplace:WorkplaceBase
 {
 
 }
+/// <summary>
+/// Record for Workplace created event.
+/// </summary>
+public record WorkplaceCreated(Workplace Workplace) : IDomainEvent;
+/// <summary>
+/// Record for Workplace updated event.
+/// </summary>
+public record WorkplaceUpdated(Workplace Workplace) : IDomainEvent;
+/// <summary>
+/// Record for Workplace deleted event.
+/// </summary>
+public record WorkplaceDeleted(Workplace Workplace) : IDomainEvent;
+
 /// <summary>
 /// Workplace.
 /// </summary>
@@ -62,6 +76,11 @@ public abstract class WorkplaceBase : EntityBase, IEntityConcurrent
     /// Foreign key for relationship ZeroOrOne to entity Country
     /// </summary>
     public Nox.Types.AutoNumber? BelongsToCountryId { get; set; } = null!;
+
+    public virtual void CreateRefToCountry(Country relatedCountry)
+    {
+        BelongsToCountry = relatedCountry;
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

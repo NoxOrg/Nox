@@ -27,7 +27,7 @@ namespace ClientApi.Tests.Tests.Controllers
             _oDataFixture = _fixture.Create<ODataFixture>();
         }
 
-        #region OWNED ENTITIES EXAMPLES
+        #region OWNED RELATIONSHIPS EXAMPLES
 
         #region GET
 
@@ -502,6 +502,48 @@ namespace ClientApi.Tests.Tests.Controllers
             // Assert
             countryResponse.Should().NotBeNull();
             countryResponse!.CountryBarCode.Should().BeNull();
+        }
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #region RELATIONSHIPS EXAMPLES
+
+        #region POST
+
+        #region POST Entity With Related Entities /api/{EntityPluralName} => api/countries
+        [Fact]
+        public async Task Post_WithManyRelatedEntities_Success()
+        {
+            // Arrange
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                PhysicalWorkplaces = new List<WorkplaceCreateDto>()
+                {
+                    new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
+                    new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
+                    new WorkplaceCreateDto() { Name = _fixture.Create<string>() }
+                }
+            };
+            // Act
+            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
+            const string oDataRequest = $"$expand={nameof(CountryDto.PhysicalWorkplaces)}";
+            var getCountryResponse = await _oDataFixture.GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{result!.Id}?{oDataRequest}");
+
+            //Assert
+            result.Should().NotBeNull();
+            result!.Id.Should().BeGreaterThan(0);
+
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.PhysicalWorkplaces.Should().NotBeNull();
+            getCountryResponse!.PhysicalWorkplaces!.Should()
+                .HaveCount(3)
+                    .And
+                .AllSatisfy(x => x.Name.Should().NotBeNullOrEmpty());
         }
         #endregion
 

@@ -7,6 +7,7 @@ using Nox.Types.Extensions;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using static Humanizer.In;
 using static Nox.Generator.Common.BaseGenerator;
 
 namespace Nox.Generator.Presentation.Api.OData;
@@ -447,8 +448,8 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
-        code.AppendLine($"var createdKey = await _mediator.Send(new Add{child.Name}Command(" +
+        code.AppendLine("var etag = Request.GetDecodedEtagHeader();");        
+        code.AppendLine($"var createdKey = await _mediator.Send(new Create{child.Name}For{parent.Name}Command(" +
             $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)}), {child.Name.ToLowerFirstChar()}, etag));");
         code.AppendLine($"if (createdKey == null)");
         code.StartBlock();
@@ -501,11 +502,11 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
 
         if (isSingleRelationship)
-            code.AppendLine($"var updatedKey = await _mediator.Send(new Update{child.Name}Command(" +
+            code.AppendLine($"var updatedKey = await _mediator.Send(new Update{child.Name}For{parent.Name}Command(" +
                     $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)}), " +
                     $"{child.Name.ToLowerFirstChar()}, etag));");
         else
-            code.AppendLine($"var updatedKey = await _mediator.Send(new Update{child.Name}Command(" +
+            code.AppendLine($"var updatedKey = await _mediator.Send(new Update{child.Name}For{parent.Name}Command(" +
                 $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)}), " +
                 $"new {child.Name}KeyDto({PrimaryKeysQuery(child, "relatedKey")}), " +
                 $"{child.Name.ToLowerFirstChar()}, etag));");
@@ -572,11 +573,11 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
 
         if (isSingleRelationship)
-            code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{child.Name}Command(" +
+            code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{child.Name}For{parent.Name}Command(" +
                 $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)}), " +
                 $"updateProperties, etag));");
         else
-            code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{child.Name}Command(" +
+            code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{child.Name}For{parent.Name}Command(" +
                 $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)}), " +
                 $"new {child.Name}KeyDto({PrimaryKeysQuery(child, "relatedKey")}), " +
                 $"updateProperties, etag));");
@@ -630,10 +631,10 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.EndBlock();
 
         if (isSingleRelationship)
-            code.AppendLine($"var result = await _mediator.Send(new Delete{child.Name}Command(" +
+            code.AppendLine($"var result = await _mediator.Send(new Delete{child.Name}For{parent.Name}Command(" +
                 $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)})));");
         else
-            code.AppendLine($"var result = await _mediator.Send(new Delete{child.Name}Command(" +
+            code.AppendLine($"var result = await _mediator.Send(new Delete{child.Name}For{parent.Name}Command(" +
                 $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)}), " +
                 $"new {child.Name}KeyDto({PrimaryKeysQuery(child, "relatedKey")})));");
 

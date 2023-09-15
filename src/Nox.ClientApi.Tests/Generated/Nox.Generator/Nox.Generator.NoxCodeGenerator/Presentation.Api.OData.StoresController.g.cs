@@ -169,7 +169,7 @@ public abstract class StoresControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var createdKey = await _mediator.Send(new AddEmailAddressCommand(new StoreKeyDto(key), emailAddress, etag));
+        var createdKey = await _mediator.Send(new CreateEmailAddressForStoreCommand(new StoreKeyDto(key), emailAddress, etag));
         if (createdKey == null)
         {
             return NotFound();
@@ -192,7 +192,7 @@ public abstract class StoresControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateEmailAddressCommand(new StoreKeyDto(key), emailAddress, etag));
+        var updatedKey = await _mediator.Send(new UpdateEmailAddressForStoreCommand(new StoreKeyDto(key), emailAddress, etag));
         if (updatedKey == null)
         {
             return NotFound();
@@ -224,7 +224,7 @@ public abstract class StoresControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateEmailAddressCommand(new StoreKeyDto(key), updateProperties, etag));
+        var updated = await _mediator.Send(new PartialUpdateEmailAddressForStoreCommand(new StoreKeyDto(key), updateProperties, etag));
         
         if (updated is null)
         {
@@ -246,7 +246,7 @@ public abstract class StoresControllerBase : ODataController
         {
             return BadRequest(ModelState);
         }
-        var result = await _mediator.Send(new DeleteEmailAddressCommand(new StoreKeyDto(key)));
+        var result = await _mediator.Send(new DeleteEmailAddressForStoreCommand(new StoreKeyDto(key)));
         if (!result)
         {
             return NotFound();

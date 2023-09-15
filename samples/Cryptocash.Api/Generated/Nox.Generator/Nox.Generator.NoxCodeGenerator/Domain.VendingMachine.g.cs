@@ -5,14 +5,28 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
 public partial class VendingMachine:VendingMachineBase
 {
 
 }
+/// <summary>
+/// Record for VendingMachine created event.
+/// </summary>
+public record VendingMachineCreated(VendingMachine VendingMachine) : IDomainEvent;
+/// <summary>
+/// Record for VendingMachine updated event.
+/// </summary>
+public record VendingMachineUpdated(VendingMachine VendingMachine) : IDomainEvent;
+/// <summary>
+/// Record for VendingMachine deleted event.
+/// </summary>
+public record VendingMachineDeleted(VendingMachine VendingMachine) : IDomainEvent;
+
 /// <summary>
 /// Vending machine definition and related data.
 /// </summary>
@@ -68,6 +82,11 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
     /// </summary>
     public Nox.Types.CountryCode2 VendingMachineInstallationCountryId { get; set; } = null!;
 
+    public virtual void CreateRefToCountry(Country relatedCountry)
+    {
+        VendingMachineInstallationCountry = relatedCountry;
+    }
+
     /// <summary>
     /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
@@ -78,20 +97,40 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
     /// </summary>
     public Nox.Types.AutoNumber VendingMachineContractedAreaLandLordId { get; set; } = null!;
 
+    public virtual void CreateRefToLandLord(LandLord relatedLandLord)
+    {
+        VendingMachineContractedAreaLandLord = relatedLandLord;
+    }
+
     /// <summary>
     /// VendingMachine related to ZeroOrMany Bookings
     /// </summary>
     public virtual List<Booking> VendingMachineRelatedBookings { get; set; } = new();
+
+    public virtual void CreateRefToBooking(Booking relatedBooking)
+    {
+        VendingMachineRelatedBookings.Add(relatedBooking);
+    }
 
     /// <summary>
     /// VendingMachine related to ZeroOrMany CashStockOrders
     /// </summary>
     public virtual List<CashStockOrder> VendingMachineRelatedCashStockOrders { get; set; } = new();
 
+    public virtual void CreateRefToCashStockOrder(CashStockOrder relatedCashStockOrder)
+    {
+        VendingMachineRelatedCashStockOrders.Add(relatedCashStockOrder);
+    }
+
     /// <summary>
     /// VendingMachine required ZeroOrMany MinimumCashStocks
     /// </summary>
     public virtual List<MinimumCashStock> VendingMachineRequiredMinimumCashStocks { get; set; } = new();
+
+    public virtual void CreateRefToMinimumCashStock(MinimumCashStock relatedMinimumCashStock)
+    {
+        VendingMachineRequiredMinimumCashStocks.Add(relatedMinimumCashStock);
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

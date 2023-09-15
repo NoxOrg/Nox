@@ -99,6 +99,16 @@ public abstract class CurrencyCreateDtoBase : IEntityCreateDto<Currency>
     public virtual MoneyDto MinorToMajorValue { get; set; } = default!;
 
     /// <summary>
+    /// Currency used by OneOrMany Countries
+    /// </summary>
+    public virtual List<CountryCreateDto> CurrencyUsedByCountry { get; set; } = new();
+
+    /// <summary>
+    /// Currency used by ZeroOrMany MinimumCashStocks
+    /// </summary>
+    public virtual List<MinimumCashStockCreateDto> CurrencyUsedByMinimumCashStocks { get; set; } = new();
+
+    /// <summary>
     /// Currency commonly used ZeroOrMany BankNotes
     /// </summary>
     public virtual List<BankNoteCreateDto> CurrencyCommonBankNotes { get; set; } = new();

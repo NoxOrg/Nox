@@ -39,5 +39,5 @@ public abstract class WorkplaceCreateDtoBase : IEntityCreateDto<Workplace>
     /// Workplace Workplace country ZeroOrOne Countries
     /// </summary>
     
-    public System.Int64? BelongsToCountryId { get; set; } = default!;
+    public virtual CountryCreateDto? BelongsToCountry { get; set; } = null!;
 }

@@ -24,15 +24,18 @@ public partial class CreateLandLordCommandHandler: CommandBase<CreateLandLordCom
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<LandLord,LandLordCreateDto> _entityFactory;
+    private readonly IEntityFactory<VendingMachine,VendingMachineCreateDto> _vendingmachinefactory;
 
 	public CreateLandLordCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<VendingMachine,VendingMachineCreateDto> vendingmachinefactory,
         IEntityFactory<LandLord,LandLordCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;
+		_entityFactory = entityFactory;        
+        _vendingmachinefactory = vendingmachinefactory;
 	}
 
 	public async Task<LandLordKeyDto> Handle(CreateLandLordCommand request, CancellationToken cancellationToken)
@@ -41,6 +44,11 @@ public partial class CreateLandLordCommandHandler: CommandBase<CreateLandLordCom
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		foreach(var relatedCreateDto in request.EntityDto.ContractedAreasForVendingMachines)
+		{
+			var relatedEntity = _vendingmachinefactory.CreateEntity(relatedCreateDto);
+			entityToCreate.CreateRefToVendingMachine(relatedEntity);
+		}
 					
 		OnCompleted(request, entityToCreate);
 		_dbContext.LandLords.Add(entityToCreate);

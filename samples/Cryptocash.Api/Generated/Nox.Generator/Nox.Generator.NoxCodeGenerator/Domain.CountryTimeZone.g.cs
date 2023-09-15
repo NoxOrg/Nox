@@ -5,14 +5,28 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
 public partial class CountryTimeZone:CountryTimeZoneBase
 {
 
 }
+/// <summary>
+/// Record for CountryTimeZone created event.
+/// </summary>
+public record CountryTimeZoneCreated(CountryTimeZone CountryTimeZone) : IDomainEvent;
+/// <summary>
+/// Record for CountryTimeZone updated event.
+/// </summary>
+public record CountryTimeZoneUpdated(CountryTimeZone CountryTimeZone) : IDomainEvent;
+/// <summary>
+/// Record for CountryTimeZone deleted event.
+/// </summary>
+public record CountryTimeZoneDeleted(CountryTimeZone CountryTimeZone) : IDomainEvent;
+
 /// <summary>
 /// Time zone related to country.
 /// </summary>

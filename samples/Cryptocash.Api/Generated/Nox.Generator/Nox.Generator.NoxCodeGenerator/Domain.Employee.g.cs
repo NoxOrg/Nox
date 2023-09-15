@@ -5,14 +5,28 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
 public partial class Employee:EmployeeBase
 {
 
 }
+/// <summary>
+/// Record for Employee created event.
+/// </summary>
+public record EmployeeCreated(Employee Employee) : IDomainEvent;
+/// <summary>
+/// Record for Employee updated event.
+/// </summary>
+public record EmployeeUpdated(Employee Employee) : IDomainEvent;
+/// <summary>
+/// Record for Employee deleted event.
+/// </summary>
+public record EmployeeDeleted(Employee Employee) : IDomainEvent;
+
 /// <summary>
 /// Employee definition and related data.
 /// </summary>
@@ -62,6 +76,11 @@ public abstract class EmployeeBase : AuditableEntityBase, IEntityConcurrent
     /// Foreign key for relationship ExactlyOne to entity CashStockOrder
     /// </summary>
     public Nox.Types.AutoNumber EmployeeReviewingCashStockOrderId { get; set; } = null!;
+
+    public virtual void CreateRefToCashStockOrder(CashStockOrder relatedCashStockOrder)
+    {
+        EmployeeReviewingCashStockOrder = relatedCashStockOrder;
+    }
 
     /// <summary>
     /// Employee contacted by ZeroOrMany EmployeePhoneNumbers
