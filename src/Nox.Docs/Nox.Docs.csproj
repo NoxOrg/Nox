@@ -19,6 +19,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Templates\EntityDomainEvents.template.md" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Scriban" Version="5.9.0" />
 	</ItemGroup>
 
