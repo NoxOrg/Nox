@@ -47,7 +47,7 @@ public partial class CreatePaymentProviderCommandHandler: CommandBase<CreatePaym
 		foreach(var relatedCreateDto in request.EntityDto.PaymentProviderRelatedPaymentDetails)
 		{
 			var relatedEntity = _paymentdetailfactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToPaymentProviderRelatedPaymentDetails(relatedEntity);
+			entityToCreate.CreateRefToPaymentDetailPaymentProviderRelatedPaymentDetails(relatedEntity);
 		}
 					
 		OnCompleted(request, entityToCreate);

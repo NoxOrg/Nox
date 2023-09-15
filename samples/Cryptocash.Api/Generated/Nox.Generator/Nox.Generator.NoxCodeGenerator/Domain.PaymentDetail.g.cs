@@ -62,7 +62,7 @@ public abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.AutoNumber PaymentDetailsUsedByCustomerId { get; set; } = null!;
 
-    public virtual void CreateRefToPaymentDetailsUsedByCustomer(Customer relatedCustomer)
+    public virtual void CreateRefToCustomerPaymentDetailsUsedByCustomer(Customer relatedCustomer)
     {
         PaymentDetailsUsedByCustomer = relatedCustomer;
     }
@@ -77,7 +77,7 @@ public abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.AutoNumber PaymentDetailsRelatedPaymentProviderId { get; set; } = null!;
 
-    public virtual void CreateRefToPaymentDetailsRelatedPaymentProvider(PaymentProvider relatedPaymentProvider)
+    public virtual void CreateRefToPaymentProviderPaymentDetailsRelatedPaymentProvider(PaymentProvider relatedPaymentProvider)
     {
         PaymentDetailsRelatedPaymentProvider = relatedPaymentProvider;
     }

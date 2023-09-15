@@ -77,7 +77,7 @@ public abstract class EmployeeBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.AutoNumber EmployeeReviewingCashStockOrderId { get; set; } = null!;
 
-    public virtual void CreateRefToEmployeeReviewingCashStockOrder(CashStockOrder relatedCashStockOrder)
+    public virtual void CreateRefToCashStockOrderEmployeeReviewingCashStockOrder(CashStockOrder relatedCashStockOrder)
     {
         EmployeeReviewingCashStockOrder = relatedCashStockOrder;
     }
@@ -85,7 +85,9 @@ public abstract class EmployeeBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Employee contacted by ZeroOrMany EmployeePhoneNumbers
     /// </summary>
-    public virtual List<EmployeePhoneNumber> EmployeeContactPhoneNumbers { get; set; } = new();
+    public virtual List<EmployeePhoneNumber> EmployeePhoneNumbers { get; set; } = new();
+
+    public List<EmployeePhoneNumber> EmployeeContactPhoneNumbers => EmployeePhoneNumbers;
 
     /// <summary>
     /// Entity tag used as concurrency token.

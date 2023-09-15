@@ -67,7 +67,7 @@ public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<PaymentDetail> CustomerRelatedPaymentDetails { get; set; } = new();
 
-    public virtual void CreateRefToCustomerRelatedPaymentDetails(PaymentDetail relatedPaymentDetail)
+    public virtual void CreateRefToPaymentDetailCustomerRelatedPaymentDetails(PaymentDetail relatedPaymentDetail)
     {
         CustomerRelatedPaymentDetails.Add(relatedPaymentDetail);
     }
@@ -77,7 +77,7 @@ public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<Booking> CustomerRelatedBookings { get; set; } = new();
 
-    public virtual void CreateRefToCustomerRelatedBookings(Booking relatedBooking)
+    public virtual void CreateRefToBookingCustomerRelatedBookings(Booking relatedBooking)
     {
         CustomerRelatedBookings.Add(relatedBooking);
     }
@@ -87,7 +87,7 @@ public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<Transaction> CustomerRelatedTransactions { get; set; } = new();
 
-    public virtual void CreateRefToCustomerRelatedTransactions(Transaction relatedTransaction)
+    public virtual void CreateRefToTransactionCustomerRelatedTransactions(Transaction relatedTransaction)
     {
         CustomerRelatedTransactions.Add(relatedTransaction);
     }
@@ -102,7 +102,7 @@ public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.CountryCode2 CustomerBaseCountryId { get; set; } = null!;
 
-    public virtual void CreateRefToCustomerBaseCountry(Country relatedCountry)
+    public virtual void CreateRefToCountryCustomerBaseCountry(Country relatedCountry)
     {
         CustomerBaseCountry = relatedCountry;
     }

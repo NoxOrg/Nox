@@ -62,7 +62,7 @@ public abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.Text? OwnershipId { get; set; } = null!;
 
-    public virtual void CreateRefToOwnership(StoreOwner relatedStoreOwner)
+    public virtual void CreateRefToStoreOwnerOwnership(StoreOwner relatedStoreOwner)
     {
         Ownership = relatedStoreOwner;
     }
@@ -70,7 +70,7 @@ public abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
-     public virtual EmailAddress? VerifiedEmails { get; set; } = null!;
+     public virtual EmailAddress? EmailAddress { get; set; } = null!;
 
     /// <summary>
     /// Entity tag used as concurrency token.

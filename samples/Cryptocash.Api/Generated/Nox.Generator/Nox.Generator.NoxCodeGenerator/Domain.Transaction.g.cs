@@ -67,7 +67,7 @@ public abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.AutoNumber TransactionForCustomerId { get; set; } = null!;
 
-    public virtual void CreateRefToTransactionForCustomer(Customer relatedCustomer)
+    public virtual void CreateRefToCustomerTransactionForCustomer(Customer relatedCustomer)
     {
         TransactionForCustomer = relatedCustomer;
     }
@@ -82,7 +82,7 @@ public abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.DatabaseGuid TransactionForBookingId { get; set; } = null!;
 
-    public virtual void CreateRefToTransactionForBooking(Booking relatedBooking)
+    public virtual void CreateRefToBookingTransactionForBooking(Booking relatedBooking)
     {
         TransactionForBooking = relatedBooking;
     }

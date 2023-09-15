@@ -112,7 +112,7 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.CurrencyCode3 CountryUsedByCurrencyId { get; set; } = null!;
 
-    public virtual void CreateRefToCountryUsedByCurrency(Currency relatedCurrency)
+    public virtual void CreateRefToCurrencyCountryUsedByCurrency(Currency relatedCurrency)
     {
         CountryUsedByCurrency = relatedCurrency;
     }
@@ -122,7 +122,7 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<Commission> CountryUsedByCommissions { get; set; } = new();
 
-    public virtual void CreateRefToCountryUsedByCommissions(Commission relatedCommission)
+    public virtual void CreateRefToCommissionCountryUsedByCommissions(Commission relatedCommission)
     {
         CountryUsedByCommissions.Add(relatedCommission);
     }
@@ -132,7 +132,7 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<VendingMachine> CountryUsedByVendingMachines { get; set; } = new();
 
-    public virtual void CreateRefToCountryUsedByVendingMachines(VendingMachine relatedVendingMachine)
+    public virtual void CreateRefToVendingMachineCountryUsedByVendingMachines(VendingMachine relatedVendingMachine)
     {
         CountryUsedByVendingMachines.Add(relatedVendingMachine);
     }
@@ -142,7 +142,7 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<Customer> CountryUsedByCustomers { get; set; } = new();
 
-    public virtual void CreateRefToCountryUsedByCustomers(Customer relatedCustomer)
+    public virtual void CreateRefToCustomerCountryUsedByCustomers(Customer relatedCustomer)
     {
         CountryUsedByCustomers.Add(relatedCustomer);
     }
@@ -150,12 +150,16 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Country owned OneOrMany CountryTimeZones
     /// </summary>
-    public virtual List<CountryTimeZone> CountryOwnedTimeZones { get; set; } = new();
+    public virtual List<CountryTimeZone> CountryTimeZones { get; set; } = new();
+
+    public List<CountryTimeZone> CountryOwnedTimeZones => CountryTimeZones;
 
     /// <summary>
     /// Country owned ZeroOrMany Holidays
     /// </summary>
-    public virtual List<Holiday> CountryOwnedHolidays { get; set; } = new();
+    public virtual List<Holiday> Holidays { get; set; } = new();
+
+    public List<Holiday> CountryOwnedHolidays => Holidays;
 
     /// <summary>
     /// Entity tag used as concurrency token.

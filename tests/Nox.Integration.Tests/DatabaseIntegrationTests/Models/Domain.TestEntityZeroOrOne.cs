@@ -52,7 +52,7 @@ public abstract class TestEntityZeroOrOneBase : AuditableEntityBase, IEntityConc
     /// </summary>
     public Nox.Types.Text? SecondTestEntityZeroOrOneRelationshipId { get; set; } = null!;
 
-    public virtual void CreateRefToSecondTestEntityZeroOrOneRelationship(SecondTestEntityZeroOrOne relatedSecondTestEntityZeroOrOne)
+    public virtual void CreateRefToSecondTestEntityZeroOrOneSecondTestEntityZeroOrOneRelationship(SecondTestEntityZeroOrOne relatedSecondTestEntityZeroOrOne)
     {
         SecondTestEntityZeroOrOneRelationship = relatedSecondTestEntityZeroOrOne;
     }

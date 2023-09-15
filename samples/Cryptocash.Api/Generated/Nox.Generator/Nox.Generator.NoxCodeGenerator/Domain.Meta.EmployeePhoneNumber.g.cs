@@ -14,34 +14,38 @@ namespace Cryptocash.Domain;
 /// </summary>
 public partial class EmployeePhoneNumber
 {
-    /// <summary>
-    /// Type options and factory for property 'Id'
-    /// </summary>
-    public static Nox.Types.AutoNumber CreateId(System.Int64 value)
-        => Nox.Types.AutoNumber.From(value);
     
-
-    /// <summary>
-    /// Type options and factory for property 'PhoneNumberType'
-    /// </summary>
-    public static Nox.Types.TextTypeOptions PhoneNumberTypeTypeOptions {get; private set;} = new ()
-    {
-        MinLength = 4,
-        MaxLength = 63,
-        IsUnicode = true,
-        IsLocalized = true,
-        Casing = Nox.Types.TextTypeCasing.Normal,
-    };
+        /// <summary>
+        /// Factory for property 'Id'
+        /// </summary>
+        public static Nox.Types.AutoNumber CreateId(System.Int64 value)
+            => Nox.Types.AutoNumber.From(value);
+        
     
-    public static Text CreatePhoneNumberType(System.String value)
-        => Nox.Types.Text.From(value, PhoneNumberTypeTypeOptions);
+        /// <summary>
+        /// Type options for property 'PhoneNumberType'
+        /// </summary>
+        public static Nox.Types.TextTypeOptions PhoneNumberTypeTypeOptions {get; private set;} = new ()
+        {
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
+        };
     
-
-    /// <summary>
-    /// Type options and factory for property 'PhoneNumber'
-    /// </summary>
-    public static Nox.Types.PhoneNumber CreatePhoneNumber(System.String value)
-        => Nox.Types.PhoneNumber.From(value);
     
-
+        /// <summary>
+        /// Factory for property 'PhoneNumberType'
+        /// </summary>
+        public static Nox.Types.Text CreatePhoneNumberType(System.String value)
+            => Nox.Types.Text.From(value, PhoneNumberTypeTypeOptions);
+        
+    
+        /// <summary>
+        /// Factory for property 'PhoneNumber'
+        /// </summary>
+        public static Nox.Types.PhoneNumber CreatePhoneNumber(System.String value)
+            => Nox.Types.PhoneNumber.From(value);
+        
 }

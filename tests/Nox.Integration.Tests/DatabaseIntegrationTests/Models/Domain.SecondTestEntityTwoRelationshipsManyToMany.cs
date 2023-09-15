@@ -47,7 +47,7 @@ public abstract class SecondTestEntityTwoRelationshipsManyToManyBase : EntityBas
     /// </summary>
     public virtual List<TestEntityTwoRelationshipsManyToMany> TestRelationshipOneOnOtherSide { get; set; } = new();
 
-    public virtual void CreateRefToTestRelationshipOneOnOtherSide(TestEntityTwoRelationshipsManyToMany relatedTestEntityTwoRelationshipsManyToMany)
+    public virtual void CreateRefToTestEntityTwoRelationshipsManyToManyTestRelationshipOneOnOtherSide(TestEntityTwoRelationshipsManyToMany relatedTestEntityTwoRelationshipsManyToMany)
     {
         TestRelationshipOneOnOtherSide.Add(relatedTestEntityTwoRelationshipsManyToMany);
     }
@@ -57,7 +57,7 @@ public abstract class SecondTestEntityTwoRelationshipsManyToManyBase : EntityBas
     /// </summary>
     public virtual List<TestEntityTwoRelationshipsManyToMany> TestRelationshipTwoOnOtherSide { get; set; } = new();
 
-    public virtual void CreateRefToTestRelationshipTwoOnOtherSide(TestEntityTwoRelationshipsManyToMany relatedTestEntityTwoRelationshipsManyToMany)
+    public virtual void CreateRefToTestEntityTwoRelationshipsManyToManyTestRelationshipTwoOnOtherSide(TestEntityTwoRelationshipsManyToMany relatedTestEntityTwoRelationshipsManyToMany)
     {
         TestRelationshipTwoOnOtherSide.Add(relatedTestEntityTwoRelationshipsManyToMany);
     }

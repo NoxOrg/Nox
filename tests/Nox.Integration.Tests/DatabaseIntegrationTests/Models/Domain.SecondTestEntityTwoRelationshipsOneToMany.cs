@@ -52,7 +52,7 @@ public abstract class SecondTestEntityTwoRelationshipsOneToManyBase : EntityBase
     /// </summary>
     public Nox.Types.Text? TestRelationshipOneOnOtherSideId { get; set; } = null!;
 
-    public virtual void CreateRefToTestRelationshipOneOnOtherSide(TestEntityTwoRelationshipsOneToMany relatedTestEntityTwoRelationshipsOneToMany)
+    public virtual void CreateRefToTestEntityTwoRelationshipsOneToManyTestRelationshipOneOnOtherSide(TestEntityTwoRelationshipsOneToMany relatedTestEntityTwoRelationshipsOneToMany)
     {
         TestRelationshipOneOnOtherSide = relatedTestEntityTwoRelationshipsOneToMany;
     }
@@ -67,7 +67,7 @@ public abstract class SecondTestEntityTwoRelationshipsOneToManyBase : EntityBase
     /// </summary>
     public Nox.Types.Text? TestRelationshipTwoOnOtherSideId { get; set; } = null!;
 
-    public virtual void CreateRefToTestRelationshipTwoOnOtherSide(TestEntityTwoRelationshipsOneToMany relatedTestEntityTwoRelationshipsOneToMany)
+    public virtual void CreateRefToTestEntityTwoRelationshipsOneToManyTestRelationshipTwoOnOtherSide(TestEntityTwoRelationshipsOneToMany relatedTestEntityTwoRelationshipsOneToMany)
     {
         TestRelationshipTwoOnOtherSide = relatedTestEntityTwoRelationshipsOneToMany;
     }

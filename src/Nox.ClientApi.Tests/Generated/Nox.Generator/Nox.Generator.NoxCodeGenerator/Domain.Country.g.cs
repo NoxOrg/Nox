@@ -71,7 +71,7 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<Workplace> PhysicalWorkplaces { get; set; } = new();
 
-    public virtual void CreateRefToPhysicalWorkplaces(Workplace relatedWorkplace)
+    public virtual void CreateRefToWorkplacePhysicalWorkplaces(Workplace relatedWorkplace)
     {
         PhysicalWorkplaces.Add(relatedWorkplace);
     }
@@ -79,7 +79,9 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
-    public virtual List<CountryLocalName> CountryShortNames { get; set; } = new();
+    public virtual List<CountryLocalName> CountryLocalNames { get; set; } = new();
+
+    public List<CountryLocalName> CountryShortNames => CountryLocalNames;
 
     /// <summary>
     /// Country is also coded as ZeroOrOne CountryBarCodes

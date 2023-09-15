@@ -50,12 +50,12 @@ public partial class CreateCurrencyCommandHandler: CommandBase<CreateCurrencyCom
 		foreach(var relatedCreateDto in request.EntityDto.CurrencyUsedByCountry)
 		{
 			var relatedEntity = _countryfactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToCurrencyUsedByCountry(relatedEntity);
+			entityToCreate.CreateRefToCountryCurrencyUsedByCountry(relatedEntity);
 		}
 		foreach(var relatedCreateDto in request.EntityDto.CurrencyUsedByMinimumCashStocks)
 		{
 			var relatedEntity = _minimumcashstockfactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToCurrencyUsedByMinimumCashStocks(relatedEntity);
+			entityToCreate.CreateRefToMinimumCashStockCurrencyUsedByMinimumCashStocks(relatedEntity);
 		}
 					
 		OnCompleted(request, entityToCreate);

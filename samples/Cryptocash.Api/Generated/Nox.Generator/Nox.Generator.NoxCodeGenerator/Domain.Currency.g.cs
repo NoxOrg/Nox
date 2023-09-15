@@ -102,7 +102,7 @@ public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<Country> CurrencyUsedByCountry { get; set; } = new();
 
-    public virtual void CreateRefToCurrencyUsedByCountry(Country relatedCountry)
+    public virtual void CreateRefToCountryCurrencyUsedByCountry(Country relatedCountry)
     {
         CurrencyUsedByCountry.Add(relatedCountry);
     }
@@ -112,7 +112,7 @@ public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<MinimumCashStock> CurrencyUsedByMinimumCashStocks { get; set; } = new();
 
-    public virtual void CreateRefToCurrencyUsedByMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
+    public virtual void CreateRefToMinimumCashStockCurrencyUsedByMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
     {
         CurrencyUsedByMinimumCashStocks.Add(relatedMinimumCashStock);
     }
@@ -120,12 +120,16 @@ public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Currency commonly used ZeroOrMany BankNotes
     /// </summary>
-    public virtual List<BankNote> CurrencyCommonBankNotes { get; set; } = new();
+    public virtual List<BankNote> BankNotes { get; set; } = new();
+
+    public List<BankNote> CurrencyCommonBankNotes => BankNotes;
 
     /// <summary>
     /// Currency exchanged from OneOrMany ExchangeRates
     /// </summary>
-    public virtual List<ExchangeRate> CurrencyExchangedFromRates { get; set; } = new();
+    public virtual List<ExchangeRate> ExchangeRates { get; set; } = new();
+
+    public List<ExchangeRate> CurrencyExchangedFromRates => ExchangeRates;
 
     /// <summary>
     /// Entity tag used as concurrency token.

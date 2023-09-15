@@ -82,7 +82,7 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
     /// </summary>
     public Nox.Types.CountryCode2 VendingMachineInstallationCountryId { get; set; } = null!;
 
-    public virtual void CreateRefToVendingMachineInstallationCountry(Country relatedCountry)
+    public virtual void CreateRefToCountryVendingMachineInstallationCountry(Country relatedCountry)
     {
         VendingMachineInstallationCountry = relatedCountry;
     }
@@ -97,7 +97,7 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
     /// </summary>
     public Nox.Types.AutoNumber VendingMachineContractedAreaLandLordId { get; set; } = null!;
 
-    public virtual void CreateRefToVendingMachineContractedAreaLandLord(LandLord relatedLandLord)
+    public virtual void CreateRefToLandLordVendingMachineContractedAreaLandLord(LandLord relatedLandLord)
     {
         VendingMachineContractedAreaLandLord = relatedLandLord;
     }
@@ -107,7 +107,7 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
     /// </summary>
     public virtual List<Booking> VendingMachineRelatedBookings { get; set; } = new();
 
-    public virtual void CreateRefToVendingMachineRelatedBookings(Booking relatedBooking)
+    public virtual void CreateRefToBookingVendingMachineRelatedBookings(Booking relatedBooking)
     {
         VendingMachineRelatedBookings.Add(relatedBooking);
     }
@@ -117,7 +117,7 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
     /// </summary>
     public virtual List<CashStockOrder> VendingMachineRelatedCashStockOrders { get; set; } = new();
 
-    public virtual void CreateRefToVendingMachineRelatedCashStockOrders(CashStockOrder relatedCashStockOrder)
+    public virtual void CreateRefToCashStockOrderVendingMachineRelatedCashStockOrders(CashStockOrder relatedCashStockOrder)
     {
         VendingMachineRelatedCashStockOrders.Add(relatedCashStockOrder);
     }
@@ -127,7 +127,7 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
     /// </summary>
     public virtual List<MinimumCashStock> VendingMachineRequiredMinimumCashStocks { get; set; } = new();
 
-    public virtual void CreateRefToVendingMachineRequiredMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
+    public virtual void CreateRefToMinimumCashStockVendingMachineRequiredMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
     {
         VendingMachineRequiredMinimumCashStocks.Add(relatedMinimumCashStock);
     }

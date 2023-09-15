@@ -47,7 +47,7 @@ public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurr
     /// </summary>
     public virtual List<VendingMachine> MinimumCashStocksRequiredByVendingMachines { get; set; } = new();
 
-    public virtual void CreateRefToMinimumCashStocksRequiredByVendingMachines(VendingMachine relatedVendingMachine)
+    public virtual void CreateRefToVendingMachineMinimumCashStocksRequiredByVendingMachines(VendingMachine relatedVendingMachine)
     {
         MinimumCashStocksRequiredByVendingMachines.Add(relatedVendingMachine);
     }
@@ -62,7 +62,7 @@ public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurr
     /// </summary>
     public Nox.Types.CurrencyCode3 MinimumCashStockRelatedCurrencyId { get; set; } = null!;
 
-    public virtual void CreateRefToMinimumCashStockRelatedCurrency(Currency relatedCurrency)
+    public virtual void CreateRefToCurrencyMinimumCashStockRelatedCurrency(Currency relatedCurrency)
     {
         MinimumCashStockRelatedCurrency = relatedCurrency;
     }

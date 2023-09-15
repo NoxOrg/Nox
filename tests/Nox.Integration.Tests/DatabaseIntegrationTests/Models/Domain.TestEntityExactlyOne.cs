@@ -52,7 +52,7 @@ public abstract class TestEntityExactlyOneBase : AuditableEntityBase, IEntityCon
     /// </summary>
     public Nox.Types.Text SecondTestEntityExactlyOneRelationshipId { get; set; } = null!;
 
-    public virtual void CreateRefToSecondTestEntityExactlyOneRelationship(SecondTestEntityExactlyOne relatedSecondTestEntityExactlyOne)
+    public virtual void CreateRefToSecondTestEntityExactlyOneSecondTestEntityExactlyOneRelationship(SecondTestEntityExactlyOne relatedSecondTestEntityExactlyOne)
     {
         SecondTestEntityExactlyOneRelationship = relatedSecondTestEntityExactlyOne;
     }

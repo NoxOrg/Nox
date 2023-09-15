@@ -50,12 +50,12 @@ public partial class CreatePaymentDetailCommandHandler: CommandBase<CreatePaymen
 		if(request.EntityDto.PaymentDetailsUsedByCustomer is not null)
 		{ 
 			var relatedEntity = _customerfactory.CreateEntity(request.EntityDto.PaymentDetailsUsedByCustomer);
-			entityToCreate.CreateRefToPaymentDetailsUsedByCustomer(relatedEntity);
+			entityToCreate.CreateRefToCustomerPaymentDetailsUsedByCustomer(relatedEntity);
 		}
 		if(request.EntityDto.PaymentDetailsRelatedPaymentProvider is not null)
 		{ 
 			var relatedEntity = _paymentproviderfactory.CreateEntity(request.EntityDto.PaymentDetailsRelatedPaymentProvider);
-			entityToCreate.CreateRefToPaymentDetailsRelatedPaymentProvider(relatedEntity);
+			entityToCreate.CreateRefToPaymentProviderPaymentDetailsRelatedPaymentProvider(relatedEntity);
 		}
 					
 		OnCompleted(request, entityToCreate);

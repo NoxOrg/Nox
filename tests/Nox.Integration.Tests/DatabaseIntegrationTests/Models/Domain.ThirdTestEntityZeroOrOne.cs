@@ -47,7 +47,7 @@ public abstract class ThirdTestEntityZeroOrOneBase : AuditableEntityBase, IEntit
     /// </summary>
     public virtual ThirdTestEntityExactlyOne? ThirdTestEntityExactlyOneRelationship { get; set; } = null!;
 
-    public virtual void CreateRefToThirdTestEntityExactlyOneRelationship(ThirdTestEntityExactlyOne relatedThirdTestEntityExactlyOne)
+    public virtual void CreateRefToThirdTestEntityExactlyOneThirdTestEntityExactlyOneRelationship(ThirdTestEntityExactlyOne relatedThirdTestEntityExactlyOne)
     {
         ThirdTestEntityExactlyOneRelationship = relatedThirdTestEntityExactlyOne;
     }
