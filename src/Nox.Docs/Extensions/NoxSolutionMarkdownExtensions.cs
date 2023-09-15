@@ -54,7 +54,7 @@ public static class NoxSolutionMarkdownExtensions
         {
             Name = "README.md",
             Content = docs,
-            ReferencedFiles = entityEndpoints.Select(x => (MarkdownFile)x),
+            ReferencedFiles = entityEndpoints.Concat(entityDomainEvents).Select(x => (MarkdownFile)x),
         };
     }
 
