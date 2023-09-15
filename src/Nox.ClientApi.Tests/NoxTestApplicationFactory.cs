@@ -25,7 +25,7 @@ public class NoxTestApplicationFactory : WebApplicationFactory<StartupFixture>
                 {
                     services.Remove(descriptor);
                 }
-                services.AddScoped<INoxDatabaseProvider>(sp =>
+                services.AddScoped(sp =>
                 {
                     var configurations = sp.GetServices<INoxTypeDatabaseConfigurator>();
                     return _containerService.GetDatabaseProvider(configurations);

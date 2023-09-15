@@ -1,4 +1,5 @@
-﻿using DotNet.Testcontainers.Containers;
+﻿using DotNet.Testcontainers.Builders;
+using DotNet.Testcontainers.Containers;
 using Nox;
 using Nox.Types.EntityFramework.Abstractions;
 using Testcontainers.MsSql;
@@ -8,23 +9,25 @@ namespace ClientApi.Tests;
 
 public class NoxTestContainerService : IAsyncLifetime
 {
+    //To change DatabaseProvider just replace DbProviderKind.
+    private readonly DatabaseServerProvider DbProviderKind = DatabaseServerProvider.Postgres;
+
     private DockerContainer? _dockerContainer;
     private Func<string> _connectionStringGetter = () => string.Empty;
-    private readonly DatabaseServerProvider _dbProvider = DatabaseServerProvider.Postgres;
-
+    
     public INoxDatabaseProvider GetDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurations)
     {
-        return _dbProvider switch
+        return DbProviderKind switch
         {
             DatabaseServerProvider.Postgres => new PostgreSqlTestProvider(_connectionStringGetter(), configurations),
             DatabaseServerProvider.SqlServer => new MsSqlTestProvider(_connectionStringGetter(), configurations),
-            _ => throw new NotImplementedException($"{_dbProvider} is not suported"),
+            _ => throw new NotImplementedException($"{DbProviderKind} is not suported"),
         };
     }
 
     public Task InitializeAsync()
     {
-        switch (_dbProvider)
+        switch (DbProviderKind)
         {
             case DatabaseServerProvider.Postgres:
                 var postgreContainer = new PostgreSqlBuilder()
@@ -36,22 +39,22 @@ public class NoxTestContainerService : IAsyncLifetime
                   .WithCleanUp(true)
                   .Build();
 
-                _connectionStringGetter = () => postgreContainer.GetConnectionString();
+                _connectionStringGetter = postgreContainer.GetConnectionString;
                 _dockerContainer = postgreContainer;
 
                 break;
             case DatabaseServerProvider.SqlServer:
                 var sqlContainer = new MsSqlBuilder()
-                  .WithAutoRemove(true)
-                  .WithCleanUp(true)
-                  .Build();
+                .WithAutoRemove(true)
+                .WithCleanUp(true)
+                .Build();
 
-                _connectionStringGetter = () => sqlContainer.GetConnectionString();
+                _connectionStringGetter = sqlContainer.GetConnectionString;
                 _dockerContainer = sqlContainer;
 
                 break;
             default:
-                throw new NotImplementedException($"{_dbProvider} is not suported");
+                throw new NotImplementedException($"{DbProviderKind} is not suported");
         }
 
         return _dockerContainer.StartAsync();
