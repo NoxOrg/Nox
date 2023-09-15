@@ -20,14 +20,28 @@ namespace Cryptocash.Application.Commands;
 
 public record CreateCashStockOrderCommand(CashStockOrderCreateDto EntityDto) : IRequest<CashStockOrderKeyDto>;
 
-public partial class CreateCashStockOrderCommandHandler: CommandBase<CreateCashStockOrderCommand,CashStockOrder>, IRequestHandler <CreateCashStockOrderCommand, CashStockOrderKeyDto>
+public partial class CreateCashStockOrderCommandHandler: CreateCashStockOrderCommandHandlerBase
+{
+	public CreateCashStockOrderCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+        IEntityFactory<VendingMachine,VendingMachineCreateDto> vendingmachinefactory,
+        IEntityFactory<Employee,EmployeeCreateDto> employeefactory,
+        IEntityFactory<CashStockOrder,CashStockOrderCreateDto> entityFactory,
+		IServiceProvider serviceProvider): base(dbContext, noxSolution,vendingmachinefactory,employeefactory,entityFactory, serviceProvider)
+	{
+	}
+}
+
+
+public partial class CreateCashStockOrderCommandHandlerBase: CommandBase<CreateCashStockOrderCommand,CashStockOrder>, IRequestHandler <CreateCashStockOrderCommand, CashStockOrderKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<CashStockOrder,CashStockOrderCreateDto> _entityFactory;
     private readonly IEntityFactory<VendingMachine,VendingMachineCreateDto> _vendingmachinefactory;
     private readonly IEntityFactory<Employee,EmployeeCreateDto> _employeefactory;
 
-	public CreateCashStockOrderCommandHandler(
+	public CreateCashStockOrderCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
         IEntityFactory<VendingMachine,VendingMachineCreateDto> vendingmachinefactory,

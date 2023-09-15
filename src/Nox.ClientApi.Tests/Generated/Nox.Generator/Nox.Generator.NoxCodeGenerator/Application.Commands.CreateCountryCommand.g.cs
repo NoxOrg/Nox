@@ -20,13 +20,27 @@ namespace ClientApi.Application.Commands;
 
 public record CreateCountryCommand(CountryCreateDto EntityDto) : IRequest<CountryKeyDto>;
 
-public partial class CreateCountryCommandHandler: CommandBase<CreateCountryCommand,Country>, IRequestHandler <CreateCountryCommand, CountryKeyDto>
+public partial class CreateCountryCommandHandler: CreateCountryCommandHandlerBase
+{
+	public CreateCountryCommandHandler(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+        IEntityFactory<Workplace,WorkplaceCreateDto> workplacefactory,
+        IEntityFactory<Country,CountryCreateDto> entityFactory,
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution,workplacefactory,entityFactory, serviceProvider)
+	{
+	}
+}
+
+
+public abstract class CreateCountryCommandHandlerBase: CommandBase<CreateCountryCommand,Country>, IRequestHandler <CreateCountryCommand, CountryKeyDto>
 {
 	private readonly ClientApiDbContext _dbContext;
 	private readonly IEntityFactory<Country,CountryCreateDto> _entityFactory;
     private readonly IEntityFactory<Workplace,WorkplaceCreateDto> _workplacefactory;
 
-	public CreateCountryCommandHandler(
+	public CreateCountryCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
         IEntityFactory<Workplace,WorkplaceCreateDto> workplacefactory,
@@ -38,7 +52,7 @@ public partial class CreateCountryCommandHandler: CommandBase<CreateCountryComma
         _workplacefactory = workplacefactory;
 	}
 
-	public async Task<CountryKeyDto> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CountryKeyDto> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

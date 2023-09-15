@@ -20,7 +20,24 @@ namespace Cryptocash.Application.Commands;
 
 public record CreateVendingMachineCommand(VendingMachineCreateDto EntityDto) : IRequest<VendingMachineKeyDto>;
 
-public partial class CreateVendingMachineCommandHandler: CommandBase<CreateVendingMachineCommand,VendingMachine>, IRequestHandler <CreateVendingMachineCommand, VendingMachineKeyDto>
+public partial class CreateVendingMachineCommandHandler: CreateVendingMachineCommandHandlerBase
+{
+	public CreateVendingMachineCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+        IEntityFactory<Country,CountryCreateDto> countryfactory,
+        IEntityFactory<LandLord,LandLordCreateDto> landlordfactory,
+        IEntityFactory<Booking,BookingCreateDto> bookingfactory,
+        IEntityFactory<CashStockOrder,CashStockOrderCreateDto> cashstockorderfactory,
+        IEntityFactory<MinimumCashStock,MinimumCashStockCreateDto> minimumcashstockfactory,
+        IEntityFactory<VendingMachine,VendingMachineCreateDto> entityFactory,
+		IServiceProvider serviceProvider): base(dbContext, noxSolution,countryfactory,landlordfactory,bookingfactory,cashstockorderfactory,minimumcashstockfactory,entityFactory, serviceProvider)
+	{
+	}
+}
+
+
+public partial class CreateVendingMachineCommandHandlerBase: CommandBase<CreateVendingMachineCommand,VendingMachine>, IRequestHandler <CreateVendingMachineCommand, VendingMachineKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<VendingMachine,VendingMachineCreateDto> _entityFactory;
@@ -30,7 +47,7 @@ public partial class CreateVendingMachineCommandHandler: CommandBase<CreateVendi
     private readonly IEntityFactory<CashStockOrder,CashStockOrderCreateDto> _cashstockorderfactory;
     private readonly IEntityFactory<MinimumCashStock,MinimumCashStockCreateDto> _minimumcashstockfactory;
 
-	public CreateVendingMachineCommandHandler(
+	public CreateVendingMachineCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
         IEntityFactory<Country,CountryCreateDto> countryfactory,
