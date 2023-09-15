@@ -1,7 +1,10 @@
 using System.Collections.Generic;
+using System.Text;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Text;
 using Nox.Generator.Common;
 using Nox.Solution;
+using Scriban;
 
 namespace Nox.Generator.Application;
 
@@ -13,69 +16,84 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        var code = new CodeBuilder($"Application.NoxWebApplicationExtensions.g.cs", context);
+        var scribanTemplate = Template.Parse(
+            @"// Generated
 
-        var usings = new List<string>();
-        var dbProvider = "";
+#nullable enable
+{{~ for namespace in namespaces}}
+using {{ namespace ~}};
+{{- end }}
+
+public static class NoxWebApplicationBuilderExtension
+{
+    public static IServiceCollection AddNox(this IServiceCollection services)
+    {
+        return services.AddNox(null);
+    }
+
+    public static IServiceCollection AddNox(this IServiceCollection services, Action<ODataModelBuilder>? configureOData)
+    {
+        services.AddNoxLib(Assembly.GetExecutingAssembly());
+        services.AddNoxOdata(configureOData);
+        services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
+        services.AddSingleton<DbContextOptions<{{ dbContext }}>>();
+        services.AddSingleton<INoxDatabaseConfigurator, {{ dbProvider }}>();
+        services.AddSingleton<INoxDatabaseProvider, {{ dbProvider }}>();
+        services.AddDbContext<{{ dbContext }}>();
+        services.AddDbContext<DtoDbContext>();
+        return services;
+    }
+}
+"
+        );
+
         var solution = codeGeneratorState.Solution;
+
+        List<string> namespaces = new()
+        {
+            "Microsoft.EntityFrameworkCore",
+            "System.Reflection",
+            "Microsoft.OData.ModelBuilder",
+            "Nox",
+            "Nox.Solution",
+            "Nox.Types.EntityFramework.Abstractions",
+            $"{solution.Name}.Infrastructure.Persistence",
+        };
+
+        if (config.Presentation)
+            namespaces.Add($"{solution.Name}.Presentation.Api.OData");
+
+        var dbProvider = "";
         if (solution.Infrastructure?.Persistence is { DatabaseServer: not null })
         {
-            var dbServer = solution.Infrastructure.Persistence.DatabaseServer;
-            switch (dbServer.Provider)
+            switch (solution.Infrastructure.Persistence.DatabaseServer.Provider)
             {
                 case DatabaseServerProvider.SqlServer:
-                    usings.Add("using Nox.EntityFramework.SqlServer;");
+                    namespaces.Add("Nox.EntityFramework.SqlServer");
                     dbProvider = "SqlServerDatabaseProvider";
                     break;
 
                 case DatabaseServerProvider.Postgres:
-                    usings.Add("using Nox.EntityFramework.Postgres;");
+                    namespaces.Add("Nox.EntityFramework.Postgres");
                     dbProvider = "PostgresDatabaseProvider";
                     break;
                 case DatabaseServerProvider.SqLite:
-                    usings.Add("using Nox.EntityFramework.Sqlite;");
+                    namespaces.Add("Nox.EntityFramework.Sqlite");
                     dbProvider = "SqliteDatabaseProvider";
                     break;
             }
         }
 
-        code.AppendLine("using Microsoft.EntityFrameworkCore;");               
-        code.AppendLine("using System.Reflection;");
-        code.AppendLine("using Microsoft.OData.ModelBuilder;");
-        code.AppendLine("using Nox;");
-        code.AppendLine("using Nox.Solution;");
-        code.AppendLines(usings.ToArray());
-        code.AppendLine("using Nox.Types.EntityFramework.Abstractions;");
-        code.AppendLine($"using {solution.Name}.Infrastructure.Persistence;");
-        if (config.Presentation)
-            code.AppendLine($"using {solution.Name}.Presentation.Api.OData;");
-        code.AppendLine();
+        namespaces.Sort();
 
-        code.AppendLine("public static class NoxWebApplicationBuilderExtension");
-        code.StartBlock();
-        code.AppendLine(@"public static IServiceCollection AddNox(this IServiceCollection services)
-                        {
-                            return services.AddNox(null);
-                        }
-                        ");
-        code.AppendLine("public static IServiceCollection AddNox(this IServiceCollection services, Action<ODataModelBuilder>? configureOData)");
-        code.StartBlock();
-        code.AppendLine($"services.AddNoxLib(Assembly.GetExecutingAssembly());");
-        code.AppendLine("services.AddNoxOdata(configureOData);");
-        var dbContextName = $"{solution.Name}DbContext";
+        object model = new
+        {
+            namespaces,
+            dbProvider,
+            dbContext = $"{solution.Name}DbContext"
+        };
 
-        code.AppendLine($"services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));");
-        code.AppendLine($"services.AddSingleton<DbContextOptions<{dbContextName}>>();");
-        code.AppendLine($"services.AddSingleton<INoxDatabaseConfigurator, {dbProvider}>();");
-        code.AppendLine($"services.AddSingleton<INoxDatabaseProvider, {dbProvider}>();");
-        code.AppendLine($"services.AddDbContext<{dbContextName}>();");
-        code.AppendLine($"services.AddDbContext<DtoDbContext>();");
-        code.AppendLine("return services;");
-        code.EndBlock();
-        code.AppendLine();
-
-        code.EndBlock();
-
-        code.GenerateSourceCode();
+        context.AddSource("Application.NoxWebApplicationExtensions.g.cs",
+            SourceText.From(scribanTemplate.Render(model, member => member.Name), Encoding.UTF8));
     }
 }

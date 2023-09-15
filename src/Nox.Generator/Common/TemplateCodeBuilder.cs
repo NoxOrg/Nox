@@ -51,7 +51,7 @@ internal class TemplateCodeBuilder
         return this;
     }
     /// <summary>
-    /// Oprional prefix to the generated fie, example Domain.Entity.g.cs
+    /// Optional prefix to the generated file, example Domain.Entity.g.cs
     /// Uses template name if undefined
     /// </summary>
     /// <param name="fileNamePrefix">Prefix to add to the file name. A dot will be added between the prefix and the class name</param>
