@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Nox.Solution.Extensions;
 
 namespace Nox.Generator.Domain;
 
@@ -31,4 +32,9 @@ internal sealed class EntityMetaData
     /// Gets or sets the properties of the Output options for the entity.
     /// </summary>
     public IReadOnlyList<string>? OptionsProperties { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the properties of the Output options for the entity.
+    /// </summary>
+    public IReadOnlyList<OptionProperty>? OptionProperties { get; set; }
 }

@@ -36,6 +36,14 @@ internal class EntityMetaGenerator : INoxCodeGenerator
                 .WithObject("entity", entity)
                 .WithObject("entitiesMetaData", entitiesMetaData)
                 .GenerateSourceCodeFromResource("Domain.EntityMeta");
+            
+            new TemplateCodeBuilder(context, codeGeneratorState)
+                .WithClassName(entity.Name + "New")
+                .WithFileNamePrefix($"Domain.Meta")
+                .WithObject("entity", entity)
+                .WithObject("entitiesMetaData", entitiesMetaData)
+                .GenerateSourceCodeFromResource("Domain.EntityMetaNew");
+
         }
     }
 
@@ -48,6 +56,7 @@ internal class EntityMetaGenerator : INoxCodeGenerator
         var options = typeof(NoxSimpleTypeDefinition).GetProperty(typeOptions);
 
         var optionsProperties = Array.Empty<string>();
+        var optionProperties = new List<OptionProperty>(1);
         var components = type.GetComponents(typeDef).ToArray();
 
         var inParams = components.Length == 1 
@@ -57,6 +66,7 @@ internal class EntityMetaGenerator : INoxCodeGenerator
        
         if (options != null)
         {
+            optionProperties = GetTypeOptionPropertList(typeDef, options);
             optionsProperties = GetTypeOptionProperties(typeDef, options);
         }
         
@@ -66,7 +76,9 @@ internal class EntityMetaGenerator : INoxCodeGenerator
             Type = type.ToString(),
             InParams = inParams,
             HasTypeOptions = optionsProperties.Any(),
-            OptionsProperties = optionsProperties
+            OptionsProperties = optionsProperties,
+            OptionProperties = optionProperties,
+            
         };
     }
 
@@ -86,6 +98,21 @@ internal class EntityMetaGenerator : INoxCodeGenerator
                 .Skip(1)
                 .TakeWhile(s=> !s.StartsWith("}"))
                 .ToArray();
+        }
+
+        return optionsProperties;
+    }
+    
+    private static List<OptionProperty> GetTypeOptionPropertList(
+        NoxSimpleTypeDefinition typeDef, 
+        PropertyInfo options)
+    {
+        var optionsProperties = new List<OptionProperty>(1);
+        var optionsValue = options.GetValue(typeDef, null);
+
+        if (optionsValue != null)
+        {
+            optionsProperties =   optionsValue.ToOptionProperties();
         }
 
         return optionsProperties;
