@@ -98,7 +98,7 @@ namespace ClientApi.Tests.Tests.Controllers
             putResult.Should().NotBeNull();
         }
 
-        [Fact(Skip = "Fix issue with delta serialization")]
+        [Fact]
         public async Task Patch_Name_ShouldUpdateNameOnly()
         {
             // Arrange
@@ -115,10 +115,10 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, createDto);
-
+            var headers = CreateEtagHeader(postResult!.Etag);
             // Act
 
-            var patchResult = await PatchAsync<WorkplaceUpdateDto, WorkplaceDto>($"{EntityUrl}/{postResult!.Id}", updateDto);
+            var patchResult = await PatchAsync<WorkplaceUpdateDto, WorkplaceDto>($"{EntityUrl}/{postResult!.Id}", updateDto, headers);
 
             //Assert
             patchResult.Should().NotBeNull();
