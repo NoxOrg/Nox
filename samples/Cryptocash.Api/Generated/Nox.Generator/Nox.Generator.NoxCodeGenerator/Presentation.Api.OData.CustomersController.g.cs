@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
@@ -22,10 +23,10 @@ using Nox.Types;
 namespace Cryptocash.Presentation.Api.OData;
 
 public partial class CustomersController : CustomersControllerBase
-            {
-                public CustomersController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
-                {}
-            }
+{
+    public CustomersController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    {}
+}
 public abstract class CustomersControllerBase : ODataController
 {
     
@@ -56,16 +57,10 @@ public abstract class CustomersControllerBase : ODataController
     }
     
     [EnableQuery]
-    public async Task<ActionResult<CustomerDto>> Get([FromRoute] System.Int64 key)
+    public async Task<SingleResult<CustomerDto>> Get([FromRoute] System.Int64 key)
     {
-        var item = await _mediator.Send(new GetCustomerByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
+        var query = await _mediator.Send(new GetCustomerByIdQuery(key));
+        return SingleResult.Create(query);
     }
     
     public virtual async Task<ActionResult<CustomerDto>> Post([FromBody]CustomerCreateDto customer)
@@ -76,7 +71,7 @@ public abstract class CustomersControllerBase : ODataController
         }
         var createdKey = await _mediator.Send(new CreateCustomerCommand(customer));
         
-        var item = await _mediator.Send(new GetCustomerByIdQuery(createdKey.keyId));
+        var item = (await _mediator.Send(new GetCustomerByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(item);
     }
@@ -96,7 +91,7 @@ public abstract class CustomersControllerBase : ODataController
             return NotFound();
         }
         
-        var item = await _mediator.Send(new GetCustomerByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetCustomerByIdQuery(updated.keyId))).SingleOrDefault();
         
         return Ok(item);
     }
@@ -125,7 +120,7 @@ public abstract class CustomersControllerBase : ODataController
         {
             return NotFound();
         }
-        var item = await _mediator.Send(new GetCustomerByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetCustomerByIdQuery(updated.keyId))).SingleOrDefault();
         return Ok(item);
     }
     

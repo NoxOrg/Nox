@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
@@ -22,10 +23,10 @@ using Nox.Types;
 namespace ClientApi.Presentation.Api.OData;
 
 public partial class CountriesController : CountriesControllerBase
-            {
-                public CountriesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
-                {}
-            }
+{
+    public CountriesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    {}
+}
 public abstract class CountriesControllerBase : ODataController
 {
     
@@ -56,16 +57,10 @@ public abstract class CountriesControllerBase : ODataController
     }
     
     [EnableQuery]
-    public async Task<ActionResult<CountryDto>> Get([FromRoute] System.Int64 key)
+    public async Task<SingleResult<CountryDto>> Get([FromRoute] System.Int64 key)
     {
-        var item = await _mediator.Send(new GetCountryByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
+        var query = await _mediator.Send(new GetCountryByIdQuery(key));
+        return SingleResult.Create(query);
     }
     
     public virtual async Task<ActionResult<CountryDto>> Post([FromBody]CountryCreateDto country)
@@ -76,7 +71,7 @@ public abstract class CountriesControllerBase : ODataController
         }
         var createdKey = await _mediator.Send(new CreateCountryCommand(country));
         
-        var item = await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId));
+        var item = (await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(item);
     }
@@ -96,7 +91,7 @@ public abstract class CountriesControllerBase : ODataController
             return NotFound();
         }
         
-        var item = await _mediator.Send(new GetCountryByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetCountryByIdQuery(updated.keyId))).SingleOrDefault();
         
         return Ok(item);
     }
@@ -125,7 +120,7 @@ public abstract class CountriesControllerBase : ODataController
         {
             return NotFound();
         }
-        var item = await _mediator.Send(new GetCountryByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetCountryByIdQuery(updated.keyId))).SingleOrDefault();
         return Ok(item);
     }
     
@@ -151,7 +146,7 @@ public abstract class CountriesControllerBase : ODataController
         {
             return BadRequest(ModelState);
         }
-        var item = await _mediator.Send(new GetCountryByIdQuery(key));
+        var item = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault();
         
         if (item is null)
         {
@@ -276,7 +271,7 @@ public abstract class CountriesControllerBase : ODataController
     
     private async Task<CountryLocalNameDto?> TryGetCountryShortNames(System.Int64 key, CountryLocalNameKeyDto childKeyDto)
     {
-        var parent = await _mediator.Send(new GetCountryByIdQuery(key));
+        var parent = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault();
         return parent?.CountryShortNames.SingleOrDefault(x => x.Id == childKeyDto.keyId);
     }
     
@@ -287,7 +282,7 @@ public abstract class CountriesControllerBase : ODataController
         {
             return BadRequest(ModelState);
         }
-        var item = await _mediator.Send(new GetCountryByIdQuery(key));
+        var item = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault();
         
         if (item is null)
         {
@@ -311,7 +306,7 @@ public abstract class CountriesControllerBase : ODataController
             return NotFound();
         }
         
-        var child = (await _mediator.Send(new GetCountryByIdQuery(key)))?.CountryBarCode;
+        var child = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault()?.CountryBarCode;
         if (child == null)
         {
             return NotFound();
@@ -334,7 +329,7 @@ public abstract class CountriesControllerBase : ODataController
             return NotFound();
         }
         
-        var child = (await _mediator.Send(new GetCountryByIdQuery(key)))?.CountryBarCode;
+        var child = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault()?.CountryBarCode;
         if (child == null)
         {
             return NotFound();
@@ -366,7 +361,7 @@ public abstract class CountriesControllerBase : ODataController
         {
             return NotFound();
         }
-        var child = (await _mediator.Send(new GetCountryByIdQuery(key)))?.CountryBarCode;
+        var child = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault()?.CountryBarCode;
         if (child == null)
         {
             return NotFound();

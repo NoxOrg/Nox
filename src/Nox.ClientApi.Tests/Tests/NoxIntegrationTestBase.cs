@@ -1,17 +1,26 @@
-﻿using ClientApi.Tests.Tests.Models;
+﻿using AutoFixture;
+using AutoFixture.AutoMoq;
+using ClientApi.Tests.Tests.Models;
+using DotNet.Testcontainers.Builders;
 using FluentAssertions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace ClientApi.Tests;
 
-public class ODataFixture
-{
-    private readonly NoxTestApplicationFactory<StartupFixture> _appFactory;
 
-    public ODataFixture(NoxTestApplicationFactory<StartupFixture> appFactory)
+public abstract class NoxIntegrationTestBase :  IClassFixture<NoxTestContainerService>
+{
+    private readonly NoxTestApplicationFactory _appFactory;
+    protected readonly Fixture _fixture;
+
+    protected NoxIntegrationTestBase(NoxTestContainerService containerService)
     {
-        _appFactory = appFactory;
+        _fixture = new Fixture();
+        _fixture.Customize(new AutoMoqCustomization());
+
+        _appFactory = _fixture.Create<NoxTestApplicationFactory>();
+        _appFactory.UseContainer(containerService);
     }
 
     /// <summary>
@@ -46,6 +55,10 @@ public class ODataFixture
 
         var content = await result.Content.ReadAsStringAsync();
         EnsureOdataSingleResponse(content);
+
+        var oDataResponse = DeserializeResponse<ODataSigleResponse>(content);
+        oDataResponse.Should().NotBeNull();
+        oDataResponse!.Context.Should().NotBeNullOrEmpty();
 
         var data = DeserializeResponse<TResult>(content);
 

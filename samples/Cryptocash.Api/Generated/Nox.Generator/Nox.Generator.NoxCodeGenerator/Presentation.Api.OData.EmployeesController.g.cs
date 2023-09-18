@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
@@ -22,10 +23,10 @@ using Nox.Types;
 namespace Cryptocash.Presentation.Api.OData;
 
 public partial class EmployeesController : EmployeesControllerBase
-            {
-                public EmployeesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
-                {}
-            }
+{
+    public EmployeesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    {}
+}
 public abstract class EmployeesControllerBase : ODataController
 {
     
@@ -56,16 +57,10 @@ public abstract class EmployeesControllerBase : ODataController
     }
     
     [EnableQuery]
-    public async Task<ActionResult<EmployeeDto>> Get([FromRoute] System.Int64 key)
+    public async Task<SingleResult<EmployeeDto>> Get([FromRoute] System.Int64 key)
     {
-        var item = await _mediator.Send(new GetEmployeeByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
+        var query = await _mediator.Send(new GetEmployeeByIdQuery(key));
+        return SingleResult.Create(query);
     }
     
     public virtual async Task<ActionResult<EmployeeDto>> Post([FromBody]EmployeeCreateDto employee)
@@ -76,7 +71,7 @@ public abstract class EmployeesControllerBase : ODataController
         }
         var createdKey = await _mediator.Send(new CreateEmployeeCommand(employee));
         
-        var item = await _mediator.Send(new GetEmployeeByIdQuery(createdKey.keyId));
+        var item = (await _mediator.Send(new GetEmployeeByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(item);
     }
@@ -96,7 +91,7 @@ public abstract class EmployeesControllerBase : ODataController
             return NotFound();
         }
         
-        var item = await _mediator.Send(new GetEmployeeByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetEmployeeByIdQuery(updated.keyId))).SingleOrDefault();
         
         return Ok(item);
     }
@@ -125,7 +120,7 @@ public abstract class EmployeesControllerBase : ODataController
         {
             return NotFound();
         }
-        var item = await _mediator.Send(new GetEmployeeByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetEmployeeByIdQuery(updated.keyId))).SingleOrDefault();
         return Ok(item);
     }
     
@@ -151,7 +146,7 @@ public abstract class EmployeesControllerBase : ODataController
         {
             return BadRequest(ModelState);
         }
-        var item = await _mediator.Send(new GetEmployeeByIdQuery(key));
+        var item = (await _mediator.Send(new GetEmployeeByIdQuery(key))).SingleOrDefault();
         
         if (item is null)
         {
@@ -276,7 +271,7 @@ public abstract class EmployeesControllerBase : ODataController
     
     private async Task<EmployeePhoneNumberDto?> TryGetEmployeeContactPhoneNumbers(System.Int64 key, EmployeePhoneNumberKeyDto childKeyDto)
     {
-        var parent = await _mediator.Send(new GetEmployeeByIdQuery(key));
+        var parent = (await _mediator.Send(new GetEmployeeByIdQuery(key))).SingleOrDefault();
         return parent?.EmployeeContactPhoneNumbers.SingleOrDefault(x => x.Id == childKeyDto.keyId);
     }
     

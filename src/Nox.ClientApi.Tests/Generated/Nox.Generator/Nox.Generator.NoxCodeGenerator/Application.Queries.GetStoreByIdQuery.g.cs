@@ -12,25 +12,32 @@ using ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 
-public record GetStoreByIdQuery(System.Guid keyId) : IRequest <StoreDto?>;
+public record GetStoreByIdQuery(System.Guid keyId) : IRequest <IQueryable<StoreDto>>;
 
-public partial class GetStoreByIdQueryHandler:  QueryBase<StoreDto?>, IRequestHandler<GetStoreByIdQuery, StoreDto?>
+public partial class GetStoreByIdQueryHandler:GetStoreByIdQueryHandlerBase
 {
-    public  GetStoreByIdQueryHandler(DtoDbContext dataDbContext)
+    public  GetStoreByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    {
+    
+    }
+}
+
+public partial class GetStoreByIdQueryHandlerBase:  QueryBase<IQueryable<StoreDto>>, IRequestHandler<GetStoreByIdQuery, IQueryable<StoreDto>>
+{
+    public  GetStoreByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<StoreDto?> Handle(GetStoreByIdQuery request, CancellationToken cancellationToken)
+    public virtual Task<IQueryable<StoreDto>> Handle(GetStoreByIdQuery request, CancellationToken cancellationToken)
     {    
-        var item = DataDbContext.Stores
+        var query = DataDbContext.Stores
             .AsNoTracking()
-            .Include(r => r.Ownership)
-            .SingleOrDefault(r =>
+            .Where(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);
-        return Task.FromResult(OnResponse(item));
+        return Task.FromResult(OnResponse(query));
     }
 }
