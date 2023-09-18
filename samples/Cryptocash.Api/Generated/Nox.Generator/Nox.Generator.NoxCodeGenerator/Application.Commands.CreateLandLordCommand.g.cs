@@ -27,13 +27,14 @@ public partial class CreateLandLordCommandHandler: CreateLandLordCommandHandlerB
 		NoxSolution noxSolution,
         IEntityFactory<VendingMachine,VendingMachineCreateDto> vendingmachinefactory,
         IEntityFactory<LandLord,LandLordCreateDto> entityFactory,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution,vendingmachinefactory,entityFactory, serviceProvider)
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution,vendingmachinefactory,entityFactory, serviceProvider)
 	{
 	}
 }
 
 
-public partial class CreateLandLordCommandHandlerBase: CommandBase<CreateLandLordCommand,LandLord>, IRequestHandler <CreateLandLordCommand, LandLordKeyDto>
+public abstract class CreateLandLordCommandHandlerBase: CommandBase<CreateLandLordCommand,LandLord>, IRequestHandler <CreateLandLordCommand, LandLordKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<LandLord,LandLordCreateDto> _entityFactory;
@@ -51,7 +52,7 @@ public partial class CreateLandLordCommandHandlerBase: CommandBase<CreateLandLor
         _vendingmachinefactory = vendingmachinefactory;
 	}
 
-	public async Task<LandLordKeyDto> Handle(CreateLandLordCommand request, CancellationToken cancellationToken)
+	public virtual async Task<LandLordKeyDto> Handle(CreateLandLordCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

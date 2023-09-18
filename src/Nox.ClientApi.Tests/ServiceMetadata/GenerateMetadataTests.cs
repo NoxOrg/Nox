@@ -1,6 +1,4 @@
 ﻿using FluentAssertions;
-using AutoFixture;
-using AutoFixture.AutoMoq;
 using System.Text;
 using System.Xml;
 using Nox.Solution;
@@ -10,22 +8,16 @@ using ClientApi.Tests;
 namespace ClientApi.ServiceMetadata
 {
     [Collection("Sequential")]
-    public class GenerateMetadataTests
+    public class GenerateMetadataTests : NoxIntegrationTestBase
     {
-        private readonly Fixture _fixture;
-        private readonly ODataFixture _oDataFixture;
-
-        public GenerateMetadataTests()
+        public GenerateMetadataTests(NoxTestContainerService containerService) : base(containerService)
         {
-            _fixture = new Fixture();
-            _fixture.Customize(new AutoMoqCustomization());
-            _oDataFixture = _fixture.Create<ODataFixture>();
         }
 
         [Fact]
         public async Task Generate_OdataRouting_HTML()
         {
-            var result = await _oDataFixture.GetAsync("$odata");
+            var result = await GetAsync("$odata");
             var content = await result.Content.ReadAsStringAsync();
 
             content.Should().NotBeNull();
@@ -35,7 +27,7 @@ namespace ClientApi.ServiceMetadata
         [Fact]
         public async Task Generate_OdataMetadata()
         {
-            var result = await _oDataFixture.GetAsync("api/$metadata");
+            var result = await GetAsync("api/$metadata");
             var content = await result.Content.ReadAsStringAsync();
 
             content.Should().NotBeNull();
@@ -44,7 +36,7 @@ namespace ClientApi.ServiceMetadata
         [Fact]
         public async Task Generate_Swagger_Html()
         {
-            var result = await _oDataFixture.GetAsync("swagger/v1/swagger.json");
+            var result = await GetAsync("swagger/v1/swagger.json");
             var content = await result.Content.ReadAsStringAsync();
 
             content.Should().NotBeNull ();

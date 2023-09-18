@@ -28,13 +28,14 @@ public partial class CreateCashStockOrderCommandHandler: CreateCashStockOrderCom
         IEntityFactory<VendingMachine,VendingMachineCreateDto> vendingmachinefactory,
         IEntityFactory<Employee,EmployeeCreateDto> employeefactory,
         IEntityFactory<CashStockOrder,CashStockOrderCreateDto> entityFactory,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution,vendingmachinefactory,employeefactory,entityFactory, serviceProvider)
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution,vendingmachinefactory,employeefactory,entityFactory, serviceProvider)
 	{
 	}
 }
 
 
-public partial class CreateCashStockOrderCommandHandlerBase: CommandBase<CreateCashStockOrderCommand,CashStockOrder>, IRequestHandler <CreateCashStockOrderCommand, CashStockOrderKeyDto>
+public abstract class CreateCashStockOrderCommandHandlerBase: CommandBase<CreateCashStockOrderCommand,CashStockOrder>, IRequestHandler <CreateCashStockOrderCommand, CashStockOrderKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<CashStockOrder,CashStockOrderCreateDto> _entityFactory;
@@ -55,7 +56,7 @@ public partial class CreateCashStockOrderCommandHandlerBase: CommandBase<CreateC
         _employeefactory = employeefactory;
 	}
 
-	public async Task<CashStockOrderKeyDto> Handle(CreateCashStockOrderCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CashStockOrderKeyDto> Handle(CreateCashStockOrderCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
