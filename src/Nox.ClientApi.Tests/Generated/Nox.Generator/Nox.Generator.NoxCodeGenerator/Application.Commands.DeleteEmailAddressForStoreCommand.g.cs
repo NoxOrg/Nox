@@ -32,7 +32,7 @@ public partial class DeleteEmailAddressForStoreCommandHandler: CommandBase<Delet
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Store,DatabaseGuid>("Id", request.ParentKeyDto.keyId);
+		var keyId = CreateNoxTypeForKey<Store,Nox.Types.Guid>("Id", request.ParentKeyDto.keyId);
 		var parentEntity = await DbContext.Stores.FindAsync(keyId);
 		if (parentEntity == null)
 		{

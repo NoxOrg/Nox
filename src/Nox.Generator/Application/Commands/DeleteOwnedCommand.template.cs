@@ -37,7 +37,7 @@ public partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandler: Comm
 		OnExecuting(request);
 
 		{{- for key in parent.Keys }}
-		var key{{key.Name}} = CreateNoxTypeForKey<{{parent.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.ParentKeyDto.key{{key.Name}});
+		var key{{key.Name}} = CreateNoxTypeForKey<{{parent.Name}},Nox.Types.{{SingleTypeForKey key}}>("{{key.Name}}", request.ParentKeyDto.key{{key.Name}});
 		{{- end }}
 		var parentEntity = await DbContext.{{parent.PluralName}}.FindAsync({{parentKeysFindQuery}});
 		if (parentEntity == null)
@@ -59,7 +59,7 @@ public partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandler: Comm
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		{{ else }}
 		{{- for key in entity.Keys }}
-		var owned{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.EntityKeyDto.key{{key.Name}});
+		var owned{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},Nox.Types.{{SingleTypeForKey key}}>("{{key.Name}}", request.EntityKeyDto.key{{key.Name}});
 		{{- end }}
 		var entity = parentEntity.{{relationship.Name}}.SingleOrDefault(x => {{ownedKeysFindQuery}});
 		if (entity == null)

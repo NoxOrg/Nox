@@ -69,7 +69,7 @@ public partial class BookingMapper : EntityMapperBase<Booking>
         /// <summary>
         /// Booking related to ExactlyOne VendingMachines
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "BookingRelatedVendingMachine", dto.BookingRelatedVendingMachineId);
+        noxTypeValue = CreateNoxType<Nox.Types.Guid>(entityDefinition, "BookingRelatedVendingMachine", dto.BookingRelatedVendingMachineId);
         if (noxTypeValue != null)
         {        
             entity.BookingRelatedVendingMachineId = noxTypeValue;
@@ -206,7 +206,7 @@ public partial class BookingMapper : EntityMapperBase<Booking>
         /// </summary>
         if (updatedProperties.TryGetValue("VendingMachineId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "BookingRelatedVendingMachine", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.Guid>(entityDefinition, "BookingRelatedVendingMachine", value);
             if (noxRelationshipTypeValue != null)
             {        
                 entity.BookingRelatedVendingMachineId = noxRelationshipTypeValue;

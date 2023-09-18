@@ -31,7 +31,7 @@ public class DeletePaymentDetailByIdCommandHandler: CommandBase<DeletePaymentDet
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<PaymentDetail,AutoNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<PaymentDetail,Nox.Types.AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.PaymentDetails.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted.Value == true)

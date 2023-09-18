@@ -53,7 +53,7 @@ public abstract class {{className}}Base: IEntityFactory<{{entity.Name}},{{entity
     {
         var entity = new {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}();
         {{- for key in entity.Keys }}
-            {{- if key.Type == "Nuid" || key.Type == "AutoNumber" || key.Type == "DatabaseGuid" -}}
+            {{- if key.Type == "Nuid" || key.Type == "AutoNumber" || key.Type == "Guid" -}}
                 {{ continue; -}}
             {{- end }}
         entity.{{key.Name}} = {{ entity.Name }}.Create{{key.Name}}(createDto.{{key.Name}});
@@ -78,6 +78,9 @@ public abstract class {{className}}Base: IEntityFactory<{{entity.Name}},{{entity
 		    {{- if key.Type == "Nuid" }}
 		entity.Ensure{{key.Name}}();
 		    {{- end }}
+            {{- if key.Type == "Guid" }}
+        entity.Ensure{{key.Name}}(createDto.{{key.Name}});
+            {{- end }}
 		{{- end }}
 
         {{- for relationship in entity.Relationships }}

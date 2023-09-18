@@ -31,7 +31,7 @@ public class DeleteMinimumCashStockByIdCommandHandler: CommandBase<DeleteMinimum
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<MinimumCashStock,AutoNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<MinimumCashStock,Nox.Types.AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.MinimumCashStocks.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted.Value == true)

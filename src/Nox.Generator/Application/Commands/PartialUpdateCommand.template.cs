@@ -39,7 +39,7 @@ public class PartialUpdate{{entity.Name}}CommandHandler: CommandBase<PartialUpda
 		OnExecuting(request);
 
 		{{- for key in entity.Keys }}
-		var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.key{{key.Name}});
+		var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},Nox.Types.{{SingleTypeForKey key}}>("{{key.Name}}", request.key{{key.Name}});
 		{{- end }}
 
 		var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysFindQuery}});

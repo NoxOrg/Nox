@@ -48,8 +48,8 @@ public partial class CashStockOrder
         /// </summary>
         public static Nox.Types.FormulaTypeOptions StatusTypeOptions {get; private set;} = new ()
         {
-            Expression = "DeliveryDateTime != null ? \"delivered\" : \"ordered\"",
-            Returns = Nox.Types.FormulaReturnType.@string,
+            Expression = "DeliveryDateTime != null ? \"delivered\" : \"ordered\"",
+            Returns = Nox.Types.FormulaReturnType.@string,
         };
     
     
@@ -63,7 +63,7 @@ public partial class CashStockOrder
         /// <summary>
         /// Factory for property 'VendingMachineId'
         /// </summary>
-        public static Nox.Types.DatabaseGuid CreateVendingMachineId(System.Guid value)
-            => Nox.Types.DatabaseGuid.From(value);
+        public static Nox.Types.Guid CreateVendingMachineId(System.Guid value)
+            => Nox.Types.Guid.From(value);
         
 }

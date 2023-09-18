@@ -48,7 +48,7 @@ public abstract class CreateEmailAddressForStoreCommandHandlerBase: CommandBase<
 	public virtual  async Task<EmailAddressKeyDto?> Handle(CreateEmailAddressForStoreCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Store,DatabaseGuid>("Id", request.ParentKeyDto.keyId);
+		var keyId = CreateNoxTypeForKey<Store,Nox.Types.Guid>("Id", request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.Stores.FindAsync(keyId);
 		if (parentEntity == null)

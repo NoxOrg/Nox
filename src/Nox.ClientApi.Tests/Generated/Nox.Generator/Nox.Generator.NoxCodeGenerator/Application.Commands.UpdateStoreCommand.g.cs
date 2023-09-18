@@ -36,7 +36,7 @@ public class UpdateStoreCommandHandler: CommandBase<UpdateStoreCommand, Store>, 
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Store,DatabaseGuid>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Store,Nox.Types.Guid>("Id", request.keyId);
 	
 		var entity = await DbContext.Stores.FindAsync(keyId);
 		if (entity == null)

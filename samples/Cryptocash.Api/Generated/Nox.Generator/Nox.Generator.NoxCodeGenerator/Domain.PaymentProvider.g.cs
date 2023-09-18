@@ -35,7 +35,7 @@ public abstract class PaymentProviderBase : AuditableEntityBase, IEntityConcurre
     /// <summary>
     /// Payment provider unique identifier (Required).
     /// </summary>
-    public AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Payment provider name (Required).

@@ -35,7 +35,7 @@ public abstract class TestEntityTwoRelationshipsOneToManyBase : AuditableEntityB
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
     ///  (Required).

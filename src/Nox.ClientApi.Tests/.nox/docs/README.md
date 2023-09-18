@@ -108,7 +108,7 @@ Stores. *This entity is auditable and tracks info about who, which system and wh
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|DatabaseGuid||Required, Primary Key
+Id|Guid||Required, Primary Key
 Name|Text|Store Name.|Required, MinLength: 4, MaxLength: 63
 Address|StreetAddress|Street Address.|Required
 Location|LatLong|Location.|Required

@@ -18,8 +18,8 @@ public partial class Store
         /// <summary>
         /// Factory for property 'Id'
         /// </summary>
-        public static Nox.Types.DatabaseGuid CreateId(System.Guid value)
-            => Nox.Types.DatabaseGuid.From(value);
+        public static Nox.Types.Guid CreateId(System.Guid value)
+            => Nox.Types.Guid.From(value);
         
     
         /// <summary>
@@ -27,11 +27,11 @@ public partial class Store
         /// </summary>
         public static Nox.Types.TextTypeOptions NameTypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
@@ -61,11 +61,11 @@ public partial class Store
         /// </summary>
         public static Nox.Types.TextTypeOptions StoreOwnerIdTypeOptions {get; private set;} = new ()
         {
-            MinLength = 3,
-            MaxLength = 3,
-            IsUnicode = false,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 3,
+            MaxLength = 3,
+            IsUnicode = false,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     

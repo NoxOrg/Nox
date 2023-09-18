@@ -37,7 +37,7 @@ public class PartialUpdateWorkplaceCommandHandler: CommandBase<PartialUpdateWork
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Workplace,Nuid>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Workplace,Nox.Types.Nuid>("Id", request.keyId);
 
 		var entity = await DbContext.Workplaces.FindAsync(keyId);
 		if (entity == null)

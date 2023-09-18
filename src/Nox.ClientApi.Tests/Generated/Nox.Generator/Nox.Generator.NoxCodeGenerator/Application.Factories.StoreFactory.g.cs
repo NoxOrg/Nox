@@ -2,6 +2,7 @@
 
 #nullable enable
 
+using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
@@ -45,6 +46,7 @@ public abstract class StoreFactoryBase: IEntityFactory<Store,StoreCreateDto>
         entity.Name = ClientApi.Domain.Store.CreateName(createDto.Name);
         entity.Address = ClientApi.Domain.Store.CreateAddress(createDto.Address);
         entity.Location = ClientApi.Domain.Store.CreateLocation(createDto.Location);
+        entity.EnsureId(createDto.Id);
         //entity.StoreOwner = StoreOwner?.ToEntity();
         if (createDto.VerifiedEmails is not null)
         {

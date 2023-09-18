@@ -37,7 +37,7 @@ public class PartialUpdateCountryCommandHandler: CommandBase<PartialUpdateCountr
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Country,AutoNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Country,Nox.Types.AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.Countries.FindAsync(keyId);
 		if (entity == null)

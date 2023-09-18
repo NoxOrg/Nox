@@ -35,7 +35,7 @@ public abstract class CountryTimeZoneBase : EntityBase, IOwnedEntity
     /// <summary>
     /// Country's time zone unique identifier (Required).
     /// </summary>
-    public AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Country's related time zone code (Required).

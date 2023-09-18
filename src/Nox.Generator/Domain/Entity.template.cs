@@ -70,10 +70,27 @@ public abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if ent
 			}
 		}
 	}
+	{{- else if key.Type == "Guid" -}}
+    public Nox.Types.{{key.Type}} {{key.Name}} {get; set;} = null!;
 
+	public virtual void Ensure{{ key.Name}}(System.Guid guid)
+	{
+		if(System.Guid.Empty.Equals(guid))
+		{
+			{{key.Name}} = Nox.Types.Guid.From(System.Guid.NewGuid());
+		}
+		else
+		{
+			var currentGuid = Nox.Types.Guid.From(guid);
+			if({{key.Name}} != currentGuid)
+			{
+				throw new NoxGuidTypeException("Immutable guid property {{key.Name}} value is different since it has been initialized");
+			}
+		}
+	}
     {{- else -}}
 
-    public {{key.Type}} {{key.Name}} { get; set; } = null!;
+    public Nox.Types.{{key.Type}} {{key.Name}} { get; set; } = null!;
     {{- end}}
 {{- end }}
 {{- for attribute in entity.Attributes }}

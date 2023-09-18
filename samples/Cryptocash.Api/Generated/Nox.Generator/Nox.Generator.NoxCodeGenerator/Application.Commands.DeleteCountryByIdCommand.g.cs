@@ -31,7 +31,7 @@ public class DeleteCountryByIdCommandHandler: CommandBase<DeleteCountryByIdComma
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Country,CountryCode2>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Country,Nox.Types.CountryCode2>("Id", request.keyId);
 
 		var entity = await DbContext.Countries.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted.Value == true)

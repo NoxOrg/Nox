@@ -35,7 +35,7 @@ public abstract class TestEntityExactlyOneBase : AuditableEntityBase, IEntityCon
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
     ///  (Required).

@@ -37,7 +37,7 @@ public class PartialUpdateVendingMachineCommandHandler: CommandBase<PartialUpdat
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<VendingMachine,DatabaseGuid>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<VendingMachine,Nox.Types.Guid>("Id", request.keyId);
 
 		var entity = await DbContext.VendingMachines.FindAsync(keyId);
 		if (entity == null)

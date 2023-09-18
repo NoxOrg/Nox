@@ -1345,10 +1345,6 @@ domain:
           type: autoNumber
           isRequired: true
 
-        - name: DatabaseGuidTestField
-          type: databaseGuid
-          isRequired: true
-
         - name: HtmlTestField
           type: html
 

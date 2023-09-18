@@ -18,8 +18,8 @@ public partial class VendingMachine
         /// <summary>
         /// Factory for property 'Id'
         /// </summary>
-        public static Nox.Types.DatabaseGuid CreateId(System.Guid value)
-            => Nox.Types.DatabaseGuid.From(value);
+        public static Nox.Types.Guid CreateId(System.Guid value)
+            => Nox.Types.Guid.From(value);
         
     
         /// <summary>
@@ -55,11 +55,11 @@ public partial class VendingMachine
         /// </summary>
         public static Nox.Types.TextTypeOptions SerialNumberTypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     

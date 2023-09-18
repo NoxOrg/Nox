@@ -2,6 +2,7 @@
 
 #nullable enable
 
+using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
@@ -46,6 +47,7 @@ public abstract class BookingFactoryBase: IEntityFactory<Booking,BookingCreateDt
         if (createDto.ExpiryDateTime is not null)entity.ExpiryDateTime = Cryptocash.Domain.Booking.CreateExpiryDateTime(createDto.ExpiryDateTime.NonNullValue<System.DateTimeOffset>());
         if (createDto.CancelledDateTime is not null)entity.CancelledDateTime = Cryptocash.Domain.Booking.CreateCancelledDateTime(createDto.CancelledDateTime.NonNullValue<System.DateTimeOffset>());
         if (createDto.VatNumber is not null)entity.VatNumber = Cryptocash.Domain.Booking.CreateVatNumber(createDto.VatNumber.NonNullValue<VatNumberDto>());
+        entity.EnsureId(createDto.Id);
         //entity.Customer = Customer.ToEntity();
         //entity.VendingMachine = VendingMachine.ToEntity();
         //entity.Commission = Commission.ToEntity();

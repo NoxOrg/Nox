@@ -18,8 +18,8 @@ public partial class Booking
         /// <summary>
         /// Factory for property 'Id'
         /// </summary>
-        public static Nox.Types.DatabaseGuid CreateId(System.Guid value)
-            => Nox.Types.DatabaseGuid.From(value);
+        public static Nox.Types.Guid CreateId(System.Guid value)
+            => Nox.Types.Guid.From(value);
         
     
         /// <summary>
@@ -69,8 +69,8 @@ public partial class Booking
         /// </summary>
         public static Nox.Types.FormulaTypeOptions StatusTypeOptions {get; private set;} = new ()
         {
-            Expression = "CancelledDateTime != null ? \"cancelled\" : (PickedUpDateTime != null ? \"picked-up\" : (ExpiryDateTime != null ? \"expired\" : \"booked\"))",
-            Returns = Nox.Types.FormulaReturnType.@string,
+            Expression = "CancelledDateTime != null ? \"cancelled\" : (PickedUpDateTime != null ? \"picked-up\" : (ExpiryDateTime != null ? \"expired\" : \"booked\"))",
+            Returns = Nox.Types.FormulaReturnType.@string,
         };
     
     
@@ -98,8 +98,8 @@ public partial class Booking
         /// <summary>
         /// Factory for property 'VendingMachineId'
         /// </summary>
-        public static Nox.Types.DatabaseGuid CreateVendingMachineId(System.Guid value)
-            => Nox.Types.DatabaseGuid.From(value);
+        public static Nox.Types.Guid CreateVendingMachineId(System.Guid value)
+            => Nox.Types.Guid.From(value);
         
     
         /// <summary>

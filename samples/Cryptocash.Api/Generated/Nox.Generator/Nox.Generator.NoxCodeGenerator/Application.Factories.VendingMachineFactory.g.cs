@@ -2,6 +2,7 @@
 
 #nullable enable
 
+using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
@@ -46,6 +47,7 @@ public abstract class VendingMachineFactoryBase: IEntityFactory<VendingMachine,V
         entity.SerialNumber = Cryptocash.Domain.VendingMachine.CreateSerialNumber(createDto.SerialNumber);
         if (createDto.InstallationFootPrint is not null)entity.InstallationFootPrint = Cryptocash.Domain.VendingMachine.CreateInstallationFootPrint(createDto.InstallationFootPrint.NonNullValue<System.Decimal>());
         if (createDto.RentPerSquareMetre is not null)entity.RentPerSquareMetre = Cryptocash.Domain.VendingMachine.CreateRentPerSquareMetre(createDto.RentPerSquareMetre.NonNullValue<MoneyDto>());
+        entity.EnsureId(createDto.Id);
         //entity.Country = Country.ToEntity();
         //entity.LandLord = LandLord.ToEntity();
         //entity.Bookings = Bookings.Select(dto => dto.ToEntity()).ToList();

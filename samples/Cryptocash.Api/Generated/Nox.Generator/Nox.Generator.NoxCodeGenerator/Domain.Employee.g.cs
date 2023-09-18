@@ -35,7 +35,7 @@ public abstract class EmployeeBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Employee's unique identifier (Required).
     /// </summary>
-    public AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Employee's first name (Required).

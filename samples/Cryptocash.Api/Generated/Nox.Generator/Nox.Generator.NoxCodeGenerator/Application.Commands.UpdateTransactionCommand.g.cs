@@ -36,7 +36,7 @@ public class UpdateTransactionCommandHandler: CommandBase<UpdateTransactionComma
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Transaction,AutoNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Transaction,Nox.Types.AutoNumber>("Id", request.keyId);
 	
 		var entity = await DbContext.Transactions.FindAsync(keyId);
 		if (entity == null)
