@@ -1,0 +1,358 @@
+﻿@using Cryptocash.Ui
+@using System.Dynamic
+@using System.Data
+@using Cryptocash.Ui.Domain;
+@using Cryptocash.Ui.Generated.Data.ApiSetting;
+@using Cryptocash.Ui.Generated.Data.Enum;
+@using Cryptocash.Ui.Generated.Pages.Generic
+@using MudBlazor
+@using global::Cryptocash.Ui.Generated.Data.Helper;
+
+@page "/VendingMachines"
+
+@inherits ListEntityPageBase<VendingMachine>
+
+@if (!IsLoading)
+{
+    <MudGrid Spacing="0">
+        <MudItem xs="12">
+            <MudGrid Spacing="2" Style="margin-top:10px;">
+                <MudItem xs="6">
+                    <MudTextField @bind-Value="@SearchMainValue"
+                                  Label="Search"
+                                  Variant="Variant.Outlined"
+                                  FullWidth="true"
+                                  Clearable="true"
+                                  OnClearButtonClick="@(() => ClearMainSearchFilterList())"
+                                  OnKeyUp="@(e=>SearchEnterSubmit(e))"
+                                  Placeholder="@CurrentApiUiService!.SearchLabel"></MudTextField>
+                </MudItem>
+                <MudItem xs="3" Class="align-left justify-left" Style="margin-top:15px;">
+                    <table>
+                        <tr>
+                            <td style="padding-left:10px;">
+                                <MudButton OnClick="Search"
+                                           Variant="Variant.Filled"
+                                           StartIcon="@Icons.Material.Filled.Search"
+                                           Color="Color.Info">Search</MudButton>
+                            </td>
+                            <td style="padding-left:20px;">
+                                <MudButton OnClick="@(() => OpenSearchFilterDrawer(true))"
+                                           Variant="Variant.Text"
+                                           StartIcon="@Icons.Material.Filled.FilterAlt"
+                                           Color="Color.Info">Filters</MudButton>
+                            </td>
+                            <td style="padding-left:20px;">
+                                <MudButton OnClick="@(() => OpenViewDrawer(true))"
+                                           Variant="Variant.Text"
+                                           StartIcon="@Icons.Material.Filled.DisplaySettings"
+                                           Color="Color.Info">View</MudButton>
+                            </td>
+                        </tr>
+                    </table>
+                </MudItem>
+            </MudGrid>
+        </MudItem>
+        <MudItem xs="12">
+            <MudGrid Spacing="2" Style="margin-top:15px;">
+                <MudItem xs="12">
+                    @if (PagedData != null
+                   && CurrentApiUiService != null)
+                    {
+                        <MudTable ServerData="@(new Func<TableState, Task<TableData<VendingMachine>>>(ServerReload))"
+                        @ref="DataGridTable"
+                                  CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
+                                  RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"
+                                  Loading="@IsDataGridLoading"
+                                  Hover="true"
+                                  Breakpoint="Breakpoint.Sm"
+                                  T="VendingMachine"
+                                  Elevation="0"
+                                  Style="border-style:solid;border-width:2px;border-color:lightgray;"
+                                  HeaderClass="custom-header"
+                                  Dense="true">
+                            <HeaderContent>                             
+
+                                @if (CurrentApiUiService!.IsPropertyViewable("SerialNumber"))
+                                {
+                                    @if (CurrentApiUiService!.IsPropertyOrdered("SerialNumber"))
+                                    {
+                                        <MudTh>
+                                            <MudTableSortLabel T="VendingMachine"
+                                                               SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "SerialNumber"))"
+                                                               InitialDirection="@GetPropertyMudSortDirection("SerialNumber")">
+                                                SerialNumber
+                                            </MudTableSortLabel>
+                                        </MudTh>
+                                    }
+                                    else
+                                    {
+                                        <MudTh>SerialNumber</MudTh>
+                                    }
+                                }
+
+                                @if (CurrentApiUiService!.IsPropertyViewable("MacAddress"))
+                                {
+                                    @if (CurrentApiUiService!.IsPropertyOrdered("MacAddress"))
+                                    {
+                                        <MudTh>
+                                            <MudTableSortLabel T="VendingMachine"
+                                                               SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "MacAddress"))"
+                                                               InitialDirection="@GetPropertyMudSortDirection("MacAddress")">
+                                                MacAddress
+                                            </MudTableSortLabel>
+                                        </MudTh>
+                                    }
+                                    else
+                                    {
+                                        <MudTh>MacAddress</MudTh>
+                                    }
+                                }
+
+                                @if (CurrentApiUiService!.IsPropertyViewable("PublicIp"))
+                                {
+                                    @if (CurrentApiUiService!.IsPropertyOrdered("PublicIp"))
+                                    {
+                                        <MudTh>
+                                            <MudTableSortLabel T="VendingMachine"
+                                                               SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "PublicIp"))"
+                                                               InitialDirection="@GetPropertyMudSortDirection("PublicIp")">
+                                                PublicIp
+                                            </MudTableSortLabel>
+                                        </MudTh>
+                                    }
+                                    else
+                                    {
+                                        <MudTh>PublicIp</MudTh>
+                                    }
+                                }
+
+                                @if (CurrentApiUiService!.IsPropertyViewable("CreatedAtUtc"))
+                                {
+                                    @if (CurrentApiUiService!.IsPropertyOrdered("CreatedAtUtc"))
+                                    {
+                                        <MudTh>
+                                            <MudTableSortLabel T="VendingMachine"
+                                                               SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "CreatedAtUtc"))"
+                                                               InitialDirection="@GetPropertyMudSortDirection("CreatedAtUtc")">
+                                                CreatedAtUtc
+                                            </MudTableSortLabel>
+                                        </MudTh>
+                                    }
+                                    else
+                                    {
+                                        <MudTh>CreatedAtUtc</MudTh>
+                                    }
+                                }
+
+                            </HeaderContent>
+                            <RowTemplate>
+
+                                @if (CurrentApiUiService!.IsPropertyViewable("Id"))
+                                {
+                                    <MudTd>@UtilityHelper.FormatOutput(typeof(VendingMachine).GetProperty("Id"), context)</MudTd>
+                                }
+
+                                @if (CurrentApiUiService!.IsPropertyViewable("SerialNumber"))
+                                {
+                                    <MudTd>@UtilityHelper.FormatOutput(typeof(VendingMachine).GetProperty("SerialNumber"), context)</MudTd>
+                                }
+
+                                @if (CurrentApiUiService!.IsPropertyViewable("MacAddress"))
+                                {
+                                    <MudTd>@UtilityHelper.FormatOutput(typeof(VendingMachine).GetProperty("MacAddress"), context)</MudTd>
+                                }
+
+                                @if (CurrentApiUiService!.IsPropertyViewable("PublicIp"))
+                                {
+                                    <MudTd>@UtilityHelper.FormatOutput(typeof(VendingMachine).GetProperty("PublicIp"), context)</MudTd>
+                                }
+
+                                @if (CurrentApiUiService!.IsPropertyViewable("CreatedAtUtc"))
+                                {
+                                    <MudTd>@UtilityHelper.FormatOutput(typeof(VendingMachine).GetProperty("CreatedAtUtc"), context)</MudTd>
+                                }
+
+                            </RowTemplate>
+                            <NoRecordsContent>
+                                <MudText Typo="Typo.h6">No Results Found</MudText>
+                            </NoRecordsContent>
+                            <PagerContent>
+                                <MudTablePager PageSizeOptions="CurrentApiUiService!.Paging?.PageSizeList?.ToArray()" />
+                            </PagerContent>
+                        </MudTable>
+                    }
+                </MudItem>
+            </MudGrid>
+        </MudItem>
+    </MudGrid>
+
+    @if (IsOpenSearchFilterDrawer)
+    {
+        <MudDrawer @bind-Open="IsOpenSearchFilterDrawer"
+                   Width="400px"
+                   Height="100%"
+                   Anchor="Anchor.End"
+                   Elevation="1"
+                   Variant="@DrawerVariant.Temporary">
+            <MudDrawerHeader>
+                <table style="width:100%">
+                    <tr>
+                        <td style="text-align:left">
+                            <MudText Typo="Typo.h6">Filters</MudText>
+                        </td>
+                        <td style="text-align:right">
+                            <MudIconButton Icon="@Icons.Material.Filled.Close"
+                                           Color="Color.Info"
+                                           OnClick="@(() => OpenSearchFilterDrawer(false))"></MudIconButton>
+                        </td>
+                    </tr>
+                </table>
+            </MudDrawerHeader>
+            <MudNavMenu>
+                @if (IsSearchFilterPopulated)
+                {
+                    <table style="width:100%;">
+                        @foreach (ApiSearchFilter CurrentFilter in CurrentApiUiService!.SearchFilterList!.Where(searchFilter => searchFilter.SearchFilterLocation == ApiSearchFilterLocation.FilterSearch))
+                        {
+                            string LabelName = UtilityHelper.UppercaseFirstCharacter(CurrentFilter.PropertyName);
+
+                            if (CurrentFilter.IsDropdownSelection)
+                            {
+                                <tr>
+                                    <td style="padding:15px 25px 0px 25px;">
+                                        @if (CurrentFilter.SearchValueOptionList != null)
+                                        {
+                                            <MudSelect Dense="true"
+                                                       T="string"
+                                                       Label="@LabelName"
+                                                       Variant="Variant.Outlined"
+                                                       Placeholder="Please Select"
+                                                       ValueChanged="@(e=>CurrentApiUiService!.UpdateSearchFilter(e,CurrentFilter))"
+                                                       Clearable="true"
+                                                       OnClearButtonClick="@(e=>ClearSearchFilter(e,CurrentFilter))"
+                                                       SelectedValues="CurrentApiUiService!.GetSearchFilterValueList(CurrentFilter)">
+                                                @foreach (string CurrentOption in CurrentFilter.SearchValueOptionList)
+                                                {
+                                                    <MudSelectItem Value="@(CurrentOption)" />
+                                                }
+                                            </MudSelect>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td style="padding:15px 25px 0px 25px;">
+                                        <MudTextField Label="@LabelName"
+                                                      Variant="Variant.Outlined"
+                                                      FullWidth="true"
+                                                      TextChanged="@(e=>CurrentApiUiService!.UpdateSearchFilter(e,CurrentFilter))"
+                                                      OnClearButtonClick="@(e=>ClearSearchFilter(e,CurrentFilter))"
+                                                      T="string"
+                                                      Clearable="true"
+                                                      Value="CurrentApiUiService!.GetSearchFilterValue(CurrentFilter)"></MudTextField>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                    <table style="width:100%;margin-top:20px;">
+                        <tr>
+                            <td style="text-align:left;padding:25px;width:50%;">
+                                <MudButton OnClick="@(() => CurrentApiUiService!.ResetFilterSearchFilterList())"
+                                           Variant="Variant.Outlined"
+                                           Color="Color.Info"
+                                           FullWidth="true">Clear All</MudButton>
+                            </td>
+                            <td style="text-align:right;padding:25px;width:50%;">
+                                <MudButton OnClick="ApplySearchFilterList"
+                                           Variant="Variant.Filled"
+                                           Color="Color.Info"
+                                           FullWidth="true">Apply</MudButton>
+                            </td>
+                        </tr>
+                    </table>
+                }
+            </MudNavMenu>
+        </MudDrawer>
+    }
+
+    @if (IsOpenViewDrawer)
+    {
+        <MudDrawer @bind-Open="IsOpenViewDrawer"
+                   Width="400px"
+                   Height="100%"
+                   Anchor="Anchor.End"
+                   Elevation="1"
+                   Variant="@DrawerVariant.Temporary">
+            <MudDrawerHeader>
+                <table style="width:100%">
+                    <tr>
+                        <td style="text-align:left;">
+                            <MudText Typo="Typo.h6">View Columns</MudText>
+                        </td>
+                        <td style="text-align:right">
+                            <MudIconButton Icon="@Icons.Material.Filled.Close"
+                                           Color="Color.Info"
+                                           OnClick="@(() => OpenViewDrawer(false))"></MudIconButton>
+                        </td>
+                    </tr>
+                </table>
+            </MudDrawerHeader>
+            <MudNavMenu>
+                @if (IsViewPopulated)
+                {
+                    @foreach (ApiView CurrentFilter in CurrentApiUiService!.ViewList!)
+                    {
+                        string labelName = UtilityHelper.UppercaseFirstCharacter(CurrentFilter.PropertyName);
+                        bool IsChecked = CurrentFilter.SetView.Equals(ApiViewType.Displayed);
+                        <MudSwitch Label="@labelName"
+                                   Color="Color.Info"
+                                   Checked="IsChecked"
+                                   CheckedChanged="@(e=>CurrentApiUiService!.UpdateView(e,CurrentFilter))"
+                                   T="bool"
+                                   Style="padding:15px 0px 0px 25px;"
+                                   Disabled="CurrentFilter.IsSetViewDisabled" />
+                    }
+                    <table style="width:100%;margin-top:20px;">
+                        <tr>
+                            <td style="text-align:left;padding:25px;width:50%;">
+                                <MudButton OnClick="ResetViewList"
+                                           Variant="Variant.Outlined"
+                                           Color="Color.Info"
+                                           FullWidth="true">Default View</MudButton>
+                            </td>
+                            <td style="text-align:right;padding:25px;width:50%;">
+                                <MudButton OnClick="ApplyViewList"
+                                           Variant="Variant.Filled"
+                                           Color="Color.Info"
+                                           FullWidth="true">Apply</MudButton>
+                            </td>
+                        </tr>
+                    </table>
+                }
+            </MudNavMenu>
+        </MudDrawer>
+    }
+}
+else
+{
+    <MudPaper Class="d-flex align-center justify-center mud-width-full" Style="padding:100px;" Elevation="0">
+        <MudProgressCircular Color="Color.Info"
+                             Size="Size.Large"
+                             Indeterminate="true" />
+    </MudPaper>
+}
+
+
+<style>
+    .custom-header {
+        background-color: #f0f3f5;
+    }
+
+    .custom-dialog {
+        backdrop-filter: blur(2px);
+    }
+</style>

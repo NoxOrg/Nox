@@ -141,6 +141,7 @@ public abstract class CurrenciesControllerBase : ODataController
         
         return NoContent();
     }
+    
     #region Owned Relationships
     
     [EnableQuery]
