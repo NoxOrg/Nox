@@ -25,15 +25,13 @@ public static class ObjectToOptionProperties
 {
     public static List<OptionProperty> ToOptionProperties(this object obj, bool fullyQualifiedNames = true)
     {
-        var optionProperties = new List<OptionProperty>();
-        var cache = new HashSet<object>();
-        GenerateOptionProperties(obj, optionProperties, cache, fullyQualifiedNames);
-        cache.Clear();
+        var optionProperties = GenerateOptionProperties(obj, fullyQualifiedNames);
         return optionProperties;
     }
 
-    private static void GenerateOptionProperties(object obj, List<OptionProperty> optionProperties, HashSet<object> cache, bool fullyQualifiedNames)
+    private static List<OptionProperty> GenerateOptionProperties(object obj, bool fullyQualifiedNames)
     {
+        List<OptionProperty> optionProperties = new();
         Type objType = obj.GetType();
        
         PropertyInfo[] properties = objType.GetProperties(BindingFlags.Instance | BindingFlags.Public)
@@ -43,28 +41,25 @@ public static class ObjectToOptionProperties
 
         foreach (PropertyInfo property in properties)
         {
-            // var value = property.GetValue(obj);
+             var value = property.GetValue(obj);
+             var propertyName = property.Name;
 
-             obj.ToOptionProperty(property, optionProperties, cache,fullyQualifiedNames);
+             var optionProperty = ToOptionProperty(propertyName, value, fullyQualifiedNames);
            
+             optionProperties.Add(optionProperty);
 
-            // // Recursively process nested objects
-            // if (!cache.Contains(value))
-            // {
-            //     cache.Add(value);
-            //     GenerateOptionProperties(value, optionProperties, cache, fullyQualifiedNames);
-            // }
-            
         }
+        
+        return optionProperties;
     }
     
-    private static void ToOptionProperty(this object obj, PropertyInfo property, List<OptionProperty> optionProperties, HashSet<object> cache,  bool fullyQualifiedNames = true)
+    private static OptionProperty ToOptionProperty(string propertyName, object? value, bool fullyQualifiedNames = true)
     {
-        var value = property.GetValue(obj);
+        
 
         var optionProperty = new OptionProperty
         {
-            Name = property.Name
+            Name =propertyName
         };
         
         
@@ -72,8 +67,7 @@ public static class ObjectToOptionProperties
         {
             optionProperty.Type = string.Empty;
             optionProperty.Value = null;
-            optionProperties.Add(optionProperty);
-            return;
+            return optionProperty;
         }
         
         Type rawType = value.GetType();
@@ -125,6 +119,18 @@ public static class ObjectToOptionProperties
         else if (valueType.IsGenericType && valueType.GetGenericTypeDefinition() == typeof(List<>))
         {
             optionProperty.Type = nameof(IList);
+            IList list = (IList)value;
+            var elementTypeName = fullyQualifiedNames ? valueType.GetGenericArguments()[0].FullName : valueType.GetGenericArguments()[0].Name;
+
+            var properties = new List<OptionProperty>();
+            foreach (var item in list )
+            {
+                var subProperty = ToOptionProperty(string.Empty, item, fullyQualifiedNames);
+                properties.Add(subProperty);
+            }
+            
+            optionProperty.Value = new { ElementTypeName = elementTypeName, Properties = properties };
+            
         }
         else if (valueType.IsGenericType && valueType.GetGenericTypeDefinition() == typeof(Dictionary<,>))
         {
@@ -133,14 +139,25 @@ public static class ObjectToOptionProperties
         else if (valueType.IsArray)
         {
             optionProperty.Type = nameof(Array);
+            Array array = (Array)value;
+            Type elementType = valueType.GetElementType()!;
+
+            var elementTypeName = fullyQualifiedNames ? elementType.FullName : elementType.Name;
+            var properties = new List<OptionProperty>();
+            for (int i = 0; i < array.Length; i++)
+            {
+                var subProperty =ToOptionProperty(string.Empty, array.GetValue(i)!, fullyQualifiedNames);
+                properties.Add(subProperty);
+            }
+            optionProperty.Value = new { ElementTypeName = elementTypeName, Properties = properties };
+            
         }
         else
         {
             // optionProperty.Value = value.ToOptionProperties(fullyQualifiedNames);
         }
         
-        
-        optionProperties.Add(optionProperty);
+        return optionProperty;
     }
     
     private static bool IsReservedKeyword(string word)
