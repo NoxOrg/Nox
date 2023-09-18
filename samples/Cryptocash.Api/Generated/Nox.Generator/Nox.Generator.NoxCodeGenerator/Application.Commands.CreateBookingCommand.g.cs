@@ -20,7 +20,24 @@ namespace Cryptocash.Application.Commands;
 
 public record CreateBookingCommand(BookingCreateDto EntityDto) : IRequest<BookingKeyDto>;
 
-public partial class CreateBookingCommandHandler: CommandBase<CreateBookingCommand,Booking>, IRequestHandler <CreateBookingCommand, BookingKeyDto>
+public partial class CreateBookingCommandHandler: CreateBookingCommandHandlerBase
+{
+	public CreateBookingCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+        IEntityFactory<Customer,CustomerCreateDto> customerfactory,
+        IEntityFactory<VendingMachine,VendingMachineCreateDto> vendingmachinefactory,
+        IEntityFactory<Commission,CommissionCreateDto> commissionfactory,
+        IEntityFactory<Transaction,TransactionCreateDto> transactionfactory,
+        IEntityFactory<Booking,BookingCreateDto> entityFactory,
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution,customerfactory,vendingmachinefactory,commissionfactory,transactionfactory,entityFactory, serviceProvider)
+	{
+	}
+}
+
+
+public abstract class CreateBookingCommandHandlerBase: CommandBase<CreateBookingCommand,Booking>, IRequestHandler <CreateBookingCommand, BookingKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<Booking,BookingCreateDto> _entityFactory;
@@ -29,7 +46,7 @@ public partial class CreateBookingCommandHandler: CommandBase<CreateBookingComma
     private readonly IEntityFactory<Commission,CommissionCreateDto> _commissionfactory;
     private readonly IEntityFactory<Transaction,TransactionCreateDto> _transactionfactory;
 
-	public CreateBookingCommandHandler(
+	public CreateBookingCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
         IEntityFactory<Customer,CustomerCreateDto> customerfactory,
@@ -47,7 +64,7 @@ public partial class CreateBookingCommandHandler: CommandBase<CreateBookingComma
         _transactionfactory = transactionfactory;
 	}
 
-	public async Task<BookingKeyDto> Handle(CreateBookingCommand request, CancellationToken cancellationToken)
+	public virtual async Task<BookingKeyDto> Handle(CreateBookingCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

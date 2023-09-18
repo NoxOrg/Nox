@@ -101,12 +101,12 @@ public partial class CurrencyDto
     /// <summary>
     /// Currency commonly used ZeroOrMany BankNotes
     /// </summary>
-    public virtual List<BankNoteDto> BankNotes { get; set; } = new();
+    public virtual List<BankNoteDto> CurrencyCommonBankNotes { get; set; } = new();
 
     /// <summary>
     /// Currency exchanged from OneOrMany ExchangeRates
     /// </summary>
-    public virtual List<ExchangeRateDto> ExchangeRates { get; set; } = new();
+    public virtual List<ExchangeRateDto> CurrencyExchangedFromRates { get; set; } = new();
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

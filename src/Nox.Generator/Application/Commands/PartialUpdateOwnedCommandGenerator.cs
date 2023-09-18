@@ -36,6 +36,7 @@ internal class PartialUpdateOwnedCommandGenerator : INoxCodeGenerator
                 new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"PartialUpdate{ownedEntity.Name}For{entity.Name}Command")
                 .WithFileNamePrefix($"Application.Commands")
+                .WithObject("relationship", ownedRelationship)
                 .WithObject("entity", ownedEntity)
                 .WithObject("parent", entity)
                 .WithObject("isSingleRelationship", ownedRelationship.WithSingleEntity)
@@ -43,9 +44,7 @@ internal class PartialUpdateOwnedCommandGenerator : INoxCodeGenerator
                 .WithObject("parentKeysFindQuery", parentKeysFindQuery)
                 .WithObject("ownedKeysFindQuery", ownedKeysFindQuery)
                 .GenerateSourceCodeFromResource(templateName);
-
             }
-
         }
     }
 }

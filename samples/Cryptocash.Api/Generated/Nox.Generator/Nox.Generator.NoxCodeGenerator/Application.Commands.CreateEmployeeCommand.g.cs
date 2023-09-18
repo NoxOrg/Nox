@@ -20,13 +20,27 @@ namespace Cryptocash.Application.Commands;
 
 public record CreateEmployeeCommand(EmployeeCreateDto EntityDto) : IRequest<EmployeeKeyDto>;
 
-public partial class CreateEmployeeCommandHandler: CommandBase<CreateEmployeeCommand,Employee>, IRequestHandler <CreateEmployeeCommand, EmployeeKeyDto>
+public partial class CreateEmployeeCommandHandler: CreateEmployeeCommandHandlerBase
+{
+	public CreateEmployeeCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+        IEntityFactory<CashStockOrder,CashStockOrderCreateDto> cashstockorderfactory,
+        IEntityFactory<Employee,EmployeeCreateDto> entityFactory,
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution,cashstockorderfactory,entityFactory, serviceProvider)
+	{
+	}
+}
+
+
+public abstract class CreateEmployeeCommandHandlerBase: CommandBase<CreateEmployeeCommand,Employee>, IRequestHandler <CreateEmployeeCommand, EmployeeKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<Employee,EmployeeCreateDto> _entityFactory;
     private readonly IEntityFactory<CashStockOrder,CashStockOrderCreateDto> _cashstockorderfactory;
 
-	public CreateEmployeeCommandHandler(
+	public CreateEmployeeCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
         IEntityFactory<CashStockOrder,CashStockOrderCreateDto> cashstockorderfactory,
@@ -38,7 +52,7 @@ public partial class CreateEmployeeCommandHandler: CommandBase<CreateEmployeeCom
         _cashstockorderfactory = cashstockorderfactory;
 	}
 
-	public async Task<EmployeeKeyDto> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
+	public virtual async Task<EmployeeKeyDto> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

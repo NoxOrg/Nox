@@ -145,7 +145,7 @@ public abstract class StoresControllerBase : ODataController
     #region Owned Relationships
     
     [EnableQuery]
-    public virtual async Task<ActionResult<EmailAddressDto>> GetEmailAddress([FromRoute] System.Guid key)
+    public virtual async Task<ActionResult<EmailAddressDto>> GetVerifiedEmails([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {
@@ -158,10 +158,10 @@ public abstract class StoresControllerBase : ODataController
             return NotFound();
         }
         
-        return Ok(item.EmailAddress);
+        return Ok(item.VerifiedEmails);
     }
     
-    public virtual async Task<ActionResult> PostToEmailAddress([FromRoute] System.Guid key, [FromBody] EmailAddressCreateDto emailAddress)
+    public virtual async Task<ActionResult> PostToVerifiedEmails([FromRoute] System.Guid key, [FromBody] EmailAddressCreateDto emailAddress)
     {
         if (!ModelState.IsValid)
         {
@@ -175,7 +175,7 @@ public abstract class StoresControllerBase : ODataController
             return NotFound();
         }
         
-        var child = (await _mediator.Send(new GetStoreByIdQuery(key)))?.EmailAddress;
+        var child = (await _mediator.Send(new GetStoreByIdQuery(key)))?.VerifiedEmails;
         if (child == null)
         {
             return NotFound();
@@ -184,7 +184,7 @@ public abstract class StoresControllerBase : ODataController
         return Created(child);
     }
     
-    public virtual async Task<ActionResult<EmailAddressDto>> PutToEmailAddress(System.Guid key, [FromBody] EmailAddressUpdateDto emailAddress)
+    public virtual async Task<ActionResult<EmailAddressDto>> PutToVerifiedEmails(System.Guid key, [FromBody] EmailAddressUpdateDto emailAddress)
     {
         if (!ModelState.IsValid)
         {
@@ -198,7 +198,7 @@ public abstract class StoresControllerBase : ODataController
             return NotFound();
         }
         
-        var child = (await _mediator.Send(new GetStoreByIdQuery(key)))?.EmailAddress;
+        var child = (await _mediator.Send(new GetStoreByIdQuery(key)))?.VerifiedEmails;
         if (child == null)
         {
             return NotFound();
@@ -207,7 +207,7 @@ public abstract class StoresControllerBase : ODataController
         return Ok(child);
     }
     
-    public virtual async Task<ActionResult> PatchToEmailAddress(System.Guid key, [FromBody] Delta<EmailAddressDto> emailAddress)
+    public virtual async Task<ActionResult> PatchToVerifiedEmails(System.Guid key, [FromBody] Delta<EmailAddressDto> emailAddress)
     {
         if (!ModelState.IsValid)
         {
@@ -230,7 +230,7 @@ public abstract class StoresControllerBase : ODataController
         {
             return NotFound();
         }
-        var child = (await _mediator.Send(new GetStoreByIdQuery(key)))?.EmailAddress;
+        var child = (await _mediator.Send(new GetStoreByIdQuery(key)))?.VerifiedEmails;
         if (child == null)
         {
             return NotFound();
@@ -239,7 +239,7 @@ public abstract class StoresControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("api/Stores/{key}/EmailAddress")]
+    [HttpDelete("api/Stores/{key}/VerifiedEmails")]
     public virtual async Task<ActionResult> DeleteEmailAddressNonConventional(System.Guid key)
     {
         if (!ModelState.IsValid)

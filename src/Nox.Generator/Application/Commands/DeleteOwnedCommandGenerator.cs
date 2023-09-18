@@ -33,13 +33,13 @@ internal class DeleteOwnedCommandGenerator : INoxCodeGenerator
                 new TemplateCodeBuilder(context, codeGeneratorState)
                     .WithClassName($"Delete{ownedEntity.Name}For{entity.Name}Command")
                     .WithFileNamePrefix($"Application.Commands")
+                    .WithObject("relationship", ownedRelationship)
                     .WithObject("entity", ownedEntity)
                     .WithObject("parent", entity)
                     .WithObject("isSingleRelationship", ownedRelationship.WithSingleEntity)
                     .WithObject("parentKeysFindQuery", parentKeysFindQuery)
                     .WithObject("ownedKeysFindQuery", ownedKeysFindQuery)
                     .GenerateSourceCodeFromResource(templateName);
-
             }
         }
     }

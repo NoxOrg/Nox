@@ -1260,12 +1260,12 @@
         }
       }
     },
-    "/api/Countries/{key}/CountryLocalNames": {
+    "/api/Countries/{key}/CountryShortNames": {
       "get": {
         "tags": [
           "Countries"
         ],
-        "operationId": "api/Countries/{key}/CountryLocalNames",
+        "operationId": "api/Countries/{key}/CountryShortNames",
         "parameters": [
           {
             "name": "key",
@@ -1418,7 +1418,7 @@
         "tags": [
           "Countries"
         ],
-        "operationId": "api/Countries/{key}/CountryLocalNames",
+        "operationId": "api/Countries/{key}/CountryShortNames",
         "parameters": [
           {
             "name": "key",
@@ -1522,12 +1522,12 @@
         }
       }
     },
-    "/api/Countries/{key}/CountryLocalNames/$count": {
+    "/api/Countries/{key}/CountryShortNames/$count": {
       "get": {
         "tags": [
           "Countries"
         ],
-        "operationId": "api/Countries/{key}/CountryLocalNames/$count",
+        "operationId": "api/Countries/{key}/CountryShortNames/$count",
         "parameters": [
           {
             "name": "key",
@@ -1677,7 +1677,7 @@
         }
       }
     },
-    "/api/Countries/{key}/CountryLocalNames/{relatedKey}": {
+    "/api/Countries/{key}/CountryShortNames/{relatedKey}": {
       "get": {
         "tags": [
           "Countries"
@@ -5227,12 +5227,12 @@
         }
       }
     },
-    "/api/Stores/{key}/EmailAddress": {
+    "/api/Stores/{key}/VerifiedEmails": {
       "get": {
         "tags": [
           "Stores"
         ],
-        "operationId": "api/Stores/{key}/EmailAddress",
+        "operationId": "api/Stores/{key}/VerifiedEmails",
         "parameters": [
           {
             "name": "key",
@@ -5337,7 +5337,7 @@
         "tags": [
           "Stores"
         ],
-        "operationId": "api/Stores/{key}/EmailAddress",
+        "operationId": "api/Stores/{key}/VerifiedEmails",
         "parameters": [
           {
             "name": "key",
@@ -5444,7 +5444,7 @@
         "tags": [
           "Stores"
         ],
-        "operationId": "api/Stores/{key}/EmailAddress",
+        "operationId": "api/Stores/{key}/VerifiedEmails",
         "parameters": [
           {
             "name": "key",
@@ -5633,7 +5633,7 @@
         "tags": [
           "Stores"
         ],
-        "operationId": "api/Stores/{key}/EmailAddress",
+        "operationId": "api/Stores/{key}/VerifiedEmails",
         "parameters": [
           {
             "name": "key",
@@ -7338,7 +7338,7 @@
             },
             "nullable": true
           },
-          "countryLocalNames": {
+          "countryShortNames": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CountryLocalNameCreateDto"
@@ -7385,7 +7385,7 @@
             },
             "nullable": true
           },
-          "countryLocalNames": {
+          "countryShortNames": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CountryLocalNameDto"
@@ -9170,7 +9170,7 @@
           "ownership": {
             "$ref": "#/components/schemas/StoreOwnerCreateDto"
           },
-          "emailAddress": {
+          "verifiedEmails": {
             "$ref": "#/components/schemas/EmailAddressCreateDto"
           },
           "isTemporary": {
@@ -9203,7 +9203,7 @@
           "ownership": {
             "$ref": "#/components/schemas/StoreOwnerDto"
           },
-          "emailAddress": {
+          "verifiedEmails": {
             "$ref": "#/components/schemas/EmailAddressDto"
           },
           "deletedAtUtc": {

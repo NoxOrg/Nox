@@ -170,13 +170,13 @@ public abstract class CountriesControllerBase : ODataController
     
     [EnableQuery]
     [HttpGet("api/Countries/{key}/CountryLocalNames/{relatedKey}")]
-    public virtual async Task<ActionResult<CountryLocalNameDto>> GetCountryLocalNameNonConventional(System.String key, System.String relatedKey)
+    public virtual async Task<ActionResult<CountryLocalNameDto>> GetCountryLocalNamesNonConventional(System.String key, System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var child = await TryGetCountryLocalName(key, new CountryLocalNameKeyDto(relatedKey));
+        var child = await TryGetCountryLocalNames(key, new CountryLocalNameKeyDto(relatedKey));
         if (child == null)
         {
             return NotFound();
@@ -199,7 +199,7 @@ public abstract class CountriesControllerBase : ODataController
             return NotFound();
         }
         
-        var child = await TryGetCountryLocalName(key, createdKey);
+        var child = await TryGetCountryLocalNames(key, createdKey);
         if (child == null)
         {
             return NotFound();
@@ -224,7 +224,7 @@ public abstract class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    private async Task<CountryLocalNameDto?> TryGetCountryLocalName(System.String key, CountryLocalNameKeyDto childKeyDto)
+    private async Task<CountryLocalNameDto?> TryGetCountryLocalNames(System.String key, CountryLocalNameKeyDto childKeyDto)
     {
         var parent = await _mediator.Send(new GetCountryByIdQuery(key));
         return parent?.CountryLocalNames.SingleOrDefault(x => x.Id == childKeyDto.keyId);

@@ -41,7 +41,7 @@ public partial class UpdateExchangeRateForCurrencyCommandHandler: CommandBase<Up
 			return null;
 		}
 		var ownedId = CreateNoxTypeForKey<ExchangeRate,AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.ExchangeRates.SingleOrDefault(x => x.Id == ownedId);		
+		var entity = parentEntity.CurrencyExchangedFromRates.SingleOrDefault(x => x.Id == ownedId);		
 		if (entity == null)
 		{
 			return null;

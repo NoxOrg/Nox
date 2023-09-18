@@ -31,8 +31,8 @@ public class CreateCountryCommandHandlerTests : NoxIntegrationTestBase
             Name = "Test",
             Population = expectedNumber
         };
+        
         // Act
-
         var postResult = await PostAsync<CountryCreateDto, CountryDto>(CountryControllerName, countryDto);
         var headers = CreateEtagHeader(postResult?.Etag);
         var putResult = await PutAsync<CountryUpdateDto, CountryDto>($"{CountryControllerName}/{postResult!.Id}", countryUpdateDto, headers);

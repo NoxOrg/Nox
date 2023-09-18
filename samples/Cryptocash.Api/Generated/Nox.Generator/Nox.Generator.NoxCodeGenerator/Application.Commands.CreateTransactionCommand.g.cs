@@ -20,14 +20,29 @@ namespace Cryptocash.Application.Commands;
 
 public record CreateTransactionCommand(TransactionCreateDto EntityDto) : IRequest<TransactionKeyDto>;
 
-public partial class CreateTransactionCommandHandler: CommandBase<CreateTransactionCommand,Transaction>, IRequestHandler <CreateTransactionCommand, TransactionKeyDto>
+public partial class CreateTransactionCommandHandler: CreateTransactionCommandHandlerBase
+{
+	public CreateTransactionCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+        IEntityFactory<Customer,CustomerCreateDto> customerfactory,
+        IEntityFactory<Booking,BookingCreateDto> bookingfactory,
+        IEntityFactory<Transaction,TransactionCreateDto> entityFactory,
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution,customerfactory,bookingfactory,entityFactory, serviceProvider)
+	{
+	}
+}
+
+
+public abstract class CreateTransactionCommandHandlerBase: CommandBase<CreateTransactionCommand,Transaction>, IRequestHandler <CreateTransactionCommand, TransactionKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<Transaction,TransactionCreateDto> _entityFactory;
     private readonly IEntityFactory<Customer,CustomerCreateDto> _customerfactory;
     private readonly IEntityFactory<Booking,BookingCreateDto> _bookingfactory;
 
-	public CreateTransactionCommandHandler(
+	public CreateTransactionCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
         IEntityFactory<Customer,CustomerCreateDto> customerfactory,
@@ -41,7 +56,7 @@ public partial class CreateTransactionCommandHandler: CommandBase<CreateTransact
         _bookingfactory = bookingfactory;
 	}
 
-	public async Task<TransactionKeyDto> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
+	public virtual async Task<TransactionKeyDto> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

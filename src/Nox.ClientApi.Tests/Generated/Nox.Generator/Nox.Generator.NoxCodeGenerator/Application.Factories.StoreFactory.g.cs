@@ -46,9 +46,9 @@ public abstract class StoreFactoryBase: IEntityFactory<Store,StoreCreateDto>
         entity.Address = ClientApi.Domain.Store.CreateAddress(createDto.Address);
         entity.Location = ClientApi.Domain.Store.CreateLocation(createDto.Location);
         //entity.StoreOwner = StoreOwner?.ToEntity();
-        if(createDto.EmailAddress is not null)
+        if (createDto.VerifiedEmails is not null)
         {
-            entity.EmailAddress = EmailAddressFactory.CreateEntity(createDto.EmailAddress);
+            entity.VerifiedEmails = EmailAddressFactory.CreateEntity(createDto.VerifiedEmails);
         }
         return entity;
     }

@@ -20,13 +20,27 @@ namespace Cryptocash.Application.Commands;
 
 public record CreatePaymentProviderCommand(PaymentProviderCreateDto EntityDto) : IRequest<PaymentProviderKeyDto>;
 
-public partial class CreatePaymentProviderCommandHandler: CommandBase<CreatePaymentProviderCommand,PaymentProvider>, IRequestHandler <CreatePaymentProviderCommand, PaymentProviderKeyDto>
+public partial class CreatePaymentProviderCommandHandler: CreatePaymentProviderCommandHandlerBase
+{
+	public CreatePaymentProviderCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+        IEntityFactory<PaymentDetail,PaymentDetailCreateDto> paymentdetailfactory,
+        IEntityFactory<PaymentProvider,PaymentProviderCreateDto> entityFactory,
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution,paymentdetailfactory,entityFactory, serviceProvider)
+	{
+	}
+}
+
+
+public abstract class CreatePaymentProviderCommandHandlerBase: CommandBase<CreatePaymentProviderCommand,PaymentProvider>, IRequestHandler <CreatePaymentProviderCommand, PaymentProviderKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<PaymentProvider,PaymentProviderCreateDto> _entityFactory;
     private readonly IEntityFactory<PaymentDetail,PaymentDetailCreateDto> _paymentdetailfactory;
 
-	public CreatePaymentProviderCommandHandler(
+	public CreatePaymentProviderCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
         IEntityFactory<PaymentDetail,PaymentDetailCreateDto> paymentdetailfactory,
@@ -38,7 +52,7 @@ public partial class CreatePaymentProviderCommandHandler: CommandBase<CreatePaym
         _paymentdetailfactory = paymentdetailfactory;
 	}
 
-	public async Task<PaymentProviderKeyDto> Handle(CreatePaymentProviderCommand request, CancellationToken cancellationToken)
+	public virtual async Task<PaymentProviderKeyDto> Handle(CreatePaymentProviderCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

@@ -38,12 +38,12 @@ public partial class DeleteCountryLocalNameForCountryCommandHandler: CommandBase
 			return false;
 		}
 		var ownedId = CreateNoxTypeForKey<CountryLocalName,AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.CountryLocalNames.SingleOrDefault(x => x.Id == ownedId);
+		var entity = parentEntity.CountryShortNames.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
 			return false;
 		}
-		parentEntity.CountryLocalNames.Remove(entity);
+		parentEntity.CountryShortNames.Remove(entity);
 		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Deleted;

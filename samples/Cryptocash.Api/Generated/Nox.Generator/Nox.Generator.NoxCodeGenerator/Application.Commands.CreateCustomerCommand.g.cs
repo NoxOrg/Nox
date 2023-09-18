@@ -20,7 +20,24 @@ namespace Cryptocash.Application.Commands;
 
 public record CreateCustomerCommand(CustomerCreateDto EntityDto) : IRequest<CustomerKeyDto>;
 
-public partial class CreateCustomerCommandHandler: CommandBase<CreateCustomerCommand,Customer>, IRequestHandler <CreateCustomerCommand, CustomerKeyDto>
+public partial class CreateCustomerCommandHandler: CreateCustomerCommandHandlerBase
+{
+	public CreateCustomerCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+        IEntityFactory<PaymentDetail,PaymentDetailCreateDto> paymentdetailfactory,
+        IEntityFactory<Booking,BookingCreateDto> bookingfactory,
+        IEntityFactory<Transaction,TransactionCreateDto> transactionfactory,
+        IEntityFactory<Country,CountryCreateDto> countryfactory,
+        IEntityFactory<Customer,CustomerCreateDto> entityFactory,
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution,paymentdetailfactory,bookingfactory,transactionfactory,countryfactory,entityFactory, serviceProvider)
+	{
+	}
+}
+
+
+public abstract class CreateCustomerCommandHandlerBase: CommandBase<CreateCustomerCommand,Customer>, IRequestHandler <CreateCustomerCommand, CustomerKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<Customer,CustomerCreateDto> _entityFactory;
@@ -29,7 +46,7 @@ public partial class CreateCustomerCommandHandler: CommandBase<CreateCustomerCom
     private readonly IEntityFactory<Transaction,TransactionCreateDto> _transactionfactory;
     private readonly IEntityFactory<Country,CountryCreateDto> _countryfactory;
 
-	public CreateCustomerCommandHandler(
+	public CreateCustomerCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
         IEntityFactory<PaymentDetail,PaymentDetailCreateDto> paymentdetailfactory,
@@ -47,7 +64,7 @@ public partial class CreateCustomerCommandHandler: CommandBase<CreateCustomerCom
         _countryfactory = countryfactory;
 	}
 
-	public async Task<CustomerKeyDto> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CustomerKeyDto> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

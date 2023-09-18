@@ -50,8 +50,8 @@ public abstract class CountryFactoryBase: IEntityFactory<Country,CountryCreateDt
         if (createDto.CountryDebt is not null)entity.CountryDebt = ClientApi.Domain.Country.CreateCountryDebt(createDto.CountryDebt.NonNullValue<MoneyDto>());
         if (createDto.FirstLanguageCode is not null)entity.FirstLanguageCode = ClientApi.Domain.Country.CreateFirstLanguageCode(createDto.FirstLanguageCode.NonNullValue<System.String>());
         //entity.Workplaces = Workplaces.Select(dto => dto.ToEntity()).ToList();
-        entity.CountryLocalNames = createDto.CountryLocalNames.Select(dto => CountryLocalNameFactory.CreateEntity(dto)).ToList();
-        if(createDto.CountryBarCode is not null)
+        entity.CountryShortNames = createDto.CountryShortNames.Select(dto => CountryLocalNameFactory.CreateEntity(dto)).ToList();
+        if (createDto.CountryBarCode is not null)
         {
             entity.CountryBarCode = CountryBarCodeFactory.CreateEntity(createDto.CountryBarCode);
         }

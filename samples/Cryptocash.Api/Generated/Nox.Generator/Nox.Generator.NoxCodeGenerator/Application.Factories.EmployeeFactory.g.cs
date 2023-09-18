@@ -49,7 +49,7 @@ public abstract class EmployeeFactoryBase: IEntityFactory<Employee,EmployeeCreat
         entity.FirstWorkingDay = Cryptocash.Domain.Employee.CreateFirstWorkingDay(createDto.FirstWorkingDay);
         if (createDto.LastWorkingDay is not null)entity.LastWorkingDay = Cryptocash.Domain.Employee.CreateLastWorkingDay(createDto.LastWorkingDay.NonNullValue<System.DateTime>());
         //entity.CashStockOrder = CashStockOrder.ToEntity();
-        entity.EmployeePhoneNumbers = createDto.EmployeePhoneNumbers.Select(dto => EmployeePhoneNumberFactory.CreateEntity(dto)).ToList();
+        entity.EmployeeContactPhoneNumbers = createDto.EmployeeContactPhoneNumbers.Select(dto => EmployeePhoneNumberFactory.CreateEntity(dto)).ToList();
         return entity;
     }
 }

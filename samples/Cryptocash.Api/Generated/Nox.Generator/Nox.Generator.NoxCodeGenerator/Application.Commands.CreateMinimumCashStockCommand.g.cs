@@ -20,14 +20,29 @@ namespace Cryptocash.Application.Commands;
 
 public record CreateMinimumCashStockCommand(MinimumCashStockCreateDto EntityDto) : IRequest<MinimumCashStockKeyDto>;
 
-public partial class CreateMinimumCashStockCommandHandler: CommandBase<CreateMinimumCashStockCommand,MinimumCashStock>, IRequestHandler <CreateMinimumCashStockCommand, MinimumCashStockKeyDto>
+public partial class CreateMinimumCashStockCommandHandler: CreateMinimumCashStockCommandHandlerBase
+{
+	public CreateMinimumCashStockCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+        IEntityFactory<VendingMachine,VendingMachineCreateDto> vendingmachinefactory,
+        IEntityFactory<Currency,CurrencyCreateDto> currencyfactory,
+        IEntityFactory<MinimumCashStock,MinimumCashStockCreateDto> entityFactory,
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution,vendingmachinefactory,currencyfactory,entityFactory, serviceProvider)
+	{
+	}
+}
+
+
+public abstract class CreateMinimumCashStockCommandHandlerBase: CommandBase<CreateMinimumCashStockCommand,MinimumCashStock>, IRequestHandler <CreateMinimumCashStockCommand, MinimumCashStockKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<MinimumCashStock,MinimumCashStockCreateDto> _entityFactory;
     private readonly IEntityFactory<VendingMachine,VendingMachineCreateDto> _vendingmachinefactory;
     private readonly IEntityFactory<Currency,CurrencyCreateDto> _currencyfactory;
 
-	public CreateMinimumCashStockCommandHandler(
+	public CreateMinimumCashStockCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
         IEntityFactory<VendingMachine,VendingMachineCreateDto> vendingmachinefactory,
@@ -41,7 +56,7 @@ public partial class CreateMinimumCashStockCommandHandler: CommandBase<CreateMin
         _currencyfactory = currencyfactory;
 	}
 
-	public async Task<MinimumCashStockKeyDto> Handle(CreateMinimumCashStockCommand request, CancellationToken cancellationToken)
+	public virtual async Task<MinimumCashStockKeyDto> Handle(CreateMinimumCashStockCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
