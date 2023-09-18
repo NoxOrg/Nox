@@ -13,11 +13,6 @@ namespace Nox.Solution.Validation
             RuleFor(ep => ep.TableName)
                 .NotEmpty()
                 .WithMessage(ep => string.Format(ValidationResources.EntityPersistenceTableNameEmpty, entity.Name));
-
-            RuleFor(ep => ep.IsAudited)
-                .NotEqual(true)
-                .When(ep => entity.IsOwnedEntity)
-                .WithMessage(ep => string.Format(ValidationResources.EntityOwnedCannotBeAuditable, entity.Name));
         }
     }
 }
