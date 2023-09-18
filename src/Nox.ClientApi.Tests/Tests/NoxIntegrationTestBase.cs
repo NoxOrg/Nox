@@ -169,7 +169,12 @@ public abstract class NoxIntegrationTestBase :  IClassFixture<NoxTestContainerSe
 
         AddHeaders(httpClient, headers ?? new());
 
-        var request = await httpClient.PatchAsJsonAsync(requestUrl, delta);
+        var opts = new JsonSerializerOptions()
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
+        };
+
+        var request = await httpClient.PatchAsJsonAsync(requestUrl, delta, opts);
         request.EnsureSuccessStatusCode();
 
         var content = await request.Content.ReadAsStringAsync();

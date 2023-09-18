@@ -729,7 +729,7 @@ namespace ClientApi.Tests.Tests.Controllers
             queryResult!.Population.Should().Be(expectedNumber);
         }
 
-        [Fact(Skip = "Fix issue with delta serialization")]
+        [Fact]
         public async Task Patch_Number_ShouldUpdateNumberOnly()
         {
             // Arrange
@@ -748,7 +748,9 @@ namespace ClientApi.Tests.Tests.Controllers
 
             // Act
             var postResult = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, createDto);
-            var patchResult = await PatchAsync<CountryUpdateDto, CountryDto>($"{EntityUrl}/{postResult!.Id}", updateDto);
+            var headers = CreateEtagHeader(postResult!.Etag);
+
+            var patchResult = await PatchAsync<CountryUpdateDto, CountryDto>($"{EntityUrl}/{postResult!.Id}", updateDto, headers);
 
             //Assert
             patchResult!.Population.Should().Be(expectedNumber);
