@@ -14,16 +14,24 @@ namespace Cryptocash.Application.Queries;
 
 public record GetCustomerByIdQuery(System.Int64 keyId) : IRequest <IQueryable<CustomerDto>>;
 
-public partial class GetCustomerByIdQueryHandler:  QueryBase<IQueryable<CustomerDto>>, IRequestHandler<GetCustomerByIdQuery, IQueryable<CustomerDto>>
+public partial class GetCustomerByIdQueryHandler:GetCustomerByIdQueryHandlerBase
 {
-    public  GetCustomerByIdQueryHandler(DtoDbContext dataDbContext)
+    public  GetCustomerByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    {
+    
+    }
+}
+
+public partial class GetCustomerByIdQueryHandlerBase:  QueryBase<IQueryable<CustomerDto>>, IRequestHandler<GetCustomerByIdQuery, IQueryable<CustomerDto>>
+{
+    public  GetCustomerByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<IQueryable<CustomerDto>> Handle(GetCustomerByIdQuery request, CancellationToken cancellationToken)
+    public virtual Task<IQueryable<CustomerDto>> Handle(GetCustomerByIdQuery request, CancellationToken cancellationToken)
     {    
         var query = DataDbContext.Customers
             .AsNoTracking()

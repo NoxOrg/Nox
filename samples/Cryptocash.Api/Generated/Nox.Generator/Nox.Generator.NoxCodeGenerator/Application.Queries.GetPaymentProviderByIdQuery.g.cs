@@ -14,16 +14,24 @@ namespace Cryptocash.Application.Queries;
 
 public record GetPaymentProviderByIdQuery(System.Int64 keyId) : IRequest <IQueryable<PaymentProviderDto>>;
 
-public partial class GetPaymentProviderByIdQueryHandler:  QueryBase<IQueryable<PaymentProviderDto>>, IRequestHandler<GetPaymentProviderByIdQuery, IQueryable<PaymentProviderDto>>
+public partial class GetPaymentProviderByIdQueryHandler:GetPaymentProviderByIdQueryHandlerBase
 {
-    public  GetPaymentProviderByIdQueryHandler(DtoDbContext dataDbContext)
+    public  GetPaymentProviderByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    {
+    
+    }
+}
+
+public partial class GetPaymentProviderByIdQueryHandlerBase:  QueryBase<IQueryable<PaymentProviderDto>>, IRequestHandler<GetPaymentProviderByIdQuery, IQueryable<PaymentProviderDto>>
+{
+    public  GetPaymentProviderByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<IQueryable<PaymentProviderDto>> Handle(GetPaymentProviderByIdQuery request, CancellationToken cancellationToken)
+    public virtual Task<IQueryable<PaymentProviderDto>> Handle(GetPaymentProviderByIdQuery request, CancellationToken cancellationToken)
     {    
         var query = DataDbContext.PaymentProviders
             .AsNoTracking()

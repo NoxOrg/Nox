@@ -14,16 +14,24 @@ namespace ClientApi.Application.Queries;
 
 public record GetCountryByIdQuery(System.Int64 keyId) : IRequest <IQueryable<CountryDto>>;
 
-public partial class GetCountryByIdQueryHandler:  QueryBase<IQueryable<CountryDto>>, IRequestHandler<GetCountryByIdQuery, IQueryable<CountryDto>>
+public partial class GetCountryByIdQueryHandler:GetCountryByIdQueryHandlerBase
 {
-    public  GetCountryByIdQueryHandler(DtoDbContext dataDbContext)
+    public  GetCountryByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    {
+    
+    }
+}
+
+public partial class GetCountryByIdQueryHandlerBase:  QueryBase<IQueryable<CountryDto>>, IRequestHandler<GetCountryByIdQuery, IQueryable<CountryDto>>
+{
+    public  GetCountryByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<IQueryable<CountryDto>> Handle(GetCountryByIdQuery request, CancellationToken cancellationToken)
+    public virtual Task<IQueryable<CountryDto>> Handle(GetCountryByIdQuery request, CancellationToken cancellationToken)
     {    
         var query = DataDbContext.Countries
             .AsNoTracking()

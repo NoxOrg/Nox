@@ -14,16 +14,24 @@ namespace Cryptocash.Application.Queries;
 
 public record GetVendingMachineByIdQuery(System.Guid keyId) : IRequest <IQueryable<VendingMachineDto>>;
 
-public partial class GetVendingMachineByIdQueryHandler:  QueryBase<IQueryable<VendingMachineDto>>, IRequestHandler<GetVendingMachineByIdQuery, IQueryable<VendingMachineDto>>
+public partial class GetVendingMachineByIdQueryHandler:GetVendingMachineByIdQueryHandlerBase
 {
-    public  GetVendingMachineByIdQueryHandler(DtoDbContext dataDbContext)
+    public  GetVendingMachineByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    {
+    
+    }
+}
+
+public partial class GetVendingMachineByIdQueryHandlerBase:  QueryBase<IQueryable<VendingMachineDto>>, IRequestHandler<GetVendingMachineByIdQuery, IQueryable<VendingMachineDto>>
+{
+    public  GetVendingMachineByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<IQueryable<VendingMachineDto>> Handle(GetVendingMachineByIdQuery request, CancellationToken cancellationToken)
+    public virtual Task<IQueryable<VendingMachineDto>> Handle(GetVendingMachineByIdQuery request, CancellationToken cancellationToken)
     {    
         var query = DataDbContext.VendingMachines
             .AsNoTracking()

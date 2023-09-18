@@ -23,10 +23,10 @@ using Nox.Types;
 namespace ClientApi.Presentation.Api.OData;
 
 public partial class StoresController : StoresControllerBase
-            {
-                public StoresController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
-                {}
-            }
+{
+    public StoresController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    {}
+}
 public abstract class StoresControllerBase : ODataController
 {
     

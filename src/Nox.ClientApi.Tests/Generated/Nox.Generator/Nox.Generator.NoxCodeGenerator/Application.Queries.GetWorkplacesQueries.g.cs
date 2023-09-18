@@ -14,16 +14,24 @@ namespace ClientApi.Application.Queries;
 
 public record GetWorkplacesQuery() : IRequest<IQueryable<WorkplaceDto>>;
 
-public partial class GetWorkplacesQueryHandler : QueryBase<IQueryable<WorkplaceDto>>, IRequestHandler<GetWorkplacesQuery, IQueryable<WorkplaceDto>>
+public partial class GetWorkplacesQueryHandler: GetWorkplacesQueryHandlerBase
 {
-    public  GetWorkplacesQueryHandler(DtoDbContext dataDbContext)
+    public GetWorkplacesQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    {
+    
+    }
+}
+
+public partial class GetWorkplacesQueryHandlerBase : QueryBase<IQueryable<WorkplaceDto>>, IRequestHandler<GetWorkplacesQuery, IQueryable<WorkplaceDto>>
+{
+    public  GetWorkplacesQueryHandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<IQueryable<WorkplaceDto>> Handle(GetWorkplacesQuery request, CancellationToken cancellationToken)
+    public virtual Task<IQueryable<WorkplaceDto>> Handle(GetWorkplacesQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<WorkplaceDto>)DataDbContext.Workplaces
             .AsNoTracking();

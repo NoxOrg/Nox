@@ -14,16 +14,24 @@ namespace Cryptocash.Application.Queries;
 
 public record GetCashStockOrderByIdQuery(System.Int64 keyId) : IRequest <IQueryable<CashStockOrderDto>>;
 
-public partial class GetCashStockOrderByIdQueryHandler:  QueryBase<IQueryable<CashStockOrderDto>>, IRequestHandler<GetCashStockOrderByIdQuery, IQueryable<CashStockOrderDto>>
+public partial class GetCashStockOrderByIdQueryHandler:GetCashStockOrderByIdQueryHandlerBase
 {
-    public  GetCashStockOrderByIdQueryHandler(DtoDbContext dataDbContext)
+    public  GetCashStockOrderByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    {
+    
+    }
+}
+
+public partial class GetCashStockOrderByIdQueryHandlerBase:  QueryBase<IQueryable<CashStockOrderDto>>, IRequestHandler<GetCashStockOrderByIdQuery, IQueryable<CashStockOrderDto>>
+{
+    public  GetCashStockOrderByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<IQueryable<CashStockOrderDto>> Handle(GetCashStockOrderByIdQuery request, CancellationToken cancellationToken)
+    public virtual Task<IQueryable<CashStockOrderDto>> Handle(GetCashStockOrderByIdQuery request, CancellationToken cancellationToken)
     {    
         var query = DataDbContext.CashStockOrders
             .AsNoTracking()

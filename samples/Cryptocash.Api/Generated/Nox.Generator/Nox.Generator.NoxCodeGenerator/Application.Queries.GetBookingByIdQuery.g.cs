@@ -14,16 +14,24 @@ namespace Cryptocash.Application.Queries;
 
 public record GetBookingByIdQuery(System.Guid keyId) : IRequest <IQueryable<BookingDto>>;
 
-public partial class GetBookingByIdQueryHandler:  QueryBase<IQueryable<BookingDto>>, IRequestHandler<GetBookingByIdQuery, IQueryable<BookingDto>>
+public partial class GetBookingByIdQueryHandler:GetBookingByIdQueryHandlerBase
 {
-    public  GetBookingByIdQueryHandler(DtoDbContext dataDbContext)
+    public  GetBookingByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    {
+    
+    }
+}
+
+public partial class GetBookingByIdQueryHandlerBase:  QueryBase<IQueryable<BookingDto>>, IRequestHandler<GetBookingByIdQuery, IQueryable<BookingDto>>
+{
+    public  GetBookingByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<IQueryable<BookingDto>> Handle(GetBookingByIdQuery request, CancellationToken cancellationToken)
+    public virtual Task<IQueryable<BookingDto>> Handle(GetBookingByIdQuery request, CancellationToken cancellationToken)
     {    
         var query = DataDbContext.Bookings
             .AsNoTracking()

@@ -14,16 +14,24 @@ namespace Cryptocash.Application.Queries;
 
 public record GetPaymentDetailsQuery() : IRequest<IQueryable<PaymentDetailDto>>;
 
-public partial class GetPaymentDetailsQueryHandler : QueryBase<IQueryable<PaymentDetailDto>>, IRequestHandler<GetPaymentDetailsQuery, IQueryable<PaymentDetailDto>>
+public partial class GetPaymentDetailsQueryHandler: GetPaymentDetailsQueryHandlerBase
 {
-    public  GetPaymentDetailsQueryHandler(DtoDbContext dataDbContext)
+    public GetPaymentDetailsQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    {
+    
+    }
+}
+
+public partial class GetPaymentDetailsQueryHandlerBase : QueryBase<IQueryable<PaymentDetailDto>>, IRequestHandler<GetPaymentDetailsQuery, IQueryable<PaymentDetailDto>>
+{
+    public  GetPaymentDetailsQueryHandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<IQueryable<PaymentDetailDto>> Handle(GetPaymentDetailsQuery request, CancellationToken cancellationToken)
+    public virtual Task<IQueryable<PaymentDetailDto>> Handle(GetPaymentDetailsQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<PaymentDetailDto>)DataDbContext.PaymentDetails
             .Where(r => r.DeletedAtUtc == null)
