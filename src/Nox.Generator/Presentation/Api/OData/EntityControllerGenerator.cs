@@ -144,7 +144,8 @@ internal class EntityControllerGenerator : INoxCodeGenerator
                 GenerateDelete(entity, entityName, code, codeGeneratorState.Solution);
             }
 
-            GenerateOwnedEntities(codeGeneratorState.Solution, code, entity);
+            GenerateOwnedRelationships(codeGeneratorState.Solution, code, entity);
+            GenerateRelationships(codeGeneratorState.Solution, code, entity);
 
             // Generate GET request mapping for Queries
             foreach (var query in queries)
@@ -320,7 +321,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine();
     }
 
-    private static void GenerateOwnedEntities(NoxSolution solution, CodeBuilder code, Entity entity)
+    private static void GenerateOwnedRelationships(NoxSolution solution, CodeBuilder code, Entity entity)
     {
         if (entity.OwnedRelationships != null && entity.OwnedRelationships.Any())
         {
@@ -686,6 +687,48 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.StartBlock();
         code.AppendLine($"var query = await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity)}));");
         code.AppendLine($"return SingleResult.Create(query);");
+
+        // End method
+        code.EndBlock();
+        code.AppendLine();
+    }
+
+    private static void GenerateRelationships(NoxSolution solution, CodeBuilder code, Entity entity)
+    {
+        if (entity.Relationships != null && entity.Relationships.Any())
+        {
+            code.AppendLine();
+            code.AppendLine($"#region Relationships");
+            code.AppendLine();
+            foreach (var relationship in entity.Relationships)
+            {
+                GenerateCreateRefTo(entity, relationship, code, solution);
+            }
+            code.AppendLine($"#endregion");
+            code.AppendLine();
+        }
+    }
+
+    private static void GenerateCreateRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
+    {
+        var relatedEntity = relationship.Related.Entity;
+        code.AppendLine($"public async Task<ActionResult> CreateRefTo{relationship.Name}({PrimaryKeysFromRoute(entity, solution)}, {PrimaryKeysFromRoute(relatedEntity, solution, "relatedKey")})");
+
+        code.StartBlock();
+        code.AppendLine($"if (!ModelState.IsValid)");
+        code.StartBlock();
+        code.AppendLine($"return BadRequest(ModelState);");
+        code.EndBlock();
+        code.AppendLine();
+        code.AppendLine($"var createdRef = await _mediator.Send(new CreateRef{entity.Name}To{relationship.Name}Command(" +
+            $"new {entity.Name}KeyDto({PrimaryKeysQuery(entity)}), new {relatedEntity.Name}KeyDto({PrimaryKeysQuery(relatedEntity, "relatedKey")})));");
+        code.AppendLine($"if (!createdRef)");
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+        code.AppendLine();
+
+        code.AppendLine($"return NoContent();");
 
         // End method
         code.EndBlock();

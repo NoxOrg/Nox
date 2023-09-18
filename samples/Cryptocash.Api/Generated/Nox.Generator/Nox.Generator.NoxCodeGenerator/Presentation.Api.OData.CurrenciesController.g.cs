@@ -413,4 +413,41 @@ public abstract class CurrenciesControllerBase : ODataController
     
     #endregion
     
+    
+    #region Relationships
+    
+    public async Task<ActionResult> CreateRefToCurrencyUsedByCountry([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefCurrencyToCurrencyUsedByCountryCommand(new CurrencyKeyDto(key), new CountryKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> CreateRefToCurrencyUsedByMinimumCashStocks([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommand(new CurrencyKeyDto(key), new MinimumCashStockKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    #endregion
+    
 }

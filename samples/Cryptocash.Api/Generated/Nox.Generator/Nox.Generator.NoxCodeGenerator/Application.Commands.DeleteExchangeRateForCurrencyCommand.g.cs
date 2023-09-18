@@ -14,20 +14,12 @@ using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
 public record DeleteExchangeRateForCurrencyCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateKeyDto EntityKeyDto) : IRequest <bool>;
-public abstract class DeleteExchangeRateForCurrencyCommandHandler: DeleteExchangeRateForCurrencyCommandHandlerBase
-{
-	public DeleteExchangeRateForCurrencyCommandHandler(
-		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
-	{
-	}
-}
-public abstract class DeleteExchangeRateForCurrencyCommandHandlerBase: CommandBase<DeleteExchangeRateForCurrencyCommand, ExchangeRate>, IRequestHandler <DeleteExchangeRateForCurrencyCommand, bool>
+
+public partial class DeleteExchangeRateForCurrencyCommandHandler: CommandBase<DeleteExchangeRateForCurrencyCommand, ExchangeRate>, IRequestHandler <DeleteExchangeRateForCurrencyCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public DeleteExchangeRateForCurrencyCommandHandlerBase(
+	public DeleteExchangeRateForCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -35,7 +27,7 @@ public abstract class DeleteExchangeRateForCurrencyCommandHandlerBase: CommandBa
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<bool> Handle(DeleteExchangeRateForCurrencyCommand request, CancellationToken cancellationToken)
+	public async Task<bool> Handle(DeleteExchangeRateForCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

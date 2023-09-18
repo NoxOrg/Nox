@@ -14,20 +14,12 @@ using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
 public record DeleteHolidayForCountryCommand(CountryKeyDto ParentKeyDto, HolidayKeyDto EntityKeyDto) : IRequest <bool>;
-public abstract class DeleteHolidayForCountryCommandHandler: DeleteHolidayForCountryCommandHandlerBase
-{
-	public DeleteHolidayForCountryCommandHandler(
-		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
-	{
-	}
-}
-public abstract class DeleteHolidayForCountryCommandHandlerBase: CommandBase<DeleteHolidayForCountryCommand, Holiday>, IRequestHandler <DeleteHolidayForCountryCommand, bool>
+
+public partial class DeleteHolidayForCountryCommandHandler: CommandBase<DeleteHolidayForCountryCommand, Holiday>, IRequestHandler <DeleteHolidayForCountryCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public DeleteHolidayForCountryCommandHandlerBase(
+	public DeleteHolidayForCountryCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -35,7 +27,7 @@ public abstract class DeleteHolidayForCountryCommandHandlerBase: CommandBase<Del
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<bool> Handle(DeleteHolidayForCountryCommand request, CancellationToken cancellationToken)
+	public async Task<bool> Handle(DeleteHolidayForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

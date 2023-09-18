@@ -73,6 +73,16 @@ public abstract class NoxIntegrationTestBase :  IClassFixture<NoxTestContainerSe
         return result;
     }
 
+    public async Task<HttpResponseMessage> PostAsync(string requestUrl)
+    {
+        using var httpClient = _appFactory.CreateClient();
+
+        var result = await httpClient.PostAsync(requestUrl, null);
+        result.EnsureSuccessStatusCode();
+
+        return result;
+    }
+
     public async Task<HttpResponseMessage> PostAsync<TValue>(string requestUrl, TValue data)
     {
         using var httpClient = _appFactory.CreateClient();

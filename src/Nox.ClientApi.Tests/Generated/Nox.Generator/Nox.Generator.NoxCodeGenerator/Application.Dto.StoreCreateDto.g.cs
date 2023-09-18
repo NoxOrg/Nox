@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 using System.Collections.Generic;
@@ -23,8 +23,7 @@ public partial class StoreCreateDto: StoreCreateDtoBase
 /// Stores.
 /// </summary>
 public abstract class StoreCreateDtoBase : IEntityCreateDto<Store>
-{
-    /// <summary>
+{/// <summary>
     ///  (Optional).
     /// </summary>
     public System.Guid Id { get; set; } = default!;    

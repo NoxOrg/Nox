@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 using System.Collections.Generic;
@@ -23,8 +23,7 @@ public partial class BookingCreateDto: BookingCreateDtoBase
 /// Exchange booking and related data.
 /// </summary>
 public abstract class BookingCreateDtoBase : IEntityCreateDto<Booking>
-{
-    /// <summary>
+{/// <summary>
     /// Booking unique identifier (Optional).
     /// </summary>
     public System.Guid Id { get; set; } = default!;    

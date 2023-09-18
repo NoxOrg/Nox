@@ -16,22 +16,11 @@ namespace ClientApi.Application.Commands;
 public record DeleteCountryBarCodeForCountryCommand(CountryKeyDto ParentKeyDto) : IRequest <bool>;
 
 
-public partial class DeleteCountryBarCodeForCountryCommandHandler: DeleteCountryBarCodeForCountryCommandHandlerBase
-{
-	public DeleteCountryBarCodeForCountryCommandHandler(
-		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
-	{
-	}
-
-}
-
-public partial class DeleteCountryBarCodeForCountryCommandHandlerBase: CommandBase<DeleteCountryBarCodeForCountryCommand, CountryBarCode>, IRequestHandler<DeleteCountryBarCodeForCountryCommand, bool>
+public partial class DeleteCountryBarCodeForCountryCommandHandler: CommandBase<DeleteCountryBarCodeForCountryCommand, CountryBarCode>, IRequestHandler <DeleteCountryBarCodeForCountryCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 
-	public DeleteCountryBarCodeForCountryCommandHandlerBase(
+	public DeleteCountryBarCodeForCountryCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)

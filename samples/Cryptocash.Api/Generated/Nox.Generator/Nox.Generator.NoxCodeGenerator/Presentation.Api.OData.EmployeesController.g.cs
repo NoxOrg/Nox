@@ -277,4 +277,25 @@ public abstract class EmployeesControllerBase : ODataController
     
     #endregion
     
+    
+    #region Relationships
+    
+    public async Task<ActionResult> CreateRefToEmployeeReviewingCashStockOrder([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefEmployeeToEmployeeReviewingCashStockOrderCommand(new EmployeeKeyDto(key), new CashStockOrderKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    #endregion
+    
 }
