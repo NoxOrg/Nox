@@ -26,7 +26,7 @@ internal class EntityMetaGenerator : INoxCodeGenerator
         {
             context.CancellationToken.ThrowIfCancellationRequested();
             
-            var entitiesMetaData = entity.GetAllMembers()
+            var entitiesMetaData = entity.GetAllMembers().GroupBy(m=>m.Value.Name).Select(g=>g.First())
                 .Select( t =>  GeneraEntityMetaData(t.Value, codeGeneratorState.Solution) )
                 .ToList();
             
