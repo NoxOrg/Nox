@@ -22,7 +22,7 @@ public partial class GetEmployeeByIdQueryHandler:GetEmployeeByIdQueryHandlerBase
     }
 }
 
-public partial class GetEmployeeByIdQueryHandlerBase:  QueryBase<IQueryable<EmployeeDto>>, IRequestHandler<GetEmployeeByIdQuery, IQueryable<EmployeeDto>>
+public abstract class GetEmployeeByIdQueryHandlerBase:  QueryBase<IQueryable<EmployeeDto>>, IRequestHandler<GetEmployeeByIdQuery, IQueryable<EmployeeDto>>
 {
     public  GetEmployeeByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {

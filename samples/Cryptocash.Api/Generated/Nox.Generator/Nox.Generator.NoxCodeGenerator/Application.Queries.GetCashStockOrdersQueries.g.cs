@@ -22,7 +22,7 @@ public partial class GetCashStockOrdersQueryHandler: GetCashStockOrdersQueryHand
     }
 }
 
-public partial class GetCashStockOrdersQueryHandlerBase : QueryBase<IQueryable<CashStockOrderDto>>, IRequestHandler<GetCashStockOrdersQuery, IQueryable<CashStockOrderDto>>
+public abstract class GetCashStockOrdersQueryHandlerBase : QueryBase<IQueryable<CashStockOrderDto>>, IRequestHandler<GetCashStockOrdersQuery, IQueryable<CashStockOrderDto>>
 {
     public  GetCashStockOrdersQueryHandlerBase(DtoDbContext dataDbContext)
     {

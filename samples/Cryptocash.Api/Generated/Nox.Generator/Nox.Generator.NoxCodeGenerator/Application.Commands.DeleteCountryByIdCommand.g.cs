@@ -15,11 +15,20 @@ namespace Cryptocash.Application.Commands;
 
 public record DeleteCountryByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
 
-public class DeleteCountryByIdCommandHandler: CommandBase<DeleteCountryByIdCommand,Country>, IRequestHandler<DeleteCountryByIdCommand, bool>
+public class DeleteCountryByIdCommandHandler:DeleteCountryByIdCommandHandlerBase
+{
+	public DeleteCountryByIdCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+	{
+	}
+}
+public abstract class DeleteCountryByIdCommandHandlerBase: CommandBase<DeleteCountryByIdCommand,Country>, IRequestHandler<DeleteCountryByIdCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public DeleteCountryByIdCommandHandler(
+	public DeleteCountryByIdCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -27,7 +36,7 @@ public class DeleteCountryByIdCommandHandler: CommandBase<DeleteCountryByIdComma
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeleteCountryByIdCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteCountryByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

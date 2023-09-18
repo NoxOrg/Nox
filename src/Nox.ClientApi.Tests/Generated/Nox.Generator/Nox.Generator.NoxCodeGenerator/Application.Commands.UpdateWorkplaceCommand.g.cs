@@ -17,12 +17,22 @@ namespace ClientApi.Application.Commands;
 
 public record UpdateWorkplaceCommand(System.UInt32 keyId, WorkplaceUpdateDto EntityDto, System.Guid? Etag) : IRequest<WorkplaceKeyDto?>;
 
-public class UpdateWorkplaceCommandHandler: CommandBase<UpdateWorkplaceCommand, Workplace>, IRequestHandler<UpdateWorkplaceCommand, WorkplaceKeyDto?>
+public partial class UpdateWorkplaceCommandHandler: UpdateWorkplaceCommandHandlerBase
+{
+	public UpdateWorkplaceCommandHandler(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<Workplace> entityMapper): base(dbContext, noxSolution, serviceProvider, entityMapper)
+	{
+	}
+}
+public abstract class UpdateWorkplaceCommandHandlerBase: CommandBase<UpdateWorkplaceCommand, Workplace>, IRequestHandler<UpdateWorkplaceCommand, WorkplaceKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<Workplace> EntityMapper { get; }
 
-	public UpdateWorkplaceCommandHandler(
+	public UpdateWorkplaceCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -32,7 +42,7 @@ public class UpdateWorkplaceCommandHandler: CommandBase<UpdateWorkplaceCommand, 
 		EntityMapper = entityMapper;
 	}
 	
-	public async Task<WorkplaceKeyDto?> Handle(UpdateWorkplaceCommand request, CancellationToken cancellationToken)
+	public virtual async Task<WorkplaceKeyDto?> Handle(UpdateWorkplaceCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

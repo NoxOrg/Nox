@@ -17,12 +17,22 @@ namespace Cryptocash.Application.Commands;
 
 public record UpdateCashStockOrderCommand(System.Int64 keyId, CashStockOrderUpdateDto EntityDto, System.Guid? Etag) : IRequest<CashStockOrderKeyDto?>;
 
-public class UpdateCashStockOrderCommandHandler: CommandBase<UpdateCashStockOrderCommand, CashStockOrder>, IRequestHandler<UpdateCashStockOrderCommand, CashStockOrderKeyDto?>
+public partial class UpdateCashStockOrderCommandHandler: UpdateCashStockOrderCommandHandlerBase
+{
+	public UpdateCashStockOrderCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<CashStockOrder> entityMapper): base(dbContext, noxSolution, serviceProvider, entityMapper)
+	{
+	}
+}
+public abstract class UpdateCashStockOrderCommandHandlerBase: CommandBase<UpdateCashStockOrderCommand, CashStockOrder>, IRequestHandler<UpdateCashStockOrderCommand, CashStockOrderKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<CashStockOrder> EntityMapper { get; }
 
-	public UpdateCashStockOrderCommandHandler(
+	public UpdateCashStockOrderCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -32,7 +42,7 @@ public class UpdateCashStockOrderCommandHandler: CommandBase<UpdateCashStockOrde
 		EntityMapper = entityMapper;
 	}
 	
-	public async Task<CashStockOrderKeyDto?> Handle(UpdateCashStockOrderCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CashStockOrderKeyDto?> Handle(UpdateCashStockOrderCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

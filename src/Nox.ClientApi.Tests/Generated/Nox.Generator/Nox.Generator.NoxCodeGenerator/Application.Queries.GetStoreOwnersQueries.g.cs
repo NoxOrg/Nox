@@ -22,7 +22,7 @@ public partial class GetStoreOwnersQueryHandler: GetStoreOwnersQueryHandlerBase
     }
 }
 
-public partial class GetStoreOwnersQueryHandlerBase : QueryBase<IQueryable<StoreOwnerDto>>, IRequestHandler<GetStoreOwnersQuery, IQueryable<StoreOwnerDto>>
+public abstract class GetStoreOwnersQueryHandlerBase : QueryBase<IQueryable<StoreOwnerDto>>, IRequestHandler<GetStoreOwnersQuery, IQueryable<StoreOwnerDto>>
 {
     public  GetStoreOwnersQueryHandlerBase(DtoDbContext dataDbContext)
     {

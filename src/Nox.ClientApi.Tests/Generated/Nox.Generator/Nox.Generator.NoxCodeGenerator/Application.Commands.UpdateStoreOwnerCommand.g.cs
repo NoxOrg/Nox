@@ -17,12 +17,22 @@ namespace ClientApi.Application.Commands;
 
 public record UpdateStoreOwnerCommand(System.String keyId, StoreOwnerUpdateDto EntityDto, System.Guid? Etag) : IRequest<StoreOwnerKeyDto?>;
 
-public class UpdateStoreOwnerCommandHandler: CommandBase<UpdateStoreOwnerCommand, StoreOwner>, IRequestHandler<UpdateStoreOwnerCommand, StoreOwnerKeyDto?>
+public partial class UpdateStoreOwnerCommandHandler: UpdateStoreOwnerCommandHandlerBase
+{
+	public UpdateStoreOwnerCommandHandler(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<StoreOwner> entityMapper): base(dbContext, noxSolution, serviceProvider, entityMapper)
+	{
+	}
+}
+public abstract class UpdateStoreOwnerCommandHandlerBase: CommandBase<UpdateStoreOwnerCommand, StoreOwner>, IRequestHandler<UpdateStoreOwnerCommand, StoreOwnerKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<StoreOwner> EntityMapper { get; }
 
-	public UpdateStoreOwnerCommandHandler(
+	public UpdateStoreOwnerCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -32,7 +42,7 @@ public class UpdateStoreOwnerCommandHandler: CommandBase<UpdateStoreOwnerCommand
 		EntityMapper = entityMapper;
 	}
 	
-	public async Task<StoreOwnerKeyDto?> Handle(UpdateStoreOwnerCommand request, CancellationToken cancellationToken)
+	public virtual async Task<StoreOwnerKeyDto?> Handle(UpdateStoreOwnerCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

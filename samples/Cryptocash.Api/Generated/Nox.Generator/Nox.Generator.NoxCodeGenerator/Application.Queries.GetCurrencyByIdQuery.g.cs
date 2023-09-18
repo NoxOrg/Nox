@@ -22,7 +22,7 @@ public partial class GetCurrencyByIdQueryHandler:GetCurrencyByIdQueryHandlerBase
     }
 }
 
-public partial class GetCurrencyByIdQueryHandlerBase:  QueryBase<IQueryable<CurrencyDto>>, IRequestHandler<GetCurrencyByIdQuery, IQueryable<CurrencyDto>>
+public abstract class GetCurrencyByIdQueryHandlerBase:  QueryBase<IQueryable<CurrencyDto>>, IRequestHandler<GetCurrencyByIdQuery, IQueryable<CurrencyDto>>
 {
     public  GetCurrencyByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {

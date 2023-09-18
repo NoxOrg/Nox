@@ -15,11 +15,20 @@ namespace Cryptocash.Application.Commands;
 
 public record DeleteVendingMachineByIdCommand(System.Guid keyId, System.Guid? Etag) : IRequest<bool>;
 
-public class DeleteVendingMachineByIdCommandHandler: CommandBase<DeleteVendingMachineByIdCommand,VendingMachine>, IRequestHandler<DeleteVendingMachineByIdCommand, bool>
+public class DeleteVendingMachineByIdCommandHandler:DeleteVendingMachineByIdCommandHandlerBase
+{
+	public DeleteVendingMachineByIdCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+	{
+	}
+}
+public abstract class DeleteVendingMachineByIdCommandHandlerBase: CommandBase<DeleteVendingMachineByIdCommand,VendingMachine>, IRequestHandler<DeleteVendingMachineByIdCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public DeleteVendingMachineByIdCommandHandler(
+	public DeleteVendingMachineByIdCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -27,7 +36,7 @@ public class DeleteVendingMachineByIdCommandHandler: CommandBase<DeleteVendingMa
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeleteVendingMachineByIdCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteVendingMachineByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

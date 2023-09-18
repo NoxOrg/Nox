@@ -22,7 +22,7 @@ public partial class GetStoreByIdQueryHandler:GetStoreByIdQueryHandlerBase
     }
 }
 
-public partial class GetStoreByIdQueryHandlerBase:  QueryBase<IQueryable<StoreDto>>, IRequestHandler<GetStoreByIdQuery, IQueryable<StoreDto>>
+public abstract class GetStoreByIdQueryHandlerBase:  QueryBase<IQueryable<StoreDto>>, IRequestHandler<GetStoreByIdQuery, IQueryable<StoreDto>>
 {
     public  GetStoreByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {

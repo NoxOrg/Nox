@@ -22,7 +22,7 @@ public partial class Get{{entity.Name}}ByIdQueryHandler:Get{{entity.Name}}ByIdQu
     }
 }
 
-public partial class Get{{entity.Name}}ByIdQueryHandlerBase:  QueryBase<IQueryable<{{entity.Name}}Dto>>, IRequestHandler<Get{{entity.Name}}ByIdQuery, IQueryable<{{entity.Name}}Dto>>
+public abstract class Get{{entity.Name}}ByIdQueryHandlerBase:  QueryBase<IQueryable<{{entity.Name}}Dto>>, IRequestHandler<Get{{entity.Name}}ByIdQuery, IQueryable<{{entity.Name}}Dto>>
 {
     public  Get{{entity.Name}}ByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {

@@ -22,7 +22,7 @@ public partial class GetTransactionByIdQueryHandler:GetTransactionByIdQueryHandl
     }
 }
 
-public partial class GetTransactionByIdQueryHandlerBase:  QueryBase<IQueryable<TransactionDto>>, IRequestHandler<GetTransactionByIdQuery, IQueryable<TransactionDto>>
+public abstract class GetTransactionByIdQueryHandlerBase:  QueryBase<IQueryable<TransactionDto>>, IRequestHandler<GetTransactionByIdQuery, IQueryable<TransactionDto>>
 {
     public  GetTransactionByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {

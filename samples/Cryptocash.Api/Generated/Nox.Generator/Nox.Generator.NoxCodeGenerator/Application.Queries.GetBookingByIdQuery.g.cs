@@ -22,7 +22,7 @@ public partial class GetBookingByIdQueryHandler:GetBookingByIdQueryHandlerBase
     }
 }
 
-public partial class GetBookingByIdQueryHandlerBase:  QueryBase<IQueryable<BookingDto>>, IRequestHandler<GetBookingByIdQuery, IQueryable<BookingDto>>
+public abstract class GetBookingByIdQueryHandlerBase:  QueryBase<IQueryable<BookingDto>>, IRequestHandler<GetBookingByIdQuery, IQueryable<BookingDto>>
 {
     public  GetBookingByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {

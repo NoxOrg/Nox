@@ -22,7 +22,7 @@ public partial class GetCountryByIdQueryHandler:GetCountryByIdQueryHandlerBase
     }
 }
 
-public partial class GetCountryByIdQueryHandlerBase:  QueryBase<IQueryable<CountryDto>>, IRequestHandler<GetCountryByIdQuery, IQueryable<CountryDto>>
+public abstract class GetCountryByIdQueryHandlerBase:  QueryBase<IQueryable<CountryDto>>, IRequestHandler<GetCountryByIdQuery, IQueryable<CountryDto>>
 {
     public  GetCountryByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {

@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -15,12 +15,22 @@ using ClientApi.Application.Dto;
 namespace ClientApi.Application.Commands;
 public record UpdateCountryLocalNameForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameKeyDto EntityKeyDto, CountryLocalNameUpdateDto EntityDto, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto?>;
 
-public partial class UpdateCountryLocalNameForCountryCommandHandler: CommandBase<UpdateCountryLocalNameForCountryCommand, CountryLocalName>, IRequestHandler <UpdateCountryLocalNameForCountryCommand, CountryLocalNameKeyDto?>
+public partial class UpdateCountryLocalNameForCountryCommandHandler: UpdateCountryLocalNameForCountryCommandHandlerBase
+{
+	public UpdateCountryLocalNameForCountryCommandHandler(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<CountryLocalName> entityMapper): base(dbContext ,noxSolution, serviceProvider, entityMapper)
+	{
+	}
+}
+public abstract class UpdateCountryLocalNameForCountryCommandHandlerBase: CommandBase<UpdateCountryLocalNameForCountryCommand, CountryLocalName>, IRequestHandler <UpdateCountryLocalNameForCountryCommand, CountryLocalNameKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<CountryLocalName> EntityMapper { get; }
 
-	public UpdateCountryLocalNameForCountryCommandHandler(
+	public UpdateCountryLocalNameForCountryCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -30,7 +40,7 @@ public partial class UpdateCountryLocalNameForCountryCommandHandler: CommandBase
 		EntityMapper = entityMapper;
 	}
 
-	public async Task<CountryLocalNameKeyDto?> Handle(UpdateCountryLocalNameForCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CountryLocalNameKeyDto?> Handle(UpdateCountryLocalNameForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

@@ -22,7 +22,7 @@ public partial class GetLandLordByIdQueryHandler:GetLandLordByIdQueryHandlerBase
     }
 }
 
-public partial class GetLandLordByIdQueryHandlerBase:  QueryBase<IQueryable<LandLordDto>>, IRequestHandler<GetLandLordByIdQuery, IQueryable<LandLordDto>>
+public abstract class GetLandLordByIdQueryHandlerBase:  QueryBase<IQueryable<LandLordDto>>, IRequestHandler<GetLandLordByIdQuery, IQueryable<LandLordDto>>
 {
     public  GetLandLordByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {

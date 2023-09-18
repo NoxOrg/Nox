@@ -22,7 +22,7 @@ public partial class GetWorkplacesQueryHandler: GetWorkplacesQueryHandlerBase
     }
 }
 
-public partial class GetWorkplacesQueryHandlerBase : QueryBase<IQueryable<WorkplaceDto>>, IRequestHandler<GetWorkplacesQuery, IQueryable<WorkplaceDto>>
+public abstract class GetWorkplacesQueryHandlerBase : QueryBase<IQueryable<WorkplaceDto>>, IRequestHandler<GetWorkplacesQuery, IQueryable<WorkplaceDto>>
 {
     public  GetWorkplacesQueryHandlerBase(DtoDbContext dataDbContext)
     {

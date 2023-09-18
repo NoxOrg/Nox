@@ -22,7 +22,7 @@ public partial class GetPaymentProvidersQueryHandler: GetPaymentProvidersQueryHa
     }
 }
 
-public partial class GetPaymentProvidersQueryHandlerBase : QueryBase<IQueryable<PaymentProviderDto>>, IRequestHandler<GetPaymentProvidersQuery, IQueryable<PaymentProviderDto>>
+public abstract class GetPaymentProvidersQueryHandlerBase : QueryBase<IQueryable<PaymentProviderDto>>, IRequestHandler<GetPaymentProvidersQuery, IQueryable<PaymentProviderDto>>
 {
     public  GetPaymentProvidersQueryHandlerBase(DtoDbContext dataDbContext)
     {

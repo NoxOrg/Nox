@@ -22,7 +22,7 @@ public partial class GetVendingMachineByIdQueryHandler:GetVendingMachineByIdQuer
     }
 }
 
-public partial class GetVendingMachineByIdQueryHandlerBase:  QueryBase<IQueryable<VendingMachineDto>>, IRequestHandler<GetVendingMachineByIdQuery, IQueryable<VendingMachineDto>>
+public abstract class GetVendingMachineByIdQueryHandlerBase:  QueryBase<IQueryable<VendingMachineDto>>, IRequestHandler<GetVendingMachineByIdQuery, IQueryable<VendingMachineDto>>
 {
     public  GetVendingMachineByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {

@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -16,12 +16,22 @@ namespace ClientApi.Application.Commands;
 public record UpdateCountryBarCodeForCountryCommand(CountryKeyDto ParentKeyDto, CountryBarCodeUpdateDto EntityDto, System.Guid? Etag) : IRequest <CountryBarCodeKeyDto?>;
 
 
-public partial class UpdateCountryBarCodeForCountryCommandHandler: CommandBase<UpdateCountryBarCodeForCountryCommand, CountryBarCode>, IRequestHandler <UpdateCountryBarCodeForCountryCommand, CountryBarCodeKeyDto?>
+public partial class UpdateCountryBarCodeForCountryCommandHandler: UpdateCountryBarCodeForCountryCommandHandlerBase
+{
+	public UpdateCountryBarCodeForCountryCommandHandler(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<CountryBarCode> entityMapper): base(dbContext ,noxSolution, serviceProvider, entityMapper)
+	{
+	}
+}
+public abstract class UpdateCountryBarCodeForCountryCommandHandlerBase: CommandBase<UpdateCountryBarCodeForCountryCommand, CountryBarCode>, IRequestHandler <UpdateCountryBarCodeForCountryCommand, CountryBarCodeKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<CountryBarCode> EntityMapper { get; }
 
-	public UpdateCountryBarCodeForCountryCommandHandler(
+	public UpdateCountryBarCodeForCountryCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -31,7 +41,7 @@ public partial class UpdateCountryBarCodeForCountryCommandHandler: CommandBase<U
 		EntityMapper = entityMapper;
 	}
 
-	public async Task<CountryBarCodeKeyDto?> Handle(UpdateCountryBarCodeForCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CountryBarCodeKeyDto?> Handle(UpdateCountryBarCodeForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

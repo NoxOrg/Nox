@@ -17,12 +17,22 @@ namespace Cryptocash.Application.Commands;
 
 public record UpdateBookingCommand(System.Guid keyId, BookingUpdateDto EntityDto, System.Guid? Etag) : IRequest<BookingKeyDto?>;
 
-public class UpdateBookingCommandHandler: CommandBase<UpdateBookingCommand, Booking>, IRequestHandler<UpdateBookingCommand, BookingKeyDto?>
+public partial class UpdateBookingCommandHandler: UpdateBookingCommandHandlerBase
+{
+	public UpdateBookingCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<Booking> entityMapper): base(dbContext, noxSolution, serviceProvider, entityMapper)
+	{
+	}
+}
+public abstract class UpdateBookingCommandHandlerBase: CommandBase<UpdateBookingCommand, Booking>, IRequestHandler<UpdateBookingCommand, BookingKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<Booking> EntityMapper { get; }
 
-	public UpdateBookingCommandHandler(
+	public UpdateBookingCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -32,7 +42,7 @@ public class UpdateBookingCommandHandler: CommandBase<UpdateBookingCommand, Book
 		EntityMapper = entityMapper;
 	}
 	
-	public async Task<BookingKeyDto?> Handle(UpdateBookingCommand request, CancellationToken cancellationToken)
+	public virtual async Task<BookingKeyDto?> Handle(UpdateBookingCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

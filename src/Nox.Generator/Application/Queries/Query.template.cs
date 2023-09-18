@@ -22,7 +22,7 @@ public partial class Get{{entity.PluralName}}QueryHandler: Get{{entity.PluralNam
     }
 }
 
-public partial class Get{{entity.PluralName}}QueryHandlerBase : QueryBase<IQueryable<{{entity.Name}}Dto>>, IRequestHandler<Get{{entity.PluralName}}Query, IQueryable<{{entity.Name}}Dto>>
+public abstract class Get{{entity.PluralName}}QueryHandlerBase : QueryBase<IQueryable<{{entity.Name}}Dto>>, IRequestHandler<Get{{entity.PluralName}}Query, IQueryable<{{entity.Name}}Dto>>
 {
     public  Get{{entity.PluralName}}QueryHandlerBase(DtoDbContext dataDbContext)
     {

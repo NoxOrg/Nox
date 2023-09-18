@@ -22,7 +22,7 @@ public partial class GetTransactionsQueryHandler: GetTransactionsQueryHandlerBas
     }
 }
 
-public partial class GetTransactionsQueryHandlerBase : QueryBase<IQueryable<TransactionDto>>, IRequestHandler<GetTransactionsQuery, IQueryable<TransactionDto>>
+public abstract class GetTransactionsQueryHandlerBase : QueryBase<IQueryable<TransactionDto>>, IRequestHandler<GetTransactionsQuery, IQueryable<TransactionDto>>
 {
     public  GetTransactionsQueryHandlerBase(DtoDbContext dataDbContext)
     {

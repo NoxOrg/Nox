@@ -16,12 +16,22 @@ namespace ClientApi.Application.Commands;
 public record UpdateEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto, EmailAddressUpdateDto EntityDto, System.Guid? Etag) : IRequest <EmailAddressKeyDto?>;
 
 
-public partial class UpdateEmailAddressForStoreCommandHandler: CommandBase<UpdateEmailAddressForStoreCommand, EmailAddress>, IRequestHandler <UpdateEmailAddressForStoreCommand, EmailAddressKeyDto?>
+public partial class UpdateEmailAddressForStoreCommandHandler: UpdateEmailAddressForStoreCommandHandlerBase
+{
+	public UpdateEmailAddressForStoreCommandHandler(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<EmailAddress> entityMapper): base(dbContext ,noxSolution, serviceProvider, entityMapper)
+	{
+	}
+}
+public abstract class UpdateEmailAddressForStoreCommandHandlerBase: CommandBase<UpdateEmailAddressForStoreCommand, EmailAddress>, IRequestHandler <UpdateEmailAddressForStoreCommand, EmailAddressKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<EmailAddress> EntityMapper { get; }
 
-	public UpdateEmailAddressForStoreCommandHandler(
+	public UpdateEmailAddressForStoreCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -31,7 +41,7 @@ public partial class UpdateEmailAddressForStoreCommandHandler: CommandBase<Updat
 		EntityMapper = entityMapper;
 	}
 
-	public async Task<EmailAddressKeyDto?> Handle(UpdateEmailAddressForStoreCommand request, CancellationToken cancellationToken)
+	public virtual async Task<EmailAddressKeyDto?> Handle(UpdateEmailAddressForStoreCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

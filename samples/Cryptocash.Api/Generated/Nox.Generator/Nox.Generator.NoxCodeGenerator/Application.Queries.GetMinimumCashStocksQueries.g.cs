@@ -22,7 +22,7 @@ public partial class GetMinimumCashStocksQueryHandler: GetMinimumCashStocksQuery
     }
 }
 
-public partial class GetMinimumCashStocksQueryHandlerBase : QueryBase<IQueryable<MinimumCashStockDto>>, IRequestHandler<GetMinimumCashStocksQuery, IQueryable<MinimumCashStockDto>>
+public abstract class GetMinimumCashStocksQueryHandlerBase : QueryBase<IQueryable<MinimumCashStockDto>>, IRequestHandler<GetMinimumCashStocksQuery, IQueryable<MinimumCashStockDto>>
 {
     public  GetMinimumCashStocksQueryHandlerBase(DtoDbContext dataDbContext)
     {

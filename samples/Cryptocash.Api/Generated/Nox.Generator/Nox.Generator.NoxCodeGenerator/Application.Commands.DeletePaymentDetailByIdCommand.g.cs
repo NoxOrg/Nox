@@ -15,11 +15,20 @@ namespace Cryptocash.Application.Commands;
 
 public record DeletePaymentDetailByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
-public class DeletePaymentDetailByIdCommandHandler: CommandBase<DeletePaymentDetailByIdCommand,PaymentDetail>, IRequestHandler<DeletePaymentDetailByIdCommand, bool>
+public class DeletePaymentDetailByIdCommandHandler:DeletePaymentDetailByIdCommandHandlerBase
+{
+	public DeletePaymentDetailByIdCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+	{
+	}
+}
+public abstract class DeletePaymentDetailByIdCommandHandlerBase: CommandBase<DeletePaymentDetailByIdCommand,PaymentDetail>, IRequestHandler<DeletePaymentDetailByIdCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public DeletePaymentDetailByIdCommandHandler(
+	public DeletePaymentDetailByIdCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -27,7 +36,7 @@ public class DeletePaymentDetailByIdCommandHandler: CommandBase<DeletePaymentDet
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeletePaymentDetailByIdCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeletePaymentDetailByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

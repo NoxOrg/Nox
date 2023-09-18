@@ -15,11 +15,20 @@ namespace Cryptocash.Application.Commands;
 
 public record DeleteBookingByIdCommand(System.Guid keyId, System.Guid? Etag) : IRequest<bool>;
 
-public class DeleteBookingByIdCommandHandler: CommandBase<DeleteBookingByIdCommand,Booking>, IRequestHandler<DeleteBookingByIdCommand, bool>
+public class DeleteBookingByIdCommandHandler:DeleteBookingByIdCommandHandlerBase
+{
+	public DeleteBookingByIdCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+	{
+	}
+}
+public abstract class DeleteBookingByIdCommandHandlerBase: CommandBase<DeleteBookingByIdCommand,Booking>, IRequestHandler<DeleteBookingByIdCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public DeleteBookingByIdCommandHandler(
+	public DeleteBookingByIdCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -27,7 +36,7 @@ public class DeleteBookingByIdCommandHandler: CommandBase<DeleteBookingByIdComma
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeleteBookingByIdCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteBookingByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

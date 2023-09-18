@@ -22,7 +22,7 @@ public partial class GetCommissionByIdQueryHandler:GetCommissionByIdQueryHandler
     }
 }
 
-public partial class GetCommissionByIdQueryHandlerBase:  QueryBase<IQueryable<CommissionDto>>, IRequestHandler<GetCommissionByIdQuery, IQueryable<CommissionDto>>
+public abstract class GetCommissionByIdQueryHandlerBase:  QueryBase<IQueryable<CommissionDto>>, IRequestHandler<GetCommissionByIdQuery, IQueryable<CommissionDto>>
 {
     public  GetCommissionByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {

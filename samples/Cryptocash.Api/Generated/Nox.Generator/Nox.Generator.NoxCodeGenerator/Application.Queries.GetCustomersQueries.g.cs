@@ -22,7 +22,7 @@ public partial class GetCustomersQueryHandler: GetCustomersQueryHandlerBase
     }
 }
 
-public partial class GetCustomersQueryHandlerBase : QueryBase<IQueryable<CustomerDto>>, IRequestHandler<GetCustomersQuery, IQueryable<CustomerDto>>
+public abstract class GetCustomersQueryHandlerBase : QueryBase<IQueryable<CustomerDto>>, IRequestHandler<GetCustomersQuery, IQueryable<CustomerDto>>
 {
     public  GetCustomersQueryHandlerBase(DtoDbContext dataDbContext)
     {
