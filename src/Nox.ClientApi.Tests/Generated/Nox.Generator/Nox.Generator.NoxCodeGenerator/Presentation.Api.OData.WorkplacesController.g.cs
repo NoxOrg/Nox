@@ -136,4 +136,25 @@ public abstract class WorkplacesControllerBase : ODataController
         
         return NoContent();
     }
+    
+    #region Relationships
+    
+    public async Task<ActionResult> CreateRefToBelongsToCountry([FromRoute] System.UInt32 key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefWorkplaceToBelongsToCountryCommand(new WorkplaceKeyDto(key), new CountryKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    #endregion
+    
 }

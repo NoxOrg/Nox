@@ -14,20 +14,12 @@ using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
 public record DeleteCountryTimeZoneForCountryCommand(CountryKeyDto ParentKeyDto, CountryTimeZoneKeyDto EntityKeyDto) : IRequest <bool>;
-public abstract class DeleteCountryTimeZoneForCountryCommandHandler: DeleteCountryTimeZoneForCountryCommandHandlerBase
-{
-	public DeleteCountryTimeZoneForCountryCommandHandler(
-		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
-	{
-	}
-}
-public abstract class DeleteCountryTimeZoneForCountryCommandHandlerBase: CommandBase<DeleteCountryTimeZoneForCountryCommand, CountryTimeZone>, IRequestHandler <DeleteCountryTimeZoneForCountryCommand, bool>
+
+public partial class DeleteCountryTimeZoneForCountryCommandHandler: CommandBase<DeleteCountryTimeZoneForCountryCommand, CountryTimeZone>, IRequestHandler <DeleteCountryTimeZoneForCountryCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public DeleteCountryTimeZoneForCountryCommandHandlerBase(
+	public DeleteCountryTimeZoneForCountryCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -35,7 +27,7 @@ public abstract class DeleteCountryTimeZoneForCountryCommandHandlerBase: Command
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<bool> Handle(DeleteCountryTimeZoneForCountryCommand request, CancellationToken cancellationToken)
+	public async Task<bool> Handle(DeleteCountryTimeZoneForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

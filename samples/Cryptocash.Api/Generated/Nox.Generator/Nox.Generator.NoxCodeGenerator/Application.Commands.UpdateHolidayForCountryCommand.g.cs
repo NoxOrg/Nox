@@ -15,22 +15,12 @@ using Cryptocash.Application.Dto;
 namespace Cryptocash.Application.Commands;
 public record UpdateHolidayForCountryCommand(CountryKeyDto ParentKeyDto, HolidayKeyDto EntityKeyDto, HolidayUpdateDto EntityDto, System.Guid? Etag) : IRequest <HolidayKeyDto?>;
 
-public partial class UpdateHolidayForCountryCommandHandler: UpdateHolidayForCountryCommandHandlerBase
-{
-	public UpdateHolidayForCountryCommandHandler(
-		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityMapper<Holiday> entityMapper): base(dbContext ,noxSolution, serviceProvider, entityMapper)
-	{
-	}
-}
-public abstract class UpdateHolidayForCountryCommandHandlerBase: CommandBase<UpdateHolidayForCountryCommand, Holiday>, IRequestHandler <UpdateHolidayForCountryCommand, HolidayKeyDto?>
+public partial class UpdateHolidayForCountryCommandHandler: CommandBase<UpdateHolidayForCountryCommand, Holiday>, IRequestHandler <UpdateHolidayForCountryCommand, HolidayKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<Holiday> EntityMapper { get; }
 
-	public UpdateHolidayForCountryCommandHandlerBase(
+	public UpdateHolidayForCountryCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -40,7 +30,7 @@ public abstract class UpdateHolidayForCountryCommandHandlerBase: CommandBase<Upd
 		EntityMapper = entityMapper;
 	}
 
-	public virtual async Task<HolidayKeyDto?> Handle(UpdateHolidayForCountryCommand request, CancellationToken cancellationToken)
+	public async Task<HolidayKeyDto?> Handle(UpdateHolidayForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

@@ -15,22 +15,11 @@ using ClientApi.Application.Dto;
 namespace ClientApi.Application.Commands;
 public record DeleteCountryLocalNameForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameKeyDto EntityKeyDto) : IRequest <bool>;
 
-public partial class DeleteCountryLocalNameForCountryCommandHandler: DeleteCountryLocalNameForCountryCommandHandlerBase
-{
-	public DeleteCountryLocalNameForCountryCommandHandler(
-		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
-	{
-	}
-
-}
-
-public partial class DeleteCountryLocalNameForCountryCommandHandlerBase: CommandBase<DeleteCountryLocalNameForCountryCommand, CountryLocalName>, IRequestHandler<DeleteCountryLocalNameForCountryCommand, bool>
+public partial class DeleteCountryLocalNameForCountryCommandHandler: CommandBase<DeleteCountryLocalNameForCountryCommand, CountryLocalName>, IRequestHandler <DeleteCountryLocalNameForCountryCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 
-	public DeleteCountryLocalNameForCountryCommandHandlerBase(
+	public DeleteCountryLocalNameForCountryCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)

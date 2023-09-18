@@ -13,6 +13,7 @@ namespace ClientApi.Tests.Tests.Controllers
     {
         private const string EntityPluralName = "countries";
         private const string EntityUrl = $"api/{EntityPluralName}";
+        private const string WorkplacesUrl = $"api/workplaces";
 
         public CountriesControllerTests(NoxTestContainerService containerService) : base(containerService)
         {
@@ -533,6 +534,38 @@ namespace ClientApi.Tests.Tests.Controllers
             getCountryResponse!.PhysicalWorkplaces.Should().NotBeNull();
             getCountryResponse!.PhysicalWorkplaces!.Should()
                 .HaveCount(3)
+                    .And
+                .AllSatisfy(x => x.Name.Should().NotBeNullOrEmpty());
+        }
+        #endregion
+
+        #region POST Create ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedEntityKey} => api/countries/1/PhysicalWorkplaces/1/$ref
+        [Fact]
+        public async Task Post_CreateRefToPhysicalWorkplaces_Success()
+        {
+            // Arrange
+            var countryCreateDto = new CountryCreateDto { Name = _fixture.Create<string>() };
+            var workplaceCreateDto = new WorkplaceCreateDto() { Name = _fixture.Create<string>() };
+
+            // Act
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, countryCreateDto);
+            var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(WorkplacesUrl, workplaceCreateDto);
+            var createRefResponse = await PostAsync($"{EntityUrl}/{countryResponse!.Id}/physicalworkplaces/{workplaceResponse!.Id}/$ref");
+            
+            const string oDataRequest = $"$expand={nameof(CountryDto.PhysicalWorkplaces)}";
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{countryResponse!.Id}?{oDataRequest}");
+
+            //Assert
+            countryResponse.Should().NotBeNull();
+            countryResponse!.Id.Should().BeGreaterThan(0);
+            workplaceResponse.Should().NotBeNull();
+            workplaceResponse!.Id.Should().BeGreaterThan(0);
+
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.PhysicalWorkplaces.Should().NotBeNull();
+            getCountryResponse!.PhysicalWorkplaces!.Should()
+                .HaveCount(1)
                     .And
                 .AllSatisfy(x => x.Name.Should().NotBeNullOrEmpty());
         }

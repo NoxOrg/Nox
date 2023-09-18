@@ -136,4 +136,41 @@ public abstract class TransactionsControllerBase : ODataController
         
         return NoContent();
     }
+    
+    #region Relationships
+    
+    public async Task<ActionResult> CreateRefToTransactionForCustomer([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefTransactionToTransactionForCustomerCommand(new TransactionKeyDto(key), new CustomerKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> CreateRefToTransactionForBooking([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefTransactionToTransactionForBookingCommand(new TransactionKeyDto(key), new BookingKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    #endregion
+    
 }
