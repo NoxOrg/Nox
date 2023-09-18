@@ -89,7 +89,6 @@ public abstract class CountryCreateDtoBase : IEntityCreateDto<Country>
     /// <summary>
     /// Country used by ExactlyOne Currencies
     /// </summary>
-    [Required(ErrorMessage = "CountryUsedByCurrency is required")]
     public virtual CurrencyCreateDto CountryUsedByCurrency { get; set; } = null!;
 
     /// <summary>

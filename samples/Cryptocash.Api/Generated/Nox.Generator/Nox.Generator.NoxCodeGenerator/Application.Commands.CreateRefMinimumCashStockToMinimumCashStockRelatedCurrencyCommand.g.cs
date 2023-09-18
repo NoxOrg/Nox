@@ -17,14 +17,26 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateRefMinimumCashStockToMinimumCashStockRelatedCurrencyCommand(MinimumCashStockKeyDto EntityKeyDto, CurrencyKeyDto RelatedEntityKeyDto) : IRequest <bool>;
 
-public partial class CreateRefMinimumCashStockToMinimumCashStockRelatedCurrencyCommandHandler: CommandBase<CreateRefMinimumCashStockToMinimumCashStockRelatedCurrencyCommand, MinimumCashStock>, 
+public partial class CreateRefMinimumCashStockToMinimumCashStockRelatedCurrencyCommandHandler: CreateRefMinimumCashStockToMinimumCashStockRelatedCurrencyCommandHandlerBase
+{
+	public CreateRefMinimumCashStockToMinimumCashStockRelatedCurrencyCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider)
+	{ }
+}
+
+public abstract class CreateRefMinimumCashStockToMinimumCashStockRelatedCurrencyCommandHandlerBase: CommandBase<CreateRefMinimumCashStockToMinimumCashStockRelatedCurrencyCommand, MinimumCashStock>, 
 	IRequestHandler <CreateRefMinimumCashStockToMinimumCashStockRelatedCurrencyCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public CreateRefMinimumCashStockToMinimumCashStockRelatedCurrencyCommandHandler(
+	public CreateRefMinimumCashStockToMinimumCashStockRelatedCurrencyCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -32,7 +44,7 @@ public partial class CreateRefMinimumCashStockToMinimumCashStockRelatedCurrencyC
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(CreateRefMinimumCashStockToMinimumCashStockRelatedCurrencyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(CreateRefMinimumCashStockToMinimumCashStockRelatedCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<MinimumCashStock, Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);

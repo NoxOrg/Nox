@@ -17,14 +17,26 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateRefBookingToBookingRelatedTransactionCommand(BookingKeyDto EntityKeyDto, TransactionKeyDto RelatedEntityKeyDto) : IRequest <bool>;
 
-public partial class CreateRefBookingToBookingRelatedTransactionCommandHandler: CommandBase<CreateRefBookingToBookingRelatedTransactionCommand, Booking>, 
+public partial class CreateRefBookingToBookingRelatedTransactionCommandHandler: CreateRefBookingToBookingRelatedTransactionCommandHandlerBase
+{
+	public CreateRefBookingToBookingRelatedTransactionCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider)
+	{ }
+}
+
+public abstract class CreateRefBookingToBookingRelatedTransactionCommandHandlerBase: CommandBase<CreateRefBookingToBookingRelatedTransactionCommand, Booking>, 
 	IRequestHandler <CreateRefBookingToBookingRelatedTransactionCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public CreateRefBookingToBookingRelatedTransactionCommandHandler(
+	public CreateRefBookingToBookingRelatedTransactionCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -32,7 +44,7 @@ public partial class CreateRefBookingToBookingRelatedTransactionCommandHandler: 
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(CreateRefBookingToBookingRelatedTransactionCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(CreateRefBookingToBookingRelatedTransactionCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Booking, Nox.Types.Guid>("Id", request.EntityKeyDto.keyId);

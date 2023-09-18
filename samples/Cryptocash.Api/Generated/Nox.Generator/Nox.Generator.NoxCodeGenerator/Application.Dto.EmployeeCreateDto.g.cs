@@ -62,7 +62,6 @@ public abstract class EmployeeCreateDtoBase : IEntityCreateDto<Employee>
     /// <summary>
     /// Employee reviewing ExactlyOne CashStockOrders
     /// </summary>
-    [Required(ErrorMessage = "EmployeeReviewingCashStockOrder is required")]
     public virtual CashStockOrderCreateDto EmployeeReviewingCashStockOrder { get; set; } = null!;
 
     /// <summary>

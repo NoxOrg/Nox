@@ -17,14 +17,26 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateRefVendingMachineToVendingMachineRequiredMinimumCashStocksCommand(VendingMachineKeyDto EntityKeyDto, MinimumCashStockKeyDto RelatedEntityKeyDto) : IRequest <bool>;
 
-public partial class CreateRefVendingMachineToVendingMachineRequiredMinimumCashStocksCommandHandler: CommandBase<CreateRefVendingMachineToVendingMachineRequiredMinimumCashStocksCommand, VendingMachine>, 
+public partial class CreateRefVendingMachineToVendingMachineRequiredMinimumCashStocksCommandHandler: CreateRefVendingMachineToVendingMachineRequiredMinimumCashStocksCommandHandlerBase
+{
+	public CreateRefVendingMachineToVendingMachineRequiredMinimumCashStocksCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider)
+	{ }
+}
+
+public abstract class CreateRefVendingMachineToVendingMachineRequiredMinimumCashStocksCommandHandlerBase: CommandBase<CreateRefVendingMachineToVendingMachineRequiredMinimumCashStocksCommand, VendingMachine>, 
 	IRequestHandler <CreateRefVendingMachineToVendingMachineRequiredMinimumCashStocksCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public CreateRefVendingMachineToVendingMachineRequiredMinimumCashStocksCommandHandler(
+	public CreateRefVendingMachineToVendingMachineRequiredMinimumCashStocksCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -32,7 +44,7 @@ public partial class CreateRefVendingMachineToVendingMachineRequiredMinimumCashS
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(CreateRefVendingMachineToVendingMachineRequiredMinimumCashStocksCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(CreateRefVendingMachineToVendingMachineRequiredMinimumCashStocksCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<VendingMachine, Nox.Types.Guid>("Id", request.EntityKeyDto.keyId);

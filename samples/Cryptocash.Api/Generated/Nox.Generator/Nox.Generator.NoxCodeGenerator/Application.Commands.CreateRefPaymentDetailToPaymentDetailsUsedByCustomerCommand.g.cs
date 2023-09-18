@@ -17,14 +17,26 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateRefPaymentDetailToPaymentDetailsUsedByCustomerCommand(PaymentDetailKeyDto EntityKeyDto, CustomerKeyDto RelatedEntityKeyDto) : IRequest <bool>;
 
-public partial class CreateRefPaymentDetailToPaymentDetailsUsedByCustomerCommandHandler: CommandBase<CreateRefPaymentDetailToPaymentDetailsUsedByCustomerCommand, PaymentDetail>, 
+public partial class CreateRefPaymentDetailToPaymentDetailsUsedByCustomerCommandHandler: CreateRefPaymentDetailToPaymentDetailsUsedByCustomerCommandHandlerBase
+{
+	public CreateRefPaymentDetailToPaymentDetailsUsedByCustomerCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider)
+	{ }
+}
+
+public abstract class CreateRefPaymentDetailToPaymentDetailsUsedByCustomerCommandHandlerBase: CommandBase<CreateRefPaymentDetailToPaymentDetailsUsedByCustomerCommand, PaymentDetail>, 
 	IRequestHandler <CreateRefPaymentDetailToPaymentDetailsUsedByCustomerCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public CreateRefPaymentDetailToPaymentDetailsUsedByCustomerCommandHandler(
+	public CreateRefPaymentDetailToPaymentDetailsUsedByCustomerCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -32,7 +44,7 @@ public partial class CreateRefPaymentDetailToPaymentDetailsUsedByCustomerCommand
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(CreateRefPaymentDetailToPaymentDetailsUsedByCustomerCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(CreateRefPaymentDetailToPaymentDetailsUsedByCustomerCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<PaymentDetail, Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);

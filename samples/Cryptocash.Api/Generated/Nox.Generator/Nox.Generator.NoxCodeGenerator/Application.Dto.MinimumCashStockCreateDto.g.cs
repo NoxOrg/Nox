@@ -39,6 +39,5 @@ public abstract class MinimumCashStockCreateDtoBase : IEntityCreateDto<MinimumCa
     /// <summary>
     /// MinimumCashStock related to ExactlyOne Currencies
     /// </summary>
-    [Required(ErrorMessage = "MinimumCashStockRelatedCurrency is required")]
     public virtual CurrencyCreateDto MinimumCashStockRelatedCurrency { get; set; } = null!;
 }

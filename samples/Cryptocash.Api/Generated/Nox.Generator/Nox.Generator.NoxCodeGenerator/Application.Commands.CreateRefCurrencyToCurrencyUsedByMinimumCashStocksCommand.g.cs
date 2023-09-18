@@ -17,14 +17,26 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommand(CurrencyKeyDto EntityKeyDto, MinimumCashStockKeyDto RelatedEntityKeyDto) : IRequest <bool>;
 
-public partial class CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandler: CommandBase<CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommand, Currency>, 
+public partial class CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandler: CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandlerBase
+{
+	public CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider)
+	{ }
+}
+
+public abstract class CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandlerBase: CommandBase<CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommand, Currency>, 
 	IRequestHandler <CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandler(
+	public CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -32,7 +44,7 @@ public partial class CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHa
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Currency, Nox.Types.CurrencyCode3>("Id", request.EntityKeyDto.keyId);

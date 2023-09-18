@@ -17,14 +17,26 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand(MinimumCashStockKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto) : IRequest <bool>;
 
-public partial class CreateRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandler: CommandBase<CreateRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand, MinimumCashStock>, 
+public partial class CreateRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandler: CreateRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandlerBase
+{
+	public CreateRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider)
+	{ }
+}
+
+public abstract class CreateRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandlerBase: CommandBase<CreateRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand, MinimumCashStock>, 
 	IRequestHandler <CreateRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public CreateRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandler(
+	public CreateRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -32,7 +44,7 @@ public partial class CreateRefMinimumCashStockToMinimumCashStocksRequiredByVendi
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(CreateRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(CreateRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<MinimumCashStock, Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);

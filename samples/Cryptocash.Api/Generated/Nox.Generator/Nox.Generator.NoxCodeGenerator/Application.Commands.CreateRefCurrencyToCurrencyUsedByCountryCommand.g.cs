@@ -17,14 +17,26 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateRefCurrencyToCurrencyUsedByCountryCommand(CurrencyKeyDto EntityKeyDto, CountryKeyDto RelatedEntityKeyDto) : IRequest <bool>;
 
-public partial class CreateRefCurrencyToCurrencyUsedByCountryCommandHandler: CommandBase<CreateRefCurrencyToCurrencyUsedByCountryCommand, Currency>, 
+public partial class CreateRefCurrencyToCurrencyUsedByCountryCommandHandler: CreateRefCurrencyToCurrencyUsedByCountryCommandHandlerBase
+{
+	public CreateRefCurrencyToCurrencyUsedByCountryCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider)
+	{ }
+}
+
+public abstract class CreateRefCurrencyToCurrencyUsedByCountryCommandHandlerBase: CommandBase<CreateRefCurrencyToCurrencyUsedByCountryCommand, Currency>, 
 	IRequestHandler <CreateRefCurrencyToCurrencyUsedByCountryCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public CreateRefCurrencyToCurrencyUsedByCountryCommandHandler(
+	public CreateRefCurrencyToCurrencyUsedByCountryCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -32,7 +44,7 @@ public partial class CreateRefCurrencyToCurrencyUsedByCountryCommandHandler: Com
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(CreateRefCurrencyToCurrencyUsedByCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(CreateRefCurrencyToCurrencyUsedByCountryCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Currency, Nox.Types.CurrencyCode3>("Id", request.EntityKeyDto.keyId);

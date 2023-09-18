@@ -17,14 +17,26 @@ using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
+
 public record CreateRef{{entity.Name}}To{{relationship.Name}}Command({{entity.Name}}KeyDto EntityKeyDto, {{relatedEntity.Name}}KeyDto RelatedEntityKeyDto) : IRequest <bool>;
 
-public partial class CreateRef{{entity.Name}}To{{relationship.Name}}CommandHandler: CommandBase<CreateRef{{entity.Name}}To{{relationship.Name}}Command, {{entity.Name}}>, 
+public partial class CreateRef{{entity.Name}}To{{relationship.Name}}CommandHandler: CreateRef{{entity.Name}}To{{relationship.Name}}CommandHandlerBase
+{
+	public CreateRef{{entity.Name}}To{{relationship.Name}}CommandHandler(
+		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider)
+	{ }
+}
+
+public abstract class CreateRef{{entity.Name}}To{{relationship.Name}}CommandHandlerBase: CommandBase<CreateRef{{entity.Name}}To{{relationship.Name}}Command, {{entity.Name}}>, 
 	IRequestHandler <CreateRef{{entity.Name}}To{{relationship.Name}}Command, bool>
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
 
-	public CreateRef{{entity.Name}}To{{relationship.Name}}CommandHandler(
+	public CreateRef{{entity.Name}}To{{relationship.Name}}CommandHandlerBase(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -32,7 +44,7 @@ public partial class CreateRef{{entity.Name}}To{{relationship.Name}}CommandHandl
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(CreateRef{{entity.Name}}To{{relationship.Name}}Command request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(CreateRef{{entity.Name}}To{{relationship.Name}}Command request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 

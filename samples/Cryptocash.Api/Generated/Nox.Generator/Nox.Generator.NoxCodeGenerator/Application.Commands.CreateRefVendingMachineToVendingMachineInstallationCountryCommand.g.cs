@@ -17,14 +17,26 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateRefVendingMachineToVendingMachineInstallationCountryCommand(VendingMachineKeyDto EntityKeyDto, CountryKeyDto RelatedEntityKeyDto) : IRequest <bool>;
 
-public partial class CreateRefVendingMachineToVendingMachineInstallationCountryCommandHandler: CommandBase<CreateRefVendingMachineToVendingMachineInstallationCountryCommand, VendingMachine>, 
+public partial class CreateRefVendingMachineToVendingMachineInstallationCountryCommandHandler: CreateRefVendingMachineToVendingMachineInstallationCountryCommandHandlerBase
+{
+	public CreateRefVendingMachineToVendingMachineInstallationCountryCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider)
+	{ }
+}
+
+public abstract class CreateRefVendingMachineToVendingMachineInstallationCountryCommandHandlerBase: CommandBase<CreateRefVendingMachineToVendingMachineInstallationCountryCommand, VendingMachine>, 
 	IRequestHandler <CreateRefVendingMachineToVendingMachineInstallationCountryCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public CreateRefVendingMachineToVendingMachineInstallationCountryCommandHandler(
+	public CreateRefVendingMachineToVendingMachineInstallationCountryCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -32,7 +44,7 @@ public partial class CreateRefVendingMachineToVendingMachineInstallationCountryC
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(CreateRefVendingMachineToVendingMachineInstallationCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(CreateRefVendingMachineToVendingMachineInstallationCountryCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<VendingMachine, Nox.Types.Guid>("Id", request.EntityKeyDto.keyId);

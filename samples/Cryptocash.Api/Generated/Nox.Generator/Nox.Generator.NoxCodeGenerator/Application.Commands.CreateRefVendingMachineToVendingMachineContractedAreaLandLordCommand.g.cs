@@ -17,14 +17,26 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateRefVendingMachineToVendingMachineContractedAreaLandLordCommand(VendingMachineKeyDto EntityKeyDto, LandLordKeyDto RelatedEntityKeyDto) : IRequest <bool>;
 
-public partial class CreateRefVendingMachineToVendingMachineContractedAreaLandLordCommandHandler: CommandBase<CreateRefVendingMachineToVendingMachineContractedAreaLandLordCommand, VendingMachine>, 
+public partial class CreateRefVendingMachineToVendingMachineContractedAreaLandLordCommandHandler: CreateRefVendingMachineToVendingMachineContractedAreaLandLordCommandHandlerBase
+{
+	public CreateRefVendingMachineToVendingMachineContractedAreaLandLordCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider)
+	{ }
+}
+
+public abstract class CreateRefVendingMachineToVendingMachineContractedAreaLandLordCommandHandlerBase: CommandBase<CreateRefVendingMachineToVendingMachineContractedAreaLandLordCommand, VendingMachine>, 
 	IRequestHandler <CreateRefVendingMachineToVendingMachineContractedAreaLandLordCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public CreateRefVendingMachineToVendingMachineContractedAreaLandLordCommandHandler(
+	public CreateRefVendingMachineToVendingMachineContractedAreaLandLordCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -32,7 +44,7 @@ public partial class CreateRefVendingMachineToVendingMachineContractedAreaLandLo
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(CreateRefVendingMachineToVendingMachineContractedAreaLandLordCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(CreateRefVendingMachineToVendingMachineContractedAreaLandLordCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<VendingMachine, Nox.Types.Guid>("Id", request.EntityKeyDto.keyId);
