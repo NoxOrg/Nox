@@ -12,9 +12,9 @@ using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.Application.Queries;
 
-public record GetMinimumCashStockByIdQuery(System.Int64 keyId) : IRequest <MinimumCashStockDto?>;
+public record GetMinimumCashStockByIdQuery(System.Int64 keyId) : IRequest <IQueryable<MinimumCashStockDto>>;
 
-public partial class GetMinimumCashStockByIdQueryHandler:  QueryBase<MinimumCashStockDto?>, IRequestHandler<GetMinimumCashStockByIdQuery, MinimumCashStockDto?>
+public partial class GetMinimumCashStockByIdQueryHandler:  QueryBase<IQueryable<MinimumCashStockDto>>, IRequestHandler<GetMinimumCashStockByIdQuery, IQueryable<MinimumCashStockDto>>
 {
     public  GetMinimumCashStockByIdQueryHandler(DtoDbContext dataDbContext)
     {
@@ -23,15 +23,13 @@ public partial class GetMinimumCashStockByIdQueryHandler:  QueryBase<MinimumCash
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<MinimumCashStockDto?> Handle(GetMinimumCashStockByIdQuery request, CancellationToken cancellationToken)
+    public Task<IQueryable<MinimumCashStockDto>> Handle(GetMinimumCashStockByIdQuery request, CancellationToken cancellationToken)
     {    
-        var item = DataDbContext.MinimumCashStocks
+        var query = DataDbContext.MinimumCashStocks
             .AsNoTracking()
-            .Include(r => r.MinimumCashStocksRequiredByVendingMachines)
-            .Include(r => r.MinimumCashStockRelatedCurrency)
-            .SingleOrDefault(r =>
+            .Where(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);
-        return Task.FromResult(OnResponse(item));
+        return Task.FromResult(OnResponse(query));
     }
 }

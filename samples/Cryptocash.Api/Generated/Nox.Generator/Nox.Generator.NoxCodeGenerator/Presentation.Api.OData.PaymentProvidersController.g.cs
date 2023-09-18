@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
@@ -56,16 +57,10 @@ public abstract class PaymentProvidersControllerBase : ODataController
     }
     
     [EnableQuery]
-    public async Task<ActionResult<PaymentProviderDto>> Get([FromRoute] System.Int64 key)
+    public async Task<SingleResult<PaymentProviderDto>> Get([FromRoute] System.Int64 key)
     {
-        var item = await _mediator.Send(new GetPaymentProviderByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
+        var query = await _mediator.Send(new GetPaymentProviderByIdQuery(key));
+        return SingleResult.Create(query);
     }
     
     public virtual async Task<ActionResult<PaymentProviderDto>> Post([FromBody]PaymentProviderCreateDto paymentProvider)
@@ -76,7 +71,7 @@ public abstract class PaymentProvidersControllerBase : ODataController
         }
         var createdKey = await _mediator.Send(new CreatePaymentProviderCommand(paymentProvider));
         
-        var item = await _mediator.Send(new GetPaymentProviderByIdQuery(createdKey.keyId));
+        var item = (await _mediator.Send(new GetPaymentProviderByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(item);
     }
@@ -96,7 +91,7 @@ public abstract class PaymentProvidersControllerBase : ODataController
             return NotFound();
         }
         
-        var item = await _mediator.Send(new GetPaymentProviderByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetPaymentProviderByIdQuery(updated.keyId))).SingleOrDefault();
         
         return Ok(item);
     }
@@ -125,7 +120,7 @@ public abstract class PaymentProvidersControllerBase : ODataController
         {
             return NotFound();
         }
-        var item = await _mediator.Send(new GetPaymentProviderByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetPaymentProviderByIdQuery(updated.keyId))).SingleOrDefault();
         return Ok(item);
     }
     

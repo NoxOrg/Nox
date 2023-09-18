@@ -776,82 +776,82 @@
             "content": {
               "application/json;odata.metadata=minimal;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=minimal;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=minimal": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "application/json;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "application/json;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "application/octet-stream": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               }
             }
@@ -3775,82 +3775,82 @@
             "content": {
               "application/json;odata.metadata=minimal;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=minimal;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=minimal": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "application/json;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "application/json;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "application/octet-stream": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               }
             }
@@ -4743,82 +4743,82 @@
             "content": {
               "application/json;odata.metadata=minimal;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=minimal;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=minimal": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "application/json;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "application/json;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "application/octet-stream": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               }
             }
@@ -6246,82 +6246,82 @@
             "content": {
               "application/json;odata.metadata=minimal;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=minimal;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=minimal": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "application/json;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "application/json;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "application/octet-stream": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               }
             }
@@ -7426,6 +7426,19 @@
             },
             "nullable": true,
             "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CountryDtoSingleResult": {
+        "type": "object",
+        "properties": {
+          "queryable": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CountryDto"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -9241,6 +9254,19 @@
         },
         "additionalProperties": false
       },
+      "StoreDtoSingleResult": {
+        "type": "object",
+        "properties": {
+          "queryable": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StoreDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "StoreOwnerCreateDto": {
         "required": [
           "id",
@@ -9350,6 +9376,19 @@
             },
             "nullable": true,
             "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "StoreOwnerDtoSingleResult": {
+        "type": "object",
+        "properties": {
+          "queryable": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StoreOwnerDto"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -10255,6 +10294,19 @@
             },
             "nullable": true,
             "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "WorkplaceDtoSingleResult": {
+        "type": "object",
+        "properties": {
+          "queryable": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkplaceDto"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false

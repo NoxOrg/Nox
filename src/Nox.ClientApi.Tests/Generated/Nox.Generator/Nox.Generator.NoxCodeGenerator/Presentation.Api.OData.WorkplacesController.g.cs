@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
@@ -56,16 +57,10 @@ public abstract class WorkplacesControllerBase : ODataController
     }
     
     [EnableQuery]
-    public async Task<ActionResult<WorkplaceDto>> Get([FromRoute] System.UInt32 key)
+    public async Task<SingleResult<WorkplaceDto>> Get([FromRoute] System.UInt32 key)
     {
-        var item = await _mediator.Send(new GetWorkplaceByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
+        var query = await _mediator.Send(new GetWorkplaceByIdQuery(key));
+        return SingleResult.Create(query);
     }
     
     public virtual async Task<ActionResult<WorkplaceDto>> Post([FromBody]WorkplaceCreateDto workplace)
@@ -76,7 +71,7 @@ public abstract class WorkplacesControllerBase : ODataController
         }
         var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace));
         
-        var item = await _mediator.Send(new GetWorkplaceByIdQuery(createdKey.keyId));
+        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(item);
     }
@@ -96,7 +91,7 @@ public abstract class WorkplacesControllerBase : ODataController
             return NotFound();
         }
         
-        var item = await _mediator.Send(new GetWorkplaceByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(updated.keyId))).SingleOrDefault();
         
         return Ok(item);
     }
@@ -125,7 +120,7 @@ public abstract class WorkplacesControllerBase : ODataController
         {
             return NotFound();
         }
-        var item = await _mediator.Send(new GetWorkplaceByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(updated.keyId))).SingleOrDefault();
         return Ok(item);
     }
     

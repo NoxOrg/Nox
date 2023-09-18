@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
@@ -56,16 +57,10 @@ public abstract class CurrenciesControllerBase : ODataController
     }
     
     [EnableQuery]
-    public async Task<ActionResult<CurrencyDto>> Get([FromRoute] System.String key)
+    public async Task<SingleResult<CurrencyDto>> Get([FromRoute] System.String key)
     {
-        var item = await _mediator.Send(new GetCurrencyByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
+        var query = await _mediator.Send(new GetCurrencyByIdQuery(key));
+        return SingleResult.Create(query);
     }
     
     public virtual async Task<ActionResult<CurrencyDto>> Post([FromBody]CurrencyCreateDto currency)
@@ -76,7 +71,7 @@ public abstract class CurrenciesControllerBase : ODataController
         }
         var createdKey = await _mediator.Send(new CreateCurrencyCommand(currency));
         
-        var item = await _mediator.Send(new GetCurrencyByIdQuery(createdKey.keyId));
+        var item = (await _mediator.Send(new GetCurrencyByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(item);
     }
@@ -96,7 +91,7 @@ public abstract class CurrenciesControllerBase : ODataController
             return NotFound();
         }
         
-        var item = await _mediator.Send(new GetCurrencyByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetCurrencyByIdQuery(updated.keyId))).SingleOrDefault();
         
         return Ok(item);
     }
@@ -125,7 +120,7 @@ public abstract class CurrenciesControllerBase : ODataController
         {
             return NotFound();
         }
-        var item = await _mediator.Send(new GetCurrencyByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetCurrencyByIdQuery(updated.keyId))).SingleOrDefault();
         return Ok(item);
     }
     
@@ -151,7 +146,7 @@ public abstract class CurrenciesControllerBase : ODataController
         {
             return BadRequest(ModelState);
         }
-        var item = await _mediator.Send(new GetCurrencyByIdQuery(key));
+        var item = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SingleOrDefault();
         
         if (item is null)
         {
@@ -276,7 +271,7 @@ public abstract class CurrenciesControllerBase : ODataController
     
     private async Task<BankNoteDto?> TryGetCurrencyCommonBankNotes(System.String key, BankNoteKeyDto childKeyDto)
     {
-        var parent = await _mediator.Send(new GetCurrencyByIdQuery(key));
+        var parent = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SingleOrDefault();
         return parent?.CurrencyCommonBankNotes.SingleOrDefault(x => x.Id == childKeyDto.keyId);
     }
     
@@ -287,7 +282,7 @@ public abstract class CurrenciesControllerBase : ODataController
         {
             return BadRequest(ModelState);
         }
-        var item = await _mediator.Send(new GetCurrencyByIdQuery(key));
+        var item = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SingleOrDefault();
         
         if (item is null)
         {
@@ -412,7 +407,7 @@ public abstract class CurrenciesControllerBase : ODataController
     
     private async Task<ExchangeRateDto?> TryGetCurrencyExchangedFromRates(System.String key, ExchangeRateKeyDto childKeyDto)
     {
-        var parent = await _mediator.Send(new GetCurrencyByIdQuery(key));
+        var parent = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SingleOrDefault();
         return parent?.CurrencyExchangedFromRates.SingleOrDefault(x => x.Id == childKeyDto.keyId);
     }
     

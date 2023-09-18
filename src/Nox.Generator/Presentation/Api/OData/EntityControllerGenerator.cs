@@ -58,6 +58,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             code.AppendLine($"using Microsoft.AspNetCore.Mvc;");
             code.AppendLine($"using Microsoft.AspNetCore.OData.Deltas;");
             code.AppendLine($"using Microsoft.AspNetCore.OData.Query;");
+            code.AppendLine($"using Microsoft.AspNetCore.OData.Results;");
             code.AppendLine($"using Microsoft.AspNetCore.OData.Routing.Controllers;");
             code.AppendLine($"using Microsoft.EntityFrameworkCore;");
             code.AppendLine("using MediatR;");
@@ -239,7 +240,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine($"return NotFound();");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine($"var item = await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity, "updated.key", true)}));");
+        code.AppendLine($"var item = (await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity, "updated.key", true)}))).SingleOrDefault();");
         code.AppendLine();
 
         code.AppendLine($"return Ok(item);");
@@ -288,7 +289,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.StartBlock();
         code.AppendLine($"return NotFound();");
         code.EndBlock();
-        code.AppendLine($"var item = await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity, "updated.key", true)}));");
+        code.AppendLine($"var item = (await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity, "updated.key", true)}))).SingleOrDefault();");
         code.AppendLine($"return Ok(item);");
 
         // End method
@@ -309,7 +310,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.EndBlock();
         code.AppendLine($"var createdKey = await _mediator.Send(new Create{entity.Name}Command({entity.Name.ToLowerFirstChar()}));");
         code.AppendLine();
-        code.AppendLine($"var item = await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity, "createdKey.key", true)}));");
+        code.AppendLine($"var item = (await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity, "createdKey.key", true)}))).SingleOrDefault();");
         code.AppendLine();
         
         code.AppendLine($"return Created(item);");
@@ -367,7 +368,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine($"private async Task<{child.Name}Dto?> TryGet{relationship.Name}({PrimaryKeysFromRoute(parent, solution, attributePrefix: "")}, {child.Name}KeyDto childKeyDto)");
 
         code.StartBlock();
-        code.AppendLine($"var parent = await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)}));");
+        code.AppendLine($"var parent = (await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)}))).SingleOrDefault();");
 
         var param = string.Join(" && ", child.Keys.Select(k => $"x.{k.Name} == childKeyDto.key{k.Name}"));
         code.AppendLine($"return parent?.{relationship.Name}.SingleOrDefault(x => {param});");
@@ -421,7 +422,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
 
-        code.AppendLine($"var item = await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)}));");
+        code.AppendLine($"var item = (await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)}))).SingleOrDefault();");
         code.AppendLine();
         code.AppendLine($"if (item is null)");
         code.StartBlock();
@@ -458,7 +459,9 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine();
 
         if (isSingleRelationship)
-            code.AppendLine($"var child = (await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)})))?.{relationship.Name};");
+            code.AppendLine($"var child = (await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)})))" +
+                $".SingleOrDefault()?" +
+                $".{relationship.Name};");
         else
             code.AppendLine($"var child = await TryGet{relationship.Name}({PrimaryKeysQuery(parent)}, createdKey);");
 
@@ -518,7 +521,9 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine();
 
         if (isSingleRelationship)
-            code.AppendLine($"var child = (await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)})))?.{relationship.Name};");
+            code.AppendLine($"var child = (await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)})))" +
+                $".SingleOrDefault()?" +
+                $".{relationship.Name};");
         else
             code.AppendLine($"var child = await TryGet{relationship.Name}({PrimaryKeysQuery(parent)}, updatedKey);");
 
@@ -589,7 +594,9 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.EndBlock();
 
         if (isSingleRelationship)
-            code.AppendLine($"var child = (await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)})))?.{relationship.Name};");
+            code.AppendLine($"var child = (await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)})))" +
+                $".SingleOrDefault()?" +
+                $".{relationship.Name};");
         else
             code.AppendLine($"var child = await TryGet{relationship.Name}({PrimaryKeysQuery(parent)}, updated);");
 
@@ -673,18 +680,12 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         // We do not support Compound types as primary keys, this is validated on the schema
         // Method Get
         code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"public async Task<ActionResult<{entity.Name}Dto>> Get({PrimaryKeysFromRoute(entity, solution)})");
+        code.AppendLine($"public async Task<SingleResult<{entity.Name}Dto>> Get({PrimaryKeysFromRoute(entity, solution)})");
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"var item = await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity)}));");
-        code.AppendLine();
-        code.AppendLine($"if (item == null)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
-        code.AppendLine();
-        code.AppendLine($"return Ok(item);");
+        code.AppendLine($"var query = await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity)}));");
+        code.AppendLine($"return SingleResult.Create(query);");
 
         // End method
         code.EndBlock();

@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
@@ -56,16 +57,10 @@ public abstract class LandLordsControllerBase : ODataController
     }
     
     [EnableQuery]
-    public async Task<ActionResult<LandLordDto>> Get([FromRoute] System.Int64 key)
+    public async Task<SingleResult<LandLordDto>> Get([FromRoute] System.Int64 key)
     {
-        var item = await _mediator.Send(new GetLandLordByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
+        var query = await _mediator.Send(new GetLandLordByIdQuery(key));
+        return SingleResult.Create(query);
     }
     
     public virtual async Task<ActionResult<LandLordDto>> Post([FromBody]LandLordCreateDto landLord)
@@ -76,7 +71,7 @@ public abstract class LandLordsControllerBase : ODataController
         }
         var createdKey = await _mediator.Send(new CreateLandLordCommand(landLord));
         
-        var item = await _mediator.Send(new GetLandLordByIdQuery(createdKey.keyId));
+        var item = (await _mediator.Send(new GetLandLordByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(item);
     }
@@ -96,7 +91,7 @@ public abstract class LandLordsControllerBase : ODataController
             return NotFound();
         }
         
-        var item = await _mediator.Send(new GetLandLordByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetLandLordByIdQuery(updated.keyId))).SingleOrDefault();
         
         return Ok(item);
     }
@@ -125,7 +120,7 @@ public abstract class LandLordsControllerBase : ODataController
         {
             return NotFound();
         }
-        var item = await _mediator.Send(new GetLandLordByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetLandLordByIdQuery(updated.keyId))).SingleOrDefault();
         return Ok(item);
     }
     
