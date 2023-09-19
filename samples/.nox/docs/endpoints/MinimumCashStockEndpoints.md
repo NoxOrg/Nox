@@ -43,7 +43,7 @@ This document provides information about the various endpoints available in our 
 #### Create VendingMachine relation
 - **POST** `/api/MinimumCashStocks/{key}/VendingMachines/{relatedKey}/$ref`
   - Description: Create a new VendingMachine relation for a specific MinimumCashStock.
-  
+
 #### Update VendingMachine relation
 - **PUT** `/api/MinimumCashStocks/{key}/VendingMachines/{relatedKey}/$ref`
   - Description: Update an existing VendingMachine relation for a specific MinimumCashStock.
@@ -69,7 +69,7 @@ This document provides information about the various endpoints available in our 
 #### Create Currency relation
 - **POST** `/api/MinimumCashStocks/{key}/Currencies/{relatedKey}/$ref`
   - Description: Create a new Currency relation for a specific MinimumCashStock.
-  
+
 #### Update Currency relation
 - **PUT** `/api/MinimumCashStocks/{key}/Currencies/{relatedKey}/$ref`
   - Description: Update an existing Currency relation for a specific MinimumCashStock.

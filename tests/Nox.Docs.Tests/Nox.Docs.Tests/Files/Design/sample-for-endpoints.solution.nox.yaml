@@ -89,7 +89,7 @@ domain:
           isEnabled: true
           raiseEvents: true
         delete:
-          isEnabled: true
+          isEnabled: false
           raiseEvents: true
 
       keys:
@@ -172,6 +172,19 @@ domain:
 
       persistence:
         isAudited: false
+        tableName: CountryLocalNames
+        schema: dbo
+        create:
+          isEnabled: true
+          raiseEvents: true
+        read:
+          isEnabled: true
+        update:
+          isEnabled: false
+          raiseEvents: true
+        delete:
+          isEnabled: true
+          raiseEvents: true
 
       keys:
         - name: Id

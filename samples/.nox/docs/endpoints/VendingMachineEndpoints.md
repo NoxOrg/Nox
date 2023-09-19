@@ -43,7 +43,7 @@ This document provides information about the various endpoints available in our 
 #### Create Country relation
 - **POST** `/api/VendingMachines/{key}/Countries/{relatedKey}/$ref`
   - Description: Create a new Country relation for a specific VendingMachine.
-  
+
 #### Update Country relation
 - **PUT** `/api/VendingMachines/{key}/Countries/{relatedKey}/$ref`
   - Description: Update an existing Country relation for a specific VendingMachine.
@@ -69,7 +69,7 @@ This document provides information about the various endpoints available in our 
 #### Create LandLord relation
 - **POST** `/api/VendingMachines/{key}/LandLords/{relatedKey}/$ref`
   - Description: Create a new LandLord relation for a specific VendingMachine.
-  
+
 #### Update LandLord relation
 - **PUT** `/api/VendingMachines/{key}/LandLords/{relatedKey}/$ref`
   - Description: Update an existing LandLord relation for a specific VendingMachine.
@@ -95,7 +95,7 @@ This document provides information about the various endpoints available in our 
 #### Create Booking relation
 - **POST** `/api/VendingMachines/{key}/Bookings/{relatedKey}/$ref`
   - Description: Create a new Booking relation for a specific VendingMachine.
-  
+
 #### Update Booking relation
 - **PUT** `/api/VendingMachines/{key}/Bookings/{relatedKey}/$ref`
   - Description: Update an existing Booking relation for a specific VendingMachine.
@@ -121,7 +121,7 @@ This document provides information about the various endpoints available in our 
 #### Create CashStockOrder relation
 - **POST** `/api/VendingMachines/{key}/CashStockOrders/{relatedKey}/$ref`
   - Description: Create a new CashStockOrder relation for a specific VendingMachine.
-  
+
 #### Update CashStockOrder relation
 - **PUT** `/api/VendingMachines/{key}/CashStockOrders/{relatedKey}/$ref`
   - Description: Update an existing CashStockOrder relation for a specific VendingMachine.
@@ -147,7 +147,7 @@ This document provides information about the various endpoints available in our 
 #### Create MinimumCashStock relation
 - **POST** `/api/VendingMachines/{key}/MinimumCashStocks/{relatedKey}/$ref`
   - Description: Create a new MinimumCashStock relation for a specific VendingMachine.
-  
+
 #### Update MinimumCashStock relation
 - **PUT** `/api/VendingMachines/{key}/MinimumCashStocks/{relatedKey}/$ref`
   - Description: Update an existing MinimumCashStock relation for a specific VendingMachine.

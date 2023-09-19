@@ -43,7 +43,7 @@ This document provides information about the various endpoints available in our 
 #### Create PaymentDetail relation
 - **POST** `/api/PaymentProviders/{key}/PaymentDetails/{relatedKey}/$ref`
   - Description: Create a new PaymentDetail relation for a specific PaymentProvider.
-  
+
 #### Update PaymentDetail relation
 - **PUT** `/api/PaymentProviders/{key}/PaymentDetails/{relatedKey}/$ref`
   - Description: Update an existing PaymentDetail relation for a specific PaymentProvider.

@@ -43,7 +43,7 @@ This document provides information about the various endpoints available in our 
 #### Create Country relation
 - **POST** `/api/Workplaces/{key}/Countries/{relatedKey}/$ref`
   - Description: Create a new Country relation for a specific Workplace.
-  
+
 #### Update Country relation
 - **PUT** `/api/Workplaces/{key}/Countries/{relatedKey}/$ref`
   - Description: Update an existing Country relation for a specific Workplace.
