@@ -15,22 +15,12 @@ using Cryptocash.Application.Dto;
 namespace Cryptocash.Application.Commands;
 public record UpdateEmployeePhoneNumberForEmployeeCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberKeyDto EntityKeyDto, EmployeePhoneNumberUpdateDto EntityDto, System.Guid? Etag) : IRequest <EmployeePhoneNumberKeyDto?>;
 
-public partial class UpdateEmployeePhoneNumberForEmployeeCommandHandler: UpdateEmployeePhoneNumberForEmployeeCommandHandlerBase
-{
-	public UpdateEmployeePhoneNumberForEmployeeCommandHandler(
-		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityMapper<EmployeePhoneNumber> entityMapper): base(dbContext ,noxSolution, serviceProvider, entityMapper)
-	{
-	}
-}
-public abstract class UpdateEmployeePhoneNumberForEmployeeCommandHandlerBase: CommandBase<UpdateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumber>, IRequestHandler <UpdateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumberKeyDto?>
+public partial class UpdateEmployeePhoneNumberForEmployeeCommandHandler: CommandBase<UpdateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumber>, IRequestHandler <UpdateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumberKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<EmployeePhoneNumber> EntityMapper { get; }
 
-	public UpdateEmployeePhoneNumberForEmployeeCommandHandlerBase(
+	public UpdateEmployeePhoneNumberForEmployeeCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -40,7 +30,7 @@ public abstract class UpdateEmployeePhoneNumberForEmployeeCommandHandlerBase: Co
 		EntityMapper = entityMapper;
 	}
 
-	public virtual async Task<EmployeePhoneNumberKeyDto?> Handle(UpdateEmployeePhoneNumberForEmployeeCommand request, CancellationToken cancellationToken)
+	public async Task<EmployeePhoneNumberKeyDto?> Handle(UpdateEmployeePhoneNumberForEmployeeCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

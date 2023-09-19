@@ -15,22 +15,12 @@ using Cryptocash.Application.Dto;
 namespace Cryptocash.Application.Commands;
 public record UpdateBankNoteForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteKeyDto EntityKeyDto, BankNoteUpdateDto EntityDto, System.Guid? Etag) : IRequest <BankNoteKeyDto?>;
 
-public partial class UpdateBankNoteForCurrencyCommandHandler: UpdateBankNoteForCurrencyCommandHandlerBase
-{
-	public UpdateBankNoteForCurrencyCommandHandler(
-		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityMapper<BankNote> entityMapper): base(dbContext ,noxSolution, serviceProvider, entityMapper)
-	{
-	}
-}
-public abstract class UpdateBankNoteForCurrencyCommandHandlerBase: CommandBase<UpdateBankNoteForCurrencyCommand, BankNote>, IRequestHandler <UpdateBankNoteForCurrencyCommand, BankNoteKeyDto?>
+public partial class UpdateBankNoteForCurrencyCommandHandler: CommandBase<UpdateBankNoteForCurrencyCommand, BankNote>, IRequestHandler <UpdateBankNoteForCurrencyCommand, BankNoteKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<BankNote> EntityMapper { get; }
 
-	public UpdateBankNoteForCurrencyCommandHandlerBase(
+	public UpdateBankNoteForCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -40,7 +30,7 @@ public abstract class UpdateBankNoteForCurrencyCommandHandlerBase: CommandBase<U
 		EntityMapper = entityMapper;
 	}
 
-	public virtual async Task<BankNoteKeyDto?> Handle(UpdateBankNoteForCurrencyCommand request, CancellationToken cancellationToken)
+	public async Task<BankNoteKeyDto?> Handle(UpdateBankNoteForCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

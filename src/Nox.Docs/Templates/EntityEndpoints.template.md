@@ -31,15 +31,15 @@ This document provides information about the various endpoints available in our 
 ## Owned Relationships Endpoints
 {{ for ownedRelationship in entity.OwnedRelationships }}
 ### {{ownedRelationship.Entity}}
-
+{{ if entity.Persistence.Read.IsEnabled && ownedRelationship.Related.Entity.Persistence.Read.IsEnabled }}
 #### Get {{ownedRelationship.EntityPlural}}
 - **GET** `/api/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}`
   - Description: Retrieve all {{ownedRelationship.EntityPlural}} for a specific {{entity.Name}}.
-  
+{{ end }}{{ if entity.Persistence.Create.IsEnabled && ownedRelationship.Related.Entity.Persistence.Create.IsEnabled }}
 #### Create {{ownedRelationship.Entity}}
 - **POST** `/api/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}/{relatedKey}`
   - Description: Create a new {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
-  
+{{ end }}{{ if entity.Persistence.Update.IsEnabled && ownedRelationship.Related.Entity.Persistence.Update.IsEnabled }}
 #### Update {{ownedRelationship.Entity}}
 - **PUT** `/api/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}/{relatedKey}`
   - Description: Update an existing {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
@@ -47,16 +47,16 @@ This document provides information about the various endpoints available in our 
 #### Partially Update {{ownedRelationship.Entity}}
 - **PATCH** `/api/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}/{relatedKey}`
   - Description: Partially update an existing {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
-
+{{ end }}{{ if entity.Persistence.Delete.IsEnabled && ownedRelationship.Related.Entity.Persistence.Delete.IsEnabled }}
 #### Delete {{ownedRelationship.Entity}}
 - **DELETE** `/api/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}/{relatedKey}`
   - Description: Delete an existing {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
-{{ end -}}
+{{ end }}{{ end -}}
 {{ end}}{{ if entity.Relationships | array.size > 0 }}
 ## Relationships Endpoints
 {{ for relationship in entity.Relationships }}
 ### {{relationship.Entity}}
-
+{{ if relationship.Related.Entity.Persistence.Read.IsEnabled }}
 #### Get {{relationship.Entity}} relation by ID
 - **GET** `/api/{{entity.PluralName}}/{key}/{{relationship.EntityPlural}}/{relatedKey}/$ref`
   - Description: Retrieve an existing {{relationship.EntityPlural}} relation for a specific {{entity.Name}}.
@@ -64,11 +64,11 @@ This document provides information about the various endpoints available in our 
 #### Get {{relationship.Entity}} relations
 - **GET** `/api/{{entity.PluralName}}/{key}/{{relationship.EntityPlural}}/$ref`
   - Description: Retrieve all {{relationship.EntityPlural}} relations for a specific {{entity.Name}}.
-  
+{{ end }}{{ if relationship.Related.Entity.Persistence.Create.IsEnabled }}  
 #### Create {{relationship.Entity}} relation
 - **POST** `/api/{{entity.PluralName}}/{key}/{{relationship.EntityPlural}}/{relatedKey}/$ref`
   - Description: Create a new {{relationship.Entity}} relation for a specific {{entity.Name}}.
-  
+{{ end }}{{ if relationship.Related.Entity.Persistence.Update.IsEnabled }}
 #### Update {{relationship.Entity}} relation
 - **PUT** `/api/{{entity.PluralName}}/{key}/{{relationship.EntityPlural}}/{relatedKey}/$ref`
   - Description: Update an existing {{relationship.Entity}} relation for a specific {{entity.Name}}.
@@ -76,11 +76,11 @@ This document provides information about the various endpoints available in our 
 #### Partially Update {{relationship.Entity}} relation
 - **PATCH** `/api/{{entity.PluralName}}/{key}/{{relationship.EntityPlural}}/{relatedKey}/$ref`
   - Description: Partially update an existing {{relationship.Entity}} relation for a specific {{entity.Name}}.
-
+{{ end }}{{ if relationship.Related.Entity.Persistence.Delete.IsEnabled }}
 #### Delete {{relationship.Entity}} relation
 - **DELETE** `/api/{{entity.PluralName}}/{key}/{{relationship.EntityPlural}}/{relatedKey}/$ref`
   - Description: Delete an existing {{relationship.Entity}} relation for a specific {{entity.Name}}.
-{{ end -}}
+{{ end }}{{ end -}}
 {{ end}}{{ if entity.Commands | array.size > 0 }}
 ## Custom Commands
 {{ for command in entity.Commands }}

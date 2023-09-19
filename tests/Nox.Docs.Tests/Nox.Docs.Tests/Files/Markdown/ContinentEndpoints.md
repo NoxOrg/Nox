@@ -27,7 +27,7 @@ This document provides information about the various endpoints available in our 
 #### Create Country relation
 - **POST** `/api/Continents/{key}/Countries/{relatedKey}/$ref`
   - Description: Create a new Country relation for a specific Continent.
-  
+
 #### Update Country relation
 - **PUT** `/api/Continents/{key}/Countries/{relatedKey}/$ref`
   - Description: Update an existing Country relation for a specific Continent.
@@ -35,10 +35,6 @@ This document provides information about the various endpoints available in our 
 #### Partially Update Country relation
 - **PATCH** `/api/Continents/{key}/Countries/{relatedKey}/$ref`
   - Description: Partially update an existing Country relation for a specific Continent.
-
-#### Delete Country relation
-- **DELETE** `/api/Continents/{key}/Countries/{relatedKey}/$ref`
-  - Description: Delete an existing Country relation for a specific Continent.
 
 ## Related Entities
 

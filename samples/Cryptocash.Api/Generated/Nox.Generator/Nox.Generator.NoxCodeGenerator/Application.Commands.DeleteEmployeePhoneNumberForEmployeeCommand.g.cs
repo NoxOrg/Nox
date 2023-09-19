@@ -14,20 +14,12 @@ using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
 public record DeleteEmployeePhoneNumberForEmployeeCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberKeyDto EntityKeyDto) : IRequest <bool>;
-public abstract class DeleteEmployeePhoneNumberForEmployeeCommandHandler: DeleteEmployeePhoneNumberForEmployeeCommandHandlerBase
-{
-	public DeleteEmployeePhoneNumberForEmployeeCommandHandler(
-		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
-	{
-	}
-}
-public abstract class DeleteEmployeePhoneNumberForEmployeeCommandHandlerBase: CommandBase<DeleteEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumber>, IRequestHandler <DeleteEmployeePhoneNumberForEmployeeCommand, bool>
+
+public partial class DeleteEmployeePhoneNumberForEmployeeCommandHandler: CommandBase<DeleteEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumber>, IRequestHandler <DeleteEmployeePhoneNumberForEmployeeCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public DeleteEmployeePhoneNumberForEmployeeCommandHandlerBase(
+	public DeleteEmployeePhoneNumberForEmployeeCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -35,7 +27,7 @@ public abstract class DeleteEmployeePhoneNumberForEmployeeCommandHandlerBase: Co
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<bool> Handle(DeleteEmployeePhoneNumberForEmployeeCommand request, CancellationToken cancellationToken)
+	public async Task<bool> Handle(DeleteEmployeePhoneNumberForEmployeeCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

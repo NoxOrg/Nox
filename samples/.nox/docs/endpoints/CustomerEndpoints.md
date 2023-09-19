@@ -43,7 +43,7 @@ This document provides information about the various endpoints available in our 
 #### Create PaymentDetail relation
 - **POST** `/api/Customers/{key}/PaymentDetails/{relatedKey}/$ref`
   - Description: Create a new PaymentDetail relation for a specific Customer.
-  
+
 #### Update PaymentDetail relation
 - **PUT** `/api/Customers/{key}/PaymentDetails/{relatedKey}/$ref`
   - Description: Update an existing PaymentDetail relation for a specific Customer.
@@ -69,7 +69,7 @@ This document provides information about the various endpoints available in our 
 #### Create Booking relation
 - **POST** `/api/Customers/{key}/Bookings/{relatedKey}/$ref`
   - Description: Create a new Booking relation for a specific Customer.
-  
+
 #### Update Booking relation
 - **PUT** `/api/Customers/{key}/Bookings/{relatedKey}/$ref`
   - Description: Update an existing Booking relation for a specific Customer.
@@ -95,7 +95,7 @@ This document provides information about the various endpoints available in our 
 #### Create Transaction relation
 - **POST** `/api/Customers/{key}/Transactions/{relatedKey}/$ref`
   - Description: Create a new Transaction relation for a specific Customer.
-  
+
 #### Update Transaction relation
 - **PUT** `/api/Customers/{key}/Transactions/{relatedKey}/$ref`
   - Description: Update an existing Transaction relation for a specific Customer.
@@ -121,7 +121,7 @@ This document provides information about the various endpoints available in our 
 #### Create Country relation
 - **POST** `/api/Customers/{key}/Countries/{relatedKey}/$ref`
   - Description: Create a new Country relation for a specific Customer.
-  
+
 #### Update Country relation
 - **PUT** `/api/Customers/{key}/Countries/{relatedKey}/$ref`
   - Description: Update an existing Country relation for a specific Customer.

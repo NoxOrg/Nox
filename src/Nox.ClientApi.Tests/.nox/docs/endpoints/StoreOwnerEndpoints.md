@@ -43,7 +43,7 @@ This document provides information about the various endpoints available in our 
 #### Create Store relation
 - **POST** `/api/StoreOwners/{key}/Stores/{relatedKey}/$ref`
   - Description: Create a new Store relation for a specific StoreOwner.
-  
+
 #### Update Store relation
 - **PUT** `/api/StoreOwners/{key}/Stores/{relatedKey}/$ref`
   - Description: Update an existing Store relation for a specific StoreOwner.

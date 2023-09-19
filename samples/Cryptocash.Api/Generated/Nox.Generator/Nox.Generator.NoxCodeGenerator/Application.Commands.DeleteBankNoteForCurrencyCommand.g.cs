@@ -14,20 +14,12 @@ using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
 public record DeleteBankNoteForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteKeyDto EntityKeyDto) : IRequest <bool>;
-public abstract class DeleteBankNoteForCurrencyCommandHandler: DeleteBankNoteForCurrencyCommandHandlerBase
-{
-	public DeleteBankNoteForCurrencyCommandHandler(
-		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
-	{
-	}
-}
-public abstract class DeleteBankNoteForCurrencyCommandHandlerBase: CommandBase<DeleteBankNoteForCurrencyCommand, BankNote>, IRequestHandler <DeleteBankNoteForCurrencyCommand, bool>
+
+public partial class DeleteBankNoteForCurrencyCommandHandler: CommandBase<DeleteBankNoteForCurrencyCommand, BankNote>, IRequestHandler <DeleteBankNoteForCurrencyCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public DeleteBankNoteForCurrencyCommandHandlerBase(
+	public DeleteBankNoteForCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -35,7 +27,7 @@ public abstract class DeleteBankNoteForCurrencyCommandHandlerBase: CommandBase<D
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<bool> Handle(DeleteBankNoteForCurrencyCommand request, CancellationToken cancellationToken)
+	public async Task<bool> Handle(DeleteBankNoteForCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

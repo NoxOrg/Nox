@@ -35,11 +35,11 @@ This document provides information about the various endpoints available in our 
 #### Get CountryTimeZones
 - **GET** `/api/Countries/{key}/CountryTimeZones`
   - Description: Retrieve all CountryTimeZones for a specific Country.
-  
+
 #### Create CountryTimeZone
 - **POST** `/api/Countries/{key}/CountryTimeZones/{relatedKey}`
   - Description: Create a new CountryTimeZone for a specific Country.
-  
+
 #### Update CountryTimeZone
 - **PUT** `/api/Countries/{key}/CountryTimeZones/{relatedKey}`
   - Description: Update an existing CountryTimeZone for a specific Country.
@@ -57,11 +57,11 @@ This document provides information about the various endpoints available in our 
 #### Get Holidays
 - **GET** `/api/Countries/{key}/Holidays`
   - Description: Retrieve all Holidays for a specific Country.
-  
+
 #### Create Holiday
 - **POST** `/api/Countries/{key}/Holidays/{relatedKey}`
   - Description: Create a new Holiday for a specific Country.
-  
+
 #### Update Holiday
 - **PUT** `/api/Countries/{key}/Holidays/{relatedKey}`
   - Description: Update an existing Holiday for a specific Country.
@@ -89,7 +89,7 @@ This document provides information about the various endpoints available in our 
 #### Create Currency relation
 - **POST** `/api/Countries/{key}/Currencies/{relatedKey}/$ref`
   - Description: Create a new Currency relation for a specific Country.
-  
+
 #### Update Currency relation
 - **PUT** `/api/Countries/{key}/Currencies/{relatedKey}/$ref`
   - Description: Update an existing Currency relation for a specific Country.
@@ -115,7 +115,7 @@ This document provides information about the various endpoints available in our 
 #### Create Commission relation
 - **POST** `/api/Countries/{key}/Commissions/{relatedKey}/$ref`
   - Description: Create a new Commission relation for a specific Country.
-  
+
 #### Update Commission relation
 - **PUT** `/api/Countries/{key}/Commissions/{relatedKey}/$ref`
   - Description: Update an existing Commission relation for a specific Country.
@@ -141,7 +141,7 @@ This document provides information about the various endpoints available in our 
 #### Create VendingMachine relation
 - **POST** `/api/Countries/{key}/VendingMachines/{relatedKey}/$ref`
   - Description: Create a new VendingMachine relation for a specific Country.
-  
+
 #### Update VendingMachine relation
 - **PUT** `/api/Countries/{key}/VendingMachines/{relatedKey}/$ref`
   - Description: Update an existing VendingMachine relation for a specific Country.
@@ -167,7 +167,7 @@ This document provides information about the various endpoints available in our 
 #### Create Customer relation
 - **POST** `/api/Countries/{key}/Customers/{relatedKey}/$ref`
   - Description: Create a new Customer relation for a specific Country.
-  
+
 #### Update Customer relation
 - **PUT** `/api/Countries/{key}/Customers/{relatedKey}/$ref`
   - Description: Update an existing Customer relation for a specific Country.
