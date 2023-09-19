@@ -703,6 +703,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             foreach (var relationship in entity.Relationships)
             {
                 GenerateCreateRefTo(entity, relationship, code, solution);
+                GenerateDeleteRefTo(entity, relationship, code, solution);
             }
             code.AppendLine($"#endregion");
             code.AppendLine();
@@ -723,6 +724,32 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine($"var createdRef = await _mediator.Send(new CreateRef{entity.Name}To{relationship.Name}Command(" +
             $"new {entity.Name}KeyDto({PrimaryKeysQuery(entity)}), new {relatedEntity.Name}KeyDto({PrimaryKeysQuery(relatedEntity, "relatedKey")})));");
         code.AppendLine($"if (!createdRef)");
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+        code.AppendLine();
+
+        code.AppendLine($"return NoContent();");
+
+        // End method
+        code.EndBlock();
+        code.AppendLine();
+    }
+
+    private static void GenerateDeleteRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
+    {
+        var relatedEntity = relationship.Related.Entity;
+        code.AppendLine($"public async Task<ActionResult> DeleteRefTo{relationship.Name}({PrimaryKeysFromRoute(entity, solution)}, {PrimaryKeysFromRoute(relatedEntity, solution, "relatedKey")})");
+
+        code.StartBlock();
+        code.AppendLine($"if (!ModelState.IsValid)");
+        code.StartBlock();
+        code.AppendLine($"return BadRequest(ModelState);");
+        code.EndBlock();
+        code.AppendLine();
+        code.AppendLine($"var deletedRef = await _mediator.Send(new DeleteRef{entity.Name}To{relationship.Name}Command(" +
+            $"new {entity.Name}KeyDto({PrimaryKeysQuery(entity)}), new {relatedEntity.Name}KeyDto({PrimaryKeysQuery(relatedEntity, "relatedKey")})));");
+        code.AppendLine($"if (!deletedRef)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
         code.EndBlock();

@@ -71,9 +71,14 @@ public abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurren
     /// </summary>
     public Nox.Types.Guid CashStockOrderForVendingMachineId { get; set; } = null!;
 
-    public virtual void CreateRefToVendingMachineCashStockOrderForVendingMachine(VendingMachine relatedVendingMachine)
+    public virtual void CreateRefToCashStockOrderForVendingMachine(VendingMachine relatedVendingMachine)
     {
         CashStockOrderForVendingMachine = relatedVendingMachine;
+    }
+
+    public virtual void DeleteRefToCashStockOrderForVendingMachine(VendingMachine relatedVendingMachine)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
     }
 
     /// <summary>
@@ -81,9 +86,14 @@ public abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurren
     /// </summary>
     public virtual Employee CashStockOrderReviewedByEmployee { get; set; } = null!;
 
-    public virtual void CreateRefToEmployeeCashStockOrderReviewedByEmployee(Employee relatedEmployee)
+    public virtual void CreateRefToCashStockOrderReviewedByEmployee(Employee relatedEmployee)
     {
         CashStockOrderReviewedByEmployee = relatedEmployee;
+    }
+
+    public virtual void DeleteRefToCashStockOrderReviewedByEmployee(Employee relatedEmployee)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
     }
 
     /// <summary>

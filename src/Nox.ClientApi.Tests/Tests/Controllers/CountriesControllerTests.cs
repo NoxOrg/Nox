@@ -573,6 +573,50 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #endregion
 
+        #region DELETE
+
+        #region DELETE Delete ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedEntityKey} => api/countries/1/PhysicalWorkplaces/1/$ref
+        [Fact]
+        public async Task Delete_RefToPhysicalWorkplaces_Success()
+        {
+            // Arrange
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                PhysicalWorkplaces = new List<WorkplaceCreateDto>()
+                {
+                    new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
+                    new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
+                    new WorkplaceCreateDto() { Name = _fixture.Create<string>() }
+                }
+            };
+
+            // Act
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
+
+            const string oDataRequest = $"$expand={nameof(CountryDto.PhysicalWorkplaces)}";
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{countryResponse!.Id}?{oDataRequest}");
+
+            var deleteRefResponse = await DeleteAsync($"{EntityUrl}/{countryResponse!.Id}/physicalworkplaces/{getCountryResponse!.PhysicalWorkplaces!.First()!.Id}/$ref");
+            getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{countryResponse!.Id}?{oDataRequest}");
+
+
+            //Assert
+            countryResponse.Should().NotBeNull();
+            countryResponse!.Id.Should().BeGreaterThan(0);
+
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.PhysicalWorkplaces.Should().NotBeNull();
+            getCountryResponse!.PhysicalWorkplaces!.Should()
+                .HaveCount(2)
+                    .And
+                .AllSatisfy(x => x.Name.Should().NotBeNullOrEmpty());
+        }
+        #endregion
+
+        #endregion
+
         #endregion
 
         #region TESTS 

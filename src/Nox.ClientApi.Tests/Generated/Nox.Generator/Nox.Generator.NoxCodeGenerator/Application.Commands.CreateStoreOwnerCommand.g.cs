@@ -61,7 +61,7 @@ public abstract class CreateStoreOwnerCommandHandlerBase: CommandBase<CreateStor
 		foreach(var relatedCreateDto in request.EntityDto.Stores)
 		{
 			var relatedEntity = _storefactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToStoreStores(relatedEntity);
+			entityToCreate.CreateRefToStores(relatedEntity);
 		}
 					
 		OnCompleted(request, entityToCreate);

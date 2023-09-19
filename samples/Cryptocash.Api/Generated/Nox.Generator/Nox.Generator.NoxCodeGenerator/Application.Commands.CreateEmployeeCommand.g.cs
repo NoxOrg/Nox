@@ -61,7 +61,7 @@ public abstract class CreateEmployeeCommandHandlerBase: CommandBase<CreateEmploy
 		if(request.EntityDto.EmployeeReviewingCashStockOrder is not null)
 		{ 
 			var relatedEntity = _cashstockorderfactory.CreateEntity(request.EntityDto.EmployeeReviewingCashStockOrder);
-			entityToCreate.CreateRefToCashStockOrderEmployeeReviewingCashStockOrder(relatedEntity);
+			entityToCreate.CreateRefToEmployeeReviewingCashStockOrder(relatedEntity);
 		}
 					
 		OnCompleted(request, entityToCreate);

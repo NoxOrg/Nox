@@ -67,9 +67,14 @@ public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<PaymentDetail> CustomerRelatedPaymentDetails { get; set; } = new();
 
-    public virtual void CreateRefToPaymentDetailCustomerRelatedPaymentDetails(PaymentDetail relatedPaymentDetail)
+    public virtual void CreateRefToCustomerRelatedPaymentDetails(PaymentDetail relatedPaymentDetail)
     {
         CustomerRelatedPaymentDetails.Add(relatedPaymentDetail);
+    }
+
+    public virtual void DeleteRefToCustomerRelatedPaymentDetails(PaymentDetail relatedPaymentDetail)
+    {
+        CustomerRelatedPaymentDetails.Remove(relatedPaymentDetail);
     }
 
     /// <summary>
@@ -77,9 +82,14 @@ public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<Booking> CustomerRelatedBookings { get; set; } = new();
 
-    public virtual void CreateRefToBookingCustomerRelatedBookings(Booking relatedBooking)
+    public virtual void CreateRefToCustomerRelatedBookings(Booking relatedBooking)
     {
         CustomerRelatedBookings.Add(relatedBooking);
+    }
+
+    public virtual void DeleteRefToCustomerRelatedBookings(Booking relatedBooking)
+    {
+        CustomerRelatedBookings.Remove(relatedBooking);
     }
 
     /// <summary>
@@ -87,9 +97,14 @@ public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<Transaction> CustomerRelatedTransactions { get; set; } = new();
 
-    public virtual void CreateRefToTransactionCustomerRelatedTransactions(Transaction relatedTransaction)
+    public virtual void CreateRefToCustomerRelatedTransactions(Transaction relatedTransaction)
     {
         CustomerRelatedTransactions.Add(relatedTransaction);
+    }
+
+    public virtual void DeleteRefToCustomerRelatedTransactions(Transaction relatedTransaction)
+    {
+        CustomerRelatedTransactions.Remove(relatedTransaction);
     }
 
     /// <summary>
@@ -102,9 +117,14 @@ public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.CountryCode2 CustomerBaseCountryId { get; set; } = null!;
 
-    public virtual void CreateRefToCountryCustomerBaseCountry(Country relatedCountry)
+    public virtual void CreateRefToCustomerBaseCountry(Country relatedCountry)
     {
         CustomerBaseCountry = relatedCountry;
+    }
+
+    public virtual void DeleteRefToCustomerBaseCountry(Country relatedCountry)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
     }
 
     /// <summary>

@@ -77,9 +77,14 @@ public abstract class EmployeeBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.AutoNumber EmployeeReviewingCashStockOrderId { get; set; } = null!;
 
-    public virtual void CreateRefToCashStockOrderEmployeeReviewingCashStockOrder(CashStockOrder relatedCashStockOrder)
+    public virtual void CreateRefToEmployeeReviewingCashStockOrder(CashStockOrder relatedCashStockOrder)
     {
         EmployeeReviewingCashStockOrder = relatedCashStockOrder;
+    }
+
+    public virtual void DeleteRefToEmployeeReviewingCashStockOrder(CashStockOrder relatedCashStockOrder)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
     }
 
     /// <summary>

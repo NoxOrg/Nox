@@ -60,7 +60,7 @@ public abstract class CreateWorkplaceCommandHandlerBase: CommandBase<CreateWorkp
 		if(request.EntityDto.BelongsToCountry is not null)
 		{ 
 			var relatedEntity = _countryfactory.CreateEntity(request.EntityDto.BelongsToCountry);
-			entityToCreate.CreateRefToCountryBelongsToCountry(relatedEntity);
+			entityToCreate.CreateRefToBelongsToCountry(relatedEntity);
 		}
 					
 		OnCompleted(request, entityToCreate);

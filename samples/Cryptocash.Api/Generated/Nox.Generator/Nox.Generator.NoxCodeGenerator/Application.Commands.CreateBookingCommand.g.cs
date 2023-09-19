@@ -73,22 +73,22 @@ public abstract class CreateBookingCommandHandlerBase: CommandBase<CreateBooking
 		if(request.EntityDto.BookingForCustomer is not null)
 		{ 
 			var relatedEntity = _customerfactory.CreateEntity(request.EntityDto.BookingForCustomer);
-			entityToCreate.CreateRefToCustomerBookingForCustomer(relatedEntity);
+			entityToCreate.CreateRefToBookingForCustomer(relatedEntity);
 		}
 		if(request.EntityDto.BookingRelatedVendingMachine is not null)
 		{ 
 			var relatedEntity = _vendingmachinefactory.CreateEntity(request.EntityDto.BookingRelatedVendingMachine);
-			entityToCreate.CreateRefToVendingMachineBookingRelatedVendingMachine(relatedEntity);
+			entityToCreate.CreateRefToBookingRelatedVendingMachine(relatedEntity);
 		}
 		if(request.EntityDto.BookingFeesForCommission is not null)
 		{ 
 			var relatedEntity = _commissionfactory.CreateEntity(request.EntityDto.BookingFeesForCommission);
-			entityToCreate.CreateRefToCommissionBookingFeesForCommission(relatedEntity);
+			entityToCreate.CreateRefToBookingFeesForCommission(relatedEntity);
 		}
 		if(request.EntityDto.BookingRelatedTransaction is not null)
 		{ 
 			var relatedEntity = _transactionfactory.CreateEntity(request.EntityDto.BookingRelatedTransaction);
-			entityToCreate.CreateRefToTransactionBookingRelatedTransaction(relatedEntity);
+			entityToCreate.CreateRefToBookingRelatedTransaction(relatedEntity);
 		}
 					
 		OnCompleted(request, entityToCreate);
