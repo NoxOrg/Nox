@@ -35,11 +35,11 @@ This document provides information about the various endpoints available in our 
 #### Get EmailAddresses
 - **GET** `/api/Stores/{key}/EmailAddresses`
   - Description: Retrieve all EmailAddresses for a specific Store.
-  
+
 #### Create EmailAddress
 - **POST** `/api/Stores/{key}/EmailAddresses/{relatedKey}`
   - Description: Create a new EmailAddress for a specific Store.
-  
+
 #### Update EmailAddress
 - **PUT** `/api/Stores/{key}/EmailAddresses/{relatedKey}`
   - Description: Update an existing EmailAddress for a specific Store.
@@ -67,7 +67,7 @@ This document provides information about the various endpoints available in our 
 #### Create StoreOwner relation
 - **POST** `/api/Stores/{key}/StoreOwners/{relatedKey}/$ref`
   - Description: Create a new StoreOwner relation for a specific Store.
-  
+
 #### Update StoreOwner relation
 - **PUT** `/api/Stores/{key}/StoreOwners/{relatedKey}/$ref`
   - Description: Update an existing StoreOwner relation for a specific Store.

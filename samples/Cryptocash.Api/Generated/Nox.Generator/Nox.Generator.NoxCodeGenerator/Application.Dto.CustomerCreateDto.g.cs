@@ -71,6 +71,5 @@ public abstract class CustomerCreateDtoBase : IEntityCreateDto<Customer>
     /// <summary>
     /// Customer based in ExactlyOne Countries
     /// </summary>
-    [Required(ErrorMessage = "CustomerBaseCountry is required")]
     public virtual CountryCreateDto CustomerBaseCountry { get; set; } = null!;
 }
