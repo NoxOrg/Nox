@@ -135,6 +135,21 @@ public static class ObjectToOptionProperties
         else if (valueType.IsGenericType && valueType.GetGenericTypeDefinition() == typeof(Dictionary<,>))
         {
             optionProperty.Type = nameof(IDictionary);
+            IDictionary dictionary = (IDictionary)value;
+            
+            var dictionaryKeyType = fullyQualifiedNames ? valueType.GetGenericArguments()[0].FullName : valueType.GetGenericArguments()[0].Name;
+            var dictionaryValueType = fullyQualifiedNames ? valueType.GetGenericArguments()[1].FullName : valueType.GetGenericArguments()[1].Name;
+
+            var properties = new List<OptionProperty>();
+            
+            foreach (DictionaryEntry entry in dictionary)
+            {
+                if (entry.Key == null || entry.Value == null) continue;
+                var subProperty = ToOptionProperty("[" + GetValueAsString(entry.Key) + "]", entry.Value!, fullyQualifiedNames);
+                properties.Add(subProperty);
+            }
+            optionProperty.Value = new { KeyTypeName = dictionaryKeyType, ValueTypeName = dictionaryValueType, Properties = properties };
+            
         }
         else if (valueType.IsArray)
         {
@@ -154,7 +169,10 @@ public static class ObjectToOptionProperties
         }
         else
         {
-            // optionProperty.Value = value.ToOptionProperties(fullyQualifiedNames);
+            var valueTypeName = fullyQualifiedNames ? valueType.FullName : valueType.Name;
+            optionProperty.Type = valueTypeName!;
+            var subProperties = GenerateOptionProperties(value, fullyQualifiedNames);
+            optionProperty.Value = new { Properties = subProperties };
         }
         
         return optionProperty;

@@ -51,15 +51,29 @@ end}}
         end
         $result += $itemsCode + '\n},'
     else if property.Type == "IList"
-        $result = property.Name+ $assignOp + 'new System.Collections.Generic.List<'+property.Value.ElementTypeName+'>\n{'
+        $result = property.Name+ $assignOp + 'new System.Collections.Generic.List<'+property.Value.ElementTypeName+'>()\n{'
         $itemsCode = ""
         for item in property.Value.Properties
             $itemsCode +='\n'
             $itemsCode +='    ' + writeProperty(item)
         end
         $result += $itemsCode + '\n},'
+    else if property.Type == "IDictionary"
+        $result = property.Name+ $assignOp + 'new System.Collections.Generic.Dictionary<'+ property.Value.KeyTypeName +','+ property.Value.ValueTypeName +'>()\n{'
+        $itemsCode = ""
+        for item in property.Value.Properties
+            $itemsCode +='\n'
+            $itemsCode +='    ' + writeProperty(item)
+        end
+            $result += $itemsCode + '\n},'
     else
-        $result= '//TODO: Add support for ' + property.Type+','
+        $result= property.Name+ $assignOp + 'new '+property.Type+'()\n{'
+        $itemsCode = ""
+        for item in property.Value.Properties
+            $itemsCode +='\n'
+            $itemsCode +='    ' + writeProperty(item)
+        end
+            $result += $itemsCode + '\n},'    
     end
     
     ret $result
@@ -97,4 +111,3 @@ public partial class {{className}}
     {{ end }}
 {{- end }}
 }
-
