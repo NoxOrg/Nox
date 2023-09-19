@@ -36,13 +36,6 @@ internal class EntityMetaGenerator : INoxCodeGenerator
                 .WithObject("entity", entity)
                 .WithObject("entitiesMetaData", entitiesMetaData)
                 .GenerateSourceCodeFromResource("Domain.EntityMeta");
-            
-            new TemplateCodeBuilder(context, codeGeneratorState)
-                .WithClassName(entity.Name + "New")
-                .WithFileNamePrefix($"Domain.Meta")
-                .WithObject("entity", entity)
-                .WithObject("entitiesMetaData", entitiesMetaData)
-                .GenerateSourceCodeFromResource("Domain.EntityMetaNew");
 
         }
     }
@@ -55,7 +48,6 @@ internal class EntityMetaGenerator : INoxCodeGenerator
 
         var options = typeof(NoxSimpleTypeDefinition).GetProperty(typeOptions);
 
-        var optionsProperties = Array.Empty<string>();
         var optionProperties = new List<OptionProperty>(1);
         var components = type.GetComponents(typeDef).ToArray();
 
@@ -66,8 +58,8 @@ internal class EntityMetaGenerator : INoxCodeGenerator
        
         if (options != null)
         {
-            optionProperties = GetTypeOptionPropertList(typeDef, options);
-            optionsProperties = GetTypeOptionProperties(typeDef, options);
+            optionProperties = GetTypeOptionPropertyList(typeDef, options);
+            
         }
         
         return new EntityMetaData
@@ -75,35 +67,14 @@ internal class EntityMetaGenerator : INoxCodeGenerator
             Name = typeDef.Name,
             Type = type.ToString(),
             InParams = inParams,
-            HasTypeOptions = optionsProperties.Any(),
-            OptionsProperties = optionsProperties,
+            HasTypeOptions = optionProperties.Any(),
             OptionProperties = optionProperties,
-            
         };
     }
 
-    private static string[] GetTypeOptionProperties(
-        NoxSimpleTypeDefinition typeDef, 
-        PropertyInfo options)
-    {
-        var optionsProperties = Array.Empty<string>();
-        var optionsValue = options.GetValue(typeDef, null);
-
-        if (optionsValue != null)
-        {
-            var output = optionsValue.ToSourceCode($"{typeDef.Name}TypeOptions {{get; private set;}}");
-            var optionsOutputLines = output.Split('\n');
-            optionsProperties = optionsOutputLines
-                .SkipWhile(s => !s.StartsWith("{"))
-                .Skip(1)
-                .TakeWhile(s=> !s.StartsWith("}"))
-                .ToArray();
-        }
-
-        return optionsProperties;
-    }
     
-    private static List<OptionProperty> GetTypeOptionPropertList(
+    
+    private static List<OptionProperty> GetTypeOptionPropertyList(
         NoxSimpleTypeDefinition typeDef, 
         PropertyInfo options)
     {
