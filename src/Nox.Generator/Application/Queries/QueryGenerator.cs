@@ -27,7 +27,7 @@ internal class QueryGenerator : INoxCodeGenerator
             context.CancellationToken.ThrowIfCancellationRequested();
 
             new TemplateCodeBuilder(context, codeGeneratorState)
-                .WithClassName($"Get{entity.PluralName}Queries")
+                .WithClassName($"Get{entity.PluralName}Query")
                 .WithFileNamePrefix($"Application.Queries")
                 .WithObject("entity", entity)
                 .GenerateSourceCodeFromResource(templateName);
