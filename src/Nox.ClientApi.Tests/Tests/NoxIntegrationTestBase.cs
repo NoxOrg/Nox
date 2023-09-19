@@ -73,6 +73,16 @@ public abstract class NoxIntegrationTestBase :  IClassFixture<NoxTestContainerSe
         return result;
     }
 
+    public async Task<HttpResponseMessage> PostAsync(string requestUrl)
+    {
+        using var httpClient = _appFactory.CreateClient();
+
+        var result = await httpClient.PostAsync(requestUrl, null);
+        result.EnsureSuccessStatusCode();
+
+        return result;
+    }
+
     public async Task<HttpResponseMessage> PostAsync<TValue>(string requestUrl, TValue data)
     {
         using var httpClient = _appFactory.CreateClient();
@@ -169,7 +179,12 @@ public abstract class NoxIntegrationTestBase :  IClassFixture<NoxTestContainerSe
 
         AddHeaders(httpClient, headers ?? new());
 
-        var request = await httpClient.PatchAsJsonAsync(requestUrl, delta);
+        var opts = new JsonSerializerOptions()
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
+        };
+
+        var request = await httpClient.PatchAsJsonAsync(requestUrl, delta, opts);
         request.EnsureSuccessStatusCode();
 
         var content = await request.Content.ReadAsStringAsync();

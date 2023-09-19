@@ -11,6 +11,7 @@ namespace ClientApi.Tests.Tests.Controllers
     {
         private const string EntityPluralName = "workplaces";
         private const string EntityUrl = $"api/{EntityPluralName}";
+        private const string CountriesUrl = $"api/countries";
 
         public WorkplacesControllerTests(NoxTestContainerService containerService) : base(containerService)
         {
@@ -47,6 +48,36 @@ namespace ClientApi.Tests.Tests.Controllers
             getCountryResponse!.Id.Should().BeGreaterThan(0);
             getCountryResponse!.BelongsToCountry.Should().NotBeNull();
             getCountryResponse!.BelongsToCountry!.Name.Should().Be(expectedCountryName);
+        }
+        #endregion
+
+        #region POST Create ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedEntityKey} => api/workplaces/1/belongstocountry/1/$ref
+        [Fact]
+        public async Task Post_CreateRefToBelongsToCountry_Success()
+        {
+            // Arrange
+            var workplaceCreateDto = new WorkplaceCreateDto() { Name = _fixture.Create<string>() };
+            var countryCreateDto = new CountryCreateDto { Name = _fixture.Create<string>() };
+
+            // Act
+            var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, workplaceCreateDto);
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(CountriesUrl, countryCreateDto);
+            var createRefResponse = await PostAsync($"{EntityUrl}/{workplaceResponse!.Id}/belongstocountry/{countryResponse!.Id}/$ref");
+
+            const string oDataRequest = $"$expand={nameof(WorkplaceDto.BelongsToCountry)}";
+            var getWorkplaceResponse = await GetODataSimpleResponseAsync<WorkplaceDto>($"{EntityUrl}/{workplaceResponse!.Id}?{oDataRequest}");
+
+            //Assert
+            workplaceResponse.Should().NotBeNull();
+            workplaceResponse!.Id.Should().BeGreaterThan(0);
+            countryResponse.Should().NotBeNull();
+            countryResponse!.Id.Should().BeGreaterThan(0);
+
+            getWorkplaceResponse.Should().NotBeNull();
+            getWorkplaceResponse!.Id.Should().BeGreaterThan(0);
+            getWorkplaceResponse!.BelongsToCountry.Should().NotBeNull();
+            getWorkplaceResponse!.BelongsToCountry!.Id.Should().BeGreaterThan(0);
+            getWorkplaceResponse!.BelongsToCountry!.Name.Should().NotBeNull();
         }
         #endregion
 
@@ -98,7 +129,7 @@ namespace ClientApi.Tests.Tests.Controllers
             putResult.Should().NotBeNull();
         }
 
-        [Fact(Skip = "Fix issue with delta serialization")]
+        [Fact]
         public async Task Patch_Name_ShouldUpdateNameOnly()
         {
             // Arrange
@@ -115,10 +146,10 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, createDto);
-
+            var headers = CreateEtagHeader(postResult!.Etag);
             // Act
 
-            var patchResult = await PatchAsync<WorkplaceUpdateDto, WorkplaceDto>($"{EntityUrl}/{postResult!.Id}", updateDto);
+            var patchResult = await PatchAsync<WorkplaceUpdateDto, WorkplaceDto>($"{EntityUrl}/{postResult!.Id}", updateDto, headers);
 
             //Assert
             patchResult.Should().NotBeNull();

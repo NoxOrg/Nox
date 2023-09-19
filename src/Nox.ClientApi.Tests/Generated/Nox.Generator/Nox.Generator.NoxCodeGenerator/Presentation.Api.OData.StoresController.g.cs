@@ -252,4 +252,25 @@ public abstract class StoresControllerBase : ODataController
     
     #endregion
     
+    
+    #region Relationships
+    
+    public async Task<ActionResult> CreateRefToOwnership([FromRoute] System.Guid key, [FromRoute] System.String relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefStoreToOwnershipCommand(new StoreKeyDto(key), new StoreOwnerKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    #endregion
+    
 }

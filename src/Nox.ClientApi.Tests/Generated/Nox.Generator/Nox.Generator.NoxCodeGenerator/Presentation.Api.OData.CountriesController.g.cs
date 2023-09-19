@@ -388,4 +388,25 @@ public abstract class CountriesControllerBase : ODataController
     
     #endregion
     
+    
+    #region Relationships
+    
+    public async Task<ActionResult> CreateRefToPhysicalWorkplaces([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefCountryToPhysicalWorkplacesCommand(new CountryKeyDto(key), new WorkplaceKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    #endregion
+    
 }
