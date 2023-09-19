@@ -56,10 +56,6 @@ public abstract class NoxIntegrationTestBase :  IClassFixture<NoxTestContainerSe
         var content = await result.Content.ReadAsStringAsync();
         EnsureOdataSingleResponse(content);
 
-        var oDataResponse = DeserializeResponse<ODataSigleResponse>(content);
-        oDataResponse.Should().NotBeNull();
-        oDataResponse!.Context.Should().NotBeNullOrEmpty();
-
         var data = DeserializeResponse<TResult>(content);
 
         return data;

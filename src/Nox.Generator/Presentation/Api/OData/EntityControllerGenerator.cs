@@ -62,6 +62,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             code.AppendLine($"using Microsoft.AspNetCore.OData.Routing.Controllers;");
             code.AppendLine($"using Microsoft.EntityFrameworkCore;");
             code.AppendLine("using MediatR;");
+            code.AppendLine("using System;");
             code.AppendLine("using System.Net.Http.Headers;");
             code.AppendLine("using Nox.Application;");
             code.AppendLine("using Nox.Extensions;");
@@ -708,6 +709,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             foreach (var relationship in entity.Relationships)
             {
                 GenerateCreateRefTo(entity, relationship, code, solution);
+                GenerateGetRefTo(entity, relationship, code, solution);
             }
             code.AppendLine($"#endregion");
             code.AppendLine();
@@ -740,6 +742,43 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine();
     }
 
+    private static void GenerateGetRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
+    {
+        var relatedEntity = relationship.Related.Entity;
+        code.AppendLine($"public async Task<ActionResult> GetRefTo{relationship.Name}({PrimaryKeysFromRoute(entity, solution)})");
+
+        code.StartBlock();
+        code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity)})))" +
+            $".Select(x => x.{relationship.Name}).SingleOrDefault();");
+        code.AppendLine($"if (related is null)");
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+        code.AppendLine();
+
+        if (relationship.WithSingleEntity())
+        {
+            code.AppendLine($"var references = new System.Uri(" +
+                    $"$\"{relatedEntity.PluralName}/{PrimaryKeysAttribute(relatedEntity, "related.", true)}\", UriKind.Relative);");
+        }
+        else
+        {
+            code.AppendLine($"IList<System.Uri> references = new List<System.Uri>();");
+            code.AppendLine($"foreach (var item in related)");
+            code.StartBlock();
+            code.AppendLine($"references.Add(new System.Uri(" +
+                    $"$\"{relatedEntity.PluralName}/{PrimaryKeysAttribute(relatedEntity, "item.", true)}\", UriKind.Relative));");
+            code.EndBlock();
+        }
+
+        code.AppendLine($"return Ok(references);");
+
+        // End method
+        code.EndBlock();
+        code.AppendLine();
+    }
+
+
     private static string PrimaryKeysFromRoute(Entity entity, NoxSolution solution, string keyPrefix = "key", string attributePrefix = "[FromRoute]")
     {
         if (entity.Keys.Count() > 1)
@@ -762,12 +801,12 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         return "";
     }
 
-    private static string PrimaryKeysAttribute(Entity entity, string prefix = "key")
+    private static string PrimaryKeysAttribute(Entity entity, string prefix = "key", bool withKeyName = false)
     {
         if (entity.Keys.Count() > 1)
             return string.Join(",", entity.Keys.Select(k => $"{k.Name}={{{prefix}{k.Name}}}"));
         else if (entity.Keys is not null)
-            return $"{{{prefix}}}";
+            return withKeyName ? $"{{{prefix}{entity.Keys[0].Name}}}" : $"{{{prefix}}}";
 
         return "";
     }

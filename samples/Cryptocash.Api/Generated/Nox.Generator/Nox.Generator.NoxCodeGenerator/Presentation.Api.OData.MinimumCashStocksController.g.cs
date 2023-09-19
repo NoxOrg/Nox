@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System;
 using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Extensions;
@@ -155,6 +156,22 @@ public abstract class MinimumCashStocksControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> GetRefToMinimumCashStocksRequiredByVendingMachines([FromRoute] System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).Select(x => x.MinimumCashStocksRequiredByVendingMachines).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        IList<System.Uri> references = new List<System.Uri>();
+        foreach (var item in related)
+        {
+            references.Add(new System.Uri($"VendingMachines/{item.Id}", UriKind.Relative));
+        }
+        return Ok(references);
+    }
+    
     public async Task<ActionResult> CreateRefToMinimumCashStockRelatedCurrency([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -169,6 +186,18 @@ public abstract class MinimumCashStocksControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    public async Task<ActionResult> GetRefToMinimumCashStockRelatedCurrency([FromRoute] System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).Select(x => x.MinimumCashStockRelatedCurrency).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        var references = new System.Uri($"Currencies/{related.Id}", UriKind.Relative);
+        return Ok(references);
     }
     
     #endregion

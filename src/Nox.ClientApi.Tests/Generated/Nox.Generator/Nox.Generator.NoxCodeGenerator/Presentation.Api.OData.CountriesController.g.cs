@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System;
 using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Extensions;
@@ -405,6 +406,22 @@ public abstract class CountriesControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    public async Task<ActionResult> GetRefToPhysicalWorkplaces([FromRoute] System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.PhysicalWorkplaces).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        IList<System.Uri> references = new List<System.Uri>();
+        foreach (var item in related)
+        {
+            references.Add(new System.Uri($"Workplaces/{item.Id}", UriKind.Relative));
+        }
+        return Ok(references);
     }
     
     #endregion

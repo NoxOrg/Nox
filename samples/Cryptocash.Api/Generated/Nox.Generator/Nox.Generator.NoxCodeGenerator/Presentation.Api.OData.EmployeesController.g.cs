@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System;
 using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Extensions;
@@ -294,6 +295,18 @@ public abstract class EmployeesControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    public async Task<ActionResult> GetRefToEmployeeReviewingCashStockOrder([FromRoute] System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetEmployeeByIdQuery(key))).Select(x => x.EmployeeReviewingCashStockOrder).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        var references = new System.Uri($"CashStockOrders/{related.Id}", UriKind.Relative);
+        return Ok(references);
     }
     
     #endregion
