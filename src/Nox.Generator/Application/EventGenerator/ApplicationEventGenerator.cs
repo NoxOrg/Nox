@@ -38,7 +38,7 @@ internal class ApplicationEventGenerator : INoxCodeGenerator
 
         GenerateClassDocs(context, code, evt);
 
-        code.AppendLine($"public partial class {evt.Name} : INoxApplicationEvent");
+        code.AppendLine($"public partial class {evt.Name} : Nox.Application.IApplicationEvent");
         code.StartBlock();
 
         GenerateProperties(context, code, evt);
