@@ -85,7 +85,7 @@ Exchange booking and related data. *This entity is auditable and tracks info abo
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|DatabaseGuid|Booking unique identifier.|Required, Primary Key
+Id|Guid|Booking unique identifier.|Required, Primary Key
 AmountFrom|Money|Booking's amount exchanged from.|Required
 AmountTo|Money|Booking's amount exchanged to.|Required
 RequestedPickUpDate|DateTimeRange|Booking's requested pick up date.|Required
@@ -95,7 +95,7 @@ CancelledDateTime|DateTime|Booking's cancelled date.|
 Status|Formula|Booking's status.|
 VatNumber|VatNumber|Booking's related vat number.|
 CustomerId|AutoNumber|Customer's unique identifier.|Required, Foreign Key
-VendingMachineId|DatabaseGuid|Vending machine unique identifier.|Required, Foreign Key
+VendingMachineId|Guid|Vending machine unique identifier.|Required, Foreign Key
 CommissionId|AutoNumber|Commission unique identifier.|Required, Foreign Key
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
@@ -127,7 +127,7 @@ Amount|Money|Order amount.|Required
 RequestedDeliveryDate|Date|Order requested delivery date.|Required
 DeliveryDateTime|DateTime|Order delivery date.|
 Status|Formula|Order status.|
-VendingMachineId|DatabaseGuid|Vending machine unique identifier.|Required, Foreign Key
+VendingMachineId|Guid|Vending machine unique identifier.|Required, Foreign Key
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -432,7 +432,7 @@ Member|Type|Description|Info
 ---------|----|----------|-------
 Id|AutoNumber|Vending machine cash stock unique identifier.|Required, Primary Key
 Amount|Money|Cash stock amount.|Required
-VendingMachineId|DatabaseGuid|Vending machine unique identifier.|Required, Foreign Key
+VendingMachineId|Guid|Vending machine unique identifier.|Required, Foreign Key
 CurrencyId|CurrencyCode3|Currency unique identifier.|Required, Foreign Key
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
@@ -540,7 +540,7 @@ Vending machine definition and related data. *This entity is auditable and track
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|DatabaseGuid|Vending machine unique identifier.|Required, Primary Key
+Id|Guid|Vending machine unique identifier.|Required, Primary Key
 MacAddress|MacAddress|Vending machine mac address.|Required
 PublicIp|IpAddress|Vending machine public ip.|Required
 GeoLocation|LatLong|Vending machine geo location.|Required

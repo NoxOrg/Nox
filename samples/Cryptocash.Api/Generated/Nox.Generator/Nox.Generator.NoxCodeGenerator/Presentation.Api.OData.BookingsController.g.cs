@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
@@ -22,10 +23,10 @@ using Nox.Types;
 namespace Cryptocash.Presentation.Api.OData;
 
 public partial class BookingsController : BookingsControllerBase
-            {
-                public BookingsController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
-                {}
-            }
+{
+    public BookingsController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    {}
+}
 public abstract class BookingsControllerBase : ODataController
 {
     
@@ -56,16 +57,10 @@ public abstract class BookingsControllerBase : ODataController
     }
     
     [EnableQuery]
-    public async Task<ActionResult<BookingDto>> Get([FromRoute] System.Guid key)
+    public async Task<SingleResult<BookingDto>> Get([FromRoute] System.Guid key)
     {
-        var item = await _mediator.Send(new GetBookingByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
+        var query = await _mediator.Send(new GetBookingByIdQuery(key));
+        return SingleResult.Create(query);
     }
     
     public virtual async Task<ActionResult<BookingDto>> Post([FromBody]BookingCreateDto booking)
@@ -76,7 +71,7 @@ public abstract class BookingsControllerBase : ODataController
         }
         var createdKey = await _mediator.Send(new CreateBookingCommand(booking));
         
-        var item = await _mediator.Send(new GetBookingByIdQuery(createdKey.keyId));
+        var item = (await _mediator.Send(new GetBookingByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(item);
     }
@@ -96,7 +91,7 @@ public abstract class BookingsControllerBase : ODataController
             return NotFound();
         }
         
-        var item = await _mediator.Send(new GetBookingByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetBookingByIdQuery(updated.keyId))).SingleOrDefault();
         
         return Ok(item);
     }
@@ -125,7 +120,7 @@ public abstract class BookingsControllerBase : ODataController
         {
             return NotFound();
         }
-        var item = await _mediator.Send(new GetBookingByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetBookingByIdQuery(updated.keyId))).SingleOrDefault();
         return Ok(item);
     }
     
@@ -141,4 +136,73 @@ public abstract class BookingsControllerBase : ODataController
         
         return NoContent();
     }
+    
+    #region Relationships
+    
+    public async Task<ActionResult> CreateRefToBookingForCustomer([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefBookingToBookingForCustomerCommand(new BookingKeyDto(key), new CustomerKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> CreateRefToBookingRelatedVendingMachine([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefBookingToBookingRelatedVendingMachineCommand(new BookingKeyDto(key), new VendingMachineKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> CreateRefToBookingFeesForCommission([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefBookingToBookingFeesForCommissionCommand(new BookingKeyDto(key), new CommissionKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> CreateRefToBookingRelatedTransaction([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefBookingToBookingRelatedTransactionCommand(new BookingKeyDto(key), new TransactionKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    #endregion
+    
 }

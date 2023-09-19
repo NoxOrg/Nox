@@ -18,12 +18,22 @@ namespace Cryptocash.Application.Commands;
 
 public record PartialUpdatePaymentDetailCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <PaymentDetailKeyDto?>;
 
-public class PartialUpdatePaymentDetailCommandHandler: CommandBase<PartialUpdatePaymentDetailCommand, PaymentDetail>, IRequestHandler<PartialUpdatePaymentDetailCommand, PaymentDetailKeyDto?>
+public class PartialUpdatePaymentDetailCommandHandler: PartialUpdatePaymentDetailCommandHandlerBase
+{
+	public PartialUpdatePaymentDetailCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<PaymentDetail> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+	{
+	}
+}
+public class PartialUpdatePaymentDetailCommandHandlerBase: CommandBase<PartialUpdatePaymentDetailCommand, PaymentDetail>, IRequestHandler<PartialUpdatePaymentDetailCommand, PaymentDetailKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<PaymentDetail> EntityMapper { get; }
 
-	public PartialUpdatePaymentDetailCommandHandler(
+	public PartialUpdatePaymentDetailCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -33,11 +43,11 @@ public class PartialUpdatePaymentDetailCommandHandler: CommandBase<PartialUpdate
 		EntityMapper = entityMapper;
 	}
 
-	public async Task<PaymentDetailKeyDto?> Handle(PartialUpdatePaymentDetailCommand request, CancellationToken cancellationToken)
+	public virtual async Task<PaymentDetailKeyDto?> Handle(PartialUpdatePaymentDetailCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<PaymentDetail,AutoNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<PaymentDetail,Nox.Types.AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.PaymentDetails.FindAsync(keyId);
 		if (entity == null)

@@ -18,12 +18,22 @@ namespace ClientApi.Application.Commands;
 
 public record PartialUpdateCountryCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CountryKeyDto?>;
 
-public class PartialUpdateCountryCommandHandler: CommandBase<PartialUpdateCountryCommand, Country>, IRequestHandler<PartialUpdateCountryCommand, CountryKeyDto?>
+public class PartialUpdateCountryCommandHandler: PartialUpdateCountryCommandHandlerBase
+{
+	public PartialUpdateCountryCommandHandler(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<Country> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+	{
+	}
+}
+public class PartialUpdateCountryCommandHandlerBase: CommandBase<PartialUpdateCountryCommand, Country>, IRequestHandler<PartialUpdateCountryCommand, CountryKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<Country> EntityMapper { get; }
 
-	public PartialUpdateCountryCommandHandler(
+	public PartialUpdateCountryCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -33,11 +43,11 @@ public class PartialUpdateCountryCommandHandler: CommandBase<PartialUpdateCountr
 		EntityMapper = entityMapper;
 	}
 
-	public async Task<CountryKeyDto?> Handle(PartialUpdateCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CountryKeyDto?> Handle(PartialUpdateCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Country,AutoNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Country,Nox.Types.AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.Countries.FindAsync(keyId);
 		if (entity == null)

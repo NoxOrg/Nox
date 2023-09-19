@@ -23,7 +23,10 @@ public partial class StoreCreateDto: StoreCreateDtoBase
 /// Stores.
 /// </summary>
 public abstract class StoreCreateDtoBase : IEntityCreateDto<Store>
-{    
+{/// <summary>
+    ///  (Optional).
+    /// </summary>
+    public System.Guid Id { get; set; } = default!;    
     /// <summary>
     /// Store Name (Required).
     /// </summary>
@@ -46,7 +49,6 @@ public abstract class StoreCreateDtoBase : IEntityCreateDto<Store>
     /// <summary>
     /// Store Owner of the Store ZeroOrOne StoreOwners
     /// </summary>
-    
     public virtual StoreOwnerCreateDto? Ownership { get; set; } = null!;
 
     /// <summary>

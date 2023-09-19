@@ -35,7 +35,7 @@ public abstract class LandLordBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Landlord unique identifier (Required).
     /// </summary>
-    public AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Landlord name (Required).

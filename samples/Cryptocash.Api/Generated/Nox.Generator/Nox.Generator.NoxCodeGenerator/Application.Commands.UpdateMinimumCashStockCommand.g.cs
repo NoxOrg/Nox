@@ -17,12 +17,22 @@ namespace Cryptocash.Application.Commands;
 
 public record UpdateMinimumCashStockCommand(System.Int64 keyId, MinimumCashStockUpdateDto EntityDto, System.Guid? Etag) : IRequest<MinimumCashStockKeyDto?>;
 
-public class UpdateMinimumCashStockCommandHandler: CommandBase<UpdateMinimumCashStockCommand, MinimumCashStock>, IRequestHandler<UpdateMinimumCashStockCommand, MinimumCashStockKeyDto?>
+public partial class UpdateMinimumCashStockCommandHandler: UpdateMinimumCashStockCommandHandlerBase
+{
+	public UpdateMinimumCashStockCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<MinimumCashStock> entityMapper): base(dbContext, noxSolution, serviceProvider, entityMapper)
+	{
+	}
+}
+public abstract class UpdateMinimumCashStockCommandHandlerBase: CommandBase<UpdateMinimumCashStockCommand, MinimumCashStock>, IRequestHandler<UpdateMinimumCashStockCommand, MinimumCashStockKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<MinimumCashStock> EntityMapper { get; }
 
-	public UpdateMinimumCashStockCommandHandler(
+	public UpdateMinimumCashStockCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -32,11 +42,11 @@ public class UpdateMinimumCashStockCommandHandler: CommandBase<UpdateMinimumCash
 		EntityMapper = entityMapper;
 	}
 	
-	public async Task<MinimumCashStockKeyDto?> Handle(UpdateMinimumCashStockCommand request, CancellationToken cancellationToken)
+	public virtual async Task<MinimumCashStockKeyDto?> Handle(UpdateMinimumCashStockCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<MinimumCashStock,AutoNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<MinimumCashStock,Nox.Types.AutoNumber>("Id", request.keyId);
 	
 		var entity = await DbContext.MinimumCashStocks.FindAsync(keyId);
 		if (entity == null)

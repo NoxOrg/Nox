@@ -17,12 +17,22 @@ namespace Cryptocash.Application.Commands;
 
 public record UpdateCommissionCommand(System.Int64 keyId, CommissionUpdateDto EntityDto, System.Guid? Etag) : IRequest<CommissionKeyDto?>;
 
-public class UpdateCommissionCommandHandler: CommandBase<UpdateCommissionCommand, Commission>, IRequestHandler<UpdateCommissionCommand, CommissionKeyDto?>
+public partial class UpdateCommissionCommandHandler: UpdateCommissionCommandHandlerBase
+{
+	public UpdateCommissionCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<Commission> entityMapper): base(dbContext, noxSolution, serviceProvider, entityMapper)
+	{
+	}
+}
+public abstract class UpdateCommissionCommandHandlerBase: CommandBase<UpdateCommissionCommand, Commission>, IRequestHandler<UpdateCommissionCommand, CommissionKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<Commission> EntityMapper { get; }
 
-	public UpdateCommissionCommandHandler(
+	public UpdateCommissionCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -32,11 +42,11 @@ public class UpdateCommissionCommandHandler: CommandBase<UpdateCommissionCommand
 		EntityMapper = entityMapper;
 	}
 	
-	public async Task<CommissionKeyDto?> Handle(UpdateCommissionCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CommissionKeyDto?> Handle(UpdateCommissionCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Commission,AutoNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Commission,Nox.Types.AutoNumber>("Id", request.keyId);
 	
 		var entity = await DbContext.Commissions.FindAsync(keyId);
 		if (entity == null)

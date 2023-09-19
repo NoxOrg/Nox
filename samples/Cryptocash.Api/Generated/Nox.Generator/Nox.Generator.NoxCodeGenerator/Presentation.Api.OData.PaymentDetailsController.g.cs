@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
@@ -22,10 +23,10 @@ using Nox.Types;
 namespace Cryptocash.Presentation.Api.OData;
 
 public partial class PaymentDetailsController : PaymentDetailsControllerBase
-            {
-                public PaymentDetailsController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
-                {}
-            }
+{
+    public PaymentDetailsController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    {}
+}
 public abstract class PaymentDetailsControllerBase : ODataController
 {
     
@@ -56,16 +57,10 @@ public abstract class PaymentDetailsControllerBase : ODataController
     }
     
     [EnableQuery]
-    public async Task<ActionResult<PaymentDetailDto>> Get([FromRoute] System.Int64 key)
+    public async Task<SingleResult<PaymentDetailDto>> Get([FromRoute] System.Int64 key)
     {
-        var item = await _mediator.Send(new GetPaymentDetailByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
+        var query = await _mediator.Send(new GetPaymentDetailByIdQuery(key));
+        return SingleResult.Create(query);
     }
     
     public virtual async Task<ActionResult<PaymentDetailDto>> Post([FromBody]PaymentDetailCreateDto paymentDetail)
@@ -76,7 +71,7 @@ public abstract class PaymentDetailsControllerBase : ODataController
         }
         var createdKey = await _mediator.Send(new CreatePaymentDetailCommand(paymentDetail));
         
-        var item = await _mediator.Send(new GetPaymentDetailByIdQuery(createdKey.keyId));
+        var item = (await _mediator.Send(new GetPaymentDetailByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(item);
     }
@@ -96,7 +91,7 @@ public abstract class PaymentDetailsControllerBase : ODataController
             return NotFound();
         }
         
-        var item = await _mediator.Send(new GetPaymentDetailByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetPaymentDetailByIdQuery(updated.keyId))).SingleOrDefault();
         
         return Ok(item);
     }
@@ -125,7 +120,7 @@ public abstract class PaymentDetailsControllerBase : ODataController
         {
             return NotFound();
         }
-        var item = await _mediator.Send(new GetPaymentDetailByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetPaymentDetailByIdQuery(updated.keyId))).SingleOrDefault();
         return Ok(item);
     }
     
@@ -141,4 +136,41 @@ public abstract class PaymentDetailsControllerBase : ODataController
         
         return NoContent();
     }
+    
+    #region Relationships
+    
+    public async Task<ActionResult> CreateRefToPaymentDetailsUsedByCustomer([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefPaymentDetailToPaymentDetailsUsedByCustomerCommand(new PaymentDetailKeyDto(key), new CustomerKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> CreateRefToPaymentDetailsRelatedPaymentProvider([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommand(new PaymentDetailKeyDto(key), new PaymentProviderKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    #endregion
+    
 }

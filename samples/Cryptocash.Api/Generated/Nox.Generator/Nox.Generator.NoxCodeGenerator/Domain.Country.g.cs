@@ -35,7 +35,7 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Country unique identifier (Required).
     /// </summary>
-    public CountryCode2 Id { get; set; } = null!;
+    public Nox.Types.CountryCode2 Id { get; set; } = null!;
 
     /// <summary>
     /// Country's name (Required).

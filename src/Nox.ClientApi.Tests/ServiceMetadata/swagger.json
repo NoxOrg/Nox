@@ -776,82 +776,82 @@
             "content": {
               "application/json;odata.metadata=minimal;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=minimal;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=minimal": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "application/json;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "application/json;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "application/octet-stream": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDto"
+                  "$ref": "#/components/schemas/CountryDtoSingleResult"
                 }
               }
             }
@@ -2671,6 +2671,74 @@
         }
       }
     },
+    "/api/Countries/{key}/PhysicalWorkplaces/{relatedKey}/$ref": {
+      "post": {
+        "tags": [
+          "Countries"
+        ],
+        "operationId": "api/Countries/{key}/PhysicalWorkplaces/{relatedKey}/$ref",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "relatedKey",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Countries"
+        ],
+        "operationId": "api/Countries/{key}/PhysicalWorkplaces/{relatedKey}/$ref",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "relatedKey",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Houses": {
       "get": {
         "tags": [
@@ -3775,82 +3843,82 @@
             "content": {
               "application/json;odata.metadata=minimal;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=minimal;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=minimal": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "application/json;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "application/json;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "application/octet-stream": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreOwnerDto"
+                  "$ref": "#/components/schemas/StoreOwnerDtoSingleResult"
                 }
               }
             }
@@ -4246,6 +4314,72 @@
             "style": "simple",
             "schema": {
               "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/StoreOwners/{key}/Stores/{relatedKey}/$ref": {
+      "post": {
+        "tags": [
+          "StoreOwners"
+        ],
+        "operationId": "api/StoreOwners/{key}/Stores/{relatedKey}/$ref",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "relatedKey",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "StoreOwners"
+        ],
+        "operationId": "api/StoreOwners/{key}/Stores/{relatedKey}/$ref",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "relatedKey",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -4743,82 +4877,82 @@
             "content": {
               "application/json;odata.metadata=minimal;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=minimal;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=minimal": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "application/json;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "application/json;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "application/octet-stream": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/StoreDto"
+                  "$ref": "#/components/schemas/StoreDtoSingleResult"
                 }
               }
             }
@@ -5759,6 +5893,72 @@
         }
       }
     },
+    "/api/Stores/{key}/Ownership/{relatedKey}/$ref": {
+      "post": {
+        "tags": [
+          "Stores"
+        ],
+        "operationId": "api/Stores/{key}/Ownership/{relatedKey}/$ref",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "relatedKey",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Stores"
+        ],
+        "operationId": "api/Stores/{key}/Ownership/{relatedKey}/$ref",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "relatedKey",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Workplaces": {
       "get": {
         "tags": [
@@ -6246,82 +6446,82 @@
             "content": {
               "application/json;odata.metadata=minimal;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=minimal;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=minimal": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "application/json;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "application/json;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "application/octet-stream": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkplaceDto"
+                  "$ref": "#/components/schemas/WorkplaceDtoSingleResult"
                 }
               }
             }
@@ -6720,6 +6920,74 @@
             "schema": {
               "type": "integer",
               "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Workplaces/{key}/BelongsToCountry/{relatedKey}/$ref": {
+      "post": {
+        "tags": [
+          "Workplaces"
+        ],
+        "operationId": "api/Workplaces/{key}/BelongsToCountry/{relatedKey}/$ref",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "relatedKey",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Workplaces"
+        ],
+        "operationId": "api/Workplaces/{key}/BelongsToCountry/{relatedKey}/$ref",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "relatedKey",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
             }
           }
         ],
@@ -7426,6 +7694,19 @@
             },
             "nullable": true,
             "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CountryDtoSingleResult": {
+        "type": "object",
+        "properties": {
+          "queryable": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CountryDto"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -9157,6 +9438,10 @@
         ],
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
           "name": {
             "minLength": 1,
             "type": "string"
@@ -9237,6 +9522,19 @@
             },
             "nullable": true,
             "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "StoreDtoSingleResult": {
+        "type": "object",
+        "properties": {
+          "queryable": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StoreDto"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -9350,6 +9648,19 @@
             },
             "nullable": true,
             "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "StoreOwnerDtoSingleResult": {
+        "type": "object",
+        "properties": {
+          "queryable": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StoreOwnerDto"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -10255,6 +10566,19 @@
             },
             "nullable": true,
             "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "WorkplaceDtoSingleResult": {
+        "type": "object",
+        "properties": {
+          "queryable": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkplaceDto"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false

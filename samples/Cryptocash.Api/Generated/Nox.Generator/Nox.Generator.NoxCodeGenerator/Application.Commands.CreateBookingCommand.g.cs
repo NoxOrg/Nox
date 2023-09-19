@@ -30,13 +30,14 @@ public partial class CreateBookingCommandHandler: CreateBookingCommandHandlerBas
         IEntityFactory<Commission,CommissionCreateDto> commissionfactory,
         IEntityFactory<Transaction,TransactionCreateDto> transactionfactory,
         IEntityFactory<Booking,BookingCreateDto> entityFactory,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution,customerfactory,vendingmachinefactory,commissionfactory,transactionfactory,entityFactory, serviceProvider)
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution,customerfactory,vendingmachinefactory,commissionfactory,transactionfactory,entityFactory, serviceProvider)
 	{
 	}
 }
 
 
-public partial class CreateBookingCommandHandlerBase: CommandBase<CreateBookingCommand,Booking>, IRequestHandler <CreateBookingCommand, BookingKeyDto>
+public abstract class CreateBookingCommandHandlerBase: CommandBase<CreateBookingCommand,Booking>, IRequestHandler <CreateBookingCommand, BookingKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<Booking,BookingCreateDto> _entityFactory;
@@ -63,7 +64,7 @@ public partial class CreateBookingCommandHandlerBase: CommandBase<CreateBookingC
         _transactionfactory = transactionfactory;
 	}
 
-	public async Task<BookingKeyDto> Handle(CreateBookingCommand request, CancellationToken cancellationToken)
+	public virtual async Task<BookingKeyDto> Handle(CreateBookingCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

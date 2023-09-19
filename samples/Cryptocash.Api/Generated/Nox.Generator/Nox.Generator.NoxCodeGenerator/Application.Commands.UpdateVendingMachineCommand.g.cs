@@ -17,12 +17,22 @@ namespace Cryptocash.Application.Commands;
 
 public record UpdateVendingMachineCommand(System.Guid keyId, VendingMachineUpdateDto EntityDto, System.Guid? Etag) : IRequest<VendingMachineKeyDto?>;
 
-public class UpdateVendingMachineCommandHandler: CommandBase<UpdateVendingMachineCommand, VendingMachine>, IRequestHandler<UpdateVendingMachineCommand, VendingMachineKeyDto?>
+public partial class UpdateVendingMachineCommandHandler: UpdateVendingMachineCommandHandlerBase
+{
+	public UpdateVendingMachineCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<VendingMachine> entityMapper): base(dbContext, noxSolution, serviceProvider, entityMapper)
+	{
+	}
+}
+public abstract class UpdateVendingMachineCommandHandlerBase: CommandBase<UpdateVendingMachineCommand, VendingMachine>, IRequestHandler<UpdateVendingMachineCommand, VendingMachineKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<VendingMachine> EntityMapper { get; }
 
-	public UpdateVendingMachineCommandHandler(
+	public UpdateVendingMachineCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -32,11 +42,11 @@ public class UpdateVendingMachineCommandHandler: CommandBase<UpdateVendingMachin
 		EntityMapper = entityMapper;
 	}
 	
-	public async Task<VendingMachineKeyDto?> Handle(UpdateVendingMachineCommand request, CancellationToken cancellationToken)
+	public virtual async Task<VendingMachineKeyDto?> Handle(UpdateVendingMachineCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<VendingMachine,DatabaseGuid>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<VendingMachine,Nox.Types.Guid>("Id", request.keyId);
 	
 		var entity = await DbContext.VendingMachines.FindAsync(keyId);
 		if (entity == null)

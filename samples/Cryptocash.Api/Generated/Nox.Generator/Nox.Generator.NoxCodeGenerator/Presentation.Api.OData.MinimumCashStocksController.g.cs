@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
@@ -22,10 +23,10 @@ using Nox.Types;
 namespace Cryptocash.Presentation.Api.OData;
 
 public partial class MinimumCashStocksController : MinimumCashStocksControllerBase
-            {
-                public MinimumCashStocksController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
-                {}
-            }
+{
+    public MinimumCashStocksController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    {}
+}
 public abstract class MinimumCashStocksControllerBase : ODataController
 {
     
@@ -56,16 +57,10 @@ public abstract class MinimumCashStocksControllerBase : ODataController
     }
     
     [EnableQuery]
-    public async Task<ActionResult<MinimumCashStockDto>> Get([FromRoute] System.Int64 key)
+    public async Task<SingleResult<MinimumCashStockDto>> Get([FromRoute] System.Int64 key)
     {
-        var item = await _mediator.Send(new GetMinimumCashStockByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
+        var query = await _mediator.Send(new GetMinimumCashStockByIdQuery(key));
+        return SingleResult.Create(query);
     }
     
     public virtual async Task<ActionResult<MinimumCashStockDto>> Post([FromBody]MinimumCashStockCreateDto minimumCashStock)
@@ -76,7 +71,7 @@ public abstract class MinimumCashStocksControllerBase : ODataController
         }
         var createdKey = await _mediator.Send(new CreateMinimumCashStockCommand(minimumCashStock));
         
-        var item = await _mediator.Send(new GetMinimumCashStockByIdQuery(createdKey.keyId));
+        var item = (await _mediator.Send(new GetMinimumCashStockByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(item);
     }
@@ -96,7 +91,7 @@ public abstract class MinimumCashStocksControllerBase : ODataController
             return NotFound();
         }
         
-        var item = await _mediator.Send(new GetMinimumCashStockByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetMinimumCashStockByIdQuery(updated.keyId))).SingleOrDefault();
         
         return Ok(item);
     }
@@ -125,7 +120,7 @@ public abstract class MinimumCashStocksControllerBase : ODataController
         {
             return NotFound();
         }
-        var item = await _mediator.Send(new GetMinimumCashStockByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetMinimumCashStockByIdQuery(updated.keyId))).SingleOrDefault();
         return Ok(item);
     }
     
@@ -141,4 +136,41 @@ public abstract class MinimumCashStocksControllerBase : ODataController
         
         return NoContent();
     }
+    
+    #region Relationships
+    
+    public async Task<ActionResult> CreateRefToMinimumCashStocksRequiredByVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand(new MinimumCashStockKeyDto(key), new VendingMachineKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> CreateRefToMinimumCashStockRelatedCurrency([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefMinimumCashStockToMinimumCashStockRelatedCurrencyCommand(new MinimumCashStockKeyDto(key), new CurrencyKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    #endregion
+    
 }

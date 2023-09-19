@@ -35,7 +35,7 @@ public abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurren
     /// <summary>
     /// Vending machine's order unique identifier (Required).
     /// </summary>
-    public AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Order amount (Required).
@@ -69,7 +69,7 @@ public abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurren
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity VendingMachine
     /// </summary>
-    public Nox.Types.DatabaseGuid CashStockOrderForVendingMachineId { get; set; } = null!;
+    public Nox.Types.Guid CashStockOrderForVendingMachineId { get; set; } = null!;
 
     public virtual void CreateRefToVendingMachineCashStockOrderForVendingMachine(VendingMachine relatedVendingMachine)
     {

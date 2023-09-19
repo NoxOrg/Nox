@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
@@ -22,10 +23,10 @@ using Nox.Types;
 namespace Cryptocash.Presentation.Api.OData;
 
 public partial class VendingMachinesController : VendingMachinesControllerBase
-            {
-                public VendingMachinesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
-                {}
-            }
+{
+    public VendingMachinesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    {}
+}
 public abstract class VendingMachinesControllerBase : ODataController
 {
     
@@ -56,16 +57,10 @@ public abstract class VendingMachinesControllerBase : ODataController
     }
     
     [EnableQuery]
-    public async Task<ActionResult<VendingMachineDto>> Get([FromRoute] System.Guid key)
+    public async Task<SingleResult<VendingMachineDto>> Get([FromRoute] System.Guid key)
     {
-        var item = await _mediator.Send(new GetVendingMachineByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
+        var query = await _mediator.Send(new GetVendingMachineByIdQuery(key));
+        return SingleResult.Create(query);
     }
     
     public virtual async Task<ActionResult<VendingMachineDto>> Post([FromBody]VendingMachineCreateDto vendingMachine)
@@ -76,7 +71,7 @@ public abstract class VendingMachinesControllerBase : ODataController
         }
         var createdKey = await _mediator.Send(new CreateVendingMachineCommand(vendingMachine));
         
-        var item = await _mediator.Send(new GetVendingMachineByIdQuery(createdKey.keyId));
+        var item = (await _mediator.Send(new GetVendingMachineByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(item);
     }
@@ -96,7 +91,7 @@ public abstract class VendingMachinesControllerBase : ODataController
             return NotFound();
         }
         
-        var item = await _mediator.Send(new GetVendingMachineByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetVendingMachineByIdQuery(updated.keyId))).SingleOrDefault();
         
         return Ok(item);
     }
@@ -125,7 +120,7 @@ public abstract class VendingMachinesControllerBase : ODataController
         {
             return NotFound();
         }
-        var item = await _mediator.Send(new GetVendingMachineByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetVendingMachineByIdQuery(updated.keyId))).SingleOrDefault();
         return Ok(item);
     }
     
@@ -141,4 +136,89 @@ public abstract class VendingMachinesControllerBase : ODataController
         
         return NoContent();
     }
+    
+    #region Relationships
+    
+    public async Task<ActionResult> CreateRefToVendingMachineInstallationCountry([FromRoute] System.Guid key, [FromRoute] System.String relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefVendingMachineToVendingMachineInstallationCountryCommand(new VendingMachineKeyDto(key), new CountryKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> CreateRefToVendingMachineContractedAreaLandLord([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefVendingMachineToVendingMachineContractedAreaLandLordCommand(new VendingMachineKeyDto(key), new LandLordKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> CreateRefToVendingMachineRelatedBookings([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefVendingMachineToVendingMachineRelatedBookingsCommand(new VendingMachineKeyDto(key), new BookingKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> CreateRefToVendingMachineRelatedCashStockOrders([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefVendingMachineToVendingMachineRelatedCashStockOrdersCommand(new VendingMachineKeyDto(key), new CashStockOrderKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> CreateRefToVendingMachineRequiredMinimumCashStocks([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefVendingMachineToVendingMachineRequiredMinimumCashStocksCommand(new VendingMachineKeyDto(key), new MinimumCashStockKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    #endregion
+    
 }

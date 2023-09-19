@@ -18,12 +18,22 @@ namespace ClientApi.Application.Commands;
 
 public record PartialUpdateStoreOwnerCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <StoreOwnerKeyDto?>;
 
-public class PartialUpdateStoreOwnerCommandHandler: CommandBase<PartialUpdateStoreOwnerCommand, StoreOwner>, IRequestHandler<PartialUpdateStoreOwnerCommand, StoreOwnerKeyDto?>
+public class PartialUpdateStoreOwnerCommandHandler: PartialUpdateStoreOwnerCommandHandlerBase
+{
+	public PartialUpdateStoreOwnerCommandHandler(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<StoreOwner> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+	{
+	}
+}
+public class PartialUpdateStoreOwnerCommandHandlerBase: CommandBase<PartialUpdateStoreOwnerCommand, StoreOwner>, IRequestHandler<PartialUpdateStoreOwnerCommand, StoreOwnerKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<StoreOwner> EntityMapper { get; }
 
-	public PartialUpdateStoreOwnerCommandHandler(
+	public PartialUpdateStoreOwnerCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -33,11 +43,11 @@ public class PartialUpdateStoreOwnerCommandHandler: CommandBase<PartialUpdateSto
 		EntityMapper = entityMapper;
 	}
 
-	public async Task<StoreOwnerKeyDto?> Handle(PartialUpdateStoreOwnerCommand request, CancellationToken cancellationToken)
+	public virtual async Task<StoreOwnerKeyDto?> Handle(PartialUpdateStoreOwnerCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<StoreOwner,Text>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<StoreOwner,Nox.Types.Text>("Id", request.keyId);
 
 		var entity = await DbContext.StoreOwners.FindAsync(keyId);
 		if (entity == null)

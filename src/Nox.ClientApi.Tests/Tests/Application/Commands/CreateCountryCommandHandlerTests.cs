@@ -1,22 +1,15 @@
 ﻿using FluentAssertions;
 using ClientApi.Application.Dto;
-using AutoFixture.AutoMoq;
-using AutoFixture;
 
 namespace ClientApi.Tests.Tests.Controllers;
 
-[Collection("Sequential")]
-public class CreateCountryCommandHandlerTests 
+[Collection("CreateCountryCommandHandlerTests")]
+public class CreateCountryCommandHandlerTests : NoxIntegrationTestBase
 {
     private const string CountryControllerName = "api/countries";
-    private readonly Fixture _fixture;
-    private readonly ODataFixture _oDataFixture;
 
-    public CreateCountryCommandHandlerTests()
+    public CreateCountryCommandHandlerTests(NoxTestContainerService containerService) : base(containerService)
     {
-        _fixture = new Fixture();
-        _fixture.Customize(new AutoMoqCustomization());
-        _oDataFixture = _fixture.Create<ODataFixture>();
     }
 
     /// <summary>
@@ -40,9 +33,9 @@ public class CreateCountryCommandHandlerTests
         };
         
         // Act
-        var postResult = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(CountryControllerName, countryDto);
-        var headers = _oDataFixture.CreateEtagHeader(postResult?.Etag);
-        var putResult = await _oDataFixture.PutAsync<CountryUpdateDto, CountryDto>($"{CountryControllerName}/{postResult!.Id}", countryUpdateDto, headers);
+        var postResult = await PostAsync<CountryCreateDto, CountryDto>(CountryControllerName, countryDto);
+        var headers = CreateEtagHeader(postResult?.Etag);
+        var putResult = await PutAsync<CountryUpdateDto, CountryDto>($"{CountryControllerName}/{postResult!.Id}", countryUpdateDto, headers);
 
         //Assert
 
@@ -67,7 +60,7 @@ public class CreateCountryCommandHandlerTests
         };
 
         // Act
-        var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(CountryControllerName, countryDto);
+        var result = await PostAsync<CountryCreateDto, CountryDto>(CountryControllerName, countryDto);
 
         //Assert
         result.Should().NotBeNull();

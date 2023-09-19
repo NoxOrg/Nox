@@ -12,7 +12,7 @@ This event is triggered when a new VendingMachine is created.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|DatabaseGuid|Vending machine unique identifier
+Id|Guid|Vending machine unique identifier
 MacAddress|MacAddress|Vending machine mac address
 PublicIp|IpAddress|Vending machine public ip
 GeoLocation|LatLong|Vending machine geo location
@@ -34,7 +34,7 @@ This event is triggered when an existing VendingMachine is updated.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|DatabaseGuid|Vending machine unique identifier
+Id|Guid|Vending machine unique identifier
 MacAddress|MacAddress|Vending machine mac address
 PublicIp|IpAddress|Vending machine public ip
 GeoLocation|LatLong|Vending machine geo location
@@ -56,7 +56,7 @@ This event is triggered when an existing VendingMachine is deleted.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|DatabaseGuid|Vending machine unique identifier
+Id|Guid|Vending machine unique identifier
 MacAddress|MacAddress|Vending machine mac address
 PublicIp|IpAddress|Vending machine public ip
 GeoLocation|LatLong|Vending machine geo location

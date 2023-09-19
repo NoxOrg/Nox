@@ -35,7 +35,7 @@ public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Customer's unique identifier (Required).
     /// </summary>
-    public AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Customer's first name (Required).

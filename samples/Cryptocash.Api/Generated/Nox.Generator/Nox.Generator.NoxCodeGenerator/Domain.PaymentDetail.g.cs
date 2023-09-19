@@ -35,7 +35,7 @@ public abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Customer payment account unique identifier (Required).
     /// </summary>
-    public AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Payment account name (Required).

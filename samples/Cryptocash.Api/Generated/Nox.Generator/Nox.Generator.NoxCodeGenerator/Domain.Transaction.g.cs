@@ -35,7 +35,7 @@ public abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Customer transaction unique identifier (Required).
     /// </summary>
-    public AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Transaction type (Required).
@@ -80,7 +80,7 @@ public abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Booking
     /// </summary>
-    public Nox.Types.DatabaseGuid TransactionForBookingId { get; set; } = null!;
+    public Nox.Types.Guid TransactionForBookingId { get; set; } = null!;
 
     public virtual void CreateRefToBookingTransactionForBooking(Booking relatedBooking)
     {

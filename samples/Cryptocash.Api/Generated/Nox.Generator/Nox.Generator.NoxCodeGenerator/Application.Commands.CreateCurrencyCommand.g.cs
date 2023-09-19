@@ -28,13 +28,14 @@ public partial class CreateCurrencyCommandHandler: CreateCurrencyCommandHandlerB
         IEntityFactory<Country,CountryCreateDto> countryfactory,
         IEntityFactory<MinimumCashStock,MinimumCashStockCreateDto> minimumcashstockfactory,
         IEntityFactory<Currency,CurrencyCreateDto> entityFactory,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution,countryfactory,minimumcashstockfactory,entityFactory, serviceProvider)
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution,countryfactory,minimumcashstockfactory,entityFactory, serviceProvider)
 	{
 	}
 }
 
 
-public partial class CreateCurrencyCommandHandlerBase: CommandBase<CreateCurrencyCommand,Currency>, IRequestHandler <CreateCurrencyCommand, CurrencyKeyDto>
+public abstract class CreateCurrencyCommandHandlerBase: CommandBase<CreateCurrencyCommand,Currency>, IRequestHandler <CreateCurrencyCommand, CurrencyKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<Currency,CurrencyCreateDto> _entityFactory;
@@ -55,7 +56,7 @@ public partial class CreateCurrencyCommandHandlerBase: CommandBase<CreateCurrenc
         _minimumcashstockfactory = minimumcashstockfactory;
 	}
 
-	public async Task<CurrencyKeyDto> Handle(CreateCurrencyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CurrencyKeyDto> Handle(CreateCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

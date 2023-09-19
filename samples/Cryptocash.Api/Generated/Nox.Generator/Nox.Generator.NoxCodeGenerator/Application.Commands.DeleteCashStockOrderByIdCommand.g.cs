@@ -15,11 +15,20 @@ namespace Cryptocash.Application.Commands;
 
 public record DeleteCashStockOrderByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
-public class DeleteCashStockOrderByIdCommandHandler: CommandBase<DeleteCashStockOrderByIdCommand,CashStockOrder>, IRequestHandler<DeleteCashStockOrderByIdCommand, bool>
+public class DeleteCashStockOrderByIdCommandHandler:DeleteCashStockOrderByIdCommandHandlerBase
+{
+	public DeleteCashStockOrderByIdCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+	{
+	}
+}
+public abstract class DeleteCashStockOrderByIdCommandHandlerBase: CommandBase<DeleteCashStockOrderByIdCommand,CashStockOrder>, IRequestHandler<DeleteCashStockOrderByIdCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public DeleteCashStockOrderByIdCommandHandler(
+	public DeleteCashStockOrderByIdCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -27,11 +36,11 @@ public class DeleteCashStockOrderByIdCommandHandler: CommandBase<DeleteCashStock
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeleteCashStockOrderByIdCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteCashStockOrderByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<CashStockOrder,AutoNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<CashStockOrder,Nox.Types.AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.CashStockOrders.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted.Value == true)

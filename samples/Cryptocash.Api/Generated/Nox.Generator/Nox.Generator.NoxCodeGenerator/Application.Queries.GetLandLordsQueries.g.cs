@@ -14,16 +14,24 @@ namespace Cryptocash.Application.Queries;
 
 public record GetLandLordsQuery() : IRequest<IQueryable<LandLordDto>>;
 
-public partial class GetLandLordsQueryHandler : QueryBase<IQueryable<LandLordDto>>, IRequestHandler<GetLandLordsQuery, IQueryable<LandLordDto>>
+public partial class GetLandLordsQueryHandler: GetLandLordsQueryHandlerBase
 {
-    public  GetLandLordsQueryHandler(DtoDbContext dataDbContext)
+    public GetLandLordsQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    {
+    
+    }
+}
+
+public abstract class GetLandLordsQueryHandlerBase : QueryBase<IQueryable<LandLordDto>>, IRequestHandler<GetLandLordsQuery, IQueryable<LandLordDto>>
+{
+    public  GetLandLordsQueryHandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<IQueryable<LandLordDto>> Handle(GetLandLordsQuery request, CancellationToken cancellationToken)
+    public virtual Task<IQueryable<LandLordDto>> Handle(GetLandLordsQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<LandLordDto>)DataDbContext.LandLords
             .Where(r => r.DeletedAtUtc == null)

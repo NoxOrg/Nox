@@ -58,6 +58,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             code.AppendLine($"using Microsoft.AspNetCore.Mvc;");
             code.AppendLine($"using Microsoft.AspNetCore.OData.Deltas;");
             code.AppendLine($"using Microsoft.AspNetCore.OData.Query;");
+            code.AppendLine($"using Microsoft.AspNetCore.OData.Results;");
             code.AppendLine($"using Microsoft.AspNetCore.OData.Routing.Controllers;");
             code.AppendLine($"using Microsoft.EntityFrameworkCore;");
             code.AppendLine("using MediatR;");
@@ -79,10 +80,10 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             code.AppendLine();
 
             code.AppendLine(@$"public partial class {controllerName} : {controllerName}Base
-            {{
-                public {controllerName}(IMediator mediator, {dbContextName} databaseContext):base(databaseContext, mediator)
-                {{}}
-            }}");
+{{
+    public {controllerName}(IMediator mediator, {dbContextName} databaseContext):base(databaseContext, mediator)
+    {{}}
+}}");
 
             code.AppendLine($"public abstract class {controllerName}Base : ODataController");
 
@@ -143,7 +144,8 @@ internal class EntityControllerGenerator : INoxCodeGenerator
                 GenerateDelete(entity, entityName, code, codeGeneratorState.Solution);
             }
 
-            GenerateOwnedEntities(codeGeneratorState.Solution, code, entity);
+            GenerateOwnedRelationships(codeGeneratorState.Solution, code, entity);
+            GenerateRelationships(codeGeneratorState.Solution, code, entity);
 
             // Generate GET request mapping for Queries
             foreach (var query in queries)
@@ -239,7 +241,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine($"return NotFound();");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine($"var item = await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity, "updated.key", true)}));");
+        code.AppendLine($"var item = (await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity, "updated.key", true)}))).SingleOrDefault();");
         code.AppendLine();
 
         code.AppendLine($"return Ok(item);");
@@ -288,7 +290,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.StartBlock();
         code.AppendLine($"return NotFound();");
         code.EndBlock();
-        code.AppendLine($"var item = await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity, "updated.key", true)}));");
+        code.AppendLine($"var item = (await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity, "updated.key", true)}))).SingleOrDefault();");
         code.AppendLine($"return Ok(item);");
 
         // End method
@@ -309,7 +311,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.EndBlock();
         code.AppendLine($"var createdKey = await _mediator.Send(new Create{entity.Name}Command({entity.Name.ToLowerFirstChar()}));");
         code.AppendLine();
-        code.AppendLine($"var item = await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity, "createdKey.key", true)}));");
+        code.AppendLine($"var item = (await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity, "createdKey.key", true)}))).SingleOrDefault();");
         code.AppendLine();
         
         code.AppendLine($"return Created(item);");
@@ -319,9 +321,14 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine();
     }
 
-    private static void GenerateOwnedEntities(NoxSolution solution, CodeBuilder code, Entity entity)
+    private static void GenerateOwnedRelationships(NoxSolution solution, CodeBuilder code, Entity entity)
     {
-        if (entity.OwnedRelationships != null && entity.OwnedRelationships.Any())
+        static bool CanRead(Entity entity) => entity.Persistence?.Read?.IsEnabled ?? true;
+        static bool CanCreate(Entity entity) => entity.Persistence?.Create?.IsEnabled ?? true;
+        static bool CanUpdate(Entity entity) => entity.Persistence?.Update?.IsEnabled ?? true;
+        static bool CanDelete(Entity entity) => entity.Persistence?.Delete?.IsEnabled ?? true;
+
+        if (entity.OwnedRelationships?.Any() == true)
         {
             code.AppendLine();
             code.AppendLine($"#region Owned Relationships");
@@ -330,7 +337,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             {
                 var child = relationship.Related.Entity;
 
-                if (child.Persistence is null || child.Persistence.Read.IsEnabled)
+                if (CanRead(entity) && CanRead(child))
                 {
                     GenerateChildrenGet(solution, relationship, entity, code);
 
@@ -338,18 +345,18 @@ internal class EntityControllerGenerator : INoxCodeGenerator
                         GenerateChildrenGetById(solution, relationship, child, entity, code);
                 }
 
-                if (child.Persistence is null || child.Persistence.Create.IsEnabled)
+                if (CanCreate(entity) && CanCreate(child))
                 {
                     GenerateChildrenPost(solution, relationship, entity, code);
                 }
 
-                if (child.Persistence is null || child.Persistence.Update.IsEnabled)
+                if (CanUpdate(entity) && CanUpdate(child))
                 {
                     GenerateChildrenPut(solution, relationship, entity, code);
                     GenerateChildrenPatch(solution, relationship, entity, code);
                 }
 
-                if (child.Persistence is null || child.Persistence.Delete.IsEnabled)
+                if (CanDelete(entity) && CanDelete(child))
                 {
                     GenerateChildrenDelete(solution, relationship, entity, code);
                 }
@@ -367,7 +374,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine($"private async Task<{child.Name}Dto?> TryGet{relationship.Name}({PrimaryKeysFromRoute(parent, solution, attributePrefix: "")}, {child.Name}KeyDto childKeyDto)");
 
         code.StartBlock();
-        code.AppendLine($"var parent = await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)}));");
+        code.AppendLine($"var parent = (await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)}))).SingleOrDefault();");
 
         var param = string.Join(" && ", child.Keys.Select(k => $"x.{k.Name} == childKeyDto.key{k.Name}"));
         code.AppendLine($"return parent?.{relationship.Name}.SingleOrDefault(x => {param});");
@@ -421,7 +428,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
 
-        code.AppendLine($"var item = await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)}));");
+        code.AppendLine($"var item = (await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)}))).SingleOrDefault();");
         code.AppendLine();
         code.AppendLine($"if (item is null)");
         code.StartBlock();
@@ -458,7 +465,9 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine();
 
         if (isSingleRelationship)
-            code.AppendLine($"var child = (await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)})))?.{relationship.Name};");
+            code.AppendLine($"var child = (await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)})))" +
+                $".SingleOrDefault()?" +
+                $".{relationship.Name};");
         else
             code.AppendLine($"var child = await TryGet{relationship.Name}({PrimaryKeysQuery(parent)}, createdKey);");
 
@@ -518,7 +527,9 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine();
 
         if (isSingleRelationship)
-            code.AppendLine($"var child = (await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)})))?.{relationship.Name};");
+            code.AppendLine($"var child = (await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)})))" +
+                $".SingleOrDefault()?" +
+                $".{relationship.Name};");
         else
             code.AppendLine($"var child = await TryGet{relationship.Name}({PrimaryKeysQuery(parent)}, updatedKey);");
 
@@ -589,7 +600,9 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.EndBlock();
 
         if (isSingleRelationship)
-            code.AppendLine($"var child = (await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)})))?.{relationship.Name};");
+            code.AppendLine($"var child = (await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)})))" +
+                $".SingleOrDefault()?" +
+                $".{relationship.Name};");
         else
             code.AppendLine($"var child = await TryGet{relationship.Name}({PrimaryKeysQuery(parent)}, updated);");
 
@@ -673,18 +686,54 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         // We do not support Compound types as primary keys, this is validated on the schema
         // Method Get
         code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"public async Task<ActionResult<{entity.Name}Dto>> Get({PrimaryKeysFromRoute(entity, solution)})");
+        code.AppendLine($"public async Task<SingleResult<{entity.Name}Dto>> Get({PrimaryKeysFromRoute(entity, solution)})");
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"var item = await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity)}));");
+        code.AppendLine($"var query = await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity)}));");
+        code.AppendLine($"return SingleResult.Create(query);");
+
+        // End method
+        code.EndBlock();
         code.AppendLine();
-        code.AppendLine($"if (item == null)");
+    }
+
+    private static void GenerateRelationships(NoxSolution solution, CodeBuilder code, Entity entity)
+    {
+        if (entity.Relationships != null && entity.Relationships.Any())
+        {
+            code.AppendLine();
+            code.AppendLine($"#region Relationships");
+            code.AppendLine();
+            foreach (var relationship in entity.Relationships)
+            {
+                GenerateCreateRefTo(entity, relationship, code, solution);
+            }
+            code.AppendLine($"#endregion");
+            code.AppendLine();
+        }
+    }
+
+    private static void GenerateCreateRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
+    {
+        var relatedEntity = relationship.Related.Entity;
+        code.AppendLine($"public async Task<ActionResult> CreateRefTo{relationship.Name}({PrimaryKeysFromRoute(entity, solution)}, {PrimaryKeysFromRoute(relatedEntity, solution, "relatedKey")})");
+
+        code.StartBlock();
+        code.AppendLine($"if (!ModelState.IsValid)");
+        code.StartBlock();
+        code.AppendLine($"return BadRequest(ModelState);");
+        code.EndBlock();
+        code.AppendLine();
+        code.AppendLine($"var createdRef = await _mediator.Send(new CreateRef{entity.Name}To{relationship.Name}Command(" +
+            $"new {entity.Name}KeyDto({PrimaryKeysQuery(entity)}), new {relatedEntity.Name}KeyDto({PrimaryKeysQuery(relatedEntity, "relatedKey")})));");
+        code.AppendLine($"if (!createdRef)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine($"return Ok(item);");
+
+        code.AppendLine($"return NoContent();");
 
         // End method
         code.EndBlock();

@@ -28,13 +28,14 @@ public partial class CreateMinimumCashStockCommandHandler: CreateMinimumCashStoc
         IEntityFactory<VendingMachine,VendingMachineCreateDto> vendingmachinefactory,
         IEntityFactory<Currency,CurrencyCreateDto> currencyfactory,
         IEntityFactory<MinimumCashStock,MinimumCashStockCreateDto> entityFactory,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution,vendingmachinefactory,currencyfactory,entityFactory, serviceProvider)
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution,vendingmachinefactory,currencyfactory,entityFactory, serviceProvider)
 	{
 	}
 }
 
 
-public partial class CreateMinimumCashStockCommandHandlerBase: CommandBase<CreateMinimumCashStockCommand,MinimumCashStock>, IRequestHandler <CreateMinimumCashStockCommand, MinimumCashStockKeyDto>
+public abstract class CreateMinimumCashStockCommandHandlerBase: CommandBase<CreateMinimumCashStockCommand,MinimumCashStock>, IRequestHandler <CreateMinimumCashStockCommand, MinimumCashStockKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<MinimumCashStock,MinimumCashStockCreateDto> _entityFactory;
@@ -55,7 +56,7 @@ public partial class CreateMinimumCashStockCommandHandlerBase: CommandBase<Creat
         _currencyfactory = currencyfactory;
 	}
 
-	public async Task<MinimumCashStockKeyDto> Handle(CreateMinimumCashStockCommand request, CancellationToken cancellationToken)
+	public virtual async Task<MinimumCashStockKeyDto> Handle(CreateMinimumCashStockCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

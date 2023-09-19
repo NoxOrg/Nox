@@ -12,28 +12,32 @@ using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.Application.Queries;
 
-public record GetBookingByIdQuery(System.Guid keyId) : IRequest <BookingDto?>;
+public record GetBookingByIdQuery(System.Guid keyId) : IRequest <IQueryable<BookingDto>>;
 
-public partial class GetBookingByIdQueryHandler:  QueryBase<BookingDto?>, IRequestHandler<GetBookingByIdQuery, BookingDto?>
+public partial class GetBookingByIdQueryHandler:GetBookingByIdQueryHandlerBase
 {
-    public  GetBookingByIdQueryHandler(DtoDbContext dataDbContext)
+    public  GetBookingByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    {
+    
+    }
+}
+
+public abstract class GetBookingByIdQueryHandlerBase:  QueryBase<IQueryable<BookingDto>>, IRequestHandler<GetBookingByIdQuery, IQueryable<BookingDto>>
+{
+    public  GetBookingByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<BookingDto?> Handle(GetBookingByIdQuery request, CancellationToken cancellationToken)
+    public virtual Task<IQueryable<BookingDto>> Handle(GetBookingByIdQuery request, CancellationToken cancellationToken)
     {    
-        var item = DataDbContext.Bookings
+        var query = DataDbContext.Bookings
             .AsNoTracking()
-            .Include(r => r.BookingForCustomer)
-            .Include(r => r.BookingRelatedVendingMachine)
-            .Include(r => r.BookingFeesForCommission)
-            .Include(r => r.BookingRelatedTransaction)
-            .SingleOrDefault(r =>
+            .Where(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);
-        return Task.FromResult(OnResponse(item));
+        return Task.FromResult(OnResponse(query));
     }
 }

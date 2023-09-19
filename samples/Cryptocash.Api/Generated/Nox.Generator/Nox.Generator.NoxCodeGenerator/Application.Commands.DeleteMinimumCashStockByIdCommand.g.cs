@@ -15,11 +15,20 @@ namespace Cryptocash.Application.Commands;
 
 public record DeleteMinimumCashStockByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
-public class DeleteMinimumCashStockByIdCommandHandler: CommandBase<DeleteMinimumCashStockByIdCommand,MinimumCashStock>, IRequestHandler<DeleteMinimumCashStockByIdCommand, bool>
+public class DeleteMinimumCashStockByIdCommandHandler:DeleteMinimumCashStockByIdCommandHandlerBase
+{
+	public DeleteMinimumCashStockByIdCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+	{
+	}
+}
+public abstract class DeleteMinimumCashStockByIdCommandHandlerBase: CommandBase<DeleteMinimumCashStockByIdCommand,MinimumCashStock>, IRequestHandler<DeleteMinimumCashStockByIdCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public DeleteMinimumCashStockByIdCommandHandler(
+	public DeleteMinimumCashStockByIdCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -27,11 +36,11 @@ public class DeleteMinimumCashStockByIdCommandHandler: CommandBase<DeleteMinimum
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeleteMinimumCashStockByIdCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteMinimumCashStockByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<MinimumCashStock,AutoNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<MinimumCashStock,Nox.Types.AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.MinimumCashStocks.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted.Value == true)

@@ -38,6 +38,5 @@ public abstract class WorkplaceCreateDtoBase : IEntityCreateDto<Workplace>
     /// <summary>
     /// Workplace Workplace country ZeroOrOne Countries
     /// </summary>
-    
     public virtual CountryCreateDto? BelongsToCountry { get; set; } = null!;
 }

@@ -12,7 +12,7 @@ This event is triggered when a new Store is created.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|DatabaseGuid|
+Id|Guid|
 Name|Text|Store Name
 Address|StreetAddress|Street Address
 Location|LatLong|Location
@@ -28,7 +28,7 @@ This event is triggered when an existing Store is updated.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|DatabaseGuid|
+Id|Guid|
 Name|Text|Store Name
 Address|StreetAddress|Street Address
 Location|LatLong|Location
@@ -44,7 +44,7 @@ This event is triggered when an existing Store is deleted.
 **Members (Keys, Attributes & Relationships):**
 Member|Type|Description
 ------|----|-----------
-Id|DatabaseGuid|
+Id|Guid|
 Name|Text|Store Name
 Address|StreetAddress|Street Address
 Location|LatLong|Location

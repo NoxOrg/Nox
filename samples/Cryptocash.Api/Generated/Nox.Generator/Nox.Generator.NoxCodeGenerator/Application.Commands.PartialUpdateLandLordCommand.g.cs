@@ -18,12 +18,22 @@ namespace Cryptocash.Application.Commands;
 
 public record PartialUpdateLandLordCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <LandLordKeyDto?>;
 
-public class PartialUpdateLandLordCommandHandler: CommandBase<PartialUpdateLandLordCommand, LandLord>, IRequestHandler<PartialUpdateLandLordCommand, LandLordKeyDto?>
+public class PartialUpdateLandLordCommandHandler: PartialUpdateLandLordCommandHandlerBase
+{
+	public PartialUpdateLandLordCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<LandLord> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+	{
+	}
+}
+public class PartialUpdateLandLordCommandHandlerBase: CommandBase<PartialUpdateLandLordCommand, LandLord>, IRequestHandler<PartialUpdateLandLordCommand, LandLordKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<LandLord> EntityMapper { get; }
 
-	public PartialUpdateLandLordCommandHandler(
+	public PartialUpdateLandLordCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -33,11 +43,11 @@ public class PartialUpdateLandLordCommandHandler: CommandBase<PartialUpdateLandL
 		EntityMapper = entityMapper;
 	}
 
-	public async Task<LandLordKeyDto?> Handle(PartialUpdateLandLordCommand request, CancellationToken cancellationToken)
+	public virtual async Task<LandLordKeyDto?> Handle(PartialUpdateLandLordCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<LandLord,AutoNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<LandLord,Nox.Types.AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.LandLords.FindAsync(keyId);
 		if (entity == null)

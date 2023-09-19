@@ -15,11 +15,20 @@ namespace Cryptocash.Application.Commands;
 
 public record DeletePaymentProviderByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
-public class DeletePaymentProviderByIdCommandHandler: CommandBase<DeletePaymentProviderByIdCommand,PaymentProvider>, IRequestHandler<DeletePaymentProviderByIdCommand, bool>
+public class DeletePaymentProviderByIdCommandHandler:DeletePaymentProviderByIdCommandHandlerBase
+{
+	public DeletePaymentProviderByIdCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+	{
+	}
+}
+public abstract class DeletePaymentProviderByIdCommandHandlerBase: CommandBase<DeletePaymentProviderByIdCommand,PaymentProvider>, IRequestHandler<DeletePaymentProviderByIdCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public DeletePaymentProviderByIdCommandHandler(
+	public DeletePaymentProviderByIdCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -27,11 +36,11 @@ public class DeletePaymentProviderByIdCommandHandler: CommandBase<DeletePaymentP
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeletePaymentProviderByIdCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeletePaymentProviderByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<PaymentProvider,AutoNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<PaymentProvider,Nox.Types.AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.PaymentProviders.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted.Value == true)

@@ -35,7 +35,7 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// The unique identifier (Required).
     /// </summary>
-    public AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// The Country Name (Required).

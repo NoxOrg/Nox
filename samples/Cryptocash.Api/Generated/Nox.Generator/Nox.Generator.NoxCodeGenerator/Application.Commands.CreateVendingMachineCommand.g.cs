@@ -31,13 +31,14 @@ public partial class CreateVendingMachineCommandHandler: CreateVendingMachineCom
         IEntityFactory<CashStockOrder,CashStockOrderCreateDto> cashstockorderfactory,
         IEntityFactory<MinimumCashStock,MinimumCashStockCreateDto> minimumcashstockfactory,
         IEntityFactory<VendingMachine,VendingMachineCreateDto> entityFactory,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution,countryfactory,landlordfactory,bookingfactory,cashstockorderfactory,minimumcashstockfactory,entityFactory, serviceProvider)
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution,countryfactory,landlordfactory,bookingfactory,cashstockorderfactory,minimumcashstockfactory,entityFactory, serviceProvider)
 	{
 	}
 }
 
 
-public partial class CreateVendingMachineCommandHandlerBase: CommandBase<CreateVendingMachineCommand,VendingMachine>, IRequestHandler <CreateVendingMachineCommand, VendingMachineKeyDto>
+public abstract class CreateVendingMachineCommandHandlerBase: CommandBase<CreateVendingMachineCommand,VendingMachine>, IRequestHandler <CreateVendingMachineCommand, VendingMachineKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<VendingMachine,VendingMachineCreateDto> _entityFactory;
@@ -67,7 +68,7 @@ public partial class CreateVendingMachineCommandHandlerBase: CommandBase<CreateV
         _minimumcashstockfactory = minimumcashstockfactory;
 	}
 
-	public async Task<VendingMachineKeyDto> Handle(CreateVendingMachineCommand request, CancellationToken cancellationToken)
+	public virtual async Task<VendingMachineKeyDto> Handle(CreateVendingMachineCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

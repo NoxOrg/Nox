@@ -14,7 +14,7 @@ Member|Type|Description
 ------|----|-----------
 Id|AutoNumber|Vending machine cash stock unique identifier
 Amount|Money|Cash stock amount
-VendingMachineId|DatabaseGuid|Vending machine unique identifier
+VendingMachineId|Guid|Vending machine unique identifier
 CurrencyId|CurrencyCode3|Currency unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
@@ -29,7 +29,7 @@ Member|Type|Description
 ------|----|-----------
 Id|AutoNumber|Vending machine cash stock unique identifier
 Amount|Money|Cash stock amount
-VendingMachineId|DatabaseGuid|Vending machine unique identifier
+VendingMachineId|Guid|Vending machine unique identifier
 CurrencyId|CurrencyCode3|Currency unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
@@ -44,7 +44,7 @@ Member|Type|Description
 ------|----|-----------
 Id|AutoNumber|Vending machine cash stock unique identifier
 Amount|Money|Cash stock amount
-VendingMachineId|DatabaseGuid|Vending machine unique identifier
+VendingMachineId|Guid|Vending machine unique identifier
 CurrencyId|CurrencyCode3|Currency unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 

@@ -43,7 +43,7 @@ This document provides information about the various endpoints available in our 
 #### Create Customer relation
 - **POST** `/api/PaymentDetails/{key}/Customers/{relatedKey}/$ref`
   - Description: Create a new Customer relation for a specific PaymentDetail.
-  
+
 #### Update Customer relation
 - **PUT** `/api/PaymentDetails/{key}/Customers/{relatedKey}/$ref`
   - Description: Update an existing Customer relation for a specific PaymentDetail.
@@ -69,7 +69,7 @@ This document provides information about the various endpoints available in our 
 #### Create PaymentProvider relation
 - **POST** `/api/PaymentDetails/{key}/PaymentProviders/{relatedKey}/$ref`
   - Description: Create a new PaymentProvider relation for a specific PaymentDetail.
-  
+
 #### Update PaymentProvider relation
 - **PUT** `/api/PaymentDetails/{key}/PaymentProviders/{relatedKey}/$ref`
   - Description: Update an existing PaymentProvider relation for a specific PaymentDetail.

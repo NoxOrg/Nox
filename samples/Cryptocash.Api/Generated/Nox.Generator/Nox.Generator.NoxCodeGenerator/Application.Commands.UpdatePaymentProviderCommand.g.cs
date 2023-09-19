@@ -17,12 +17,22 @@ namespace Cryptocash.Application.Commands;
 
 public record UpdatePaymentProviderCommand(System.Int64 keyId, PaymentProviderUpdateDto EntityDto, System.Guid? Etag) : IRequest<PaymentProviderKeyDto?>;
 
-public class UpdatePaymentProviderCommandHandler: CommandBase<UpdatePaymentProviderCommand, PaymentProvider>, IRequestHandler<UpdatePaymentProviderCommand, PaymentProviderKeyDto?>
+public partial class UpdatePaymentProviderCommandHandler: UpdatePaymentProviderCommandHandlerBase
+{
+	public UpdatePaymentProviderCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<PaymentProvider> entityMapper): base(dbContext, noxSolution, serviceProvider, entityMapper)
+	{
+	}
+}
+public abstract class UpdatePaymentProviderCommandHandlerBase: CommandBase<UpdatePaymentProviderCommand, PaymentProvider>, IRequestHandler<UpdatePaymentProviderCommand, PaymentProviderKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<PaymentProvider> EntityMapper { get; }
 
-	public UpdatePaymentProviderCommandHandler(
+	public UpdatePaymentProviderCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -32,11 +42,11 @@ public class UpdatePaymentProviderCommandHandler: CommandBase<UpdatePaymentProvi
 		EntityMapper = entityMapper;
 	}
 	
-	public async Task<PaymentProviderKeyDto?> Handle(UpdatePaymentProviderCommand request, CancellationToken cancellationToken)
+	public virtual async Task<PaymentProviderKeyDto?> Handle(UpdatePaymentProviderCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<PaymentProvider,AutoNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<PaymentProvider,Nox.Types.AutoNumber>("Id", request.keyId);
 	
 		var entity = await DbContext.PaymentProviders.FindAsync(keyId);
 		if (entity == null)

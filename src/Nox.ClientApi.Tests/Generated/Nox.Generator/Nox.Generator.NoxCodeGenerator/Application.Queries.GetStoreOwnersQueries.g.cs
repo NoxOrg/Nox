@@ -14,16 +14,24 @@ namespace ClientApi.Application.Queries;
 
 public record GetStoreOwnersQuery() : IRequest<IQueryable<StoreOwnerDto>>;
 
-public partial class GetStoreOwnersQueryHandler : QueryBase<IQueryable<StoreOwnerDto>>, IRequestHandler<GetStoreOwnersQuery, IQueryable<StoreOwnerDto>>
+public partial class GetStoreOwnersQueryHandler: GetStoreOwnersQueryHandlerBase
 {
-    public  GetStoreOwnersQueryHandler(DtoDbContext dataDbContext)
+    public GetStoreOwnersQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    {
+    
+    }
+}
+
+public abstract class GetStoreOwnersQueryHandlerBase : QueryBase<IQueryable<StoreOwnerDto>>, IRequestHandler<GetStoreOwnersQuery, IQueryable<StoreOwnerDto>>
+{
+    public  GetStoreOwnersQueryHandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<IQueryable<StoreOwnerDto>> Handle(GetStoreOwnersQuery request, CancellationToken cancellationToken)
+    public virtual Task<IQueryable<StoreOwnerDto>> Handle(GetStoreOwnersQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<StoreOwnerDto>)DataDbContext.StoreOwners
             .Where(r => r.DeletedAtUtc == null)

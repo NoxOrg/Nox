@@ -15,13 +15,22 @@ using ClientApi.Application.Dto;
 namespace ClientApi.Application.Commands;
 public record PartialUpdateCountryBarCodeForCountryCommand(CountryKeyDto ParentKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CountryBarCodeKeyDto?>;
 
-
-public partial class PartialUpdateCountryBarCodeForCountryCommandHandler: CommandBase<PartialUpdateCountryBarCodeForCountryCommand, CountryBarCode>, IRequestHandler <PartialUpdateCountryBarCodeForCountryCommand, CountryBarCodeKeyDto?>
+public partial class PartialUpdateCountryBarCodeForCountryCommandHandler: PartialUpdateCountryBarCodeForCountryCommandHandlerBase
+{
+	public PartialUpdateCountryBarCodeForCountryCommandHandler(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<CountryBarCode> entityMapper): base(dbContext, noxSolution, serviceProvider, entityMapper)
+	{
+	}
+}
+public abstract class PartialUpdateCountryBarCodeForCountryCommandHandlerBase: CommandBase<PartialUpdateCountryBarCodeForCountryCommand, CountryBarCode>, IRequestHandler <PartialUpdateCountryBarCodeForCountryCommand, CountryBarCodeKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<CountryBarCode> EntityMapper { get; }
 
-	public PartialUpdateCountryBarCodeForCountryCommandHandler(
+	public PartialUpdateCountryBarCodeForCountryCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -31,11 +40,11 @@ public partial class PartialUpdateCountryBarCodeForCountryCommandHandler: Comman
 		EntityMapper = entityMapper;
 	}
 
-	public async Task<CountryBarCodeKeyDto?> Handle(PartialUpdateCountryBarCodeForCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CountryBarCodeKeyDto?> Handle(PartialUpdateCountryBarCodeForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Country,AutoNumber>("Id", request.ParentKeyDto.keyId);
+		var keyId = CreateNoxTypeForKey<Country,Nox.Types.AutoNumber>("Id", request.ParentKeyDto.keyId);
 
 		var parentEntity = await DbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)

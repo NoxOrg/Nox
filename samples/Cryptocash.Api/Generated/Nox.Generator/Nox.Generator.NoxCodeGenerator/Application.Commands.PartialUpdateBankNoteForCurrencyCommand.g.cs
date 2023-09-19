@@ -14,13 +14,22 @@ using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
 public record PartialUpdateBankNoteForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <BankNoteKeyDto?>;
-
-public partial class PartialUpdateBankNoteForCurrencyCommandHandler: CommandBase<PartialUpdateBankNoteForCurrencyCommand, BankNote>, IRequestHandler <PartialUpdateBankNoteForCurrencyCommand, BankNoteKeyDto?>
+public partial class PartialUpdateBankNoteForCurrencyCommandHandler: PartialUpdateBankNoteForCurrencyCommandHandlerBase
+{
+	public PartialUpdateBankNoteForCurrencyCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<BankNote> entityMapper): base(dbContext, noxSolution, serviceProvider, entityMapper)
+	{
+	}
+}
+public abstract class PartialUpdateBankNoteForCurrencyCommandHandlerBase: CommandBase<PartialUpdateBankNoteForCurrencyCommand, BankNote>, IRequestHandler <PartialUpdateBankNoteForCurrencyCommand, BankNoteKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<BankNote> EntityMapper { get; }
 
-	public PartialUpdateBankNoteForCurrencyCommandHandler(
+	public PartialUpdateBankNoteForCurrencyCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -30,18 +39,18 @@ public partial class PartialUpdateBankNoteForCurrencyCommandHandler: CommandBase
 		EntityMapper = entityMapper;
 	}
 
-	public async Task<BankNoteKeyDto?> Handle(PartialUpdateBankNoteForCurrencyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<BankNoteKeyDto?> Handle(PartialUpdateBankNoteForCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Currency,CurrencyCode3>("Id", request.ParentKeyDto.keyId);
+		var keyId = CreateNoxTypeForKey<Currency,Nox.Types.CurrencyCode3>("Id", request.ParentKeyDto.keyId);
 
 		var parentEntity = await DbContext.Currencies.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return null;
 		}
-		var ownedId = CreateNoxTypeForKey<BankNote,AutoNumber>("Id", request.EntityKeyDto.keyId);
+		var ownedId = CreateNoxTypeForKey<BankNote,Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);
 		var entity = parentEntity.CurrencyCommonBankNotes.SingleOrDefault(x => x.Id == ownedId);	
 		if (entity == null)
 		{

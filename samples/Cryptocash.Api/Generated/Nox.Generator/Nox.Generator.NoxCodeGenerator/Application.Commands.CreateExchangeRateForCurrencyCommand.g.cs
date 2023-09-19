@@ -19,12 +19,23 @@ using ExchangeRate = Cryptocash.Domain.ExchangeRate;
 namespace Cryptocash.Application.Commands;
 public record CreateExchangeRateForCurrencyCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateCreateDto EntityDto, System.Guid? Etag) : IRequest <ExchangeRateKeyDto?>;
 
-public partial class CreateExchangeRateForCurrencyCommandHandler: CommandBase<CreateExchangeRateForCurrencyCommand, ExchangeRate>, IRequestHandler<CreateExchangeRateForCurrencyCommand, ExchangeRateKeyDto?>
+public partial class CreateExchangeRateForCurrencyCommandHandler: CreateExchangeRateForCurrencyCommandHandlerBase
+{
+	public CreateExchangeRateForCurrencyCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+        IEntityFactory<ExchangeRate,ExchangeRateCreateDto> entityFactory,
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution, entityFactory, serviceProvider)
+	{
+	}
+}
+public abstract class CreateExchangeRateForCurrencyCommandHandlerBase: CommandBase<CreateExchangeRateForCurrencyCommand, ExchangeRate>, IRequestHandler<CreateExchangeRateForCurrencyCommand, ExchangeRateKeyDto?>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<ExchangeRate,ExchangeRateCreateDto> _entityFactory;
 
-	public CreateExchangeRateForCurrencyCommandHandler(
+	public CreateExchangeRateForCurrencyCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
         IEntityFactory<ExchangeRate,ExchangeRateCreateDto> entityFactory,
@@ -34,10 +45,10 @@ public partial class CreateExchangeRateForCurrencyCommandHandler: CommandBase<Cr
 		_entityFactory = entityFactory;	
 	}
 
-	public async Task<ExchangeRateKeyDto?> Handle(CreateExchangeRateForCurrencyCommand request, CancellationToken cancellationToken)
+	public virtual  async Task<ExchangeRateKeyDto?> Handle(CreateExchangeRateForCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Currency,CurrencyCode3>("Id", request.ParentKeyDto.keyId);
+		var keyId = CreateNoxTypeForKey<Currency,Nox.Types.CurrencyCode3>("Id", request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.Currencies.FindAsync(keyId);
 		if (parentEntity == null)

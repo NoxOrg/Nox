@@ -14,16 +14,24 @@ namespace Cryptocash.Application.Queries;
 
 public record GetCurrenciesQuery() : IRequest<IQueryable<CurrencyDto>>;
 
-public partial class GetCurrenciesQueryHandler : QueryBase<IQueryable<CurrencyDto>>, IRequestHandler<GetCurrenciesQuery, IQueryable<CurrencyDto>>
+public partial class GetCurrenciesQueryHandler: GetCurrenciesQueryHandlerBase
 {
-    public  GetCurrenciesQueryHandler(DtoDbContext dataDbContext)
+    public GetCurrenciesQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    {
+    
+    }
+}
+
+public abstract class GetCurrenciesQueryHandlerBase : QueryBase<IQueryable<CurrencyDto>>, IRequestHandler<GetCurrenciesQuery, IQueryable<CurrencyDto>>
+{
+    public  GetCurrenciesQueryHandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<IQueryable<CurrencyDto>> Handle(GetCurrenciesQuery request, CancellationToken cancellationToken)
+    public virtual Task<IQueryable<CurrencyDto>> Handle(GetCurrenciesQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<CurrencyDto>)DataDbContext.Currencies
             .Where(r => r.DeletedAtUtc == null)

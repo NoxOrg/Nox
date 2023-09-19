@@ -35,7 +35,23 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
     /// <summary>
     /// Vending machine unique identifier (Required).
     /// </summary>
-    public DatabaseGuid Id { get; set; } = null!;
+    public Nox.Types.Guid Id {get; set;} = null!;
+    
+    	public virtual void EnsureId(System.Guid guid)
+    	{
+    		if(System.Guid.Empty.Equals(guid))
+    		{
+    			Id = Nox.Types.Guid.From(System.Guid.NewGuid());
+    		}
+    		else
+    		{
+    			var currentGuid = Nox.Types.Guid.From(guid);
+    			if(Id != currentGuid)
+    			{
+    				throw new NoxGuidTypeException("Immutable guid property Id value is different since it has been initialized");
+    			}
+    		}
+    	}
 
     /// <summary>
     /// Vending machine mac address (Required).

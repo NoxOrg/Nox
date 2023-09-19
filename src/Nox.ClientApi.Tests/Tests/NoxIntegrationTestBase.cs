@@ -1,17 +1,26 @@
-﻿using ClientApi.Tests.Tests.Models;
+﻿using AutoFixture;
+using AutoFixture.AutoMoq;
+using ClientApi.Tests.Tests.Models;
+using DotNet.Testcontainers.Builders;
 using FluentAssertions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace ClientApi.Tests;
 
-public class ODataFixture
-{
-    private readonly NoxTestApplicationFactory<StartupFixture> _appFactory;
 
-    public ODataFixture(NoxTestApplicationFactory<StartupFixture> appFactory)
+public abstract class NoxIntegrationTestBase :  IClassFixture<NoxTestContainerService>
+{
+    private readonly NoxTestApplicationFactory _appFactory;
+    protected readonly Fixture _fixture;
+
+    protected NoxIntegrationTestBase(NoxTestContainerService containerService)
     {
-        _appFactory = appFactory;
+        _fixture = new Fixture();
+        _fixture.Customize(new AutoMoqCustomization());
+
+        _appFactory = _fixture.Create<NoxTestApplicationFactory>();
+        _appFactory.UseContainer(containerService);
     }
 
     /// <summary>
@@ -47,6 +56,10 @@ public class ODataFixture
         var content = await result.Content.ReadAsStringAsync();
         EnsureOdataSingleResponse(content);
 
+        var oDataResponse = DeserializeResponse<ODataSigleResponse>(content);
+        oDataResponse.Should().NotBeNull();
+        oDataResponse!.Context.Should().NotBeNullOrEmpty();
+
         var data = DeserializeResponse<TResult>(content);
 
         return data;
@@ -56,6 +69,16 @@ public class ODataFixture
     {
         using var httpClient = _appFactory.CreateClient();
         var result = await httpClient.GetAsync(requestUrl);
+
+        return result;
+    }
+
+    public async Task<HttpResponseMessage> PostAsync(string requestUrl)
+    {
+        using var httpClient = _appFactory.CreateClient();
+
+        var result = await httpClient.PostAsync(requestUrl, null);
+        result.EnsureSuccessStatusCode();
 
         return result;
     }
@@ -156,7 +179,12 @@ public class ODataFixture
 
         AddHeaders(httpClient, headers ?? new());
 
-        var request = await httpClient.PatchAsJsonAsync(requestUrl, delta);
+        var opts = new JsonSerializerOptions()
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
+        };
+
+        var request = await httpClient.PatchAsJsonAsync(requestUrl, delta, opts);
         request.EnsureSuccessStatusCode();
 
         var content = await request.Content.ReadAsStringAsync();
