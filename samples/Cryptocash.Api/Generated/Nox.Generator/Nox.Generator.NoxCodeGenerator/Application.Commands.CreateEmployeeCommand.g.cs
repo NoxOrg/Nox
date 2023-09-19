@@ -25,10 +25,10 @@ public partial class CreateEmployeeCommandHandler: CreateEmployeeCommandHandlerB
 	public CreateEmployeeCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<CashStockOrder,CashStockOrderCreateDto> cashstockorderfactory,
-        IEntityFactory<Employee,EmployeeCreateDto> entityFactory,
+        IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> cashstockorderfactory,
+        IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,cashstockorderfactory,entityFactory, serviceProvider)
+		: base(dbContext, noxSolution,cashstockorderfactory, entityFactory, serviceProvider)
 	{
 	}
 }
@@ -37,18 +37,18 @@ public partial class CreateEmployeeCommandHandler: CreateEmployeeCommandHandlerB
 public abstract class CreateEmployeeCommandHandlerBase: CommandBase<CreateEmployeeCommand,Employee>, IRequestHandler <CreateEmployeeCommand, EmployeeKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<Employee,EmployeeCreateDto> _entityFactory;
-    private readonly IEntityFactory<CashStockOrder,CashStockOrderCreateDto> _cashstockorderfactory;
+	private readonly IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> _entityFactory;
+    private readonly IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> _cashstockorderfactory;
 
 	public CreateEmployeeCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<CashStockOrder,CashStockOrderCreateDto> cashstockorderfactory,
-        IEntityFactory<Employee,EmployeeCreateDto> entityFactory,
+        IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> cashstockorderfactory,
+        IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;        
+		_entityFactory = entityFactory;
         _cashstockorderfactory = cashstockorderfactory;
 	}
 
@@ -59,11 +59,11 @@ public abstract class CreateEmployeeCommandHandlerBase: CommandBase<CreateEmploy
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.EmployeeReviewingCashStockOrder is not null)
-		{ 
+		{
 			var relatedEntity = _cashstockorderfactory.CreateEntity(request.EntityDto.EmployeeReviewingCashStockOrder);
 			entityToCreate.CreateRefToCashStockOrderEmployeeReviewingCashStockOrder(relatedEntity);
 		}
-					
+
 		OnCompleted(request, entityToCreate);
 		_dbContext.Employees.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();

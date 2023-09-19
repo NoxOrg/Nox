@@ -23,7 +23,7 @@ using Booking = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class BookingFactoryBase: IEntityFactory<Booking,BookingCreateDto>
+public abstract class BookingFactoryBase : IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto>
 {
 
     public BookingFactoryBase
@@ -36,6 +36,12 @@ public abstract class BookingFactoryBase: IEntityFactory<Booking,BookingCreateDt
     {
         return ToEntity(createDto);
     }
+
+    public void UpdateEntity(Booking entity, BookingUpdateDto updateDto)
+    {
+        MapEntity(entity, updateDto);
+    }
+
     private Cryptocash.Domain.Booking ToEntity(BookingCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Booking();
@@ -52,6 +58,24 @@ public abstract class BookingFactoryBase: IEntityFactory<Booking,BookingCreateDt
         //entity.Commission = Commission.ToEntity();
         //entity.Transaction = Transaction.ToEntity();
         return entity;
+    }
+
+    private void MapEntity(Booking entity, BookingUpdateDto updateDto)
+    {
+        // TODO: discuss about keys
+        entity.AmountFrom = Cryptocash.Domain.Booking.CreateAmountFrom(updateDto.AmountFrom);
+        entity.AmountTo = Cryptocash.Domain.Booking.CreateAmountTo(updateDto.AmountTo);
+        entity.RequestedPickUpDate = Cryptocash.Domain.Booking.CreateRequestedPickUpDate(updateDto.RequestedPickUpDate);
+        if (updateDto.PickedUpDateTime is not null)entity.PickedUpDateTime = Cryptocash.Domain.Booking.CreatePickedUpDateTime(updateDto.PickedUpDateTime.NonNullValue<DateTimeRangeDto>());
+        if (updateDto.ExpiryDateTime is not null)entity.ExpiryDateTime = Cryptocash.Domain.Booking.CreateExpiryDateTime(updateDto.ExpiryDateTime.NonNullValue<System.DateTimeOffset>());
+        if (updateDto.CancelledDateTime is not null)entity.CancelledDateTime = Cryptocash.Domain.Booking.CreateCancelledDateTime(updateDto.CancelledDateTime.NonNullValue<System.DateTimeOffset>());
+        if (updateDto.VatNumber is not null)entity.VatNumber = Cryptocash.Domain.Booking.CreateVatNumber(updateDto.VatNumber.NonNullValue<VatNumberDto>());
+
+        // TODO: discuss about keys
+        //entity.Customer = Customer.ToEntity();
+        //entity.VendingMachine = VendingMachine.ToEntity();
+        //entity.Commission = Commission.ToEntity();
+        //entity.Transaction = Transaction.ToEntity();
     }
 }
 

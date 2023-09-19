@@ -3,16 +3,18 @@
 #nullable enable
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Workplace.
 /// </summary>
-public partial class WorkplaceUpdateDto
+public partial class WorkplaceUpdateDto : IEntityDto<Workplace>
 {
     /// <summary>
     /// Workplace Name (Required).

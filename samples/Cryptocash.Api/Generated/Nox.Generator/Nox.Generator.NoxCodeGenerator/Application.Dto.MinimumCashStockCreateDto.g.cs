@@ -14,7 +14,7 @@ using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
-public partial class MinimumCashStockCreateDto: MinimumCashStockCreateDtoBase
+public partial class MinimumCashStockCreateDto : MinimumCashStockCreateDtoBase
 {
 
 }
@@ -22,8 +22,8 @@ public partial class MinimumCashStockCreateDto: MinimumCashStockCreateDtoBase
 /// <summary>
 /// Minimum cash stock required for vending machine.
 /// </summary>
-public abstract class MinimumCashStockCreateDtoBase : IEntityCreateDto<MinimumCashStock>
-{    
+public abstract class MinimumCashStockCreateDtoBase : IEntityDto<MinimumCashStock>
+{
     /// <summary>
     /// Cash stock amount (Required).
     /// </summary>

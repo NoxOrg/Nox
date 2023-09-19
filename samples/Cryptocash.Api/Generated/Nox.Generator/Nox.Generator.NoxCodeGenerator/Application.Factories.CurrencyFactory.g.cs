@@ -23,18 +23,18 @@ using Currency = Cryptocash.Domain.Currency;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class CurrencyFactoryBase: IEntityFactory<Currency,CurrencyCreateDto>
+public abstract class CurrencyFactoryBase : IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto>
 {
-    protected IEntityFactory<BankNote,BankNoteCreateDto> BankNoteFactory {get;}
-    protected IEntityFactory<ExchangeRate,ExchangeRateCreateDto> ExchangeRateFactory {get;}
+    protected IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto> BankNoteFactory {get;}
+    protected IEntityFactory<ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto> ExchangeRateFactory {get;}
 
     public CurrencyFactoryBase
     (
-        IEntityFactory<BankNote,BankNoteCreateDto> banknotefactory,
-        IEntityFactory<ExchangeRate,ExchangeRateCreateDto> exchangeratefactory
+        IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto> banknotefactory,
+        IEntityFactory<ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto> exchangeratefactory
         )
-    {        
-        BankNoteFactory = banknotefactory;        
+    {
+        BankNoteFactory = banknotefactory;
         ExchangeRateFactory = exchangeratefactory;
     }
 
@@ -42,6 +42,12 @@ public abstract class CurrencyFactoryBase: IEntityFactory<Currency,CurrencyCreat
     {
         return ToEntity(createDto);
     }
+
+    public void UpdateEntity(Currency entity, CurrencyUpdateDto updateDto)
+    {
+        MapEntity(entity, updateDto);
+    }
+
     private Cryptocash.Domain.Currency ToEntity(CurrencyCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Currency();
@@ -64,14 +70,35 @@ public abstract class CurrencyFactoryBase: IEntityFactory<Currency,CurrencyCreat
         entity.CurrencyExchangedFromRates = createDto.CurrencyExchangedFromRates.Select(dto => ExchangeRateFactory.CreateEntity(dto)).ToList();
         return entity;
     }
+
+    private void MapEntity(Currency entity, CurrencyUpdateDto updateDto)
+    {
+        // TODO: discuss about keys
+        entity.Name = Cryptocash.Domain.Currency.CreateName(updateDto.Name);
+        entity.CurrencyIsoNumeric = Cryptocash.Domain.Currency.CreateCurrencyIsoNumeric(updateDto.CurrencyIsoNumeric);
+        entity.Symbol = Cryptocash.Domain.Currency.CreateSymbol(updateDto.Symbol);
+        if (updateDto.ThousandsSeparator is not null)entity.ThousandsSeparator = Cryptocash.Domain.Currency.CreateThousandsSeparator(updateDto.ThousandsSeparator.NonNullValue<System.String>());
+        if (updateDto.DecimalSeparator is not null)entity.DecimalSeparator = Cryptocash.Domain.Currency.CreateDecimalSeparator(updateDto.DecimalSeparator.NonNullValue<System.String>());
+        entity.SpaceBetweenAmountAndSymbol = Cryptocash.Domain.Currency.CreateSpaceBetweenAmountAndSymbol(updateDto.SpaceBetweenAmountAndSymbol);
+        entity.DecimalDigits = Cryptocash.Domain.Currency.CreateDecimalDigits(updateDto.DecimalDigits);
+        entity.MajorName = Cryptocash.Domain.Currency.CreateMajorName(updateDto.MajorName);
+        entity.MajorSymbol = Cryptocash.Domain.Currency.CreateMajorSymbol(updateDto.MajorSymbol);
+        entity.MinorName = Cryptocash.Domain.Currency.CreateMinorName(updateDto.MinorName);
+        entity.MinorSymbol = Cryptocash.Domain.Currency.CreateMinorSymbol(updateDto.MinorSymbol);
+        entity.MinorToMajorValue = Cryptocash.Domain.Currency.CreateMinorToMajorValue(updateDto.MinorToMajorValue);
+
+        // TODO: discuss about keys
+        //entity.Countries = Countries.Select(dto => dto.ToEntity()).ToList();
+        //entity.MinimumCashStocks = MinimumCashStocks.Select(dto => dto.ToEntity()).ToList();
+    }
 }
 
 public partial class CurrencyFactory : CurrencyFactoryBase
 {
     public CurrencyFactory
     (
-        IEntityFactory<BankNote,BankNoteCreateDto> banknotefactory,
-        IEntityFactory<ExchangeRate,ExchangeRateCreateDto> exchangeratefactory
-    ): base(banknotefactory,exchangeratefactory)                      
+        IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto> banknotefactory,
+        IEntityFactory<ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto> exchangeratefactory
+    ): base(banknotefactory,exchangeratefactory)
     {}
 }

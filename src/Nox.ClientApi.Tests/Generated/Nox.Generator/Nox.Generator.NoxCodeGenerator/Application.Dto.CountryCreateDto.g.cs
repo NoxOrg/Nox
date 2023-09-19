@@ -14,7 +14,7 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public partial class CountryCreateDto: CountryCreateDtoBase
+public partial class CountryCreateDto : CountryCreateDtoBase
 {
 
 }
@@ -22,26 +22,26 @@ public partial class CountryCreateDto: CountryCreateDtoBase
 /// <summary>
 /// Country Entity.
 /// </summary>
-public abstract class CountryCreateDtoBase : IEntityCreateDto<Country>
-{    
+public abstract class CountryCreateDtoBase : IEntityDto<Country>
+{
     /// <summary>
     /// The Country Name (Required).
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
-    public virtual System.String Name { get; set; } = default!;    
+    public virtual System.String Name { get; set; } = default!;
     /// <summary>
     /// Population (Optional).
     /// </summary>
-    public virtual System.Int32? Population { get; set; }    
+    public virtual System.Int32? Population { get; set; }
     /// <summary>
     /// The Money (Optional).
     /// </summary>
-    public virtual MoneyDto? CountryDebt { get; set; }    
+    public virtual MoneyDto? CountryDebt { get; set; }
     /// <summary>
     /// First Official Language (Optional).
     /// </summary>
-    public virtual System.String? FirstLanguageCode { get; set; }    
+    public virtual System.String? FirstLanguageCode { get; set; }
     /// <summary>
     /// The Formula (Optional).
     /// </summary>

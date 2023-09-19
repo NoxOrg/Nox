@@ -23,18 +23,18 @@ using Country = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class CountryFactoryBase: IEntityFactory<Country,CountryCreateDto>
+public abstract class CountryFactoryBase : IEntityFactory<Country, CountryCreateDto, CountryUpdateDto>
 {
-    protected IEntityFactory<CountryLocalName,CountryLocalNameCreateDto> CountryLocalNameFactory {get;}
-    protected IEntityFactory<CountryBarCode,CountryBarCodeCreateDto> CountryBarCodeFactory {get;}
+    protected IEntityFactory<CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> CountryLocalNameFactory {get;}
+    protected IEntityFactory<CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto> CountryBarCodeFactory {get;}
 
     public CountryFactoryBase
     (
-        IEntityFactory<CountryLocalName,CountryLocalNameCreateDto> countrylocalnamefactory,
-        IEntityFactory<CountryBarCode,CountryBarCodeCreateDto> countrybarcodefactory
+        IEntityFactory<CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> countrylocalnamefactory,
+        IEntityFactory<CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto> countrybarcodefactory
         )
-    {        
-        CountryLocalNameFactory = countrylocalnamefactory;        
+    {
+        CountryLocalNameFactory = countrylocalnamefactory;
         CountryBarCodeFactory = countrybarcodefactory;
     }
 
@@ -42,6 +42,12 @@ public abstract class CountryFactoryBase: IEntityFactory<Country,CountryCreateDt
     {
         return ToEntity(createDto);
     }
+
+    public void UpdateEntity(Country entity, CountryUpdateDto updateDto)
+    {
+        MapEntity(entity, updateDto);
+    }
+
     private ClientApi.Domain.Country ToEntity(CountryCreateDto createDto)
     {
         var entity = new ClientApi.Domain.Country();
@@ -57,14 +63,26 @@ public abstract class CountryFactoryBase: IEntityFactory<Country,CountryCreateDt
         }
         return entity;
     }
+
+    private void MapEntity(Country entity, CountryUpdateDto updateDto)
+    {
+        // TODO: discuss about keys
+        entity.Name = ClientApi.Domain.Country.CreateName(updateDto.Name);
+        if (updateDto.Population is not null)entity.Population = ClientApi.Domain.Country.CreatePopulation(updateDto.Population.NonNullValue<System.Int32>());
+        if (updateDto.CountryDebt is not null)entity.CountryDebt = ClientApi.Domain.Country.CreateCountryDebt(updateDto.CountryDebt.NonNullValue<MoneyDto>());
+        if (updateDto.FirstLanguageCode is not null)entity.FirstLanguageCode = ClientApi.Domain.Country.CreateFirstLanguageCode(updateDto.FirstLanguageCode.NonNullValue<System.String>());
+
+        // TODO: discuss about keys
+        //entity.Workplaces = Workplaces.Select(dto => dto.ToEntity()).ToList();
+    }
 }
 
 public partial class CountryFactory : CountryFactoryBase
 {
     public CountryFactory
     (
-        IEntityFactory<CountryLocalName,CountryLocalNameCreateDto> countrylocalnamefactory,
-        IEntityFactory<CountryBarCode,CountryBarCodeCreateDto> countrybarcodefactory
-    ): base(countrylocalnamefactory,countrybarcodefactory)                      
+        IEntityFactory<CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> countrylocalnamefactory,
+        IEntityFactory<CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto> countrybarcodefactory
+    ): base(countrylocalnamefactory,countrybarcodefactory)
     {}
 }

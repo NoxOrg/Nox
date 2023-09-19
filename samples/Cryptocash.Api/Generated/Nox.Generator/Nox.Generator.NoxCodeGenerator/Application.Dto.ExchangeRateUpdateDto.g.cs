@@ -3,16 +3,18 @@
 #nullable enable
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Exchange rate and related data.
 /// </summary>
-public partial class ExchangeRateUpdateDto
+public partial class ExchangeRateUpdateDto : IEntityDto<ExchangeRate>
 {
     /// <summary>
     /// Exchange rate conversion amount (Required).

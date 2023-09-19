@@ -23,7 +23,7 @@ using Workplace = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class WorkplaceFactoryBase: IEntityFactory<Workplace,WorkplaceCreateDto>
+public abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto>
 {
 
     public WorkplaceFactoryBase
@@ -36,6 +36,12 @@ public abstract class WorkplaceFactoryBase: IEntityFactory<Workplace,WorkplaceCr
     {
         return ToEntity(createDto);
     }
+
+    public void UpdateEntity(Workplace entity, WorkplaceUpdateDto updateDto)
+    {
+        MapEntity(entity, updateDto);
+    }
+
     private ClientApi.Domain.Workplace ToEntity(WorkplaceCreateDto createDto)
     {
         var entity = new ClientApi.Domain.Workplace();
@@ -43,6 +49,15 @@ public abstract class WorkplaceFactoryBase: IEntityFactory<Workplace,WorkplaceCr
 		entity.EnsureId();
         //entity.Country = Country?.ToEntity();
         return entity;
+    }
+
+    private void MapEntity(Workplace entity, WorkplaceUpdateDto updateDto)
+    {
+        // TODO: discuss about keys
+        entity.Name = ClientApi.Domain.Workplace.CreateName(updateDto.Name);
+
+        // TODO: discuss about keys
+        //entity.Country = Country?.ToEntity();
     }
 }
 

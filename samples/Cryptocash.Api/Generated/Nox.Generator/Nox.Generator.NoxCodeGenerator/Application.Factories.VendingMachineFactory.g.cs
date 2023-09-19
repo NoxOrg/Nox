@@ -23,7 +23,7 @@ using VendingMachine = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class VendingMachineFactoryBase: IEntityFactory<VendingMachine,VendingMachineCreateDto>
+public abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto>
 {
 
     public VendingMachineFactoryBase
@@ -36,6 +36,12 @@ public abstract class VendingMachineFactoryBase: IEntityFactory<VendingMachine,V
     {
         return ToEntity(createDto);
     }
+
+    public void UpdateEntity(VendingMachine entity, VendingMachineUpdateDto updateDto)
+    {
+        MapEntity(entity, updateDto);
+    }
+
     private Cryptocash.Domain.VendingMachine ToEntity(VendingMachineCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.VendingMachine();
@@ -53,6 +59,25 @@ public abstract class VendingMachineFactoryBase: IEntityFactory<VendingMachine,V
         //entity.CashStockOrders = CashStockOrders.Select(dto => dto.ToEntity()).ToList();
         //entity.MinimumCashStocks = MinimumCashStocks.Select(dto => dto.ToEntity()).ToList();
         return entity;
+    }
+
+    private void MapEntity(VendingMachine entity, VendingMachineUpdateDto updateDto)
+    {
+        // TODO: discuss about keys
+        entity.MacAddress = Cryptocash.Domain.VendingMachine.CreateMacAddress(updateDto.MacAddress);
+        entity.PublicIp = Cryptocash.Domain.VendingMachine.CreatePublicIp(updateDto.PublicIp);
+        entity.GeoLocation = Cryptocash.Domain.VendingMachine.CreateGeoLocation(updateDto.GeoLocation);
+        entity.StreetAddress = Cryptocash.Domain.VendingMachine.CreateStreetAddress(updateDto.StreetAddress);
+        entity.SerialNumber = Cryptocash.Domain.VendingMachine.CreateSerialNumber(updateDto.SerialNumber);
+        if (updateDto.InstallationFootPrint is not null)entity.InstallationFootPrint = Cryptocash.Domain.VendingMachine.CreateInstallationFootPrint(updateDto.InstallationFootPrint.NonNullValue<System.Decimal>());
+        if (updateDto.RentPerSquareMetre is not null)entity.RentPerSquareMetre = Cryptocash.Domain.VendingMachine.CreateRentPerSquareMetre(updateDto.RentPerSquareMetre.NonNullValue<MoneyDto>());
+
+        // TODO: discuss about keys
+        //entity.Country = Country.ToEntity();
+        //entity.LandLord = LandLord.ToEntity();
+        //entity.Bookings = Bookings.Select(dto => dto.ToEntity()).ToList();
+        //entity.CashStockOrders = CashStockOrders.Select(dto => dto.ToEntity()).ToList();
+        //entity.MinimumCashStocks = MinimumCashStocks.Select(dto => dto.ToEntity()).ToList();
     }
 }
 

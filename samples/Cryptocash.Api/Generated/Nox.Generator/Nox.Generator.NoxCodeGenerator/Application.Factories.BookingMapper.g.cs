@@ -24,67 +24,6 @@ public partial class BookingMapper : EntityMapperBase<Booking>
 {
     public BookingMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
-    public override void MapToEntity(Booking entity, Entity entityDefinition, dynamic dto)
-    {
-    #pragma warning disable CS0168 // Variable is declared but never used        
-        dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used        
-        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "AmountFrom", dto.AmountFrom);
-        if (noxTypeValue == null)
-        {
-            throw new NullReferenceException("AmountFrom is required can not be set to null");
-        }     
-        entity.AmountFrom = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "AmountTo", dto.AmountTo);
-        if (noxTypeValue == null)
-        {
-            throw new NullReferenceException("AmountTo is required can not be set to null");
-        }     
-        entity.AmountTo = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.DateTimeRange>(entityDefinition, "RequestedPickUpDate", dto.RequestedPickUpDate);
-        if (noxTypeValue == null)
-        {
-            throw new NullReferenceException("RequestedPickUpDate is required can not be set to null");
-        }     
-        entity.RequestedPickUpDate = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.DateTimeRange>(entityDefinition, "PickedUpDateTime", dto.PickedUpDateTime);     
-        entity.PickedUpDateTime = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "ExpiryDateTime", dto.ExpiryDateTime);     
-        entity.ExpiryDateTime = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "CancelledDateTime", dto.CancelledDateTime);     
-        entity.CancelledDateTime = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.VatNumber>(entityDefinition, "VatNumber", dto.VatNumber);     
-        entity.VatNumber = noxTypeValue;
-    
-
-        /// <summary>
-        /// Booking for ExactlyOne Customers
-        /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "BookingForCustomer", dto.BookingForCustomerId);
-        if (noxTypeValue != null)
-        {        
-            entity.BookingForCustomerId = noxTypeValue;
-        }
-
-        /// <summary>
-        /// Booking related to ExactlyOne VendingMachines
-        /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.Guid>(entityDefinition, "BookingRelatedVendingMachine", dto.BookingRelatedVendingMachineId);
-        if (noxTypeValue != null)
-        {        
-            entity.BookingRelatedVendingMachineId = noxTypeValue;
-        }
-
-        /// <summary>
-        /// Booking fees for ExactlyOne Commissions
-        /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "BookingFeesForCommission", dto.BookingFeesForCommissionId);
-        if (noxTypeValue != null)
-        {        
-            entity.BookingFeesForCommissionId = noxTypeValue;
-        }
-    }
-
     public override void PartialMapToEntity(Booking entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
 #pragma warning disable CS0168 // Variable is assigned but its value is never used

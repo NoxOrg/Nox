@@ -23,7 +23,7 @@ using Customer = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class CustomerFactoryBase: IEntityFactory<Customer,CustomerCreateDto>
+public abstract class CustomerFactoryBase : IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto>
 {
 
     public CustomerFactoryBase
@@ -36,6 +36,12 @@ public abstract class CustomerFactoryBase: IEntityFactory<Customer,CustomerCreat
     {
         return ToEntity(createDto);
     }
+
+    public void UpdateEntity(Customer entity, CustomerUpdateDto updateDto)
+    {
+        MapEntity(entity, updateDto);
+    }
+
     private Cryptocash.Domain.Customer ToEntity(CustomerCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Customer();
@@ -49,6 +55,22 @@ public abstract class CustomerFactoryBase: IEntityFactory<Customer,CustomerCreat
         //entity.Transactions = Transactions.Select(dto => dto.ToEntity()).ToList();
         //entity.Country = Country.ToEntity();
         return entity;
+    }
+
+    private void MapEntity(Customer entity, CustomerUpdateDto updateDto)
+    {
+        // TODO: discuss about keys
+        entity.FirstName = Cryptocash.Domain.Customer.CreateFirstName(updateDto.FirstName);
+        entity.LastName = Cryptocash.Domain.Customer.CreateLastName(updateDto.LastName);
+        entity.EmailAddress = Cryptocash.Domain.Customer.CreateEmailAddress(updateDto.EmailAddress);
+        entity.Address = Cryptocash.Domain.Customer.CreateAddress(updateDto.Address);
+        if (updateDto.MobileNumber is not null)entity.MobileNumber = Cryptocash.Domain.Customer.CreateMobileNumber(updateDto.MobileNumber.NonNullValue<System.String>());
+
+        // TODO: discuss about keys
+        //entity.PaymentDetails = PaymentDetails.Select(dto => dto.ToEntity()).ToList();
+        //entity.Bookings = Bookings.Select(dto => dto.ToEntity()).ToList();
+        //entity.Transactions = Transactions.Select(dto => dto.ToEntity()).ToList();
+        //entity.Country = Country.ToEntity();
     }
 }
 

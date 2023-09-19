@@ -24,7 +24,7 @@ public partial class CreateCountryLocalNameForCountryCommandHandler: CreateCount
 	public CreateCountryLocalNameForCountryCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<CountryLocalName,CountryLocalNameCreateDto> entityFactory,
+        IEntityFactory<CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
 		: base(dbContext, noxSolution, entityFactory, serviceProvider)
 	{
@@ -33,16 +33,16 @@ public partial class CreateCountryLocalNameForCountryCommandHandler: CreateCount
 public abstract class CreateCountryLocalNameForCountryCommandHandlerBase: CommandBase<CreateCountryLocalNameForCountryCommand, CountryLocalName>, IRequestHandler<CreateCountryLocalNameForCountryCommand, CountryLocalNameKeyDto?>
 {
 	private readonly ClientApiDbContext _dbContext;
-	private readonly IEntityFactory<CountryLocalName,CountryLocalNameCreateDto> _entityFactory;
+	private readonly IEntityFactory<CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> _entityFactory;
 
 	public CreateCountryLocalNameForCountryCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<CountryLocalName,CountryLocalNameCreateDto> entityFactory,
+        IEntityFactory<CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;	
+		_entityFactory = entityFactory;
 	}
 
 	public virtual  async Task<CountryLocalNameKeyDto?> Handle(CreateCountryLocalNameForCountryCommand request, CancellationToken cancellationToken)
@@ -60,7 +60,7 @@ public abstract class CreateCountryLocalNameForCountryCommandHandlerBase: Comman
 		parentEntity.CountryShortNames.Add(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);
-	
+
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)

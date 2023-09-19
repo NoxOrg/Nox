@@ -14,7 +14,7 @@ using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
-public partial class CashStockOrderCreateDto: CashStockOrderCreateDtoBase
+public partial class CashStockOrderCreateDto : CashStockOrderCreateDtoBase
 {
 
 }
@@ -22,24 +22,24 @@ public partial class CashStockOrderCreateDto: CashStockOrderCreateDtoBase
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-public abstract class CashStockOrderCreateDtoBase : IEntityCreateDto<CashStockOrder>
-{    
+public abstract class CashStockOrderCreateDtoBase : IEntityDto<CashStockOrder>
+{
     /// <summary>
     /// Order amount (Required).
     /// </summary>
     [Required(ErrorMessage = "Amount is required")]
     
-    public virtual MoneyDto Amount { get; set; } = default!;    
+    public virtual MoneyDto Amount { get; set; } = default!;
     /// <summary>
     /// Order requested delivery date (Required).
     /// </summary>
     [Required(ErrorMessage = "RequestedDeliveryDate is required")]
     
-    public virtual System.DateTime RequestedDeliveryDate { get; set; } = default!;    
+    public virtual System.DateTime RequestedDeliveryDate { get; set; } = default!;
     /// <summary>
     /// Order delivery date (Optional).
     /// </summary>
-    public virtual System.DateTimeOffset? DeliveryDateTime { get; set; }    
+    public virtual System.DateTimeOffset? DeliveryDateTime { get; set; }
     /// <summary>
     /// Order status (Optional).
     /// </summary>

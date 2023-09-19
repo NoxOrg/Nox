@@ -3,16 +3,18 @@
 #nullable enable
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Stores.
 /// </summary>
-public partial class StoreUpdateDto
+public partial class StoreUpdateDto : IEntityDto<Store>
 {
     /// <summary>
     /// Store Name (Required).

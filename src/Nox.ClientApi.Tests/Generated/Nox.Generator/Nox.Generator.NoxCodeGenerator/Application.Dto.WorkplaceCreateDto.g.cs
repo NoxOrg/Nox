@@ -14,7 +14,7 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public partial class WorkplaceCreateDto: WorkplaceCreateDtoBase
+public partial class WorkplaceCreateDto : WorkplaceCreateDtoBase
 {
 
 }
@@ -22,14 +22,14 @@ public partial class WorkplaceCreateDto: WorkplaceCreateDtoBase
 /// <summary>
 /// Workplace.
 /// </summary>
-public abstract class WorkplaceCreateDtoBase : IEntityCreateDto<Workplace>
-{    
+public abstract class WorkplaceCreateDtoBase : IEntityDto<Workplace>
+{
     /// <summary>
     /// Workplace Name (Required).
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
-    public virtual System.String Name { get; set; } = default!;    
+    public virtual System.String Name { get; set; } = default!;
     /// <summary>
     /// The Formula (Optional).
     /// </summary>

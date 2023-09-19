@@ -23,7 +23,7 @@ using Transaction = Cryptocash.Domain.Transaction;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class TransactionFactoryBase: IEntityFactory<Transaction,TransactionCreateDto>
+public abstract class TransactionFactoryBase : IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto>
 {
 
     public TransactionFactoryBase
@@ -36,6 +36,12 @@ public abstract class TransactionFactoryBase: IEntityFactory<Transaction,Transac
     {
         return ToEntity(createDto);
     }
+
+    public void UpdateEntity(Transaction entity, TransactionUpdateDto updateDto)
+    {
+        MapEntity(entity, updateDto);
+    }
+
     private Cryptocash.Domain.Transaction ToEntity(TransactionCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Transaction();
@@ -46,6 +52,19 @@ public abstract class TransactionFactoryBase: IEntityFactory<Transaction,Transac
         //entity.Customer = Customer.ToEntity();
         //entity.Booking = Booking.ToEntity();
         return entity;
+    }
+
+    private void MapEntity(Transaction entity, TransactionUpdateDto updateDto)
+    {
+        // TODO: discuss about keys
+        entity.TransactionType = Cryptocash.Domain.Transaction.CreateTransactionType(updateDto.TransactionType);
+        entity.ProcessedOnDateTime = Cryptocash.Domain.Transaction.CreateProcessedOnDateTime(updateDto.ProcessedOnDateTime);
+        entity.Amount = Cryptocash.Domain.Transaction.CreateAmount(updateDto.Amount);
+        entity.Reference = Cryptocash.Domain.Transaction.CreateReference(updateDto.Reference);
+
+        // TODO: discuss about keys
+        //entity.Customer = Customer.ToEntity();
+        //entity.Booking = Booking.ToEntity();
     }
 }
 

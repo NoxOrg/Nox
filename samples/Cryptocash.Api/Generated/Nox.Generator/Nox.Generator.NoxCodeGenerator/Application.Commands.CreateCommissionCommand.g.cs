@@ -25,11 +25,11 @@ public partial class CreateCommissionCommandHandler: CreateCommissionCommandHand
 	public CreateCommissionCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Country,CountryCreateDto> countryfactory,
-        IEntityFactory<Booking,BookingCreateDto> bookingfactory,
-        IEntityFactory<Commission,CommissionCreateDto> entityFactory,
+        IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
+        IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> bookingfactory,
+        IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,countryfactory,bookingfactory,entityFactory, serviceProvider)
+		: base(dbContext, noxSolution,countryfactory, bookingfactory, entityFactory, serviceProvider)
 	{
 	}
 }
@@ -38,21 +38,21 @@ public partial class CreateCommissionCommandHandler: CreateCommissionCommandHand
 public abstract class CreateCommissionCommandHandlerBase: CommandBase<CreateCommissionCommand,Commission>, IRequestHandler <CreateCommissionCommand, CommissionKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<Commission,CommissionCreateDto> _entityFactory;
-    private readonly IEntityFactory<Country,CountryCreateDto> _countryfactory;
-    private readonly IEntityFactory<Booking,BookingCreateDto> _bookingfactory;
+	private readonly IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> _entityFactory;
+    private readonly IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> _countryfactory;
+    private readonly IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> _bookingfactory;
 
 	public CreateCommissionCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Country,CountryCreateDto> countryfactory,
-        IEntityFactory<Booking,BookingCreateDto> bookingfactory,
-        IEntityFactory<Commission,CommissionCreateDto> entityFactory,
+        IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
+        IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> bookingfactory,
+        IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;        
-        _countryfactory = countryfactory;        
+		_entityFactory = entityFactory;
+        _countryfactory = countryfactory;
         _bookingfactory = bookingfactory;
 	}
 
@@ -63,7 +63,7 @@ public abstract class CreateCommissionCommandHandlerBase: CommandBase<CreateComm
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.CommissionFeesForCountry is not null)
-		{ 
+		{
 			var relatedEntity = _countryfactory.CreateEntity(request.EntityDto.CommissionFeesForCountry);
 			entityToCreate.CreateRefToCountryCommissionFeesForCountry(relatedEntity);
 		}
@@ -72,7 +72,7 @@ public abstract class CreateCommissionCommandHandlerBase: CommandBase<CreateComm
 			var relatedEntity = _bookingfactory.CreateEntity(relatedCreateDto);
 			entityToCreate.CreateRefToBookingCommissionFeesForBooking(relatedEntity);
 		}
-					
+
 		OnCompleted(request, entityToCreate);
 		_dbContext.Commissions.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();

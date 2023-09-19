@@ -3,16 +3,18 @@
 #nullable enable
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Store owners.
 /// </summary>
-public partial class StoreOwnerUpdateDto
+public partial class StoreOwnerUpdateDto : IEntityDto<StoreOwner>
 {
     /// <summary>
     /// Owner Name (Required).

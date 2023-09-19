@@ -14,7 +14,7 @@ using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
-public partial class CommissionCreateDto: CommissionCreateDtoBase
+public partial class CommissionCreateDto : CommissionCreateDtoBase
 {
 
 }
@@ -22,14 +22,14 @@ public partial class CommissionCreateDto: CommissionCreateDtoBase
 /// <summary>
 /// Exchange commission rate and amount.
 /// </summary>
-public abstract class CommissionCreateDtoBase : IEntityCreateDto<Commission>
-{    
+public abstract class CommissionCreateDtoBase : IEntityDto<Commission>
+{
     /// <summary>
     /// Commission rate (Required).
     /// </summary>
     [Required(ErrorMessage = "Rate is required")]
     
-    public virtual System.Single Rate { get; set; } = default!;    
+    public virtual System.Single Rate { get; set; } = default!;
     /// <summary>
     /// Exchange rate conversion amount (Required).
     /// </summary>

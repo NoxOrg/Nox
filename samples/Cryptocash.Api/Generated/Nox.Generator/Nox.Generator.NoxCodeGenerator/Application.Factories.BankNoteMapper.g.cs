@@ -24,26 +24,6 @@ public partial class BankNoteMapper : EntityMapperBase<BankNote>
 {
     public BankNoteMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
-    public override void MapToEntity(BankNote entity, Entity entityDefinition, dynamic dto)
-    {
-    #pragma warning disable CS0168 // Variable is declared but never used        
-        dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used        
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "CashNote", dto.CashNote);
-        if (noxTypeValue == null)
-        {
-            throw new NullReferenceException("CashNote is required can not be set to null");
-        }     
-        entity.CashNote = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "Value", dto.Value);
-        if (noxTypeValue == null)
-        {
-            throw new NullReferenceException("Value is required can not be set to null");
-        }     
-        entity.Value = noxTypeValue;
-    
-    }
-
     public override void PartialMapToEntity(BankNote entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
 #pragma warning disable CS0168 // Variable is assigned but its value is never used

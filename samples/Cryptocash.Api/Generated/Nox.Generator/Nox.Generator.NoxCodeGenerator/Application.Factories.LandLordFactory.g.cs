@@ -23,7 +23,7 @@ using LandLord = Cryptocash.Domain.LandLord;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class LandLordFactoryBase: IEntityFactory<LandLord,LandLordCreateDto>
+public abstract class LandLordFactoryBase : IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto>
 {
 
     public LandLordFactoryBase
@@ -36,6 +36,12 @@ public abstract class LandLordFactoryBase: IEntityFactory<LandLord,LandLordCreat
     {
         return ToEntity(createDto);
     }
+
+    public void UpdateEntity(LandLord entity, LandLordUpdateDto updateDto)
+    {
+        MapEntity(entity, updateDto);
+    }
+
     private Cryptocash.Domain.LandLord ToEntity(LandLordCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.LandLord();
@@ -43,6 +49,16 @@ public abstract class LandLordFactoryBase: IEntityFactory<LandLord,LandLordCreat
         entity.Address = Cryptocash.Domain.LandLord.CreateAddress(createDto.Address);
         //entity.VendingMachines = VendingMachines.Select(dto => dto.ToEntity()).ToList();
         return entity;
+    }
+
+    private void MapEntity(LandLord entity, LandLordUpdateDto updateDto)
+    {
+        // TODO: discuss about keys
+        entity.Name = Cryptocash.Domain.LandLord.CreateName(updateDto.Name);
+        entity.Address = Cryptocash.Domain.LandLord.CreateAddress(updateDto.Address);
+
+        // TODO: discuss about keys
+        //entity.VendingMachines = VendingMachines.Select(dto => dto.ToEntity()).ToList();
     }
 }
 

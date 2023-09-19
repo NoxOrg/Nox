@@ -23,7 +23,7 @@ using Holiday = Cryptocash.Domain.Holiday;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class HolidayFactoryBase: IEntityFactory<Holiday,HolidayCreateDto>
+public abstract class HolidayFactoryBase : IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto>
 {
 
     public HolidayFactoryBase
@@ -36,6 +36,12 @@ public abstract class HolidayFactoryBase: IEntityFactory<Holiday,HolidayCreateDt
     {
         return ToEntity(createDto);
     }
+
+    public void UpdateEntity(Holiday entity, HolidayUpdateDto updateDto)
+    {
+        MapEntity(entity, updateDto);
+    }
+
     private Cryptocash.Domain.Holiday ToEntity(HolidayCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Holiday();
@@ -43,6 +49,16 @@ public abstract class HolidayFactoryBase: IEntityFactory<Holiday,HolidayCreateDt
         entity.Type = Cryptocash.Domain.Holiday.CreateType(createDto.Type);
         entity.Date = Cryptocash.Domain.Holiday.CreateDate(createDto.Date);
         return entity;
+    }
+
+    private void MapEntity(Holiday entity, HolidayUpdateDto updateDto)
+    {
+        // TODO: discuss about keys
+        entity.Name = Cryptocash.Domain.Holiday.CreateName(updateDto.Name);
+        entity.Type = Cryptocash.Domain.Holiday.CreateType(updateDto.Type);
+        entity.Date = Cryptocash.Domain.Holiday.CreateDate(updateDto.Date);
+
+        // TODO: discuss about keys
     }
 }
 
