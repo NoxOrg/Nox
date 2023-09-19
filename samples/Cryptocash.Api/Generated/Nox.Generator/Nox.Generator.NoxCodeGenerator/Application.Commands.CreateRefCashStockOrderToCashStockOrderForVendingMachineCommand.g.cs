@@ -17,14 +17,26 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateRefCashStockOrderToCashStockOrderForVendingMachineCommand(CashStockOrderKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto) : IRequest <bool>;
 
-public partial class CreateRefCashStockOrderToCashStockOrderForVendingMachineCommandHandler: CommandBase<CreateRefCashStockOrderToCashStockOrderForVendingMachineCommand, CashStockOrder>, 
+public partial class CreateRefCashStockOrderToCashStockOrderForVendingMachineCommandHandler: CreateRefCashStockOrderToCashStockOrderForVendingMachineCommandHandlerBase
+{
+	public CreateRefCashStockOrderToCashStockOrderForVendingMachineCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider)
+	{ }
+}
+
+public abstract class CreateRefCashStockOrderToCashStockOrderForVendingMachineCommandHandlerBase: CommandBase<CreateRefCashStockOrderToCashStockOrderForVendingMachineCommand, CashStockOrder>, 
 	IRequestHandler <CreateRefCashStockOrderToCashStockOrderForVendingMachineCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public CreateRefCashStockOrderToCashStockOrderForVendingMachineCommandHandler(
+	public CreateRefCashStockOrderToCashStockOrderForVendingMachineCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -32,7 +44,7 @@ public partial class CreateRefCashStockOrderToCashStockOrderForVendingMachineCom
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(CreateRefCashStockOrderToCashStockOrderForVendingMachineCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(CreateRefCashStockOrderToCashStockOrderForVendingMachineCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<CashStockOrder, Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);

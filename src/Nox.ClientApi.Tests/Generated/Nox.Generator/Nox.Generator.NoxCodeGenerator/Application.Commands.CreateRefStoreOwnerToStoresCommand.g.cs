@@ -17,14 +17,26 @@ using ClientApi.Domain;
 using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.Commands;
+
 public record CreateRefStoreOwnerToStoresCommand(StoreOwnerKeyDto EntityKeyDto, StoreKeyDto RelatedEntityKeyDto) : IRequest <bool>;
 
-public partial class CreateRefStoreOwnerToStoresCommandHandler: CommandBase<CreateRefStoreOwnerToStoresCommand, StoreOwner>, 
+public partial class CreateRefStoreOwnerToStoresCommandHandler: CreateRefStoreOwnerToStoresCommandHandlerBase
+{
+	public CreateRefStoreOwnerToStoresCommandHandler(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider)
+	{ }
+}
+
+public abstract class CreateRefStoreOwnerToStoresCommandHandlerBase: CommandBase<CreateRefStoreOwnerToStoresCommand, StoreOwner>, 
 	IRequestHandler <CreateRefStoreOwnerToStoresCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 
-	public CreateRefStoreOwnerToStoresCommandHandler(
+	public CreateRefStoreOwnerToStoresCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -32,7 +44,7 @@ public partial class CreateRefStoreOwnerToStoresCommandHandler: CommandBase<Crea
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(CreateRefStoreOwnerToStoresCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(CreateRefStoreOwnerToStoresCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<StoreOwner, Nox.Types.Text>("Id", request.EntityKeyDto.keyId);

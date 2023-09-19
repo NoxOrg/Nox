@@ -17,14 +17,26 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommand(PaymentDetailKeyDto EntityKeyDto, PaymentProviderKeyDto RelatedEntityKeyDto) : IRequest <bool>;
 
-public partial class CreateRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommandHandler: CommandBase<CreateRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommand, PaymentDetail>, 
+public partial class CreateRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommandHandler: CreateRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommandHandlerBase
+{
+	public CreateRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider)
+	{ }
+}
+
+public abstract class CreateRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommandHandlerBase: CommandBase<CreateRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommand, PaymentDetail>, 
 	IRequestHandler <CreateRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public CreateRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommandHandler(
+	public CreateRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -32,7 +44,7 @@ public partial class CreateRefPaymentDetailToPaymentDetailsRelatedPaymentProvide
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(CreateRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(CreateRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<PaymentDetail, Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);

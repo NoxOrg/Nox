@@ -17,14 +17,26 @@ using ClientApi.Domain;
 using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.Commands;
+
 public record CreateRefCountryToPhysicalWorkplacesCommand(CountryKeyDto EntityKeyDto, WorkplaceKeyDto RelatedEntityKeyDto) : IRequest <bool>;
 
-public partial class CreateRefCountryToPhysicalWorkplacesCommandHandler: CommandBase<CreateRefCountryToPhysicalWorkplacesCommand, Country>, 
+public partial class CreateRefCountryToPhysicalWorkplacesCommandHandler: CreateRefCountryToPhysicalWorkplacesCommandHandlerBase
+{
+	public CreateRefCountryToPhysicalWorkplacesCommandHandler(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider)
+	{ }
+}
+
+public abstract class CreateRefCountryToPhysicalWorkplacesCommandHandlerBase: CommandBase<CreateRefCountryToPhysicalWorkplacesCommand, Country>, 
 	IRequestHandler <CreateRefCountryToPhysicalWorkplacesCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 
-	public CreateRefCountryToPhysicalWorkplacesCommandHandler(
+	public CreateRefCountryToPhysicalWorkplacesCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -32,7 +44,7 @@ public partial class CreateRefCountryToPhysicalWorkplacesCommandHandler: Command
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(CreateRefCountryToPhysicalWorkplacesCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(CreateRefCountryToPhysicalWorkplacesCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Country, Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);

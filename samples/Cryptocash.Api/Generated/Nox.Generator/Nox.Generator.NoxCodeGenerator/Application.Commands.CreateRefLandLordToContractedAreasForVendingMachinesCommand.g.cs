@@ -17,14 +17,26 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateRefLandLordToContractedAreasForVendingMachinesCommand(LandLordKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto) : IRequest <bool>;
 
-public partial class CreateRefLandLordToContractedAreasForVendingMachinesCommandHandler: CommandBase<CreateRefLandLordToContractedAreasForVendingMachinesCommand, LandLord>, 
+public partial class CreateRefLandLordToContractedAreasForVendingMachinesCommandHandler: CreateRefLandLordToContractedAreasForVendingMachinesCommandHandlerBase
+{
+	public CreateRefLandLordToContractedAreasForVendingMachinesCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider)
+	{ }
+}
+
+public abstract class CreateRefLandLordToContractedAreasForVendingMachinesCommandHandlerBase: CommandBase<CreateRefLandLordToContractedAreasForVendingMachinesCommand, LandLord>, 
 	IRequestHandler <CreateRefLandLordToContractedAreasForVendingMachinesCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public CreateRefLandLordToContractedAreasForVendingMachinesCommandHandler(
+	public CreateRefLandLordToContractedAreasForVendingMachinesCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -32,7 +44,7 @@ public partial class CreateRefLandLordToContractedAreasForVendingMachinesCommand
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(CreateRefLandLordToContractedAreasForVendingMachinesCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(CreateRefLandLordToContractedAreasForVendingMachinesCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<LandLord, Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);

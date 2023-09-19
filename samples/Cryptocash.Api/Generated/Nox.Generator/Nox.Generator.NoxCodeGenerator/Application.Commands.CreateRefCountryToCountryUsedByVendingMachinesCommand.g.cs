@@ -17,14 +17,26 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateRefCountryToCountryUsedByVendingMachinesCommand(CountryKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto) : IRequest <bool>;
 
-public partial class CreateRefCountryToCountryUsedByVendingMachinesCommandHandler: CommandBase<CreateRefCountryToCountryUsedByVendingMachinesCommand, Country>, 
+public partial class CreateRefCountryToCountryUsedByVendingMachinesCommandHandler: CreateRefCountryToCountryUsedByVendingMachinesCommandHandlerBase
+{
+	public CreateRefCountryToCountryUsedByVendingMachinesCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider)
+	{ }
+}
+
+public abstract class CreateRefCountryToCountryUsedByVendingMachinesCommandHandlerBase: CommandBase<CreateRefCountryToCountryUsedByVendingMachinesCommand, Country>, 
 	IRequestHandler <CreateRefCountryToCountryUsedByVendingMachinesCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public CreateRefCountryToCountryUsedByVendingMachinesCommandHandler(
+	public CreateRefCountryToCountryUsedByVendingMachinesCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -32,7 +44,7 @@ public partial class CreateRefCountryToCountryUsedByVendingMachinesCommandHandle
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(CreateRefCountryToCountryUsedByVendingMachinesCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(CreateRefCountryToCountryUsedByVendingMachinesCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Country, Nox.Types.CountryCode2>("Id", request.EntityKeyDto.keyId);
