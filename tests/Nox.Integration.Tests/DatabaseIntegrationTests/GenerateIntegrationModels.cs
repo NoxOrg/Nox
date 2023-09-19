@@ -8,7 +8,7 @@ namespace Nox.Integration.Tests.DatabaseIntegrationTests
     {
         private const string BasePath = "../../../DatabaseIntegrationTests/Models/";
 
-        [Fact]
+        //[Fact]
         public void GenerateIntegrationTestModels()
         {
             var _fixture = new GeneratorFixture();
@@ -83,8 +83,6 @@ namespace Nox.Integration.Tests.DatabaseIntegrationTests
                 CreateClass(result, className);
             }
             
-            CreateAllClassesStartsWith(result, "Domain.Meta.");
-
             Assert.True(true);
         }
 
@@ -93,22 +91,6 @@ namespace Nox.Integration.Tests.DatabaseIntegrationTests
             var singleResult = result.GeneratedSources.First(x => x.HintName.Equals($"{filePath}.g.cs"));
             var fileContent = singleResult.SourceText.ToString();
             File.WriteAllText($"{BasePath}{filePath}.cs", fileContent);
-        }
-        
-        private static void CreateAllClassesStartsWith(GeneratorRunResult result, string filePath)
-        {
-            if (!Directory.Exists($"{BasePath}/Temp"))
-            {
-                Directory.CreateDirectory($"{BasePath}/Temp");
-            }
-                
-            
-            var singleResult = result.GeneratedSources.Where(x => x.HintName.StartsWith($"{filePath}")).ToList();
-            foreach (var resultSourceGenerated in singleResult)
-            {
-                var fileContent = resultSourceGenerated.SourceText.ToString();
-                File.WriteAllText($"{BasePath}/Temp/{resultSourceGenerated.HintName}.cs", fileContent);
-            }
         }
     }
 }
