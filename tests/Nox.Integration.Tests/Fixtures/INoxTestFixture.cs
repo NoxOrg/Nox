@@ -4,7 +4,7 @@ using TestWebApp.Infrastructure.Persistence;
 
 namespace Nox.Integration.Tests.Fixtures;
 
-public interface INoxTestContainer
+public interface INoxTestFixture
 {
     DbContextOptions<TestWebAppDbContext> CreateDbOptions();
 

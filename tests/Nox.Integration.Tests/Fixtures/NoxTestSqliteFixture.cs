@@ -1,18 +1,25 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Diagnostics;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using Nox.EntityFramework.Sqlite;
 using Nox.Types.EntityFramework.Abstractions;
 using TestWebApp.Infrastructure.Persistence;
 
 namespace Nox.Integration.Tests.Fixtures;
 
-public class NoxTestSqliteFixture : INoxTestContainer
+public class NoxTestSqliteFixture : INoxTestFixture
 {
-    private const string _inMemoryConnectionString = "DataSource=:memory:";
+    private const string _inMemoryConnectionString = "DataSource=testdb;mode=memory;cache=shared";
 
     public DbContextOptions<TestWebAppDbContext> CreateDbOptions()
     {
+        var keepAliveConnection = new SqliteConnection(_inMemoryConnectionString);
+        //The database ceases to exist as soon as the database connection is closed.
+        //Every :memory: database is distinct from every other.
+        keepAliveConnection.Open();
+
         return new DbContextOptionsBuilder<TestWebAppDbContext>()
-           .UseSqlite(_inMemoryConnectionString)
+           .UseSqlite(keepAliveConnection)
            .Options;
     }
 

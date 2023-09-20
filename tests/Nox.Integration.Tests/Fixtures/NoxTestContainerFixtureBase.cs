@@ -5,7 +5,7 @@ using TestWebApp.Infrastructure.Persistence;
 
 namespace Nox.Integration.Tests.Fixtures;
 
-public abstract class NoxTestContainerFixtureBase<TContainer> : IAsyncLifetime, INoxTestContainer
+public abstract class NoxTestContainerFixtureBase<TContainer> : IAsyncLifetime, INoxTestFixture
     where TContainer : DockerContainer
 {
     protected TContainer _container = default!;

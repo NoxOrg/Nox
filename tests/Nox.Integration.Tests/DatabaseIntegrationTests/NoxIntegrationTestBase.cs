@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Nox.Application.Providers;
 using Nox.Integration.Tests.Fixtures;
 using Nox.Solution;
@@ -9,13 +10,13 @@ using TestWebApp.Infrastructure.Persistence;
 namespace Nox.Integration.Tests.DatabaseIntegrationTests;
 
 public abstract class NoxIntegrationTestBase<TContainerFixture> : IClassFixture<TContainerFixture>
-    where TContainerFixture : class, INoxTestContainer
+    where TContainerFixture : class, INoxTestFixture
 {
     private const string _solutionSetupFileName = @"Nox.Integration.Tests.DatabaseIntegrationTests.Design.test.solution.nox.yaml";
     private readonly ServiceProvider _serviceProvider;
-    private readonly INoxTestContainer _containerFixture;
+    private readonly INoxTestFixture _containerFixture;
 
-    protected NoxIntegrationTestBase(INoxTestContainer containerFixture)
+    protected NoxIntegrationTestBase(INoxTestFixture containerFixture)
     {
         _containerFixture = containerFixture;
 

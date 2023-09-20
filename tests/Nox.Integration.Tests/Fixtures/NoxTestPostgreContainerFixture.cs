@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using Nox.EntityFramework.Postgres;
 using Nox.Types.EntityFramework.Abstractions;
 using Testcontainers.PostgreSql;
