@@ -83,6 +83,40 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #endregion
 
+        #region DELETE
+
+        #region DELETE Delete ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedEntityKey} => api/workplaces/1/belongstocountry/1/$ref
+        [Fact]
+        public async Task Delete_RefToBelongsToCountry_Success()
+        {
+            // Arrange
+            var workplaceCreateDto = new WorkplaceCreateDto() { Name = _fixture.Create<string>() };
+            var countryCreateDto = new CountryCreateDto { Name = _fixture.Create<string>() };
+
+            // Act
+            var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, workplaceCreateDto);
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(CountriesUrl, countryCreateDto);
+            var createRefResponse = await PostAsync($"{EntityUrl}/{workplaceResponse!.Id}/belongstocountry/{countryResponse!.Id}/$ref");
+            var deleteRefResponse = await DeleteAsync($"{EntityUrl}/{workplaceResponse!.Id}/belongstocountry/{countryResponse!.Id}/$ref");
+
+            const string oDataRequest = $"$expand={nameof(WorkplaceDto.BelongsToCountry)}";
+            var getWorkplaceResponse = await GetODataSimpleResponseAsync<WorkplaceDto>($"{EntityUrl}/{workplaceResponse!.Id}?{oDataRequest}");
+
+            //Assert
+            workplaceResponse.Should().NotBeNull();
+            workplaceResponse!.Id.Should().BeGreaterThan(0);
+            countryResponse.Should().NotBeNull();
+            countryResponse!.Id.Should().BeGreaterThan(0);
+
+            getWorkplaceResponse.Should().NotBeNull();
+            getWorkplaceResponse!.Id.Should().BeGreaterThan(0);
+            getWorkplaceResponse!.BelongsToCountry.Should().BeNull();
+            getWorkplaceResponse!.BelongsToCountryId.Should().BeNull();
+        }
+        #endregion
+
+        #endregion
+
         #endregion
 
         [Fact]

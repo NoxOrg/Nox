@@ -67,9 +67,14 @@ public abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.AutoNumber TransactionForCustomerId { get; set; } = null!;
 
-    public virtual void CreateRefToCustomerTransactionForCustomer(Customer relatedCustomer)
+    public virtual void CreateRefToTransactionForCustomer(Customer relatedCustomer)
     {
         TransactionForCustomer = relatedCustomer;
+    }
+
+    public virtual void DeleteRefToTransactionForCustomer(Customer relatedCustomer)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
     }
 
     /// <summary>
@@ -82,9 +87,14 @@ public abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.Guid TransactionForBookingId { get; set; } = null!;
 
-    public virtual void CreateRefToBookingTransactionForBooking(Booking relatedBooking)
+    public virtual void CreateRefToTransactionForBooking(Booking relatedBooking)
     {
         TransactionForBooking = relatedBooking;
+    }
+
+    public virtual void DeleteRefToTransactionForBooking(Booking relatedBooking)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
     }
 
     /// <summary>

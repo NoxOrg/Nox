@@ -65,12 +65,12 @@ public abstract class CreateMinimumCashStockCommandHandlerBase: CommandBase<Crea
 		foreach(var relatedCreateDto in request.EntityDto.MinimumCashStocksRequiredByVendingMachines)
 		{
 			var relatedEntity = _vendingmachinefactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToVendingMachineMinimumCashStocksRequiredByVendingMachines(relatedEntity);
+			entityToCreate.CreateRefToMinimumCashStocksRequiredByVendingMachines(relatedEntity);
 		}
 		if(request.EntityDto.MinimumCashStockRelatedCurrency is not null)
 		{ 
 			var relatedEntity = _currencyfactory.CreateEntity(request.EntityDto.MinimumCashStockRelatedCurrency);
-			entityToCreate.CreateRefToCurrencyMinimumCashStockRelatedCurrency(relatedEntity);
+			entityToCreate.CreateRefToMinimumCashStockRelatedCurrency(relatedEntity);
 		}
 					
 		OnCompleted(request, entityToCreate);
