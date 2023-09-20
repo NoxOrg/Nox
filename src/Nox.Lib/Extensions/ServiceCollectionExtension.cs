@@ -53,6 +53,7 @@ public static class ServiceCollectionExtension
             x.UsingInMemory((context, cfg) =>
             {
                 cfg.ConfigureEndpoints(context);
+                cfg.serial
             });
         });
         
