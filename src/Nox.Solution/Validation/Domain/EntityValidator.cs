@@ -66,10 +66,10 @@ namespace Nox.Solution.Validation
                 .SelectMany(x => x.Events!)
                 .ToList();
 
-            var appEvents = new List<ApplicationEvent>();
-            if (application is { Events: not null } && application.Events.Any())
+            var appEvents = new List<IntegrationEvent>();
+            if (application is { IntegrationEvents: not null } && application.IntegrationEvents.Any())
             {
-                appEvents.AddRange(application.Events!);
+                appEvents.AddRange(application.IntegrationEvents!);
             }
 
             RuleForEach(e => e.Events)
