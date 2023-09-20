@@ -35,11 +35,11 @@ This document provides information about the various endpoints available in our 
 #### Get BankNotes
 - **GET** `/api/Currencies/{key}/BankNotes`
   - Description: Retrieve all BankNotes for a specific Currency.
-  
+
 #### Create BankNote
 - **POST** `/api/Currencies/{key}/BankNotes/{relatedKey}`
   - Description: Create a new BankNote for a specific Currency.
-  
+
 #### Update BankNote
 - **PUT** `/api/Currencies/{key}/BankNotes/{relatedKey}`
   - Description: Update an existing BankNote for a specific Currency.
@@ -57,11 +57,11 @@ This document provides information about the various endpoints available in our 
 #### Get ExchangeRates
 - **GET** `/api/Currencies/{key}/ExchangeRates`
   - Description: Retrieve all ExchangeRates for a specific Currency.
-  
+
 #### Create ExchangeRate
 - **POST** `/api/Currencies/{key}/ExchangeRates/{relatedKey}`
   - Description: Create a new ExchangeRate for a specific Currency.
-  
+
 #### Update ExchangeRate
 - **PUT** `/api/Currencies/{key}/ExchangeRates/{relatedKey}`
   - Description: Update an existing ExchangeRate for a specific Currency.
@@ -89,7 +89,7 @@ This document provides information about the various endpoints available in our 
 #### Create Country relation
 - **POST** `/api/Currencies/{key}/Countries/{relatedKey}/$ref`
   - Description: Create a new Country relation for a specific Currency.
-  
+
 #### Update Country relation
 - **PUT** `/api/Currencies/{key}/Countries/{relatedKey}/$ref`
   - Description: Update an existing Country relation for a specific Currency.
@@ -115,7 +115,7 @@ This document provides information about the various endpoints available in our 
 #### Create MinimumCashStock relation
 - **POST** `/api/Currencies/{key}/MinimumCashStocks/{relatedKey}/$ref`
   - Description: Create a new MinimumCashStock relation for a specific Currency.
-  
+
 #### Update MinimumCashStock relation
 - **PUT** `/api/Currencies/{key}/MinimumCashStocks/{relatedKey}/$ref`
   - Description: Update an existing MinimumCashStock relation for a specific Currency.

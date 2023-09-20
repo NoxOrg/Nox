@@ -10,17 +10,22 @@ namespace ClientApi.Tests;
 public class NoxTestContainerService : IAsyncLifetime
 {
     //To change DatabaseProvider just replace DbProviderKind.
-    private readonly DatabaseServerProvider DbProviderKind = DatabaseServerProvider.Postgres;
+    private readonly DatabaseServerProvider DbProviderKind = DatabaseServerProvider.SqlServer;
 
     private DockerContainer? _dockerContainer;
     private Func<string> _connectionStringGetter = () => string.Empty;
     
     public INoxDatabaseProvider GetDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurations)
     {
+        var connectionString = _connectionStringGetter();
+        if(DbProviderKind == DatabaseServerProvider.SqlServer)
+        {
+            connectionString = connectionString.Replace("master", "clientapi");
+        }
         return DbProviderKind switch
         {
-            DatabaseServerProvider.Postgres => new PostgreSqlTestProvider(_connectionStringGetter(), configurations),
-            DatabaseServerProvider.SqlServer => new MsSqlTestProvider(_connectionStringGetter(), configurations),
+            DatabaseServerProvider.Postgres => new PostgreSqlTestProvider(connectionString, configurations),
+            DatabaseServerProvider.SqlServer => new MsSqlTestProvider(connectionString, configurations),
             _ => throw new NotImplementedException($"{DbProviderKind} is not suported"),
         };
     }
@@ -44,8 +49,8 @@ public class NoxTestContainerService : IAsyncLifetime
 
                 break;
             case DatabaseServerProvider.SqlServer:
-                var sqlContainer = new MsSqlBuilder()
-                .WithAutoRemove(true)
+                var sqlContainer = new MsSqlBuilder()                
+                .WithAutoRemove(true)                
                 .WithCleanUp(true)
                 .Build();
 

@@ -61,7 +61,7 @@ public abstract class CreateStoreCommandHandlerBase: CommandBase<CreateStoreComm
 		if(request.EntityDto.Ownership is not null)
 		{
 			var relatedEntity = _storeownerfactory.CreateEntity(request.EntityDto.Ownership);
-			entityToCreate.CreateRefToStoreOwnerOwnership(relatedEntity);
+			entityToCreate.CreateRefToOwnership(relatedEntity);
 		}
 
 		OnCompleted(request, entityToCreate);

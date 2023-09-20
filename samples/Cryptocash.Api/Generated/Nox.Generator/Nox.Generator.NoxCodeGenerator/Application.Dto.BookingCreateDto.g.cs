@@ -69,24 +69,20 @@ public abstract class BookingCreateDtoBase : IEntityDto<Booking>
     /// <summary>
     /// Booking for ExactlyOne Customers
     /// </summary>
-    [Required(ErrorMessage = "BookingForCustomer is required")]
     public virtual CustomerCreateDto BookingForCustomer { get; set; } = null!;
 
     /// <summary>
     /// Booking related to ExactlyOne VendingMachines
     /// </summary>
-    [Required(ErrorMessage = "BookingRelatedVendingMachine is required")]
     public virtual VendingMachineCreateDto BookingRelatedVendingMachine { get; set; } = null!;
 
     /// <summary>
     /// Booking fees for ExactlyOne Commissions
     /// </summary>
-    [Required(ErrorMessage = "BookingFeesForCommission is required")]
     public virtual CommissionCreateDto BookingFeesForCommission { get; set; } = null!;
 
     /// <summary>
     /// Booking related to ExactlyOne Transactions
     /// </summary>
-    [Required(ErrorMessage = "BookingRelatedTransaction is required")]
     public virtual TransactionCreateDto BookingRelatedTransaction { get; set; } = null!;
 }

@@ -18,7 +18,7 @@ domain:
         schema: dbo
         create:
           isEnabled: true
-          raiseEvents: false
+          raiseEvents: false          
         read:
           isEnabled: false
         update:

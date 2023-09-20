@@ -65,12 +65,12 @@ public abstract class CreateTransactionCommandHandlerBase: CommandBase<CreateTra
 		if(request.EntityDto.TransactionForCustomer is not null)
 		{
 			var relatedEntity = _customerfactory.CreateEntity(request.EntityDto.TransactionForCustomer);
-			entityToCreate.CreateRefToCustomerTransactionForCustomer(relatedEntity);
+			entityToCreate.CreateRefToTransactionForCustomer(relatedEntity);
 		}
 		if(request.EntityDto.TransactionForBooking is not null)
 		{
 			var relatedEntity = _bookingfactory.CreateEntity(request.EntityDto.TransactionForBooking);
-			entityToCreate.CreateRefToBookingTransactionForBooking(relatedEntity);
+			entityToCreate.CreateRefToTransactionForBooking(relatedEntity);
 		}
 
 		OnCompleted(request, entityToCreate);

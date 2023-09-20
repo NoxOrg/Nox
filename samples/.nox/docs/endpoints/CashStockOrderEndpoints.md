@@ -43,7 +43,7 @@ This document provides information about the various endpoints available in our 
 #### Create VendingMachine relation
 - **POST** `/api/CashStockOrders/{key}/VendingMachines/{relatedKey}/$ref`
   - Description: Create a new VendingMachine relation for a specific CashStockOrder.
-  
+
 #### Update VendingMachine relation
 - **PUT** `/api/CashStockOrders/{key}/VendingMachines/{relatedKey}/$ref`
   - Description: Update an existing VendingMachine relation for a specific CashStockOrder.
@@ -69,7 +69,7 @@ This document provides information about the various endpoints available in our 
 #### Create Employee relation
 - **POST** `/api/CashStockOrders/{key}/Employees/{relatedKey}/$ref`
   - Description: Create a new Employee relation for a specific CashStockOrder.
-  
+
 #### Update Employee relation
 - **PUT** `/api/CashStockOrders/{key}/Employees/{relatedKey}/$ref`
   - Description: Update an existing Employee relation for a specific CashStockOrder.

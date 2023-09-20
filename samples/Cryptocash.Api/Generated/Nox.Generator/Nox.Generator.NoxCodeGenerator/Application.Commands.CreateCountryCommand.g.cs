@@ -73,22 +73,22 @@ public abstract class CreateCountryCommandHandlerBase: CommandBase<CreateCountry
 		if(request.EntityDto.CountryUsedByCurrency is not null)
 		{
 			var relatedEntity = _currencyfactory.CreateEntity(request.EntityDto.CountryUsedByCurrency);
-			entityToCreate.CreateRefToCurrencyCountryUsedByCurrency(relatedEntity);
+			entityToCreate.CreateRefToCountryUsedByCurrency(relatedEntity);
 		}
 		foreach(var relatedCreateDto in request.EntityDto.CountryUsedByCommissions)
 		{
 			var relatedEntity = _commissionfactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToCommissionCountryUsedByCommissions(relatedEntity);
+			entityToCreate.CreateRefToCountryUsedByCommissions(relatedEntity);
 		}
 		foreach(var relatedCreateDto in request.EntityDto.CountryUsedByVendingMachines)
 		{
 			var relatedEntity = _vendingmachinefactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToVendingMachineCountryUsedByVendingMachines(relatedEntity);
+			entityToCreate.CreateRefToCountryUsedByVendingMachines(relatedEntity);
 		}
 		foreach(var relatedCreateDto in request.EntityDto.CountryUsedByCustomers)
 		{
 			var relatedEntity = _customerfactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToCustomerCountryUsedByCustomers(relatedEntity);
+			entityToCreate.CreateRefToCountryUsedByCustomers(relatedEntity);
 		}
 
 		OnCompleted(request, entityToCreate);

@@ -295,7 +295,7 @@ application:
             maxLength: 2
             minLength: 2
 
-  events:
+  integrationEvents:
     - name: CountryNameChangedAppEvent
       description: An application event raised when the name of a country changes
       type: object

@@ -127,12 +127,33 @@ public abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if ent
     {{- end}}
     {{-end}}
 
-    public virtual void CreateRefTo{{relationship.Entity}}{{relationship.Name}}({{relationship.Entity}} related{{relationship.Entity}})
+    public virtual void CreateRefTo{{relationship.Name}}({{relationship.Entity}} related{{relationship.Entity}})
     {
         {{- if relationship.WithSingleEntity }}
         {{relationship.Name}} = related{{relationship.Entity}};
         {{- else}}
         {{relationship.Name}}.Add(related{{relationship.Entity}});
+        {{- end }}
+    }
+
+    public virtual void DeleteRefTo{{relationship.Name}}({{relationship.Entity}} related{{relationship.Entity}})
+    {
+        {{- if relationship.WithSingleEntity }}
+
+        {{- if relationship.Relationship == "ExactlyOne" }}
+        throw new Exception($"The relatioship cannot be deleted."); 
+        {{- else }}
+        {{relationship.Name}} = null;
+        {{- end }}
+
+        {{- else}}
+
+        {{- if relationship.Relationship == "OneOrMany" }}
+        if({{relationship.Name}}.Count() < 2)
+            throw new Exception($"The relatioship cannot be deleted.");             
+        {{- end }}
+        {{relationship.Name}}.Remove(related{{relationship.Entity}});
+
         {{- end }}
     }
 {{- end }}

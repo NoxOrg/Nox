@@ -44,12 +44,10 @@ public abstract class PaymentDetailCreateDtoBase : IEntityDto<PaymentDetail>
     /// <summary>
     /// PaymentDetail used by ExactlyOne Customers
     /// </summary>
-    [Required(ErrorMessage = "PaymentDetailsUsedByCustomer is required")]
     public virtual CustomerCreateDto PaymentDetailsUsedByCustomer { get; set; } = null!;
 
     /// <summary>
     /// PaymentDetail related to ExactlyOne PaymentProviders
     /// </summary>
-    [Required(ErrorMessage = "PaymentDetailsRelatedPaymentProvider is required")]
     public virtual PaymentProviderCreateDto PaymentDetailsRelatedPaymentProvider { get; set; } = null!;
 }

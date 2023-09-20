@@ -13,7 +13,7 @@ namespace SampleWebApp.Application.Events;
 /// <summary>
 /// An application event raised when the name of a country changes.
 /// </summary>
-public partial class CountryNameChangedAppEvent : INoxApplicationEvent
+public partial class CountryNameChangedAppEvent : Nox.Application.IApplicationEvent
 {
     
     /// <summary>

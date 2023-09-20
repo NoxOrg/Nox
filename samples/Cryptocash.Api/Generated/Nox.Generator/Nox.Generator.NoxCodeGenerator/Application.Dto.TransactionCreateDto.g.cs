@@ -52,12 +52,10 @@ public abstract class TransactionCreateDtoBase : IEntityDto<Transaction>
     /// <summary>
     /// Transaction for ExactlyOne Customers
     /// </summary>
-    [Required(ErrorMessage = "TransactionForCustomer is required")]
     public virtual CustomerCreateDto TransactionForCustomer { get; set; } = null!;
 
     /// <summary>
     /// Transaction for ExactlyOne Bookings
     /// </summary>
-    [Required(ErrorMessage = "TransactionForBooking is required")]
     public virtual BookingCreateDto TransactionForBooking { get; set; } = null!;
 }

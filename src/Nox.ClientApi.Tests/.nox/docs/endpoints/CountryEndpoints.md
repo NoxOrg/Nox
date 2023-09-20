@@ -35,11 +35,11 @@ This document provides information about the various endpoints available in our 
 #### Get CountryLocalNames
 - **GET** `/api/Countries/{key}/CountryLocalNames`
   - Description: Retrieve all CountryLocalNames for a specific Country.
-  
+
 #### Create CountryLocalName
 - **POST** `/api/Countries/{key}/CountryLocalNames/{relatedKey}`
   - Description: Create a new CountryLocalName for a specific Country.
-  
+
 #### Update CountryLocalName
 - **PUT** `/api/Countries/{key}/CountryLocalNames/{relatedKey}`
   - Description: Update an existing CountryLocalName for a specific Country.
@@ -57,11 +57,11 @@ This document provides information about the various endpoints available in our 
 #### Get CountryBarCodes
 - **GET** `/api/Countries/{key}/CountryBarCodes`
   - Description: Retrieve all CountryBarCodes for a specific Country.
-  
+
 #### Create CountryBarCode
 - **POST** `/api/Countries/{key}/CountryBarCodes/{relatedKey}`
   - Description: Create a new CountryBarCode for a specific Country.
-  
+
 #### Update CountryBarCode
 - **PUT** `/api/Countries/{key}/CountryBarCodes/{relatedKey}`
   - Description: Update an existing CountryBarCode for a specific Country.
@@ -89,7 +89,7 @@ This document provides information about the various endpoints available in our 
 #### Create Workplace relation
 - **POST** `/api/Countries/{key}/Workplaces/{relatedKey}/$ref`
   - Description: Create a new Workplace relation for a specific Country.
-  
+
 #### Update Workplace relation
 - **PUT** `/api/Countries/{key}/Workplaces/{relatedKey}/$ref`
   - Description: Update an existing Workplace relation for a specific Country.

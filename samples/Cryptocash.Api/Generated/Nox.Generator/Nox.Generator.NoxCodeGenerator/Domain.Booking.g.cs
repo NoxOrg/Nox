@@ -107,9 +107,14 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.AutoNumber BookingForCustomerId { get; set; } = null!;
 
-    public virtual void CreateRefToCustomerBookingForCustomer(Customer relatedCustomer)
+    public virtual void CreateRefToBookingForCustomer(Customer relatedCustomer)
     {
         BookingForCustomer = relatedCustomer;
+    }
+
+    public virtual void DeleteRefToBookingForCustomer(Customer relatedCustomer)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
     }
 
     /// <summary>
@@ -122,9 +127,14 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.Guid BookingRelatedVendingMachineId { get; set; } = null!;
 
-    public virtual void CreateRefToVendingMachineBookingRelatedVendingMachine(VendingMachine relatedVendingMachine)
+    public virtual void CreateRefToBookingRelatedVendingMachine(VendingMachine relatedVendingMachine)
     {
         BookingRelatedVendingMachine = relatedVendingMachine;
+    }
+
+    public virtual void DeleteRefToBookingRelatedVendingMachine(VendingMachine relatedVendingMachine)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
     }
 
     /// <summary>
@@ -137,9 +147,14 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.AutoNumber BookingFeesForCommissionId { get; set; } = null!;
 
-    public virtual void CreateRefToCommissionBookingFeesForCommission(Commission relatedCommission)
+    public virtual void CreateRefToBookingFeesForCommission(Commission relatedCommission)
     {
         BookingFeesForCommission = relatedCommission;
+    }
+
+    public virtual void DeleteRefToBookingFeesForCommission(Commission relatedCommission)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
     }
 
     /// <summary>
@@ -147,9 +162,14 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual Transaction BookingRelatedTransaction { get; set; } = null!;
 
-    public virtual void CreateRefToTransactionBookingRelatedTransaction(Transaction relatedTransaction)
+    public virtual void CreateRefToBookingRelatedTransaction(Transaction relatedTransaction)
     {
         BookingRelatedTransaction = relatedTransaction;
+    }
+
+    public virtual void DeleteRefToBookingRelatedTransaction(Transaction relatedTransaction)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
     }
 
     /// <summary>

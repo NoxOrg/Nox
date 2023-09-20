@@ -407,6 +407,22 @@ public abstract class CountriesControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> DeleteRefToPhysicalWorkplaces([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefCountryToPhysicalWorkplacesCommand(new CountryKeyDto(key), new WorkplaceKeyDto(relatedKey)));
+        if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     #endregion
     
 }

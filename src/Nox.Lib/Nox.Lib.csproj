@@ -31,6 +31,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />
+		<PackageReference Include="MassTransit.Azure.ServiceBus.Core" Version="8.1.0" />
 		<PackageReference Include="MediatR" Version="12.1.1" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Scrutor" Version="4.2.2" />
@@ -133,5 +135,6 @@
 	
 	<ItemGroup>
 	  <Folder Include="Application\Dto\" />
+	  <Folder Include="Messaging\AzureServiceBus\" />
 	</ItemGroup>
 </Project>

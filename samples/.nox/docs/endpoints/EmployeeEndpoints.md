@@ -35,11 +35,11 @@ This document provides information about the various endpoints available in our 
 #### Get EmployeePhoneNumbers
 - **GET** `/api/Employees/{key}/EmployeePhoneNumbers`
   - Description: Retrieve all EmployeePhoneNumbers for a specific Employee.
-  
+
 #### Create EmployeePhoneNumber
 - **POST** `/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}`
   - Description: Create a new EmployeePhoneNumber for a specific Employee.
-  
+
 #### Update EmployeePhoneNumber
 - **PUT** `/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}`
   - Description: Update an existing EmployeePhoneNumber for a specific Employee.
@@ -67,7 +67,7 @@ This document provides information about the various endpoints available in our 
 #### Create CashStockOrder relation
 - **POST** `/api/Employees/{key}/CashStockOrders/{relatedKey}/$ref`
   - Description: Create a new CashStockOrder relation for a specific Employee.
-  
+
 #### Update CashStockOrder relation
 - **PUT** `/api/Employees/{key}/CashStockOrders/{relatedKey}/$ref`
   - Description: Update an existing CashStockOrder relation for a specific Employee.

@@ -65,12 +65,12 @@ public abstract class CreateCashStockOrderCommandHandlerBase: CommandBase<Create
 		if(request.EntityDto.CashStockOrderForVendingMachine is not null)
 		{
 			var relatedEntity = _vendingmachinefactory.CreateEntity(request.EntityDto.CashStockOrderForVendingMachine);
-			entityToCreate.CreateRefToVendingMachineCashStockOrderForVendingMachine(relatedEntity);
+			entityToCreate.CreateRefToCashStockOrderForVendingMachine(relatedEntity);
 		}
 		if(request.EntityDto.CashStockOrderReviewedByEmployee is not null)
 		{
 			var relatedEntity = _employeefactory.CreateEntity(request.EntityDto.CashStockOrderReviewedByEmployee);
-			entityToCreate.CreateRefToEmployeeCashStockOrderReviewedByEmployee(relatedEntity);
+			entityToCreate.CreateRefToCashStockOrderReviewedByEmployee(relatedEntity);
 		}
 
 		OnCompleted(request, entityToCreate);

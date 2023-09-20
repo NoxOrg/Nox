@@ -69,13 +69,11 @@ public abstract class VendingMachineCreateDtoBase : IEntityDto<VendingMachine>
     /// <summary>
     /// VendingMachine installed in ExactlyOne Countries
     /// </summary>
-    [Required(ErrorMessage = "VendingMachineInstallationCountry is required")]
     public virtual CountryCreateDto VendingMachineInstallationCountry { get; set; } = null!;
 
     /// <summary>
     /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
-    [Required(ErrorMessage = "VendingMachineContractedAreaLandLord is required")]
     public virtual LandLordCreateDto VendingMachineContractedAreaLandLord { get; set; } = null!;
 
     /// <summary>

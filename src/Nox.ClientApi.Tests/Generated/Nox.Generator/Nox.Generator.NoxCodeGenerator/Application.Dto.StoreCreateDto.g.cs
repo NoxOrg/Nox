@@ -49,7 +49,6 @@ public abstract class StoreCreateDtoBase : IEntityDto<Store>
     /// <summary>
     /// Store Owner of the Store ZeroOrOne StoreOwners
     /// </summary>
-    
     public virtual StoreOwnerCreateDto? Ownership { get; set; } = null!;
 
     /// <summary>

@@ -82,9 +82,14 @@ public abstract class WorkplaceBase : EntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.AutoNumber? BelongsToCountryId { get; set; } = null!;
 
-    public virtual void CreateRefToCountryBelongsToCountry(Country relatedCountry)
+    public virtual void CreateRefToBelongsToCountry(Country relatedCountry)
     {
         BelongsToCountry = relatedCountry;
+    }
+
+    public virtual void DeleteRefToBelongsToCountry(Country relatedCountry)
+    {
+        BelongsToCountry = null;
     }
 
     /// <summary>

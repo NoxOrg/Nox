@@ -155,6 +155,22 @@ public abstract class CommissionsControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> DeleteRefToCommissionFeesForCountry([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefCommissionToCommissionFeesForCountryCommand(new CommissionKeyDto(key), new CountryKeyDto(relatedKey)));
+        if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> CreateRefToCommissionFeesForBooking([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -164,6 +180,22 @@ public abstract class CommissionsControllerBase : ODataController
         
         var createdRef = await _mediator.Send(new CreateRefCommissionToCommissionFeesForBookingCommand(new CommissionKeyDto(key), new BookingKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> DeleteRefToCommissionFeesForBooking([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefCommissionToCommissionFeesForBookingCommand(new CommissionKeyDto(key), new BookingKeyDto(relatedKey)));
+        if (!deletedRef)
         {
             return NotFound();
         }
