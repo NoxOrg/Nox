@@ -20,7 +20,6 @@ public partial class Workplace
         /// </summary>
         public static Nox.Types.NuidTypeOptions IdTypeOptions {get; private set;} = new ()
         {
-            Prefix = null,
             Separator = "-",
             PropertyNames = new System.String[]
             {

@@ -68,7 +68,6 @@ public class ObjectExtensionsTests
         source.Should().ContainSingle(p=>p.Name == "StringListProperty" && p.Type == "IList");
         source.Should().ContainSingle(p=>p.Name == "StringDictionaryProperty" && p.Type == "IDictionary");
         source.Should().ContainSingle(p=>p.Name == "NullStringProperty" && p.Type == "SimpleType");
-        source.Should().ContainSingle(p=>p.Name == "HiddenNullStringProperty" && p.Type == string.Empty);
         source.Should().ContainSingle(p=>p.Name == "IntArrayProperty" && p.Type == "Array");
         source.Should().ContainSingle(p=>p.Name == "DateTimeProperty" && p.Type == "DateTime");
         source.Should().ContainSingle(p=>p.Name == "DateTimeOffsetProperty" && p.Type == "DateTimeOffset");

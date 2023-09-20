@@ -43,6 +43,7 @@ public static class ObjectExtensions
         foreach (var property in properties)
         {
              var value = property.GetValue(obj);
+             if(value == null) continue;
              var propertyName = property.Name;
              var optionProperty = ToOptionProperty(propertyName, value, fullyQualifiedNames);
              optionProperties.Add(optionProperty);
