@@ -105,7 +105,7 @@ namespace ClientApi.Tests.Tests.Controllers
         }
 
         [Fact]
-        public async Task Put_Number_ShouldUpdate()
+        public async Task Put_Name_ShouldFailWithNuidException()
         {
             // Arrange
             var createDto = new WorkplaceCreateDto
@@ -116,6 +116,38 @@ namespace ClientApi.Tests.Tests.Controllers
             var updateDto = new WorkplaceUpdateDto
             {
                 Name = _fixture.Create<string>(),
+            };
+
+            var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, createDto);
+
+            var headers = CreateEtagHeader(postResult?.Etag);
+
+            // Act
+            var putResult = await PutAsync<WorkplaceUpdateDto>($"{EntityUrl}/{postResult!.Id}", updateDto, headers, false);
+
+            //Assert
+            var errorMessage = await putResult!.Content.ReadAsStringAsync();
+            errorMessage.Should().Contain("Immutable nuid property Id value is different since it has been initialized");
+            putResult.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+        }
+
+        [Fact]
+        public async Task Put_Description_ShouldUpdate()
+        {
+            var nameFixture = _fixture.Create<string>();
+
+            // Arrange
+            var createDto = new WorkplaceCreateDto
+            {
+                Name = nameFixture,
+                Description = _fixture.Create<string>(),
+            };
+
+            var updateDto = new WorkplaceUpdateDto
+            {
+                // Name shouldn't change, description should
+                Name = nameFixture,
+                Description = _fixture.Create<string>(),
             };
 
             var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, createDto);

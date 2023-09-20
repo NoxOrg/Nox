@@ -56,6 +56,26 @@ public partial class Workplace
         
     
         /// <summary>
+        /// Type options for property 'Description'
+        /// </summary>
+        public static Nox.Types.TextTypeOptions DescriptionTypeOptions {get; private set;} = new ()
+        {
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
+        };
+    
+    
+        /// <summary>
+        /// Factory for property 'Description'
+        /// </summary>
+        public static Nox.Types.Text CreateDescription(System.String value)
+            => Nox.Types.Text.From(value, DescriptionTypeOptions);
+        
+    
+        /// <summary>
         /// Type options for property 'Greeting'
         /// </summary>
         public static Nox.Types.FormulaTypeOptions GreetingTypeOptions {get; private set;} = new ()

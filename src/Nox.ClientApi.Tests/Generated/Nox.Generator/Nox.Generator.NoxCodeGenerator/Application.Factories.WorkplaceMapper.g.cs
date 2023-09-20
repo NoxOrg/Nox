@@ -43,6 +43,20 @@ public partial class WorkplaceMapper : EntityMapperBase<Workplace>
                 }
             }
         }
+        {
+            if (updatedProperties.TryGetValue("Description", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Description", value);
+                if(noxTypeValue == null)
+                {
+                    entity.Description = null;
+                }
+                else
+                {
+                    entity.Description = noxTypeValue;
+                }
+            }
+        }
     
     
         /// <summary>

@@ -22,6 +22,10 @@ public partial class WorkplaceUpdateDto : IEntityDto<Workplace>
     [Required(ErrorMessage = "Name is required")]
     
     public System.String Name { get; set; } = default!;
+    /// <summary>
+    /// Workplace Description (Optional).
+    /// </summary>
+    public System.String? Description { get; set; }
 
     /// <summary>
     /// Workplace Workplace country ZeroOrOne Countries

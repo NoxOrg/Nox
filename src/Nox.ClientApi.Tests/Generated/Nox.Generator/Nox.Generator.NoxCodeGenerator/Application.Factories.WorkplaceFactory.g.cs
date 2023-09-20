@@ -46,6 +46,7 @@ public abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, Workplace
     {
         var entity = new ClientApi.Domain.Workplace();
         entity.Name = ClientApi.Domain.Workplace.CreateName(createDto.Name);
+        if (createDto.Description is not null)entity.Description = ClientApi.Domain.Workplace.CreateDescription(createDto.Description.NonNullValue<System.String>());
 		entity.EnsureId();
         //entity.Country = Country?.ToEntity();
         return entity;
@@ -54,6 +55,9 @@ public abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, Workplace
     private void UpdateEntityInternal(Workplace entity, WorkplaceUpdateDto updateDto)
     {
         entity.Name = ClientApi.Domain.Workplace.CreateName(updateDto.Name.NonNullValue<System.String>());
+        if (updateDto.Description == null) { entity.Description = null; } else {
+            entity.Description = ClientApi.Domain.Workplace.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>());
+        }
 		entity.EnsureId();
         //entity.Country = Country?.ToEntity();
     }

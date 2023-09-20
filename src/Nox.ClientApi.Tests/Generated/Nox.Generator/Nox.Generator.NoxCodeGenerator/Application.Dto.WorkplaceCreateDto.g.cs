@@ -31,6 +31,10 @@ public abstract class WorkplaceCreateDtoBase : IEntityDto<Workplace>
     
     public virtual System.String Name { get; set; } = default!;
     /// <summary>
+    /// Workplace Description (Optional).
+    /// </summary>
+    public virtual System.String? Description { get; set; }
+    /// <summary>
     /// The Formula (Optional).
     /// </summary>
     public virtual System.String? Greeting { get; set; }

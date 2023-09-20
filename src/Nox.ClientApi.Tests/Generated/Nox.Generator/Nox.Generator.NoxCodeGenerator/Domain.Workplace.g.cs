@@ -59,6 +59,11 @@ public abstract class WorkplaceBase : EntityBase, IEntityConcurrent
     public Nox.Types.Text Name { get; set; } = null!;
 
     /// <summary>
+    /// Workplace Description (Optional).
+    /// </summary>
+    public Nox.Types.Text? Description { get; set; } = null!;
+
+    /// <summary>
     /// The Formula (Optional).
     /// </summary>
     public string? Greeting
