@@ -62,7 +62,7 @@ public abstract class EmployeeCreateDtoBase : IEntityDto<Employee>
     /// <summary>
     /// Employee reviewing ExactlyOne CashStockOrders
     /// </summary>
-    public virtual CashStockOrderCreateDto EmployeeReviewingCashStockOrder { get; set; } = null!;
+    public virtual CashStockOrderCreateDto? EmployeeReviewingCashStockOrder { get; set; } = default!;
 
     /// <summary>
     /// Employee contacted by ZeroOrMany EmployeePhoneNumbers

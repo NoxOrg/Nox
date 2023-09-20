@@ -39,5 +39,5 @@ public abstract class MinimumCashStockCreateDtoBase : IEntityDto<MinimumCashStoc
     /// <summary>
     /// MinimumCashStock related to ExactlyOne Currencies
     /// </summary>
-    public virtual CurrencyCreateDto MinimumCashStockRelatedCurrency { get; set; } = null!;
+    public virtual CurrencyCreateDto? MinimumCashStockRelatedCurrency { get; set; } = default!;
 }

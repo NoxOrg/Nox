@@ -89,7 +89,7 @@ public abstract class CountryCreateDtoBase : IEntityDto<Country>
     /// <summary>
     /// Country used by ExactlyOne Currencies
     /// </summary>
-    public virtual CurrencyCreateDto CountryUsedByCurrency { get; set; } = null!;
+    public virtual CurrencyCreateDto? CountryUsedByCurrency { get; set; } = default!;
 
     /// <summary>
     /// Country used by OneOrMany Commissions

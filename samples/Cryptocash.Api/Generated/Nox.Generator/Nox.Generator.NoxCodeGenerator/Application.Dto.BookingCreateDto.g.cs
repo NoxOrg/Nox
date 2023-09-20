@@ -69,20 +69,20 @@ public abstract class BookingCreateDtoBase : IEntityDto<Booking>
     /// <summary>
     /// Booking for ExactlyOne Customers
     /// </summary>
-    public virtual CustomerCreateDto BookingForCustomer { get; set; } = null!;
+    public virtual CustomerCreateDto? BookingForCustomer { get; set; } = default!;
 
     /// <summary>
     /// Booking related to ExactlyOne VendingMachines
     /// </summary>
-    public virtual VendingMachineCreateDto BookingRelatedVendingMachine { get; set; } = null!;
+    public virtual VendingMachineCreateDto? BookingRelatedVendingMachine { get; set; } = default!;
 
     /// <summary>
     /// Booking fees for ExactlyOne Commissions
     /// </summary>
-    public virtual CommissionCreateDto BookingFeesForCommission { get; set; } = null!;
+    public virtual CommissionCreateDto? BookingFeesForCommission { get; set; } = default!;
 
     /// <summary>
     /// Booking related to ExactlyOne Transactions
     /// </summary>
-    public virtual TransactionCreateDto BookingRelatedTransaction { get; set; } = null!;
+    public virtual TransactionCreateDto? BookingRelatedTransaction { get; set; } = default!;
 }

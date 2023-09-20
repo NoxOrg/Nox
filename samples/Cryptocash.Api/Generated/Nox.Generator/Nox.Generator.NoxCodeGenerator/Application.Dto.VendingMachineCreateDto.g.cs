@@ -69,12 +69,12 @@ public abstract class VendingMachineCreateDtoBase : IEntityDto<VendingMachine>
     /// <summary>
     /// VendingMachine installed in ExactlyOne Countries
     /// </summary>
-    public virtual CountryCreateDto VendingMachineInstallationCountry { get; set; } = null!;
+    public virtual CountryCreateDto? VendingMachineInstallationCountry { get; set; } = default!;
 
     /// <summary>
     /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
-    public virtual LandLordCreateDto VendingMachineContractedAreaLandLord { get; set; } = null!;
+    public virtual LandLordCreateDto? VendingMachineContractedAreaLandLord { get; set; } = default!;
 
     /// <summary>
     /// VendingMachine related to ZeroOrMany Bookings
