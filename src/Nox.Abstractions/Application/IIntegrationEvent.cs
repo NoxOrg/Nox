@@ -1,6 +1,6 @@
 ﻿namespace Nox.Application;
 
-public interface IApplicationEvent
+public interface IIntegrationEvent
 {
     
 }
