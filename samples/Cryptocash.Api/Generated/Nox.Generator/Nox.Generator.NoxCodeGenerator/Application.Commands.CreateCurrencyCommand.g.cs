@@ -25,11 +25,11 @@ public partial class CreateCurrencyCommandHandler: CreateCurrencyCommandHandlerB
 	public CreateCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Country,CountryCreateDto> countryfactory,
-        IEntityFactory<MinimumCashStock,MinimumCashStockCreateDto> minimumcashstockfactory,
-        IEntityFactory<Currency,CurrencyCreateDto> entityFactory,
+        IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
+        IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> minimumcashstockfactory,
+        IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,countryfactory,minimumcashstockfactory,entityFactory, serviceProvider)
+		: base(dbContext, noxSolution,countryfactory, minimumcashstockfactory, entityFactory, serviceProvider)
 	{
 	}
 }
@@ -38,21 +38,21 @@ public partial class CreateCurrencyCommandHandler: CreateCurrencyCommandHandlerB
 public abstract class CreateCurrencyCommandHandlerBase: CommandBase<CreateCurrencyCommand,Currency>, IRequestHandler <CreateCurrencyCommand, CurrencyKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<Currency,CurrencyCreateDto> _entityFactory;
-    private readonly IEntityFactory<Country,CountryCreateDto> _countryfactory;
-    private readonly IEntityFactory<MinimumCashStock,MinimumCashStockCreateDto> _minimumcashstockfactory;
+	private readonly IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> _entityFactory;
+    private readonly IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> _countryfactory;
+    private readonly IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> _minimumcashstockfactory;
 
 	public CreateCurrencyCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Country,CountryCreateDto> countryfactory,
-        IEntityFactory<MinimumCashStock,MinimumCashStockCreateDto> minimumcashstockfactory,
-        IEntityFactory<Currency,CurrencyCreateDto> entityFactory,
+        IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
+        IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> minimumcashstockfactory,
+        IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;        
-        _countryfactory = countryfactory;        
+		_entityFactory = entityFactory;
+        _countryfactory = countryfactory;
         _minimumcashstockfactory = minimumcashstockfactory;
 	}
 
@@ -65,14 +65,14 @@ public abstract class CreateCurrencyCommandHandlerBase: CommandBase<CreateCurren
 		foreach(var relatedCreateDto in request.EntityDto.CurrencyUsedByCountry)
 		{
 			var relatedEntity = _countryfactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToCountryCurrencyUsedByCountry(relatedEntity);
+			entityToCreate.CreateRefToCurrencyUsedByCountry(relatedEntity);
 		}
 		foreach(var relatedCreateDto in request.EntityDto.CurrencyUsedByMinimumCashStocks)
 		{
 			var relatedEntity = _minimumcashstockfactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToMinimumCashStockCurrencyUsedByMinimumCashStocks(relatedEntity);
+			entityToCreate.CreateRefToCurrencyUsedByMinimumCashStocks(relatedEntity);
 		}
-					
+
 		OnCompleted(request, entityToCreate);
 		_dbContext.Currencies.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();

@@ -168,6 +168,22 @@ public abstract class BookingsControllerBase : ODataController
         return Ok(references);
     }
     
+    public async Task<ActionResult> DeleteRefToBookingForCustomer([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefBookingToBookingForCustomerCommand(new BookingKeyDto(key), new CustomerKeyDto(relatedKey)));
+        if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> CreateRefToBookingRelatedVendingMachine([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -194,6 +210,22 @@ public abstract class BookingsControllerBase : ODataController
         
         var references = new System.Uri($"VendingMachines/{related.Id}", UriKind.Relative);
         return Ok(references);
+    }
+    
+    public async Task<ActionResult> DeleteRefToBookingRelatedVendingMachine([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefBookingToBookingRelatedVendingMachineCommand(new BookingKeyDto(key), new VendingMachineKeyDto(relatedKey)));
+        if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
     }
     
     public async Task<ActionResult> CreateRefToBookingFeesForCommission([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
@@ -224,6 +256,22 @@ public abstract class BookingsControllerBase : ODataController
         return Ok(references);
     }
     
+    public async Task<ActionResult> DeleteRefToBookingFeesForCommission([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefBookingToBookingFeesForCommissionCommand(new BookingKeyDto(key), new CommissionKeyDto(relatedKey)));
+        if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> CreateRefToBookingRelatedTransaction([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -250,6 +298,22 @@ public abstract class BookingsControllerBase : ODataController
         
         var references = new System.Uri($"Transactions/{related.Id}", UriKind.Relative);
         return Ok(references);
+    }
+    
+    public async Task<ActionResult> DeleteRefToBookingRelatedTransaction([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefBookingToBookingRelatedTransactionCommand(new BookingKeyDto(key), new TransactionKeyDto(relatedKey)));
+        if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
     }
     
     #endregion

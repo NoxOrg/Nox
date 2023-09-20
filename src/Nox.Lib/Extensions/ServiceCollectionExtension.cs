@@ -49,11 +49,13 @@ public static class ServiceCollectionExtension
 
         /*Move to Generated WebServiceCollection to use Solution to define the Type of Bud*/
         services.AddMassTransit(x =>
-        {        
+        {
             x.UsingInMemory((context, cfg) =>
             {
                 cfg.ConfigureEndpoints(context);
+
             });
+
         });
         
 
@@ -113,7 +115,7 @@ public static class ServiceCollectionExtension
     {
         services.Scan(scan =>
            scan.FromAssemblies(noxAssemblies)
-           .AddClasses(classes => classes.AssignableTo(typeof(IEntityFactory<,>)))
+           .AddClasses(classes => classes.AssignableTo(typeof(IEntityFactory<,,>)))
            .AsImplementedInterfaces()
            .WithSingletonLifetime());
 

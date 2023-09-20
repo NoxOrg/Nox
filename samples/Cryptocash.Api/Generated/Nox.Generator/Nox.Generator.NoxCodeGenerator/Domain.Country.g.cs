@@ -112,9 +112,14 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.CurrencyCode3 CountryUsedByCurrencyId { get; set; } = null!;
 
-    public virtual void CreateRefToCurrencyCountryUsedByCurrency(Currency relatedCurrency)
+    public virtual void CreateRefToCountryUsedByCurrency(Currency relatedCurrency)
     {
         CountryUsedByCurrency = relatedCurrency;
+    }
+
+    public virtual void DeleteRefToCountryUsedByCurrency(Currency relatedCurrency)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
     }
 
     /// <summary>
@@ -122,9 +127,16 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<Commission> CountryUsedByCommissions { get; set; } = new();
 
-    public virtual void CreateRefToCommissionCountryUsedByCommissions(Commission relatedCommission)
+    public virtual void CreateRefToCountryUsedByCommissions(Commission relatedCommission)
     {
         CountryUsedByCommissions.Add(relatedCommission);
+    }
+
+    public virtual void DeleteRefToCountryUsedByCommissions(Commission relatedCommission)
+    {
+        if(CountryUsedByCommissions.Count() < 2)
+            throw new Exception($"The relatioship cannot be deleted.");
+        CountryUsedByCommissions.Remove(relatedCommission);
     }
 
     /// <summary>
@@ -132,9 +144,14 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<VendingMachine> CountryUsedByVendingMachines { get; set; } = new();
 
-    public virtual void CreateRefToVendingMachineCountryUsedByVendingMachines(VendingMachine relatedVendingMachine)
+    public virtual void CreateRefToCountryUsedByVendingMachines(VendingMachine relatedVendingMachine)
     {
         CountryUsedByVendingMachines.Add(relatedVendingMachine);
+    }
+
+    public virtual void DeleteRefToCountryUsedByVendingMachines(VendingMachine relatedVendingMachine)
+    {
+        CountryUsedByVendingMachines.Remove(relatedVendingMachine);
     }
 
     /// <summary>
@@ -142,9 +159,14 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<Customer> CountryUsedByCustomers { get; set; } = new();
 
-    public virtual void CreateRefToCustomerCountryUsedByCustomers(Customer relatedCustomer)
+    public virtual void CreateRefToCountryUsedByCustomers(Customer relatedCustomer)
     {
         CountryUsedByCustomers.Add(relatedCustomer);
+    }
+
+    public virtual void DeleteRefToCountryUsedByCustomers(Customer relatedCustomer)
+    {
+        CountryUsedByCustomers.Remove(relatedCustomer);
     }
 
     /// <summary>

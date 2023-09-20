@@ -14,7 +14,7 @@ using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
-public partial class PaymentProviderCreateDto: PaymentProviderCreateDtoBase
+public partial class PaymentProviderCreateDto : PaymentProviderCreateDtoBase
 {
 
 }
@@ -22,14 +22,14 @@ public partial class PaymentProviderCreateDto: PaymentProviderCreateDtoBase
 /// <summary>
 /// Payment provider related data.
 /// </summary>
-public abstract class PaymentProviderCreateDtoBase : IEntityCreateDto<PaymentProvider>
-{    
+public abstract class PaymentProviderCreateDtoBase : IEntityDto<PaymentProvider>
+{
     /// <summary>
     /// Payment provider name (Required).
     /// </summary>
     [Required(ErrorMessage = "PaymentProviderName is required")]
     
-    public virtual System.String PaymentProviderName { get; set; } = default!;    
+    public virtual System.String PaymentProviderName { get; set; } = default!;
     /// <summary>
     /// Payment provider account type (Required).
     /// </summary>

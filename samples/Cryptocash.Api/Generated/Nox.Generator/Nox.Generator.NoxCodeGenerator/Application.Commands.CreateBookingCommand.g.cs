@@ -25,13 +25,13 @@ public partial class CreateBookingCommandHandler: CreateBookingCommandHandlerBas
 	public CreateBookingCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Customer,CustomerCreateDto> customerfactory,
-        IEntityFactory<VendingMachine,VendingMachineCreateDto> vendingmachinefactory,
-        IEntityFactory<Commission,CommissionCreateDto> commissionfactory,
-        IEntityFactory<Transaction,TransactionCreateDto> transactionfactory,
-        IEntityFactory<Booking,BookingCreateDto> entityFactory,
+        IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> customerfactory,
+        IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
+        IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> commissionfactory,
+        IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> transactionfactory,
+        IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,customerfactory,vendingmachinefactory,commissionfactory,transactionfactory,entityFactory, serviceProvider)
+		: base(dbContext, noxSolution,customerfactory, vendingmachinefactory, commissionfactory, transactionfactory, entityFactory, serviceProvider)
 	{
 	}
 }
@@ -40,27 +40,27 @@ public partial class CreateBookingCommandHandler: CreateBookingCommandHandlerBas
 public abstract class CreateBookingCommandHandlerBase: CommandBase<CreateBookingCommand,Booking>, IRequestHandler <CreateBookingCommand, BookingKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<Booking,BookingCreateDto> _entityFactory;
-    private readonly IEntityFactory<Customer,CustomerCreateDto> _customerfactory;
-    private readonly IEntityFactory<VendingMachine,VendingMachineCreateDto> _vendingmachinefactory;
-    private readonly IEntityFactory<Commission,CommissionCreateDto> _commissionfactory;
-    private readonly IEntityFactory<Transaction,TransactionCreateDto> _transactionfactory;
+	private readonly IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> _entityFactory;
+    private readonly IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> _customerfactory;
+    private readonly IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> _vendingmachinefactory;
+    private readonly IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> _commissionfactory;
+    private readonly IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> _transactionfactory;
 
 	public CreateBookingCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Customer,CustomerCreateDto> customerfactory,
-        IEntityFactory<VendingMachine,VendingMachineCreateDto> vendingmachinefactory,
-        IEntityFactory<Commission,CommissionCreateDto> commissionfactory,
-        IEntityFactory<Transaction,TransactionCreateDto> transactionfactory,
-        IEntityFactory<Booking,BookingCreateDto> entityFactory,
+        IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> customerfactory,
+        IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
+        IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> commissionfactory,
+        IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> transactionfactory,
+        IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;        
-        _customerfactory = customerfactory;        
-        _vendingmachinefactory = vendingmachinefactory;        
-        _commissionfactory = commissionfactory;        
+		_entityFactory = entityFactory;
+        _customerfactory = customerfactory;
+        _vendingmachinefactory = vendingmachinefactory;
+        _commissionfactory = commissionfactory;
         _transactionfactory = transactionfactory;
 	}
 
@@ -71,26 +71,26 @@ public abstract class CreateBookingCommandHandlerBase: CommandBase<CreateBooking
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.BookingForCustomer is not null)
-		{ 
+		{
 			var relatedEntity = _customerfactory.CreateEntity(request.EntityDto.BookingForCustomer);
-			entityToCreate.CreateRefToCustomerBookingForCustomer(relatedEntity);
+			entityToCreate.CreateRefToBookingForCustomer(relatedEntity);
 		}
 		if(request.EntityDto.BookingRelatedVendingMachine is not null)
-		{ 
+		{
 			var relatedEntity = _vendingmachinefactory.CreateEntity(request.EntityDto.BookingRelatedVendingMachine);
-			entityToCreate.CreateRefToVendingMachineBookingRelatedVendingMachine(relatedEntity);
+			entityToCreate.CreateRefToBookingRelatedVendingMachine(relatedEntity);
 		}
 		if(request.EntityDto.BookingFeesForCommission is not null)
-		{ 
+		{
 			var relatedEntity = _commissionfactory.CreateEntity(request.EntityDto.BookingFeesForCommission);
-			entityToCreate.CreateRefToCommissionBookingFeesForCommission(relatedEntity);
+			entityToCreate.CreateRefToBookingFeesForCommission(relatedEntity);
 		}
 		if(request.EntityDto.BookingRelatedTransaction is not null)
-		{ 
+		{
 			var relatedEntity = _transactionfactory.CreateEntity(request.EntityDto.BookingRelatedTransaction);
-			entityToCreate.CreateRefToTransactionBookingRelatedTransaction(relatedEntity);
+			entityToCreate.CreateRefToBookingRelatedTransaction(relatedEntity);
 		}
-					
+
 		OnCompleted(request, entityToCreate);
 		_dbContext.Bookings.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();

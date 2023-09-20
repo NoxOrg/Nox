@@ -47,9 +47,14 @@ public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurr
     /// </summary>
     public virtual List<VendingMachine> MinimumCashStocksRequiredByVendingMachines { get; set; } = new();
 
-    public virtual void CreateRefToVendingMachineMinimumCashStocksRequiredByVendingMachines(VendingMachine relatedVendingMachine)
+    public virtual void CreateRefToMinimumCashStocksRequiredByVendingMachines(VendingMachine relatedVendingMachine)
     {
         MinimumCashStocksRequiredByVendingMachines.Add(relatedVendingMachine);
+    }
+
+    public virtual void DeleteRefToMinimumCashStocksRequiredByVendingMachines(VendingMachine relatedVendingMachine)
+    {
+        MinimumCashStocksRequiredByVendingMachines.Remove(relatedVendingMachine);
     }
 
     /// <summary>
@@ -62,9 +67,14 @@ public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurr
     /// </summary>
     public Nox.Types.CurrencyCode3 MinimumCashStockRelatedCurrencyId { get; set; } = null!;
 
-    public virtual void CreateRefToCurrencyMinimumCashStockRelatedCurrency(Currency relatedCurrency)
+    public virtual void CreateRefToMinimumCashStockRelatedCurrency(Currency relatedCurrency)
     {
         MinimumCashStockRelatedCurrency = relatedCurrency;
+    }
+
+    public virtual void DeleteRefToMinimumCashStockRelatedCurrency(Currency relatedCurrency)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
     }
 
     /// <summary>

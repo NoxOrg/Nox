@@ -504,6 +504,40 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region RELATIONSHIPS EXAMPLES
 
+        #region GET
+
+        #region GET Ref To Related Entities /api/{EntityPluralName}/1/{RelationshipName} => api/countries/1/PhysicalWorkplaces/$ref
+        [Fact]
+        public async Task GetRefTo_PhysicalWorkplaces_Success()
+        {
+            // Arrange
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                PhysicalWorkplaces = new List<WorkplaceCreateDto>()
+                {
+                    new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
+                    new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
+                    new WorkplaceCreateDto() { Name = _fixture.Create<string>() }
+                }
+            };
+            // Act
+            var result = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
+            var getRefResponse = await GetODataCollectionResponseAsync<IEnumerable<ODataReferenceResponse>>($"{EntityUrl}/{result!.Id}/physicalworkplaces/$ref");
+
+            //Assert
+            result.Should().NotBeNull();
+            result!.Id.Should().BeGreaterThan(0);
+
+            getRefResponse.Should().NotBeNull();
+            getRefResponse.Should().HaveCount(3)
+                .And
+                .AllSatisfy(x => x.ODataId.Should().NotBeNullOrEmpty());
+        }
+        #endregion
+
+        #endregion
+
         #region POST
 
         #region POST Entity With Related Entities /api/{EntityPluralName} => api/countries
@@ -574,11 +608,11 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #endregion
 
-        #region GET
+        #region DELETE
 
-        #region GET Ref To Related Entities /api/{EntityPluralName}/1/{RelationshipName} => api/countries/1/PhysicalWorkplaces/$ref
+        #region DELETE Delete ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedEntityKey} => api/countries/1/PhysicalWorkplaces/1/$ref
         [Fact]
-        public async Task GetRefTo_PhysicalWorkplaces_Success()
+        public async Task Delete_RefToPhysicalWorkplaces_Success()
         {
             // Arrange
             var dto = new CountryCreateDto
@@ -591,18 +625,28 @@ namespace ClientApi.Tests.Tests.Controllers
                     new WorkplaceCreateDto() { Name = _fixture.Create<string>() }
                 }
             };
+
             // Act
-            var result = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
-            var getRefResponse = await GetODataCollectionResponseAsync<IEnumerable<ODataReferenceResponse>>($"{EntityUrl}/{result!.Id}/physicalworkplaces/$ref");
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
+
+            const string oDataRequest = $"$expand={nameof(CountryDto.PhysicalWorkplaces)}";
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{countryResponse!.Id}?{oDataRequest}");
+
+            var deleteRefResponse = await DeleteAsync($"{EntityUrl}/{countryResponse!.Id}/physicalworkplaces/{getCountryResponse!.PhysicalWorkplaces!.First()!.Id}/$ref");
+            getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{countryResponse!.Id}?{oDataRequest}");
+
 
             //Assert
-            result.Should().NotBeNull();
-            result!.Id.Should().BeGreaterThan(0);
+            countryResponse.Should().NotBeNull();
+            countryResponse!.Id.Should().BeGreaterThan(0);
 
-            getRefResponse.Should().NotBeNull();
-            getRefResponse.Should().HaveCount(3)
-                .And
-                .AllSatisfy(x => x.ODataId.Should().NotBeNullOrEmpty());
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.PhysicalWorkplaces.Should().NotBeNull();
+            getCountryResponse!.PhysicalWorkplaces!.Should()
+                .HaveCount(2)
+                    .And
+                .AllSatisfy(x => x.Name.Should().NotBeNullOrEmpty());
         }
         #endregion
 

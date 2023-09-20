@@ -23,15 +23,15 @@ using Store = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class StoreFactoryBase: IEntityFactory<Store,StoreCreateDto>
+public abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto, StoreUpdateDto>
 {
-    protected IEntityFactory<EmailAddress,EmailAddressCreateDto> EmailAddressFactory {get;}
+    protected IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> EmailAddressFactory {get;}
 
     public StoreFactoryBase
     (
-        IEntityFactory<EmailAddress,EmailAddressCreateDto> emailaddressfactory
+        IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> emailaddressfactory
         )
-    {        
+    {
         EmailAddressFactory = emailaddressfactory;
     }
 
@@ -39,6 +39,12 @@ public abstract class StoreFactoryBase: IEntityFactory<Store,StoreCreateDto>
     {
         return ToEntity(createDto);
     }
+
+    public virtual void UpdateEntity(Store entity, StoreUpdateDto updateDto)
+    {
+        UpdateEntityInternal(entity, updateDto);
+    }
+
     private ClientApi.Domain.Store ToEntity(StoreCreateDto createDto)
     {
         var entity = new ClientApi.Domain.Store();
@@ -53,13 +59,21 @@ public abstract class StoreFactoryBase: IEntityFactory<Store,StoreCreateDto>
         }
         return entity;
     }
+
+    private void UpdateEntityInternal(Store entity, StoreUpdateDto updateDto)
+    {
+        entity.Name = ClientApi.Domain.Store.CreateName(updateDto.Name.NonNullValue<System.String>());
+        entity.Address = ClientApi.Domain.Store.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
+        entity.Location = ClientApi.Domain.Store.CreateLocation(updateDto.Location.NonNullValue<LatLongDto>());
+        //entity.StoreOwner = StoreOwner?.ToEntity();
+    }
 }
 
 public partial class StoreFactory : StoreFactoryBase
 {
     public StoreFactory
     (
-        IEntityFactory<EmailAddress,EmailAddressCreateDto> emailaddressfactory
-    ): base(emailaddressfactory)                      
+        IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> emailaddressfactory
+    ): base(emailaddressfactory)
     {}
 }

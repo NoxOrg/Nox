@@ -24,66 +24,6 @@ public partial class VendingMachineMapper : EntityMapperBase<VendingMachine>
 {
     public VendingMachineMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
-    public override void MapToEntity(VendingMachine entity, Entity entityDefinition, dynamic dto)
-    {
-    #pragma warning disable CS0168 // Variable is declared but never used        
-        dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used        
-        noxTypeValue = CreateNoxType<Nox.Types.MacAddress>(entityDefinition, "MacAddress", dto.MacAddress);
-        if (noxTypeValue == null)
-        {
-            throw new NullReferenceException("MacAddress is required can not be set to null");
-        }     
-        entity.MacAddress = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.IpAddress>(entityDefinition, "PublicIp", dto.PublicIp);
-        if (noxTypeValue == null)
-        {
-            throw new NullReferenceException("PublicIp is required can not be set to null");
-        }     
-        entity.PublicIp = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition, "GeoLocation", dto.GeoLocation);
-        if (noxTypeValue == null)
-        {
-            throw new NullReferenceException("GeoLocation is required can not be set to null");
-        }     
-        entity.GeoLocation = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "StreetAddress", dto.StreetAddress);
-        if (noxTypeValue == null)
-        {
-            throw new NullReferenceException("StreetAddress is required can not be set to null");
-        }     
-        entity.StreetAddress = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "SerialNumber", dto.SerialNumber);
-        if (noxTypeValue == null)
-        {
-            throw new NullReferenceException("SerialNumber is required can not be set to null");
-        }     
-        entity.SerialNumber = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.Area>(entityDefinition, "InstallationFootPrint", dto.InstallationFootPrint);     
-        entity.InstallationFootPrint = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "RentPerSquareMetre", dto.RentPerSquareMetre);     
-        entity.RentPerSquareMetre = noxTypeValue;
-    
-
-        /// <summary>
-        /// VendingMachine installed in ExactlyOne Countries
-        /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "VendingMachineInstallationCountry", dto.VendingMachineInstallationCountryId);
-        if (noxTypeValue != null)
-        {        
-            entity.VendingMachineInstallationCountryId = noxTypeValue;
-        }
-
-        /// <summary>
-        /// VendingMachine contracted area leased by ExactlyOne LandLords
-        /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "VendingMachineContractedAreaLandLord", dto.VendingMachineContractedAreaLandLordId);
-        if (noxTypeValue != null)
-        {        
-            entity.VendingMachineContractedAreaLandLordId = noxTypeValue;
-        }
-    }
-
     public override void PartialMapToEntity(VendingMachine entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
 #pragma warning disable CS0168 // Variable is assigned but its value is never used

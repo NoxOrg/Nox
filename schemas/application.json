@@ -88,7 +88,7 @@
       },
       "additionalProperties": false
     },
-    "events": {    
+    "integrationEvents": {    
       "title": "The events that this application can raise.",
       "description": "The collection of events that this application can raise to the outside world.",
       "type": [

@@ -3,16 +3,18 @@
 #nullable enable
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Currencies related frequent and rare bank notes.
 /// </summary>
-public partial class BankNoteUpdateDto
+public partial class BankNoteUpdateDto : IEntityDto<BankNote>
 {
     /// <summary>
     /// Currency's cash bank note identifier (Required).

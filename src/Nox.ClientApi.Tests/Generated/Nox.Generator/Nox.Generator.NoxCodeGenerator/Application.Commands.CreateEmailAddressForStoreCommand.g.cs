@@ -24,7 +24,7 @@ public partial class CreateEmailAddressForStoreCommandHandler: CreateEmailAddres
 	public CreateEmailAddressForStoreCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<EmailAddress,EmailAddressCreateDto> entityFactory,
+        IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
 		: base(dbContext, noxSolution, entityFactory, serviceProvider)
 	{
@@ -33,16 +33,16 @@ public partial class CreateEmailAddressForStoreCommandHandler: CreateEmailAddres
 public abstract class CreateEmailAddressForStoreCommandHandlerBase: CommandBase<CreateEmailAddressForStoreCommand, EmailAddress>, IRequestHandler<CreateEmailAddressForStoreCommand, EmailAddressKeyDto?>
 {
 	private readonly ClientApiDbContext _dbContext;
-	private readonly IEntityFactory<EmailAddress,EmailAddressCreateDto> _entityFactory;
+	private readonly IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> _entityFactory;
 
 	public CreateEmailAddressForStoreCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<EmailAddress,EmailAddressCreateDto> entityFactory,
+        IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;	
+		_entityFactory = entityFactory;
 	}
 
 	public virtual  async Task<EmailAddressKeyDto?> Handle(CreateEmailAddressForStoreCommand request, CancellationToken cancellationToken)
@@ -60,7 +60,7 @@ public abstract class CreateEmailAddressForStoreCommandHandlerBase: CommandBase<
 		parentEntity.VerifiedEmails = entity;
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);
-	
+
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)

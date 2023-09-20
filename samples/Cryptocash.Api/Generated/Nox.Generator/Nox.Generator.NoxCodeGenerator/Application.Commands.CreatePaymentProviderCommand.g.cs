@@ -25,10 +25,10 @@ public partial class CreatePaymentProviderCommandHandler: CreatePaymentProviderC
 	public CreatePaymentProviderCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<PaymentDetail,PaymentDetailCreateDto> paymentdetailfactory,
-        IEntityFactory<PaymentProvider,PaymentProviderCreateDto> entityFactory,
+        IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> paymentdetailfactory,
+        IEntityFactory<PaymentProvider, PaymentProviderCreateDto, PaymentProviderUpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,paymentdetailfactory,entityFactory, serviceProvider)
+		: base(dbContext, noxSolution,paymentdetailfactory, entityFactory, serviceProvider)
 	{
 	}
 }
@@ -37,18 +37,18 @@ public partial class CreatePaymentProviderCommandHandler: CreatePaymentProviderC
 public abstract class CreatePaymentProviderCommandHandlerBase: CommandBase<CreatePaymentProviderCommand,PaymentProvider>, IRequestHandler <CreatePaymentProviderCommand, PaymentProviderKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<PaymentProvider,PaymentProviderCreateDto> _entityFactory;
-    private readonly IEntityFactory<PaymentDetail,PaymentDetailCreateDto> _paymentdetailfactory;
+	private readonly IEntityFactory<PaymentProvider, PaymentProviderCreateDto, PaymentProviderUpdateDto> _entityFactory;
+    private readonly IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> _paymentdetailfactory;
 
 	public CreatePaymentProviderCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<PaymentDetail,PaymentDetailCreateDto> paymentdetailfactory,
-        IEntityFactory<PaymentProvider,PaymentProviderCreateDto> entityFactory,
+        IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> paymentdetailfactory,
+        IEntityFactory<PaymentProvider, PaymentProviderCreateDto, PaymentProviderUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;        
+		_entityFactory = entityFactory;
         _paymentdetailfactory = paymentdetailfactory;
 	}
 
@@ -61,9 +61,9 @@ public abstract class CreatePaymentProviderCommandHandlerBase: CommandBase<Creat
 		foreach(var relatedCreateDto in request.EntityDto.PaymentProviderRelatedPaymentDetails)
 		{
 			var relatedEntity = _paymentdetailfactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToPaymentDetailPaymentProviderRelatedPaymentDetails(relatedEntity);
+			entityToCreate.CreateRefToPaymentProviderRelatedPaymentDetails(relatedEntity);
 		}
-					
+
 		OnCompleted(request, entityToCreate);
 		_dbContext.PaymentProviders.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();

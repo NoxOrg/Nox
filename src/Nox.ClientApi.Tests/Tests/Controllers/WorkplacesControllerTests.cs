@@ -20,6 +20,37 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region RELATIONSHIPS
 
+        #region GET
+
+        #region GET Ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/$ref => api/workplaces/1/belongstocountry/$ref
+        [Fact]
+        public async Task Get_RefToRelatedEntity_Success()
+        {
+            // Arrange
+            var dto = new WorkplaceCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                BelongsToCountry = new CountryCreateDto()
+                {
+                    Name = _fixture.Create<string>()
+                }
+            };
+            // Act
+            var result = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, dto);
+
+            var getRefResponse = await GetODataSimpleResponseAsync<ODataReferenceResponse>($"{EntityUrl}/{result!.Id}/{nameof(WorkplaceDto.BelongsToCountry)}/$ref");
+
+            //Assert
+            result.Should().NotBeNull();
+            result!.Id.Should().BeGreaterThan(0);
+            
+            getRefResponse.Should().NotBeNull();
+            getRefResponse!.ODataId!.Should().NotBeNullOrEmpty();
+        }
+        #endregion
+
+        #endregion
+
         #region POST
 
         #region POST Entity With Related Entity /api/{EntityPluralName} => api/workplaces
@@ -84,32 +115,35 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #endregion
 
-        #region GET
+        #region DELETE
 
-        #region GET Ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/$ref => api/workplaces/1/belongstocountry/$ref
+        #region DELETE Delete ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedEntityKey} => api/workplaces/1/belongstocountry/1/$ref
         [Fact]
-        public async Task Get_RefToRelatedEntity_Success()
+        public async Task Delete_RefToBelongsToCountry_Success()
         {
             // Arrange
-            var dto = new WorkplaceCreateDto
-            {
-                Name = _fixture.Create<string>(),
-                BelongsToCountry = new CountryCreateDto()
-                {
-                    Name = _fixture.Create<string>()
-                }
-            };
-            // Act
-            var result = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, dto);
+            var workplaceCreateDto = new WorkplaceCreateDto() { Name = _fixture.Create<string>() };
+            var countryCreateDto = new CountryCreateDto { Name = _fixture.Create<string>() };
 
-            var getRefResponse = await GetODataSimpleResponseAsync<ODataReferenceResponse>($"{EntityUrl}/{result!.Id}/{nameof(WorkplaceDto.BelongsToCountry)}/$ref");
+            // Act
+            var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, workplaceCreateDto);
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(CountriesUrl, countryCreateDto);
+            var createRefResponse = await PostAsync($"{EntityUrl}/{workplaceResponse!.Id}/belongstocountry/{countryResponse!.Id}/$ref");
+            var deleteRefResponse = await DeleteAsync($"{EntityUrl}/{workplaceResponse!.Id}/belongstocountry/{countryResponse!.Id}/$ref");
+
+            const string oDataRequest = $"$expand={nameof(WorkplaceDto.BelongsToCountry)}";
+            var getWorkplaceResponse = await GetODataSimpleResponseAsync<WorkplaceDto>($"{EntityUrl}/{workplaceResponse!.Id}?{oDataRequest}");
 
             //Assert
-            result.Should().NotBeNull();
-            result!.Id.Should().BeGreaterThan(0);
-            
-            getRefResponse.Should().NotBeNull();
-            getRefResponse!.ODataId!.Should().NotBeNullOrEmpty();
+            workplaceResponse.Should().NotBeNull();
+            workplaceResponse!.Id.Should().BeGreaterThan(0);
+            countryResponse.Should().NotBeNull();
+            countryResponse!.Id.Should().BeGreaterThan(0);
+
+            getWorkplaceResponse.Should().NotBeNull();
+            getWorkplaceResponse!.Id.Should().BeGreaterThan(0);
+            getWorkplaceResponse!.BelongsToCountry.Should().BeNull();
+            getWorkplaceResponse!.BelongsToCountryId.Should().BeNull();
         }
         #endregion
 
@@ -137,7 +171,7 @@ namespace ClientApi.Tests.Tests.Controllers
         }
 
         [Fact]
-        public async Task Put_Number_ShouldUpdate()
+        public async Task Put_Name_ShouldFailWithNuidException()
         {
             // Arrange
             var createDto = new WorkplaceCreateDto
@@ -148,6 +182,38 @@ namespace ClientApi.Tests.Tests.Controllers
             var updateDto = new WorkplaceUpdateDto
             {
                 Name = _fixture.Create<string>(),
+            };
+
+            var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, createDto);
+
+            var headers = CreateEtagHeader(postResult?.Etag);
+
+            // Act
+            var putResult = await PutAsync<WorkplaceUpdateDto>($"{EntityUrl}/{postResult!.Id}", updateDto, headers, false);
+
+            //Assert
+            var errorMessage = await putResult!.Content.ReadAsStringAsync();
+            errorMessage.Should().Contain("Immutable nuid property Id value is different since it has been initialized");
+            putResult.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+        }
+
+        [Fact]
+        public async Task Put_Description_ShouldUpdate()
+        {
+            var nameFixture = _fixture.Create<string>();
+
+            // Arrange
+            var createDto = new WorkplaceCreateDto
+            {
+                Name = nameFixture,
+                Description = _fixture.Create<string>(),
+            };
+
+            var updateDto = new WorkplaceUpdateDto
+            {
+                // Name shouldn't change, description should
+                Name = nameFixture,
+                Description = _fixture.Create<string>(),
             };
 
             var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, createDto);
