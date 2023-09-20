@@ -37,9 +37,9 @@ public abstract class EmployeePhoneNumberFactoryBase : IEntityFactory<EmployeePh
         return ToEntity(createDto);
     }
 
-    public void UpdateEntity(EmployeePhoneNumber entity, EmployeePhoneNumberUpdateDto updateDto)
+    public virtual void UpdateEntity(EmployeePhoneNumber entity, EmployeePhoneNumberUpdateDto updateDto)
     {
-        MapEntity(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto);
     }
 
     private Cryptocash.Domain.EmployeePhoneNumber ToEntity(EmployeePhoneNumberCreateDto createDto)
@@ -50,13 +50,10 @@ public abstract class EmployeePhoneNumberFactoryBase : IEntityFactory<EmployeePh
         return entity;
     }
 
-    private void MapEntity(EmployeePhoneNumber entity, EmployeePhoneNumberUpdateDto updateDto)
+    private void UpdateEntityInternal(EmployeePhoneNumber entity, EmployeePhoneNumberUpdateDto updateDto)
     {
-        // TODO: discuss about keys
-        entity.PhoneNumberType = Cryptocash.Domain.EmployeePhoneNumber.CreatePhoneNumberType(updateDto.PhoneNumberType);
-        entity.PhoneNumber = Cryptocash.Domain.EmployeePhoneNumber.CreatePhoneNumber(updateDto.PhoneNumber);
-
-        // TODO: discuss about keys
+        entity.PhoneNumberType = Cryptocash.Domain.EmployeePhoneNumber.CreatePhoneNumberType(updateDto.PhoneNumberType.NonNullValue<System.String>());
+        entity.PhoneNumber = Cryptocash.Domain.EmployeePhoneNumber.CreatePhoneNumber(updateDto.PhoneNumber.NonNullValue<System.String>());
     }
 }
 

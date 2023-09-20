@@ -37,9 +37,9 @@ public abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvide
         return ToEntity(createDto);
     }
 
-    public void UpdateEntity(PaymentProvider entity, PaymentProviderUpdateDto updateDto)
+    public virtual void UpdateEntity(PaymentProvider entity, PaymentProviderUpdateDto updateDto)
     {
-        MapEntity(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto);
     }
 
     private Cryptocash.Domain.PaymentProvider ToEntity(PaymentProviderCreateDto createDto)
@@ -51,13 +51,10 @@ public abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvide
         return entity;
     }
 
-    private void MapEntity(PaymentProvider entity, PaymentProviderUpdateDto updateDto)
+    private void UpdateEntityInternal(PaymentProvider entity, PaymentProviderUpdateDto updateDto)
     {
-        // TODO: discuss about keys
-        entity.PaymentProviderName = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderName(updateDto.PaymentProviderName);
-        entity.PaymentProviderType = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderType(updateDto.PaymentProviderType);
-
-        // TODO: discuss about keys
+        entity.PaymentProviderName = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderName(updateDto.PaymentProviderName.NonNullValue<System.String>());
+        entity.PaymentProviderType = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderType(updateDto.PaymentProviderType.NonNullValue<System.String>());
         //entity.PaymentDetails = PaymentDetails.Select(dto => dto.ToEntity()).ToList();
     }
 }

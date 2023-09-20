@@ -37,9 +37,9 @@ public abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetail, P
         return ToEntity(createDto);
     }
 
-    public void UpdateEntity(PaymentDetail entity, PaymentDetailUpdateDto updateDto)
+    public virtual void UpdateEntity(PaymentDetail entity, PaymentDetailUpdateDto updateDto)
     {
-        MapEntity(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto);
     }
 
     private Cryptocash.Domain.PaymentDetail ToEntity(PaymentDetailCreateDto createDto)
@@ -53,14 +53,13 @@ public abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetail, P
         return entity;
     }
 
-    private void MapEntity(PaymentDetail entity, PaymentDetailUpdateDto updateDto)
+    private void UpdateEntityInternal(PaymentDetail entity, PaymentDetailUpdateDto updateDto)
     {
-        // TODO: discuss about keys
-        entity.PaymentAccountName = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountName(updateDto.PaymentAccountName);
-        entity.PaymentAccountNumber = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountNumber(updateDto.PaymentAccountNumber);
-        if (updateDto.PaymentAccountSortCode is not null)entity.PaymentAccountSortCode = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountSortCode(updateDto.PaymentAccountSortCode.NonNullValue<System.String>());
-
-        // TODO: discuss about keys
+        entity.PaymentAccountName = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountName(updateDto.PaymentAccountName.NonNullValue<System.String>());
+        entity.PaymentAccountNumber = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountNumber(updateDto.PaymentAccountNumber.NonNullValue<System.String>());
+        if (updateDto.PaymentAccountSortCode == null) { entity.PaymentAccountSortCode = null; } else {
+            entity.PaymentAccountSortCode = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountSortCode(updateDto.PaymentAccountSortCode.ToValueFromNonNull<System.String>());
+        }
         //entity.Customer = Customer.ToEntity();
         //entity.PaymentProvider = PaymentProvider.ToEntity();
     }

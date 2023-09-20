@@ -37,9 +37,9 @@ public abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCashSt
         return ToEntity(createDto);
     }
 
-    public void UpdateEntity(MinimumCashStock entity, MinimumCashStockUpdateDto updateDto)
+    public virtual void UpdateEntity(MinimumCashStock entity, MinimumCashStockUpdateDto updateDto)
     {
-        MapEntity(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto);
     }
 
     private Cryptocash.Domain.MinimumCashStock ToEntity(MinimumCashStockCreateDto createDto)
@@ -51,12 +51,9 @@ public abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCashSt
         return entity;
     }
 
-    private void MapEntity(MinimumCashStock entity, MinimumCashStockUpdateDto updateDto)
+    private void UpdateEntityInternal(MinimumCashStock entity, MinimumCashStockUpdateDto updateDto)
     {
-        // TODO: discuss about keys
-        entity.Amount = Cryptocash.Domain.MinimumCashStock.CreateAmount(updateDto.Amount);
-
-        // TODO: discuss about keys
+        entity.Amount = Cryptocash.Domain.MinimumCashStock.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>());
         //entity.VendingMachines = VendingMachines.Select(dto => dto.ToEntity()).ToList();
         //entity.Currency = Currency.ToEntity();
     }

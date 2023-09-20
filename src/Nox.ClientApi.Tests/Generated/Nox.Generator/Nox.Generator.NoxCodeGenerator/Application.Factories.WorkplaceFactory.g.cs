@@ -37,9 +37,9 @@ public abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, Workplace
         return ToEntity(createDto);
     }
 
-    public void UpdateEntity(Workplace entity, WorkplaceUpdateDto updateDto)
+    public virtual void UpdateEntity(Workplace entity, WorkplaceUpdateDto updateDto)
     {
-        MapEntity(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto);
     }
 
     private ClientApi.Domain.Workplace ToEntity(WorkplaceCreateDto createDto)
@@ -51,12 +51,10 @@ public abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, Workplace
         return entity;
     }
 
-    private void MapEntity(Workplace entity, WorkplaceUpdateDto updateDto)
+    private void UpdateEntityInternal(Workplace entity, WorkplaceUpdateDto updateDto)
     {
-        // TODO: discuss about keys
-        entity.Name = ClientApi.Domain.Workplace.CreateName(updateDto.Name);
-
-        // TODO: discuss about keys
+        entity.Name = ClientApi.Domain.Workplace.CreateName(updateDto.Name.NonNullValue<System.String>());
+		entity.EnsureId();
         //entity.Country = Country?.ToEntity();
     }
 }

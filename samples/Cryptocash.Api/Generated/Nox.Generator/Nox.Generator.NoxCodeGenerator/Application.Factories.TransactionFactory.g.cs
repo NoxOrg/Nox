@@ -37,9 +37,9 @@ public abstract class TransactionFactoryBase : IEntityFactory<Transaction, Trans
         return ToEntity(createDto);
     }
 
-    public void UpdateEntity(Transaction entity, TransactionUpdateDto updateDto)
+    public virtual void UpdateEntity(Transaction entity, TransactionUpdateDto updateDto)
     {
-        MapEntity(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto);
     }
 
     private Cryptocash.Domain.Transaction ToEntity(TransactionCreateDto createDto)
@@ -54,15 +54,12 @@ public abstract class TransactionFactoryBase : IEntityFactory<Transaction, Trans
         return entity;
     }
 
-    private void MapEntity(Transaction entity, TransactionUpdateDto updateDto)
+    private void UpdateEntityInternal(Transaction entity, TransactionUpdateDto updateDto)
     {
-        // TODO: discuss about keys
-        entity.TransactionType = Cryptocash.Domain.Transaction.CreateTransactionType(updateDto.TransactionType);
-        entity.ProcessedOnDateTime = Cryptocash.Domain.Transaction.CreateProcessedOnDateTime(updateDto.ProcessedOnDateTime);
-        entity.Amount = Cryptocash.Domain.Transaction.CreateAmount(updateDto.Amount);
-        entity.Reference = Cryptocash.Domain.Transaction.CreateReference(updateDto.Reference);
-
-        // TODO: discuss about keys
+        entity.TransactionType = Cryptocash.Domain.Transaction.CreateTransactionType(updateDto.TransactionType.NonNullValue<System.String>());
+        entity.ProcessedOnDateTime = Cryptocash.Domain.Transaction.CreateProcessedOnDateTime(updateDto.ProcessedOnDateTime.NonNullValue<System.DateTimeOffset>());
+        entity.Amount = Cryptocash.Domain.Transaction.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>());
+        entity.Reference = Cryptocash.Domain.Transaction.CreateReference(updateDto.Reference.NonNullValue<System.String>());
         //entity.Customer = Customer.ToEntity();
         //entity.Booking = Booking.ToEntity();
     }

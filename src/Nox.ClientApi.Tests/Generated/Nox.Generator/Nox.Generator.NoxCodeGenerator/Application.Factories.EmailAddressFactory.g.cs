@@ -37,9 +37,9 @@ public abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddress, Ema
         return ToEntity(createDto);
     }
 
-    public void UpdateEntity(EmailAddress entity, EmailAddressUpdateDto updateDto)
+    public virtual void UpdateEntity(EmailAddress entity, EmailAddressUpdateDto updateDto)
     {
-        MapEntity(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto);
     }
 
     private ClientApi.Domain.EmailAddress ToEntity(EmailAddressCreateDto createDto)
@@ -50,13 +50,14 @@ public abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddress, Ema
         return entity;
     }
 
-    private void MapEntity(EmailAddress entity, EmailAddressUpdateDto updateDto)
+    private void UpdateEntityInternal(EmailAddress entity, EmailAddressUpdateDto updateDto)
     {
-        // TODO: discuss about keys
-        if (updateDto.Email is not null)entity.Email = ClientApi.Domain.EmailAddress.CreateEmail(updateDto.Email.NonNullValue<System.String>());
-        if (updateDto.IsVerified is not null)entity.IsVerified = ClientApi.Domain.EmailAddress.CreateIsVerified(updateDto.IsVerified.NonNullValue<System.Boolean>());
-
-        // TODO: discuss about keys
+        if (updateDto.Email == null) { entity.Email = null; } else {
+            entity.Email = ClientApi.Domain.EmailAddress.CreateEmail(updateDto.Email.ToValueFromNonNull<System.String>());
+        }
+        if (updateDto.IsVerified == null) { entity.IsVerified = null; } else {
+            entity.IsVerified = ClientApi.Domain.EmailAddress.CreateIsVerified(updateDto.IsVerified.ToValueFromNonNull<System.Boolean>());
+        }
     }
 }
 

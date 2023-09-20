@@ -40,9 +40,9 @@ public abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto, S
         return ToEntity(createDto);
     }
 
-    public void UpdateEntity(Store entity, StoreUpdateDto updateDto)
+    public virtual void UpdateEntity(Store entity, StoreUpdateDto updateDto)
     {
-        MapEntity(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto);
     }
 
     private ClientApi.Domain.Store ToEntity(StoreCreateDto createDto)
@@ -60,14 +60,11 @@ public abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto, S
         return entity;
     }
 
-    private void MapEntity(Store entity, StoreUpdateDto updateDto)
+    private void UpdateEntityInternal(Store entity, StoreUpdateDto updateDto)
     {
-        // TODO: discuss about keys
-        entity.Name = ClientApi.Domain.Store.CreateName(updateDto.Name);
-        entity.Address = ClientApi.Domain.Store.CreateAddress(updateDto.Address);
-        entity.Location = ClientApi.Domain.Store.CreateLocation(updateDto.Location);
-
-        // TODO: discuss about keys
+        entity.Name = ClientApi.Domain.Store.CreateName(updateDto.Name.NonNullValue<System.String>());
+        entity.Address = ClientApi.Domain.Store.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
+        entity.Location = ClientApi.Domain.Store.CreateLocation(updateDto.Location.NonNullValue<LatLongDto>());
         //entity.StoreOwner = StoreOwner?.ToEntity();
     }
 }

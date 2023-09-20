@@ -37,9 +37,9 @@ public abstract class HolidayFactoryBase : IEntityFactory<Holiday, HolidayCreate
         return ToEntity(createDto);
     }
 
-    public void UpdateEntity(Holiday entity, HolidayUpdateDto updateDto)
+    public virtual void UpdateEntity(Holiday entity, HolidayUpdateDto updateDto)
     {
-        MapEntity(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto);
     }
 
     private Cryptocash.Domain.Holiday ToEntity(HolidayCreateDto createDto)
@@ -51,14 +51,11 @@ public abstract class HolidayFactoryBase : IEntityFactory<Holiday, HolidayCreate
         return entity;
     }
 
-    private void MapEntity(Holiday entity, HolidayUpdateDto updateDto)
+    private void UpdateEntityInternal(Holiday entity, HolidayUpdateDto updateDto)
     {
-        // TODO: discuss about keys
-        entity.Name = Cryptocash.Domain.Holiday.CreateName(updateDto.Name);
-        entity.Type = Cryptocash.Domain.Holiday.CreateType(updateDto.Type);
-        entity.Date = Cryptocash.Domain.Holiday.CreateDate(updateDto.Date);
-
-        // TODO: discuss about keys
+        entity.Name = Cryptocash.Domain.Holiday.CreateName(updateDto.Name.NonNullValue<System.String>());
+        entity.Type = Cryptocash.Domain.Holiday.CreateType(updateDto.Type.NonNullValue<System.String>());
+        entity.Date = Cryptocash.Domain.Holiday.CreateDate(updateDto.Date.NonNullValue<System.DateTime>());
     }
 }
 

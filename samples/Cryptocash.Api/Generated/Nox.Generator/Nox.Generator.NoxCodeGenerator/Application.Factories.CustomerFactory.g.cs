@@ -37,9 +37,9 @@ public abstract class CustomerFactoryBase : IEntityFactory<Customer, CustomerCre
         return ToEntity(createDto);
     }
 
-    public void UpdateEntity(Customer entity, CustomerUpdateDto updateDto)
+    public virtual void UpdateEntity(Customer entity, CustomerUpdateDto updateDto)
     {
-        MapEntity(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto);
     }
 
     private Cryptocash.Domain.Customer ToEntity(CustomerCreateDto createDto)
@@ -57,16 +57,15 @@ public abstract class CustomerFactoryBase : IEntityFactory<Customer, CustomerCre
         return entity;
     }
 
-    private void MapEntity(Customer entity, CustomerUpdateDto updateDto)
+    private void UpdateEntityInternal(Customer entity, CustomerUpdateDto updateDto)
     {
-        // TODO: discuss about keys
-        entity.FirstName = Cryptocash.Domain.Customer.CreateFirstName(updateDto.FirstName);
-        entity.LastName = Cryptocash.Domain.Customer.CreateLastName(updateDto.LastName);
-        entity.EmailAddress = Cryptocash.Domain.Customer.CreateEmailAddress(updateDto.EmailAddress);
-        entity.Address = Cryptocash.Domain.Customer.CreateAddress(updateDto.Address);
-        if (updateDto.MobileNumber is not null)entity.MobileNumber = Cryptocash.Domain.Customer.CreateMobileNumber(updateDto.MobileNumber.NonNullValue<System.String>());
-
-        // TODO: discuss about keys
+        entity.FirstName = Cryptocash.Domain.Customer.CreateFirstName(updateDto.FirstName.NonNullValue<System.String>());
+        entity.LastName = Cryptocash.Domain.Customer.CreateLastName(updateDto.LastName.NonNullValue<System.String>());
+        entity.EmailAddress = Cryptocash.Domain.Customer.CreateEmailAddress(updateDto.EmailAddress.NonNullValue<System.String>());
+        entity.Address = Cryptocash.Domain.Customer.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
+        if (updateDto.MobileNumber == null) { entity.MobileNumber = null; } else {
+            entity.MobileNumber = Cryptocash.Domain.Customer.CreateMobileNumber(updateDto.MobileNumber.ToValueFromNonNull<System.String>());
+        }
         //entity.PaymentDetails = PaymentDetails.Select(dto => dto.ToEntity()).ToList();
         //entity.Bookings = Bookings.Select(dto => dto.ToEntity()).ToList();
         //entity.Transactions = Transactions.Select(dto => dto.ToEntity()).ToList();

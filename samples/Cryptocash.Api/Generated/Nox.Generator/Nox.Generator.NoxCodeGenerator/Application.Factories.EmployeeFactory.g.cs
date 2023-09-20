@@ -40,9 +40,9 @@ public abstract class EmployeeFactoryBase : IEntityFactory<Employee, EmployeeCre
         return ToEntity(createDto);
     }
 
-    public void UpdateEntity(Employee entity, EmployeeUpdateDto updateDto)
+    public virtual void UpdateEntity(Employee entity, EmployeeUpdateDto updateDto)
     {
-        MapEntity(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto);
     }
 
     private Cryptocash.Domain.Employee ToEntity(EmployeeCreateDto createDto)
@@ -59,17 +59,16 @@ public abstract class EmployeeFactoryBase : IEntityFactory<Employee, EmployeeCre
         return entity;
     }
 
-    private void MapEntity(Employee entity, EmployeeUpdateDto updateDto)
+    private void UpdateEntityInternal(Employee entity, EmployeeUpdateDto updateDto)
     {
-        // TODO: discuss about keys
-        entity.FirstName = Cryptocash.Domain.Employee.CreateFirstName(updateDto.FirstName);
-        entity.LastName = Cryptocash.Domain.Employee.CreateLastName(updateDto.LastName);
-        entity.EmailAddress = Cryptocash.Domain.Employee.CreateEmailAddress(updateDto.EmailAddress);
-        entity.Address = Cryptocash.Domain.Employee.CreateAddress(updateDto.Address);
-        entity.FirstWorkingDay = Cryptocash.Domain.Employee.CreateFirstWorkingDay(updateDto.FirstWorkingDay);
-        if (updateDto.LastWorkingDay is not null)entity.LastWorkingDay = Cryptocash.Domain.Employee.CreateLastWorkingDay(updateDto.LastWorkingDay.NonNullValue<System.DateTime>());
-
-        // TODO: discuss about keys
+        entity.FirstName = Cryptocash.Domain.Employee.CreateFirstName(updateDto.FirstName.NonNullValue<System.String>());
+        entity.LastName = Cryptocash.Domain.Employee.CreateLastName(updateDto.LastName.NonNullValue<System.String>());
+        entity.EmailAddress = Cryptocash.Domain.Employee.CreateEmailAddress(updateDto.EmailAddress.NonNullValue<System.String>());
+        entity.Address = Cryptocash.Domain.Employee.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
+        entity.FirstWorkingDay = Cryptocash.Domain.Employee.CreateFirstWorkingDay(updateDto.FirstWorkingDay.NonNullValue<System.DateTime>());
+        if (updateDto.LastWorkingDay == null) { entity.LastWorkingDay = null; } else {
+            entity.LastWorkingDay = Cryptocash.Domain.Employee.CreateLastWorkingDay(updateDto.LastWorkingDay.ToValueFromNonNull<System.DateTime>());
+        }
         //entity.CashStockOrder = CashStockOrder.ToEntity();
     }
 }

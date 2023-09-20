@@ -37,9 +37,9 @@ public abstract class CommissionFactoryBase : IEntityFactory<Commission, Commiss
         return ToEntity(createDto);
     }
 
-    public void UpdateEntity(Commission entity, CommissionUpdateDto updateDto)
+    public virtual void UpdateEntity(Commission entity, CommissionUpdateDto updateDto)
     {
-        MapEntity(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto);
     }
 
     private Cryptocash.Domain.Commission ToEntity(CommissionCreateDto createDto)
@@ -52,13 +52,10 @@ public abstract class CommissionFactoryBase : IEntityFactory<Commission, Commiss
         return entity;
     }
 
-    private void MapEntity(Commission entity, CommissionUpdateDto updateDto)
+    private void UpdateEntityInternal(Commission entity, CommissionUpdateDto updateDto)
     {
-        // TODO: discuss about keys
-        entity.Rate = Cryptocash.Domain.Commission.CreateRate(updateDto.Rate);
-        entity.EffectiveAt = Cryptocash.Domain.Commission.CreateEffectiveAt(updateDto.EffectiveAt);
-
-        // TODO: discuss about keys
+        entity.Rate = Cryptocash.Domain.Commission.CreateRate(updateDto.Rate.NonNullValue<System.Single>());
+        entity.EffectiveAt = Cryptocash.Domain.Commission.CreateEffectiveAt(updateDto.EffectiveAt.NonNullValue<System.DateTimeOffset>());
         //entity.Country = Country?.ToEntity();
         //entity.Bookings = Bookings.Select(dto => dto.ToEntity()).ToList();
     }

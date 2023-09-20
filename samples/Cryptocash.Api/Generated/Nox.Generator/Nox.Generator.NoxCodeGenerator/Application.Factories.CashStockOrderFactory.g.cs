@@ -37,9 +37,9 @@ public abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrder,
         return ToEntity(createDto);
     }
 
-    public void UpdateEntity(CashStockOrder entity, CashStockOrderUpdateDto updateDto)
+    public virtual void UpdateEntity(CashStockOrder entity, CashStockOrderUpdateDto updateDto)
     {
-        MapEntity(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto);
     }
 
     private Cryptocash.Domain.CashStockOrder ToEntity(CashStockOrderCreateDto createDto)
@@ -53,14 +53,13 @@ public abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrder,
         return entity;
     }
 
-    private void MapEntity(CashStockOrder entity, CashStockOrderUpdateDto updateDto)
+    private void UpdateEntityInternal(CashStockOrder entity, CashStockOrderUpdateDto updateDto)
     {
-        // TODO: discuss about keys
-        entity.Amount = Cryptocash.Domain.CashStockOrder.CreateAmount(updateDto.Amount);
-        entity.RequestedDeliveryDate = Cryptocash.Domain.CashStockOrder.CreateRequestedDeliveryDate(updateDto.RequestedDeliveryDate);
-        if (updateDto.DeliveryDateTime is not null)entity.DeliveryDateTime = Cryptocash.Domain.CashStockOrder.CreateDeliveryDateTime(updateDto.DeliveryDateTime.NonNullValue<System.DateTimeOffset>());
-
-        // TODO: discuss about keys
+        entity.Amount = Cryptocash.Domain.CashStockOrder.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>());
+        entity.RequestedDeliveryDate = Cryptocash.Domain.CashStockOrder.CreateRequestedDeliveryDate(updateDto.RequestedDeliveryDate.NonNullValue<System.DateTime>());
+        if (updateDto.DeliveryDateTime == null) { entity.DeliveryDateTime = null; } else {
+            entity.DeliveryDateTime = Cryptocash.Domain.CashStockOrder.CreateDeliveryDateTime(updateDto.DeliveryDateTime.ToValueFromNonNull<System.DateTimeOffset>());
+        }
         //entity.VendingMachine = VendingMachine.ToEntity();
         //entity.Employee = Employee.ToEntity();
     }

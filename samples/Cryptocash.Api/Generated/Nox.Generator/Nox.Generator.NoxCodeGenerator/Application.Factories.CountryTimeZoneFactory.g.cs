@@ -37,9 +37,9 @@ public abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZon
         return ToEntity(createDto);
     }
 
-    public void UpdateEntity(CountryTimeZone entity, CountryTimeZoneUpdateDto updateDto)
+    public virtual void UpdateEntity(CountryTimeZone entity, CountryTimeZoneUpdateDto updateDto)
     {
-        MapEntity(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto);
     }
 
     private Cryptocash.Domain.CountryTimeZone ToEntity(CountryTimeZoneCreateDto createDto)
@@ -49,12 +49,9 @@ public abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZon
         return entity;
     }
 
-    private void MapEntity(CountryTimeZone entity, CountryTimeZoneUpdateDto updateDto)
+    private void UpdateEntityInternal(CountryTimeZone entity, CountryTimeZoneUpdateDto updateDto)
     {
-        // TODO: discuss about keys
-        entity.TimeZoneCode = Cryptocash.Domain.CountryTimeZone.CreateTimeZoneCode(updateDto.TimeZoneCode);
-
-        // TODO: discuss about keys
+        entity.TimeZoneCode = Cryptocash.Domain.CountryTimeZone.CreateTimeZoneCode(updateDto.TimeZoneCode.NonNullValue<System.String>());
     }
 }
 

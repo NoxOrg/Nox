@@ -37,9 +37,9 @@ public abstract class LandLordFactoryBase : IEntityFactory<LandLord, LandLordCre
         return ToEntity(createDto);
     }
 
-    public void UpdateEntity(LandLord entity, LandLordUpdateDto updateDto)
+    public virtual void UpdateEntity(LandLord entity, LandLordUpdateDto updateDto)
     {
-        MapEntity(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto);
     }
 
     private Cryptocash.Domain.LandLord ToEntity(LandLordCreateDto createDto)
@@ -51,13 +51,10 @@ public abstract class LandLordFactoryBase : IEntityFactory<LandLord, LandLordCre
         return entity;
     }
 
-    private void MapEntity(LandLord entity, LandLordUpdateDto updateDto)
+    private void UpdateEntityInternal(LandLord entity, LandLordUpdateDto updateDto)
     {
-        // TODO: discuss about keys
-        entity.Name = Cryptocash.Domain.LandLord.CreateName(updateDto.Name);
-        entity.Address = Cryptocash.Domain.LandLord.CreateAddress(updateDto.Address);
-
-        // TODO: discuss about keys
+        entity.Name = Cryptocash.Domain.LandLord.CreateName(updateDto.Name.NonNullValue<System.String>());
+        entity.Address = Cryptocash.Domain.LandLord.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
         //entity.VendingMachines = VendingMachines.Select(dto => dto.ToEntity()).ToList();
     }
 }

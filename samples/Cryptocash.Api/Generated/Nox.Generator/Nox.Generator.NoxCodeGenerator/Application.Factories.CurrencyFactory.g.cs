@@ -43,9 +43,9 @@ public abstract class CurrencyFactoryBase : IEntityFactory<Currency, CurrencyCre
         return ToEntity(createDto);
     }
 
-    public void UpdateEntity(Currency entity, CurrencyUpdateDto updateDto)
+    public virtual void UpdateEntity(Currency entity, CurrencyUpdateDto updateDto)
     {
-        MapEntity(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto);
     }
 
     private Cryptocash.Domain.Currency ToEntity(CurrencyCreateDto createDto)
@@ -71,23 +71,24 @@ public abstract class CurrencyFactoryBase : IEntityFactory<Currency, CurrencyCre
         return entity;
     }
 
-    private void MapEntity(Currency entity, CurrencyUpdateDto updateDto)
+    private void UpdateEntityInternal(Currency entity, CurrencyUpdateDto updateDto)
     {
-        // TODO: discuss about keys
-        entity.Name = Cryptocash.Domain.Currency.CreateName(updateDto.Name);
-        entity.CurrencyIsoNumeric = Cryptocash.Domain.Currency.CreateCurrencyIsoNumeric(updateDto.CurrencyIsoNumeric);
-        entity.Symbol = Cryptocash.Domain.Currency.CreateSymbol(updateDto.Symbol);
-        if (updateDto.ThousandsSeparator is not null)entity.ThousandsSeparator = Cryptocash.Domain.Currency.CreateThousandsSeparator(updateDto.ThousandsSeparator.NonNullValue<System.String>());
-        if (updateDto.DecimalSeparator is not null)entity.DecimalSeparator = Cryptocash.Domain.Currency.CreateDecimalSeparator(updateDto.DecimalSeparator.NonNullValue<System.String>());
-        entity.SpaceBetweenAmountAndSymbol = Cryptocash.Domain.Currency.CreateSpaceBetweenAmountAndSymbol(updateDto.SpaceBetweenAmountAndSymbol);
-        entity.DecimalDigits = Cryptocash.Domain.Currency.CreateDecimalDigits(updateDto.DecimalDigits);
-        entity.MajorName = Cryptocash.Domain.Currency.CreateMajorName(updateDto.MajorName);
-        entity.MajorSymbol = Cryptocash.Domain.Currency.CreateMajorSymbol(updateDto.MajorSymbol);
-        entity.MinorName = Cryptocash.Domain.Currency.CreateMinorName(updateDto.MinorName);
-        entity.MinorSymbol = Cryptocash.Domain.Currency.CreateMinorSymbol(updateDto.MinorSymbol);
-        entity.MinorToMajorValue = Cryptocash.Domain.Currency.CreateMinorToMajorValue(updateDto.MinorToMajorValue);
-
-        // TODO: discuss about keys
+        entity.Name = Cryptocash.Domain.Currency.CreateName(updateDto.Name.NonNullValue<System.String>());
+        entity.CurrencyIsoNumeric = Cryptocash.Domain.Currency.CreateCurrencyIsoNumeric(updateDto.CurrencyIsoNumeric.NonNullValue<System.Int16>());
+        entity.Symbol = Cryptocash.Domain.Currency.CreateSymbol(updateDto.Symbol.NonNullValue<System.String>());
+        if (updateDto.ThousandsSeparator == null) { entity.ThousandsSeparator = null; } else {
+            entity.ThousandsSeparator = Cryptocash.Domain.Currency.CreateThousandsSeparator(updateDto.ThousandsSeparator.ToValueFromNonNull<System.String>());
+        }
+        if (updateDto.DecimalSeparator == null) { entity.DecimalSeparator = null; } else {
+            entity.DecimalSeparator = Cryptocash.Domain.Currency.CreateDecimalSeparator(updateDto.DecimalSeparator.ToValueFromNonNull<System.String>());
+        }
+        entity.SpaceBetweenAmountAndSymbol = Cryptocash.Domain.Currency.CreateSpaceBetweenAmountAndSymbol(updateDto.SpaceBetweenAmountAndSymbol.NonNullValue<System.Boolean>());
+        entity.DecimalDigits = Cryptocash.Domain.Currency.CreateDecimalDigits(updateDto.DecimalDigits.NonNullValue<System.Int32>());
+        entity.MajorName = Cryptocash.Domain.Currency.CreateMajorName(updateDto.MajorName.NonNullValue<System.String>());
+        entity.MajorSymbol = Cryptocash.Domain.Currency.CreateMajorSymbol(updateDto.MajorSymbol.NonNullValue<System.String>());
+        entity.MinorName = Cryptocash.Domain.Currency.CreateMinorName(updateDto.MinorName.NonNullValue<System.String>());
+        entity.MinorSymbol = Cryptocash.Domain.Currency.CreateMinorSymbol(updateDto.MinorSymbol.NonNullValue<System.String>());
+        entity.MinorToMajorValue = Cryptocash.Domain.Currency.CreateMinorToMajorValue(updateDto.MinorToMajorValue.NonNullValue<MoneyDto>());
         //entity.Countries = Countries.Select(dto => dto.ToEntity()).ToList();
         //entity.MinimumCashStocks = MinimumCashStocks.Select(dto => dto.ToEntity()).ToList();
     }

@@ -50,9 +50,9 @@ public abstract class {{className}}Base : IEntityFactory<{{entity.Name}}, {{enti
         return ToEntity(createDto);
     }
 
-    public void UpdateEntity({{entity.Name}} entity, {{entity.Name}}UpdateDto updateDto)
+    public virtual void UpdateEntity({{entity.Name}} entity, {{entity.Name}}UpdateDto updateDto)
     {
-        MapEntity(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto);
     }
 
     private {{codeGeneratorState.DomainNameSpace}}.{{ entity.Name }} ToEntity({{entity.Name}}CreateDto createDto)
@@ -110,26 +110,32 @@ public abstract class {{className}}Base : IEntityFactory<{{entity.Name}}, {{enti
         return entity;
     }
 
-    private void MapEntity({{entity.Name}} entity, {{entity.Name}}UpdateDto updateDto)
+    private void UpdateEntityInternal({{entity.Name}} entity, {{entity.Name}}UpdateDto updateDto)
     {
-        // TODO: discuss about keys
         {{- for attribute in entity.Attributes }}
             {{- if !IsNoxTypeReadable attribute.Type || attribute.Type == "Formula" -}}
                 {{ continue; }}
             {{- end}}
-        {{- if !attribute.IsRequired }}
-        if (updateDto.{{attribute.Name}} is not null)
-            {{- if IsNoxTypeSimpleType attribute.Type -}}
-        entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}.Create{{attribute.Name}}(updateDto.{{attribute.Name}}.NonNullValue<{{SinglePrimitiveTypeForKey attribute}}>());
-            {{- else -}}
-        entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}.Create{{attribute.Name}}(updateDto.{{attribute.Name}}.NonNullValue<{{attribute.Type}}Dto>());
-            {{- end}}
-        {{- else }}
-        entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}.Create{{attribute.Name}}(updateDto.{{attribute.Name}});
+        {{- if attribute.IsRequired }}
+        entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
+            {{- if IsNoxTypeSimpleType attribute.Type -}}.NonNullValue<{{SinglePrimitiveTypeForKey attribute}}>()
+            {{- else -}}.NonNullValue<{{attribute.Type}}Dto>()
+            {{- end}});
+        {{- else}}
+        if (updateDto.{{attribute.Name}} == null) { entity.{{attribute.Name}} = null; } else {
+            entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
+            {{- if IsNoxTypeSimpleType attribute.Type -}}.ToValueFromNonNull<{{SinglePrimitiveTypeForKey attribute}}>()
+            {{- else -}}.ToValueFromNonNull<{{attribute.Type}}Dto>()
+            {{- end}});
+        }
         {{- end }}
         {{- end }}
 
-        // TODO: discuss about keys
+        {{- for key in entity.Keys ~}}
+		    {{- if key.Type == "Nuid" }}
+		entity.Ensure{{key.Name}}();
+		    {{- end }}
+		{{- end }}
 
         {{- for relationship in entity.Relationships }}
             {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}

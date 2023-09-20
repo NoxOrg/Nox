@@ -43,9 +43,9 @@ public abstract class CountryFactoryBase : IEntityFactory<Country, CountryCreate
         return ToEntity(createDto);
     }
 
-    public void UpdateEntity(Country entity, CountryUpdateDto updateDto)
+    public virtual void UpdateEntity(Country entity, CountryUpdateDto updateDto)
     {
-        MapEntity(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto);
     }
 
     private ClientApi.Domain.Country ToEntity(CountryCreateDto createDto)
@@ -64,15 +64,18 @@ public abstract class CountryFactoryBase : IEntityFactory<Country, CountryCreate
         return entity;
     }
 
-    private void MapEntity(Country entity, CountryUpdateDto updateDto)
+    private void UpdateEntityInternal(Country entity, CountryUpdateDto updateDto)
     {
-        // TODO: discuss about keys
-        entity.Name = ClientApi.Domain.Country.CreateName(updateDto.Name);
-        if (updateDto.Population is not null)entity.Population = ClientApi.Domain.Country.CreatePopulation(updateDto.Population.NonNullValue<System.Int32>());
-        if (updateDto.CountryDebt is not null)entity.CountryDebt = ClientApi.Domain.Country.CreateCountryDebt(updateDto.CountryDebt.NonNullValue<MoneyDto>());
-        if (updateDto.FirstLanguageCode is not null)entity.FirstLanguageCode = ClientApi.Domain.Country.CreateFirstLanguageCode(updateDto.FirstLanguageCode.NonNullValue<System.String>());
-
-        // TODO: discuss about keys
+        entity.Name = ClientApi.Domain.Country.CreateName(updateDto.Name.NonNullValue<System.String>());
+        if (updateDto.Population == null) { entity.Population = null; } else {
+            entity.Population = ClientApi.Domain.Country.CreatePopulation(updateDto.Population.ToValueFromNonNull<System.Int32>());
+        }
+        if (updateDto.CountryDebt == null) { entity.CountryDebt = null; } else {
+            entity.CountryDebt = ClientApi.Domain.Country.CreateCountryDebt(updateDto.CountryDebt.ToValueFromNonNull<MoneyDto>());
+        }
+        if (updateDto.FirstLanguageCode == null) { entity.FirstLanguageCode = null; } else {
+            entity.FirstLanguageCode = ClientApi.Domain.Country.CreateFirstLanguageCode(updateDto.FirstLanguageCode.ToValueFromNonNull<System.String>());
+        }
         //entity.Workplaces = Workplaces.Select(dto => dto.ToEntity()).ToList();
     }
 }

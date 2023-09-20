@@ -37,9 +37,9 @@ public abstract class BankNoteFactoryBase : IEntityFactory<BankNote, BankNoteCre
         return ToEntity(createDto);
     }
 
-    public void UpdateEntity(BankNote entity, BankNoteUpdateDto updateDto)
+    public virtual void UpdateEntity(BankNote entity, BankNoteUpdateDto updateDto)
     {
-        MapEntity(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto);
     }
 
     private Cryptocash.Domain.BankNote ToEntity(BankNoteCreateDto createDto)
@@ -50,13 +50,10 @@ public abstract class BankNoteFactoryBase : IEntityFactory<BankNote, BankNoteCre
         return entity;
     }
 
-    private void MapEntity(BankNote entity, BankNoteUpdateDto updateDto)
+    private void UpdateEntityInternal(BankNote entity, BankNoteUpdateDto updateDto)
     {
-        // TODO: discuss about keys
-        entity.CashNote = Cryptocash.Domain.BankNote.CreateCashNote(updateDto.CashNote);
-        entity.Value = Cryptocash.Domain.BankNote.CreateValue(updateDto.Value);
-
-        // TODO: discuss about keys
+        entity.CashNote = Cryptocash.Domain.BankNote.CreateCashNote(updateDto.CashNote.NonNullValue<System.String>());
+        entity.Value = Cryptocash.Domain.BankNote.CreateValue(updateDto.Value.NonNullValue<MoneyDto>());
     }
 }
 

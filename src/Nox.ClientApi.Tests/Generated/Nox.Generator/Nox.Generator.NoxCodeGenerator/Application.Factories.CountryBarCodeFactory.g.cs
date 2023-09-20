@@ -37,9 +37,9 @@ public abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCode,
         return ToEntity(createDto);
     }
 
-    public void UpdateEntity(CountryBarCode entity, CountryBarCodeUpdateDto updateDto)
+    public virtual void UpdateEntity(CountryBarCode entity, CountryBarCodeUpdateDto updateDto)
     {
-        MapEntity(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto);
     }
 
     private ClientApi.Domain.CountryBarCode ToEntity(CountryBarCodeCreateDto createDto)
@@ -50,13 +50,12 @@ public abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCode,
         return entity;
     }
 
-    private void MapEntity(CountryBarCode entity, CountryBarCodeUpdateDto updateDto)
+    private void UpdateEntityInternal(CountryBarCode entity, CountryBarCodeUpdateDto updateDto)
     {
-        // TODO: discuss about keys
-        entity.BarCodeName = ClientApi.Domain.CountryBarCode.CreateBarCodeName(updateDto.BarCodeName);
-        if (updateDto.BarCodeNumber is not null)entity.BarCodeNumber = ClientApi.Domain.CountryBarCode.CreateBarCodeNumber(updateDto.BarCodeNumber.NonNullValue<System.Int32>());
-
-        // TODO: discuss about keys
+        entity.BarCodeName = ClientApi.Domain.CountryBarCode.CreateBarCodeName(updateDto.BarCodeName.NonNullValue<System.String>());
+        if (updateDto.BarCodeNumber == null) { entity.BarCodeNumber = null; } else {
+            entity.BarCodeNumber = ClientApi.Domain.CountryBarCode.CreateBarCodeNumber(updateDto.BarCodeNumber.ToValueFromNonNull<System.Int32>());
+        }
     }
 }
 
