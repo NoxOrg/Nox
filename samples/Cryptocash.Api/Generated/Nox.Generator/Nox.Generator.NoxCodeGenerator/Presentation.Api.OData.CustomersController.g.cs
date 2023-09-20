@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System;
 using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Extensions;
@@ -155,6 +156,22 @@ public abstract class CustomersControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> GetRefToCustomerRelatedPaymentDetails([FromRoute] System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.CustomerRelatedPaymentDetails).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        IList<System.Uri> references = new List<System.Uri>();
+        foreach (var item in related)
+        {
+            references.Add(new System.Uri($"PaymentDetails/{item.Id}", UriKind.Relative));
+        }
+        return Ok(references);
+    }
+    
     public async Task<ActionResult> DeleteRefToCustomerRelatedPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -185,6 +202,22 @@ public abstract class CustomersControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    public async Task<ActionResult> GetRefToCustomerRelatedBookings([FromRoute] System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.CustomerRelatedBookings).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        IList<System.Uri> references = new List<System.Uri>();
+        foreach (var item in related)
+        {
+            references.Add(new System.Uri($"Bookings/{item.Id}", UriKind.Relative));
+        }
+        return Ok(references);
     }
     
     public async Task<ActionResult> DeleteRefToCustomerRelatedBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
@@ -219,6 +252,22 @@ public abstract class CustomersControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> GetRefToCustomerRelatedTransactions([FromRoute] System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.CustomerRelatedTransactions).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        IList<System.Uri> references = new List<System.Uri>();
+        foreach (var item in related)
+        {
+            references.Add(new System.Uri($"Transactions/{item.Id}", UriKind.Relative));
+        }
+        return Ok(references);
+    }
+    
     public async Task<ActionResult> DeleteRefToCustomerRelatedTransactions([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -249,6 +298,18 @@ public abstract class CustomersControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    public async Task<ActionResult> GetRefToCustomerBaseCountry([FromRoute] System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.CustomerBaseCountry).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        var references = new System.Uri($"Countries/{related.Id}", UriKind.Relative);
+        return Ok(references);
     }
     
     public async Task<ActionResult> DeleteRefToCustomerBaseCountry([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)

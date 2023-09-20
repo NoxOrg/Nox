@@ -44,10 +44,10 @@ public abstract class PaymentDetailCreateDtoBase : IEntityDto<PaymentDetail>
     /// <summary>
     /// PaymentDetail used by ExactlyOne Customers
     /// </summary>
-    public virtual CustomerCreateDto PaymentDetailsUsedByCustomer { get; set; } = null!;
+    public virtual CustomerCreateDto? PaymentDetailsUsedByCustomer { get; set; } = default!;
 
     /// <summary>
     /// PaymentDetail related to ExactlyOne PaymentProviders
     /// </summary>
-    public virtual PaymentProviderCreateDto PaymentDetailsRelatedPaymentProvider { get; set; } = null!;
+    public virtual PaymentProviderCreateDto? PaymentDetailsRelatedPaymentProvider { get; set; } = default!;
 }

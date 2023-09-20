@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System;
 using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Extensions;
@@ -155,6 +156,18 @@ public abstract class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> GetRefToVendingMachineInstallationCountry([FromRoute] System.Guid key)
+    {
+        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.VendingMachineInstallationCountry).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        var references = new System.Uri($"Countries/{related.Id}", UriKind.Relative);
+        return Ok(references);
+    }
+    
     public async Task<ActionResult> DeleteRefToVendingMachineInstallationCountry([FromRoute] System.Guid key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -185,6 +198,18 @@ public abstract class VendingMachinesControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    public async Task<ActionResult> GetRefToVendingMachineContractedAreaLandLord([FromRoute] System.Guid key)
+    {
+        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.VendingMachineContractedAreaLandLord).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        var references = new System.Uri($"LandLords/{related.Id}", UriKind.Relative);
+        return Ok(references);
     }
     
     public async Task<ActionResult> DeleteRefToVendingMachineContractedAreaLandLord([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
@@ -219,6 +244,22 @@ public abstract class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> GetRefToVendingMachineRelatedBookings([FromRoute] System.Guid key)
+    {
+        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.VendingMachineRelatedBookings).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        IList<System.Uri> references = new List<System.Uri>();
+        foreach (var item in related)
+        {
+            references.Add(new System.Uri($"Bookings/{item.Id}", UriKind.Relative));
+        }
+        return Ok(references);
+    }
+    
     public async Task<ActionResult> DeleteRefToVendingMachineRelatedBookings([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -251,6 +292,22 @@ public abstract class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> GetRefToVendingMachineRelatedCashStockOrders([FromRoute] System.Guid key)
+    {
+        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.VendingMachineRelatedCashStockOrders).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        IList<System.Uri> references = new List<System.Uri>();
+        foreach (var item in related)
+        {
+            references.Add(new System.Uri($"CashStockOrders/{item.Id}", UriKind.Relative));
+        }
+        return Ok(references);
+    }
+    
     public async Task<ActionResult> DeleteRefToVendingMachineRelatedCashStockOrders([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -281,6 +338,22 @@ public abstract class VendingMachinesControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    public async Task<ActionResult> GetRefToVendingMachineRequiredMinimumCashStocks([FromRoute] System.Guid key)
+    {
+        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.VendingMachineRequiredMinimumCashStocks).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        IList<System.Uri> references = new List<System.Uri>();
+        foreach (var item in related)
+        {
+            references.Add(new System.Uri($"MinimumCashStocks/{item.Id}", UriKind.Relative));
+        }
+        return Ok(references);
     }
     
     public async Task<ActionResult> DeleteRefToVendingMachineRequiredMinimumCashStocks([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)

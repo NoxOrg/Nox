@@ -71,5 +71,5 @@ public abstract class CustomerCreateDtoBase : IEntityDto<Customer>
     /// <summary>
     /// Customer based in ExactlyOne Countries
     /// </summary>
-    public virtual CountryCreateDto CustomerBaseCountry { get; set; } = null!;
+    public virtual CountryCreateDto? CustomerBaseCountry { get; set; } = default!;
 }

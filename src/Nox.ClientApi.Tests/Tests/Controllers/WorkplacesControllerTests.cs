@@ -3,6 +3,7 @@ using ClientApi.Application.Dto;
 using AutoFixture;
 using System.Net;
 using AutoFixture.AutoMoq;
+using ClientApi.Tests.Tests.Models;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
@@ -18,6 +19,37 @@ namespace ClientApi.Tests.Tests.Controllers
         }
 
         #region RELATIONSHIPS
+
+        #region GET
+
+        #region GET Ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/$ref => api/workplaces/1/belongstocountry/$ref
+        [Fact]
+        public async Task Get_RefToRelatedEntity_Success()
+        {
+            // Arrange
+            var dto = new WorkplaceCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                BelongsToCountry = new CountryCreateDto()
+                {
+                    Name = _fixture.Create<string>()
+                }
+            };
+            // Act
+            var result = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, dto);
+
+            var getRefResponse = await GetODataSimpleResponseAsync<ODataReferenceResponse>($"{EntityUrl}/{result!.Id}/{nameof(WorkplaceDto.BelongsToCountry)}/$ref");
+
+            //Assert
+            result.Should().NotBeNull();
+            result!.Id.Should().BeGreaterThan(0);
+            
+            getRefResponse.Should().NotBeNull();
+            getRefResponse!.ODataId!.Should().NotBeNullOrEmpty();
+        }
+        #endregion
+
+        #endregion
 
         #region POST
 

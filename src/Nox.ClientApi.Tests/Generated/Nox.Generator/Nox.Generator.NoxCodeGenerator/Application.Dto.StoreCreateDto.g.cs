@@ -49,7 +49,7 @@ public abstract class StoreCreateDtoBase : IEntityDto<Store>
     /// <summary>
     /// Store Owner of the Store ZeroOrOne StoreOwners
     /// </summary>
-    public virtual StoreOwnerCreateDto? Ownership { get; set; } = null!;
+    public virtual StoreOwnerCreateDto? Ownership { get; set; } = default!;
 
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses

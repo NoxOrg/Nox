@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System;
 using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Extensions;
@@ -269,6 +270,18 @@ public abstract class StoresControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    public async Task<ActionResult> GetRefToOwnership([FromRoute] System.Guid key)
+    {
+        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Select(x => x.Ownership).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        var references = new System.Uri($"StoreOwners/{related.Id}", UriKind.Relative);
+        return Ok(references);
     }
     
     public async Task<ActionResult> DeleteRefToOwnership([FromRoute] System.Guid key, [FromRoute] System.String relatedKey)

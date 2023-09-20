@@ -48,10 +48,10 @@ public abstract class CashStockOrderCreateDtoBase : IEntityDto<CashStockOrder>
     /// <summary>
     /// CashStockOrder for ExactlyOne VendingMachines
     /// </summary>
-    public virtual VendingMachineCreateDto CashStockOrderForVendingMachine { get; set; } = null!;
+    public virtual VendingMachineCreateDto? CashStockOrderForVendingMachine { get; set; } = default!;
 
     /// <summary>
     /// CashStockOrder reviewed by ExactlyOne Employees
     /// </summary>
-    public virtual EmployeeCreateDto CashStockOrderReviewedByEmployee { get; set; } = null!;
+    public virtual EmployeeCreateDto? CashStockOrderReviewedByEmployee { get; set; } = default!;
 }

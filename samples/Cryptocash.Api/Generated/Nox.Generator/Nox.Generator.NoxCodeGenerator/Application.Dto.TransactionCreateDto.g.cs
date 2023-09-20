@@ -52,10 +52,10 @@ public abstract class TransactionCreateDtoBase : IEntityDto<Transaction>
     /// <summary>
     /// Transaction for ExactlyOne Customers
     /// </summary>
-    public virtual CustomerCreateDto TransactionForCustomer { get; set; } = null!;
+    public virtual CustomerCreateDto? TransactionForCustomer { get; set; } = default!;
 
     /// <summary>
     /// Transaction for ExactlyOne Bookings
     /// </summary>
-    public virtual BookingCreateDto TransactionForBooking { get; set; } = null!;
+    public virtual BookingCreateDto? TransactionForBooking { get; set; } = default!;
 }

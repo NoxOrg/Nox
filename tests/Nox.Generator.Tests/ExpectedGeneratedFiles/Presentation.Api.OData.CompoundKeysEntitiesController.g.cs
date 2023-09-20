@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System;
 using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Extensions;

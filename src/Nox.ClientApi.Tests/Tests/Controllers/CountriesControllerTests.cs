@@ -5,6 +5,7 @@ using Nox.Types;
 using System.Net;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+using ClientApi.Tests.Tests.Models;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
@@ -502,6 +503,40 @@ namespace ClientApi.Tests.Tests.Controllers
         #endregion
 
         #region RELATIONSHIPS EXAMPLES
+
+        #region GET
+
+        #region GET Ref To Related Entities /api/{EntityPluralName}/1/{RelationshipName} => api/countries/1/PhysicalWorkplaces/$ref
+        [Fact]
+        public async Task GetRefTo_PhysicalWorkplaces_Success()
+        {
+            // Arrange
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                PhysicalWorkplaces = new List<WorkplaceCreateDto>()
+                {
+                    new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
+                    new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
+                    new WorkplaceCreateDto() { Name = _fixture.Create<string>() }
+                }
+            };
+            // Act
+            var result = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
+            var getRefResponse = await GetODataCollectionResponseAsync<IEnumerable<ODataReferenceResponse>>($"{EntityUrl}/{result!.Id}/physicalworkplaces/$ref");
+
+            //Assert
+            result.Should().NotBeNull();
+            result!.Id.Should().BeGreaterThan(0);
+
+            getRefResponse.Should().NotBeNull();
+            getRefResponse.Should().HaveCount(3)
+                .And
+                .AllSatisfy(x => x.ODataId.Should().NotBeNullOrEmpty());
+        }
+        #endregion
+
+        #endregion
 
         #region POST
 
