@@ -14,7 +14,7 @@ using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
-public partial class HolidayCreateDto: HolidayCreateDtoBase
+public partial class HolidayCreateDto : HolidayCreateDtoBase
 {
 
 }
@@ -22,20 +22,20 @@ public partial class HolidayCreateDto: HolidayCreateDtoBase
 /// <summary>
 /// Holiday related to country.
 /// </summary>
-public abstract class HolidayCreateDtoBase : IEntityCreateDto<Holiday>
-{    
+public abstract class HolidayCreateDtoBase : IEntityDto<Holiday>
+{
     /// <summary>
     /// Country holiday name (Required).
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
-    public virtual System.String Name { get; set; } = default!;    
+    public virtual System.String Name { get; set; } = default!;
     /// <summary>
     /// Country holiday type (Required).
     /// </summary>
     [Required(ErrorMessage = "Type is required")]
     
-    public virtual System.String Type { get; set; } = default!;    
+    public virtual System.String Type { get; set; } = default!;
     /// <summary>
     /// Country holiday date (Required).
     /// </summary>

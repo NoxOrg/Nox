@@ -182,6 +182,7 @@ Member|Type|Description|Info
 ---------|----|----------|-------
 Id|Nuid|Workplace unique identifier.|Required, Primary Key, Separator: -, PropertyNames: System.String[]
 Name|Text|Workplace Name.|Required, MinLength: 4, MaxLength: 63
+Description|Text|Workplace Description.|MinLength: 4, MaxLength: 63
 Greeting|Formula|The Formula.|
 CountryId|AutoNumber|The unique identifier.|Required, Foreign Key
 

@@ -3,16 +3,18 @@
 #nullable enable
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Landlord related data.
 /// </summary>
-public partial class LandLordUpdateDto
+public partial class LandLordUpdateDto : IEntityDto<LandLord>
 {
     /// <summary>
     /// Landlord name (Required).

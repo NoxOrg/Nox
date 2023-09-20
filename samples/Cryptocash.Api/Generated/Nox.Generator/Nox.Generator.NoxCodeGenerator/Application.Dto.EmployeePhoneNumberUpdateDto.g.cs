@@ -3,16 +3,18 @@
 #nullable enable
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Employee phone number and related data.
 /// </summary>
-public partial class EmployeePhoneNumberUpdateDto
+public partial class EmployeePhoneNumberUpdateDto : IEntityDto<EmployeePhoneNumber>
 {
     /// <summary>
     /// Employee's phone number type (Required).

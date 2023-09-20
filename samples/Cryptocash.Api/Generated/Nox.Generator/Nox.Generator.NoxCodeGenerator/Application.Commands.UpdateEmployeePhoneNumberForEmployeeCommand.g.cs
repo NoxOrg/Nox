@@ -18,16 +18,16 @@ public record UpdateEmployeePhoneNumberForEmployeeCommand(EmployeeKeyDto ParentK
 public partial class UpdateEmployeePhoneNumberForEmployeeCommandHandler: CommandBase<UpdateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumber>, IRequestHandler <UpdateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumberKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<EmployeePhoneNumber> EntityMapper { get; }
+	private readonly IEntityFactory<EmployeePhoneNumber, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> _entityFactory;
 
 	public UpdateEmployeePhoneNumberForEmployeeCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<EmployeePhoneNumber> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<EmployeePhoneNumber, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		_entityFactory = entityFactory;
 	}
 
 	public async Task<EmployeePhoneNumberKeyDto?> Handle(UpdateEmployeePhoneNumberForEmployeeCommand request, CancellationToken cancellationToken)
@@ -41,16 +41,16 @@ public partial class UpdateEmployeePhoneNumberForEmployeeCommandHandler: Command
 			return null;
 		}
 		var ownedId = CreateNoxTypeForKey<EmployeePhoneNumber,Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.EmployeeContactPhoneNumbers.SingleOrDefault(x => x.Id == ownedId);		
+		var entity = parentEntity.EmployeeContactPhoneNumbers.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
 			return null;
 		}
 
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<EmployeePhoneNumber>(), request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);
-	
+
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)

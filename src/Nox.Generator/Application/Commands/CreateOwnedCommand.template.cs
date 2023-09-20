@@ -24,7 +24,7 @@ public partial class Create{{entity.Name}}For{{parent.Name}}CommandHandler: Crea
 	public Create{{entity.Name}}For{{parent.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<{{entity.Name}},{{entity.Name}}CreateDto> entityFactory,
+        IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
 		: base(dbContext, noxSolution, entityFactory, serviceProvider)
 	{
@@ -33,16 +33,16 @@ public partial class Create{{entity.Name}}For{{parent.Name}}CommandHandler: Crea
 public abstract class Create{{entity.Name}}For{{parent.Name}}CommandHandlerBase: CommandBase<Create{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}>, IRequestHandler<Create{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}KeyDto?>
 {
 	private readonly {{codeGeneratorState.Solution.Name}}DbContext _dbContext;
-	private readonly IEntityFactory<{{entity.Name}},{{entity.Name}}CreateDto> _entityFactory;
+	private readonly IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> _entityFactory;
 
 	public Create{{entity.Name}}For{{parent.Name}}CommandHandlerBase(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<{{entity.Name}},{{entity.Name}}CreateDto> entityFactory,
+        IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;	
+		_entityFactory = entityFactory;
 	}
 
 	public virtual  async Task<{{entity.Name}}KeyDto?> Handle(Create{{entity.Name}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
@@ -66,7 +66,7 @@ public abstract class Create{{entity.Name}}For{{parent.Name}}CommandHandlerBase:
 		entityToCreate.Ensure{{key.Name}}();
 		{{- end }}
 		{{- end }}
-		
+
 		{{- if isSingleRelationship }}
 		parentEntity.{{relationship.Name}} = entity;
 		{{- else }}
@@ -74,7 +74,7 @@ public abstract class Create{{entity.Name}}For{{parent.Name}}CommandHandlerBase:
 		{{- end }}
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);
-	
+
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)

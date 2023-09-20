@@ -34,6 +34,11 @@ public partial class WorkplaceDto
     public System.String Name { get; set; } = default!;
 
     /// <summary>
+    /// Workplace Description (Optional).
+    /// </summary>
+    public System.String? Description { get; set; }
+
+    /// <summary>
     /// The Formula (Optional).
     /// </summary>
     public System.String? Greeting { get; set; }

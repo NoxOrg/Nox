@@ -23,7 +23,7 @@ using Workplace = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class WorkplaceFactoryBase: IEntityFactory<Workplace,WorkplaceCreateDto>
+public abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto>
 {
 
     public WorkplaceFactoryBase
@@ -36,13 +36,30 @@ public abstract class WorkplaceFactoryBase: IEntityFactory<Workplace,WorkplaceCr
     {
         return ToEntity(createDto);
     }
+
+    public virtual void UpdateEntity(Workplace entity, WorkplaceUpdateDto updateDto)
+    {
+        UpdateEntityInternal(entity, updateDto);
+    }
+
     private ClientApi.Domain.Workplace ToEntity(WorkplaceCreateDto createDto)
     {
         var entity = new ClientApi.Domain.Workplace();
         entity.Name = ClientApi.Domain.Workplace.CreateName(createDto.Name);
+        if (createDto.Description is not null)entity.Description = ClientApi.Domain.Workplace.CreateDescription(createDto.Description.NonNullValue<System.String>());
 		entity.EnsureId();
         //entity.Country = Country?.ToEntity();
         return entity;
+    }
+
+    private void UpdateEntityInternal(Workplace entity, WorkplaceUpdateDto updateDto)
+    {
+        entity.Name = ClientApi.Domain.Workplace.CreateName(updateDto.Name.NonNullValue<System.String>());
+        if (updateDto.Description == null) { entity.Description = null; } else {
+            entity.Description = ClientApi.Domain.Workplace.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>());
+        }
+		entity.EnsureId();
+        //entity.Country = Country?.ToEntity();
     }
 }
 

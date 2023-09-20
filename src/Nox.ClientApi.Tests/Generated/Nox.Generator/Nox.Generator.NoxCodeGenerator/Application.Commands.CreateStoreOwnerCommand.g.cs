@@ -25,10 +25,10 @@ public partial class CreateStoreOwnerCommandHandler: CreateStoreOwnerCommandHand
 	public CreateStoreOwnerCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Store,StoreCreateDto> storefactory,
-        IEntityFactory<StoreOwner,StoreOwnerCreateDto> entityFactory,
+        IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> storefactory,
+        IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,storefactory,entityFactory, serviceProvider)
+		: base(dbContext, noxSolution,storefactory, entityFactory, serviceProvider)
 	{
 	}
 }
@@ -37,18 +37,18 @@ public partial class CreateStoreOwnerCommandHandler: CreateStoreOwnerCommandHand
 public abstract class CreateStoreOwnerCommandHandlerBase: CommandBase<CreateStoreOwnerCommand,StoreOwner>, IRequestHandler <CreateStoreOwnerCommand, StoreOwnerKeyDto>
 {
 	private readonly ClientApiDbContext _dbContext;
-	private readonly IEntityFactory<StoreOwner,StoreOwnerCreateDto> _entityFactory;
-    private readonly IEntityFactory<Store,StoreCreateDto> _storefactory;
+	private readonly IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> _entityFactory;
+    private readonly IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> _storefactory;
 
 	public CreateStoreOwnerCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Store,StoreCreateDto> storefactory,
-        IEntityFactory<StoreOwner,StoreOwnerCreateDto> entityFactory,
+        IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> storefactory,
+        IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;        
+		_entityFactory = entityFactory;
         _storefactory = storefactory;
 	}
 
@@ -63,7 +63,7 @@ public abstract class CreateStoreOwnerCommandHandlerBase: CommandBase<CreateStor
 			var relatedEntity = _storefactory.CreateEntity(relatedCreateDto);
 			entityToCreate.CreateRefToStores(relatedEntity);
 		}
-					
+
 		OnCompleted(request, entityToCreate);
 		_dbContext.StoreOwners.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();

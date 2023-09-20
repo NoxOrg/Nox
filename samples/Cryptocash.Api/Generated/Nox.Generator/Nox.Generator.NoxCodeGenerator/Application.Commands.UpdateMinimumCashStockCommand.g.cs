@@ -23,38 +23,39 @@ public partial class UpdateMinimumCashStockCommandHandler: UpdateMinimumCashStoc
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<MinimumCashStock> entityMapper): base(dbContext, noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> entityFactory): base(dbContext, noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
+
 public abstract class UpdateMinimumCashStockCommandHandlerBase: CommandBase<UpdateMinimumCashStockCommand, MinimumCashStock>, IRequestHandler<UpdateMinimumCashStockCommand, MinimumCashStockKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<MinimumCashStock> EntityMapper { get; }
+	private readonly IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> _entityFactory;
 
 	public UpdateMinimumCashStockCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<MinimumCashStock> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		_entityFactory = entityFactory;
 	}
-	
+
 	public virtual async Task<MinimumCashStockKeyDto?> Handle(UpdateMinimumCashStockCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<MinimumCashStock,Nox.Types.AutoNumber>("Id", request.keyId);
-	
+
 		var entity = await DbContext.MinimumCashStocks.FindAsync(keyId);
 		if (entity == null)
 		{
 			return null;
 		}
 
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<MinimumCashStock>(), request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);

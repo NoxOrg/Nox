@@ -3,16 +3,18 @@
 #nullable enable
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Country Entity.
 /// </summary>
-public partial class CountryUpdateDto
+public partial class CountryUpdateDto : IEntityDto<Country>
 {
     /// <summary>
     /// The Country Name (Required).

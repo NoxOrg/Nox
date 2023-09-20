@@ -23,38 +23,39 @@ public partial class UpdateLandLordCommandHandler: UpdateLandLordCommandHandlerB
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<LandLord> entityMapper): base(dbContext, noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto> entityFactory): base(dbContext, noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
+
 public abstract class UpdateLandLordCommandHandlerBase: CommandBase<UpdateLandLordCommand, LandLord>, IRequestHandler<UpdateLandLordCommand, LandLordKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<LandLord> EntityMapper { get; }
+	private readonly IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto> _entityFactory;
 
 	public UpdateLandLordCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<LandLord> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		_entityFactory = entityFactory;
 	}
-	
+
 	public virtual async Task<LandLordKeyDto?> Handle(UpdateLandLordCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<LandLord,Nox.Types.AutoNumber>("Id", request.keyId);
-	
+
 		var entity = await DbContext.LandLords.FindAsync(keyId);
 		if (entity == null)
 		{
 			return null;
 		}
 
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<LandLord>(), request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);

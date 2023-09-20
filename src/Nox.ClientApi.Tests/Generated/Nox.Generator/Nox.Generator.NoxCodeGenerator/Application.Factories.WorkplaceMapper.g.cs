@@ -24,29 +24,6 @@ public partial class WorkplaceMapper : EntityMapperBase<Workplace>
 {
     public WorkplaceMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
-    public override void MapToEntity(Workplace entity, Entity entityDefinition, dynamic dto)
-    {
-    #pragma warning disable CS0168 // Variable is declared but never used        
-        dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used        
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
-        if (noxTypeValue == null)
-        {
-            throw new NullReferenceException("Name is required can not be set to null");
-        }     
-        entity.Name = noxTypeValue;
-    
-
-        /// <summary>
-        /// Workplace Workplace country ZeroOrOne Countries
-        /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "BelongsToCountry", dto.BelongsToCountryId);
-        if (noxTypeValue != null)
-        {        
-            entity.BelongsToCountryId = noxTypeValue;
-        }
-    }
-
     public override void PartialMapToEntity(Workplace entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
 #pragma warning disable CS0168 // Variable is assigned but its value is never used
@@ -63,6 +40,20 @@ public partial class WorkplaceMapper : EntityMapperBase<Workplace>
                 else
                 {
                     entity.Name = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("Description", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Description", value);
+                if(noxTypeValue == null)
+                {
+                    entity.Description = null;
+                }
+                else
+                {
+                    entity.Description = noxTypeValue;
                 }
             }
         }

@@ -25,10 +25,10 @@ public partial class CreateCountryCommandHandler: CreateCountryCommandHandlerBas
 	public CreateCountryCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Workplace,WorkplaceCreateDto> workplacefactory,
-        IEntityFactory<Country,CountryCreateDto> entityFactory,
+        IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> workplacefactory,
+        IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,workplacefactory,entityFactory, serviceProvider)
+		: base(dbContext, noxSolution,workplacefactory, entityFactory, serviceProvider)
 	{
 	}
 }
@@ -37,18 +37,18 @@ public partial class CreateCountryCommandHandler: CreateCountryCommandHandlerBas
 public abstract class CreateCountryCommandHandlerBase: CommandBase<CreateCountryCommand,Country>, IRequestHandler <CreateCountryCommand, CountryKeyDto>
 {
 	private readonly ClientApiDbContext _dbContext;
-	private readonly IEntityFactory<Country,CountryCreateDto> _entityFactory;
-    private readonly IEntityFactory<Workplace,WorkplaceCreateDto> _workplacefactory;
+	private readonly IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> _entityFactory;
+    private readonly IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> _workplacefactory;
 
 	public CreateCountryCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Workplace,WorkplaceCreateDto> workplacefactory,
-        IEntityFactory<Country,CountryCreateDto> entityFactory,
+        IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> workplacefactory,
+        IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;        
+		_entityFactory = entityFactory;
         _workplacefactory = workplacefactory;
 	}
 
@@ -63,7 +63,7 @@ public abstract class CreateCountryCommandHandlerBase: CommandBase<CreateCountry
 			var relatedEntity = _workplacefactory.CreateEntity(relatedCreateDto);
 			entityToCreate.CreateRefToPhysicalWorkplaces(relatedEntity);
 		}
-					
+
 		OnCompleted(request, entityToCreate);
 		_dbContext.Countries.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();

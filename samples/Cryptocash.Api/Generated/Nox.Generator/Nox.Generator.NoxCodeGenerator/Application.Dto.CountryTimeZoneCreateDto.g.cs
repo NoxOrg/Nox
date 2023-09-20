@@ -14,7 +14,7 @@ using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
-public partial class CountryTimeZoneCreateDto: CountryTimeZoneCreateDtoBase
+public partial class CountryTimeZoneCreateDto : CountryTimeZoneCreateDtoBase
 {
 
 }
@@ -22,8 +22,8 @@ public partial class CountryTimeZoneCreateDto: CountryTimeZoneCreateDtoBase
 /// <summary>
 /// Time zone related to country.
 /// </summary>
-public abstract class CountryTimeZoneCreateDtoBase : IEntityCreateDto<CountryTimeZone>
-{    
+public abstract class CountryTimeZoneCreateDtoBase : IEntityDto<CountryTimeZone>
+{
     /// <summary>
     /// Country's related time zone code (Required).
     /// </summary>

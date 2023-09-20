@@ -25,7 +25,7 @@ namespace Cryptocash.Api.Migrations
             modelBuilder.Entity("Cryptocash.Domain.Booking", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                        .IsUnicode(false)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<long?>("BookingFeesForCommissionId")
@@ -39,7 +39,7 @@ namespace Cryptocash.Api.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
 
                     b.Property<Guid?>("BookingRelatedVendingMachineId")
-                        .ValueGeneratedOnAdd()
+                        .IsUnicode(false)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("CancelledDateTime")
@@ -113,7 +113,7 @@ namespace Cryptocash.Api.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<Guid?>("CashStockOrderForVendingMachineId")
-                        .ValueGeneratedOnAdd()
+                        .IsUnicode(false)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAtUtc")
@@ -963,7 +963,7 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("nvarchar(63)");
 
                     b.Property<Guid?>("TransactionForBookingId")
-                        .ValueGeneratedOnAdd()
+                        .IsUnicode(false)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<long?>("TransactionForCustomerId")
@@ -991,7 +991,7 @@ namespace Cryptocash.Api.Migrations
             modelBuilder.Entity("Cryptocash.Domain.VendingMachine", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                        .IsUnicode(false)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAtUtc")

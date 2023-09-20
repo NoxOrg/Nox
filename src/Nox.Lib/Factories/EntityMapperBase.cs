@@ -12,7 +12,7 @@ public abstract class EntityMapperBase<E>: IEntityMapper<E> where E : IEntity
     protected EntityMapperBase(NoxSolution noxSolution, IServiceProvider serviceProvider)
     {
         NoxSolution = noxSolution;
-        ServiceProvider = serviceProvider;              
+        ServiceProvider = serviceProvider;
     }
 
     public N? CreateNoxType<N>(Entity entityDefinition, string attributeName, dynamic? value) where N : Nox.Types.INoxType
@@ -21,6 +21,5 @@ public abstract class EntityMapperBase<E>: IEntityMapper<E> where E : IEntity
         return typeFactory!.CreateNoxType(entityDefinition, attributeName, value);
     }
 
-    public abstract void MapToEntity(E entity, Entity entityDefinition, dynamic dto);
     public abstract void PartialMapToEntity(E entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties);
 }

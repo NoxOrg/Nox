@@ -19,16 +19,16 @@ public record UpdateCountryBarCodeForCountryCommand(CountryKeyDto ParentKeyDto, 
 public partial class UpdateCountryBarCodeForCountryCommandHandler: CommandBase<UpdateCountryBarCodeForCountryCommand, CountryBarCode>, IRequestHandler <UpdateCountryBarCodeForCountryCommand, CountryBarCodeKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
-	public IEntityMapper<CountryBarCode> EntityMapper { get; }
+	private readonly IEntityFactory<CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto> _entityFactory;
 
 	public UpdateCountryBarCodeForCountryCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<CountryBarCode> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		_entityFactory = entityFactory;
 	}
 
 	public async Task<CountryBarCodeKeyDto?> Handle(UpdateCountryBarCodeForCountryCommand request, CancellationToken cancellationToken)
@@ -42,16 +42,16 @@ public partial class UpdateCountryBarCodeForCountryCommandHandler: CommandBase<U
 			return null;
 		}
 		var entity = parentEntity.CountryBarCode;
-				
+		
 		if (entity == null)
 		{
 			return null;
 		}
 
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<CountryBarCode>(), request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);
-	
+
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)

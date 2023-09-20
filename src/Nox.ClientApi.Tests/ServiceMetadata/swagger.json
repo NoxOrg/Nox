@@ -10637,6 +10637,10 @@
             "minLength": 1,
             "type": "string"
           },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
           "greeting": {
             "type": "string",
             "nullable": true
@@ -10655,6 +10659,10 @@
             "format": "int32"
           },
           "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
             "type": "string",
             "nullable": true
           },
@@ -10722,6 +10730,10 @@
           "name": {
             "minLength": 1,
             "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
           },
           "belongsToCountryId": {
             "type": "integer",

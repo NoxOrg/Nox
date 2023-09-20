@@ -3,16 +3,18 @@
 #nullable enable
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Verified Email Address.
 /// </summary>
-public partial class EmailAddressUpdateDto
+public partial class EmailAddressUpdateDto : IEntityDto<EmailAddress>
 {
     /// <summary>
     /// Email (Optional).

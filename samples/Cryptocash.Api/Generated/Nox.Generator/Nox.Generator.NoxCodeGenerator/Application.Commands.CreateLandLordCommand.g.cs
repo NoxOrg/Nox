@@ -25,10 +25,10 @@ public partial class CreateLandLordCommandHandler: CreateLandLordCommandHandlerB
 	public CreateLandLordCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<VendingMachine,VendingMachineCreateDto> vendingmachinefactory,
-        IEntityFactory<LandLord,LandLordCreateDto> entityFactory,
+        IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
+        IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,vendingmachinefactory,entityFactory, serviceProvider)
+		: base(dbContext, noxSolution,vendingmachinefactory, entityFactory, serviceProvider)
 	{
 	}
 }
@@ -37,18 +37,18 @@ public partial class CreateLandLordCommandHandler: CreateLandLordCommandHandlerB
 public abstract class CreateLandLordCommandHandlerBase: CommandBase<CreateLandLordCommand,LandLord>, IRequestHandler <CreateLandLordCommand, LandLordKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<LandLord,LandLordCreateDto> _entityFactory;
-    private readonly IEntityFactory<VendingMachine,VendingMachineCreateDto> _vendingmachinefactory;
+	private readonly IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto> _entityFactory;
+    private readonly IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> _vendingmachinefactory;
 
 	public CreateLandLordCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<VendingMachine,VendingMachineCreateDto> vendingmachinefactory,
-        IEntityFactory<LandLord,LandLordCreateDto> entityFactory,
+        IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
+        IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;        
+		_entityFactory = entityFactory;
         _vendingmachinefactory = vendingmachinefactory;
 	}
 
@@ -63,7 +63,7 @@ public abstract class CreateLandLordCommandHandlerBase: CommandBase<CreateLandLo
 			var relatedEntity = _vendingmachinefactory.CreateEntity(relatedCreateDto);
 			entityToCreate.CreateRefToContractedAreasForVendingMachines(relatedEntity);
 		}
-					
+
 		OnCompleted(request, entityToCreate);
 		_dbContext.LandLords.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();

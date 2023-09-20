@@ -24,7 +24,7 @@ public partial class CreateBankNoteForCurrencyCommandHandler: CreateBankNoteForC
 	public CreateBankNoteForCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<BankNote,BankNoteCreateDto> entityFactory,
+        IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
 		: base(dbContext, noxSolution, entityFactory, serviceProvider)
 	{
@@ -33,16 +33,16 @@ public partial class CreateBankNoteForCurrencyCommandHandler: CreateBankNoteForC
 public abstract class CreateBankNoteForCurrencyCommandHandlerBase: CommandBase<CreateBankNoteForCurrencyCommand, BankNote>, IRequestHandler<CreateBankNoteForCurrencyCommand, BankNoteKeyDto?>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<BankNote,BankNoteCreateDto> _entityFactory;
+	private readonly IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto> _entityFactory;
 
 	public CreateBankNoteForCurrencyCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<BankNote,BankNoteCreateDto> entityFactory,
+        IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;	
+		_entityFactory = entityFactory;
 	}
 
 	public virtual  async Task<BankNoteKeyDto?> Handle(CreateBankNoteForCurrencyCommand request, CancellationToken cancellationToken)
@@ -60,7 +60,7 @@ public abstract class CreateBankNoteForCurrencyCommandHandlerBase: CommandBase<C
 		parentEntity.CurrencyCommonBankNotes.Add(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);
-	
+
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)

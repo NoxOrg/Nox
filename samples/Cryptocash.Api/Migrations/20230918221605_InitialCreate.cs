@@ -346,7 +346,7 @@ namespace Cryptocash.Api.Migrations
                 name: "VendingMachines",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
                     CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -434,7 +434,7 @@ namespace Cryptocash.Api.Migrations
                 name: "Bookings",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
                     CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -458,7 +458,7 @@ namespace Cryptocash.Api.Migrations
                     VatNumber_Number = table.Column<string>(type: "varchar(64)", unicode: false, maxLength: 64, nullable: true),
                     VatNumber_CountryCode = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: true),
                     BookingForCustomerId = table.Column<long>(type: "bigint", nullable: true),
-                    BookingRelatedVendingMachineId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    BookingRelatedVendingMachineId = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: true),
                     BookingFeesForCommissionId = table.Column<long>(type: "bigint", nullable: true),
                     Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
@@ -502,7 +502,7 @@ namespace Cryptocash.Api.Migrations
                     RequestedDeliveryDate = table.Column<DateTime>(type: "date", nullable: false),
                     DeliveryDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CashStockOrderForVendingMachineId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CashStockOrderForVendingMachineId = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: true),
                     Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -560,7 +560,7 @@ namespace Cryptocash.Api.Migrations
                     Amount_CurrencyCode = table.Column<int>(type: "int", nullable: false),
                     Reference = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     TransactionForCustomerId = table.Column<long>(type: "bigint", nullable: true),
-                    TransactionForBookingId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    TransactionForBookingId = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: true),
                     Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>

@@ -24,57 +24,6 @@ public partial class CountryMapper : EntityMapperBase<Country>
 {
     public CountryMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
-    public override void MapToEntity(Country entity, Entity entityDefinition, dynamic dto)
-    {
-    #pragma warning disable CS0168 // Variable is declared but never used        
-        dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used        
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
-        if (noxTypeValue == null)
-        {
-            throw new NullReferenceException("Name is required can not be set to null");
-        }     
-        entity.Name = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "OfficialName", dto.OfficialName);     
-        entity.OfficialName = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.CountryNumber>(entityDefinition, "CountryIsoNumeric", dto.CountryIsoNumeric);     
-        entity.CountryIsoNumeric = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.CountryCode3>(entityDefinition, "CountryIsoAlpha3", dto.CountryIsoAlpha3);     
-        entity.CountryIsoAlpha3 = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition, "GeoCoords", dto.GeoCoords);     
-        entity.GeoCoords = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "FlagEmoji", dto.FlagEmoji);     
-        entity.FlagEmoji = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.Image>(entityDefinition, "FlagSvg", dto.FlagSvg);     
-        entity.FlagSvg = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.Image>(entityDefinition, "FlagPng", dto.FlagPng);     
-        entity.FlagPng = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.Image>(entityDefinition, "CoatOfArmsSvg", dto.CoatOfArmsSvg);     
-        entity.CoatOfArmsSvg = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.Image>(entityDefinition, "CoatOfArmsPng", dto.CoatOfArmsPng);     
-        entity.CoatOfArmsPng = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.Url>(entityDefinition, "GoogleMapsUrl", dto.GoogleMapsUrl);     
-        entity.GoogleMapsUrl = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.Url>(entityDefinition, "OpenStreetMapsUrl", dto.OpenStreetMapsUrl);     
-        entity.OpenStreetMapsUrl = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.DayOfWeek>(entityDefinition, "StartOfWeek", dto.StartOfWeek);
-        if (noxTypeValue == null)
-        {
-            throw new NullReferenceException("StartOfWeek is required can not be set to null");
-        }     
-        entity.StartOfWeek = noxTypeValue;
-    
-
-        /// <summary>
-        /// Country used by ExactlyOne Currencies
-        /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "CountryUsedByCurrency", dto.CountryUsedByCurrencyId);
-        if (noxTypeValue != null)
-        {        
-            entity.CountryUsedByCurrencyId = noxTypeValue;
-        }
-    }
-
     public override void PartialMapToEntity(Country entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
 #pragma warning disable CS0168 // Variable is assigned but its value is never used

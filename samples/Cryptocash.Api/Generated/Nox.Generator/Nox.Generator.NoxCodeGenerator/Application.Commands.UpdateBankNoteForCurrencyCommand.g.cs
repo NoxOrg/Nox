@@ -18,16 +18,16 @@ public record UpdateBankNoteForCurrencyCommand(CurrencyKeyDto ParentKeyDto, Bank
 public partial class UpdateBankNoteForCurrencyCommandHandler: CommandBase<UpdateBankNoteForCurrencyCommand, BankNote>, IRequestHandler <UpdateBankNoteForCurrencyCommand, BankNoteKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<BankNote> EntityMapper { get; }
+	private readonly IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto> _entityFactory;
 
 	public UpdateBankNoteForCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<BankNote> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		_entityFactory = entityFactory;
 	}
 
 	public async Task<BankNoteKeyDto?> Handle(UpdateBankNoteForCurrencyCommand request, CancellationToken cancellationToken)
@@ -41,16 +41,16 @@ public partial class UpdateBankNoteForCurrencyCommandHandler: CommandBase<Update
 			return null;
 		}
 		var ownedId = CreateNoxTypeForKey<BankNote,Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.CurrencyCommonBankNotes.SingleOrDefault(x => x.Id == ownedId);		
+		var entity = parentEntity.CurrencyCommonBankNotes.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
 			return null;
 		}
 
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<BankNote>(), request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);
-	
+
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)

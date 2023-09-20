@@ -14,7 +14,7 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public partial class EmailAddressCreateDto: EmailAddressCreateDtoBase
+public partial class EmailAddressCreateDto : EmailAddressCreateDtoBase
 {
 
 }
@@ -22,12 +22,12 @@ public partial class EmailAddressCreateDto: EmailAddressCreateDtoBase
 /// <summary>
 /// Verified Email Address.
 /// </summary>
-public abstract class EmailAddressCreateDtoBase : IEntityCreateDto<EmailAddress>
-{    
+public abstract class EmailAddressCreateDtoBase : IEntityDto<EmailAddress>
+{
     /// <summary>
     /// Email (Optional).
     /// </summary>
-    public virtual System.String? Email { get; set; }    
+    public virtual System.String? Email { get; set; }
     /// <summary>
     /// Verified (Optional).
     /// </summary>

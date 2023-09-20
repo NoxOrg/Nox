@@ -46,6 +46,7 @@
                 </Key>
                 <Property Name="Id" Type="Edm.Int64" Nullable="false" />
                 <Property Name="Name" Type="Edm.String" Nullable="false" />
+                <Property Name="Description" Type="Edm.String" />
                 <Property Name="Greeting" Type="Edm.String" />
                 <Property Name="BelongsToCountryId" Type="Edm.Int64" />
                 <Property Name="Etag" Type="Edm.Guid" Nullable="false" />

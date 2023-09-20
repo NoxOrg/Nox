@@ -3,16 +3,18 @@
 #nullable enable
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Local names for countries.
 /// </summary>
-public partial class CountryLocalNameUpdateDto
+public partial class CountryLocalNameUpdateDto : IEntityDto<CountryLocalName>
 {
     /// <summary>
     /// Local name (Required).

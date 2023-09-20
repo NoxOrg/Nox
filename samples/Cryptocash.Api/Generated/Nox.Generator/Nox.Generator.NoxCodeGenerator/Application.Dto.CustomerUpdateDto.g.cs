@@ -3,16 +3,18 @@
 #nullable enable
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Customer definition and related data.
 /// </summary>
-public partial class CustomerUpdateDto
+public partial class CustomerUpdateDto : IEntityDto<Customer>
 {
     /// <summary>
     /// Customer's first name (Required).

@@ -25,11 +25,11 @@ public partial class CreateTransactionCommandHandler: CreateTransactionCommandHa
 	public CreateTransactionCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Customer,CustomerCreateDto> customerfactory,
-        IEntityFactory<Booking,BookingCreateDto> bookingfactory,
-        IEntityFactory<Transaction,TransactionCreateDto> entityFactory,
+        IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> customerfactory,
+        IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> bookingfactory,
+        IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,customerfactory,bookingfactory,entityFactory, serviceProvider)
+		: base(dbContext, noxSolution,customerfactory, bookingfactory, entityFactory, serviceProvider)
 	{
 	}
 }
@@ -38,21 +38,21 @@ public partial class CreateTransactionCommandHandler: CreateTransactionCommandHa
 public abstract class CreateTransactionCommandHandlerBase: CommandBase<CreateTransactionCommand,Transaction>, IRequestHandler <CreateTransactionCommand, TransactionKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<Transaction,TransactionCreateDto> _entityFactory;
-    private readonly IEntityFactory<Customer,CustomerCreateDto> _customerfactory;
-    private readonly IEntityFactory<Booking,BookingCreateDto> _bookingfactory;
+	private readonly IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> _entityFactory;
+    private readonly IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> _customerfactory;
+    private readonly IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> _bookingfactory;
 
 	public CreateTransactionCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Customer,CustomerCreateDto> customerfactory,
-        IEntityFactory<Booking,BookingCreateDto> bookingfactory,
-        IEntityFactory<Transaction,TransactionCreateDto> entityFactory,
+        IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> customerfactory,
+        IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> bookingfactory,
+        IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;        
-        _customerfactory = customerfactory;        
+		_entityFactory = entityFactory;
+        _customerfactory = customerfactory;
         _bookingfactory = bookingfactory;
 	}
 
@@ -63,16 +63,16 @@ public abstract class CreateTransactionCommandHandlerBase: CommandBase<CreateTra
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.TransactionForCustomer is not null)
-		{ 
+		{
 			var relatedEntity = _customerfactory.CreateEntity(request.EntityDto.TransactionForCustomer);
 			entityToCreate.CreateRefToTransactionForCustomer(relatedEntity);
 		}
 		if(request.EntityDto.TransactionForBooking is not null)
-		{ 
+		{
 			var relatedEntity = _bookingfactory.CreateEntity(request.EntityDto.TransactionForBooking);
 			entityToCreate.CreateRefToTransactionForBooking(relatedEntity);
 		}
-					
+
 		OnCompleted(request, entityToCreate);
 		_dbContext.Transactions.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();

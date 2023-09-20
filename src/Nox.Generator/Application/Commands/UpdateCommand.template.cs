@@ -23,25 +23,26 @@ public partial class Update{{entity.Name}}CommandHandler: Update{{entity.Name}}C
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<{{entity.Name}}> entityMapper): base(dbContext, noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory): base(dbContext, noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
+
 public abstract class Update{{entity.Name}}CommandHandlerBase: CommandBase<Update{{entity.Name}}Command, {{entity.Name}}>, IRequestHandler<Update{{entity.Name}}Command, {{entity.Name}}KeyDto?>
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
-	public IEntityMapper<{{entity.Name}}> EntityMapper { get; }
+	private readonly IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> _entityFactory;
 
 	public Update{{entity.Name}}CommandHandlerBase(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<{{entity.Name}}> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		_entityFactory = entityFactory;
 	}
-	
+
 	public virtual async Task<{{entity.Name}}KeyDto?> Handle(Update{{entity.Name}}Command request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
@@ -50,14 +51,14 @@ public abstract class Update{{entity.Name}}CommandHandlerBase: CommandBase<Updat
 		{{- for key in entity.Keys }}
 		var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},Nox.Types.{{SingleTypeForKey key}}>("{{key.Name}}", request.key{{key.Name}});
 		{{- end }}
-	
+
 		var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysFindQuery}});
 		if (entity == null)
 		{
 			return null;
 		}
 
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto);
 
 		{{- if !entity.IsOwnedEntity }}
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

@@ -14,7 +14,7 @@ using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
-public partial class CountryCreateDto: CountryCreateDtoBase
+public partial class CountryCreateDto : CountryCreateDtoBase
 {
 
 }
@@ -22,63 +22,63 @@ public partial class CountryCreateDto: CountryCreateDtoBase
 /// <summary>
 /// Country and related data.
 /// </summary>
-public abstract class CountryCreateDtoBase : IEntityCreateDto<Country>
+public abstract class CountryCreateDtoBase : IEntityDto<Country>
 {
     /// <summary>
     /// Country unique identifier (Required).
     /// </summary>
     [Required(ErrorMessage = "Id is required")]
-    public System.String Id { get; set; } = default!;    
+    public System.String Id { get; set; } = default!;
     /// <summary>
     /// Country's name (Required).
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
-    public virtual System.String Name { get; set; } = default!;    
+    public virtual System.String Name { get; set; } = default!;
     /// <summary>
     /// Country's official name (Optional).
     /// </summary>
-    public virtual System.String? OfficialName { get; set; }    
+    public virtual System.String? OfficialName { get; set; }
     /// <summary>
     /// Country's iso number id (Optional).
     /// </summary>
-    public virtual System.UInt16? CountryIsoNumeric { get; set; }    
+    public virtual System.UInt16? CountryIsoNumeric { get; set; }
     /// <summary>
     /// Country's iso alpha3 id (Optional).
     /// </summary>
-    public virtual System.String? CountryIsoAlpha3 { get; set; }    
+    public virtual System.String? CountryIsoAlpha3 { get; set; }
     /// <summary>
     /// Country's geo coordinates (Optional).
     /// </summary>
-    public virtual LatLongDto? GeoCoords { get; set; }    
+    public virtual LatLongDto? GeoCoords { get; set; }
     /// <summary>
     /// Country's flag emoji (Optional).
     /// </summary>
-    public virtual System.String? FlagEmoji { get; set; }    
+    public virtual System.String? FlagEmoji { get; set; }
     /// <summary>
     /// Country's flag in svg format (Optional).
     /// </summary>
-    public virtual ImageDto? FlagSvg { get; set; }    
+    public virtual ImageDto? FlagSvg { get; set; }
     /// <summary>
     /// Country's flag in png format (Optional).
     /// </summary>
-    public virtual ImageDto? FlagPng { get; set; }    
+    public virtual ImageDto? FlagPng { get; set; }
     /// <summary>
     /// Country's coat of arms in svg format (Optional).
     /// </summary>
-    public virtual ImageDto? CoatOfArmsSvg { get; set; }    
+    public virtual ImageDto? CoatOfArmsSvg { get; set; }
     /// <summary>
     /// Country's coat of arms in png format (Optional).
     /// </summary>
-    public virtual ImageDto? CoatOfArmsPng { get; set; }    
+    public virtual ImageDto? CoatOfArmsPng { get; set; }
     /// <summary>
     /// Country's map via google maps (Optional).
     /// </summary>
-    public virtual System.String? GoogleMapsUrl { get; set; }    
+    public virtual System.String? GoogleMapsUrl { get; set; }
     /// <summary>
     /// Country's map via open street maps (Optional).
     /// </summary>
-    public virtual System.String? OpenStreetMapsUrl { get; set; }    
+    public virtual System.String? OpenStreetMapsUrl { get; set; }
     /// <summary>
     /// Country's start of week day (Required).
     /// </summary>
