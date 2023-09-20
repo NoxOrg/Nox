@@ -5,16 +5,15 @@ using Nox.Types;
 using System.Globalization;
 using System.Text.Json;
 using TestWebApp.Domain;
-using TestWebApp.Infrastructure.Persistence;
 using DayOfWeek = Nox.Types.DayOfWeek;
 using Guid = Nox.Types.Guid;
 
 namespace Nox.Integration.Tests.DatabaseIntegrationTests;
 
 [Collection("Sequential")]
-public class SqliteIntegrationTests : NoxIntegrationTestBase<NoxTestMsSqlContainerFixture>
+public class SqliteIntegrationTests : NoxIntegrationTestBase<NoxTestSqliteFixture>
 {
-    public SqliteIntegrationTests(NoxTestMsSqlContainerFixture containerFixture) : base(containerFixture)
+    public SqliteIntegrationTests(NoxTestSqliteFixture containerFixture) : base(containerFixture)
     {
     }
 

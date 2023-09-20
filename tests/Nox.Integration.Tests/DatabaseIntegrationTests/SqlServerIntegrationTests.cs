@@ -4,7 +4,6 @@ using Nox.Integration.Tests.Fixtures;
 using Nox.Types;
 using System.Text.Json;
 using TestWebApp.Domain;
-using TestWebApp.Infrastructure.Persistence;
 using DateTime = Nox.Types.DateTime;
 using DayOfWeek = Nox.Types.DayOfWeek;
 using Guid = Nox.Types.Guid;

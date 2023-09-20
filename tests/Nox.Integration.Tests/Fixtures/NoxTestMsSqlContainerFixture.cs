@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Nox.EntityFramework.SqlServer;
+using Nox.Types.EntityFramework.Abstractions;
 using Testcontainers.MsSql;
 using TestWebApp.Infrastructure.Persistence;
 
@@ -12,6 +14,11 @@ public class NoxTestMsSqlContainerFixture : NoxTestContainerFixtureBase<MsSqlCon
             .WithAutoRemove(true)
             .WithCleanUp(true)
             .Build();
+    }
+
+    public override INoxDatabaseProvider GetDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators)
+    {
+        return new SqlServerDatabaseProvider(configurators);
     }
 
     protected override DbContextOptions<TestWebAppDbContext> CreateDbOptions(string connectionString)

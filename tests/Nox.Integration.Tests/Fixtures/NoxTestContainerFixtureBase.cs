@@ -1,5 +1,6 @@
 ﻿using DotNet.Testcontainers.Containers;
 using Microsoft.EntityFrameworkCore;
+using Nox.Types.EntityFramework.Abstractions;
 using TestWebApp.Infrastructure.Persistence;
 
 namespace Nox.Integration.Tests.Fixtures;
@@ -14,6 +15,8 @@ public abstract class NoxTestContainerFixtureBase<TContainer> : IAsyncLifetime, 
         var connectionString = GetConnectionString(_container);
         return CreateDbOptions(connectionString);
     }
+
+    public abstract INoxDatabaseProvider GetDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators);
 
     public Task InitializeAsync()
     {

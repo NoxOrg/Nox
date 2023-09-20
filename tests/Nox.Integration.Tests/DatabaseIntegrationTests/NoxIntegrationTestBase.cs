@@ -1,7 +1,5 @@
-﻿using DotNet.Testcontainers.Containers;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Nox.Application.Providers;
-using Nox.EntityFramework.Postgres;
 using Nox.Integration.Tests.Fixtures;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
@@ -28,7 +26,6 @@ public abstract class NoxIntegrationTestBase<TContainerFixture> : IClassFixture<
 
         RecreateDataContext();
 
-        //DataContext.Database.EnsureDeleted();
         DataContext.Database.EnsureCreated();
     }
 
@@ -42,7 +39,7 @@ public abstract class NoxIntegrationTestBase<TContainerFixture> : IClassFixture<
                         .Build();
 
         var assemblyProvider = new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly());
-        var databaseProvider = new PostgresDatabaseProvider(_serviceProvider.GetServices<INoxTypeDatabaseConfigurator>());
+        var databaseProvider = _containerFixture.GetDatabaseProvider(_serviceProvider.GetServices<INoxTypeDatabaseConfigurator>());
 
         var options = _containerFixture.CreateDbOptions();
 

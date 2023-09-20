@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Nox.EntityFramework.Postgres;
+using Nox.Types.EntityFramework.Abstractions;
 using Testcontainers.PostgreSql;
 using TestWebApp.Infrastructure.Persistence;
 
@@ -16,6 +18,11 @@ public class NoxTestPostgreContainerFixture : NoxTestContainerFixtureBase<Postgr
           .WithAutoRemove(true)
           .WithCleanUp(true)
           .Build();
+    }
+
+    public override INoxDatabaseProvider GetDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators)
+    {
+        return new PostgresDatabaseProvider(configurators);
     }
 
     protected override DbContextOptions<TestWebAppDbContext> CreateDbOptions(string connectionString)
