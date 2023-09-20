@@ -49,12 +49,13 @@ public static class ServiceCollectionExtension
 
         /*Move to Generated WebServiceCollection to use Solution to define the Type of Bud*/
         services.AddMassTransit(x =>
-        {        
+        {
             x.UsingInMemory((context, cfg) =>
             {
                 cfg.ConfigureEndpoints(context);
-                cfg.serial
+
             });
+
         });
         
 
