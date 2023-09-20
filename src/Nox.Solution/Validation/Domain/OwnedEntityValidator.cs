@@ -38,12 +38,12 @@ internal class OwnedEntityValidator : AbstractValidator<Entity>
         // Owned entity cannot have relationships to other entities
         RuleFor(e => e.Relationships.Any())
             .NotEqual(true)
-            .WithMessage(e => string.Format(ValidationResources.EntityOwnedCannotHaveRelationships, e.Name, e.OwnerEntity?.Name));
+            .WithMessage(e => string.Format(ValidationResources.EntityOwnedCannotHaveRelationships, e.Name));
 
         // Owned entity cannot be related to other entities
         RuleFor(e => IsRelatedToOtherEntities(e, entities))
             .NotEqual(true)
-            .WithMessage(e => string.Format(ValidationResources.EntityOwnedCannotBeRelatedToOtherEntities, e.Name, e.OwnerEntity?.Name));
+            .WithMessage(e => string.Format(ValidationResources.EntityOwnedCannotBeRelatedToOtherEntities, e.Name));
     }
 
     private static bool IsRelatedToOtherEntities(Entity ownedEntity, IEnumerable<Entity> entities)
