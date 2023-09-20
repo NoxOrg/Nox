@@ -17,14 +17,26 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateRefCommissionToCommissionFeesForBookingCommand(CommissionKeyDto EntityKeyDto, BookingKeyDto RelatedEntityKeyDto) : IRequest <bool>;
 
-public partial class CreateRefCommissionToCommissionFeesForBookingCommandHandler: CommandBase<CreateRefCommissionToCommissionFeesForBookingCommand, Commission>, 
+public partial class CreateRefCommissionToCommissionFeesForBookingCommandHandler: CreateRefCommissionToCommissionFeesForBookingCommandHandlerBase
+{
+	public CreateRefCommissionToCommissionFeesForBookingCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider)
+	{ }
+}
+
+public abstract class CreateRefCommissionToCommissionFeesForBookingCommandHandlerBase: CommandBase<CreateRefCommissionToCommissionFeesForBookingCommand, Commission>, 
 	IRequestHandler <CreateRefCommissionToCommissionFeesForBookingCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public CreateRefCommissionToCommissionFeesForBookingCommandHandler(
+	public CreateRefCommissionToCommissionFeesForBookingCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -32,7 +44,7 @@ public partial class CreateRefCommissionToCommissionFeesForBookingCommandHandler
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(CreateRefCommissionToCommissionFeesForBookingCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(CreateRefCommissionToCommissionFeesForBookingCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Commission, Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);

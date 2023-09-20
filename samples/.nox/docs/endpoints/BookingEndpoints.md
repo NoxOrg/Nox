@@ -43,7 +43,7 @@ This document provides information about the various endpoints available in our 
 #### Create Customer relation
 - **POST** `/api/Bookings/{key}/Customers/{relatedKey}/$ref`
   - Description: Create a new Customer relation for a specific Booking.
-  
+
 #### Update Customer relation
 - **PUT** `/api/Bookings/{key}/Customers/{relatedKey}/$ref`
   - Description: Update an existing Customer relation for a specific Booking.
@@ -69,7 +69,7 @@ This document provides information about the various endpoints available in our 
 #### Create VendingMachine relation
 - **POST** `/api/Bookings/{key}/VendingMachines/{relatedKey}/$ref`
   - Description: Create a new VendingMachine relation for a specific Booking.
-  
+
 #### Update VendingMachine relation
 - **PUT** `/api/Bookings/{key}/VendingMachines/{relatedKey}/$ref`
   - Description: Update an existing VendingMachine relation for a specific Booking.
@@ -95,7 +95,7 @@ This document provides information about the various endpoints available in our 
 #### Create Commission relation
 - **POST** `/api/Bookings/{key}/Commissions/{relatedKey}/$ref`
   - Description: Create a new Commission relation for a specific Booking.
-  
+
 #### Update Commission relation
 - **PUT** `/api/Bookings/{key}/Commissions/{relatedKey}/$ref`
   - Description: Update an existing Commission relation for a specific Booking.
@@ -121,7 +121,7 @@ This document provides information about the various endpoints available in our 
 #### Create Transaction relation
 - **POST** `/api/Bookings/{key}/Transactions/{relatedKey}/$ref`
   - Description: Create a new Transaction relation for a specific Booking.
-  
+
 #### Update Transaction relation
 - **PUT** `/api/Bookings/{key}/Transactions/{relatedKey}/$ref`
   - Description: Update an existing Transaction relation for a specific Booking.

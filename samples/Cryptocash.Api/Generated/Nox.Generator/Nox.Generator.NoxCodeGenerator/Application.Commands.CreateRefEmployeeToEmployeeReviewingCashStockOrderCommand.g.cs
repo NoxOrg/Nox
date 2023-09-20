@@ -17,14 +17,26 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateRefEmployeeToEmployeeReviewingCashStockOrderCommand(EmployeeKeyDto EntityKeyDto, CashStockOrderKeyDto RelatedEntityKeyDto) : IRequest <bool>;
 
-public partial class CreateRefEmployeeToEmployeeReviewingCashStockOrderCommandHandler: CommandBase<CreateRefEmployeeToEmployeeReviewingCashStockOrderCommand, Employee>, 
+public partial class CreateRefEmployeeToEmployeeReviewingCashStockOrderCommandHandler: CreateRefEmployeeToEmployeeReviewingCashStockOrderCommandHandlerBase
+{
+	public CreateRefEmployeeToEmployeeReviewingCashStockOrderCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider)
+	{ }
+}
+
+public abstract class CreateRefEmployeeToEmployeeReviewingCashStockOrderCommandHandlerBase: CommandBase<CreateRefEmployeeToEmployeeReviewingCashStockOrderCommand, Employee>, 
 	IRequestHandler <CreateRefEmployeeToEmployeeReviewingCashStockOrderCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public CreateRefEmployeeToEmployeeReviewingCashStockOrderCommandHandler(
+	public CreateRefEmployeeToEmployeeReviewingCashStockOrderCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -32,7 +44,7 @@ public partial class CreateRefEmployeeToEmployeeReviewingCashStockOrderCommandHa
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(CreateRefEmployeeToEmployeeReviewingCashStockOrderCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(CreateRefEmployeeToEmployeeReviewingCashStockOrderCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Employee, Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);

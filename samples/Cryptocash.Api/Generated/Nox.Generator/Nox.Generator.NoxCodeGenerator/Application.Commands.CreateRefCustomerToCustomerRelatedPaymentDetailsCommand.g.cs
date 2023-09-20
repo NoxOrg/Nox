@@ -17,14 +17,26 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateRefCustomerToCustomerRelatedPaymentDetailsCommand(CustomerKeyDto EntityKeyDto, PaymentDetailKeyDto RelatedEntityKeyDto) : IRequest <bool>;
 
-public partial class CreateRefCustomerToCustomerRelatedPaymentDetailsCommandHandler: CommandBase<CreateRefCustomerToCustomerRelatedPaymentDetailsCommand, Customer>, 
+public partial class CreateRefCustomerToCustomerRelatedPaymentDetailsCommandHandler: CreateRefCustomerToCustomerRelatedPaymentDetailsCommandHandlerBase
+{
+	public CreateRefCustomerToCustomerRelatedPaymentDetailsCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider)
+	{ }
+}
+
+public abstract class CreateRefCustomerToCustomerRelatedPaymentDetailsCommandHandlerBase: CommandBase<CreateRefCustomerToCustomerRelatedPaymentDetailsCommand, Customer>, 
 	IRequestHandler <CreateRefCustomerToCustomerRelatedPaymentDetailsCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public CreateRefCustomerToCustomerRelatedPaymentDetailsCommandHandler(
+	public CreateRefCustomerToCustomerRelatedPaymentDetailsCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -32,7 +44,7 @@ public partial class CreateRefCustomerToCustomerRelatedPaymentDetailsCommandHand
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(CreateRefCustomerToCustomerRelatedPaymentDetailsCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(CreateRefCustomerToCustomerRelatedPaymentDetailsCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Customer, Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);

@@ -323,7 +323,12 @@ internal class EntityControllerGenerator : INoxCodeGenerator
 
     private static void GenerateOwnedRelationships(NoxSolution solution, CodeBuilder code, Entity entity)
     {
-        if (entity.OwnedRelationships != null && entity.OwnedRelationships.Any())
+        static bool CanRead(Entity entity) => entity.Persistence?.Read?.IsEnabled ?? true;
+        static bool CanCreate(Entity entity) => entity.Persistence?.Create?.IsEnabled ?? true;
+        static bool CanUpdate(Entity entity) => entity.Persistence?.Update?.IsEnabled ?? true;
+        static bool CanDelete(Entity entity) => entity.Persistence?.Delete?.IsEnabled ?? true;
+
+        if (entity.OwnedRelationships?.Any() == true)
         {
             code.AppendLine();
             code.AppendLine($"#region Owned Relationships");
@@ -332,7 +337,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             {
                 var child = relationship.Related.Entity;
 
-                if (child.Persistence is null || child.Persistence.Read.IsEnabled)
+                if (CanRead(entity) && CanRead(child))
                 {
                     GenerateChildrenGet(solution, relationship, entity, code);
 
@@ -340,18 +345,18 @@ internal class EntityControllerGenerator : INoxCodeGenerator
                         GenerateChildrenGetById(solution, relationship, child, entity, code);
                 }
 
-                if (child.Persistence is null || child.Persistence.Create.IsEnabled)
+                if (CanCreate(entity) && CanCreate(child))
                 {
                     GenerateChildrenPost(solution, relationship, entity, code);
                 }
 
-                if (child.Persistence is null || child.Persistence.Update.IsEnabled)
+                if (CanUpdate(entity) && CanUpdate(child))
                 {
                     GenerateChildrenPut(solution, relationship, entity, code);
                     GenerateChildrenPatch(solution, relationship, entity, code);
                 }
 
-                if (child.Persistence is null || child.Persistence.Delete.IsEnabled)
+                if (CanDelete(entity) && CanDelete(child))
                 {
                     GenerateChildrenDelete(solution, relationship, entity, code);
                 }

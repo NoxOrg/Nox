@@ -5,12 +5,12 @@ using Nox.Solution.Events;
 
 namespace Nox.Solution.Validation.Events;
 
-public class ApplicationEventValidator: AbstractValidator<ApplicationEvent>
+public class ApplicationEventValidator: AbstractValidator<IntegrationEvent>
 {
-    private readonly IEnumerable<ApplicationEvent>? _appEvents;
+    private readonly IEnumerable<IntegrationEvent>? _appEvents;
     private readonly IEnumerable<DomainEvent>? _domainEvents;
 
-    public ApplicationEventValidator(IEnumerable<ApplicationEvent>? appEvents, IEnumerable<DomainEvent>? domainEvents)
+    public ApplicationEventValidator(IEnumerable<IntegrationEvent>? appEvents, IEnumerable<DomainEvent>? domainEvents)
     {
         if (appEvents == null) return;
         _appEvents = appEvents;
@@ -31,7 +31,7 @@ public class ApplicationEventValidator: AbstractValidator<ApplicationEvent>
             .SetValidator(v => new ObjectTypeOptionsValidator($"application event '{v.Name}'", "Application events"));
     }
         
-    private bool HaveUniqueName(ApplicationEvent toEvaluate, string name)
+    private bool HaveUniqueName(IntegrationEvent toEvaluate, string name)
     {
         var appEventResult = _appEvents!.All(ae => ae.Equals(toEvaluate) || ae.Name != name);
         if (!appEventResult || _domainEvents == null || !_domainEvents.Any()) return appEventResult;

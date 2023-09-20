@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
-    [Collection("Sequential")]
+    [Collection("CountriesControllerTests")]
     public class CountriesControllerTests : NoxIntegrationTestBase
     {
         private const string EntityPluralName = "countries";

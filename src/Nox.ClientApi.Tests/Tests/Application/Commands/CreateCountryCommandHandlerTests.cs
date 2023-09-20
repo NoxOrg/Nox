@@ -3,7 +3,7 @@ using ClientApi.Application.Dto;
 
 namespace ClientApi.Tests.Tests.Controllers;
 
-[Collection("Sequential")]
+[Collection("CreateCountryCommandHandlerTests")]
 public class CreateCountryCommandHandlerTests : NoxIntegrationTestBase
 {
     private const string CountryControllerName = "api/countries";

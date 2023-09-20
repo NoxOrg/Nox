@@ -17,14 +17,26 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateRefCommissionToCommissionFeesForCountryCommand(CommissionKeyDto EntityKeyDto, CountryKeyDto RelatedEntityKeyDto) : IRequest <bool>;
 
-public partial class CreateRefCommissionToCommissionFeesForCountryCommandHandler: CommandBase<CreateRefCommissionToCommissionFeesForCountryCommand, Commission>, 
+public partial class CreateRefCommissionToCommissionFeesForCountryCommandHandler: CreateRefCommissionToCommissionFeesForCountryCommandHandlerBase
+{
+	public CreateRefCommissionToCommissionFeesForCountryCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider)
+	{ }
+}
+
+public abstract class CreateRefCommissionToCommissionFeesForCountryCommandHandlerBase: CommandBase<CreateRefCommissionToCommissionFeesForCountryCommand, Commission>, 
 	IRequestHandler <CreateRefCommissionToCommissionFeesForCountryCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public CreateRefCommissionToCommissionFeesForCountryCommandHandler(
+	public CreateRefCommissionToCommissionFeesForCountryCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -32,7 +44,7 @@ public partial class CreateRefCommissionToCommissionFeesForCountryCommandHandler
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(CreateRefCommissionToCommissionFeesForCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(CreateRefCommissionToCommissionFeesForCountryCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Commission, Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);

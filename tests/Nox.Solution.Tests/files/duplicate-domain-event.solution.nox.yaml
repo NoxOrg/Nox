@@ -29,10 +29,10 @@ domain:
                 type: countryCode2
               - name: NewName
                 type: text
-          emitEvents: [CountryNameUpdatedDomainEvent]
+          emitEvents: [CountryNameUpdatedEvent]
       
       events:
-        - name: CountryNameUpdatedDomainEvent
+        - name: CountryNameUpdatedEvent
           description: Raised when the name of a country is changed
           type: object
           objectTypeOptions:
@@ -74,8 +74,8 @@ domain:
           isRequired: true
 
 application:
-  events:
-    - name: CountryNameUpdatedDomainEvent
+  integrationEvents:
+    - name: CountryNameUpdatedEvent
       description: This must raise a validation exception, event names must be unique
       type: object
       objectTypeOptions:

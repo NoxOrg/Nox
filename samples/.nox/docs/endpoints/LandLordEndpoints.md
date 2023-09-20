@@ -43,7 +43,7 @@ This document provides information about the various endpoints available in our 
 #### Create VendingMachine relation
 - **POST** `/api/LandLords/{key}/VendingMachines/{relatedKey}/$ref`
   - Description: Create a new VendingMachine relation for a specific LandLord.
-  
+
 #### Update VendingMachine relation
 - **PUT** `/api/LandLords/{key}/VendingMachines/{relatedKey}/$ref`
   - Description: Update an existing VendingMachine relation for a specific LandLord.

@@ -43,7 +43,7 @@ This document provides information about the various endpoints available in our 
 #### Create Country relation
 - **POST** `/api/Commissions/{key}/Countries/{relatedKey}/$ref`
   - Description: Create a new Country relation for a specific Commission.
-  
+
 #### Update Country relation
 - **PUT** `/api/Commissions/{key}/Countries/{relatedKey}/$ref`
   - Description: Update an existing Country relation for a specific Commission.
@@ -69,7 +69,7 @@ This document provides information about the various endpoints available in our 
 #### Create Booking relation
 - **POST** `/api/Commissions/{key}/Bookings/{relatedKey}/$ref`
   - Description: Create a new Booking relation for a specific Commission.
-  
+
 #### Update Booking relation
 - **PUT** `/api/Commissions/{key}/Bookings/{relatedKey}/$ref`
   - Description: Update an existing Booking relation for a specific Commission.

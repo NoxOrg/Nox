@@ -43,7 +43,7 @@ This document provides information about the various endpoints available in our 
 #### Create Customer relation
 - **POST** `/api/Transactions/{key}/Customers/{relatedKey}/$ref`
   - Description: Create a new Customer relation for a specific Transaction.
-  
+
 #### Update Customer relation
 - **PUT** `/api/Transactions/{key}/Customers/{relatedKey}/$ref`
   - Description: Update an existing Customer relation for a specific Transaction.
@@ -69,7 +69,7 @@ This document provides information about the various endpoints available in our 
 #### Create Booking relation
 - **POST** `/api/Transactions/{key}/Bookings/{relatedKey}/$ref`
   - Description: Create a new Booking relation for a specific Transaction.
-  
+
 #### Update Booking relation
 - **PUT** `/api/Transactions/{key}/Bookings/{relatedKey}/$ref`
   - Description: Update an existing Booking relation for a specific Transaction.

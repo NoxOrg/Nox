@@ -17,14 +17,26 @@ using ClientApi.Domain;
 using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.Commands;
+
 public record CreateRefStoreToOwnershipCommand(StoreKeyDto EntityKeyDto, StoreOwnerKeyDto RelatedEntityKeyDto) : IRequest <bool>;
 
-public partial class CreateRefStoreToOwnershipCommandHandler: CommandBase<CreateRefStoreToOwnershipCommand, Store>, 
+public partial class CreateRefStoreToOwnershipCommandHandler: CreateRefStoreToOwnershipCommandHandlerBase
+{
+	public CreateRefStoreToOwnershipCommandHandler(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider)
+	{ }
+}
+
+public abstract class CreateRefStoreToOwnershipCommandHandlerBase: CommandBase<CreateRefStoreToOwnershipCommand, Store>, 
 	IRequestHandler <CreateRefStoreToOwnershipCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 
-	public CreateRefStoreToOwnershipCommandHandler(
+	public CreateRefStoreToOwnershipCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -32,7 +44,7 @@ public partial class CreateRefStoreToOwnershipCommandHandler: CommandBase<Create
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(CreateRefStoreToOwnershipCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(CreateRefStoreToOwnershipCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Store, Nox.Types.Guid>("Id", request.EntityKeyDto.keyId);
