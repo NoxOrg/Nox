@@ -1,18 +1,15 @@
 ﻿using FluentAssertions;
+using Nox.Integration.Tests.DatabaseIntegrationTests;
 using Nox.Integration.Tests.Fixtures;
 using Nox.Types;
 using TestWebApp.Domain;
-using TestWebApp.Infrastructure.Persistence;
 
 namespace Nox.Integration.Tests
 {
-    public class NuidTypeTests : IClassFixture<DataContextTestFixture>
+    public class NuidTypeTests : NoxIntegrationTestBase<NoxTestPostgreContainerFixture>
     {
-        private readonly TestWebAppDbContext _dbContext;
-
-        public NuidTypeTests(DataContextTestFixture fixture)
+        public NuidTypeTests(NoxTestPostgreContainerFixture fixture) : base(fixture)
         {
-            _dbContext = fixture.DbContext;
         }
 
         [Fact]
@@ -26,10 +23,10 @@ namespace Nox.Integration.Tests
 
             entity.EnsureId();
 
-            _dbContext.TestEntityWithNuids.Add(entity);
-            _dbContext.SaveChanges();
+            DataContext.TestEntityWithNuids.Add(entity);
+            DataContext.SaveChanges();
 
-            var dbEntity = _dbContext.TestEntityWithNuids.First(x => x.Name == Text.From(nameValue));
+            var dbEntity = DataContext.TestEntityWithNuids.First(x => x.Name == Text.From(nameValue));
 
             entity.Should().Be(dbEntity);
             entity.Id.Should().Be(dbEntity.Id);
@@ -46,10 +43,10 @@ namespace Nox.Integration.Tests
 
             entity.EnsureId();
 
-            _dbContext.TestEntityWithNuids.Add(entity);
-            _dbContext.SaveChanges();
+            DataContext.TestEntityWithNuids.Add(entity);
+            DataContext.SaveChanges();
 
-            var dbEntity = _dbContext.TestEntityWithNuids.First(x => x.Id.Value == entity.Id.Value);
+            var dbEntity = DataContext.TestEntityWithNuids.First(x => x.Id.Value == entity.Id.Value);
             dbEntity.Name = Text.From("Should not be changed");
 
             Assert.Throws<NoxNuidTypeException>(() => entity.EnsureId());

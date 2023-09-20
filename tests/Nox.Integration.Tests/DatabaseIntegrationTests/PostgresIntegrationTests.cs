@@ -1,19 +1,22 @@
 using FluentAssertions;
 using Nox.Types;
-using System.Globalization;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using TestWebApp.Domain;
 
 using DayOfWeek = Nox.Types.DayOfWeek;
 using Guid = Nox.Types.Guid;
+using Nox.Integration.Tests.Fixtures;
 
 namespace Nox.Integration.Tests.DatabaseIntegrationTests;
 
-[System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "xUnit1000:Test classes must be public", Justification = "Disabled")]//*/
-/*
-public /**/  class PostgresIntegrationTests : PostgresTestBase
+[Collection("Sequential")]
+public class PostgresIntegrationTests : NoxIntegrationTestBase<NoxTestPostgreContainerFixture>
 {
+    public PostgresIntegrationTests(NoxTestPostgreContainerFixture containerFixture) : base(containerFixture)
+    {
+    }
+
     [Fact]
     public void GeneratedEntity_Postgres_CanSaveAndReadFields_AllTypes()
     {
@@ -184,13 +187,13 @@ public /**/  class PostgresIntegrationTests : PostgresTestBase
             DateTimeTestField = Types.DateTime.From(dateTime),
         };
         var temperatureCelsius = newItem.TemperatureTestField.ToCelsius();
-        DbContext.TestEntityForTypes.Add(newItem);
-        DbContext.SaveChanges();
+        DataContext.TestEntityForTypes.Add(newItem);
+        DataContext.SaveChanges();
 
         // Force the recreation of DBContext and ensure we have fresh data from database
-        RecreateDbContext();
+        RecreateDataContext();
 
-        var testEntity = DbContext.TestEntityForTypes.First();
+        var testEntity = DataContext.TestEntityForTypes.First();
 
         // TODO: make it work without .Value
         testEntity.Id.Value.Should().Be(countryCode2);
@@ -291,7 +294,7 @@ public /**/  class PostgresIntegrationTests : PostgresTestBase
             UniqueCountryCode = CountryCode2.From(countryCode2),
             UniqueCurrencyCode = CurrencyCode3.From(currencyCode3),
         };
-        
+
         var testEntityWithSameUniqueNumber = new TestEntityForUniqueConstraints()
         {
             Id = Text.From(secondCountryCode2),
@@ -301,7 +304,7 @@ public /**/  class PostgresIntegrationTests : PostgresTestBase
             UniqueCountryCode = CountryCode2.From(secondCountryCode2),
             UniqueCurrencyCode = CurrencyCode3.From(secondCurrencyCode3),
         };
-        
+
         var testEntityWithSameUniqueCountryCodeAndCurrencyCode = new TestEntityForUniqueConstraints()
         {
             Id = Text.From(thirdCountryCode2),
@@ -311,19 +314,18 @@ public /**/  class PostgresIntegrationTests : PostgresTestBase
             UniqueCountryCode = CountryCode2.From(countryCode2),
             UniqueCurrencyCode = CurrencyCode3.From(currencyCode3),
         };
-        
-        DbContext.TestEntityForUniqueConstraints.Add(testEntity1);
-        DbContext.SaveChanges();
-        
-        DbContext.TestEntityForUniqueConstraints.Add(testEntityWithSameUniqueNumber);
+
+        DataContext.TestEntityForUniqueConstraints.Add(testEntity1);
+        DataContext.SaveChanges();
+
+        DataContext.TestEntityForUniqueConstraints.Add(testEntityWithSameUniqueNumber);
         //save should throw exception
-        Action act = () => DbContext.SaveChanges();
+        Action act = () => DataContext.SaveChanges();
         act.Should().Throw<DbUpdateException>();
-        
-        
-        DbContext.TestEntityForUniqueConstraints.Add(testEntityWithSameUniqueCountryCodeAndCurrencyCode);
+
+        DataContext.TestEntityForUniqueConstraints.Add(testEntityWithSameUniqueCountryCodeAndCurrencyCode);
         //save should throw exception
-        Action act2 = () => DbContext.SaveChanges();
+        Action act2 = () => DataContext.SaveChanges();
         act2.Should().Throw<DbUpdateException>();
     }
 }
