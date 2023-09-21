@@ -3,8 +3,8 @@ using Nox.Integration.Tests.Fixtures;
 namespace Nox.Integration.Tests.DatabaseIntegrationTests;
 
 [Collection("Sequential")]
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "xUnit1000:Test classes must be public", Justification = "Disabled")]
 internal class SqliteIntegrationTests : NoxIntegrationTestBase<NoxTestSqliteFixture>
-#pragma warning restore xUnit1000 // Test classes must be public
 {
     private readonly NoxCommonTestCaseFactory _noxCommonTestCases;
 

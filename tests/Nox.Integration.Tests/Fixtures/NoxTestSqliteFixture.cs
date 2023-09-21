@@ -8,7 +8,7 @@ namespace Nox.Integration.Tests.Fixtures;
 
 public class NoxTestSqliteFixture : NoxTestDataContextFixtureBase
 {
-    private readonly string _inMemoryConnectionString = $"DataSource=Test;mode=memory;cache=shared;Foreign Keys=True;";
+    private const string _inMemoryConnectionString = "DataSource=Test;mode=memory;";
 
     protected override DbContextOptions<TestWebAppDbContext> CreateDbOptions()
     {
