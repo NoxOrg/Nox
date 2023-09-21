@@ -61,7 +61,7 @@ namespace Nox.Types.EntityFramework.Configurations
             ConfigureUniqueAttributeConstraints(builder, entity);
         }
 
-        private void ConfigureSystemFields(IEntityBuilder builder, Entity entity)
+        private static void ConfigureSystemFields(IEntityBuilder builder, Entity entity)
         {
             // TODO clarify Auditable for owned entities
             if (entity.Persistence?.IsAudited == true && !entity.IsOwnedEntity)
