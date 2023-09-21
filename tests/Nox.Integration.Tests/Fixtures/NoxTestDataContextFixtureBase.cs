@@ -12,7 +12,7 @@ public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
 {
     private const string _solutionSetupFileName = @"Nox.Integration.Tests.DatabaseIntegrationTests.Design.test.solution.nox.yaml";
     private readonly IServiceProvider _serviceProvider;
-    private TestWebAppDbContext _dbContext = default!;
+    protected TestWebAppDbContext _dbContext = default!;
 
     protected NoxTestDataContextFixtureBase()
     {

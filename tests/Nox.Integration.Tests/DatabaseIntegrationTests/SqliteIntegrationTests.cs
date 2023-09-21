@@ -3,7 +3,8 @@ using Nox.Integration.Tests.Fixtures;
 namespace Nox.Integration.Tests.DatabaseIntegrationTests;
 
 [Collection("Sequential")]
-public class SqliteIntegrationTests : NoxIntegrationTestBase<NoxTestSqliteFixture>
+internal class SqliteIntegrationTests : NoxIntegrationTestBase<NoxTestSqliteFixture>
+#pragma warning restore xUnit1000 // Test classes must be public
 {
     private readonly NoxCommonTestCaseFactory _noxCommonTestCases;
 
@@ -12,7 +13,7 @@ public class SqliteIntegrationTests : NoxIntegrationTestBase<NoxTestSqliteFixtur
         _noxCommonTestCases = new NoxCommonTestCaseFactory(containerFixture);
     }
 
-    [Fact(Skip = "TODO: Fix issues SQLite Error 19: 'NOT NULL constraint failed: TestEntityForTypes.AutoNumberTestField'.")]
+    [Fact]
     public void GeneratedEntity_Sqlite_CanSaveAndReadFields_AllTypes()
     {
         _noxCommonTestCases.GenerateEntityCanSaveAndReadFieldsAllTypes();
