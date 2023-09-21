@@ -16,7 +16,7 @@ public abstract class NoxIntegrationTestBase<TContainerFixture> : IClassFixture<
     private readonly ServiceProvider _serviceProvider;
     private readonly INoxTestFixture _containerFixture;
 
-    protected NoxIntegrationTestBase(INoxTestFixture containerFixture)
+    protected NoxIntegrationTestBase(TContainerFixture containerFixture)
     {
         _containerFixture = containerFixture;
 

@@ -6,9 +6,9 @@ using TestWebApp.Domain;
 
 namespace Nox.Integration.Tests
 {
-    public class NuidTypeTests : NoxIntegrationTestBase<NoxTestPostgreContainerFixture>
+    public class NuidTypeTests : NoxIntegrationTestBase<NoxTestSqliteFixture>
     {
-        public NuidTypeTests(NoxTestPostgreContainerFixture fixture) : base(fixture)
+        public NuidTypeTests(NoxTestSqliteFixture fixture) : base(fixture)
         {
         }
 
@@ -22,7 +22,7 @@ namespace Nox.Integration.Tests
             };
 
             entity.EnsureId();
-
+            DataContext.Database.EnsureCreated();
             DataContext.TestEntityWithNuids.Add(entity);
             DataContext.SaveChanges();
 
@@ -46,10 +46,13 @@ namespace Nox.Integration.Tests
             DataContext.TestEntityWithNuids.Add(entity);
             DataContext.SaveChanges();
 
-            var dbEntity = DataContext.TestEntityWithNuids.First(x => x.Id.Value == entity.Id.Value);
+            var dbEntity = DataContext.TestEntityWithNuids
+                .AsEnumerable()
+                .First(x => x.Id.Value == entity.Id.Value);
             dbEntity.Name = Text.From("Should not be changed");
 
-            Assert.Throws<NoxNuidTypeException>(() => entity.EnsureId());
+            var action = entity.EnsureId;
+            action.Should().Throw<NoxNuidTypeException>();
         }
     }
 }

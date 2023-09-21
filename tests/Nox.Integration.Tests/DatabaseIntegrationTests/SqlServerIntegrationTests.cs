@@ -2,6 +2,7 @@ using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Nox.Integration.Tests.Fixtures;
 using Nox.Types;
+using System.Globalization;
 using System.Text.Json;
 using TestWebApp.Domain;
 using DateTime = Nox.Types.DateTime;
