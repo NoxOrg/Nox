@@ -57,6 +57,13 @@ public partial class Store
         
     
         /// <summary>
+        /// Factory for property 'OpeningDay'
+        /// </summary>
+        public static Nox.Types.DateTime CreateOpeningDay(System.DateTimeOffset value)
+            => Nox.Types.DateTime.From(value);
+        
+    
+        /// <summary>
         /// Type options for property 'StoreOwnerId'
         /// </summary>
         public static Nox.Types.TextTypeOptions StoreOwnerIdTypeOptions {get; private set;} = new ()

@@ -119,7 +119,7 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteRefToCountryUsedByCurrency(Currency relatedCurrency)
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToCountryUsedByCurrency()
@@ -140,7 +140,7 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     public virtual void DeleteRefToCountryUsedByCommissions(Commission relatedCommission)
     {
         if(CountryUsedByCommissions.Count() < 2)
-            throw new Exception($"The relatioship cannot be deleted.");
+            throw new Exception($"The relationship cannot be deleted.");
         CountryUsedByCommissions.Remove(relatedCommission);
     }
 

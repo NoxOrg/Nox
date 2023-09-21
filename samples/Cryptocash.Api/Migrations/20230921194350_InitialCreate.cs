@@ -329,7 +329,7 @@ namespace Cryptocash.Api.Migrations
                     AsAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     Type = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    Date = table.Column<DateTime>(type: "date", nullable: false)
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -448,10 +448,10 @@ namespace Cryptocash.Api.Migrations
                     AmountFrom_CurrencyCode = table.Column<int>(type: "int", nullable: false),
                     AmountTo_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: false),
                     AmountTo_CurrencyCode = table.Column<int>(type: "int", nullable: false),
-                    RequestedPickUpDate_Start = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RequestedPickUpDate_End = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PickedUpDateTime_Start = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    PickedUpDateTime_End = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    RequestedPickUpDate_Start = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    RequestedPickUpDate_End = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    PickedUpDateTime_Start = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    PickedUpDateTime_End = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     ExpiryDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     CancelledDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -499,7 +499,7 @@ namespace Cryptocash.Api.Migrations
                     DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     Amount_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: false),
                     Amount_CurrencyCode = table.Column<int>(type: "int", nullable: false),
-                    RequestedDeliveryDate = table.Column<DateTime>(type: "date", nullable: false),
+                    RequestedDeliveryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DeliveryDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CashStockOrderForVendingMachineId = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: true),
@@ -606,8 +606,8 @@ namespace Cryptocash.Api.Migrations
                     Address_AdministrativeArea2 = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
                     Address_PostalCode = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
                     Address_CountryId = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
-                    FirstWorkingDay = table.Column<DateTime>(type: "date", nullable: false),
-                    LastWorkingDay = table.Column<DateTime>(type: "date", nullable: true),
+                    FirstWorkingDay = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastWorkingDay = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EmployeeReviewingCashStockOrderId = table.Column<long>(type: "bigint", nullable: true),
                     Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },

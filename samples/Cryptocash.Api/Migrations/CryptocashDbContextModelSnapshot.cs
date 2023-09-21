@@ -162,7 +162,7 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("RequestedDeliveryDate")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
@@ -594,7 +594,7 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("nvarchar(63)");
 
                     b.Property<DateTime>("FirstWorkingDay")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -615,7 +615,7 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.Property<DateTime?>("LastWorkingDay")
-                        .HasColumnType("date");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -1149,11 +1149,11 @@ namespace Cryptocash.Api.Migrations
                             b1.Property<Guid>("BookingId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<DateTime>("End")
-                                .HasColumnType("datetime2");
+                            b1.Property<DateTimeOffset>("End")
+                                .HasColumnType("datetimeoffset");
 
-                            b1.Property<DateTime>("Start")
-                                .HasColumnType("datetime2");
+                            b1.Property<DateTimeOffset>("Start")
+                                .HasColumnType("datetimeoffset");
 
                             b1.HasKey("BookingId");
 
@@ -1168,11 +1168,11 @@ namespace Cryptocash.Api.Migrations
                             b1.Property<Guid>("BookingId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<DateTime>("End")
-                                .HasColumnType("datetime2");
+                            b1.Property<DateTimeOffset>("End")
+                                .HasColumnType("datetimeoffset");
 
-                            b1.Property<DateTime>("Start")
-                                .HasColumnType("datetime2");
+                            b1.Property<DateTimeOffset>("Start")
+                                .HasColumnType("datetimeoffset");
 
                             b1.HasKey("BookingId");
 
@@ -1444,7 +1444,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("char(2)");
 
                             b1.Property<DateTime>("Date")
-                                .HasColumnType("date");
+                                .HasColumnType("datetime2");
 
                             b1.Property<string>("Name")
                                 .IsRequired()

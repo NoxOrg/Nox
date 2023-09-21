@@ -69,6 +69,11 @@ public abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
     public Nox.Types.LatLong Location { get; set; } = null!;
 
     /// <summary>
+    /// Opening day (Optional).
+    /// </summary>
+    public Nox.Types.DateTime? OpeningDay { get; set; } = null!;
+
+    /// <summary>
     /// Store Owner of the Store ZeroOrOne StoreOwners
     /// </summary>
     public virtual StoreOwner? Ownership { get; set; } = null!;

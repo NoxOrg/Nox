@@ -79,7 +79,7 @@ public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurr
 
     public virtual void DeleteRefToMinimumCashStockRelatedCurrency(Currency relatedCurrency)
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToMinimumCashStockRelatedCurrency()

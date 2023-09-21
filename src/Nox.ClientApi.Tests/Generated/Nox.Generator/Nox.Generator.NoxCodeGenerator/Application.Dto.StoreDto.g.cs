@@ -44,6 +44,11 @@ public partial class StoreDto
     public LatLongDto Location { get; set; } = default!;
 
     /// <summary>
+    /// Opening day (Optional).
+    /// </summary>
+    public System.DateTimeOffset? OpeningDay { get; set; }
+
+    /// <summary>
     /// Store Owner of the Store ZeroOrOne StoreOwners
     /// </summary>
     //EF maps ForeignKey Automatically

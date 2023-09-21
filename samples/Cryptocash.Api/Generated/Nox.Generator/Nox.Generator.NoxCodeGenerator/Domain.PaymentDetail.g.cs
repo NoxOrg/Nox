@@ -69,7 +69,7 @@ public abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteRefToPaymentDetailsUsedByCustomer(Customer relatedCustomer)
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToPaymentDetailsUsedByCustomer()
@@ -94,7 +94,7 @@ public abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteRefToPaymentDetailsRelatedPaymentProvider(PaymentProvider relatedPaymentProvider)
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToPaymentDetailsRelatedPaymentProvider()
