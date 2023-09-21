@@ -5,20 +5,37 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
+public partial class PaymentDetail:PaymentDetailBase
+{
+
+}
+/// <summary>
+/// Record for PaymentDetail created event.
+/// </summary>
+public record PaymentDetailCreated(PaymentDetail PaymentDetail) : IDomainEvent;
+/// <summary>
+/// Record for PaymentDetail updated event.
+/// </summary>
+public record PaymentDetailUpdated(PaymentDetail PaymentDetail) : IDomainEvent;
+/// <summary>
+/// Record for PaymentDetail deleted event.
+/// </summary>
+public record PaymentDetailDeleted(PaymentDetail PaymentDetail) : IDomainEvent;
 
 /// <summary>
 /// Customer payment account related data.
 /// </summary>
-public partial class PaymentDetail : AuditableEntityBase
+public abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Customer payment account unique identifier (Required).
     /// </summary>
-    public DatabaseNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Payment account name (Required).
@@ -43,7 +60,17 @@ public partial class PaymentDetail : AuditableEntityBase
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Customer
     /// </summary>
-    public Nox.Types.DatabaseNumber PaymentDetailsUsedByCustomerId { get; set; } = null!;
+    public Nox.Types.AutoNumber PaymentDetailsUsedByCustomerId { get; set; } = null!;
+
+    public virtual void CreateRefToPaymentDetailsUsedByCustomer(Customer relatedCustomer)
+    {
+        PaymentDetailsUsedByCustomer = relatedCustomer;
+    }
+
+    public virtual void DeleteRefToPaymentDetailsUsedByCustomer(Customer relatedCustomer)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
+    }
 
     /// <summary>
     /// PaymentDetail related to ExactlyOne PaymentProviders
@@ -53,5 +80,20 @@ public partial class PaymentDetail : AuditableEntityBase
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity PaymentProvider
     /// </summary>
-    public Nox.Types.DatabaseNumber PaymentDetailsRelatedPaymentProviderId { get; set; } = null!;
+    public Nox.Types.AutoNumber PaymentDetailsRelatedPaymentProviderId { get; set; } = null!;
+
+    public virtual void CreateRefToPaymentDetailsRelatedPaymentProvider(PaymentProvider relatedPaymentProvider)
+    {
+        PaymentDetailsRelatedPaymentProvider = relatedPaymentProvider;
+    }
+
+    public virtual void DeleteRefToPaymentDetailsRelatedPaymentProvider(PaymentProvider relatedPaymentProvider)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
+    }
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

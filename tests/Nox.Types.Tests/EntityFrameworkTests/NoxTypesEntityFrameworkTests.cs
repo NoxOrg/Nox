@@ -102,8 +102,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             StringUser = User.From("stringUser", new UserTypeOptions { ValidEmailFormat=false, ValidGuidFormat= false}),
             InfoEmail = Email.From("info@iwgplc.ch"),
             SecretPassword = EncryptedText.FromPlainText("12345678", encryptTypeOptions),
-            DatabaseId = DatabaseNumber.FromDatabase(10U),
-            DatabaseGuid = DatabaseGuid.FromDatabase(System.Guid.NewGuid()),
+            AutoId = AutoNumber.FromDatabase(10U),
+            Guid = Guid.From(System.Guid.NewGuid()),
             Password = Password.From("Test123."),
             CurrencyNumber = CurrencyNumber.From(999),
             Color = Color.From(255,255,255,0),
@@ -181,8 +181,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             StringUser = User.From("stringUser", new UserTypeOptions { ValidEmailFormat = false, ValidGuidFormat = false }),
             InfoEmail = Email.From("info@iwgplc.ch"),
             SecretPassword = EncryptedText.FromPlainText("12345678", encryptTypeOptions),
-            DatabaseId = DatabaseNumber.FromDatabase(10U),
-            DatabaseGuid = DatabaseGuid.FromDatabase(System.Guid.NewGuid()),
+            AutoId = AutoNumber.FromDatabase(10U),
+            Guid = Guid.From(System.Guid.NewGuid()),
             Password = Password.From("Test123."),
             CurrencyNumber = CurrencyNumber.From(840),
             Color = Color.From(255, 120, 95, 230),
@@ -262,7 +262,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.StringUser.Value.Should().Be("stringUser");
         item.InfoEmail.Value.Should().Be("info@iwgplc.ch");
         item.SecretPassword.DecryptText(encryptTypeOptions).Should().Be("12345678");
-        item.DatabaseId.Value.Should().Be(10U);
+        item.AutoId.Value.Should().Be(10U);
         item.CurrencyNumber.Value.Should().Be(840);
         item.Color.ToHex().Should().Be("#785FE6");
         item.DayOfWeek.Value.Should().Be(1);

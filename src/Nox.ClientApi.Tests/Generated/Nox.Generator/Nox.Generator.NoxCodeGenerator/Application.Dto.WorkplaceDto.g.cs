@@ -10,7 +10,7 @@ using MediatR;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-
+using System.Text.Json.Serialization;
 using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
@@ -34,7 +34,22 @@ public partial class WorkplaceDto
     public System.String Name { get; set; } = default!;
 
     /// <summary>
+    /// Workplace Description (Optional).
+    /// </summary>
+    public System.String? Description { get; set; }
+
+    /// <summary>
     /// The Formula (Optional).
     /// </summary>
-    public System.String? Greeting { get; set; }    
+    public System.String? Greeting { get; set; }
+
+    /// <summary>
+    /// Workplace Workplace country ZeroOrOne Countries
+    /// </summary>
+    //EF maps ForeignKey Automatically
+    public System.Int64? BelongsToCountryId { get; set; } = default!;
+    public virtual CountryDto? BelongsToCountry { get; set; } = null!;
+
+    [JsonPropertyName("@odata.etag")]
+    public System.Guid Etag { get; init; }
 }

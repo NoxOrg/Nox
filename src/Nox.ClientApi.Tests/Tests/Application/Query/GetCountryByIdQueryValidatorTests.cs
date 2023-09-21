@@ -2,23 +2,17 @@
 using ClientApi.Application.Dto;
 using AutoFixture;
 using System.Net;
-using AutoFixture.AutoMoq;
-using Nox.ClientApi.Tests.Tests.Models;
+using ClientApi.Tests.Tests.Models;
 
-namespace Nox.ClientApi.Tests.Tests.Controllers
+namespace ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
-    public class GetCountryByIdQueryValidatorTests 
+    public class GetCountryByIdQueryValidatorTests : NoxIntegrationTestBase
     {
         private const string CountryControllerName = "api/countries";
-        private readonly Fixture _fixture;
-        private readonly ODataFixture _oDataFixture;
 
-        public GetCountryByIdQueryValidatorTests()
+        public GetCountryByIdQueryValidatorTests(NoxTestContainerService containerService) : base(containerService)
         {
-            _fixture = new Fixture();
-            _fixture.Customize(new AutoMoqCustomization());
-            _oDataFixture = _fixture.Create<ODataFixture>();
         }
 
         /// <summary>
@@ -28,7 +22,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         public async Task Get_CountriesWithKeyGreaterThen50_ShouldFailSecurityValidation()
         {
             // Act
-            var result = await _oDataFixture.GetAsync($"{CountryControllerName}/51");
+            var result = await GetAsync($"{CountryControllerName}/51");
             var response = await result.Content.ReadFromJsonAsync<SimpleResponse>();
             // Assert
             response!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -52,14 +46,14 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                     Name = _fixture.Create<string>(),
                     Population = i * 1000000
                 };
-                await _oDataFixture.PostAsync(CountryControllerName, countryDto);
+                await PostAsync(CountryControllerName, countryDto);
             }
 
             // Act
-            var result = await _oDataFixture.GetAsync<ODataResponse<IEnumerable<CountryDto>>>(CountryControllerName);
+            var result = await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>(CountryControllerName);
 
             //Assert
-            result!.Value.Should().HaveCount(expectedCount);
+            result!.Should().HaveCount(expectedCount);
         }
     }
 }

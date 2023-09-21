@@ -14,52 +14,65 @@ namespace ClientApi.Domain;
 /// </summary>
 public partial class Store
 {
-    /// <summary>
-    /// Type options and factory for property 'Id'
-    /// </summary>
-    public static Nox.Types.NuidTypeOptions IdTypeOptions {get; private set;} = new ()
-    {
-        Separator = ".",
-        PropertyNames = new System.String[]
+    
+        /// <summary>
+        /// Factory for property 'Id'
+        /// </summary>
+        public static Nox.Types.Guid CreateId(System.Guid value)
+            => Nox.Types.Guid.From(value);
+        
+    
+        /// <summary>
+        /// Type options for property 'Name'
+        /// </summary>
+        public static Nox.Types.TextTypeOptions NameTypeOptions {get; private set;} = new ()
         {
-            "Name",
-        },
-    };
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
+        };
     
-    public static Nuid CreateId(System.UInt32 value)
-        => Nox.Types.Nuid.From(value, IdTypeOptions);
     
-
-    /// <summary>
-    /// Type options and factory for property 'Name'
-    /// </summary>
-    public static Nox.Types.TextTypeOptions NameTypeOptions {get; private set;} = new ()
-    {
-        MinLength = 4,
-        MaxLength = 63,
-        IsUnicode = true,
-        IsLocalized = true,
-        Casing = Nox.Types.TextTypeCasing.Normal,
-    };
+        /// <summary>
+        /// Factory for property 'Name'
+        /// </summary>
+        public static Nox.Types.Text CreateName(System.String value)
+            => Nox.Types.Text.From(value, NameTypeOptions);
+        
     
-    public static Text CreateName(System.String value)
-        => Nox.Types.Text.From(value, NameTypeOptions);
+        /// <summary>
+        /// Factory for property 'Address'
+        /// </summary>
+        public static Nox.Types.StreetAddress CreateAddress(IStreetAddress value)
+            => Nox.Types.StreetAddress.From(value);
+        
     
-
-    /// <summary>
-    /// Type options and factory for property 'StoreOwnerId'
-    /// </summary>
-    public static Nox.Types.TextTypeOptions StoreOwnerIdTypeOptions {get; private set;} = new ()
-    {
-        MinLength = 3,
-        MaxLength = 3,
-        IsUnicode = false,
-        IsLocalized = true,
-        Casing = Nox.Types.TextTypeCasing.Normal,
-    };
+        /// <summary>
+        /// Factory for property 'Location'
+        /// </summary>
+        public static Nox.Types.LatLong CreateLocation(ILatLong value)
+            => Nox.Types.LatLong.From(value);
+        
     
-    public static Text CreateStoreOwnerId(System.String value)
-        => Nox.Types.Text.From(value, StoreOwnerIdTypeOptions);
+        /// <summary>
+        /// Type options for property 'StoreOwnerId'
+        /// </summary>
+        public static Nox.Types.TextTypeOptions StoreOwnerIdTypeOptions {get; private set;} = new ()
+        {
+            MinLength = 3,
+            MaxLength = 3,
+            IsUnicode = false,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
+        };
     
-
+    
+        /// <summary>
+        /// Factory for property 'StoreOwnerId'
+        /// </summary>
+        public static Nox.Types.Text CreateStoreOwnerId(System.String value)
+            => Nox.Types.Text.From(value, StoreOwnerIdTypeOptions);
+        
 }

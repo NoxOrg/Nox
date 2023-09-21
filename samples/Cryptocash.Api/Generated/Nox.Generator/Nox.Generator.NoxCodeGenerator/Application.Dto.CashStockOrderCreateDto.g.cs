@@ -14,35 +14,44 @@ using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
+public partial class CashStockOrderCreateDto : CashStockOrderCreateDtoBase
+{
+
+}
+
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-public partial class CashStockOrderCreateDto : IEntityCreateDto <CashStockOrder>
-{    
+public abstract class CashStockOrderCreateDtoBase : IEntityDto<CashStockOrder>
+{
     /// <summary>
     /// Order amount (Required).
     /// </summary>
     [Required(ErrorMessage = "Amount is required")]
     
-    public MoneyDto Amount { get; set; } = default!;    
+    public virtual MoneyDto Amount { get; set; } = default!;
     /// <summary>
     /// Order requested delivery date (Required).
     /// </summary>
     [Required(ErrorMessage = "RequestedDeliveryDate is required")]
     
-    public System.DateTime RequestedDeliveryDate { get; set; } = default!;    
+    public virtual System.DateTime RequestedDeliveryDate { get; set; } = default!;
     /// <summary>
     /// Order delivery date (Optional).
     /// </summary>
-    public System.DateTimeOffset? DeliveryDateTime { get; set; }    
+    public virtual System.DateTimeOffset? DeliveryDateTime { get; set; }
     /// <summary>
     /// Order status (Optional).
     /// </summary>
-    public System.String? Status { get; set; }
+    public virtual System.String? Status { get; set; }
 
     /// <summary>
     /// CashStockOrder for ExactlyOne VendingMachines
     /// </summary>
-    [Required(ErrorMessage = "CashStockOrderForVendingMachine is required")]
-    public System.Guid CashStockOrderForVendingMachineId { get; set; } = default!;   
+    public virtual VendingMachineCreateDto? CashStockOrderForVendingMachine { get; set; } = default!;
+
+    /// <summary>
+    /// CashStockOrder reviewed by ExactlyOne Employees
+    /// </summary>
+    public virtual EmployeeCreateDto? CashStockOrderReviewedByEmployee { get; set; } = default!;
 }

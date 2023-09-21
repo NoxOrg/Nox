@@ -10,7 +10,7 @@ using MediatR;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-
+using System.Text.Json.Serialization;
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -101,11 +101,14 @@ public partial class CurrencyDto
     /// <summary>
     /// Currency commonly used ZeroOrMany BankNotes
     /// </summary>
-    public virtual List<BankNoteDto> BankNotes { get; set; } = new();
+    public virtual List<BankNoteDto> CurrencyCommonBankNotes { get; set; } = new();
 
     /// <summary>
     /// Currency exchanged from OneOrMany ExchangeRates
     /// </summary>
-    public virtual List<ExchangeRateDto> ExchangeRates { get; set; } = new();
-    public System.DateTime? DeletedAtUtc { get; set; }    
+    public virtual List<ExchangeRateDto> CurrencyExchangedFromRates { get; set; } = new();
+    public System.DateTime? DeletedAtUtc { get; set; }
+
+    [JsonPropertyName("@odata.etag")]
+    public System.Guid Etag { get; init; }
 }

@@ -12,24 +12,32 @@ using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.Application.Queries;
 
-public record GetCommissionByIdQuery(System.Int64 keyId) : IRequest <CommissionDto?>;
+public record GetCommissionByIdQuery(System.Int64 keyId) : IRequest <IQueryable<CommissionDto>>;
 
-public partial class GetCommissionByIdQueryHandler:  QueryBase<CommissionDto?>, IRequestHandler<GetCommissionByIdQuery, CommissionDto?>
+public partial class GetCommissionByIdQueryHandler:GetCommissionByIdQueryHandlerBase
 {
-    public  GetCommissionByIdQueryHandler(DtoDbContext dataDbContext)
+    public  GetCommissionByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    {
+    
+    }
+}
+
+public abstract class GetCommissionByIdQueryHandlerBase:  QueryBase<IQueryable<CommissionDto>>, IRequestHandler<GetCommissionByIdQuery, IQueryable<CommissionDto>>
+{
+    public  GetCommissionByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<CommissionDto?> Handle(GetCommissionByIdQuery request, CancellationToken cancellationToken)
+    public virtual Task<IQueryable<CommissionDto>> Handle(GetCommissionByIdQuery request, CancellationToken cancellationToken)
     {    
-        var item = DataDbContext.Commissions
+        var query = DataDbContext.Commissions
             .AsNoTracking()
-            .SingleOrDefault(r =>
+            .Where(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);
-        return Task.FromResult(OnResponse(item));
+        return Task.FromResult(OnResponse(query));
     }
 }

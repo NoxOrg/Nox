@@ -24,54 +24,6 @@ public partial class EmployeeMapper : EntityMapperBase<Employee>
 {
     public EmployeeMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
-    public override void MapToEntity(Employee entity, Entity entityDefinition, dynamic dto)
-    {
-    #pragma warning disable CS0168 // Variable is declared but never used        
-        dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used
-            
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "FirstName", dto.FirstName);
-        if (noxTypeValue != null)
-        {        
-            entity.FirstName = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "LastName", dto.LastName);
-        if (noxTypeValue != null)
-        {        
-            entity.LastName = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition, "EmailAddress", dto.EmailAddress);
-        if (noxTypeValue != null)
-        {        
-            entity.EmailAddress = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "Address", dto.Address);
-        if (noxTypeValue != null)
-        {        
-            entity.Address = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition, "FirstWorkingDay", dto.FirstWorkingDay);
-        if (noxTypeValue != null)
-        {        
-            entity.FirstWorkingDay = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition, "LastWorkingDay", dto.LastWorkingDay);
-        if (noxTypeValue != null)
-        {        
-            entity.LastWorkingDay = noxTypeValue;
-        }
-    
-
-        /// <summary>
-        /// Employee reviewing ExactlyOne CashStockOrders
-        /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "EmployeeReviewingCashStockOrder", dto.EmployeeReviewingCashStockOrderId);
-        if (noxTypeValue != null)
-        {        
-            entity.EmployeeReviewingCashStockOrderId = noxTypeValue;
-        }
-    }
-
     public override void PartialMapToEntity(Employee entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
 #pragma warning disable CS0168 // Variable is assigned but its value is never used
@@ -168,7 +120,7 @@ public partial class EmployeeMapper : EntityMapperBase<Employee>
         /// </summary>
         if (updatedProperties.TryGetValue("CashStockOrderId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "EmployeeReviewingCashStockOrder", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "EmployeeReviewingCashStockOrder", value);
             if (noxRelationshipTypeValue != null)
             {        
                 entity.EmployeeReviewingCashStockOrderId = noxRelationshipTypeValue;

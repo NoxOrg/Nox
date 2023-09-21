@@ -15,6 +15,10 @@ public static class ODataServiceCollectionExtensions
 {
     public static void AddNoxOdata(this IServiceCollection services)
     {
+        services.AddNoxOdata(null);
+    }
+    public static void AddNoxOdata(this IServiceCollection services, Action<ODataModelBuilder>? configure)
+    {
         ODataModelBuilder builder = new ODataConventionModelBuilder();
 
         {{ hasKeyForCompoundKeys -}}
@@ -26,11 +30,23 @@ public static class ODataServiceCollectionExtensions
         {{- if entity.OwnedRelationships != null }}
             {{- for ownedRelationship in entity.OwnedRelationships }}
                 {{- if ownedRelationship.Relationship == "ExactlyOne" }}
-        builder.EntityType<{{entity.Name}}Dto>().ContainsRequired(e => e.{{ownedRelationship.Related.Entity.Name}}).AutoExpand = true;
+        builder.EntityType<{{entity.Name}}Dto>().ContainsRequired(e => e.{{ownedRelationship.Name}}).AutoExpand = true;
                 {{- else if ownedRelationship.Relationship == "ZeroOrOne" }}
-        builder.EntityType<{{entity.Name}}Dto>().ContainsOptional(e => e.{{ownedRelationship.Related.Entity.Name}}).AutoExpand = true;        
+        builder.EntityType<{{entity.Name}}Dto>().ContainsOptional(e => e.{{ownedRelationship.Name}}).AutoExpand = true;
                 {{- else }}
-        builder.EntityType<{{entity.Name}}Dto>().ContainsMany(e => e.{{ownedRelationship.Related.Entity.PluralName}}).AutoExpand = true;
+        builder.EntityType<{{entity.Name}}Dto>().ContainsMany(e => e.{{ownedRelationship.Name}}).AutoExpand = true;
+                {{- end }}
+            {{- end }}
+        {{- end }}
+
+        {{- if entity.Relationships != null }}
+            {{- for relationship in entity.Relationships  }}
+                {{- if relationship.Relationship == "ExactlyOne" }}
+        builder.EntityType<{{entity.Name}}Dto>().ContainsRequired(e => e.{{relationship.Name}});
+                {{- else if relationship.Relationship == "ZeroOrOne" }}
+        builder.EntityType<{{entity.Name}}Dto>().ContainsOptional(e => e.{{relationship.Name}});
+                {{- else }}
+        builder.EntityType<{{entity.Name}}Dto>().ContainsMany(e => e.{{relationship.Name}});
                 {{- end }}
             {{- end }}
         {{- end }}
@@ -39,9 +55,12 @@ public static class ODataServiceCollectionExtensions
         {{- if !entity.IsOwnedEntity && entity.Persistence?.IsAudited ~}}
 
         builder.EntityType<{{entity.Name}}Dto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<{{entity.Name}}Dto>().Ignore(e => e.Etag);
 
         {{- end }}
         {{- end }}
+
+        if(configure != null) configure(builder);
 
         services.AddControllers()
             .AddOData(options =>
@@ -54,7 +73,10 @@ public static class ODataServiceCollectionExtensions
                         .Expand()
                         .SkipToken()
                         .SetMaxTop(100);
-                    var routeOptions = options.AddRouteComponents("api", builder.GetEdmModel(), service => service.AddSingleton<IODataSerializerProvider, NoxODataSerializerProvider>()).RouteOptions;
+                    var routeOptions = options.AddRouteComponents("api", builder.GetEdmModel(),
+                        service => service
+                            .AddSingleton<IODataSerializerProvider, NoxODataSerializerProvider>())
+                        .RouteOptions;
                     routeOptions.EnableKeyInParenthesis = false;
                 }
             );

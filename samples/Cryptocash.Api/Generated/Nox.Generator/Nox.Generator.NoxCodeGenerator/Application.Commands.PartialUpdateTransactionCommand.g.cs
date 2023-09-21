@@ -16,14 +16,24 @@ using Transaction = Cryptocash.Domain.Transaction;
 
 namespace Cryptocash.Application.Commands;
 
-public record PartialUpdateTransactionCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <TransactionKeyDto?>;
+public record PartialUpdateTransactionCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <TransactionKeyDto?>;
 
-public class PartialUpdateTransactionCommandHandler: CommandBase<PartialUpdateTransactionCommand, Transaction>, IRequestHandler<PartialUpdateTransactionCommand, TransactionKeyDto?>
+public class PartialUpdateTransactionCommandHandler: PartialUpdateTransactionCommandHandlerBase
+{
+	public PartialUpdateTransactionCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<Transaction> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+	{
+	}
+}
+public class PartialUpdateTransactionCommandHandlerBase: CommandBase<PartialUpdateTransactionCommand, Transaction>, IRequestHandler<PartialUpdateTransactionCommand, TransactionKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<Transaction> EntityMapper { get; }
 
-	public PartialUpdateTransactionCommandHandler(
+	public PartialUpdateTransactionCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -33,11 +43,11 @@ public class PartialUpdateTransactionCommandHandler: CommandBase<PartialUpdateTr
 		EntityMapper = entityMapper;
 	}
 
-	public async Task<TransactionKeyDto?> Handle(PartialUpdateTransactionCommand request, CancellationToken cancellationToken)
+	public virtual async Task<TransactionKeyDto?> Handle(PartialUpdateTransactionCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Transaction,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Transaction,Nox.Types.AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.Transactions.FindAsync(keyId);
 		if (entity == null)
@@ -45,8 +55,9 @@ public class PartialUpdateTransactionCommandHandler: CommandBase<PartialUpdateTr
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Transaction>(), request.UpdatedProperties);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

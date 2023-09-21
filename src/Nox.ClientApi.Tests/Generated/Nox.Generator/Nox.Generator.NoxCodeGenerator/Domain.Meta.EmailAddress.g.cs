@@ -14,18 +14,18 @@ namespace ClientApi.Domain;
 /// </summary>
 public partial class EmailAddress
 {
-    /// <summary>
-    /// Type options and factory for property 'Email'
-    /// </summary>
-    public static Nox.Types.Email CreateEmail(System.String value)
-        => Nox.Types.Email.From(value);
     
-
-    /// <summary>
-    /// Type options and factory for property 'IsVerified'
-    /// </summary>
-    public static Nox.Types.Boolean CreateIsVerified(System.Boolean value)
-        => Nox.Types.Boolean.From(value);
+        /// <summary>
+        /// Factory for property 'Email'
+        /// </summary>
+        public static Nox.Types.Email CreateEmail(System.String value)
+            => Nox.Types.Email.From(value);
+        
     
-
+        /// <summary>
+        /// Factory for property 'IsVerified'
+        /// </summary>
+        public static Nox.Types.Boolean CreateIsVerified(System.Boolean value)
+            => Nox.Types.Boolean.From(value);
+        
 }

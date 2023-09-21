@@ -5,10 +5,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System;
+using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Extensions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
 using Cryptocash.Application.Queries;
@@ -19,7 +23,12 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-public partial class LandLordsController : ODataController
+public partial class LandLordsController : LandLordsControllerBase
+{
+    public LandLordsController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    {}
+}
+public abstract class LandLordsControllerBase : ODataController
 {
     
     /// <summary>
@@ -32,7 +41,7 @@ public partial class LandLordsController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public LandLordsController(
+    public LandLordsControllerBase(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -42,27 +51,20 @@ public partial class LandLordsController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<LandLordDto>>> Get()
+    public virtual async Task<ActionResult<IQueryable<LandLordDto>>> Get()
     {
         var result = await _mediator.Send(new GetLandLordsQuery());
         return Ok(result);
     }
     
     [EnableQuery]
-    public async Task<ActionResult<LandLordDto>> Get([FromRoute] System.Int64 key)
+    public async Task<SingleResult<LandLordDto>> Get([FromRoute] System.Int64 key)
     {
-        var item = await _mediator.Send(new GetLandLordByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
+        var query = await _mediator.Send(new GetLandLordByIdQuery(key));
+        return SingleResult.Create(query);
     }
     
-    [EnableQuery]
-    public async Task<ActionResult<LandLordDto>> Post([FromBody]LandLordCreateDto landLord)
+    public virtual async Task<ActionResult<LandLordDto>> Post([FromBody]LandLordCreateDto landLord)
     {
         if (!ModelState.IsValid)
         {
@@ -70,37 +72,38 @@ public partial class LandLordsController : ODataController
         }
         var createdKey = await _mediator.Send(new CreateLandLordCommand(landLord));
         
-        var item = await _mediator.Send(new GetLandLordByIdQuery(createdKey.keyId));
+        var item = (await _mediator.Send(new GetLandLordByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(item);
     }
     
-    [EnableQuery]
-    public async Task<ActionResult<LandLordDto>> Put([FromRoute] System.Int64 key, [FromBody] LandLordUpdateDto landLord)
+    public virtual async Task<ActionResult<LandLordDto>> Put([FromRoute] System.Int64 key, [FromBody] LandLordUpdateDto landLord)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateLandLordCommand(key, landLord));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateLandLordCommand(key, landLord, etag));
+        
         if (updated is null)
         {
             return NotFound();
         }
         
-        var item = await _mediator.Send(new GetLandLordByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetLandLordByIdQuery(updated.keyId))).SingleOrDefault();
         
         return Ok(item);
     }
     
-    [EnableQuery]
-    public async Task<ActionResult<LandLordDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<LandLordUpdateDto> landLord)
+    public virtual async Task<ActionResult<LandLordDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<LandLordDto> landLord)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
+        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in landLord.GetChangedPropertyNames())
@@ -111,19 +114,22 @@ public partial class LandLordsController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateLandLordCommand(key, updateProperties));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateLandLordCommand(key, updateProperties, etag));
         
         if (updated is null)
         {
             return NotFound();
         }
-        var item = await _mediator.Send(new GetLandLordByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetLandLordByIdQuery(updated.keyId))).SingleOrDefault();
         return Ok(item);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
-        var result = await _mediator.Send(new DeleteLandLordByIdCommand(key));
+        var etag = Request.GetDecodedEtagHeader();
+        var result = await _mediator.Send(new DeleteLandLordByIdCommand(key, etag));
+        
         if (!result)
         {
             return NotFound();
@@ -131,4 +137,57 @@ public partial class LandLordsController : ODataController
         
         return NoContent();
     }
+    
+    #region Relationships
+    
+    public async Task<ActionResult> CreateRefToContractedAreasForVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefLandLordToContractedAreasForVendingMachinesCommand(new LandLordKeyDto(key), new VendingMachineKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> GetRefToContractedAreasForVendingMachines([FromRoute] System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetLandLordByIdQuery(key))).Select(x => x.ContractedAreasForVendingMachines).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        IList<System.Uri> references = new List<System.Uri>();
+        foreach (var item in related)
+        {
+            references.Add(new System.Uri($"VendingMachines/{item.Id}", UriKind.Relative));
+        }
+        return Ok(references);
+    }
+    
+    public async Task<ActionResult> DeleteRefToContractedAreasForVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefLandLordToContractedAreasForVendingMachinesCommand(new LandLordKeyDto(key), new VendingMachineKeyDto(relatedKey)));
+        if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    #endregion
+    
 }

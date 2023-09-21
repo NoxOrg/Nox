@@ -4,6 +4,7 @@ using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
 
 namespace Nox.Types.EntityFramework.Configurations
 {
@@ -150,7 +151,7 @@ namespace Nox.Types.EntityFramework.Configurations
                 if (relationshipToCreate.Relationship.WithSingleEntity())
                 {
                     builder
-                        .OwnsOne(relationshipToCreate.RelationshipEntityType, relationshipToCreate.Relationship.Entity, x =>
+                        .OwnsOne(relationshipToCreate.RelationshipEntityType, relationshipToCreate.Relationship.Name, x =>
                         {
                             ConfigureEntity(codeGeneratorState, new OwnedNavigationBuilderAdapter(x), relationshipToCreate.Relationship.Related.Entity);
                         });
@@ -158,15 +159,10 @@ namespace Nox.Types.EntityFramework.Configurations
                 else
                 {
                     builder
-                        .OwnsMany(relationshipToCreate.RelationshipEntityType, relationshipToCreate.Relationship.EntityPlural, x =>
+                        .OwnsMany(relationshipToCreate.RelationshipEntityType, relationshipToCreate.Relationship.Name, x =>
                         {
                             ConfigureEntity(codeGeneratorState, new OwnedNavigationBuilderAdapter(x), relationshipToCreate.Relationship.Related.Entity);
                         });
-                }
-
-                if (!relationshipToCreate.Relationship.ShouldUseRelationshipNameAsNavigation())
-                {
-                    builder.Ignore(relationshipToCreate.Relationship.Name);
                 }
             }
         }

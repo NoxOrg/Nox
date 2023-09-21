@@ -17,7 +17,7 @@ namespace Cryptocash.Api.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.10")
+                .HasAnnotation("ProductVersion", "7.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -25,7 +25,7 @@ namespace Cryptocash.Api.Migrations
             modelBuilder.Entity("Cryptocash.Domain.Booking", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                        .IsUnicode(false)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<long?>("BookingFeesForCommissionId")
@@ -39,7 +39,7 @@ namespace Cryptocash.Api.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
 
                     b.Property<Guid?>("BookingRelatedVendingMachineId")
-                        .ValueGeneratedOnAdd()
+                        .IsUnicode(false)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("CancelledDateTime")
@@ -70,6 +70,10 @@ namespace Cryptocash.Api.Migrations
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
+
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("ExpiryDateTime")
                         .HasColumnType("datetimeoffset");
@@ -109,7 +113,7 @@ namespace Cryptocash.Api.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<Guid?>("CashStockOrderForVendingMachineId")
-                        .ValueGeneratedOnAdd()
+                        .IsUnicode(false)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAtUtc")
@@ -140,6 +144,10 @@ namespace Cryptocash.Api.Migrations
 
                     b.Property<DateTimeOffset?>("DeliveryDateTime")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("LastUpdatedAtUtc")
                         .HasColumnType("datetime2");
@@ -208,6 +216,10 @@ namespace Cryptocash.Api.Migrations
 
                     b.Property<DateTimeOffset>("EffectiveAt")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("LastUpdatedAtUtc")
                         .HasColumnType("datetime2");
@@ -280,6 +292,10 @@ namespace Cryptocash.Api.Migrations
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
+
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FlagEmoji")
                         .HasMaxLength(63)
@@ -371,6 +387,10 @@ namespace Cryptocash.Api.Migrations
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
+
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("LastUpdatedAtUtc")
                         .HasColumnType("datetime2");
@@ -479,6 +499,10 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(63)
@@ -559,6 +583,10 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
 
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(63)
@@ -632,6 +660,10 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime?>("LastUpdatedAtUtc")
                         .HasColumnType("datetime2");
 
@@ -688,6 +720,10 @@ namespace Cryptocash.Api.Migrations
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
+
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("LastUpdatedAtUtc")
                         .HasColumnType("datetime2");
@@ -747,6 +783,10 @@ namespace Cryptocash.Api.Migrations
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
+
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("LastUpdatedAtUtc")
                         .HasColumnType("datetime2");
@@ -830,6 +870,10 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime?>("LastUpdatedAtUtc")
                         .HasColumnType("datetime2");
 
@@ -893,6 +937,10 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime?>("LastUpdatedAtUtc")
                         .HasColumnType("datetime2");
 
@@ -915,7 +963,7 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("nvarchar(63)");
 
                     b.Property<Guid?>("TransactionForBookingId")
-                        .ValueGeneratedOnAdd()
+                        .IsUnicode(false)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<long?>("TransactionForCustomerId")
@@ -943,7 +991,7 @@ namespace Cryptocash.Api.Migrations
             modelBuilder.Entity("Cryptocash.Domain.VendingMachine", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                        .IsUnicode(false)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAtUtc")
@@ -971,6 +1019,10 @@ namespace Cryptocash.Api.Migrations
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
+
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal?>("InstallationFootPrint")
                         .HasColumnType("DECIMAL(21, 6)");
@@ -1345,7 +1397,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasForeignKey("CountryId");
                         });
 
-                    b.OwnsMany("Cryptocash.Domain.CountryTimeZone", "CountryTimeZones", b1 =>
+                    b.OwnsMany("Cryptocash.Domain.CountryTimeZone", "CountryOwnedTimeZones", b1 =>
                         {
                             b1.Property<long>("Id")
                                 .ValueGeneratedOnAdd()
@@ -1376,7 +1428,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasForeignKey("CountryId");
                         });
 
-                    b.OwnsMany("Cryptocash.Domain.Holiday", "Holidays", b1 =>
+                    b.OwnsMany("Cryptocash.Domain.Holiday", "CountryOwnedHolidays", b1 =>
                         {
                             b1.Property<long>("Id")
                                 .ValueGeneratedOnAdd()
@@ -1420,7 +1472,9 @@ namespace Cryptocash.Api.Migrations
 
                     b.Navigation("CoatOfArmsSvg");
 
-                    b.Navigation("CountryTimeZones");
+                    b.Navigation("CountryOwnedHolidays");
+
+                    b.Navigation("CountryOwnedTimeZones");
 
                     b.Navigation("CountryUsedByCurrency");
 
@@ -1429,13 +1483,11 @@ namespace Cryptocash.Api.Migrations
                     b.Navigation("FlagSvg");
 
                     b.Navigation("GeoCoords");
-
-                    b.Navigation("Holidays");
                 });
 
             modelBuilder.Entity("Cryptocash.Domain.Currency", b =>
                 {
-                    b.OwnsMany("Cryptocash.Domain.BankNote", "BankNotes", b1 =>
+                    b.OwnsMany("Cryptocash.Domain.BankNote", "CurrencyCommonBankNotes", b1 =>
                         {
                             b1.Property<long>("Id")
                                 .ValueGeneratedOnAdd()
@@ -1507,7 +1559,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasForeignKey("CurrencyId");
                         });
 
-                    b.OwnsMany("Cryptocash.Domain.ExchangeRate", "ExchangeRates", b1 =>
+                    b.OwnsMany("Cryptocash.Domain.ExchangeRate", "CurrencyExchangedFromRates", b1 =>
                         {
                             b1.Property<long>("Id")
                                 .ValueGeneratedOnAdd()
@@ -1538,9 +1590,9 @@ namespace Cryptocash.Api.Migrations
                                 .HasForeignKey("CurrencyId");
                         });
 
-                    b.Navigation("BankNotes");
+                    b.Navigation("CurrencyCommonBankNotes");
 
-                    b.Navigation("ExchangeRates");
+                    b.Navigation("CurrencyExchangedFromRates");
 
                     b.Navigation("MinorToMajorValue")
                         .IsRequired();
@@ -1676,7 +1728,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasForeignKey("EmployeeId");
                         });
 
-                    b.OwnsMany("Cryptocash.Domain.EmployeePhoneNumber", "EmployeePhoneNumbers", b1 =>
+                    b.OwnsMany("Cryptocash.Domain.EmployeePhoneNumber", "EmployeeContactPhoneNumbers", b1 =>
                         {
                             b1.Property<long>("Id")
                                 .ValueGeneratedOnAdd()
@@ -1714,7 +1766,7 @@ namespace Cryptocash.Api.Migrations
                     b.Navigation("Address")
                         .IsRequired();
 
-                    b.Navigation("EmployeePhoneNumbers");
+                    b.Navigation("EmployeeContactPhoneNumbers");
 
                     b.Navigation("EmployeeReviewingCashStockOrder");
                 });

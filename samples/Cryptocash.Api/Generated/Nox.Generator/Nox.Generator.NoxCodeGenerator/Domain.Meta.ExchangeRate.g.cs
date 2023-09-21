@@ -14,25 +14,25 @@ namespace Cryptocash.Domain;
 /// </summary>
 public partial class ExchangeRate
 {
-    /// <summary>
-    /// Type options and factory for property 'Id'
-    /// </summary>
-    public static Nox.Types.DatabaseNumber CreateId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
     
-
-    /// <summary>
-    /// Type options and factory for property 'EffectiveRate'
-    /// </summary>
-    public static Nox.Types.Number CreateEffectiveRate(System.Int32 value)
-        => Nox.Types.Number.From(value);
+        /// <summary>
+        /// Factory for property 'Id'
+        /// </summary>
+        public static Nox.Types.AutoNumber CreateId(System.Int64 value)
+            => Nox.Types.AutoNumber.From(value);
+        
     
-
-    /// <summary>
-    /// Type options and factory for property 'EffectiveAt'
-    /// </summary>
-    public static Nox.Types.DateTime CreateEffectiveAt(System.DateTimeOffset value)
-        => Nox.Types.DateTime.From(value);
+        /// <summary>
+        /// Factory for property 'EffectiveRate'
+        /// </summary>
+        public static Nox.Types.Number CreateEffectiveRate(System.Int32 value)
+            => Nox.Types.Number.From(value);
+        
     
-
+        /// <summary>
+        /// Factory for property 'EffectiveAt'
+        /// </summary>
+        public static Nox.Types.DateTime CreateEffectiveAt(System.DateTimeOffset value)
+            => Nox.Types.DateTime.From(value);
+        
 }

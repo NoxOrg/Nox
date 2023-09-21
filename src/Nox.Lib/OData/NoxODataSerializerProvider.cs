@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Formatter.Serialization;
 using Microsoft.OData;
+using Microsoft.OData.Edm;
 
 namespace Nox.Lib;
 
@@ -19,5 +20,15 @@ public class NoxODataSerializerProvider : ODataSerializerProvider
         }
 
         return base.GetODataPayloadSerializer(type, request);
+    }
+
+    public override IODataEdmTypeSerializer GetEdmTypeSerializer(IEdmTypeReference edmType)
+    {
+        if (edmType.IsEntity())
+        {
+            return new EtagResourceSerializer(this);
+        }
+
+        return base.GetEdmTypeSerializer(edmType);
     }
 }

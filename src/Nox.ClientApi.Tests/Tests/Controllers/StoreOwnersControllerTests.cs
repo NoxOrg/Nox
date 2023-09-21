@@ -5,20 +5,15 @@ using System.Net;
 using AutoFixture.AutoMoq;
 using Nox.Types;
 
-namespace Nox.ClientApi.Tests.Tests.Controllers
+namespace ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
-    public class StoreOwnersControllerTests 
+    public class StoreOwnersControllerTests : NoxIntegrationTestBase
     {
         private const string StoreOwnersControllerName = "api/storeowners";
-        private readonly Fixture _fixture;
-        private readonly ODataFixture _oDataFixture;
 
-        public StoreOwnersControllerTests()
+        public StoreOwnersControllerTests(NoxTestContainerService containerService) : base(containerService)
         {
-            _fixture = new Fixture();
-            _fixture.Customize(new AutoMoqCustomization());
-            _oDataFixture = _fixture.Create<ODataFixture>();
         }
 
         [Fact]
@@ -31,7 +26,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync(StoreOwnersControllerName, createDto);
+            var result = await PostAsync(StoreOwnersControllerName, createDto);
 
             //Assert
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -47,7 +42,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync(StoreOwnersControllerName, createDto);
+            var result = await PostAsync(StoreOwnersControllerName, createDto);
 
             // Assert
             // represent a nox type exception
@@ -64,7 +59,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync(StoreOwnersControllerName, createDto);
+            var result = await PostAsync(StoreOwnersControllerName, createDto);
 
             //Assert
             result.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -84,7 +79,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(StoreOwnersControllerName, createDto);
+            var result = await PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(StoreOwnersControllerName, createDto);
 
             //Assert
             result.Should().NotBeNull();
@@ -117,7 +112,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(StoreOwnersControllerName, createDto);
+            var result = await PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(StoreOwnersControllerName, createDto);
 
             //Assert
             result.Should().NotBeNull();
@@ -149,7 +144,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(StoreOwnersControllerName, createDto);
+            var result = await PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(StoreOwnersControllerName, createDto);
 
             //Assert
             result.Should().NotBeNull();
@@ -179,7 +174,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync(StoreOwnersControllerName, createDto);
+            var result = await PostAsync(StoreOwnersControllerName, createDto);
 
             //Assert
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -207,7 +202,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync(StoreOwnersControllerName, createDto);
+            var result = await PostAsync(StoreOwnersControllerName, createDto);
 
             //Assert
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -235,7 +230,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync(StoreOwnersControllerName, createDto);
+            var result = await PostAsync(StoreOwnersControllerName, createDto);
 
             //Assert
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);

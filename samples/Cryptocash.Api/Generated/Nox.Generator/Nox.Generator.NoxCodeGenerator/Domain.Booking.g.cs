@@ -5,20 +5,53 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
+public partial class Booking:BookingBase
+{
+
+}
+/// <summary>
+/// Record for Booking created event.
+/// </summary>
+public record BookingCreated(Booking Booking) : IDomainEvent;
+/// <summary>
+/// Record for Booking updated event.
+/// </summary>
+public record BookingUpdated(Booking Booking) : IDomainEvent;
+/// <summary>
+/// Record for Booking deleted event.
+/// </summary>
+public record BookingDeleted(Booking Booking) : IDomainEvent;
 
 /// <summary>
 /// Exchange booking and related data.
 /// </summary>
-public partial class Booking : AuditableEntityBase
+public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Booking unique identifier (Required).
     /// </summary>
-    public DatabaseGuid Id { get; set; } = null!;
+    public Nox.Types.Guid Id {get; set;} = null!;
+    
+    	public virtual void EnsureId(System.Guid guid)
+    	{
+    		if(System.Guid.Empty.Equals(guid))
+    		{
+    			Id = Nox.Types.Guid.From(System.Guid.NewGuid());
+    		}
+    		else
+    		{
+    			var currentGuid = Nox.Types.Guid.From(guid);
+    			if(Id != currentGuid)
+    			{
+    				throw new NoxGuidTypeException("Immutable guid property Id value is different since it has been initialized");
+    			}
+    		}
+    	}
 
     /// <summary>
     /// Booking's amount exchanged from (Required).
@@ -53,7 +86,7 @@ public partial class Booking : AuditableEntityBase
     /// <summary>
     /// Booking's status (Optional).
     /// </summary>
-    public String? Status
+    public string? Status
     { 
         get { return CancelledDateTime != null ? "cancelled" : (PickedUpDateTime != null ? "picked-up" : (ExpiryDateTime != null ? "expired" : "booked")); }
         private set { }
@@ -72,7 +105,17 @@ public partial class Booking : AuditableEntityBase
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Customer
     /// </summary>
-    public Nox.Types.DatabaseNumber BookingForCustomerId { get; set; } = null!;
+    public Nox.Types.AutoNumber BookingForCustomerId { get; set; } = null!;
+
+    public virtual void CreateRefToBookingForCustomer(Customer relatedCustomer)
+    {
+        BookingForCustomer = relatedCustomer;
+    }
+
+    public virtual void DeleteRefToBookingForCustomer(Customer relatedCustomer)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
+    }
 
     /// <summary>
     /// Booking related to ExactlyOne VendingMachines
@@ -82,7 +125,17 @@ public partial class Booking : AuditableEntityBase
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity VendingMachine
     /// </summary>
-    public Nox.Types.DatabaseGuid BookingRelatedVendingMachineId { get; set; } = null!;
+    public Nox.Types.Guid BookingRelatedVendingMachineId { get; set; } = null!;
+
+    public virtual void CreateRefToBookingRelatedVendingMachine(VendingMachine relatedVendingMachine)
+    {
+        BookingRelatedVendingMachine = relatedVendingMachine;
+    }
+
+    public virtual void DeleteRefToBookingRelatedVendingMachine(VendingMachine relatedVendingMachine)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
+    }
 
     /// <summary>
     /// Booking fees for ExactlyOne Commissions
@@ -92,10 +145,35 @@ public partial class Booking : AuditableEntityBase
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Commission
     /// </summary>
-    public Nox.Types.DatabaseNumber BookingFeesForCommissionId { get; set; } = null!;
+    public Nox.Types.AutoNumber BookingFeesForCommissionId { get; set; } = null!;
+
+    public virtual void CreateRefToBookingFeesForCommission(Commission relatedCommission)
+    {
+        BookingFeesForCommission = relatedCommission;
+    }
+
+    public virtual void DeleteRefToBookingFeesForCommission(Commission relatedCommission)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
+    }
 
     /// <summary>
     /// Booking related to ExactlyOne Transactions
     /// </summary>
     public virtual Transaction BookingRelatedTransaction { get; set; } = null!;
+
+    public virtual void CreateRefToBookingRelatedTransaction(Transaction relatedTransaction)
+    {
+        BookingRelatedTransaction = relatedTransaction;
+    }
+
+    public virtual void DeleteRefToBookingRelatedTransaction(Transaction relatedTransaction)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
+    }
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

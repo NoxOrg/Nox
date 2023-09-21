@@ -1,5 +1,6 @@
 using Nox.Solution;
 using Nox.Docs.Extensions;
+using FluentAssertions;
 
 namespace Cryptocash.Api.Tests;
 
@@ -8,12 +9,14 @@ public class CryptocashGenDocsTests
     [Fact]
     public void Solution_Creates_Valid_Documentation()
     {
+        var rootPath = "../../../../.nox";
+
         var noxSolution = new NoxSolutionBuilder()
-            .UseYamlFile("../../../../.nox/design/cryptocash.solution.nox.yaml")
+            .UseYamlFile($"{rootPath}/design/cryptocash.solution.nox.yaml")
             .Build();
 
-        var docs = noxSolution.ToMarkdownReadme();
+        var action = () => noxSolution.GenerateMarkdownReadme($"{rootPath}/docs");
 
-        File.WriteAllText("../../../../README.md", docs);
+        action.Should().NotThrow();
     }
 }

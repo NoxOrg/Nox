@@ -5,20 +5,37 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
+public partial class Country:CountryBase
+{
+
+}
+/// <summary>
+/// Record for Country created event.
+/// </summary>
+public record CountryCreated(Country Country) : IDomainEvent;
+/// <summary>
+/// Record for Country updated event.
+/// </summary>
+public record CountryUpdated(Country Country) : IDomainEvent;
+/// <summary>
+/// Record for Country deleted event.
+/// </summary>
+public record CountryDeleted(Country Country) : IDomainEvent;
 
 /// <summary>
 /// Country and related data.
 /// </summary>
-public partial class Country : AuditableEntityBase
+public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Country unique identifier (Required).
     /// </summary>
-    public CountryCode2 Id { get; set; } = null!;
+    public Nox.Types.CountryCode2 Id { get; set; } = null!;
 
     /// <summary>
     /// Country's name (Required).
@@ -95,32 +112,75 @@ public partial class Country : AuditableEntityBase
     /// </summary>
     public Nox.Types.CurrencyCode3 CountryUsedByCurrencyId { get; set; } = null!;
 
+    public virtual void CreateRefToCountryUsedByCurrency(Currency relatedCurrency)
+    {
+        CountryUsedByCurrency = relatedCurrency;
+    }
+
+    public virtual void DeleteRefToCountryUsedByCurrency(Currency relatedCurrency)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
+    }
+
     /// <summary>
     /// Country used by OneOrMany Commissions
     /// </summary>
     public virtual List<Commission> CountryUsedByCommissions { get; set; } = new();
+
+    public virtual void CreateRefToCountryUsedByCommissions(Commission relatedCommission)
+    {
+        CountryUsedByCommissions.Add(relatedCommission);
+    }
+
+    public virtual void DeleteRefToCountryUsedByCommissions(Commission relatedCommission)
+    {
+        if(CountryUsedByCommissions.Count() < 2)
+            throw new Exception($"The relatioship cannot be deleted.");
+        CountryUsedByCommissions.Remove(relatedCommission);
+    }
 
     /// <summary>
     /// Country used by ZeroOrMany VendingMachines
     /// </summary>
     public virtual List<VendingMachine> CountryUsedByVendingMachines { get; set; } = new();
 
+    public virtual void CreateRefToCountryUsedByVendingMachines(VendingMachine relatedVendingMachine)
+    {
+        CountryUsedByVendingMachines.Add(relatedVendingMachine);
+    }
+
+    public virtual void DeleteRefToCountryUsedByVendingMachines(VendingMachine relatedVendingMachine)
+    {
+        CountryUsedByVendingMachines.Remove(relatedVendingMachine);
+    }
+
     /// <summary>
     /// Country used by ZeroOrMany Customers
     /// </summary>
     public virtual List<Customer> CountryUsedByCustomers { get; set; } = new();
 
+    public virtual void CreateRefToCountryUsedByCustomers(Customer relatedCustomer)
+    {
+        CountryUsedByCustomers.Add(relatedCustomer);
+    }
+
+    public virtual void DeleteRefToCountryUsedByCustomers(Customer relatedCustomer)
+    {
+        CountryUsedByCustomers.Remove(relatedCustomer);
+    }
+
     /// <summary>
     /// Country owned OneOrMany CountryTimeZones
     /// </summary>
-    public virtual List<CountryTimeZone> CountryTimeZones { get; set; } = new();
-
-    public List<CountryTimeZone> CountryOwnedTimeZones => CountryTimeZones;
+    public virtual List<CountryTimeZone> CountryOwnedTimeZones { get; set; } = new();
 
     /// <summary>
     /// Country owned ZeroOrMany Holidays
     /// </summary>
-    public virtual List<Holiday> Holidays { get; set; } = new();
+    public virtual List<Holiday> CountryOwnedHolidays { get; set; } = new();
 
-    public List<Holiday> CountryOwnedHolidays => Holidays;
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

@@ -16,14 +16,24 @@ using {{entity.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
-public record PartialUpdate{{entity.Name}}Command({{primaryKeys}}, Dictionary<string, dynamic> UpdatedProperties) : IRequest <{{entity.Name}}KeyDto?>;
+public record PartialUpdate{{entity.Name}}Command({{primaryKeys}}, Dictionary<string, dynamic> UpdatedProperties{{ if !entity.IsOwnedEntity }}, System.Guid? Etag{{end}}) : IRequest <{{entity.Name}}KeyDto?>;
 
-public class PartialUpdate{{entity.Name}}CommandHandler: CommandBase<PartialUpdate{{entity.Name}}Command, {{entity.Name}}>, IRequestHandler<PartialUpdate{{entity.Name}}Command, {{entity.Name}}KeyDto?>
+public class PartialUpdate{{entity.Name}}CommandHandler: PartialUpdate{{entity.Name}}CommandHandlerBase
+{
+	public PartialUpdate{{entity.Name}}CommandHandler(
+		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<{{entity.Name}}> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+	{
+	}
+}
+public class PartialUpdate{{entity.Name}}CommandHandlerBase: CommandBase<PartialUpdate{{entity.Name}}Command, {{entity.Name}}>, IRequestHandler<PartialUpdate{{entity.Name}}Command, {{entity.Name}}KeyDto?>
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
 	public IEntityMapper<{{entity.Name}}> EntityMapper { get; }
 
-	public PartialUpdate{{entity.Name}}CommandHandler(
+	public PartialUpdate{{entity.Name}}CommandHandlerBase(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -33,13 +43,13 @@ public class PartialUpdate{{entity.Name}}CommandHandler: CommandBase<PartialUpda
 		EntityMapper = entityMapper;
 	}
 
-	public async Task<{{entity.Name}}KeyDto?> Handle(PartialUpdate{{entity.Name}}Command request, CancellationToken cancellationToken)
+	public virtual async Task<{{entity.Name}}KeyDto?> Handle(PartialUpdate{{entity.Name}}Command request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
 		{{- for key in entity.Keys }}
-		var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.key{{key.Name}});
+		var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},Nox.Types.{{SingleTypeForKey key}}>("{{key.Name}}", request.key{{key.Name}});
 		{{- end }}
 
 		var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysFindQuery}});
@@ -48,8 +58,11 @@ public class PartialUpdate{{entity.Name}}CommandHandler: CommandBase<PartialUpda
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.UpdatedProperties);
+		{{- if !entity.IsOwnedEntity }}
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		{{- end }}
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

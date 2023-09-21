@@ -16,14 +16,24 @@ using Country = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
-public record PartialUpdateCountryCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <CountryKeyDto?>;
+public record PartialUpdateCountryCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CountryKeyDto?>;
 
-public class PartialUpdateCountryCommandHandler: CommandBase<PartialUpdateCountryCommand, Country>, IRequestHandler<PartialUpdateCountryCommand, CountryKeyDto?>
+public class PartialUpdateCountryCommandHandler: PartialUpdateCountryCommandHandlerBase
+{
+	public PartialUpdateCountryCommandHandler(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<Country> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+	{
+	}
+}
+public class PartialUpdateCountryCommandHandlerBase: CommandBase<PartialUpdateCountryCommand, Country>, IRequestHandler<PartialUpdateCountryCommand, CountryKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<Country> EntityMapper { get; }
 
-	public PartialUpdateCountryCommandHandler(
+	public PartialUpdateCountryCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -33,11 +43,11 @@ public class PartialUpdateCountryCommandHandler: CommandBase<PartialUpdateCountr
 		EntityMapper = entityMapper;
 	}
 
-	public async Task<CountryKeyDto?> Handle(PartialUpdateCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CountryKeyDto?> Handle(PartialUpdateCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Country,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Country,Nox.Types.AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.Countries.FindAsync(keyId);
 		if (entity == null)
@@ -45,8 +55,9 @@ public class PartialUpdateCountryCommandHandler: CommandBase<PartialUpdateCountr
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Country>(), request.UpdatedProperties);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

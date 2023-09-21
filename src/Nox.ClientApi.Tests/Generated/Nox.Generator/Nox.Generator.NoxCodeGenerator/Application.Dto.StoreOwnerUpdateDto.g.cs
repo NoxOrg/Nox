@@ -3,16 +3,18 @@
 #nullable enable
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Store owners.
 /// </summary>
-public partial class StoreOwnerUpdateDto
+public partial class StoreOwnerUpdateDto : IEntityDto<StoreOwner>
 {
     /// <summary>
     /// Owner Name (Required).
@@ -20,6 +22,12 @@ public partial class StoreOwnerUpdateDto
     [Required(ErrorMessage = "Name is required")]
     
     public System.String Name { get; set; } = default!;
+    /// <summary>
+    /// Temporary Owner Name (Required).
+    /// </summary>
+    [Required(ErrorMessage = "TemporaryOwnerName is required")]
+    
+    public System.String TemporaryOwnerName { get; set; } = default!;
     /// <summary>
     /// Vat Number (Optional).
     /// </summary>
@@ -32,4 +40,8 @@ public partial class StoreOwnerUpdateDto
     /// Owner Greeting (Optional).
     /// </summary>
     public TranslatedTextDto? LocalGreeting { get; set; }
+    /// <summary>
+    /// Notes (Optional).
+    /// </summary>
+    public System.String? Notes { get; set; }
 }

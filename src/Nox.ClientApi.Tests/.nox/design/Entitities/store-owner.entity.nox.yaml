@@ -27,6 +27,11 @@ attributes:
       maxLength: 63
     isRequired: true
 
+  - name: TemporaryOwnerName
+    description: Temporary Owner Name
+    type: text      
+    isRequired: true
+
   - name: VatNumber
     description: Vat Number
     type: vatNumber    
@@ -40,11 +45,19 @@ attributes:
   - name: LocalGreeting
     description: Owner Greeting
     type: translatedText
+    translatedTextTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: false
+
+  - name: Notes
+    description: Notes
+    type: text      
     isRequired: false
 
 relationships:
 
-    - name: StoreRel
+    - name: Stores
       description: Set of stores that this owner owns
       relationship: zeroOrMany
       entity: Store

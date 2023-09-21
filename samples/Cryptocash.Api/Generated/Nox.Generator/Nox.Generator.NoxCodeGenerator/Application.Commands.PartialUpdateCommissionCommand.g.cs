@@ -16,14 +16,24 @@ using Commission = Cryptocash.Domain.Commission;
 
 namespace Cryptocash.Application.Commands;
 
-public record PartialUpdateCommissionCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <CommissionKeyDto?>;
+public record PartialUpdateCommissionCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CommissionKeyDto?>;
 
-public class PartialUpdateCommissionCommandHandler: CommandBase<PartialUpdateCommissionCommand, Commission>, IRequestHandler<PartialUpdateCommissionCommand, CommissionKeyDto?>
+public class PartialUpdateCommissionCommandHandler: PartialUpdateCommissionCommandHandlerBase
+{
+	public PartialUpdateCommissionCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<Commission> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+	{
+	}
+}
+public class PartialUpdateCommissionCommandHandlerBase: CommandBase<PartialUpdateCommissionCommand, Commission>, IRequestHandler<PartialUpdateCommissionCommand, CommissionKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<Commission> EntityMapper { get; }
 
-	public PartialUpdateCommissionCommandHandler(
+	public PartialUpdateCommissionCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -33,11 +43,11 @@ public class PartialUpdateCommissionCommandHandler: CommandBase<PartialUpdateCom
 		EntityMapper = entityMapper;
 	}
 
-	public async Task<CommissionKeyDto?> Handle(PartialUpdateCommissionCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CommissionKeyDto?> Handle(PartialUpdateCommissionCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Commission,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Commission,Nox.Types.AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.Commissions.FindAsync(keyId);
 		if (entity == null)
@@ -45,8 +55,9 @@ public class PartialUpdateCommissionCommandHandler: CommandBase<PartialUpdateCom
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Commission>(), request.UpdatedProperties);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

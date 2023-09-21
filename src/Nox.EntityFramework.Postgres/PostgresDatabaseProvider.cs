@@ -10,17 +10,11 @@ namespace Nox.EntityFramework.Postgres;
 
 public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProvider 
 {
-    private string _connectionString = string.Empty;
-
     public PostgresDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators) : base(configurators, typeof(IPostgresNoxTypeDatabaseConfigurator))
     {
     }
 
-    public string ConnectionString
-    {
-        get => _connectionString;
-        set => SetConnectionString(value);
-    }
+    public string ConnectionString { get; protected set; } = string.Empty;
 
     protected override IList<IndexBuilder> ConfigureUniqueAttributeConstraints(IEntityBuilder builder, Entity entity)
     {
@@ -33,7 +27,7 @@ public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProv
         return result;
     }
 
-    public DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)
+    public virtual DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)
     {
         var csb = new NpgsqlConnectionStringBuilder(dbServer.Options)
         {
@@ -44,11 +38,11 @@ public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProv
             Database = dbServer.Name,
             ApplicationName = applicationName,
         };
-        SetConnectionString(csb.ConnectionString);
+        ConnectionString = csb.ConnectionString;
 
         return optionsBuilder
             //.UseLazyLoadingProxies()
-            .UseNpgsql(_connectionString, opts => { opts.MigrationsHistoryTable("MigrationsHistory", "migrations"); });
+            .UseNpgsql(ConnectionString, opts => { opts.MigrationsHistoryTable("MigrationsHistory", "migrations"); });
     }
 
     public string ToTableNameForSql(string table, string schema)
@@ -59,10 +53,5 @@ public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProv
     public string ToTableNameForSqlRaw(string table, string schema)
     {
         throw new NotImplementedException();
-    }
-
-    private void SetConnectionString(string connectionString)
-    {
-        _connectionString = connectionString;
     }
 }

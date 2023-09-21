@@ -15,37 +15,50 @@ using StoreOwner = ClientApi.Domain.StoreOwner;
 
 namespace ClientApi.Application.Commands;
 
-public record UpdateStoreOwnerCommand(System.String keyId, StoreOwnerUpdateDto EntityDto) : IRequest<StoreOwnerKeyDto?>;
+public record UpdateStoreOwnerCommand(System.String keyId, StoreOwnerUpdateDto EntityDto, System.Guid? Etag) : IRequest<StoreOwnerKeyDto?>;
 
-public class UpdateStoreOwnerCommandHandler: CommandBase<UpdateStoreOwnerCommand, StoreOwner>, IRequestHandler<UpdateStoreOwnerCommand, StoreOwnerKeyDto?>
+public partial class UpdateStoreOwnerCommandHandler: UpdateStoreOwnerCommandHandlerBase
 {
-	public ClientApiDbContext DbContext { get; }
-	public IEntityMapper<StoreOwner> EntityMapper { get; }
-
 	public UpdateStoreOwnerCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<StoreOwner> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory): base(dbContext, noxSolution, serviceProvider, entityFactory)
+	{
+	}
+}
+
+public abstract class UpdateStoreOwnerCommandHandlerBase: CommandBase<UpdateStoreOwnerCommand, StoreOwner>, IRequestHandler<UpdateStoreOwnerCommand, StoreOwnerKeyDto?>
+{
+	public ClientApiDbContext DbContext { get; }
+	private readonly IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> _entityFactory;
+
+	public UpdateStoreOwnerCommandHandlerBase(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		_entityFactory = entityFactory;
 	}
-	
-	public async Task<StoreOwnerKeyDto?> Handle(UpdateStoreOwnerCommand request, CancellationToken cancellationToken)
+
+	public virtual async Task<StoreOwnerKeyDto?> Handle(UpdateStoreOwnerCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<StoreOwner,Text>("Id", request.keyId);
-	
+		var keyId = CreateNoxTypeForKey<StoreOwner,Nox.Types.Text>("Id", request.keyId);
+
 		var entity = await DbContext.StoreOwners.FindAsync(keyId);
 		if (entity == null)
 		{
 			return null;
 		}
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<StoreOwner>(), request.EntityDto);
 
-		OnCompleted(entity);
+		_entityFactory.UpdateEntity(entity, request.EntityDto);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

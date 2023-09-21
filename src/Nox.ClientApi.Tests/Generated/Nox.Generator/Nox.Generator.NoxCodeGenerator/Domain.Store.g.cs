@@ -5,33 +5,50 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace ClientApi.Domain;
+public partial class Store:StoreBase
+{
+
+}
+/// <summary>
+/// Record for Store created event.
+/// </summary>
+public record StoreCreated(Store Store) : IDomainEvent;
+/// <summary>
+/// Record for Store updated event.
+/// </summary>
+public record StoreUpdated(Store Store) : IDomainEvent;
+/// <summary>
+/// Record for Store deleted event.
+/// </summary>
+public record StoreDeleted(Store Store) : IDomainEvent;
 
 /// <summary>
 /// Stores.
 /// </summary>
-public partial class Store : AuditableEntityBase
+public abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// NuidField Type (Required).
+    ///  (Required).
     /// </summary>
-    public Nuid Id {get; set;} = null!;
+    public Nox.Types.Guid Id {get; set;} = null!;
     
-    	public void EnsureId()
+    	public virtual void EnsureId(System.Guid guid)
     	{
-    		if(Id is null)
+    		if(System.Guid.Empty.Equals(guid))
     		{
-    			Id = Nuid.From("Store." + string.Join(".", Name.Value.ToString()));
+    			Id = Nox.Types.Guid.From(System.Guid.NewGuid());
     		}
     		else
     		{
-    			var currentNuid = Nuid.From("Store." + string.Join(".", Name.Value.ToString()));
-    			if(Id != currentNuid)
+    			var currentGuid = Nox.Types.Guid.From(guid);
+    			if(Id != currentGuid)
     			{
-    				throw new NoxNuidTypeException("Immutable nuid property Id value is different since it has been initialized");
+    				throw new NoxGuidTypeException("Immutable guid property Id value is different since it has been initialized");
     			}
     		}
     	}
@@ -42,17 +59,42 @@ public partial class Store : AuditableEntityBase
     public Nox.Types.Text Name { get; set; } = null!;
 
     /// <summary>
-    /// Store Store owner relationship ZeroOrOne StoreOwners
+    /// Street Address (Required).
     /// </summary>
-    public virtual StoreOwner? OwnerRel { get; set; } = null!;
+    public Nox.Types.StreetAddress Address { get; set; } = null!;
+
+    /// <summary>
+    /// Location (Required).
+    /// </summary>
+    public Nox.Types.LatLong Location { get; set; } = null!;
+
+    /// <summary>
+    /// Store Owner of the Store ZeroOrOne StoreOwners
+    /// </summary>
+    public virtual StoreOwner? Ownership { get; set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ZeroOrOne to entity StoreOwner
     /// </summary>
-    public Nox.Types.Text? OwnerRelId { get; set; } = null!;
+    public Nox.Types.Text? OwnershipId { get; set; } = null!;
+
+    public virtual void CreateRefToOwnership(StoreOwner relatedStoreOwner)
+    {
+        Ownership = relatedStoreOwner;
+    }
+
+    public virtual void DeleteRefToOwnership(StoreOwner relatedStoreOwner)
+    {
+        Ownership = null;
+    }
 
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
-     public virtual EmailAddress? EmailAddress { get; set; } = null!;
+     public virtual EmailAddress? VerifiedEmails { get; set; } = null!;
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

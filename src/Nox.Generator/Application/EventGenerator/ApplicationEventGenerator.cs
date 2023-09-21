@@ -14,16 +14,16 @@ internal class ApplicationEventGenerator : INoxCodeGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Application?.Events == null) return;
+        if (codeGeneratorState.Solution.Application?.IntegrationEvents == null) return;
 
-        foreach (var evt in codeGeneratorState.Solution.Application.Events)
+        foreach (var evt in codeGeneratorState.Solution.Application.IntegrationEvents)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
             GenerateEvent(context, codeGeneratorState, evt);
         }
     }
 
-    private static void GenerateEvent(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, ApplicationEvent evt)
+    private static void GenerateEvent(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, IntegrationEvent evt)
     {
         var code = new CodeBuilder($"{evt.Name}.g.cs", context);
 
@@ -38,7 +38,7 @@ internal class ApplicationEventGenerator : INoxCodeGenerator
 
         GenerateClassDocs(context, code, evt);
 
-        code.AppendLine($"public partial class {evt.Name} : INoxApplicationEvent");
+        code.AppendLine($"public partial class {evt.Name} : Nox.Application.IIntegrationEvent");
         code.StartBlock();
 
         GenerateProperties(context, code, evt);
@@ -48,7 +48,7 @@ internal class ApplicationEventGenerator : INoxCodeGenerator
         code.GenerateSourceCode();
     }
 
-    private static void GenerateClassDocs(SourceProductionContext context, CodeBuilder code, ApplicationEvent evt)
+    private static void GenerateClassDocs(SourceProductionContext context, CodeBuilder code, IntegrationEvent evt)
     {
         if (evt.Description is not null)
         {
@@ -59,7 +59,7 @@ internal class ApplicationEventGenerator : INoxCodeGenerator
         }
     }
 
-    private static void GenerateProperties(SourceProductionContext context, CodeBuilder code, ApplicationEvent evt)
+    private static void GenerateProperties(SourceProductionContext context, CodeBuilder code, IntegrationEvent evt)
     {
         if (evt.ObjectTypeOptions != null)
         {

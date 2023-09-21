@@ -12,24 +12,32 @@ using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.Application.Queries;
 
-public record GetEmployeeByIdQuery(System.Int64 keyId) : IRequest <EmployeeDto?>;
+public record GetEmployeeByIdQuery(System.Int64 keyId) : IRequest <IQueryable<EmployeeDto>>;
 
-public partial class GetEmployeeByIdQueryHandler:  QueryBase<EmployeeDto?>, IRequestHandler<GetEmployeeByIdQuery, EmployeeDto?>
+public partial class GetEmployeeByIdQueryHandler:GetEmployeeByIdQueryHandlerBase
 {
-    public  GetEmployeeByIdQueryHandler(DtoDbContext dataDbContext)
+    public  GetEmployeeByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    {
+    
+    }
+}
+
+public abstract class GetEmployeeByIdQueryHandlerBase:  QueryBase<IQueryable<EmployeeDto>>, IRequestHandler<GetEmployeeByIdQuery, IQueryable<EmployeeDto>>
+{
+    public  GetEmployeeByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<EmployeeDto?> Handle(GetEmployeeByIdQuery request, CancellationToken cancellationToken)
+    public virtual Task<IQueryable<EmployeeDto>> Handle(GetEmployeeByIdQuery request, CancellationToken cancellationToken)
     {    
-        var item = DataDbContext.Employees
+        var query = DataDbContext.Employees
             .AsNoTracking()
-            .SingleOrDefault(r =>
+            .Where(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);
-        return Task.FromResult(OnResponse(item));
+        return Task.FromResult(OnResponse(query));
     }
 }

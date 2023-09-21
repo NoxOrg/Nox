@@ -20,29 +20,60 @@ namespace Cryptocash.Application.Commands;
 
 public record CreateTransactionCommand(TransactionCreateDto EntityDto) : IRequest<TransactionKeyDto>;
 
-public partial class CreateTransactionCommandHandler: CommandBase<CreateTransactionCommand,Transaction>, IRequestHandler <CreateTransactionCommand, TransactionKeyDto>
+public partial class CreateTransactionCommandHandler: CreateTransactionCommandHandlerBase
 {
-	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<Transaction,TransactionCreateDto> _entityFactory;
-
 	public CreateTransactionCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Transaction,TransactionCreateDto> entityFactory,
+        IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> customerfactory,
+        IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> bookingfactory,
+        IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> entityFactory,
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution,customerfactory, bookingfactory, entityFactory, serviceProvider)
+	{
+	}
+}
+
+
+public abstract class CreateTransactionCommandHandlerBase: CommandBase<CreateTransactionCommand,Transaction>, IRequestHandler <CreateTransactionCommand, TransactionKeyDto>
+{
+	private readonly CryptocashDbContext _dbContext;
+	private readonly IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> _entityFactory;
+    private readonly IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> _customerfactory;
+    private readonly IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> _bookingfactory;
+
+	public CreateTransactionCommandHandlerBase(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+        IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> customerfactory,
+        IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> bookingfactory,
+        IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
+        _customerfactory = customerfactory;
+        _bookingfactory = bookingfactory;
 	}
 
-	public async Task<TransactionKeyDto> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
+	public virtual async Task<TransactionKeyDto> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
-					
-		OnCompleted(entityToCreate);
+		if(request.EntityDto.TransactionForCustomer is not null)
+		{
+			var relatedEntity = _customerfactory.CreateEntity(request.EntityDto.TransactionForCustomer);
+			entityToCreate.CreateRefToTransactionForCustomer(relatedEntity);
+		}
+		if(request.EntityDto.TransactionForBooking is not null)
+		{
+			var relatedEntity = _bookingfactory.CreateEntity(request.EntityDto.TransactionForBooking);
+			entityToCreate.CreateRefToTransactionForBooking(relatedEntity);
+		}
+
+		OnCompleted(request, entityToCreate);
 		_dbContext.Transactions.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new TransactionKeyDto(entityToCreate.Id.Value);

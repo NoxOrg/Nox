@@ -5,20 +5,37 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
+public partial class CashStockOrder:CashStockOrderBase
+{
+
+}
+/// <summary>
+/// Record for CashStockOrder created event.
+/// </summary>
+public record CashStockOrderCreated(CashStockOrder CashStockOrder) : IDomainEvent;
+/// <summary>
+/// Record for CashStockOrder updated event.
+/// </summary>
+public record CashStockOrderUpdated(CashStockOrder CashStockOrder) : IDomainEvent;
+/// <summary>
+/// Record for CashStockOrder deleted event.
+/// </summary>
+public record CashStockOrderDeleted(CashStockOrder CashStockOrder) : IDomainEvent;
 
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-public partial class CashStockOrder : AuditableEntityBase
+public abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Vending machine's order unique identifier (Required).
     /// </summary>
-    public DatabaseNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Order amount (Required).
@@ -38,7 +55,7 @@ public partial class CashStockOrder : AuditableEntityBase
     /// <summary>
     /// Order status (Optional).
     /// </summary>
-    public String? Status
+    public string? Status
     { 
         get { return DeliveryDateTime != null ? "delivered" : "ordered"; }
         private set { }
@@ -52,10 +69,35 @@ public partial class CashStockOrder : AuditableEntityBase
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity VendingMachine
     /// </summary>
-    public Nox.Types.DatabaseGuid CashStockOrderForVendingMachineId { get; set; } = null!;
+    public Nox.Types.Guid CashStockOrderForVendingMachineId { get; set; } = null!;
+
+    public virtual void CreateRefToCashStockOrderForVendingMachine(VendingMachine relatedVendingMachine)
+    {
+        CashStockOrderForVendingMachine = relatedVendingMachine;
+    }
+
+    public virtual void DeleteRefToCashStockOrderForVendingMachine(VendingMachine relatedVendingMachine)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
+    }
 
     /// <summary>
     /// CashStockOrder reviewed by ExactlyOne Employees
     /// </summary>
     public virtual Employee CashStockOrderReviewedByEmployee { get; set; } = null!;
+
+    public virtual void CreateRefToCashStockOrderReviewedByEmployee(Employee relatedEmployee)
+    {
+        CashStockOrderReviewedByEmployee = relatedEmployee;
+    }
+
+    public virtual void DeleteRefToCashStockOrderReviewedByEmployee(Employee relatedEmployee)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
+    }
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

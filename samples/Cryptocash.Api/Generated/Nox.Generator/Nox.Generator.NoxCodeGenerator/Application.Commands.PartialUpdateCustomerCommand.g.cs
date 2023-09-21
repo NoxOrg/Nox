@@ -16,14 +16,24 @@ using Customer = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application.Commands;
 
-public record PartialUpdateCustomerCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <CustomerKeyDto?>;
+public record PartialUpdateCustomerCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CustomerKeyDto?>;
 
-public class PartialUpdateCustomerCommandHandler: CommandBase<PartialUpdateCustomerCommand, Customer>, IRequestHandler<PartialUpdateCustomerCommand, CustomerKeyDto?>
+public class PartialUpdateCustomerCommandHandler: PartialUpdateCustomerCommandHandlerBase
+{
+	public PartialUpdateCustomerCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<Customer> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+	{
+	}
+}
+public class PartialUpdateCustomerCommandHandlerBase: CommandBase<PartialUpdateCustomerCommand, Customer>, IRequestHandler<PartialUpdateCustomerCommand, CustomerKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<Customer> EntityMapper { get; }
 
-	public PartialUpdateCustomerCommandHandler(
+	public PartialUpdateCustomerCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -33,11 +43,11 @@ public class PartialUpdateCustomerCommandHandler: CommandBase<PartialUpdateCusto
 		EntityMapper = entityMapper;
 	}
 
-	public async Task<CustomerKeyDto?> Handle(PartialUpdateCustomerCommand request, CancellationToken cancellationToken)
+	public virtual async Task<CustomerKeyDto?> Handle(PartialUpdateCustomerCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Customer,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Customer,Nox.Types.AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.Customers.FindAsync(keyId);
 		if (entity == null)
@@ -45,8 +55,9 @@ public class PartialUpdateCustomerCommandHandler: CommandBase<PartialUpdateCusto
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Customer>(), request.UpdatedProperties);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

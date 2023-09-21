@@ -5,20 +5,37 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
+public partial class Transaction:TransactionBase
+{
+
+}
+/// <summary>
+/// Record for Transaction created event.
+/// </summary>
+public record TransactionCreated(Transaction Transaction) : IDomainEvent;
+/// <summary>
+/// Record for Transaction updated event.
+/// </summary>
+public record TransactionUpdated(Transaction Transaction) : IDomainEvent;
+/// <summary>
+/// Record for Transaction deleted event.
+/// </summary>
+public record TransactionDeleted(Transaction Transaction) : IDomainEvent;
 
 /// <summary>
 /// Customer transaction log and related data.
 /// </summary>
-public partial class Transaction : AuditableEntityBase
+public abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Customer transaction unique identifier (Required).
     /// </summary>
-    public DatabaseNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Transaction type (Required).
@@ -48,7 +65,17 @@ public partial class Transaction : AuditableEntityBase
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Customer
     /// </summary>
-    public Nox.Types.DatabaseNumber TransactionForCustomerId { get; set; } = null!;
+    public Nox.Types.AutoNumber TransactionForCustomerId { get; set; } = null!;
+
+    public virtual void CreateRefToTransactionForCustomer(Customer relatedCustomer)
+    {
+        TransactionForCustomer = relatedCustomer;
+    }
+
+    public virtual void DeleteRefToTransactionForCustomer(Customer relatedCustomer)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
+    }
 
     /// <summary>
     /// Transaction for ExactlyOne Bookings
@@ -58,5 +85,20 @@ public partial class Transaction : AuditableEntityBase
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Booking
     /// </summary>
-    public Nox.Types.DatabaseGuid TransactionForBookingId { get; set; } = null!;
+    public Nox.Types.Guid TransactionForBookingId { get; set; } = null!;
+
+    public virtual void CreateRefToTransactionForBooking(Booking relatedBooking)
+    {
+        TransactionForBooking = relatedBooking;
+    }
+
+    public virtual void DeleteRefToTransactionForBooking(Booking relatedBooking)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
+    }
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

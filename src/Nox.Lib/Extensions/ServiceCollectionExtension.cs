@@ -1,11 +1,14 @@
 using System.Reflection;
 using FluentValidation;
+using MassTransit;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Nox.Abstractions;
 using Nox.Application.Behaviors;
 using Nox.Application.Providers;
 using Nox.Factories;
+using Nox.Messaging;
 using Nox.Secrets;
 using Nox.Secrets.Abstractions;
 using Nox.Solution;
@@ -35,7 +38,28 @@ public static class ServiceCollectionExtension
             .AddNoxFactories(noxAssemblies)
             .AddAutoMapper(entryAssembly)
             .AddNoxProviders()
-            .AddNoxDtos();
+            .AddNoxDtos()
+            .AddMessaging();
+        
+
+    }
+    public static IServiceCollection AddMessaging(this IServiceCollection services)
+    {
+        services.AddSingleton<IMessageOutbox, MessageOutbox>();
+
+        /*Move to Generated WebServiceCollection to use Solution to define the Type of Bud*/
+        services.AddMassTransit(x =>
+        {
+            x.UsingInMemory((context, cfg) =>
+            {
+                cfg.ConfigureEndpoints(context);
+
+            });
+
+        });
+        
+
+        return services;
     }
     private static IServiceCollection AddNoxMediatR(
         this IServiceCollection services,
@@ -91,7 +115,7 @@ public static class ServiceCollectionExtension
     {
         services.Scan(scan =>
            scan.FromAssemblies(noxAssemblies)
-           .AddClasses(classes => classes.AssignableTo(typeof(IEntityFactory<,>)))
+           .AddClasses(classes => classes.AssignableTo(typeof(IEntityFactory<,,>)))
            .AsImplementedInterfaces()
            .WithSingletonLifetime());
 

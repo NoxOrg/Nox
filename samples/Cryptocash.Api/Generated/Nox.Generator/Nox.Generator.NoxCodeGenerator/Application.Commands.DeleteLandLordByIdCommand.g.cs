@@ -13,13 +13,22 @@ using LandLord = Cryptocash.Domain.LandLord;
 
 namespace Cryptocash.Application.Commands;
 
-public record DeleteLandLordByIdCommand(System.Int64 keyId) : IRequest<bool>;
+public record DeleteLandLordByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
-public class DeleteLandLordByIdCommandHandler: CommandBase<DeleteLandLordByIdCommand,LandLord>, IRequestHandler<DeleteLandLordByIdCommand, bool>
+public class DeleteLandLordByIdCommandHandler:DeleteLandLordByIdCommandHandlerBase
+{
+	public DeleteLandLordByIdCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+	{
+	}
+}
+public abstract class DeleteLandLordByIdCommandHandlerBase: CommandBase<DeleteLandLordByIdCommand,LandLord>, IRequestHandler<DeleteLandLordByIdCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public DeleteLandLordByIdCommandHandler(
+	public DeleteLandLordByIdCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -27,11 +36,11 @@ public class DeleteLandLordByIdCommandHandler: CommandBase<DeleteLandLordByIdCom
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeleteLandLordByIdCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteLandLordByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<LandLord,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<LandLord,Nox.Types.AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.LandLords.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted == true)
@@ -39,7 +48,9 @@ public class DeleteLandLordByIdCommandHandler: CommandBase<DeleteLandLordByIdCom
 			return false;
 		}
 
-		OnCompleted(entity);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+		OnCompleted(request, entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;

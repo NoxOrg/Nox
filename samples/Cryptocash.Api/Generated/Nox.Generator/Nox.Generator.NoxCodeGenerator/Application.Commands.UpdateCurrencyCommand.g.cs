@@ -15,37 +15,50 @@ using Currency = Cryptocash.Domain.Currency;
 
 namespace Cryptocash.Application.Commands;
 
-public record UpdateCurrencyCommand(System.String keyId, CurrencyUpdateDto EntityDto) : IRequest<CurrencyKeyDto?>;
+public record UpdateCurrencyCommand(System.String keyId, CurrencyUpdateDto EntityDto, System.Guid? Etag) : IRequest<CurrencyKeyDto?>;
 
-public class UpdateCurrencyCommandHandler: CommandBase<UpdateCurrencyCommand, Currency>, IRequestHandler<UpdateCurrencyCommand, CurrencyKeyDto?>
+public partial class UpdateCurrencyCommandHandler: UpdateCurrencyCommandHandlerBase
 {
-	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<Currency> EntityMapper { get; }
-
 	public UpdateCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<Currency> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> entityFactory): base(dbContext, noxSolution, serviceProvider, entityFactory)
+	{
+	}
+}
+
+public abstract class UpdateCurrencyCommandHandlerBase: CommandBase<UpdateCurrencyCommand, Currency>, IRequestHandler<UpdateCurrencyCommand, CurrencyKeyDto?>
+{
+	public CryptocashDbContext DbContext { get; }
+	private readonly IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> _entityFactory;
+
+	public UpdateCurrencyCommandHandlerBase(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		_entityFactory = entityFactory;
 	}
-	
-	public async Task<CurrencyKeyDto?> Handle(UpdateCurrencyCommand request, CancellationToken cancellationToken)
+
+	public virtual async Task<CurrencyKeyDto?> Handle(UpdateCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Currency,CurrencyCode3>("Id", request.keyId);
-	
+		var keyId = CreateNoxTypeForKey<Currency,Nox.Types.CurrencyCode3>("Id", request.keyId);
+
 		var entity = await DbContext.Currencies.FindAsync(keyId);
 		if (entity == null)
 		{
 			return null;
 		}
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<Currency>(), request.EntityDto);
 
-		OnCompleted(entity);
+		_entityFactory.UpdateEntity(entity, request.EntityDto);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

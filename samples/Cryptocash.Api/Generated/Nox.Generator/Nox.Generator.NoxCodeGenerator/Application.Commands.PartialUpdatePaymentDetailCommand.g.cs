@@ -16,14 +16,24 @@ using PaymentDetail = Cryptocash.Domain.PaymentDetail;
 
 namespace Cryptocash.Application.Commands;
 
-public record PartialUpdatePaymentDetailCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <PaymentDetailKeyDto?>;
+public record PartialUpdatePaymentDetailCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <PaymentDetailKeyDto?>;
 
-public class PartialUpdatePaymentDetailCommandHandler: CommandBase<PartialUpdatePaymentDetailCommand, PaymentDetail>, IRequestHandler<PartialUpdatePaymentDetailCommand, PaymentDetailKeyDto?>
+public class PartialUpdatePaymentDetailCommandHandler: PartialUpdatePaymentDetailCommandHandlerBase
+{
+	public PartialUpdatePaymentDetailCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<PaymentDetail> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+	{
+	}
+}
+public class PartialUpdatePaymentDetailCommandHandlerBase: CommandBase<PartialUpdatePaymentDetailCommand, PaymentDetail>, IRequestHandler<PartialUpdatePaymentDetailCommand, PaymentDetailKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<PaymentDetail> EntityMapper { get; }
 
-	public PartialUpdatePaymentDetailCommandHandler(
+	public PartialUpdatePaymentDetailCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -33,11 +43,11 @@ public class PartialUpdatePaymentDetailCommandHandler: CommandBase<PartialUpdate
 		EntityMapper = entityMapper;
 	}
 
-	public async Task<PaymentDetailKeyDto?> Handle(PartialUpdatePaymentDetailCommand request, CancellationToken cancellationToken)
+	public virtual async Task<PaymentDetailKeyDto?> Handle(PartialUpdatePaymentDetailCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<PaymentDetail,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<PaymentDetail,Nox.Types.AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.PaymentDetails.FindAsync(keyId);
 		if (entity == null)
@@ -45,8 +55,9 @@ public class PartialUpdatePaymentDetailCommandHandler: CommandBase<PartialUpdate
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<PaymentDetail>(), request.UpdatedProperties);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

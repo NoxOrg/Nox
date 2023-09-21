@@ -5,20 +5,37 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace TestWebApp.Domain;
+public partial class ThirdTestEntityExactlyOne:ThirdTestEntityExactlyOneBase
+{
+
+}
+/// <summary>
+/// Record for ThirdTestEntityExactlyOne created event.
+/// </summary>
+public record ThirdTestEntityExactlyOneCreated(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) : IDomainEvent;
+/// <summary>
+/// Record for ThirdTestEntityExactlyOne updated event.
+/// </summary>
+public record ThirdTestEntityExactlyOneUpdated(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) : IDomainEvent;
+/// <summary>
+/// Record for ThirdTestEntityExactlyOne deleted event.
+/// </summary>
+public record ThirdTestEntityExactlyOneDeleted(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) : IDomainEvent;
 
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public partial class ThirdTestEntityExactlyOne : AuditableEntityBase
+public abstract class ThirdTestEntityExactlyOneBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
     ///  (Required).
@@ -34,4 +51,14 @@ public partial class ThirdTestEntityExactlyOne : AuditableEntityBase
     /// Foreign key for relationship ExactlyOne to entity ThirdTestEntityZeroOrOne
     /// </summary>
     public Nox.Types.Text ThirdTestEntityZeroOrOneRelationshipId { get; set; } = null!;
+
+    public virtual void CreateRefToThirdTestEntityZeroOrOneThirdTestEntityZeroOrOneRelationship(ThirdTestEntityZeroOrOne relatedThirdTestEntityZeroOrOne)
+    {
+        ThirdTestEntityZeroOrOneRelationship = relatedThirdTestEntityZeroOrOne;
+    }
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

@@ -11,6 +11,8 @@
 	<PropertyGroup>
 		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
 		<CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
+		<AssemblyName>Nox.ClientApi.Tests</AssemblyName>
+		<RootNamespace>ClientApi</RootNamespace>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -54,12 +56,16 @@
 		<PackageReference Include="AutoFixture.Xunit2" Version="4.18.0" />
 		<PackageReference Include="FluentAssertions" Version="6.12.0" />
 		<PackageReference Include="JsonSchema.Net.Generation" Version="3.3.2" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.10" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.11" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
 		<PackageReference Include="Moq" Version="4.20.69" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
-		<PackageReference Include="xunit" Version="2.5.0" />
-		<PackageReference Include="xunit.runner.visualstudio" Version="2.5.0">
+		<PackageReference Include="Npgsql" Version="7.0.6" />
+		<PackageReference Include="Testcontainers" Version="3.5.0" />
+		<PackageReference Include="Testcontainers.MsSql" Version="3.5.0" />
+		<PackageReference Include="Testcontainers.PostgreSql" Version="3.5.0" />
+		<PackageReference Include="xunit" Version="2.5.1" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="2.5.1">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
@@ -67,7 +73,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.10" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.11" />
 		<PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.3" />		
 		<PackageReference Include="Microsoft.OData.Core" Version="7.18.0" />		
 	</ItemGroup>
@@ -75,6 +81,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\tests\Nox.Lib.Tests\Nox.Lib.Tests.csproj" />
 		<ProjectReference Include="..\Nox.Abstractions\Nox.Abstractions.csproj" />
+		<ProjectReference Include="..\Nox.Docs\Nox.Docs.csproj" />
 		<ProjectReference Include="..\Nox.Generator\Nox.Generator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
 		<ProjectReference Include="..\Nox.Lib\Nox.Lib.csproj" />
 	</ItemGroup>

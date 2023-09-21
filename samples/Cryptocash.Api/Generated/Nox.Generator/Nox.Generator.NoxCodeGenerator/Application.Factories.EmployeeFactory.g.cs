@@ -23,15 +23,15 @@ using Employee = Cryptocash.Domain.Employee;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class EmployeeFactoryBase: IEntityFactory<Employee,EmployeeCreateDto>
+public abstract class EmployeeFactoryBase : IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto>
 {
-    protected IEntityFactory<EmployeePhoneNumber,EmployeePhoneNumberCreateDto> EmployeePhoneNumberFactory {get;}
+    protected IEntityFactory<EmployeePhoneNumber, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> EmployeePhoneNumberFactory {get;}
 
     public EmployeeFactoryBase
     (
-        IEntityFactory<EmployeePhoneNumber,EmployeePhoneNumberCreateDto> employeephonenumberfactory
+        IEntityFactory<EmployeePhoneNumber, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> employeephonenumberfactory
         )
-    {        
+    {
         EmployeePhoneNumberFactory = employeephonenumberfactory;
     }
 
@@ -39,6 +39,12 @@ public abstract class EmployeeFactoryBase: IEntityFactory<Employee,EmployeeCreat
     {
         return ToEntity(createDto);
     }
+
+    public virtual void UpdateEntity(Employee entity, EmployeeUpdateDto updateDto)
+    {
+        UpdateEntityInternal(entity, updateDto);
+    }
+
     private Cryptocash.Domain.Employee ToEntity(EmployeeCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Employee();
@@ -49,8 +55,21 @@ public abstract class EmployeeFactoryBase: IEntityFactory<Employee,EmployeeCreat
         entity.FirstWorkingDay = Cryptocash.Domain.Employee.CreateFirstWorkingDay(createDto.FirstWorkingDay);
         if (createDto.LastWorkingDay is not null)entity.LastWorkingDay = Cryptocash.Domain.Employee.CreateLastWorkingDay(createDto.LastWorkingDay.NonNullValue<System.DateTime>());
         //entity.CashStockOrder = CashStockOrder.ToEntity();
-        entity.EmployeePhoneNumbers = createDto.EmployeePhoneNumbers.Select(dto => EmployeePhoneNumberFactory.CreateEntity(dto)).ToList();
+        entity.EmployeeContactPhoneNumbers = createDto.EmployeeContactPhoneNumbers.Select(dto => EmployeePhoneNumberFactory.CreateEntity(dto)).ToList();
         return entity;
+    }
+
+    private void UpdateEntityInternal(Employee entity, EmployeeUpdateDto updateDto)
+    {
+        entity.FirstName = Cryptocash.Domain.Employee.CreateFirstName(updateDto.FirstName.NonNullValue<System.String>());
+        entity.LastName = Cryptocash.Domain.Employee.CreateLastName(updateDto.LastName.NonNullValue<System.String>());
+        entity.EmailAddress = Cryptocash.Domain.Employee.CreateEmailAddress(updateDto.EmailAddress.NonNullValue<System.String>());
+        entity.Address = Cryptocash.Domain.Employee.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
+        entity.FirstWorkingDay = Cryptocash.Domain.Employee.CreateFirstWorkingDay(updateDto.FirstWorkingDay.NonNullValue<System.DateTime>());
+        if (updateDto.LastWorkingDay == null) { entity.LastWorkingDay = null; } else {
+            entity.LastWorkingDay = Cryptocash.Domain.Employee.CreateLastWorkingDay(updateDto.LastWorkingDay.ToValueFromNonNull<System.DateTime>());
+        }
+        //entity.CashStockOrder = CashStockOrder.ToEntity();
     }
 }
 
@@ -58,7 +77,7 @@ public partial class EmployeeFactory : EmployeeFactoryBase
 {
     public EmployeeFactory
     (
-        IEntityFactory<EmployeePhoneNumber,EmployeePhoneNumberCreateDto> employeephonenumberfactory
-    ): base(employeephonenumberfactory)                      
+        IEntityFactory<EmployeePhoneNumber, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> employeephonenumberfactory
+    ): base(employeephonenumberfactory)
     {}
 }

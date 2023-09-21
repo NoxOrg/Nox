@@ -97,7 +97,7 @@ public class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
             if (ownedRelationship.WithSingleEntity())
             {
                 builder.OwnsOne(relatedEntityDtoType,
-                    ownedRelationship.Related.Entity.Name,
+                    ownedRelationship.Name,
                     owned =>
                     {
                         owned.WithOwner().HasForeignKey($"{entity.Name}Id");
@@ -106,16 +106,14 @@ public class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
             }
 
             builder.OwnsMany(relatedEntityDtoType,
-                ownedRelationship.Related.Entity.PluralName,
+                ownedRelationship.Name,
                 owned =>
                 {
                     owned.WithOwner().HasForeignKey($"{entity.Name}Id");
                     owned.HasKey(string.Join(",", keyNames));
                     owned.ToTable(ownedRelationship.Related.Entity.Name);
                 });
-
         }
-
     }
 
     private static void ConfigureKeys(IEntityBuilder builder, Entity entity)

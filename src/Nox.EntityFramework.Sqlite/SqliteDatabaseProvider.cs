@@ -8,8 +8,7 @@ namespace Nox.EntityFramework.Sqlite;
 
 public sealed class SqliteDatabaseProvider : NoxDatabaseConfigurator, INoxDatabaseProvider
 {
-
-    public string ConnectionString { get; set; } = string.Empty;
+    public string ConnectionString { get; } = string.Empty;
 
     public SqliteDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators) 
         : base(configurators, typeof(ISqliteNoxTypeDatabaseConfigurator))

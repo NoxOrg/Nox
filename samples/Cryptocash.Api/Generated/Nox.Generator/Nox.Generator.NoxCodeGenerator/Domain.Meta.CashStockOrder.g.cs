@@ -14,52 +14,56 @@ namespace Cryptocash.Domain;
 /// </summary>
 public partial class CashStockOrder
 {
-    /// <summary>
-    /// Type options and factory for property 'Id'
-    /// </summary>
-    public static Nox.Types.DatabaseNumber CreateId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
     
-
-    /// <summary>
-    /// Type options and factory for property 'Amount'
-    /// </summary>
-    public static Nox.Types.Money CreateAmount(IMoney value)
-        => Nox.Types.Money.From(value);
+        /// <summary>
+        /// Factory for property 'Id'
+        /// </summary>
+        public static Nox.Types.AutoNumber CreateId(System.Int64 value)
+            => Nox.Types.AutoNumber.From(value);
+        
     
-
-    /// <summary>
-    /// Type options and factory for property 'RequestedDeliveryDate'
-    /// </summary>
-    public static Nox.Types.Date CreateRequestedDeliveryDate(System.DateTime value)
-        => Nox.Types.Date.From(value);
+        /// <summary>
+        /// Factory for property 'Amount'
+        /// </summary>
+        public static Nox.Types.Money CreateAmount(IMoney value)
+            => Nox.Types.Money.From(value);
+        
     
-
-    /// <summary>
-    /// Type options and factory for property 'DeliveryDateTime'
-    /// </summary>
-    public static Nox.Types.DateTime CreateDeliveryDateTime(System.DateTimeOffset value)
-        => Nox.Types.DateTime.From(value);
+        /// <summary>
+        /// Factory for property 'RequestedDeliveryDate'
+        /// </summary>
+        public static Nox.Types.Date CreateRequestedDeliveryDate(System.DateTime value)
+            => Nox.Types.Date.From(value);
+        
     
-
-    /// <summary>
-    /// Type options and factory for property 'Status'
-    /// </summary>
-    public static Nox.Types.FormulaTypeOptions StatusTypeOptions {get; private set;} = new ()
-    {
-        Expression = "DeliveryDateTime != null ? \"delivered\" : \"ordered\"",
-        Returns = Nox.Types.FormulaReturnType.String,
-    };
+        /// <summary>
+        /// Factory for property 'DeliveryDateTime'
+        /// </summary>
+        public static Nox.Types.DateTime CreateDeliveryDateTime(System.DateTimeOffset value)
+            => Nox.Types.DateTime.From(value);
+        
     
-    public static Formula CreateStatus(System.String value)
-        => Nox.Types.Formula.From(value, StatusTypeOptions);
+        /// <summary>
+        /// Type options for property 'Status'
+        /// </summary>
+        public static Nox.Types.FormulaTypeOptions StatusTypeOptions {get; private set;} = new ()
+        {
+            Expression = "DeliveryDateTime != null ? \"delivered\" : \"ordered\"",
+            Returns = Nox.Types.FormulaReturnType.@string,
+        };
     
-
-    /// <summary>
-    /// Type options and factory for property 'VendingMachineId'
-    /// </summary>
-    public static Nox.Types.DatabaseGuid CreateVendingMachineId(System.Guid value)
-        => Nox.Types.DatabaseGuid.From(value);
     
-
+        /// <summary>
+        /// Factory for property 'Status'
+        /// </summary>
+        public static Nox.Types.Formula CreateStatus(System.String value)
+            => Nox.Types.Formula.From(value, StatusTypeOptions);
+        
+    
+        /// <summary>
+        /// Factory for property 'VendingMachineId'
+        /// </summary>
+        public static Nox.Types.Guid CreateVendingMachineId(System.Guid value)
+            => Nox.Types.Guid.From(value);
+        
 }

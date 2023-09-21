@@ -13,7 +13,7 @@ keys:
   - name: Id
     isRequired: true
     description: Currency bank note unique identifier 
-    type: databaseNumber 
+    type: autoNumber
     userInterface:
       showInSearchResults: never
       canSearch: true

@@ -125,33 +125,7 @@ public class Entity : DefinitionBase
         return _keysByName!.ContainsKey(keyName);
     }
 
-    public virtual bool TryGetRelationshipByName(NoxSolution solution, string relationshipName, out NoxSimpleTypeDefinition? result)
-    {
-        result = null;
-        if (Relationships == null)
-        {
-            return false;
-        }
-
-        var rel = Relationships!.First(x => x.Name.Equals(relationshipName));
-        // TODO: possibly extend for other types
-        if (!rel.ShouldGenerateForeignOnThisSide ||
-            rel.WithMultiEntity)
-        {
-            return false;
-        }
-
-        var foreignEntityKeyDefinition = rel.Related.Entity.Keys![0].ShallowCopy();
-        foreignEntityKeyDefinition.Name = rel.Related.Entity.Name + "Id";
-        foreignEntityKeyDefinition.Description = "-";
-        foreignEntityKeyDefinition.IsRequired = false;
-        foreignEntityKeyDefinition.IsReadonly = false;
-
-        result = foreignEntityKeyDefinition;
-        return true;
-    }
-
-    public IEnumerable<KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>> GetAllMembers()
+      public IEnumerable<KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>> GetAllMembers()
     {
         foreach (var key in Keys!)
         {
@@ -216,26 +190,7 @@ public class Entity : DefinitionBase
             }
         }
     }
-
-    public IEnumerable<KeyValuePair<EntityMemberType, EntityRelationship>> GetAllRelationships()
-    {
-        if (OwnedRelationships is not null)
-        {
-            foreach (var relationship in OwnedRelationships)
-            {
-                yield return new(EntityMemberType.OwnedRelationship, relationship);
-            }
-        }
-
-        if (Relationships is not null)
-        {
-            foreach (var relationship in Relationships)
-            {
-                yield return new(EntityMemberType.Relationship, relationship);
-            }
-        }
-    }
-
+    
     private readonly object _lockEnsureByKeyObject = new object();
     private void EnsureKeyByName()
     {
@@ -279,7 +234,7 @@ public class Entity : DefinitionBase
         {
             Name = foreignKeyName,
             Description = $"A unique identifier for a {relationship.Related.Entity!.Name}.",
-            Type = Types.NoxType.DatabaseNumber,
+            Type = Types.NoxType.AutoNumber,
             IsRequired = true,
             IsReadonly = true,
         };

@@ -1,7 +1,7 @@
 ﻿using AutoFixture.Xunit2;
 using Nox.Lib.Tests.FixtureConfig;
 
-namespace Nox.ClientApi.Tests.Tests.FixtureConfig;
+namespace ClientApi.Tests.Tests.FixtureConfig;
 
 public class InlineAutoMoqDataAttribute : CompositeDataAttribute
 {

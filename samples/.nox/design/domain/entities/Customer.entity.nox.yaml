@@ -6,14 +6,19 @@
 
 name: Customer
 
+pluralName: Customers
+
 description: Customer definition and related data
+
+userInterface: 
+  icon: Customers
 
 keys:
 
   - name: Id
     isRequired: true
     description: Customer's unique identifier 
-    type: databaseNumber 
+    type: autoNumber
     userInterface:
       showInSearchResults: never
       canSearch: true

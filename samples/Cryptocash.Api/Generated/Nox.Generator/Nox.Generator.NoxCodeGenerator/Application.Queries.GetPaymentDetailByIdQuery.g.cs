@@ -12,24 +12,32 @@ using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.Application.Queries;
 
-public record GetPaymentDetailByIdQuery(System.Int64 keyId) : IRequest <PaymentDetailDto?>;
+public record GetPaymentDetailByIdQuery(System.Int64 keyId) : IRequest <IQueryable<PaymentDetailDto>>;
 
-public partial class GetPaymentDetailByIdQueryHandler:  QueryBase<PaymentDetailDto?>, IRequestHandler<GetPaymentDetailByIdQuery, PaymentDetailDto?>
+public partial class GetPaymentDetailByIdQueryHandler:GetPaymentDetailByIdQueryHandlerBase
 {
-    public  GetPaymentDetailByIdQueryHandler(DtoDbContext dataDbContext)
+    public  GetPaymentDetailByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    {
+    
+    }
+}
+
+public abstract class GetPaymentDetailByIdQueryHandlerBase:  QueryBase<IQueryable<PaymentDetailDto>>, IRequestHandler<GetPaymentDetailByIdQuery, IQueryable<PaymentDetailDto>>
+{
+    public  GetPaymentDetailByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<PaymentDetailDto?> Handle(GetPaymentDetailByIdQuery request, CancellationToken cancellationToken)
+    public virtual Task<IQueryable<PaymentDetailDto>> Handle(GetPaymentDetailByIdQuery request, CancellationToken cancellationToken)
     {    
-        var item = DataDbContext.PaymentDetails
+        var query = DataDbContext.PaymentDetails
             .AsNoTracking()
-            .SingleOrDefault(r =>
+            .Where(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);
-        return Task.FromResult(OnResponse(item));
+        return Task.FromResult(OnResponse(query));
     }
 }
