@@ -13,9 +13,6 @@ using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Solution;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using System.Reflection;
-using System.Diagnostics;
 
 using TestWebApp.Domain;
 
@@ -33,17 +30,17 @@ public partial class TestWebAppDbContext : DbContext
             DbContextOptions<TestWebAppDbContext> options,
             NoxSolution noxSolution,
             INoxDatabaseProvider databaseProvider,
-            INoxClientAssemblyProvider clientAssemblyProvider, 
+            INoxClientAssemblyProvider clientAssemblyProvider,
             IUserProvider userProvider,
             ISystemProvider systemProvider
         ) : base(options)
-        {
-            _noxSolution = noxSolution;
-            _dbProvider = databaseProvider;
-            _clientAssemblyProvider = clientAssemblyProvider;
-            _userProvider = userProvider;
-            _systemProvider = systemProvider;
-        }
+    {
+        _noxSolution = noxSolution;
+        _dbProvider = databaseProvider;
+        _clientAssemblyProvider = clientAssemblyProvider;
+        _userProvider = userProvider;
+        _systemProvider = systemProvider;
+    }
 
     public DbSet<TestEntityZeroOrOne> TestEntityZeroOrOnes { get; set; } = null!;
 
@@ -97,15 +94,11 @@ public partial class TestWebAppDbContext : DbContext
 
     public DbSet<TestEntityOwnedRelationshipExactlyOne> TestEntityOwnedRelationshipExactlyOnes { get; set; } = null!;
 
-
     public DbSet<TestEntityOwnedRelationshipZeroOrOne> TestEntityOwnedRelationshipZeroOrOnes { get; set; } = null!;
-
 
     public DbSet<TestEntityOwnedRelationshipOneOrMany> TestEntityOwnedRelationshipOneOrManies { get; set; } = null!;
 
-
     public DbSet<TestEntityOwnedRelationshipZeroOrMany> TestEntityOwnedRelationshipZeroOrManies { get; set; } = null!;
-
 
     public DbSet<TestEntityTwoRelationshipsOneToOne> TestEntityTwoRelationshipsOneToOnes { get; set; } = null!;
 
@@ -128,7 +121,7 @@ public partial class TestWebAppDbContext : DbContext
         base.OnConfiguring(optionsBuilder);
         if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })
         {
-            _dbProvider.ConfigureDbContext(optionsBuilder, "TestWebApp", _noxSolution.Infrastructure!.Persistence.DatabaseServer); 
+            _dbProvider.ConfigureDbContext(optionsBuilder, "TestWebApp", _noxSolution.Infrastructure!.Persistence.DatabaseServer);
         }
     }
 
@@ -167,9 +160,8 @@ public partial class TestWebAppDbContext : DbContext
         {
             HandleSystemFields();
             return await base.SaveChangesAsync(cancellationToken);
-
         }
-        catch(DbUpdateConcurrencyException)
+        catch (DbUpdateConcurrencyException)
         {
             throw new ConcurrencyException($"Latest value of {nameof(IEntityConcurrent.Etag)} must be provided");
         }

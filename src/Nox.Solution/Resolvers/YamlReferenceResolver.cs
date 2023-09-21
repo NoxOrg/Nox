@@ -20,10 +20,10 @@ internal class YamlReferenceResolver
 
     public YamlResolverResult? Result { get; private set; }
 
-    public YamlReferenceResolver(IDictionary<string,Func<TextReader>> filesAndContent, string rootKey)
+    public YamlReferenceResolver(IDictionary<string, Func<TextReader>> filesAndContent, string rootKey)
     {
-        if(!filesAndContent.TryGetValue(rootKey, out var _)) 
-        { 
+        if (!filesAndContent.TryGetValue(rootKey, out var _))
+        {
             throw new NoxYamlException($"The key [{rootKey}] was not found in the file and content dictionary.");
         }
 
@@ -39,7 +39,7 @@ internal class YamlReferenceResolver
         using var sourceLines = _filesAndContent[_rootKey].Invoke();
 
         var outputLines = ResolveReferencesInternal(sourceLines, _rootKey, true);
-        
+
         var resolvedYaml = outputLines.ToString();
 
         var variables = ExtractVariablesIfExist(resolvedYaml);
@@ -106,7 +106,7 @@ internal class YamlReferenceResolver
 
             bool isFirstLine = true;
 
-            var childLineNumber = 0; 
+            var childLineNumber = 0;
 
             while (true)
             {
@@ -120,7 +120,7 @@ internal class YamlReferenceResolver
                 {
                     continue;
                 }
-                
+
                 containsRef = containsRef || childLine.Contains("$ref:");
 
                 string output;
@@ -128,7 +128,7 @@ internal class YamlReferenceResolver
                 if (isFirstLine)
                 {
                     output = $"{prefix}{childLine}".Replace("- -", "-");
-                    
+
                     isFirstLine = false;
                 }
                 else if (childLine.StartsWith("-"))
@@ -146,14 +146,13 @@ internal class YamlReferenceResolver
                 // outputLines.Append(output).AppendLine($"   ##$ -> {childPath},{childLineNumber}");
 
                 outputLines.AppendLine(output);
-
             }
         }
 
         if (containsRef)
         {
             using var sr = new StringReader(outputLines.ToString());
-            outputLines = ResolveReferencesInternal(sr,sourceName);
+            outputLines = ResolveReferencesInternal(sr, sourceName);
         }
 
         return outputLines;
@@ -165,9 +164,9 @@ internal class YamlReferenceResolver
 
         var variables = new List<YamlVariableInfo>();
 
-        foreach(Match match in variableMatches) 
+        foreach (Match match in variableMatches)
         {
-            variables.Add( new YamlVariableInfo(
+            variables.Add(new YamlVariableInfo(
                 type: match.Groups["type"].Value,
                 name: match.Groups["variable"].Value,
                 index: match.Index,
@@ -185,12 +184,12 @@ internal class YamlReferenceResolver
         return Result.Variables(type);
     }
 
-    public string ResolveVariables(IDictionary<string,string?> variables)
+    public string ResolveVariables(IDictionary<string, string?> variables)
     {
         if (Result is null) throw new NoxSolutionConfigurationException("Yaml is unresolved. Call 'ResolveReferences()' method first.");
 
         // replace all variables conaining variable refs
-        foreach(var variable in variables) 
+        foreach (var variable in variables)
         {
             if (variable.Value is null) continue;
 
@@ -212,5 +211,4 @@ internal class YamlReferenceResolver
 
         return Result.ReplaceVariables(variables);
     }
-
 }
