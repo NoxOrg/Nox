@@ -4,5 +4,5 @@ namespace Nox.Messaging;
 
 public interface IMessageOutbox
 {
-    Task Send(IApplicationEvent message);
+    Task SendAsync(IIntegrationEvent message);
 }

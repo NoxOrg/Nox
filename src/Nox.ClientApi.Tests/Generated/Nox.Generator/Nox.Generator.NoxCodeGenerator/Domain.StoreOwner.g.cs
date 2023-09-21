@@ -72,9 +72,14 @@ public abstract class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public virtual List<Store> Stores { get; set; } = new();
 
-    public virtual void CreateRefToStoreStores(Store relatedStore)
+    public virtual void CreateRefToStores(Store relatedStore)
     {
         Stores.Add(relatedStore);
+    }
+
+    public virtual void DeleteRefToStores(Store relatedStore)
+    {
+        Stores.Remove(relatedStore);
     }
 
     /// <summary>

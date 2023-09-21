@@ -468,4 +468,10 @@
   <data name="RelationEntityDependentMustHaveSingleKey" xml:space="preserve">
     <value>Entity {0}. The dependant entity {1}  in relation {2} can only have a single key.</value>
   </data>
+  <data name="EntityOwnedCannotBeRelatedToOtherEntities" xml:space="preserve">
+    <value>The owned entity '{0}' cannot be referred by other entities relationships.</value>
+  </data>
+  <data name="EntityOwnedCannotHaveRelationships" xml:space="preserve">
+    <value>The owned entity '{0}' cannot have relationships to other entities.</value>
+  </data>
 </root>

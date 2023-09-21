@@ -13,7 +13,7 @@ namespace ClientApi.Application.Events;
 /// <summary>
 /// Country Population Updated with Population Higher then 100M.
 /// </summary>
-public partial class CountryPopulationHigherThan100M : Nox.Application.IApplicationEvent
+public partial class CountryPopulationHigherThan100M : Nox.Application.IIntegrationEvent
 {
     public CountryCode2? Code { get; set; } = null!;
     public Text? Name { get; set; } = null!;

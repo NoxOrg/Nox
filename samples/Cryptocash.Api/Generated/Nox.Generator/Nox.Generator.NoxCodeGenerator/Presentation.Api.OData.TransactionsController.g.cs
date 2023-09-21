@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System;
 using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Extensions;
@@ -155,6 +156,34 @@ public abstract class TransactionsControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> GetRefToTransactionForCustomer([FromRoute] System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetTransactionByIdQuery(key))).Select(x => x.TransactionForCustomer).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        var references = new System.Uri($"Customers/{related.Id}", UriKind.Relative);
+        return Ok(references);
+    }
+    
+    public async Task<ActionResult> DeleteRefToTransactionForCustomer([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefTransactionToTransactionForCustomerCommand(new TransactionKeyDto(key), new CustomerKeyDto(relatedKey)));
+        if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> CreateRefToTransactionForBooking([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -164,6 +193,34 @@ public abstract class TransactionsControllerBase : ODataController
         
         var createdRef = await _mediator.Send(new CreateRefTransactionToTransactionForBookingCommand(new TransactionKeyDto(key), new BookingKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> GetRefToTransactionForBooking([FromRoute] System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetTransactionByIdQuery(key))).Select(x => x.TransactionForBooking).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        var references = new System.Uri($"Bookings/{related.Id}", UriKind.Relative);
+        return Ok(references);
+    }
+    
+    public async Task<ActionResult> DeleteRefToTransactionForBooking([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefTransactionToTransactionForBookingCommand(new TransactionKeyDto(key), new BookingKeyDto(relatedKey)));
+        if (!deletedRef)
         {
             return NotFound();
         }

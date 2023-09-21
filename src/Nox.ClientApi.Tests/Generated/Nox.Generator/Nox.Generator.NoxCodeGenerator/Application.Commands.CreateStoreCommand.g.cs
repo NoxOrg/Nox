@@ -25,10 +25,10 @@ public partial class CreateStoreCommandHandler: CreateStoreCommandHandlerBase
 	public CreateStoreCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<StoreOwner,StoreOwnerCreateDto> storeownerfactory,
-        IEntityFactory<Store,StoreCreateDto> entityFactory,
+        IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> storeownerfactory,
+        IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,storeownerfactory,entityFactory, serviceProvider)
+		: base(dbContext, noxSolution,storeownerfactory, entityFactory, serviceProvider)
 	{
 	}
 }
@@ -37,18 +37,18 @@ public partial class CreateStoreCommandHandler: CreateStoreCommandHandlerBase
 public abstract class CreateStoreCommandHandlerBase: CommandBase<CreateStoreCommand,Store>, IRequestHandler <CreateStoreCommand, StoreKeyDto>
 {
 	private readonly ClientApiDbContext _dbContext;
-	private readonly IEntityFactory<Store,StoreCreateDto> _entityFactory;
-    private readonly IEntityFactory<StoreOwner,StoreOwnerCreateDto> _storeownerfactory;
+	private readonly IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> _entityFactory;
+    private readonly IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> _storeownerfactory;
 
 	public CreateStoreCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<StoreOwner,StoreOwnerCreateDto> storeownerfactory,
-        IEntityFactory<Store,StoreCreateDto> entityFactory,
+        IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> storeownerfactory,
+        IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;        
+		_entityFactory = entityFactory;
         _storeownerfactory = storeownerfactory;
 	}
 
@@ -59,11 +59,11 @@ public abstract class CreateStoreCommandHandlerBase: CommandBase<CreateStoreComm
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.Ownership is not null)
-		{ 
+		{
 			var relatedEntity = _storeownerfactory.CreateEntity(request.EntityDto.Ownership);
-			entityToCreate.CreateRefToStoreOwnerOwnership(relatedEntity);
+			entityToCreate.CreateRefToOwnership(relatedEntity);
 		}
-					
+
 		OnCompleted(request, entityToCreate);
 		_dbContext.Stores.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();

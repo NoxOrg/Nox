@@ -23,38 +23,39 @@ public partial class UpdateEmployeeCommandHandler: UpdateEmployeeCommandHandlerB
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<Employee> entityMapper): base(dbContext, noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> entityFactory): base(dbContext, noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
+
 public abstract class UpdateEmployeeCommandHandlerBase: CommandBase<UpdateEmployeeCommand, Employee>, IRequestHandler<UpdateEmployeeCommand, EmployeeKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<Employee> EntityMapper { get; }
+	private readonly IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> _entityFactory;
 
 	public UpdateEmployeeCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<Employee> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		_entityFactory = entityFactory;
 	}
-	
+
 	public virtual async Task<EmployeeKeyDto?> Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Employee,Nox.Types.AutoNumber>("Id", request.keyId);
-	
+
 		var entity = await DbContext.Employees.FindAsync(keyId);
 		if (entity == null)
 		{
 			return null;
 		}
 
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<Employee>(), request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);

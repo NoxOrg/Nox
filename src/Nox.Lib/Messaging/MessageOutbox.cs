@@ -14,7 +14,7 @@ namespace Nox.Messaging
             _bus = bus;
             _logger = logger;
         }
-        public async Task Send(IApplicationEvent message)
+        public async Task SendAsync(IIntegrationEvent message)
         {
             _logger.LogInformation("Adding message to Outbox {typeName}", message.GetType());
             

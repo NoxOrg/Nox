@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using FluentValidation;
+using Nox.Solution.Validation.Events;
 
 namespace Nox.Solution.Validation
 {
@@ -12,6 +13,9 @@ namespace Nox.Solution.Validation
 
             RuleForEach(p => p.Integrations)
                 .SetValidator(v => new IntegrationValidator(v.Integrations, dataConnections));
+
+            RuleForEach(a => a.IntegrationEvents)
+                .SetValidator(i => new IntegrationEventValidator());
         }
     }
 }

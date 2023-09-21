@@ -62,9 +62,14 @@ public abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.AutoNumber PaymentDetailsUsedByCustomerId { get; set; } = null!;
 
-    public virtual void CreateRefToCustomerPaymentDetailsUsedByCustomer(Customer relatedCustomer)
+    public virtual void CreateRefToPaymentDetailsUsedByCustomer(Customer relatedCustomer)
     {
         PaymentDetailsUsedByCustomer = relatedCustomer;
+    }
+
+    public virtual void DeleteRefToPaymentDetailsUsedByCustomer(Customer relatedCustomer)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
     }
 
     /// <summary>
@@ -77,9 +82,14 @@ public abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.AutoNumber PaymentDetailsRelatedPaymentProviderId { get; set; } = null!;
 
-    public virtual void CreateRefToPaymentProviderPaymentDetailsRelatedPaymentProvider(PaymentProvider relatedPaymentProvider)
+    public virtual void CreateRefToPaymentDetailsRelatedPaymentProvider(PaymentProvider relatedPaymentProvider)
     {
         PaymentDetailsRelatedPaymentProvider = relatedPaymentProvider;
+    }
+
+    public virtual void DeleteRefToPaymentDetailsRelatedPaymentProvider(PaymentProvider relatedPaymentProvider)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
     }
 
     /// <summary>

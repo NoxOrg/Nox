@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System;
 using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Extensions;
@@ -432,6 +433,34 @@ public abstract class CountriesControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> GetRefToCountryUsedByCurrency([FromRoute] System.String key)
+    {
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.CountryUsedByCurrency).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        var references = new System.Uri($"Currencies/{related.Id}", UriKind.Relative);
+        return Ok(references);
+    }
+    
+    public async Task<ActionResult> DeleteRefToCountryUsedByCurrency([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefCountryToCountryUsedByCurrencyCommand(new CountryKeyDto(key), new CurrencyKeyDto(relatedKey)));
+        if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> CreateRefToCountryUsedByCommissions([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -441,6 +470,38 @@ public abstract class CountriesControllerBase : ODataController
         
         var createdRef = await _mediator.Send(new CreateRefCountryToCountryUsedByCommissionsCommand(new CountryKeyDto(key), new CommissionKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> GetRefToCountryUsedByCommissions([FromRoute] System.String key)
+    {
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.CountryUsedByCommissions).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        IList<System.Uri> references = new List<System.Uri>();
+        foreach (var item in related)
+        {
+            references.Add(new System.Uri($"Commissions/{item.Id}", UriKind.Relative));
+        }
+        return Ok(references);
+    }
+    
+    public async Task<ActionResult> DeleteRefToCountryUsedByCommissions([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefCountryToCountryUsedByCommissionsCommand(new CountryKeyDto(key), new CommissionKeyDto(relatedKey)));
+        if (!deletedRef)
         {
             return NotFound();
         }
@@ -464,6 +525,38 @@ public abstract class CountriesControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> GetRefToCountryUsedByVendingMachines([FromRoute] System.String key)
+    {
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.CountryUsedByVendingMachines).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        IList<System.Uri> references = new List<System.Uri>();
+        foreach (var item in related)
+        {
+            references.Add(new System.Uri($"VendingMachines/{item.Id}", UriKind.Relative));
+        }
+        return Ok(references);
+    }
+    
+    public async Task<ActionResult> DeleteRefToCountryUsedByVendingMachines([FromRoute] System.String key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefCountryToCountryUsedByVendingMachinesCommand(new CountryKeyDto(key), new VendingMachineKeyDto(relatedKey)));
+        if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> CreateRefToCountryUsedByCustomers([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -473,6 +566,38 @@ public abstract class CountriesControllerBase : ODataController
         
         var createdRef = await _mediator.Send(new CreateRefCountryToCountryUsedByCustomersCommand(new CountryKeyDto(key), new CustomerKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> GetRefToCountryUsedByCustomers([FromRoute] System.String key)
+    {
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.CountryUsedByCustomers).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        IList<System.Uri> references = new List<System.Uri>();
+        foreach (var item in related)
+        {
+            references.Add(new System.Uri($"Customers/{item.Id}", UriKind.Relative));
+        }
+        return Ok(references);
+    }
+    
+    public async Task<ActionResult> DeleteRefToCountryUsedByCustomers([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefCountryToCountryUsedByCustomersCommand(new CountryKeyDto(key), new CustomerKeyDto(relatedKey)));
+        if (!deletedRef)
         {
             return NotFound();
         }

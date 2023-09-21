@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System;
 using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Extensions;
@@ -148,6 +149,34 @@ public abstract class WorkplacesControllerBase : ODataController
         
         var createdRef = await _mediator.Send(new CreateRefWorkplaceToBelongsToCountryCommand(new WorkplaceKeyDto(key), new CountryKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> GetRefToBelongsToCountry([FromRoute] System.UInt32 key)
+    {
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).Select(x => x.BelongsToCountry).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        var references = new System.Uri($"Countries/{related.Id}", UriKind.Relative);
+        return Ok(references);
+    }
+    
+    public async Task<ActionResult> DeleteRefToBelongsToCountry([FromRoute] System.UInt32 key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefWorkplaceToBelongsToCountryCommand(new WorkplaceKeyDto(key), new CountryKeyDto(relatedKey)));
+        if (!deletedRef)
         {
             return NotFound();
         }

@@ -14,7 +14,7 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public partial class CountryBarCodeCreateDto: CountryBarCodeCreateDtoBase
+public partial class CountryBarCodeCreateDto : CountryBarCodeCreateDtoBase
 {
 
 }
@@ -22,14 +22,14 @@ public partial class CountryBarCodeCreateDto: CountryBarCodeCreateDtoBase
 /// <summary>
 /// Bar code for country.
 /// </summary>
-public abstract class CountryBarCodeCreateDtoBase : IEntityCreateDto<CountryBarCode>
-{    
+public abstract class CountryBarCodeCreateDtoBase : IEntityDto<CountryBarCode>
+{
     /// <summary>
     /// Bar code name (Required).
     /// </summary>
     [Required(ErrorMessage = "BarCodeName is required")]
     
-    public virtual System.String BarCodeName { get; set; } = default!;    
+    public virtual System.String BarCodeName { get; set; } = default!;
     /// <summary>
     /// Bar code number (Optional).
     /// </summary>

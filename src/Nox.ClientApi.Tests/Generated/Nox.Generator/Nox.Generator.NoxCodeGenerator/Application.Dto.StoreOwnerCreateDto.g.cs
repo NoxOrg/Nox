@@ -14,7 +14,7 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public partial class StoreOwnerCreateDto: StoreOwnerCreateDtoBase
+public partial class StoreOwnerCreateDto : StoreOwnerCreateDtoBase
 {
 
 }
@@ -22,37 +22,37 @@ public partial class StoreOwnerCreateDto: StoreOwnerCreateDtoBase
 /// <summary>
 /// Store owners.
 /// </summary>
-public abstract class StoreOwnerCreateDtoBase : IEntityCreateDto<StoreOwner>
+public abstract class StoreOwnerCreateDtoBase : IEntityDto<StoreOwner>
 {
     /// <summary>
     ///  (Required).
     /// </summary>
     [Required(ErrorMessage = "Id is required")]
-    public System.String Id { get; set; } = default!;    
+    public System.String Id { get; set; } = default!;
     /// <summary>
     /// Owner Name (Required).
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
-    public virtual System.String Name { get; set; } = default!;    
+    public virtual System.String Name { get; set; } = default!;
     /// <summary>
     /// Temporary Owner Name (Required).
     /// </summary>
     [Required(ErrorMessage = "TemporaryOwnerName is required")]
     
-    public virtual System.String TemporaryOwnerName { get; set; } = default!;    
+    public virtual System.String TemporaryOwnerName { get; set; } = default!;
     /// <summary>
     /// Vat Number (Optional).
     /// </summary>
-    public virtual VatNumberDto? VatNumber { get; set; }    
+    public virtual VatNumberDto? VatNumber { get; set; }
     /// <summary>
     /// Street Address (Optional).
     /// </summary>
-    public virtual StreetAddressDto? StreetAddress { get; set; }    
+    public virtual StreetAddressDto? StreetAddress { get; set; }
     /// <summary>
     /// Owner Greeting (Optional).
     /// </summary>
-    public virtual TranslatedTextDto? LocalGreeting { get; set; }    
+    public virtual TranslatedTextDto? LocalGreeting { get; set; }
     /// <summary>
     /// Notes (Optional).
     /// </summary>

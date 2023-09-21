@@ -14,7 +14,7 @@ using {{codeGeneratorState.DomainNameSpace}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto;
 
-public partial class {{className}}: {{className}}Base
+public partial class {{className}} : {{className}}Base
 {
 
 }
@@ -22,13 +22,13 @@ public partial class {{className}}: {{className}}Base
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public abstract class {{className}}Base : IEntityCreateDto<{{entity.Name}}>
+public abstract class {{className}}Base : IEntityDto<{{entity.Name}}>
 {
 {{- for key in entity.Keys }}
     {{- if key.Type == "Nuid" || key.Type == "AutoNumber" -}}
     {{ continue; -}}
     {{- else if key.Type == "Guid" -}}
-    
+
     /// <summary>
     /// {{key.Description}} (Optional).
     /// </summary>
@@ -44,8 +44,8 @@ public abstract class {{className}}Base : IEntityCreateDto<{{entity.Name}}>
     public {{SinglePrimitiveTypeForKey key}} {{key.Name}} { get; set; } = default!;
     {{- end}}
 {{- end }}
-   
-{{- for attribute in entity.Attributes }}    
+
+{{- for attribute in entity.Attributes }}
     /// <summary>
     /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
     /// </summary>
@@ -65,7 +65,7 @@ public abstract class {{className}}Base : IEntityCreateDto<{{entity.Name}}>
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
     {{- if relationship.WithSingleEntity }}
-    public virtual {{relationship.Entity}}CreateDto{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}} { get; set; } = null!;
+    public virtual {{relationship.Entity}}CreateDto? {{relationship.Name}} { get; set; } = default!;
     {{- else }}
     public virtual List<{{relationship.Entity}}CreateDto> {{relationship.Name}} { get; set; } = new();
     {{-end}}

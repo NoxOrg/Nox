@@ -24,40 +24,6 @@ public partial class {{className}} : EntityMapperBase<{{entity.Name}}>
 {
     public {{className}}(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
-    public override void MapToEntity({{entity.Name}} entity, Entity entityDefinition, dynamic dto)
-    {
-    #pragma warning disable CS0168 // Variable is declared but never used        
-        dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used
-
-    {{- for attribute in entity.Attributes }}  
-    {{- if attribute.Type == "Formula" -}}
-    {{- continue; }}
-    {{- end }}        
-        noxTypeValue = CreateNoxType<Nox.Types.{{attribute.Type}}>(entityDefinition, "{{attribute.Name}}", dto.{{attribute.Name}});
-        {{- if attribute.IsRequired }}
-        if (noxTypeValue == null)
-        {
-            throw new NullReferenceException("{{attribute.Name}} is required can not be set to null");
-        } 
-        {{- end }}     
-        entity.{{attribute.Name}} = noxTypeValue;
-    {{- end }}
-    {{ for relationship in entity.Relationships }}
-    {{- if relationship.WithSingleEntity && relationship.ShouldGenerateForeignOnThisSide}}
-
-        /// <summary>
-        /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
-        /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.{{relationship.Related.Entity.Keys[0].Type}}>(entityDefinition, "{{relationship.Name}}", dto.{{relationship.Name}}Id);
-        if (noxTypeValue != null)
-        {        
-            entity.{{relationship.Name}}Id = noxTypeValue;
-        }
-    {{- end }}
-    {{- end }}
-    }
-
     public override void PartialMapToEntity({{entity.Name}} entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
 #pragma warning disable CS0168 // Variable is assigned but its value is never used

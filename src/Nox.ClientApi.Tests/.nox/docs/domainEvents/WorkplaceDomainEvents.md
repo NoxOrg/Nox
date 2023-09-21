@@ -14,6 +14,7 @@ Member|Type|Description
 ------|----|-----------
 Id|Nuid|Workplace unique identifier
 Name|Text|Workplace Name
+Description|Text|Workplace Description
 Greeting|Formula|The Formula
 CountryId|AutoNumber|The unique identifier
 
@@ -28,6 +29,7 @@ Member|Type|Description
 ------|----|-----------
 Id|Nuid|Workplace unique identifier
 Name|Text|Workplace Name
+Description|Text|Workplace Description
 Greeting|Formula|The Formula
 CountryId|AutoNumber|The unique identifier
 
@@ -42,6 +44,7 @@ Member|Type|Description
 ------|----|-----------
 Id|Nuid|Workplace unique identifier
 Name|Text|Workplace Name
+Description|Text|Workplace Description
 Greeting|Formula|The Formula
 CountryId|AutoNumber|The unique identifier
 

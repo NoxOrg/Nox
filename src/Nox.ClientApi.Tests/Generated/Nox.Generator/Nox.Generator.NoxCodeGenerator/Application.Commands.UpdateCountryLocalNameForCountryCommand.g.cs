@@ -18,16 +18,16 @@ public record UpdateCountryLocalNameForCountryCommand(CountryKeyDto ParentKeyDto
 public partial class UpdateCountryLocalNameForCountryCommandHandler: CommandBase<UpdateCountryLocalNameForCountryCommand, CountryLocalName>, IRequestHandler <UpdateCountryLocalNameForCountryCommand, CountryLocalNameKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
-	public IEntityMapper<CountryLocalName> EntityMapper { get; }
+	private readonly IEntityFactory<CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> _entityFactory;
 
 	public UpdateCountryLocalNameForCountryCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<CountryLocalName> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		_entityFactory = entityFactory;
 	}
 
 	public async Task<CountryLocalNameKeyDto?> Handle(UpdateCountryLocalNameForCountryCommand request, CancellationToken cancellationToken)
@@ -41,16 +41,16 @@ public partial class UpdateCountryLocalNameForCountryCommandHandler: CommandBase
 			return null;
 		}
 		var ownedId = CreateNoxTypeForKey<CountryLocalName,Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.CountryShortNames.SingleOrDefault(x => x.Id == ownedId);		
+		var entity = parentEntity.CountryShortNames.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
 			return null;
 		}
 
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<CountryLocalName>(), request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);
-	
+
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)

@@ -14,7 +14,7 @@ using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
-public partial class VendingMachineCreateDto: VendingMachineCreateDtoBase
+public partial class VendingMachineCreateDto : VendingMachineCreateDtoBase
 {
 
 }
@@ -22,45 +22,45 @@ public partial class VendingMachineCreateDto: VendingMachineCreateDtoBase
 /// <summary>
 /// Vending machine definition and related data.
 /// </summary>
-public abstract class VendingMachineCreateDtoBase : IEntityCreateDto<VendingMachine>
+public abstract class VendingMachineCreateDtoBase : IEntityDto<VendingMachine>
 {/// <summary>
     /// Vending machine unique identifier (Optional).
     /// </summary>
-    public System.Guid Id { get; set; } = default!;    
+    public System.Guid Id { get; set; } = default!;
     /// <summary>
     /// Vending machine mac address (Required).
     /// </summary>
     [Required(ErrorMessage = "MacAddress is required")]
     
-    public virtual System.String MacAddress { get; set; } = default!;    
+    public virtual System.String MacAddress { get; set; } = default!;
     /// <summary>
     /// Vending machine public ip (Required).
     /// </summary>
     [Required(ErrorMessage = "PublicIp is required")]
     
-    public virtual System.String PublicIp { get; set; } = default!;    
+    public virtual System.String PublicIp { get; set; } = default!;
     /// <summary>
     /// Vending machine geo location (Required).
     /// </summary>
     [Required(ErrorMessage = "GeoLocation is required")]
     
-    public virtual LatLongDto GeoLocation { get; set; } = default!;    
+    public virtual LatLongDto GeoLocation { get; set; } = default!;
     /// <summary>
     /// Vending machine street address (Required).
     /// </summary>
     [Required(ErrorMessage = "StreetAddress is required")]
     
-    public virtual StreetAddressDto StreetAddress { get; set; } = default!;    
+    public virtual StreetAddressDto StreetAddress { get; set; } = default!;
     /// <summary>
     /// Vending machine serial number (Required).
     /// </summary>
     [Required(ErrorMessage = "SerialNumber is required")]
     
-    public virtual System.String SerialNumber { get; set; } = default!;    
+    public virtual System.String SerialNumber { get; set; } = default!;
     /// <summary>
     /// Vending machine installation area (Optional).
     /// </summary>
-    public virtual System.Decimal? InstallationFootPrint { get; set; }    
+    public virtual System.Decimal? InstallationFootPrint { get; set; }
     /// <summary>
     /// Landlord rent amount based on area of the vending machine installation (Optional).
     /// </summary>
@@ -69,12 +69,12 @@ public abstract class VendingMachineCreateDtoBase : IEntityCreateDto<VendingMach
     /// <summary>
     /// VendingMachine installed in ExactlyOne Countries
     /// </summary>
-    public virtual CountryCreateDto VendingMachineInstallationCountry { get; set; } = null!;
+    public virtual CountryCreateDto? VendingMachineInstallationCountry { get; set; } = default!;
 
     /// <summary>
     /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
-    public virtual LandLordCreateDto VendingMachineContractedAreaLandLord { get; set; } = null!;
+    public virtual LandLordCreateDto? VendingMachineContractedAreaLandLord { get; set; } = default!;
 
     /// <summary>
     /// VendingMachine related to ZeroOrMany Bookings

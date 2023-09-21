@@ -23,7 +23,7 @@ using EmailAddress = ClientApi.Domain.EmailAddress;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class EmailAddressFactoryBase: IEntityFactory<EmailAddress,EmailAddressCreateDto>
+public abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto>
 {
 
     public EmailAddressFactoryBase
@@ -36,12 +36,28 @@ public abstract class EmailAddressFactoryBase: IEntityFactory<EmailAddress,Email
     {
         return ToEntity(createDto);
     }
+
+    public virtual void UpdateEntity(EmailAddress entity, EmailAddressUpdateDto updateDto)
+    {
+        UpdateEntityInternal(entity, updateDto);
+    }
+
     private ClientApi.Domain.EmailAddress ToEntity(EmailAddressCreateDto createDto)
     {
         var entity = new ClientApi.Domain.EmailAddress();
         if (createDto.Email is not null)entity.Email = ClientApi.Domain.EmailAddress.CreateEmail(createDto.Email.NonNullValue<System.String>());
         if (createDto.IsVerified is not null)entity.IsVerified = ClientApi.Domain.EmailAddress.CreateIsVerified(createDto.IsVerified.NonNullValue<System.Boolean>());
         return entity;
+    }
+
+    private void UpdateEntityInternal(EmailAddress entity, EmailAddressUpdateDto updateDto)
+    {
+        if (updateDto.Email == null) { entity.Email = null; } else {
+            entity.Email = ClientApi.Domain.EmailAddress.CreateEmail(updateDto.Email.ToValueFromNonNull<System.String>());
+        }
+        if (updateDto.IsVerified == null) { entity.IsVerified = null; } else {
+            entity.IsVerified = ClientApi.Domain.EmailAddress.CreateIsVerified(updateDto.IsVerified.ToValueFromNonNull<System.Boolean>());
+        }
     }
 }
 

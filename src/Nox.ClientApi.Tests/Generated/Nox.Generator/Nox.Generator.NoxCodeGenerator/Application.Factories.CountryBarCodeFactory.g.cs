@@ -23,7 +23,7 @@ using CountryBarCode = ClientApi.Domain.CountryBarCode;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class CountryBarCodeFactoryBase: IEntityFactory<CountryBarCode,CountryBarCodeCreateDto>
+public abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto>
 {
 
     public CountryBarCodeFactoryBase
@@ -36,12 +36,26 @@ public abstract class CountryBarCodeFactoryBase: IEntityFactory<CountryBarCode,C
     {
         return ToEntity(createDto);
     }
+
+    public virtual void UpdateEntity(CountryBarCode entity, CountryBarCodeUpdateDto updateDto)
+    {
+        UpdateEntityInternal(entity, updateDto);
+    }
+
     private ClientApi.Domain.CountryBarCode ToEntity(CountryBarCodeCreateDto createDto)
     {
         var entity = new ClientApi.Domain.CountryBarCode();
         entity.BarCodeName = ClientApi.Domain.CountryBarCode.CreateBarCodeName(createDto.BarCodeName);
         if (createDto.BarCodeNumber is not null)entity.BarCodeNumber = ClientApi.Domain.CountryBarCode.CreateBarCodeNumber(createDto.BarCodeNumber.NonNullValue<System.Int32>());
         return entity;
+    }
+
+    private void UpdateEntityInternal(CountryBarCode entity, CountryBarCodeUpdateDto updateDto)
+    {
+        entity.BarCodeName = ClientApi.Domain.CountryBarCode.CreateBarCodeName(updateDto.BarCodeName.NonNullValue<System.String>());
+        if (updateDto.BarCodeNumber == null) { entity.BarCodeNumber = null; } else {
+            entity.BarCodeNumber = ClientApi.Domain.CountryBarCode.CreateBarCodeNumber(updateDto.BarCodeNumber.ToValueFromNonNull<System.Int32>());
+        }
     }
 }
 

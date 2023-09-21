@@ -59,6 +59,11 @@ public abstract class WorkplaceBase : EntityBase, IEntityConcurrent
     public Nox.Types.Text Name { get; set; } = null!;
 
     /// <summary>
+    /// Workplace Description (Optional).
+    /// </summary>
+    public Nox.Types.Text? Description { get; set; } = null!;
+
+    /// <summary>
     /// The Formula (Optional).
     /// </summary>
     public string? Greeting
@@ -77,9 +82,14 @@ public abstract class WorkplaceBase : EntityBase, IEntityConcurrent
     /// </summary>
     public Nox.Types.AutoNumber? BelongsToCountryId { get; set; } = null!;
 
-    public virtual void CreateRefToCountryBelongsToCountry(Country relatedCountry)
+    public virtual void CreateRefToBelongsToCountry(Country relatedCountry)
     {
         BelongsToCountry = relatedCountry;
+    }
+
+    public virtual void DeleteRefToBelongsToCountry(Country relatedCountry)
+    {
+        BelongsToCountry = null;
     }
 
     /// <summary>
