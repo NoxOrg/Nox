@@ -23,6 +23,11 @@ public class NoxTestMsSqlContainerFixture : NoxTestContainerFixtureBase<MsSqlCon
 
     protected override DbContextOptions<TestWebAppDbContext> CreateDbOptions(string connectionString)
     {
+        const string masterDbName = "master";
+        if (connectionString.Contains(masterDbName))
+        {
+            connectionString = connectionString.Replace(masterDbName, nameof(TestWebAppDbContext));
+        }
         return new DbContextOptionsBuilder<TestWebAppDbContext>()
                 .UseSqlServer(connectionString)
                 .Options;

@@ -26,6 +26,7 @@ public abstract class NoxIntegrationTestBase<TContainerFixture> : IClassFixture<
 
         DataContext = RecreateDataContext();
 
+        DataContext.Database.EnsureDeleted();
         DataContext.Database.EnsureCreated();
     }
 

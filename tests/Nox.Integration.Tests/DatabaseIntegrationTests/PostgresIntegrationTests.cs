@@ -12,13 +12,13 @@ public class PostgresIntegrationTests : NoxIntegrationTestBase<NoxTestPostgreCon
         _noxCommonTestCases = new NoxCommonTestCaseFactory(RecreateDataContext);
     }
 
-    [Fact(Skip = "Fix issue with deploying db in container")]
+    [Fact]
     public void GeneratedEntity_Postgres_CanSaveAndReadFields_AllTypes()
     {
         _noxCommonTestCases.GenerateEntityCanSaveAndReadFieldsAllTypes();
     }
 
-    [Fact(Skip = "Fix issue with deploying db in container")]
+    [Fact]
     public void UniqueConstraints_SameValue_ShouldThrowException()
     {
         _noxCommonTestCases.UniqueConstraintsSameValueShouldThrowException();
