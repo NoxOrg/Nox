@@ -506,7 +506,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region GET
 
-        #region GET Ref To Related Entities /api/{EntityPluralName}/1/{RelationshipName} => api/countries/1/PhysicalWorkplaces/$ref
+        #region GET Ref To Related Entities /api/{EntityPluralName}/1/{RelationshipName}/$ref => api/countries/1/PhysicalWorkplaces/$ref
         [Fact]
         public async Task GetRefTo_PhysicalWorkplaces_Success()
         {

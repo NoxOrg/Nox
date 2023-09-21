@@ -83,7 +83,7 @@ namespace ClientApi.Tests.Tests.Controllers
         }
         #endregion
 
-        #region POST Create ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedEntityKey} => api/workplaces/1/belongstocountry/1/$ref
+        #region POST Create ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedEntityKey}/$ref => api/workplaces/1/belongstocountry/1/$ref
         [Fact]
         public async Task Post_CreateRefToBelongsToCountry_Success()
         {
