@@ -25,15 +25,19 @@ public class NoxTestMsSqlContainerFixture : NoxTestContainerFixtureBase<MsSqlCon
 
     protected override DbContextOptions<TestWebAppDbContext> CreateDbOptions(string connectionString)
     {
-        if (connectionString.Contains(MasterDbName))
-        {
-            connectionString = connectionString.Replace(MasterDbName, nameof(TestWebAppDbContext));
-        }
         return new DbContextOptionsBuilder<TestWebAppDbContext>()
                 .UseSqlServer(connectionString)
                 .Options;
     }
 
     protected override string GetConnectionString(MsSqlContainer container)
-        => container.GetConnectionString();
+    {
+        var connectionString = container.GetConnectionString();
+        if (connectionString.Contains(MasterDbName))
+        {
+            return connectionString.Replace(MasterDbName, nameof(TestWebAppDbContext));
+        }
+
+        return connectionString;
+    }
 }

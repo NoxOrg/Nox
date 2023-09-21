@@ -5,7 +5,7 @@ using Nox.Types.EntityFramework.Types;
 
 namespace Nox.EntityFramework.SqlServer;
 
-public class SqlServerDateRangeDatabaseConfigurator : DateTimeRangeDatabaseConfigurator
+public class SqlServerDateRangeDatabaseConfigurator : DateTimeRangeDatabaseConfigurator, ISqlServerNoxTypeDatabaseConfigurator
 {
     public override bool IsDefault => false;
 
