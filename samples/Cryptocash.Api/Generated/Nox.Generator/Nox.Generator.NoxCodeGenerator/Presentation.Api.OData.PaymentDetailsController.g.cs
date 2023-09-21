@@ -184,6 +184,22 @@ public abstract class PaymentDetailsControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> DeleteRefToPaymentDetailsUsedByCustomer([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefPaymentDetailToPaymentDetailsUsedByCustomerCommand(new PaymentDetailKeyDto(key)));
+        if (!deletedAllRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> CreateRefToPaymentDetailsRelatedPaymentProvider([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -221,6 +237,22 @@ public abstract class PaymentDetailsControllerBase : ODataController
         
         var deletedRef = await _mediator.Send(new DeleteRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommand(new PaymentDetailKeyDto(key), new PaymentProviderKeyDto(relatedKey)));
         if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> DeleteRefToPaymentDetailsRelatedPaymentProvider([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommand(new PaymentDetailKeyDto(key)));
+        if (!deletedAllRef)
         {
             return NotFound();
         }

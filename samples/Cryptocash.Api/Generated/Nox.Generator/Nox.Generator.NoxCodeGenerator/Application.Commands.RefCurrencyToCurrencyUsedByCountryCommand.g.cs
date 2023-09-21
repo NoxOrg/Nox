@@ -18,12 +18,13 @@ using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
 
-public abstract record RefCurrencyToCurrencyUsedByCountryCommand(CurrencyKeyDto EntityKeyDto, CountryKeyDto RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefCurrencyToCurrencyUsedByCountryCommand(CurrencyKeyDto EntityKeyDto, CountryKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
 public record CreateRefCurrencyToCurrencyUsedByCountryCommand(CurrencyKeyDto EntityKeyDto, CountryKeyDto RelatedEntityKeyDto)
 	: RefCurrencyToCurrencyUsedByCountryCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefCurrencyToCurrencyUsedByCountryCommandHandler: RefCurrencyToCurrencyUsedByCountryCommandHandlerBase<CreateRefCurrencyToCurrencyUsedByCountryCommand>
+public partial class CreateRefCurrencyToCurrencyUsedByCountryCommandHandler
+	: RefCurrencyToCurrencyUsedByCountryCommandHandlerBase<CreateRefCurrencyToCurrencyUsedByCountryCommand>
 {
 	public CreateRefCurrencyToCurrencyUsedByCountryCommandHandler(
 		CryptocashDbContext dbContext,
@@ -37,7 +38,8 @@ public partial class CreateRefCurrencyToCurrencyUsedByCountryCommandHandler: Ref
 public record DeleteRefCurrencyToCurrencyUsedByCountryCommand(CurrencyKeyDto EntityKeyDto, CountryKeyDto RelatedEntityKeyDto)
 	: RefCurrencyToCurrencyUsedByCountryCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefCurrencyToCurrencyUsedByCountryCommandHandler: RefCurrencyToCurrencyUsedByCountryCommandHandlerBase<DeleteRefCurrencyToCurrencyUsedByCountryCommand>
+public partial class DeleteRefCurrencyToCurrencyUsedByCountryCommandHandler
+	: RefCurrencyToCurrencyUsedByCountryCommandHandlerBase<DeleteRefCurrencyToCurrencyUsedByCountryCommand>
 {
 	public DeleteRefCurrencyToCurrencyUsedByCountryCommandHandler(
 		CryptocashDbContext dbContext,
@@ -48,6 +50,21 @@ public partial class DeleteRefCurrencyToCurrencyUsedByCountryCommandHandler: Ref
 	{ }
 }
 
+public record DeleteAllRefCurrencyToCurrencyUsedByCountryCommand(CurrencyKeyDto EntityKeyDto)
+	: RefCurrencyToCurrencyUsedByCountryCommand(EntityKeyDto, null);
+
+public partial class DeleteAllRefCurrencyToCurrencyUsedByCountryCommandHandler
+	: RefCurrencyToCurrencyUsedByCountryCommandHandlerBase<DeleteAllRefCurrencyToCurrencyUsedByCountryCommand>
+{
+	public DeleteAllRefCurrencyToCurrencyUsedByCountryCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+	{ }
+}
+
 public abstract class RefCurrencyToCurrencyUsedByCountryCommandHandlerBase<TRequest>: CommandBase<TRequest, Currency>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefCurrencyToCurrencyUsedByCountryCommand
 {
@@ -55,7 +72,7 @@ public abstract class RefCurrencyToCurrencyUsedByCountryCommandHandlerBase<TRequ
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete };
+    public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefCurrencyToCurrencyUsedByCountryCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -78,11 +95,16 @@ public abstract class RefCurrencyToCurrencyUsedByCountryCommandHandlerBase<TRequ
 		{
 			return false;
 		}
-		var relatedKeyId = CreateNoxTypeForKey<Country, Nox.Types.CountryCode2>("Id", request.RelatedEntityKeyDto.keyId);
-		var relatedEntity = await DbContext.Countries.FindAsync(relatedKeyId);
-		if (relatedEntity == null)
+
+		Country? relatedEntity = null!;
+		if(request.RelatedEntityKeyDto is not null)
 		{
-			return false;
+			var relatedKeyId = CreateNoxTypeForKey<Country, Nox.Types.CountryCode2>("Id", request.RelatedEntityKeyDto.keyId);
+			relatedEntity = await DbContext.Countries.FindAsync(relatedKeyId);
+			if (relatedEntity == null)
+			{
+				return false;
+			}
 		}
 		
 		switch (Action)
@@ -92,6 +114,10 @@ public abstract class RefCurrencyToCurrencyUsedByCountryCommandHandlerBase<TRequ
                 break;
             case RelationshipAction.Delete:
                 entity.DeleteRefToCurrencyUsedByCountry(relatedEntity);
+                break;
+            case RelationshipAction.DeleteAll:
+				await DbContext.Entry(entity).Collection(x => x.CurrencyUsedByCountry).LoadAsync();
+                entity.DeleteAllRefToCurrencyUsedByCountry();
                 break;
         }
 

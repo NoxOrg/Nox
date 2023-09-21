@@ -57,6 +57,11 @@ public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurr
         MinimumCashStocksRequiredByVendingMachines.Remove(relatedVendingMachine);
     }
 
+    public virtual void DeleteAllRefToMinimumCashStocksRequiredByVendingMachines()
+    {
+        MinimumCashStocksRequiredByVendingMachines.Clear();
+    }
+
     /// <summary>
     /// MinimumCashStock related to ExactlyOne Currencies
     /// </summary>
@@ -73,6 +78,11 @@ public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurr
     }
 
     public virtual void DeleteRefToMinimumCashStockRelatedCurrency(Currency relatedCurrency)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
+    }
+
+    public virtual void DeleteAllRefToMinimumCashStockRelatedCurrency()
     {
         throw new Exception($"The relatioship cannot be deleted.");
     }

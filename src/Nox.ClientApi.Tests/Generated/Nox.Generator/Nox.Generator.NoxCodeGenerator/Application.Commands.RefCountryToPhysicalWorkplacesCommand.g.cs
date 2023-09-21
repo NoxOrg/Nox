@@ -18,12 +18,13 @@ using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.Commands;
 
-public abstract record RefCountryToPhysicalWorkplacesCommand(CountryKeyDto EntityKeyDto, WorkplaceKeyDto RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefCountryToPhysicalWorkplacesCommand(CountryKeyDto EntityKeyDto, WorkplaceKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
 public record CreateRefCountryToPhysicalWorkplacesCommand(CountryKeyDto EntityKeyDto, WorkplaceKeyDto RelatedEntityKeyDto)
 	: RefCountryToPhysicalWorkplacesCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefCountryToPhysicalWorkplacesCommandHandler: RefCountryToPhysicalWorkplacesCommandHandlerBase<CreateRefCountryToPhysicalWorkplacesCommand>
+public partial class CreateRefCountryToPhysicalWorkplacesCommandHandler
+	: RefCountryToPhysicalWorkplacesCommandHandlerBase<CreateRefCountryToPhysicalWorkplacesCommand>
 {
 	public CreateRefCountryToPhysicalWorkplacesCommandHandler(
 		ClientApiDbContext dbContext,
@@ -37,7 +38,8 @@ public partial class CreateRefCountryToPhysicalWorkplacesCommandHandler: RefCoun
 public record DeleteRefCountryToPhysicalWorkplacesCommand(CountryKeyDto EntityKeyDto, WorkplaceKeyDto RelatedEntityKeyDto)
 	: RefCountryToPhysicalWorkplacesCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefCountryToPhysicalWorkplacesCommandHandler: RefCountryToPhysicalWorkplacesCommandHandlerBase<DeleteRefCountryToPhysicalWorkplacesCommand>
+public partial class DeleteRefCountryToPhysicalWorkplacesCommandHandler
+	: RefCountryToPhysicalWorkplacesCommandHandlerBase<DeleteRefCountryToPhysicalWorkplacesCommand>
 {
 	public DeleteRefCountryToPhysicalWorkplacesCommandHandler(
 		ClientApiDbContext dbContext,
@@ -48,6 +50,21 @@ public partial class DeleteRefCountryToPhysicalWorkplacesCommandHandler: RefCoun
 	{ }
 }
 
+public record DeleteAllRefCountryToPhysicalWorkplacesCommand(CountryKeyDto EntityKeyDto)
+	: RefCountryToPhysicalWorkplacesCommand(EntityKeyDto, null);
+
+public partial class DeleteAllRefCountryToPhysicalWorkplacesCommandHandler
+	: RefCountryToPhysicalWorkplacesCommandHandlerBase<DeleteAllRefCountryToPhysicalWorkplacesCommand>
+{
+	public DeleteAllRefCountryToPhysicalWorkplacesCommandHandler(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+	{ }
+}
+
 public abstract class RefCountryToPhysicalWorkplacesCommandHandlerBase<TRequest>: CommandBase<TRequest, Country>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefCountryToPhysicalWorkplacesCommand
 {
@@ -55,7 +72,7 @@ public abstract class RefCountryToPhysicalWorkplacesCommandHandlerBase<TRequest>
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete };
+    public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefCountryToPhysicalWorkplacesCommandHandlerBase(
 		ClientApiDbContext dbContext,
@@ -78,11 +95,16 @@ public abstract class RefCountryToPhysicalWorkplacesCommandHandlerBase<TRequest>
 		{
 			return false;
 		}
-		var relatedKeyId = CreateNoxTypeForKey<Workplace, Nox.Types.Nuid>("Id", request.RelatedEntityKeyDto.keyId);
-		var relatedEntity = await DbContext.Workplaces.FindAsync(relatedKeyId);
-		if (relatedEntity == null)
+
+		Workplace? relatedEntity = null!;
+		if(request.RelatedEntityKeyDto is not null)
 		{
-			return false;
+			var relatedKeyId = CreateNoxTypeForKey<Workplace, Nox.Types.Nuid>("Id", request.RelatedEntityKeyDto.keyId);
+			relatedEntity = await DbContext.Workplaces.FindAsync(relatedKeyId);
+			if (relatedEntity == null)
+			{
+				return false;
+			}
 		}
 		
 		switch (Action)
@@ -92,6 +114,10 @@ public abstract class RefCountryToPhysicalWorkplacesCommandHandlerBase<TRequest>
                 break;
             case RelationshipAction.Delete:
                 entity.DeleteRefToPhysicalWorkplaces(relatedEntity);
+                break;
+            case RelationshipAction.DeleteAll:
+				await DbContext.Entry(entity).Collection(x => x.PhysicalWorkplaces).LoadAsync();
+                entity.DeleteAllRefToPhysicalWorkplaces();
                 break;
         }
 

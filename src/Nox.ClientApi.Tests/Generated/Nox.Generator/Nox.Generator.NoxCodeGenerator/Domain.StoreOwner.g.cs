@@ -82,6 +82,11 @@ public abstract class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent
         Stores.Remove(relatedStore);
     }
 
+    public virtual void DeleteAllRefToStores()
+    {
+        Stores.Clear();
+    }
+
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

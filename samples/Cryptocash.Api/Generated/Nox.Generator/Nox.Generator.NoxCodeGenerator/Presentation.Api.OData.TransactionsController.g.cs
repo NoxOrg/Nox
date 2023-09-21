@@ -184,6 +184,22 @@ public abstract class TransactionsControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> DeleteRefToTransactionForCustomer([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefTransactionToTransactionForCustomerCommand(new TransactionKeyDto(key)));
+        if (!deletedAllRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> CreateRefToTransactionForBooking([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -221,6 +237,22 @@ public abstract class TransactionsControllerBase : ODataController
         
         var deletedRef = await _mediator.Send(new DeleteRefTransactionToTransactionForBookingCommand(new TransactionKeyDto(key), new BookingKeyDto(relatedKey)));
         if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> DeleteRefToTransactionForBooking([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefTransactionToTransactionForBookingCommand(new TransactionKeyDto(key)));
+        if (!deletedAllRef)
         {
             return NotFound();
         }

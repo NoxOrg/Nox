@@ -122,6 +122,11 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
         throw new Exception($"The relatioship cannot be deleted.");
     }
 
+    public virtual void DeleteAllRefToCountryUsedByCurrency()
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
+    }
+
     /// <summary>
     /// Country used by OneOrMany Commissions
     /// </summary>
@@ -139,6 +144,13 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
         CountryUsedByCommissions.Remove(relatedCommission);
     }
 
+    public virtual void DeleteAllRefToCountryUsedByCommissions()
+    {
+        if(CountryUsedByCommissions.Count() < 2)
+            throw new Exception($"The relatioship cannot be deleted.");
+        CountryUsedByCommissions.Clear();
+    }
+
     /// <summary>
     /// Country used by ZeroOrMany VendingMachines
     /// </summary>
@@ -154,6 +166,11 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
         CountryUsedByVendingMachines.Remove(relatedVendingMachine);
     }
 
+    public virtual void DeleteAllRefToCountryUsedByVendingMachines()
+    {
+        CountryUsedByVendingMachines.Clear();
+    }
+
     /// <summary>
     /// Country used by ZeroOrMany Customers
     /// </summary>
@@ -167,6 +184,11 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     public virtual void DeleteRefToCountryUsedByCustomers(Customer relatedCustomer)
     {
         CountryUsedByCustomers.Remove(relatedCustomer);
+    }
+
+    public virtual void DeleteAllRefToCountryUsedByCustomers()
+    {
+        CountryUsedByCustomers.Clear();
     }
 
     /// <summary>

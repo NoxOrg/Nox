@@ -188,6 +188,22 @@ public abstract class PaymentProvidersControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> DeleteRefToPaymentProviderRelatedPaymentDetails([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefPaymentProviderToPaymentProviderRelatedPaymentDetailsCommand(new PaymentProviderKeyDto(key)));
+        if (!deletedAllRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     #endregion
     
 }

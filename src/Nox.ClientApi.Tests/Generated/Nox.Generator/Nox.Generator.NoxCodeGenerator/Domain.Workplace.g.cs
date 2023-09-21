@@ -92,6 +92,11 @@ public abstract class WorkplaceBase : EntityBase, IEntityConcurrent
         BelongsToCountry = null;
     }
 
+    public virtual void DeleteAllRefToBelongsToCountry()
+    {
+        BelongsToCountryId = null;
+    }
+
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

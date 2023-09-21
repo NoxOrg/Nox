@@ -156,6 +156,27 @@ public abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if ent
 
         {{- end }}
     }
+
+    public virtual void DeleteAllRefTo{{relationship.Name}}()
+    {
+        {{- if relationship.WithSingleEntity }}
+
+        {{- if relationship.Relationship == "ExactlyOne" }}
+        throw new Exception($"The relatioship cannot be deleted."); 
+        {{- else }}
+        {{relationship.Name}}Id = null;
+        {{- end }}
+
+        {{- else}}
+
+        {{- if relationship.Relationship == "OneOrMany" }}
+        if({{relationship.Name}}.Count() < 2)
+            throw new Exception($"The relatioship cannot be deleted.");             
+        {{- end }}
+        {{relationship.Name}}.Clear();
+
+        {{- end }}
+    }
 {{- end }}
 {{- for relationship in entity.OwnedRelationships #TODO how to reuse as partial template?}}
 
