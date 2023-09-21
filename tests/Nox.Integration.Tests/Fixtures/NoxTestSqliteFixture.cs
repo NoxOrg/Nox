@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Nox.EntityFramework.Sqlite;
 using Nox.Types.EntityFramework.Abstractions;
@@ -7,11 +6,11 @@ using TestWebApp.Infrastructure.Persistence;
 
 namespace Nox.Integration.Tests.Fixtures;
 
-public class NoxTestSqliteFixture : INoxTestFixture
+public class NoxTestSqliteFixture : NoxTestDataContextFixtureBase
 {
     private const string _inMemoryConnectionString = "DataSource=testdb;mode=memory;cache=shared";
 
-    public DbContextOptions<TestWebAppDbContext> CreateDbOptions()
+    protected override DbContextOptions<TestWebAppDbContext> CreateDbOptions()
     {
         var keepAliveConnection = new SqliteConnection(_inMemoryConnectionString);
         //The database ceases to exist as soon as the database connection is closed.
@@ -23,7 +22,7 @@ public class NoxTestSqliteFixture : INoxTestFixture
            .Options;
     }
 
-    public INoxDatabaseProvider GetDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators)
+    protected override INoxDatabaseProvider GetDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators)
     {
         return new SqliteDatabaseProvider(configurators);
     }

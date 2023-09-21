@@ -8,6 +8,8 @@ namespace Nox.Integration.Tests.Fixtures;
 
 public class NoxTestMsSqlContainerFixture : NoxTestContainerFixtureBase<MsSqlContainer>
 {
+    private const string MasterDbName = "master";
+
     public NoxTestMsSqlContainerFixture()
     {
         _container = new MsSqlBuilder()
@@ -16,17 +18,16 @@ public class NoxTestMsSqlContainerFixture : NoxTestContainerFixtureBase<MsSqlCon
             .Build();
     }
 
-    public override INoxDatabaseProvider GetDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators)
+    protected override INoxDatabaseProvider GetDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators)
     {
         return new SqlServerDatabaseProvider(configurators);
     }
 
     protected override DbContextOptions<TestWebAppDbContext> CreateDbOptions(string connectionString)
     {
-        const string masterDbName = "master";
-        if (connectionString.Contains(masterDbName))
+        if (connectionString.Contains(MasterDbName))
         {
-            connectionString = connectionString.Replace(masterDbName, nameof(TestWebAppDbContext));
+            connectionString = connectionString.Replace(MasterDbName, nameof(TestWebAppDbContext));
         }
         return new DbContextOptionsBuilder<TestWebAppDbContext>()
                 .UseSqlServer(connectionString)

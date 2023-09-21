@@ -20,7 +20,7 @@ public class NoxTestPostgreContainerFixture : NoxTestContainerFixtureBase<Postgr
           .Build();
     }
 
-    public override INoxDatabaseProvider GetDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators)
+    protected override INoxDatabaseProvider GetDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators)
     {
         return new PostgresDatabaseProvider(configurators);
     }

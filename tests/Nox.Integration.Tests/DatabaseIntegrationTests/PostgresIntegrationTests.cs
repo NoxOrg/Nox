@@ -9,7 +9,7 @@ public class PostgresIntegrationTests : NoxIntegrationTestBase<NoxTestPostgreCon
 
     public PostgresIntegrationTests(NoxTestPostgreContainerFixture containerFixture) : base(containerFixture)
     {
-        _noxCommonTestCases = new NoxCommonTestCaseFactory(RecreateDataContext);
+        _noxCommonTestCases = new NoxCommonTestCaseFactory(containerFixture);
     }
 
     [Fact]

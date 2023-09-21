@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using Nox.Integration.Tests.Fixtures;
 using Nox.Types;
 using System.Text.Json;
 using TestWebApp.Domain;
-using TestWebApp.Infrastructure.Persistence;
 using DateTime = Nox.Types.DateTime;
 using DayOfWeek = Nox.Types.DayOfWeek;
 using Guid = Nox.Types.Guid;
@@ -12,11 +12,11 @@ namespace Nox.Integration.Tests.DatabaseIntegrationTests;
 
 public class NoxCommonTestCaseFactory
 {
-    private readonly Func<TestWebAppDbContext> _dbContextCreator;
+    private readonly INoxTestDataContextFixture _dbContextFixture;
 
-    public NoxCommonTestCaseFactory(Func<TestWebAppDbContext> dbContextCreator)
+    public NoxCommonTestCaseFactory(INoxTestDataContextFixture dbContextFixture)
     {
-        _dbContextCreator = dbContextCreator;
+        _dbContextFixture = dbContextFixture;
     }
 
     public void GenerateEntityCanSaveAndReadFieldsAllTypes()
@@ -40,7 +40,7 @@ public class NoxCommonTestCaseFactory
         // json
 
         // TODO: commented types
-        var dbContext = _dbContextCreator();
+        var dbContext = _dbContextFixture.DataContext;
 
         var text = "TX";
         var number = 123;
@@ -200,7 +200,7 @@ public class NoxCommonTestCaseFactory
         dbContext.SaveChanges();
 
         // Force the recreation of DataContext and ensure we have fresh data from database
-        dbContext = _dbContextCreator();
+        _dbContextFixture.RefreshDbContext();
 
         var testEntity = dbContext.TestEntityForTypes.First();
 
@@ -295,7 +295,7 @@ public class NoxCommonTestCaseFactory
 
     public void GeneratedRelationshipZeroOrMany()
     {
-        var dbContext = _dbContextCreator();
+        var dbContext = _dbContextFixture.DataContext;
 
         var text = "TX";
         var textId1 = "T1";
@@ -320,7 +320,7 @@ public class NoxCommonTestCaseFactory
         dbContext.SaveChanges();
 
         // Force the recreation of DataContext and ensure we have fresh data from database
-        dbContext = _dbContextCreator();
+        _dbContextFixture.RefreshDbContext();
 
         var testEntity = dbContext.TestEntityZeroOrManies.Include(x => x.SecondTestEntityZeroOrManyRelationship).First();
         var secondTestEntity = dbContext.SecondTestEntityZeroOrManies.Include(x => x.TestEntityZeroOrManyRelationship).First();
@@ -335,7 +335,7 @@ public class NoxCommonTestCaseFactory
 
     public void GeneratedRelationshipOneOrMany()
     {
-        var dbContext = _dbContextCreator();
+        var dbContext = _dbContextFixture.DataContext;
         var text = "TX";
         var textId1 = "T1";
         var textId2 = "T2";
@@ -359,7 +359,7 @@ public class NoxCommonTestCaseFactory
         dbContext.SaveChanges();
 
         // Force the recreation of DataContext and ensure we have fresh data from database
-        dbContext = _dbContextCreator();
+        _dbContextFixture.RefreshDbContext();
 
         var testEntity = dbContext.TestEntityOneOrManies.Include(x => x.SecondTestEntityOneOrManyRelationship).First();
         var secondTestEntity = dbContext.SecondTestEntityOneOrManies.Include(x => x.TestEntityOneOrManyRelationship).First();
@@ -374,7 +374,7 @@ public class NoxCommonTestCaseFactory
 
     public void GeneratedRelationshipExactlyOne()
     {
-        var dbContext = _dbContextCreator();
+        var dbContext = _dbContextFixture.DataContext;
 
         var text = "TX";
         var textId1 = "T1";
@@ -398,7 +398,7 @@ public class NoxCommonTestCaseFactory
         dbContext.SaveChanges();
 
         // Force the recreation of DataContext and ensure we have fresh data from database
-        dbContext = _dbContextCreator();
+        _dbContextFixture.RefreshDbContext();
 
         var testEntity = dbContext.TestEntityExactlyOnes.Include(x => x.SecondTestEntityExactlyOneRelationship).First();
         var secondTestEntity = dbContext.SecondTestEntityExactlyOnes.Include(x => x.TestEntityExactlyOneRelationship).First();
@@ -413,7 +413,7 @@ public class NoxCommonTestCaseFactory
 
     public void GeneratedRelationshipZeroOrOne()
     {
-        var dbContext = _dbContextCreator();
+        var dbContext = _dbContextFixture.DataContext;
         var text = "TX";
         var textId1 = "T1";
         var textId2 = "T2";
@@ -436,7 +436,7 @@ public class NoxCommonTestCaseFactory
         dbContext.SaveChanges();
 
         // Force the recreation of DataContext and ensure we have fresh data from database
-        dbContext = _dbContextCreator();
+        _dbContextFixture.RefreshDbContext();
 
         var testEntity = dbContext.TestEntityZeroOrOnes.Include(x => x.SecondTestEntityZeroOrOneRelationship).First();
         var secondTestEntity = dbContext.SecondTestEntityZeroOrOnes.Include(x => x.TestEntityZeroOrOneRelationship).First();
@@ -451,7 +451,7 @@ public class NoxCommonTestCaseFactory
 
     public void GeneratedRelationshipZeroOrOneZeroOrMany()
     {
-        var dbContext = _dbContextCreator();
+        var dbContext = _dbContextFixture.DataContext;
         var text = "TX";
         var textId1 = "T1";
         var textId2 = "T2";
@@ -474,7 +474,7 @@ public class NoxCommonTestCaseFactory
         dbContext.SaveChanges();
 
         // Force the recreation of DataContext and ensure we have fresh data from database
-        dbContext = _dbContextCreator();
+        _dbContextFixture.RefreshDbContext();
 
         var testEntity = dbContext.TestEntityZeroOrOneToZeroOrManies.Include(x => x.TestEntityZeroOrManyToZeroOrOne).First();
         var secondTestEntity = dbContext.TestEntityZeroOrManyToZeroOrOnes.Include(x => x.TestEntityZeroOrOneToZeroOrMany).First();
@@ -489,7 +489,7 @@ public class NoxCommonTestCaseFactory
 
     public void GeneratedRelationshipZeroOrOneOneOrMany()
     {
-        var dbContext = _dbContextCreator();
+        var dbContext = _dbContextFixture.DataContext;
 
         var text = "TX";
         var textId1 = "T1";
@@ -513,7 +513,7 @@ public class NoxCommonTestCaseFactory
         dbContext.SaveChanges();
 
         // Force the recreation of DataContext and ensure we have fresh data from database
-        dbContext = _dbContextCreator();
+        _dbContextFixture.RefreshDbContext();
 
         var testEntity = dbContext.TestEntityZeroOrOneToOneOrManies.Include(x => x.TestEntityOneOrManyToZeroOrOne).First();
         var secondTestEntity = dbContext.TestEntityOneOrManyToZeroOrOnes.Include(x => x.TestEntityZeroOrOneToOneOrMany).First();
@@ -528,7 +528,7 @@ public class NoxCommonTestCaseFactory
 
     public void GeneratedRelationshipZeroOrOneExactlyOne()
     {
-        var dbContext = _dbContextCreator();
+        var dbContext = _dbContextFixture.DataContext;
         var text = "TX";
         var textId1 = "T1";
         var textId2 = "T2";
@@ -551,7 +551,7 @@ public class NoxCommonTestCaseFactory
         dbContext.SaveChanges();
 
         // Force the recreation of DataContext and ensure we have fresh data from database
-        dbContext = _dbContextCreator();
+        _dbContextFixture.RefreshDbContext();
 
         var testEntity = dbContext.TestEntityZeroOrOneToExactlyOnes.Include(x => x.TestEntityExactlyOneToZeroOrOne).First();
         var secondTestEntity = dbContext.TestEntityExactlyOneToZeroOrOnes.Include(x => x.TestEntityZeroOrOneToExactlyOne).First();
@@ -566,7 +566,7 @@ public class NoxCommonTestCaseFactory
 
     public void GeneratedRelationshipOneOrManyExactlyOne()
     {
-        var dbContext = _dbContextCreator();
+        var dbContext = _dbContextFixture.DataContext;
 
         var text = "TX";
         var textId1 = "T1";
@@ -590,7 +590,7 @@ public class NoxCommonTestCaseFactory
         dbContext.SaveChanges();
 
         // Force the recreation of DataContext and ensure we have fresh data from database
-        dbContext = _dbContextCreator();
+        _dbContextFixture.RefreshDbContext();
 
         var testEntity = dbContext.TestEntityExactlyOneToOneOrManies.Include(x => x.TestEntityOneOrManyToExactlyOne).First();
         var secondTestEntity = dbContext.TestEntityOneOrManyToExactlyOnes.Include(x => x.TestEntityExactlyOneToOneOrMany).First();
@@ -605,7 +605,7 @@ public class NoxCommonTestCaseFactory
 
     public void GeneratedRelationshipExactlyOneZeroOrMany()
     {
-        var dbContext = _dbContextCreator();
+        var dbContext = _dbContextFixture.DataContext;
         var text = "TX";
         var textId1 = "T1";
         var textId2 = "T2";
@@ -628,7 +628,7 @@ public class NoxCommonTestCaseFactory
         dbContext.SaveChanges();
 
         // Force the recreation of DataContext and ensure we have fresh data from database
-        dbContext = _dbContextCreator();
+        _dbContextFixture.RefreshDbContext();
 
         var testEntity = dbContext.TestEntityZeroOrManyToExactlyOnes.Include(x => x.TestEntityExactlyOneToZeroOrMany).First();
         var secondTestEntity = dbContext.TestEntityExactlyOneToZeroOrManies.Include(x => x.TestEntityZeroOrManyToExactlyOne).First();
@@ -643,7 +643,7 @@ public class NoxCommonTestCaseFactory
 
     public void GeneratedRelationshipZeroOrManyOneOrMany()
     {
-        var dbContext = _dbContextCreator();
+        var dbContext = _dbContextFixture.DataContext;
         var text = "TX";
         var textId1 = "T1";
         var textId2 = "T2";
@@ -667,7 +667,7 @@ public class NoxCommonTestCaseFactory
         dbContext.SaveChanges();
 
         // Force the recreation of DataContext and ensure we have fresh data from database
-        dbContext = _dbContextCreator();
+        _dbContextFixture.RefreshDbContext();
 
         var testEntity = dbContext.TestEntityZeroOrManyToOneOrManies.Include(x => x.TestEntityOneOrManyToZeroOrMany).First();
         var secondTestEntity = dbContext.TestEntityOneOrManyToZeroOrManies.Include(x => x.TestEntityZeroOrManyToOneOrMany).First();
@@ -682,7 +682,7 @@ public class NoxCommonTestCaseFactory
 
     public void GeneratedRelationshipZeroOrManyZeroOrMany()
     {
-        var dbContext = _dbContextCreator();
+        var dbContext = _dbContextFixture.DataContext;
 
         var text = "TX";
         var textId1 = "T1";
@@ -704,7 +704,7 @@ public class NoxCommonTestCaseFactory
         dbContext.SaveChanges();
 
         // Force the recreation of DataContext and ensure we have fresh data from database
-        dbContext = _dbContextCreator();
+        _dbContextFixture.RefreshDbContext();
 
         var testEntity = dbContext.TestEntityOwnedRelationshipZeroOrManies.Include(x => x.SecondTestEntityOwnedRelationshipZeroOrMany).First();
         var secondTestEntity = testEntity.SecondTestEntityOwnedRelationshipZeroOrMany[0];
@@ -717,7 +717,7 @@ public class NoxCommonTestCaseFactory
 
     public void GeneratedRelationshipOwnedOneOrManyOneOrMany()
     {
-        var dbContext = _dbContextCreator();
+        var dbContext = _dbContextFixture.DataContext;
         var text = "TX";
         var textId1 = "T1";
         var textId2 = "T2";
@@ -738,7 +738,7 @@ public class NoxCommonTestCaseFactory
         dbContext.SaveChanges();
 
         // Force the recreation of DataContext and ensure we have fresh data from database
-        dbContext = _dbContextCreator();
+        _dbContextFixture.RefreshDbContext();
 
         var testEntity = dbContext.TestEntityOwnedRelationshipOneOrManies.Include(x => x.SecondTestEntityOwnedRelationshipOneOrMany).First();
         var secondTestEntity = testEntity.SecondTestEntityOwnedRelationshipOneOrMany[0];
@@ -751,7 +751,7 @@ public class NoxCommonTestCaseFactory
 
     public void GeneratedRelationshipOwnedExactlyOneExactlyOne()
     {
-        var dbContext = _dbContextCreator();
+        var dbContext = _dbContextFixture.DataContext;
         var text = "TX";
         var textId1 = "T1";
         var textId2 = "T2";
@@ -771,7 +771,7 @@ public class NoxCommonTestCaseFactory
         dbContext.SaveChanges();
 
         // Force the recreation of DataContext and ensure we have fresh data from database
-        dbContext = _dbContextCreator();
+        _dbContextFixture.RefreshDbContext();
 
         var testEntity = dbContext.TestEntityOwnedRelationshipExactlyOnes.Include(x => x.SecondTestEntityOwnedRelationshipExactlyOne).First();
 
@@ -782,7 +782,7 @@ public class NoxCommonTestCaseFactory
 
     public void GeneratedRelationshipOwnedZeroOrOneZeroOrOne()
     {
-        var dbContext = _dbContextCreator();
+        var dbContext = _dbContextFixture.DataContext;
 
         var text = "TX";
         var textId1 = "T1";
@@ -803,7 +803,7 @@ public class NoxCommonTestCaseFactory
         dbContext.SaveChanges();
 
         // Force the recreation of DataContext and ensure we have fresh data from database
-        dbContext = _dbContextCreator();
+        _dbContextFixture.RefreshDbContext();
 
         var testEntity = dbContext.TestEntityOwnedRelationshipZeroOrOnes.Include(x => x.SecondTestEntityOwnedRelationshipZeroOrOne).First();
 
@@ -814,7 +814,7 @@ public class NoxCommonTestCaseFactory
 
     public void UniqueConstraintsSameValueShouldThrowException()
     {
-        var dbContext = _dbContextCreator();
+        var dbContext = _dbContextFixture.DataContext;
         const string countryCode2 = "UA";
         const string secondCountryCode2 = "TR";
         const string thirdCountryCode2 = "DE";
@@ -868,7 +868,7 @@ public class NoxCommonTestCaseFactory
 
     public void GeneratedRelationshipTwoRelationshipsToTheSameEntityOneToOne()
     {
-        var dbContext = _dbContextCreator();
+        var dbContext = _dbContextFixture.DataContext;
         var text = "TX";
         var textId1 = "T1";
         var textId2 = "T2";
@@ -896,7 +896,7 @@ public class NoxCommonTestCaseFactory
         dbContext.SaveChanges();
 
         // Force the recreation of DataContext and ensure we have fresh data from database
-        dbContext = _dbContextCreator();
+        _dbContextFixture.RefreshDbContext();
 
         var testEntity = dbContext.TestEntityTwoRelationshipsOneToOnes.Include(x => x.TestRelationshipOne).Include(x => x.TestRelationshipTwo).First();
         var testEntity2 = dbContext.SecondTestEntityTwoRelationshipsOneToOnes.Include(x => x.TestRelationshipOneOnOtherSide).First();
@@ -915,7 +915,7 @@ public class NoxCommonTestCaseFactory
 
     public void GeneratedRelationshipTwoRelationshipsToTheSameEntityManyToMany()
     {
-        var dbContext = _dbContextCreator();
+        var dbContext = _dbContextFixture.DataContext;
 
         var text = "TX";
         var textId1 = "T1";
@@ -944,7 +944,7 @@ public class NoxCommonTestCaseFactory
         dbContext.SaveChanges();
 
         // Force the recreation of DataContext and ensure we have fresh data from database
-        dbContext = _dbContextCreator();
+        _dbContextFixture.RefreshDbContext();
 
         var testEntity = dbContext.TestEntityTwoRelationshipsManyToManies.Include(x => x.TestRelationshipOne).Include(x => x.TestRelationshipTwo).First();
         var testEntity2 = dbContext.SecondTestEntityTwoRelationshipsManyToManies.Include(x => x.TestRelationshipOneOnOtherSide).First();
@@ -963,7 +963,7 @@ public class NoxCommonTestCaseFactory
 
     public void GeneratedRelationshipTwoRelationshipsToTheSameEntityOneToMany()
     {
-        var dbContext = _dbContextCreator();
+        var dbContext = _dbContextFixture.DataContext;
 
         var text = "TX";
         var textId1 = "T1";
@@ -992,7 +992,7 @@ public class NoxCommonTestCaseFactory
         dbContext.SaveChanges();
 
         // Force the recreation of DataContext and ensure we have fresh data from database
-        dbContext = _dbContextCreator();
+        _dbContextFixture.RefreshDbContext();
 
         var testEntity = dbContext.TestEntityTwoRelationshipsOneToManies.Include(x => x.TestRelationshipOne).Include(x => x.TestRelationshipTwo).First();
         var testEntity2 = dbContext.SecondTestEntityTwoRelationshipsOneToManies.Include(x => x.TestRelationshipOneOnOtherSide).First();

@@ -9,7 +9,7 @@ public class SqliteIntegrationTests : NoxIntegrationTestBase<NoxTestSqliteFixtur
 
     public SqliteIntegrationTests(NoxTestSqliteFixture containerFixture) : base(containerFixture)
     {
-        _noxCommonTestCases = new NoxCommonTestCaseFactory(RecreateDataContext);
+        _noxCommonTestCases = new NoxCommonTestCaseFactory(containerFixture);
     }
 
     [Fact(Skip = "TODO: Fix issues SQLite Error 19: 'NOT NULL constraint failed: TestEntityForTypes.AutoNumberTestField'.")]

@@ -7,9 +7,9 @@ public class SqlServerIntegrationTests : NoxIntegrationTestBase<NoxTestMsSqlCont
 {
     private readonly NoxCommonTestCaseFactory _noxCommonTestCases;
 
-    public SqlServerIntegrationTests(NoxTestMsSqlContainerFixture containerFixture) : base(containerFixture)
+    public SqlServerIntegrationTests(NoxTestMsSqlContainerFixture fixture) : base(fixture)
     {
-        _noxCommonTestCases = new NoxCommonTestCaseFactory(RecreateDataContext);
+        _noxCommonTestCases = new NoxCommonTestCaseFactory(fixture);
     }
 
     [Fact]
