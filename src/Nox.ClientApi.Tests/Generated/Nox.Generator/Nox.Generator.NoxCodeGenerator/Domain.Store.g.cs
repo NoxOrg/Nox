@@ -88,6 +88,11 @@ public abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
         Ownership = null;
     }
 
+    public virtual void DeleteAllRefToOwnership()
+    {
+        OwnershipId = null;
+    }
+
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>

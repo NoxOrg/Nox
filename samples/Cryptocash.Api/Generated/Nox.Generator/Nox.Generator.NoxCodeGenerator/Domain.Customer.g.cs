@@ -77,6 +77,11 @@ public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
         CustomerRelatedPaymentDetails.Remove(relatedPaymentDetail);
     }
 
+    public virtual void DeleteAllRefToCustomerRelatedPaymentDetails()
+    {
+        CustomerRelatedPaymentDetails.Clear();
+    }
+
     /// <summary>
     /// Customer related to ZeroOrMany Bookings
     /// </summary>
@@ -92,6 +97,11 @@ public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
         CustomerRelatedBookings.Remove(relatedBooking);
     }
 
+    public virtual void DeleteAllRefToCustomerRelatedBookings()
+    {
+        CustomerRelatedBookings.Clear();
+    }
+
     /// <summary>
     /// Customer related to ZeroOrMany Transactions
     /// </summary>
@@ -105,6 +115,11 @@ public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
     public virtual void DeleteRefToCustomerRelatedTransactions(Transaction relatedTransaction)
     {
         CustomerRelatedTransactions.Remove(relatedTransaction);
+    }
+
+    public virtual void DeleteAllRefToCustomerRelatedTransactions()
+    {
+        CustomerRelatedTransactions.Clear();
     }
 
     /// <summary>
@@ -123,6 +138,11 @@ public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
     }
 
     public virtual void DeleteRefToCustomerBaseCountry(Country relatedCountry)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
+    }
+
+    public virtual void DeleteAllRefToCustomerBaseCountry()
     {
         throw new Exception($"The relatioship cannot be deleted.");
     }

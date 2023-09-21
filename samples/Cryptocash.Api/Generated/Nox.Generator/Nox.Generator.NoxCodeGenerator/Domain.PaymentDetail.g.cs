@@ -72,6 +72,11 @@ public abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent
         throw new Exception($"The relatioship cannot be deleted.");
     }
 
+    public virtual void DeleteAllRefToPaymentDetailsUsedByCustomer()
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
+    }
+
     /// <summary>
     /// PaymentDetail related to ExactlyOne PaymentProviders
     /// </summary>
@@ -88,6 +93,11 @@ public abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent
     }
 
     public virtual void DeleteRefToPaymentDetailsRelatedPaymentProvider(PaymentProvider relatedPaymentProvider)
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
+    }
+
+    public virtual void DeleteAllRefToPaymentDetailsRelatedPaymentProvider()
     {
         throw new Exception($"The relatioship cannot be deleted.");
     }

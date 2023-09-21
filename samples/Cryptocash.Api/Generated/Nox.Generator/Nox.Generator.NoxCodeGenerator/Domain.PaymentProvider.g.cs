@@ -62,6 +62,11 @@ public abstract class PaymentProviderBase : AuditableEntityBase, IEntityConcurre
         PaymentProviderRelatedPaymentDetails.Remove(relatedPaymentDetail);
     }
 
+    public virtual void DeleteAllRefToPaymentProviderRelatedPaymentDetails()
+    {
+        PaymentProviderRelatedPaymentDetails.Clear();
+    }
+
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

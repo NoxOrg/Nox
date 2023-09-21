@@ -81,6 +81,11 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
         PhysicalWorkplaces.Remove(relatedWorkplace);
     }
 
+    public virtual void DeleteAllRefToPhysicalWorkplaces()
+    {
+        PhysicalWorkplaces.Clear();
+    }
+
     /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>

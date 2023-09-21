@@ -188,6 +188,22 @@ public abstract class CustomersControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> DeleteRefToCustomerRelatedPaymentDetails([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefCustomerToCustomerRelatedPaymentDetailsCommand(new CustomerKeyDto(key)));
+        if (!deletedAllRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> CreateRefToCustomerRelatedBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -229,6 +245,22 @@ public abstract class CustomersControllerBase : ODataController
         
         var deletedRef = await _mediator.Send(new DeleteRefCustomerToCustomerRelatedBookingsCommand(new CustomerKeyDto(key), new BookingKeyDto(relatedKey)));
         if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> DeleteRefToCustomerRelatedBookings([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefCustomerToCustomerRelatedBookingsCommand(new CustomerKeyDto(key)));
+        if (!deletedAllRef)
         {
             return NotFound();
         }
@@ -284,6 +316,22 @@ public abstract class CustomersControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> DeleteRefToCustomerRelatedTransactions([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefCustomerToCustomerRelatedTransactionsCommand(new CustomerKeyDto(key)));
+        if (!deletedAllRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> CreateRefToCustomerBaseCountry([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -321,6 +369,22 @@ public abstract class CustomersControllerBase : ODataController
         
         var deletedRef = await _mediator.Send(new DeleteRefCustomerToCustomerBaseCountryCommand(new CustomerKeyDto(key), new CountryKeyDto(relatedKey)));
         if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> DeleteRefToCustomerBaseCountry([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefCustomerToCustomerBaseCountryCommand(new CustomerKeyDto(key)));
+        if (!deletedAllRef)
         {
             return NotFound();
         }

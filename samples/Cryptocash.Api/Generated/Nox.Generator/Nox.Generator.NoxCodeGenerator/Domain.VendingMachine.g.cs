@@ -108,6 +108,11 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
         throw new Exception($"The relatioship cannot be deleted.");
     }
 
+    public virtual void DeleteAllRefToVendingMachineInstallationCountry()
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
+    }
+
     /// <summary>
     /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
@@ -128,6 +133,11 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
         throw new Exception($"The relatioship cannot be deleted.");
     }
 
+    public virtual void DeleteAllRefToVendingMachineContractedAreaLandLord()
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
+    }
+
     /// <summary>
     /// VendingMachine related to ZeroOrMany Bookings
     /// </summary>
@@ -141,6 +151,11 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
     public virtual void DeleteRefToVendingMachineRelatedBookings(Booking relatedBooking)
     {
         VendingMachineRelatedBookings.Remove(relatedBooking);
+    }
+
+    public virtual void DeleteAllRefToVendingMachineRelatedBookings()
+    {
+        VendingMachineRelatedBookings.Clear();
     }
 
     /// <summary>
@@ -158,6 +173,11 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
         VendingMachineRelatedCashStockOrders.Remove(relatedCashStockOrder);
     }
 
+    public virtual void DeleteAllRefToVendingMachineRelatedCashStockOrders()
+    {
+        VendingMachineRelatedCashStockOrders.Clear();
+    }
+
     /// <summary>
     /// VendingMachine required ZeroOrMany MinimumCashStocks
     /// </summary>
@@ -171,6 +191,11 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
     public virtual void DeleteRefToVendingMachineRequiredMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
     {
         VendingMachineRequiredMinimumCashStocks.Remove(relatedMinimumCashStock);
+    }
+
+    public virtual void DeleteAllRefToVendingMachineRequiredMinimumCashStocks()
+    {
+        VendingMachineRequiredMinimumCashStocks.Clear();
     }
 
     /// <summary>

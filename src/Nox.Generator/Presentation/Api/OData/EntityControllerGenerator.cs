@@ -708,9 +708,19 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             code.AppendLine();
             foreach (var relationship in entity.Relationships)
             {
-                GenerateCreateRefTo(entity, relationship, code, solution);
-                GenerateGetRefTo(entity, relationship, code, solution);
-                GenerateDeleteRefTo(entity, relationship, code, solution);
+                if (entity.Persistence?.Create?.IsEnabled ?? true)
+                {
+                    GenerateCreateRefTo(entity, relationship, code, solution);
+                }
+                if (entity.Persistence?.Read?.IsEnabled ?? true)
+                {
+                    GenerateGetRefTo(entity, relationship, code, solution);
+                }
+                if (entity.Persistence?.Delete?.IsEnabled ?? true)
+                {
+                    GenerateDeleteRefTo(entity, relationship, code, solution);
+                    GenerateDeleteAllRefTo(entity, relationship, code, solution);
+                }
             }
             code.AppendLine($"#endregion");
             code.AppendLine();
@@ -757,6 +767,32 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine($"var deletedRef = await _mediator.Send(new DeleteRef{entity.Name}To{relationship.Name}Command(" +
             $"new {entity.Name}KeyDto({PrimaryKeysQuery(entity)}), new {relatedEntity.Name}KeyDto({PrimaryKeysQuery(relatedEntity, "relatedKey")})));");
         code.AppendLine($"if (!deletedRef)");
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+        code.AppendLine();
+
+        code.AppendLine($"return NoContent();");
+
+        // End method
+        code.EndBlock();
+        code.AppendLine();
+    }
+
+    private static void GenerateDeleteAllRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
+    {
+        var relatedEntity = relationship.Related.Entity;
+        code.AppendLine($"public async Task<ActionResult> DeleteRefTo{relationship.Name}({PrimaryKeysFromRoute(entity, solution)})");
+
+        code.StartBlock();
+        code.AppendLine($"if (!ModelState.IsValid)");
+        code.StartBlock();
+        code.AppendLine($"return BadRequest(ModelState);");
+        code.EndBlock();
+        code.AppendLine();
+        code.AppendLine($"var deletedAllRef = await _mediator.Send(new DeleteAllRef{entity.Name}To{relationship.Name}Command(" +
+            $"new {entity.Name}KeyDto({PrimaryKeysQuery(entity)})));");
+        code.AppendLine($"if (!deletedAllRef)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
         code.EndBlock();

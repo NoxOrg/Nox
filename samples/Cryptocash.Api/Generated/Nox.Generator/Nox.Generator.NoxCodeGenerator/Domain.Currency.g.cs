@@ -114,6 +114,13 @@ public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
         CurrencyUsedByCountry.Remove(relatedCountry);
     }
 
+    public virtual void DeleteAllRefToCurrencyUsedByCountry()
+    {
+        if(CurrencyUsedByCountry.Count() < 2)
+            throw new Exception($"The relatioship cannot be deleted.");
+        CurrencyUsedByCountry.Clear();
+    }
+
     /// <summary>
     /// Currency used by ZeroOrMany MinimumCashStocks
     /// </summary>
@@ -127,6 +134,11 @@ public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
     public virtual void DeleteRefToCurrencyUsedByMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
     {
         CurrencyUsedByMinimumCashStocks.Remove(relatedMinimumCashStock);
+    }
+
+    public virtual void DeleteAllRefToCurrencyUsedByMinimumCashStocks()
+    {
+        CurrencyUsedByMinimumCashStocks.Clear();
     }
 
     /// <summary>

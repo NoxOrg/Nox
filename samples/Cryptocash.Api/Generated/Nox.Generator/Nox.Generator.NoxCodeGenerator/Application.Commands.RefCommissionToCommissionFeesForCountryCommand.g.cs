@@ -18,12 +18,13 @@ using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
 
-public abstract record RefCommissionToCommissionFeesForCountryCommand(CommissionKeyDto EntityKeyDto, CountryKeyDto RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefCommissionToCommissionFeesForCountryCommand(CommissionKeyDto EntityKeyDto, CountryKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
 public record CreateRefCommissionToCommissionFeesForCountryCommand(CommissionKeyDto EntityKeyDto, CountryKeyDto RelatedEntityKeyDto)
 	: RefCommissionToCommissionFeesForCountryCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefCommissionToCommissionFeesForCountryCommandHandler: RefCommissionToCommissionFeesForCountryCommandHandlerBase<CreateRefCommissionToCommissionFeesForCountryCommand>
+public partial class CreateRefCommissionToCommissionFeesForCountryCommandHandler
+	: RefCommissionToCommissionFeesForCountryCommandHandlerBase<CreateRefCommissionToCommissionFeesForCountryCommand>
 {
 	public CreateRefCommissionToCommissionFeesForCountryCommandHandler(
 		CryptocashDbContext dbContext,
@@ -37,7 +38,8 @@ public partial class CreateRefCommissionToCommissionFeesForCountryCommandHandler
 public record DeleteRefCommissionToCommissionFeesForCountryCommand(CommissionKeyDto EntityKeyDto, CountryKeyDto RelatedEntityKeyDto)
 	: RefCommissionToCommissionFeesForCountryCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefCommissionToCommissionFeesForCountryCommandHandler: RefCommissionToCommissionFeesForCountryCommandHandlerBase<DeleteRefCommissionToCommissionFeesForCountryCommand>
+public partial class DeleteRefCommissionToCommissionFeesForCountryCommandHandler
+	: RefCommissionToCommissionFeesForCountryCommandHandlerBase<DeleteRefCommissionToCommissionFeesForCountryCommand>
 {
 	public DeleteRefCommissionToCommissionFeesForCountryCommandHandler(
 		CryptocashDbContext dbContext,
@@ -48,6 +50,21 @@ public partial class DeleteRefCommissionToCommissionFeesForCountryCommandHandler
 	{ }
 }
 
+public record DeleteAllRefCommissionToCommissionFeesForCountryCommand(CommissionKeyDto EntityKeyDto)
+	: RefCommissionToCommissionFeesForCountryCommand(EntityKeyDto, null);
+
+public partial class DeleteAllRefCommissionToCommissionFeesForCountryCommandHandler
+	: RefCommissionToCommissionFeesForCountryCommandHandlerBase<DeleteAllRefCommissionToCommissionFeesForCountryCommand>
+{
+	public DeleteAllRefCommissionToCommissionFeesForCountryCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+	{ }
+}
+
 public abstract class RefCommissionToCommissionFeesForCountryCommandHandlerBase<TRequest>: CommandBase<TRequest, Commission>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefCommissionToCommissionFeesForCountryCommand
 {
@@ -55,7 +72,7 @@ public abstract class RefCommissionToCommissionFeesForCountryCommandHandlerBase<
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete };
+    public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefCommissionToCommissionFeesForCountryCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -78,11 +95,16 @@ public abstract class RefCommissionToCommissionFeesForCountryCommandHandlerBase<
 		{
 			return false;
 		}
-		var relatedKeyId = CreateNoxTypeForKey<Country, Nox.Types.CountryCode2>("Id", request.RelatedEntityKeyDto.keyId);
-		var relatedEntity = await DbContext.Countries.FindAsync(relatedKeyId);
-		if (relatedEntity == null)
+
+		Country? relatedEntity = null!;
+		if(request.RelatedEntityKeyDto is not null)
 		{
-			return false;
+			var relatedKeyId = CreateNoxTypeForKey<Country, Nox.Types.CountryCode2>("Id", request.RelatedEntityKeyDto.keyId);
+			relatedEntity = await DbContext.Countries.FindAsync(relatedKeyId);
+			if (relatedEntity == null)
+			{
+				return false;
+			}
 		}
 		
 		switch (Action)
@@ -92,6 +114,9 @@ public abstract class RefCommissionToCommissionFeesForCountryCommandHandlerBase<
                 break;
             case RelationshipAction.Delete:
                 entity.DeleteRefToCommissionFeesForCountry(relatedEntity);
+                break;
+            case RelationshipAction.DeleteAll:
+                entity.DeleteAllRefToCommissionFeesForCountry();
                 break;
         }
 

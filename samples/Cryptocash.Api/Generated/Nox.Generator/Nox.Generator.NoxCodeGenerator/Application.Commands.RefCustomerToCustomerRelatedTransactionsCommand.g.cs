@@ -18,12 +18,13 @@ using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
 
-public abstract record RefCustomerToCustomerRelatedTransactionsCommand(CustomerKeyDto EntityKeyDto, TransactionKeyDto RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefCustomerToCustomerRelatedTransactionsCommand(CustomerKeyDto EntityKeyDto, TransactionKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
 public record CreateRefCustomerToCustomerRelatedTransactionsCommand(CustomerKeyDto EntityKeyDto, TransactionKeyDto RelatedEntityKeyDto)
 	: RefCustomerToCustomerRelatedTransactionsCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefCustomerToCustomerRelatedTransactionsCommandHandler: RefCustomerToCustomerRelatedTransactionsCommandHandlerBase<CreateRefCustomerToCustomerRelatedTransactionsCommand>
+public partial class CreateRefCustomerToCustomerRelatedTransactionsCommandHandler
+	: RefCustomerToCustomerRelatedTransactionsCommandHandlerBase<CreateRefCustomerToCustomerRelatedTransactionsCommand>
 {
 	public CreateRefCustomerToCustomerRelatedTransactionsCommandHandler(
 		CryptocashDbContext dbContext,
@@ -37,7 +38,8 @@ public partial class CreateRefCustomerToCustomerRelatedTransactionsCommandHandle
 public record DeleteRefCustomerToCustomerRelatedTransactionsCommand(CustomerKeyDto EntityKeyDto, TransactionKeyDto RelatedEntityKeyDto)
 	: RefCustomerToCustomerRelatedTransactionsCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefCustomerToCustomerRelatedTransactionsCommandHandler: RefCustomerToCustomerRelatedTransactionsCommandHandlerBase<DeleteRefCustomerToCustomerRelatedTransactionsCommand>
+public partial class DeleteRefCustomerToCustomerRelatedTransactionsCommandHandler
+	: RefCustomerToCustomerRelatedTransactionsCommandHandlerBase<DeleteRefCustomerToCustomerRelatedTransactionsCommand>
 {
 	public DeleteRefCustomerToCustomerRelatedTransactionsCommandHandler(
 		CryptocashDbContext dbContext,
@@ -48,6 +50,21 @@ public partial class DeleteRefCustomerToCustomerRelatedTransactionsCommandHandle
 	{ }
 }
 
+public record DeleteAllRefCustomerToCustomerRelatedTransactionsCommand(CustomerKeyDto EntityKeyDto)
+	: RefCustomerToCustomerRelatedTransactionsCommand(EntityKeyDto, null);
+
+public partial class DeleteAllRefCustomerToCustomerRelatedTransactionsCommandHandler
+	: RefCustomerToCustomerRelatedTransactionsCommandHandlerBase<DeleteAllRefCustomerToCustomerRelatedTransactionsCommand>
+{
+	public DeleteAllRefCustomerToCustomerRelatedTransactionsCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+	{ }
+}
+
 public abstract class RefCustomerToCustomerRelatedTransactionsCommandHandlerBase<TRequest>: CommandBase<TRequest, Customer>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefCustomerToCustomerRelatedTransactionsCommand
 {
@@ -55,7 +72,7 @@ public abstract class RefCustomerToCustomerRelatedTransactionsCommandHandlerBase
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete };
+    public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefCustomerToCustomerRelatedTransactionsCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -78,11 +95,16 @@ public abstract class RefCustomerToCustomerRelatedTransactionsCommandHandlerBase
 		{
 			return false;
 		}
-		var relatedKeyId = CreateNoxTypeForKey<Transaction, Nox.Types.AutoNumber>("Id", request.RelatedEntityKeyDto.keyId);
-		var relatedEntity = await DbContext.Transactions.FindAsync(relatedKeyId);
-		if (relatedEntity == null)
+
+		Transaction? relatedEntity = null!;
+		if(request.RelatedEntityKeyDto is not null)
 		{
-			return false;
+			var relatedKeyId = CreateNoxTypeForKey<Transaction, Nox.Types.AutoNumber>("Id", request.RelatedEntityKeyDto.keyId);
+			relatedEntity = await DbContext.Transactions.FindAsync(relatedKeyId);
+			if (relatedEntity == null)
+			{
+				return false;
+			}
 		}
 		
 		switch (Action)
@@ -92,6 +114,10 @@ public abstract class RefCustomerToCustomerRelatedTransactionsCommandHandlerBase
                 break;
             case RelationshipAction.Delete:
                 entity.DeleteRefToCustomerRelatedTransactions(relatedEntity);
+                break;
+            case RelationshipAction.DeleteAll:
+				await DbContext.Entry(entity).Collection(x => x.CustomerRelatedTransactions).LoadAsync();
+                entity.DeleteAllRefToCustomerRelatedTransactions();
                 break;
         }
 
