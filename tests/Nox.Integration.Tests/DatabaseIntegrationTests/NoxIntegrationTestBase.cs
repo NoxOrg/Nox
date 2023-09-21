@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Nox.Application.Providers;
 using Nox.Integration.Tests.Fixtures;
 using Nox.Solution;
@@ -25,14 +24,14 @@ public abstract class NoxIntegrationTestBase<TContainerFixture> : IClassFixture<
 
         _serviceProvider = services.BuildServiceProvider();
 
-        RecreateDataContext();
+        DataContext = RecreateDataContext();
 
         DataContext.Database.EnsureCreated();
     }
 
-    protected TestWebAppDbContext DataContext { get; private set; } = default!;
+    protected TestWebAppDbContext DataContext { get; }
 
-    protected void RecreateDataContext()
+    protected TestWebAppDbContext RecreateDataContext()
     {
         var solutionFileSetup = GetSolutionSetup();
         var solution = new NoxSolutionBuilder()
@@ -44,13 +43,15 @@ public abstract class NoxIntegrationTestBase<TContainerFixture> : IClassFixture<
 
         var options = _containerFixture.CreateDbOptions();
 
-        DataContext = new TestWebAppDbContext(
+        var dbContext = new TestWebAppDbContext(
                 options,
                 solution,
                 databaseProvider,
                 assemblyProvider,
                 new DefaultUserProvider(),
                 new DefaultSystemProvider());
+
+        return dbContext;
     }
 
     private static Dictionary<string, Func<TextReader>> GetSolutionSetup()

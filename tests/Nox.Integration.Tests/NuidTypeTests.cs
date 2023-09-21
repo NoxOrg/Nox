@@ -4,55 +4,55 @@ using Nox.Integration.Tests.Fixtures;
 using Nox.Types;
 using TestWebApp.Domain;
 
-namespace Nox.Integration.Tests
+namespace Nox.Integration.Tests;
+
+[Collection("Sequential")]
+public class NuidTypeTests : NoxIntegrationTestBase<NoxTestSqliteFixture>
 {
-    public class NuidTypeTests : NoxIntegrationTestBase<NoxTestSqliteFixture>
+    public NuidTypeTests(NoxTestSqliteFixture fixture) : base(fixture)
     {
-        public NuidTypeTests(NoxTestSqliteFixture fixture) : base(fixture)
+    }
+
+    [Fact]
+    public void NuidTypeImmutable_OnceSet_ShouldBeUnchanged()
+    {
+        var nameValue = System.Guid.NewGuid().ToString();
+        var entity = new TestEntityWithNuid
         {
-        }
+            Name = Text.From(nameValue)
+        };
 
-        [Fact]
-        public void NuidTypeImmutable_OnceSet_ShouldBeUnchanged()
+        entity.EnsureId();
+
+        DataContext.TestEntityWithNuids.Add(entity);
+        DataContext.SaveChanges();
+
+        var dbEntity = DataContext.TestEntityWithNuids.First(x => x.Name == Text.From(nameValue));
+
+        entity.Should().Be(dbEntity);
+        entity.Id.Should().Be(dbEntity.Id);
+    }
+
+    [Fact]
+    public void NuidTypeImmutable_TryChangeImmutableProperty_ShouldThrow()
+    {
+        var nameValue = System.Guid.NewGuid().ToString();
+        var entity = new TestEntityWithNuid
         {
-            var nameValue = System.Guid.NewGuid().ToString();
-            var entity = new TestEntityWithNuid
-            {
-                Name = Text.From(nameValue)
-            };
+            Name = Text.From(nameValue)
+        };
 
-            entity.EnsureId();
-            DataContext.Database.EnsureCreated();
-            DataContext.TestEntityWithNuids.Add(entity);
-            DataContext.SaveChanges();
+        entity.EnsureId();
 
-            var dbEntity = DataContext.TestEntityWithNuids.First(x => x.Name == Text.From(nameValue));
+        DataContext.TestEntityWithNuids.Add(entity);
+        DataContext.SaveChanges();
 
-            entity.Should().Be(dbEntity);
-            entity.Id.Should().Be(dbEntity.Id);
-        }
+        var dbEntity = DataContext.TestEntityWithNuids
+            .AsEnumerable()
+            .First(x => x.Id.Value == entity.Id.Value);
+        dbEntity.Name = Text.From("Should not be changed");
 
-        [Fact]
-        public void NuidTypeImmutable_TryChangeImmutableProperty_ShouldThrow()
-        {
-            var nameValue = System.Guid.NewGuid().ToString();
-            var entity = new TestEntityWithNuid
-            {
-                Name = Text.From(nameValue)
-            };
-
-            entity.EnsureId();
-
-            DataContext.TestEntityWithNuids.Add(entity);
-            DataContext.SaveChanges();
-
-            var dbEntity = DataContext.TestEntityWithNuids
-                .AsEnumerable()
-                .First(x => x.Id.Value == entity.Id.Value);
-            dbEntity.Name = Text.From("Should not be changed");
-
-            var action = entity.EnsureId;
-            action.Should().Throw<NoxNuidTypeException>();
-        }
+        var action = entity.EnsureId;
+        action.Should().Throw<NoxNuidTypeException>();
     }
 }
