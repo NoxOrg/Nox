@@ -61,6 +61,10 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
         code.AppendLine("public static IServiceCollection AddNox(this IServiceCollection services, Action<ODataModelBuilder>? configureOData)");
         code.StartBlock();
         code.AppendLine($"services.AddNoxLib(Assembly.GetExecutingAssembly());");
+        if(codeGeneratorState.Solution.Infrastructure?.Messaging is not null)
+            
+        code.AppendLine($"services.AddNoxMessaging<{solution.Name}DbContext>(Nox.DatabaseServerProvider.{codeGeneratorState.Solution.Infrastructure.Persistence.DatabaseServer.Provider});");
+       
         code.AppendLine("services.AddNoxOdata(configureOData);");
         var dbContextName = $"{solution.Name}DbContext";
 
