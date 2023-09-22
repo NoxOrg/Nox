@@ -84,7 +84,7 @@ public abstract class EmployeeBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteRefToEmployeeReviewingCashStockOrder(CashStockOrder relatedCashStockOrder)
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToEmployeeReviewingCashStockOrder()

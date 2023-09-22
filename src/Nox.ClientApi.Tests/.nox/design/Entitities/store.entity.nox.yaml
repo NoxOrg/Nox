@@ -34,6 +34,18 @@ attributes:
     type: latLong
     isRequired: true
 
+  - name: OpeningDay
+    description: Opening day
+    type: dateTime
+    isRequired: false
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
 relationships:
 
     - name: Ownership
@@ -44,12 +56,12 @@ relationships:
 ownedRelationships:
 
   - name: VerifiedEmails
-    description: Verified emails 
+    description: Verified emails
     relationship: zeroOrOne #todo make exactly one when dto are ready
     entity: EmailAddress
 
 persistence:
-    isAudited: true    
+    isAudited: true
     create:
         isEnabled: true
         raiseEvents: true

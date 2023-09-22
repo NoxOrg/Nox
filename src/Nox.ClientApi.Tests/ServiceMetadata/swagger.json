@@ -9772,6 +9772,11 @@
           "location": {
             "$ref": "#/components/schemas/LatLongDto"
           },
+          "openingDay": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
           "ownership": {
             "$ref": "#/components/schemas/StoreOwnerCreateDto"
           },
@@ -9800,6 +9805,11 @@
           },
           "location": {
             "$ref": "#/components/schemas/LatLongDto"
+          },
+          "openingDay": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           },
           "ownershipId": {
             "type": "string",
@@ -10033,6 +10043,11 @@
           },
           "location": {
             "$ref": "#/components/schemas/LatLongDto"
+          },
+          "openingDay": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           },
           "ownershipId": {
             "type": "string",

@@ -114,7 +114,7 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteRefToBookingForCustomer(Customer relatedCustomer)
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToBookingForCustomer()
@@ -139,7 +139,7 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteRefToBookingRelatedVendingMachine(VendingMachine relatedVendingMachine)
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToBookingRelatedVendingMachine()
@@ -164,7 +164,7 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteRefToBookingFeesForCommission(Commission relatedCommission)
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToBookingFeesForCommission()
@@ -184,7 +184,7 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteRefToBookingRelatedTransaction(Transaction relatedTransaction)
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToBookingRelatedTransaction()
