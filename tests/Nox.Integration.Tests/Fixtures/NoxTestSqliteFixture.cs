@@ -8,11 +8,12 @@ namespace Nox.Integration.Tests.Fixtures;
 
 public class NoxTestSqliteFixture : NoxTestDataContextFixtureBase
 {
-    private const string _inMemoryConnectionString = "DataSource=Test;mode=memory;";
+    private const string _inMemoryConnectionString = $"DataSource=testdb;mode=memory;cache=shared";
 
     protected override DbContextOptions<TestWebAppDbContext> CreateDbOptions()
     {
         var keepAliveConnection = new SqliteConnection(_inMemoryConnectionString);
+
         //The database ceases to exist as soon as the database connection is closed.
         //Every :memory: database is distinct from every other.
         keepAliveConnection.Open();
