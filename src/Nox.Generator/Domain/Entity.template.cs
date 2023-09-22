@@ -115,9 +115,9 @@ public abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if ent
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-    public virtual List<{{relationship.Entity}}> {{relationship.Name}} { get; set; } = new();
+    public virtual List<{{relationship.Entity}}> {{relationship.Name}} { get; private set; } = new();
     {{- else}}
-    public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}} { get; set; } = null!;
+    public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}} { get; private set; } = null!;
     {{- if relationship.ShouldGenerateForeignOnThisSide}}
 
     /// <summary>

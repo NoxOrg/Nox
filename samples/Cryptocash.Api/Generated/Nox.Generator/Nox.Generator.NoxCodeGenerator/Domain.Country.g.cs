@@ -105,7 +105,7 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Country used by ExactlyOne Currencies
     /// </summary>
-    public virtual Currency CountryUsedByCurrency { get; set; } = null!;
+    public virtual Currency CountryUsedByCurrency { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Currency
@@ -130,7 +130,7 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Country used by OneOrMany Commissions
     /// </summary>
-    public virtual List<Commission> CountryUsedByCommissions { get; set; } = new();
+    public virtual List<Commission> CountryUsedByCommissions { get; private set; } = new();
 
     public virtual void CreateRefToCountryUsedByCommissions(Commission relatedCommission)
     {
@@ -154,7 +154,7 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Country used by ZeroOrMany VendingMachines
     /// </summary>
-    public virtual List<VendingMachine> CountryUsedByVendingMachines { get; set; } = new();
+    public virtual List<VendingMachine> CountryUsedByVendingMachines { get; private set; } = new();
 
     public virtual void CreateRefToCountryUsedByVendingMachines(VendingMachine relatedVendingMachine)
     {
@@ -174,7 +174,7 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Country used by ZeroOrMany Customers
     /// </summary>
-    public virtual List<Customer> CountryUsedByCustomers { get; set; } = new();
+    public virtual List<Customer> CountryUsedByCustomers { get; private set; } = new();
 
     public virtual void CreateRefToCountryUsedByCustomers(Customer relatedCustomer)
     {
