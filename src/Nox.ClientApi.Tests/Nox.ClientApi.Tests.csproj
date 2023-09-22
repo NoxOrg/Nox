@@ -45,6 +45,7 @@
 		<AdditionalFiles Include=".nox\design\Entitities\store.entity.nox.yaml">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</AdditionalFiles>				
+		<AdditionalFiles Include=".nox\design\Entitities\storedescription.entity.nox.yaml" />				
 		<AdditionalFiles Include="generator.nox.yaml" />
 	</ItemGroup>
 

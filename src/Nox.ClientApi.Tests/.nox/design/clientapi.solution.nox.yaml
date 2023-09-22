@@ -20,6 +20,8 @@ domain:
   
     - $ref: ./Entities/countrybarcode.entity.nox.yaml
   
+    - $ref: ./Entities/storedescription.entity.nox.yaml
+  
     - $ref: ./Entities/store.entity.nox.yaml
   
     - $ref: ./Entities/workplace.entity.nox.yaml

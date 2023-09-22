@@ -45,7 +45,7 @@ public abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if ent
     /// {{key.Description}} (Required).
     /// </summary>
     {{ if key.Type == "EntityId" -}}
-    public {{SingleKeyTypeForEntity key.EntityIdTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
+    public Nox.Types.{{SingleKeyTypeForEntity key.EntityIdTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
     {{- # Navigation Property }}
 
     public virtual {{key.EntityIdTypeOptions.Entity}} {{key.EntityIdTypeOptions.Entity}} { get; set; } = null!;

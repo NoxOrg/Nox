@@ -18,6 +18,8 @@ erDiagram
     }
     CountryBarCode {
     }
+    StoreDescription {
+    }
     Store {
     }
     Store||--o|EmailAddress : "Verified emails"
@@ -136,6 +138,25 @@ Member|Type|Description|Info
 ---------|----|----------|-------
 Email|Email|Email.|
 IsVerified|Boolean|Verified.|
+
+
+
+
+### StoreDescription
+
+Description for store.
+
+[Endpoints](./endpoints/StoreDescriptionEndpoints.md)
+
+[Domain Events](./domainEvents/StoreDescriptionDomainEvents.md)
+
+#### <u>Members (Keys, Attributes & Relationships)</u>
+
+Member|Type|Description|Info
+---------|----|----------|-------
+StoreId|EntityId||Required, Primary Key
+Id|AutoNumber|The unique identifier.|Required, Primary Key
+Description|Text|Store Decsription.|MinLength: 1, MaxLength: 256
 
 
 

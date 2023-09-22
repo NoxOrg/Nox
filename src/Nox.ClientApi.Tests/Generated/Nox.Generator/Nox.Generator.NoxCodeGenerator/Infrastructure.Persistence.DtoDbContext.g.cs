@@ -41,6 +41,8 @@ public class DtoDbContext : DbContext
     
         public DbSet<CountryDto> Countries { get; set; } = null!;
         
+        public DbSet<StoreDescriptionDto> StoreDescriptions { get; set; } = null!;
+        
         public DbSet<StoreDto> Stores { get; set; } = null!;
         
         public DbSet<WorkplaceDto> Workplaces { get; set; } = null!;
