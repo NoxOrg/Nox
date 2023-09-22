@@ -16,7 +16,7 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
         var code = new CodeBuilder($"Application.NoxWebApplicationExtensions.g.cs", context);
 
         var usings = new List<string>();
-        var dbProvider = "";
+        var entityStoreDbProvider = "";
         var solution = codeGeneratorState.Solution;
         if (solution.Infrastructure?.Persistence is { DatabaseServer: not null })
         {
@@ -25,16 +25,16 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
             {
                 case DatabaseServerProvider.SqlServer:
                     usings.Add("using Nox.EntityFramework.SqlServer;");
-                    dbProvider = "SqlServerDatabaseProvider";
+                    entityStoreDbProvider = "SqlServerDatabaseProvider";
                     break;
 
                 case DatabaseServerProvider.Postgres:
                     usings.Add("using Nox.EntityFramework.Postgres;");
-                    dbProvider = "PostgresDatabaseProvider";
+                    entityStoreDbProvider = "PostgresDatabaseProvider";
                     break;
                 case DatabaseServerProvider.SqLite:
                     usings.Add("using Nox.EntityFramework.Sqlite;");
-                    dbProvider = "SqliteDatabaseProvider";
+                    entityStoreDbProvider = "SqliteDatabaseProvider";
                     break;
             }
         }
@@ -42,10 +42,12 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
         code.AppendLine("using Microsoft.EntityFrameworkCore;");               
         code.AppendLine("using System.Reflection;");
         code.AppendLine("using Microsoft.OData.ModelBuilder;");
+        code.AppendLine("using Nox.Abstractions;");
         code.AppendLine("using Nox;");
         code.AppendLine("using Nox.Solution;");
         code.AppendLines(usings.ToArray());
         code.AppendLine("using Nox.Types.EntityFramework.Abstractions;");
+        code.AppendLine("using Nox.Types.EntityFramework.Enums;");
         code.AppendLine($"using {solution.Name}.Infrastructure.Persistence;");
         if (config.Presentation)
             code.AppendLine($"using {solution.Name}.Presentation.Api.OData;");
@@ -62,16 +64,26 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
         code.StartBlock();
         code.AppendLine($"services.AddNoxLib(Assembly.GetExecutingAssembly());");
         if(codeGeneratorState.Solution.Infrastructure?.Messaging is not null)
-            
-        code.AppendLine($"services.AddNoxMessaging<{solution.Name}DbContext>(Nox.DatabaseServerProvider.{codeGeneratorState.Solution.Infrastructure.Persistence.DatabaseServer.Provider});");
+            code.AppendLine($"services.AddNoxMessaging<{solution.Name}DbContext>(Nox.DatabaseServerProvider.{codeGeneratorState.Solution.Infrastructure.Persistence.DatabaseServer.Provider});");
        
         code.AppendLine("services.AddNoxOdata(configureOData);");
         var dbContextName = $"{solution.Name}DbContext";
 
         code.AppendLine($"services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));");
         code.AppendLine($"services.AddSingleton<DbContextOptions<{dbContextName}>>();");
-        code.AppendLine($"services.AddSingleton<INoxDatabaseConfigurator, {dbProvider}>();");
-        code.AppendLine($"services.AddSingleton<INoxDatabaseProvider, {dbProvider}>();");
+        code.AppendLine($"appBuilder.Services.AddSingleton<INoxDatabaseConfigurator>(provider => new {entityStoreDbProvider}(");
+        code.Indent();
+        code.AppendLine("NoxDataStoreType.EntityStore,");
+        code.AppendLine("provider.GetServices<INoxTypeDatabaseConfigurator>())");
+        code.UnIndent();
+        code.AppendLine(");");
+
+        code.AppendLine($"appBuilder.Services.AddSingleton<INoxDatabaseProvider>(provider => new {entityStoreDbProvider}(");
+        code.Indent();
+        code.AppendLine("NoxDataStoreType.EntityStore,");
+        code.AppendLine("provider.GetServices<INoxTypeDatabaseConfigurator>())");
+        code.UnIndent();
+        code.AppendLine(");");
         code.AppendLine($"services.AddDbContext<{dbContextName}>();");
         code.AppendLine($"services.AddDbContext<DtoDbContext>();");
         code.AppendLine("return services;");
