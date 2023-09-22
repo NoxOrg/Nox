@@ -78,14 +78,14 @@ internal class YamlReferenceResolver
             {
                 // AS: removed the source line number references, not yet used and it breaks multiline strings.
                 // Will probably be better to track these in a list behind the content.
-                if (false && firstPass)
-                {
-                    outputLines.Append(sourceLine).AppendLine($"   ##$ -> {sourceName},{lineNumber}");
-                }
-                else
-                {
-                    outputLines.AppendLine(sourceLine);
-                }
+                // if (false && firstPass)
+                // {
+                //     outputLines.Append(sourceLine).AppendLine($"   ##$ -> {sourceName},{lineNumber}");
+                // }
+                // else
+                // {
+                //     outputLines.AppendLine(sourceLine);
+                // }
                 continue;
             }
 

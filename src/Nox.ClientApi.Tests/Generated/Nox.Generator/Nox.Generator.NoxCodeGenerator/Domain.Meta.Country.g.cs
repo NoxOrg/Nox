@@ -27,11 +27,11 @@ public partial class Country
         /// </summary>
         public static Nox.Types.TextTypeOptions NameTypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
@@ -68,8 +68,8 @@ public partial class Country
         /// </summary>
         public static Nox.Types.FormulaTypeOptions ShortDescriptionTypeOptions {get; private set;} = new ()
         {
-            Expression = "$\"{Name} has a population of {Population} people.\"",
-            Returns = Nox.Types.FormulaReturnType.@string,
+            Expression = "$\"{Name} has a population of {Population} people.\"",
+            Returns = Nox.Types.FormulaReturnType.@string,
         };
     
     
