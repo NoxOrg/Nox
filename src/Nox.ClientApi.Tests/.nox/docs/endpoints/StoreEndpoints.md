@@ -56,29 +56,25 @@ This document provides information about the various endpoints available in our 
 
 ### StoreOwner
 
-#### Get StoreOwner relation by ID
-- **GET** `/api/Stores/{key}/StoreOwners/{relatedKey}/$ref`
-  - Description: Retrieve an existing StoreOwners relation for a specific Store.
-
 #### Get StoreOwner relations
-- **GET** `/api/Stores/{key}/StoreOwners/$ref`
-  - Description: Retrieve all StoreOwners relations for a specific Store.
+- **GET** `/api/Stores/{key}/Ownership/$ref`
+  - Description: Retrieve all existing StoreOwners relations for a specific Store.
   
 #### Create StoreOwner relation
-- **POST** `/api/Stores/{key}/StoreOwners/{relatedKey}/$ref`
+- **POST** `/api/Stores/{key}/Ownership/{relatedKey}/$ref`
   - Description: Create a new StoreOwner relation for a specific Store.
-
-#### Update StoreOwner relation
-- **PUT** `/api/Stores/{key}/StoreOwners/{relatedKey}/$ref`
-  - Description: Update an existing StoreOwner relation for a specific Store.
   
-#### Partially Update StoreOwner relation
-- **PATCH** `/api/Stores/{key}/StoreOwners/{relatedKey}/$ref`
-  - Description: Partially update an existing StoreOwner relation for a specific Store.
+#### Update StoreOwner relation
+- **PUT** `/api/Stores/{key}/Ownership/{relatedKey}/$ref`
+  - Description: Updates an existing StoreOwner relation for a specific Store.
 
 #### Delete StoreOwner relation
-- **DELETE** `/api/Stores/{key}/StoreOwners/{relatedKey}/$ref`
+- **DELETE** `/api/Stores/{key}/Ownership/{relatedKey}/$ref`
   - Description: Delete an existing StoreOwner relation for a specific Store.
+
+#### Delete StoreOwner relations
+- **DELETE** `/api/Stores/{key}/Ownership/$ref`
+  - Description: Delete all existing StoreOwners relations for a specific Store.
 
 ## Related Entities
 
