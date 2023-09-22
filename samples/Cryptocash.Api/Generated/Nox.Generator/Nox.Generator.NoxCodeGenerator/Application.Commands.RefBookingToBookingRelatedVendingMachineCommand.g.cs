@@ -18,12 +18,13 @@ using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
 
-public abstract record RefBookingToBookingRelatedVendingMachineCommand(BookingKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefBookingToBookingRelatedVendingMachineCommand(BookingKeyDto EntityKeyDto, VendingMachineKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
 public record CreateRefBookingToBookingRelatedVendingMachineCommand(BookingKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto)
 	: RefBookingToBookingRelatedVendingMachineCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefBookingToBookingRelatedVendingMachineCommandHandler: RefBookingToBookingRelatedVendingMachineCommandHandlerBase<CreateRefBookingToBookingRelatedVendingMachineCommand>
+public partial class CreateRefBookingToBookingRelatedVendingMachineCommandHandler
+	: RefBookingToBookingRelatedVendingMachineCommandHandlerBase<CreateRefBookingToBookingRelatedVendingMachineCommand>
 {
 	public CreateRefBookingToBookingRelatedVendingMachineCommandHandler(
 		CryptocashDbContext dbContext,
@@ -37,7 +38,8 @@ public partial class CreateRefBookingToBookingRelatedVendingMachineCommandHandle
 public record DeleteRefBookingToBookingRelatedVendingMachineCommand(BookingKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto)
 	: RefBookingToBookingRelatedVendingMachineCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefBookingToBookingRelatedVendingMachineCommandHandler: RefBookingToBookingRelatedVendingMachineCommandHandlerBase<DeleteRefBookingToBookingRelatedVendingMachineCommand>
+public partial class DeleteRefBookingToBookingRelatedVendingMachineCommandHandler
+	: RefBookingToBookingRelatedVendingMachineCommandHandlerBase<DeleteRefBookingToBookingRelatedVendingMachineCommand>
 {
 	public DeleteRefBookingToBookingRelatedVendingMachineCommandHandler(
 		CryptocashDbContext dbContext,
@@ -48,6 +50,21 @@ public partial class DeleteRefBookingToBookingRelatedVendingMachineCommandHandle
 	{ }
 }
 
+public record DeleteAllRefBookingToBookingRelatedVendingMachineCommand(BookingKeyDto EntityKeyDto)
+	: RefBookingToBookingRelatedVendingMachineCommand(EntityKeyDto, null);
+
+public partial class DeleteAllRefBookingToBookingRelatedVendingMachineCommandHandler
+	: RefBookingToBookingRelatedVendingMachineCommandHandlerBase<DeleteAllRefBookingToBookingRelatedVendingMachineCommand>
+{
+	public DeleteAllRefBookingToBookingRelatedVendingMachineCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+	{ }
+}
+
 public abstract class RefBookingToBookingRelatedVendingMachineCommandHandlerBase<TRequest>: CommandBase<TRequest, Booking>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefBookingToBookingRelatedVendingMachineCommand
 {
@@ -55,7 +72,7 @@ public abstract class RefBookingToBookingRelatedVendingMachineCommandHandlerBase
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete };
+    public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefBookingToBookingRelatedVendingMachineCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -78,11 +95,16 @@ public abstract class RefBookingToBookingRelatedVendingMachineCommandHandlerBase
 		{
 			return false;
 		}
-		var relatedKeyId = CreateNoxTypeForKey<VendingMachine, Nox.Types.Guid>("Id", request.RelatedEntityKeyDto.keyId);
-		var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKeyId);
-		if (relatedEntity == null)
+
+		VendingMachine? relatedEntity = null!;
+		if(request.RelatedEntityKeyDto is not null)
 		{
-			return false;
+			var relatedKeyId = CreateNoxTypeForKey<VendingMachine, Nox.Types.Guid>("Id", request.RelatedEntityKeyDto.keyId);
+			relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKeyId);
+			if (relatedEntity == null)
+			{
+				return false;
+			}
 		}
 		
 		switch (Action)
@@ -92,6 +114,9 @@ public abstract class RefBookingToBookingRelatedVendingMachineCommandHandlerBase
                 break;
             case RelationshipAction.Delete:
                 entity.DeleteRefToBookingRelatedVendingMachine(relatedEntity);
+                break;
+            case RelationshipAction.DeleteAll:
+                entity.DeleteAllRefToBookingRelatedVendingMachine();
                 break;
         }
 

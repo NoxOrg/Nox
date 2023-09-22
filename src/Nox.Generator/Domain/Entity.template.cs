@@ -141,7 +141,7 @@ public abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if ent
         {{- if relationship.WithSingleEntity }}
 
         {{- if relationship.Relationship == "ExactlyOne" }}
-        throw new Exception($"The relatioship cannot be deleted."); 
+        throw new Exception($"The relationship cannot be deleted.");
         {{- else }}
         {{relationship.Name}} = null;
         {{- end }}
@@ -150,9 +150,30 @@ public abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if ent
 
         {{- if relationship.Relationship == "OneOrMany" }}
         if({{relationship.Name}}.Count() < 2)
-            throw new Exception($"The relatioship cannot be deleted.");             
+            throw new Exception($"The relationship cannot be deleted.");
         {{- end }}
         {{relationship.Name}}.Remove(related{{relationship.Entity}});
+
+        {{- end }}
+    }
+
+    public virtual void DeleteAllRefTo{{relationship.Name}}()
+    {
+        {{- if relationship.WithSingleEntity }}
+
+        {{- if relationship.Relationship == "ExactlyOne" }}
+        throw new Exception($"The relatioship cannot be deleted."); 
+        {{- else }}
+        {{relationship.Name}}Id = null;
+        {{- end }}
+
+        {{- else}}
+
+        {{- if relationship.Relationship == "OneOrMany" }}
+        if({{relationship.Name}}.Count() < 2)
+            throw new Exception($"The relatioship cannot be deleted.");             
+        {{- end }}
+        {{relationship.Name}}.Clear();
 
         {{- end }}
     }

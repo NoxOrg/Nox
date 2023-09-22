@@ -300,6 +300,22 @@ public abstract class StoresControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> DeleteRefToOwnership([FromRoute] System.Guid key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefStoreToOwnershipCommand(new StoreKeyDto(key)));
+        if (!deletedAllRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     #endregion
     
 }

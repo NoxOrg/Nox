@@ -18,12 +18,13 @@ using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
 
-public abstract record RefBookingToBookingFeesForCommissionCommand(BookingKeyDto EntityKeyDto, CommissionKeyDto RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefBookingToBookingFeesForCommissionCommand(BookingKeyDto EntityKeyDto, CommissionKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
 public record CreateRefBookingToBookingFeesForCommissionCommand(BookingKeyDto EntityKeyDto, CommissionKeyDto RelatedEntityKeyDto)
 	: RefBookingToBookingFeesForCommissionCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefBookingToBookingFeesForCommissionCommandHandler: RefBookingToBookingFeesForCommissionCommandHandlerBase<CreateRefBookingToBookingFeesForCommissionCommand>
+public partial class CreateRefBookingToBookingFeesForCommissionCommandHandler
+	: RefBookingToBookingFeesForCommissionCommandHandlerBase<CreateRefBookingToBookingFeesForCommissionCommand>
 {
 	public CreateRefBookingToBookingFeesForCommissionCommandHandler(
 		CryptocashDbContext dbContext,
@@ -37,7 +38,8 @@ public partial class CreateRefBookingToBookingFeesForCommissionCommandHandler: R
 public record DeleteRefBookingToBookingFeesForCommissionCommand(BookingKeyDto EntityKeyDto, CommissionKeyDto RelatedEntityKeyDto)
 	: RefBookingToBookingFeesForCommissionCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefBookingToBookingFeesForCommissionCommandHandler: RefBookingToBookingFeesForCommissionCommandHandlerBase<DeleteRefBookingToBookingFeesForCommissionCommand>
+public partial class DeleteRefBookingToBookingFeesForCommissionCommandHandler
+	: RefBookingToBookingFeesForCommissionCommandHandlerBase<DeleteRefBookingToBookingFeesForCommissionCommand>
 {
 	public DeleteRefBookingToBookingFeesForCommissionCommandHandler(
 		CryptocashDbContext dbContext,
@@ -48,6 +50,21 @@ public partial class DeleteRefBookingToBookingFeesForCommissionCommandHandler: R
 	{ }
 }
 
+public record DeleteAllRefBookingToBookingFeesForCommissionCommand(BookingKeyDto EntityKeyDto)
+	: RefBookingToBookingFeesForCommissionCommand(EntityKeyDto, null);
+
+public partial class DeleteAllRefBookingToBookingFeesForCommissionCommandHandler
+	: RefBookingToBookingFeesForCommissionCommandHandlerBase<DeleteAllRefBookingToBookingFeesForCommissionCommand>
+{
+	public DeleteAllRefBookingToBookingFeesForCommissionCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+	{ }
+}
+
 public abstract class RefBookingToBookingFeesForCommissionCommandHandlerBase<TRequest>: CommandBase<TRequest, Booking>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefBookingToBookingFeesForCommissionCommand
 {
@@ -55,7 +72,7 @@ public abstract class RefBookingToBookingFeesForCommissionCommandHandlerBase<TRe
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete };
+    public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefBookingToBookingFeesForCommissionCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -78,11 +95,16 @@ public abstract class RefBookingToBookingFeesForCommissionCommandHandlerBase<TRe
 		{
 			return false;
 		}
-		var relatedKeyId = CreateNoxTypeForKey<Commission, Nox.Types.AutoNumber>("Id", request.RelatedEntityKeyDto.keyId);
-		var relatedEntity = await DbContext.Commissions.FindAsync(relatedKeyId);
-		if (relatedEntity == null)
+
+		Commission? relatedEntity = null!;
+		if(request.RelatedEntityKeyDto is not null)
 		{
-			return false;
+			var relatedKeyId = CreateNoxTypeForKey<Commission, Nox.Types.AutoNumber>("Id", request.RelatedEntityKeyDto.keyId);
+			relatedEntity = await DbContext.Commissions.FindAsync(relatedKeyId);
+			if (relatedEntity == null)
+			{
+				return false;
+			}
 		}
 		
 		switch (Action)
@@ -92,6 +114,9 @@ public abstract class RefBookingToBookingFeesForCommissionCommandHandlerBase<TRe
                 break;
             case RelationshipAction.Delete:
                 entity.DeleteRefToBookingFeesForCommission(relatedEntity);
+                break;
+            case RelationshipAction.DeleteAll:
+                entity.DeleteAllRefToBookingFeesForCommission();
                 break;
         }
 

@@ -45,6 +45,10 @@ public abstract class StoreCreateDtoBase : IEntityDto<Store>
     [Required(ErrorMessage = "Location is required")]
     
     public virtual LatLongDto Location { get; set; } = default!;
+    /// <summary>
+    /// Opening day (Optional).
+    /// </summary>
+    public virtual System.DateTimeOffset? OpeningDay { get; set; }
 
     /// <summary>
     /// Store Owner of the Store ZeroOrOne StoreOwners

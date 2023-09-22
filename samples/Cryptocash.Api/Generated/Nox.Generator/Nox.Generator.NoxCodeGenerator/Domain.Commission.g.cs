@@ -67,6 +67,11 @@ public abstract class CommissionBase : AuditableEntityBase, IEntityConcurrent
         CommissionFeesForCountry = null;
     }
 
+    public virtual void DeleteAllRefToCommissionFeesForCountry()
+    {
+        CommissionFeesForCountryId = null;
+    }
+
     /// <summary>
     /// Commission fees for ZeroOrMany Bookings
     /// </summary>
@@ -80,6 +85,11 @@ public abstract class CommissionBase : AuditableEntityBase, IEntityConcurrent
     public virtual void DeleteRefToCommissionFeesForBooking(Booking relatedBooking)
     {
         CommissionFeesForBooking.Remove(relatedBooking);
+    }
+
+    public virtual void DeleteAllRefToCommissionFeesForBooking()
+    {
+        CommissionFeesForBooking.Clear();
     }
 
     /// <summary>

@@ -18,12 +18,13 @@ using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
 
-public abstract record RefCountryToCountryUsedByCustomersCommand(CountryKeyDto EntityKeyDto, CustomerKeyDto RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefCountryToCountryUsedByCustomersCommand(CountryKeyDto EntityKeyDto, CustomerKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
 public record CreateRefCountryToCountryUsedByCustomersCommand(CountryKeyDto EntityKeyDto, CustomerKeyDto RelatedEntityKeyDto)
 	: RefCountryToCountryUsedByCustomersCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefCountryToCountryUsedByCustomersCommandHandler: RefCountryToCountryUsedByCustomersCommandHandlerBase<CreateRefCountryToCountryUsedByCustomersCommand>
+public partial class CreateRefCountryToCountryUsedByCustomersCommandHandler
+	: RefCountryToCountryUsedByCustomersCommandHandlerBase<CreateRefCountryToCountryUsedByCustomersCommand>
 {
 	public CreateRefCountryToCountryUsedByCustomersCommandHandler(
 		CryptocashDbContext dbContext,
@@ -37,7 +38,8 @@ public partial class CreateRefCountryToCountryUsedByCustomersCommandHandler: Ref
 public record DeleteRefCountryToCountryUsedByCustomersCommand(CountryKeyDto EntityKeyDto, CustomerKeyDto RelatedEntityKeyDto)
 	: RefCountryToCountryUsedByCustomersCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefCountryToCountryUsedByCustomersCommandHandler: RefCountryToCountryUsedByCustomersCommandHandlerBase<DeleteRefCountryToCountryUsedByCustomersCommand>
+public partial class DeleteRefCountryToCountryUsedByCustomersCommandHandler
+	: RefCountryToCountryUsedByCustomersCommandHandlerBase<DeleteRefCountryToCountryUsedByCustomersCommand>
 {
 	public DeleteRefCountryToCountryUsedByCustomersCommandHandler(
 		CryptocashDbContext dbContext,
@@ -48,6 +50,21 @@ public partial class DeleteRefCountryToCountryUsedByCustomersCommandHandler: Ref
 	{ }
 }
 
+public record DeleteAllRefCountryToCountryUsedByCustomersCommand(CountryKeyDto EntityKeyDto)
+	: RefCountryToCountryUsedByCustomersCommand(EntityKeyDto, null);
+
+public partial class DeleteAllRefCountryToCountryUsedByCustomersCommandHandler
+	: RefCountryToCountryUsedByCustomersCommandHandlerBase<DeleteAllRefCountryToCountryUsedByCustomersCommand>
+{
+	public DeleteAllRefCountryToCountryUsedByCustomersCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+	{ }
+}
+
 public abstract class RefCountryToCountryUsedByCustomersCommandHandlerBase<TRequest>: CommandBase<TRequest, Country>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefCountryToCountryUsedByCustomersCommand
 {
@@ -55,7 +72,7 @@ public abstract class RefCountryToCountryUsedByCustomersCommandHandlerBase<TRequ
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete };
+    public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefCountryToCountryUsedByCustomersCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -78,11 +95,16 @@ public abstract class RefCountryToCountryUsedByCustomersCommandHandlerBase<TRequ
 		{
 			return false;
 		}
-		var relatedKeyId = CreateNoxTypeForKey<Customer, Nox.Types.AutoNumber>("Id", request.RelatedEntityKeyDto.keyId);
-		var relatedEntity = await DbContext.Customers.FindAsync(relatedKeyId);
-		if (relatedEntity == null)
+
+		Customer? relatedEntity = null!;
+		if(request.RelatedEntityKeyDto is not null)
 		{
-			return false;
+			var relatedKeyId = CreateNoxTypeForKey<Customer, Nox.Types.AutoNumber>("Id", request.RelatedEntityKeyDto.keyId);
+			relatedEntity = await DbContext.Customers.FindAsync(relatedKeyId);
+			if (relatedEntity == null)
+			{
+				return false;
+			}
 		}
 		
 		switch (Action)
@@ -92,6 +114,10 @@ public abstract class RefCountryToCountryUsedByCustomersCommandHandlerBase<TRequ
                 break;
             case RelationshipAction.Delete:
                 entity.DeleteRefToCountryUsedByCustomers(relatedEntity);
+                break;
+            case RelationshipAction.DeleteAll:
+				await DbContext.Entry(entity).Collection(x => x.CountryUsedByCustomers).LoadAsync();
+                entity.DeleteAllRefToCountryUsedByCustomers();
                 break;
         }
 

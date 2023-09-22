@@ -18,12 +18,13 @@ using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
 
-public abstract record RefLandLordToContractedAreasForVendingMachinesCommand(LandLordKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefLandLordToContractedAreasForVendingMachinesCommand(LandLordKeyDto EntityKeyDto, VendingMachineKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
 public record CreateRefLandLordToContractedAreasForVendingMachinesCommand(LandLordKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto)
 	: RefLandLordToContractedAreasForVendingMachinesCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefLandLordToContractedAreasForVendingMachinesCommandHandler: RefLandLordToContractedAreasForVendingMachinesCommandHandlerBase<CreateRefLandLordToContractedAreasForVendingMachinesCommand>
+public partial class CreateRefLandLordToContractedAreasForVendingMachinesCommandHandler
+	: RefLandLordToContractedAreasForVendingMachinesCommandHandlerBase<CreateRefLandLordToContractedAreasForVendingMachinesCommand>
 {
 	public CreateRefLandLordToContractedAreasForVendingMachinesCommandHandler(
 		CryptocashDbContext dbContext,
@@ -37,7 +38,8 @@ public partial class CreateRefLandLordToContractedAreasForVendingMachinesCommand
 public record DeleteRefLandLordToContractedAreasForVendingMachinesCommand(LandLordKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto)
 	: RefLandLordToContractedAreasForVendingMachinesCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefLandLordToContractedAreasForVendingMachinesCommandHandler: RefLandLordToContractedAreasForVendingMachinesCommandHandlerBase<DeleteRefLandLordToContractedAreasForVendingMachinesCommand>
+public partial class DeleteRefLandLordToContractedAreasForVendingMachinesCommandHandler
+	: RefLandLordToContractedAreasForVendingMachinesCommandHandlerBase<DeleteRefLandLordToContractedAreasForVendingMachinesCommand>
 {
 	public DeleteRefLandLordToContractedAreasForVendingMachinesCommandHandler(
 		CryptocashDbContext dbContext,
@@ -48,6 +50,21 @@ public partial class DeleteRefLandLordToContractedAreasForVendingMachinesCommand
 	{ }
 }
 
+public record DeleteAllRefLandLordToContractedAreasForVendingMachinesCommand(LandLordKeyDto EntityKeyDto)
+	: RefLandLordToContractedAreasForVendingMachinesCommand(EntityKeyDto, null);
+
+public partial class DeleteAllRefLandLordToContractedAreasForVendingMachinesCommandHandler
+	: RefLandLordToContractedAreasForVendingMachinesCommandHandlerBase<DeleteAllRefLandLordToContractedAreasForVendingMachinesCommand>
+{
+	public DeleteAllRefLandLordToContractedAreasForVendingMachinesCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+	{ }
+}
+
 public abstract class RefLandLordToContractedAreasForVendingMachinesCommandHandlerBase<TRequest>: CommandBase<TRequest, LandLord>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefLandLordToContractedAreasForVendingMachinesCommand
 {
@@ -55,7 +72,7 @@ public abstract class RefLandLordToContractedAreasForVendingMachinesCommandHandl
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete };
+    public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefLandLordToContractedAreasForVendingMachinesCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -78,11 +95,16 @@ public abstract class RefLandLordToContractedAreasForVendingMachinesCommandHandl
 		{
 			return false;
 		}
-		var relatedKeyId = CreateNoxTypeForKey<VendingMachine, Nox.Types.Guid>("Id", request.RelatedEntityKeyDto.keyId);
-		var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKeyId);
-		if (relatedEntity == null)
+
+		VendingMachine? relatedEntity = null!;
+		if(request.RelatedEntityKeyDto is not null)
 		{
-			return false;
+			var relatedKeyId = CreateNoxTypeForKey<VendingMachine, Nox.Types.Guid>("Id", request.RelatedEntityKeyDto.keyId);
+			relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKeyId);
+			if (relatedEntity == null)
+			{
+				return false;
+			}
 		}
 		
 		switch (Action)
@@ -92,6 +114,10 @@ public abstract class RefLandLordToContractedAreasForVendingMachinesCommandHandl
                 break;
             case RelationshipAction.Delete:
                 entity.DeleteRefToContractedAreasForVendingMachines(relatedEntity);
+                break;
+            case RelationshipAction.DeleteAll:
+				await DbContext.Entry(entity).Collection(x => x.ContractedAreasForVendingMachines).LoadAsync();
+                entity.DeleteAllRefToContractedAreasForVendingMachines();
                 break;
         }
 

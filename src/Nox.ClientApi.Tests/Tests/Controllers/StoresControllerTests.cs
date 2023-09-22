@@ -1,9 +1,9 @@
-﻿using FluentAssertions;
+﻿using AutoFixture;
 using ClientApi.Application.Dto;
-using AutoFixture.AutoMoq;
-using AutoFixture;
-using System.Net;
+using FluentAssertions;
+using FluentAssertions.Common;
 using Nox.Types;
+using System.Net;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
@@ -42,13 +42,49 @@ namespace ClientApi.Tests.Tests.Controllers
                 VerifiedEmails = expectedEmail,
             };
             var postResult = await PostAsync<StoreCreateDto, StoreDto>(EntityUrl, createDto);
+
             // Act
             var response = await GetODataSimpleResponseAsync<StoreDto>($"{EntityUrl}/{postResult!.Id}");
-
 
             //Assert
             response.Should().NotBeNull();
             response!.VerifiedEmails.Should().BeEquivalentTo(expectedEmail);
+            response!.OpeningDay.Should().BeNull();
+        }
+        #endregion
+
+        #region GET Entities (Properly deserializes opening day field) /api/{EntityPluralName} => api/stores
+        [Fact]
+        public async Task GetById_WithDateFieldSet_ReturnsDateFieldValue()
+        {
+            // Arrange
+            var expectedDate = System.DateTime.Now.ToDateTimeOffset();
+            var createDto = new StoreCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                Address = new StreetAddressDto(
+                    StreetNumber: null!,
+                    AddressLine1: "3000 Hillswood Business Park",
+                    AddressLine2: null!,
+                    Route: null!,
+                    Locality: null!,
+                    Neighborhood: null!,
+                    AdministrativeArea1: null!,
+                    AdministrativeArea2: null!,
+                    PostalCode: "KT16 0RS",
+                    CountryId: CountryCode.GB),
+                Location = new LatLongDto(51.3728033, -0.5389749),
+                VerifiedEmails = new EmailAddressCreateDto() { Email = "test@gmail.com", IsVerified = false },
+                OpeningDay = expectedDate
+            };
+            await PostAsync<StoreCreateDto, StoreDto>(EntityUrl, createDto);
+
+            // Act
+            var response = await GetODataCollectionResponseAsync<IEnumerable<StoreDto>>($"{EntityUrl}");
+
+            //Assert
+            response!.Should().HaveCount(1);
+            response!.ElementAt(0).OpeningDay.Should().Be(expectedDate);
         }
         #endregion
 
@@ -168,7 +204,5 @@ namespace ClientApi.Tests.Tests.Controllers
 
             queryResult.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
-
-
     }
 }

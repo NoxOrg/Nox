@@ -1,6 +1,13 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
+
+using System.Reflection;
+using System.Diagnostics;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 using Nox;
 using Nox.Abstractions;
@@ -11,11 +18,6 @@ using Nox.Types;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Solution;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using System.Reflection;
-using System.Diagnostics;
 
 using Cryptocash.Domain;
 
@@ -88,9 +90,11 @@ public partial class CryptocashDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+       
+
         if (_noxSolution.Domain != null)
         {
-            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
+            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);                            
             foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
             {
                 Console.WriteLine($"CryptocashDbContext Configure database for Entity {entity.Name}");
@@ -124,7 +128,7 @@ public partial class CryptocashDbContext : DbContext
         }
         catch(DbUpdateConcurrencyException)
         {
-            throw new ConcurrencyException($"Latest value of {nameof(IEntityConcurrent.Etag)} must be provided");
+            throw new Nox.Exceptions.ConcurrencyException($"Latest value of {nameof(IEntityConcurrent.Etag)} must be provided");
         }
     }
 

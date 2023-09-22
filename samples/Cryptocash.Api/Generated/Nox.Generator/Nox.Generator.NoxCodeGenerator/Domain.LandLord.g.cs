@@ -62,6 +62,11 @@ public abstract class LandLordBase : AuditableEntityBase, IEntityConcurrent
         ContractedAreasForVendingMachines.Remove(relatedVendingMachine);
     }
 
+    public virtual void DeleteAllRefToContractedAreasForVendingMachines()
+    {
+        ContractedAreasForVendingMachines.Clear();
+    }
+
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

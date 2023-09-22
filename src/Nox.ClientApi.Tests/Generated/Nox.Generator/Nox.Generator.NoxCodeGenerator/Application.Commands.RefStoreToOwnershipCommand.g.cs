@@ -18,12 +18,13 @@ using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.Commands;
 
-public abstract record RefStoreToOwnershipCommand(StoreKeyDto EntityKeyDto, StoreOwnerKeyDto RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefStoreToOwnershipCommand(StoreKeyDto EntityKeyDto, StoreOwnerKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
 public record CreateRefStoreToOwnershipCommand(StoreKeyDto EntityKeyDto, StoreOwnerKeyDto RelatedEntityKeyDto)
 	: RefStoreToOwnershipCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefStoreToOwnershipCommandHandler: RefStoreToOwnershipCommandHandlerBase<CreateRefStoreToOwnershipCommand>
+public partial class CreateRefStoreToOwnershipCommandHandler
+	: RefStoreToOwnershipCommandHandlerBase<CreateRefStoreToOwnershipCommand>
 {
 	public CreateRefStoreToOwnershipCommandHandler(
 		ClientApiDbContext dbContext,
@@ -37,7 +38,8 @@ public partial class CreateRefStoreToOwnershipCommandHandler: RefStoreToOwnershi
 public record DeleteRefStoreToOwnershipCommand(StoreKeyDto EntityKeyDto, StoreOwnerKeyDto RelatedEntityKeyDto)
 	: RefStoreToOwnershipCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefStoreToOwnershipCommandHandler: RefStoreToOwnershipCommandHandlerBase<DeleteRefStoreToOwnershipCommand>
+public partial class DeleteRefStoreToOwnershipCommandHandler
+	: RefStoreToOwnershipCommandHandlerBase<DeleteRefStoreToOwnershipCommand>
 {
 	public DeleteRefStoreToOwnershipCommandHandler(
 		ClientApiDbContext dbContext,
@@ -48,6 +50,21 @@ public partial class DeleteRefStoreToOwnershipCommandHandler: RefStoreToOwnershi
 	{ }
 }
 
+public record DeleteAllRefStoreToOwnershipCommand(StoreKeyDto EntityKeyDto)
+	: RefStoreToOwnershipCommand(EntityKeyDto, null);
+
+public partial class DeleteAllRefStoreToOwnershipCommandHandler
+	: RefStoreToOwnershipCommandHandlerBase<DeleteAllRefStoreToOwnershipCommand>
+{
+	public DeleteAllRefStoreToOwnershipCommandHandler(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+	{ }
+}
+
 public abstract class RefStoreToOwnershipCommandHandlerBase<TRequest>: CommandBase<TRequest, Store>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefStoreToOwnershipCommand
 {
@@ -55,7 +72,7 @@ public abstract class RefStoreToOwnershipCommandHandlerBase<TRequest>: CommandBa
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete };
+    public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefStoreToOwnershipCommandHandlerBase(
 		ClientApiDbContext dbContext,
@@ -78,11 +95,16 @@ public abstract class RefStoreToOwnershipCommandHandlerBase<TRequest>: CommandBa
 		{
 			return false;
 		}
-		var relatedKeyId = CreateNoxTypeForKey<StoreOwner, Nox.Types.Text>("Id", request.RelatedEntityKeyDto.keyId);
-		var relatedEntity = await DbContext.StoreOwners.FindAsync(relatedKeyId);
-		if (relatedEntity == null)
+
+		StoreOwner? relatedEntity = null!;
+		if(request.RelatedEntityKeyDto is not null)
 		{
-			return false;
+			var relatedKeyId = CreateNoxTypeForKey<StoreOwner, Nox.Types.Text>("Id", request.RelatedEntityKeyDto.keyId);
+			relatedEntity = await DbContext.StoreOwners.FindAsync(relatedKeyId);
+			if (relatedEntity == null)
+			{
+				return false;
+			}
 		}
 		
 		switch (Action)
@@ -92,6 +114,9 @@ public abstract class RefStoreToOwnershipCommandHandlerBase<TRequest>: CommandBa
                 break;
             case RelationshipAction.Delete:
                 entity.DeleteRefToOwnership(relatedEntity);
+                break;
+            case RelationshipAction.DeleteAll:
+                entity.DeleteAllRefToOwnership();
                 break;
         }
 

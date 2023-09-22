@@ -1,9 +1,7 @@
 using System.Reflection;
 using FluentValidation;
-using MassTransit;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Nox.Abstractions;
 using Nox.Application.Behaviors;
 using Nox.Application.Providers;
@@ -14,6 +12,9 @@ using Nox.Secrets.Abstractions;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Configurations;
+using Microsoft.EntityFrameworkCore;
+using MassTransit;
+using Azure;
 
 namespace Nox;
 
@@ -38,26 +39,62 @@ public static class ServiceCollectionExtension
             .AddNoxFactories(noxAssemblies)
             .AddAutoMapper(entryAssembly)
             .AddNoxProviders()
-            .AddNoxDtos()
-            .AddMessaging();
-        
-
+            .AddNoxDtos();           
     }
-    public static IServiceCollection AddMessaging(this IServiceCollection services)
+    
+    public static IServiceCollection AddNoxMessaging<T>(this IServiceCollection services, DatabaseServerProvider databaseServerProvider) where T: DbContext
     {
-        services.AddSingleton<IMessageOutbox, MessageOutbox>();
-
-        /*Move to Generated WebServiceCollection to use Solution to define the Type of Bud*/
+        services.AddScoped<IOutboxRepository, OutboxRepository>();
         services.AddMassTransit(x =>
-        {
-            x.UsingInMemory((context, cfg) =>
+        {            
+            x.AddEntityFrameworkOutbox<T>(o =>
             {
+                switch (databaseServerProvider)
+                {
+                    case DatabaseServerProvider.MySql:
+                        o.UseMySql();
+                        break;
+                    case DatabaseServerProvider.SqlServer: 
+                        o.UseSqlServer(); 
+                        break;
+                    case DatabaseServerProvider.Postgres:
+                        o.UsePostgres();
+                        break;
+                    case DatabaseServerProvider.SqLite: 
+                        o.UseSqlite(); 
+                        break;
+                    default: 
+                        throw new NotImplementedException();
+                };
+                
+                //We do not need to clean up the inbox, not being used
+                o.DisableInboxCleanupService();
+
+                //Disable message delivery
+                //o.UseBusOutbox(c=>c.DisableDeliveryService());
+                // enable the bus outbox
+                o.UseBusOutbox();
+            });
+
+            // TODO Configure according to NoSolution
+            x.UsingAzureServiceBus((context, cfg) =>
+            {
+                // TODO Get Server config from Nox.Solution
+                //cfg.Host("...");
+
                 cfg.ConfigureEndpoints(context);
 
+                // TODO Cloud Events Raw message?
+                cfg.UseRawJsonSerializer(RawSerializerOptions.AddTransportHeaders | RawSerializerOptions.CopyHeaders | RawSerializerOptions.AnyMessageType);
+                
+                // TODO Define rules for Topics names
+                cfg.Message<CloudEventRecord<Application.IIntegrationEvent>>(x =>
+                {
+                    x.SetEntityName("test-integration-event");
+                });                
             });
 
         });
-        
 
         return services;
     }
