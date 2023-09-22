@@ -1,6 +1,7 @@
 ﻿namespace Nox
 {
-    public enum MessagingServerProvider
+    public enum MessageBrokerProvider
+
     {
         RabbitMq,
         AzureServiceBus,
@@ -10,13 +11,13 @@
     
     public static class MessagingServerProviderHelpers
     {
-        public static string GetProviderScheme(MessagingServerProvider provider)
+        public static string GetProviderScheme(MessageBrokerProvider provider)
         {
             switch (provider)
             {
-                case MessagingServerProvider.RabbitMq:
+                case MessageBrokerProvider.RabbitMq:
                     return "rabbitmq";
-                case MessagingServerProvider.AzureServiceBus:
+                case MessageBrokerProvider.AzureServiceBus:
                     return "sb";
                 default:
                     return "";

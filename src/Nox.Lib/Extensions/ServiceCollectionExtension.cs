@@ -15,12 +15,14 @@ using Nox.Types.EntityFramework.Configurations;
 using Microsoft.EntityFrameworkCore;
 using MassTransit;
 using Azure;
+using Microsoft.CodeAnalysis;
+using Nox.Messaging.AzureServiceBus;
 
 namespace Nox;
 
 public static class ServiceCollectionExtension
 {
-    public static IServiceCollection AddNoxLib(this IServiceCollection services, Assembly entryAssembly)
+    public static NoxSolution AddNoxLib(this IServiceCollection services, Assembly entryAssembly)
     {
         var allAssemblies =
             entryAssembly!.GetReferencedAssemblies();
@@ -31,69 +33,74 @@ public static class ServiceCollectionExtension
             .Select(Assembly.Load)
             .Union(new[] { entryAssembly! }).ToArray();
 
-        return services
-            .AddSingleton(typeof(NoxSolution), CreateSolution)
+        var noxSolution = CreateSolution(services.BuildServiceProvider());
+        services
+            .AddSingleton(typeof(NoxSolution), noxSolution)
             .AddSecretsResolver()
             .AddNoxMediatR(entryAssembly, noxAssemblies)
             .AddNoxTypesDatabaseConfigurator(noxAssemblies)
             .AddNoxFactories(noxAssemblies)
             .AddAutoMapper(entryAssembly)
             .AddNoxProviders()
-            .AddNoxDtos();           
+            .AddNoxDtos();
+
+        // Opted by returning Solution to avoid resolving it by the container in the registration phase
+        return noxSolution;
     }
-    
-    public static IServiceCollection AddNoxMessaging<T>(this IServiceCollection services, DatabaseServerProvider databaseServerProvider) where T: DbContext
+
+    public static IServiceCollection TryAddNoxMessaging<T>(this IServiceCollection services, NoxSolution noxSolution) where T : DbContext
     {
+        if (noxSolution.Infrastructure?.Messaging?.IntegrationEventServer is null)
+        {
+            return services;
+        }
+
+        MessagingServer messagingConfig = noxSolution.Infrastructure.Messaging.IntegrationEventServer;
+
         services.AddScoped<IOutboxRepository, OutboxRepository>();
         services.AddMassTransit(x =>
-        {            
-            x.AddEntityFrameworkOutbox<T>(o =>
+        {
+            if (noxSolution.Infrastructure?.Persistence is { DatabaseServer: not null })
             {
-                switch (databaseServerProvider)
-                {
-                    case DatabaseServerProvider.MySql:
-                        o.UseMySql();
-                        break;
-                    case DatabaseServerProvider.SqlServer: 
-                        o.UseSqlServer(); 
-                        break;
-                    case DatabaseServerProvider.Postgres:
-                        o.UsePostgres();
-                        break;
-                    case DatabaseServerProvider.SqLite: 
-                        o.UseSqlite(); 
-                        break;
-                    default: 
-                        throw new NotImplementedException();
-                };
-                
-                //We do not need to clean up the inbox, not being used
-                o.DisableInboxCleanupService();
+                x.AddEntityFrameworkOutbox<T>(o =>
+                {                    
+                    switch (noxSolution.Infrastructure.Persistence.DatabaseServer.Provider)
+                    {
+                        case DatabaseServerProvider.MySql:
+                            o.UseMySql();
+                            break;
+                        case DatabaseServerProvider.SqlServer:
+                            o.UseSqlServer();
+                            break;
+                        case DatabaseServerProvider.Postgres:
+                            o.UsePostgres();
+                            break;
+                        case DatabaseServerProvider.SqLite:
+                            o.UseSqlite();
+                            break;
+                        default:
+                            throw new NotImplementedException();
+                    };
 
-                //Disable message delivery
-                //o.UseBusOutbox(c=>c.DisableDeliveryService());
-                // enable the bus outbox
-                o.UseBusOutbox();
-            });
+                    //We do not need to clean up the inbox, not being used
+                    o.DisableInboxCleanupService();
 
-            // TODO Configure according to NoSolution
-            x.UsingAzureServiceBus((context, cfg) =>
+                    //Disable message delivery
+                    //o.UseBusOutbox(c=>c.DisableDeliveryService());
+                    // enable the bus outbox
+                    o.UseBusOutbox();
+                });
+            }
+
+            IMessageBrokerProvider messageBrokerProvider = messagingConfig.Provider switch
             {
-                // TODO Get Server config from Nox.Solution
-                //cfg.Host("...");
-
-                cfg.ConfigureEndpoints(context);
-
-                // TODO Cloud Events Raw message?
-                cfg.UseRawJsonSerializer(RawSerializerOptions.AddTransportHeaders | RawSerializerOptions.CopyHeaders | RawSerializerOptions.AnyMessageType);
-                
-                // TODO Define rules for Topics names
-                cfg.Message<CloudEventRecord<Application.IIntegrationEvent>>(x =>
-                {
-                    x.SetEntityName("test-integration-event");
-                });                
-            });
-
+                MessageBrokerProvider.AzureServiceBus => new AzureServiceBusBrokerProvider(),
+                MessageBrokerProvider.InMemory => new InMemoryBrokerProvider(),
+                MessageBrokerProvider.RabbitMq => throw new NotImplementedException(),
+                MessageBrokerProvider.AmazonSqs => throw new NotImplementedException(),
+                _ => throw new NotImplementedException()
+            };           
+            messageBrokerProvider.ConfigureMassTransit(messagingConfig, x);
         });
 
         return services;
@@ -120,7 +127,7 @@ public static class ServiceCollectionExtension
                 .AssignableTo(typeof(IValidator<>))
                 .Where(c => !c.ContainsGenericParameters) // Skip Open Generics
            )
-          .AsImplementedInterfaces(i=> i.IsAssignableTo(typeof(IValidator)) && i.GenericTypeArguments.Any())
+          .AsImplementedInterfaces(i => i.IsAssignableTo(typeof(IValidator)) && i.GenericTypeArguments.Any())
           .WithSingletonLifetime());
 
         return services

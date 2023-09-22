@@ -21,7 +21,8 @@ public static class NoxWebApplicationBuilderExtension
                         
     public static IServiceCollection AddNox(this IServiceCollection services, Action<ODataModelBuilder>? configureOData)
     {
-        services.AddNoxLib(Assembly.GetExecutingAssembly());
+        var noxSolution = services.AddNoxLib(Assembly.GetExecutingAssembly());
+        services.TryAddNoxMessaging<ClientApiDbContext>(noxSolution);
         services.AddNoxOdata(configureOData);
         services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
         services.AddSingleton<DbContextOptions<ClientApiDbContext>>();

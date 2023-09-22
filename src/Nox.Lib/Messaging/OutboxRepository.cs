@@ -51,6 +51,5 @@ namespace Nox.Messaging
 
         public static CloudEventFormatter New(JsonSerializerOptions options) =>
             new JsonEventFormatter(options, new JsonDocumentOptions());
-
     }
 }

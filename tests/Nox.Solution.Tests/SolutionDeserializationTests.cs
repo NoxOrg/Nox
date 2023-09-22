@@ -295,8 +295,8 @@ public class SolutionDeserializationTests
         
         Assert.NotNull(noxConfig.Infrastructure.Messaging.IntegrationEventServer);
         Assert.Equal("IntegrationBus", noxConfig.Infrastructure.Messaging.IntegrationEventServer.Name);
-        Assert.Equal("rabbitmq://localhost/", noxConfig.Infrastructure.Messaging.IntegrationEventServer.ServerUri);
-        Assert.Equal(MessagingServerProvider.RabbitMq, noxConfig.Infrastructure.Messaging.IntegrationEventServer.Provider);
+        Assert.Equal("rabbitmq://localhost", noxConfig.Infrastructure.Messaging.IntegrationEventServer.ServerUri);
+        Assert.Equal(MessageBrokerProvider.RabbitMq, noxConfig.Infrastructure.Messaging.IntegrationEventServer.Provider);
         Assert.Equal(5672, noxConfig.Infrastructure.Messaging.IntegrationEventServer.Port);
         Assert.Equal("guest", noxConfig.Infrastructure.Messaging.IntegrationEventServer.User);
         Assert.Equal("guest", noxConfig.Infrastructure.Messaging.IntegrationEventServer.Password);

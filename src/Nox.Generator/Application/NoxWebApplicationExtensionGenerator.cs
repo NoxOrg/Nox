@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
@@ -17,6 +18,7 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
 
         var usings = new List<string>();
         var dbProvider = "";
+
         var solution = codeGeneratorState.Solution;
         if (solution.Infrastructure?.Persistence is { DatabaseServer: not null })
         {
@@ -37,7 +39,7 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
                     dbProvider = "SqliteDatabaseProvider";
                     break;
             }
-        }
+        }     
 
         code.AppendLine("using Microsoft.EntityFrameworkCore;");               
         code.AppendLine("using System.Reflection;");
@@ -60,14 +62,11 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
                         ");
         code.AppendLine("public static IServiceCollection AddNox(this IServiceCollection services, Action<ODataModelBuilder>? configureOData)");
         code.StartBlock();
-        code.AppendLine($"services.AddNoxLib(Assembly.GetExecutingAssembly());");
-        if(codeGeneratorState.Solution.Infrastructure?.Messaging is not null)
-            
-        code.AppendLine($"services.AddNoxMessaging<{solution.Name}DbContext>(Nox.DatabaseServerProvider.{codeGeneratorState.Solution.Infrastructure.Persistence.DatabaseServer.Provider});");
-       
-        code.AppendLine("services.AddNoxOdata(configureOData);");
         var dbContextName = $"{solution.Name}DbContext";
 
+        code.AppendLine($"var noxSolution = services.AddNoxLib(Assembly.GetExecutingAssembly());");        
+        code.AppendLine($"services.TryAddNoxMessaging<{dbContextName}>(noxSolution);");       
+        code.AppendLine("services.AddNoxOdata(configureOData);");
         code.AppendLine($"services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));");
         code.AppendLine($"services.AddSingleton<DbContextOptions<{dbContextName}>>();");
         code.AppendLine($"services.AddSingleton<INoxDatabaseConfigurator, {dbProvider}>();");
