@@ -5,20 +5,37 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace TestWebApp.Domain;
+public partial class SecondTestEntityTwoRelationshipsOneToOne:SecondTestEntityTwoRelationshipsOneToOneBase
+{
+
+}
+/// <summary>
+/// Record for SecondTestEntityTwoRelationshipsOneToOne created event.
+/// </summary>
+public record SecondTestEntityTwoRelationshipsOneToOneCreated(SecondTestEntityTwoRelationshipsOneToOne SecondTestEntityTwoRelationshipsOneToOne) : IDomainEvent;
+/// <summary>
+/// Record for SecondTestEntityTwoRelationshipsOneToOne updated event.
+/// </summary>
+public record SecondTestEntityTwoRelationshipsOneToOneUpdated(SecondTestEntityTwoRelationshipsOneToOne SecondTestEntityTwoRelationshipsOneToOne) : IDomainEvent;
+/// <summary>
+/// Record for SecondTestEntityTwoRelationshipsOneToOne deleted event.
+/// </summary>
+public record SecondTestEntityTwoRelationshipsOneToOneDeleted(SecondTestEntityTwoRelationshipsOneToOne SecondTestEntityTwoRelationshipsOneToOne) : IDomainEvent;
 
 /// <summary>
 /// .
 /// </summary>
-public partial class SecondTestEntityTwoRelationshipsOneToOne : EntityBase
+public abstract class SecondTestEntityTwoRelationshipsOneToOneBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
     ///  (Required).
@@ -30,8 +47,23 @@ public partial class SecondTestEntityTwoRelationshipsOneToOne : EntityBase
     /// </summary>
     public virtual TestEntityTwoRelationshipsOneToOne? TestRelationshipOneOnOtherSide { get; set; } = null!;
 
+    public virtual void CreateRefToTestEntityTwoRelationshipsOneToOneTestRelationshipOneOnOtherSide(TestEntityTwoRelationshipsOneToOne relatedTestEntityTwoRelationshipsOneToOne)
+    {
+        TestRelationshipOneOnOtherSide = relatedTestEntityTwoRelationshipsOneToOne;
+    }
+
     /// <summary>
     /// SecondTestEntityTwoRelationshipsOneToOne Second relationship to the same entity on the other side ZeroOrOne TestEntityTwoRelationshipsOneToOnes
     /// </summary>
     public virtual TestEntityTwoRelationshipsOneToOne? TestRelationshipTwoOnOtherSide { get; set; } = null!;
+
+    public virtual void CreateRefToTestEntityTwoRelationshipsOneToOneTestRelationshipTwoOnOtherSide(TestEntityTwoRelationshipsOneToOne relatedTestEntityTwoRelationshipsOneToOne)
+    {
+        TestRelationshipTwoOnOtherSide = relatedTestEntityTwoRelationshipsOneToOne;
+    }
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

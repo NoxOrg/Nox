@@ -3,16 +3,18 @@
 #nullable enable
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Country Entity.
 /// </summary>
-public partial class CountryUpdateDto
+public partial class CountryUpdateDto : IEntityDto<Country>
 {
     /// <summary>
     /// The Country Name (Required).
@@ -32,9 +34,8 @@ public partial class CountryUpdateDto
     /// First Official Language (Optional).
     /// </summary>
     public System.String? FirstLanguageCode { get; set; }
-
     /// <summary>
-    /// Country is also know as ZeroOrMany CountryLocalNames
+    /// Country is also coded as ZeroOrOne CountryBarCodes
     /// </summary>
-    public virtual List<CountryLocalNameDto> CountryLocalNames { get; set; } = new();
+    public CountryBarCodeUpdateDto? CountryBarCode { get; set; } = null!;
 }

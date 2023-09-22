@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using FluentValidation;
 using Nox.Types;
 
@@ -34,6 +32,14 @@ namespace Nox.Solution.Validation
                 .SetValidator(x => new EntityItemUniquenessValidator<EntityRelationship>(x, t => t.Name, nameof(x.OwnedRelationships)))
                 .SetValidator(e => new UniquePropertyValidator<EntityRelationship>(e.OwnedRelationships, x => x.Name, "entity owned relation"));
 
+            RuleForEach(e => e.OwnedRelationships)
+                .Must(x => x.Related.Entity.Keys.Count <= 1)
+                .WithMessage((x, r) => string.Format(ValidationResources.RelationEntityDependentMustHaveSingleKey, x.Name, r.Related.Entity.Name, r.Name));
+
+            RuleForEach(e => e.Relationships)
+                .Must(x => x.Related.Entity.Keys.Count <= 1)
+                .WithMessage((x, r) => string.Format(ValidationResources.RelationEntityDependentMustHaveSingleKey, x.Name, r.Related.Entity.Name, r.Name));
+
             RuleForEach(e => e.Queries)
                 .SetValidator(e => new DomainQueryValidator(e.Queries, e.Name));
 
@@ -60,10 +66,10 @@ namespace Nox.Solution.Validation
                 .SelectMany(x => x.Events!)
                 .ToList();
 
-            var appEvents = new List<ApplicationEvent>();
-            if (application is { Events: not null } && application.Events.Any())
+            var appEvents = new List<IntegrationEvent>();
+            if (application is { IntegrationEvents: not null } && application.IntegrationEvents.Any())
             {
-                appEvents.AddRange(application.Events!);
+                appEvents.AddRange(application.IntegrationEvents!);
             }
 
             RuleForEach(e => e.Events)
@@ -73,6 +79,10 @@ namespace Nox.Solution.Validation
                 .SetValidator(v => new UniqueAttributeConstraintValidator(v))
                 .SetValidator(e => new UniquePropertyValidator<UniqueAttributeConstraint>(e.UniqueAttributeConstraints, x => x.Name, "unique attribute constraint"))
                 .SetValidator(e => new UniquePropertyValidator<UniqueAttributeConstraint>(e.UniqueAttributeConstraints, x => string.Join(",", x.AttributeNames.OrderBy(a => a)), "unique attribute constraint attribute names"));
+
+            When(e => e.IsOwnedEntity, () =>
+                RuleFor(e => e).SetValidator(new OwnedEntityValidator(entities))
+            );
         }
     }
 }

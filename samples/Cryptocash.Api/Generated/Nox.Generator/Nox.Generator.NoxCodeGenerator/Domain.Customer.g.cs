@@ -5,20 +5,37 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
+public partial class Customer:CustomerBase
+{
+
+}
+/// <summary>
+/// Record for Customer created event.
+/// </summary>
+public record CustomerCreated(Customer Customer) : IDomainEvent;
+/// <summary>
+/// Record for Customer updated event.
+/// </summary>
+public record CustomerUpdated(Customer Customer) : IDomainEvent;
+/// <summary>
+/// Record for Customer deleted event.
+/// </summary>
+public record CustomerDeleted(Customer Customer) : IDomainEvent;
 
 /// <summary>
 /// Customer definition and related data.
 /// </summary>
-public partial class Customer : AuditableEntityBase
+public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Customer's unique identifier (Required).
     /// </summary>
-    public DatabaseNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Customer's first name (Required).
@@ -50,15 +67,60 @@ public partial class Customer : AuditableEntityBase
     /// </summary>
     public virtual List<PaymentDetail> CustomerRelatedPaymentDetails { get; set; } = new();
 
+    public virtual void CreateRefToCustomerRelatedPaymentDetails(PaymentDetail relatedPaymentDetail)
+    {
+        CustomerRelatedPaymentDetails.Add(relatedPaymentDetail);
+    }
+
+    public virtual void DeleteRefToCustomerRelatedPaymentDetails(PaymentDetail relatedPaymentDetail)
+    {
+        CustomerRelatedPaymentDetails.Remove(relatedPaymentDetail);
+    }
+
+    public virtual void DeleteAllRefToCustomerRelatedPaymentDetails()
+    {
+        CustomerRelatedPaymentDetails.Clear();
+    }
+
     /// <summary>
     /// Customer related to ZeroOrMany Bookings
     /// </summary>
     public virtual List<Booking> CustomerRelatedBookings { get; set; } = new();
 
+    public virtual void CreateRefToCustomerRelatedBookings(Booking relatedBooking)
+    {
+        CustomerRelatedBookings.Add(relatedBooking);
+    }
+
+    public virtual void DeleteRefToCustomerRelatedBookings(Booking relatedBooking)
+    {
+        CustomerRelatedBookings.Remove(relatedBooking);
+    }
+
+    public virtual void DeleteAllRefToCustomerRelatedBookings()
+    {
+        CustomerRelatedBookings.Clear();
+    }
+
     /// <summary>
     /// Customer related to ZeroOrMany Transactions
     /// </summary>
     public virtual List<Transaction> CustomerRelatedTransactions { get; set; } = new();
+
+    public virtual void CreateRefToCustomerRelatedTransactions(Transaction relatedTransaction)
+    {
+        CustomerRelatedTransactions.Add(relatedTransaction);
+    }
+
+    public virtual void DeleteRefToCustomerRelatedTransactions(Transaction relatedTransaction)
+    {
+        CustomerRelatedTransactions.Remove(relatedTransaction);
+    }
+
+    public virtual void DeleteAllRefToCustomerRelatedTransactions()
+    {
+        CustomerRelatedTransactions.Clear();
+    }
 
     /// <summary>
     /// Customer based in ExactlyOne Countries
@@ -69,4 +131,24 @@ public partial class Customer : AuditableEntityBase
     /// Foreign key for relationship ExactlyOne to entity Country
     /// </summary>
     public Nox.Types.CountryCode2 CustomerBaseCountryId { get; set; } = null!;
+
+    public virtual void CreateRefToCustomerBaseCountry(Country relatedCountry)
+    {
+        CustomerBaseCountry = relatedCountry;
+    }
+
+    public virtual void DeleteRefToCustomerBaseCountry(Country relatedCountry)
+    {
+        throw new Exception($"The relationship cannot be deleted.");
+    }
+
+    public virtual void DeleteAllRefToCustomerBaseCountry()
+    {
+        throw new Exception($"The relatioship cannot be deleted.");
+    }
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

@@ -39,8 +39,9 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
             }
         }
 
-        code.AppendLine("using Microsoft.EntityFrameworkCore;");
+        code.AppendLine("using Microsoft.EntityFrameworkCore;");               
         code.AppendLine("using System.Reflection;");
+        code.AppendLine("using Microsoft.OData.ModelBuilder;");
         code.AppendLine("using Nox;");
         code.AppendLine("using Nox.Solution;");
         code.AppendLines(usings.ToArray());
@@ -52,10 +53,19 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
 
         code.AppendLine("public static class NoxWebApplicationBuilderExtension");
         code.StartBlock();
-        code.AppendLine("public static IServiceCollection AddNox(this IServiceCollection services)");
+        code.AppendLine(@"public static IServiceCollection AddNox(this IServiceCollection services)
+                        {
+                            return services.AddNox(null);
+                        }
+                        ");
+        code.AppendLine("public static IServiceCollection AddNox(this IServiceCollection services, Action<ODataModelBuilder>? configureOData)");
         code.StartBlock();
         code.AppendLine($"services.AddNoxLib(Assembly.GetExecutingAssembly());");
-        code.AppendLine("services.AddNoxOdata();");
+        if(codeGeneratorState.Solution.Infrastructure?.Messaging is not null)
+            
+        code.AppendLine($"services.AddNoxMessaging<{solution.Name}DbContext>(Nox.DatabaseServerProvider.{codeGeneratorState.Solution.Infrastructure.Persistence.DatabaseServer.Provider});");
+       
+        code.AppendLine("services.AddNoxOdata(configureOData);");
         var dbContextName = $"{solution.Name}DbContext";
 
         code.AppendLine($"services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));");

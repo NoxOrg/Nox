@@ -30,17 +30,18 @@ namespace Nox.Solution.Validation
             RuleFor(er => er.Entity!).Must(ReferenceExistingEntity)
                 .WithMessage(er => string.Format(ValidationResources.EntityRelationshipEntityMissing, er.Name, entityName, er.Entity));
 
-            if (requiresCorrespondingRelationship)
+            When(_ => requiresCorrespondingRelationship, () =>
             {
-                RuleFor(er => entityName).Must((x, y) => HaveReverseRelationship(x,  _entities.First(x => x.Name.Equals(y))))
-                    .WithMessage(er => string.Format(ValidationResources.CorrespondingRelationshipMissing, er.Name, entityName, er.Entity));
-            }
-            else
+                RuleFor(er => entityName)
+                .Must((x, y) => HaveReverseRelationship(x, _entities.First(x => x.Name.Equals(y))))
+                .WithMessage(er => string.Format(ValidationResources.CorrespondingRelationshipMissing, er.Name, entityName, er.Entity));
+            })
+            .Otherwise(() =>
             {
-                RuleFor(er => entityName).Must(HaveOneParentOnly)
-                    .WithMessage(er => string.Format(ValidationResources.EntityOwnedRelationshipEntityUsedMultipleTimes, er.Name, entityName, er.Entity));
-            }
-
+                RuleFor(er => entityName)
+                .Must(HaveOneParentOnly)
+                .WithMessage(er => string.Format(ValidationResources.EntityOwnedRelationshipEntityUsedMultipleTimes, er.Name, entityName, er.Entity));
+            });
         }
 
         private bool ReferenceExistingEntity(EntityRelationship toEvaluate, string otherEntityName)

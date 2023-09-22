@@ -3,7 +3,7 @@
 description: Sample Nox solution yaml configuration
 
 application:
-  events:
+  integrationEvents:
     - name: CountryNameChangedAppEvent
       description: An application event raised when the name of a country changes
       type: object

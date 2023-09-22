@@ -13,13 +13,22 @@ using Workplace = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Commands;
 
-public record DeleteWorkplaceByIdCommand(System.Guid keyId) : IRequest<bool>;
+public record DeleteWorkplaceByIdCommand(System.UInt32 keyId, System.Guid? Etag) : IRequest<bool>;
 
-public class DeleteWorkplaceByIdCommandHandler: CommandBase<DeleteWorkplaceByIdCommand,Workplace>, IRequestHandler<DeleteWorkplaceByIdCommand, bool>
+public class DeleteWorkplaceByIdCommandHandler:DeleteWorkplaceByIdCommandHandlerBase
+{
+	public DeleteWorkplaceByIdCommandHandler(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+	{
+	}
+}
+public abstract class DeleteWorkplaceByIdCommandHandlerBase: CommandBase<DeleteWorkplaceByIdCommand,Workplace>, IRequestHandler<DeleteWorkplaceByIdCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 
-	public DeleteWorkplaceByIdCommandHandler(
+	public DeleteWorkplaceByIdCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -27,11 +36,11 @@ public class DeleteWorkplaceByIdCommandHandler: CommandBase<DeleteWorkplaceByIdC
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeleteWorkplaceByIdCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteWorkplaceByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Workplace,DatabaseGuid>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Workplace,Nox.Types.Nuid>("Id", request.keyId);
 
 		var entity = await DbContext.Workplaces.FindAsync(keyId);
 		if (entity == null)
@@ -39,7 +48,9 @@ public class DeleteWorkplaceByIdCommandHandler: CommandBase<DeleteWorkplaceByIdC
 			return false;
 		}
 
-		OnCompleted(entity);DbContext.Workplaces.Remove(entity);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+		OnCompleted(request, entity);DbContext.Workplaces.Remove(entity);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

@@ -20,33 +20,9 @@ using Holiday = Cryptocash.Domain.Holiday;
 
 namespace Cryptocash.Application;
 
-public class HolidayMapper : EntityMapperBase<Holiday>
+public partial class HolidayMapper : EntityMapperBase<Holiday>
 {
     public HolidayMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
-
-    public override void MapToEntity(Holiday entity, Entity entityDefinition, dynamic dto)
-    {
-    #pragma warning disable CS0168 // Variable is declared but never used        
-        dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used
-            
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
-        if (noxTypeValue != null)
-        {        
-            entity.Name = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Type", dto.Type);
-        if (noxTypeValue != null)
-        {        
-            entity.Type = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition, "Date", dto.Date);
-        if (noxTypeValue != null)
-        {        
-            entity.Date = noxTypeValue;
-        }
-    
-    }
 
     public override void PartialMapToEntity(Holiday entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {

@@ -11,13 +11,13 @@ public class NoxComplexTypeDefinition : NoxSimpleTypeDefinition
 
     #region TypeOptions
 
-    [IfEquals("Type", NoxType.Object)]
+    [IfEquals(nameof(Type), NoxType.Object)]
     public ObjectTypeOptions? ObjectTypeOptions { get; internal set; }
 
-    [IfEquals("Type", NoxType.Collection)]
+    [IfEquals(nameof(Type), NoxType.Collection)]
     public ArrayTypeOptions? CollectionTypeOptions { get; internal set; }
 
-    [IfEquals("Type", NoxType.Array)]
+    [IfEquals(nameof(Type), NoxType.Array)]
     public ArrayTypeOptions? ArrayTypeOptions { get; internal set; }
     
     #endregion

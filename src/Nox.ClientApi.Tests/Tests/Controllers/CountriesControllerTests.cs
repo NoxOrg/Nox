@@ -3,28 +3,24 @@ using ClientApi.Application.Dto;
 using AutoFixture;
 using Nox.Types;
 using System.Net;
-using AutoFixture.AutoMoq;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.OData.Deltas;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+using ClientApi.Tests.Tests.Models;
 
-namespace Nox.ClientApi.Tests.Tests.Controllers
+namespace ClientApi.Tests.Tests.Controllers
 {
-    [Collection("Sequential")]
-    public class CountriesControllerTests
+    [Collection("CountriesControllerTests")]
+    public class CountriesControllerTests : NoxIntegrationTestBase
     {
         private const string EntityPluralName = "countries";
         private const string EntityUrl = $"api/{EntityPluralName}";
-          
-        private readonly Fixture _fixture;
-        private readonly ODataFixture _oDataFixture;
+        private const string WorkplacesUrl = $"api/workplaces";
 
-        public CountriesControllerTests()
+        public CountriesControllerTests(NoxTestContainerService containerService) : base(containerService)
         {
-            _fixture = new Fixture();
-            _fixture.Customize(new AutoMoqCustomization());
-            _oDataFixture = _fixture.Create<ODataFixture>();
         }
 
-        #region EXAMPLES
+        #region OWNED RELATIONSHIPS EXAMPLES
 
         #region GET
 
@@ -39,11 +35,11 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 Population = 1_000_000,
                 CountryDebt = new MoneyDto(10, CurrencyCode.USD)
             };
-            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(EntityUrl, dto);
+            var result = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
 
             // Act
             const string oDataRequest = "$select=Name";
-            var response = await _oDataFixture.GetAsync<CountryDto>($"{EntityUrl}/{result!.keyId}?{oDataRequest}");
+            var response = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{result!.Id}?{oDataRequest}");
 
 
             //Assert
@@ -60,22 +56,24 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         public async Task Get_OwnedEntityByParentEntity_ReturnsOnlySelectedOwnedEntityFields()
         {
             var expectedLocalName = "Lusitania";
+            var expectedBarCodeName = "Lusitania";
             // Arrange
             var dto = new CountryCreateDto
             {
                 Name = "Portugal",
                 Population = 1_000_000,
                 CountryDebt = new MoneyDto(10, CurrencyCode.USD),
-                CountryLocalNames = new List<CountryLocalNameCreateDto>() {
+                CountryShortNames = new List<CountryLocalNameCreateDto>() {
                     new CountryLocalNameCreateDto() { Name = "Iberia" },
                     new CountryLocalNameCreateDto() { Name = expectedLocalName}
-                }
+                },
+                CountryBarCode = new CountryBarCodeCreateDto() { BarCodeName = expectedBarCodeName }
             };
-            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(EntityUrl, dto);
+            var result = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
 
             // Act            
-            const string oDataRequest = "$select=CountryLocalNames&$expand=CountryLocalNames($filter=Name eq 'Lusitania')";
-            var response = await _oDataFixture.GetAsync<CountryDto>($"{EntityUrl}/{result!.keyId}?{oDataRequest}");
+            const string oDataRequest = $"$select={nameof(dto.CountryShortNames)}&$expand={nameof(dto.CountryShortNames)}($filter=Name eq 'Lusitania')";
+            var response = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{result!.Id}?{oDataRequest}");
 
 
             //Assert
@@ -84,8 +82,10 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             response.Population.Should().BeNull();
             response.CountryDebt.Should().BeNull();
 
-            response.CountryLocalNames.Should().HaveCount(1);
-            response.CountryLocalNames.First().Name.Should().Be(expectedLocalName);
+            response.CountryShortNames.Should().HaveCount(1);
+            response.CountryShortNames[0].Name.Should().Be(expectedLocalName);
+            response.CountryBarCode.Should().NotBeNull();
+            response.CountryBarCode!.BarCodeName.Should().Be(expectedBarCodeName);
         }
         #endregion
 
@@ -101,17 +101,16 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             var dto = new CountryCreateDto
             {
                 Name = "Portugal",
-                CountryLocalNames = expectedCountryLocalNames
+                CountryShortNames = expectedCountryLocalNames
             };
-            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(EntityUrl, dto);
+            var result = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
 
             // Act
-            var odataResponse = await _oDataFixture.GetAsync<ODataResponse<IEnumerable<CountryLocalNameDto>>>($"{EntityUrl}/{result!.keyId}/CountryLocalNames");
-            var results = odataResponse!.Value;
+            var results = await GetODataCollectionResponseAsync<IEnumerable<CountryLocalNameDto>>($"{EntityUrl}/{result!.Id}/{nameof(dto.CountryShortNames)}");
 
             // Assert
             results.Should()
-                .HaveCount(expectedCountryLocalNames.Count())
+                .HaveCount(expectedCountryLocalNames.Count)
                     .And
                 .AllSatisfy(x => x.Name.Should().NotBeNullOrEmpty())
                     .And
@@ -133,13 +132,12 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             var dto = new CountryCreateDto
             {
                 Name = "Portugal",
-                CountryLocalNames = expectedCountryLocalNames
+                CountryShortNames = expectedCountryLocalNames
             };
-            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(EntityUrl, dto);
+            var result = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
 
             // Act
-            var odataResponse = await _oDataFixture.GetAsync<ODataResponse<IEnumerable<CountryLocalNameDto>>>($"{EntityUrl}/{result!.keyId}/CountryLocalNames?$filter=Name eq '{expectedName}'");
-            var results = odataResponse!.Value;
+            var results = await GetODataCollectionResponseAsync<IEnumerable<CountryLocalNameDto>>($"{EntityUrl}/{result!.Id}/{nameof(dto.CountryShortNames)}?$filter=Name eq '{expectedName}'");
 
             // Assert
             results.Should()
@@ -150,7 +148,541 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 .AllSatisfy(x => x.Id.Should().BeGreaterThan(0));
 
         }
-        #endregion  
+        #endregion
+
+        #region GET Owned Entity via Parent Key /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName}/{OwnedEntityKey} => api/countries/1/CountryLocalNames/1
+        [Fact]
+        public async Task Get_OwnedEntityByParentKey_ReturnsOwnedEntity()
+        {
+            var expectedCountryLocalName = _fixture.Create<string>();
+            // Arrange
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                CountryShortNames = new List<CountryLocalNameCreateDto>() {
+                    new CountryLocalNameCreateDto() { Name = expectedCountryLocalName }
+                }
+            };
+            var result = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
+            var country = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{result!.Id}");
+
+            // Act
+            var countryLocalName = await GetODataSimpleResponseAsync<CountryLocalNameDto>(
+                $"{EntityUrl}/{country!.Id}/{nameof(dto.CountryShortNames)}/{country!.CountryShortNames[0].Id}");
+
+            // Assert
+            countryLocalName.Should().NotBeNull();
+            countryLocalName!.Id.Should().Be(country!.CountryShortNames[0].Id);
+            countryLocalName!.Name.Should().Be(expectedCountryLocalName);
+        }
+        #endregion
+
+        #region GET [ZeroOrOne] Owned Entity via Parent Key /api/{EntityPluralName}/{EntityKey}/{OwnedEntityName} => api/countries/1/CountryBarCode
+        [Fact]
+        public async Task Get_CountryBarCodeByParentKey_ReturnsCountryBarCode()
+        {
+            var expectedBarCodeName = _fixture.Create<string>();
+            // Arrange
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                CountryBarCode = new CountryBarCodeCreateDto() { BarCodeName = expectedBarCodeName }
+            };
+            var result = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
+
+            // Act
+            var countryBarCode = await GetODataSimpleResponseAsync<CountryBarCodeDto>(
+                $"{EntityUrl}/{result!.Id}/CountryBarCode");
+
+            // Assert
+            countryBarCode.Should().NotBeNull();
+            countryBarCode!.BarCodeName.Should().Be(expectedBarCodeName);
+        }
+        #endregion
+
+        #endregion
+
+        #region POST
+
+        #region POST Entity With Owned Entities /api/{EntityPluralName} => api/countries
+        [Fact]
+        public async Task Post_WithManyOwnedEntity_ReturnsAutoNumberId()
+        {
+            // Arrange
+            var expectedCountryLocalName = _fixture.Create<string>();
+            var expectedBarCodeName = _fixture.Create<string>();
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                CountryShortNames = new List<CountryLocalNameCreateDto>() { new CountryLocalNameCreateDto() { Name = expectedCountryLocalName } },
+                CountryBarCode = new CountryBarCodeCreateDto() { BarCodeName = expectedBarCodeName }
+            };
+            // Act
+            var result = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{result!.Id}");
+
+            //Assert
+            result.Should().NotBeNull();
+            result!.Id.Should().BeGreaterThan(0);
+
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.CountryShortNames!.Single().Name.Should().Be(expectedCountryLocalName);
+            getCountryResponse!.CountryBarCode.Should().NotBeNull();
+            getCountryResponse!.CountryBarCode!.BarCodeName.Should().Be(expectedBarCodeName);
+        }
+        #endregion
+
+        #region POST to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName} => api/countries/1/CountryLocalNames
+        [Fact]
+        public async Task PostToCountryLocalNames_ShouldAddToCountryLocalNames()
+        {
+            // Arrange
+            var expectedLocalName = "local UA";
+
+            var createDto = new CountryCreateDto
+            {
+                Name = "Ukraine",
+                Population = 44000000
+            };
+
+            var localNameDto = new CountryLocalNameCreateDto
+            {
+                Name = expectedLocalName
+            };
+
+            var result = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, createDto);
+            var headers = CreateEtagHeader(result?.Etag);
+
+            //Act
+            var ownedResult = await PostAsync<CountryLocalNameCreateDto, CountryLocalNameDto>($"{EntityUrl}/{result!.Id}/{nameof(createDto.CountryShortNames)}", localNameDto, headers);
+
+            //Assert
+            ownedResult.Should().NotBeNull();
+            ownedResult!.Id.Should().BeGreaterThan(0);
+            ownedResult!.Name.Should().Be(expectedLocalName);
+        }
+        #endregion
+
+        #region POST to [ZeroOrOne] Owned Entity /api/{EntityPluralName}/{EntityKey}/{OwnedEntityName} => api/countries/1/CountryBarCode
+        [Fact]
+        public async Task PostToCountryBarCode_ShouldSetCountryBarCode()
+        {
+            // Arrange
+            var expectedBarCodeName = _fixture.Create<string>();
+
+            var createDto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                Population = 44000000
+            };
+
+            var barCodeDto = new CountryBarCodeCreateDto
+            {
+                BarCodeName = expectedBarCodeName
+            };
+
+            var result = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, createDto);
+            var headers = CreateEtagHeader(result?.Etag);
+
+            //Act
+            var ownedResult = await PostAsync<CountryBarCodeCreateDto, CountryBarCodeDto>($"{EntityUrl}/{result!.Id}/CountryBarCode", barCodeDto, headers);
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{result!.Id}");
+            
+            //Assert
+            ownedResult.Should().NotBeNull();
+            ownedResult!.BarCodeName.Should().Be(expectedBarCodeName);
+            getCountryResponse!.CountryBarCode.Should().NotBeNull();
+            getCountryResponse!.CountryBarCode!.BarCodeName.Should().Be(expectedBarCodeName);
+
+        }
+        #endregion
+
+        #endregion
+
+        #region PUT
+
+        #region PUT to Owned Entities /api/{EntityPluralName}/{key}/{OwnedEntityPluralName}/{relatedKey} => api/countries/1/CountryLocalNames/1
+        [Fact]
+        public async Task PutToCountryLocalNames_ShouldUpdateCountryLocalName()
+        {
+            // Arrange
+            var expectedOwnedName = _fixture.Create<string>();
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                CountryShortNames = new List<CountryLocalNameCreateDto>() { new CountryLocalNameCreateDto() { Name = _fixture.Create<string>() } }
+            };
+            // Act
+            var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{postCountryResponse!.Id}");
+            var headers = CreateEtagHeader(getCountryResponse?.Etag);
+            var ownedResult = await PutAsync<CountryLocalNameUpdateDto, CountryLocalNameDto>(
+                $"{EntityUrl}/{getCountryResponse!.Id}/{nameof(dto.CountryShortNames)}/{getCountryResponse!.CountryShortNames[0].Id}",
+                new CountryLocalNameUpdateDto
+                {
+                    Name = expectedOwnedName
+                }, headers);
+
+            //Assert
+            ownedResult.Should().NotBeNull();
+            ownedResult!.Id.Should().Be(getCountryResponse!.CountryShortNames[0].Id);
+            ownedResult!.Name.Should().Be(expectedOwnedName);
+        }
+        #endregion
+
+        #region PUT to [ZeroOrOne] Owned Entity /api/{EntityPluralName}/{key}/{OwnedEntityName} => api/countries/1/CountryBarCode
+        [Fact]
+        public async Task Put_ToCountryBarCode_ShouldUpdateCountryBarCode()
+        {
+            // Arrange
+            var expectedBarCode = _fixture.Create<string>();
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                CountryBarCode = new CountryBarCodeCreateDto() { BarCodeName = _fixture.Create<string>() }
+            };
+            // Act
+            var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
+            var headers = CreateEtagHeader(postCountryResponse?.Etag);
+            var putToCountryBarCodeResponse = await PutAsync<CountryBarCodeUpdateDto, CountryBarCodeDto>(
+                $"{EntityUrl}/{postCountryResponse!.Id}/CountryBarCode",
+                new CountryBarCodeUpdateDto
+                {
+                    BarCodeName = expectedBarCode
+
+                }, headers);
+
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{postCountryResponse!.Id}");
+
+            //Assert
+            putToCountryBarCodeResponse.Should().NotBeNull();
+            putToCountryBarCodeResponse!.BarCodeName.Should().Be(expectedBarCode);
+
+            getCountryResponse!.Id.Should().Be(postCountryResponse!.Id);
+            getCountryResponse!.Name.Should().Be(postCountryResponse!.Name);
+            getCountryResponse!.CountryBarCode!.BarCodeName.Should().Be(expectedBarCode);
+        }
+        #endregion
+
+        #endregion
+
+        #region PATCH
+
+        #region PATCH to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName}/{OwnedEntityKey} => api/countries/1/CountryLocalNames/1
+        [Fact]
+        public async Task PatchToCountryLocalNames_ShouldUpdateCountryLocalName()
+        {
+            // Arrange
+            var expectedOwnedName = _fixture.Create<string>();
+            var expectedOwnedNativeName = _fixture.Create<string>();
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                CountryShortNames = new List<CountryLocalNameCreateDto>() { new CountryLocalNameCreateDto() {
+                    Name = _fixture.Create<string>(),
+                    NativeName = expectedOwnedNativeName
+                } }
+            };
+            var dictionary = new Dictionary<string, object>();
+            dictionary.Add("Name", expectedOwnedName);
+
+            // Act
+            var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{postCountryResponse!.Id}");
+            var headers = CreateEtagHeader(getCountryResponse?.Etag);
+            var ownedResult = await PatchAsync<Dictionary<string, object>, CountryLocalNameDto>(
+                $"{EntityUrl}/{getCountryResponse!.Id}/{nameof(dto.CountryShortNames)}/{getCountryResponse!.CountryShortNames[0].Id}",
+                dictionary,
+                headers);
+
+            //Assert
+            ownedResult.Should().NotBeNull();
+            ownedResult!.Id.Should().Be(getCountryResponse!.CountryShortNames[0].Id);
+            ownedResult!.Name.Should().Be(expectedOwnedName);
+            ownedResult!.NativeName.Should().Be(expectedOwnedNativeName);
+        }
+        #endregion
+
+        #region PATCH to [ZeroOrOne] Owned Entity /api/{EntityPluralName}/{EntityKey}/{OwnedEntityName} => api/countries/1/CountryLocalNames
+        [Fact]
+        public async Task PatchToCountryBarCode_ShouldUpdateCountryBarCode()
+        {
+            // Arrange
+            var expectedBarCodeName = _fixture.Create<string>();
+            var expectedBarCodeNumber = _fixture.Create<int>();
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                CountryBarCode = new CountryBarCodeCreateDto {
+                    BarCodeName = _fixture.Create<string>(),
+                    BarCodeNumber = expectedBarCodeNumber
+                }
+            };
+            var dictionary = new Dictionary<string, object>();
+            dictionary.Add("BarCodeName", expectedBarCodeName);
+
+            // Act
+            var postCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
+            var headers = CreateEtagHeader(postCountryResponse?.Etag);
+            var ownedResult = await PatchAsync<Dictionary<string, object>, CountryBarCodeDto>(
+                $"{EntityUrl}/{postCountryResponse!.Id}/CountryBarCode",
+                dictionary,
+                headers);
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{postCountryResponse!.Id}");
+
+            //Assert
+            ownedResult.Should().NotBeNull();
+            ownedResult!.BarCodeName.Should().Be(expectedBarCodeName);
+            ownedResult!.BarCodeNumber.Should().Be(expectedBarCodeNumber);
+
+            getCountryResponse!.Id.Should().Be(postCountryResponse!.Id);
+            getCountryResponse!.Name.Should().Be(postCountryResponse!.Name);
+            getCountryResponse!.CountryBarCode!.BarCodeName.Should().Be(expectedBarCodeName);
+            getCountryResponse!.CountryBarCode!.BarCodeNumber.Should().Be(expectedBarCodeNumber);
+        }
+        #endregion
+
+        #endregion
+
+        #region DELETE
+
+        #region DELETE Owned Entity via Parent Key /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName}/{OwnedEntityKey} => api/countries/1/CountryLocalNames/1
+        [Fact]
+        public async Task Delete_OwnedEntityViaParentKey_DeletesOwnedEntity()
+        {
+            var expectedCountryLocalName = _fixture.Create<string>();
+            // Arrange
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                CountryShortNames = new List<CountryLocalNameCreateDto>() {
+                    new CountryLocalNameCreateDto() { Name = expectedCountryLocalName }
+                }
+            };
+            var result = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
+            var country = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{result!.Id}");
+
+            // Act
+            await DeleteAsync($"{EntityUrl}/{country!.Id}/{nameof(dto.CountryShortNames)}/{country!.CountryShortNames[0].Id}");
+            var countryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{result!.Id}");
+
+            // Assert
+            countryResponse.Should().NotBeNull();
+            countryResponse!.CountryShortNames.Should().BeEmpty();
+        }
+        #endregion
+
+        #region DELETE [ZeroOrOne] Owned Entity via Parent Key /api/{EntityPluralName}/{EntityKey}/{OwnedEntityName} => api/countries/1/CountryBarCode
+        [Fact]
+        public async Task Delete_CountryBarCodeViaParentKey_DeletesCountryBarCode()
+        {
+            // Arrange
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                CountryBarCode = new CountryBarCodeCreateDto
+                {
+                    BarCodeName = _fixture.Create<string>()
+                }
+            };
+            var result = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
+
+            // Act
+            await DeleteAsync($"{EntityUrl}/{result!.Id}/CountryBarCode");
+            var countryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{result!.Id}");
+
+            // Assert
+            countryResponse.Should().NotBeNull();
+            countryResponse!.CountryBarCode.Should().BeNull();
+        }
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #region RELATIONSHIPS EXAMPLES
+
+        #region GET
+
+        #region GET Ref To Related Entities /api/{EntityPluralName}/1/{RelationshipName}/$ref => api/countries/1/PhysicalWorkplaces/$ref
+        [Fact]
+        public async Task GetRefTo_PhysicalWorkplaces_Success()
+        {
+            // Arrange
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                PhysicalWorkplaces = new List<WorkplaceCreateDto>()
+                {
+                    new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
+                    new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
+                    new WorkplaceCreateDto() { Name = _fixture.Create<string>() }
+                }
+            };
+            // Act
+            var result = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
+            var getRefResponse = await GetODataCollectionResponseAsync<IEnumerable<ODataReferenceResponse>>($"{EntityUrl}/{result!.Id}/physicalworkplaces/$ref");
+
+            //Assert
+            result.Should().NotBeNull();
+            result!.Id.Should().BeGreaterThan(0);
+
+            getRefResponse.Should().NotBeNull();
+            getRefResponse.Should().HaveCount(3)
+                .And
+                .AllSatisfy(x => x.ODataId.Should().NotBeNullOrEmpty());
+        }
+        #endregion
+
+        #endregion
+
+        #region POST
+
+        #region POST Entity With Related Entities /api/{EntityPluralName} => api/countries
+        [Fact]
+        public async Task Post_WithManyRelatedEntities_Success()
+        {
+            // Arrange
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                PhysicalWorkplaces = new List<WorkplaceCreateDto>()
+                {
+                    new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
+                    new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
+                    new WorkplaceCreateDto() { Name = _fixture.Create<string>() }
+                }
+            };
+            // Act
+            var result = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
+            const string oDataRequest = $"$expand={nameof(CountryDto.PhysicalWorkplaces)}";
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{result!.Id}?{oDataRequest}");
+
+            //Assert
+            result.Should().NotBeNull();
+            result!.Id.Should().BeGreaterThan(0);
+
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.PhysicalWorkplaces.Should().NotBeNull();
+            getCountryResponse!.PhysicalWorkplaces!.Should()
+                .HaveCount(3)
+                    .And
+                .AllSatisfy(x => x.Name.Should().NotBeNullOrEmpty());
+        }
+        #endregion
+
+        #region POST Create ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedEntityKey}/$ref => api/countries/1/PhysicalWorkplaces/1/$ref
+        [Fact]
+        public async Task Post_CreateRefToPhysicalWorkplaces_Success()
+        {
+            // Arrange
+            var countryCreateDto = new CountryCreateDto { Name = _fixture.Create<string>() };
+            var workplaceCreateDto = new WorkplaceCreateDto() { Name = _fixture.Create<string>() };
+
+            // Act
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, countryCreateDto);
+            var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(WorkplacesUrl, workplaceCreateDto);
+            var createRefResponse = await PostAsync($"{EntityUrl}/{countryResponse!.Id}/physicalworkplaces/{workplaceResponse!.Id}/$ref");
+            
+            const string oDataRequest = $"$expand={nameof(CountryDto.PhysicalWorkplaces)}";
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{countryResponse!.Id}?{oDataRequest}");
+
+            //Assert
+            countryResponse.Should().NotBeNull();
+            countryResponse!.Id.Should().BeGreaterThan(0);
+            workplaceResponse.Should().NotBeNull();
+            workplaceResponse!.Id.Should().BeGreaterThan(0);
+
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.PhysicalWorkplaces.Should().NotBeNull();
+            getCountryResponse!.PhysicalWorkplaces!.Should()
+                .HaveCount(1)
+                    .And
+                .AllSatisfy(x => x.Name.Should().NotBeNullOrEmpty());
+        }
+        #endregion
+
+        #endregion
+
+        #region DELETE
+
+        #region DELETE Delete ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedEntityKey}/$ref => api/countries/1/PhysicalWorkplaces/1/$ref
+        [Fact]
+        public async Task Delete_RefToPhysicalWorkplaces_Success()
+        {
+            // Arrange
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                PhysicalWorkplaces = new List<WorkplaceCreateDto>()
+                {
+                    new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
+                    new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
+                    new WorkplaceCreateDto() { Name = _fixture.Create<string>() }
+                }
+            };
+
+            // Act
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
+
+            const string oDataRequest = $"$expand={nameof(CountryDto.PhysicalWorkplaces)}";
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{countryResponse!.Id}?{oDataRequest}");
+
+            var deleteRefResponse = await DeleteAsync($"{EntityUrl}/{countryResponse!.Id}/physicalworkplaces/{getCountryResponse!.PhysicalWorkplaces!.First()!.Id}/$ref");
+            getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{countryResponse!.Id}?{oDataRequest}");
+
+
+            //Assert
+            countryResponse.Should().NotBeNull();
+            countryResponse!.Id.Should().BeGreaterThan(0);
+
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.PhysicalWorkplaces.Should().NotBeNull();
+            getCountryResponse!.PhysicalWorkplaces!.Should()
+                .HaveCount(2)
+                    .And
+                .AllSatisfy(x => x.Name.Should().NotBeNullOrEmpty());
+        }
+        #endregion
+
+        #region DELETE Delete all ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/$ref => api/countries/1/PhysicalWorkplaces/1/$ref
+        [Fact]
+        public async Task Delete_AllRefToPhysicalWorkplaces_Success()
+        {
+            // Arrange
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                PhysicalWorkplaces = new List<WorkplaceCreateDto>()
+                {
+                    new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
+                    new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
+                    new WorkplaceCreateDto() { Name = _fixture.Create<string>() }
+                }
+            };
+
+            // Act
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
+            var deleteRefResponse = await DeleteAsync($"{EntityUrl}/{countryResponse!.Id}/physicalworkplaces/$ref");
+
+            const string oDataRequest = $"$expand={nameof(CountryDto.PhysicalWorkplaces)}"; 
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{countryResponse!.Id}?{oDataRequest}");
+
+            //Assert
+            countryResponse.Should().NotBeNull();
+            countryResponse!.Id.Should().BeGreaterThan(0);
+
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.PhysicalWorkplaces.Should().NotBeNull();
+            getCountryResponse!.PhysicalWorkplaces.Should().BeEmpty();
+        }
+        #endregion
 
         #endregion
 
@@ -158,7 +690,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
 
         #region TESTS 
         [Fact]
-        public async Task Post_ReturnsDatabaseNumberId()
+        public async Task Post_ReturnsAutoNumberId()
         {
             // Arrange
             var dto = new CountryCreateDto
@@ -167,11 +699,11 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(EntityUrl, dto);
+            var result = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
 
             //Assert
             result.Should().NotBeNull();
-            result!.keyId.Should().BeGreaterThan(0);
+            result!.Id.Should().BeGreaterThan(0);
         }
 
         [Fact]
@@ -185,17 +717,14 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                     Name = _fixture.Create<string>(),
                     Population = 1_000_000 * (i + 1)
                 };
-                await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(EntityUrl, dto);
+                await PostAsync<CountryCreateDto, CountryKeyDto>(EntityUrl, dto);
             }
             // Act
             const string oDataRequest = "$select=Name&$filter=population lt 3000000&$count=true";
-            var odataResponse = await _oDataFixture.GetAsync<ODataResponse<IEnumerable<CountryDto>>>($"{EntityUrl}/?{oDataRequest}");
-            var results = odataResponse!.Value;
+            var results = await GetODataCollectionResponseAsync<IEnumerable<CountryDto>>($"{EntityUrl}/?{oDataRequest}");
 
             //Assert
             const int expectedCountryCount = 2;
-
-            odataResponse.Count.Should().Be(expectedCountryCount);
 
             results.Should()
                 .HaveCount(expectedCountryCount)
@@ -206,7 +735,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         }
 
         [Fact]
-        public async Task Post_WithCompoundMoney_ReturnsDatabaseNumberId()
+        public async Task Post_WithCompoundMoney_ReturnsAutoNumberId()
         {
             // Arrange
             var expectedAmount = 100;
@@ -217,39 +746,15 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(EntityUrl, dto);
-            var queryResult = await _oDataFixture.GetAsync<CountryDto>($"{EntityUrl}/{result!.keyId}");
+            var result = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
+            var queryResult = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{result!.Id}");
 
             //Assert
             result.Should().NotBeNull();
-            result.keyId.Should().BeGreaterThan(0);
+            result.Id.Should().BeGreaterThan(0);
 
             queryResult.Should().NotBeNull();
             queryResult!.CountryDebt!.Amount.Should().Be(expectedAmount);
-        }
-
-        [Fact]
-        public async Task Post_WithManyOwnedEntity_ReturnsDatabaseNumberId()
-        {
-            // Arrange
-            var expectedOwnedName = _fixture.Create<string>();
-            var dto = new CountryCreateDto
-            {
-                Name = _fixture.Create<string>(),
-                CountryLocalNames = new List<CountryLocalNameCreateDto>() { new CountryLocalNameCreateDto() { Name = expectedOwnedName } }
-            };
-            // Act
-            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(EntityUrl, dto);
-            var queryResult = await _oDataFixture.GetAsync<CountryDto>($"{EntityUrl}/{result!.keyId}");
-
-            //Assert
-            result.Should().NotBeNull();
-            result!.keyId.Should().BeGreaterThan(0);
-
-            queryResult.Should().NotBeNull();
-            queryResult!.Id.Should().Be(result!.keyId);
-            // TODO: add odata controller to test include properly
-            //queryResult!.ToDto().OwnedEntities!.Single().Name.Should().Be(expectedOwnedName);
         }
 
         [Fact]
@@ -263,11 +768,10 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(EntityUrl, dto);
-            var queryResult = await _oDataFixture.GetAsync<CountryDto>($"{EntityUrl}/{result!.keyId}");
+            var result = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
 
-            queryResult.Should().NotBeNull();
-            queryResult!.ShortDescription.Should().Be("Portugal has a population of 10350000 people.");
+            result.Should().NotBeNull();
+            result!.ShortDescription.Should().Be("Portugal has a population of 10350000 people.");
         }
 
         [Fact]
@@ -287,12 +791,12 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(EntityUrl, createDto);
-            await _oDataFixture.PutAsync($"{EntityUrl}/{result!.keyId}", updateDto);
-            var queryResult = await _oDataFixture.GetAsync<CountryDto>($"{EntityUrl}/{result!.keyId}");
+            var postResult = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, createDto);
+            var headers = CreateEtagHeader(postResult?.Etag);
+            var putResult = await PutAsync<CountryUpdateDto, CountryDto>($"{EntityUrl}/{postResult!.Id}", updateDto, headers);
 
             //Assert
-            queryResult!.Population.Should().Be(expectedNumber);
+            putResult!.Population.Should().Be(expectedNumber);
         }
 
         [Fact]
@@ -311,12 +815,13 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(EntityUrl, createDto);
-            await _oDataFixture.PutAsync($"{EntityUrl}/{result!.keyId}", updateDto);
-            var queryResult = await _oDataFixture.GetAsync<CountryDto>($"{EntityUrl}/{result!.keyId}");
+            var postResult = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, createDto);
+            var headers = CreateEtagHeader(postResult?.Etag);
+
+            var putResult = await PutAsync<CountryUpdateDto, CountryDto>($"{EntityUrl}/{postResult!.Id}", updateDto, headers);
 
             //Assert
-            queryResult!.ShortDescription.Should().Be("Portugal has a population of 10350000 people.");
+            putResult!.ShortDescription.Should().Be("Portugal has a population of 10350000 people.");
         }
 
         [Fact]
@@ -334,16 +839,43 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 Population = 10350000
             };
             // Act
-            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(EntityUrl, createDto);
-            await _oDataFixture.PutAsync($"{EntityUrl}/{result!.keyId}", updateDto);
-            var queryResult = await _oDataFixture.GetAsync<CountryDto>($"{EntityUrl}/{result!.keyId}");
+            var postResult = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, createDto);
+            var headers = CreateEtagHeader(postResult?.Etag);
+            var putResult = await PutAsync<CountryUpdateDto, CountryDto>($"{EntityUrl}/{postResult!.Id}", updateDto, headers);
 
             //Assert
-            queryResult.Should().NotBeNull();
-            queryResult!.ShortDescription.Should().Be("Portugal has a population of 10350000 people.");
+            putResult.Should().NotBeNull();
+            putResult!.ShortDescription.Should().Be("Portugal has a population of 10350000 people.");
         }
 
-        [Fact(Skip = "Fix issue with delta serialization")]
+        [Fact]
+        public async Task Put_NumberWithoutLatestEtag_ShouldReturnConflict()
+        {
+            var expectedNumber = 1;
+            // Arrange
+            var createDto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                Population = 1
+            };
+            var updateDto = new CountryUpdateDto
+            {
+                Name = _fixture.Create<string>(),
+                Population = 50
+            };
+
+            // Act
+            var result = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, createDto);
+
+            var updateResult = await PutAsync($"{EntityUrl}/{result!.Id}", updateDto, false);
+            var queryResult = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{result!.Id}");
+
+            //Assert
+            updateResult!.StatusCode.Should().Be(HttpStatusCode.Conflict);
+            queryResult!.Population.Should().Be(expectedNumber);
+        }
+
+        [Fact]
         public async Task Patch_Number_ShouldUpdateNumberOnly()
         {
             // Arrange
@@ -359,14 +891,16 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             {
                 Population = expectedNumber
             };
+
             // Act
-            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(EntityUrl, createDto);
-            await _oDataFixture.PatchAsync($"{EntityUrl}/{result!.keyId}", updateDto);
-            var queryResult = await _oDataFixture.GetAsync<CountryDto>($"{EntityUrl}/{result!.keyId}");
+            var postResult = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, createDto);
+            var headers = CreateEtagHeader(postResult!.Etag);
+
+            var patchResult = await PatchAsync<CountryUpdateDto, CountryDto>($"{EntityUrl}/{postResult!.Id}", updateDto, headers);
 
             //Assert
-            queryResult!.Population.Should().Be(expectedNumber);
-            queryResult!.Name.Should().Be(expectedName);
+            patchResult!.Population.Should().Be(expectedNumber);
+            patchResult!.Name.Should().Be(expectedName);
         }
 
         [Fact]
@@ -378,7 +912,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 Population = 1
             };
             // Act
-            var result = await _oDataFixture.PostAsync(EntityUrl, createDto);
+            var result = await PostAsync(EntityUrl, createDto);
 
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -394,11 +928,13 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(EntityUrl, createDto);
-            await _oDataFixture.DeleteAsync($"{EntityUrl}/{result!.keyId}");
+            var result = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, createDto);
+            var headers = CreateEtagHeader(result?.Etag);
+
+            await DeleteAsync($"{EntityUrl}/{result!.Id}", headers);
 
             // Assert
-            var queryResult = await _oDataFixture.GetAsync($"{EntityUrl}/{result!.keyId}");
+            var queryResult = await GetAsync($"{EntityUrl}/{result!.Id}");
 
             queryResult.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
@@ -415,13 +951,12 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(EntityUrl, dto);
-            var queryResult = await _oDataFixture.GetAsync<CountryDto>($"{EntityUrl}/{result!.keyId}");
+            var result = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
 
             //Assert
             result.Should().NotBeNull();
-            result!.keyId.Should().BeGreaterThan(0);
-            queryResult!.FirstLanguageCode.Should().Be(expectedLanguageCode);
+            result!.Id.Should().BeGreaterThan(0);
+            result!.FirstLanguageCode.Should().Be(expectedLanguageCode);
         }
 
         [Fact]
@@ -442,39 +977,63 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(EntityUrl, dto);
-            await _oDataFixture.PutAsync($"{EntityUrl}/{result!.keyId}", updateDto);
-            var queryResult = await _oDataFixture.GetAsync<CountryDto>($"{EntityUrl}/{result!.keyId}");
+            var postResult = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
+            var headers = CreateEtagHeader(postResult?.Etag);
+            var putResult = await PutAsync<CountryUpdateDto, CountryDto>($"{EntityUrl}/{postResult!.Id}", updateDto, headers);
 
             // Assert
-            queryResult!.FirstLanguageCode.Should().Be(updateWithLanguage);                      
+            putResult!.FirstLanguageCode.Should().Be(updateWithLanguage);
         }
 
-        [Fact(Skip = "Test fails when post local names.  The property 'Name[Nullable=False]' of type 'Edm.String' has a null value, which is not allowed.'")]
-        public async Task PostToCountryLocalNames_ShouldAddToCountryLocalNames()
+        [Fact]
+        public async Task Delete_WithoutLatestEtag_ShouldReturnConflict()
         {
             // Arrange
-            var expectedLocalName = "local UA";
-
             var createDto = new CountryCreateDto
             {
-                Name = "Ukraine",
-                Population = 44000000
+                Name = "Portugal",
+                Population = 1,
             };
 
-            var localNameDto = new CountryLocalNameCreateDto
+            // Act
+            var result = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, createDto);
+
+            var deleteResult = await DeleteAsync($"{EntityUrl}/{result!.Id}", false);
+            var queryResult = await GetAsync($"{EntityUrl}/{result!.Id}");
+
+            // Assert
+            deleteResult!.StatusCode.Should().Be(HttpStatusCode.Conflict);
+            queryResult.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public async Task Delete_WhenTryingToGetOwnedEntities_ReturnesNotFound()
+        {
+            // Arrange
+            var createDto = new CountryCreateDto
             {
-                Name = expectedLocalName
+                Name = "Portugal",
+                Population = 1_000_000,
+                CountryDebt = new MoneyDto(10, CurrencyCode.USD),
+                CountryShortNames = new List<CountryLocalNameCreateDto>()
+                {
+                    new CountryLocalNameCreateDto() { Name = "Iberia" },
+                    new CountryLocalNameCreateDto() { Name = "Lusitania"}
+                }
             };
 
-            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(EntityUrl, createDto);
+            // Act
+            var result = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, createDto);
+            var headers = CreateEtagHeader(result?.Etag);
 
-            //Act
-            var ownedResult = await _oDataFixture.PostAsync<CountryLocalNameCreateDto, CountryLocalNameDto>($"{EntityUrl}/{result!.keyId}/CountryLocalNames", localNameDto);
+            var country = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{result!.Id}");
 
-            //Assert
-            ownedResult.Should().NotBeNull();
-            ownedResult!.Id.Should().BeGreaterThan(0);
+            await DeleteAsync($"{EntityUrl}/{result!.Id}", headers);
+
+            // Assert
+            var queryResult = await GetAsync($"{EntityUrl}/{result!.Id}/CountryLocalNames/{country!.CountryShortNames[0].Id}");
+
+            queryResult.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
         #endregion

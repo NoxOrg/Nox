@@ -44,7 +44,7 @@ public class QueryTests: IClassFixture<GeneratorFixture>
         Assert.Single(allOutputs);
 
         var generatedSources = result.GeneratedSources;
-        Assert.Equal(17, generatedSources.Length);
+        Assert.Equal(18, generatedSources.Length);
         Assert.True(generatedSources.Any(s => s.HintName == "Application.NoxWebApplicationExtensions.g.cs"), "NoxWebApplicationExtensions.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "0.Generator.g.cs"), "Generator.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "DtoDynamic.CountryInfo.g.cs"), "CountryInfo.g.cs not generated");
@@ -54,6 +54,7 @@ public class QueryTests: IClassFixture<GeneratorFixture>
         Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/GetCountriesByContinentQueryBase.expected.g.cs"), generatedSources.First(s => s.HintName == queryFileName).SourceText.ToString());
 
         var generated = generatedSources.First(s => s.HintName == "Application.Dto.CountryDto.g.cs").SourceText.ToString();
+        File.WriteAllText("aaa.txt", generated);
         Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/Application.Dto.CountryDto.expected.g.cs"), generated);
         Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/Dto.CountryCreateDto.expected.g.cs"), generatedSources.First(s => s.HintName == "Application.Dto.CountryCreateDto.g.cs").SourceText.ToString());        
         //can further extend this test to verify contents of source files.

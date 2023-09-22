@@ -29,6 +29,7 @@ application:
         name: CountryJsonSource
         description: Sources Country data from a json file
         dataConnectionName: CountryJsonData
+        sourceType: file
         fileOptions: 
           filename: country-seed-data.json
         schedule:
@@ -62,6 +63,9 @@ application:
       target:
         name: Country
         targetType: entity
+        dataConnectionName: NoxEntityStore
+        entityOptions:
+            entity: Country 
 
 infrastructure: 
   persistence: 

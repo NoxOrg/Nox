@@ -1,18 +1,18 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
 using Nox;
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Exceptions;
+using Nox.Extensions;
+using Nox.Types;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Solution;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using System.Reflection;
-using System.Diagnostics;
 
 using TestWebApp.Domain;
 
@@ -30,17 +30,17 @@ public partial class TestWebAppDbContext : DbContext
             DbContextOptions<TestWebAppDbContext> options,
             NoxSolution noxSolution,
             INoxDatabaseProvider databaseProvider,
-            INoxClientAssemblyProvider clientAssemblyProvider, 
+            INoxClientAssemblyProvider clientAssemblyProvider,
             IUserProvider userProvider,
             ISystemProvider systemProvider
         ) : base(options)
-        {
-            _noxSolution = noxSolution;
-            _dbProvider = databaseProvider;
-            _clientAssemblyProvider = clientAssemblyProvider;
-            _userProvider = userProvider;
-            _systemProvider = systemProvider;
-        }
+    {
+        _noxSolution = noxSolution;
+        _dbProvider = databaseProvider;
+        _clientAssemblyProvider = clientAssemblyProvider;
+        _userProvider = userProvider;
+        _systemProvider = systemProvider;
+    }
 
     public DbSet<TestEntityZeroOrOne> TestEntityZeroOrOnes { get; set; } = null!;
 
@@ -94,15 +94,11 @@ public partial class TestWebAppDbContext : DbContext
 
     public DbSet<TestEntityOwnedRelationshipExactlyOne> TestEntityOwnedRelationshipExactlyOnes { get; set; } = null!;
 
-
     public DbSet<TestEntityOwnedRelationshipZeroOrOne> TestEntityOwnedRelationshipZeroOrOnes { get; set; } = null!;
-
 
     public DbSet<TestEntityOwnedRelationshipOneOrMany> TestEntityOwnedRelationshipOneOrManies { get; set; } = null!;
 
-
     public DbSet<TestEntityOwnedRelationshipZeroOrMany> TestEntityOwnedRelationshipZeroOrManies { get; set; } = null!;
-
 
     public DbSet<TestEntityTwoRelationshipsOneToOne> TestEntityTwoRelationshipsOneToOnes { get; set; } = null!;
 
@@ -125,7 +121,7 @@ public partial class TestWebAppDbContext : DbContext
         base.OnConfiguring(optionsBuilder);
         if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })
         {
-            _dbProvider.ConfigureDbContext(optionsBuilder, "TestWebApp", _noxSolution.Infrastructure!.Persistence.DatabaseServer); 
+            _dbProvider.ConfigureDbContext(optionsBuilder, "TestWebApp", _noxSolution.Infrastructure!.Persistence.DatabaseServer);
         }
     }
 
@@ -151,23 +147,38 @@ public partial class TestWebAppDbContext : DbContext
                     ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
                 }
             }
+
+            modelBuilder.ForEntitiesOfType<IEntityConcurrent>(
+                builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());
         }
     }
 
     /// <inheritdoc/>
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
-        AuditEntities();
-        return await base.SaveChangesAsync(cancellationToken);
+        try
+        {
+            HandleSystemFields();
+            return await base.SaveChangesAsync(cancellationToken);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            throw new ConcurrencyException($"Latest value of {nameof(IEntityConcurrent.Etag)} must be provided");
+        }
     }
 
-    private void AuditEntities()
+    private void HandleSystemFields()
     {
         ChangeTracker.DetectChanges();
 
         foreach (var entry in ChangeTracker.Entries<AuditableEntityBase>())
         {
             AuditEntity(entry);
+        }
+
+        foreach (var entry in ChangeTracker.Entries<IEntityConcurrent>())
+        {
+            TrackConcurrency(entry);
         }
     }
 
@@ -189,6 +200,42 @@ public partial class TestWebAppDbContext : DbContext
             case EntityState.Deleted:
                 entry.State = EntityState.Modified;
                 entry.Entity.Deleted(user, system);
+                ReattachOwnedEntries<IOwnedEntity>(entry);
+                ReattachOwnedEntries<INoxType>(entry);
+                break;
+        }
+    }
+
+    private void ReattachOwnedEntries<T>(EntityEntry<AuditableEntityBase> parentEntry)
+        where T : class
+    {
+        foreach (var navigationEntry in parentEntry.Navigations)
+        {
+            foreach (var ownedEntry in ChangeTracker.Entries<T>())
+            {
+                var isOwnedAndDeltetedEntry = ownedEntry.Metadata.IsOwned() && ownedEntry.State == EntityState.Deleted;
+                var isOwnedByCurrentParentEntry = ownedEntry.Entity == navigationEntry.CurrentValue || (navigationEntry.CurrentValue as IEnumerable<T>)?.Contains(ownedEntry.Entity) == true;
+
+                if (isOwnedAndDeltetedEntry && isOwnedByCurrentParentEntry)
+                {
+                    ownedEntry.State = EntityState.Unchanged;
+                }
+            }
+        }
+    }
+
+    private void TrackConcurrency(EntityEntry<IEntityConcurrent> entry)
+    {
+        switch (entry.State)
+        {
+            case EntityState.Added:
+                entry.Property(e => e.Etag).CurrentValue = System.Guid.NewGuid();
+                break;
+
+            case EntityState.Modified:
+            case EntityState.Deleted:
+                entry.Property(e => e.Etag).OriginalValue = entry.Property(p => p.Etag).CurrentValue;
+                entry.Property(e => e.Etag).CurrentValue = System.Guid.NewGuid();
                 break;
         }
     }

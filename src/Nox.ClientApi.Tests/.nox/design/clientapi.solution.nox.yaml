@@ -18,6 +18,8 @@ domain:
   
     - $ref: ./Entities/countrylocalname.entity.nox.yaml
   
+    - $ref: ./Entities/countrybarcode.entity.nox.yaml
+  
     - $ref: ./Entities/store.entity.nox.yaml
   
     - $ref: ./Entities/workplace.entity.nox.yaml
@@ -62,6 +64,21 @@ infrastructure:
       
 
 application:
+  integrationEvents:
+        - name: CountryPopulationHigherThan100M
+          description: Country Population Updated with Population Higher then 100M
+          type: object
+          objectTypeOptions:
+            attributes:
+              - name: Code
+                type: countryCode2
+
+              - name: Name
+                type: text
+
+              - name: Population
+                type: number
+
   dataTransferObjects:
     - name: TempDto
       description: Temp Dto added to help Generator Compile

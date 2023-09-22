@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
@@ -13,47 +14,51 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
+public partial class CountryCreateDto : CountryCreateDtoBase
+{
+
+}
+
 /// <summary>
 /// Country Entity.
 /// </summary>
-public partial class CountryCreateDto 
-{    
+public abstract class CountryCreateDtoBase : IEntityDto<Country>
+{
     /// <summary>
     /// The Country Name (Required).
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
-    public System.String Name { get; set; } = default!;    
+    public virtual System.String Name { get; set; } = default!;
     /// <summary>
     /// Population (Optional).
     /// </summary>
-    public System.Int32? Population { get; set; }    
+    public virtual System.Int32? Population { get; set; }
     /// <summary>
     /// The Money (Optional).
     /// </summary>
-    public MoneyDto? CountryDebt { get; set; }    
+    public virtual MoneyDto? CountryDebt { get; set; }
     /// <summary>
     /// First Official Language (Optional).
     /// </summary>
-    public System.String? FirstLanguageCode { get; set; }    
+    public virtual System.String? FirstLanguageCode { get; set; }
     /// <summary>
     /// The Formula (Optional).
     /// </summary>
-    public System.String? ShortDescription { get; set; }
+    public virtual System.String? ShortDescription { get; set; }
+
+    /// <summary>
+    /// Country Country workplaces ZeroOrMany Workplaces
+    /// </summary>
+    public virtual List<WorkplaceCreateDto> PhysicalWorkplaces { get; set; } = new();
 
     /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
-    public virtual List<CountryLocalNameCreateDto> CountryLocalNames { get; set; } = new();
+    public virtual List<CountryLocalNameCreateDto> CountryShortNames { get; set; } = new();
 
-    public ClientApi.Domain.Country ToEntity()
-    {
-        var entity = new ClientApi.Domain.Country();
-        entity.Name = ClientApi.Domain.Country.CreateName(Name);
-        if (Population is not null)entity.Population = ClientApi.Domain.Country.CreatePopulation(Population.NonNullValue<System.Int32>());
-        if (CountryDebt is not null)entity.CountryDebt = ClientApi.Domain.Country.CreateCountryDebt(CountryDebt.NonNullValue<MoneyDto>());
-        if (FirstLanguageCode is not null)entity.FirstLanguageCode = ClientApi.Domain.Country.CreateFirstLanguageCode(FirstLanguageCode.NonNullValue<System.String>());
-        entity.CountryLocalNames = CountryLocalNames.Select(dto => dto.ToEntity()).ToList();
-        return entity;
-    }
+    /// <summary>
+    /// Country is also coded as ZeroOrOne CountryBarCodes
+    /// </summary>
+    public virtual CountryBarCodeCreateDto? CountryBarCode { get; set; } = null!;
 }

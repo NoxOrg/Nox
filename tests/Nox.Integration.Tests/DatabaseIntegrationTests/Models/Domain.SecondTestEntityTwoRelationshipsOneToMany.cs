@@ -5,20 +5,37 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace TestWebApp.Domain;
+public partial class SecondTestEntityTwoRelationshipsOneToMany:SecondTestEntityTwoRelationshipsOneToManyBase
+{
+
+}
+/// <summary>
+/// Record for SecondTestEntityTwoRelationshipsOneToMany created event.
+/// </summary>
+public record SecondTestEntityTwoRelationshipsOneToManyCreated(SecondTestEntityTwoRelationshipsOneToMany SecondTestEntityTwoRelationshipsOneToMany) : IDomainEvent;
+/// <summary>
+/// Record for SecondTestEntityTwoRelationshipsOneToMany updated event.
+/// </summary>
+public record SecondTestEntityTwoRelationshipsOneToManyUpdated(SecondTestEntityTwoRelationshipsOneToMany SecondTestEntityTwoRelationshipsOneToMany) : IDomainEvent;
+/// <summary>
+/// Record for SecondTestEntityTwoRelationshipsOneToMany deleted event.
+/// </summary>
+public record SecondTestEntityTwoRelationshipsOneToManyDeleted(SecondTestEntityTwoRelationshipsOneToMany SecondTestEntityTwoRelationshipsOneToMany) : IDomainEvent;
 
 /// <summary>
 /// .
 /// </summary>
-public partial class SecondTestEntityTwoRelationshipsOneToMany : EntityBase
+public abstract class SecondTestEntityTwoRelationshipsOneToManyBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
     ///  (Required).
@@ -35,6 +52,11 @@ public partial class SecondTestEntityTwoRelationshipsOneToMany : EntityBase
     /// </summary>
     public Nox.Types.Text? TestRelationshipOneOnOtherSideId { get; set; } = null!;
 
+    public virtual void CreateRefToTestEntityTwoRelationshipsOneToManyTestRelationshipOneOnOtherSide(TestEntityTwoRelationshipsOneToMany relatedTestEntityTwoRelationshipsOneToMany)
+    {
+        TestRelationshipOneOnOtherSide = relatedTestEntityTwoRelationshipsOneToMany;
+    }
+
     /// <summary>
     /// SecondTestEntityTwoRelationshipsOneToMany Second relationship to the same entity on the other side ZeroOrOne TestEntityTwoRelationshipsOneToManies
     /// </summary>
@@ -44,4 +66,14 @@ public partial class SecondTestEntityTwoRelationshipsOneToMany : EntityBase
     /// Foreign key for relationship ZeroOrOne to entity TestEntityTwoRelationshipsOneToMany
     /// </summary>
     public Nox.Types.Text? TestRelationshipTwoOnOtherSideId { get; set; } = null!;
+
+    public virtual void CreateRefToTestEntityTwoRelationshipsOneToManyTestRelationshipTwoOnOtherSide(TestEntityTwoRelationshipsOneToMany relatedTestEntityTwoRelationshipsOneToMany)
+    {
+        TestRelationshipTwoOnOtherSide = relatedTestEntityTwoRelationshipsOneToMany;
+    }
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

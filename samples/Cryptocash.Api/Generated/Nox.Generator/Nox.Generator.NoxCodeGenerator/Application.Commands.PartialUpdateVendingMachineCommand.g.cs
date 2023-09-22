@@ -16,14 +16,24 @@ using VendingMachine = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application.Commands;
 
-public record PartialUpdateVendingMachineCommand(System.Guid keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <VendingMachineKeyDto?>;
+public record PartialUpdateVendingMachineCommand(System.Guid keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <VendingMachineKeyDto?>;
 
-public class PartialUpdateVendingMachineCommandHandler: CommandBase<PartialUpdateVendingMachineCommand, VendingMachine>, IRequestHandler<PartialUpdateVendingMachineCommand, VendingMachineKeyDto?>
+public class PartialUpdateVendingMachineCommandHandler: PartialUpdateVendingMachineCommandHandlerBase
+{
+	public PartialUpdateVendingMachineCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<VendingMachine> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+	{
+	}
+}
+public class PartialUpdateVendingMachineCommandHandlerBase: CommandBase<PartialUpdateVendingMachineCommand, VendingMachine>, IRequestHandler<PartialUpdateVendingMachineCommand, VendingMachineKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<VendingMachine> EntityMapper { get; }
 
-	public PartialUpdateVendingMachineCommandHandler(
+	public PartialUpdateVendingMachineCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -33,11 +43,11 @@ public class PartialUpdateVendingMachineCommandHandler: CommandBase<PartialUpdat
 		EntityMapper = entityMapper;
 	}
 
-	public async Task<VendingMachineKeyDto?> Handle(PartialUpdateVendingMachineCommand request, CancellationToken cancellationToken)
+	public virtual async Task<VendingMachineKeyDto?> Handle(PartialUpdateVendingMachineCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<VendingMachine,DatabaseGuid>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<VendingMachine,Nox.Types.Guid>("Id", request.keyId);
 
 		var entity = await DbContext.VendingMachines.FindAsync(keyId);
 		if (entity == null)
@@ -45,8 +55,9 @@ public class PartialUpdateVendingMachineCommandHandler: CommandBase<PartialUpdat
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<VendingMachine>(), request.UpdatedProperties);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
@@ -13,26 +14,33 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
+public partial class WorkplaceCreateDto : WorkplaceCreateDtoBase
+{
+
+}
+
 /// <summary>
 /// Workplace.
 /// </summary>
-public partial class WorkplaceCreateDto 
-{    
+public abstract class WorkplaceCreateDtoBase : IEntityDto<Workplace>
+{
     /// <summary>
     /// Workplace Name (Required).
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
-    public System.String Name { get; set; } = default!;    
+    public virtual System.String Name { get; set; } = default!;
+    /// <summary>
+    /// Workplace Description (Optional).
+    /// </summary>
+    public virtual System.String? Description { get; set; }
     /// <summary>
     /// The Formula (Optional).
     /// </summary>
-    public System.String? Greeting { get; set; }
+    public virtual System.String? Greeting { get; set; }
 
-    public ClientApi.Domain.Workplace ToEntity()
-    {
-        var entity = new ClientApi.Domain.Workplace();
-        entity.Name = ClientApi.Domain.Workplace.CreateName(Name);
-        return entity;
-    }
+    /// <summary>
+    /// Workplace Workplace country ZeroOrOne Countries
+    /// </summary>
+    public virtual CountryCreateDto? BelongsToCountry { get; set; } = default!;
 }

@@ -5,7 +5,7 @@ namespace ClientApi.Application.Commands;
 
 /// <summary>
 /// Example to extend a Nox command and change a request
-/// For Request Validation, before command handler is executed use <see cref="IValidator"/> instead IValidator<CreateClientDatabaseNumberCommand>.
+/// For Request Validation, before command handler is executed use <see cref="IValidator"/> instead IValidator<CreateClientAutoNumberCommand>.
 /// </summary>
 public partial class CreateCountryCommandHandler
 {
@@ -20,8 +20,7 @@ public partial class CreateCountryCommandHandler
     /// <summary>
     /// Example to Ensure or validate invariants for an entity
     /// </summary>
-    /// <param name="entity"></param>
-    protected override void OnCompleted(Country entity)
+    protected override void OnCompleted(CreateCountryCommand request,Country entity)
     {
         entity.Name = Nox.Types.Text.From(entity.Name.Value.Titleize());
     }

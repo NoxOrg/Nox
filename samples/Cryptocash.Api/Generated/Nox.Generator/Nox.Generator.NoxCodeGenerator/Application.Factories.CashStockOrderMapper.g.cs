@@ -20,42 +20,9 @@ using CashStockOrder = Cryptocash.Domain.CashStockOrder;
 
 namespace Cryptocash.Application;
 
-public class CashStockOrderMapper : EntityMapperBase<CashStockOrder>
+public partial class CashStockOrderMapper : EntityMapperBase<CashStockOrder>
 {
     public CashStockOrderMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
-
-    public override void MapToEntity(CashStockOrder entity, Entity entityDefinition, dynamic dto)
-    {
-    #pragma warning disable CS0168 // Variable is declared but never used        
-        dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used
-            
-        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "Amount", dto.Amount);
-        if (noxTypeValue != null)
-        {        
-            entity.Amount = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition, "RequestedDeliveryDate", dto.RequestedDeliveryDate);
-        if (noxTypeValue != null)
-        {        
-            entity.RequestedDeliveryDate = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "DeliveryDateTime", dto.DeliveryDateTime);
-        if (noxTypeValue != null)
-        {        
-            entity.DeliveryDateTime = noxTypeValue;
-        }
-    
-
-        /// <summary>
-        /// CashStockOrder for ExactlyOne VendingMachines
-        /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "CashStockOrderForVendingMachine", dto.CashStockOrderForVendingMachineId);
-        if (noxTypeValue != null)
-        {        
-            entity.CashStockOrderForVendingMachineId = noxTypeValue;
-        }
-    }
 
     public override void PartialMapToEntity(CashStockOrder entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
@@ -111,7 +78,7 @@ public class CashStockOrderMapper : EntityMapperBase<CashStockOrder>
         /// </summary>
         if (updatedProperties.TryGetValue("VendingMachineId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "CashStockOrderForVendingMachine", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.Guid>(entityDefinition, "CashStockOrderForVendingMachine", value);
             if (noxRelationshipTypeValue != null)
             {        
                 entity.CashStockOrderForVendingMachineId = noxRelationshipTypeValue;

@@ -5,10 +5,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System;
+using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Extensions;
 using ClientApi.Application;
 using ClientApi.Application.Dto;
 using ClientApi.Application.Queries;
@@ -19,7 +23,12 @@ using Nox.Types;
 
 namespace ClientApi.Presentation.Api.OData;
 
-public partial class StoresController : ODataController
+public partial class StoresController : StoresControllerBase
+{
+    public StoresController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    {}
+}
+public abstract class StoresControllerBase : ODataController
 {
     
     /// <summary>
@@ -32,7 +41,7 @@ public partial class StoresController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public StoresController(
+    public StoresControllerBase(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -42,26 +51,20 @@ public partial class StoresController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<StoreDto>>> Get()
+    public virtual async Task<ActionResult<IQueryable<StoreDto>>> Get()
     {
         var result = await _mediator.Send(new GetStoresQuery());
         return Ok(result);
     }
     
     [EnableQuery]
-    public async Task<ActionResult<StoreDto>> Get([FromRoute] System.UInt32 key)
+    public async Task<SingleResult<StoreDto>> Get([FromRoute] System.Guid key)
     {
-        var item = await _mediator.Send(new GetStoreByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
+        var query = await _mediator.Send(new GetStoreByIdQuery(key));
+        return SingleResult.Create(query);
     }
     
-    public async Task<ActionResult> Post([FromBody]StoreCreateDto store)
+    public virtual async Task<ActionResult<StoreDto>> Post([FromBody]StoreCreateDto store)
     {
         if (!ModelState.IsValid)
         {
@@ -69,31 +72,38 @@ public partial class StoresController : ODataController
         }
         var createdKey = await _mediator.Send(new CreateStoreCommand(store));
         
-        return Created(createdKey);
+        var item = (await _mediator.Send(new GetStoreByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(item);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.UInt32 key, [FromBody] StoreUpdateDto store)
+    public virtual async Task<ActionResult<StoreDto>> Put([FromRoute] System.Guid key, [FromBody] StoreUpdateDto store)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateStoreCommand(key, store));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateStoreCommand(key, store, etag));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        
+        var item = (await _mediator.Send(new GetStoreByIdQuery(updated.keyId))).SingleOrDefault();
+        
+        return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<StoreUpdateDto> store)
+    public virtual async Task<ActionResult<StoreDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<StoreDto> store)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
+        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in store.GetChangedPropertyNames())
@@ -104,18 +114,22 @@ public partial class StoresController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateStoreCommand(key, updateProperties));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateStoreCommand(key, updateProperties, etag));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = (await _mediator.Send(new GetStoreByIdQuery(updated.keyId))).SingleOrDefault();
+        return Ok(item);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.UInt32 key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.Guid key)
     {
-        var result = await _mediator.Send(new DeleteStoreByIdCommand(key));
+        var etag = Request.GetDecodedEtagHeader();
+        var result = await _mediator.Send(new DeleteStoreByIdCommand(key, etag));
+        
         if (!result)
         {
             return NotFound();
@@ -123,4 +137,185 @@ public partial class StoresController : ODataController
         
         return NoContent();
     }
+    
+    #region Owned Relationships
+    
+    [EnableQuery]
+    public virtual async Task<ActionResult<EmailAddressDto>> GetVerifiedEmails([FromRoute] System.Guid key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var item = (await _mediator.Send(new GetStoreByIdQuery(key))).SingleOrDefault();
+        
+        if (item is null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item.VerifiedEmails);
+    }
+    
+    public virtual async Task<ActionResult> PostToVerifiedEmails([FromRoute] System.Guid key, [FromBody] EmailAddressCreateDto emailAddress)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var createdKey = await _mediator.Send(new CreateEmailAddressForStoreCommand(new StoreKeyDto(key), emailAddress, etag));
+        if (createdKey == null)
+        {
+            return NotFound();
+        }
+        
+        var child = (await _mediator.Send(new GetStoreByIdQuery(key))).SingleOrDefault()?.VerifiedEmails;
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Created(child);
+    }
+    
+    public virtual async Task<ActionResult<EmailAddressDto>> PutToVerifiedEmails(System.Guid key, [FromBody] EmailAddressUpdateDto emailAddress)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updatedKey = await _mediator.Send(new UpdateEmailAddressForStoreCommand(new StoreKeyDto(key), emailAddress, etag));
+        if (updatedKey == null)
+        {
+            return NotFound();
+        }
+        
+        var child = (await _mediator.Send(new GetStoreByIdQuery(key))).SingleOrDefault()?.VerifiedEmails;
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
+    public virtual async Task<ActionResult> PatchToVerifiedEmails(System.Guid key, [FromBody] Delta<EmailAddressDto> emailAddress)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in emailAddress.GetChangedPropertyNames())
+        {
+            if(emailAddress.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateEmailAddressForStoreCommand(new StoreKeyDto(key), updateProperties, etag));
+        
+        if (updated is null)
+        {
+            return NotFound();
+        }
+        var child = (await _mediator.Send(new GetStoreByIdQuery(key))).SingleOrDefault()?.VerifiedEmails;
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
+    [HttpDelete("api/Stores/{key}/VerifiedEmails")]
+    public virtual async Task<ActionResult> DeleteEmailAddressNonConventional(System.Guid key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var result = await _mediator.Send(new DeleteEmailAddressForStoreCommand(new StoreKeyDto(key)));
+        if (!result)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    #endregion
+    
+    
+    #region Relationships
+    
+    public async Task<ActionResult> CreateRefToOwnership([FromRoute] System.Guid key, [FromRoute] System.String relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefStoreToOwnershipCommand(new StoreKeyDto(key), new StoreOwnerKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> GetRefToOwnership([FromRoute] System.Guid key)
+    {
+        var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Select(x => x.Ownership).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        var references = new System.Uri($"StoreOwners/{related.Id}", UriKind.Relative);
+        return Ok(references);
+    }
+    
+    public async Task<ActionResult> DeleteRefToOwnership([FromRoute] System.Guid key, [FromRoute] System.String relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefStoreToOwnershipCommand(new StoreKeyDto(key), new StoreOwnerKeyDto(relatedKey)));
+        if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> DeleteRefToOwnership([FromRoute] System.Guid key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefStoreToOwnershipCommand(new StoreKeyDto(key)));
+        if (!deletedAllRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    #endregion
+    
 }

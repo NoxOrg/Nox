@@ -17,30 +17,65 @@ using Cryptocash.Application.Dto;
 using MinimumCashStock = Cryptocash.Domain.MinimumCashStock;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateMinimumCashStockCommand(MinimumCashStockCreateDto EntityDto) : IRequest<MinimumCashStockKeyDto>;
 
-public partial class CreateMinimumCashStockCommandHandler: CommandBase<CreateMinimumCashStockCommand,MinimumCashStock>, IRequestHandler <CreateMinimumCashStockCommand, MinimumCashStockKeyDto>
+public partial class CreateMinimumCashStockCommandHandler: CreateMinimumCashStockCommandHandlerBase
 {
-	public CryptocashDbContext DbContext { get; }
-
 	public CreateMinimumCashStockCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
+        IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> currencyfactory,
+        IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> entityFactory,
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution,vendingmachinefactory, currencyfactory, entityFactory, serviceProvider)
+	{
+	}
+}
+
+
+public abstract class CreateMinimumCashStockCommandHandlerBase: CommandBase<CreateMinimumCashStockCommand,MinimumCashStock>, IRequestHandler <CreateMinimumCashStockCommand, MinimumCashStockKeyDto>
+{
+	private readonly CryptocashDbContext _dbContext;
+	private readonly IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> _entityFactory;
+    private readonly IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> _vendingmachinefactory;
+    private readonly IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> _currencyfactory;
+
+	public CreateMinimumCashStockCommandHandlerBase(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+        IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
+        IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> currencyfactory,
+        IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;
+		_dbContext = dbContext;
+		_entityFactory = entityFactory;
+        _vendingmachinefactory = vendingmachinefactory;
+        _currencyfactory = currencyfactory;
 	}
 
-	public async Task<MinimumCashStockKeyDto> Handle(CreateMinimumCashStockCommand request, CancellationToken cancellationToken)
+	public virtual async Task<MinimumCashStockKeyDto> Handle(CreateMinimumCashStockCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = request.EntityDto.ToEntity();		
-	
-		OnCompleted(entityToCreate);
-		DbContext.MinimumCashStocks.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		foreach(var relatedCreateDto in request.EntityDto.MinimumCashStocksRequiredByVendingMachines)
+		{
+			var relatedEntity = _vendingmachinefactory.CreateEntity(relatedCreateDto);
+			entityToCreate.CreateRefToMinimumCashStocksRequiredByVendingMachines(relatedEntity);
+		}
+		if(request.EntityDto.MinimumCashStockRelatedCurrency is not null)
+		{
+			var relatedEntity = _currencyfactory.CreateEntity(request.EntityDto.MinimumCashStockRelatedCurrency);
+			entityToCreate.CreateRefToMinimumCashStockRelatedCurrency(relatedEntity);
+		}
+
+		OnCompleted(request, entityToCreate);
+		_dbContext.MinimumCashStocks.Add(entityToCreate);
+		await _dbContext.SaveChangesAsync();
 		return new MinimumCashStockKeyDto(entityToCreate.Id.Value);
 	}
 }

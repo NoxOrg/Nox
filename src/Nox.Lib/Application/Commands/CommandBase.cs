@@ -49,7 +49,7 @@ public abstract class CommandBase<TRequest, TEntity>: INoxCommand where TEntity:
     /// </summary>
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
-    protected virtual void OnCompleted(TEntity entity)
+    protected virtual void OnCompleted(TRequest request, TEntity entity)
     {
         
     }

@@ -15,37 +15,50 @@ using Workplace = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Commands;
 
-public record UpdateWorkplaceCommand(System.Guid keyId, WorkplaceUpdateDto EntityDto) : IRequest<WorkplaceKeyDto?>;
+public record UpdateWorkplaceCommand(System.UInt32 keyId, WorkplaceUpdateDto EntityDto, System.Guid? Etag) : IRequest<WorkplaceKeyDto?>;
 
-public class UpdateWorkplaceCommandHandler: CommandBase<UpdateWorkplaceCommand, Workplace>, IRequestHandler<UpdateWorkplaceCommand, WorkplaceKeyDto?>
+public partial class UpdateWorkplaceCommandHandler: UpdateWorkplaceCommandHandlerBase
 {
-	public ClientApiDbContext DbContext { get; }
-	public IEntityMapper<Workplace> EntityMapper { get; }
-
 	public UpdateWorkplaceCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<Workplace> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory): base(dbContext, noxSolution, serviceProvider, entityFactory)
+	{
+	}
+}
+
+public abstract class UpdateWorkplaceCommandHandlerBase: CommandBase<UpdateWorkplaceCommand, Workplace>, IRequestHandler<UpdateWorkplaceCommand, WorkplaceKeyDto?>
+{
+	public ClientApiDbContext DbContext { get; }
+	private readonly IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> _entityFactory;
+
+	public UpdateWorkplaceCommandHandlerBase(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		_entityFactory = entityFactory;
 	}
-	
-	public async Task<WorkplaceKeyDto?> Handle(UpdateWorkplaceCommand request, CancellationToken cancellationToken)
+
+	public virtual async Task<WorkplaceKeyDto?> Handle(UpdateWorkplaceCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Workplace,DatabaseGuid>("Id", request.keyId);
-	
+		var keyId = CreateNoxTypeForKey<Workplace,Nox.Types.Nuid>("Id", request.keyId);
+
 		var entity = await DbContext.Workplaces.FindAsync(keyId);
 		if (entity == null)
 		{
 			return null;
 		}
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<Workplace>(), request.EntityDto);
 
-		OnCompleted(entity);
+		_entityFactory.UpdateEntity(entity, request.EntityDto);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

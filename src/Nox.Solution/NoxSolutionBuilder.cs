@@ -266,7 +266,7 @@ namespace Nox.Solution
         private string FindRootYamlFile()
         {
             //look in the current folder without subfolders
-            var rootYaml = FindSolutionYamlFile("./");
+            var rootYaml = FindSolutionYamlFile("../.");
             if (rootYaml != null) return rootYaml;
 
             //look in .nox/design or Design folder from the Dll Directory
@@ -286,7 +286,7 @@ namespace Nox.Solution
             }
 
             //look in .nox/design or Design folder from current Directory
-            var designFolder = FindNoxDesignFolder("./");
+            var designFolder = FindNoxDesignFolder("../.");
             if (designFolder != null)
             {
                 rootYaml = FindSolutionYamlFile(designFolder);

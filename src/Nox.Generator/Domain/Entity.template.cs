@@ -1,19 +1,44 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace {{codeGeneratorState.DomainNameSpace}};
+public partial class {{className}}:{{className}}Base
+{
+
+}
+{{- if entity.Persistence.Create.RaiseEvents }}
+/// <summary>
+/// Record for {{entity.Name}} created event.
+/// </summary>
+public record {{entity.Name}}Created({{entity.Name}} {{entity.Name}}) : IDomainEvent;
+{{- end}}
+
+{{- if entity.Persistence.Update.RaiseEvents }}
+/// <summary>
+/// Record for {{entity.Name}} updated event.
+/// </summary>
+public record {{entity.Name}}Updated({{entity.Name}} {{entity.Name}}) : IDomainEvent;
+{{- end}}
+
+{{- if entity.Persistence.Delete.RaiseEvents }}
+/// <summary>
+/// Record for {{entity.Name}} deleted event.
+/// </summary>
+public record {{entity.Name}}Deleted({{entity.Name}} {{entity.Name}}) : IDomainEvent;
+{{- end}}
 
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public partial class {{className}}{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase{{else}}EntityBase{{end}}{{else}} : EntityBase, IOwnedEntity{{end}}
+public abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase, IEntityConcurrent{{else}}EntityBase, IEntityConcurrent{{end}}{{else}} : EntityBase, IOwnedEntity{{end}}
 {
 {{- for key in entity.Keys }}
     /// <summary>
@@ -30,7 +55,7 @@ public partial class {{className}}{{ if !entity.IsOwnedEntity }} : {{if entity.P
     {{- codeGeneratorNuidGetter = "Nuid.From(\""+prefix+"\" + string.Join(\""+key.NuidTypeOptions.Separator +"\", "+ (key.NuidTypeOptions.PropertyNames | array.join "," @(do; ret $0 + ".Value.ToString()"; end)) +"))" -}}
     public {{key.Type}} {{key.Name}} {get; set;} = null!;
 
-	public void Ensure{{ key.Name}}()
+	public virtual void Ensure{{ key.Name}}()
 	{
 		if({{key.Name}} is null)
 		{
@@ -45,10 +70,27 @@ public partial class {{className}}{{ if !entity.IsOwnedEntity }} : {{if entity.P
 			}
 		}
 	}
+	{{- else if key.Type == "Guid" -}}
+    public Nox.Types.{{key.Type}} {{key.Name}} {get; set;} = null!;
 
+	public virtual void Ensure{{ key.Name}}(System.Guid guid)
+	{
+		if(System.Guid.Empty.Equals(guid))
+		{
+			{{key.Name}} = Nox.Types.Guid.From(System.Guid.NewGuid());
+		}
+		else
+		{
+			var currentGuid = Nox.Types.Guid.From(guid);
+			if({{key.Name}} != currentGuid)
+			{
+				throw new NoxGuidTypeException("Immutable guid property {{key.Name}} value is different since it has been initialized");
+			}
+		}
+	}
     {{- else -}}
 
-    public {{key.Type}} {{key.Name}} { get; set; } = null!;
+    public Nox.Types.{{key.Type}} {{key.Name}} { get; set; } = null!;
     {{- end}}
 {{- end }}
 {{- for attribute in entity.Attributes }}
@@ -84,6 +126,57 @@ public partial class {{className}}{{ if !entity.IsOwnedEntity }} : {{if entity.P
     public Nox.Types.{{relationship.Related.Entity.Keys[0].Type}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}}Id { get; set; } = null!;
     {{- end}}
     {{-end}}
+
+    public virtual void CreateRefTo{{relationship.Name}}({{relationship.Entity}} related{{relationship.Entity}})
+    {
+        {{- if relationship.WithSingleEntity }}
+        {{relationship.Name}} = related{{relationship.Entity}};
+        {{- else}}
+        {{relationship.Name}}.Add(related{{relationship.Entity}});
+        {{- end }}
+    }
+
+    public virtual void DeleteRefTo{{relationship.Name}}({{relationship.Entity}} related{{relationship.Entity}})
+    {
+        {{- if relationship.WithSingleEntity }}
+
+        {{- if relationship.Relationship == "ExactlyOne" }}
+        throw new Exception($"The relationship cannot be deleted.");
+        {{- else }}
+        {{relationship.Name}} = null;
+        {{- end }}
+
+        {{- else}}
+
+        {{- if relationship.Relationship == "OneOrMany" }}
+        if({{relationship.Name}}.Count() < 2)
+            throw new Exception($"The relationship cannot be deleted.");
+        {{- end }}
+        {{relationship.Name}}.Remove(related{{relationship.Entity}});
+
+        {{- end }}
+    }
+
+    public virtual void DeleteAllRefTo{{relationship.Name}}()
+    {
+        {{- if relationship.WithSingleEntity }}
+
+        {{- if relationship.Relationship == "ExactlyOne" }}
+        throw new Exception($"The relatioship cannot be deleted."); 
+        {{- else }}
+        {{relationship.Name}}Id = null;
+        {{- end }}
+
+        {{- else}}
+
+        {{- if relationship.Relationship == "OneOrMany" }}
+        if({{relationship.Name}}.Count() < 2)
+            throw new Exception($"The relatioship cannot be deleted.");             
+        {{- end }}
+        {{relationship.Name}}.Clear();
+
+        {{- end }}
+    }
 {{- end }}
 {{- for relationship in entity.OwnedRelationships #TODO how to reuse as partial template?}}
 
@@ -91,13 +184,16 @@ public partial class {{className}}{{ if !entity.IsOwnedEntity }} : {{if entity.P
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-    public virtual List<{{relationship.Entity}}> {{relationship.EntityPlural}} { get; set; } = new();
-    {{- if (relationship.EntityPlural) != relationship.Name}}
-
-    public List<{{relationship.Entity}}> {{relationship.Name}} => {{relationship.EntityPlural}};
-    {{- end}}
+    public virtual List<{{relationship.Entity}}> {{relationship.Name}} { get; set; } = new();
     {{- else}}
-     public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
+     public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}} { get; set; } = null!;
     {{-end}}
 {{- end }}
+
+{{ if !entity.IsOwnedEntity ~}}
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
+{{ end ~}}
 }

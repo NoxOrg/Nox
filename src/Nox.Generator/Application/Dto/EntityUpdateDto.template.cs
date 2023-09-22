@@ -3,17 +3,19 @@
 #nullable enable
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using {{codeGeneratorState.DomainNameSpace}};
 
-namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto;
+namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public partial class {{className}}
-{    
+public partial class {{className}} : IEntityDto<{{entity.Name}}>
+{
 {{- for attribute in entity.Attributes }}
     {{- if componentsInfo[attribute.Name].IsUpdatable == false -}}
     {{ continue; }}
@@ -40,15 +42,12 @@ public partial class {{className}}
     public System.{{relationship.ForeignKeyPrimitiveType}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}}Id { get; set; } = default!;
     {{-end}}
 {{- end }}
-{{- for relationship in entity.OwnedRelationships #TODO how to reuse as partial template?}}
-
+{{- for relationship in entity.OwnedRelationships}}
+    {{- if relationship.Relationship == "ZeroOrOne" || relationship.Relationship == "ExactlyOne"}}
     /// <summary>
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
-    {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-    public virtual List<{{relationship.Entity}}Dto> {{relationship.EntityPlural}} { get; set; } = new();
-    {{- else}}
-    public virtual {{relationship.Entity}}Dto{{- if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
+    public {{relationship.Entity}}UpdateDto{{- if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
     {{-end}}
 {{- end }}
 }

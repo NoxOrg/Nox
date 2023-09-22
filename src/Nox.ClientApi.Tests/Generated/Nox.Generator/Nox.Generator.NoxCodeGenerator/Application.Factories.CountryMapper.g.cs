@@ -20,38 +20,9 @@ using Country = ClientApi.Domain.Country;
 
 namespace ClientApi.Application;
 
-public class CountryMapper : EntityMapperBase<Country>
+public partial class CountryMapper : EntityMapperBase<Country>
 {
     public CountryMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
-
-    public override void MapToEntity(Country entity, Entity entityDefinition, dynamic dto)
-    {
-    #pragma warning disable CS0168 // Variable is declared but never used        
-        dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used
-            
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
-        if (noxTypeValue != null)
-        {        
-            entity.Name = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition, "Population", dto.Population);
-        if (noxTypeValue != null)
-        {        
-            entity.Population = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "CountryDebt", dto.CountryDebt);
-        if (noxTypeValue != null)
-        {        
-            entity.CountryDebt = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.LanguageCode>(entityDefinition, "FirstLanguageCode", dto.FirstLanguageCode);
-        if (noxTypeValue != null)
-        {        
-            entity.FirstLanguageCode = noxTypeValue;
-        }
-    
-    }
 
     public override void PartialMapToEntity(Country entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {

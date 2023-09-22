@@ -15,37 +15,50 @@ using Commission = Cryptocash.Domain.Commission;
 
 namespace Cryptocash.Application.Commands;
 
-public record UpdateCommissionCommand(System.Int64 keyId, CommissionUpdateDto EntityDto) : IRequest<CommissionKeyDto?>;
+public record UpdateCommissionCommand(System.Int64 keyId, CommissionUpdateDto EntityDto, System.Guid? Etag) : IRequest<CommissionKeyDto?>;
 
-public class UpdateCommissionCommandHandler: CommandBase<UpdateCommissionCommand, Commission>, IRequestHandler<UpdateCommissionCommand, CommissionKeyDto?>
+public partial class UpdateCommissionCommandHandler: UpdateCommissionCommandHandlerBase
 {
-	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<Commission> EntityMapper { get; }
-
 	public UpdateCommissionCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<Commission> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> entityFactory): base(dbContext, noxSolution, serviceProvider, entityFactory)
+	{
+	}
+}
+
+public abstract class UpdateCommissionCommandHandlerBase: CommandBase<UpdateCommissionCommand, Commission>, IRequestHandler<UpdateCommissionCommand, CommissionKeyDto?>
+{
+	public CryptocashDbContext DbContext { get; }
+	private readonly IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> _entityFactory;
+
+	public UpdateCommissionCommandHandlerBase(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		_entityFactory = entityFactory;
 	}
-	
-	public async Task<CommissionKeyDto?> Handle(UpdateCommissionCommand request, CancellationToken cancellationToken)
+
+	public virtual async Task<CommissionKeyDto?> Handle(UpdateCommissionCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Commission,DatabaseNumber>("Id", request.keyId);
-	
+		var keyId = CreateNoxTypeForKey<Commission,Nox.Types.AutoNumber>("Id", request.keyId);
+
 		var entity = await DbContext.Commissions.FindAsync(keyId);
 		if (entity == null)
 		{
 			return null;
 		}
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<Commission>(), request.EntityDto);
 
-		OnCompleted(entity);
+		_entityFactory.UpdateEntity(entity, request.EntityDto);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

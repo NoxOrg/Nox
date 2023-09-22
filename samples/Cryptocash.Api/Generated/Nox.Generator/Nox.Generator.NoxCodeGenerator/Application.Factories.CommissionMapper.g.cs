@@ -20,37 +20,9 @@ using Commission = Cryptocash.Domain.Commission;
 
 namespace Cryptocash.Application;
 
-public class CommissionMapper : EntityMapperBase<Commission>
+public partial class CommissionMapper : EntityMapperBase<Commission>
 {
     public CommissionMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
-
-    public override void MapToEntity(Commission entity, Entity entityDefinition, dynamic dto)
-    {
-    #pragma warning disable CS0168 // Variable is declared but never used        
-        dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used
-            
-        noxTypeValue = CreateNoxType<Nox.Types.Percentage>(entityDefinition, "Rate", dto.Rate);
-        if (noxTypeValue != null)
-        {        
-            entity.Rate = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "EffectiveAt", dto.EffectiveAt);
-        if (noxTypeValue != null)
-        {        
-            entity.EffectiveAt = noxTypeValue;
-        }
-    
-
-        /// <summary>
-        /// Commission fees for ZeroOrOne Countries
-        /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "CommissionFeesForCountry", dto.CommissionFeesForCountryId);
-        if (noxTypeValue != null)
-        {        
-            entity.CommissionFeesForCountryId = noxTypeValue;
-        }
-    }
 
     public override void PartialMapToEntity(Commission entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {

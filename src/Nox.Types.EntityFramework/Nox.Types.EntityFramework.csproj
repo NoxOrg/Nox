@@ -27,13 +27,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.10" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="7.0.10" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.10" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="7.0.11" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.11" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
+		<ProjectReference Include="..\Nox.Types.Abstractions\Nox.Types.Abstractions.csproj" />
 		<ProjectReference Include="..\Nox.Types\Nox.Types.csproj" />
 	</ItemGroup>
 

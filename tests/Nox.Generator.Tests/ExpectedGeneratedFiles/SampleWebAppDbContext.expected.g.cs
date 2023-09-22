@@ -2,17 +2,23 @@
 
 #nullable enable
 
-using Nox;
-using Nox.Abstractions;
-using Nox.Domain;
-using Nox.Types.EntityFramework.Abstractions;
-using Nox.Types.EntityFramework.EntityBuilderAdapter;
-using Nox.Solution;
+using System.Reflection;
+using System.Diagnostics;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using System.Reflection;
-using System.Diagnostics;
+using MassTransit;
+
+using Nox;
+using Nox.Abstractions;
+using Nox.Domain;
+using Nox.Exceptions;
+using Nox.Extensions;
+using Nox.Types;
+using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.EntityBuilderAdapter;
+using Nox.Solution;
 
 using SampleWebApp.Domain;
 
@@ -56,9 +62,14 @@ public partial class SampleWebAppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+       
+
         if (_noxSolution.Domain != null)
         {
             var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
+            modelBuilder.AddInboxStateEntity();
+            modelBuilder.AddOutboxMessageEntity();
+            modelBuilder.AddOutboxStateEntity();                            
             foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
             {
                 Console.WriteLine($"SampleWebAppDbContext Configure database for Entity {entity.Name}");
@@ -75,23 +86,39 @@ public partial class SampleWebAppDbContext : DbContext
                     ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
                 }
             }
+
+            modelBuilder.ForEntitiesOfType<IEntityConcurrent>(
+                builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());
         }
     }
 
     /// <inheritdoc/>
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
-        AuditEntities();
-        return await base.SaveChangesAsync(cancellationToken);
+        try
+        {
+            HandleSystemFields();
+            return await base.SaveChangesAsync(cancellationToken);
+
+        }
+        catch(DbUpdateConcurrencyException)
+        {
+            throw new Nox.Exceptions.ConcurrencyException($"Latest value of {nameof(IEntityConcurrent.Etag)} must be provided");
+        }
     }
 
-    private void AuditEntities()
+    private void HandleSystemFields()
     {
         ChangeTracker.DetectChanges();
 
         foreach (var entry in ChangeTracker.Entries<AuditableEntityBase>())
         {
             AuditEntity(entry);
+        }
+
+        foreach (var entry in ChangeTracker.Entries<IEntityConcurrent>())
+        {
+            TrackConcurrency(entry);
         }
     }
 
@@ -113,6 +140,42 @@ public partial class SampleWebAppDbContext : DbContext
             case EntityState.Deleted:
                 entry.State = EntityState.Modified;
                 entry.Entity.Deleted(user, system);
+                ReattachOwnedEntries<IOwnedEntity>(entry);
+                ReattachOwnedEntries<INoxType>(entry);
+                break;
+        }
+    }
+
+    private void ReattachOwnedEntries<T>(EntityEntry<AuditableEntityBase> parentEntry)
+        where T : class
+    {
+        foreach (var navigationEntry in parentEntry.Navigations)
+        {
+            foreach (var ownedEntry in ChangeTracker.Entries<T>())
+            {
+                var isOwnedAndDeltetedEntry = ownedEntry.Metadata.IsOwned() && ownedEntry.State == EntityState.Deleted;
+                var isOwnedByCurrentParentEntry = ownedEntry.Entity == navigationEntry.CurrentValue || (navigationEntry.CurrentValue as IEnumerable<T>)?.Contains(ownedEntry.Entity) == true;
+
+                if (isOwnedAndDeltetedEntry && isOwnedByCurrentParentEntry)
+                {
+                    ownedEntry.State = EntityState.Unchanged;
+                }
+            }
+        }
+    }
+
+    private void TrackConcurrency(EntityEntry<IEntityConcurrent> entry)
+    {
+        switch (entry.State)
+        {
+            case EntityState.Added:
+                entry.Property(e => e.Etag).CurrentValue = System.Guid.NewGuid();
+                break;
+
+            case EntityState.Modified:
+            case EntityState.Deleted:
+                entry.Property(e => e.Etag).OriginalValue = entry.Property(p => p.Etag).CurrentValue;
+                entry.Property(e => e.Etag).CurrentValue = System.Guid.NewGuid();
                 break;
         }
     }

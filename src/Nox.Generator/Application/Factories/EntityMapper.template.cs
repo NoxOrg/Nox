@@ -20,54 +20,9 @@ using {{entity.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}};
 
-public class {{className}} : EntityMapperBase<{{entity.Name}}>
+public partial class {{className}} : EntityMapperBase<{{entity.Name}}>
 {
     public {{className}}(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
-
-    public override void MapToEntity({{entity.Name}} entity, Entity entityDefinition, dynamic dto)
-    {
-    #pragma warning disable CS0168 // Variable is declared but never used        
-        dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used
-    {{ for key in entity.Keys -}}
-    {{- if key.Type == "Nuid" || key.Type == "DatabaseNumber" || key.Type == "DatabaseGuid" || key.Type == "Formula" -}}
-    {{ continue; -}}
-    {{- end }}        
-    {{ if key.Type == "EntityId" -}}
-        noxTypeValue = CreateNoxType<Nox.Types.{{SingleKeyTypeForEntity key.EntityIdTypeOptions.Entity}}>(entityDefinition, "{{key.Name}}", dto.{{key.Name}});
-    {{- else -}}
-        noxTypeValue = CreateNoxType<Nox.Types.{{key.Type}}>(entityDefinition, "{{key.Name}}", dto.{{key.Name}});
-    {{- end}}        
-        if (noxTypeValue != null)
-        {        
-            entity.{{key.Name}} = noxTypeValue;
-        }
-    {{- end -}}
-
-    {{ for attribute in entity.Attributes }}  
-    {{- if attribute.Type == "Formula" -}}
-    {{ continue; -}}
-    {{- end }}        
-        noxTypeValue = CreateNoxType<Nox.Types.{{attribute.Type}}>(entityDefinition, "{{attribute.Name}}", dto.{{attribute.Name}});
-        if (noxTypeValue != null)
-        {        
-            entity.{{attribute.Name}} = noxTypeValue;
-        }        
-    {{- end }}
-    {{ for relationship in entity.Relationships }}
-    {{- if relationship.WithSingleEntity && relationship.ShouldGenerateForeignOnThisSide}}
-
-        /// <summary>
-        /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
-        /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.{{relationship.Related.Entity.Keys[0].Type}}>(entityDefinition, "{{relationship.Name}}", dto.{{relationship.Name}}Id);
-        if (noxTypeValue != null)
-        {        
-            entity.{{relationship.Name}}Id = noxTypeValue;
-        }
-    {{-end}}
-    {{- end }}
-    }
 
     public override void PartialMapToEntity({{entity.Name}} entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {

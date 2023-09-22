@@ -6,11 +6,15 @@ using Nox.Abstractions;
 using Nox.Application.Behaviors;
 using Nox.Application.Providers;
 using Nox.Factories;
+using Nox.Messaging;
 using Nox.Secrets;
 using Nox.Secrets.Abstractions;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Configurations;
+using Microsoft.EntityFrameworkCore;
+using MassTransit;
+using Azure;
 
 namespace Nox;
 
@@ -35,7 +39,64 @@ public static class ServiceCollectionExtension
             .AddNoxFactories(noxAssemblies)
             .AddAutoMapper(entryAssembly)
             .AddNoxProviders()
-            .AddNoxDtos();
+            .AddNoxDtos();           
+    }
+    
+    public static IServiceCollection AddNoxMessaging<T>(this IServiceCollection services, DatabaseServerProvider databaseServerProvider) where T: DbContext
+    {
+        services.AddScoped<IOutboxRepository, OutboxRepository>();
+        services.AddMassTransit(x =>
+        {            
+            x.AddEntityFrameworkOutbox<T>(o =>
+            {
+                switch (databaseServerProvider)
+                {
+                    case DatabaseServerProvider.MySql:
+                        o.UseMySql();
+                        break;
+                    case DatabaseServerProvider.SqlServer: 
+                        o.UseSqlServer(); 
+                        break;
+                    case DatabaseServerProvider.Postgres:
+                        o.UsePostgres();
+                        break;
+                    case DatabaseServerProvider.SqLite: 
+                        o.UseSqlite(); 
+                        break;
+                    default: 
+                        throw new NotImplementedException();
+                };
+                
+                //We do not need to clean up the inbox, not being used
+                o.DisableInboxCleanupService();
+
+                //Disable message delivery
+                //o.UseBusOutbox(c=>c.DisableDeliveryService());
+                // enable the bus outbox
+                o.UseBusOutbox();
+            });
+
+            // TODO Configure according to NoSolution
+            x.UsingAzureServiceBus((context, cfg) =>
+            {
+                // TODO Get Server config from Nox.Solution
+                //cfg.Host("...");
+
+                cfg.ConfigureEndpoints(context);
+
+                // TODO Cloud Events Raw message?
+                cfg.UseRawJsonSerializer(RawSerializerOptions.AddTransportHeaders | RawSerializerOptions.CopyHeaders | RawSerializerOptions.AnyMessageType);
+                
+                // TODO Define rules for Topics names
+                cfg.Message<CloudEventRecord<Application.IIntegrationEvent>>(x =>
+                {
+                    x.SetEntityName("test-integration-event");
+                });                
+            });
+
+        });
+
+        return services;
     }
     private static IServiceCollection AddNoxMediatR(
         this IServiceCollection services,
@@ -89,6 +150,12 @@ public static class ServiceCollectionExtension
         this IServiceCollection services,
         Assembly[] noxAssemblies)
     {
+        services.Scan(scan =>
+           scan.FromAssemblies(noxAssemblies)
+           .AddClasses(classes => classes.AssignableTo(typeof(IEntityFactory<,,>)))
+           .AsImplementedInterfaces()
+           .WithSingletonLifetime());
+
         services.Scan(scan =>
           scan.FromAssemblies(noxAssemblies)
           .AddClasses(classes => classes.AssignableTo(typeof(IEntityMapper<>)))

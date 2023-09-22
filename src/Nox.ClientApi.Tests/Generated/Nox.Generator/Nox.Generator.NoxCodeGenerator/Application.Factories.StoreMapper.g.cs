@@ -20,32 +20,9 @@ using Store = ClientApi.Domain.Store;
 
 namespace ClientApi.Application;
 
-public class StoreMapper : EntityMapperBase<Store>
+public partial class StoreMapper : EntityMapperBase<Store>
 {
     public StoreMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
-
-    public override void MapToEntity(Store entity, Entity entityDefinition, dynamic dto)
-    {
-    #pragma warning disable CS0168 // Variable is declared but never used        
-        dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used
-            
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
-        if (noxTypeValue != null)
-        {        
-            entity.Name = noxTypeValue;
-        }
-    
-
-        /// <summary>
-        /// Store Store owner relationship ZeroOrOne StoreOwners
-        /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "OwnerRel", dto.OwnerRelId);
-        if (noxTypeValue != null)
-        {        
-            entity.OwnerRelId = noxTypeValue;
-        }
-    }
 
     public override void PartialMapToEntity(Store entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
@@ -66,17 +43,59 @@ public class StoreMapper : EntityMapperBase<Store>
                 }
             }
         }
+        {
+            if (updatedProperties.TryGetValue("Address", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "Address", value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("Store", "Address");
+                }
+                else
+                {
+                    entity.Address = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("Location", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition, "Location", value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("Store", "Location");
+                }
+                else
+                {
+                    entity.Location = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("OpeningDay", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "OpeningDay", value);
+                if(noxTypeValue == null)
+                {
+                    entity.OpeningDay = null;
+                }
+                else
+                {
+                    entity.OpeningDay = noxTypeValue;
+                }
+            }
+        }
     
     
         /// <summary>
-        /// Store Store owner relationship ZeroOrOne StoreOwners
+        /// Store Owner of the Store ZeroOrOne StoreOwners
         /// </summary>
         if (updatedProperties.TryGetValue("StoreOwnerId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "OwnerRel", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Ownership", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.OwnerRelId = noxRelationshipTypeValue;
+                entity.OwnershipId = noxRelationshipTypeValue;
             }
         }
     }

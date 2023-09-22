@@ -55,14 +55,14 @@ public enum NoxType : uint
     Password = 1755902638,
 
     [CompoundType]
-    [CompoundComponent("StreetNumber",typeof(string))]
+    [CompoundComponent("StreetNumber",typeof(string), false)]
     [CompoundComponent("AddressLine1", typeof(string))]
-    [CompoundComponent("AddressLine2", typeof(string))]
-    [CompoundComponent("Route", typeof(string))]
-    [CompoundComponent("Locality", typeof(string))]
-    [CompoundComponent("Neighborhood", typeof(string))]
-    [CompoundComponent("AdministrativeArea1", typeof(string))]
-    [CompoundComponent("AdministrativeArea2", typeof(string))]
+    [CompoundComponent("AddressLine2", typeof(string), false)]
+    [CompoundComponent("Route", typeof(string), false)]
+    [CompoundComponent("Locality", typeof(string), false)]
+    [CompoundComponent("Neighborhood", typeof(string), false)]
+    [CompoundComponent("AdministrativeArea1", typeof(string), false)]
+    [CompoundComponent("AdministrativeArea2", typeof(string), false)]
     [CompoundComponent("PostalCode", typeof(string))]
     [CompoundComponent("CountryId", typeof(CountryCode))]
     StreetAddress = 499179285,
@@ -106,11 +106,8 @@ public enum NoxType : uint
     [SimpleType(typeof(short))]
     CurrencyNumber = 2377452890,
 
-    [SimpleType(typeof(Guid))]
-    DatabaseGuid = 2076277156,
-
     [SimpleType(typeof(long))]
-    DatabaseNumber = 963275927,
+    AutoNumber = 24779567,
 
     [SimpleType(typeof(DateTime))]
     Date = 463099971,

@@ -13,7 +13,7 @@ keys:
   - name: Id
     isRequired: true
     description: Employee's phone number identifier 
-    type: databaseNumber
+    type: autoNumber
     userInterface:
       showInSearchResults: never
       canSearch: true

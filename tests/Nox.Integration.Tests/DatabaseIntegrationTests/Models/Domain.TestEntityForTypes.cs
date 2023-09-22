@@ -5,20 +5,37 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace TestWebApp.Domain;
+public partial class TestEntityForTypes:TestEntityForTypesBase
+{
+
+}
+/// <summary>
+/// Record for TestEntityForTypes created event.
+/// </summary>
+public record TestEntityForTypesCreated(TestEntityForTypes TestEntityForTypes) : IDomainEvent;
+/// <summary>
+/// Record for TestEntityForTypes updated event.
+/// </summary>
+public record TestEntityForTypesUpdated(TestEntityForTypes TestEntityForTypes) : IDomainEvent;
+/// <summary>
+/// Record for TestEntityForTypes deleted event.
+/// </summary>
+public record TestEntityForTypesDeleted(TestEntityForTypes TestEntityForTypes) : IDomainEvent;
 
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public partial class TestEntityForTypes : AuditableEntityBase
+public abstract class TestEntityForTypesBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
     ///  (Required).
@@ -287,12 +304,7 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Nox.Types.DatabaseNumber DatabaseNumberTestField { get; set; } = null!;
-
-    /// <summary>
-    ///  (Required).
-    /// </summary>
-    public Nox.Types.DatabaseGuid DatabaseGuidTestField { get; set; } = null!;
+    public Nox.Types.AutoNumber AutoNumberTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -303,4 +315,9 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public Nox.Types.Image? ImageTestField { get; set; } = null!;
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

@@ -1,0 +1,41 @@
+name: "Scheduled release"
+
+permissions: write-all
+
+on:
+  schedule:
+    # Each day at 01:00 UTC
+    - cron:  '0 1 * * *'
+  workflow_dispatch:
+
+jobs:
+  pre-release:
+    name: "Pre Release"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install GitVersion # https://github.com/GitTools/actions/blob/main/docs/examples/github/gitversion/setup/usage-examples.md
+        uses: gittools/actions/gitversion/setup@v0
+        with:
+          versionSpec: '5.x'
+
+      - name: Determine Version
+        id:   gitversion
+        uses: gittools/actions/gitversion/execute@v0
+        with:
+          useConfigFile: true
+
+      - name: "Calculating incremented version"
+        run: echo "IncrementedVersion=v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{steps.gitversion.outputs.patch}}" >> "$GITHUB_ENV"
+
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: ${{env.IncrementedVersion}}
+          prerelease: false
+          title: ${{env.IncrementedVersion}}
+          # Can be extended with published file types, see docs for details

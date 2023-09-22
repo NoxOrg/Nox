@@ -16,30 +16,56 @@ using ClientApi.Application.Dto;
 using Workplace = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Commands;
+
 public record CreateWorkplaceCommand(WorkplaceCreateDto EntityDto) : IRequest<WorkplaceKeyDto>;
 
-public partial class CreateWorkplaceCommandHandler: CommandBase<CreateWorkplaceCommand,Workplace>, IRequestHandler <CreateWorkplaceCommand, WorkplaceKeyDto>
+public partial class CreateWorkplaceCommandHandler: CreateWorkplaceCommandHandlerBase
 {
-	public ClientApiDbContext DbContext { get; }
-
 	public CreateWorkplaceCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
+        IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution,countryfactory, entityFactory, serviceProvider)
+	{
+	}
+}
+
+
+public abstract class CreateWorkplaceCommandHandlerBase: CommandBase<CreateWorkplaceCommand,Workplace>, IRequestHandler <CreateWorkplaceCommand, WorkplaceKeyDto>
+{
+	private readonly ClientApiDbContext _dbContext;
+	private readonly IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> _entityFactory;
+    private readonly IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> _countryfactory;
+
+	public CreateWorkplaceCommandHandlerBase(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+        IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
+        IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;
+		_dbContext = dbContext;
+		_entityFactory = entityFactory;
+        _countryfactory = countryfactory;
 	}
 
-	public async Task<WorkplaceKeyDto> Handle(CreateWorkplaceCommand request, CancellationToken cancellationToken)
+	public virtual async Task<WorkplaceKeyDto> Handle(CreateWorkplaceCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = request.EntityDto.ToEntity();		
-	
-		OnCompleted(entityToCreate);
-		DbContext.Workplaces.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		if(request.EntityDto.BelongsToCountry is not null)
+		{
+			var relatedEntity = _countryfactory.CreateEntity(request.EntityDto.BelongsToCountry);
+			entityToCreate.CreateRefToBelongsToCountry(relatedEntity);
+		}
+
+		OnCompleted(request, entityToCreate);
+		_dbContext.Workplaces.Add(entityToCreate);
+		await _dbContext.SaveChangesAsync();
 		return new WorkplaceKeyDto(entityToCreate.Id.Value);
 	}
 }

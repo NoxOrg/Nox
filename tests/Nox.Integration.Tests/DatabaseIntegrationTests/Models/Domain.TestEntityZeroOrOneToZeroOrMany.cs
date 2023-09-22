@@ -5,20 +5,37 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace TestWebApp.Domain;
+public partial class TestEntityZeroOrOneToZeroOrMany:TestEntityZeroOrOneToZeroOrManyBase
+{
+
+}
+/// <summary>
+/// Record for TestEntityZeroOrOneToZeroOrMany created event.
+/// </summary>
+public record TestEntityZeroOrOneToZeroOrManyCreated(TestEntityZeroOrOneToZeroOrMany TestEntityZeroOrOneToZeroOrMany) : IDomainEvent;
+/// <summary>
+/// Record for TestEntityZeroOrOneToZeroOrMany updated event.
+/// </summary>
+public record TestEntityZeroOrOneToZeroOrManyUpdated(TestEntityZeroOrOneToZeroOrMany TestEntityZeroOrOneToZeroOrMany) : IDomainEvent;
+/// <summary>
+/// Record for TestEntityZeroOrOneToZeroOrMany deleted event.
+/// </summary>
+public record TestEntityZeroOrOneToZeroOrManyDeleted(TestEntityZeroOrOneToZeroOrMany TestEntityZeroOrOneToZeroOrMany) : IDomainEvent;
 
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public partial class TestEntityZeroOrOneToZeroOrMany : AuditableEntityBase
+public abstract class TestEntityZeroOrOneToZeroOrManyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
     ///  (Required).
@@ -34,4 +51,14 @@ public partial class TestEntityZeroOrOneToZeroOrMany : AuditableEntityBase
     /// Foreign key for relationship ZeroOrOne to entity TestEntityZeroOrManyToZeroOrOne
     /// </summary>
     public Nox.Types.Text? TestEntityZeroOrManyToZeroOrOneId { get; set; } = null!;
+
+    public virtual void CreateRefToTestEntityZeroOrManyToZeroOrOneTestEntityZeroOrManyToZeroOrOne(TestEntityZeroOrManyToZeroOrOne relatedTestEntityZeroOrManyToZeroOrOne)
+    {
+        TestEntityZeroOrManyToZeroOrOne = relatedTestEntityZeroOrManyToZeroOrOne;
+    }
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

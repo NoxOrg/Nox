@@ -49,8 +49,8 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.Property(e => e.StringUser).HasConversion<UserConverter>();
         builder.Property(e => e.InfoEmail).HasConversion<EmailConverter>();
         builder.Property(e => e.SecretPassword).HasConversion<EncryptedTextConverter>();
-        builder.Property(e => e.DatabaseId).ValueGeneratedOnAdd().HasConversion<DatabaseNumberConverter>();
-        builder.Property(e => e.DatabaseGuid).ValueGeneratedOnAdd().HasConversion<DatabaseGuidConverter>();
+        builder.Property(e => e.AutoId).ValueGeneratedOnAdd().HasConversion<AutoNumberConverter>();
+        builder.Property(e => e.Guid).HasConversion<GuidConverter>();
         builder.Property(e => e.CurrencyNumber).HasConversion<CurrencyNumberConverter>();
         builder.Property(e => e.Color).HasConversion<ColorConverter>();
         builder.Property(e => e.DayOfWeek).HasConversion<DayOfWeekConverter>();

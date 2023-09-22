@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
@@ -13,34 +14,52 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
+public partial class StoreOwnerCreateDto : StoreOwnerCreateDtoBase
+{
+
+}
+
 /// <summary>
 /// Store owners.
 /// </summary>
-public partial class StoreOwnerCreateDto 
+public abstract class StoreOwnerCreateDtoBase : IEntityDto<StoreOwner>
 {
     /// <summary>
     ///  (Required).
     /// </summary>
     [Required(ErrorMessage = "Id is required")]
-    public System.String Id { get; set; } = default!;    
+    public System.String Id { get; set; } = default!;
     /// <summary>
     /// Owner Name (Required).
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
-    public System.String Name { get; set; } = default!;    
+    public virtual System.String Name { get; set; } = default!;
+    /// <summary>
+    /// Temporary Owner Name (Required).
+    /// </summary>
+    [Required(ErrorMessage = "TemporaryOwnerName is required")]
+    
+    public virtual System.String TemporaryOwnerName { get; set; } = default!;
     /// <summary>
     /// Vat Number (Optional).
     /// </summary>
-    public VatNumberDto? VatNumber { get; set; }
+    public virtual VatNumberDto? VatNumber { get; set; }
+    /// <summary>
+    /// Street Address (Optional).
+    /// </summary>
+    public virtual StreetAddressDto? StreetAddress { get; set; }
+    /// <summary>
+    /// Owner Greeting (Optional).
+    /// </summary>
+    public virtual TranslatedTextDto? LocalGreeting { get; set; }
+    /// <summary>
+    /// Notes (Optional).
+    /// </summary>
+    public virtual System.String? Notes { get; set; }
 
-    public ClientApi.Domain.StoreOwner ToEntity()
-    {
-        var entity = new ClientApi.Domain.StoreOwner();
-        entity.Id = StoreOwner.CreateId(Id);
-        entity.Name = ClientApi.Domain.StoreOwner.CreateName(Name);
-        if (VatNumber is not null)entity.VatNumber = ClientApi.Domain.StoreOwner.CreateVatNumber(VatNumber.NonNullValue<VatNumberDto>());
-        //entity.Stores = Stores.Select(dto => dto.ToEntity()).ToList();
-        return entity;
-    }
+    /// <summary>
+    /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores
+    /// </summary>
+    public virtual List<StoreCreateDto> Stores { get; set; } = new();
 }

@@ -20,32 +20,9 @@ using MinimumCashStock = Cryptocash.Domain.MinimumCashStock;
 
 namespace Cryptocash.Application;
 
-public class MinimumCashStockMapper : EntityMapperBase<MinimumCashStock>
+public partial class MinimumCashStockMapper : EntityMapperBase<MinimumCashStock>
 {
     public MinimumCashStockMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
-
-    public override void MapToEntity(MinimumCashStock entity, Entity entityDefinition, dynamic dto)
-    {
-    #pragma warning disable CS0168 // Variable is declared but never used        
-        dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used
-            
-        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "Amount", dto.Amount);
-        if (noxTypeValue != null)
-        {        
-            entity.Amount = noxTypeValue;
-        }
-    
-
-        /// <summary>
-        /// MinimumCashStock related to ExactlyOne Currencies
-        /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "MinimumCashStockRelatedCurrency", dto.MinimumCashStockRelatedCurrencyId);
-        if (noxTypeValue != null)
-        {        
-            entity.MinimumCashStockRelatedCurrencyId = noxTypeValue;
-        }
-    }
 
     public override void PartialMapToEntity(MinimumCashStock entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {

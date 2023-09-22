@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
@@ -13,37 +14,36 @@ using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
+public partial class CommissionCreateDto : CommissionCreateDtoBase
+{
+
+}
+
 /// <summary>
 /// Exchange commission rate and amount.
 /// </summary>
-public partial class CommissionCreateDto 
-{    
+public abstract class CommissionCreateDtoBase : IEntityDto<Commission>
+{
     /// <summary>
     /// Commission rate (Required).
     /// </summary>
     [Required(ErrorMessage = "Rate is required")]
     
-    public System.Single Rate { get; set; } = default!;    
+    public virtual System.Single Rate { get; set; } = default!;
     /// <summary>
     /// Exchange rate conversion amount (Required).
     /// </summary>
     [Required(ErrorMessage = "EffectiveAt is required")]
     
-    public System.DateTimeOffset EffectiveAt { get; set; } = default!;
+    public virtual System.DateTimeOffset EffectiveAt { get; set; } = default!;
 
     /// <summary>
     /// Commission fees for ZeroOrOne Countries
     /// </summary>
-    
-    public System.String? CommissionFeesForCountryId { get; set; } = default!;
+    public virtual CountryCreateDto? CommissionFeesForCountry { get; set; } = default!;
 
-    public Cryptocash.Domain.Commission ToEntity()
-    {
-        var entity = new Cryptocash.Domain.Commission();
-        entity.Rate = Cryptocash.Domain.Commission.CreateRate(Rate);
-        entity.EffectiveAt = Cryptocash.Domain.Commission.CreateEffectiveAt(EffectiveAt);
-        //entity.Country = Country?.ToEntity();
-        //entity.Bookings = Bookings.Select(dto => dto.ToEntity()).ToList();
-        return entity;
-    }
+    /// <summary>
+    /// Commission fees for ZeroOrMany Bookings
+    /// </summary>
+    public virtual List<BookingCreateDto> CommissionFeesForBooking { get; set; } = new();
 }

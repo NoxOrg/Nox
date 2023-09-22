@@ -11,9 +11,13 @@ description: Workplace
 keys:
 
   - name: Id
-    type: databaseGuid
+    type: nuid
     description: Workplace unique identifier 
     isRequired: true
+    nuidTypeOptions:
+        separator: "-"
+        propertyNames:
+            - "Name"
 
 attributes:
 
@@ -23,7 +27,15 @@ attributes:
     textTypeOptions:
       minLength: 4
       maxLength: 63
-    isRequired: true 
+    isRequired: true
+
+  - name: Description
+    description: Workplace Description
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: false
 
   - name: Greeting
     description: The Formula
@@ -32,6 +44,12 @@ attributes:
       expression: "$\"Hello, {Name.Value}!\""
       returns: string
 
+relationships:
+
+    - name: BelongsToCountry
+      description: Workplace country 
+      relationship: zeroOrOne
+      entity: Country
 persistence:
     isAudited: false    
     create:

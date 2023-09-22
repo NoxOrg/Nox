@@ -268,13 +268,13 @@
     <value>The source for integration '{0}' does not have a name specified. All integration sources must have a name specified.</value>
   </data>
   <data name="IntegrationSourceDataConnectionEmpty" xml:space="preserve">
-    <value>The source '{0}' for integration '{1}' does not have a data connection specified. All integration sources must have a data connection specified in the Infrastructure section of your yaml definition..</value>
+    <value>The source '{0}' on integration '{2}' does not have a data connection specified. All integration sources must have a data connection specified in the Infrastructure section of your yaml definition..</value>
   </data>
   <data name="IntegrationScheduleStartEmpty" xml:space="preserve">
     <value>The source '{0}' for integration '{1}' does not have a start specified for its schedule. All scheduled integrations must have a start defined.</value>
   </data>
   <data name="IntegrationSourceDataConnectionMissing" xml:space="preserve">
-    <value>The data connection for source '{0}' for integration '{1}' is not defined. All data connections must be defined in the Infrastructure section of your yaml definition.</value>
+    <value>The data connection '{1}' in source '{0}' for integration '{2}' is not defined. All data connections must be defined in the Infrastructure section of your yaml definition.</value>
   </data>
   <data name="IntegrationTargetNameEmpty" xml:space="preserve">
     <value>The target of integration '{0}' does not have a name specified. All integration targets must have a name.</value>
@@ -458,5 +458,20 @@
   </data>
   <data name="EntityOwnedCannotBeAuditable" xml:space="preserve">
     <value>The owned entity '{0}' cannot be auditable.</value>
+  </data>
+  <data name="EntityKeysRequired" xml:space="preserve">
+    <value>Keys are mandatory for entity {0}. Except owned entities with ZeroOrOne or ExactlyOne relationships.</value>
+  </data>
+  <data name="OwnedEntityKeysMustBeNull" xml:space="preserve">
+    <value>Owned entity {0} with ZeroOrOne or ExactlyOne relationship can not have key(s).</value>
+  </data>
+  <data name="RelationEntityDependentMustHaveSingleKey" xml:space="preserve">
+    <value>Entity {0}. The dependant entity {1}  in relation {2} can only have a single key.</value>
+  </data>
+  <data name="EntityOwnedCannotBeRelatedToOtherEntities" xml:space="preserve">
+    <value>The owned entity '{0}' cannot be referred by other entities relationships.</value>
+  </data>
+  <data name="EntityOwnedCannotHaveRelationships" xml:space="preserve">
+    <value>The owned entity '{0}' cannot have relationships to other entities.</value>
   </data>
 </root>

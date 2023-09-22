@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis.CSharp;
+using System;
 using System.Collections;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -87,6 +87,7 @@ public static class ObjectExtensions
     /// </summary>
     /// <param name="obj">The input object whose values will be used to generate source code.</param>
     /// <param name="variableName">The name of the variable that will hold the created instance in the source code.</param>
+    /// <param name="fullyQualifiedNames">If true, the generated source code will use fully qualified type names. If false, the generated source code will use type names without namespaces.</param>
     /// <returns>C# source code as a string.</returns>
     public static string ToSourceCode(this object obj, string variableName, bool fullyQualifiedNames = true)
     {
@@ -170,7 +171,9 @@ public static class ObjectExtensions
         else if (valueType.IsEnum)
         {
             var valueTypeName = fullyQualifiedNames ? valueType.FullName : valueType.Name;
-            sourceCode.AppendLine($"{indentation}{propertyName}{assignOp}{valueTypeName}.{GetValueAsString(value)},");
+            var valueAsString = GetValueAsString(value);
+            valueAsString = IsReservedKeyword(valueAsString) ? $"@{valueAsString}" : valueAsString;
+            sourceCode.AppendLine($"{indentation}{propertyName}{assignOp}{valueTypeName}.{valueAsString},");
         }
         else if (valueType.IsGenericType && valueType.GetGenericTypeDefinition() == typeof(List<>))
         {
@@ -265,5 +268,14 @@ public static class ObjectExtensions
     private static string GetIndentation(int level)
     {
         return new string(' ', level * 4);
+    }
+
+    private static bool IsReservedKeyword(string word)
+    {
+        if (SyntaxFacts.GetKeywordKind(word) != SyntaxKind.None || SyntaxFacts.GetContextualKeywordKind(word) != SyntaxKind.None)
+        {
+            return true;
+        }
+        return false;
     }
 }

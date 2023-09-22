@@ -20,52 +20,9 @@ using Customer = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application;
 
-public class CustomerMapper : EntityMapperBase<Customer>
+public partial class CustomerMapper : EntityMapperBase<Customer>
 {
     public CustomerMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
-
-    public override void MapToEntity(Customer entity, Entity entityDefinition, dynamic dto)
-    {
-    #pragma warning disable CS0168 // Variable is declared but never used        
-        dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used
-            
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "FirstName", dto.FirstName);
-        if (noxTypeValue != null)
-        {        
-            entity.FirstName = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "LastName", dto.LastName);
-        if (noxTypeValue != null)
-        {        
-            entity.LastName = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition, "EmailAddress", dto.EmailAddress);
-        if (noxTypeValue != null)
-        {        
-            entity.EmailAddress = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "Address", dto.Address);
-        if (noxTypeValue != null)
-        {        
-            entity.Address = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.PhoneNumber>(entityDefinition, "MobileNumber", dto.MobileNumber);
-        if (noxTypeValue != null)
-        {        
-            entity.MobileNumber = noxTypeValue;
-        }
-    
-
-        /// <summary>
-        /// Customer based in ExactlyOne Countries
-        /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "CustomerBaseCountry", dto.CustomerBaseCountryId);
-        if (noxTypeValue != null)
-        {        
-            entity.CustomerBaseCountryId = noxTypeValue;
-        }
-    }
 
     public override void PartialMapToEntity(Customer entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {

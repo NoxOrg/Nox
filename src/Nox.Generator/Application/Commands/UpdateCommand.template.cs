@@ -15,57 +15,56 @@ using {{entity.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
-public record Update{{entity.Name}}Command({{primaryKeys}}, {{entity.Name}}UpdateDto EntityDto) : IRequest<{{entity.Name}}KeyDto?>;
+public record Update{{entity.Name}}Command({{primaryKeys}}, {{entity.Name}}UpdateDto EntityDto{{ if !entity.IsOwnedEntity}}, System.Guid? Etag{{end}}) : IRequest<{{entity.Name}}KeyDto?>;
 
-public class Update{{entity.Name}}CommandHandler: CommandBase<Update{{entity.Name}}Command, {{entity.Name}}>, IRequestHandler<Update{{entity.Name}}Command, {{entity.Name}}KeyDto?>
+public partial class Update{{entity.Name}}CommandHandler: Update{{entity.Name}}CommandHandlerBase
 {
-	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
-	public IEntityMapper<{{entity.Name}}> EntityMapper { get; }
-{{- for r in entity.OwnedRelationships}}
-	public IEntityMapper<{{r.Related.Entity.Name}}> {{r.Related.Entity.Name}}EntityMapper { get; }
-{{- end }}
-
 	public Update{{entity.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		{{- for r in entity.OwnedRelationships}}	
-			IEntityMapper<{{r.Related.Entity.Name}}> entityMapper{{r.Related.Entity.Name}},
-		{{- end }}
-		IEntityMapper<{{entity.Name}}> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory): base(dbContext, noxSolution, serviceProvider, entityFactory)
+	{
+	}
+}
+
+public abstract class Update{{entity.Name}}CommandHandlerBase: CommandBase<Update{{entity.Name}}Command, {{entity.Name}}>, IRequestHandler<Update{{entity.Name}}Command, {{entity.Name}}KeyDto?>
+{
+	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
+	private readonly IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> _entityFactory;
+
+	public Update{{entity.Name}}CommandHandlerBase(
+		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-	{{- for r in entity.OwnedRelationships}}	
-		{{r.Related.Entity.Name}}EntityMapper = entityMapper{{r.Related.Entity.Name}};
-	{{- end }}
-		EntityMapper = entityMapper;
+		_entityFactory = entityFactory;
 	}
-	
-	public async Task<{{entity.Name}}KeyDto?> Handle(Update{{entity.Name}}Command request, CancellationToken cancellationToken)
+
+	public virtual async Task<{{entity.Name}}KeyDto?> Handle(Update{{entity.Name}}Command request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
 		{{- for key in entity.Keys }}
-		var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.key{{key.Name}});
+		var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},Nox.Types.{{SingleTypeForKey key}}>("{{key.Name}}", request.key{{key.Name}});
 		{{- end }}
-	
+
 		var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysFindQuery}});
 		if (entity == null)
 		{
 			return null;
 		}
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.EntityDto);
-		
-		{{- for r in entity.OwnedRelationships}}
-		{{- if r.WithSingleEntity}} {{ continue; }} {{ end }}
-		foreach(var ownedEntity in request.EntityDto.{{r.Related.Entity.PluralName}})
-		{
-			Update{{r.Related.Entity.Name}}(entity, ownedEntity);
-		}
+
+		_entityFactory.UpdateEntity(entity, request.EntityDto);
+
+		{{- if !entity.IsOwnedEntity }}
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		{{- end }}
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
@@ -76,26 +75,4 @@ public class Update{{entity.Name}}CommandHandler: CommandBase<Update{{entity.Nam
 
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
 	}
-
-{{- for r in entity.OwnedRelationships}}
-	{{- if r.WithSingleEntity}} {{ continue; }} {{ end }}
-	private void Update{{r.Related.Entity.Name}}({{entity.Name}} parent, {{r.Related.Entity.Name}}Dto child)
-	{
-		{{- for key in r.Related.Entity.Keys }}
-		var owned{{key.Name}} = CreateNoxTypeForKey<{{r.Related.Entity.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", child.{{key.Name}});
-		{{- end }}
-
-		var entity = parent.{{r.Related.Entity.PluralName}}.SingleOrDefault(x =>
-		{{- for key in r.Related.Entity.Keys }}
-			x.{{key.Name}}.Equals(owned{{key.Name}}) &&
-		{{- end }}
-			true);
-		if (entity == null)
-		{
-			return;
-		}
-
-		{{r.Related.Entity.Name}}EntityMapper.MapToEntity(entity, GetEntityDefinition<{{r.Related.Entity.Name}}>(), child);		
-	}
-{{- end }}
 }

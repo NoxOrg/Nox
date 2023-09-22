@@ -17,30 +17,56 @@ using Cryptocash.Application.Dto;
 using LandLord = Cryptocash.Domain.LandLord;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateLandLordCommand(LandLordCreateDto EntityDto) : IRequest<LandLordKeyDto>;
 
-public partial class CreateLandLordCommandHandler: CommandBase<CreateLandLordCommand,LandLord>, IRequestHandler <CreateLandLordCommand, LandLordKeyDto>
+public partial class CreateLandLordCommandHandler: CreateLandLordCommandHandlerBase
 {
-	public CryptocashDbContext DbContext { get; }
-
 	public CreateLandLordCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
+        IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto> entityFactory,
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution,vendingmachinefactory, entityFactory, serviceProvider)
+	{
+	}
+}
+
+
+public abstract class CreateLandLordCommandHandlerBase: CommandBase<CreateLandLordCommand,LandLord>, IRequestHandler <CreateLandLordCommand, LandLordKeyDto>
+{
+	private readonly CryptocashDbContext _dbContext;
+	private readonly IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto> _entityFactory;
+    private readonly IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> _vendingmachinefactory;
+
+	public CreateLandLordCommandHandlerBase(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+        IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
+        IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;
+		_dbContext = dbContext;
+		_entityFactory = entityFactory;
+        _vendingmachinefactory = vendingmachinefactory;
 	}
 
-	public async Task<LandLordKeyDto> Handle(CreateLandLordCommand request, CancellationToken cancellationToken)
+	public virtual async Task<LandLordKeyDto> Handle(CreateLandLordCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = request.EntityDto.ToEntity();		
-	
-		OnCompleted(entityToCreate);
-		DbContext.LandLords.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		foreach(var relatedCreateDto in request.EntityDto.ContractedAreasForVendingMachines)
+		{
+			var relatedEntity = _vendingmachinefactory.CreateEntity(relatedCreateDto);
+			entityToCreate.CreateRefToContractedAreasForVendingMachines(relatedEntity);
+		}
+
+		OnCompleted(request, entityToCreate);
+		_dbContext.LandLords.Add(entityToCreate);
+		await _dbContext.SaveChangesAsync();
 		return new LandLordKeyDto(entityToCreate.Id.Value);
 	}
 }

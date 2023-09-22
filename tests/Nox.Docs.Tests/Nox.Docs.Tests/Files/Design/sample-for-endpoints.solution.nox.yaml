@@ -1,0 +1,201 @@
+#
+# sample-for-endpoints.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/solution.json
+#
+
+name: SampleForEntityEndpointMarkdownGeneration
+description: Nox solution yaml configuration for generating entity endpoints markdown
+
+domain:
+  entities:
+    - name: ShouldNotGenerateEndpointMarkdown
+      description: Endpoint markdown should not be generated for this entity, since it does not have at least one CRUD operation enabled
+
+      persistence:
+        isAudited: false
+        tableName: ShouldNotGenerateEndpointMarkdown
+        schema: dbo
+        create:
+          isEnabled: false
+          raiseEvents: false
+        read:
+          isEnabled: false
+        update:
+          isEnabled: false
+          raiseEvents: false
+        delete:
+          isEnabled: false
+          raiseEvents: false
+
+      keys:
+        - name: Id
+          type: autoNumber
+          isRequired: true
+
+    - name: Continent
+      description: The list of continents
+
+      persistence:
+        isAudited: false
+        tableName: Continent
+        schema: dbo
+        create:
+          isEnabled: false
+          raiseEvents: false
+        read:
+          isEnabled: true
+        update:
+          isEnabled: false
+          raiseEvents: false
+        delete:
+          isEnabled: false
+          raiseEvents: false
+
+      keys:
+        - name: Id
+          type: autoNumber
+          isRequired: true
+
+      attributes:
+        - name: Name
+          description: The continent's common name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+        - name: ContinentHasCountries 
+          description: has
+          relationship: oneOrMany
+          entity: Country
+          canNavigate: true
+
+    - name: Country
+      description: The list of countries
+
+      persistence:
+        isAudited: true
+        tableName: Country
+        schema: dbo
+        create:
+          isEnabled: true
+          raiseEvents: true
+        read:
+          isEnabled: true
+        update:
+          isEnabled: true
+          raiseEvents: true
+        delete:
+          isEnabled: false
+          raiseEvents: true
+
+      keys:
+        - name: Id
+          type: countryCode2
+          isRequired: true
+
+      attributes:
+        - name: Name
+          description: The country's common name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+        - name: CountryIsOnOneOrManyContinents
+          description: is on
+          relationship: oneOrMany
+          entity: Continent
+          canNavigate: true
+
+      ownedRelationships:
+        - name: CountryLocalNames
+          description: is also know as
+          relationship: oneOrMany
+          entity: CountryLocalNames
+
+      queries:
+        - name: GetCountriesByContinent
+          description: Returns a list of countries for a given continent
+
+          requestInput:
+            - name: continentName
+              description: Africa, Europe, Asia, Australia, North America, or South America
+              type: text
+              textTypeOptions:
+                isUnicode: false
+
+          responseOutput:
+            name: countriesByContinentDto
+            type: collection
+            collectionTypeOptions:
+              name: countryInfo
+              type: object
+              objectTypeOptions:
+                attributes:
+                  - name: CountryId
+                    description: The country's Id
+                    type: countryCode2
+
+                  - name: CountryName
+                    description: The country name
+                    type: text
+
+      commands:
+        - name: UpdatePopulationStatistics
+          description: Instructs the service to collect updated population statistics
+          type: object
+          objectTypeOptions:
+            attributes:
+              - name: CountryCode
+                type: countryCode2
+          emitEvents: [CountryNameUpdatedDomainEvent]
+
+      events:
+        - name: CountryNameUpdatedDomainEvent
+          type: object
+          objectTypeOptions:
+            attributes:
+              - name: CountryId
+                type: countryCode2
+
+              - name: CountryName
+                type: text
+
+    - name: CountryLocalNames
+      description: The name of a country in other languages
+
+      persistence:
+        isAudited: false
+        tableName: CountryLocalNames
+        schema: dbo
+        create:
+          isEnabled: true
+          raiseEvents: true
+        read:
+          isEnabled: true
+        update:
+          isEnabled: false
+          raiseEvents: true
+        delete:
+          isEnabled: true
+          raiseEvents: true
+
+      keys:
+        - name: Id
+          type: countryCode2
+          isRequired: true
+
+      attributes:
+        - name: Name
+          description: The country's local name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true

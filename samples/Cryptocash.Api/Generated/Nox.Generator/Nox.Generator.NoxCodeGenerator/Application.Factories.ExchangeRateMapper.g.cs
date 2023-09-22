@@ -20,28 +20,9 @@ using ExchangeRate = Cryptocash.Domain.ExchangeRate;
 
 namespace Cryptocash.Application;
 
-public class ExchangeRateMapper : EntityMapperBase<ExchangeRate>
+public partial class ExchangeRateMapper : EntityMapperBase<ExchangeRate>
 {
     public ExchangeRateMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
-
-    public override void MapToEntity(ExchangeRate entity, Entity entityDefinition, dynamic dto)
-    {
-    #pragma warning disable CS0168 // Variable is declared but never used        
-        dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used
-            
-        noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition, "EffectiveRate", dto.EffectiveRate);
-        if (noxTypeValue != null)
-        {        
-            entity.EffectiveRate = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "EffectiveAt", dto.EffectiveAt);
-        if (noxTypeValue != null)
-        {        
-            entity.EffectiveAt = noxTypeValue;
-        }
-    
-    }
 
     public override void PartialMapToEntity(ExchangeRate entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {

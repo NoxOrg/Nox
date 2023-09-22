@@ -7,3 +7,9 @@
 persistence: 
 
   $ref: ./persistence/cryptocash.persistence.nox.yaml
+
+dependencies: 
+
+  $ref: ./dependencies/cryptocash.dependencies.nox.yaml
+
+  

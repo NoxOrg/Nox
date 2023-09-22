@@ -12,24 +12,32 @@ using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.Application.Queries;
 
-public record GetLandLordByIdQuery(System.Int64 keyId) : IRequest <LandLordDto?>;
+public record GetLandLordByIdQuery(System.Int64 keyId) : IRequest <IQueryable<LandLordDto>>;
 
-public partial class GetLandLordByIdQueryHandler:  QueryBase<LandLordDto?>, IRequestHandler<GetLandLordByIdQuery, LandLordDto?>
+public partial class GetLandLordByIdQueryHandler:GetLandLordByIdQueryHandlerBase
 {
-    public  GetLandLordByIdQueryHandler(DtoDbContext dataDbContext)
+    public  GetLandLordByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    {
+    
+    }
+}
+
+public abstract class GetLandLordByIdQueryHandlerBase:  QueryBase<IQueryable<LandLordDto>>, IRequestHandler<GetLandLordByIdQuery, IQueryable<LandLordDto>>
+{
+    public  GetLandLordByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<LandLordDto?> Handle(GetLandLordByIdQuery request, CancellationToken cancellationToken)
+    public virtual Task<IQueryable<LandLordDto>> Handle(GetLandLordByIdQuery request, CancellationToken cancellationToken)
     {    
-        var item = DataDbContext.LandLords
+        var query = DataDbContext.LandLords
             .AsNoTracking()
-            .SingleOrDefault(r =>
+            .Where(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);
-        return Task.FromResult(OnResponse(item));
+        return Task.FromResult(OnResponse(query));
     }
 }

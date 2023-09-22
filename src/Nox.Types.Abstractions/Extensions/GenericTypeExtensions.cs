@@ -14,7 +14,7 @@ public static class GenericTypeExtensions
         return value.Value;
     }
 
-    public static T NonNullValue<T>(this T? value) where T : class
+    public static T NonNullValue<T>(this T? value)
     {
         if (value == null)
         {
@@ -22,5 +22,15 @@ public static class GenericTypeExtensions
         }
 
         return value;
+    }
+
+    public static T ToValueFromNonNull<T>(this T? value) where T : struct
+    {
+        return value!.Value;
+    }
+
+    public static T ToValueFromNonNull<T>(this T? value) where T : class
+    {
+        return value!;
     }
 }
