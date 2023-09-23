@@ -398,17 +398,7 @@ infrastructure:
       serverUri: SampleEvt.iwgplc.com
       provider: eventStoreDb
       user: EvtUser
-      password: EvtPassword
-
-  messaging:
-
-    integrationEventServer:
-      name: IntegrationBus
-      provider: rabbitMq
-      serverUri: rabbitmq://localhost
-      port: 5672
-      user: guest
-      password: guest
+      password: EvtPassword  
 
   endpoints:
 

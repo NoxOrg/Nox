@@ -14,7 +14,6 @@ using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Configurations;
 using Microsoft.EntityFrameworkCore;
 using MassTransit;
-using Azure;
 using Microsoft.CodeAnalysis;
 using Nox.Messaging.AzureServiceBus;
 
@@ -96,8 +95,8 @@ public static class ServiceCollectionExtension
             {
                 MessageBrokerProvider.AzureServiceBus => new AzureServiceBusBrokerProvider(),
                 MessageBrokerProvider.InMemory => new InMemoryBrokerProvider(),
-                MessageBrokerProvider.RabbitMq => throw new NotImplementedException(),
-                MessageBrokerProvider.AmazonSqs => throw new NotImplementedException(),
+                //MessageBrokerProvider.RabbitMq => throw new NotImplementedException(),
+                //MessageBrokerProvider.AmazonSqs => throw new NotImplementedException(),
                 _ => throw new NotImplementedException()
             };           
             messageBrokerProvider.ConfigureMassTransit(messagingConfig, x);

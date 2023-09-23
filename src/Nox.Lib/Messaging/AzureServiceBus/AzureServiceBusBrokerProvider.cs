@@ -11,8 +11,9 @@ public class AzureServiceBusBrokerProvider: IMessageBrokerProvider
     {
         configuration.UsingAzureServiceBus((context, cfg) =>
         {
+            AzureServiceBusConfig config = messagingServerConfig.AzureServiceBusConfig!;
             //cfg.Host(messagingServerConfig.ServerUri);
-            cfg.Host($"Endpoint=sb://{messagingServerConfig.ServerUri}/;SharedAccessKeyName={messagingServerConfig.User};SharedAccessKey={messagingServerConfig.Password}");            
+            cfg.Host($"Endpoint={config.Endpoint}/;SharedAccessKeyName={config.SharedAccessKeyName};SharedAccessKey={config.SharedAccessKey}");            
 
             cfg.ConfigureEndpoints(context);
 

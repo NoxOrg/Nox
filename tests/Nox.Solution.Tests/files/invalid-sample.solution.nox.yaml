@@ -399,16 +399,6 @@ infrastructure:
       user: EvtUser
       password: EvtPassword
 
-  messaging:
-
-    integrationEventServer:
-      name: IntegrationBus
-      provider: rabbitMq
-      serverUri: rabbitmq://localhost
-      port: 5672
-      user: guest
-      password: guest
-
   endpoints:
     
     apiServer:
