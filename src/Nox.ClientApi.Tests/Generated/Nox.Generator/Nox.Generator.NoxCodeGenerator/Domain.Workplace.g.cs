@@ -75,7 +75,7 @@ public abstract class WorkplaceBase : EntityBase, IEntityConcurrent
     /// <summary>
     /// Workplace Workplace country ZeroOrOne Countries
     /// </summary>
-    public virtual Country? BelongsToCountry { get; set; } = null!;
+    public virtual Country? BelongsToCountry { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ZeroOrOne to entity Country

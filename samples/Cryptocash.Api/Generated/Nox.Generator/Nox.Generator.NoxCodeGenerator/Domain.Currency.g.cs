@@ -100,7 +100,7 @@ public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Currency used by OneOrMany Countries
     /// </summary>
-    public virtual List<Country> CurrencyUsedByCountry { get; set; } = new();
+    public virtual List<Country> CurrencyUsedByCountry { get; private set; } = new();
 
     public virtual void CreateRefToCurrencyUsedByCountry(Country relatedCountry)
     {
@@ -124,7 +124,7 @@ public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Currency used by ZeroOrMany MinimumCashStocks
     /// </summary>
-    public virtual List<MinimumCashStock> CurrencyUsedByMinimumCashStocks { get; set; } = new();
+    public virtual List<MinimumCashStock> CurrencyUsedByMinimumCashStocks { get; private set; } = new();
 
     public virtual void CreateRefToCurrencyUsedByMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
     {

@@ -65,7 +65,7 @@ public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Customer related to ZeroOrMany PaymentDetails
     /// </summary>
-    public virtual List<PaymentDetail> CustomerRelatedPaymentDetails { get; set; } = new();
+    public virtual List<PaymentDetail> CustomerRelatedPaymentDetails { get; private set; } = new();
 
     public virtual void CreateRefToCustomerRelatedPaymentDetails(PaymentDetail relatedPaymentDetail)
     {
@@ -85,7 +85,7 @@ public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Customer related to ZeroOrMany Bookings
     /// </summary>
-    public virtual List<Booking> CustomerRelatedBookings { get; set; } = new();
+    public virtual List<Booking> CustomerRelatedBookings { get; private set; } = new();
 
     public virtual void CreateRefToCustomerRelatedBookings(Booking relatedBooking)
     {
@@ -105,7 +105,7 @@ public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Customer related to ZeroOrMany Transactions
     /// </summary>
-    public virtual List<Transaction> CustomerRelatedTransactions { get; set; } = new();
+    public virtual List<Transaction> CustomerRelatedTransactions { get; private set; } = new();
 
     public virtual void CreateRefToCustomerRelatedTransactions(Transaction relatedTransaction)
     {
@@ -125,7 +125,7 @@ public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Customer based in ExactlyOne Countries
     /// </summary>
-    public virtual Country CustomerBaseCountry { get; set; } = null!;
+    public virtual Country CustomerBaseCountry { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Country

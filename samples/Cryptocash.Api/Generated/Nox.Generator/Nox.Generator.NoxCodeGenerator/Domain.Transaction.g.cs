@@ -60,7 +60,7 @@ public abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Transaction for ExactlyOne Customers
     /// </summary>
-    public virtual Customer TransactionForCustomer { get; set; } = null!;
+    public virtual Customer TransactionForCustomer { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Customer
@@ -85,7 +85,7 @@ public abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Transaction for ExactlyOne Bookings
     /// </summary>
-    public virtual Booking TransactionForBooking { get; set; } = null!;
+    public virtual Booking TransactionForBooking { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Booking

@@ -45,7 +45,7 @@ public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurr
     /// <summary>
     /// MinimumCashStock required by ZeroOrMany VendingMachines
     /// </summary>
-    public virtual List<VendingMachine> MinimumCashStocksRequiredByVendingMachines { get; set; } = new();
+    public virtual List<VendingMachine> MinimumCashStocksRequiredByVendingMachines { get; private set; } = new();
 
     public virtual void CreateRefToMinimumCashStocksRequiredByVendingMachines(VendingMachine relatedVendingMachine)
     {
@@ -65,7 +65,7 @@ public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurr
     /// <summary>
     /// MinimumCashStock related to ExactlyOne Currencies
     /// </summary>
-    public virtual Currency MinimumCashStockRelatedCurrency { get; set; } = null!;
+    public virtual Currency MinimumCashStockRelatedCurrency { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Currency
