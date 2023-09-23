@@ -1,16 +1,15 @@
 using Microsoft.Extensions.Logging;
 using Nox.Integration.Tests.Fixtures;
-using Xunit.Abstractions;
 
 namespace Nox.Integration.Tests.DatabaseIntegrationTests;
 
 [Collection("Sequential")]
-public class SqliteIntegrationTests : NoxIntegrationContainerTestBase
+public class SqliteIntegrationTests
 {
     private readonly NoxCommonTestCaseFactory _noxCommonTestCases;
     private readonly NoxTestSqliteFixture _fixture;
 
-    public SqliteIntegrationTests(ITestOutputHelper testOutputHelper) : base(testOutputHelper)
+    public SqliteIntegrationTests()
     {
         // Fixture is not injected in constructor and defined in IClassFixture<NoxTestSqliteFixture>
         // since sqlite in-memory db should be created each time when test invoked and connection established.
@@ -24,8 +23,6 @@ public class SqliteIntegrationTests : NoxIntegrationContainerTestBase
     [Fact]
     public void GeneratedEntity_Sqlite_CanSaveAndReadFields_AllTypes()
     {
-        _logger.LogInformation("Hi there");
-
         _noxCommonTestCases.GenerateEntityCanSaveAndReadFieldsAllTypes();
     }
 

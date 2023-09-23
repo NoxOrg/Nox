@@ -18,13 +18,3 @@ public abstract class NoxIntegrationContainerTestBase<TFixture> : IClassFixture<
 
     protected TestWebAppDbContext DataContext { get; }
 }
-
-public abstract class NoxIntegrationContainerTestBase
-{
-    protected readonly ILogger _logger;
-
-    protected NoxIntegrationContainerTestBase(ITestOutputHelper testOutput)
-    {
-        _logger = testOutput.BuildLogger();
-    }
-}
