@@ -4,13 +4,16 @@ using System.Xml;
 using Nox.Solution;
 using Nox.Docs.Extensions;
 using ClientApi.Tests;
+using Xunit.Abstractions;
 
 namespace ClientApi.ServiceMetadata
 {
     [Collection("Sequential")]
-    public class GenerateMetadataTests : NoxIntegrationTestBase
+    public class GenerateMetadataTests : NoxWebApiTestBase
     {
-        public GenerateMetadataTests(NoxTestContainerService containerService) : base(containerService)
+        public GenerateMetadataTests(
+            ITestOutputHelper testOutputHelper,
+            NoxTestContainerService containerService) : base(testOutputHelper, containerService)
         {
         }
 
@@ -33,13 +36,14 @@ namespace ClientApi.ServiceMetadata
             content.Should().NotBeNull();
             File.WriteAllText("../../../ServiceMetadata/oDataMetadata.xml", BeautifyXml(content));
         }
+
         [Fact]
         public async Task Generate_Swagger_Html()
         {
             var result = await GetAsync("swagger/v1/swagger.json");
             var content = await result.Content.ReadAsStringAsync();
 
-            content.Should().NotBeNull ();
+            content.Should().NotBeNull();
             File.WriteAllText("../../../ServiceMetadata/swagger.json", content);
         }
 

@@ -3,7 +3,7 @@ using Nox.Integration.Tests.Fixtures;
 namespace Nox.Integration.Tests.DatabaseIntegrationTests;
 
 [Collection("Sequential")]
-public class SqlServerIntegrationTests : NoxIntegrationTestBase<NoxTestMsSqlContainerFixture>
+public class SqlServerIntegrationTests : NoxIntegrationContainerTestBase<NoxTestMsSqlContainerFixture>
 {
     private readonly NoxCommonTestCaseFactory _noxCommonTestCases;
 

@@ -1,26 +1,25 @@
 ﻿using AutoFixture;
 using AutoFixture.AutoMoq;
 using ClientApi.Tests.Tests.Models;
-using DotNet.Testcontainers.Builders;
 using FluentAssertions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Xunit.Abstractions;
 
 namespace ClientApi.Tests;
 
-
-public abstract class NoxIntegrationTestBase :  IClassFixture<NoxTestContainerService>
+public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
 {
     private readonly NoxTestApplicationFactory _appFactory;
     protected readonly Fixture _fixture;
 
-    protected NoxIntegrationTestBase(NoxTestContainerService containerService)
+    protected NoxWebApiTestBase(ITestOutputHelper testOutputHelper, NoxTestContainerService containerService)
     {
         _fixture = new Fixture();
         _fixture.Customize(new AutoMoqCustomization());
+        _fixture.Register(() => new NoxTestApplicationFactory(containerService, testOutputHelper));
 
         _appFactory = _fixture.Create<NoxTestApplicationFactory>();
-        _appFactory.UseContainer(containerService);
     }
 
     /// <summary>
