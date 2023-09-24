@@ -48,7 +48,6 @@ public abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, Workplace
         entity.Name = ClientApi.Domain.Workplace.CreateName(createDto.Name);
         if (createDto.Description is not null)entity.Description = ClientApi.Domain.Workplace.CreateDescription(createDto.Description.NonNullValue<System.String>());
 		entity.EnsureId();
-        //entity.Country = Country?.ToEntity();
         return entity;
     }
 
@@ -59,7 +58,6 @@ public abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, Workplace
             entity.Description = ClientApi.Domain.Workplace.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>());
         }
 		entity.EnsureId();
-        //entity.Country = Country?.ToEntity();
     }
 }
 

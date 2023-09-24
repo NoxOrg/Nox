@@ -52,7 +52,6 @@ public abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwner, StoreOw
         if (createDto.StreetAddress is not null)entity.StreetAddress = ClientApi.Domain.StoreOwner.CreateStreetAddress(createDto.StreetAddress.NonNullValue<StreetAddressDto>());
         if (createDto.LocalGreeting is not null)entity.LocalGreeting = ClientApi.Domain.StoreOwner.CreateLocalGreeting(createDto.LocalGreeting.NonNullValue<TranslatedTextDto>());
         if (createDto.Notes is not null)entity.Notes = ClientApi.Domain.StoreOwner.CreateNotes(createDto.Notes.NonNullValue<System.String>());
-        //entity.Stores = Stores.Select(dto => dto.ToEntity()).ToList();
         return entity;
     }
 
@@ -72,7 +71,6 @@ public abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwner, StoreOw
         if (updateDto.Notes == null) { entity.Notes = null; } else {
             entity.Notes = ClientApi.Domain.StoreOwner.CreateNotes(updateDto.Notes.ToValueFromNonNull<System.String>());
         }
-        //entity.Stores = Stores.Select(dto => dto.ToEntity()).ToList();
     }
 }
 

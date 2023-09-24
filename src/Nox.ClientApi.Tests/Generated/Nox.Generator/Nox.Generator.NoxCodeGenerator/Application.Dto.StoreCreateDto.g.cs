@@ -56,6 +56,11 @@ public abstract class StoreCreateDtoBase : IEntityDto<Store>
     public virtual StoreOwnerCreateDto? Ownership { get; set; } = default!;
 
     /// <summary>
+    /// Store License that this store uses ZeroOrOne StoreLicenses
+    /// </summary>
+    public virtual StoreLicenseCreateDto? License { get; set; } = default!;
+
+    /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
     public virtual EmailAddressCreateDto? VerifiedEmails { get; set; } = null!;

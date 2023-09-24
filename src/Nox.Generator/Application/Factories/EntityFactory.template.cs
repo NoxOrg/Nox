@@ -89,14 +89,6 @@ public abstract class {{className}}Base : IEntityFactory<{{entity.Name}}, {{enti
             {{- end }}
 		{{- end }}
 
-        {{- for relationship in entity.Relationships }}
-            {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-        //entity.{{relationship.EntityPlural}} = {{relationship.EntityPlural}}.Select(dto => dto.ToEntity()).ToList();
-            {{- else}}
-        //entity.{{relationship.Entity}} = {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}}.ToEntity();
-            {{-end}}
-        {{- end }}
-
         {{- for relationship in entity.OwnedRelationships }}
             {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
         entity.{{relationship.Name}} = createDto.{{relationship.Name}}.Select(dto => {{relationship.Entity}}Factory.CreateEntity(dto)).ToList();
@@ -136,14 +128,6 @@ public abstract class {{className}}Base : IEntityFactory<{{entity.Name}}, {{enti
 		entity.Ensure{{key.Name}}();
 		    {{- end }}
 		{{- end }}
-
-        {{- for relationship in entity.Relationships }}
-            {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-        //entity.{{relationship.EntityPlural}} = {{relationship.EntityPlural}}.Select(dto => dto.ToEntity()).ToList();
-            {{- else}}
-        //entity.{{relationship.Entity}} = {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}}.ToEntity();
-            {{-end}}
-        {{- end }}
     }
 }
 

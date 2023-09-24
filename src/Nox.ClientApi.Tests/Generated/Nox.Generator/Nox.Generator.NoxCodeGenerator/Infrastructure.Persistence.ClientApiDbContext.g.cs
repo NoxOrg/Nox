@@ -59,6 +59,8 @@ public partial class ClientApiDbContext : DbContext
 
     public DbSet<StoreOwner> StoreOwners { get; set; } = null!;
 
+    public DbSet<StoreLicense> StoreLicenses { get; set; } = null!;
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

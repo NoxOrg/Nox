@@ -49,8 +49,6 @@ public abstract class TransactionFactoryBase : IEntityFactory<Transaction, Trans
         entity.ProcessedOnDateTime = Cryptocash.Domain.Transaction.CreateProcessedOnDateTime(createDto.ProcessedOnDateTime);
         entity.Amount = Cryptocash.Domain.Transaction.CreateAmount(createDto.Amount);
         entity.Reference = Cryptocash.Domain.Transaction.CreateReference(createDto.Reference);
-        //entity.Customer = Customer.ToEntity();
-        //entity.Booking = Booking.ToEntity();
         return entity;
     }
 
@@ -60,8 +58,6 @@ public abstract class TransactionFactoryBase : IEntityFactory<Transaction, Trans
         entity.ProcessedOnDateTime = Cryptocash.Domain.Transaction.CreateProcessedOnDateTime(updateDto.ProcessedOnDateTime.NonNullValue<System.DateTimeOffset>());
         entity.Amount = Cryptocash.Domain.Transaction.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>());
         entity.Reference = Cryptocash.Domain.Transaction.CreateReference(updateDto.Reference.NonNullValue<System.String>());
-        //entity.Customer = Customer.ToEntity();
-        //entity.Booking = Booking.ToEntity();
     }
 }
 

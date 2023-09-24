@@ -94,7 +94,7 @@ public abstract class WorkplaceBase : EntityBase, IEntityConcurrent
 
     public virtual void DeleteAllRefToBelongsToCountry()
     {
-        BelongsToCountryId = null;
+        BelongsToCountry = null;
     }
 
     /// <summary>

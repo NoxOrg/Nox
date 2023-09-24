@@ -97,8 +97,8 @@ public partial class CountryDto
     /// Country used by ExactlyOne Currencies
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.String CountryUsedByCurrencyId { get; set; } = default!;
-    public virtual CurrencyDto CountryUsedByCurrency { get; set; } = null!;
+    public System.String? CountryUsedByCurrencyId { get; set; } = default!;
+    public virtual CurrencyDto? CountryUsedByCurrency { get; set; } = null!;
 
     /// <summary>
     /// Country used by OneOrMany Commissions

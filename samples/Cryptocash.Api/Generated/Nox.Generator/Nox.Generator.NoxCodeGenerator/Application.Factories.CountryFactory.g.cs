@@ -65,10 +65,6 @@ public abstract class CountryFactoryBase : IEntityFactory<Country, CountryCreate
         if (createDto.GoogleMapsUrl is not null)entity.GoogleMapsUrl = Cryptocash.Domain.Country.CreateGoogleMapsUrl(createDto.GoogleMapsUrl.NonNullValue<System.String>());
         if (createDto.OpenStreetMapsUrl is not null)entity.OpenStreetMapsUrl = Cryptocash.Domain.Country.CreateOpenStreetMapsUrl(createDto.OpenStreetMapsUrl.NonNullValue<System.String>());
         entity.StartOfWeek = Cryptocash.Domain.Country.CreateStartOfWeek(createDto.StartOfWeek);
-        //entity.Currency = Currency.ToEntity();
-        //entity.Commissions = Commissions.Select(dto => dto.ToEntity()).ToList();
-        //entity.VendingMachines = VendingMachines.Select(dto => dto.ToEntity()).ToList();
-        //entity.Customers = Customers.Select(dto => dto.ToEntity()).ToList();
         entity.CountryOwnedTimeZones = createDto.CountryOwnedTimeZones.Select(dto => CountryTimeZoneFactory.CreateEntity(dto)).ToList();
         entity.CountryOwnedHolidays = createDto.CountryOwnedHolidays.Select(dto => HolidayFactory.CreateEntity(dto)).ToList();
         return entity;
@@ -111,10 +107,6 @@ public abstract class CountryFactoryBase : IEntityFactory<Country, CountryCreate
             entity.OpenStreetMapsUrl = Cryptocash.Domain.Country.CreateOpenStreetMapsUrl(updateDto.OpenStreetMapsUrl.ToValueFromNonNull<System.String>());
         }
         entity.StartOfWeek = Cryptocash.Domain.Country.CreateStartOfWeek(updateDto.StartOfWeek.NonNullValue<System.UInt16>());
-        //entity.Currency = Currency.ToEntity();
-        //entity.Commissions = Commissions.Select(dto => dto.ToEntity()).ToList();
-        //entity.VendingMachines = VendingMachines.Select(dto => dto.ToEntity()).ToList();
-        //entity.Customers = Customers.Select(dto => dto.ToEntity()).ToList();
     }
 }
 

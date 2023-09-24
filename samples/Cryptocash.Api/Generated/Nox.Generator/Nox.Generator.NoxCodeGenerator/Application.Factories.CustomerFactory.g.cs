@@ -50,10 +50,6 @@ public abstract class CustomerFactoryBase : IEntityFactory<Customer, CustomerCre
         entity.EmailAddress = Cryptocash.Domain.Customer.CreateEmailAddress(createDto.EmailAddress);
         entity.Address = Cryptocash.Domain.Customer.CreateAddress(createDto.Address);
         if (createDto.MobileNumber is not null)entity.MobileNumber = Cryptocash.Domain.Customer.CreateMobileNumber(createDto.MobileNumber.NonNullValue<System.String>());
-        //entity.PaymentDetails = PaymentDetails.Select(dto => dto.ToEntity()).ToList();
-        //entity.Bookings = Bookings.Select(dto => dto.ToEntity()).ToList();
-        //entity.Transactions = Transactions.Select(dto => dto.ToEntity()).ToList();
-        //entity.Country = Country.ToEntity();
         return entity;
     }
 
@@ -66,10 +62,6 @@ public abstract class CustomerFactoryBase : IEntityFactory<Customer, CustomerCre
         if (updateDto.MobileNumber == null) { entity.MobileNumber = null; } else {
             entity.MobileNumber = Cryptocash.Domain.Customer.CreateMobileNumber(updateDto.MobileNumber.ToValueFromNonNull<System.String>());
         }
-        //entity.PaymentDetails = PaymentDetails.Select(dto => dto.ToEntity()).ToList();
-        //entity.Bookings = Bookings.Select(dto => dto.ToEntity()).ToList();
-        //entity.Transactions = Transactions.Select(dto => dto.ToEntity()).ToList();
-        //entity.Country = Country.ToEntity();
     }
 }
 

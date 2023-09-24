@@ -69,7 +69,7 @@ public abstract class CommissionBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteAllRefToCommissionFeesForCountry()
     {
-        CommissionFeesForCountryId = null;
+        CommissionFeesForCountry = null;
     }
 
     /// <summary>

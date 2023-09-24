@@ -95,7 +95,27 @@ public abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteAllRefToOwnership()
     {
-        OwnershipId = null;
+        Ownership = null;
+    }
+
+    /// <summary>
+    /// Store License that this store uses ZeroOrOne StoreLicenses
+    /// </summary>
+    public virtual StoreLicense? License { get; private set; } = null!;
+
+    public virtual void CreateRefToLicense(StoreLicense relatedStoreLicense)
+    {
+        License = relatedStoreLicense;
+    }
+
+    public virtual void DeleteRefToLicense(StoreLicense relatedStoreLicense)
+    {
+        License = null;
+    }
+
+    public virtual void DeleteAllRefToLicense()
+    {
+        License = null;
     }
 
     /// <summary>
