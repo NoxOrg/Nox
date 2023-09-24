@@ -8,6 +8,7 @@ using Nox.Domain;
 using Nox.Exceptions;
 using Nox.Extensions;
 using Nox.Types;
+using Nox.Configuration;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Solution;

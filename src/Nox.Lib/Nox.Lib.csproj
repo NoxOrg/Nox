@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
@@ -33,9 +33,9 @@
 	<ItemGroup>
 		<PackageReference Include="CloudNative.CloudEvents" Version="2.7.1" />
 		<PackageReference Include="CloudNative.CloudEvents.SystemTextJson" Version="2.7.1" />
-		<PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />
+		<PackageReference Include="MassTransit" Version="8.1.0" />	
 		<PackageReference Include="MassTransit.Azure.ServiceBus.Core" Version="8.1.0" />
-		<PackageReference Include="MassTransit.EntityFrameworkCore" Version="8.1.0" />
+		<PackageReference Include="MassTransit.EntityFrameworkCore" Version="8.1.0" />		
 		<PackageReference Include="MediatR" Version="12.1.1" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Scrutor" Version="4.2.2" />
@@ -72,7 +72,9 @@
 		<None Update="tools\*.ps1" CopyToOutputDirectory="Always" Pack="true" PackagePath="" />
 		<None Include="$(OutputPath)\Nox.Generator.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 	</ItemGroup>
-	
+	<ItemGroup>
+		<InternalsVisibleTo Include="Nox.Integration.Tests" />
+	</ItemGroup>
 	<ItemGroup>
 		<Content Include="..\..\src\Nox.Generator\bin\$(Configuration)\netstandard2.0\YamlDotNet.dll">
 			<Pack>true</Pack>

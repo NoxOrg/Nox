@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Configuration;
+
 using {{codeGeneratorState.RootNameSpace}}.Application.Dto;
 
 namespace {{codeGeneratorState.RootNameSpace}}.Infrastructure.Persistence;

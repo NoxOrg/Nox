@@ -19,7 +19,7 @@ namespace Nox.Messaging
         }
         public async Task AddAsync<T>(T message) where T : IIntegrationEvent
         {
-            _logger.LogInformation("Adding message to Outbox {typeName}", typeof(T));
+            _logger.LogInformation($"Publish message {typeof(T)} to {_bus.GetType()}");
 
             var cloudEventRecord = new CloudEventRecord<IIntegrationEvent>(message);
 
@@ -44,12 +44,10 @@ namespace Nox.Messaging
                     
                     // Customize Mass Transit Envelope
                     sendContext.SourceAddress = cloudEvent.Source;
+                                        
                 });
             
             _logger.LogInformation("Publish message {typeName} in PublishEndpoint ", typeof(T));
         }
-
-        public static CloudEventFormatter New(JsonSerializerOptions options) =>
-            new JsonEventFormatter(options, new JsonDocumentOptions());
     }
 }

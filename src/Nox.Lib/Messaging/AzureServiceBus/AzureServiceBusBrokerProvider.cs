@@ -7,13 +7,14 @@ public class AzureServiceBusBrokerProvider: IMessageBrokerProvider
 {
     public MessageBrokerProvider Provider => MessageBrokerProvider.AzureServiceBus;
 
-    public IBusRegistrationConfigurator ConfigureMassTransit(MessagingServer messagingServerConfig, IBusRegistrationConfigurator configuration)
+    public IBusRegistrationConfigurator ConfigureMassTransit(MessagingServer messagingServerConfig, 
+        IBusRegistrationConfigurator configuration)
     {
         configuration.UsingAzureServiceBus((context, cfg) =>
         {
             AzureServiceBusConfig config = messagingServerConfig.AzureServiceBusConfig!;
-            //cfg.Host(messagingServerConfig.ServerUri);
-            cfg.Host($"Endpoint={config.Endpoint}/;SharedAccessKeyName={config.SharedAccessKeyName};SharedAccessKey={config.SharedAccessKey}");            
+            var connectionString = $"Endpoint={config.Endpoint}/;SharedAccessKeyName={config.SharedAccessKeyName};SharedAccessKey={config.SharedAccessKey}";
+            cfg.Host(connectionString);            
 
             cfg.ConfigureEndpoints(context);
 
