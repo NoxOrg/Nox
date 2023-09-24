@@ -95,7 +95,7 @@ public abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteAllRefToOwnership()
     {
-        Ownership = null;
+        OwnershipId = null;
     }
 
     /// <summary>
