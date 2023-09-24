@@ -45,16 +45,26 @@ public abstract class ThirdTestEntityExactlyOneBase : AuditableEntityBase, IEnti
     /// <summary>
     /// ThirdTestEntityExactlyOne Test entity relationship to ThirdTestEntityZeroOrOne ExactlyOne ThirdTestEntityZeroOrOnes
     /// </summary>
-    public virtual ThirdTestEntityZeroOrOne ThirdTestEntityZeroOrOneRelationship { get; set; } = null!;
+    public virtual ThirdTestEntityZeroOrOne ThirdTestEntityZeroOrOneRelationship { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity ThirdTestEntityZeroOrOne
     /// </summary>
     public Nox.Types.Text ThirdTestEntityZeroOrOneRelationshipId { get; set; } = null!;
 
-    public virtual void CreateRefToThirdTestEntityZeroOrOneThirdTestEntityZeroOrOneRelationship(ThirdTestEntityZeroOrOne relatedThirdTestEntityZeroOrOne)
+    public virtual void CreateRefToThirdTestEntityZeroOrOneRelationship(ThirdTestEntityZeroOrOne relatedThirdTestEntityZeroOrOne)
     {
         ThirdTestEntityZeroOrOneRelationship = relatedThirdTestEntityZeroOrOne;
+    }
+
+    public virtual void DeleteRefToThirdTestEntityZeroOrOneRelationship(ThirdTestEntityZeroOrOne relatedThirdTestEntityZeroOrOne)
+    {
+        throw new Exception($"The relationship cannot be deleted.");
+    }
+
+    public virtual void DeleteAllRefToThirdTestEntityZeroOrOneRelationship()
+    {
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>

@@ -144,7 +144,7 @@ public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteAllRefToCustomerBaseCountry()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>

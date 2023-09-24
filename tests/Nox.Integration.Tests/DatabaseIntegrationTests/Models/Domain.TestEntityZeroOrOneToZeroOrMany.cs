@@ -45,16 +45,26 @@ public abstract class TestEntityZeroOrOneToZeroOrManyBase : AuditableEntityBase,
     /// <summary>
     /// TestEntityZeroOrOneToZeroOrMany Test entity relationship to TestEntityZeroOrManyToZeroOrOne ZeroOrOne TestEntityZeroOrManyToZeroOrOnes
     /// </summary>
-    public virtual TestEntityZeroOrManyToZeroOrOne? TestEntityZeroOrManyToZeroOrOne { get; set; } = null!;
+    public virtual TestEntityZeroOrManyToZeroOrOne? TestEntityZeroOrManyToZeroOrOne { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ZeroOrOne to entity TestEntityZeroOrManyToZeroOrOne
     /// </summary>
     public Nox.Types.Text? TestEntityZeroOrManyToZeroOrOneId { get; set; } = null!;
 
-    public virtual void CreateRefToTestEntityZeroOrManyToZeroOrOneTestEntityZeroOrManyToZeroOrOne(TestEntityZeroOrManyToZeroOrOne relatedTestEntityZeroOrManyToZeroOrOne)
+    public virtual void CreateRefToTestEntityZeroOrManyToZeroOrOne(TestEntityZeroOrManyToZeroOrOne relatedTestEntityZeroOrManyToZeroOrOne)
     {
         TestEntityZeroOrManyToZeroOrOne = relatedTestEntityZeroOrManyToZeroOrOne;
+    }
+
+    public virtual void DeleteRefToTestEntityZeroOrManyToZeroOrOne(TestEntityZeroOrManyToZeroOrOne relatedTestEntityZeroOrManyToZeroOrOne)
+    {
+        TestEntityZeroOrManyToZeroOrOne = null;
+    }
+
+    public virtual void DeleteAllRefToTestEntityZeroOrManyToZeroOrOne()
+    {
+        TestEntityZeroOrManyToZeroOrOne = null;
     }
 
     /// <summary>

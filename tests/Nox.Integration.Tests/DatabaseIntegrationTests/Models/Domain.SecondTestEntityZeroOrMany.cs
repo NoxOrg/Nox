@@ -45,11 +45,21 @@ public abstract class SecondTestEntityZeroOrManyBase : AuditableEntityBase, IEnt
     /// <summary>
     /// SecondTestEntityZeroOrMany Test entity relationship to TestEntityZeroOrMany ZeroOrMany TestEntityZeroOrManies
     /// </summary>
-    public virtual List<TestEntityZeroOrMany> TestEntityZeroOrManyRelationship { get; set; } = new();
+    public virtual List<TestEntityZeroOrMany> TestEntityZeroOrManyRelationship { get; private set; } = new();
 
-    public virtual void CreateRefToTestEntityZeroOrManyTestEntityZeroOrManyRelationship(TestEntityZeroOrMany relatedTestEntityZeroOrMany)
+    public virtual void CreateRefToTestEntityZeroOrManyRelationship(TestEntityZeroOrMany relatedTestEntityZeroOrMany)
     {
         TestEntityZeroOrManyRelationship.Add(relatedTestEntityZeroOrMany);
+    }
+
+    public virtual void DeleteRefToTestEntityZeroOrManyRelationship(TestEntityZeroOrMany relatedTestEntityZeroOrMany)
+    {
+        TestEntityZeroOrManyRelationship.Remove(relatedTestEntityZeroOrMany);
+    }
+
+    public virtual void DeleteAllRefToTestEntityZeroOrManyRelationship()
+    {
+        TestEntityZeroOrManyRelationship.Clear();
     }
 
     /// <summary>

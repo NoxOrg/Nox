@@ -64,7 +64,7 @@ public abstract class StoreLicenseBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteAllRefToStoreWithLicense()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>

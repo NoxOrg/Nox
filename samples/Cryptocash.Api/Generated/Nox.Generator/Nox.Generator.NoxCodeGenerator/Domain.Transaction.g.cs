@@ -79,7 +79,7 @@ public abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteAllRefToTransactionForCustomer()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>
@@ -104,7 +104,7 @@ public abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteAllRefToTransactionForBooking()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>

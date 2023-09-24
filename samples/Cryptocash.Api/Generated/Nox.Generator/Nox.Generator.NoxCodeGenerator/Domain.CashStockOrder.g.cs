@@ -83,7 +83,7 @@ public abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurren
 
     public virtual void DeleteAllRefToCashStockOrderForVendingMachine()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>
@@ -103,7 +103,7 @@ public abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurren
 
     public virtual void DeleteAllRefToCashStockOrderReviewedByEmployee()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>

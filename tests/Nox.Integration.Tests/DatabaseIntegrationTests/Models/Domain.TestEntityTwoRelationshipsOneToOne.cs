@@ -45,31 +45,51 @@ public abstract class TestEntityTwoRelationshipsOneToOneBase : AuditableEntityBa
     /// <summary>
     /// TestEntityTwoRelationshipsOneToOne First relationship to the same entity ExactlyOne SecondTestEntityTwoRelationshipsOneToOnes
     /// </summary>
-    public virtual SecondTestEntityTwoRelationshipsOneToOne TestRelationshipOne { get; set; } = null!;
+    public virtual SecondTestEntityTwoRelationshipsOneToOne TestRelationshipOne { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity SecondTestEntityTwoRelationshipsOneToOne
     /// </summary>
     public Nox.Types.Text TestRelationshipOneId { get; set; } = null!;
 
-    public virtual void CreateRefToSecondTestEntityTwoRelationshipsOneToOneTestRelationshipOne(SecondTestEntityTwoRelationshipsOneToOne relatedSecondTestEntityTwoRelationshipsOneToOne)
+    public virtual void CreateRefToTestRelationshipOne(SecondTestEntityTwoRelationshipsOneToOne relatedSecondTestEntityTwoRelationshipsOneToOne)
     {
         TestRelationshipOne = relatedSecondTestEntityTwoRelationshipsOneToOne;
+    }
+
+    public virtual void DeleteRefToTestRelationshipOne(SecondTestEntityTwoRelationshipsOneToOne relatedSecondTestEntityTwoRelationshipsOneToOne)
+    {
+        throw new Exception($"The relationship cannot be deleted.");
+    }
+
+    public virtual void DeleteAllRefToTestRelationshipOne()
+    {
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>
     /// TestEntityTwoRelationshipsOneToOne Second relationship to the same entity ExactlyOne SecondTestEntityTwoRelationshipsOneToOnes
     /// </summary>
-    public virtual SecondTestEntityTwoRelationshipsOneToOne TestRelationshipTwo { get; set; } = null!;
+    public virtual SecondTestEntityTwoRelationshipsOneToOne TestRelationshipTwo { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity SecondTestEntityTwoRelationshipsOneToOne
     /// </summary>
     public Nox.Types.Text TestRelationshipTwoId { get; set; } = null!;
 
-    public virtual void CreateRefToSecondTestEntityTwoRelationshipsOneToOneTestRelationshipTwo(SecondTestEntityTwoRelationshipsOneToOne relatedSecondTestEntityTwoRelationshipsOneToOne)
+    public virtual void CreateRefToTestRelationshipTwo(SecondTestEntityTwoRelationshipsOneToOne relatedSecondTestEntityTwoRelationshipsOneToOne)
     {
         TestRelationshipTwo = relatedSecondTestEntityTwoRelationshipsOneToOne;
+    }
+
+    public virtual void DeleteRefToTestRelationshipTwo(SecondTestEntityTwoRelationshipsOneToOne relatedSecondTestEntityTwoRelationshipsOneToOne)
+    {
+        throw new Exception($"The relationship cannot be deleted.");
+    }
+
+    public virtual void DeleteAllRefToTestRelationshipTwo()
+    {
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>

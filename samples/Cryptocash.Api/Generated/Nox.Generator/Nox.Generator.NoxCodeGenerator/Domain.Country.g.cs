@@ -124,7 +124,7 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteAllRefToCountryUsedByCurrency()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>
