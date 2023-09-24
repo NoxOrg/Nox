@@ -20,23 +20,23 @@ public partial class PartialUpdateCountryLocalNameForCountryCommandHandler: Part
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<CountryLocalName> entityMapper): base(dbContext, noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> entityFactory) : base(dbContext, noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
 public abstract class PartialUpdateCountryLocalNameForCountryCommandHandlerBase: CommandBase<PartialUpdateCountryLocalNameForCountryCommand, CountryLocalName>, IRequestHandler <PartialUpdateCountryLocalNameForCountryCommand, CountryLocalNameKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
-	public IEntityMapper<CountryLocalName> EntityMapper { get; }
+	public IEntityFactory<CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateCountryLocalNameForCountryCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<CountryLocalName> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<CountryLocalNameKeyDto?> Handle(PartialUpdateCountryLocalNameForCountryCommand request, CancellationToken cancellationToken)
@@ -57,7 +57,7 @@ public abstract class PartialUpdateCountryLocalNameForCountryCommandHandlerBase:
 			return null;
 		}
 
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<CountryLocalName>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);

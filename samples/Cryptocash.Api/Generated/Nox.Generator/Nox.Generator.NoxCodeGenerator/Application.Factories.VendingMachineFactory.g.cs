@@ -42,6 +42,11 @@ public abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachine,
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(VendingMachine entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private Cryptocash.Domain.VendingMachine ToEntity(VendingMachineCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.VendingMachine();
@@ -68,6 +73,83 @@ public abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachine,
         }
         if (updateDto.RentPerSquareMetre == null) { entity.RentPerSquareMetre = null; } else {
             entity.RentPerSquareMetre = Cryptocash.Domain.VendingMachine.CreateRentPerSquareMetre(updateDto.RentPerSquareMetre.ToValueFromNonNull<MoneyDto>());
+        }
+    }
+
+    private void PartialUpdateEntityInternal(VendingMachine entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("MacAddress", out var MacAddressUpdateValue))
+        {
+            if (MacAddressUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'MacAddress' can't be null");
+            }
+            {
+                entity.MacAddress = Cryptocash.Domain.VendingMachine.CreateMacAddress(MacAddressUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("PublicIp", out var PublicIpUpdateValue))
+        {
+            if (PublicIpUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'PublicIp' can't be null");
+            }
+            {
+                entity.PublicIp = Cryptocash.Domain.VendingMachine.CreatePublicIp(PublicIpUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("GeoLocation", out var GeoLocationUpdateValue))
+        {
+            if (GeoLocationUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'GeoLocation' can't be null");
+            }
+            {
+                entity.GeoLocation = Cryptocash.Domain.VendingMachine.CreateGeoLocation(GeoLocationUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("StreetAddress", out var StreetAddressUpdateValue))
+        {
+            if (StreetAddressUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'StreetAddress' can't be null");
+            }
+            {
+                entity.StreetAddress = Cryptocash.Domain.VendingMachine.CreateStreetAddress(StreetAddressUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("SerialNumber", out var SerialNumberUpdateValue))
+        {
+            if (SerialNumberUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'SerialNumber' can't be null");
+            }
+            {
+                entity.SerialNumber = Cryptocash.Domain.VendingMachine.CreateSerialNumber(SerialNumberUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("InstallationFootPrint", out var InstallationFootPrintUpdateValue))
+        {
+            if (InstallationFootPrintUpdateValue == null) { entity.InstallationFootPrint = null; }
+            else
+            {
+                entity.InstallationFootPrint = Cryptocash.Domain.VendingMachine.CreateInstallationFootPrint(InstallationFootPrintUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("RentPerSquareMetre", out var RentPerSquareMetreUpdateValue))
+        {
+            if (RentPerSquareMetreUpdateValue == null) { entity.RentPerSquareMetre = null; }
+            else
+            {
+                entity.RentPerSquareMetre = Cryptocash.Domain.VendingMachine.CreateRentPerSquareMetre(RentPerSquareMetreUpdateValue);
+            }
         }
     }
 }

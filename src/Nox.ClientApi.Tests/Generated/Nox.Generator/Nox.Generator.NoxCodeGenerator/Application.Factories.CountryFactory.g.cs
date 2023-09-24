@@ -48,6 +48,11 @@ public abstract class CountryFactoryBase : IEntityFactory<Country, CountryCreate
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(Country entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private ClientApi.Domain.Country ToEntity(CountryCreateDto createDto)
     {
         var entity = new ClientApi.Domain.Country();
@@ -74,6 +79,48 @@ public abstract class CountryFactoryBase : IEntityFactory<Country, CountryCreate
         }
         if (updateDto.FirstLanguageCode == null) { entity.FirstLanguageCode = null; } else {
             entity.FirstLanguageCode = ClientApi.Domain.Country.CreateFirstLanguageCode(updateDto.FirstLanguageCode.ToValueFromNonNull<System.String>());
+        }
+    }
+
+    private void PartialUpdateEntityInternal(Country entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
+        {
+            if (NameUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Name' can't be null");
+            }
+            {
+                entity.Name = ClientApi.Domain.Country.CreateName(NameUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Population", out var PopulationUpdateValue))
+        {
+            if (PopulationUpdateValue == null) { entity.Population = null; }
+            else
+            {
+                entity.Population = ClientApi.Domain.Country.CreatePopulation(PopulationUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("CountryDebt", out var CountryDebtUpdateValue))
+        {
+            if (CountryDebtUpdateValue == null) { entity.CountryDebt = null; }
+            else
+            {
+                entity.CountryDebt = ClientApi.Domain.Country.CreateCountryDebt(CountryDebtUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("FirstLanguageCode", out var FirstLanguageCodeUpdateValue))
+        {
+            if (FirstLanguageCodeUpdateValue == null) { entity.FirstLanguageCode = null; }
+            else
+            {
+                entity.FirstLanguageCode = ClientApi.Domain.Country.CreateFirstLanguageCode(FirstLanguageCodeUpdateValue);
+            }
         }
     }
 }

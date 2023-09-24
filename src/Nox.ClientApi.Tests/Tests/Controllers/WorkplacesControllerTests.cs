@@ -277,11 +277,42 @@ namespace ClientApi.Tests.Tests.Controllers
             var headers = CreateEtagHeader(postResult!.Etag);
             // Act
 
+            var patchResult = await PatchAsync<WorkplaceUpdateDto>($"{EntityUrl}/{postResult!.Id}", updateDto, headers, false);
+
+            //Assert
+            var errorMessage = await patchResult!.Content.ReadAsStringAsync();
+            errorMessage.Should().Contain("Immutable nuid property Id value is different since it has been initialized");
+            patchResult.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+        }
+
+        [Fact]
+        public async Task Patch_Description_ShouldUpdateDescriptionOnly()
+        {
+            // Arrange
+            var expectedName = _fixture.Create<string>();
+            var expectedDescription = _fixture.Create<string>();
+
+            var createDto = new WorkplaceCreateDto
+            {
+                Name = expectedName,
+                Description = _fixture.Create<string>()
+            };
+
+            var updateDto = new WorkplaceUpdateDto
+            {
+                Description = expectedDescription
+            };
+
+            var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, createDto);
+            var headers = CreateEtagHeader(postResult!.Etag);
+            // Act
+
             var patchResult = await PatchAsync<WorkplaceUpdateDto, WorkplaceDto>($"{EntityUrl}/{postResult!.Id}", updateDto, headers);
 
             //Assert
             patchResult.Should().NotBeNull();
             patchResult!.Name.Should().Be(expectedName);
+            patchResult!.Description.Should().Be(expectedDescription);
         }
 
         [Fact]

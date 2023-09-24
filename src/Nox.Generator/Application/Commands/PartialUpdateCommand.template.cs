@@ -24,23 +24,23 @@ public class PartialUpdate{{entity.Name}}CommandHandler: PartialUpdate{{entity.N
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<{{entity.Name}}> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
 public class PartialUpdate{{entity.Name}}CommandHandlerBase: CommandBase<PartialUpdate{{entity.Name}}Command, {{entity.Name}}>, IRequestHandler<PartialUpdate{{entity.Name}}Command, {{entity.Name}}KeyDto?>
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
-	public IEntityMapper<{{entity.Name}}> EntityMapper { get; }
+	public IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> EntityFactory { get; }
 
 	public PartialUpdate{{entity.Name}}CommandHandlerBase(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<{{entity.Name}}> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<{{entity.Name}}KeyDto?> Handle(PartialUpdate{{entity.Name}}Command request, CancellationToken cancellationToken)
@@ -57,7 +57,7 @@ public class PartialUpdate{{entity.Name}}CommandHandlerBase: CommandBase<Partial
 		{
 			return null;
 		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		{{- if !entity.IsOwnedEntity }}
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		{{- end }}

@@ -40,12 +40,6 @@ public static class ServiceCollectionExtension
 
         services.Scan(scan =>
           scan.FromAssemblies(noxAssemblies)
-          .AddClasses(classes => classes.AssignableTo(typeof(IEntityMapper<>)))
-          .AsImplementedInterfaces()
-          .WithSingletonLifetime());
-
-        services.Scan(scan =>
-          scan.FromAssemblies(noxAssemblies)
           .AddClasses(classes => classes.AssignableTo(typeof(INoxTypeFactory<>)))
           .AsImplementedInterfaces()
           .WithSingletonLifetime());

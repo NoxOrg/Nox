@@ -18,8 +18,15 @@ namespace Nox.Factories
         /// <summary>
         /// Updates an entity using a dto
         /// </summary>
-        /// <param name="entity">Entity to Update</param>
-        /// <param name="updateDto">Dto</param>
+        /// <param name="entity">Entity to update</param>
+        /// <param name="updateDto">Updated dto</param>
         void UpdateEntity(E entity, U updateDto);
+
+        /// <summary>
+        /// Updates some properties of an entity
+        /// </summary>
+        /// <param name="entity">Entity to update</param>
+        /// <param name="updatedProperties">Properties to update</param>
+        void PartialUpdateEntity(E entity, Dictionary<string, dynamic> updatedProperties);
     }
 }

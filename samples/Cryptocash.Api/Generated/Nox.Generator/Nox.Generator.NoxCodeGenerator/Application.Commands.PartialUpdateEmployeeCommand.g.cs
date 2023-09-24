@@ -24,23 +24,23 @@ public class PartialUpdateEmployeeCommandHandler: PartialUpdateEmployeeCommandHa
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<Employee> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
 public class PartialUpdateEmployeeCommandHandlerBase: CommandBase<PartialUpdateEmployeeCommand, Employee>, IRequestHandler<PartialUpdateEmployeeCommand, EmployeeKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<Employee> EntityMapper { get; }
+	public IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateEmployeeCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<Employee> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<EmployeeKeyDto?> Handle(PartialUpdateEmployeeCommand request, CancellationToken cancellationToken)
@@ -54,7 +54,7 @@ public class PartialUpdateEmployeeCommandHandlerBase: CommandBase<PartialUpdateE
 		{
 			return null;
 		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Employee>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);

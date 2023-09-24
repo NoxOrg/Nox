@@ -42,6 +42,11 @@ public abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddress, Ema
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(EmailAddress entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private ClientApi.Domain.EmailAddress ToEntity(EmailAddressCreateDto createDto)
     {
         var entity = new ClientApi.Domain.EmailAddress();
@@ -57,6 +62,28 @@ public abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddress, Ema
         }
         if (updateDto.IsVerified == null) { entity.IsVerified = null; } else {
             entity.IsVerified = ClientApi.Domain.EmailAddress.CreateIsVerified(updateDto.IsVerified.ToValueFromNonNull<System.Boolean>());
+        }
+    }
+
+    private void PartialUpdateEntityInternal(EmailAddress entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("Email", out var EmailUpdateValue))
+        {
+            if (EmailUpdateValue == null) { entity.Email = null; }
+            else
+            {
+                entity.Email = ClientApi.Domain.EmailAddress.CreateEmail(EmailUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("IsVerified", out var IsVerifiedUpdateValue))
+        {
+            if (IsVerifiedUpdateValue == null) { entity.IsVerified = null; }
+            else
+            {
+                entity.IsVerified = ClientApi.Domain.EmailAddress.CreateIsVerified(IsVerifiedUpdateValue);
+            }
         }
     }
 }

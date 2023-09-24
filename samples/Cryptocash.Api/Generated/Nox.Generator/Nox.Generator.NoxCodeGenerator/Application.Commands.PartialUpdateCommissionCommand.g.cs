@@ -24,23 +24,23 @@ public class PartialUpdateCommissionCommandHandler: PartialUpdateCommissionComma
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<Commission> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
 public class PartialUpdateCommissionCommandHandlerBase: CommandBase<PartialUpdateCommissionCommand, Commission>, IRequestHandler<PartialUpdateCommissionCommand, CommissionKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<Commission> EntityMapper { get; }
+	public IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateCommissionCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<Commission> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<CommissionKeyDto?> Handle(PartialUpdateCommissionCommand request, CancellationToken cancellationToken)
@@ -54,7 +54,7 @@ public class PartialUpdateCommissionCommandHandlerBase: CommandBase<PartialUpdat
 		{
 			return null;
 		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Commission>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);

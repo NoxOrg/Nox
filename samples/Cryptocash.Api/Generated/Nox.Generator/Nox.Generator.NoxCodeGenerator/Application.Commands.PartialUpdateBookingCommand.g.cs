@@ -24,23 +24,23 @@ public class PartialUpdateBookingCommandHandler: PartialUpdateBookingCommandHand
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<Booking> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
 public class PartialUpdateBookingCommandHandlerBase: CommandBase<PartialUpdateBookingCommand, Booking>, IRequestHandler<PartialUpdateBookingCommand, BookingKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<Booking> EntityMapper { get; }
+	public IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateBookingCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<Booking> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<BookingKeyDto?> Handle(PartialUpdateBookingCommand request, CancellationToken cancellationToken)
@@ -54,7 +54,7 @@ public class PartialUpdateBookingCommandHandlerBase: CommandBase<PartialUpdateBo
 		{
 			return null;
 		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Booking>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);

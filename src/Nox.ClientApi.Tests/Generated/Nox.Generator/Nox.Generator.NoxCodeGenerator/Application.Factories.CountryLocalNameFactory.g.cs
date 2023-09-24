@@ -42,6 +42,11 @@ public abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLocalN
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(CountryLocalName entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private ClientApi.Domain.CountryLocalName ToEntity(CountryLocalNameCreateDto createDto)
     {
         var entity = new ClientApi.Domain.CountryLocalName();
@@ -55,6 +60,30 @@ public abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLocalN
         entity.Name = ClientApi.Domain.CountryLocalName.CreateName(updateDto.Name.NonNullValue<System.String>());
         if (updateDto.NativeName == null) { entity.NativeName = null; } else {
             entity.NativeName = ClientApi.Domain.CountryLocalName.CreateNativeName(updateDto.NativeName.ToValueFromNonNull<System.String>());
+        }
+    }
+
+    private void PartialUpdateEntityInternal(CountryLocalName entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
+        {
+            if (NameUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Name' can't be null");
+            }
+            {
+                entity.Name = ClientApi.Domain.CountryLocalName.CreateName(NameUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("NativeName", out var NativeNameUpdateValue))
+        {
+            if (NativeNameUpdateValue == null) { entity.NativeName = null; }
+            else
+            {
+                entity.NativeName = ClientApi.Domain.CountryLocalName.CreateNativeName(NativeNameUpdateValue);
+            }
         }
     }
 }

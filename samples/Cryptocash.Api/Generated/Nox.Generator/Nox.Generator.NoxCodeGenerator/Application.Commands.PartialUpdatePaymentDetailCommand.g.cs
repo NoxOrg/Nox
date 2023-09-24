@@ -24,23 +24,23 @@ public class PartialUpdatePaymentDetailCommandHandler: PartialUpdatePaymentDetai
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<PaymentDetail> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
 public class PartialUpdatePaymentDetailCommandHandlerBase: CommandBase<PartialUpdatePaymentDetailCommand, PaymentDetail>, IRequestHandler<PartialUpdatePaymentDetailCommand, PaymentDetailKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<PaymentDetail> EntityMapper { get; }
+	public IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> EntityFactory { get; }
 
 	public PartialUpdatePaymentDetailCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<PaymentDetail> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<PaymentDetailKeyDto?> Handle(PartialUpdatePaymentDetailCommand request, CancellationToken cancellationToken)
@@ -54,7 +54,7 @@ public class PartialUpdatePaymentDetailCommandHandlerBase: CommandBase<PartialUp
 		{
 			return null;
 		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<PaymentDetail>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);

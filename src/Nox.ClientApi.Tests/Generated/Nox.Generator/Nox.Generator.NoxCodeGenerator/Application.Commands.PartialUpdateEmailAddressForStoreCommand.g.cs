@@ -21,23 +21,23 @@ public partial class PartialUpdateEmailAddressForStoreCommandHandler: PartialUpd
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<EmailAddress> entityMapper): base(dbContext, noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> entityFactory) : base(dbContext, noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
 public abstract class PartialUpdateEmailAddressForStoreCommandHandlerBase: CommandBase<PartialUpdateEmailAddressForStoreCommand, EmailAddress>, IRequestHandler <PartialUpdateEmailAddressForStoreCommand, EmailAddressKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
-	public IEntityMapper<EmailAddress> EntityMapper { get; }
+	public IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateEmailAddressForStoreCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<EmailAddress> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<EmailAddressKeyDto?> Handle(PartialUpdateEmailAddressForStoreCommand request, CancellationToken cancellationToken)
@@ -58,7 +58,7 @@ public abstract class PartialUpdateEmailAddressForStoreCommandHandlerBase: Comma
 			return null;
 		}
 
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<EmailAddress>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
