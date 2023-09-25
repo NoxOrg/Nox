@@ -21,28 +21,21 @@ public class NoxSolutionEntityDomainEventsMarkdownExtensionsTests
         // Assert
         var expected = new[]
         {
-            new EntityMarkdownFile
-            {
-                Name = "./domainEvents/ContinentDomainEvents.md",
-                Content = ReadMarkdownFile("ContinentDomainEvents.md"),
-                EntityName = "Continent",
-            },
-            new EntityMarkdownFile
-            {
-                Name = "./domainEvents/CountryDomainEvents.md",
-                Content = ReadMarkdownFile("CountryDomainEvents.md"),
-                EntityName = "Country",
-            },
-            new EntityMarkdownFile
-            {
-                Name = "./domainEvents/CountryLocalNamesDomainEvents.md",
-                Content = ReadMarkdownFile("CountryLocalNamesDomainEvents.md"),
-                EntityName = "CountryLocalNames",
-            },
+            CreateMarkdownFile("CountryLocalNames"),
+            CreateMarkdownFile("Country"),
+            CreateMarkdownFile("Continent"),
         };
 
         actual.Should().BeEquivalentTo(expected);
     }
+
+    private static EntityMarkdownFile CreateMarkdownFile(string entity)
+        => new()
+        {
+            Name = $"./domainEvents/{entity}DomainEvents.md",
+            Content = ReadMarkdownFile($"{entity}DomainEvents.md"),
+            EntityName = entity,
+        };
 
     private static string ReadMarkdownFile(string name)
         => File.ReadAllText($"./Files/Markdown/{name}");

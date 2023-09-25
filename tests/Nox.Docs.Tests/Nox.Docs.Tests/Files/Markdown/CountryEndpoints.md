@@ -23,6 +23,10 @@ This document provides information about the various endpoints available in our 
 ### Partially Update Country
 - **PATCH** `/api/Countries/{key}`
   - Description: Partially update an existing Country.
+ 
+### Delete Country
+- **DELETE** `/api/Countries/{key}`
+  - Description: Delete an existing Country.
 
 ## Owned Relationships Endpoints
 
@@ -36,17 +40,31 @@ This document provides information about the various endpoints available in our 
 - **POST** `/api/Countries/{key}/CountryLocalNames/{relatedKey}`
   - Description: Create a new CountryLocalNames for a specific Country.
 
+#### Delete CountryLocalNames
+- **DELETE** `/api/Countries/{key}/CountryLocalNames/{relatedKey}`
+  - Description: Delete an existing CountryLocalNames for a specific Country.
+
 ## Relationships Endpoints
 
 ### Continent
 
-#### Get Continent relation by ID
-- **GET** `/api/Countries/{key}/Continents/{relatedKey}/$ref`
-  - Description: Retrieve an existing Continents relation for a specific Country.
-
 #### Get Continent relations
 - **GET** `/api/Countries/{key}/Continents/$ref`
-  - Description: Retrieve all Continents relations for a specific Country.
+  - Description: Retrieve all existing Continents relations for a specific Country.
+
+### People
+
+#### Get People relations
+- **GET** `/api/Countries/{key}/Inhabitants/$ref`
+  - Description: Retrieve all existing Peoples relations for a specific Country.
+  
+#### Create People relation
+- **POST** `/api/Countries/{key}/Inhabitants/{relatedKey}/$ref`
+  - Description: Create a new People relation for a specific Country.
+  
+#### Update People relation
+- **PUT** `/api/Countries/{key}/Inhabitants/{relatedKey}/$ref`
+  - Description: Updates an existing People relation for a specific Country.
 
 ## Custom Commands
 
@@ -63,3 +81,5 @@ This document provides information about the various endpoints available in our 
 ## Related Entities
 
 [Continent](ContinentEndpoints.md)
+
+[People](PeopleEndpoints.md)

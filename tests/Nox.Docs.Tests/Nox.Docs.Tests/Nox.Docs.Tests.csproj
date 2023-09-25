@@ -38,6 +38,9 @@
     <None Update="Files\Design\sample.solution.nox.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Files\Markdown\PeopleEndpoints.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Files\Markdown\CountryLocalNamesDomainEvents.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
