@@ -24,23 +24,23 @@ internal class PartialUpdateCountryQualityOfLifeIndexCommandHandler: PartialUpda
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<CountryQualityOfLifeIndex> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<CountryQualityOfLifeIndex, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
 internal class PartialUpdateCountryQualityOfLifeIndexCommandHandlerBase: CommandBase<PartialUpdateCountryQualityOfLifeIndexCommand, CountryQualityOfLifeIndex>, IRequestHandler<PartialUpdateCountryQualityOfLifeIndexCommand, CountryQualityOfLifeIndexKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
-	public IEntityMapper<CountryQualityOfLifeIndex> EntityMapper { get; }
+	public IEntityFactory<CountryQualityOfLifeIndex, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateCountryQualityOfLifeIndexCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<CountryQualityOfLifeIndex> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<CountryQualityOfLifeIndex, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<CountryQualityOfLifeIndexKeyDto?> Handle(PartialUpdateCountryQualityOfLifeIndexCommand request, CancellationToken cancellationToken)
@@ -55,7 +55,7 @@ internal class PartialUpdateCountryQualityOfLifeIndexCommandHandlerBase: Command
 		{
 			return null;
 		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<CountryQualityOfLifeIndex>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);

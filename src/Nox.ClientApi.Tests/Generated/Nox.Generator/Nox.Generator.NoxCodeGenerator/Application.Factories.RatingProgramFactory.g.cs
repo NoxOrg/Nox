@@ -42,6 +42,11 @@ internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgram,
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(RatingProgram entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private ClientApi.Domain.RatingProgram ToEntity(RatingProgramCreateDto createDto)
     {
         var entity = new ClientApi.Domain.RatingProgram();
@@ -54,6 +59,19 @@ internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgram,
     {
         if (updateDto.Name == null) { entity.Name = null; } else {
             entity.Name = ClientApi.Domain.RatingProgram.CreateName(updateDto.Name.ToValueFromNonNull<System.String>());
+        }
+    }
+
+    private void PartialUpdateEntityInternal(RatingProgram entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
+        {
+            if (NameUpdateValue == null) { entity.Name = null; }
+            else
+            {
+                entity.Name = ClientApi.Domain.RatingProgram.CreateName(NameUpdateValue);
+            }
         }
     }
 }

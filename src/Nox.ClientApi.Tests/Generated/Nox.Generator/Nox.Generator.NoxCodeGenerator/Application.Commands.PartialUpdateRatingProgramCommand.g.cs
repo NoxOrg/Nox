@@ -24,23 +24,23 @@ internal class PartialUpdateRatingProgramCommandHandler: PartialUpdateRatingProg
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<RatingProgram> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<RatingProgram, RatingProgramCreateDto, RatingProgramUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
 internal class PartialUpdateRatingProgramCommandHandlerBase: CommandBase<PartialUpdateRatingProgramCommand, RatingProgram>, IRequestHandler<PartialUpdateRatingProgramCommand, RatingProgramKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
-	public IEntityMapper<RatingProgram> EntityMapper { get; }
+	public IEntityFactory<RatingProgram, RatingProgramCreateDto, RatingProgramUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateRatingProgramCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<RatingProgram> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<RatingProgram, RatingProgramCreateDto, RatingProgramUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<RatingProgramKeyDto?> Handle(PartialUpdateRatingProgramCommand request, CancellationToken cancellationToken)
@@ -55,7 +55,7 @@ internal class PartialUpdateRatingProgramCommandHandlerBase: CommandBase<Partial
 		{
 			return null;
 		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<RatingProgram>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
