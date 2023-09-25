@@ -65,14 +65,14 @@ public partial class DeleteAllRefMinimumCashStockToMinimumCashStocksRequiredByVe
 	{ }
 }
 
-public abstract class RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandlerBase<TRequest>: CommandBase<TRequest, MinimumCashStock>, 
+public abstract class RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandlerBase<TRequest> : CommandBase<TRequest, MinimumCashStock>,
 	IRequestHandler <TRequest, bool> where TRequest : RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,20 +106,20 @@ public abstract class RefMinimumCashStockToMinimumCashStocksRequiredByVendingMac
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToMinimumCashStocksRequiredByVendingMachines(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToMinimumCashStocksRequiredByVendingMachines(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToMinimumCashStocksRequiredByVendingMachines(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToMinimumCashStocksRequiredByVendingMachines(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
 				await DbContext.Entry(entity).Collection(x => x.MinimumCashStocksRequiredByVendingMachines).LoadAsync();
-                entity.DeleteAllRefToMinimumCashStocksRequiredByVendingMachines();
-                break;
-        }
+				entity.DeleteAllRefToMinimumCashStocksRequiredByVendingMachines();
+				break;
+		}
 
 		OnCompleted(request, entity);
 

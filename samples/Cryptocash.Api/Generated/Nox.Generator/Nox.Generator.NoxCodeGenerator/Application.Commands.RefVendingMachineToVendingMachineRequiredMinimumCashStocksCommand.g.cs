@@ -65,14 +65,14 @@ public partial class DeleteAllRefVendingMachineToVendingMachineRequiredMinimumCa
 	{ }
 }
 
-public abstract class RefVendingMachineToVendingMachineRequiredMinimumCashStocksCommandHandlerBase<TRequest>: CommandBase<TRequest, VendingMachine>, 
+public abstract class RefVendingMachineToVendingMachineRequiredMinimumCashStocksCommandHandlerBase<TRequest> : CommandBase<TRequest, VendingMachine>,
 	IRequestHandler <TRequest, bool> where TRequest : RefVendingMachineToVendingMachineRequiredMinimumCashStocksCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefVendingMachineToVendingMachineRequiredMinimumCashStocksCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,20 +106,20 @@ public abstract class RefVendingMachineToVendingMachineRequiredMinimumCashStocks
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToVendingMachineRequiredMinimumCashStocks(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToVendingMachineRequiredMinimumCashStocks(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToVendingMachineRequiredMinimumCashStocks(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToVendingMachineRequiredMinimumCashStocks(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
 				await DbContext.Entry(entity).Collection(x => x.VendingMachineRequiredMinimumCashStocks).LoadAsync();
-                entity.DeleteAllRefToVendingMachineRequiredMinimumCashStocks();
-                break;
-        }
+				entity.DeleteAllRefToVendingMachineRequiredMinimumCashStocks();
+				break;
+		}
 
 		OnCompleted(request, entity);
 

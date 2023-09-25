@@ -65,14 +65,14 @@ public partial class DeleteAllRefVendingMachineToVendingMachineRelatedCashStockO
 	{ }
 }
 
-public abstract class RefVendingMachineToVendingMachineRelatedCashStockOrdersCommandHandlerBase<TRequest>: CommandBase<TRequest, VendingMachine>, 
+public abstract class RefVendingMachineToVendingMachineRelatedCashStockOrdersCommandHandlerBase<TRequest> : CommandBase<TRequest, VendingMachine>,
 	IRequestHandler <TRequest, bool> where TRequest : RefVendingMachineToVendingMachineRelatedCashStockOrdersCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefVendingMachineToVendingMachineRelatedCashStockOrdersCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,20 +106,20 @@ public abstract class RefVendingMachineToVendingMachineRelatedCashStockOrdersCom
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToVendingMachineRelatedCashStockOrders(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToVendingMachineRelatedCashStockOrders(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToVendingMachineRelatedCashStockOrders(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToVendingMachineRelatedCashStockOrders(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
 				await DbContext.Entry(entity).Collection(x => x.VendingMachineRelatedCashStockOrders).LoadAsync();
-                entity.DeleteAllRefToVendingMachineRelatedCashStockOrders();
-                break;
-        }
+				entity.DeleteAllRefToVendingMachineRelatedCashStockOrders();
+				break;
+		}
 
 		OnCompleted(request, entity);
 

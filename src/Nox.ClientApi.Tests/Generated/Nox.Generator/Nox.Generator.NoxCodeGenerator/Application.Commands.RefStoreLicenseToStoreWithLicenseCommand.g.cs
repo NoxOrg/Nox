@@ -65,14 +65,14 @@ public partial class DeleteAllRefStoreLicenseToStoreWithLicenseCommandHandler
 	{ }
 }
 
-public abstract class RefStoreLicenseToStoreWithLicenseCommandHandlerBase<TRequest>: CommandBase<TRequest, StoreLicense>, 
+public abstract class RefStoreLicenseToStoreWithLicenseCommandHandlerBase<TRequest> : CommandBase<TRequest, StoreLicense>,
 	IRequestHandler <TRequest, bool> where TRequest : RefStoreLicenseToStoreWithLicenseCommand
 {
 	public ClientApiDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefStoreLicenseToStoreWithLicenseCommandHandlerBase(
 		ClientApiDbContext dbContext,
@@ -106,19 +106,19 @@ public abstract class RefStoreLicenseToStoreWithLicenseCommandHandlerBase<TReque
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToStoreWithLicense(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToStoreWithLicense(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
-                entity.DeleteAllRefToStoreWithLicense();
-                break;
-        }
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToStoreWithLicense(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToStoreWithLicense(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
+				entity.DeleteAllRefToStoreWithLicense();
+				break;
+		}
 
 		OnCompleted(request, entity);
 
