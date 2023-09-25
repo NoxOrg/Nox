@@ -619,6 +619,15 @@ namespace Nox.Solution {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to AzureServiceBusConfig is required when the MessageBrokerProvider is  AzureServiceBus..
+        /// </summary>
+        internal static string IntegrationEventsServerAzureServiceBusConfigRequired {
+            get {
+                return ResourceManager.GetString("IntegrationEventsServerAzureServiceBusConfigRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to apply defaults for infrastructure, messaging, integrationEventServer..
         /// </summary>
         internal static string IntegrationEventsServerDefaultsFalse {

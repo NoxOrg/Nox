@@ -45,11 +45,21 @@ public abstract class SecondTestEntityExactlyOneBase : AuditableEntityBase, IEnt
     /// <summary>
     /// SecondTestEntityExactlyOne Test entity relationship to TestEntityExactlyOneRelationship ExactlyOne TestEntityExactlyOnes
     /// </summary>
-    public virtual TestEntityExactlyOne TestEntityExactlyOneRelationship { get; set; } = null!;
+    public virtual TestEntityExactlyOne TestEntityExactlyOneRelationship { get; private set; } = null!;
 
-    public virtual void CreateRefToTestEntityExactlyOneTestEntityExactlyOneRelationship(TestEntityExactlyOne relatedTestEntityExactlyOne)
+    public virtual void CreateRefToTestEntityExactlyOneRelationship(TestEntityExactlyOne relatedTestEntityExactlyOne)
     {
         TestEntityExactlyOneRelationship = relatedTestEntityExactlyOne;
+    }
+
+    public virtual void DeleteRefToTestEntityExactlyOneRelationship(TestEntityExactlyOne relatedTestEntityExactlyOne)
+    {
+        throw new Exception($"The relationship cannot be deleted.");
+    }
+
+    public virtual void DeleteAllRefToTestEntityExactlyOneRelationship()
+    {
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>

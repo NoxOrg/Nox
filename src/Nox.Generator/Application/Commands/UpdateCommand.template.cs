@@ -17,7 +17,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
 public record Update{{entity.Name}}Command({{primaryKeys}}, {{entity.Name}}UpdateDto EntityDto{{ if !entity.IsOwnedEntity}}, System.Guid? Etag{{end}}) : IRequest<{{entity.Name}}KeyDto?>;
 
-public partial class Update{{entity.Name}}CommandHandler: Update{{entity.Name}}CommandHandlerBase
+internal partial class Update{{entity.Name}}CommandHandler: Update{{entity.Name}}CommandHandlerBase
 {
 	public Update{{entity.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
@@ -28,7 +28,7 @@ public partial class Update{{entity.Name}}CommandHandler: Update{{entity.Name}}C
 	}
 }
 
-public abstract class Update{{entity.Name}}CommandHandlerBase: CommandBase<Update{{entity.Name}}Command, {{entity.Name}}>, IRequestHandler<Update{{entity.Name}}Command, {{entity.Name}}KeyDto?>
+internal abstract class Update{{entity.Name}}CommandHandlerBase: CommandBase<Update{{entity.Name}}Command, {{entity.Name}}>, IRequestHandler<Update{{entity.Name}}Command, {{entity.Name}}KeyDto?>
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
 	private readonly IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> _entityFactory;

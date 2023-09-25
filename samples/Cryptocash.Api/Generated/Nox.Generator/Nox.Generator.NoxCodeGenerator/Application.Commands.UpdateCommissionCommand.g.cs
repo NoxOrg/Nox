@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Commands;
 
 public record UpdateCommissionCommand(System.Int64 keyId, CommissionUpdateDto EntityDto, System.Guid? Etag) : IRequest<CommissionKeyDto?>;
 
-public partial class UpdateCommissionCommandHandler: UpdateCommissionCommandHandlerBase
+internal partial class UpdateCommissionCommandHandler: UpdateCommissionCommandHandlerBase
 {
 	public UpdateCommissionCommandHandler(
 		CryptocashDbContext dbContext,
@@ -28,7 +28,7 @@ public partial class UpdateCommissionCommandHandler: UpdateCommissionCommandHand
 	}
 }
 
-public abstract class UpdateCommissionCommandHandlerBase: CommandBase<UpdateCommissionCommand, Commission>, IRequestHandler<UpdateCommissionCommand, CommissionKeyDto?>
+internal abstract class UpdateCommissionCommandHandlerBase: CommandBase<UpdateCommissionCommand, Commission>, IRequestHandler<UpdateCommissionCommand, CommissionKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	private readonly IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> _entityFactory;

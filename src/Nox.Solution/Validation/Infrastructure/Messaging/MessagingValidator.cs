@@ -7,12 +7,14 @@ namespace Nox.Solution.Validation
     {
         public MessagingValidator(IEnumerable<ServerBase>? servers)
         {
-            RuleFor(p => p.IntegrationEventServer!)
-                .SetValidator(v => new ServerBaseValidator("the infrastructure, messaging, integration event server", servers));
-            
             RuleFor(p => p.IntegrationEventServer!.ApplyDefaults())
                 .NotEqual(false)
                 .WithMessage(e => string.Format(ValidationResources.IntegrationEventsServerDefaultsFalse));
+
+            RuleFor(p => p.IntegrationEventServer!.AzureServiceBusConfig)
+                .NotNull()
+                .When(p => p.IntegrationEventServer!.Provider == MessageBrokerProvider.AzureServiceBus)                
+                .WithMessage(e => string.Format(ValidationResources.IntegrationEventsServerAzureServiceBusConfigRequired));
         }
     }
 }

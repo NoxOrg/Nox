@@ -45,11 +45,21 @@ public abstract class TestEntityZeroOrOneToExactlyOneBase : AuditableEntityBase,
     /// <summary>
     /// TestEntityZeroOrOneToExactlyOne Test entity relationship to TestEntityExactlyOneToZeroOrOne ZeroOrOne TestEntityExactlyOneToZeroOrOnes
     /// </summary>
-    public virtual TestEntityExactlyOneToZeroOrOne? TestEntityExactlyOneToZeroOrOne { get; set; } = null!;
+    public virtual TestEntityExactlyOneToZeroOrOne? TestEntityExactlyOneToZeroOrOne { get; private set; } = null!;
 
-    public virtual void CreateRefToTestEntityExactlyOneToZeroOrOneTestEntityExactlyOneToZeroOrOne(TestEntityExactlyOneToZeroOrOne relatedTestEntityExactlyOneToZeroOrOne)
+    public virtual void CreateRefToTestEntityExactlyOneToZeroOrOne(TestEntityExactlyOneToZeroOrOne relatedTestEntityExactlyOneToZeroOrOne)
     {
         TestEntityExactlyOneToZeroOrOne = relatedTestEntityExactlyOneToZeroOrOne;
+    }
+
+    public virtual void DeleteRefToTestEntityExactlyOneToZeroOrOne(TestEntityExactlyOneToZeroOrOne relatedTestEntityExactlyOneToZeroOrOne)
+    {
+        TestEntityExactlyOneToZeroOrOne = null;
+    }
+
+    public virtual void DeleteAllRefToTestEntityExactlyOneToZeroOrOne()
+    {
+        TestEntityExactlyOneToZeroOrOne = null;
     }
 
     /// <summary>

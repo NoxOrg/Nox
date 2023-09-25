@@ -20,7 +20,7 @@ namespace Cryptocash.Application.Commands;
 
 public record CreateVendingMachineCommand(VendingMachineCreateDto EntityDto) : IRequest<VendingMachineKeyDto>;
 
-public partial class CreateVendingMachineCommandHandler: CreateVendingMachineCommandHandlerBase
+internal partial class CreateVendingMachineCommandHandler: CreateVendingMachineCommandHandlerBase
 {
 	public CreateVendingMachineCommandHandler(
 		CryptocashDbContext dbContext,
@@ -38,7 +38,7 @@ public partial class CreateVendingMachineCommandHandler: CreateVendingMachineCom
 }
 
 
-public abstract class CreateVendingMachineCommandHandlerBase: CommandBase<CreateVendingMachineCommand,VendingMachine>, IRequestHandler <CreateVendingMachineCommand, VendingMachineKeyDto>
+internal abstract class CreateVendingMachineCommandHandlerBase: CommandBase<CreateVendingMachineCommand,VendingMachine>, IRequestHandler <CreateVendingMachineCommand, VendingMachineKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> _entityFactory;

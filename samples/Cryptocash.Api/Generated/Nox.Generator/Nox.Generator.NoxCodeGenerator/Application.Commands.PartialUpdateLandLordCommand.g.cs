@@ -18,7 +18,7 @@ namespace Cryptocash.Application.Commands;
 
 public record PartialUpdateLandLordCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <LandLordKeyDto?>;
 
-public class PartialUpdateLandLordCommandHandler: PartialUpdateLandLordCommandHandlerBase
+internal class PartialUpdateLandLordCommandHandler: PartialUpdateLandLordCommandHandlerBase
 {
 	public PartialUpdateLandLordCommandHandler(
 		CryptocashDbContext dbContext,
@@ -28,7 +28,7 @@ public class PartialUpdateLandLordCommandHandler: PartialUpdateLandLordCommandHa
 	{
 	}
 }
-public class PartialUpdateLandLordCommandHandlerBase: CommandBase<PartialUpdateLandLordCommand, LandLord>, IRequestHandler<PartialUpdateLandLordCommand, LandLordKeyDto?>
+internal class PartialUpdateLandLordCommandHandlerBase: CommandBase<PartialUpdateLandLordCommand, LandLord>, IRequestHandler<PartialUpdateLandLordCommand, LandLordKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<LandLord> EntityMapper { get; }

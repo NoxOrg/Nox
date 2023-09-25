@@ -55,6 +55,15 @@ public class SolutionBuilderTests
         Assert.Throws<NoxSolutionConfigurationException>(() => noxConfigBuilder.Build());
     }
 
+    [Fact]    
+    public void When_InMemmory_AzureServiceBusConfig_Must_Be_Null()
+    {
+        var noxConfigBuilder = new NoxSolutionBuilder()
+       .UseYamlFile($"./files/invalid-messaging.inmemory.solution.nox.yaml");
+
+        Assert.Throws<NoxSolutionConfigurationException>(() => noxConfigBuilder.Build());
+    }
+
     [Fact]
     public void Throw_if_missing_yaml()
     {

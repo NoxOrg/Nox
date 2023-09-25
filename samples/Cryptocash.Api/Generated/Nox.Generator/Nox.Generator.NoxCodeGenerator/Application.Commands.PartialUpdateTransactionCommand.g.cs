@@ -18,7 +18,7 @@ namespace Cryptocash.Application.Commands;
 
 public record PartialUpdateTransactionCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <TransactionKeyDto?>;
 
-public class PartialUpdateTransactionCommandHandler: PartialUpdateTransactionCommandHandlerBase
+internal class PartialUpdateTransactionCommandHandler: PartialUpdateTransactionCommandHandlerBase
 {
 	public PartialUpdateTransactionCommandHandler(
 		CryptocashDbContext dbContext,
@@ -28,7 +28,7 @@ public class PartialUpdateTransactionCommandHandler: PartialUpdateTransactionCom
 	{
 	}
 }
-public class PartialUpdateTransactionCommandHandlerBase: CommandBase<PartialUpdateTransactionCommand, Transaction>, IRequestHandler<PartialUpdateTransactionCommand, TransactionKeyDto?>
+internal class PartialUpdateTransactionCommandHandlerBase: CommandBase<PartialUpdateTransactionCommand, Transaction>, IRequestHandler<PartialUpdateTransactionCommand, TransactionKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<Transaction> EntityMapper { get; }

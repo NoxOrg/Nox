@@ -14,7 +14,7 @@ using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
 public record PartialUpdateExchangeRateForCurrencyCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <ExchangeRateKeyDto?>;
-public partial class PartialUpdateExchangeRateForCurrencyCommandHandler: PartialUpdateExchangeRateForCurrencyCommandHandlerBase
+internal partial class PartialUpdateExchangeRateForCurrencyCommandHandler: PartialUpdateExchangeRateForCurrencyCommandHandlerBase
 {
 	public PartialUpdateExchangeRateForCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
@@ -24,7 +24,7 @@ public partial class PartialUpdateExchangeRateForCurrencyCommandHandler: Partial
 	{
 	}
 }
-public abstract class PartialUpdateExchangeRateForCurrencyCommandHandlerBase: CommandBase<PartialUpdateExchangeRateForCurrencyCommand, ExchangeRate>, IRequestHandler <PartialUpdateExchangeRateForCurrencyCommand, ExchangeRateKeyDto?>
+internal abstract class PartialUpdateExchangeRateForCurrencyCommandHandlerBase: CommandBase<PartialUpdateExchangeRateForCurrencyCommand, ExchangeRate>, IRequestHandler <PartialUpdateExchangeRateForCurrencyCommand, ExchangeRateKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<ExchangeRate> EntityMapper { get; }

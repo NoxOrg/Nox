@@ -23,7 +23,7 @@ public abstract record RefCountryToCountryUsedByCommissionsCommand(CountryKeyDto
 public record CreateRefCountryToCountryUsedByCommissionsCommand(CountryKeyDto EntityKeyDto, CommissionKeyDto RelatedEntityKeyDto)
 	: RefCountryToCountryUsedByCommissionsCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefCountryToCountryUsedByCommissionsCommandHandler
+internal partial class CreateRefCountryToCountryUsedByCommissionsCommandHandler
 	: RefCountryToCountryUsedByCommissionsCommandHandlerBase<CreateRefCountryToCountryUsedByCommissionsCommand>
 {
 	public CreateRefCountryToCountryUsedByCommissionsCommandHandler(
@@ -38,7 +38,7 @@ public partial class CreateRefCountryToCountryUsedByCommissionsCommandHandler
 public record DeleteRefCountryToCountryUsedByCommissionsCommand(CountryKeyDto EntityKeyDto, CommissionKeyDto RelatedEntityKeyDto)
 	: RefCountryToCountryUsedByCommissionsCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefCountryToCountryUsedByCommissionsCommandHandler
+internal partial class DeleteRefCountryToCountryUsedByCommissionsCommandHandler
 	: RefCountryToCountryUsedByCommissionsCommandHandlerBase<DeleteRefCountryToCountryUsedByCommissionsCommand>
 {
 	public DeleteRefCountryToCountryUsedByCommissionsCommandHandler(
@@ -53,7 +53,7 @@ public partial class DeleteRefCountryToCountryUsedByCommissionsCommandHandler
 public record DeleteAllRefCountryToCountryUsedByCommissionsCommand(CountryKeyDto EntityKeyDto)
 	: RefCountryToCountryUsedByCommissionsCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefCountryToCountryUsedByCommissionsCommandHandler
+internal partial class DeleteAllRefCountryToCountryUsedByCommissionsCommandHandler
 	: RefCountryToCountryUsedByCommissionsCommandHandlerBase<DeleteAllRefCountryToCountryUsedByCommissionsCommand>
 {
 	public DeleteAllRefCountryToCountryUsedByCommissionsCommandHandler(
@@ -65,7 +65,7 @@ public partial class DeleteAllRefCountryToCountryUsedByCommissionsCommandHandler
 	{ }
 }
 
-public abstract class RefCountryToCountryUsedByCommissionsCommandHandlerBase<TRequest>: CommandBase<TRequest, Country>, 
+internal abstract class RefCountryToCountryUsedByCommissionsCommandHandlerBase<TRequest>: CommandBase<TRequest, Country>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefCountryToCountryUsedByCommissionsCommand
 {
 	public CryptocashDbContext DbContext { get; }

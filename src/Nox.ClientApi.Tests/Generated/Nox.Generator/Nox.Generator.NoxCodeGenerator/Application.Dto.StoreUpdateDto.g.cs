@@ -34,6 +34,10 @@ public partial class StoreUpdateDto : IEntityDto<Store>
     [Required(ErrorMessage = "Location is required")]
     
     public LatLongDto Location { get; set; } = default!;
+    /// <summary>
+    /// Opening day (Optional).
+    /// </summary>
+    public System.DateTimeOffset? OpeningDay { get; set; }
 
     /// <summary>
     /// Store Owner of the Store ZeroOrOne StoreOwners

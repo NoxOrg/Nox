@@ -19,7 +19,7 @@ using {{entity.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 public record Create{{entity.Name }}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}CreateDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
 
-public partial class Create{{entity.Name}}For{{parent.Name}}CommandHandler: Create{{entity.Name}}For{{parent.Name}}CommandHandlerBase
+internal partial class Create{{entity.Name}}For{{parent.Name}}CommandHandler: Create{{entity.Name}}For{{parent.Name}}CommandHandlerBase
 {
 	public Create{{entity.Name}}For{{parent.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
@@ -30,7 +30,7 @@ public partial class Create{{entity.Name}}For{{parent.Name}}CommandHandler: Crea
 	{
 	}
 }
-public abstract class Create{{entity.Name}}For{{parent.Name}}CommandHandlerBase: CommandBase<Create{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}>, IRequestHandler<Create{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}KeyDto?>
+internal abstract class Create{{entity.Name}}For{{parent.Name}}CommandHandlerBase: CommandBase<Create{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}>, IRequestHandler<Create{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}KeyDto?>
 {
 	private readonly {{codeGeneratorState.Solution.Name}}DbContext _dbContext;
 	private readonly IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> _entityFactory;

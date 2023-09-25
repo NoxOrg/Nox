@@ -294,13 +294,12 @@ public class SolutionDeserializationTests
         Assert.NotNull(noxConfig.Infrastructure.Messaging);
         
         Assert.NotNull(noxConfig.Infrastructure.Messaging.IntegrationEventServer);
-        Assert.Equal("IntegrationBus", noxConfig.Infrastructure.Messaging.IntegrationEventServer.Name);
-        Assert.Equal("rabbitmq://localhost/", noxConfig.Infrastructure.Messaging.IntegrationEventServer.ServerUri);
-        Assert.Equal(MessagingServerProvider.RabbitMq, noxConfig.Infrastructure.Messaging.IntegrationEventServer.Provider);
-        Assert.Equal(5672, noxConfig.Infrastructure.Messaging.IntegrationEventServer.Port);
-        Assert.Equal("guest", noxConfig.Infrastructure.Messaging.IntegrationEventServer.User);
-        Assert.Equal("guest", noxConfig.Infrastructure.Messaging.IntegrationEventServer.Password);
-        
+        Assert.NotNull(noxConfig.Infrastructure.Messaging.IntegrationEventServer.AzureServiceBusConfig);
+        Assert.Equal("sb://your-servicebus-name.servicebus.windows.net/", noxConfig.Infrastructure.Messaging.IntegrationEventServer.AzureServiceBusConfig.Endpoint);
+        Assert.Equal("your-shared-access-key-name", noxConfig.Infrastructure.Messaging.IntegrationEventServer.AzureServiceBusConfig.SharedAccessKeyName);
+        Assert.Equal("your-shared-access-key", noxConfig.Infrastructure.Messaging.IntegrationEventServer.AzureServiceBusConfig.SharedAccessKey);
+
+
         Assert.NotNull(noxConfig.Infrastructure.Endpoints);
         Assert.NotNull(noxConfig.Infrastructure.Endpoints.ApiServer);
         Assert.Equal("SampleApiServer", noxConfig.Infrastructure.Endpoints.ApiServer.Name);

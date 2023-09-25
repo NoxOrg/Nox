@@ -18,7 +18,7 @@ namespace Cryptocash.Application.Commands;
 
 public record PartialUpdateVendingMachineCommand(System.Guid keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <VendingMachineKeyDto?>;
 
-public class PartialUpdateVendingMachineCommandHandler: PartialUpdateVendingMachineCommandHandlerBase
+internal class PartialUpdateVendingMachineCommandHandler: PartialUpdateVendingMachineCommandHandlerBase
 {
 	public PartialUpdateVendingMachineCommandHandler(
 		CryptocashDbContext dbContext,
@@ -28,7 +28,7 @@ public class PartialUpdateVendingMachineCommandHandler: PartialUpdateVendingMach
 	{
 	}
 }
-public class PartialUpdateVendingMachineCommandHandlerBase: CommandBase<PartialUpdateVendingMachineCommand, VendingMachine>, IRequestHandler<PartialUpdateVendingMachineCommand, VendingMachineKeyDto?>
+internal class PartialUpdateVendingMachineCommandHandlerBase: CommandBase<PartialUpdateVendingMachineCommand, VendingMachine>, IRequestHandler<PartialUpdateVendingMachineCommand, VendingMachineKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<VendingMachine> EntityMapper { get; }

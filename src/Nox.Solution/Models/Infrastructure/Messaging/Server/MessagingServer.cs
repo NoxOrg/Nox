@@ -1,34 +1,28 @@
 ﻿using Nox.Types.Schema;
-using Nox.Solution.Builders;
 
 namespace Nox.Solution;
 
 [GenerateJsonSchema]
-public class MessagingServer : ServerBase
+[AdditionalProperties(false)]
+public class MessagingServer 
 {
     [Required]
+    [Pattern(@"^[^\s]*$")]
+    [Title("The unique name of this server component in the solution.")]
+    [Description("The name of this server component in the solution. The name must be unique in the solution configuration")]
+    public string Name { get; internal set; } = null!;
+
+    [Required]
     [Title("The messaging server provider.")]
-    [Description("The provider used for this messaging server. Examples include RabbitMQ, Azure ServiceBus, Amazon SQS and InMemory.")]
-    [AdditionalProperties(false)]
-    public MessagingServerProvider Provider { get; internal set; } = MessagingServerProvider.InMemory;
-    
+    [Description("The provider used for this messaging server. Examples Azure ServiceBus and InMemory.")]    
+    public MessageBrokerProvider Provider { get; internal set; } = MessageBrokerProvider.InMemory;
+
+    [IfEquals(nameof(Provider), MessageBrokerProvider.AzureServiceBus)]
+    [Title("Azure Service Bus Configuration, required if Provider is AzureServiceBus.")]
+    public AzureServiceBusConfig? AzureServiceBusConfig { get; set; }
+
     internal bool ApplyDefaults()
     {
-        switch (Provider)
-        {
-            case MessagingServerProvider.RabbitMq:
-            case MessagingServerProvider.AzureServiceBus:
-                var builder = new NoxUriBuilder(this, MessagingServerProviderHelpers.GetProviderScheme(Provider), "infrastructure, messaging, integrationEventServer");
-                ServerUri = builder.Uri!.ToString();
-                break;
-            case MessagingServerProvider.AmazonSqs:
-                // ServerUri must contain explicit arn e.g. arn:aws:sqs:region:account-id:queue-name
-                break;
-            case MessagingServerProvider.InMemory:
-                ServerUri = "inmemory";
-                break;
-        }
-        
         return true;
     }
 }

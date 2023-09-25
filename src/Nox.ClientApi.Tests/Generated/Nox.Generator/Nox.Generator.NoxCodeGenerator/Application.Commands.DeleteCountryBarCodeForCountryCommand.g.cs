@@ -16,7 +16,7 @@ namespace ClientApi.Application.Commands;
 public record DeleteCountryBarCodeForCountryCommand(CountryKeyDto ParentKeyDto) : IRequest <bool>;
 
 
-public partial class DeleteCountryBarCodeForCountryCommandHandler: CommandBase<DeleteCountryBarCodeForCountryCommand, CountryBarCode>, IRequestHandler <DeleteCountryBarCodeForCountryCommand, bool>
+internal partial class DeleteCountryBarCodeForCountryCommandHandler: CommandBase<DeleteCountryBarCodeForCountryCommand, CountryBarCode>, IRequestHandler <DeleteCountryBarCodeForCountryCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 

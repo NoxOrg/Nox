@@ -76,16 +76,6 @@ infrastructure:
       user: ${{      env.CACHE_USER         }}
       password: ${{ env.CACHE_PASSWORD}}
 
-  messaging:
-
-    integrationEventServer:
-      name: IntegrationBus
-      provider: rabbitMq
-      serverUri: rabbitmq://localhost
-      port: 5672
-      user: guest
-      password: guest
-
   security:
     secrets:
       organizationSecretsServer:

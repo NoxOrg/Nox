@@ -25,16 +25,11 @@ namespace ClientApi.Presentation.Api.OData;
 
 public partial class WorkplacesController : WorkplacesControllerBase
 {
-    public WorkplacesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    public WorkplacesController(IMediator mediator):base(mediator)
     {}
 }
 public abstract class WorkplacesControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -42,11 +37,9 @@ public abstract class WorkplacesControllerBase : ODataController
     protected readonly IMediator _mediator;
     
     public WorkplacesControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
     }
     

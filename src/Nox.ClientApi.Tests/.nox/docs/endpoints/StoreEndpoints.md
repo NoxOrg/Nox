@@ -76,6 +76,30 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Stores/{key}/Ownership/$ref`
   - Description: Delete all existing StoreOwners relations for a specific Store.
 
+### StoreLicense
+
+#### Get StoreLicense relations
+- **GET** `/api/Stores/{key}/License/$ref`
+  - Description: Retrieve all existing StoreLicenses relations for a specific Store.
+  
+#### Create StoreLicense relation
+- **POST** `/api/Stores/{key}/License/{relatedKey}/$ref`
+  - Description: Create a new StoreLicense relation for a specific Store.
+  
+#### Update StoreLicense relation
+- **PUT** `/api/Stores/{key}/License/{relatedKey}/$ref`
+  - Description: Updates an existing StoreLicense relation for a specific Store.
+
+#### Delete StoreLicense relation
+- **DELETE** `/api/Stores/{key}/License/{relatedKey}/$ref`
+  - Description: Delete an existing StoreLicense relation for a specific Store.
+
+#### Delete StoreLicense relations
+- **DELETE** `/api/Stores/{key}/License/$ref`
+  - Description: Delete all existing StoreLicenses relations for a specific Store.
+
 ## Related Entities
 
 [StoreOwner](StoreOwnerEndpoints.md)
+
+[StoreLicense](StoreLicenseEndpoints.md)

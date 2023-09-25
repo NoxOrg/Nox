@@ -19,7 +19,7 @@ using CountryBarCode = ClientApi.Domain.CountryBarCode;
 namespace ClientApi.Application.Commands;
 public record CreateCountryBarCodeForCountryCommand(CountryKeyDto ParentKeyDto, CountryBarCodeCreateDto EntityDto, System.Guid? Etag) : IRequest <CountryBarCodeKeyDto?>;
 
-public partial class CreateCountryBarCodeForCountryCommandHandler: CreateCountryBarCodeForCountryCommandHandlerBase
+internal partial class CreateCountryBarCodeForCountryCommandHandler: CreateCountryBarCodeForCountryCommandHandlerBase
 {
 	public CreateCountryBarCodeForCountryCommandHandler(
 		ClientApiDbContext dbContext,
@@ -30,7 +30,7 @@ public partial class CreateCountryBarCodeForCountryCommandHandler: CreateCountry
 	{
 	}
 }
-public abstract class CreateCountryBarCodeForCountryCommandHandlerBase: CommandBase<CreateCountryBarCodeForCountryCommand, CountryBarCode>, IRequestHandler<CreateCountryBarCodeForCountryCommand, CountryBarCodeKeyDto?>
+internal abstract class CreateCountryBarCodeForCountryCommandHandlerBase: CommandBase<CreateCountryBarCodeForCountryCommand, CountryBarCode>, IRequestHandler<CreateCountryBarCodeForCountryCommand, CountryBarCodeKeyDto?>
 {
 	private readonly ClientApiDbContext _dbContext;
 	private readonly IEntityFactory<CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto> _entityFactory;

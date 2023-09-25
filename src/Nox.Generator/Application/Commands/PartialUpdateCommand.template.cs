@@ -18,7 +18,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
 public record PartialUpdate{{entity.Name}}Command({{primaryKeys}}, Dictionary<string, dynamic> UpdatedProperties{{ if !entity.IsOwnedEntity }}, System.Guid? Etag{{end}}) : IRequest <{{entity.Name}}KeyDto?>;
 
-public class PartialUpdate{{entity.Name}}CommandHandler: PartialUpdate{{entity.Name}}CommandHandlerBase
+internal class PartialUpdate{{entity.Name}}CommandHandler: PartialUpdate{{entity.Name}}CommandHandlerBase
 {
 	public PartialUpdate{{entity.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
@@ -28,7 +28,7 @@ public class PartialUpdate{{entity.Name}}CommandHandler: PartialUpdate{{entity.N
 	{
 	}
 }
-public class PartialUpdate{{entity.Name}}CommandHandlerBase: CommandBase<PartialUpdate{{entity.Name}}Command, {{entity.Name}}>, IRequestHandler<PartialUpdate{{entity.Name}}Command, {{entity.Name}}KeyDto?>
+internal class PartialUpdate{{entity.Name}}CommandHandlerBase: CommandBase<PartialUpdate{{entity.Name}}Command, {{entity.Name}}>, IRequestHandler<PartialUpdate{{entity.Name}}Command, {{entity.Name}}KeyDto?>
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
 	public IEntityMapper<{{entity.Name}}> EntityMapper { get; }

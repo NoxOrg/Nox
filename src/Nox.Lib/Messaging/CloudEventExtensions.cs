@@ -14,8 +14,6 @@ namespace Nox.Messaging
             cloudEventRecord.dataschema = cloudEvent.DataSchema;
             cloudEventRecord.time = cloudEvent.Time;
             cloudEventRecord.subject = cloudEvent.Subject;
-            cloudEventRecord.xcorrelationid = Guid.NewGuid();
         }
     }
-
 }

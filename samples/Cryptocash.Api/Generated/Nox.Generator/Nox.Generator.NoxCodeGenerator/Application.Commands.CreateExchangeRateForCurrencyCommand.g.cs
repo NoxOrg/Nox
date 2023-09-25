@@ -19,7 +19,7 @@ using ExchangeRate = Cryptocash.Domain.ExchangeRate;
 namespace Cryptocash.Application.Commands;
 public record CreateExchangeRateForCurrencyCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateCreateDto EntityDto, System.Guid? Etag) : IRequest <ExchangeRateKeyDto?>;
 
-public partial class CreateExchangeRateForCurrencyCommandHandler: CreateExchangeRateForCurrencyCommandHandlerBase
+internal partial class CreateExchangeRateForCurrencyCommandHandler: CreateExchangeRateForCurrencyCommandHandlerBase
 {
 	public CreateExchangeRateForCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
@@ -30,7 +30,7 @@ public partial class CreateExchangeRateForCurrencyCommandHandler: CreateExchange
 	{
 	}
 }
-public abstract class CreateExchangeRateForCurrencyCommandHandlerBase: CommandBase<CreateExchangeRateForCurrencyCommand, ExchangeRate>, IRequestHandler<CreateExchangeRateForCurrencyCommand, ExchangeRateKeyDto?>
+internal abstract class CreateExchangeRateForCurrencyCommandHandlerBase: CommandBase<CreateExchangeRateForCurrencyCommand, ExchangeRate>, IRequestHandler<CreateExchangeRateForCurrencyCommand, ExchangeRateKeyDto?>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto> _entityFactory;
