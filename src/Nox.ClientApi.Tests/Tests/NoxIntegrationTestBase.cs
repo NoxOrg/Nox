@@ -155,15 +155,19 @@ public abstract class NoxIntegrationTestBase :  IClassFixture<NoxTestContainerSe
         return await PutAsync<TValue, TResult>(requestUrl, data, new());
     }
 
-    public async Task PatchAsync<TValue>(string requestUrl, TValue delta, Dictionary<string, IEnumerable<string>> headers)
+    public async Task<HttpResponseMessage?> PatchAsync<TValue>(string requestUrl, TValue delta, Dictionary<string, IEnumerable<string>> headers, bool throwOnError = true)
         where TValue : class
     {
         using var httpClient = _appFactory.CreateClient();
 
         AddHeaders(httpClient, headers ?? new());
 
-        var request = await httpClient.PatchAsJsonAsync(requestUrl, delta);
-        request.EnsureSuccessStatusCode();
+        var responseMessage = await httpClient.PatchAsJsonAsync(requestUrl, delta);
+
+        if (throwOnError)
+            responseMessage.EnsureSuccessStatusCode();
+
+        return responseMessage;
     }
 
     public async Task PatchAsync<TValue>(string requestUrl, TValue delta)

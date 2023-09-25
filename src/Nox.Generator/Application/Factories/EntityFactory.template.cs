@@ -55,6 +55,11 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}, {{en
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity({{entity.Name}} entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private {{codeGeneratorState.DomainNameSpace}}.{{ entity.Name }} ToEntity({{entity.Name}}CreateDto createDto)
     {
         var entity = new {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}();
@@ -121,6 +126,38 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}, {{en
             {{- end}});
         }
         {{- end }}
+        {{- end }}
+
+        {{- for key in entity.Keys ~}}
+		    {{- if key.Type == "Nuid" }}
+		entity.Ensure{{key.Name}}();
+		    {{- end }}
+		{{- end }}
+    }
+
+    private void PartialUpdateEntityInternal({{entity.Name}} entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        {{- for attribute in entity.Attributes }}
+            {{- if !IsNoxTypeReadable attribute.Type || attribute.Type == "Formula" -}}
+                {{ continue; }}
+            {{- end}}
+
+        if (updatedProperties.TryGetValue("{{attribute.Name}}", out var {{attribute.Name}}UpdateValue))
+        {
+            {{- if attribute.IsRequired }}
+            if ({{attribute.Name}}UpdateValue == null)
+            {
+                throw new ArgumentException("Attribute '{{attribute.Name}}' can't be null");
+            }
+            {{- else }}
+            if ({{attribute.Name}}UpdateValue == null) { entity.{{attribute.Name}} = null; }
+            else
+            {{- end }}
+            {
+                entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}.Create{{attribute.Name}}({{attribute.Name}}UpdateValue);
+            }
+        }
+
         {{- end }}
 
         {{- for key in entity.Keys ~}}

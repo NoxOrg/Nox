@@ -24,23 +24,23 @@ internal class PartialUpdateCurrencyCommandHandler: PartialUpdateCurrencyCommand
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<Currency> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
 internal class PartialUpdateCurrencyCommandHandlerBase: CommandBase<PartialUpdateCurrencyCommand, Currency>, IRequestHandler<PartialUpdateCurrencyCommand, CurrencyKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<Currency> EntityMapper { get; }
+	public IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateCurrencyCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<Currency> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<CurrencyKeyDto?> Handle(PartialUpdateCurrencyCommand request, CancellationToken cancellationToken)
@@ -54,7 +54,7 @@ internal class PartialUpdateCurrencyCommandHandlerBase: CommandBase<PartialUpdat
 		{
 			return null;
 		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Currency>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);

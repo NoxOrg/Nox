@@ -24,23 +24,23 @@ internal class PartialUpdateStoreLicenseCommandHandler: PartialUpdateStoreLicens
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<StoreLicense> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
 internal class PartialUpdateStoreLicenseCommandHandlerBase: CommandBase<PartialUpdateStoreLicenseCommand, StoreLicense>, IRequestHandler<PartialUpdateStoreLicenseCommand, StoreLicenseKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
-	public IEntityMapper<StoreLicense> EntityMapper { get; }
+	public IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateStoreLicenseCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<StoreLicense> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<StoreLicenseKeyDto?> Handle(PartialUpdateStoreLicenseCommand request, CancellationToken cancellationToken)
@@ -54,7 +54,7 @@ internal class PartialUpdateStoreLicenseCommandHandlerBase: CommandBase<PartialU
 		{
 			return null;
 		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<StoreLicense>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
