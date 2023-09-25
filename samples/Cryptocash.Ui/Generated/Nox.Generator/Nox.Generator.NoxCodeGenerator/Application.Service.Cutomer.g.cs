@@ -23,7 +23,7 @@ public class CustomerService : IEntityService
 
         rtnApiUiService.Url = "https://localhost:44310/api/Customers";
 
-        rtnApiUiService.Paging = new ApiPaging()
+        rtnApiUiService.Paging = new Paging()
         {
             CurrentPage = 0,
             CurrentPageSize = 5,

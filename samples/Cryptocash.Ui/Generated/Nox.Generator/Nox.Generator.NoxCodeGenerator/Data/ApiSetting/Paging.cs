@@ -3,7 +3,7 @@ namespace Cryptocash.Ui.Generated.Data.ApiSetting
     /// <summary>
     /// Setting class to define Pagination filter options used on returned result entities from target Api in the Ui
     /// </summary>
-    public class ApiPaging
+    public class Paging
     {
         /// <summary>
         /// List of possible Page Size options for use on Datagrid in Ui

@@ -1,13 +1,13 @@
 ﻿@using Cryptocash.Ui
 @using System.Dynamic
 @using System.Data
-@using Cryptocash.Ui.Domain;
+@using Cryptocash.Ui.Application.Dto;
 @using Cryptocash.Ui.Generated.Pages.Generic
 @using MudBlazor
 
 @page "/Employees"
 
-@inherits ListEntityPageBase<Employee>
+@inherits ListEntityPageBase<EmployeeDto>
 
 @if (!IsLoading)
 {

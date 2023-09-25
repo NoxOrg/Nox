@@ -23,108 +23,82 @@ public class VendingMachineService : IEntityService
 
         rtnApiUiService.Url = "https://localhost:44310/api/VendingMachines";
 
-        rtnApiUiService.OrderList = new List<ApiOrder> {
-            new ApiOrder()
+        rtnApiUiService.OrderList = new List<SortOrder> {
+            new SortOrder()
             {
                 PropertyName = "SerialNumber",
-                DefaultOrderDirection = ApiOrderDirection.Descending,
-                OrderType = ApiOrderType.Ordered
+                DefaultOrderDirection = SortOrderDirection.Descending,
+                CanSort = true
             },
-            new ApiOrder()
+            new SortOrder()
             {
                 PropertyName = "MacAddress",
-                DefaultOrderDirection = ApiOrderDirection.None,
-                OrderType = ApiOrderType.Ordered
+                DefaultOrderDirection = SortOrderDirection.None,
+                CanSort = true
             },
-            new ApiOrder()
+            new SortOrder()
             {
                 PropertyName = "PublicIp",
-                DefaultOrderDirection = ApiOrderDirection.None,
-                OrderType = ApiOrderType.Ordered
-            },
-            new ApiOrder()
-            {
-                PropertyName = "CreatedAtUtc",
-                DefaultOrderDirection = ApiOrderDirection.None,
-                OrderType = ApiOrderType.Off
+                DefaultOrderDirection = SortOrderDirection.None,
+                CanSort = true
             }
         };
 
-        rtnApiUiService.SearchFilterList = new List<ApiSearchFilter> {
-            new ApiSearchFilter()
+        rtnApiUiService.SearchFilterList = new List<SearchFilter> {
+            new SearchFilter()
             {
                 PropertyName = "SerialNumber",
-                SearchFilterType = ApiSearchFilterType.Eq,
-                SearchFilterLocation = ApiSearchFilterLocation.MainSearch
+                SearchFilterType = SearchFilterType.Eq,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
             },
-            new ApiSearchFilter()
+            new SearchFilter()
             {
                 PropertyName = "MacAddress",
-                SearchFilterType = ApiSearchFilterType.Contains,
-                SearchFilterLocation = ApiSearchFilterLocation.MainSearch
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
             },
-            new ApiSearchFilter()
+            new SearchFilter()
             {
                 PropertyName = "PublicIp",
-                SearchFilterType = ApiSearchFilterType.Contains,
-                SearchFilterLocation = ApiSearchFilterLocation.MainSearch
+                SearchFilterType = SearchFilterType.Contains,
+                SearchFilterLocation = SearchFilterLocation.MainSearch
             },
-            new ApiSearchFilter()
+            new SearchFilter()
             {
                 PropertyName = "SerialNumber",
-                SearchFilterType = ApiSearchFilterType.Eq,
-                SearchFilterLocation = ApiSearchFilterLocation.FilterSearch,
+                SearchFilterType = SearchFilterType.Eq,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch,
             },
-            new ApiSearchFilter()
+            new SearchFilter()
             {
                 PropertyName = "MacAddress",
-                SearchFilterType = ApiSearchFilterType.Eq,
-                SearchFilterLocation = ApiSearchFilterLocation.FilterSearch,
+                SearchFilterType = SearchFilterType.Eq,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch,
             },
-            new ApiSearchFilter()
+            new SearchFilter()
             {
                 PropertyName = "PublicIp",
-                SearchFilterType = ApiSearchFilterType.Eq,
-                SearchFilterLocation = ApiSearchFilterLocation.FilterSearch,
+                SearchFilterType = SearchFilterType.Eq,
+                SearchFilterLocation = SearchFilterLocation.FilterSearch,
             }
         };        
 
-        rtnApiUiService.ViewList = new List<ApiView> {
-            new ApiView() {
+        rtnApiUiService.ViewList = new List<ShowInSearchResultsOption> {
+            new ShowInSearchResultsOption() {
                 PropertyName = "SerialNumber",
-                DefaultView = ApiViewType.Displayed,
-                ViewOptionList = new List<ApiViewType> {
-                    ApiViewType.Hidden,
-                    ApiViewType.Displayed
-                }
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.Always
             },
-            new ApiView() {
+            new ShowInSearchResultsOption() {
                 PropertyName = "MacAddress",
-                DefaultView = ApiViewType.Displayed,
-                ViewOptionList = new List<ApiViewType> {
-                    ApiViewType.Hidden,
-                    ApiViewType.Displayed
-                }
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
             },
-            new ApiView() {
+            new ShowInSearchResultsOption() {
                 PropertyName = "PublicIp",
-                DefaultView = ApiViewType.Displayed,
-                ViewOptionList = new List<ApiViewType> {
-                    ApiViewType.Hidden,
-                    ApiViewType.Displayed
-                }
-            },
-            new ApiView() {
-                PropertyName = "CreatedAtUtc",
-                DefaultView = ApiViewType.Displayed,
-                ViewOptionList = new List<ApiViewType> {
-                    ApiViewType.Hidden,
-                    ApiViewType.Displayed
-                }
+                DefaultShowInSearchResultsOption = ShowInSearchResultsType.OptionalAndOnByDefault
             }
         };
 
-        rtnApiUiService.Paging = new ApiPaging()
+        rtnApiUiService.Paging = new Paging()
         {
             CurrentPage = 0,
             CurrentPageSize = 5,

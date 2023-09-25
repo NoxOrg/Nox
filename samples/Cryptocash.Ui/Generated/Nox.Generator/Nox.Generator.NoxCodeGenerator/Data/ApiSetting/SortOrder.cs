@@ -5,9 +5,9 @@ namespace Cryptocash.Ui.Generated.Data.ApiSetting
     /// <summary>
     /// Setting class to define column order options used on returned result entities from target Api in the Ui
     /// </summary>
-    public class ApiOrder
+    public class SortOrder
     {
-        private ApiOrderDirection? _currentOrderDirection = null;
+        private SortOrderDirection? _currentOrderDirection = null;
 
         /// <summary>
         /// Property PropertyName used to associate column order with a PropertyName in result entity
@@ -17,22 +17,22 @@ namespace Cryptocash.Ui.Generated.Data.ApiSetting
         /// <summary>
         /// Property Ordertype used to define if ordering is applied to a column or not
         /// </summary>
-        public ApiOrderType OrderType { get; set; }
+        public bool CanSort { get; set; }
 
         /// <summary>
         /// Property DefaultOrderDirection used as a default column order setting for this Order when resetting back to default settings on Ui
         /// </summary>
-        public ApiOrderDirection DefaultOrderDirection { get; set; }
+        public SortOrderDirection DefaultOrderDirection { get; set; }
 
         /// <summary>
         /// Property CurrentOrderDirection used as a current column order setting for this Order on Ui
         /// </summary>
-        public ApiOrderDirection CurrentOrderDirection
+        public SortOrderDirection CurrentOrderDirection
         {
             get
             {
                 _currentOrderDirection ??= DefaultOrderDirection;
-                return (ApiOrderDirection)_currentOrderDirection;
+                return (SortOrderDirection)_currentOrderDirection;
             }
             set
             {
@@ -51,7 +51,7 @@ namespace Cryptocash.Ui.Generated.Data.ApiSetting
         /// <summary>
         /// Method to update current column order to new setting
         /// </summary>
-        public void UpdateCurrentOrderDirection(ApiOrderDirection UpdateDirection)
+        public void UpdateCurrentOrderDirection(SortOrderDirection UpdateDirection)
         {
             _currentOrderDirection = UpdateDirection;
         }

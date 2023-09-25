@@ -35,7 +35,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         /// <summary>
         /// Property CurrentEntityName used to define which Api currently displaying
         /// </summary>
-        public string CurrentEntityName = typeof(T).Name;
+        public string CurrentEntityName = typeof(T).Name[..^3]; //remove word 'Dto' from end
 
         /// <summary>
         /// Property IsDataGridLoading used to handle Ui datagrid loading panel
@@ -294,7 +294,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         /// </summary>
         /// <param name="CurrentValue"></param>
         /// <param name="CurrentFilter"></param>
-        public void ClearSearchFilter(MouseEventArgs CurrentValue, ApiSearchFilter CurrentFilter)
+        public void ClearSearchFilter(MouseEventArgs CurrentValue, SearchFilter CurrentFilter)
         {
             if (CurrentFilter != null
                 && CurrentValue != null
@@ -354,14 +354,14 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
                 && Order.PropertyName.Equals(PropertyName, StringComparison.OrdinalIgnoreCase));
                 if (Index > -1)
                 {
-                    ApiOrderDirection OrderType = ApiOrderDirection.None;
+                    SortOrderDirection OrderType = SortOrderDirection.None;
                     switch (OrderTypeValue.ToLower())
                     {
                         case "ascending":
-                            OrderType = ApiOrderDirection.Ascending;
+                            OrderType = SortOrderDirection.Ascending;
                             break;
                         case "descending":
-                            OrderType = ApiOrderDirection.Descending;
+                            OrderType = SortOrderDirection.Descending;
                             break;
                     }
                     CurrentApiUiService?.OrderList?[Convert.ToInt32(Index)].UpdateCurrentOrderDirection(OrderType);
@@ -394,10 +394,10 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             {
                 switch (CurrentApiUiService!.GetCurrentOrderType(PropertyName))
                 {
-                    case ApiOrderDirection.Ascending:
+                    case SortOrderDirection.Ascending:
                         GetSortDirection = SortDirection.Ascending;
                         break;
-                    case ApiOrderDirection.Descending:
+                    case SortOrderDirection.Descending:
                         GetSortDirection = SortDirection.Descending;
                         break;
                 }
@@ -441,7 +441,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
 
             if (IsViewPopulated)
             {
-                CurrentApiUiService!.ApplyViewList();
+                CurrentApiUiService!.ApplyShowInSearchList();
             }
         }
 
@@ -454,7 +454,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
 
             if (IsViewPopulated)
             {
-                CurrentApiUiService!.ResetViewList();
+                CurrentApiUiService!.ResetShowInSearchList();
             }
         }
 

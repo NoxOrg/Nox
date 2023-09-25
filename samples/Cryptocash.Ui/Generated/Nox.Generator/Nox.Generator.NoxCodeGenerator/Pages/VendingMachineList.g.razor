@@ -1,7 +1,7 @@
 ﻿@using Cryptocash.Ui
 @using System.Dynamic
 @using System.Data
-@using Cryptocash.Ui.Domain;
+@using Cryptocash.Ui.Application.Dto;
 @using Cryptocash.Ui.Generated.Data.ApiSetting;
 @using Cryptocash.Ui.Generated.Data.Enum;
 @using Cryptocash.Ui.Generated.Pages.Generic
@@ -10,7 +10,7 @@
 
 @page "/VendingMachines"
 
-@inherits ListEntityPageBase<VendingMachine>
+@inherits ListEntityPageBase<VendingMachineDto>
 
 @if (!IsLoading)
 {
@@ -59,26 +59,26 @@
                     @if (PagedData != null
                    && CurrentApiUiService != null)
                     {
-                        <MudTable ServerData="@(new Func<TableState, Task<TableData<VendingMachine>>>(ServerReload))"
+                        <MudTable ServerData="@(new Func<TableState, Task<TableData<VendingMachineDto>>>(ServerReload))"
                         @ref="DataGridTable"
                                   CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
                                   RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"
                                   Loading="@IsDataGridLoading"
                                   Hover="true"
                                   Breakpoint="Breakpoint.Sm"
-                                  T="VendingMachine"
+                                  T="VendingMachineDto"
                                   Elevation="0"
                                   Style="border-style:solid;border-width:2px;border-color:lightgray;"
                                   HeaderClass="custom-header"
                                   Dense="true">
                             <HeaderContent>                             
 
-                                @if (CurrentApiUiService!.IsPropertyViewable("SerialNumber"))
+                                @if (CurrentApiUiService!.IsPropertyShowInSearch("SerialNumber"))
                                 {
                                     @if (CurrentApiUiService!.IsPropertyOrdered("SerialNumber"))
                                     {
                                         <MudTh>
-                                            <MudTableSortLabel T="VendingMachine"
+                                            <MudTableSortLabel T="VendingMachineDto"
                                                                SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "SerialNumber"))"
                                                                InitialDirection="@GetPropertyMudSortDirection("SerialNumber")">
                                                 SerialNumber
@@ -91,12 +91,12 @@
                                     }
                                 }
 
-                                @if (CurrentApiUiService!.IsPropertyViewable("MacAddress"))
+                                @if (CurrentApiUiService!.IsPropertyShowInSearch("MacAddress"))
                                 {
                                     @if (CurrentApiUiService!.IsPropertyOrdered("MacAddress"))
                                     {
                                         <MudTh>
-                                            <MudTableSortLabel T="VendingMachine"
+                                            <MudTableSortLabel T="VendingMachineDto"
                                                                SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "MacAddress"))"
                                                                InitialDirection="@GetPropertyMudSortDirection("MacAddress")">
                                                 MacAddress
@@ -109,12 +109,12 @@
                                     }
                                 }
 
-                                @if (CurrentApiUiService!.IsPropertyViewable("PublicIp"))
+                                @if (CurrentApiUiService!.IsPropertyShowInSearch("PublicIp"))
                                 {
                                     @if (CurrentApiUiService!.IsPropertyOrdered("PublicIp"))
                                     {
                                         <MudTh>
-                                            <MudTableSortLabel T="VendingMachine"
+                                            <MudTableSortLabel T="VendingMachineDto"
                                                                SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "PublicIp"))"
                                                                InitialDirection="@GetPropertyMudSortDirection("PublicIp")">
                                                 PublicIp
@@ -125,52 +125,24 @@
                                     {
                                         <MudTh>PublicIp</MudTh>
                                     }
-                                }
-
-                                @if (CurrentApiUiService!.IsPropertyViewable("CreatedAtUtc"))
-                                {
-                                    @if (CurrentApiUiService!.IsPropertyOrdered("CreatedAtUtc"))
-                                    {
-                                        <MudTh>
-                                            <MudTableSortLabel T="VendingMachine"
-                                                               SortDirectionChanged="@(e=>UpdateOrder(e.ToString(), "CreatedAtUtc"))"
-                                                               InitialDirection="@GetPropertyMudSortDirection("CreatedAtUtc")">
-                                                CreatedAtUtc
-                                            </MudTableSortLabel>
-                                        </MudTh>
-                                    }
-                                    else
-                                    {
-                                        <MudTh>CreatedAtUtc</MudTh>
-                                    }
-                                }
+                                }                                
 
                             </HeaderContent>
                             <RowTemplate>
 
-                                @if (CurrentApiUiService!.IsPropertyViewable("Id"))
+                                @if (CurrentApiUiService!.IsPropertyShowInSearch("SerialNumber"))
                                 {
-                                    <MudTd>@UtilityHelper.FormatOutput(typeof(VendingMachine).GetProperty("Id"), context)</MudTd>
+                                    <MudTd>@UtilityHelper.FormatOutput(typeof(VendingMachineDto).GetProperty("SerialNumber"), context)</MudTd>
                                 }
 
-                                @if (CurrentApiUiService!.IsPropertyViewable("SerialNumber"))
+                                @if (CurrentApiUiService!.IsPropertyShowInSearch("MacAddress"))
                                 {
-                                    <MudTd>@UtilityHelper.FormatOutput(typeof(VendingMachine).GetProperty("SerialNumber"), context)</MudTd>
+                                    <MudTd>@UtilityHelper.FormatOutput(typeof(VendingMachineDto).GetProperty("MacAddress"), context)</MudTd>
                                 }
 
-                                @if (CurrentApiUiService!.IsPropertyViewable("MacAddress"))
+                                @if (CurrentApiUiService!.IsPropertyShowInSearch("PublicIp"))
                                 {
-                                    <MudTd>@UtilityHelper.FormatOutput(typeof(VendingMachine).GetProperty("MacAddress"), context)</MudTd>
-                                }
-
-                                @if (CurrentApiUiService!.IsPropertyViewable("PublicIp"))
-                                {
-                                    <MudTd>@UtilityHelper.FormatOutput(typeof(VendingMachine).GetProperty("PublicIp"), context)</MudTd>
-                                }
-
-                                @if (CurrentApiUiService!.IsPropertyViewable("CreatedAtUtc"))
-                                {
-                                    <MudTd>@UtilityHelper.FormatOutput(typeof(VendingMachine).GetProperty("CreatedAtUtc"), context)</MudTd>
+                                    <MudTd>@UtilityHelper.FormatOutput(typeof(VendingMachineDto).GetProperty("PublicIp"), context)</MudTd>
                                 }
 
                             </RowTemplate>
@@ -213,7 +185,7 @@
                 @if (IsSearchFilterPopulated)
                 {
                     <table style="width:100%;">
-                        @foreach (ApiSearchFilter CurrentFilter in CurrentApiUiService!.SearchFilterList!.Where(searchFilter => searchFilter.SearchFilterLocation == ApiSearchFilterLocation.FilterSearch))
+                        @foreach (SearchFilter CurrentFilter in CurrentApiUiService!.SearchFilterList!.Where(searchFilter => searchFilter.SearchFilterLocation == SearchFilterLocation.FilterSearch))
                         {
                             string LabelName = UtilityHelper.UppercaseFirstCharacter(CurrentFilter.PropertyName);
 
@@ -304,14 +276,15 @@
             <MudNavMenu>
                 @if (IsViewPopulated)
                 {
-                    @foreach (ApiView CurrentFilter in CurrentApiUiService!.ViewList!)
+                    @foreach (ShowInSearchResultsOption CurrentFilter in CurrentApiUiService!.ViewList!)
                     {
                         string labelName = UtilityHelper.UppercaseFirstCharacter(CurrentFilter.PropertyName);
-                        bool IsChecked = CurrentFilter.SetView.Equals(ApiViewType.Displayed);
+                        bool IsChecked = (CurrentFilter.SetShowInSearchResultsOption.Equals(ShowInSearchResultsType.OptionalAndOnByDefault)
+                        || CurrentFilter.SetShowInSearchResultsOption.Equals(ShowInSearchResultsType.Always));
                         <MudSwitch Label="@labelName"
                                    Color="Color.Info"
                                    Checked="IsChecked"
-                                   CheckedChanged="@(e=>CurrentApiUiService!.UpdateView(e,CurrentFilter))"
+                                   CheckedChanged="@(e=>CurrentApiUiService!.UpdateShowInSearch(e,CurrentFilter))"
                                    T="bool"
                                    Style="padding:15px 0px 0px 25px;"
                                    Disabled="CurrentFilter.IsSetViewDisabled" />

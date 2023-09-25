@@ -5,7 +5,7 @@ namespace Cryptocash.Ui.Generated.Data.ApiSetting
     /// <summary>
     /// Filter class to handle Search filters for Api search query
     /// </summary>
-    public class ApiSearchFilter
+    public class SearchFilter
     {
         private string? _currentSearchFilterValue = null;
 
@@ -61,12 +61,12 @@ namespace Cryptocash.Ui.Generated.Data.ApiSetting
         /// <summary>
         /// Property SearchFilterType used as a search comparison type for this search filter
         /// </summary>
-        public ApiSearchFilterType SearchFilterType { get; set; }
+        public SearchFilterType SearchFilterType { get; set; }
 
         /// <summary>
         /// Property SearchFilterLocation used to define where the search is used on the Ui
         /// </summary>
-        public ApiSearchFilterLocation SearchFilterLocation { get; set; }
+        public SearchFilterLocation SearchFilterLocation { get; set; }
 
         /// <summary>
         /// Property IsDropdownSelection used to define is control should be a dropdown list

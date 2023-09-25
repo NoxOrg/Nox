@@ -12,54 +12,29 @@ namespace Cryptocash.Ui.Generated.Data.Generic
         #region Declarations
 
         /// <summary>
-        /// Property Name used for target Api name display on Ui
-        /// </summary>
-        public string? Name { get; set; }
-
-        /// <summary>
-        /// Property IsDefault used for which ApiUiService is the default one to display in Ui
-        /// </summary>
-        public bool IsDefault { get; set; } = false;
-
-        /// <summary>
         /// Property Url used for access to target Api
         /// </summary>
         public string? Url { get; set; }
 
         /// <summary>
-        /// Property Icon used for display of Api navigation link
-        /// </summary>
-        public string? Icon { get; set; }
-
-        /// <summary>
-        /// Property Link used for href of Api navigation link
-        /// </summary>
-        public string? PageLink { get; set; }
-
-        /// <summary>
-        /// Property UiActionOptionList used to define if Api overall handles Add, Edit or Delete actions
-        /// </summary>
-        public List<ApiUiActionType>? UiActionOptionList { get; set; }
-
-        /// <summary>
         /// Property SearchFilterList for listing search filters used within Api search queries
         /// </summary>
-        public List<ApiSearchFilter>? SearchFilterList { get; set; }
+        public List<SearchFilter>? SearchFilterList { get; set; }
 
         /// <summary>
         /// Property ViewList for listing view used with Ui datagrid to show or hide columns
         /// </summary>
-        public List<ApiView>? ViewList { get; set; }
+        public List<ShowInSearchResultsOption>? ViewList { get; set; }
 
         /// <summary>
         /// Propery OrderList to define list of column order used to order Ui datagrid columns
         /// </summary>
-        public List<ApiOrder>? OrderList { get; set; }
+        public List<SortOrder>? OrderList { get; set; }
 
         /// <summary>
         /// Property Paging to define Ui datagird pagination 
         /// </summary>
-        public ApiPaging? Paging { get; set; }
+        public Paging? Paging { get; set; }
 
         #endregion
 
@@ -72,8 +47,8 @@ namespace Cryptocash.Ui.Generated.Data.Generic
         {
             get
             {
-                string MainSearchFilters = ApiSearchFilterQuery(ApiSearchFilterLocation.MainSearch);
-                string FilterSearchFilters = ApiSearchFilterQuery(ApiSearchFilterLocation.FilterSearch);
+                string MainSearchFilters = ApiSearchFilterQuery(SearchFilterLocation.MainSearch);
+                string FilterSearchFilters = ApiSearchFilterQuery(SearchFilterLocation.FilterSearch);
 
                 string RtnSearchFilters = string.Empty;
                 if (!string.IsNullOrWhiteSpace(MainSearchFilters)
@@ -140,16 +115,16 @@ namespace Cryptocash.Ui.Generated.Data.Generic
 
                 if (OrderList != null
                     && OrderList.Where(Order =>
-                    Order?.CurrentOrderDirection == ApiOrderDirection.Ascending
-                    || Order?.CurrentOrderDirection == ApiOrderDirection.Descending).Any())
+                    Order?.CurrentOrderDirection == SortOrderDirection.Ascending
+                    || Order?.CurrentOrderDirection == SortOrderDirection.Descending).Any())
                 {
                     RtnQuery += "&$orderby=";
 
                     string OrderItem = string.Empty;
 
-                    foreach (ApiOrder? CurrentOrder in OrderList.Where(Order =>
-                    Order?.CurrentOrderDirection == ApiOrderDirection.Ascending
-                    || Order?.CurrentOrderDirection == ApiOrderDirection.Descending).ToList())
+                    foreach (SortOrder? CurrentOrder in OrderList.Where(Order =>
+                    Order?.CurrentOrderDirection == SortOrderDirection.Ascending
+                    || Order?.CurrentOrderDirection == SortOrderDirection.Descending).ToList())
                     {
                         if (!string.IsNullOrWhiteSpace(OrderItem))
                         {
@@ -157,12 +132,12 @@ namespace Cryptocash.Ui.Generated.Data.Generic
                         }
                         OrderItem += CurrentOrder?.PropertyName;
 
-                        if (CurrentOrder?.CurrentOrderDirection == ApiOrderDirection.Ascending)
+                        if (CurrentOrder?.CurrentOrderDirection == SortOrderDirection.Ascending)
                         {
                             OrderItem += " asc";
                         }
 
-                        if (CurrentOrder?.CurrentOrderDirection == ApiOrderDirection.Descending)
+                        if (CurrentOrder?.CurrentOrderDirection == SortOrderDirection.Descending)
                         {
                             OrderItem += " desc";
                         }
@@ -179,7 +154,7 @@ namespace Cryptocash.Ui.Generated.Data.Generic
         /// Method ApiSearchFilterQuery to define search related Api query parameters 
         /// Note: if Search Filter Location is MainSearch then use OR concatenation otherwise use AND concatenation for multiple search filters
         /// </summary>
-        public string ApiSearchFilterQuery(ApiSearchFilterLocation FilterLocation)
+        public string ApiSearchFilterQuery(SearchFilterLocation FilterLocation)
         {
             string RtnQuery = string.Empty;
 
@@ -187,7 +162,7 @@ namespace Cryptocash.Ui.Generated.Data.Generic
             {
                 bool FreshFilter = true;
 
-                foreach (ApiSearchFilter? CurrentFilter in SearchFilterList
+                foreach (SearchFilter? CurrentFilter in SearchFilterList
                     .Where(SearchFilter => !string.IsNullOrWhiteSpace(SearchFilter?.CurrentSearchFilterValue)
                     && !string.IsNullOrWhiteSpace(SearchFilter?.PropertyName)
                     && SearchFilter.SearchFilterLocation == FilterLocation))
@@ -198,7 +173,7 @@ namespace Cryptocash.Ui.Generated.Data.Generic
                     }
                     else
                     {
-                        if (FilterLocation == ApiSearchFilterLocation.MainSearch)
+                        if (FilterLocation == SearchFilterLocation.MainSearch)
                         {
                             RtnQuery += " or ";
                         }
@@ -210,12 +185,12 @@ namespace Cryptocash.Ui.Generated.Data.Generic
 
                     switch (CurrentFilter?.SearchFilterType)
                     {
-                        case ApiSearchFilterType.Contains:
+                        case SearchFilterType.Contains:
 
                             RtnQuery += string.Format("contains({0}, '{1}')", CurrentFilter?.PropertyName, CurrentFilter?.CurrentSearchFilterValue);
                             break;
 
-                        case ApiSearchFilterType.Eq:
+                        case SearchFilterType.Eq:
                             RtnQuery += string.Format("{0} eq '{1}'", CurrentFilter?.PropertyName, CurrentFilter?.CurrentSearchFilterValue);
                             break;
                     }
@@ -264,12 +239,12 @@ namespace Cryptocash.Ui.Generated.Data.Generic
         /// </summary>
         /// <param name="Filter"></param>
         /// <returns></returns>
-        public IEnumerable<string> GetSearchFilterValueList(ApiSearchFilter? Filter)
+        public IEnumerable<string> GetSearchFilterValueList(SearchFilter? Filter)
         {
             if (Filter != null
                 && IsSearchFilterPopulated)
             {
-                ApiSearchFilter? FoundFilter = SearchFilterList
+                SearchFilter? FoundFilter = SearchFilterList
                     !.FirstOrDefault(SearchFilter => string.Equals(SearchFilter.PropertyName, Filter.PropertyName, StringComparison.OrdinalIgnoreCase)
                     && SearchFilter.SearchFilterLocation.Equals(Filter.SearchFilterLocation));
 
@@ -292,12 +267,12 @@ namespace Cryptocash.Ui.Generated.Data.Generic
         /// </summary>
         /// <param name="Filter"></param>
         /// <returns></returns>
-        public string GetSearchFilterValue(ApiSearchFilter? Filter)
+        public string GetSearchFilterValue(SearchFilter? Filter)
         {
             if (Filter != null
                 && IsSearchFilterPopulated)
             {
-                ApiSearchFilter? FoundFilter = SearchFilterList
+                SearchFilter? FoundFilter = SearchFilterList
                     !.FirstOrDefault(SearchFilter => string.Equals(SearchFilter.PropertyName, Filter.PropertyName, StringComparison.OrdinalIgnoreCase)
                     && SearchFilter.SearchFilterLocation.Equals(Filter.SearchFilterLocation));
 
@@ -349,7 +324,7 @@ namespace Cryptocash.Ui.Generated.Data.Generic
         /// </summary>
         /// <param name="CurrentValue"></param>
         /// <param name="CurrentFilter"></param>
-        public void UpdateSearchFilter(string CurrentValue, ApiSearchFilter CurrentFilter)
+        public void UpdateSearchFilter(string CurrentValue, SearchFilter CurrentFilter)
         {
             if (CurrentFilter != null
                 && !string.IsNullOrWhiteSpace(CurrentFilter.PropertyName)
@@ -357,7 +332,7 @@ namespace Cryptocash.Ui.Generated.Data.Generic
             {
                 var Index = SearchFilterList!.FindIndex(Filter => Filter.PropertyName != null
                 && Filter.PropertyName.Equals(CurrentFilter.PropertyName, StringComparison.OrdinalIgnoreCase)
-                && Filter.SearchFilterLocation == ApiSearchFilterLocation.FilterSearch);
+                && Filter.SearchFilterLocation == SearchFilterLocation.FilterSearch);
                 if (Index > -1)
                 {
                     SearchFilterList?[Convert.ToInt32(Index)].UpdateSetSearchFilterValue(CurrentValue);
@@ -375,7 +350,7 @@ namespace Cryptocash.Ui.Generated.Data.Generic
             {
                 for (int i = 0; i < SearchFilterList!.Count; i++)
                 {
-                    if (SearchFilterList[i].SearchFilterLocation == ApiSearchFilterLocation.MainSearch)
+                    if (SearchFilterList[i].SearchFilterLocation == SearchFilterLocation.MainSearch)
                     {
                         SearchFilterList[i].CurrentSearchFilterValue = CurrentValue;
                     }
@@ -393,7 +368,7 @@ namespace Cryptocash.Ui.Generated.Data.Generic
             {
                 for (int i = 0; i < SearchFilterList!.Count; i++)
                 {
-                    if (SearchFilterList[i].SearchFilterLocation == ApiSearchFilterLocation.FilterSearch)
+                    if (SearchFilterList[i].SearchFilterLocation == SearchFilterLocation.FilterSearch)
                     {
                         SearchFilterList[i].CurrentSearchFilterValue = SearchFilterList[i].SetSearchFilterValue;
                     }
@@ -410,7 +385,7 @@ namespace Cryptocash.Ui.Generated.Data.Generic
             {
                 for (int i = 0; i < SearchFilterList!.Count; i++)
                 {
-                    if (SearchFilterList[i].SearchFilterLocation.Equals(ApiSearchFilterLocation.FilterSearch))
+                    if (SearchFilterList[i].SearchFilterLocation.Equals(SearchFilterLocation.FilterSearch))
                     {
                         SearchFilterList[i].ResetSearchFilter();
                     }
@@ -427,7 +402,7 @@ namespace Cryptocash.Ui.Generated.Data.Generic
             {
                 for (int i = 0; i < SearchFilterList!.Count; i++)
                 {
-                    if (SearchFilterList[i].SearchFilterLocation.Equals(ApiSearchFilterLocation.MainSearch))
+                    if (SearchFilterList[i].SearchFilterLocation.Equals(SearchFilterLocation.MainSearch))
                     {
                         SearchFilterList[i].ResetSearchFilter();
                     }
@@ -488,7 +463,7 @@ namespace Cryptocash.Ui.Generated.Data.Generic
             {
                 return OrderList!.Any(Order => Order.PropertyName != null
                 && Order.PropertyName.Equals(PropertyName, StringComparison.OrdinalIgnoreCase)
-                && Order.OrderType.Equals(ApiOrderType.Ordered));
+                && Order.CanSort);
             }
 
             return false;
@@ -509,9 +484,9 @@ namespace Cryptocash.Ui.Generated.Data.Generic
 
                     if (MatchName != null
                         && MatchName == false
-                        && OrderList[i].OrderType.Equals(ApiOrderType.Ordered))
+                        && OrderList[i].CanSort)
                     {
-                        OrderList![i].UpdateCurrentOrderDirection(ApiOrderDirection.None);
+                        OrderList![i].UpdateCurrentOrderDirection(SortOrderDirection.None);
                     }
                 }
             }
@@ -522,7 +497,7 @@ namespace Cryptocash.Ui.Generated.Data.Generic
         /// </summary>
         /// <param name="PropertyName"></param>
         /// <returns>ApiOrderDirection?</returns>
-        public ApiOrderDirection? GetCurrentOrderType(string PropertyName)
+        public SortOrderDirection? GetCurrentOrderType(string PropertyName)
         {
             if (!string.IsNullOrWhiteSpace(PropertyName)
                 && IsOrderPopulated)
@@ -540,12 +515,12 @@ namespace Cryptocash.Ui.Generated.Data.Generic
 
         #endregion
 
-        #region View
+        #region ShowInSearchResult
 
         /// <summary>
         /// Property to check view populated used to avoid nulls
         /// </summary>
-        public bool IsViewPopulated
+        public bool IsShowInSearchPopulated
         {
             get
             {
@@ -557,13 +532,13 @@ namespace Cryptocash.Ui.Generated.Data.Generic
         /// <summary>
         /// Method to apply view settings to the Ui datagrid
         /// </summary>
-        public void ApplyViewList()
+        public void ApplyShowInSearchList()
         {
-            if (IsViewPopulated)
+            if (IsShowInSearchPopulated)
             {
                 for (int i = 0; i < ViewList!.Count; i++)
                 {
-                    ViewList![i].CurrentView = ViewList[i].SetView;
+                    ViewList![i].CurrentShowInSearchResultsOption = ViewList[i].SetShowInSearchResultsOption;
                 }
             }
         }
@@ -573,13 +548,13 @@ namespace Cryptocash.Ui.Generated.Data.Generic
         /// </summary>
         /// <param name="PropertyName"></param>
         /// <returns>bool</returns>
-        public bool IsPropertyViewable(string PropertyName)
+        public bool IsPropertyShowInSearch(string PropertyName)
         {
-            if (IsViewPopulated)
+            if (IsShowInSearchPopulated)
             {
                 return ViewList!.Any(View => View.PropertyName != null
                 && View.PropertyName.Equals(PropertyName)
-                && View.CurrentView.Equals(ApiViewType.Displayed));
+                && (View.CurrentShowInSearchResultsOption.Equals(ShowInSearchResultsType.Always) || View.CurrentShowInSearchResultsOption.Equals(ShowInSearchResultsType.OptionalAndOnByDefault)));
             }
 
             return false;
@@ -590,22 +565,23 @@ namespace Cryptocash.Ui.Generated.Data.Generic
         /// </summary>
         /// <param name="IsViewValue"></param>
         /// <param name="CurrentView"></param>
-        public void UpdateView(bool IsViewValue, ApiView CurrentView)
+        public void UpdateShowInSearch(bool IsViewValue, ShowInSearchResultsOption CurrentView)
         {
             if (CurrentView != null
                 && !string.IsNullOrWhiteSpace(CurrentView.PropertyName)
-                && IsViewPopulated)
+                && IsShowInSearchPopulated)
             {
                 var Index = ViewList!.FindIndex(View => View.PropertyName != null
                 && View.PropertyName.Equals(CurrentView.PropertyName, StringComparison.OrdinalIgnoreCase));
                 if (Index > -1)
                 {
-                    ViewList![Convert.ToInt32(Index)].UpdateSetView(
-                        IsViewValue
-                        && CurrentView.ViewOptionList != null
-                        && CurrentView.ViewOptionList.Contains(ApiViewType.Displayed)
-                        ? ApiViewType.Displayed
-                : ApiViewType.Hidden);
+                    ShowInSearchResultsType CurrentShowInSearchResultsOptionType = ShowInSearchResultsType.OptionalAndOffByDefault;
+                    if (IsViewValue)
+                    {
+                        CurrentShowInSearchResultsOptionType = ShowInSearchResultsType.OptionalAndOnByDefault;
+                    }
+
+                    ViewList![Convert.ToInt32(Index)].UpdateSetView(CurrentShowInSearchResultsOptionType);
                 }
             }
         }
@@ -613,9 +589,9 @@ namespace Cryptocash.Ui.Generated.Data.Generic
         /// <summary>
         /// Method to reset view on the Ui datagrid to default values
         /// </summary>
-        public void ResetViewList()
+        public void ResetShowInSearchList()
         {
-            if (IsViewPopulated)
+            if (IsShowInSearchPopulated)
             {
                 for (int i = 0; i < ViewList!.Count; i++)
                 {
