@@ -26,7 +26,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
-
+	<ItemGroup>
+		<AdditionalFiles Include=".\.nox\design\**\*.yaml" LinkBase="Design">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
+	</ItemGroup>
   <ItemGroup>
     <PackageReference Include="Azure.Identity" Version="1.10.1" />
     <PackageReference Include="FluentAssertions" Version="6.12.0" />

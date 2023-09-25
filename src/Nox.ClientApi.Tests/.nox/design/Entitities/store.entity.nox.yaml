@@ -53,6 +53,11 @@ relationships:
       relationship: zeroOrOne
       entity: StoreOwner
 
+    - name: License
+      description: License that this store uses
+      relationship: zeroOrOne
+      entity: StoreLicense
+
 ownedRelationships:
 
   - name: VerifiedEmails

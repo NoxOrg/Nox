@@ -23,7 +23,7 @@ public abstract record RefCustomerToCustomerBaseCountryCommand(CustomerKeyDto En
 public record CreateRefCustomerToCustomerBaseCountryCommand(CustomerKeyDto EntityKeyDto, CountryKeyDto RelatedEntityKeyDto)
 	: RefCustomerToCustomerBaseCountryCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefCustomerToCustomerBaseCountryCommandHandler
+internal partial class CreateRefCustomerToCustomerBaseCountryCommandHandler
 	: RefCustomerToCustomerBaseCountryCommandHandlerBase<CreateRefCustomerToCustomerBaseCountryCommand>
 {
 	public CreateRefCustomerToCustomerBaseCountryCommandHandler(
@@ -38,7 +38,7 @@ public partial class CreateRefCustomerToCustomerBaseCountryCommandHandler
 public record DeleteRefCustomerToCustomerBaseCountryCommand(CustomerKeyDto EntityKeyDto, CountryKeyDto RelatedEntityKeyDto)
 	: RefCustomerToCustomerBaseCountryCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefCustomerToCustomerBaseCountryCommandHandler
+internal partial class DeleteRefCustomerToCustomerBaseCountryCommandHandler
 	: RefCustomerToCustomerBaseCountryCommandHandlerBase<DeleteRefCustomerToCustomerBaseCountryCommand>
 {
 	public DeleteRefCustomerToCustomerBaseCountryCommandHandler(
@@ -53,7 +53,7 @@ public partial class DeleteRefCustomerToCustomerBaseCountryCommandHandler
 public record DeleteAllRefCustomerToCustomerBaseCountryCommand(CustomerKeyDto EntityKeyDto)
 	: RefCustomerToCustomerBaseCountryCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefCustomerToCustomerBaseCountryCommandHandler
+internal partial class DeleteAllRefCustomerToCustomerBaseCountryCommandHandler
 	: RefCustomerToCustomerBaseCountryCommandHandlerBase<DeleteAllRefCustomerToCustomerBaseCountryCommand>
 {
 	public DeleteAllRefCustomerToCustomerBaseCountryCommandHandler(
@@ -65,7 +65,7 @@ public partial class DeleteAllRefCustomerToCustomerBaseCountryCommandHandler
 	{ }
 }
 
-public abstract class RefCustomerToCustomerBaseCountryCommandHandlerBase<TRequest>: CommandBase<TRequest, Customer>, 
+internal abstract class RefCustomerToCustomerBaseCountryCommandHandlerBase<TRequest>: CommandBase<TRequest, Customer>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefCustomerToCustomerBaseCountryCommand
 {
 	public CryptocashDbContext DbContext { get; }

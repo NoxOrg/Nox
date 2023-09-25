@@ -64,7 +64,7 @@ public abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurren
     /// <summary>
     /// CashStockOrder for ExactlyOne VendingMachines
     /// </summary>
-    public virtual VendingMachine CashStockOrderForVendingMachine { get; set; } = null!;
+    public virtual VendingMachine CashStockOrderForVendingMachine { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity VendingMachine
@@ -83,13 +83,13 @@ public abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurren
 
     public virtual void DeleteAllRefToCashStockOrderForVendingMachine()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>
     /// CashStockOrder reviewed by ExactlyOne Employees
     /// </summary>
-    public virtual Employee CashStockOrderReviewedByEmployee { get; set; } = null!;
+    public virtual Employee CashStockOrderReviewedByEmployee { get; private set; } = null!;
 
     public virtual void CreateRefToCashStockOrderReviewedByEmployee(Employee relatedEmployee)
     {
@@ -103,7 +103,7 @@ public abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurren
 
     public virtual void DeleteAllRefToCashStockOrderReviewedByEmployee()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>

@@ -14,7 +14,7 @@ namespace ClientApi.Application.Queries;
 
 public record GetStoresQuery() : IRequest<IQueryable<StoreDto>>;
 
-public partial class GetStoresQueryHandler: GetStoresQueryHandlerBase
+internal partial class GetStoresQueryHandler: GetStoresQueryHandlerBase
 {
     public GetStoresQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
@@ -22,7 +22,7 @@ public partial class GetStoresQueryHandler: GetStoresQueryHandlerBase
     }
 }
 
-public abstract class GetStoresQueryHandlerBase : QueryBase<IQueryable<StoreDto>>, IRequestHandler<GetStoresQuery, IQueryable<StoreDto>>
+internal abstract class GetStoresQueryHandlerBase : QueryBase<IQueryable<StoreDto>>, IRequestHandler<GetStoresQuery, IQueryable<StoreDto>>
 {
     public  GetStoresQueryHandlerBase(DtoDbContext dataDbContext)
     {

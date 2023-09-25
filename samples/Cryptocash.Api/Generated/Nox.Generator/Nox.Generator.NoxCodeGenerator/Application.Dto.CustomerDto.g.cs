@@ -72,8 +72,8 @@ public partial class CustomerDto
     /// Customer based in ExactlyOne Countries
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.String CustomerBaseCountryId { get; set; } = default!;
-    public virtual CountryDto CustomerBaseCountry { get; set; } = null!;
+    public System.String? CustomerBaseCountryId { get; set; } = default!;
+    public virtual CountryDto? CustomerBaseCountry { get; set; } = null!;
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

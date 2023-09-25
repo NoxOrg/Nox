@@ -18,7 +18,7 @@ namespace ClientApi.Application.Commands;
 
 public record PartialUpdateStoreCommand(System.Guid keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <StoreKeyDto?>;
 
-public class PartialUpdateStoreCommandHandler: PartialUpdateStoreCommandHandlerBase
+internal class PartialUpdateStoreCommandHandler: PartialUpdateStoreCommandHandlerBase
 {
 	public PartialUpdateStoreCommandHandler(
 		ClientApiDbContext dbContext,
@@ -28,7 +28,7 @@ public class PartialUpdateStoreCommandHandler: PartialUpdateStoreCommandHandlerB
 	{
 	}
 }
-public class PartialUpdateStoreCommandHandlerBase: CommandBase<PartialUpdateStoreCommand, Store>, IRequestHandler<PartialUpdateStoreCommand, StoreKeyDto?>
+internal class PartialUpdateStoreCommandHandlerBase: CommandBase<PartialUpdateStoreCommand, Store>, IRequestHandler<PartialUpdateStoreCommand, StoreKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<Store> EntityMapper { get; }

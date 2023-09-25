@@ -70,7 +70,7 @@ public abstract class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores
     /// </summary>
-    public virtual List<Store> Stores { get; set; } = new();
+    public virtual List<Store> Stores { get; private set; } = new();
 
     public virtual void CreateRefToStores(Store relatedStore)
     {

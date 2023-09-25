@@ -14,7 +14,7 @@ namespace Cryptocash.Application.Queries;
 
 public record GetMinimumCashStocksQuery() : IRequest<IQueryable<MinimumCashStockDto>>;
 
-public partial class GetMinimumCashStocksQueryHandler: GetMinimumCashStocksQueryHandlerBase
+internal partial class GetMinimumCashStocksQueryHandler: GetMinimumCashStocksQueryHandlerBase
 {
     public GetMinimumCashStocksQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
@@ -22,7 +22,7 @@ public partial class GetMinimumCashStocksQueryHandler: GetMinimumCashStocksQuery
     }
 }
 
-public abstract class GetMinimumCashStocksQueryHandlerBase : QueryBase<IQueryable<MinimumCashStockDto>>, IRequestHandler<GetMinimumCashStocksQuery, IQueryable<MinimumCashStockDto>>
+internal abstract class GetMinimumCashStocksQueryHandlerBase : QueryBase<IQueryable<MinimumCashStockDto>>, IRequestHandler<GetMinimumCashStocksQuery, IQueryable<MinimumCashStockDto>>
 {
     public  GetMinimumCashStocksQueryHandlerBase(DtoDbContext dataDbContext)
     {

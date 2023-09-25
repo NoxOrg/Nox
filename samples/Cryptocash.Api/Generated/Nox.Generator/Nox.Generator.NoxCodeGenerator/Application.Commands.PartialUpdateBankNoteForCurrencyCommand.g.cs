@@ -14,7 +14,7 @@ using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
 public record PartialUpdateBankNoteForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <BankNoteKeyDto?>;
-public partial class PartialUpdateBankNoteForCurrencyCommandHandler: PartialUpdateBankNoteForCurrencyCommandHandlerBase
+internal partial class PartialUpdateBankNoteForCurrencyCommandHandler: PartialUpdateBankNoteForCurrencyCommandHandlerBase
 {
 	public PartialUpdateBankNoteForCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
@@ -24,7 +24,7 @@ public partial class PartialUpdateBankNoteForCurrencyCommandHandler: PartialUpda
 	{
 	}
 }
-public abstract class PartialUpdateBankNoteForCurrencyCommandHandlerBase: CommandBase<PartialUpdateBankNoteForCurrencyCommand, BankNote>, IRequestHandler <PartialUpdateBankNoteForCurrencyCommand, BankNoteKeyDto?>
+internal abstract class PartialUpdateBankNoteForCurrencyCommandHandlerBase: CommandBase<PartialUpdateBankNoteForCurrencyCommand, BankNote>, IRequestHandler <PartialUpdateBankNoteForCurrencyCommand, BankNoteKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<BankNote> EntityMapper { get; }

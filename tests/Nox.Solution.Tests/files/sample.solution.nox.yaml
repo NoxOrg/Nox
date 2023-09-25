@@ -469,13 +469,13 @@ infrastructure:
 
   messaging:
 
-    integrationEventServer:
-      name: IntegrationBus
-      provider: rabbitMq
-      serverUri: rabbitmq://localhost
-      port: 5672
-      user: guest
-      password: guest
+    integrationEventServer: 
+      name: eventBus
+      provider: azureServiceBus 
+      azureServiceBusConfig:
+        endpoint: sb://your-servicebus-name.servicebus.windows.net/
+        sharedAccessKeyName: your-shared-access-key-name
+        sharedAccessKey: your-shared-access-key
 
   endpoints:
     

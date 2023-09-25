@@ -13,9 +13,6 @@ namespace Nox.Messaging
         public Uri? dataschema { get; set; }
         public string? subject { get; set; }
         public DateTimeOffset? time { get; set; }
-        public Guid? xcorrelationid { get; set; }
-        
-
 #pragma warning restore IDE1006 // Naming Styles
     }
 

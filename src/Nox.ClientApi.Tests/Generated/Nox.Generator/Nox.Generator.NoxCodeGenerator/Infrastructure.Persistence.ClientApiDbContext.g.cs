@@ -18,12 +18,14 @@ using Nox.Types;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Solution;
+using Nox.Configuration;
+
 
 using ClientApi.Domain;
 
 namespace ClientApi.Infrastructure.Persistence;
 
-public partial class ClientApiDbContext : DbContext
+internal partial class ClientApiDbContext : DbContext
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
@@ -56,6 +58,8 @@ public partial class ClientApiDbContext : DbContext
     public DbSet<Workplace> Workplaces { get; set; } = null!;
 
     public DbSet<StoreOwner> StoreOwners { get; set; } = null!;
+
+    public DbSet<StoreLicense> StoreLicenses { get; set; } = null!;
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

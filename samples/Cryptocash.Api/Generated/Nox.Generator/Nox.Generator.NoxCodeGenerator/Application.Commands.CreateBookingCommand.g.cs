@@ -20,7 +20,7 @@ namespace Cryptocash.Application.Commands;
 
 public record CreateBookingCommand(BookingCreateDto EntityDto) : IRequest<BookingKeyDto>;
 
-public partial class CreateBookingCommandHandler: CreateBookingCommandHandlerBase
+internal partial class CreateBookingCommandHandler: CreateBookingCommandHandlerBase
 {
 	public CreateBookingCommandHandler(
 		CryptocashDbContext dbContext,
@@ -37,7 +37,7 @@ public partial class CreateBookingCommandHandler: CreateBookingCommandHandlerBas
 }
 
 
-public abstract class CreateBookingCommandHandlerBase: CommandBase<CreateBookingCommand,Booking>, IRequestHandler <CreateBookingCommand, BookingKeyDto>
+internal abstract class CreateBookingCommandHandlerBase: CommandBase<CreateBookingCommand,Booking>, IRequestHandler <CreateBookingCommand, BookingKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> _entityFactory;

@@ -58,9 +58,9 @@ public partial class {{className}}
     {{- else}}
         {{- if relationship.ShouldGenerateForeignOnThisSide}}
     //EF maps ForeignKey Automatically
-    public System.{{relationship.ForeignKeyPrimitiveType}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}}Id { get; set; } = default!;
+    public System.{{relationship.ForeignKeyPrimitiveType}}? {{relationship.Name}}Id { get; set; } = default!;
         {{- end}}
-    public virtual {{relationship.Entity}}Dto{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}} { get; set; } = null!;
+    public virtual {{relationship.Entity}}Dto? {{relationship.Name}} { get; set; } = null!;
     {{-end}}
 {{- end }}
 {{- for relationship in entity.OwnedRelationships #TODO how to reuse as partial template?}}

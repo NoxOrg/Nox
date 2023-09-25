@@ -58,4 +58,3 @@ infrastructure:
     integrationEventServer: 
       name: SampleEventServer
       provider: inMemory
-      serverUri: localhost

@@ -18,7 +18,7 @@ namespace Cryptocash.Application.Commands;
 
 public record PartialUpdateCashStockOrderCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CashStockOrderKeyDto?>;
 
-public class PartialUpdateCashStockOrderCommandHandler: PartialUpdateCashStockOrderCommandHandlerBase
+internal class PartialUpdateCashStockOrderCommandHandler: PartialUpdateCashStockOrderCommandHandlerBase
 {
 	public PartialUpdateCashStockOrderCommandHandler(
 		CryptocashDbContext dbContext,
@@ -28,7 +28,7 @@ public class PartialUpdateCashStockOrderCommandHandler: PartialUpdateCashStockOr
 	{
 	}
 }
-public class PartialUpdateCashStockOrderCommandHandlerBase: CommandBase<PartialUpdateCashStockOrderCommand, CashStockOrder>, IRequestHandler<PartialUpdateCashStockOrderCommand, CashStockOrderKeyDto?>
+internal class PartialUpdateCashStockOrderCommandHandlerBase: CommandBase<PartialUpdateCashStockOrderCommand, CashStockOrder>, IRequestHandler<PartialUpdateCashStockOrderCommand, CashStockOrderKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<CashStockOrder> EntityMapper { get; }

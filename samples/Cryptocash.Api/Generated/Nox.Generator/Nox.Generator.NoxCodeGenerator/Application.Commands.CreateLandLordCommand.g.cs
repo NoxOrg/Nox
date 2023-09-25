@@ -20,7 +20,7 @@ namespace Cryptocash.Application.Commands;
 
 public record CreateLandLordCommand(LandLordCreateDto EntityDto) : IRequest<LandLordKeyDto>;
 
-public partial class CreateLandLordCommandHandler: CreateLandLordCommandHandlerBase
+internal partial class CreateLandLordCommandHandler: CreateLandLordCommandHandlerBase
 {
 	public CreateLandLordCommandHandler(
 		CryptocashDbContext dbContext,
@@ -34,7 +34,7 @@ public partial class CreateLandLordCommandHandler: CreateLandLordCommandHandlerB
 }
 
 
-public abstract class CreateLandLordCommandHandlerBase: CommandBase<CreateLandLordCommand,LandLord>, IRequestHandler <CreateLandLordCommand, LandLordKeyDto>
+internal abstract class CreateLandLordCommandHandlerBase: CommandBase<CreateLandLordCommand,LandLord>, IRequestHandler <CreateLandLordCommand, LandLordKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto> _entityFactory;

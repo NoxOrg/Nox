@@ -20,7 +20,7 @@ namespace Cryptocash.Application.Commands;
 
 public record CreatePaymentProviderCommand(PaymentProviderCreateDto EntityDto) : IRequest<PaymentProviderKeyDto>;
 
-public partial class CreatePaymentProviderCommandHandler: CreatePaymentProviderCommandHandlerBase
+internal partial class CreatePaymentProviderCommandHandler: CreatePaymentProviderCommandHandlerBase
 {
 	public CreatePaymentProviderCommandHandler(
 		CryptocashDbContext dbContext,
@@ -34,7 +34,7 @@ public partial class CreatePaymentProviderCommandHandler: CreatePaymentProviderC
 }
 
 
-public abstract class CreatePaymentProviderCommandHandlerBase: CommandBase<CreatePaymentProviderCommand,PaymentProvider>, IRequestHandler <CreatePaymentProviderCommand, PaymentProviderKeyDto>
+internal abstract class CreatePaymentProviderCommandHandlerBase: CommandBase<CreatePaymentProviderCommand,PaymentProvider>, IRequestHandler <CreatePaymentProviderCommand, PaymentProviderKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<PaymentProvider, PaymentProviderCreateDto, PaymentProviderUpdateDto> _entityFactory;

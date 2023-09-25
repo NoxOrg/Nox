@@ -23,7 +23,7 @@ public abstract record RefLandLordToContractedAreasForVendingMachinesCommand(Lan
 public record CreateRefLandLordToContractedAreasForVendingMachinesCommand(LandLordKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto)
 	: RefLandLordToContractedAreasForVendingMachinesCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefLandLordToContractedAreasForVendingMachinesCommandHandler
+internal partial class CreateRefLandLordToContractedAreasForVendingMachinesCommandHandler
 	: RefLandLordToContractedAreasForVendingMachinesCommandHandlerBase<CreateRefLandLordToContractedAreasForVendingMachinesCommand>
 {
 	public CreateRefLandLordToContractedAreasForVendingMachinesCommandHandler(
@@ -38,7 +38,7 @@ public partial class CreateRefLandLordToContractedAreasForVendingMachinesCommand
 public record DeleteRefLandLordToContractedAreasForVendingMachinesCommand(LandLordKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto)
 	: RefLandLordToContractedAreasForVendingMachinesCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefLandLordToContractedAreasForVendingMachinesCommandHandler
+internal partial class DeleteRefLandLordToContractedAreasForVendingMachinesCommandHandler
 	: RefLandLordToContractedAreasForVendingMachinesCommandHandlerBase<DeleteRefLandLordToContractedAreasForVendingMachinesCommand>
 {
 	public DeleteRefLandLordToContractedAreasForVendingMachinesCommandHandler(
@@ -53,7 +53,7 @@ public partial class DeleteRefLandLordToContractedAreasForVendingMachinesCommand
 public record DeleteAllRefLandLordToContractedAreasForVendingMachinesCommand(LandLordKeyDto EntityKeyDto)
 	: RefLandLordToContractedAreasForVendingMachinesCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefLandLordToContractedAreasForVendingMachinesCommandHandler
+internal partial class DeleteAllRefLandLordToContractedAreasForVendingMachinesCommandHandler
 	: RefLandLordToContractedAreasForVendingMachinesCommandHandlerBase<DeleteAllRefLandLordToContractedAreasForVendingMachinesCommand>
 {
 	public DeleteAllRefLandLordToContractedAreasForVendingMachinesCommandHandler(
@@ -65,7 +65,7 @@ public partial class DeleteAllRefLandLordToContractedAreasForVendingMachinesComm
 	{ }
 }
 
-public abstract class RefLandLordToContractedAreasForVendingMachinesCommandHandlerBase<TRequest>: CommandBase<TRequest, LandLord>, 
+internal abstract class RefLandLordToContractedAreasForVendingMachinesCommandHandlerBase<TRequest>: CommandBase<TRequest, LandLord>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefLandLordToContractedAreasForVendingMachinesCommand
 {
 	public CryptocashDbContext DbContext { get; }

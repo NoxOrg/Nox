@@ -15,7 +15,7 @@ using ClientApi.Application.Dto;
 namespace ClientApi.Application.Commands;
 public record UpdateCountryLocalNameForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameKeyDto EntityKeyDto, CountryLocalNameUpdateDto EntityDto, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto?>;
 
-public partial class UpdateCountryLocalNameForCountryCommandHandler: CommandBase<UpdateCountryLocalNameForCountryCommand, CountryLocalName>, IRequestHandler <UpdateCountryLocalNameForCountryCommand, CountryLocalNameKeyDto?>
+internal partial class UpdateCountryLocalNameForCountryCommandHandler: CommandBase<UpdateCountryLocalNameForCountryCommand, CountryLocalName>, IRequestHandler <UpdateCountryLocalNameForCountryCommand, CountryLocalNameKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	private readonly IEntityFactory<CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> _entityFactory;

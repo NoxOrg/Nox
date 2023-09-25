@@ -20,7 +20,7 @@ namespace Cryptocash.Application.Commands;
 
 public record CreateCommissionCommand(CommissionCreateDto EntityDto) : IRequest<CommissionKeyDto>;
 
-public partial class CreateCommissionCommandHandler: CreateCommissionCommandHandlerBase
+internal partial class CreateCommissionCommandHandler: CreateCommissionCommandHandlerBase
 {
 	public CreateCommissionCommandHandler(
 		CryptocashDbContext dbContext,
@@ -35,7 +35,7 @@ public partial class CreateCommissionCommandHandler: CreateCommissionCommandHand
 }
 
 
-public abstract class CreateCommissionCommandHandlerBase: CommandBase<CreateCommissionCommand,Commission>, IRequestHandler <CreateCommissionCommand, CommissionKeyDto>
+internal abstract class CreateCommissionCommandHandlerBase: CommandBase<CreateCommissionCommand,Commission>, IRequestHandler <CreateCommissionCommand, CommissionKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> _entityFactory;

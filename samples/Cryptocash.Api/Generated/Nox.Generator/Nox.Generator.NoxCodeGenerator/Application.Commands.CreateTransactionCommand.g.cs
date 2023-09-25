@@ -20,7 +20,7 @@ namespace Cryptocash.Application.Commands;
 
 public record CreateTransactionCommand(TransactionCreateDto EntityDto) : IRequest<TransactionKeyDto>;
 
-public partial class CreateTransactionCommandHandler: CreateTransactionCommandHandlerBase
+internal partial class CreateTransactionCommandHandler: CreateTransactionCommandHandlerBase
 {
 	public CreateTransactionCommandHandler(
 		CryptocashDbContext dbContext,
@@ -35,7 +35,7 @@ public partial class CreateTransactionCommandHandler: CreateTransactionCommandHa
 }
 
 
-public abstract class CreateTransactionCommandHandlerBase: CommandBase<CreateTransactionCommand,Transaction>, IRequestHandler <CreateTransactionCommand, TransactionKeyDto>
+internal abstract class CreateTransactionCommandHandlerBase: CommandBase<CreateTransactionCommand,Transaction>, IRequestHandler <CreateTransactionCommand, TransactionKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> _entityFactory;

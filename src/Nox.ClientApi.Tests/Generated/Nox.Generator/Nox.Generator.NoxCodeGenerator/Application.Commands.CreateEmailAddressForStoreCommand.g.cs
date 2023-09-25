@@ -19,7 +19,7 @@ using EmailAddress = ClientApi.Domain.EmailAddress;
 namespace ClientApi.Application.Commands;
 public record CreateEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto, EmailAddressCreateDto EntityDto, System.Guid? Etag) : IRequest <EmailAddressKeyDto?>;
 
-public partial class CreateEmailAddressForStoreCommandHandler: CreateEmailAddressForStoreCommandHandlerBase
+internal partial class CreateEmailAddressForStoreCommandHandler: CreateEmailAddressForStoreCommandHandlerBase
 {
 	public CreateEmailAddressForStoreCommandHandler(
 		ClientApiDbContext dbContext,
@@ -30,7 +30,7 @@ public partial class CreateEmailAddressForStoreCommandHandler: CreateEmailAddres
 	{
 	}
 }
-public abstract class CreateEmailAddressForStoreCommandHandlerBase: CommandBase<CreateEmailAddressForStoreCommand, EmailAddress>, IRequestHandler<CreateEmailAddressForStoreCommand, EmailAddressKeyDto?>
+internal abstract class CreateEmailAddressForStoreCommandHandlerBase: CommandBase<CreateEmailAddressForStoreCommand, EmailAddress>, IRequestHandler<CreateEmailAddressForStoreCommand, EmailAddressKeyDto?>
 {
 	private readonly ClientApiDbContext _dbContext;
 	private readonly IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> _entityFactory;

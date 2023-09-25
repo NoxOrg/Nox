@@ -20,7 +20,7 @@ public record Update{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyD
 public record Update{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}KeyDto EntityKeyDto, {{entity.Name}}UpdateDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
 {{- end }}
 
-public partial class Update{{entity.Name}}For{{parent.Name}}CommandHandler: CommandBase<Update{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}>, IRequestHandler <Update{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}KeyDto?>
+internal partial class Update{{entity.Name}}For{{parent.Name}}CommandHandler: CommandBase<Update{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}>, IRequestHandler <Update{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}KeyDto?>
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
 	private readonly IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> _entityFactory;

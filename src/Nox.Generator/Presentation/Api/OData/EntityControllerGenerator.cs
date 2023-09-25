@@ -82,7 +82,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
 
             code.AppendLine(@$"public partial class {controllerName} : {controllerName}Base
 {{
-    public {controllerName}(IMediator mediator, {dbContextName} databaseContext):base(databaseContext, mediator)
+    public {controllerName}(IMediator mediator):base(mediator)
     {{}}
 }}");
 
@@ -91,13 +91,11 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             // Class
             code.StartBlock();
 
-            // db context
-            AddField(code, dbContextName, "databaseContext", "The OData DbContext for CRUD operations");
+            // db context            
             AddField(code, "IMediator", "mediator", "The Mediator");
 
             var constructorParameters = new Dictionary<string, string>
                 {
-                    { dbContextName, "databaseContext" },
                     { "IMediator", "mediator" }
                 };
 
