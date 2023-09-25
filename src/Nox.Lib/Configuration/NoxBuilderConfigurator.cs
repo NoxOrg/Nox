@@ -101,7 +101,6 @@ namespace Nox.Configuration
                 .AddSecretsResolver()
                 .AddNoxMediatR(_clientAssembly)
                 .AddNoxFactories(noxAssemblies)
-                .AddAutoMapper(_clientAssembly)
                 .AddNoxProviders()
                 .AddNoxDtos();
 

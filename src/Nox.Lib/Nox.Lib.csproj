@@ -41,8 +41,6 @@
 		<PackageReference Include="Scrutor" Version="4.2.2" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
-		<PackageReference Include="AutoMapper" Version="12.0.1" />
-		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
 		<PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.3" />
 		<PackageReference Include="Microsoft.OData.ModelBuilder" Version="1.0.9" />
 		<PackageReference Include="Serilog" Version="3.0.1" />
