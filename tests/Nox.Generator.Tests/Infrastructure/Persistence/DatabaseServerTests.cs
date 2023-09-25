@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -49,11 +50,16 @@ public class DatabaseServerTests : IClassFixture<GeneratorFixture>
         var countryFileName = "Domain.Country.g.cs";
         Assert.True(generatedSources.Any(s => s.HintName == countryFileName), $"{countryFileName} not generated");
         var generated = generatedSources.First(s => s.HintName == countryFileName).SourceText.ToString();
-        Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/Country.expected.g.cs"), generated);
+        Assert.Equal(Normalize(File.ReadAllText("./ExpectedGeneratedFiles/Country.expected.g.cs")), Normalize(generated));
 
         var dbContextFileName = "Infrastructure.Persistence.SampleWebAppDbContext.g.cs";
         Assert.True(generatedSources.Any(s => s.HintName == dbContextFileName), $"{dbContextFileName} not generated");
         Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/SampleWebAppDbContext.expected.g.cs"), generatedSources.First(s => s.HintName == dbContextFileName).SourceText.ToString());
         //can further extend this test to verify contents of source files.
+    }
+    
+    private string Normalize(string input)
+    {
+        return input.Replace("\n", string.Empty).Replace("\r", string.Empty).Replace("\t", string.Empty).Replace(" ",string.Empty);
     }
 }

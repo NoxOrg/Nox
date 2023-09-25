@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace SampleWebApp.Domain;
@@ -17,20 +18,20 @@ public partial class Country:CountryBase
 /// <summary>
 /// Record for Country created event.
 /// </summary>
-public record CountryCreated(Country Country) : IDomainEvent;
+public record CountryCreated(CountryBase Country) : IDomainEvent;
 /// <summary>
 /// Record for Country updated event.
 /// </summary>
-public record CountryUpdated(Country Country) : IDomainEvent;
+public record CountryUpdated(CountryBase Country) : IDomainEvent;
 /// <summary>
 /// Record for Country deleted event.
 /// </summary>
-public record CountryDeleted(Country Country) : IDomainEvent;
+public record CountryDeleted(CountryBase Country) : IDomainEvent;
 
 /// <summary>
 /// The list of countries.
 /// </summary>
-public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
+public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     ///  (Required).
@@ -62,9 +63,37 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// The country's official name (Required).
     /// </summary>
     public Nox.Types.Text FormalName { get; set; } = null!;
+	
+    ///<inheritdoc/>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+    private readonly List<IDomainEvent> _domainEvents = new();
+    
+    ///<inheritdoc/>
+    public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new CountryCreated(this));     
+	}
 
-    /// <summary>
-    /// Entity tag used as concurrency token.
-    /// </summary>
-    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
+    ///<inheritdoc/>
+    public virtual void RaiseUpdateEvent()
+    {
+	    _domainEvents.Add(new CountryUpdated(this));
+    }
+    
+    ///<inheritdoc/>
+    public virtual void RaiseDeleteEvent()
+	{
+	    _domainEvents.Add(new CountryDeleted(this));
+	}
+	
+	///<inheritdoc />
+	public virtual void ClearDomainEvents()
+	{
+	    _domainEvents.Clear();
+	}
+	
+	/// <summary>
+	/// Entity tag used as concurrency token.
+	/// </summary>
+	public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }
