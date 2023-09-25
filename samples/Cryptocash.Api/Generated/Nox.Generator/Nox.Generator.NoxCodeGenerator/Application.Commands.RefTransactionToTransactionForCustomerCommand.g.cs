@@ -65,14 +65,14 @@ public partial class DeleteAllRefTransactionToTransactionForCustomerCommandHandl
 	{ }
 }
 
-public abstract class RefTransactionToTransactionForCustomerCommandHandlerBase<TRequest>: CommandBase<TRequest, Transaction>, 
+public abstract class RefTransactionToTransactionForCustomerCommandHandlerBase<TRequest> : CommandBase<TRequest, Transaction>,
 	IRequestHandler <TRequest, bool> where TRequest : RefTransactionToTransactionForCustomerCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefTransactionToTransactionForCustomerCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,19 +106,19 @@ public abstract class RefTransactionToTransactionForCustomerCommandHandlerBase<T
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToTransactionForCustomer(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToTransactionForCustomer(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
-                entity.DeleteAllRefToTransactionForCustomer();
-                break;
-        }
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToTransactionForCustomer(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToTransactionForCustomer(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
+				entity.DeleteAllRefToTransactionForCustomer();
+				break;
+		}
 
 		OnCompleted(request, entity);
 

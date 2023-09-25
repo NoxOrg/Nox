@@ -19,11 +19,22 @@ public record Delete{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyD
 public record Delete{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}KeyDto EntityKeyDto) : IRequest <bool>;
 {{- end }}
 
-public partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandler: CommandBase<Delete{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}>, IRequestHandler <Delete{{entity.Name}}For{{parent.Name}}Command, bool>
+public partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandler : Delete{{entity.Name}}For{{parent.Name}}CommandHandlerBase
+{
+	public Delete{{entity.Name}}For{{parent.Name}}CommandHandler(
+		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution, serviceProvider)
+	{
+	}
+}
+
+public partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandlerBase : CommandBase<Delete{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}>, IRequestHandler <Delete{{entity.Name}}For{{parent.Name}}Command, bool>
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
 
-	public Delete{{entity.Name}}For{{parent.Name}}CommandHandler(
+	public Delete{{entity.Name}}For{{parent.Name}}CommandHandlerBase(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -31,7 +42,7 @@ public partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandler: Comm
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(Delete{{entity.Name}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(Delete{{entity.Name}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
@@ -43,7 +54,7 @@ public partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandler: Comm
 		if (parentEntity == null)
 		{
 			return false;
-		}		
+		}
 
 		{{- if isSingleRelationship }}
 		var entity = parentEntity.{{relationship.Name}};
@@ -71,7 +82,7 @@ public partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandler: Comm
 
 		DbContext.Entry(entity).State = EntityState.Deleted;
 		{{- end }}
-	
+
 		var result = await DbContext.SaveChangesAsync(cancellationToken);
 		if (result < 1)
 		{

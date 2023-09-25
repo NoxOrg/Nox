@@ -65,14 +65,14 @@ public partial class DeleteAllRefVendingMachineToVendingMachineRelatedBookingsCo
 	{ }
 }
 
-public abstract class RefVendingMachineToVendingMachineRelatedBookingsCommandHandlerBase<TRequest>: CommandBase<TRequest, VendingMachine>, 
+public abstract class RefVendingMachineToVendingMachineRelatedBookingsCommandHandlerBase<TRequest> : CommandBase<TRequest, VendingMachine>,
 	IRequestHandler <TRequest, bool> where TRequest : RefVendingMachineToVendingMachineRelatedBookingsCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefVendingMachineToVendingMachineRelatedBookingsCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,20 +106,20 @@ public abstract class RefVendingMachineToVendingMachineRelatedBookingsCommandHan
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToVendingMachineRelatedBookings(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToVendingMachineRelatedBookings(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToVendingMachineRelatedBookings(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToVendingMachineRelatedBookings(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
 				await DbContext.Entry(entity).Collection(x => x.VendingMachineRelatedBookings).LoadAsync();
-                entity.DeleteAllRefToVendingMachineRelatedBookings();
-                break;
-        }
+				entity.DeleteAllRefToVendingMachineRelatedBookings();
+				break;
+		}
 
 		OnCompleted(request, entity);
 

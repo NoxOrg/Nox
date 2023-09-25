@@ -65,14 +65,14 @@ public partial class DeleteAllRefCommissionToCommissionFeesForCountryCommandHand
 	{ }
 }
 
-public abstract class RefCommissionToCommissionFeesForCountryCommandHandlerBase<TRequest>: CommandBase<TRequest, Commission>, 
+public abstract class RefCommissionToCommissionFeesForCountryCommandHandlerBase<TRequest> : CommandBase<TRequest, Commission>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCommissionToCommissionFeesForCountryCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefCommissionToCommissionFeesForCountryCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,19 +106,19 @@ public abstract class RefCommissionToCommissionFeesForCountryCommandHandlerBase<
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToCommissionFeesForCountry(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToCommissionFeesForCountry(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
-                entity.DeleteAllRefToCommissionFeesForCountry();
-                break;
-        }
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToCommissionFeesForCountry(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToCommissionFeesForCountry(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
+				entity.DeleteAllRefToCommissionFeesForCountry();
+				break;
+		}
 
 		OnCompleted(request, entity);
 

@@ -65,14 +65,14 @@ public partial class DeleteAllRefWorkplaceToBelongsToCountryCommandHandler
 	{ }
 }
 
-public abstract class RefWorkplaceToBelongsToCountryCommandHandlerBase<TRequest>: CommandBase<TRequest, Workplace>, 
+public abstract class RefWorkplaceToBelongsToCountryCommandHandlerBase<TRequest> : CommandBase<TRequest, Workplace>,
 	IRequestHandler <TRequest, bool> where TRequest : RefWorkplaceToBelongsToCountryCommand
 {
 	public ClientApiDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefWorkplaceToBelongsToCountryCommandHandlerBase(
 		ClientApiDbContext dbContext,
@@ -106,19 +106,19 @@ public abstract class RefWorkplaceToBelongsToCountryCommandHandlerBase<TRequest>
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToBelongsToCountry(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToBelongsToCountry(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
-                entity.DeleteAllRefToBelongsToCountry();
-                break;
-        }
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToBelongsToCountry(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToBelongsToCountry(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
+				entity.DeleteAllRefToBelongsToCountry();
+				break;
+		}
 
 		OnCompleted(request, entity);
 
