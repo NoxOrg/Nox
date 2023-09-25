@@ -43,6 +43,10 @@ internal class DtoDbContext : DbContext
     
         public DbSet<CountryDto> Countries { get; set; } = null!;
         
+        public DbSet<RatingProgramDto> RatingPrograms { get; set; } = null!;
+        
+        public DbSet<CountryQualityOfLifeIndexDto> CountryQualityOfLifeIndices { get; set; } = null!;
+        
         public DbSet<StoreDto> Stores { get; set; } = null!;
         
         public DbSet<WorkplaceDto> Workplaces { get; set; } = null!;

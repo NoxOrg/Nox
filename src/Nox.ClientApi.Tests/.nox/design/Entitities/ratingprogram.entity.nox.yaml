@@ -1,0 +1,34 @@
+#
+# countrydescription.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/entity.json
+#
+
+name: RatingProgram
+description: Rating program for store
+
+keys:
+
+  - name: StoreId
+    type: entityId
+    isRequired: true
+    entityIdTypeOptions:
+     entity: Store
+   
+  - name: Id
+    isRequired: true
+    description: The unique identifier 
+    type: autoNumber
+
+attributes:
+
+  - name: Name
+    description: Rating Program Name
+    type: text
+    textTypeOptions:
+      minLength: 1
+      maxLength: 256
+    isRequired: false
+
+persistence:
+    isAudited: false

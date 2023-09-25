@@ -53,6 +53,10 @@ internal partial class ClientApiDbContext : DbContext
 
 
 
+    public DbSet<RatingProgram> RatingPrograms { get; set; } = null!;
+
+    public DbSet<CountryQualityOfLifeIndex> CountryQualityOfLifeIndices { get; set; } = null!;
+
     public DbSet<Store> Stores { get; set; } = null!;
 
     public DbSet<Workplace> Workplaces { get; set; } = null!;

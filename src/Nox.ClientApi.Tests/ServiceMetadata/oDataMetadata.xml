@@ -28,6 +28,16 @@
                 <Property Name="BarCodeName" Type="Edm.String" Nullable="false" />
                 <Property Name="BarCodeNumber" Type="Edm.Int32" />
             </EntityType>
+            <EntityType Name="RatingProgramDto">
+                <Key>
+                    <PropertyRef Name="Id" />
+                    <PropertyRef Name="StoreId" />
+                </Key>
+                <Property Name="StoreId" Type="Edm.Guid" Nullable="false" />
+                <Property Name="Id" Type="Edm.Int64" Nullable="false" />
+                <Property Name="Name" Type="Edm.String" />
+                <Property Name="Etag" Type="Edm.Guid" Nullable="false" />
+            </EntityType>
             <EntityType Name="StoreDto">
                 <Key>
                     <PropertyRef Name="Id" />
@@ -560,6 +570,7 @@
             <EntityContainer Name="Container">
                 <EntitySet Name="Countries" EntityType="ClientApi.Application.Dto.CountryDto" />
                 <EntitySet Name="CountryLocalNames" EntityType="ClientApi.Application.Dto.CountryLocalNameDto" />
+                <EntitySet Name="RatingPrograms" EntityType="ClientApi.Application.Dto.RatingProgramDto" />
                 <EntitySet Name="Stores" EntityType="ClientApi.Application.Dto.StoreDto" />
                 <EntitySet Name="Workplaces" EntityType="ClientApi.Application.Dto.WorkplaceDto" />
                 <EntitySet Name="StoreOwners" EntityType="ClientApi.Application.Dto.StoreOwnerDto" />
