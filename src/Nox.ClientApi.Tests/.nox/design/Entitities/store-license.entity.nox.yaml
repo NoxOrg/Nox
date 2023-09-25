@@ -1,0 +1,31 @@
+# store.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/entity.json
+#
+
+name: StoreLicense
+
+description: Store license info
+
+keys:
+
+  - name: Id
+    type: autoNumber
+    isRequired: true
+
+attributes:
+
+  - name: Issuer
+    description: License issuer
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+
+relationships:
+
+    - name: StoreWithLicense
+      description: Store that this license related to
+      relationship: exactlyOne
+      entity: Store

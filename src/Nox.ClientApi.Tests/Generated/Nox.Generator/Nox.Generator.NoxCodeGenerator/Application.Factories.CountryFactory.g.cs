@@ -55,7 +55,6 @@ public abstract class CountryFactoryBase : IEntityFactory<Country, CountryCreate
         if (createDto.Population is not null)entity.Population = ClientApi.Domain.Country.CreatePopulation(createDto.Population.NonNullValue<System.Int32>());
         if (createDto.CountryDebt is not null)entity.CountryDebt = ClientApi.Domain.Country.CreateCountryDebt(createDto.CountryDebt.NonNullValue<MoneyDto>());
         if (createDto.FirstLanguageCode is not null)entity.FirstLanguageCode = ClientApi.Domain.Country.CreateFirstLanguageCode(createDto.FirstLanguageCode.NonNullValue<System.String>());
-        //entity.Workplaces = Workplaces.Select(dto => dto.ToEntity()).ToList();
         entity.CountryShortNames = createDto.CountryShortNames.Select(dto => CountryLocalNameFactory.CreateEntity(dto)).ToList();
         if (createDto.CountryBarCode is not null)
         {
@@ -76,7 +75,6 @@ public abstract class CountryFactoryBase : IEntityFactory<Country, CountryCreate
         if (updateDto.FirstLanguageCode == null) { entity.FirstLanguageCode = null; } else {
             entity.FirstLanguageCode = ClientApi.Domain.Country.CreateFirstLanguageCode(updateDto.FirstLanguageCode.ToValueFromNonNull<System.String>());
         }
-        //entity.Workplaces = Workplaces.Select(dto => dto.ToEntity()).ToList();
     }
 }
 

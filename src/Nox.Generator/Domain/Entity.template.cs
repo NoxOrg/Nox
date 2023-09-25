@@ -162,16 +162,20 @@ public abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if ent
         {{- if relationship.WithSingleEntity }}
 
         {{- if relationship.Relationship == "ExactlyOne" }}
-        throw new Exception($"The relatioship cannot be deleted."); 
+        throw new Exception($"The relationship cannot be deleted.");
         {{- else }}
+        {{- if relationship.ShouldGenerateForeignOnThisSide }}
         {{relationship.Name}}Id = null;
+        {{- else }}
+        {{relationship.Name}} = null;
+        {{- end }}
         {{- end }}
 
         {{- else}}
 
         {{- if relationship.Relationship == "OneOrMany" }}
         if({{relationship.Name}}.Count() < 2)
-            throw new Exception($"The relatioship cannot be deleted.");             
+            throw new Exception($"The relationship cannot be deleted.");
         {{- end }}
         {{relationship.Name}}.Clear();
 

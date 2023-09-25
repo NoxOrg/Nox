@@ -72,27 +72,27 @@ public partial class BookingDto
     /// Booking for ExactlyOne Customers
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Int64 BookingForCustomerId { get; set; } = default!;
-    public virtual CustomerDto BookingForCustomer { get; set; } = null!;
+    public System.Int64? BookingForCustomerId { get; set; } = default!;
+    public virtual CustomerDto? BookingForCustomer { get; set; } = null!;
 
     /// <summary>
     /// Booking related to ExactlyOne VendingMachines
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Guid BookingRelatedVendingMachineId { get; set; } = default!;
-    public virtual VendingMachineDto BookingRelatedVendingMachine { get; set; } = null!;
+    public System.Guid? BookingRelatedVendingMachineId { get; set; } = default!;
+    public virtual VendingMachineDto? BookingRelatedVendingMachine { get; set; } = null!;
 
     /// <summary>
     /// Booking fees for ExactlyOne Commissions
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Int64 BookingFeesForCommissionId { get; set; } = default!;
-    public virtual CommissionDto BookingFeesForCommission { get; set; } = null!;
+    public System.Int64? BookingFeesForCommissionId { get; set; } = default!;
+    public virtual CommissionDto? BookingFeesForCommission { get; set; } = null!;
 
     /// <summary>
     /// Booking related to ExactlyOne Transactions
     /// </summary>
-    public virtual TransactionDto BookingRelatedTransaction { get; set; } = null!;
+    public virtual TransactionDto? BookingRelatedTransaction { get; set; } = null!;
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

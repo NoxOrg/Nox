@@ -48,8 +48,6 @@ public abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrder,
         entity.Amount = Cryptocash.Domain.CashStockOrder.CreateAmount(createDto.Amount);
         entity.RequestedDeliveryDate = Cryptocash.Domain.CashStockOrder.CreateRequestedDeliveryDate(createDto.RequestedDeliveryDate);
         if (createDto.DeliveryDateTime is not null)entity.DeliveryDateTime = Cryptocash.Domain.CashStockOrder.CreateDeliveryDateTime(createDto.DeliveryDateTime.NonNullValue<System.DateTimeOffset>());
-        //entity.VendingMachine = VendingMachine.ToEntity();
-        //entity.Employee = Employee.ToEntity();
         return entity;
     }
 
@@ -60,8 +58,6 @@ public abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrder,
         if (updateDto.DeliveryDateTime == null) { entity.DeliveryDateTime = null; } else {
             entity.DeliveryDateTime = Cryptocash.Domain.CashStockOrder.CreateDeliveryDateTime(updateDto.DeliveryDateTime.ToValueFromNonNull<System.DateTimeOffset>());
         }
-        //entity.VendingMachine = VendingMachine.ToEntity();
-        //entity.Employee = Employee.ToEntity();
     }
 }
 

@@ -47,7 +47,6 @@ public abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvide
         var entity = new Cryptocash.Domain.PaymentProvider();
         entity.PaymentProviderName = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderName(createDto.PaymentProviderName);
         entity.PaymentProviderType = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderType(createDto.PaymentProviderType);
-        //entity.PaymentDetails = PaymentDetails.Select(dto => dto.ToEntity()).ToList();
         return entity;
     }
 
@@ -55,7 +54,6 @@ public abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvide
     {
         entity.PaymentProviderName = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderName(updateDto.PaymentProviderName.NonNullValue<System.String>());
         entity.PaymentProviderType = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderType(updateDto.PaymentProviderType.NonNullValue<System.String>());
-        //entity.PaymentDetails = PaymentDetails.Select(dto => dto.ToEntity()).ToList();
     }
 }
 

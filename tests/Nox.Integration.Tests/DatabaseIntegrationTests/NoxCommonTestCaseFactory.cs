@@ -386,8 +386,7 @@ public class NoxCommonTestCaseFactory
             TextTestField2 = Text.From(text),
         };
 
-        newItem.SecondTestEntityExactlyOneRelationship = newItem2;
-        newItem2.TestEntityExactlyOneRelationship = newItem;
+        newItem.SecondTestEntityExactlyOneRelationshipId = newItem2.Id;
         DataContext.TestEntityExactlyOnes.Add(newItem);
         DataContext.SecondTestEntityExactlyOnes.Add(newItem2);
         DataContext.SaveChanges();
@@ -423,8 +422,7 @@ public class NoxCommonTestCaseFactory
             TextTestField2 = Text.From(text),
         };
 
-        newItem.SecondTestEntityZeroOrOneRelationship = newItem2;
-        newItem2.TestEntityZeroOrOneRelationship = newItem;
+        newItem.SecondTestEntityZeroOrOneRelationshipId = newItem2.Id;
         DataContext.TestEntityZeroOrOnes.Add(newItem);
         DataContext.SecondTestEntityZeroOrOnes.Add(newItem2);
         DataContext.SaveChanges();
@@ -460,7 +458,7 @@ public class NoxCommonTestCaseFactory
             TextTestField2 = Text.From(text),
         };
 
-        newItem.TestEntityZeroOrManyToZeroOrOne = newItem2;
+        newItem.TestEntityZeroOrManyToZeroOrOneId = newItem2.Id;
         newItem2.TestEntityZeroOrOneToZeroOrMany.Add(newItem);
         DataContext.TestEntityZeroOrOneToZeroOrManies.Add(newItem);
         DataContext.TestEntityZeroOrManyToZeroOrOnes.Add(newItem2);
@@ -497,7 +495,7 @@ public class NoxCommonTestCaseFactory
             TextTestField2 = Text.From(text),
         };
 
-        newItem.TestEntityOneOrManyToZeroOrOne = newItem2;
+        newItem.TestEntityOneOrManyToZeroOrOneId = newItem2.Id;
         newItem2.TestEntityZeroOrOneToOneOrMany.Add(newItem);
         DataContext.TestEntityZeroOrOneToOneOrManies.Add(newItem);
         DataContext.TestEntityOneOrManyToZeroOrOnes.Add(newItem2);
@@ -534,8 +532,7 @@ public class NoxCommonTestCaseFactory
             TextTestField2 = Text.From(text),
         };
 
-        newItem.TestEntityExactlyOneToZeroOrOne = newItem2;
-        newItem2.TestEntityZeroOrOneToExactlyOne = newItem;
+        newItem2.TestEntityZeroOrOneToExactlyOneId = newItem.Id;
         DataContext.TestEntityZeroOrOneToExactlyOnes.Add(newItem);
         DataContext.TestEntityExactlyOneToZeroOrOnes.Add(newItem2);
         DataContext.SaveChanges();
@@ -571,7 +568,7 @@ public class NoxCommonTestCaseFactory
             TextTestField2 = Text.From(text),
         };
 
-        newItem.TestEntityOneOrManyToExactlyOne = newItem2;
+        newItem.TestEntityOneOrManyToExactlyOneId = newItem2.Id;
         newItem2.TestEntityExactlyOneToOneOrMany.Add(newItem);
         DataContext.TestEntityExactlyOneToOneOrManies.Add(newItem);
         DataContext.TestEntityOneOrManyToExactlyOnes.Add(newItem2);
@@ -609,7 +606,7 @@ public class NoxCommonTestCaseFactory
         };
 
         newItem.TestEntityExactlyOneToZeroOrMany.Add(newItem2);
-        newItem2.TestEntityZeroOrManyToExactlyOne = newItem;
+        newItem2.TestEntityZeroOrManyToExactlyOneId = newItem.Id;
         DataContext.TestEntityZeroOrManyToExactlyOnes.Add(newItem);
         DataContext.TestEntityExactlyOneToZeroOrManies.Add(newItem2);
         DataContext.SaveChanges();
@@ -868,8 +865,10 @@ public class NoxCommonTestCaseFactory
             TextTestField2 = Text.From(textId3),
         };
 
-        newItem.TestRelationshipOne = newItem2;
-        newItem.TestRelationshipTwo = newItem3;
+        newItem.TestRelationshipOneId = newItem2.Id;
+        newItem.TestRelationshipTwoId = newItem3.Id;
+        DataContext.SecondTestEntityTwoRelationshipsOneToOnes.Add(newItem3);
+        DataContext.SecondTestEntityTwoRelationshipsOneToOnes.Add(newItem2);
         DataContext.TestEntityTwoRelationshipsOneToOnes.Add(newItem);
         DataContext.SaveChanges();
 

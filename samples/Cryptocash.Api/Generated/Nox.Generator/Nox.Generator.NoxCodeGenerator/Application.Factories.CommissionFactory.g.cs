@@ -47,8 +47,6 @@ public abstract class CommissionFactoryBase : IEntityFactory<Commission, Commiss
         var entity = new Cryptocash.Domain.Commission();
         entity.Rate = Cryptocash.Domain.Commission.CreateRate(createDto.Rate);
         entity.EffectiveAt = Cryptocash.Domain.Commission.CreateEffectiveAt(createDto.EffectiveAt);
-        //entity.Country = Country?.ToEntity();
-        //entity.Bookings = Bookings.Select(dto => dto.ToEntity()).ToList();
         return entity;
     }
 
@@ -56,8 +54,6 @@ public abstract class CommissionFactoryBase : IEntityFactory<Commission, Commiss
     {
         entity.Rate = Cryptocash.Domain.Commission.CreateRate(updateDto.Rate.NonNullValue<System.Single>());
         entity.EffectiveAt = Cryptocash.Domain.Commission.CreateEffectiveAt(updateDto.EffectiveAt.NonNullValue<System.DateTimeOffset>());
-        //entity.Country = Country?.ToEntity();
-        //entity.Bookings = Bookings.Select(dto => dto.ToEntity()).ToList();
     }
 }
 

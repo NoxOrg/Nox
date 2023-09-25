@@ -99,6 +99,26 @@ public abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
     }
 
     /// <summary>
+    /// Store License that this store uses ZeroOrOne StoreLicenses
+    /// </summary>
+    public virtual StoreLicense? License { get; private set; } = null!;
+
+    public virtual void CreateRefToLicense(StoreLicense relatedStoreLicense)
+    {
+        License = relatedStoreLicense;
+    }
+
+    public virtual void DeleteRefToLicense(StoreLicense relatedStoreLicense)
+    {
+        License = null;
+    }
+
+    public virtual void DeleteAllRefToLicense()
+    {
+        License = null;
+    }
+
+    /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
      public virtual EmailAddress? VerifiedEmails { get; set; } = null!;

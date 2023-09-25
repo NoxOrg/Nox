@@ -53,7 +53,6 @@ public abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto, S
         entity.Location = ClientApi.Domain.Store.CreateLocation(createDto.Location);
         if (createDto.OpeningDay is not null)entity.OpeningDay = ClientApi.Domain.Store.CreateOpeningDay(createDto.OpeningDay.NonNullValue<System.DateTimeOffset>());
         entity.EnsureId(createDto.Id);
-        //entity.StoreOwner = StoreOwner?.ToEntity();
         if (createDto.VerifiedEmails is not null)
         {
             entity.VerifiedEmails = EmailAddressFactory.CreateEntity(createDto.VerifiedEmails);
@@ -69,7 +68,6 @@ public abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto, S
         if (updateDto.OpeningDay == null) { entity.OpeningDay = null; } else {
             entity.OpeningDay = ClientApi.Domain.Store.CreateOpeningDay(updateDto.OpeningDay.ToValueFromNonNull<System.DateTimeOffset>());
         }
-        //entity.StoreOwner = StoreOwner?.ToEntity();
     }
 }
 

@@ -64,8 +64,6 @@ public abstract class CurrencyFactoryBase : IEntityFactory<Currency, CurrencyCre
         entity.MinorName = Cryptocash.Domain.Currency.CreateMinorName(createDto.MinorName);
         entity.MinorSymbol = Cryptocash.Domain.Currency.CreateMinorSymbol(createDto.MinorSymbol);
         entity.MinorToMajorValue = Cryptocash.Domain.Currency.CreateMinorToMajorValue(createDto.MinorToMajorValue);
-        //entity.Countries = Countries.Select(dto => dto.ToEntity()).ToList();
-        //entity.MinimumCashStocks = MinimumCashStocks.Select(dto => dto.ToEntity()).ToList();
         entity.CurrencyCommonBankNotes = createDto.CurrencyCommonBankNotes.Select(dto => BankNoteFactory.CreateEntity(dto)).ToList();
         entity.CurrencyExchangedFromRates = createDto.CurrencyExchangedFromRates.Select(dto => ExchangeRateFactory.CreateEntity(dto)).ToList();
         return entity;
@@ -89,8 +87,6 @@ public abstract class CurrencyFactoryBase : IEntityFactory<Currency, CurrencyCre
         entity.MinorName = Cryptocash.Domain.Currency.CreateMinorName(updateDto.MinorName.NonNullValue<System.String>());
         entity.MinorSymbol = Cryptocash.Domain.Currency.CreateMinorSymbol(updateDto.MinorSymbol.NonNullValue<System.String>());
         entity.MinorToMajorValue = Cryptocash.Domain.Currency.CreateMinorToMajorValue(updateDto.MinorToMajorValue.NonNullValue<MoneyDto>());
-        //entity.Countries = Countries.Select(dto => dto.ToEntity()).ToList();
-        //entity.MinimumCashStocks = MinimumCashStocks.Select(dto => dto.ToEntity()).ToList();
     }
 }
 

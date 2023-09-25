@@ -110,7 +110,7 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
 
     public virtual void DeleteAllRefToVendingMachineInstallationCountry()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>
@@ -135,7 +135,7 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
 
     public virtual void DeleteAllRefToVendingMachineContractedAreaLandLord()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>

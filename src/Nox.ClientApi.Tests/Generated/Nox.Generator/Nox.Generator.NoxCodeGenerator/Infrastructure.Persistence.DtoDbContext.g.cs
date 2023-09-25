@@ -49,6 +49,8 @@ public class DtoDbContext : DbContext
         
         public DbSet<StoreOwnerDto> StoreOwners { get; set; } = null!;
         
+        public DbSet<StoreLicenseDto> StoreLicenses { get; set; } = null!;
+        
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
