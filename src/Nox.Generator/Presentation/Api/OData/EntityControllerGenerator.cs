@@ -80,24 +80,22 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             code.AppendLine($"namespace {codeGeneratorState.ODataNameSpace};");
             code.AppendLine();
 
-            code.AppendLine(@$"internal partial class {controllerName} : {controllerName}Base
+            code.AppendLine(@$"public partial class {controllerName} : {controllerName}Base
 {{
-    public {controllerName}(IMediator mediator, {dbContextName} databaseContext):base(databaseContext, mediator)
+    public {controllerName}(IMediator mediator):base(mediator)
     {{}}
 }}");
 
-            code.AppendLine($"internal abstract class {controllerName}Base : ODataController");
+            code.AppendLine($"public abstract class {controllerName}Base : ODataController");
 
             // Class
             code.StartBlock();
 
-            // db context
-            AddField(code, dbContextName, "databaseContext", "The OData DbContext for CRUD operations");
+            // db context            
             AddField(code, "IMediator", "mediator", "The Mediator");
 
             var constructorParameters = new Dictionary<string, string>
                 {
-                    { dbContextName, "databaseContext" },
                     { "IMediator", "mediator" }
                 };
 

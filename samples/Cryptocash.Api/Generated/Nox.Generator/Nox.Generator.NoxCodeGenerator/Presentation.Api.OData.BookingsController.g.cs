@@ -23,18 +23,13 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-internal partial class BookingsController : BookingsControllerBase
+public partial class BookingsController : BookingsControllerBase
 {
-    public BookingsController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    public BookingsController(IMediator mediator):base(mediator)
     {}
 }
-internal abstract class BookingsControllerBase : ODataController
+public abstract class BookingsControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -42,11 +37,9 @@ internal abstract class BookingsControllerBase : ODataController
     protected readonly IMediator _mediator;
     
     public BookingsControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
     }
     

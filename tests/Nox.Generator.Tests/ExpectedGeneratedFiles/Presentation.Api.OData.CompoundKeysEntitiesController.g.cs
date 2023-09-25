@@ -23,18 +23,13 @@ using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
-internal partial class CompoundKeysEntitiesController : CompoundKeysEntitiesControllerBase
+public partial class CompoundKeysEntitiesController : CompoundKeysEntitiesControllerBase
 {
-    public CompoundKeysEntitiesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    public CompoundKeysEntitiesController(IMediator mediator):base(mediator)
     {}
 }
-internal abstract class CompoundKeysEntitiesControllerBase : ODataController
+public abstract class CompoundKeysEntitiesControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -42,11 +37,9 @@ internal abstract class CompoundKeysEntitiesControllerBase : ODataController
     protected readonly IMediator _mediator;
     
     public CompoundKeysEntitiesControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
     }
     

@@ -23,18 +23,13 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-internal partial class MinimumCashStocksController : MinimumCashStocksControllerBase
+public partial class MinimumCashStocksController : MinimumCashStocksControllerBase
 {
-    public MinimumCashStocksController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    public MinimumCashStocksController(IMediator mediator):base(mediator)
     {}
 }
-internal abstract class MinimumCashStocksControllerBase : ODataController
+public abstract class MinimumCashStocksControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -42,11 +37,9 @@ internal abstract class MinimumCashStocksControllerBase : ODataController
     protected readonly IMediator _mediator;
     
     public MinimumCashStocksControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
     }
     

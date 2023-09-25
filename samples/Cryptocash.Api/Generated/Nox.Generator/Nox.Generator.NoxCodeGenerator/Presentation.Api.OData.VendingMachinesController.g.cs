@@ -23,18 +23,13 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-internal partial class VendingMachinesController : VendingMachinesControllerBase
+public partial class VendingMachinesController : VendingMachinesControllerBase
 {
-    public VendingMachinesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    public VendingMachinesController(IMediator mediator):base(mediator)
     {}
 }
-internal abstract class VendingMachinesControllerBase : ODataController
+public abstract class VendingMachinesControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -42,11 +37,9 @@ internal abstract class VendingMachinesControllerBase : ODataController
     protected readonly IMediator _mediator;
     
     public VendingMachinesControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
     }
     
