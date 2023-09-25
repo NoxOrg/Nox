@@ -155,19 +155,6 @@ public class YamlFileValidationTests
         Assert.Equal("The owned entity 'Country' cannot be referred by other entities relationships.", errors[1].ErrorMessage);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     [Fact]
     public void Deserialize_OwnedEntity_HasKeysWhenRelationshipIsZeroOrOne_ThrowsException()
     {
@@ -179,8 +166,8 @@ public class YamlFileValidationTests
 
         Assert.Equal(2, errors.Length);
 
-        Assert.Equal("Owned entity Country with ZeroOrOne or ExactlyOne relationship can not have key(s).", errors[0].ErrorMessage);
-        Assert.Equal("Owned entity Currency with ZeroOrOne or ExactlyOne relationship can not have key(s).", errors[1].ErrorMessage);
+        Assert.Equal("Owned entity Currency with ZeroOrOne or ExactlyOne relationship can not have key(s).", errors[0].ErrorMessage);
+        Assert.Equal("Owned entity Country with ZeroOrOne or ExactlyOne relationship can not have key(s).", errors[1].ErrorMessage);
     }
 
     [Fact]
@@ -194,8 +181,8 @@ public class YamlFileValidationTests
 
         Assert.Equal(2, errors.Length);
 
-        Assert.Equal("Owned entity Country with ZeroOrOne or ExactlyOne relationship can not have key(s).", errors[0].ErrorMessage);
-        Assert.Equal("Owned entity Currency with ZeroOrOne or ExactlyOne relationship can not have key(s).", errors[1].ErrorMessage);
+        Assert.Equal("Owned entity Currency with ZeroOrOne or ExactlyOne relationship can not have key(s).", errors[0].ErrorMessage);
+        Assert.Equal("Owned entity Country with ZeroOrOne or ExactlyOne relationship can not have key(s).", errors[1].ErrorMessage);
     }
 
     [Fact]
@@ -209,8 +196,8 @@ public class YamlFileValidationTests
 
         Assert.Equal(2, errors.Length);
 
-        Assert.Equal("Keys are mandatory for entity Country. Except owned entities with ZeroOrOne or ExactlyOne relationships.", errors[0].ErrorMessage);
-        Assert.Equal("Keys are mandatory for entity Currency. Except owned entities with ZeroOrOne or ExactlyOne relationships.", errors[1].ErrorMessage);
+        Assert.Equal("Keys are mandatory for entity Currency. Except owned entities with ZeroOrOne or ExactlyOne relationships.", errors[0].ErrorMessage);
+        Assert.Equal("Keys are mandatory for entity Country. Except owned entities with ZeroOrOne or ExactlyOne relationships.", errors[1].ErrorMessage);
     }
 
     [Fact]
@@ -224,24 +211,25 @@ public class YamlFileValidationTests
 
         Assert.Equal(2, errors.Length);
 
-        Assert.Equal("Keys are mandatory for entity Country. Except owned entities with ZeroOrOne or ExactlyOne relationships.", errors[0].ErrorMessage);
-        Assert.Equal("Keys are mandatory for entity Currency. Except owned entities with ZeroOrOne or ExactlyOne relationships.", errors[1].ErrorMessage);
+        Assert.Equal("Keys are mandatory for entity Currency. Except owned entities with ZeroOrOne or ExactlyOne relationships.", errors[0].ErrorMessage);
+        Assert.Equal("Keys are mandatory for entity Country. Except owned entities with ZeroOrOne or ExactlyOne relationships.", errors[1].ErrorMessage);
     }
 
+    [Fact]
+    public void Deserialize_Entity_DoesNotHaveKeys_ThrowsException()
+    {
+        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
+            .UseYamlFile($"./files/entity-does-not-have-keys-defined.solution.nox.yaml")
+            .Build());
 
+        var errors = exception.Errors.ToArray();
 
+        Assert.Equal(3, errors.Length);
 
-
-
-
-
-
-
-
-
-
-
-
+        Assert.Equal("Keys are mandatory for entity People. Except owned entities with ZeroOrOne or ExactlyOne relationships.", errors[0].ErrorMessage);
+        Assert.Equal("Keys are mandatory for entity Currency. Except owned entities with ZeroOrOne or ExactlyOne relationships.", errors[1].ErrorMessage);
+        Assert.Equal("Keys are mandatory for entity Country. Except owned entities with ZeroOrOne or ExactlyOne relationships.", errors[2].ErrorMessage);
+    }
 
     [Fact]
     public void Deserialize_EntityItemsNameAreDuplicated_ThrowsException()

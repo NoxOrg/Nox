@@ -64,7 +64,7 @@ public abstract class SecondTestEntityTwoRelationshipsOneToManyBase : EntityBase
 
     public virtual void DeleteAllRefToTestRelationshipOneOnOtherSide()
     {
-        TestRelationshipOneOnOtherSide = null;
+        TestRelationshipOneOnOtherSideId = null;
     }
 
     /// <summary>
@@ -89,7 +89,7 @@ public abstract class SecondTestEntityTwoRelationshipsOneToManyBase : EntityBase
 
     public virtual void DeleteAllRefToTestRelationshipTwoOnOtherSide()
     {
-        TestRelationshipTwoOnOtherSide = null;
+        TestRelationshipTwoOnOtherSideId = null;
     }
 
     /// <summary>

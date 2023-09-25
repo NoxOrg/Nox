@@ -40,6 +40,31 @@ domain:
             minLength: 10
             maxLength: 20
 
+    - name: CountryLocalName
+      description: The list of country local names
+
+      persistence: 
+        isAudited: false
+
+      keys:
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+        - name: Name        
+          description: The country local name
+          type: text          
+          isRequired: true
+          textTypeOptions:
+            isUnicode: true
+            minLength: 10
+            maxLength: 20
+
     - name: Country
       description: The list of countries
 
@@ -70,6 +95,11 @@ domain:
           description: accepted currencies
           relationship: zeroOrOne
           entity: Currency
+
+        - name: CountryLocalNames
+          description: is also known as
+          relationship: oneOrMany
+          entity: CountryLocalName
 
     - name: Continent
       description: The list of continents

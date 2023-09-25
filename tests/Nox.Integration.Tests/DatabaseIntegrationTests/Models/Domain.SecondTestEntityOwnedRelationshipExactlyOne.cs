@@ -32,10 +32,6 @@ public record SecondTestEntityOwnedRelationshipExactlyOneDeleted(SecondTestEntit
 /// </summary>
 public abstract class SecondTestEntityOwnedRelationshipExactlyOneBase : EntityBase, IOwnedEntity
 {
-    /// <summary>
-    ///  (Required).
-    /// </summary>
-    public Nox.Types.Text Id1 { get; set; } = null!;
 
     /// <summary>
     ///  (Required).
