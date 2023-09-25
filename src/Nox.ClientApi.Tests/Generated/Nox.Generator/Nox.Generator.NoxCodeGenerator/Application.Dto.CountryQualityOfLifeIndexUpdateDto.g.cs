@@ -12,12 +12,14 @@ using ClientApi.Domain;
 namespace ClientApi.Application.Dto;
 
 /// <summary>
-/// Description for store.
+/// Country Quality Of Life Index.
 /// </summary>
-public partial class StoreDescriptionUpdateDto : IEntityDto<StoreDescription>
+public partial class CountryQualityOfLifeIndexUpdateDto : IEntityDto<CountryQualityOfLifeIndex>
 {
     /// <summary>
-    /// Store Decsription (Optional).
+    /// Rating Index (Required).
     /// </summary>
-    public System.String? Description { get; set; }
+    [Required(ErrorMessage = "IndexRating is required")]
+    
+    public System.Int32 IndexRating { get; set; } = default!;
 }

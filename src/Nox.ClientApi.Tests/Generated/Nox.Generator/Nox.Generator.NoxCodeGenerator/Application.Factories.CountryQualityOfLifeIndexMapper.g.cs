@@ -16,30 +16,30 @@ using Nox.Extensions;
 using Nox.Exceptions;
 using ClientApi.Application.Dto;
 using ClientApi.Domain;
-using StoreDescription = ClientApi.Domain.StoreDescription;
+using CountryQualityOfLifeIndex = ClientApi.Domain.CountryQualityOfLifeIndex;
 
 namespace ClientApi.Application;
 
-public partial class StoreDescriptionMapper : EntityMapperBase<StoreDescription>
+public partial class CountryQualityOfLifeIndexMapper : EntityMapperBase<CountryQualityOfLifeIndex>
 {
-    public StoreDescriptionMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
+    public CountryQualityOfLifeIndexMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
-    public override void PartialMapToEntity(StoreDescription entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
+    public override void PartialMapToEntity(CountryQualityOfLifeIndex entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
 #pragma warning disable CS0168 // Variable is assigned but its value is never used
         dynamic? value;
 #pragma warning restore CS0168 // Variable is assigned but its value is never used
         {
-            if (updatedProperties.TryGetValue("Description", out value))
+            if (updatedProperties.TryGetValue("IndexRating", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Description", value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition, "IndexRating", value);
                 if(noxTypeValue == null)
                 {
-                    entity.Description = null;
+                    throw new EntityAttributeIsNotNullableException("CountryQualityOfLifeIndex", "IndexRating");
                 }
                 else
                 {
-                    entity.Description = noxTypeValue;
+                    entity.IndexRating = noxTypeValue;
                 }
             }
         }

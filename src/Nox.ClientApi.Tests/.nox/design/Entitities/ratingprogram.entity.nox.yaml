@@ -4,8 +4,8 @@
 # yaml-language-server: $schema=../../../../../schemas/entity.json
 #
 
-name: StoreDescription
-description: Description for store
+name: RatingProgram
+description: Rating program for store
 
 keys:
 
@@ -22,8 +22,8 @@ keys:
 
 attributes:
 
-  - name: Description
-    description: Store Decsription
+  - name: Name
+    description: Rating Program Name
     type: text
     textTypeOptions:
       minLength: 1

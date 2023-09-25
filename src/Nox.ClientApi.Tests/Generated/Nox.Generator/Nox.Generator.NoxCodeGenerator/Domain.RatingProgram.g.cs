@@ -10,27 +10,27 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-public partial class StoreDescription:StoreDescriptionBase
+public partial class RatingProgram:RatingProgramBase
 {
 
 }
 /// <summary>
-/// Record for StoreDescription created event.
+/// Record for RatingProgram created event.
 /// </summary>
-public record StoreDescriptionCreated(StoreDescription StoreDescription) : IDomainEvent;
+public record RatingProgramCreated(RatingProgram RatingProgram) : IDomainEvent;
 /// <summary>
-/// Record for StoreDescription updated event.
+/// Record for RatingProgram updated event.
 /// </summary>
-public record StoreDescriptionUpdated(StoreDescription StoreDescription) : IDomainEvent;
+public record RatingProgramUpdated(RatingProgram RatingProgram) : IDomainEvent;
 /// <summary>
-/// Record for StoreDescription deleted event.
+/// Record for RatingProgram deleted event.
 /// </summary>
-public record StoreDescriptionDeleted(StoreDescription StoreDescription) : IDomainEvent;
+public record RatingProgramDeleted(RatingProgram RatingProgram) : IDomainEvent;
 
 /// <summary>
-/// Description for store.
+/// Rating program for store.
 /// </summary>
-public abstract class StoreDescriptionBase : EntityBase, IEntityConcurrent
+public abstract class RatingProgramBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -44,9 +44,9 @@ public abstract class StoreDescriptionBase : EntityBase, IEntityConcurrent
     public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// Store Decsription (Optional).
+    /// Rating Program Name (Optional).
     /// </summary>
-    public Nox.Types.Text? Description { get; set; } = null!;
+    public Nox.Types.Text? Name { get; set; } = null!;
 
     /// <summary>
     /// Entity tag used as concurrency token.

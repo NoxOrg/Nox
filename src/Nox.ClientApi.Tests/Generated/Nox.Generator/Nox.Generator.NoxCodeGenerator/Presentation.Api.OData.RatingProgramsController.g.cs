@@ -23,12 +23,12 @@ using Nox.Types;
 
 namespace ClientApi.Presentation.Api.OData;
 
-public partial class StoreDescriptionsController : StoreDescriptionsControllerBase
+public partial class RatingProgramsController : RatingProgramsControllerBase
 {
-    public StoreDescriptionsController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    public RatingProgramsController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
     {}
 }
-public abstract class StoreDescriptionsControllerBase : ODataController
+public abstract class RatingProgramsControllerBase : ODataController
 {
     
     /// <summary>
@@ -41,7 +41,7 @@ public abstract class StoreDescriptionsControllerBase : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public StoreDescriptionsControllerBase(
+    public RatingProgramsControllerBase(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -51,33 +51,33 @@ public abstract class StoreDescriptionsControllerBase : ODataController
     }
     
     [EnableQuery]
-    public virtual async Task<ActionResult<IQueryable<StoreDescriptionDto>>> Get()
+    public virtual async Task<ActionResult<IQueryable<RatingProgramDto>>> Get()
     {
-        var result = await _mediator.Send(new GetStoreDescriptionsQuery());
+        var result = await _mediator.Send(new GetRatingProgramsQuery());
         return Ok(result);
     }
     
     [EnableQuery]
-    public async Task<SingleResult<StoreDescriptionDto>> Get([FromRoute] System.Guid keyStoreId, [FromRoute] System.Int64 keyId)
+    public async Task<SingleResult<RatingProgramDto>> Get([FromRoute] System.Guid keyStoreId, [FromRoute] System.Int64 keyId)
     {
-        var query = await _mediator.Send(new GetStoreDescriptionByIdQuery(keyStoreId, keyId));
+        var query = await _mediator.Send(new GetRatingProgramByIdQuery(keyStoreId, keyId));
         return SingleResult.Create(query);
     }
     
-    public virtual async Task<ActionResult<StoreDescriptionDto>> Post([FromBody]StoreDescriptionCreateDto storeDescription)
+    public virtual async Task<ActionResult<RatingProgramDto>> Post([FromBody]RatingProgramCreateDto ratingProgram)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var createdKey = await _mediator.Send(new CreateStoreDescriptionCommand(storeDescription));
+        var createdKey = await _mediator.Send(new CreateRatingProgramCommand(ratingProgram));
         
-        var item = (await _mediator.Send(new GetStoreDescriptionByIdQuery(createdKey.keyStoreId, createdKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetRatingProgramByIdQuery(createdKey.keyStoreId, createdKey.keyId))).SingleOrDefault();
         
         return Created(item);
     }
     
-    public virtual async Task<ActionResult<StoreDescriptionDto>> Put([FromRoute] System.Guid keyStoreId, [FromRoute] System.Int64 keyId, [FromBody] StoreDescriptionUpdateDto storeDescription)
+    public virtual async Task<ActionResult<RatingProgramDto>> Put([FromRoute] System.Guid keyStoreId, [FromRoute] System.Int64 keyId, [FromBody] RatingProgramUpdateDto ratingProgram)
     {
         if (!ModelState.IsValid)
         {
@@ -85,19 +85,19 @@ public abstract class StoreDescriptionsControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new UpdateStoreDescriptionCommand(keyStoreId, keyId, storeDescription, etag));
+        var updated = await _mediator.Send(new UpdateRatingProgramCommand(keyStoreId, keyId, ratingProgram, etag));
         
         if (updated is null)
         {
             return NotFound();
         }
         
-        var item = (await _mediator.Send(new GetStoreDescriptionByIdQuery(updated.keyStoreId, updated.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetRatingProgramByIdQuery(updated.keyStoreId, updated.keyId))).SingleOrDefault();
         
         return Ok(item);
     }
     
-    public virtual async Task<ActionResult<StoreDescriptionDto>> Patch([FromRoute] System.Guid keyStoreId, [FromRoute] System.Int64 keyId, [FromBody] Delta<StoreDescriptionDto> storeDescription)
+    public virtual async Task<ActionResult<RatingProgramDto>> Patch([FromRoute] System.Guid keyStoreId, [FromRoute] System.Int64 keyId, [FromBody] Delta<RatingProgramDto> ratingProgram)
     {
         if (!ModelState.IsValid)
         {
@@ -106,29 +106,29 @@ public abstract class StoreDescriptionsControllerBase : ODataController
         
         var updateProperties = new Dictionary<string, dynamic>();
         
-        foreach (var propertyName in storeDescription.GetChangedPropertyNames())
+        foreach (var propertyName in ratingProgram.GetChangedPropertyNames())
         {
-            if(storeDescription.TryGetPropertyValue(propertyName, out dynamic value))
+            if(ratingProgram.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
             }           
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateStoreDescriptionCommand(keyStoreId, keyId, updateProperties, etag));
+        var updated = await _mediator.Send(new PartialUpdateRatingProgramCommand(keyStoreId, keyId, updateProperties, etag));
         
         if (updated is null)
         {
             return NotFound();
         }
-        var item = (await _mediator.Send(new GetStoreDescriptionByIdQuery(updated.keyStoreId, updated.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetRatingProgramByIdQuery(updated.keyStoreId, updated.keyId))).SingleOrDefault();
         return Ok(item);
     }
     
     public virtual async Task<ActionResult> Delete([FromRoute] System.Guid keyStoreId, [FromRoute] System.Int64 keyId)
     {
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteStoreDescriptionByIdCommand(keyStoreId, keyId, etag));
+        var result = await _mediator.Send(new DeleteRatingProgramByIdCommand(keyStoreId, keyId, etag));
         
         if (!result)
         {

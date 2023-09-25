@@ -10,9 +10,9 @@ using System.Collections.Generic;
 namespace ClientApi.Domain;
 
 /// <summary>
-/// Static methods for the StoreDescription class.
+/// Static methods for the RatingProgram class.
 /// </summary>
-public partial class StoreDescription
+public partial class RatingProgram
 {
     
         /// <summary>
@@ -30,9 +30,9 @@ public partial class StoreDescription
         
     
         /// <summary>
-        /// Type options for property 'Description'
+        /// Type options for property 'Name'
         /// </summary>
-        public static Nox.Types.TextTypeOptions DescriptionTypeOptions {get; private set;} = new ()
+        public static Nox.Types.TextTypeOptions NameTypeOptions {get; private set;} = new ()
         {
             MinLength = 1,
             MaxLength = 256,
@@ -43,9 +43,9 @@ public partial class StoreDescription
     
     
         /// <summary>
-        /// Factory for property 'Description'
+        /// Factory for property 'Name'
         /// </summary>
-        public static Nox.Types.Text CreateDescription(System.String value)
-            => Nox.Types.Text.From(value, DescriptionTypeOptions);
+        public static Nox.Types.Text CreateName(System.String value)
+            => Nox.Types.Text.From(value, NameTypeOptions);
         
 }

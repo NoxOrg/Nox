@@ -18,7 +18,7 @@ erDiagram
     }
     CountryBarCode {
     }
-    StoreDescription {
+    RatingProgram {
     }
     Store {
     }
@@ -98,6 +98,25 @@ NativeName|Text|Local name in native tongue.|MinLength: 4, MaxLength: 63
 
 
 
+### RatingProgram
+
+Description for store.
+
+[Endpoints](./endpoints/RatingProgramEndpoints.md)
+
+[Domain Events](./domainEvents/RatingProgramDomainEvents.md)
+
+#### <u>Members (Keys, Attributes & Relationships)</u>
+
+Member|Type|Description|Info
+---------|----|----------|-------
+StoreId|EntityId||Required, Primary Key
+Id|AutoNumber|The unique identifier.|Required, Primary Key
+Name|Text|Rating Program Name.|MinLength: 1, MaxLength: 256
+
+
+
+
 ### Store
 
 Stores. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
@@ -138,25 +157,6 @@ Member|Type|Description|Info
 ---------|----|----------|-------
 Email|Email|Email.|
 IsVerified|Boolean|Verified.|
-
-
-
-
-### StoreDescription
-
-Description for store.
-
-[Endpoints](./endpoints/StoreDescriptionEndpoints.md)
-
-[Domain Events](./domainEvents/StoreDescriptionDomainEvents.md)
-
-#### <u>Members (Keys, Attributes & Relationships)</u>
-
-Member|Type|Description|Info
----------|----|----------|-------
-StoreId|EntityId||Required, Primary Key
-Id|AutoNumber|The unique identifier.|Required, Primary Key
-Description|Text|Store Decsription.|MinLength: 1, MaxLength: 256
 
 
 

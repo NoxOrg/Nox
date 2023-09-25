@@ -14,15 +14,15 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public partial class StoreDescriptionCreateDto : StoreDescriptionCreateDtoBase
+public partial class RatingProgramCreateDto : RatingProgramCreateDtoBase
 {
 
 }
 
 /// <summary>
-/// Description for store.
+/// Rating program for store.
 /// </summary>
-public abstract class StoreDescriptionCreateDtoBase : IEntityDto<StoreDescription>
+public abstract class RatingProgramCreateDtoBase : IEntityDto<RatingProgram>
 {
     /// <summary>
     ///  (Required).
@@ -30,7 +30,7 @@ public abstract class StoreDescriptionCreateDtoBase : IEntityDto<StoreDescriptio
     [Required(ErrorMessage = "StoreId is required")]
     public System.Guid StoreId { get; set; } = default!;
     /// <summary>
-    /// Store Decsription (Optional).
+    /// Rating Program Name (Optional).
     /// </summary>
-    public virtual System.String? Description { get; set; }
+    public virtual System.String? Name { get; set; }
 }

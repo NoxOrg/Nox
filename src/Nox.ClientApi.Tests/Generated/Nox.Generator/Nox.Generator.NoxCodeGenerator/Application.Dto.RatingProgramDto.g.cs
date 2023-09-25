@@ -15,12 +15,12 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public record StoreDescriptionKeyDto(System.Guid keyStoreId, System.Int64 keyId);
+public record RatingProgramKeyDto(System.Guid keyStoreId, System.Int64 keyId);
 
 /// <summary>
-/// Description for store.
+/// Rating program for store.
 /// </summary>
-public partial class StoreDescriptionDto
+public partial class RatingProgramDto
 {
 
     /// <summary>
@@ -34,9 +34,9 @@ public partial class StoreDescriptionDto
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Store Decsription (Optional).
+    /// Rating Program Name (Optional).
     /// </summary>
-    public System.String? Description { get; set; }
+    public System.String? Name { get; set; }
 
     [JsonPropertyName("@odata.etag")]
     public System.Guid Etag { get; init; }

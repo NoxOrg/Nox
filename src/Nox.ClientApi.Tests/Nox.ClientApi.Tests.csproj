@@ -39,13 +39,14 @@
 	</ItemGroup>
 
 	<ItemGroup>				
+		<AdditionalFiles Include=".nox\design\Entitities\countryqualityoflifeindex.entity.nox.yaml" />				
 		<AdditionalFiles Include=".nox\design\Entitities\store-owner.entity.nox.yaml">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</AdditionalFiles>				
 		<AdditionalFiles Include=".nox\design\Entitities\store.entity.nox.yaml">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</AdditionalFiles>				
-		<AdditionalFiles Include=".nox\design\Entitities\storedescription.entity.nox.yaml" />				
+		<AdditionalFiles Include=".nox\design\Entitities\ratingprogram.entity.nox.yaml" />				
 		<AdditionalFiles Include="generator.nox.yaml" />
 	</ItemGroup>
 

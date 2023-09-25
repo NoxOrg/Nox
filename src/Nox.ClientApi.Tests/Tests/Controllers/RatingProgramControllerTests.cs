@@ -11,20 +11,20 @@ using Microsoft.AspNetCore.Http.HttpResults;
 namespace ClientApi.Tests.Tests.Controllers
 {
     [Collection("StoreDescriptionsControllerTests")]
-    public class StoreDescriptionsControllerTests : NoxIntegrationTestBase
+    public class RatingProgramControllerTests : NoxIntegrationTestBase
     {
-        private const string EntityPluralName = "storedescriptions";
+        private const string EntityPluralName = "ratingprograms";
         private const string EntityUrl = $"api/{EntityPluralName}";
         private const string StoresUrl = $"api/stores";
 
-        public StoreDescriptionsControllerTests(NoxTestContainerService containerService) : base(containerService)
+        public RatingProgramControllerTests(NoxTestContainerService containerService) : base(containerService)
         {
         }
 
         #region KEY AS ENTITYID
 
         [Fact]
-        public async Task Post_StoreDescriptionWithStoreId_Success()
+        public async Task Post_RatingProgramWithStoreId_Success()
         {
             // Arrange
             var storeDto = new StoreCreateDto
@@ -46,33 +46,33 @@ namespace ClientApi.Tests.Tests.Controllers
 
             var storeResponse = await PostAsync<StoreCreateDto, StoreDto>(StoresUrl, storeDto);
 
-            var descriptionDto = new StoreDescriptionCreateDto
+            var ratingDto = new RatingProgramCreateDto
             {
                 StoreId = storeResponse!.Id,
-                Description = _fixture.Create<string>()
+                Name = _fixture.Create<string>()
             };
 
             // Act
-            var descriptionResponse = await PostAsync<StoreDescriptionCreateDto, StoreDescriptionDto>(EntityUrl, descriptionDto);
+            var ratingResponse = await PostAsync<RatingProgramCreateDto, RatingProgramDto>(EntityUrl, ratingDto);
 
             //Assert
-            descriptionResponse.Should().NotBeNull();
-            descriptionResponse!.Id.Should().BeGreaterThan(0);
-            descriptionResponse!.Description.Should().NotBeNullOrEmpty();
-            descriptionResponse!.StoreId.Should().Be(storeResponse!.Id);
+            ratingResponse.Should().NotBeNull();
+            ratingResponse!.Id.Should().BeGreaterThan(0);
+            ratingResponse!.Name.Should().NotBeNullOrEmpty();
+            ratingResponse!.StoreId.Should().Be(storeResponse!.Id);
         }
 
         [Fact]
-        public async Task Post_StoreDescriptionWithInvalidStoreId_Fails()
+        public async Task Post_RatingProgramWithInvalidStoreId_Fails()
         {
-            var descriptionDto = new StoreDescriptionCreateDto
+            var ratingDto = new RatingProgramCreateDto
             {
                 StoreId = _fixture.Create<System.Guid>(),
-                Description = _fixture.Create<string>()
+                Name = _fixture.Create<string>()
             };
 
             // Act
-            var result = await PostAsync(EntityUrl, descriptionDto);
+            var result = await PostAsync(EntityUrl, ratingDto);
 
             //Assert
             result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
