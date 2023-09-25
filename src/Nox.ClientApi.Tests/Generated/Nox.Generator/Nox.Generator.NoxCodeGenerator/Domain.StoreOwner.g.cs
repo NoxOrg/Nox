@@ -35,7 +35,7 @@ public abstract class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
     /// Owner Name (Required).
@@ -70,11 +70,21 @@ public abstract class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores
     /// </summary>
-    public virtual List<Store> Stores { get; set; } = new();
+    public virtual List<Store> Stores { get; private set; } = new();
 
-    public virtual void CreateRefToStore(Store relatedStore)
+    public virtual void CreateRefToStores(Store relatedStore)
     {
         Stores.Add(relatedStore);
+    }
+
+    public virtual void DeleteRefToStores(Store relatedStore)
+    {
+        Stores.Remove(relatedStore);
+    }
+
+    public virtual void DeleteAllRefToStores()
+    {
+        Stores.Clear();
     }
 
     /// <summary>

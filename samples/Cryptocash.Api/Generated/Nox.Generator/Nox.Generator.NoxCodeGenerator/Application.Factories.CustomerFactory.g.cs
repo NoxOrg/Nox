@@ -23,7 +23,7 @@ using Customer = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class CustomerFactoryBase: IEntityFactory<Customer,CustomerCreateDto>
+internal abstract class CustomerFactoryBase : IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto>
 {
 
     public CustomerFactoryBase
@@ -36,6 +36,12 @@ public abstract class CustomerFactoryBase: IEntityFactory<Customer,CustomerCreat
     {
         return ToEntity(createDto);
     }
+
+    public virtual void UpdateEntity(Customer entity, CustomerUpdateDto updateDto)
+    {
+        UpdateEntityInternal(entity, updateDto);
+    }
+
     private Cryptocash.Domain.Customer ToEntity(CustomerCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Customer();
@@ -44,14 +50,21 @@ public abstract class CustomerFactoryBase: IEntityFactory<Customer,CustomerCreat
         entity.EmailAddress = Cryptocash.Domain.Customer.CreateEmailAddress(createDto.EmailAddress);
         entity.Address = Cryptocash.Domain.Customer.CreateAddress(createDto.Address);
         if (createDto.MobileNumber is not null)entity.MobileNumber = Cryptocash.Domain.Customer.CreateMobileNumber(createDto.MobileNumber.NonNullValue<System.String>());
-        //entity.PaymentDetails = PaymentDetails.Select(dto => dto.ToEntity()).ToList();
-        //entity.Bookings = Bookings.Select(dto => dto.ToEntity()).ToList();
-        //entity.Transactions = Transactions.Select(dto => dto.ToEntity()).ToList();
-        //entity.Country = Country.ToEntity();
         return entity;
+    }
+
+    private void UpdateEntityInternal(Customer entity, CustomerUpdateDto updateDto)
+    {
+        entity.FirstName = Cryptocash.Domain.Customer.CreateFirstName(updateDto.FirstName.NonNullValue<System.String>());
+        entity.LastName = Cryptocash.Domain.Customer.CreateLastName(updateDto.LastName.NonNullValue<System.String>());
+        entity.EmailAddress = Cryptocash.Domain.Customer.CreateEmailAddress(updateDto.EmailAddress.NonNullValue<System.String>());
+        entity.Address = Cryptocash.Domain.Customer.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
+        if (updateDto.MobileNumber == null) { entity.MobileNumber = null; } else {
+            entity.MobileNumber = Cryptocash.Domain.Customer.CreateMobileNumber(updateDto.MobileNumber.ToValueFromNonNull<System.String>());
+        }
     }
 }
 
-public partial class CustomerFactory : CustomerFactoryBase
+internal partial class CustomerFactory : CustomerFactoryBase
 {
 }

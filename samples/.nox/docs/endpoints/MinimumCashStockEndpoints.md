@@ -32,55 +32,47 @@ This document provides information about the various endpoints available in our 
 
 ### VendingMachine
 
-#### Get VendingMachine relation by ID
-- **GET** `/api/MinimumCashStocks/{key}/VendingMachines/{relatedKey}/$ref`
-  - Description: Retrieve an existing VendingMachines relation for a specific MinimumCashStock.
-
 #### Get VendingMachine relations
-- **GET** `/api/MinimumCashStocks/{key}/VendingMachines/$ref`
-  - Description: Retrieve all VendingMachines relations for a specific MinimumCashStock.
+- **GET** `/api/MinimumCashStocks/{key}/MinimumCashStocksRequiredByVendingMachines/$ref`
+  - Description: Retrieve all existing VendingMachines relations for a specific MinimumCashStock.
   
 #### Create VendingMachine relation
-- **POST** `/api/MinimumCashStocks/{key}/VendingMachines/{relatedKey}/$ref`
+- **POST** `/api/MinimumCashStocks/{key}/MinimumCashStocksRequiredByVendingMachines/{relatedKey}/$ref`
   - Description: Create a new VendingMachine relation for a specific MinimumCashStock.
   
 #### Update VendingMachine relation
-- **PUT** `/api/MinimumCashStocks/{key}/VendingMachines/{relatedKey}/$ref`
-  - Description: Update an existing VendingMachine relation for a specific MinimumCashStock.
-  
-#### Partially Update VendingMachine relation
-- **PATCH** `/api/MinimumCashStocks/{key}/VendingMachines/{relatedKey}/$ref`
-  - Description: Partially update an existing VendingMachine relation for a specific MinimumCashStock.
+- **PUT** `/api/MinimumCashStocks/{key}/MinimumCashStocksRequiredByVendingMachines/{relatedKey}/$ref`
+  - Description: Updates an existing VendingMachine relation for a specific MinimumCashStock.
 
 #### Delete VendingMachine relation
-- **DELETE** `/api/MinimumCashStocks/{key}/VendingMachines/{relatedKey}/$ref`
+- **DELETE** `/api/MinimumCashStocks/{key}/MinimumCashStocksRequiredByVendingMachines/{relatedKey}/$ref`
   - Description: Delete an existing VendingMachine relation for a specific MinimumCashStock.
+
+#### Delete VendingMachine relations
+- **DELETE** `/api/MinimumCashStocks/{key}/MinimumCashStocksRequiredByVendingMachines/$ref`
+  - Description: Delete all existing VendingMachines relations for a specific MinimumCashStock.
 
 ### Currency
 
-#### Get Currency relation by ID
-- **GET** `/api/MinimumCashStocks/{key}/Currencies/{relatedKey}/$ref`
-  - Description: Retrieve an existing Currencies relation for a specific MinimumCashStock.
-
 #### Get Currency relations
-- **GET** `/api/MinimumCashStocks/{key}/Currencies/$ref`
-  - Description: Retrieve all Currencies relations for a specific MinimumCashStock.
+- **GET** `/api/MinimumCashStocks/{key}/MinimumCashStockRelatedCurrency/$ref`
+  - Description: Retrieve all existing Currencies relations for a specific MinimumCashStock.
   
 #### Create Currency relation
-- **POST** `/api/MinimumCashStocks/{key}/Currencies/{relatedKey}/$ref`
+- **POST** `/api/MinimumCashStocks/{key}/MinimumCashStockRelatedCurrency/{relatedKey}/$ref`
   - Description: Create a new Currency relation for a specific MinimumCashStock.
   
 #### Update Currency relation
-- **PUT** `/api/MinimumCashStocks/{key}/Currencies/{relatedKey}/$ref`
-  - Description: Update an existing Currency relation for a specific MinimumCashStock.
-  
-#### Partially Update Currency relation
-- **PATCH** `/api/MinimumCashStocks/{key}/Currencies/{relatedKey}/$ref`
-  - Description: Partially update an existing Currency relation for a specific MinimumCashStock.
+- **PUT** `/api/MinimumCashStocks/{key}/MinimumCashStockRelatedCurrency/{relatedKey}/$ref`
+  - Description: Updates an existing Currency relation for a specific MinimumCashStock.
 
 #### Delete Currency relation
-- **DELETE** `/api/MinimumCashStocks/{key}/Currencies/{relatedKey}/$ref`
+- **DELETE** `/api/MinimumCashStocks/{key}/MinimumCashStockRelatedCurrency/{relatedKey}/$ref`
   - Description: Delete an existing Currency relation for a specific MinimumCashStock.
+
+#### Delete Currency relations
+- **DELETE** `/api/MinimumCashStocks/{key}/MinimumCashStockRelatedCurrency/$ref`
+  - Description: Delete all existing Currencies relations for a specific MinimumCashStock.
 
 ## Related Entities
 

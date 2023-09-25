@@ -32,13 +32,9 @@ This document provides information about the various endpoints available in our 
 
 ### Store
 
-#### Get Store relation by ID
-- **GET** `/api/StoreOwners/{key}/Stores/{relatedKey}/$ref`
-  - Description: Retrieve an existing Stores relation for a specific StoreOwner.
-
 #### Get Store relations
 - **GET** `/api/StoreOwners/{key}/Stores/$ref`
-  - Description: Retrieve all Stores relations for a specific StoreOwner.
+  - Description: Retrieve all existing Stores relations for a specific StoreOwner.
   
 #### Create Store relation
 - **POST** `/api/StoreOwners/{key}/Stores/{relatedKey}/$ref`
@@ -46,15 +42,15 @@ This document provides information about the various endpoints available in our 
   
 #### Update Store relation
 - **PUT** `/api/StoreOwners/{key}/Stores/{relatedKey}/$ref`
-  - Description: Update an existing Store relation for a specific StoreOwner.
-  
-#### Partially Update Store relation
-- **PATCH** `/api/StoreOwners/{key}/Stores/{relatedKey}/$ref`
-  - Description: Partially update an existing Store relation for a specific StoreOwner.
+  - Description: Updates an existing Store relation for a specific StoreOwner.
 
 #### Delete Store relation
 - **DELETE** `/api/StoreOwners/{key}/Stores/{relatedKey}/$ref`
   - Description: Delete an existing Store relation for a specific StoreOwner.
+
+#### Delete Store relations
+- **DELETE** `/api/StoreOwners/{key}/Stores/$ref`
+  - Description: Delete all existing Stores relations for a specific StoreOwner.
 
 ## Related Entities
 

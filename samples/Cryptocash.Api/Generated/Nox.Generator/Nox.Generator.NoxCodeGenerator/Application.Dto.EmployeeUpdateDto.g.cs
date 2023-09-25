@@ -3,16 +3,18 @@
 #nullable enable
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Employee definition and related data.
 /// </summary>
-public partial class EmployeeUpdateDto
+public partial class EmployeeUpdateDto : IEntityDto<Employee>
 {
     /// <summary>
     /// Employee's first name (Required).

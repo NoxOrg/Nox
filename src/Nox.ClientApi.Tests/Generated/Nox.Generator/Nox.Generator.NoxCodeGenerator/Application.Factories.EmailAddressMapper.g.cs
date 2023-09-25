@@ -24,18 +24,6 @@ public partial class EmailAddressMapper : EntityMapperBase<EmailAddress>
 {
     public EmailAddressMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
-    public override void MapToEntity(EmailAddress entity, Entity entityDefinition, dynamic dto)
-    {
-    #pragma warning disable CS0168 // Variable is declared but never used        
-        dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used        
-        noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition, "Email", dto.Email);     
-        entity.Email = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.Boolean>(entityDefinition, "IsVerified", dto.IsVerified);     
-        entity.IsVerified = noxTypeValue;
-    
-    }
-
     public override void PartialMapToEntity(EmailAddress entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
 #pragma warning disable CS0168 // Variable is assigned but its value is never used

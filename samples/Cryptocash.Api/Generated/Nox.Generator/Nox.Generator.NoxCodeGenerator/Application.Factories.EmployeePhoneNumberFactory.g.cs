@@ -23,7 +23,7 @@ using EmployeePhoneNumber = Cryptocash.Domain.EmployeePhoneNumber;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class EmployeePhoneNumberFactoryBase: IEntityFactory<EmployeePhoneNumber,EmployeePhoneNumberCreateDto>
+internal abstract class EmployeePhoneNumberFactoryBase : IEntityFactory<EmployeePhoneNumber, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto>
 {
 
     public EmployeePhoneNumberFactoryBase
@@ -36,6 +36,12 @@ public abstract class EmployeePhoneNumberFactoryBase: IEntityFactory<EmployeePho
     {
         return ToEntity(createDto);
     }
+
+    public virtual void UpdateEntity(EmployeePhoneNumber entity, EmployeePhoneNumberUpdateDto updateDto)
+    {
+        UpdateEntityInternal(entity, updateDto);
+    }
+
     private Cryptocash.Domain.EmployeePhoneNumber ToEntity(EmployeePhoneNumberCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.EmployeePhoneNumber();
@@ -43,8 +49,14 @@ public abstract class EmployeePhoneNumberFactoryBase: IEntityFactory<EmployeePho
         entity.PhoneNumber = Cryptocash.Domain.EmployeePhoneNumber.CreatePhoneNumber(createDto.PhoneNumber);
         return entity;
     }
+
+    private void UpdateEntityInternal(EmployeePhoneNumber entity, EmployeePhoneNumberUpdateDto updateDto)
+    {
+        entity.PhoneNumberType = Cryptocash.Domain.EmployeePhoneNumber.CreatePhoneNumberType(updateDto.PhoneNumberType.NonNullValue<System.String>());
+        entity.PhoneNumber = Cryptocash.Domain.EmployeePhoneNumber.CreatePhoneNumber(updateDto.PhoneNumber.NonNullValue<System.String>());
+    }
 }
 
-public partial class EmployeePhoneNumberFactory : EmployeePhoneNumberFactoryBase
+internal partial class EmployeePhoneNumberFactory : EmployeePhoneNumberFactoryBase
 {
 }

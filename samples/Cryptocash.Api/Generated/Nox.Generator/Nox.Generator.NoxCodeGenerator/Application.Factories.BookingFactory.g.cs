@@ -23,7 +23,7 @@ using Booking = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class BookingFactoryBase: IEntityFactory<Booking,BookingCreateDto>
+internal abstract class BookingFactoryBase : IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto>
 {
 
     public BookingFactoryBase
@@ -36,6 +36,12 @@ public abstract class BookingFactoryBase: IEntityFactory<Booking,BookingCreateDt
     {
         return ToEntity(createDto);
     }
+
+    public virtual void UpdateEntity(Booking entity, BookingUpdateDto updateDto)
+    {
+        UpdateEntityInternal(entity, updateDto);
+    }
+
     private Cryptocash.Domain.Booking ToEntity(BookingCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Booking();
@@ -46,14 +52,30 @@ public abstract class BookingFactoryBase: IEntityFactory<Booking,BookingCreateDt
         if (createDto.ExpiryDateTime is not null)entity.ExpiryDateTime = Cryptocash.Domain.Booking.CreateExpiryDateTime(createDto.ExpiryDateTime.NonNullValue<System.DateTimeOffset>());
         if (createDto.CancelledDateTime is not null)entity.CancelledDateTime = Cryptocash.Domain.Booking.CreateCancelledDateTime(createDto.CancelledDateTime.NonNullValue<System.DateTimeOffset>());
         if (createDto.VatNumber is not null)entity.VatNumber = Cryptocash.Domain.Booking.CreateVatNumber(createDto.VatNumber.NonNullValue<VatNumberDto>());
-        //entity.Customer = Customer.ToEntity();
-        //entity.VendingMachine = VendingMachine.ToEntity();
-        //entity.Commission = Commission.ToEntity();
-        //entity.Transaction = Transaction.ToEntity();
+        entity.EnsureId(createDto.Id);
         return entity;
+    }
+
+    private void UpdateEntityInternal(Booking entity, BookingUpdateDto updateDto)
+    {
+        entity.AmountFrom = Cryptocash.Domain.Booking.CreateAmountFrom(updateDto.AmountFrom.NonNullValue<MoneyDto>());
+        entity.AmountTo = Cryptocash.Domain.Booking.CreateAmountTo(updateDto.AmountTo.NonNullValue<MoneyDto>());
+        entity.RequestedPickUpDate = Cryptocash.Domain.Booking.CreateRequestedPickUpDate(updateDto.RequestedPickUpDate.NonNullValue<DateTimeRangeDto>());
+        if (updateDto.PickedUpDateTime == null) { entity.PickedUpDateTime = null; } else {
+            entity.PickedUpDateTime = Cryptocash.Domain.Booking.CreatePickedUpDateTime(updateDto.PickedUpDateTime.ToValueFromNonNull<DateTimeRangeDto>());
+        }
+        if (updateDto.ExpiryDateTime == null) { entity.ExpiryDateTime = null; } else {
+            entity.ExpiryDateTime = Cryptocash.Domain.Booking.CreateExpiryDateTime(updateDto.ExpiryDateTime.ToValueFromNonNull<System.DateTimeOffset>());
+        }
+        if (updateDto.CancelledDateTime == null) { entity.CancelledDateTime = null; } else {
+            entity.CancelledDateTime = Cryptocash.Domain.Booking.CreateCancelledDateTime(updateDto.CancelledDateTime.ToValueFromNonNull<System.DateTimeOffset>());
+        }
+        if (updateDto.VatNumber == null) { entity.VatNumber = null; } else {
+            entity.VatNumber = Cryptocash.Domain.Booking.CreateVatNumber(updateDto.VatNumber.ToValueFromNonNull<VatNumberDto>());
+        }
     }
 }
 
-public partial class BookingFactory : BookingFactoryBase
+internal partial class BookingFactory : BookingFactoryBase
 {
 }

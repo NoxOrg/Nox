@@ -1,26 +1,11 @@
 ﻿namespace Nox
 {
-    public enum MessagingServerProvider
+    public enum MessageBrokerProvider
     {
-        RabbitMq,
+        //RabbitMq,
         AzureServiceBus,
-        AmazonSqs,
+        //AmazonSqs,
         InMemory
     }
-    
-    public static class MessagingServerProviderHelpers
-    {
-        public static string GetProviderScheme(MessagingServerProvider provider)
-        {
-            switch (provider)
-            {
-                case MessagingServerProvider.RabbitMq:
-                    return "rabbitmq";
-                case MessagingServerProvider.AzureServiceBus:
-                    return "sb";
-                default:
-                    return "";
-            }
-        }
-    }
+      
 }

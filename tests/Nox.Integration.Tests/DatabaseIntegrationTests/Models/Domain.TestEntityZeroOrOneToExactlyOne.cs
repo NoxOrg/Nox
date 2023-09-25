@@ -35,7 +35,7 @@ public abstract class TestEntityZeroOrOneToExactlyOneBase : AuditableEntityBase,
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
     ///  (Required).
@@ -45,7 +45,22 @@ public abstract class TestEntityZeroOrOneToExactlyOneBase : AuditableEntityBase,
     /// <summary>
     /// TestEntityZeroOrOneToExactlyOne Test entity relationship to TestEntityExactlyOneToZeroOrOne ZeroOrOne TestEntityExactlyOneToZeroOrOnes
     /// </summary>
-    public virtual TestEntityExactlyOneToZeroOrOne? TestEntityExactlyOneToZeroOrOne { get; set; } = null!;
+    public virtual TestEntityExactlyOneToZeroOrOne? TestEntityExactlyOneToZeroOrOne { get; private set; } = null!;
+
+    public virtual void CreateRefToTestEntityExactlyOneToZeroOrOne(TestEntityExactlyOneToZeroOrOne relatedTestEntityExactlyOneToZeroOrOne)
+    {
+        TestEntityExactlyOneToZeroOrOne = relatedTestEntityExactlyOneToZeroOrOne;
+    }
+
+    public virtual void DeleteRefToTestEntityExactlyOneToZeroOrOne(TestEntityExactlyOneToZeroOrOne relatedTestEntityExactlyOneToZeroOrOne)
+    {
+        TestEntityExactlyOneToZeroOrOne = null;
+    }
+
+    public virtual void DeleteAllRefToTestEntityExactlyOneToZeroOrOne()
+    {
+        TestEntityExactlyOneToZeroOrOne = null;
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

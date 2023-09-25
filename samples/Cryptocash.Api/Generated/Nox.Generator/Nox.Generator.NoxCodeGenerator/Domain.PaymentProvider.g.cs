@@ -35,7 +35,7 @@ public abstract class PaymentProviderBase : AuditableEntityBase, IEntityConcurre
     /// <summary>
     /// Payment provider unique identifier (Required).
     /// </summary>
-    public AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Payment provider name (Required).
@@ -50,11 +50,21 @@ public abstract class PaymentProviderBase : AuditableEntityBase, IEntityConcurre
     /// <summary>
     /// PaymentProvider related to ZeroOrMany PaymentDetails
     /// </summary>
-    public virtual List<PaymentDetail> PaymentProviderRelatedPaymentDetails { get; set; } = new();
+    public virtual List<PaymentDetail> PaymentProviderRelatedPaymentDetails { get; private set; } = new();
 
-    public virtual void CreateRefToPaymentDetail(PaymentDetail relatedPaymentDetail)
+    public virtual void CreateRefToPaymentProviderRelatedPaymentDetails(PaymentDetail relatedPaymentDetail)
     {
         PaymentProviderRelatedPaymentDetails.Add(relatedPaymentDetail);
+    }
+
+    public virtual void DeleteRefToPaymentProviderRelatedPaymentDetails(PaymentDetail relatedPaymentDetail)
+    {
+        PaymentProviderRelatedPaymentDetails.Remove(relatedPaymentDetail);
+    }
+
+    public virtual void DeleteAllRefToPaymentProviderRelatedPaymentDetails()
+    {
+        PaymentProviderRelatedPaymentDetails.Clear();
     }
 
     /// <summary>

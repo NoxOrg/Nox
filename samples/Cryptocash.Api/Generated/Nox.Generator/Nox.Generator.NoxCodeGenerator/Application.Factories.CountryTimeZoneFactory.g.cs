@@ -23,7 +23,7 @@ using CountryTimeZone = Cryptocash.Domain.CountryTimeZone;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class CountryTimeZoneFactoryBase: IEntityFactory<CountryTimeZone,CountryTimeZoneCreateDto>
+internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZone, CountryTimeZoneCreateDto, CountryTimeZoneUpdateDto>
 {
 
     public CountryTimeZoneFactoryBase
@@ -36,14 +36,25 @@ public abstract class CountryTimeZoneFactoryBase: IEntityFactory<CountryTimeZone
     {
         return ToEntity(createDto);
     }
+
+    public virtual void UpdateEntity(CountryTimeZone entity, CountryTimeZoneUpdateDto updateDto)
+    {
+        UpdateEntityInternal(entity, updateDto);
+    }
+
     private Cryptocash.Domain.CountryTimeZone ToEntity(CountryTimeZoneCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.CountryTimeZone();
         entity.TimeZoneCode = Cryptocash.Domain.CountryTimeZone.CreateTimeZoneCode(createDto.TimeZoneCode);
         return entity;
     }
+
+    private void UpdateEntityInternal(CountryTimeZone entity, CountryTimeZoneUpdateDto updateDto)
+    {
+        entity.TimeZoneCode = Cryptocash.Domain.CountryTimeZone.CreateTimeZoneCode(updateDto.TimeZoneCode.NonNullValue<System.String>());
+    }
 }
 
-public partial class CountryTimeZoneFactory : CountryTimeZoneFactoryBase
+internal partial class CountryTimeZoneFactory : CountryTimeZoneFactoryBase
 {
 }

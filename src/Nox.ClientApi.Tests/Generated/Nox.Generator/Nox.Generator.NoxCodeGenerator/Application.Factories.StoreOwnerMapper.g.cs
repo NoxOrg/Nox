@@ -24,34 +24,6 @@ public partial class StoreOwnerMapper : EntityMapperBase<StoreOwner>
 {
     public StoreOwnerMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
-    public override void MapToEntity(StoreOwner entity, Entity entityDefinition, dynamic dto)
-    {
-    #pragma warning disable CS0168 // Variable is declared but never used        
-        dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used        
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
-        if (noxTypeValue == null)
-        {
-            throw new NullReferenceException("Name is required can not be set to null");
-        }     
-        entity.Name = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "TemporaryOwnerName", dto.TemporaryOwnerName);
-        if (noxTypeValue == null)
-        {
-            throw new NullReferenceException("TemporaryOwnerName is required can not be set to null");
-        }     
-        entity.TemporaryOwnerName = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.VatNumber>(entityDefinition, "VatNumber", dto.VatNumber);     
-        entity.VatNumber = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "StreetAddress", dto.StreetAddress);     
-        entity.StreetAddress = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.TranslatedText>(entityDefinition, "LocalGreeting", dto.LocalGreeting);     
-        entity.LocalGreeting = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Notes", dto.Notes);     
-        entity.Notes = noxTypeValue;
-    
-    }
-
     public override void PartialMapToEntity(StoreOwner entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
 #pragma warning disable CS0168 // Variable is assigned but its value is never used

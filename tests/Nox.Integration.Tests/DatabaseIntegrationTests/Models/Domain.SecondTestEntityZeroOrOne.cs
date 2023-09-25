@@ -35,7 +35,7 @@ public abstract class SecondTestEntityZeroOrOneBase : AuditableEntityBase, IEnti
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
     ///  (Required).
@@ -45,7 +45,22 @@ public abstract class SecondTestEntityZeroOrOneBase : AuditableEntityBase, IEnti
     /// <summary>
     /// SecondTestEntityZeroOrOne Test entity relationship to TestEntity ZeroOrOne TestEntityZeroOrOnes
     /// </summary>
-    public virtual TestEntityZeroOrOne? TestEntityZeroOrOneRelationship { get; set; } = null!;
+    public virtual TestEntityZeroOrOne? TestEntityZeroOrOneRelationship { get; private set; } = null!;
+
+    public virtual void CreateRefToTestEntityZeroOrOneRelationship(TestEntityZeroOrOne relatedTestEntityZeroOrOne)
+    {
+        TestEntityZeroOrOneRelationship = relatedTestEntityZeroOrOne;
+    }
+
+    public virtual void DeleteRefToTestEntityZeroOrOneRelationship(TestEntityZeroOrOne relatedTestEntityZeroOrOne)
+    {
+        TestEntityZeroOrOneRelationship = null;
+    }
+
+    public virtual void DeleteAllRefToTestEntityZeroOrOneRelationship()
+    {
+        TestEntityZeroOrOneRelationship = null;
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

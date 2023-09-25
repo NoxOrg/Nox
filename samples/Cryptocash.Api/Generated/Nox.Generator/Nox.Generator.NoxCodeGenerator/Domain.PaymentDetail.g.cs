@@ -35,7 +35,7 @@ public abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Customer payment account unique identifier (Required).
     /// </summary>
-    public AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Payment account name (Required).
@@ -55,31 +55,51 @@ public abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// PaymentDetail used by ExactlyOne Customers
     /// </summary>
-    public virtual Customer PaymentDetailsUsedByCustomer { get; set; } = null!;
+    public virtual Customer PaymentDetailsUsedByCustomer { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Customer
     /// </summary>
     public Nox.Types.AutoNumber PaymentDetailsUsedByCustomerId { get; set; } = null!;
 
-    public virtual void CreateRefToCustomer(Customer relatedCustomer)
+    public virtual void CreateRefToPaymentDetailsUsedByCustomer(Customer relatedCustomer)
     {
         PaymentDetailsUsedByCustomer = relatedCustomer;
+    }
+
+    public virtual void DeleteRefToPaymentDetailsUsedByCustomer(Customer relatedCustomer)
+    {
+        throw new Exception($"The relationship cannot be deleted.");
+    }
+
+    public virtual void DeleteAllRefToPaymentDetailsUsedByCustomer()
+    {
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>
     /// PaymentDetail related to ExactlyOne PaymentProviders
     /// </summary>
-    public virtual PaymentProvider PaymentDetailsRelatedPaymentProvider { get; set; } = null!;
+    public virtual PaymentProvider PaymentDetailsRelatedPaymentProvider { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity PaymentProvider
     /// </summary>
     public Nox.Types.AutoNumber PaymentDetailsRelatedPaymentProviderId { get; set; } = null!;
 
-    public virtual void CreateRefToPaymentProvider(PaymentProvider relatedPaymentProvider)
+    public virtual void CreateRefToPaymentDetailsRelatedPaymentProvider(PaymentProvider relatedPaymentProvider)
     {
         PaymentDetailsRelatedPaymentProvider = relatedPaymentProvider;
+    }
+
+    public virtual void DeleteRefToPaymentDetailsRelatedPaymentProvider(PaymentProvider relatedPaymentProvider)
+    {
+        throw new Exception($"The relationship cannot be deleted.");
+    }
+
+    public virtual void DeleteAllRefToPaymentDetailsRelatedPaymentProvider()
+    {
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>

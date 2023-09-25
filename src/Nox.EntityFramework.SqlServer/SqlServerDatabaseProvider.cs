@@ -10,14 +10,8 @@ namespace Nox.EntityFramework.SqlServer;
 
 public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProvider 
 {
-    private string _connectionString = string.Empty;
+    public string ConnectionString { get; protected set; } = string.Empty;
 
-    public string ConnectionString
-    {
-        get => _connectionString;
-        set => SetConnectionString(value);
-    }
-    
     public SqlServerDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators): base(configurators, typeof(ISqlServerNoxTypeDatabaseConfigurator))
     {
     }
@@ -34,7 +28,7 @@ public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabasePro
         return result;
     }
 
-    public DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)
+    public virtual DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)
     {
         var csb = new SqlConnectionStringBuilder(dbServer.Options)
         {
@@ -44,11 +38,11 @@ public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabasePro
             InitialCatalog = dbServer.Name,
             ApplicationName = applicationName
         };
-        SetConnectionString(csb.ConnectionString);
+        ConnectionString = csb.ConnectionString;
 
         return optionsBuilder
             //.UseLazyLoadingProxies()
-            .UseSqlServer(_connectionString,
+            .UseSqlServer(ConnectionString,
                 opts => { opts.MigrationsHistoryTable("MigrationsHistory", "migrations"); });
     }
 
@@ -60,10 +54,5 @@ public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabasePro
     public string ToTableNameForSqlRaw(string table, string schema)
     {
         throw new NotImplementedException();
-    }
-
-    private void SetConnectionString(string connectionString)
-    {
-        _connectionString = connectionString;
     }
 }

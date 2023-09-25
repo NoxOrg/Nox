@@ -32,55 +32,47 @@ This document provides information about the various endpoints available in our 
 
 ### VendingMachine
 
-#### Get VendingMachine relation by ID
-- **GET** `/api/CashStockOrders/{key}/VendingMachines/{relatedKey}/$ref`
-  - Description: Retrieve an existing VendingMachines relation for a specific CashStockOrder.
-
 #### Get VendingMachine relations
-- **GET** `/api/CashStockOrders/{key}/VendingMachines/$ref`
-  - Description: Retrieve all VendingMachines relations for a specific CashStockOrder.
+- **GET** `/api/CashStockOrders/{key}/CashStockOrderForVendingMachine/$ref`
+  - Description: Retrieve all existing VendingMachines relations for a specific CashStockOrder.
   
 #### Create VendingMachine relation
-- **POST** `/api/CashStockOrders/{key}/VendingMachines/{relatedKey}/$ref`
+- **POST** `/api/CashStockOrders/{key}/CashStockOrderForVendingMachine/{relatedKey}/$ref`
   - Description: Create a new VendingMachine relation for a specific CashStockOrder.
   
 #### Update VendingMachine relation
-- **PUT** `/api/CashStockOrders/{key}/VendingMachines/{relatedKey}/$ref`
-  - Description: Update an existing VendingMachine relation for a specific CashStockOrder.
-  
-#### Partially Update VendingMachine relation
-- **PATCH** `/api/CashStockOrders/{key}/VendingMachines/{relatedKey}/$ref`
-  - Description: Partially update an existing VendingMachine relation for a specific CashStockOrder.
+- **PUT** `/api/CashStockOrders/{key}/CashStockOrderForVendingMachine/{relatedKey}/$ref`
+  - Description: Updates an existing VendingMachine relation for a specific CashStockOrder.
 
 #### Delete VendingMachine relation
-- **DELETE** `/api/CashStockOrders/{key}/VendingMachines/{relatedKey}/$ref`
+- **DELETE** `/api/CashStockOrders/{key}/CashStockOrderForVendingMachine/{relatedKey}/$ref`
   - Description: Delete an existing VendingMachine relation for a specific CashStockOrder.
+
+#### Delete VendingMachine relations
+- **DELETE** `/api/CashStockOrders/{key}/CashStockOrderForVendingMachine/$ref`
+  - Description: Delete all existing VendingMachines relations for a specific CashStockOrder.
 
 ### Employee
 
-#### Get Employee relation by ID
-- **GET** `/api/CashStockOrders/{key}/Employees/{relatedKey}/$ref`
-  - Description: Retrieve an existing Employees relation for a specific CashStockOrder.
-
 #### Get Employee relations
-- **GET** `/api/CashStockOrders/{key}/Employees/$ref`
-  - Description: Retrieve all Employees relations for a specific CashStockOrder.
+- **GET** `/api/CashStockOrders/{key}/CashStockOrderReviewedByEmployee/$ref`
+  - Description: Retrieve all existing Employees relations for a specific CashStockOrder.
   
 #### Create Employee relation
-- **POST** `/api/CashStockOrders/{key}/Employees/{relatedKey}/$ref`
+- **POST** `/api/CashStockOrders/{key}/CashStockOrderReviewedByEmployee/{relatedKey}/$ref`
   - Description: Create a new Employee relation for a specific CashStockOrder.
   
 #### Update Employee relation
-- **PUT** `/api/CashStockOrders/{key}/Employees/{relatedKey}/$ref`
-  - Description: Update an existing Employee relation for a specific CashStockOrder.
-  
-#### Partially Update Employee relation
-- **PATCH** `/api/CashStockOrders/{key}/Employees/{relatedKey}/$ref`
-  - Description: Partially update an existing Employee relation for a specific CashStockOrder.
+- **PUT** `/api/CashStockOrders/{key}/CashStockOrderReviewedByEmployee/{relatedKey}/$ref`
+  - Description: Updates an existing Employee relation for a specific CashStockOrder.
 
 #### Delete Employee relation
-- **DELETE** `/api/CashStockOrders/{key}/Employees/{relatedKey}/$ref`
+- **DELETE** `/api/CashStockOrders/{key}/CashStockOrderReviewedByEmployee/{relatedKey}/$ref`
   - Description: Delete an existing Employee relation for a specific CashStockOrder.
+
+#### Delete Employee relations
+- **DELETE** `/api/CashStockOrders/{key}/CashStockOrderReviewedByEmployee/$ref`
+  - Description: Delete all existing Employees relations for a specific CashStockOrder.
 
 ## Related Entities
 

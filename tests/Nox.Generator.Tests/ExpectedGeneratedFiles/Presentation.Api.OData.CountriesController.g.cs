@@ -5,9 +5,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System;
 using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Extensions;
@@ -22,17 +24,12 @@ using Nox.Types;
 namespace SampleWebApp.Presentation.Api.OData;
 
 public partial class CountriesController : CountriesControllerBase
-            {
-                public CountriesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
-                {}
-            }
+{
+    public CountriesController(IMediator mediator):base(mediator)
+    {}
+}
 public abstract class CountriesControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -45,12 +42,10 @@ public abstract class CountriesControllerBase : ODataController
     protected readonly GetCountriesByContinentQueryBase _getCountriesByContinent;
     
     public CountriesControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator,
         GetCountriesByContinentQueryBase getCountriesByContinent
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
         _getCountriesByContinent = getCountriesByContinent;
     }
@@ -63,16 +58,10 @@ public abstract class CountriesControllerBase : ODataController
     }
     
     [EnableQuery]
-    public async Task<ActionResult<CountryDto>> Get([FromRoute] System.String key)
+    public async Task<SingleResult<CountryDto>> Get([FromRoute] System.String key)
     {
-        var item = await _mediator.Send(new GetCountryByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
+        var query = await _mediator.Send(new GetCountryByIdQuery(key));
+        return SingleResult.Create(query);
     }
     
     public virtual async Task<ActionResult<CountryDto>> Post([FromBody]CountryCreateDto country)
@@ -83,7 +72,7 @@ public abstract class CountriesControllerBase : ODataController
         }
         var createdKey = await _mediator.Send(new CreateCountryCommand(country));
         
-        var item = await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId));
+        var item = (await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(item);
     }
@@ -103,7 +92,7 @@ public abstract class CountriesControllerBase : ODataController
             return NotFound();
         }
         
-        var item = await _mediator.Send(new GetCountryByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetCountryByIdQuery(updated.keyId))).SingleOrDefault();
         
         return Ok(item);
     }
@@ -132,7 +121,7 @@ public abstract class CountriesControllerBase : ODataController
         {
             return NotFound();
         }
-        var item = await _mediator.Send(new GetCountryByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetCountryByIdQuery(updated.keyId))).SingleOrDefault();
         return Ok(item);
     }
     
@@ -158,7 +147,7 @@ public abstract class CountriesControllerBase : ODataController
         {
             return BadRequest(ModelState);
         }
-        var item = await _mediator.Send(new GetCountryByIdQuery(key));
+        var item = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault();
         
         if (item is null)
         {
@@ -170,13 +159,13 @@ public abstract class CountriesControllerBase : ODataController
     
     [EnableQuery]
     [HttpGet("api/Countries/{key}/CountryLocalNames/{relatedKey}")]
-    public virtual async Task<ActionResult<CountryLocalNameDto>> GetCountryLocalNameNonConventional(System.String key, System.String relatedKey)
+    public virtual async Task<ActionResult<CountryLocalNameDto>> GetCountryLocalNamesNonConventional(System.String key, System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var child = await TryGetCountryLocalName(key, new CountryLocalNameKeyDto(relatedKey));
+        var child = await TryGetCountryLocalNames(key, new CountryLocalNameKeyDto(relatedKey));
         if (child == null)
         {
             return NotFound();
@@ -199,7 +188,7 @@ public abstract class CountriesControllerBase : ODataController
             return NotFound();
         }
         
-        var child = await TryGetCountryLocalName(key, createdKey);
+        var child = await TryGetCountryLocalNames(key, createdKey);
         if (child == null)
         {
             return NotFound();
@@ -224,9 +213,9 @@ public abstract class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    private async Task<CountryLocalNameDto?> TryGetCountryLocalName(System.String key, CountryLocalNameKeyDto childKeyDto)
+    private async Task<CountryLocalNameDto?> TryGetCountryLocalNames(System.String key, CountryLocalNameKeyDto childKeyDto)
     {
-        var parent = await _mediator.Send(new GetCountryByIdQuery(key));
+        var parent = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault();
         return parent?.CountryLocalNames.SingleOrDefault(x => x.Id == childKeyDto.keyId);
     }
     

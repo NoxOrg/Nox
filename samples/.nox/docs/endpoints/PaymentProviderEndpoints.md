@@ -32,29 +32,25 @@ This document provides information about the various endpoints available in our 
 
 ### PaymentDetail
 
-#### Get PaymentDetail relation by ID
-- **GET** `/api/PaymentProviders/{key}/PaymentDetails/{relatedKey}/$ref`
-  - Description: Retrieve an existing PaymentDetails relation for a specific PaymentProvider.
-
 #### Get PaymentDetail relations
-- **GET** `/api/PaymentProviders/{key}/PaymentDetails/$ref`
-  - Description: Retrieve all PaymentDetails relations for a specific PaymentProvider.
+- **GET** `/api/PaymentProviders/{key}/PaymentProviderRelatedPaymentDetails/$ref`
+  - Description: Retrieve all existing PaymentDetails relations for a specific PaymentProvider.
   
 #### Create PaymentDetail relation
-- **POST** `/api/PaymentProviders/{key}/PaymentDetails/{relatedKey}/$ref`
+- **POST** `/api/PaymentProviders/{key}/PaymentProviderRelatedPaymentDetails/{relatedKey}/$ref`
   - Description: Create a new PaymentDetail relation for a specific PaymentProvider.
   
 #### Update PaymentDetail relation
-- **PUT** `/api/PaymentProviders/{key}/PaymentDetails/{relatedKey}/$ref`
-  - Description: Update an existing PaymentDetail relation for a specific PaymentProvider.
-  
-#### Partially Update PaymentDetail relation
-- **PATCH** `/api/PaymentProviders/{key}/PaymentDetails/{relatedKey}/$ref`
-  - Description: Partially update an existing PaymentDetail relation for a specific PaymentProvider.
+- **PUT** `/api/PaymentProviders/{key}/PaymentProviderRelatedPaymentDetails/{relatedKey}/$ref`
+  - Description: Updates an existing PaymentDetail relation for a specific PaymentProvider.
 
 #### Delete PaymentDetail relation
-- **DELETE** `/api/PaymentProviders/{key}/PaymentDetails/{relatedKey}/$ref`
+- **DELETE** `/api/PaymentProviders/{key}/PaymentProviderRelatedPaymentDetails/{relatedKey}/$ref`
   - Description: Delete an existing PaymentDetail relation for a specific PaymentProvider.
+
+#### Delete PaymentDetail relations
+- **DELETE** `/api/PaymentProviders/{key}/PaymentProviderRelatedPaymentDetails/$ref`
+  - Description: Delete all existing PaymentDetails relations for a specific PaymentProvider.
 
 ## Related Entities
 

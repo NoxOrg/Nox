@@ -3,16 +3,18 @@
 #nullable enable
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Country and related data.
 /// </summary>
-public partial class CountryUpdateDto
+public partial class CountryUpdateDto : IEntityDto<Country>
 {
     /// <summary>
     /// Country's name (Required).

@@ -12,26 +12,33 @@ using ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 
-public record GetWorkplaceByIdQuery(System.UInt32 keyId) : IRequest <WorkplaceDto?>;
+public record GetWorkplaceByIdQuery(System.UInt32 keyId) : IRequest <IQueryable<WorkplaceDto>>;
 
-public partial class GetWorkplaceByIdQueryHandler:  QueryBase<WorkplaceDto?>, IRequestHandler<GetWorkplaceByIdQuery, WorkplaceDto?>
+internal partial class GetWorkplaceByIdQueryHandler:GetWorkplaceByIdQueryHandlerBase
 {
-    public  GetWorkplaceByIdQueryHandler(DtoDbContext dataDbContext)
+    public  GetWorkplaceByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    {
+    
+    }
+}
+
+internal abstract class GetWorkplaceByIdQueryHandlerBase:  QueryBase<IQueryable<WorkplaceDto>>, IRequestHandler<GetWorkplaceByIdQuery, IQueryable<WorkplaceDto>>
+{
+    public  GetWorkplaceByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<WorkplaceDto?> Handle(GetWorkplaceByIdQuery request, CancellationToken cancellationToken)
+    public virtual Task<IQueryable<WorkplaceDto>> Handle(GetWorkplaceByIdQuery request, CancellationToken cancellationToken)
     {    
-        var item = DataDbContext.Workplaces
+        var query = DataDbContext.Workplaces
             .AsNoTracking()
-            .Include(r => r.BelongsToCountry)
-            .SingleOrDefault(r =>
+            .Where(r =>
                 r.Id.Equals(request.keyId) &&
                 true
             );
-        return Task.FromResult(OnResponse(item));
+        return Task.FromResult(OnResponse(query));
     }
 }

@@ -5,9 +5,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System;
 using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Extensions;
@@ -22,17 +24,12 @@ using Nox.Types;
 namespace SampleWebApp.Presentation.Api.OData;
 
 public partial class CompoundKeysEntitiesController : CompoundKeysEntitiesControllerBase
-            {
-                public CompoundKeysEntitiesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
-                {}
-            }
+{
+    public CompoundKeysEntitiesController(IMediator mediator):base(mediator)
+    {}
+}
 public abstract class CompoundKeysEntitiesControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -40,11 +37,9 @@ public abstract class CompoundKeysEntitiesControllerBase : ODataController
     protected readonly IMediator _mediator;
     
     public CompoundKeysEntitiesControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
     }
     
@@ -56,16 +51,10 @@ public abstract class CompoundKeysEntitiesControllerBase : ODataController
     }
     
     [EnableQuery]
-    public async Task<ActionResult<CompoundKeysEntityDto>> Get([FromRoute] System.String keyId1, [FromRoute] System.String keyId2)
+    public async Task<SingleResult<CompoundKeysEntityDto>> Get([FromRoute] System.String keyId1, [FromRoute] System.String keyId2)
     {
-        var item = await _mediator.Send(new GetCompoundKeysEntityByIdQuery(keyId1, keyId2));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
+        var query = await _mediator.Send(new GetCompoundKeysEntityByIdQuery(keyId1, keyId2));
+        return SingleResult.Create(query);
     }
     
     public virtual async Task<ActionResult<CompoundKeysEntityDto>> Post([FromBody]CompoundKeysEntityCreateDto compoundKeysEntity)
@@ -76,7 +65,7 @@ public abstract class CompoundKeysEntitiesControllerBase : ODataController
         }
         var createdKey = await _mediator.Send(new CreateCompoundKeysEntityCommand(compoundKeysEntity));
         
-        var item = await _mediator.Send(new GetCompoundKeysEntityByIdQuery(createdKey.keyId1, createdKey.keyId2));
+        var item = (await _mediator.Send(new GetCompoundKeysEntityByIdQuery(createdKey.keyId1, createdKey.keyId2))).SingleOrDefault();
         
         return Created(item);
     }
@@ -96,7 +85,7 @@ public abstract class CompoundKeysEntitiesControllerBase : ODataController
             return NotFound();
         }
         
-        var item = await _mediator.Send(new GetCompoundKeysEntityByIdQuery(updated.keyId1, updated.keyId2));
+        var item = (await _mediator.Send(new GetCompoundKeysEntityByIdQuery(updated.keyId1, updated.keyId2))).SingleOrDefault();
         
         return Ok(item);
     }
@@ -125,7 +114,7 @@ public abstract class CompoundKeysEntitiesControllerBase : ODataController
         {
             return NotFound();
         }
-        var item = await _mediator.Send(new GetCompoundKeysEntityByIdQuery(updated.keyId1, updated.keyId2));
+        var item = (await _mediator.Send(new GetCompoundKeysEntityByIdQuery(updated.keyId1, updated.keyId2))).SingleOrDefault();
         return Ok(item);
     }
     

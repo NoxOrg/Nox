@@ -32,107 +32,91 @@ This document provides information about the various endpoints available in our 
 
 ### Customer
 
-#### Get Customer relation by ID
-- **GET** `/api/Bookings/{key}/Customers/{relatedKey}/$ref`
-  - Description: Retrieve an existing Customers relation for a specific Booking.
-
 #### Get Customer relations
-- **GET** `/api/Bookings/{key}/Customers/$ref`
-  - Description: Retrieve all Customers relations for a specific Booking.
+- **GET** `/api/Bookings/{key}/BookingForCustomer/$ref`
+  - Description: Retrieve all existing Customers relations for a specific Booking.
   
 #### Create Customer relation
-- **POST** `/api/Bookings/{key}/Customers/{relatedKey}/$ref`
+- **POST** `/api/Bookings/{key}/BookingForCustomer/{relatedKey}/$ref`
   - Description: Create a new Customer relation for a specific Booking.
   
 #### Update Customer relation
-- **PUT** `/api/Bookings/{key}/Customers/{relatedKey}/$ref`
-  - Description: Update an existing Customer relation for a specific Booking.
-  
-#### Partially Update Customer relation
-- **PATCH** `/api/Bookings/{key}/Customers/{relatedKey}/$ref`
-  - Description: Partially update an existing Customer relation for a specific Booking.
+- **PUT** `/api/Bookings/{key}/BookingForCustomer/{relatedKey}/$ref`
+  - Description: Updates an existing Customer relation for a specific Booking.
 
 #### Delete Customer relation
-- **DELETE** `/api/Bookings/{key}/Customers/{relatedKey}/$ref`
+- **DELETE** `/api/Bookings/{key}/BookingForCustomer/{relatedKey}/$ref`
   - Description: Delete an existing Customer relation for a specific Booking.
+
+#### Delete Customer relations
+- **DELETE** `/api/Bookings/{key}/BookingForCustomer/$ref`
+  - Description: Delete all existing Customers relations for a specific Booking.
 
 ### VendingMachine
 
-#### Get VendingMachine relation by ID
-- **GET** `/api/Bookings/{key}/VendingMachines/{relatedKey}/$ref`
-  - Description: Retrieve an existing VendingMachines relation for a specific Booking.
-
 #### Get VendingMachine relations
-- **GET** `/api/Bookings/{key}/VendingMachines/$ref`
-  - Description: Retrieve all VendingMachines relations for a specific Booking.
+- **GET** `/api/Bookings/{key}/BookingRelatedVendingMachine/$ref`
+  - Description: Retrieve all existing VendingMachines relations for a specific Booking.
   
 #### Create VendingMachine relation
-- **POST** `/api/Bookings/{key}/VendingMachines/{relatedKey}/$ref`
+- **POST** `/api/Bookings/{key}/BookingRelatedVendingMachine/{relatedKey}/$ref`
   - Description: Create a new VendingMachine relation for a specific Booking.
   
 #### Update VendingMachine relation
-- **PUT** `/api/Bookings/{key}/VendingMachines/{relatedKey}/$ref`
-  - Description: Update an existing VendingMachine relation for a specific Booking.
-  
-#### Partially Update VendingMachine relation
-- **PATCH** `/api/Bookings/{key}/VendingMachines/{relatedKey}/$ref`
-  - Description: Partially update an existing VendingMachine relation for a specific Booking.
+- **PUT** `/api/Bookings/{key}/BookingRelatedVendingMachine/{relatedKey}/$ref`
+  - Description: Updates an existing VendingMachine relation for a specific Booking.
 
 #### Delete VendingMachine relation
-- **DELETE** `/api/Bookings/{key}/VendingMachines/{relatedKey}/$ref`
+- **DELETE** `/api/Bookings/{key}/BookingRelatedVendingMachine/{relatedKey}/$ref`
   - Description: Delete an existing VendingMachine relation for a specific Booking.
+
+#### Delete VendingMachine relations
+- **DELETE** `/api/Bookings/{key}/BookingRelatedVendingMachine/$ref`
+  - Description: Delete all existing VendingMachines relations for a specific Booking.
 
 ### Commission
 
-#### Get Commission relation by ID
-- **GET** `/api/Bookings/{key}/Commissions/{relatedKey}/$ref`
-  - Description: Retrieve an existing Commissions relation for a specific Booking.
-
 #### Get Commission relations
-- **GET** `/api/Bookings/{key}/Commissions/$ref`
-  - Description: Retrieve all Commissions relations for a specific Booking.
+- **GET** `/api/Bookings/{key}/BookingFeesForCommission/$ref`
+  - Description: Retrieve all existing Commissions relations for a specific Booking.
   
 #### Create Commission relation
-- **POST** `/api/Bookings/{key}/Commissions/{relatedKey}/$ref`
+- **POST** `/api/Bookings/{key}/BookingFeesForCommission/{relatedKey}/$ref`
   - Description: Create a new Commission relation for a specific Booking.
   
 #### Update Commission relation
-- **PUT** `/api/Bookings/{key}/Commissions/{relatedKey}/$ref`
-  - Description: Update an existing Commission relation for a specific Booking.
-  
-#### Partially Update Commission relation
-- **PATCH** `/api/Bookings/{key}/Commissions/{relatedKey}/$ref`
-  - Description: Partially update an existing Commission relation for a specific Booking.
+- **PUT** `/api/Bookings/{key}/BookingFeesForCommission/{relatedKey}/$ref`
+  - Description: Updates an existing Commission relation for a specific Booking.
 
 #### Delete Commission relation
-- **DELETE** `/api/Bookings/{key}/Commissions/{relatedKey}/$ref`
+- **DELETE** `/api/Bookings/{key}/BookingFeesForCommission/{relatedKey}/$ref`
   - Description: Delete an existing Commission relation for a specific Booking.
+
+#### Delete Commission relations
+- **DELETE** `/api/Bookings/{key}/BookingFeesForCommission/$ref`
+  - Description: Delete all existing Commissions relations for a specific Booking.
 
 ### Transaction
 
-#### Get Transaction relation by ID
-- **GET** `/api/Bookings/{key}/Transactions/{relatedKey}/$ref`
-  - Description: Retrieve an existing Transactions relation for a specific Booking.
-
 #### Get Transaction relations
-- **GET** `/api/Bookings/{key}/Transactions/$ref`
-  - Description: Retrieve all Transactions relations for a specific Booking.
+- **GET** `/api/Bookings/{key}/BookingRelatedTransaction/$ref`
+  - Description: Retrieve all existing Transactions relations for a specific Booking.
   
 #### Create Transaction relation
-- **POST** `/api/Bookings/{key}/Transactions/{relatedKey}/$ref`
+- **POST** `/api/Bookings/{key}/BookingRelatedTransaction/{relatedKey}/$ref`
   - Description: Create a new Transaction relation for a specific Booking.
   
 #### Update Transaction relation
-- **PUT** `/api/Bookings/{key}/Transactions/{relatedKey}/$ref`
-  - Description: Update an existing Transaction relation for a specific Booking.
-  
-#### Partially Update Transaction relation
-- **PATCH** `/api/Bookings/{key}/Transactions/{relatedKey}/$ref`
-  - Description: Partially update an existing Transaction relation for a specific Booking.
+- **PUT** `/api/Bookings/{key}/BookingRelatedTransaction/{relatedKey}/$ref`
+  - Description: Updates an existing Transaction relation for a specific Booking.
 
 #### Delete Transaction relation
-- **DELETE** `/api/Bookings/{key}/Transactions/{relatedKey}/$ref`
+- **DELETE** `/api/Bookings/{key}/BookingRelatedTransaction/{relatedKey}/$ref`
   - Description: Delete an existing Transaction relation for a specific Booking.
+
+#### Delete Transaction relations
+- **DELETE** `/api/Bookings/{key}/BookingRelatedTransaction/$ref`
+  - Description: Delete all existing Transactions relations for a specific Booking.
 
 ## Related Entities
 

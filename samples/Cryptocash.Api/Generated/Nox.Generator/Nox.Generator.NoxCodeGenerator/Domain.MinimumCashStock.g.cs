@@ -35,7 +35,7 @@ public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurr
     /// <summary>
     /// Vending machine cash stock unique identifier (Required).
     /// </summary>
-    public AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Cash stock amount (Required).
@@ -45,26 +45,46 @@ public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurr
     /// <summary>
     /// MinimumCashStock required by ZeroOrMany VendingMachines
     /// </summary>
-    public virtual List<VendingMachine> MinimumCashStocksRequiredByVendingMachines { get; set; } = new();
+    public virtual List<VendingMachine> MinimumCashStocksRequiredByVendingMachines { get; private set; } = new();
 
-    public virtual void CreateRefToVendingMachine(VendingMachine relatedVendingMachine)
+    public virtual void CreateRefToMinimumCashStocksRequiredByVendingMachines(VendingMachine relatedVendingMachine)
     {
         MinimumCashStocksRequiredByVendingMachines.Add(relatedVendingMachine);
+    }
+
+    public virtual void DeleteRefToMinimumCashStocksRequiredByVendingMachines(VendingMachine relatedVendingMachine)
+    {
+        MinimumCashStocksRequiredByVendingMachines.Remove(relatedVendingMachine);
+    }
+
+    public virtual void DeleteAllRefToMinimumCashStocksRequiredByVendingMachines()
+    {
+        MinimumCashStocksRequiredByVendingMachines.Clear();
     }
 
     /// <summary>
     /// MinimumCashStock related to ExactlyOne Currencies
     /// </summary>
-    public virtual Currency MinimumCashStockRelatedCurrency { get; set; } = null!;
+    public virtual Currency MinimumCashStockRelatedCurrency { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Currency
     /// </summary>
     public Nox.Types.CurrencyCode3 MinimumCashStockRelatedCurrencyId { get; set; } = null!;
 
-    public virtual void CreateRefToCurrency(Currency relatedCurrency)
+    public virtual void CreateRefToMinimumCashStockRelatedCurrency(Currency relatedCurrency)
     {
         MinimumCashStockRelatedCurrency = relatedCurrency;
+    }
+
+    public virtual void DeleteRefToMinimumCashStockRelatedCurrency(Currency relatedCurrency)
+    {
+        throw new Exception($"The relationship cannot be deleted.");
+    }
+
+    public virtual void DeleteAllRefToMinimumCashStockRelatedCurrency()
+    {
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>

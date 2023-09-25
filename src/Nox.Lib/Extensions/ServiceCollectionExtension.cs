@@ -1,97 +1,40 @@
 using System.Reflection;
-using FluentValidation;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Abstractions;
-using Nox.Application.Behaviors;
 using Nox.Application.Providers;
 using Nox.Factories;
-using Nox.Secrets;
-using Nox.Secrets.Abstractions;
+using Nox.Messaging;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Configurations;
+using Microsoft.EntityFrameworkCore;
+using MassTransit;
+using Nox.Messaging.AzureServiceBus;
+using Nox.Configuration;
+using FluentValidation;
+using MediatR;
+using Nox.Application.Behaviors;
 
 namespace Nox;
 
 public static class ServiceCollectionExtension
 {
-    public static IServiceCollection AddNoxLib(this IServiceCollection services, Assembly entryAssembly)
+    public static IServiceCollection AddNoxLib(this IServiceCollection services, Action<INoxBuilderConfigurator>? configure = null)
     {
-        var allAssemblies =
-            entryAssembly!.GetReferencedAssemblies();
+        NoxBuilderConfigurator configurator = new();
+        // Default service/entry assembly is the one calling this method
+        configurator.SetClientAssembly(Assembly.GetCallingAssembly());
+        configure?.Invoke(configurator);
+        configurator.Configure(services);
 
-        // Nox + Entry Assembly
-        var noxAssemblies = allAssemblies
-            .Where(a => a.Name != null && a.Name.StartsWith("Nox"))
-            .Select(Assembly.Load)
-            .Union(new[] { entryAssembly! }).ToArray();
-
-        return services
-            .AddSingleton(typeof(NoxSolution), CreateSolution)
-            .AddSecretsResolver()
-            .AddNoxMediatR(entryAssembly, noxAssemblies)
-            .AddNoxTypesDatabaseConfigurator(noxAssemblies)
-            .AddNoxFactories(noxAssemblies)
-            .AddAutoMapper(entryAssembly)
-            .AddNoxProviders()
-            .AddNoxDtos();
-    }
-    private static IServiceCollection AddNoxMediatR(
-        this IServiceCollection services,
-        Assembly entryAssembly,
-        Assembly[] noxAssemblies)
-    {
-        // Register all Behaviors - Filtering for example
-        services.Scan(scan =>
-          scan.FromAssemblies(entryAssembly)
-          .AddClasses(classes => classes
-                .AssignableTo(typeof(IPipelineBehavior<,>))
-                .Where(c => !c.ContainsGenericParameters) // Skip Open Generics
-           )
-          .AsImplementedInterfaces()
-          .WithSingletonLifetime());
-
-        // Register Command Validators, 
-        services.Scan(scan =>
-          scan.FromAssemblies(entryAssembly)
-          .AddClasses(classes => classes
-                .AssignableTo(typeof(IValidator<>))
-                .Where(c => !c.ContainsGenericParameters) // Skip Open Generics
-           )
-          .AsImplementedInterfaces(i=> i.IsAssignableTo(typeof(IValidator)) && i.GenericTypeArguments.Any())
-          .WithSingletonLifetime());
-
-        return services
-            .AddMediatR(cfg =>
-            {
-                cfg.RegisterServicesFromAssembly(entryAssembly);
-                cfg.AddOpenBehavior(typeof(ValidatorBehavior<,>)); //Validation Extensibility
-                cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
-            });
+        return services;
     }
 
-    private static NoxSolution CreateSolution(IServiceProvider serviceProvider)
-    {
-        return new NoxSolutionBuilder()
-            .OnResolveSecrets((_, args) =>
-            {
-                var secretsConfig = args.SecretsConfig;
-                var secretKeys = args.Variables;
-                var resolver = serviceProvider.GetRequiredService<INoxSecretsResolver>();
-                resolver.Configure(secretsConfig!, Assembly.GetEntryAssembly());
-                args.Secrets = resolver.Resolve(secretKeys!);
-            })
-            .Build();
-    }
-
-    private static IServiceCollection AddNoxFactories(
-        this IServiceCollection services,
-        Assembly[] noxAssemblies)
+    internal static IServiceCollection AddNoxFactories(this IServiceCollection services, Assembly[] noxAssemblies)
     {
         services.Scan(scan =>
            scan.FromAssemblies(noxAssemblies)
-           .AddClasses(classes => classes.AssignableTo(typeof(IEntityFactory<,>)))
+           .AddClasses(classes => classes.AssignableTo(typeof(IEntityFactory<,,>)))
            .AsImplementedInterfaces()
            .WithSingletonLifetime());
 
@@ -109,22 +52,38 @@ public static class ServiceCollectionExtension
 
         return services;
     }
-
-    private static IServiceCollection AddNoxTypesDatabaseConfigurator(
-        this IServiceCollection services,
-        Assembly[] noxAssemblies)
+    internal static IServiceCollection AddNoxMediatR(this IServiceCollection services,Assembly serviceAssembly)
     {
-        services.Scan(scan => scan
-            .FromAssemblies(noxAssemblies)
-            .AddClasses(classes => classes.AssignableTo<INoxTypeDatabaseConfigurator>())
-            .As<INoxTypeDatabaseConfigurator>()
-            .WithSingletonLifetime());
+        // Register all Behaviors - Filtering for example
+        services.Scan(scan =>
+          scan.FromAssemblies(serviceAssembly)
+          .AddClasses(classes => classes
+                .AssignableTo(typeof(IPipelineBehavior<,>))
+                .Where(c => !c.ContainsGenericParameters) // Skip Open Generics
+           )
+          .AsImplementedInterfaces()
+          .WithSingletonLifetime());
 
-        return services;
+        // Register Command Validators, 
+        services.Scan(scan =>
+          scan.FromAssemblies(serviceAssembly)
+          .AddClasses(classes => classes
+                .AssignableTo(typeof(IValidator<>))
+                .Where(c => !c.ContainsGenericParameters) // Skip Open Generics
+           )
+          .AsImplementedInterfaces(i => i.IsAssignableTo(typeof(IValidator)) && i.GenericTypeArguments.Any())
+          .WithSingletonLifetime());
+
+        return services
+            .AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssembly(serviceAssembly);
+                cfg.AddOpenBehavior(typeof(ValidatorBehavior<,>)); //Validation Extensibility
+                cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
+            });
     }
 
-    private static IServiceCollection AddNoxProviders(
-        this IServiceCollection services)
+    internal static IServiceCollection AddNoxProviders(this IServiceCollection services)
     {
         services.AddScoped<IUserProvider, DefaultUserProvider>();
         services.AddScoped<ISystemProvider, DefaultSystemProvider>();
@@ -132,8 +91,7 @@ public static class ServiceCollectionExtension
         return services;
     }
 
-    private static IServiceCollection AddNoxDtos(
-       this IServiceCollection services)
+    internal static IServiceCollection AddNoxDtos(this IServiceCollection services)
     {
         // For now we do not need a specific database provider
         services.AddSingleton<INoxDtoDatabaseConfigurator, NoxDtoDatabaseConfigurator>();

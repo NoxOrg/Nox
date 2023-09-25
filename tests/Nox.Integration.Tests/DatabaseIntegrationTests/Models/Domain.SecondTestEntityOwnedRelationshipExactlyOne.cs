@@ -35,7 +35,7 @@ public abstract class SecondTestEntityOwnedRelationshipExactlyOneBase : EntityBa
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id1 { get; set; } = null!;
+    public Nox.Types.Text Id1 { get; set; } = null!;
 
     /// <summary>
     ///  (Required).

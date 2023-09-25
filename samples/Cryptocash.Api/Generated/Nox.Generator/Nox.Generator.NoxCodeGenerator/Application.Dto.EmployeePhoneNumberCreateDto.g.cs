@@ -14,7 +14,7 @@ using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
-public partial class EmployeePhoneNumberCreateDto: EmployeePhoneNumberCreateDtoBase
+public partial class EmployeePhoneNumberCreateDto : EmployeePhoneNumberCreateDtoBase
 {
 
 }
@@ -22,14 +22,14 @@ public partial class EmployeePhoneNumberCreateDto: EmployeePhoneNumberCreateDtoB
 /// <summary>
 /// Employee phone number and related data.
 /// </summary>
-public abstract class EmployeePhoneNumberCreateDtoBase : IEntityCreateDto<EmployeePhoneNumber>
-{    
+public abstract class EmployeePhoneNumberCreateDtoBase : IEntityDto<EmployeePhoneNumber>
+{
     /// <summary>
     /// Employee's phone number type (Required).
     /// </summary>
     [Required(ErrorMessage = "PhoneNumberType is required")]
     
-    public virtual System.String PhoneNumberType { get; set; } = default!;    
+    public virtual System.String PhoneNumberType { get; set; } = default!;
     /// <summary>
     /// Employee's phone number (Required).
     /// </summary>

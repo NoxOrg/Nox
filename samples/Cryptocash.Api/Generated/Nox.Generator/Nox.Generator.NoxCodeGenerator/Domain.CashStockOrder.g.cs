@@ -35,7 +35,7 @@ public abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurren
     /// <summary>
     /// Vending machine's order unique identifier (Required).
     /// </summary>
-    public AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Order amount (Required).
@@ -64,26 +64,46 @@ public abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurren
     /// <summary>
     /// CashStockOrder for ExactlyOne VendingMachines
     /// </summary>
-    public virtual VendingMachine CashStockOrderForVendingMachine { get; set; } = null!;
+    public virtual VendingMachine CashStockOrderForVendingMachine { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity VendingMachine
     /// </summary>
-    public Nox.Types.DatabaseGuid CashStockOrderForVendingMachineId { get; set; } = null!;
+    public Nox.Types.Guid CashStockOrderForVendingMachineId { get; set; } = null!;
 
-    public virtual void CreateRefToVendingMachine(VendingMachine relatedVendingMachine)
+    public virtual void CreateRefToCashStockOrderForVendingMachine(VendingMachine relatedVendingMachine)
     {
         CashStockOrderForVendingMachine = relatedVendingMachine;
+    }
+
+    public virtual void DeleteRefToCashStockOrderForVendingMachine(VendingMachine relatedVendingMachine)
+    {
+        throw new Exception($"The relationship cannot be deleted.");
+    }
+
+    public virtual void DeleteAllRefToCashStockOrderForVendingMachine()
+    {
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>
     /// CashStockOrder reviewed by ExactlyOne Employees
     /// </summary>
-    public virtual Employee CashStockOrderReviewedByEmployee { get; set; } = null!;
+    public virtual Employee CashStockOrderReviewedByEmployee { get; private set; } = null!;
 
-    public virtual void CreateRefToEmployee(Employee relatedEmployee)
+    public virtual void CreateRefToCashStockOrderReviewedByEmployee(Employee relatedEmployee)
     {
         CashStockOrderReviewedByEmployee = relatedEmployee;
+    }
+
+    public virtual void DeleteRefToCashStockOrderReviewedByEmployee(Employee relatedEmployee)
+    {
+        throw new Exception($"The relationship cannot be deleted.");
+    }
+
+    public virtual void DeleteAllRefToCashStockOrderReviewedByEmployee()
+    {
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>

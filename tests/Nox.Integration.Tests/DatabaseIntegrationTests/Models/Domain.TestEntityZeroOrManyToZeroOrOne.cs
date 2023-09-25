@@ -35,7 +35,7 @@ public abstract class TestEntityZeroOrManyToZeroOrOneBase : AuditableEntityBase,
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
     ///  (Required).
@@ -45,7 +45,22 @@ public abstract class TestEntityZeroOrManyToZeroOrOneBase : AuditableEntityBase,
     /// <summary>
     /// TestEntityZeroOrManyToZeroOrOne Test entity relationship to TestEntityZeroOrOneToZeroOrMany ZeroOrMany TestEntityZeroOrOneToZeroOrManies
     /// </summary>
-    public virtual List<TestEntityZeroOrOneToZeroOrMany> TestEntityZeroOrOneToZeroOrMany { get; set; } = new();
+    public virtual List<TestEntityZeroOrOneToZeroOrMany> TestEntityZeroOrOneToZeroOrMany { get; private set; } = new();
+
+    public virtual void CreateRefToTestEntityZeroOrOneToZeroOrMany(TestEntityZeroOrOneToZeroOrMany relatedTestEntityZeroOrOneToZeroOrMany)
+    {
+        TestEntityZeroOrOneToZeroOrMany.Add(relatedTestEntityZeroOrOneToZeroOrMany);
+    }
+
+    public virtual void DeleteRefToTestEntityZeroOrOneToZeroOrMany(TestEntityZeroOrOneToZeroOrMany relatedTestEntityZeroOrOneToZeroOrMany)
+    {
+        TestEntityZeroOrOneToZeroOrMany.Remove(relatedTestEntityZeroOrOneToZeroOrMany);
+    }
+
+    public virtual void DeleteAllRefToTestEntityZeroOrOneToZeroOrMany()
+    {
+        TestEntityZeroOrOneToZeroOrMany.Clear();
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

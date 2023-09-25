@@ -32,29 +32,25 @@ This document provides information about the various endpoints available in our 
 
 ### VendingMachine
 
-#### Get VendingMachine relation by ID
-- **GET** `/api/LandLords/{key}/VendingMachines/{relatedKey}/$ref`
-  - Description: Retrieve an existing VendingMachines relation for a specific LandLord.
-
 #### Get VendingMachine relations
-- **GET** `/api/LandLords/{key}/VendingMachines/$ref`
-  - Description: Retrieve all VendingMachines relations for a specific LandLord.
+- **GET** `/api/LandLords/{key}/ContractedAreasForVendingMachines/$ref`
+  - Description: Retrieve all existing VendingMachines relations for a specific LandLord.
   
 #### Create VendingMachine relation
-- **POST** `/api/LandLords/{key}/VendingMachines/{relatedKey}/$ref`
+- **POST** `/api/LandLords/{key}/ContractedAreasForVendingMachines/{relatedKey}/$ref`
   - Description: Create a new VendingMachine relation for a specific LandLord.
   
 #### Update VendingMachine relation
-- **PUT** `/api/LandLords/{key}/VendingMachines/{relatedKey}/$ref`
-  - Description: Update an existing VendingMachine relation for a specific LandLord.
-  
-#### Partially Update VendingMachine relation
-- **PATCH** `/api/LandLords/{key}/VendingMachines/{relatedKey}/$ref`
-  - Description: Partially update an existing VendingMachine relation for a specific LandLord.
+- **PUT** `/api/LandLords/{key}/ContractedAreasForVendingMachines/{relatedKey}/$ref`
+  - Description: Updates an existing VendingMachine relation for a specific LandLord.
 
 #### Delete VendingMachine relation
-- **DELETE** `/api/LandLords/{key}/VendingMachines/{relatedKey}/$ref`
+- **DELETE** `/api/LandLords/{key}/ContractedAreasForVendingMachines/{relatedKey}/$ref`
   - Description: Delete an existing VendingMachine relation for a specific LandLord.
+
+#### Delete VendingMachine relations
+- **DELETE** `/api/LandLords/{key}/ContractedAreasForVendingMachines/$ref`
+  - Description: Delete all existing VendingMachines relations for a specific LandLord.
 
 ## Related Entities
 

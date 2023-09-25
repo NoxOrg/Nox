@@ -11,7 +11,7 @@ description: Stores
 keys:
 
   - name: Id
-    type: databaseGuid
+    type: guid
     isRequired: true
 
 attributes:
@@ -34,6 +34,18 @@ attributes:
     type: latLong
     isRequired: true
 
+  - name: OpeningDay
+    description: Opening day
+    type: dateTime
+    isRequired: false
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
 relationships:
 
     - name: Ownership
@@ -41,15 +53,20 @@ relationships:
       relationship: zeroOrOne
       entity: StoreOwner
 
+    - name: License
+      description: License that this store uses
+      relationship: zeroOrOne
+      entity: StoreLicense
+
 ownedRelationships:
 
   - name: VerifiedEmails
-    description: Verified emails 
+    description: Verified emails
     relationship: zeroOrOne #todo make exactly one when dto are ready
     entity: EmailAddress
 
 persistence:
-    isAudited: true    
+    isAudited: true
     create:
         isEnabled: true
         raiseEvents: true

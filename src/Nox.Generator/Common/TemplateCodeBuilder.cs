@@ -20,7 +20,7 @@ internal class TemplateCodeBuilder
     private readonly SourceProductionContext _context;
 
     private readonly NoxSolutionCodeGeneratorState _codeGeneratorState;
-
+    
     private string? _className;
     private string? _fileNamePrefix;
 
@@ -126,8 +126,12 @@ internal class TemplateCodeBuilder
         // Add Delegate functions to instance objects
         NoxSolutionBridge.AddFunctions(context, _codeGeneratorState.Solution);
 
+        var sourceText = strongTemplate.Render(context);
+        
         _context.AddSource(sourceFileName,
-            SourceText.From(strongTemplate.Render(context),
+            SourceText.From(sourceText,
             Encoding.UTF8));
     }
+
+    
 }

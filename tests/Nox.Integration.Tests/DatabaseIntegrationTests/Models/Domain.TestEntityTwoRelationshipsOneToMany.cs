@@ -35,7 +35,7 @@ public abstract class TestEntityTwoRelationshipsOneToManyBase : AuditableEntityB
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
     ///  (Required).
@@ -45,12 +45,42 @@ public abstract class TestEntityTwoRelationshipsOneToManyBase : AuditableEntityB
     /// <summary>
     /// TestEntityTwoRelationshipsOneToMany First relationship to the same entity ZeroOrMany SecondTestEntityTwoRelationshipsOneToManies
     /// </summary>
-    public virtual List<SecondTestEntityTwoRelationshipsOneToMany> TestRelationshipOne { get; set; } = new();
+    public virtual List<SecondTestEntityTwoRelationshipsOneToMany> TestRelationshipOne { get; private set; } = new();
+
+    public virtual void CreateRefToTestRelationshipOne(SecondTestEntityTwoRelationshipsOneToMany relatedSecondTestEntityTwoRelationshipsOneToMany)
+    {
+        TestRelationshipOne.Add(relatedSecondTestEntityTwoRelationshipsOneToMany);
+    }
+
+    public virtual void DeleteRefToTestRelationshipOne(SecondTestEntityTwoRelationshipsOneToMany relatedSecondTestEntityTwoRelationshipsOneToMany)
+    {
+        TestRelationshipOne.Remove(relatedSecondTestEntityTwoRelationshipsOneToMany);
+    }
+
+    public virtual void DeleteAllRefToTestRelationshipOne()
+    {
+        TestRelationshipOne.Clear();
+    }
 
     /// <summary>
     /// TestEntityTwoRelationshipsOneToMany Second relationship to the same entity ZeroOrMany SecondTestEntityTwoRelationshipsOneToManies
     /// </summary>
-    public virtual List<SecondTestEntityTwoRelationshipsOneToMany> TestRelationshipTwo { get; set; } = new();
+    public virtual List<SecondTestEntityTwoRelationshipsOneToMany> TestRelationshipTwo { get; private set; } = new();
+
+    public virtual void CreateRefToTestRelationshipTwo(SecondTestEntityTwoRelationshipsOneToMany relatedSecondTestEntityTwoRelationshipsOneToMany)
+    {
+        TestRelationshipTwo.Add(relatedSecondTestEntityTwoRelationshipsOneToMany);
+    }
+
+    public virtual void DeleteRefToTestRelationshipTwo(SecondTestEntityTwoRelationshipsOneToMany relatedSecondTestEntityTwoRelationshipsOneToMany)
+    {
+        TestRelationshipTwo.Remove(relatedSecondTestEntityTwoRelationshipsOneToMany);
+    }
+
+    public virtual void DeleteAllRefToTestRelationshipTwo()
+    {
+        TestRelationshipTwo.Clear();
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

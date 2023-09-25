@@ -35,7 +35,7 @@ public abstract class TestEntityForTypesBase : AuditableEntityBase, IEntityConcu
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
     ///  (Required).
@@ -305,11 +305,6 @@ public abstract class TestEntityForTypesBase : AuditableEntityBase, IEntityConcu
     ///  (Required).
     /// </summary>
     public Nox.Types.AutoNumber AutoNumberTestField { get; set; } = null!;
-
-    /// <summary>
-    ///  (Required).
-    /// </summary>
-    public Nox.Types.DatabaseGuid DatabaseGuidTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).

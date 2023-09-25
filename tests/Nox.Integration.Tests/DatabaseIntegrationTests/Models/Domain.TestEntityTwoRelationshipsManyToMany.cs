@@ -35,7 +35,7 @@ public abstract class TestEntityTwoRelationshipsManyToManyBase : AuditableEntity
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
     ///  (Required).
@@ -45,12 +45,50 @@ public abstract class TestEntityTwoRelationshipsManyToManyBase : AuditableEntity
     /// <summary>
     /// TestEntityTwoRelationshipsManyToMany First relationship to the same entity OneOrMany SecondTestEntityTwoRelationshipsManyToManies
     /// </summary>
-    public virtual List<SecondTestEntityTwoRelationshipsManyToMany> TestRelationshipOne { get; set; } = new();
+    public virtual List<SecondTestEntityTwoRelationshipsManyToMany> TestRelationshipOne { get; private set; } = new();
+
+    public virtual void CreateRefToTestRelationshipOne(SecondTestEntityTwoRelationshipsManyToMany relatedSecondTestEntityTwoRelationshipsManyToMany)
+    {
+        TestRelationshipOne.Add(relatedSecondTestEntityTwoRelationshipsManyToMany);
+    }
+
+    public virtual void DeleteRefToTestRelationshipOne(SecondTestEntityTwoRelationshipsManyToMany relatedSecondTestEntityTwoRelationshipsManyToMany)
+    {
+        if(TestRelationshipOne.Count() < 2)
+            throw new Exception($"The relationship cannot be deleted.");
+        TestRelationshipOne.Remove(relatedSecondTestEntityTwoRelationshipsManyToMany);
+    }
+
+    public virtual void DeleteAllRefToTestRelationshipOne()
+    {
+        if(TestRelationshipOne.Count() < 2)
+            throw new Exception($"The relationship cannot be deleted.");
+        TestRelationshipOne.Clear();
+    }
 
     /// <summary>
     /// TestEntityTwoRelationshipsManyToMany Second relationship to the same entity OneOrMany SecondTestEntityTwoRelationshipsManyToManies
     /// </summary>
-    public virtual List<SecondTestEntityTwoRelationshipsManyToMany> TestRelationshipTwo { get; set; } = new();
+    public virtual List<SecondTestEntityTwoRelationshipsManyToMany> TestRelationshipTwo { get; private set; } = new();
+
+    public virtual void CreateRefToTestRelationshipTwo(SecondTestEntityTwoRelationshipsManyToMany relatedSecondTestEntityTwoRelationshipsManyToMany)
+    {
+        TestRelationshipTwo.Add(relatedSecondTestEntityTwoRelationshipsManyToMany);
+    }
+
+    public virtual void DeleteRefToTestRelationshipTwo(SecondTestEntityTwoRelationshipsManyToMany relatedSecondTestEntityTwoRelationshipsManyToMany)
+    {
+        if(TestRelationshipTwo.Count() < 2)
+            throw new Exception($"The relationship cannot be deleted.");
+        TestRelationshipTwo.Remove(relatedSecondTestEntityTwoRelationshipsManyToMany);
+    }
+
+    public virtual void DeleteAllRefToTestRelationshipTwo()
+    {
+        if(TestRelationshipTwo.Count() < 2)
+            throw new Exception($"The relationship cannot be deleted.");
+        TestRelationshipTwo.Clear();
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

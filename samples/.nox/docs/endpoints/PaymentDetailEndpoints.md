@@ -32,55 +32,47 @@ This document provides information about the various endpoints available in our 
 
 ### Customer
 
-#### Get Customer relation by ID
-- **GET** `/api/PaymentDetails/{key}/Customers/{relatedKey}/$ref`
-  - Description: Retrieve an existing Customers relation for a specific PaymentDetail.
-
 #### Get Customer relations
-- **GET** `/api/PaymentDetails/{key}/Customers/$ref`
-  - Description: Retrieve all Customers relations for a specific PaymentDetail.
+- **GET** `/api/PaymentDetails/{key}/PaymentDetailsUsedByCustomer/$ref`
+  - Description: Retrieve all existing Customers relations for a specific PaymentDetail.
   
 #### Create Customer relation
-- **POST** `/api/PaymentDetails/{key}/Customers/{relatedKey}/$ref`
+- **POST** `/api/PaymentDetails/{key}/PaymentDetailsUsedByCustomer/{relatedKey}/$ref`
   - Description: Create a new Customer relation for a specific PaymentDetail.
   
 #### Update Customer relation
-- **PUT** `/api/PaymentDetails/{key}/Customers/{relatedKey}/$ref`
-  - Description: Update an existing Customer relation for a specific PaymentDetail.
-  
-#### Partially Update Customer relation
-- **PATCH** `/api/PaymentDetails/{key}/Customers/{relatedKey}/$ref`
-  - Description: Partially update an existing Customer relation for a specific PaymentDetail.
+- **PUT** `/api/PaymentDetails/{key}/PaymentDetailsUsedByCustomer/{relatedKey}/$ref`
+  - Description: Updates an existing Customer relation for a specific PaymentDetail.
 
 #### Delete Customer relation
-- **DELETE** `/api/PaymentDetails/{key}/Customers/{relatedKey}/$ref`
+- **DELETE** `/api/PaymentDetails/{key}/PaymentDetailsUsedByCustomer/{relatedKey}/$ref`
   - Description: Delete an existing Customer relation for a specific PaymentDetail.
+
+#### Delete Customer relations
+- **DELETE** `/api/PaymentDetails/{key}/PaymentDetailsUsedByCustomer/$ref`
+  - Description: Delete all existing Customers relations for a specific PaymentDetail.
 
 ### PaymentProvider
 
-#### Get PaymentProvider relation by ID
-- **GET** `/api/PaymentDetails/{key}/PaymentProviders/{relatedKey}/$ref`
-  - Description: Retrieve an existing PaymentProviders relation for a specific PaymentDetail.
-
 #### Get PaymentProvider relations
-- **GET** `/api/PaymentDetails/{key}/PaymentProviders/$ref`
-  - Description: Retrieve all PaymentProviders relations for a specific PaymentDetail.
+- **GET** `/api/PaymentDetails/{key}/PaymentDetailsRelatedPaymentProvider/$ref`
+  - Description: Retrieve all existing PaymentProviders relations for a specific PaymentDetail.
   
 #### Create PaymentProvider relation
-- **POST** `/api/PaymentDetails/{key}/PaymentProviders/{relatedKey}/$ref`
+- **POST** `/api/PaymentDetails/{key}/PaymentDetailsRelatedPaymentProvider/{relatedKey}/$ref`
   - Description: Create a new PaymentProvider relation for a specific PaymentDetail.
   
 #### Update PaymentProvider relation
-- **PUT** `/api/PaymentDetails/{key}/PaymentProviders/{relatedKey}/$ref`
-  - Description: Update an existing PaymentProvider relation for a specific PaymentDetail.
-  
-#### Partially Update PaymentProvider relation
-- **PATCH** `/api/PaymentDetails/{key}/PaymentProviders/{relatedKey}/$ref`
-  - Description: Partially update an existing PaymentProvider relation for a specific PaymentDetail.
+- **PUT** `/api/PaymentDetails/{key}/PaymentDetailsRelatedPaymentProvider/{relatedKey}/$ref`
+  - Description: Updates an existing PaymentProvider relation for a specific PaymentDetail.
 
 #### Delete PaymentProvider relation
-- **DELETE** `/api/PaymentDetails/{key}/PaymentProviders/{relatedKey}/$ref`
+- **DELETE** `/api/PaymentDetails/{key}/PaymentDetailsRelatedPaymentProvider/{relatedKey}/$ref`
   - Description: Delete an existing PaymentProvider relation for a specific PaymentDetail.
+
+#### Delete PaymentProvider relations
+- **DELETE** `/api/PaymentDetails/{key}/PaymentDetailsRelatedPaymentProvider/$ref`
+  - Description: Delete all existing PaymentProviders relations for a specific PaymentDetail.
 
 ## Related Entities
 

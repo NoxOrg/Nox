@@ -5,9 +5,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System;
 using System.Net.Http.Headers;
 using Nox.Application;
 using Nox.Extensions;
@@ -22,17 +24,12 @@ using Nox.Types;
 namespace ClientApi.Presentation.Api.OData;
 
 public partial class CountriesController : CountriesControllerBase
-            {
-                public CountriesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
-                {}
-            }
+{
+    public CountriesController(IMediator mediator):base(mediator)
+    {}
+}
 public abstract class CountriesControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -40,11 +37,9 @@ public abstract class CountriesControllerBase : ODataController
     protected readonly IMediator _mediator;
     
     public CountriesControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
     }
     
@@ -56,16 +51,10 @@ public abstract class CountriesControllerBase : ODataController
     }
     
     [EnableQuery]
-    public async Task<ActionResult<CountryDto>> Get([FromRoute] System.Int64 key)
+    public async Task<SingleResult<CountryDto>> Get([FromRoute] System.Int64 key)
     {
-        var item = await _mediator.Send(new GetCountryByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
+        var query = await _mediator.Send(new GetCountryByIdQuery(key));
+        return SingleResult.Create(query);
     }
     
     public virtual async Task<ActionResult<CountryDto>> Post([FromBody]CountryCreateDto country)
@@ -76,7 +65,7 @@ public abstract class CountriesControllerBase : ODataController
         }
         var createdKey = await _mediator.Send(new CreateCountryCommand(country));
         
-        var item = await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId));
+        var item = (await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId))).SingleOrDefault();
         
         return Created(item);
     }
@@ -96,7 +85,7 @@ public abstract class CountriesControllerBase : ODataController
             return NotFound();
         }
         
-        var item = await _mediator.Send(new GetCountryByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetCountryByIdQuery(updated.keyId))).SingleOrDefault();
         
         return Ok(item);
     }
@@ -125,7 +114,7 @@ public abstract class CountriesControllerBase : ODataController
         {
             return NotFound();
         }
-        var item = await _mediator.Send(new GetCountryByIdQuery(updated.keyId));
+        var item = (await _mediator.Send(new GetCountryByIdQuery(updated.keyId))).SingleOrDefault();
         return Ok(item);
     }
     
@@ -145,31 +134,31 @@ public abstract class CountriesControllerBase : ODataController
     #region Owned Relationships
     
     [EnableQuery]
-    public virtual async Task<ActionResult<IQueryable<CountryLocalNameDto>>> GetCountryLocalNames([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult<IQueryable<CountryLocalNameDto>>> GetCountryShortNames([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var item = await _mediator.Send(new GetCountryByIdQuery(key));
+        var item = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault();
         
         if (item is null)
         {
             return NotFound();
         }
         
-        return Ok(item.CountryLocalNames);
+        return Ok(item.CountryShortNames);
     }
     
     [EnableQuery]
-    [HttpGet("api/Countries/{key}/CountryLocalNames/{relatedKey}")]
-    public virtual async Task<ActionResult<CountryLocalNameDto>> GetCountryLocalNameNonConventional(System.Int64 key, System.Int64 relatedKey)
+    [HttpGet("api/Countries/{key}/CountryShortNames/{relatedKey}")]
+    public virtual async Task<ActionResult<CountryLocalNameDto>> GetCountryShortNamesNonConventional(System.Int64 key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var child = await TryGetCountryLocalName(key, new CountryLocalNameKeyDto(relatedKey));
+        var child = await TryGetCountryShortNames(key, new CountryLocalNameKeyDto(relatedKey));
         if (child == null)
         {
             return NotFound();
@@ -178,7 +167,7 @@ public abstract class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    public virtual async Task<ActionResult> PostToCountryLocalNames([FromRoute] System.Int64 key, [FromBody] CountryLocalNameCreateDto countryLocalName)
+    public virtual async Task<ActionResult> PostToCountryShortNames([FromRoute] System.Int64 key, [FromBody] CountryLocalNameCreateDto countryLocalName)
     {
         if (!ModelState.IsValid)
         {
@@ -192,7 +181,7 @@ public abstract class CountriesControllerBase : ODataController
             return NotFound();
         }
         
-        var child = await TryGetCountryLocalName(key, createdKey);
+        var child = await TryGetCountryShortNames(key, createdKey);
         if (child == null)
         {
             return NotFound();
@@ -201,7 +190,7 @@ public abstract class CountriesControllerBase : ODataController
         return Created(child);
     }
     
-    [HttpPut("api/Countries/{key}/CountryLocalNames/{relatedKey}")]
+    [HttpPut("api/Countries/{key}/CountryShortNames/{relatedKey}")]
     public virtual async Task<ActionResult<CountryLocalNameDto>> PutToCountryLocalNamesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] CountryLocalNameUpdateDto countryLocalName)
     {
         if (!ModelState.IsValid)
@@ -216,7 +205,7 @@ public abstract class CountriesControllerBase : ODataController
             return NotFound();
         }
         
-        var child = await TryGetCountryLocalName(key, updatedKey);
+        var child = await TryGetCountryShortNames(key, updatedKey);
         if (child == null)
         {
             return NotFound();
@@ -225,7 +214,7 @@ public abstract class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpPatch("api/Countries/{key}/CountryLocalNames/{relatedKey}")]
+    [HttpPatch("api/Countries/{key}/CountryShortNames/{relatedKey}")]
     public virtual async Task<ActionResult> PatchToCountryLocalNamesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<CountryLocalNameDto> countryLocalName)
     {
         if (!ModelState.IsValid)
@@ -249,7 +238,7 @@ public abstract class CountriesControllerBase : ODataController
         {
             return NotFound();
         }
-        var child = await TryGetCountryLocalName(key, updated);
+        var child = await TryGetCountryShortNames(key, updated);
         if (child == null)
         {
             return NotFound();
@@ -258,7 +247,7 @@ public abstract class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("api/Countries/{key}/CountryLocalNames/{relatedKey}")]
+    [HttpDelete("api/Countries/{key}/CountryShortNames/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteCountryLocalNameNonConventional(System.Int64 key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -274,10 +263,10 @@ public abstract class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    private async Task<CountryLocalNameDto?> TryGetCountryLocalName(System.Int64 key, CountryLocalNameKeyDto childKeyDto)
+    private async Task<CountryLocalNameDto?> TryGetCountryShortNames(System.Int64 key, CountryLocalNameKeyDto childKeyDto)
     {
-        var parent = await _mediator.Send(new GetCountryByIdQuery(key));
-        return parent?.CountryLocalNames.SingleOrDefault(x => x.Id == childKeyDto.keyId);
+        var parent = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault();
+        return parent?.CountryShortNames.SingleOrDefault(x => x.Id == childKeyDto.keyId);
     }
     
     [EnableQuery]
@@ -287,7 +276,7 @@ public abstract class CountriesControllerBase : ODataController
         {
             return BadRequest(ModelState);
         }
-        var item = await _mediator.Send(new GetCountryByIdQuery(key));
+        var item = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault();
         
         if (item is null)
         {
@@ -311,7 +300,7 @@ public abstract class CountriesControllerBase : ODataController
             return NotFound();
         }
         
-        var child = (await _mediator.Send(new GetCountryByIdQuery(key)))?.CountryBarCode;
+        var child = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault()?.CountryBarCode;
         if (child == null)
         {
             return NotFound();
@@ -334,7 +323,7 @@ public abstract class CountriesControllerBase : ODataController
             return NotFound();
         }
         
-        var child = (await _mediator.Send(new GetCountryByIdQuery(key)))?.CountryBarCode;
+        var child = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault()?.CountryBarCode;
         if (child == null)
         {
             return NotFound();
@@ -366,7 +355,7 @@ public abstract class CountriesControllerBase : ODataController
         {
             return NotFound();
         }
-        var child = (await _mediator.Send(new GetCountryByIdQuery(key)))?.CountryBarCode;
+        var child = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault()?.CountryBarCode;
         if (child == null)
         {
             return NotFound();
@@ -384,6 +373,75 @@ public abstract class CountriesControllerBase : ODataController
         }
         var result = await _mediator.Send(new DeleteCountryBarCodeForCountryCommand(new CountryKeyDto(key)));
         if (!result)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    #endregion
+    
+    
+    #region Relationships
+    
+    public async Task<ActionResult> CreateRefToPhysicalWorkplaces([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefCountryToPhysicalWorkplacesCommand(new CountryKeyDto(key), new WorkplaceKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> GetRefToPhysicalWorkplaces([FromRoute] System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.PhysicalWorkplaces).SingleOrDefault();
+        if (related is null)
+        {
+            return NotFound();
+        }
+        
+        IList<System.Uri> references = new List<System.Uri>();
+        foreach (var item in related)
+        {
+            references.Add(new System.Uri($"Workplaces/{item.Id}", UriKind.Relative));
+        }
+        return Ok(references);
+    }
+    
+    public async Task<ActionResult> DeleteRefToPhysicalWorkplaces([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefCountryToPhysicalWorkplacesCommand(new CountryKeyDto(key), new WorkplaceKeyDto(relatedKey)));
+        if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> DeleteRefToPhysicalWorkplaces([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefCountryToPhysicalWorkplacesCommand(new CountryKeyDto(key)));
+        if (!deletedAllRef)
         {
             return NotFound();
         }

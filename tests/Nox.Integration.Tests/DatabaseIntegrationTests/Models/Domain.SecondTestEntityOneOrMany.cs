@@ -35,7 +35,7 @@ public abstract class SecondTestEntityOneOrManyBase : AuditableEntityBase, IEnti
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
     ///  (Required).
@@ -45,7 +45,26 @@ public abstract class SecondTestEntityOneOrManyBase : AuditableEntityBase, IEnti
     /// <summary>
     /// SecondTestEntityOneOrMany Test entity relationship to TestEntityOneOrMany OneOrMany TestEntityOneOrManies
     /// </summary>
-    public virtual List<TestEntityOneOrMany> TestEntityOneOrManyRelationship { get; set; } = new();
+    public virtual List<TestEntityOneOrMany> TestEntityOneOrManyRelationship { get; private set; } = new();
+
+    public virtual void CreateRefToTestEntityOneOrManyRelationship(TestEntityOneOrMany relatedTestEntityOneOrMany)
+    {
+        TestEntityOneOrManyRelationship.Add(relatedTestEntityOneOrMany);
+    }
+
+    public virtual void DeleteRefToTestEntityOneOrManyRelationship(TestEntityOneOrMany relatedTestEntityOneOrMany)
+    {
+        if(TestEntityOneOrManyRelationship.Count() < 2)
+            throw new Exception($"The relationship cannot be deleted.");
+        TestEntityOneOrManyRelationship.Remove(relatedTestEntityOneOrMany);
+    }
+
+    public virtual void DeleteAllRefToTestEntityOneOrManyRelationship()
+    {
+        if(TestEntityOneOrManyRelationship.Count() < 2)
+            throw new Exception($"The relationship cannot be deleted.");
+        TestEntityOneOrManyRelationship.Clear();
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

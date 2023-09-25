@@ -23,7 +23,7 @@ using CountryLocalName = ClientApi.Domain.CountryLocalName;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class CountryLocalNameFactoryBase: IEntityFactory<CountryLocalName,CountryLocalNameCreateDto>
+internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto>
 {
 
     public CountryLocalNameFactoryBase
@@ -36,6 +36,12 @@ public abstract class CountryLocalNameFactoryBase: IEntityFactory<CountryLocalNa
     {
         return ToEntity(createDto);
     }
+
+    public virtual void UpdateEntity(CountryLocalName entity, CountryLocalNameUpdateDto updateDto)
+    {
+        UpdateEntityInternal(entity, updateDto);
+    }
+
     private ClientApi.Domain.CountryLocalName ToEntity(CountryLocalNameCreateDto createDto)
     {
         var entity = new ClientApi.Domain.CountryLocalName();
@@ -43,8 +49,16 @@ public abstract class CountryLocalNameFactoryBase: IEntityFactory<CountryLocalNa
         if (createDto.NativeName is not null)entity.NativeName = ClientApi.Domain.CountryLocalName.CreateNativeName(createDto.NativeName.NonNullValue<System.String>());
         return entity;
     }
+
+    private void UpdateEntityInternal(CountryLocalName entity, CountryLocalNameUpdateDto updateDto)
+    {
+        entity.Name = ClientApi.Domain.CountryLocalName.CreateName(updateDto.Name.NonNullValue<System.String>());
+        if (updateDto.NativeName == null) { entity.NativeName = null; } else {
+            entity.NativeName = ClientApi.Domain.CountryLocalName.CreateNativeName(updateDto.NativeName.ToValueFromNonNull<System.String>());
+        }
+    }
 }
 
-public partial class CountryLocalNameFactory : CountryLocalNameFactoryBase
+internal partial class CountryLocalNameFactory : CountryLocalNameFactoryBase
 {
 }

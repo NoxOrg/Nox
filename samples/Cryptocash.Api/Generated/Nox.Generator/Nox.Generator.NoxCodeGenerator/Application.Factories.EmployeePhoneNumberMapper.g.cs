@@ -24,26 +24,6 @@ public partial class EmployeePhoneNumberMapper : EntityMapperBase<EmployeePhoneN
 {
     public EmployeePhoneNumberMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
-    public override void MapToEntity(EmployeePhoneNumber entity, Entity entityDefinition, dynamic dto)
-    {
-    #pragma warning disable CS0168 // Variable is declared but never used        
-        dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used        
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "PhoneNumberType", dto.PhoneNumberType);
-        if (noxTypeValue == null)
-        {
-            throw new NullReferenceException("PhoneNumberType is required can not be set to null");
-        }     
-        entity.PhoneNumberType = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.PhoneNumber>(entityDefinition, "PhoneNumber", dto.PhoneNumber);
-        if (noxTypeValue == null)
-        {
-            throw new NullReferenceException("PhoneNumber is required can not be set to null");
-        }     
-        entity.PhoneNumber = noxTypeValue;
-    
-    }
-
     public override void PartialMapToEntity(EmployeePhoneNumber entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
 #pragma warning disable CS0168 // Variable is assigned but its value is never used

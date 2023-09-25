@@ -87,6 +87,7 @@ public static class ObjectExtensions
     /// </summary>
     /// <param name="obj">The input object whose values will be used to generate source code.</param>
     /// <param name="variableName">The name of the variable that will hold the created instance in the source code.</param>
+    /// <param name="fullyQualifiedNames">If true, the generated source code will use fully qualified type names. If false, the generated source code will use type names without namespaces.</param>
     /// <returns>C# source code as a string.</returns>
     public static string ToSourceCode(this object obj, string variableName, bool fullyQualifiedNames = true)
     {

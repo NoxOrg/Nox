@@ -35,11 +35,11 @@ This document provides information about the various endpoints available in our 
 #### Get CountryLocalNames
 - **GET** `/api/Countries/{key}/CountryLocalNames`
   - Description: Retrieve all CountryLocalNames for a specific Country.
-  
+
 #### Create CountryLocalName
 - **POST** `/api/Countries/{key}/CountryLocalNames/{relatedKey}`
   - Description: Create a new CountryLocalName for a specific Country.
-  
+
 #### Update CountryLocalName
 - **PUT** `/api/Countries/{key}/CountryLocalNames/{relatedKey}`
   - Description: Update an existing CountryLocalName for a specific Country.
@@ -57,11 +57,11 @@ This document provides information about the various endpoints available in our 
 #### Get CountryBarCodes
 - **GET** `/api/Countries/{key}/CountryBarCodes`
   - Description: Retrieve all CountryBarCodes for a specific Country.
-  
+
 #### Create CountryBarCode
 - **POST** `/api/Countries/{key}/CountryBarCodes/{relatedKey}`
   - Description: Create a new CountryBarCode for a specific Country.
-  
+
 #### Update CountryBarCode
 - **PUT** `/api/Countries/{key}/CountryBarCodes/{relatedKey}`
   - Description: Update an existing CountryBarCode for a specific Country.
@@ -78,29 +78,25 @@ This document provides information about the various endpoints available in our 
 
 ### Workplace
 
-#### Get Workplace relation by ID
-- **GET** `/api/Countries/{key}/Workplaces/{relatedKey}/$ref`
-  - Description: Retrieve an existing Workplaces relation for a specific Country.
-
 #### Get Workplace relations
-- **GET** `/api/Countries/{key}/Workplaces/$ref`
-  - Description: Retrieve all Workplaces relations for a specific Country.
+- **GET** `/api/Countries/{key}/PhysicalWorkplaces/$ref`
+  - Description: Retrieve all existing Workplaces relations for a specific Country.
   
 #### Create Workplace relation
-- **POST** `/api/Countries/{key}/Workplaces/{relatedKey}/$ref`
+- **POST** `/api/Countries/{key}/PhysicalWorkplaces/{relatedKey}/$ref`
   - Description: Create a new Workplace relation for a specific Country.
   
 #### Update Workplace relation
-- **PUT** `/api/Countries/{key}/Workplaces/{relatedKey}/$ref`
-  - Description: Update an existing Workplace relation for a specific Country.
-  
-#### Partially Update Workplace relation
-- **PATCH** `/api/Countries/{key}/Workplaces/{relatedKey}/$ref`
-  - Description: Partially update an existing Workplace relation for a specific Country.
+- **PUT** `/api/Countries/{key}/PhysicalWorkplaces/{relatedKey}/$ref`
+  - Description: Updates an existing Workplace relation for a specific Country.
 
 #### Delete Workplace relation
-- **DELETE** `/api/Countries/{key}/Workplaces/{relatedKey}/$ref`
+- **DELETE** `/api/Countries/{key}/PhysicalWorkplaces/{relatedKey}/$ref`
   - Description: Delete an existing Workplace relation for a specific Country.
+
+#### Delete Workplace relations
+- **DELETE** `/api/Countries/{key}/PhysicalWorkplaces/$ref`
+  - Description: Delete all existing Workplaces relations for a specific Country.
 
 ## Related Entities
 

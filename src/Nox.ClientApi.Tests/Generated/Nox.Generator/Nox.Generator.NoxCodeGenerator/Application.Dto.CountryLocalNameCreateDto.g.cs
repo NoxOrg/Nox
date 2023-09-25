@@ -14,7 +14,7 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public partial class CountryLocalNameCreateDto: CountryLocalNameCreateDtoBase
+public partial class CountryLocalNameCreateDto : CountryLocalNameCreateDtoBase
 {
 
 }
@@ -22,14 +22,14 @@ public partial class CountryLocalNameCreateDto: CountryLocalNameCreateDtoBase
 /// <summary>
 /// Local names for countries.
 /// </summary>
-public abstract class CountryLocalNameCreateDtoBase : IEntityCreateDto<CountryLocalName>
-{    
+public abstract class CountryLocalNameCreateDtoBase : IEntityDto<CountryLocalName>
+{
     /// <summary>
     /// Local name (Required).
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
-    public virtual System.String Name { get; set; } = default!;    
+    public virtual System.String Name { get; set; } = default!;
     /// <summary>
     /// Local name in native tongue (Optional).
     /// </summary>

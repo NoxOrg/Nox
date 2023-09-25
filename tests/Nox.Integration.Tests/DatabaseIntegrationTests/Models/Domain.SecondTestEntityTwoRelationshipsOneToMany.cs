@@ -35,7 +35,7 @@ public abstract class SecondTestEntityTwoRelationshipsOneToManyBase : EntityBase
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
     ///  (Required).
@@ -45,22 +45,52 @@ public abstract class SecondTestEntityTwoRelationshipsOneToManyBase : EntityBase
     /// <summary>
     /// SecondTestEntityTwoRelationshipsOneToMany First relationship to the same entity on the other side ZeroOrOne TestEntityTwoRelationshipsOneToManies
     /// </summary>
-    public virtual TestEntityTwoRelationshipsOneToMany? TestRelationshipOneOnOtherSide { get; set; } = null!;
+    public virtual TestEntityTwoRelationshipsOneToMany? TestRelationshipOneOnOtherSide { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ZeroOrOne to entity TestEntityTwoRelationshipsOneToMany
     /// </summary>
     public Nox.Types.Text? TestRelationshipOneOnOtherSideId { get; set; } = null!;
 
+    public virtual void CreateRefToTestRelationshipOneOnOtherSide(TestEntityTwoRelationshipsOneToMany relatedTestEntityTwoRelationshipsOneToMany)
+    {
+        TestRelationshipOneOnOtherSide = relatedTestEntityTwoRelationshipsOneToMany;
+    }
+
+    public virtual void DeleteRefToTestRelationshipOneOnOtherSide(TestEntityTwoRelationshipsOneToMany relatedTestEntityTwoRelationshipsOneToMany)
+    {
+        TestRelationshipOneOnOtherSide = null;
+    }
+
+    public virtual void DeleteAllRefToTestRelationshipOneOnOtherSide()
+    {
+        TestRelationshipOneOnOtherSide = null;
+    }
+
     /// <summary>
     /// SecondTestEntityTwoRelationshipsOneToMany Second relationship to the same entity on the other side ZeroOrOne TestEntityTwoRelationshipsOneToManies
     /// </summary>
-    public virtual TestEntityTwoRelationshipsOneToMany? TestRelationshipTwoOnOtherSide { get; set; } = null!;
+    public virtual TestEntityTwoRelationshipsOneToMany? TestRelationshipTwoOnOtherSide { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ZeroOrOne to entity TestEntityTwoRelationshipsOneToMany
     /// </summary>
     public Nox.Types.Text? TestRelationshipTwoOnOtherSideId { get; set; } = null!;
+
+    public virtual void CreateRefToTestRelationshipTwoOnOtherSide(TestEntityTwoRelationshipsOneToMany relatedTestEntityTwoRelationshipsOneToMany)
+    {
+        TestRelationshipTwoOnOtherSide = relatedTestEntityTwoRelationshipsOneToMany;
+    }
+
+    public virtual void DeleteRefToTestRelationshipTwoOnOtherSide(TestEntityTwoRelationshipsOneToMany relatedTestEntityTwoRelationshipsOneToMany)
+    {
+        TestRelationshipTwoOnOtherSide = null;
+    }
+
+    public virtual void DeleteAllRefToTestRelationshipTwoOnOtherSide()
+    {
+        TestRelationshipTwoOnOtherSide = null;
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

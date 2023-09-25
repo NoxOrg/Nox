@@ -14,7 +14,7 @@ using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
-public partial class TransactionCreateDto: TransactionCreateDtoBase
+public partial class TransactionCreateDto : TransactionCreateDtoBase
 {
 
 }
@@ -22,26 +22,26 @@ public partial class TransactionCreateDto: TransactionCreateDtoBase
 /// <summary>
 /// Customer transaction log and related data.
 /// </summary>
-public abstract class TransactionCreateDtoBase : IEntityCreateDto<Transaction>
-{    
+public abstract class TransactionCreateDtoBase : IEntityDto<Transaction>
+{
     /// <summary>
     /// Transaction type (Required).
     /// </summary>
     [Required(ErrorMessage = "TransactionType is required")]
     
-    public virtual System.String TransactionType { get; set; } = default!;    
+    public virtual System.String TransactionType { get; set; } = default!;
     /// <summary>
     /// Transaction processed datetime (Required).
     /// </summary>
     [Required(ErrorMessage = "ProcessedOnDateTime is required")]
     
-    public virtual System.DateTimeOffset ProcessedOnDateTime { get; set; } = default!;    
+    public virtual System.DateTimeOffset ProcessedOnDateTime { get; set; } = default!;
     /// <summary>
     /// Transaction amount (Required).
     /// </summary>
     [Required(ErrorMessage = "Amount is required")]
     
-    public virtual MoneyDto Amount { get; set; } = default!;    
+    public virtual MoneyDto Amount { get; set; } = default!;
     /// <summary>
     /// Transaction external reference (Required).
     /// </summary>
@@ -52,12 +52,10 @@ public abstract class TransactionCreateDtoBase : IEntityCreateDto<Transaction>
     /// <summary>
     /// Transaction for ExactlyOne Customers
     /// </summary>
-    [Required(ErrorMessage = "TransactionForCustomer is required")]
-    public virtual CustomerCreateDto TransactionForCustomer { get; set; } = null!;
+    public virtual CustomerCreateDto? TransactionForCustomer { get; set; } = default!;
 
     /// <summary>
     /// Transaction for ExactlyOne Bookings
     /// </summary>
-    [Required(ErrorMessage = "TransactionForBooking is required")]
-    public virtual BookingCreateDto TransactionForBooking { get; set; } = null!;
+    public virtual BookingCreateDto? TransactionForBooking { get; set; } = default!;
 }

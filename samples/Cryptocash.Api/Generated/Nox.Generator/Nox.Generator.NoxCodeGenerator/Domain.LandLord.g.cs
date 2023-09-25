@@ -35,7 +35,7 @@ public abstract class LandLordBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Landlord unique identifier (Required).
     /// </summary>
-    public AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Landlord name (Required).
@@ -50,11 +50,21 @@ public abstract class LandLordBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// LandLord leases an area to house ZeroOrMany VendingMachines
     /// </summary>
-    public virtual List<VendingMachine> ContractedAreasForVendingMachines { get; set; } = new();
+    public virtual List<VendingMachine> ContractedAreasForVendingMachines { get; private set; } = new();
 
-    public virtual void CreateRefToVendingMachine(VendingMachine relatedVendingMachine)
+    public virtual void CreateRefToContractedAreasForVendingMachines(VendingMachine relatedVendingMachine)
     {
         ContractedAreasForVendingMachines.Add(relatedVendingMachine);
+    }
+
+    public virtual void DeleteRefToContractedAreasForVendingMachines(VendingMachine relatedVendingMachine)
+    {
+        ContractedAreasForVendingMachines.Remove(relatedVendingMachine);
+    }
+
+    public virtual void DeleteAllRefToContractedAreasForVendingMachines()
+    {
+        ContractedAreasForVendingMachines.Clear();
     }
 
     /// <summary>

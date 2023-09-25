@@ -35,7 +35,7 @@ public abstract class EmployeeBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Employee's unique identifier (Required).
     /// </summary>
-    public AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Employee's first name (Required).
@@ -70,24 +70,32 @@ public abstract class EmployeeBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Employee reviewing ExactlyOne CashStockOrders
     /// </summary>
-    public virtual CashStockOrder EmployeeReviewingCashStockOrder { get; set; } = null!;
+    public virtual CashStockOrder EmployeeReviewingCashStockOrder { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity CashStockOrder
     /// </summary>
     public Nox.Types.AutoNumber EmployeeReviewingCashStockOrderId { get; set; } = null!;
 
-    public virtual void CreateRefToCashStockOrder(CashStockOrder relatedCashStockOrder)
+    public virtual void CreateRefToEmployeeReviewingCashStockOrder(CashStockOrder relatedCashStockOrder)
     {
         EmployeeReviewingCashStockOrder = relatedCashStockOrder;
+    }
+
+    public virtual void DeleteRefToEmployeeReviewingCashStockOrder(CashStockOrder relatedCashStockOrder)
+    {
+        throw new Exception($"The relationship cannot be deleted.");
+    }
+
+    public virtual void DeleteAllRefToEmployeeReviewingCashStockOrder()
+    {
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>
     /// Employee contacted by ZeroOrMany EmployeePhoneNumbers
     /// </summary>
-    public virtual List<EmployeePhoneNumber> EmployeePhoneNumbers { get; set; } = new();
-
-    public List<EmployeePhoneNumber> EmployeeContactPhoneNumbers => EmployeePhoneNumbers;
+    public virtual List<EmployeePhoneNumber> EmployeeContactPhoneNumbers { get; set; } = new();
 
     /// <summary>
     /// Entity tag used as concurrency token.

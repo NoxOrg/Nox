@@ -24,22 +24,6 @@ public partial class CountryLocalNameMapper : EntityMapperBase<CountryLocalName>
 {
     public CountryLocalNameMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
-    public override void MapToEntity(CountryLocalName entity, Entity entityDefinition, dynamic dto)
-    {
-    #pragma warning disable CS0168 // Variable is declared but never used        
-        dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used        
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
-        if (noxTypeValue == null)
-        {
-            throw new NullReferenceException("Name is required can not be set to null");
-        }     
-        entity.Name = noxTypeValue;        
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "NativeName", dto.NativeName);     
-        entity.NativeName = noxTypeValue;
-    
-    }
-
     public override void PartialMapToEntity(CountryLocalName entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
 #pragma warning disable CS0168 // Variable is assigned but its value is never used

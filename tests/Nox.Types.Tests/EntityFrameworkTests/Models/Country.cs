@@ -236,7 +236,7 @@ public sealed class Country
     /// <summary>
     /// Gets or sets the Guid property.
     /// </summary>
-    public DatabaseGuid DatabaseGuid { get; set; } = null!;
+    public Guid Guid { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets password

@@ -12,25 +12,32 @@ using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.Application.Queries;
 
-public record GetPaymentProviderByIdQuery(System.Int64 keyId) : IRequest <PaymentProviderDto?>;
+public record GetPaymentProviderByIdQuery(System.Int64 keyId) : IRequest <IQueryable<PaymentProviderDto>>;
 
-public partial class GetPaymentProviderByIdQueryHandler:  QueryBase<PaymentProviderDto?>, IRequestHandler<GetPaymentProviderByIdQuery, PaymentProviderDto?>
+internal partial class GetPaymentProviderByIdQueryHandler:GetPaymentProviderByIdQueryHandlerBase
 {
-    public  GetPaymentProviderByIdQueryHandler(DtoDbContext dataDbContext)
+    public  GetPaymentProviderByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    {
+    
+    }
+}
+
+internal abstract class GetPaymentProviderByIdQueryHandlerBase:  QueryBase<IQueryable<PaymentProviderDto>>, IRequestHandler<GetPaymentProviderByIdQuery, IQueryable<PaymentProviderDto>>
+{
+    public  GetPaymentProviderByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<PaymentProviderDto?> Handle(GetPaymentProviderByIdQuery request, CancellationToken cancellationToken)
+    public virtual Task<IQueryable<PaymentProviderDto>> Handle(GetPaymentProviderByIdQuery request, CancellationToken cancellationToken)
     {    
-        var item = DataDbContext.PaymentProviders
+        var query = DataDbContext.PaymentProviders
             .AsNoTracking()
-            .Include(r => r.PaymentProviderRelatedPaymentDetails)
-            .SingleOrDefault(r =>
+            .Where(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);
-        return Task.FromResult(OnResponse(item));
+        return Task.FromResult(OnResponse(query));
     }
 }

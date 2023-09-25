@@ -3,16 +3,18 @@
 #nullable enable
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Stores.
 /// </summary>
-public partial class StoreUpdateDto
+public partial class StoreUpdateDto : IEntityDto<Store>
 {
     /// <summary>
     /// Store Name (Required).
@@ -32,6 +34,10 @@ public partial class StoreUpdateDto
     [Required(ErrorMessage = "Location is required")]
     
     public LatLongDto Location { get; set; } = default!;
+    /// <summary>
+    /// Opening day (Optional).
+    /// </summary>
+    public System.DateTimeOffset? OpeningDay { get; set; }
 
     /// <summary>
     /// Store Owner of the Store ZeroOrOne StoreOwners

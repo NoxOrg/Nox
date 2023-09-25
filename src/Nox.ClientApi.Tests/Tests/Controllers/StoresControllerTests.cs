@@ -1,26 +1,19 @@
-﻿using FluentAssertions;
+﻿using AutoFixture;
 using ClientApi.Application.Dto;
-using AutoFixture.AutoMoq;
-using AutoFixture;
-using System.Net;
+using FluentAssertions;
+using FluentAssertions.Common;
 using Nox.Types;
-using System.Runtime.ConstrainedExecution;
+using System.Net;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
-    public class StoresControllerTests
+    public class StoresControllerTests : NoxIntegrationTestBase
     {
         private const string EntityUrl = "api/stores";
 
-        private readonly Fixture _fixture;
-        private readonly ODataFixture _oDataFixture;
-
-        public StoresControllerTests()
+        public StoresControllerTests(NoxTestContainerService containerService) : base(containerService)
         {
-            _fixture = new Fixture();
-            _fixture.Customize(new AutoMoqCustomization());
-            _oDataFixture = _fixture.Create<ODataFixture>();
         }
 
         #region Store Examples
@@ -46,16 +39,52 @@ namespace ClientApi.Tests.Tests.Controllers
                     PostalCode: "KT16 0RS",
                     CountryId: CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
-                EmailAddress = expectedEmail,
+                VerifiedEmails = expectedEmail,
             };
-            var postResult = await _oDataFixture.PostAsync<StoreCreateDto, StoreDto>(EntityUrl, createDto);
-            // Act
-            var response = await _oDataFixture.GetODataSimpleResponseAsync<StoreDto>($"{EntityUrl}/{postResult!.Id}");
+            var postResult = await PostAsync<StoreCreateDto, StoreDto>(EntityUrl, createDto);
 
+            // Act
+            var response = await GetODataSimpleResponseAsync<StoreDto>($"{EntityUrl}/{postResult!.Id}");
 
             //Assert
             response.Should().NotBeNull();
-            response!.EmailAddress.Should().BeEquivalentTo(expectedEmail);
+            response!.VerifiedEmails.Should().BeEquivalentTo(expectedEmail);
+            response!.OpeningDay.Should().BeNull();
+        }
+        #endregion
+
+        #region GET Entities (Properly deserializes opening day field) /api/{EntityPluralName} => api/stores
+        [Fact]
+        public async Task GetById_WithDateFieldSet_ReturnsDateFieldValue()
+        {
+            // Arrange
+            var expectedDate = System.DateTime.Now.ToDateTimeOffset();
+            var createDto = new StoreCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                Address = new StreetAddressDto(
+                    StreetNumber: null!,
+                    AddressLine1: "3000 Hillswood Business Park",
+                    AddressLine2: null!,
+                    Route: null!,
+                    Locality: null!,
+                    Neighborhood: null!,
+                    AdministrativeArea1: null!,
+                    AdministrativeArea2: null!,
+                    PostalCode: "KT16 0RS",
+                    CountryId: CountryCode.GB),
+                Location = new LatLongDto(51.3728033, -0.5389749),
+                VerifiedEmails = new EmailAddressCreateDto() { Email = "test@gmail.com", IsVerified = false },
+                OpeningDay = expectedDate
+            };
+            await PostAsync<StoreCreateDto, StoreDto>(EntityUrl, createDto);
+
+            // Act
+            var response = await GetODataCollectionResponseAsync<IEnumerable<StoreDto>>($"{EntityUrl}");
+
+            //Assert
+            response!.Should().HaveCount(1);
+            response!.ElementAt(0).OpeningDay.Should().Be(expectedDate);
         }
         #endregion
 
@@ -92,11 +121,11 @@ namespace ClientApi.Tests.Tests.Controllers
                 Location = new LatLongDto(51.3728033, -0.5389749),
                 Ownership = createOwner
             };
-            var store = await _oDataFixture.PostAsync<StoreCreateDto, StoreDto>(EntityUrl, createStore);
+            var store = await PostAsync<StoreCreateDto, StoreDto>(EntityUrl, createStore);
 
             // Act
             const string oDataRequest = $"$expand={nameof(StoreDto.Ownership)}";
-            var response = await _oDataFixture.GetODataSimpleResponseAsync<StoreDto>($"{EntityUrl}/{store!.Id}?{oDataRequest}");
+            var response = await GetODataSimpleResponseAsync<StoreDto>($"{EntityUrl}/{store!.Id}?{oDataRequest}");
 
 
             //Assert
@@ -129,7 +158,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<StoreCreateDto, StoreDto>(EntityUrl, createDto);
+            var result = await PostAsync<StoreCreateDto, StoreDto>(EntityUrl, createDto);
 
             //Assert
             result.Should().NotBeNull();
@@ -157,7 +186,7 @@ namespace ClientApi.Tests.Tests.Controllers
                     PostalCode: "KT16 0RS",
                     CountryId: CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
-                EmailAddress = new EmailAddressCreateDto
+                VerifiedEmails = new EmailAddressCreateDto
                 {
                     Email = "test@gmail.com",
                     IsVerified = false
@@ -165,17 +194,15 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<StoreCreateDto, StoreDto>(EntityUrl, createDto);
-            var headers = _oDataFixture.CreateEtagHeader(result?.Etag);
+            var result = await PostAsync<StoreCreateDto, StoreDto>(EntityUrl, createDto);
+            var headers = CreateEtagHeader(result?.Etag);
 
-            await _oDataFixture.DeleteAsync($"{EntityUrl}/{result!.Id}", headers);
+            await DeleteAsync($"{EntityUrl}/{result!.Id}", headers);
 
             // Assert
-            var queryResult = await _oDataFixture.GetAsync($"{EntityUrl}/{result!.Id}");
+            var queryResult = await GetAsync($"{EntityUrl}/{result!.Id}");
 
             queryResult.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
-
-
     }
 }

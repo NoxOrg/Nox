@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
@@ -13,7 +14,55 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        var namePrefix = "Application";
+        var code = new CodeBuilder($"Application.NoxWebApplicationExtensions.g.cs", context);
+
+        var usings = new List<string>();
+
+        var solution = codeGeneratorState.Solution;
+
+
+        code.AppendLine("using Microsoft.EntityFrameworkCore;");               
+        code.AppendLine("using System.Reflection;");
+        code.AppendLine("using Microsoft.OData.ModelBuilder;");
+        code.AppendLine("using Nox;");
+        code.AppendLine("using Nox.Solution;");
+        code.AppendLine("using Nox.Configuration;");
+        code.AppendLines(usings.ToArray());
+        code.AppendLine("using Nox.Types.EntityFramework.Abstractions;");
+        code.AppendLine($"using {solution.Name}.Infrastructure.Persistence;");
+        if (config.Presentation)
+            code.AppendLine($"using {solution.Name}.Presentation.Api.OData;");
+        code.AppendLine();
+
+        code.AppendLine("internal static class NoxWebApplicationBuilderExtension");
+        code.StartBlock();
+        code.AppendLine(@"public static IServiceCollection AddNox(this IServiceCollection services)
+                        {
+                            return services.AddNox(null, null);
+                        }
+                        ");
+        code.AppendLine("public static IServiceCollection AddNox(this IServiceCollection services, Action<INoxBuilderConfigurator>? configureNox, Action<ODataModelBuilder>? configureNoxOdata)");
+        code.StartBlock();
+        var dbContextName = $"{solution.Name}DbContext";
+
+        code.AppendLine(@$"
+        services.AddNoxLib(configurator => 
+        {{
+            configurator.WithDatabaseContexts<{dbContextName},DtoDbContext>();
+            configurator.WithMessagingTransactionalOutbox<{dbContextName}>();
+            configureNox?.Invoke(configurator);
+        }});");
+        code.AppendLine("services.AddNoxOdata(configureNoxOdata);");
+        code.AppendLine("return services;");
+        code.EndBlock();
+        code.AppendLine();
+
+        code.EndBlock();
+
+        code.GenerateSourceCode();
+
+        /*
+         var namePrefix = "Application";
 
         var solution = codeGeneratorState.Solution;
 
@@ -61,5 +110,6 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
             .WithObject("dbProvider", dbProvider)
             .WithObject("dbContext", $"{solution.Name}DbContext")
             .GenerateSourceCodeFromResource($"{namePrefix}.NoxWebApplicationBuilderExtension");
+         */
     }
 }

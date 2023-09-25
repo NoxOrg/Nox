@@ -35,7 +35,7 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Country unique identifier (Required).
     /// </summary>
-    public CountryCode2 Id { get; set; } = null!;
+    public Nox.Types.CountryCode2 Id { get; set; } = null!;
 
     /// <summary>
     /// Country's name (Required).
@@ -105,61 +105,101 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Country used by ExactlyOne Currencies
     /// </summary>
-    public virtual Currency CountryUsedByCurrency { get; set; } = null!;
+    public virtual Currency CountryUsedByCurrency { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Currency
     /// </summary>
     public Nox.Types.CurrencyCode3 CountryUsedByCurrencyId { get; set; } = null!;
 
-    public virtual void CreateRefToCurrency(Currency relatedCurrency)
+    public virtual void CreateRefToCountryUsedByCurrency(Currency relatedCurrency)
     {
         CountryUsedByCurrency = relatedCurrency;
+    }
+
+    public virtual void DeleteRefToCountryUsedByCurrency(Currency relatedCurrency)
+    {
+        throw new Exception($"The relationship cannot be deleted.");
+    }
+
+    public virtual void DeleteAllRefToCountryUsedByCurrency()
+    {
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>
     /// Country used by OneOrMany Commissions
     /// </summary>
-    public virtual List<Commission> CountryUsedByCommissions { get; set; } = new();
+    public virtual List<Commission> CountryUsedByCommissions { get; private set; } = new();
 
-    public virtual void CreateRefToCommission(Commission relatedCommission)
+    public virtual void CreateRefToCountryUsedByCommissions(Commission relatedCommission)
     {
         CountryUsedByCommissions.Add(relatedCommission);
+    }
+
+    public virtual void DeleteRefToCountryUsedByCommissions(Commission relatedCommission)
+    {
+        if(CountryUsedByCommissions.Count() < 2)
+            throw new Exception($"The relationship cannot be deleted.");
+        CountryUsedByCommissions.Remove(relatedCommission);
+    }
+
+    public virtual void DeleteAllRefToCountryUsedByCommissions()
+    {
+        if(CountryUsedByCommissions.Count() < 2)
+            throw new Exception($"The relationship cannot be deleted.");
+        CountryUsedByCommissions.Clear();
     }
 
     /// <summary>
     /// Country used by ZeroOrMany VendingMachines
     /// </summary>
-    public virtual List<VendingMachine> CountryUsedByVendingMachines { get; set; } = new();
+    public virtual List<VendingMachine> CountryUsedByVendingMachines { get; private set; } = new();
 
-    public virtual void CreateRefToVendingMachine(VendingMachine relatedVendingMachine)
+    public virtual void CreateRefToCountryUsedByVendingMachines(VendingMachine relatedVendingMachine)
     {
         CountryUsedByVendingMachines.Add(relatedVendingMachine);
+    }
+
+    public virtual void DeleteRefToCountryUsedByVendingMachines(VendingMachine relatedVendingMachine)
+    {
+        CountryUsedByVendingMachines.Remove(relatedVendingMachine);
+    }
+
+    public virtual void DeleteAllRefToCountryUsedByVendingMachines()
+    {
+        CountryUsedByVendingMachines.Clear();
     }
 
     /// <summary>
     /// Country used by ZeroOrMany Customers
     /// </summary>
-    public virtual List<Customer> CountryUsedByCustomers { get; set; } = new();
+    public virtual List<Customer> CountryUsedByCustomers { get; private set; } = new();
 
-    public virtual void CreateRefToCustomer(Customer relatedCustomer)
+    public virtual void CreateRefToCountryUsedByCustomers(Customer relatedCustomer)
     {
         CountryUsedByCustomers.Add(relatedCustomer);
+    }
+
+    public virtual void DeleteRefToCountryUsedByCustomers(Customer relatedCustomer)
+    {
+        CountryUsedByCustomers.Remove(relatedCustomer);
+    }
+
+    public virtual void DeleteAllRefToCountryUsedByCustomers()
+    {
+        CountryUsedByCustomers.Clear();
     }
 
     /// <summary>
     /// Country owned OneOrMany CountryTimeZones
     /// </summary>
-    public virtual List<CountryTimeZone> CountryTimeZones { get; set; } = new();
-
-    public List<CountryTimeZone> CountryOwnedTimeZones => CountryTimeZones;
+    public virtual List<CountryTimeZone> CountryOwnedTimeZones { get; set; } = new();
 
     /// <summary>
     /// Country owned ZeroOrMany Holidays
     /// </summary>
-    public virtual List<Holiday> Holidays { get; set; } = new();
-
-    public List<Holiday> CountryOwnedHolidays => Holidays;
+    public virtual List<Holiday> CountryOwnedHolidays { get; set; } = new();
 
     /// <summary>
     /// Entity tag used as concurrency token.

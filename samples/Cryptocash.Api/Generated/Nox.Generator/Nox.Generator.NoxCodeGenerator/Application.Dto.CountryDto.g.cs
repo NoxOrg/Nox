@@ -97,8 +97,8 @@ public partial class CountryDto
     /// Country used by ExactlyOne Currencies
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.String CountryUsedByCurrencyId { get; set; } = default!;
-    public virtual CurrencyDto CountryUsedByCurrency { get; set; } = null!;
+    public System.String? CountryUsedByCurrencyId { get; set; } = default!;
+    public virtual CurrencyDto? CountryUsedByCurrency { get; set; } = null!;
 
     /// <summary>
     /// Country used by OneOrMany Commissions
@@ -118,12 +118,12 @@ public partial class CountryDto
     /// <summary>
     /// Country owned OneOrMany CountryTimeZones
     /// </summary>
-    public virtual List<CountryTimeZoneDto> CountryTimeZones { get; set; } = new();
+    public virtual List<CountryTimeZoneDto> CountryOwnedTimeZones { get; set; } = new();
 
     /// <summary>
     /// Country owned ZeroOrMany Holidays
     /// </summary>
-    public virtual List<HolidayDto> Holidays { get; set; } = new();
+    public virtual List<HolidayDto> CountryOwnedHolidays { get; set; } = new();
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

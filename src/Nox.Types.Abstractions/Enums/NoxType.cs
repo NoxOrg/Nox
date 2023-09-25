@@ -106,9 +106,6 @@ public enum NoxType : uint
     [SimpleType(typeof(short))]
     CurrencyNumber = 2377452890,
 
-    [SimpleType(typeof(Guid))]
-    DatabaseGuid = 2076277156,
-
     [SimpleType(typeof(long))]
     AutoNumber = 24779567,
 

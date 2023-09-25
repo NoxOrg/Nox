@@ -19,7 +19,7 @@ public record Delete{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyD
 public record Delete{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}KeyDto EntityKeyDto) : IRequest <bool>;
 {{- end }}
 
-public partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandler: CommandBase<Delete{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}>, IRequestHandler <Delete{{entity.Name}}For{{parent.Name}}Command, bool>
+internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandler: CommandBase<Delete{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}>, IRequestHandler <Delete{{entity.Name}}For{{parent.Name}}Command, bool>
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
 
@@ -37,36 +37,36 @@ public partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandler: Comm
 		OnExecuting(request);
 
 		{{- for key in parent.Keys }}
-		var key{{key.Name}} = CreateNoxTypeForKey<{{parent.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.ParentKeyDto.key{{key.Name}});
+		var key{{key.Name}} = CreateNoxTypeForKey<{{parent.Name}},Nox.Types.{{SingleTypeForKey key}}>("{{key.Name}}", request.ParentKeyDto.key{{key.Name}});
 		{{- end }}
 		var parentEntity = await DbContext.{{parent.PluralName}}.FindAsync({{parentKeysFindQuery}});
 		if (parentEntity == null)
 		{
 			return false;
 		}		
-	
+
 		{{- if isSingleRelationship }}
-		var entity = parentEntity.{{entity.Name}};
+		var entity = parentEntity.{{relationship.Name}};
 		if (entity == null)
 		{
 			return false;
 		}
 
-		parentEntity.{{entity.Name}} = null;
-		
+		parentEntity.{{relationship.Name}} = null;
+
 		OnCompleted(request, entity);
 
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		{{ else }}
 		{{- for key in entity.Keys }}
-		var owned{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.EntityKeyDto.key{{key.Name}});
+		var owned{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},Nox.Types.{{SingleTypeForKey key}}>("{{key.Name}}", request.EntityKeyDto.key{{key.Name}});
 		{{- end }}
-		var entity = parentEntity.{{entity.PluralName}}.SingleOrDefault(x => {{ownedKeysFindQuery}});
+		var entity = parentEntity.{{relationship.Name}}.SingleOrDefault(x => {{ownedKeysFindQuery}});
 		if (entity == null)
 		{
 			return false;
 		}
-		parentEntity.{{entity.PluralName}}.Remove(entity);
+		parentEntity.{{relationship.Name}}.Remove(entity);
 		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Deleted;

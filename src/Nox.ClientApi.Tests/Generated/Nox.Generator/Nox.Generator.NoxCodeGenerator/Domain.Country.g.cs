@@ -35,7 +35,7 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// The unique identifier (Required).
     /// </summary>
-    public AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// The Country Name (Required).
@@ -69,19 +69,27 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Country Country workplaces ZeroOrMany Workplaces
     /// </summary>
-    public virtual List<Workplace> PhysicalWorkplaces { get; set; } = new();
+    public virtual List<Workplace> PhysicalWorkplaces { get; private set; } = new();
 
-    public virtual void CreateRefToWorkplace(Workplace relatedWorkplace)
+    public virtual void CreateRefToPhysicalWorkplaces(Workplace relatedWorkplace)
     {
         PhysicalWorkplaces.Add(relatedWorkplace);
+    }
+
+    public virtual void DeleteRefToPhysicalWorkplaces(Workplace relatedWorkplace)
+    {
+        PhysicalWorkplaces.Remove(relatedWorkplace);
+    }
+
+    public virtual void DeleteAllRefToPhysicalWorkplaces()
+    {
+        PhysicalWorkplaces.Clear();
     }
 
     /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
-    public virtual List<CountryLocalName> CountryLocalNames { get; set; } = new();
-
-    public List<CountryLocalName> CountryShortNames => CountryLocalNames;
+    public virtual List<CountryLocalName> CountryShortNames { get; set; } = new();
 
     /// <summary>
     /// Country is also coded as ZeroOrOne CountryBarCodes

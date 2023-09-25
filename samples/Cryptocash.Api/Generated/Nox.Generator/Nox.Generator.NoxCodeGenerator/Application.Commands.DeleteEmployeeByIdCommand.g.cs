@@ -15,11 +15,20 @@ namespace Cryptocash.Application.Commands;
 
 public record DeleteEmployeeByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
-public class DeleteEmployeeByIdCommandHandler: CommandBase<DeleteEmployeeByIdCommand,Employee>, IRequestHandler<DeleteEmployeeByIdCommand, bool>
+internal class DeleteEmployeeByIdCommandHandler:DeleteEmployeeByIdCommandHandlerBase
+{
+	public DeleteEmployeeByIdCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+	{
+	}
+}
+internal abstract class DeleteEmployeeByIdCommandHandlerBase: CommandBase<DeleteEmployeeByIdCommand,Employee>, IRequestHandler<DeleteEmployeeByIdCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public DeleteEmployeeByIdCommandHandler(
+	public DeleteEmployeeByIdCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -27,11 +36,11 @@ public class DeleteEmployeeByIdCommandHandler: CommandBase<DeleteEmployeeByIdCom
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeleteEmployeeByIdCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteEmployeeByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Employee,AutoNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Employee,Nox.Types.AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.Employees.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted.Value == true)

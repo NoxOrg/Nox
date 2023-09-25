@@ -1,17 +1,26 @@
-﻿using ClientApi.Tests.Tests.Models;
+﻿using AutoFixture;
+using AutoFixture.AutoMoq;
+using ClientApi.Tests.Tests.Models;
+using DotNet.Testcontainers.Builders;
 using FluentAssertions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace ClientApi.Tests;
 
-public class ODataFixture
-{
-    private readonly NoxTestApplicationFactory<StartupFixture> _appFactory;
 
-    public ODataFixture(NoxTestApplicationFactory<StartupFixture> appFactory)
+public abstract class NoxIntegrationTestBase :  IClassFixture<NoxTestContainerService>
+{
+    private readonly NoxTestApplicationFactory _appFactory;
+    protected readonly Fixture _fixture;
+
+    protected NoxIntegrationTestBase(NoxTestContainerService containerService)
     {
-        _appFactory = appFactory;
+        _fixture = new Fixture();
+        _fixture.Customize(new AutoMoqCustomization());
+
+        _appFactory = _fixture.Create<NoxTestApplicationFactory>();
+        _appFactory.UseContainer(containerService);
     }
 
     /// <summary>
@@ -56,6 +65,16 @@ public class ODataFixture
     {
         using var httpClient = _appFactory.CreateClient();
         var result = await httpClient.GetAsync(requestUrl);
+
+        return result;
+    }
+
+    public async Task<HttpResponseMessage> PostAsync(string requestUrl)
+    {
+        using var httpClient = _appFactory.CreateClient();
+
+        var result = await httpClient.PostAsync(requestUrl, null);
+        result.EnsureSuccessStatusCode();
 
         return result;
     }
@@ -110,17 +129,21 @@ public class ODataFixture
         return await PutAsync<TValue>(requestUrl, data, new(), throwOnError);
     }
 
-    public async Task<TResult?> PutAsync<TValue, TResult>(string requestUrl, TValue data, Dictionary<string, IEnumerable<string>> headers)
+    public async Task<TResult?> PutAsync<TValue, TResult>(string requestUrl, TValue data, Dictionary<string, IEnumerable<string>> headers, bool throwOnError = true)
     {
         using var httpClient = _appFactory.CreateClient();
 
         AddHeaders(httpClient, headers ?? new());
 
         var message = await httpClient.PutAsJsonAsync(requestUrl, data);
-        message.EnsureSuccessStatusCode();
+
+        if (throwOnError)
+            message.EnsureSuccessStatusCode();
 
         var content = await message.Content.ReadAsStringAsync();
-        EnsureOdataSingleResponse(content);
+
+        if (throwOnError)
+            EnsureOdataSingleResponse(content);
 
         var result = DeserializeResponse<TResult>(content);
 
@@ -156,7 +179,12 @@ public class ODataFixture
 
         AddHeaders(httpClient, headers ?? new());
 
-        var request = await httpClient.PatchAsJsonAsync(requestUrl, delta);
+        var opts = new JsonSerializerOptions()
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
+        };
+
+        var request = await httpClient.PatchAsJsonAsync(requestUrl, delta, opts);
         request.EnsureSuccessStatusCode();
 
         var content = await request.Content.ReadAsStringAsync();

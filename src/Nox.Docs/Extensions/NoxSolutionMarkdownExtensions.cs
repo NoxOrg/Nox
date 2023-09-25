@@ -27,6 +27,7 @@ public static class NoxSolutionMarkdownExtensions
     {
         var mermaidText = noxSolution.ToMermaidErd(ErdDetail.Summary);
         var entityEndpoints = noxSolution.ToMarkdownEntityEndpoints();
+        var entityDomainEvents = noxSolution.ToMarkdownEntityDomainEvents();
 
         var docs = $"""
         # {noxSolution.Name}
@@ -45,7 +46,7 @@ public static class NoxSolutionMarkdownExtensions
 
         ## Definitions for Domain Entities
 
-        {DomainDecription(noxSolution, entityEndpoints!)}
+        {DomainDecription(noxSolution, entityEndpoints!, entityDomainEvents!)}
         
         """;
 
@@ -53,11 +54,14 @@ public static class NoxSolutionMarkdownExtensions
         {
             Name = "README.md",
             Content = docs,
-            ReferencedFiles = entityEndpoints.Select(x => (MarkdownFile)x),
+            ReferencedFiles = entityEndpoints.Concat(entityDomainEvents).Select(x => (MarkdownFile)x),
         };
     }
 
-    private static string DomainDecription(NoxSolution noxSolution, IEnumerable<EntityMarkdownFile> entityEndpoints)
+    private static string DomainDecription(
+        NoxSolution noxSolution,
+        IEnumerable<EntityMarkdownFile> entityEndpoints,
+        IEnumerable<EntityMarkdownFile> entityDomainEvents)
     {
         var sb = new StringBuilder();
 
@@ -87,14 +91,18 @@ public static class NoxSolutionMarkdownExtensions
                 ? " *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*"
                 : string.Empty;
 
-            var endpointInfo = entity.IsOwnedEntity
+            var endpointsInfo = entity.IsOwnedEntity
                 ? string.Empty
                 : $"\n\n[Endpoints]({entityEndpoints.First(x => x.EntityName == entity.Name).Name})";
+
+            var domainEventsInfo = !entityDomainEvents.Any(x => x.EntityName == entity.Name)
+                ? string.Empty
+                : $"\n\n[Domain Events]({entityDomainEvents.First(x => x.EntityName == entity.Name).Name})";
 
             sb.AppendLine($"""
                 ### {owner}{entity.Name}{ownedInfo}
 
-                {entity.Description?.EnsureEndsWith('.')}{auditInfo}{endpointInfo}
+                {entity.Description?.EnsureEndsWith('.')}{auditInfo}{endpointsInfo}{domainEventsInfo}
 
                 {AttributeTable(entity, isAudited)}
 

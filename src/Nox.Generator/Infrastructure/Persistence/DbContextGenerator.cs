@@ -16,7 +16,7 @@ internal class DbContextGenerator : INoxCodeGenerator
         {
             return;
         }
-
+        
         var className = $"{codeGeneratorState.Solution.Name}DbContext";
         var templateName = @"Infrastructure.Persistence.DbContext";
 

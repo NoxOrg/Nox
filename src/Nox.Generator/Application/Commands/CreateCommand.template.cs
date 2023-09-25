@@ -1,5 +1,5 @@
 ﻿{{- relatedEntities = entity.Relationships | array.map "Entity" }}
-{{- func fieldFactoryName 
+{{- func fieldFactoryName
     ret (string.downcase $0 + "Factory")
 end -}}
 ﻿// Generated
@@ -26,31 +26,47 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
 public record Create{{entity.Name}}Command({{entity.Name}}CreateDto EntityDto) : IRequest<{{entity.Name}}KeyDto>;
 
-public partial class Create{{entity.Name}}CommandHandler: CommandBase<Create{{entity.Name}}Command,{{entity.Name}}>, IRequestHandler <Create{{entity.Name}}Command, {{entity.Name}}KeyDto>
+internal partial class Create{{entity.Name}}CommandHandler: Create{{entity.Name}}CommandHandlerBase
 {
-	private readonly {{codeGeneratorState.Solution.Name}}DbContext _dbContext;
-	private readonly IEntityFactory<{{entity.Name}},{{entity.Name}}CreateDto> _entityFactory;
-	{{- for relatedEntity in relatedEntities }}
-    private readonly IEntityFactory<{{relatedEntity}},{{relatedEntity}}CreateDto> _{{fieldFactoryName relatedEntity}};
-    {{- end }}
-
 	public Create{{entity.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
 		{{- for relatedEntity in relatedEntities }}
-        IEntityFactory<{{relatedEntity}},{{relatedEntity}}CreateDto> {{fieldFactoryName relatedEntity}},
+        IEntityFactory<{{relatedEntity}}, {{relatedEntity}}CreateDto, {{relatedEntity}}UpdateDto> {{fieldFactoryName relatedEntity}},
         {{- end }}
-        IEntityFactory<{{entity.Name}},{{entity.Name}}CreateDto> entityFactory,
+        IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory,
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution, {{- for relatedEntity in relatedEntities}}{{fieldFactoryName relatedEntity}}, {{end}}entityFactory, serviceProvider)
+	{
+	}
+}
+
+
+internal abstract class Create{{entity.Name}}CommandHandlerBase: CommandBase<Create{{entity.Name}}Command,{{entity.Name}}>, IRequestHandler <Create{{entity.Name}}Command, {{entity.Name}}KeyDto>
+{
+	private readonly {{codeGeneratorState.Solution.Name}}DbContext _dbContext;
+	private readonly IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> _entityFactory;
+	{{- for relatedEntity in relatedEntities }}
+    private readonly IEntityFactory<{{relatedEntity}}, {{relatedEntity}}CreateDto, {{relatedEntity}}UpdateDto> _{{fieldFactoryName relatedEntity}};
+    {{- end }}
+
+	public Create{{entity.Name}}CommandHandlerBase(
+		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
+		NoxSolution noxSolution,
+		{{- for relatedEntity in relatedEntities }}
+        IEntityFactory<{{relatedEntity}}, {{relatedEntity}}CreateDto, {{relatedEntity}}UpdateDto> {{fieldFactoryName relatedEntity}},
+        {{- end }}
+        IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
-		{{- for relatedEntity in relatedEntities }}        
+		{{- for relatedEntity in relatedEntities }}
         _{{fieldFactoryName relatedEntity}} = {{fieldFactoryName relatedEntity}};
         {{- end }}
 	}
 
-	public async Task<{{entity.Name}}KeyDto> Handle(Create{{entity.Name}}Command request, CancellationToken cancellationToken)
+	public virtual async Task<{{entity.Name}}KeyDto> Handle(Create{{entity.Name}}Command request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
@@ -60,19 +76,19 @@ public partial class Create{{entity.Name}}CommandHandler: CommandBase<Create{{en
 	{{- for relationship in entity.Relationships }}
 		{{- if relationship.WithSingleEntity }}
 		if(request.EntityDto.{{relationship.Name}} is not null)
-		{ 
+		{
 			var relatedEntity = _{{fieldFactoryName relationship.Entity}}.CreateEntity(request.EntityDto.{{relationship.Name}});
-			entityToCreate.CreateRefTo{{relationship.Entity}}(relatedEntity);
-		}		
+			entityToCreate.CreateRefTo{{relationship.Name}}(relatedEntity);
+		}
 		{{- else}}
 		foreach(var relatedCreateDto in request.EntityDto.{{relationship.Name}})
 		{
 			var relatedEntity = _{{fieldFactoryName relationship.Entity}}.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefTo{{relationship.Entity}}(relatedEntity);
+			entityToCreate.CreateRefTo{{relationship.Name}}(relatedEntity);
 		}
 		{{-end}}
 	{{- end }}
-					
+
 		OnCompleted(request, entityToCreate);
 		_dbContext.{{entity.PluralName}}.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();

@@ -35,18 +35,10 @@ This document provides information about the various endpoints available in our 
 #### Get CountryLocalNames
 - **GET** `/api/Countries/{key}/CountryLocalNames`
   - Description: Retrieve all CountryLocalNames for a specific Country.
-  
+
 #### Create CountryLocalNames
 - **POST** `/api/Countries/{key}/CountryLocalNames/{relatedKey}`
   - Description: Create a new CountryLocalNames for a specific Country.
-  
-#### Update CountryLocalNames
-- **PUT** `/api/Countries/{key}/CountryLocalNames/{relatedKey}`
-  - Description: Update an existing CountryLocalNames for a specific Country.
-  
-#### Partially Update CountryLocalNames
-- **PATCH** `/api/Countries/{key}/CountryLocalNames/{relatedKey}`
-  - Description: Partially update an existing CountryLocalNames for a specific Country.
 
 #### Delete CountryLocalNames
 - **DELETE** `/api/Countries/{key}/CountryLocalNames/{relatedKey}`
@@ -56,29 +48,23 @@ This document provides information about the various endpoints available in our 
 
 ### Continent
 
-#### Get Continent relation by ID
-- **GET** `/api/Countries/{key}/Continents/{relatedKey}/$ref`
-  - Description: Retrieve an existing Continents relation for a specific Country.
-
 #### Get Continent relations
 - **GET** `/api/Countries/{key}/Continents/$ref`
-  - Description: Retrieve all Continents relations for a specific Country.
-  
-#### Create Continent relation
-- **POST** `/api/Countries/{key}/Continents/{relatedKey}/$ref`
-  - Description: Create a new Continent relation for a specific Country.
-  
-#### Update Continent relation
-- **PUT** `/api/Countries/{key}/Continents/{relatedKey}/$ref`
-  - Description: Update an existing Continent relation for a specific Country.
-  
-#### Partially Update Continent relation
-- **PATCH** `/api/Countries/{key}/Continents/{relatedKey}/$ref`
-  - Description: Partially update an existing Continent relation for a specific Country.
+  - Description: Retrieve all existing Continents relations for a specific Country.
 
-#### Delete Continent relation
-- **DELETE** `/api/Countries/{key}/Continents/{relatedKey}/$ref`
-  - Description: Delete an existing Continent relation for a specific Country.
+### People
+
+#### Get People relations
+- **GET** `/api/Countries/{key}/Inhabitants/$ref`
+  - Description: Retrieve all existing Peoples relations for a specific Country.
+  
+#### Create People relation
+- **POST** `/api/Countries/{key}/Inhabitants/{relatedKey}/$ref`
+  - Description: Create a new People relation for a specific Country.
+  
+#### Update People relation
+- **PUT** `/api/Countries/{key}/Inhabitants/{relatedKey}/$ref`
+  - Description: Updates an existing People relation for a specific Country.
 
 ## Custom Commands
 
@@ -95,3 +81,5 @@ This document provides information about the various endpoints available in our 
 ## Related Entities
 
 [Continent](ContinentEndpoints.md)
+
+[People](PeopleEndpoints.md)

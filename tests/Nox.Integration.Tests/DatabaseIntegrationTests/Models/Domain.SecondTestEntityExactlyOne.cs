@@ -35,7 +35,7 @@ public abstract class SecondTestEntityExactlyOneBase : AuditableEntityBase, IEnt
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
     ///  (Required).
@@ -45,7 +45,22 @@ public abstract class SecondTestEntityExactlyOneBase : AuditableEntityBase, IEnt
     /// <summary>
     /// SecondTestEntityExactlyOne Test entity relationship to TestEntityExactlyOneRelationship ExactlyOne TestEntityExactlyOnes
     /// </summary>
-    public virtual TestEntityExactlyOne TestEntityExactlyOneRelationship { get; set; } = null!;
+    public virtual TestEntityExactlyOne TestEntityExactlyOneRelationship { get; private set; } = null!;
+
+    public virtual void CreateRefToTestEntityExactlyOneRelationship(TestEntityExactlyOne relatedTestEntityExactlyOne)
+    {
+        TestEntityExactlyOneRelationship = relatedTestEntityExactlyOne;
+    }
+
+    public virtual void DeleteRefToTestEntityExactlyOneRelationship(TestEntityExactlyOne relatedTestEntityExactlyOne)
+    {
+        throw new Exception($"The relationship cannot be deleted.");
+    }
+
+    public virtual void DeleteAllRefToTestEntityExactlyOneRelationship()
+    {
+        throw new Exception($"The relationship cannot be deleted.");
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

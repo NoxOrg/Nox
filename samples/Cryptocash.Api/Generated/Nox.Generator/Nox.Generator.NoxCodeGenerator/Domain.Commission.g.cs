@@ -35,7 +35,7 @@ public abstract class CommissionBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Commission unique identifier (Required).
     /// </summary>
-    public AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Commission rate (Required).
@@ -50,26 +50,46 @@ public abstract class CommissionBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Commission fees for ZeroOrOne Countries
     /// </summary>
-    public virtual Country? CommissionFeesForCountry { get; set; } = null!;
+    public virtual Country? CommissionFeesForCountry { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ZeroOrOne to entity Country
     /// </summary>
     public Nox.Types.CountryCode2? CommissionFeesForCountryId { get; set; } = null!;
 
-    public virtual void CreateRefToCountry(Country relatedCountry)
+    public virtual void CreateRefToCommissionFeesForCountry(Country relatedCountry)
     {
         CommissionFeesForCountry = relatedCountry;
+    }
+
+    public virtual void DeleteRefToCommissionFeesForCountry(Country relatedCountry)
+    {
+        CommissionFeesForCountry = null;
+    }
+
+    public virtual void DeleteAllRefToCommissionFeesForCountry()
+    {
+        CommissionFeesForCountryId = null;
     }
 
     /// <summary>
     /// Commission fees for ZeroOrMany Bookings
     /// </summary>
-    public virtual List<Booking> CommissionFeesForBooking { get; set; } = new();
+    public virtual List<Booking> CommissionFeesForBooking { get; private set; } = new();
 
-    public virtual void CreateRefToBooking(Booking relatedBooking)
+    public virtual void CreateRefToCommissionFeesForBooking(Booking relatedBooking)
     {
         CommissionFeesForBooking.Add(relatedBooking);
+    }
+
+    public virtual void DeleteRefToCommissionFeesForBooking(Booking relatedBooking)
+    {
+        CommissionFeesForBooking.Remove(relatedBooking);
+    }
+
+    public virtual void DeleteAllRefToCommissionFeesForBooking()
+    {
+        CommissionFeesForBooking.Clear();
     }
 
     /// <summary>

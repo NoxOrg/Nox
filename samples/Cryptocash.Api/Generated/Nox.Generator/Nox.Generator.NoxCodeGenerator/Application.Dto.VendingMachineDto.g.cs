@@ -67,15 +67,15 @@ public partial class VendingMachineDto
     /// VendingMachine installed in ExactlyOne Countries
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.String VendingMachineInstallationCountryId { get; set; } = default!;
-    public virtual CountryDto VendingMachineInstallationCountry { get; set; } = null!;
+    public System.String? VendingMachineInstallationCountryId { get; set; } = default!;
+    public virtual CountryDto? VendingMachineInstallationCountry { get; set; } = null!;
 
     /// <summary>
     /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Int64 VendingMachineContractedAreaLandLordId { get; set; } = default!;
-    public virtual LandLordDto VendingMachineContractedAreaLandLord { get; set; } = null!;
+    public System.Int64? VendingMachineContractedAreaLandLordId { get; set; } = default!;
+    public virtual LandLordDto? VendingMachineContractedAreaLandLord { get; set; } = null!;
 
     /// <summary>
     /// VendingMachine related to ZeroOrMany Bookings

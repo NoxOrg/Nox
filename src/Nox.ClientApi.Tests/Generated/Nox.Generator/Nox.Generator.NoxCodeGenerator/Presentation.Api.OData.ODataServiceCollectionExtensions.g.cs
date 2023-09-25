@@ -11,7 +11,7 @@ using ClientApi.Application.Dto;
 
 namespace ClientApi.Presentation.Api.OData;
 
-public static class ODataServiceCollectionExtensions
+internal static class ODataServiceCollectionExtensions
 {
     public static void AddNoxOdata(this IServiceCollection services)
     {
@@ -27,11 +27,13 @@ public static class ODataServiceCollectionExtensions
         builder.EntityType<StoreDto>().HasKey(e => new { e.Id });
         builder.EntityType<WorkplaceDto>().HasKey(e => new { e.Id });
         builder.EntityType<StoreOwnerDto>().HasKey(e => new { e.Id });
+        builder.EntityType<StoreLicenseDto>().HasKey(e => new { e.Id });
         builder.EntityType<EmailAddressDto>().HasKey(e => new { });
 
         builder.EntitySet<CountryDto>("Countries");
-        builder.EntityType<CountryDto>().ContainsMany(e => e.CountryLocalNames).AutoExpand = true;
+        builder.EntityType<CountryDto>().ContainsMany(e => e.CountryShortNames).AutoExpand = true;
         builder.EntityType<CountryDto>().ContainsOptional(e => e.CountryBarCode).AutoExpand = true;
+        builder.EntityType<CountryDto>().ContainsMany(e => e.PhysicalWorkplaces);
 
         builder.EntityType<CountryDto>();
         builder.EntityType<CountryDto>().Ignore(e => e.DeletedAtUtc);
@@ -42,19 +44,29 @@ public static class ODataServiceCollectionExtensions
 
         builder.EntityType<CountryBarCodeDto>();
         builder.EntitySet<StoreDto>("Stores");
-        builder.EntityType<StoreDto>().ContainsOptional(e => e.EmailAddress).AutoExpand = true;
+        builder.EntityType<StoreDto>().ContainsOptional(e => e.VerifiedEmails).AutoExpand = true;
+        builder.EntityType<StoreDto>().ContainsOptional(e => e.Ownership);
+        builder.EntityType<StoreDto>().ContainsOptional(e => e.License);
 
         builder.EntityType<StoreDto>();
         builder.EntityType<StoreDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<StoreDto>().Ignore(e => e.Etag);
         builder.EntitySet<WorkplaceDto>("Workplaces");
+        builder.EntityType<WorkplaceDto>().ContainsOptional(e => e.BelongsToCountry);
 
         builder.EntityType<WorkplaceDto>();
         builder.EntitySet<StoreOwnerDto>("StoreOwners");
+        builder.EntityType<StoreOwnerDto>().ContainsMany(e => e.Stores);
 
         builder.EntityType<StoreOwnerDto>();
         builder.EntityType<StoreOwnerDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<StoreOwnerDto>().Ignore(e => e.Etag);
+        builder.EntitySet<StoreLicenseDto>("StoreLicenses");
+        builder.EntityType<StoreLicenseDto>().ContainsRequired(e => e.StoreWithLicense);
+
+        builder.EntityType<StoreLicenseDto>();
+        builder.EntityType<StoreLicenseDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<StoreLicenseDto>().Ignore(e => e.Etag);
 
         builder.EntityType<EmailAddressDto>();
 

@@ -14,7 +14,7 @@ using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
-public partial class LandLordCreateDto: LandLordCreateDtoBase
+public partial class LandLordCreateDto : LandLordCreateDtoBase
 {
 
 }
@@ -22,14 +22,14 @@ public partial class LandLordCreateDto: LandLordCreateDtoBase
 /// <summary>
 /// Landlord related data.
 /// </summary>
-public abstract class LandLordCreateDtoBase : IEntityCreateDto<LandLord>
-{    
+public abstract class LandLordCreateDtoBase : IEntityDto<LandLord>
+{
     /// <summary>
     /// Landlord name (Required).
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
-    public virtual System.String Name { get; set; } = default!;    
+    public virtual System.String Name { get; set; } = default!;
     /// <summary>
     /// Landlord's street address (Required).
     /// </summary>

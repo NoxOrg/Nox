@@ -35,7 +35,23 @@ public abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     ///  (Required).
     /// </summary>
-    public DatabaseGuid Id { get; set; } = null!;
+    public Nox.Types.Guid Id {get; set;} = null!;
+    
+    	public virtual void EnsureId(System.Guid guid)
+    	{
+    		if(System.Guid.Empty.Equals(guid))
+    		{
+    			Id = Nox.Types.Guid.From(System.Guid.NewGuid());
+    		}
+    		else
+    		{
+    			var currentGuid = Nox.Types.Guid.From(guid);
+    			if(Id != currentGuid)
+    			{
+    				throw new NoxGuidTypeException("Immutable guid property Id value is different since it has been initialized");
+    			}
+    		}
+    	}
 
     /// <summary>
     /// Store Name (Required).
@@ -53,24 +69,59 @@ public abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
     public Nox.Types.LatLong Location { get; set; } = null!;
 
     /// <summary>
+    /// Opening day (Optional).
+    /// </summary>
+    public Nox.Types.DateTime? OpeningDay { get; set; } = null!;
+
+    /// <summary>
     /// Store Owner of the Store ZeroOrOne StoreOwners
     /// </summary>
-    public virtual StoreOwner? Ownership { get; set; } = null!;
+    public virtual StoreOwner? Ownership { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ZeroOrOne to entity StoreOwner
     /// </summary>
     public Nox.Types.Text? OwnershipId { get; set; } = null!;
 
-    public virtual void CreateRefToStoreOwner(StoreOwner relatedStoreOwner)
+    public virtual void CreateRefToOwnership(StoreOwner relatedStoreOwner)
     {
         Ownership = relatedStoreOwner;
+    }
+
+    public virtual void DeleteRefToOwnership(StoreOwner relatedStoreOwner)
+    {
+        Ownership = null;
+    }
+
+    public virtual void DeleteAllRefToOwnership()
+    {
+        OwnershipId = null;
+    }
+
+    /// <summary>
+    /// Store License that this store uses ZeroOrOne StoreLicenses
+    /// </summary>
+    public virtual StoreLicense? License { get; private set; } = null!;
+
+    public virtual void CreateRefToLicense(StoreLicense relatedStoreLicense)
+    {
+        License = relatedStoreLicense;
+    }
+
+    public virtual void DeleteRefToLicense(StoreLicense relatedStoreLicense)
+    {
+        License = null;
+    }
+
+    public virtual void DeleteAllRefToLicense()
+    {
+        License = null;
     }
 
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
-     public virtual EmailAddress? EmailAddress { get; set; } = null!;
+     public virtual EmailAddress? VerifiedEmails { get; set; } = null!;
 
     /// <summary>
     /// Entity tag used as concurrency token.

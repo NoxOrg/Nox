@@ -36,6 +36,7 @@ internal class UpdateOwnedCommandGenerator : INoxCodeGenerator
                 new TemplateCodeBuilder(context, codeGeneratorState)
                     .WithClassName($"Update{ownedEntity.Name}For{entity.Name}Command")
                     .WithFileNamePrefix($"Application.Commands")
+                    .WithObject("relationship", ownedRelationship)
                     .WithObject("entity", ownedEntity)
                     .WithObject("parent", entity)
                     .WithObject("isSingleRelationship", ownedRelationship.WithSingleEntity)
@@ -44,7 +45,6 @@ internal class UpdateOwnedCommandGenerator : INoxCodeGenerator
                     .WithObject("ownedKeysFindQuery", ownedKeysFindQuery)
                     .GenerateSourceCodeFromResource(templateName);
             }
-
         }
     }
 }

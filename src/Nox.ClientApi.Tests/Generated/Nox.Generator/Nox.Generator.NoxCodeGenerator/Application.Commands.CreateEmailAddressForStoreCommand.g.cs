@@ -19,25 +19,36 @@ using EmailAddress = ClientApi.Domain.EmailAddress;
 namespace ClientApi.Application.Commands;
 public record CreateEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto, EmailAddressCreateDto EntityDto, System.Guid? Etag) : IRequest <EmailAddressKeyDto?>;
 
-public partial class CreateEmailAddressForStoreCommandHandler: CommandBase<CreateEmailAddressForStoreCommand, EmailAddress>, IRequestHandler<CreateEmailAddressForStoreCommand, EmailAddressKeyDto?>
+internal partial class CreateEmailAddressForStoreCommandHandler: CreateEmailAddressForStoreCommandHandlerBase
 {
-	private readonly ClientApiDbContext _dbContext;
-	private readonly IEntityFactory<EmailAddress,EmailAddressCreateDto> _entityFactory;
-
 	public CreateEmailAddressForStoreCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<EmailAddress,EmailAddressCreateDto> entityFactory,
+        IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> entityFactory,
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution, entityFactory, serviceProvider)
+	{
+	}
+}
+internal abstract class CreateEmailAddressForStoreCommandHandlerBase: CommandBase<CreateEmailAddressForStoreCommand, EmailAddress>, IRequestHandler<CreateEmailAddressForStoreCommand, EmailAddressKeyDto?>
+{
+	private readonly ClientApiDbContext _dbContext;
+	private readonly IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> _entityFactory;
+
+	public CreateEmailAddressForStoreCommandHandlerBase(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+        IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
-		_entityFactory = entityFactory;	
+		_entityFactory = entityFactory;
 	}
 
-	public async Task<EmailAddressKeyDto?> Handle(CreateEmailAddressForStoreCommand request, CancellationToken cancellationToken)
+	public virtual  async Task<EmailAddressKeyDto?> Handle(CreateEmailAddressForStoreCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Store,DatabaseGuid>("Id", request.ParentKeyDto.keyId);
+		var keyId = CreateNoxTypeForKey<Store,Nox.Types.Guid>("Id", request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.Stores.FindAsync(keyId);
 		if (parentEntity == null)
@@ -46,10 +57,10 @@ public partial class CreateEmailAddressForStoreCommandHandler: CommandBase<Creat
 		}
 
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
-		parentEntity.EmailAddress = entity;
+		parentEntity.VerifiedEmails = entity;
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);
-	
+
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)

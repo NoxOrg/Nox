@@ -35,7 +35,7 @@ public abstract class TestEntityOwnedRelationshipZeroOrManyBase : AuditableEntit
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
     ///  (Required).
@@ -45,9 +45,7 @@ public abstract class TestEntityOwnedRelationshipZeroOrManyBase : AuditableEntit
     /// <summary>
     /// TestEntityOwnedRelationshipZeroOrMany Test entity relationship to SecondTestEntityOwnedRelationshipZeroOrMany ZeroOrMany SecondTestEntityOwnedRelationshipZeroOrManies
     /// </summary>
-    public virtual List<SecondTestEntityOwnedRelationshipZeroOrMany> SecondTestEntityOwnedRelationshipZeroOrManies { get; set; } = new();
-
-    public List<SecondTestEntityOwnedRelationshipZeroOrMany> SecondTestEntityOwnedRelationshipZeroOrMany => SecondTestEntityOwnedRelationshipZeroOrManies;
+    public virtual List<SecondTestEntityOwnedRelationshipZeroOrMany> SecondTestEntityOwnedRelationshipZeroOrMany { get; set; } = new();
 
     /// <summary>
     /// Entity tag used as concurrency token.

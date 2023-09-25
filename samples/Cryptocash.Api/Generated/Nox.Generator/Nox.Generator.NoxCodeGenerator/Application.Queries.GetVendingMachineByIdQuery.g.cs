@@ -12,29 +12,32 @@ using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.Application.Queries;
 
-public record GetVendingMachineByIdQuery(System.Guid keyId) : IRequest <VendingMachineDto?>;
+public record GetVendingMachineByIdQuery(System.Guid keyId) : IRequest <IQueryable<VendingMachineDto>>;
 
-public partial class GetVendingMachineByIdQueryHandler:  QueryBase<VendingMachineDto?>, IRequestHandler<GetVendingMachineByIdQuery, VendingMachineDto?>
+internal partial class GetVendingMachineByIdQueryHandler:GetVendingMachineByIdQueryHandlerBase
 {
-    public  GetVendingMachineByIdQueryHandler(DtoDbContext dataDbContext)
+    public  GetVendingMachineByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    {
+    
+    }
+}
+
+internal abstract class GetVendingMachineByIdQueryHandlerBase:  QueryBase<IQueryable<VendingMachineDto>>, IRequestHandler<GetVendingMachineByIdQuery, IQueryable<VendingMachineDto>>
+{
+    public  GetVendingMachineByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<VendingMachineDto?> Handle(GetVendingMachineByIdQuery request, CancellationToken cancellationToken)
+    public virtual Task<IQueryable<VendingMachineDto>> Handle(GetVendingMachineByIdQuery request, CancellationToken cancellationToken)
     {    
-        var item = DataDbContext.VendingMachines
+        var query = DataDbContext.VendingMachines
             .AsNoTracking()
-            .Include(r => r.VendingMachineInstallationCountry)
-            .Include(r => r.VendingMachineContractedAreaLandLord)
-            .Include(r => r.VendingMachineRelatedBookings)
-            .Include(r => r.VendingMachineRelatedCashStockOrders)
-            .Include(r => r.VendingMachineRequiredMinimumCashStocks)
-            .SingleOrDefault(r =>
+            .Where(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);
-        return Task.FromResult(OnResponse(item));
+        return Task.FromResult(OnResponse(query));
     }
 }

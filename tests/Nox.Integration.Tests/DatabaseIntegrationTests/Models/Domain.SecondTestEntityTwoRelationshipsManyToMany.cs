@@ -35,7 +35,7 @@ public abstract class SecondTestEntityTwoRelationshipsManyToManyBase : EntityBas
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
     ///  (Required).
@@ -45,12 +45,42 @@ public abstract class SecondTestEntityTwoRelationshipsManyToManyBase : EntityBas
     /// <summary>
     /// SecondTestEntityTwoRelationshipsManyToMany First relationship to the same entity on the other side ZeroOrMany TestEntityTwoRelationshipsManyToManies
     /// </summary>
-    public virtual List<TestEntityTwoRelationshipsManyToMany> TestRelationshipOneOnOtherSide { get; set; } = new();
+    public virtual List<TestEntityTwoRelationshipsManyToMany> TestRelationshipOneOnOtherSide { get; private set; } = new();
+
+    public virtual void CreateRefToTestRelationshipOneOnOtherSide(TestEntityTwoRelationshipsManyToMany relatedTestEntityTwoRelationshipsManyToMany)
+    {
+        TestRelationshipOneOnOtherSide.Add(relatedTestEntityTwoRelationshipsManyToMany);
+    }
+
+    public virtual void DeleteRefToTestRelationshipOneOnOtherSide(TestEntityTwoRelationshipsManyToMany relatedTestEntityTwoRelationshipsManyToMany)
+    {
+        TestRelationshipOneOnOtherSide.Remove(relatedTestEntityTwoRelationshipsManyToMany);
+    }
+
+    public virtual void DeleteAllRefToTestRelationshipOneOnOtherSide()
+    {
+        TestRelationshipOneOnOtherSide.Clear();
+    }
 
     /// <summary>
     /// SecondTestEntityTwoRelationshipsManyToMany Second relationship to the same entity on the other side ZeroOrMany TestEntityTwoRelationshipsManyToManies
     /// </summary>
-    public virtual List<TestEntityTwoRelationshipsManyToMany> TestRelationshipTwoOnOtherSide { get; set; } = new();
+    public virtual List<TestEntityTwoRelationshipsManyToMany> TestRelationshipTwoOnOtherSide { get; private set; } = new();
+
+    public virtual void CreateRefToTestRelationshipTwoOnOtherSide(TestEntityTwoRelationshipsManyToMany relatedTestEntityTwoRelationshipsManyToMany)
+    {
+        TestRelationshipTwoOnOtherSide.Add(relatedTestEntityTwoRelationshipsManyToMany);
+    }
+
+    public virtual void DeleteRefToTestRelationshipTwoOnOtherSide(TestEntityTwoRelationshipsManyToMany relatedTestEntityTwoRelationshipsManyToMany)
+    {
+        TestRelationshipTwoOnOtherSide.Remove(relatedTestEntityTwoRelationshipsManyToMany);
+    }
+
+    public virtual void DeleteAllRefToTestRelationshipTwoOnOtherSide()
+    {
+        TestRelationshipTwoOnOtherSide.Clear();
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

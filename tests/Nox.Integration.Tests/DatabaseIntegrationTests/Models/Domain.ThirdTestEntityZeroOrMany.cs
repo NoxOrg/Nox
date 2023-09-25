@@ -35,7 +35,7 @@ public abstract class ThirdTestEntityZeroOrManyBase : AuditableEntityBase, IEnti
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
     ///  (Required).
@@ -45,7 +45,22 @@ public abstract class ThirdTestEntityZeroOrManyBase : AuditableEntityBase, IEnti
     /// <summary>
     /// ThirdTestEntityZeroOrMany Test entity relationship to ThirdTestEntityOneOrMany ZeroOrMany ThirdTestEntityOneOrManies
     /// </summary>
-    public virtual List<ThirdTestEntityOneOrMany> ThirdTestEntityOneOrManyRelationship { get; set; } = new();
+    public virtual List<ThirdTestEntityOneOrMany> ThirdTestEntityOneOrManyRelationship { get; private set; } = new();
+
+    public virtual void CreateRefToThirdTestEntityOneOrManyRelationship(ThirdTestEntityOneOrMany relatedThirdTestEntityOneOrMany)
+    {
+        ThirdTestEntityOneOrManyRelationship.Add(relatedThirdTestEntityOneOrMany);
+    }
+
+    public virtual void DeleteRefToThirdTestEntityOneOrManyRelationship(ThirdTestEntityOneOrMany relatedThirdTestEntityOneOrMany)
+    {
+        ThirdTestEntityOneOrManyRelationship.Remove(relatedThirdTestEntityOneOrMany);
+    }
+
+    public virtual void DeleteAllRefToThirdTestEntityOneOrManyRelationship()
+    {
+        ThirdTestEntityOneOrManyRelationship.Clear();
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

@@ -8,9 +8,9 @@ namespace Nox.Solution.Validation;
 public class DomainEventValidator: AbstractValidator<DomainEvent>
 {
     private readonly IEnumerable<DomainEvent>? _domainEvents;
-    private readonly IEnumerable<ApplicationEvent>? _appEvents;
+    private readonly IEnumerable<IntegrationEvent>? _appEvents;
 
-    public DomainEventValidator(IEnumerable<DomainEvent>? domainEvents, IEnumerable<ApplicationEvent>? appEvents, string entityName)
+    public DomainEventValidator(IEnumerable<DomainEvent>? domainEvents, IEnumerable<IntegrationEvent>? appEvents, string entityName)
     {
         if (domainEvents == null) return;
         _domainEvents = domainEvents;

@@ -35,7 +35,7 @@ public abstract class HolidayBase : EntityBase, IOwnedEntity
     /// <summary>
     /// Country's holiday unique identifier (Required).
     /// </summary>
-    public AutoNumber Id { get; set; } = null!;
+    public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Country holiday name (Required).

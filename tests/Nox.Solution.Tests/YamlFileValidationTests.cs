@@ -35,6 +35,15 @@ public class YamlFileValidationTests
     }
 
     [Fact]
+    public void When_AzureServiceBus_AzureServiceBusConfig_Is_Required()
+    {
+        var noxConfigBuilder = new NoxSolutionBuilder()
+       .UseYamlFile($"./files/invalid-messaging.azureservicebus.solution.nox.yaml");
+
+        Assert.Throws<ValidationException>(() => noxConfigBuilder.Build());
+    }
+
+    [Fact]
     public void Deserialize_WithNoxYamlSerializer_ThrowsException()
     {
         var yaml = File.ReadAllText("./files/invalid-sample.solution.nox.yaml");
@@ -132,6 +141,21 @@ public class YamlFileValidationTests
     }
 
     [Fact]
+    public void Deserialize_OwnedEntity_HasRelationships_ThrowsException()
+    {
+        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
+            .UseYamlFile($"./files/owned-entity-has-relationships.solution.nox.yaml")
+            .Build());
+
+        var errors = exception.Errors.ToArray();
+
+        Assert.Equal(2, errors.Length);
+
+        Assert.Equal("The owned entity 'Country' cannot have relationships to other entities.", errors[0].ErrorMessage);
+        Assert.Equal("The owned entity 'Country' cannot be referred by other entities relationships.", errors[1].ErrorMessage);
+    }
+
+    [Fact]
     public void Deserialize_EntityItemsNameAreDuplicated_ThrowsException()
     {
         Action action = () => new NoxSolutionBuilder()
@@ -160,7 +184,7 @@ public class YamlFileValidationTests
         
         errors.Should()
             .NotBeEmpty()
-            .And.HaveCount(18)
+            .And.HaveCount(20)
             .And.Subject.Select(x => x.ErrorMessage)
            .Should()
            .Contain(x => expectedErrors.Any(t => x.StartsWith(t)));

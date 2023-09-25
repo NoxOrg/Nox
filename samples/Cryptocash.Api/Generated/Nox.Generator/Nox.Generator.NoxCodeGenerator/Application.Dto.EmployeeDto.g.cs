@@ -62,13 +62,13 @@ public partial class EmployeeDto
     /// Employee reviewing ExactlyOne CashStockOrders
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Int64 EmployeeReviewingCashStockOrderId { get; set; } = default!;
-    public virtual CashStockOrderDto EmployeeReviewingCashStockOrder { get; set; } = null!;
+    public System.Int64? EmployeeReviewingCashStockOrderId { get; set; } = default!;
+    public virtual CashStockOrderDto? EmployeeReviewingCashStockOrder { get; set; } = null!;
 
     /// <summary>
     /// Employee contacted by ZeroOrMany EmployeePhoneNumbers
     /// </summary>
-    public virtual List<EmployeePhoneNumberDto> EmployeePhoneNumbers { get; set; } = new();
+    public virtual List<EmployeePhoneNumberDto> EmployeeContactPhoneNumbers { get; set; } = new();
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

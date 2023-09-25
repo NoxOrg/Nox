@@ -39,6 +39,9 @@
 	</ItemGroup>
 
 	<ItemGroup>				
+		<AdditionalFiles Include=".nox\design\Entitities\store-license.entity.nox.yaml">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>				
 		<AdditionalFiles Include=".nox\design\Entitities\store-owner.entity.nox.yaml">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</AdditionalFiles>				
@@ -60,8 +63,12 @@
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
 		<PackageReference Include="Moq" Version="4.20.69" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
-		<PackageReference Include="xunit" Version="2.5.0" />
-		<PackageReference Include="xunit.runner.visualstudio" Version="2.5.0">
+		<PackageReference Include="Npgsql" Version="7.0.6" />
+		<PackageReference Include="Testcontainers" Version="3.5.0" />
+		<PackageReference Include="Testcontainers.MsSql" Version="3.5.0" />
+		<PackageReference Include="Testcontainers.PostgreSql" Version="3.5.0" />
+		<PackageReference Include="xunit" Version="2.5.1" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="2.5.1">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>

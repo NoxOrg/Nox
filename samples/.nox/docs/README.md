@@ -79,11 +79,13 @@ Exchange booking and related data. *This entity is auditable and tracks info abo
 
 [Endpoints](./endpoints/BookingEndpoints.md)
 
+[Domain Events](./domainEvents/BookingDomainEvents.md)
+
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|DatabaseGuid|Booking unique identifier.|Required, Primary Key
+Id|Guid|Booking unique identifier.|Required, Primary Key
 AmountFrom|Money|Booking's amount exchanged from.|Required
 AmountTo|Money|Booking's amount exchanged to.|Required
 RequestedPickUpDate|DateTimeRange|Booking's requested pick up date.|Required
@@ -93,7 +95,7 @@ CancelledDateTime|DateTime|Booking's cancelled date.|
 Status|Formula|Booking's status.|
 VatNumber|VatNumber|Booking's related vat number.|
 CustomerId|AutoNumber|Customer's unique identifier.|Required, Foreign Key
-VendingMachineId|DatabaseGuid|Vending machine unique identifier.|Required, Foreign Key
+VendingMachineId|Guid|Vending machine unique identifier.|Required, Foreign Key
 CommissionId|AutoNumber|Commission unique identifier.|Required, Foreign Key
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
@@ -114,6 +116,8 @@ Vending machine cash stock order and related data. *This entity is auditable and
 
 [Endpoints](./endpoints/CashStockOrderEndpoints.md)
 
+[Domain Events](./domainEvents/CashStockOrderDomainEvents.md)
+
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 Member|Type|Description|Info
@@ -123,7 +127,7 @@ Amount|Money|Order amount.|Required
 RequestedDeliveryDate|Date|Order requested delivery date.|Required
 DeliveryDateTime|DateTime|Order delivery date.|
 Status|Formula|Order status.|
-VendingMachineId|DatabaseGuid|Vending machine unique identifier.|Required, Foreign Key
+VendingMachineId|Guid|Vending machine unique identifier.|Required, Foreign Key
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -140,6 +144,8 @@ reviewed by|ExactlyOne|Employee|CashStockOrderReviewedByEmployee|Yes
 Exchange commission rate and amount. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
 [Endpoints](./endpoints/CommissionEndpoints.md)
+
+[Domain Events](./domainEvents/CommissionDomainEvents.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -165,6 +171,8 @@ fees for|ZeroOrMany|Booking|CommissionFeesForBooking|Yes
 Country and related data. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
 [Endpoints](./endpoints/CountryEndpoints.md)
+
+[Domain Events](./domainEvents/CountryDomainEvents.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -204,6 +212,8 @@ used by|ZeroOrMany|Customer|CountryUsedByCustomers|Yes
 
 Time zone related to country.
 
+[Domain Events](./domainEvents/CountryTimeZoneDomainEvents.md)
+
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 Member|Type|Description|Info
@@ -217,6 +227,8 @@ TimeZoneCode|TimeZoneCode|Country's related time zone code.|Required
 ### Country.Holiday (Owned by Country)
 
 Holiday related to country.
+
+[Domain Events](./domainEvents/HolidayDomainEvents.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -235,6 +247,8 @@ Date|Date|Country holiday date.|Required
 Currency and related data. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
 [Endpoints](./endpoints/CurrencyEndpoints.md)
+
+[Domain Events](./domainEvents/CurrencyDomainEvents.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -270,6 +284,8 @@ used by|ZeroOrMany|MinimumCashStock|CurrencyUsedByMinimumCashStocks|Yes
 
 Currencies related frequent and rare bank notes.
 
+[Domain Events](./domainEvents/BankNoteDomainEvents.md)
+
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 Member|Type|Description|Info
@@ -284,6 +300,8 @@ Value|Money|Bank note value.|Required
 ### Currency.ExchangeRate (Owned by Currency)
 
 Exchange rate and related data.
+
+[Domain Events](./domainEvents/ExchangeRateDomainEvents.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -301,6 +319,8 @@ EffectiveAt|DateTime|Exchange rate conversion amount.|Required
 Customer definition and related data. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
 [Endpoints](./endpoints/CustomerEndpoints.md)
+
+[Domain Events](./domainEvents/CustomerDomainEvents.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -332,6 +352,8 @@ Employee definition and related data. *This entity is auditable and tracks info 
 
 [Endpoints](./endpoints/EmployeeEndpoints.md)
 
+[Domain Events](./domainEvents/EmployeeDomainEvents.md)
+
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 Member|Type|Description|Info
@@ -358,6 +380,8 @@ reviewing|ExactlyOne|CashStockOrder|EmployeeReviewingCashStockOrder|Yes
 
 Employee phone number and related data.
 
+[Domain Events](./domainEvents/EmployeePhoneNumberDomainEvents.md)
+
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 Member|Type|Description|Info
@@ -374,6 +398,8 @@ PhoneNumber|PhoneNumber|Employee's phone number.|Required
 Landlord related data. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
 [Endpoints](./endpoints/LandLordEndpoints.md)
+
+[Domain Events](./domainEvents/LandLordDomainEvents.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -398,13 +424,15 @@ Minimum cash stock required for vending machine. *This entity is auditable and t
 
 [Endpoints](./endpoints/MinimumCashStockEndpoints.md)
 
+[Domain Events](./domainEvents/MinimumCashStockDomainEvents.md)
+
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 Member|Type|Description|Info
 ---------|----|----------|-------
 Id|AutoNumber|Vending machine cash stock unique identifier.|Required, Primary Key
 Amount|Money|Cash stock amount.|Required
-VendingMachineId|DatabaseGuid|Vending machine unique identifier.|Required, Foreign Key
+VendingMachineId|Guid|Vending machine unique identifier.|Required, Foreign Key
 CurrencyId|CurrencyCode3|Currency unique identifier.|Required, Foreign Key
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
@@ -422,6 +450,8 @@ related to|ExactlyOne|Currency|MinimumCashStockRelatedCurrency|Yes
 Customer payment account related data. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
 [Endpoints](./endpoints/PaymentDetailEndpoints.md)
+
+[Domain Events](./domainEvents/PaymentDetailDomainEvents.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -450,6 +480,8 @@ Payment provider related data. *This entity is auditable and tracks info about w
 
 [Endpoints](./endpoints/PaymentProviderEndpoints.md)
 
+[Domain Events](./domainEvents/PaymentProviderDomainEvents.md)
+
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 Member|Type|Description|Info
@@ -472,6 +504,8 @@ related to|ZeroOrMany|PaymentDetail|PaymentProviderRelatedPaymentDetails|Yes
 Customer transaction log and related data. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
 [Endpoints](./endpoints/TransactionEndpoints.md)
+
+[Domain Events](./domainEvents/TransactionDomainEvents.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -500,11 +534,13 @@ Vending machine definition and related data. *This entity is auditable and track
 
 [Endpoints](./endpoints/VendingMachineEndpoints.md)
 
+[Domain Events](./domainEvents/VendingMachineDomainEvents.md)
+
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|DatabaseGuid|Vending machine unique identifier.|Required, Primary Key
+Id|Guid|Vending machine unique identifier.|Required, Primary Key
 MacAddress|MacAddress|Vending machine mac address.|Required
 PublicIp|IpAddress|Vending machine public ip.|Required
 GeoLocation|LatLong|Vending machine geo location.|Required

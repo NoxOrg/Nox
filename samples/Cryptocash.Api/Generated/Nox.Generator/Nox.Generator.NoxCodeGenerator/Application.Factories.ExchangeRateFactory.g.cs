@@ -23,7 +23,7 @@ using ExchangeRate = Cryptocash.Domain.ExchangeRate;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class ExchangeRateFactoryBase: IEntityFactory<ExchangeRate,ExchangeRateCreateDto>
+internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto>
 {
 
     public ExchangeRateFactoryBase
@@ -36,6 +36,12 @@ public abstract class ExchangeRateFactoryBase: IEntityFactory<ExchangeRate,Excha
     {
         return ToEntity(createDto);
     }
+
+    public virtual void UpdateEntity(ExchangeRate entity, ExchangeRateUpdateDto updateDto)
+    {
+        UpdateEntityInternal(entity, updateDto);
+    }
+
     private Cryptocash.Domain.ExchangeRate ToEntity(ExchangeRateCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.ExchangeRate();
@@ -43,8 +49,14 @@ public abstract class ExchangeRateFactoryBase: IEntityFactory<ExchangeRate,Excha
         entity.EffectiveAt = Cryptocash.Domain.ExchangeRate.CreateEffectiveAt(createDto.EffectiveAt);
         return entity;
     }
+
+    private void UpdateEntityInternal(ExchangeRate entity, ExchangeRateUpdateDto updateDto)
+    {
+        entity.EffectiveRate = Cryptocash.Domain.ExchangeRate.CreateEffectiveRate(updateDto.EffectiveRate.NonNullValue<System.Int32>());
+        entity.EffectiveAt = Cryptocash.Domain.ExchangeRate.CreateEffectiveAt(updateDto.EffectiveAt.NonNullValue<System.DateTimeOffset>());
+    }
 }
 
-public partial class ExchangeRateFactory : ExchangeRateFactoryBase
+internal partial class ExchangeRateFactory : ExchangeRateFactoryBase
 {
 }

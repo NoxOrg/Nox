@@ -18,7 +18,7 @@ keys:
   - name: Id
     isRequired: true
     description: Vending machine unique identifier 
-    type: databaseGuid 
+    type: guid 
     userInterface:
       showInSearchResults: never
       canSearch: true

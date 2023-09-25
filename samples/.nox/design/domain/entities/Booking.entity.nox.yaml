@@ -13,7 +13,7 @@ keys:
   - name: Id
     isRequired: true
     description: Booking unique identifier 
-    type: databaseGuid 
+    type: guid 
     userInterface:
       showInSearchResults: never
       canSearch: true

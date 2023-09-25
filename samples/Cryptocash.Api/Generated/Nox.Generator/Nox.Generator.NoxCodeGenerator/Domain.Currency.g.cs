@@ -35,7 +35,7 @@ public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Currency unique identifier (Required).
     /// </summary>
-    public CurrencyCode3 Id { get; set; } = null!;
+    public Nox.Types.CurrencyCode3 Id { get; set; } = null!;
 
     /// <summary>
     /// Currency's name (Required).
@@ -100,36 +100,56 @@ public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Currency used by OneOrMany Countries
     /// </summary>
-    public virtual List<Country> CurrencyUsedByCountry { get; set; } = new();
+    public virtual List<Country> CurrencyUsedByCountry { get; private set; } = new();
 
-    public virtual void CreateRefToCountry(Country relatedCountry)
+    public virtual void CreateRefToCurrencyUsedByCountry(Country relatedCountry)
     {
         CurrencyUsedByCountry.Add(relatedCountry);
+    }
+
+    public virtual void DeleteRefToCurrencyUsedByCountry(Country relatedCountry)
+    {
+        if(CurrencyUsedByCountry.Count() < 2)
+            throw new Exception($"The relationship cannot be deleted.");
+        CurrencyUsedByCountry.Remove(relatedCountry);
+    }
+
+    public virtual void DeleteAllRefToCurrencyUsedByCountry()
+    {
+        if(CurrencyUsedByCountry.Count() < 2)
+            throw new Exception($"The relationship cannot be deleted.");
+        CurrencyUsedByCountry.Clear();
     }
 
     /// <summary>
     /// Currency used by ZeroOrMany MinimumCashStocks
     /// </summary>
-    public virtual List<MinimumCashStock> CurrencyUsedByMinimumCashStocks { get; set; } = new();
+    public virtual List<MinimumCashStock> CurrencyUsedByMinimumCashStocks { get; private set; } = new();
 
-    public virtual void CreateRefToMinimumCashStock(MinimumCashStock relatedMinimumCashStock)
+    public virtual void CreateRefToCurrencyUsedByMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
     {
         CurrencyUsedByMinimumCashStocks.Add(relatedMinimumCashStock);
+    }
+
+    public virtual void DeleteRefToCurrencyUsedByMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
+    {
+        CurrencyUsedByMinimumCashStocks.Remove(relatedMinimumCashStock);
+    }
+
+    public virtual void DeleteAllRefToCurrencyUsedByMinimumCashStocks()
+    {
+        CurrencyUsedByMinimumCashStocks.Clear();
     }
 
     /// <summary>
     /// Currency commonly used ZeroOrMany BankNotes
     /// </summary>
-    public virtual List<BankNote> BankNotes { get; set; } = new();
-
-    public List<BankNote> CurrencyCommonBankNotes => BankNotes;
+    public virtual List<BankNote> CurrencyCommonBankNotes { get; set; } = new();
 
     /// <summary>
     /// Currency exchanged from OneOrMany ExchangeRates
     /// </summary>
-    public virtual List<ExchangeRate> ExchangeRates { get; set; } = new();
-
-    public List<ExchangeRate> CurrencyExchangedFromRates => ExchangeRates;
+    public virtual List<ExchangeRate> CurrencyExchangedFromRates { get; set; } = new();
 
     /// <summary>
     /// Entity tag used as concurrency token.

@@ -35,7 +35,23 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
     /// <summary>
     /// Vending machine unique identifier (Required).
     /// </summary>
-    public DatabaseGuid Id { get; set; } = null!;
+    public Nox.Types.Guid Id {get; set;} = null!;
+    
+    	public virtual void EnsureId(System.Guid guid)
+    	{
+    		if(System.Guid.Empty.Equals(guid))
+    		{
+    			Id = Nox.Types.Guid.From(System.Guid.NewGuid());
+    		}
+    		else
+    		{
+    			var currentGuid = Nox.Types.Guid.From(guid);
+    			if(Id != currentGuid)
+    			{
+    				throw new NoxGuidTypeException("Immutable guid property Id value is different since it has been initialized");
+    			}
+    		}
+    	}
 
     /// <summary>
     /// Vending machine mac address (Required).
@@ -75,61 +91,111 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
     /// <summary>
     /// VendingMachine installed in ExactlyOne Countries
     /// </summary>
-    public virtual Country VendingMachineInstallationCountry { get; set; } = null!;
+    public virtual Country VendingMachineInstallationCountry { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Country
     /// </summary>
     public Nox.Types.CountryCode2 VendingMachineInstallationCountryId { get; set; } = null!;
 
-    public virtual void CreateRefToCountry(Country relatedCountry)
+    public virtual void CreateRefToVendingMachineInstallationCountry(Country relatedCountry)
     {
         VendingMachineInstallationCountry = relatedCountry;
+    }
+
+    public virtual void DeleteRefToVendingMachineInstallationCountry(Country relatedCountry)
+    {
+        throw new Exception($"The relationship cannot be deleted.");
+    }
+
+    public virtual void DeleteAllRefToVendingMachineInstallationCountry()
+    {
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>
     /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
-    public virtual LandLord VendingMachineContractedAreaLandLord { get; set; } = null!;
+    public virtual LandLord VendingMachineContractedAreaLandLord { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity LandLord
     /// </summary>
     public Nox.Types.AutoNumber VendingMachineContractedAreaLandLordId { get; set; } = null!;
 
-    public virtual void CreateRefToLandLord(LandLord relatedLandLord)
+    public virtual void CreateRefToVendingMachineContractedAreaLandLord(LandLord relatedLandLord)
     {
         VendingMachineContractedAreaLandLord = relatedLandLord;
+    }
+
+    public virtual void DeleteRefToVendingMachineContractedAreaLandLord(LandLord relatedLandLord)
+    {
+        throw new Exception($"The relationship cannot be deleted.");
+    }
+
+    public virtual void DeleteAllRefToVendingMachineContractedAreaLandLord()
+    {
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>
     /// VendingMachine related to ZeroOrMany Bookings
     /// </summary>
-    public virtual List<Booking> VendingMachineRelatedBookings { get; set; } = new();
+    public virtual List<Booking> VendingMachineRelatedBookings { get; private set; } = new();
 
-    public virtual void CreateRefToBooking(Booking relatedBooking)
+    public virtual void CreateRefToVendingMachineRelatedBookings(Booking relatedBooking)
     {
         VendingMachineRelatedBookings.Add(relatedBooking);
+    }
+
+    public virtual void DeleteRefToVendingMachineRelatedBookings(Booking relatedBooking)
+    {
+        VendingMachineRelatedBookings.Remove(relatedBooking);
+    }
+
+    public virtual void DeleteAllRefToVendingMachineRelatedBookings()
+    {
+        VendingMachineRelatedBookings.Clear();
     }
 
     /// <summary>
     /// VendingMachine related to ZeroOrMany CashStockOrders
     /// </summary>
-    public virtual List<CashStockOrder> VendingMachineRelatedCashStockOrders { get; set; } = new();
+    public virtual List<CashStockOrder> VendingMachineRelatedCashStockOrders { get; private set; } = new();
 
-    public virtual void CreateRefToCashStockOrder(CashStockOrder relatedCashStockOrder)
+    public virtual void CreateRefToVendingMachineRelatedCashStockOrders(CashStockOrder relatedCashStockOrder)
     {
         VendingMachineRelatedCashStockOrders.Add(relatedCashStockOrder);
+    }
+
+    public virtual void DeleteRefToVendingMachineRelatedCashStockOrders(CashStockOrder relatedCashStockOrder)
+    {
+        VendingMachineRelatedCashStockOrders.Remove(relatedCashStockOrder);
+    }
+
+    public virtual void DeleteAllRefToVendingMachineRelatedCashStockOrders()
+    {
+        VendingMachineRelatedCashStockOrders.Clear();
     }
 
     /// <summary>
     /// VendingMachine required ZeroOrMany MinimumCashStocks
     /// </summary>
-    public virtual List<MinimumCashStock> VendingMachineRequiredMinimumCashStocks { get; set; } = new();
+    public virtual List<MinimumCashStock> VendingMachineRequiredMinimumCashStocks { get; private set; } = new();
 
-    public virtual void CreateRefToMinimumCashStock(MinimumCashStock relatedMinimumCashStock)
+    public virtual void CreateRefToVendingMachineRequiredMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
     {
         VendingMachineRequiredMinimumCashStocks.Add(relatedMinimumCashStock);
+    }
+
+    public virtual void DeleteRefToVendingMachineRequiredMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
+    {
+        VendingMachineRequiredMinimumCashStocks.Remove(relatedMinimumCashStock);
+    }
+
+    public virtual void DeleteAllRefToVendingMachineRequiredMinimumCashStocks()
+    {
+        VendingMachineRequiredMinimumCashStocks.Clear();
     }
 
     /// <summary>

@@ -295,7 +295,7 @@ application:
             maxLength: 2
             minLength: 2
 
-  events:
+  integrationEvents:
     - name: CountryNameChangedAppEvent
       description: An application event raised when the name of a country changes
       type: object
@@ -398,17 +398,7 @@ infrastructure:
       serverUri: SampleEvt.iwgplc.com
       provider: eventStoreDb
       user: EvtUser
-      password: EvtPassword
-
-  messaging:
-
-    integrationEventServer:
-      name: IntegrationBus
-      provider: rabbitMq
-      serverUri: rabbitmq://localhost
-      port: 5672
-      user: guest
-      password: guest
+      password: EvtPassword  
 
   endpoints:
 
