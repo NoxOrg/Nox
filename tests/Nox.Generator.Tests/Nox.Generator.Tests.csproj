@@ -51,8 +51,18 @@
     <Compile Remove="ExpectedGeneratedFiles\DtoDynamic.CountryDto.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\GetCountriesByContinentQueryBase.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\NoxServiceCollectionExtension.expected.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CompoundKeysEntitiesController.CustomCommands.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CompoundKeysEntitiesController.CustomQueries.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CompoundKeysEntitiesController.Entity.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CompoundKeysEntitiesController.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CompoundKeysEntitiesController.OwnedRelationships.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CompoundKeysEntitiesController.Relationships.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CountriesController.CustomCommands.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CountriesController.CustomQueries.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CountriesController.Entity.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CountriesController.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CountriesController.OwnedRelationships.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CountriesController.Relationships.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\SampleWebAppDbContext.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\UpdatePopulationStatisticsCommandHandlerBase.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\NoxWebApplicationExtensions.expected.g.cs" />
@@ -115,6 +125,36 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
     <AdditionalFiles Include="ExpectedGeneratedFiles\Country.expected.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Presentation.Api.OData.CompoundKeysEntitiesController.OwnedRelationships.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Presentation.Api.OData.CompoundKeysEntitiesController.Relationships.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Presentation.Api.OData.CompoundKeysEntitiesController.Entity.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Presentation.Api.OData.CompoundKeysEntitiesController.CustomQueries.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Presentation.Api.OData.CompoundKeysEntitiesController.CustomCommands.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Presentation.Api.OData.CountriesController.OwnedRelationships.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Presentation.Api.OData.CountriesController.Relationships.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Presentation.Api.OData.CountriesController.CustomCommands.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Presentation.Api.OData.CountriesController.CustomQueries.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Presentation.Api.OData.CountriesController.Entity.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
     <AdditionalFiles Include="ExpectedGeneratedFiles\UpdatePopulationStatisticsCommandHandlerBase.expected.g.cs">
