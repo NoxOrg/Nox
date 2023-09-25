@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
@@ -17,20 +18,20 @@ public partial class TestEntityZeroOrMany:TestEntityZeroOrManyBase
 /// <summary>
 /// Record for TestEntityZeroOrMany created event.
 /// </summary>
-public record TestEntityZeroOrManyCreated(TestEntityZeroOrMany TestEntityZeroOrMany) : IDomainEvent;
+public record TestEntityZeroOrManyCreated(TestEntityZeroOrManyBase TestEntityZeroOrMany) : IDomainEvent;
 /// <summary>
 /// Record for TestEntityZeroOrMany updated event.
 /// </summary>
-public record TestEntityZeroOrManyUpdated(TestEntityZeroOrMany TestEntityZeroOrMany) : IDomainEvent;
+public record TestEntityZeroOrManyUpdated(TestEntityZeroOrManyBase TestEntityZeroOrMany) : IDomainEvent;
 /// <summary>
 /// Record for TestEntityZeroOrMany deleted event.
 /// </summary>
-public record TestEntityZeroOrManyDeleted(TestEntityZeroOrMany TestEntityZeroOrMany) : IDomainEvent;
+public record TestEntityZeroOrManyDeleted(TestEntityZeroOrManyBase TestEntityZeroOrMany) : IDomainEvent;
 
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public abstract class TestEntityZeroOrManyBase : AuditableEntityBase, IEntityConcurrent
+public abstract class TestEntityZeroOrManyBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     ///  (Required).
@@ -41,6 +42,35 @@ public abstract class TestEntityZeroOrManyBase : AuditableEntityBase, IEntityCon
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField { get; set; } = null!;
+
+	///<inheritdoc/>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+
+	private readonly List<IDomainEvent> _domainEvents = new();
+	
+	///<inheritdoc/>
+	public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new TestEntityZeroOrManyCreated(this));     
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseUpdateEvent()
+	{
+		_domainEvents.Add(new TestEntityZeroOrManyUpdated(this));  
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseDeleteEvent()
+	{
+		_domainEvents.Add(new TestEntityZeroOrManyDeleted(this)); 
+	}
+	
+	///<inheritdoc />
+    public virtual void ClearDomainEvents()
+	{
+		_domainEvents.Clear();
+	}
 
     /// <summary>
     /// TestEntityZeroOrMany Test entity relationship to SecondTestEntityZeroOrMany ZeroOrMany SecondTestEntityZeroOrManies

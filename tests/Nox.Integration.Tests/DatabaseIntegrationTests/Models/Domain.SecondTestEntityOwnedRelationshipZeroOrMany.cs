@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
@@ -17,20 +18,20 @@ public partial class SecondTestEntityOwnedRelationshipZeroOrMany:SecondTestEntit
 /// <summary>
 /// Record for SecondTestEntityOwnedRelationshipZeroOrMany created event.
 /// </summary>
-public record SecondTestEntityOwnedRelationshipZeroOrManyCreated(SecondTestEntityOwnedRelationshipZeroOrMany SecondTestEntityOwnedRelationshipZeroOrMany) : IDomainEvent;
+public record SecondTestEntityOwnedRelationshipZeroOrManyCreated(SecondTestEntityOwnedRelationshipZeroOrManyBase SecondTestEntityOwnedRelationshipZeroOrMany) : IDomainEvent;
 /// <summary>
 /// Record for SecondTestEntityOwnedRelationshipZeroOrMany updated event.
 /// </summary>
-public record SecondTestEntityOwnedRelationshipZeroOrManyUpdated(SecondTestEntityOwnedRelationshipZeroOrMany SecondTestEntityOwnedRelationshipZeroOrMany) : IDomainEvent;
+public record SecondTestEntityOwnedRelationshipZeroOrManyUpdated(SecondTestEntityOwnedRelationshipZeroOrManyBase SecondTestEntityOwnedRelationshipZeroOrMany) : IDomainEvent;
 /// <summary>
 /// Record for SecondTestEntityOwnedRelationshipZeroOrMany deleted event.
 /// </summary>
-public record SecondTestEntityOwnedRelationshipZeroOrManyDeleted(SecondTestEntityOwnedRelationshipZeroOrMany SecondTestEntityOwnedRelationshipZeroOrMany) : IDomainEvent;
+public record SecondTestEntityOwnedRelationshipZeroOrManyDeleted(SecondTestEntityOwnedRelationshipZeroOrManyBase SecondTestEntityOwnedRelationshipZeroOrMany) : IDomainEvent;
 
 /// <summary>
 /// .
 /// </summary>
-public abstract class SecondTestEntityOwnedRelationshipZeroOrManyBase : EntityBase, IOwnedEntity
+public abstract class SecondTestEntityOwnedRelationshipZeroOrManyBase : EntityBase, IOwnedEntity, IEntityHaveDomainEvents
 {
     /// <summary>
     ///  (Required).
@@ -41,5 +42,34 @@ public abstract class SecondTestEntityOwnedRelationshipZeroOrManyBase : EntityBa
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField2 { get; set; } = null!;
+
+	///<inheritdoc/>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+
+	private readonly List<IDomainEvent> _domainEvents = new();
+	
+	///<inheritdoc/>
+	public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new SecondTestEntityOwnedRelationshipZeroOrManyCreated(this));     
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseUpdateEvent()
+	{
+		_domainEvents.Add(new SecondTestEntityOwnedRelationshipZeroOrManyUpdated(this));  
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseDeleteEvent()
+	{
+		_domainEvents.Add(new SecondTestEntityOwnedRelationshipZeroOrManyDeleted(this)); 
+	}
+	
+	///<inheritdoc />
+    public virtual void ClearDomainEvents()
+	{
+		_domainEvents.Clear();
+	}
 
 }

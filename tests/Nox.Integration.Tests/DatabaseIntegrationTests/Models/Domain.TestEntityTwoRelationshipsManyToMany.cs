@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
@@ -17,20 +18,20 @@ public partial class TestEntityTwoRelationshipsManyToMany:TestEntityTwoRelations
 /// <summary>
 /// Record for TestEntityTwoRelationshipsManyToMany created event.
 /// </summary>
-public record TestEntityTwoRelationshipsManyToManyCreated(TestEntityTwoRelationshipsManyToMany TestEntityTwoRelationshipsManyToMany) : IDomainEvent;
+public record TestEntityTwoRelationshipsManyToManyCreated(TestEntityTwoRelationshipsManyToManyBase TestEntityTwoRelationshipsManyToMany) : IDomainEvent;
 /// <summary>
 /// Record for TestEntityTwoRelationshipsManyToMany updated event.
 /// </summary>
-public record TestEntityTwoRelationshipsManyToManyUpdated(TestEntityTwoRelationshipsManyToMany TestEntityTwoRelationshipsManyToMany) : IDomainEvent;
+public record TestEntityTwoRelationshipsManyToManyUpdated(TestEntityTwoRelationshipsManyToManyBase TestEntityTwoRelationshipsManyToMany) : IDomainEvent;
 /// <summary>
 /// Record for TestEntityTwoRelationshipsManyToMany deleted event.
 /// </summary>
-public record TestEntityTwoRelationshipsManyToManyDeleted(TestEntityTwoRelationshipsManyToMany TestEntityTwoRelationshipsManyToMany) : IDomainEvent;
+public record TestEntityTwoRelationshipsManyToManyDeleted(TestEntityTwoRelationshipsManyToManyBase TestEntityTwoRelationshipsManyToMany) : IDomainEvent;
 
 /// <summary>
 /// .
 /// </summary>
-public abstract class TestEntityTwoRelationshipsManyToManyBase : AuditableEntityBase, IEntityConcurrent
+public abstract class TestEntityTwoRelationshipsManyToManyBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     ///  (Required).
@@ -41,6 +42,35 @@ public abstract class TestEntityTwoRelationshipsManyToManyBase : AuditableEntity
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField { get; set; } = null!;
+
+	///<inheritdoc/>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+
+	private readonly List<IDomainEvent> _domainEvents = new();
+	
+	///<inheritdoc/>
+	public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new TestEntityTwoRelationshipsManyToManyCreated(this));     
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseUpdateEvent()
+	{
+		_domainEvents.Add(new TestEntityTwoRelationshipsManyToManyUpdated(this));  
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseDeleteEvent()
+	{
+		_domainEvents.Add(new TestEntityTwoRelationshipsManyToManyDeleted(this)); 
+	}
+	
+	///<inheritdoc />
+    public virtual void ClearDomainEvents()
+	{
+		_domainEvents.Clear();
+	}
 
     /// <summary>
     /// TestEntityTwoRelationshipsManyToMany First relationship to the same entity OneOrMany SecondTestEntityTwoRelationshipsManyToManies

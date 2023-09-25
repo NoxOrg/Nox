@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
@@ -17,20 +18,20 @@ public partial class TestEntityExactlyOneToZeroOrMany:TestEntityExactlyOneToZero
 /// <summary>
 /// Record for TestEntityExactlyOneToZeroOrMany created event.
 /// </summary>
-public record TestEntityExactlyOneToZeroOrManyCreated(TestEntityExactlyOneToZeroOrMany TestEntityExactlyOneToZeroOrMany) : IDomainEvent;
+public record TestEntityExactlyOneToZeroOrManyCreated(TestEntityExactlyOneToZeroOrManyBase TestEntityExactlyOneToZeroOrMany) : IDomainEvent;
 /// <summary>
 /// Record for TestEntityExactlyOneToZeroOrMany updated event.
 /// </summary>
-public record TestEntityExactlyOneToZeroOrManyUpdated(TestEntityExactlyOneToZeroOrMany TestEntityExactlyOneToZeroOrMany) : IDomainEvent;
+public record TestEntityExactlyOneToZeroOrManyUpdated(TestEntityExactlyOneToZeroOrManyBase TestEntityExactlyOneToZeroOrMany) : IDomainEvent;
 /// <summary>
 /// Record for TestEntityExactlyOneToZeroOrMany deleted event.
 /// </summary>
-public record TestEntityExactlyOneToZeroOrManyDeleted(TestEntityExactlyOneToZeroOrMany TestEntityExactlyOneToZeroOrMany) : IDomainEvent;
+public record TestEntityExactlyOneToZeroOrManyDeleted(TestEntityExactlyOneToZeroOrManyBase TestEntityExactlyOneToZeroOrMany) : IDomainEvent;
 
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public abstract class TestEntityExactlyOneToZeroOrManyBase : AuditableEntityBase, IEntityConcurrent
+public abstract class TestEntityExactlyOneToZeroOrManyBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     ///  (Required).
@@ -41,6 +42,35 @@ public abstract class TestEntityExactlyOneToZeroOrManyBase : AuditableEntityBase
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField { get; set; } = null!;
+
+	///<inheritdoc/>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+
+	private readonly List<IDomainEvent> _domainEvents = new();
+	
+	///<inheritdoc/>
+	public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new TestEntityExactlyOneToZeroOrManyCreated(this));     
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseUpdateEvent()
+	{
+		_domainEvents.Add(new TestEntityExactlyOneToZeroOrManyUpdated(this));  
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseDeleteEvent()
+	{
+		_domainEvents.Add(new TestEntityExactlyOneToZeroOrManyDeleted(this)); 
+	}
+	
+	///<inheritdoc />
+    public virtual void ClearDomainEvents()
+	{
+		_domainEvents.Clear();
+	}
 
     /// <summary>
     /// TestEntityExactlyOneToZeroOrMany Test entity relationship to TestEntityZeroOrManyToExactlyOne ExactlyOne TestEntityZeroOrManyToExactlyOnes

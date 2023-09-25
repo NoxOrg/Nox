@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
@@ -17,20 +18,20 @@ public partial class TestEntityZeroOrOneToOneOrMany:TestEntityZeroOrOneToOneOrMa
 /// <summary>
 /// Record for TestEntityZeroOrOneToOneOrMany created event.
 /// </summary>
-public record TestEntityZeroOrOneToOneOrManyCreated(TestEntityZeroOrOneToOneOrMany TestEntityZeroOrOneToOneOrMany) : IDomainEvent;
+public record TestEntityZeroOrOneToOneOrManyCreated(TestEntityZeroOrOneToOneOrManyBase TestEntityZeroOrOneToOneOrMany) : IDomainEvent;
 /// <summary>
 /// Record for TestEntityZeroOrOneToOneOrMany updated event.
 /// </summary>
-public record TestEntityZeroOrOneToOneOrManyUpdated(TestEntityZeroOrOneToOneOrMany TestEntityZeroOrOneToOneOrMany) : IDomainEvent;
+public record TestEntityZeroOrOneToOneOrManyUpdated(TestEntityZeroOrOneToOneOrManyBase TestEntityZeroOrOneToOneOrMany) : IDomainEvent;
 /// <summary>
 /// Record for TestEntityZeroOrOneToOneOrMany deleted event.
 /// </summary>
-public record TestEntityZeroOrOneToOneOrManyDeleted(TestEntityZeroOrOneToOneOrMany TestEntityZeroOrOneToOneOrMany) : IDomainEvent;
+public record TestEntityZeroOrOneToOneOrManyDeleted(TestEntityZeroOrOneToOneOrManyBase TestEntityZeroOrOneToOneOrMany) : IDomainEvent;
 
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public abstract class TestEntityZeroOrOneToOneOrManyBase : AuditableEntityBase, IEntityConcurrent
+public abstract class TestEntityZeroOrOneToOneOrManyBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     ///  (Required).
@@ -41,6 +42,35 @@ public abstract class TestEntityZeroOrOneToOneOrManyBase : AuditableEntityBase, 
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField { get; set; } = null!;
+
+	///<inheritdoc/>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+
+	private readonly List<IDomainEvent> _domainEvents = new();
+	
+	///<inheritdoc/>
+	public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new TestEntityZeroOrOneToOneOrManyCreated(this));     
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseUpdateEvent()
+	{
+		_domainEvents.Add(new TestEntityZeroOrOneToOneOrManyUpdated(this));  
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseDeleteEvent()
+	{
+		_domainEvents.Add(new TestEntityZeroOrOneToOneOrManyDeleted(this)); 
+	}
+	
+	///<inheritdoc />
+    public virtual void ClearDomainEvents()
+	{
+		_domainEvents.Clear();
+	}
 
     /// <summary>
     /// TestEntityZeroOrOneToOneOrMany Test entity relationship to TestEntityOneOrManyToZeroOrOne ZeroOrOne TestEntityOneOrManyToZeroOrOnes
@@ -64,7 +94,7 @@ public abstract class TestEntityZeroOrOneToOneOrManyBase : AuditableEntityBase, 
 
     public virtual void DeleteAllRefToTestEntityOneOrManyToZeroOrOne()
     {
-        TestEntityOneOrManyToZeroOrOne = null;
+        TestEntityOneOrManyToZeroOrOneId = null;
     }
 
     /// <summary>

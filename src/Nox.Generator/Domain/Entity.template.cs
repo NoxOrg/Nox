@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace {{codeGeneratorState.DomainNameSpace}};
@@ -18,27 +19,27 @@ public partial class {{className}}:{{className}}Base
 /// <summary>
 /// Record for {{entity.Name}} created event.
 /// </summary>
-public record {{entity.Name}}Created({{entity.Name}} {{entity.Name}}) : IDomainEvent;
+public record {{entity.Name}}Created({{entity.Name}}Base {{entity.Name}}) : IDomainEvent;
 {{- end}}
 
 {{- if entity.Persistence.Update.RaiseEvents }}
 /// <summary>
 /// Record for {{entity.Name}} updated event.
 /// </summary>
-public record {{entity.Name}}Updated({{entity.Name}} {{entity.Name}}) : IDomainEvent;
+public record {{entity.Name}}Updated({{entity.Name}}Base {{entity.Name}}) : IDomainEvent;
 {{- end}}
 
 {{- if entity.Persistence.Delete.RaiseEvents }}
 /// <summary>
 /// Record for {{entity.Name}} deleted event.
 /// </summary>
-public record {{entity.Name}}Deleted({{entity.Name}} {{entity.Name}}) : IDomainEvent;
+public record {{entity.Name}}Deleted({{entity.Name}}Base {{entity.Name}}) : IDomainEvent;
 {{- end}}
 
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase, IEntityConcurrent{{else}}EntityBase, IEntityConcurrent{{end}}{{else}} : EntityBase, IOwnedEntity{{end}}
+public abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase, IEntityConcurrent{{else}}EntityBase, IEntityConcurrent{{end}}{{else}} : EntityBase, IOwnedEntity{{end}}{{if entity.HasDomainEvents}}, IEntityHaveDomainEvents{{end}}
 {
 {{- for key in entity.Keys }}
     /// <summary>
@@ -108,6 +109,46 @@ public abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if ent
     public Nox.Types.{{attribute.Type}}{{if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } = null!;
     {{- end}}
 {{- end }}
+{{-if entity.HasDomainEvents}}
+
+	///<inheritdoc/>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+
+	private readonly List<IDomainEvent> _domainEvents = new();
+	
+	///<inheritdoc/>
+	{{- if entity.Persistence.Create.RaiseEvents }}
+	public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new {{entity.Name}}Created(this));     
+	}
+	{{ else }}
+	public virtual void RaiseCreateEvent(){ }
+	{{- end }}
+	///<inheritdoc/>
+	{{- if entity.Persistence.Update.RaiseEvents }}
+	public virtual void RaiseUpdateEvent()
+	{
+		_domainEvents.Add(new {{entity.Name}}Updated(this));  
+	}
+	{{ else }}
+	public virtual void RaiseUpdateEvent(){ }
+    {{- end }}
+	///<inheritdoc/>
+	{{- if entity.Persistence.Delete.RaiseEvents }}
+	public virtual void RaiseDeleteEvent()
+	{
+		_domainEvents.Add(new {{entity.Name}}Deleted(this)); 
+	}
+	{{ else }}
+	public virtual void RaiseDeleteEvent(){ }
+    {{- end}}
+	///<inheritdoc />
+    public virtual void ClearDomainEvents()
+	{
+		_domainEvents.Clear();
+	}
+{{- end}}
 {{- ######################################### Relationships###################################################### -}}
 {{- for relationship in entity.Relationships }}
 

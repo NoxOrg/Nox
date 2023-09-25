@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
@@ -17,20 +18,20 @@ public partial class SecondTestEntityOneOrMany:SecondTestEntityOneOrManyBase
 /// <summary>
 /// Record for SecondTestEntityOneOrMany created event.
 /// </summary>
-public record SecondTestEntityOneOrManyCreated(SecondTestEntityOneOrMany SecondTestEntityOneOrMany) : IDomainEvent;
+public record SecondTestEntityOneOrManyCreated(SecondTestEntityOneOrManyBase SecondTestEntityOneOrMany) : IDomainEvent;
 /// <summary>
 /// Record for SecondTestEntityOneOrMany updated event.
 /// </summary>
-public record SecondTestEntityOneOrManyUpdated(SecondTestEntityOneOrMany SecondTestEntityOneOrMany) : IDomainEvent;
+public record SecondTestEntityOneOrManyUpdated(SecondTestEntityOneOrManyBase SecondTestEntityOneOrMany) : IDomainEvent;
 /// <summary>
 /// Record for SecondTestEntityOneOrMany deleted event.
 /// </summary>
-public record SecondTestEntityOneOrManyDeleted(SecondTestEntityOneOrMany SecondTestEntityOneOrMany) : IDomainEvent;
+public record SecondTestEntityOneOrManyDeleted(SecondTestEntityOneOrManyBase SecondTestEntityOneOrMany) : IDomainEvent;
 
 /// <summary>
 /// .
 /// </summary>
-public abstract class SecondTestEntityOneOrManyBase : AuditableEntityBase, IEntityConcurrent
+public abstract class SecondTestEntityOneOrManyBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     ///  (Required).
@@ -41,6 +42,35 @@ public abstract class SecondTestEntityOneOrManyBase : AuditableEntityBase, IEnti
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField2 { get; set; } = null!;
+
+	///<inheritdoc/>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+
+	private readonly List<IDomainEvent> _domainEvents = new();
+	
+	///<inheritdoc/>
+	public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new SecondTestEntityOneOrManyCreated(this));     
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseUpdateEvent()
+	{
+		_domainEvents.Add(new SecondTestEntityOneOrManyUpdated(this));  
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseDeleteEvent()
+	{
+		_domainEvents.Add(new SecondTestEntityOneOrManyDeleted(this)); 
+	}
+	
+	///<inheritdoc />
+    public virtual void ClearDomainEvents()
+	{
+		_domainEvents.Clear();
+	}
 
     /// <summary>
     /// SecondTestEntityOneOrMany Test entity relationship to TestEntityOneOrMany OneOrMany TestEntityOneOrManies

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
@@ -17,20 +18,20 @@ public partial class TestEntityWithNuid:TestEntityWithNuidBase
 /// <summary>
 /// Record for TestEntityWithNuid created event.
 /// </summary>
-public record TestEntityWithNuidCreated(TestEntityWithNuid TestEntityWithNuid) : IDomainEvent;
+public record TestEntityWithNuidCreated(TestEntityWithNuidBase TestEntityWithNuid) : IDomainEvent;
 /// <summary>
 /// Record for TestEntityWithNuid updated event.
 /// </summary>
-public record TestEntityWithNuidUpdated(TestEntityWithNuid TestEntityWithNuid) : IDomainEvent;
+public record TestEntityWithNuidUpdated(TestEntityWithNuidBase TestEntityWithNuid) : IDomainEvent;
 /// <summary>
 /// Record for TestEntityWithNuid deleted event.
 /// </summary>
-public record TestEntityWithNuidDeleted(TestEntityWithNuid TestEntityWithNuid) : IDomainEvent;
+public record TestEntityWithNuidDeleted(TestEntityWithNuidBase TestEntityWithNuid) : IDomainEvent;
 
 /// <summary>
 /// Entity created for testing nuid.
 /// </summary>
-public abstract class TestEntityWithNuidBase : AuditableEntityBase, IEntityConcurrent
+public abstract class TestEntityWithNuidBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     ///  (Required).
@@ -57,6 +58,35 @@ public abstract class TestEntityWithNuidBase : AuditableEntityBase, IEntityConcu
     ///  (Required).
     /// </summary>
     public Nox.Types.Text Name { get; set; } = null!;
+
+	///<inheritdoc/>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+
+	private readonly List<IDomainEvent> _domainEvents = new();
+	
+	///<inheritdoc/>
+	public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new TestEntityWithNuidCreated(this));     
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseUpdateEvent()
+	{
+		_domainEvents.Add(new TestEntityWithNuidUpdated(this));  
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseDeleteEvent()
+	{
+		_domainEvents.Add(new TestEntityWithNuidDeleted(this)); 
+	}
+	
+	///<inheritdoc />
+    public virtual void ClearDomainEvents()
+	{
+		_domainEvents.Clear();
+	}
 
     /// <summary>
     /// Entity tag used as concurrency token.

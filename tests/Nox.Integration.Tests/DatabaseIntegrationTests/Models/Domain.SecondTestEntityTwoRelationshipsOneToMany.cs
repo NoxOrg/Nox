@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
@@ -17,20 +18,20 @@ public partial class SecondTestEntityTwoRelationshipsOneToMany:SecondTestEntityT
 /// <summary>
 /// Record for SecondTestEntityTwoRelationshipsOneToMany created event.
 /// </summary>
-public record SecondTestEntityTwoRelationshipsOneToManyCreated(SecondTestEntityTwoRelationshipsOneToMany SecondTestEntityTwoRelationshipsOneToMany) : IDomainEvent;
+public record SecondTestEntityTwoRelationshipsOneToManyCreated(SecondTestEntityTwoRelationshipsOneToManyBase SecondTestEntityTwoRelationshipsOneToMany) : IDomainEvent;
 /// <summary>
 /// Record for SecondTestEntityTwoRelationshipsOneToMany updated event.
 /// </summary>
-public record SecondTestEntityTwoRelationshipsOneToManyUpdated(SecondTestEntityTwoRelationshipsOneToMany SecondTestEntityTwoRelationshipsOneToMany) : IDomainEvent;
+public record SecondTestEntityTwoRelationshipsOneToManyUpdated(SecondTestEntityTwoRelationshipsOneToManyBase SecondTestEntityTwoRelationshipsOneToMany) : IDomainEvent;
 /// <summary>
 /// Record for SecondTestEntityTwoRelationshipsOneToMany deleted event.
 /// </summary>
-public record SecondTestEntityTwoRelationshipsOneToManyDeleted(SecondTestEntityTwoRelationshipsOneToMany SecondTestEntityTwoRelationshipsOneToMany) : IDomainEvent;
+public record SecondTestEntityTwoRelationshipsOneToManyDeleted(SecondTestEntityTwoRelationshipsOneToManyBase SecondTestEntityTwoRelationshipsOneToMany) : IDomainEvent;
 
 /// <summary>
 /// .
 /// </summary>
-public abstract class SecondTestEntityTwoRelationshipsOneToManyBase : EntityBase, IEntityConcurrent
+public abstract class SecondTestEntityTwoRelationshipsOneToManyBase : EntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     ///  (Required).
@@ -41,6 +42,35 @@ public abstract class SecondTestEntityTwoRelationshipsOneToManyBase : EntityBase
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField2 { get; set; } = null!;
+
+	///<inheritdoc/>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+
+	private readonly List<IDomainEvent> _domainEvents = new();
+	
+	///<inheritdoc/>
+	public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new SecondTestEntityTwoRelationshipsOneToManyCreated(this));     
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseUpdateEvent()
+	{
+		_domainEvents.Add(new SecondTestEntityTwoRelationshipsOneToManyUpdated(this));  
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseDeleteEvent()
+	{
+		_domainEvents.Add(new SecondTestEntityTwoRelationshipsOneToManyDeleted(this)); 
+	}
+	
+	///<inheritdoc />
+    public virtual void ClearDomainEvents()
+	{
+		_domainEvents.Clear();
+	}
 
     /// <summary>
     /// SecondTestEntityTwoRelationshipsOneToMany First relationship to the same entity on the other side ZeroOrOne TestEntityTwoRelationshipsOneToManies
@@ -64,7 +94,7 @@ public abstract class SecondTestEntityTwoRelationshipsOneToManyBase : EntityBase
 
     public virtual void DeleteAllRefToTestRelationshipOneOnOtherSide()
     {
-        TestRelationshipOneOnOtherSide = null;
+        TestRelationshipOneOnOtherSideId = null;
     }
 
     /// <summary>
@@ -89,7 +119,7 @@ public abstract class SecondTestEntityTwoRelationshipsOneToManyBase : EntityBase
 
     public virtual void DeleteAllRefToTestRelationshipTwoOnOtherSide()
     {
-        TestRelationshipTwoOnOtherSide = null;
+        TestRelationshipTwoOnOtherSideId = null;
     }
 
     /// <summary>

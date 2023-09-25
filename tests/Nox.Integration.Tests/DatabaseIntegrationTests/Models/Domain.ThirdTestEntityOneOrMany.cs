@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
@@ -17,20 +18,20 @@ public partial class ThirdTestEntityOneOrMany:ThirdTestEntityOneOrManyBase
 /// <summary>
 /// Record for ThirdTestEntityOneOrMany created event.
 /// </summary>
-public record ThirdTestEntityOneOrManyCreated(ThirdTestEntityOneOrMany ThirdTestEntityOneOrMany) : IDomainEvent;
+public record ThirdTestEntityOneOrManyCreated(ThirdTestEntityOneOrManyBase ThirdTestEntityOneOrMany) : IDomainEvent;
 /// <summary>
 /// Record for ThirdTestEntityOneOrMany updated event.
 /// </summary>
-public record ThirdTestEntityOneOrManyUpdated(ThirdTestEntityOneOrMany ThirdTestEntityOneOrMany) : IDomainEvent;
+public record ThirdTestEntityOneOrManyUpdated(ThirdTestEntityOneOrManyBase ThirdTestEntityOneOrMany) : IDomainEvent;
 /// <summary>
 /// Record for ThirdTestEntityOneOrMany deleted event.
 /// </summary>
-public record ThirdTestEntityOneOrManyDeleted(ThirdTestEntityOneOrMany ThirdTestEntityOneOrMany) : IDomainEvent;
+public record ThirdTestEntityOneOrManyDeleted(ThirdTestEntityOneOrManyBase ThirdTestEntityOneOrMany) : IDomainEvent;
 
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public abstract class ThirdTestEntityOneOrManyBase : AuditableEntityBase, IEntityConcurrent
+public abstract class ThirdTestEntityOneOrManyBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     ///  (Required).
@@ -41,6 +42,35 @@ public abstract class ThirdTestEntityOneOrManyBase : AuditableEntityBase, IEntit
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField { get; set; } = null!;
+
+	///<inheritdoc/>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+
+	private readonly List<IDomainEvent> _domainEvents = new();
+	
+	///<inheritdoc/>
+	public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new ThirdTestEntityOneOrManyCreated(this));     
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseUpdateEvent()
+	{
+		_domainEvents.Add(new ThirdTestEntityOneOrManyUpdated(this));  
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseDeleteEvent()
+	{
+		_domainEvents.Add(new ThirdTestEntityOneOrManyDeleted(this)); 
+	}
+	
+	///<inheritdoc />
+    public virtual void ClearDomainEvents()
+	{
+		_domainEvents.Clear();
+	}
 
     /// <summary>
     /// ThirdTestEntityOneOrMany Test entity relationship to ThirdTestEntityZeroOrMany OneOrMany ThirdTestEntityZeroOrManies

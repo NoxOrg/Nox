@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
@@ -17,20 +18,20 @@ public partial class SecondTestEntityExactlyOne:SecondTestEntityExactlyOneBase
 /// <summary>
 /// Record for SecondTestEntityExactlyOne created event.
 /// </summary>
-public record SecondTestEntityExactlyOneCreated(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) : IDomainEvent;
+public record SecondTestEntityExactlyOneCreated(SecondTestEntityExactlyOneBase SecondTestEntityExactlyOne) : IDomainEvent;
 /// <summary>
 /// Record for SecondTestEntityExactlyOne updated event.
 /// </summary>
-public record SecondTestEntityExactlyOneUpdated(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) : IDomainEvent;
+public record SecondTestEntityExactlyOneUpdated(SecondTestEntityExactlyOneBase SecondTestEntityExactlyOne) : IDomainEvent;
 /// <summary>
 /// Record for SecondTestEntityExactlyOne deleted event.
 /// </summary>
-public record SecondTestEntityExactlyOneDeleted(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) : IDomainEvent;
+public record SecondTestEntityExactlyOneDeleted(SecondTestEntityExactlyOneBase SecondTestEntityExactlyOne) : IDomainEvent;
 
 /// <summary>
 /// .
 /// </summary>
-public abstract class SecondTestEntityExactlyOneBase : AuditableEntityBase, IEntityConcurrent
+public abstract class SecondTestEntityExactlyOneBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     ///  (Required).
@@ -41,6 +42,35 @@ public abstract class SecondTestEntityExactlyOneBase : AuditableEntityBase, IEnt
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField2 { get; set; } = null!;
+
+	///<inheritdoc/>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+
+	private readonly List<IDomainEvent> _domainEvents = new();
+	
+	///<inheritdoc/>
+	public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new SecondTestEntityExactlyOneCreated(this));     
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseUpdateEvent()
+	{
+		_domainEvents.Add(new SecondTestEntityExactlyOneUpdated(this));  
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseDeleteEvent()
+	{
+		_domainEvents.Add(new SecondTestEntityExactlyOneDeleted(this)); 
+	}
+	
+	///<inheritdoc />
+    public virtual void ClearDomainEvents()
+	{
+		_domainEvents.Clear();
+	}
 
     /// <summary>
     /// SecondTestEntityExactlyOne Test entity relationship to TestEntityExactlyOneRelationship ExactlyOne TestEntityExactlyOnes
