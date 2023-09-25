@@ -38,7 +38,7 @@ internal partial class CreateRefStoreToOwnershipCommandHandler
 public record DeleteRefStoreToOwnershipCommand(StoreKeyDto EntityKeyDto, StoreOwnerKeyDto RelatedEntityKeyDto)
 	: RefStoreToOwnershipCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefStoreToOwnershipCommandHandler
+internal partial class DeleteRefStoreToOwnershipCommandHandler
 	: RefStoreToOwnershipCommandHandlerBase<DeleteRefStoreToOwnershipCommand>
 {
 	public DeleteRefStoreToOwnershipCommandHandler(
@@ -53,7 +53,7 @@ public partial class DeleteRefStoreToOwnershipCommandHandler
 public record DeleteAllRefStoreToOwnershipCommand(StoreKeyDto EntityKeyDto)
 	: RefStoreToOwnershipCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefStoreToOwnershipCommandHandler
+internal partial class DeleteAllRefStoreToOwnershipCommandHandler
 	: RefStoreToOwnershipCommandHandlerBase<DeleteAllRefStoreToOwnershipCommand>
 {
 	public DeleteAllRefStoreToOwnershipCommandHandler(
@@ -65,7 +65,7 @@ public partial class DeleteAllRefStoreToOwnershipCommandHandler
 	{ }
 }
 
-public abstract class RefStoreToOwnershipCommandHandlerBase<TRequest>: CommandBase<TRequest, Store>, 
+internal abstract class RefStoreToOwnershipCommandHandlerBase<TRequest>: CommandBase<TRequest, Store>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefStoreToOwnershipCommand
 {
 	public ClientApiDbContext DbContext { get; }

@@ -23,12 +23,12 @@ using Nox.Types;
 
 namespace ClientApi.Presentation.Api.OData;
 
-public partial class StoreLicensesController : StoreLicensesControllerBase
+internal partial class StoreLicensesController : StoreLicensesControllerBase
 {
     public StoreLicensesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
     {}
 }
-public abstract class StoreLicensesControllerBase : ODataController
+internal abstract class StoreLicensesControllerBase : ODataController
 {
     
     /// <summary>

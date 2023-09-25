@@ -38,7 +38,7 @@ internal partial class CreateRefVendingMachineToVendingMachineRelatedBookingsCom
 public record DeleteRefVendingMachineToVendingMachineRelatedBookingsCommand(VendingMachineKeyDto EntityKeyDto, BookingKeyDto RelatedEntityKeyDto)
 	: RefVendingMachineToVendingMachineRelatedBookingsCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefVendingMachineToVendingMachineRelatedBookingsCommandHandler
+internal partial class DeleteRefVendingMachineToVendingMachineRelatedBookingsCommandHandler
 	: RefVendingMachineToVendingMachineRelatedBookingsCommandHandlerBase<DeleteRefVendingMachineToVendingMachineRelatedBookingsCommand>
 {
 	public DeleteRefVendingMachineToVendingMachineRelatedBookingsCommandHandler(
@@ -53,7 +53,7 @@ public partial class DeleteRefVendingMachineToVendingMachineRelatedBookingsComma
 public record DeleteAllRefVendingMachineToVendingMachineRelatedBookingsCommand(VendingMachineKeyDto EntityKeyDto)
 	: RefVendingMachineToVendingMachineRelatedBookingsCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefVendingMachineToVendingMachineRelatedBookingsCommandHandler
+internal partial class DeleteAllRefVendingMachineToVendingMachineRelatedBookingsCommandHandler
 	: RefVendingMachineToVendingMachineRelatedBookingsCommandHandlerBase<DeleteAllRefVendingMachineToVendingMachineRelatedBookingsCommand>
 {
 	public DeleteAllRefVendingMachineToVendingMachineRelatedBookingsCommandHandler(
@@ -65,7 +65,7 @@ public partial class DeleteAllRefVendingMachineToVendingMachineRelatedBookingsCo
 	{ }
 }
 
-public abstract class RefVendingMachineToVendingMachineRelatedBookingsCommandHandlerBase<TRequest>: CommandBase<TRequest, VendingMachine>, 
+internal abstract class RefVendingMachineToVendingMachineRelatedBookingsCommandHandlerBase<TRequest>: CommandBase<TRequest, VendingMachine>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefVendingMachineToVendingMachineRelatedBookingsCommand
 {
 	public CryptocashDbContext DbContext { get; }

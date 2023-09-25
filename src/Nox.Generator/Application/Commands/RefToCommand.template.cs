@@ -38,7 +38,7 @@ internal partial class CreateRef{{entity.Name}}To{{relationship.Name}}CommandHan
 public record DeleteRef{{entity.Name}}To{{relationship.Name}}Command({{entity.Name}}KeyDto EntityKeyDto, {{relatedEntity.Name}}KeyDto RelatedEntityKeyDto)
 	: Ref{{entity.Name}}To{{relationship.Name}}Command(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRef{{entity.Name}}To{{relationship.Name}}CommandHandler
+internal partial class DeleteRef{{entity.Name}}To{{relationship.Name}}CommandHandler
 	: Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBase<DeleteRef{{entity.Name}}To{{relationship.Name}}Command>
 {
 	public DeleteRef{{entity.Name}}To{{relationship.Name}}CommandHandler(
@@ -53,7 +53,7 @@ public partial class DeleteRef{{entity.Name}}To{{relationship.Name}}CommandHandl
 public record DeleteAllRef{{entity.Name}}To{{relationship.Name}}Command({{entity.Name}}KeyDto EntityKeyDto)
 	: Ref{{entity.Name}}To{{relationship.Name}}Command(EntityKeyDto, null);
 
-public partial class DeleteAllRef{{entity.Name}}To{{relationship.Name}}CommandHandler
+internal partial class DeleteAllRef{{entity.Name}}To{{relationship.Name}}CommandHandler
 	: Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBase<DeleteAllRef{{entity.Name}}To{{relationship.Name}}Command>
 {
 	public DeleteAllRef{{entity.Name}}To{{relationship.Name}}CommandHandler(
@@ -65,7 +65,7 @@ public partial class DeleteAllRef{{entity.Name}}To{{relationship.Name}}CommandHa
 	{ }
 }
 
-public abstract class Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBase<TRequest>: CommandBase<TRequest, {{entity.Name}}>, 
+internal abstract class Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBase<TRequest>: CommandBase<TRequest, {{entity.Name}}>, 
 	IRequestHandler <TRequest, bool> where TRequest : Ref{{entity.Name}}To{{relationship.Name}}Command
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }

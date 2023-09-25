@@ -38,7 +38,7 @@ internal partial class CreateRefCountryToPhysicalWorkplacesCommandHandler
 public record DeleteRefCountryToPhysicalWorkplacesCommand(CountryKeyDto EntityKeyDto, WorkplaceKeyDto RelatedEntityKeyDto)
 	: RefCountryToPhysicalWorkplacesCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefCountryToPhysicalWorkplacesCommandHandler
+internal partial class DeleteRefCountryToPhysicalWorkplacesCommandHandler
 	: RefCountryToPhysicalWorkplacesCommandHandlerBase<DeleteRefCountryToPhysicalWorkplacesCommand>
 {
 	public DeleteRefCountryToPhysicalWorkplacesCommandHandler(
@@ -53,7 +53,7 @@ public partial class DeleteRefCountryToPhysicalWorkplacesCommandHandler
 public record DeleteAllRefCountryToPhysicalWorkplacesCommand(CountryKeyDto EntityKeyDto)
 	: RefCountryToPhysicalWorkplacesCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefCountryToPhysicalWorkplacesCommandHandler
+internal partial class DeleteAllRefCountryToPhysicalWorkplacesCommandHandler
 	: RefCountryToPhysicalWorkplacesCommandHandlerBase<DeleteAllRefCountryToPhysicalWorkplacesCommand>
 {
 	public DeleteAllRefCountryToPhysicalWorkplacesCommandHandler(
@@ -65,7 +65,7 @@ public partial class DeleteAllRefCountryToPhysicalWorkplacesCommandHandler
 	{ }
 }
 
-public abstract class RefCountryToPhysicalWorkplacesCommandHandlerBase<TRequest>: CommandBase<TRequest, Country>, 
+internal abstract class RefCountryToPhysicalWorkplacesCommandHandlerBase<TRequest>: CommandBase<TRequest, Country>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefCountryToPhysicalWorkplacesCommand
 {
 	public ClientApiDbContext DbContext { get; }

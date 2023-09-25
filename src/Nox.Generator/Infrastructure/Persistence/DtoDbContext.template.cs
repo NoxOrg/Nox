@@ -11,7 +11,7 @@ using {{codeGeneratorState.RootNameSpace}}.Application.Dto;
 
 namespace {{codeGeneratorState.RootNameSpace}}.Infrastructure.Persistence;
 
-public class DtoDbContext : DbContext
+internal class DtoDbContext : DbContext
 {
     /// <summary>
     /// The Nox solution configuration.

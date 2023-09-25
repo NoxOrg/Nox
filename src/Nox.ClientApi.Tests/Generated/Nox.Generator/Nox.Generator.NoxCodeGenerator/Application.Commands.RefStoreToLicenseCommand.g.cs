@@ -38,7 +38,7 @@ internal partial class CreateRefStoreToLicenseCommandHandler
 public record DeleteRefStoreToLicenseCommand(StoreKeyDto EntityKeyDto, StoreLicenseKeyDto RelatedEntityKeyDto)
 	: RefStoreToLicenseCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefStoreToLicenseCommandHandler
+internal partial class DeleteRefStoreToLicenseCommandHandler
 	: RefStoreToLicenseCommandHandlerBase<DeleteRefStoreToLicenseCommand>
 {
 	public DeleteRefStoreToLicenseCommandHandler(
@@ -53,7 +53,7 @@ public partial class DeleteRefStoreToLicenseCommandHandler
 public record DeleteAllRefStoreToLicenseCommand(StoreKeyDto EntityKeyDto)
 	: RefStoreToLicenseCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefStoreToLicenseCommandHandler
+internal partial class DeleteAllRefStoreToLicenseCommandHandler
 	: RefStoreToLicenseCommandHandlerBase<DeleteAllRefStoreToLicenseCommand>
 {
 	public DeleteAllRefStoreToLicenseCommandHandler(
@@ -65,7 +65,7 @@ public partial class DeleteAllRefStoreToLicenseCommandHandler
 	{ }
 }
 
-public abstract class RefStoreToLicenseCommandHandlerBase<TRequest>: CommandBase<TRequest, Store>, 
+internal abstract class RefStoreToLicenseCommandHandlerBase<TRequest>: CommandBase<TRequest, Store>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefStoreToLicenseCommand
 {
 	public ClientApiDbContext DbContext { get; }

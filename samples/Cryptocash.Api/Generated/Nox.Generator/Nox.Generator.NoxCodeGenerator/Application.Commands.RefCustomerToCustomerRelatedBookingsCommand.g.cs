@@ -38,7 +38,7 @@ internal partial class CreateRefCustomerToCustomerRelatedBookingsCommandHandler
 public record DeleteRefCustomerToCustomerRelatedBookingsCommand(CustomerKeyDto EntityKeyDto, BookingKeyDto RelatedEntityKeyDto)
 	: RefCustomerToCustomerRelatedBookingsCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefCustomerToCustomerRelatedBookingsCommandHandler
+internal partial class DeleteRefCustomerToCustomerRelatedBookingsCommandHandler
 	: RefCustomerToCustomerRelatedBookingsCommandHandlerBase<DeleteRefCustomerToCustomerRelatedBookingsCommand>
 {
 	public DeleteRefCustomerToCustomerRelatedBookingsCommandHandler(
@@ -53,7 +53,7 @@ public partial class DeleteRefCustomerToCustomerRelatedBookingsCommandHandler
 public record DeleteAllRefCustomerToCustomerRelatedBookingsCommand(CustomerKeyDto EntityKeyDto)
 	: RefCustomerToCustomerRelatedBookingsCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefCustomerToCustomerRelatedBookingsCommandHandler
+internal partial class DeleteAllRefCustomerToCustomerRelatedBookingsCommandHandler
 	: RefCustomerToCustomerRelatedBookingsCommandHandlerBase<DeleteAllRefCustomerToCustomerRelatedBookingsCommand>
 {
 	public DeleteAllRefCustomerToCustomerRelatedBookingsCommandHandler(
@@ -65,7 +65,7 @@ public partial class DeleteAllRefCustomerToCustomerRelatedBookingsCommandHandler
 	{ }
 }
 
-public abstract class RefCustomerToCustomerRelatedBookingsCommandHandlerBase<TRequest>: CommandBase<TRequest, Customer>, 
+internal abstract class RefCustomerToCustomerRelatedBookingsCommandHandlerBase<TRequest>: CommandBase<TRequest, Customer>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefCustomerToCustomerRelatedBookingsCommand
 {
 	public CryptocashDbContext DbContext { get; }

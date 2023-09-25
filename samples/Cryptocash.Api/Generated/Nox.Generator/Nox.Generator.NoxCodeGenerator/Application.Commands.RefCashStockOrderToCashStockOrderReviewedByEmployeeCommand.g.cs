@@ -38,7 +38,7 @@ internal partial class CreateRefCashStockOrderToCashStockOrderReviewedByEmployee
 public record DeleteRefCashStockOrderToCashStockOrderReviewedByEmployeeCommand(CashStockOrderKeyDto EntityKeyDto, EmployeeKeyDto RelatedEntityKeyDto)
 	: RefCashStockOrderToCashStockOrderReviewedByEmployeeCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefCashStockOrderToCashStockOrderReviewedByEmployeeCommandHandler
+internal partial class DeleteRefCashStockOrderToCashStockOrderReviewedByEmployeeCommandHandler
 	: RefCashStockOrderToCashStockOrderReviewedByEmployeeCommandHandlerBase<DeleteRefCashStockOrderToCashStockOrderReviewedByEmployeeCommand>
 {
 	public DeleteRefCashStockOrderToCashStockOrderReviewedByEmployeeCommandHandler(
@@ -53,7 +53,7 @@ public partial class DeleteRefCashStockOrderToCashStockOrderReviewedByEmployeeCo
 public record DeleteAllRefCashStockOrderToCashStockOrderReviewedByEmployeeCommand(CashStockOrderKeyDto EntityKeyDto)
 	: RefCashStockOrderToCashStockOrderReviewedByEmployeeCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefCashStockOrderToCashStockOrderReviewedByEmployeeCommandHandler
+internal partial class DeleteAllRefCashStockOrderToCashStockOrderReviewedByEmployeeCommandHandler
 	: RefCashStockOrderToCashStockOrderReviewedByEmployeeCommandHandlerBase<DeleteAllRefCashStockOrderToCashStockOrderReviewedByEmployeeCommand>
 {
 	public DeleteAllRefCashStockOrderToCashStockOrderReviewedByEmployeeCommandHandler(
@@ -65,7 +65,7 @@ public partial class DeleteAllRefCashStockOrderToCashStockOrderReviewedByEmploye
 	{ }
 }
 
-public abstract class RefCashStockOrderToCashStockOrderReviewedByEmployeeCommandHandlerBase<TRequest>: CommandBase<TRequest, CashStockOrder>, 
+internal abstract class RefCashStockOrderToCashStockOrderReviewedByEmployeeCommandHandlerBase<TRequest>: CommandBase<TRequest, CashStockOrder>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefCashStockOrderToCashStockOrderReviewedByEmployeeCommand
 {
 	public CryptocashDbContext DbContext { get; }

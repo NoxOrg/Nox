@@ -23,12 +23,12 @@ using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
-public partial class CompoundKeysEntitiesController : CompoundKeysEntitiesControllerBase
+internal partial class CompoundKeysEntitiesController : CompoundKeysEntitiesControllerBase
 {
     public CompoundKeysEntitiesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
     {}
 }
-public abstract class CompoundKeysEntitiesControllerBase : ODataController
+internal abstract class CompoundKeysEntitiesControllerBase : ODataController
 {
     
     /// <summary>

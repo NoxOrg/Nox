@@ -23,12 +23,12 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-public partial class CashStockOrdersController : CashStockOrdersControllerBase
+internal partial class CashStockOrdersController : CashStockOrdersControllerBase
 {
     public CashStockOrdersController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
     {}
 }
-public abstract class CashStockOrdersControllerBase : ODataController
+internal abstract class CashStockOrdersControllerBase : ODataController
 {
     
     /// <summary>

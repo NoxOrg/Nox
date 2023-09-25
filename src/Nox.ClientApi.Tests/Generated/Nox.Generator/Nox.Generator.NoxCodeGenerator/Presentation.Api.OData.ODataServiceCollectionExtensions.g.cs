@@ -11,7 +11,7 @@ using ClientApi.Application.Dto;
 
 namespace ClientApi.Presentation.Api.OData;
 
-public static class ODataServiceCollectionExtensions
+internal static class ODataServiceCollectionExtensions
 {
     public static void AddNoxOdata(this IServiceCollection services)
     {

@@ -38,7 +38,7 @@ internal partial class CreateRefEmployeeToEmployeeReviewingCashStockOrderCommand
 public record DeleteRefEmployeeToEmployeeReviewingCashStockOrderCommand(EmployeeKeyDto EntityKeyDto, CashStockOrderKeyDto RelatedEntityKeyDto)
 	: RefEmployeeToEmployeeReviewingCashStockOrderCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefEmployeeToEmployeeReviewingCashStockOrderCommandHandler
+internal partial class DeleteRefEmployeeToEmployeeReviewingCashStockOrderCommandHandler
 	: RefEmployeeToEmployeeReviewingCashStockOrderCommandHandlerBase<DeleteRefEmployeeToEmployeeReviewingCashStockOrderCommand>
 {
 	public DeleteRefEmployeeToEmployeeReviewingCashStockOrderCommandHandler(
@@ -53,7 +53,7 @@ public partial class DeleteRefEmployeeToEmployeeReviewingCashStockOrderCommandHa
 public record DeleteAllRefEmployeeToEmployeeReviewingCashStockOrderCommand(EmployeeKeyDto EntityKeyDto)
 	: RefEmployeeToEmployeeReviewingCashStockOrderCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefEmployeeToEmployeeReviewingCashStockOrderCommandHandler
+internal partial class DeleteAllRefEmployeeToEmployeeReviewingCashStockOrderCommandHandler
 	: RefEmployeeToEmployeeReviewingCashStockOrderCommandHandlerBase<DeleteAllRefEmployeeToEmployeeReviewingCashStockOrderCommand>
 {
 	public DeleteAllRefEmployeeToEmployeeReviewingCashStockOrderCommandHandler(
@@ -65,7 +65,7 @@ public partial class DeleteAllRefEmployeeToEmployeeReviewingCashStockOrderComman
 	{ }
 }
 
-public abstract class RefEmployeeToEmployeeReviewingCashStockOrderCommandHandlerBase<TRequest>: CommandBase<TRequest, Employee>, 
+internal abstract class RefEmployeeToEmployeeReviewingCashStockOrderCommandHandlerBase<TRequest>: CommandBase<TRequest, Employee>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefEmployeeToEmployeeReviewingCashStockOrderCommand
 {
 	public CryptocashDbContext DbContext { get; }

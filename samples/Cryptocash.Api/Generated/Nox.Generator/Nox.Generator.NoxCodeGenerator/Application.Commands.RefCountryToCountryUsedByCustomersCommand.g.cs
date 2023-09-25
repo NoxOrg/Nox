@@ -38,7 +38,7 @@ internal partial class CreateRefCountryToCountryUsedByCustomersCommandHandler
 public record DeleteRefCountryToCountryUsedByCustomersCommand(CountryKeyDto EntityKeyDto, CustomerKeyDto RelatedEntityKeyDto)
 	: RefCountryToCountryUsedByCustomersCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefCountryToCountryUsedByCustomersCommandHandler
+internal partial class DeleteRefCountryToCountryUsedByCustomersCommandHandler
 	: RefCountryToCountryUsedByCustomersCommandHandlerBase<DeleteRefCountryToCountryUsedByCustomersCommand>
 {
 	public DeleteRefCountryToCountryUsedByCustomersCommandHandler(
@@ -53,7 +53,7 @@ public partial class DeleteRefCountryToCountryUsedByCustomersCommandHandler
 public record DeleteAllRefCountryToCountryUsedByCustomersCommand(CountryKeyDto EntityKeyDto)
 	: RefCountryToCountryUsedByCustomersCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefCountryToCountryUsedByCustomersCommandHandler
+internal partial class DeleteAllRefCountryToCountryUsedByCustomersCommandHandler
 	: RefCountryToCountryUsedByCustomersCommandHandlerBase<DeleteAllRefCountryToCountryUsedByCustomersCommand>
 {
 	public DeleteAllRefCountryToCountryUsedByCustomersCommandHandler(
@@ -65,7 +65,7 @@ public partial class DeleteAllRefCountryToCountryUsedByCustomersCommandHandler
 	{ }
 }
 
-public abstract class RefCountryToCountryUsedByCustomersCommandHandlerBase<TRequest>: CommandBase<TRequest, Country>, 
+internal abstract class RefCountryToCountryUsedByCustomersCommandHandlerBase<TRequest>: CommandBase<TRequest, Country>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefCountryToCountryUsedByCustomersCommand
 {
 	public CryptocashDbContext DbContext { get; }

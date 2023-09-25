@@ -6,7 +6,7 @@ namespace ClientApi.Presentation.Api.OData;
 /// <summary>
 /// Example of extending a Nox generated controller with additional end points
 /// </summary>
-public partial class CountriesController
+internal partial class CountriesController
 {
     /// <summary>
     /// Example of a OData Function / end point with Query enable

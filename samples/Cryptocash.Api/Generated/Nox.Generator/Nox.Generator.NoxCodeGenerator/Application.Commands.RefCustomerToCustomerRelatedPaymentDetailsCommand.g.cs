@@ -38,7 +38,7 @@ internal partial class CreateRefCustomerToCustomerRelatedPaymentDetailsCommandHa
 public record DeleteRefCustomerToCustomerRelatedPaymentDetailsCommand(CustomerKeyDto EntityKeyDto, PaymentDetailKeyDto RelatedEntityKeyDto)
 	: RefCustomerToCustomerRelatedPaymentDetailsCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefCustomerToCustomerRelatedPaymentDetailsCommandHandler
+internal partial class DeleteRefCustomerToCustomerRelatedPaymentDetailsCommandHandler
 	: RefCustomerToCustomerRelatedPaymentDetailsCommandHandlerBase<DeleteRefCustomerToCustomerRelatedPaymentDetailsCommand>
 {
 	public DeleteRefCustomerToCustomerRelatedPaymentDetailsCommandHandler(
@@ -53,7 +53,7 @@ public partial class DeleteRefCustomerToCustomerRelatedPaymentDetailsCommandHand
 public record DeleteAllRefCustomerToCustomerRelatedPaymentDetailsCommand(CustomerKeyDto EntityKeyDto)
 	: RefCustomerToCustomerRelatedPaymentDetailsCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefCustomerToCustomerRelatedPaymentDetailsCommandHandler
+internal partial class DeleteAllRefCustomerToCustomerRelatedPaymentDetailsCommandHandler
 	: RefCustomerToCustomerRelatedPaymentDetailsCommandHandlerBase<DeleteAllRefCustomerToCustomerRelatedPaymentDetailsCommand>
 {
 	public DeleteAllRefCustomerToCustomerRelatedPaymentDetailsCommandHandler(
@@ -65,7 +65,7 @@ public partial class DeleteAllRefCustomerToCustomerRelatedPaymentDetailsCommandH
 	{ }
 }
 
-public abstract class RefCustomerToCustomerRelatedPaymentDetailsCommandHandlerBase<TRequest>: CommandBase<TRequest, Customer>, 
+internal abstract class RefCustomerToCustomerRelatedPaymentDetailsCommandHandlerBase<TRequest>: CommandBase<TRequest, Customer>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefCustomerToCustomerRelatedPaymentDetailsCommand
 {
 	public CryptocashDbContext DbContext { get; }

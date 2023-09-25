@@ -38,7 +38,7 @@ internal partial class CreateRefTransactionToTransactionForCustomerCommandHandle
 public record DeleteRefTransactionToTransactionForCustomerCommand(TransactionKeyDto EntityKeyDto, CustomerKeyDto RelatedEntityKeyDto)
 	: RefTransactionToTransactionForCustomerCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefTransactionToTransactionForCustomerCommandHandler
+internal partial class DeleteRefTransactionToTransactionForCustomerCommandHandler
 	: RefTransactionToTransactionForCustomerCommandHandlerBase<DeleteRefTransactionToTransactionForCustomerCommand>
 {
 	public DeleteRefTransactionToTransactionForCustomerCommandHandler(
@@ -53,7 +53,7 @@ public partial class DeleteRefTransactionToTransactionForCustomerCommandHandler
 public record DeleteAllRefTransactionToTransactionForCustomerCommand(TransactionKeyDto EntityKeyDto)
 	: RefTransactionToTransactionForCustomerCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefTransactionToTransactionForCustomerCommandHandler
+internal partial class DeleteAllRefTransactionToTransactionForCustomerCommandHandler
 	: RefTransactionToTransactionForCustomerCommandHandlerBase<DeleteAllRefTransactionToTransactionForCustomerCommand>
 {
 	public DeleteAllRefTransactionToTransactionForCustomerCommandHandler(
@@ -65,7 +65,7 @@ public partial class DeleteAllRefTransactionToTransactionForCustomerCommandHandl
 	{ }
 }
 
-public abstract class RefTransactionToTransactionForCustomerCommandHandlerBase<TRequest>: CommandBase<TRequest, Transaction>, 
+internal abstract class RefTransactionToTransactionForCustomerCommandHandlerBase<TRequest>: CommandBase<TRequest, Transaction>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefTransactionToTransactionForCustomerCommand
 {
 	public CryptocashDbContext DbContext { get; }

@@ -8,7 +8,7 @@ namespace ClientApi.Presentation.Api.OData;
 /// Example of extending a Nox generated controller and override a endpoint
 /// To disable validation for certain fields
 /// </summary>
-public partial class StoreOwnersController
+internal partial class StoreOwnersController
 {
     public override async Task<ActionResult<StoreOwnerDto>> Post([FromBody] StoreOwnerCreateDto storeOwner)
     {

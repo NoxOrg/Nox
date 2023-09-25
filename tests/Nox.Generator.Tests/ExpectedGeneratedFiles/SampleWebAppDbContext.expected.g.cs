@@ -26,7 +26,7 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Infrastructure.Persistence;
 
-public partial class SampleWebAppDbContext : DbContext
+internal partial class SampleWebAppDbContext : DbContext
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;

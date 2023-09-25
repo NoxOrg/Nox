@@ -23,12 +23,12 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-public partial class CurrenciesController : CurrenciesControllerBase
+internal partial class CurrenciesController : CurrenciesControllerBase
 {
     public CurrenciesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
     {}
 }
-public abstract class CurrenciesControllerBase : ODataController
+internal abstract class CurrenciesControllerBase : ODataController
 {
     
     /// <summary>

@@ -80,13 +80,13 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             code.AppendLine($"namespace {codeGeneratorState.ODataNameSpace};");
             code.AppendLine();
 
-            code.AppendLine(@$"public partial class {controllerName} : {controllerName}Base
+            code.AppendLine(@$"internal partial class {controllerName} : {controllerName}Base
 {{
     public {controllerName}(IMediator mediator, {dbContextName} databaseContext):base(databaseContext, mediator)
     {{}}
 }}");
 
-            code.AppendLine($"public abstract class {controllerName}Base : ODataController");
+            code.AppendLine($"internal abstract class {controllerName}Base : ODataController");
 
             // Class
             code.StartBlock();

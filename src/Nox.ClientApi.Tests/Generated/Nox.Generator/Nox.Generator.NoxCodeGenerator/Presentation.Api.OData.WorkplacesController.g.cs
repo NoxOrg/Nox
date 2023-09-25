@@ -23,12 +23,12 @@ using Nox.Types;
 
 namespace ClientApi.Presentation.Api.OData;
 
-public partial class WorkplacesController : WorkplacesControllerBase
+internal partial class WorkplacesController : WorkplacesControllerBase
 {
     public WorkplacesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
     {}
 }
-public abstract class WorkplacesControllerBase : ODataController
+internal abstract class WorkplacesControllerBase : ODataController
 {
     
     /// <summary>

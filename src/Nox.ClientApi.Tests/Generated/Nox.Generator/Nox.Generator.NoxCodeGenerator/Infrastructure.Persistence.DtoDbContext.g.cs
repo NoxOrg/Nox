@@ -11,7 +11,7 @@ using ClientApi.Application.Dto;
 
 namespace ClientApi.Infrastructure.Persistence;
 
-public class DtoDbContext : DbContext
+internal class DtoDbContext : DbContext
 {
     /// <summary>
     /// The Nox solution configuration.

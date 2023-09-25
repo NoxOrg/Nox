@@ -38,7 +38,7 @@ internal partial class CreateRefCashStockOrderToCashStockOrderForVendingMachineC
 public record DeleteRefCashStockOrderToCashStockOrderForVendingMachineCommand(CashStockOrderKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto)
 	: RefCashStockOrderToCashStockOrderForVendingMachineCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefCashStockOrderToCashStockOrderForVendingMachineCommandHandler
+internal partial class DeleteRefCashStockOrderToCashStockOrderForVendingMachineCommandHandler
 	: RefCashStockOrderToCashStockOrderForVendingMachineCommandHandlerBase<DeleteRefCashStockOrderToCashStockOrderForVendingMachineCommand>
 {
 	public DeleteRefCashStockOrderToCashStockOrderForVendingMachineCommandHandler(
@@ -53,7 +53,7 @@ public partial class DeleteRefCashStockOrderToCashStockOrderForVendingMachineCom
 public record DeleteAllRefCashStockOrderToCashStockOrderForVendingMachineCommand(CashStockOrderKeyDto EntityKeyDto)
 	: RefCashStockOrderToCashStockOrderForVendingMachineCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefCashStockOrderToCashStockOrderForVendingMachineCommandHandler
+internal partial class DeleteAllRefCashStockOrderToCashStockOrderForVendingMachineCommandHandler
 	: RefCashStockOrderToCashStockOrderForVendingMachineCommandHandlerBase<DeleteAllRefCashStockOrderToCashStockOrderForVendingMachineCommand>
 {
 	public DeleteAllRefCashStockOrderToCashStockOrderForVendingMachineCommandHandler(
@@ -65,7 +65,7 @@ public partial class DeleteAllRefCashStockOrderToCashStockOrderForVendingMachine
 	{ }
 }
 
-public abstract class RefCashStockOrderToCashStockOrderForVendingMachineCommandHandlerBase<TRequest>: CommandBase<TRequest, CashStockOrder>, 
+internal abstract class RefCashStockOrderToCashStockOrderForVendingMachineCommandHandlerBase<TRequest>: CommandBase<TRequest, CashStockOrder>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefCashStockOrderToCashStockOrderForVendingMachineCommand
 {
 	public CryptocashDbContext DbContext { get; }

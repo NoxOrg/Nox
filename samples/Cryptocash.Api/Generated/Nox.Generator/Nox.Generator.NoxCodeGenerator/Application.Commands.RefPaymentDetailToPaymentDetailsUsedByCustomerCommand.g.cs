@@ -38,7 +38,7 @@ internal partial class CreateRefPaymentDetailToPaymentDetailsUsedByCustomerComma
 public record DeleteRefPaymentDetailToPaymentDetailsUsedByCustomerCommand(PaymentDetailKeyDto EntityKeyDto, CustomerKeyDto RelatedEntityKeyDto)
 	: RefPaymentDetailToPaymentDetailsUsedByCustomerCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefPaymentDetailToPaymentDetailsUsedByCustomerCommandHandler
+internal partial class DeleteRefPaymentDetailToPaymentDetailsUsedByCustomerCommandHandler
 	: RefPaymentDetailToPaymentDetailsUsedByCustomerCommandHandlerBase<DeleteRefPaymentDetailToPaymentDetailsUsedByCustomerCommand>
 {
 	public DeleteRefPaymentDetailToPaymentDetailsUsedByCustomerCommandHandler(
@@ -53,7 +53,7 @@ public partial class DeleteRefPaymentDetailToPaymentDetailsUsedByCustomerCommand
 public record DeleteAllRefPaymentDetailToPaymentDetailsUsedByCustomerCommand(PaymentDetailKeyDto EntityKeyDto)
 	: RefPaymentDetailToPaymentDetailsUsedByCustomerCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefPaymentDetailToPaymentDetailsUsedByCustomerCommandHandler
+internal partial class DeleteAllRefPaymentDetailToPaymentDetailsUsedByCustomerCommandHandler
 	: RefPaymentDetailToPaymentDetailsUsedByCustomerCommandHandlerBase<DeleteAllRefPaymentDetailToPaymentDetailsUsedByCustomerCommand>
 {
 	public DeleteAllRefPaymentDetailToPaymentDetailsUsedByCustomerCommandHandler(
@@ -65,7 +65,7 @@ public partial class DeleteAllRefPaymentDetailToPaymentDetailsUsedByCustomerComm
 	{ }
 }
 
-public abstract class RefPaymentDetailToPaymentDetailsUsedByCustomerCommandHandlerBase<TRequest>: CommandBase<TRequest, PaymentDetail>, 
+internal abstract class RefPaymentDetailToPaymentDetailsUsedByCustomerCommandHandlerBase<TRequest>: CommandBase<TRequest, PaymentDetail>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefPaymentDetailToPaymentDetailsUsedByCustomerCommand
 {
 	public CryptocashDbContext DbContext { get; }

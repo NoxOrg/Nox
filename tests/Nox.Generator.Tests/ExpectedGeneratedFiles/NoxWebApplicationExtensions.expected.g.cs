@@ -12,7 +12,7 @@ using Nox.Types.EntityFramework.Abstractions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Presentation.Api.OData;
 
-public static class NoxWebApplicationBuilderExtension
+internal static class NoxWebApplicationBuilderExtension
 {
     public static IServiceCollection AddNox(this IServiceCollection services)
                         {

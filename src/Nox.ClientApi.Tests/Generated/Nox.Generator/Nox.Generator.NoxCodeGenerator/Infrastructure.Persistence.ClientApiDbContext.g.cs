@@ -25,7 +25,7 @@ using ClientApi.Domain;
 
 namespace ClientApi.Infrastructure.Persistence;
 
-public partial class ClientApiDbContext : DbContext
+internal partial class ClientApiDbContext : DbContext
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
