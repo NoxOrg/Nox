@@ -20,7 +20,7 @@ namespace ClientApi.Application.Commands;
 
 public record CreateStoreLicenseCommand(StoreLicenseCreateDto EntityDto) : IRequest<StoreLicenseKeyDto>;
 
-public partial class CreateStoreLicenseCommandHandler: CreateStoreLicenseCommandHandlerBase
+internal partial class CreateStoreLicenseCommandHandler: CreateStoreLicenseCommandHandlerBase
 {
 	public CreateStoreLicenseCommandHandler(
 		ClientApiDbContext dbContext,
@@ -34,7 +34,7 @@ public partial class CreateStoreLicenseCommandHandler: CreateStoreLicenseCommand
 }
 
 
-public abstract class CreateStoreLicenseCommandHandlerBase: CommandBase<CreateStoreLicenseCommand,StoreLicense>, IRequestHandler <CreateStoreLicenseCommand, StoreLicenseKeyDto>
+internal abstract class CreateStoreLicenseCommandHandlerBase: CommandBase<CreateStoreLicenseCommand,StoreLicense>, IRequestHandler <CreateStoreLicenseCommand, StoreLicenseKeyDto>
 {
 	private readonly ClientApiDbContext _dbContext;
 	private readonly IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> _entityFactory;

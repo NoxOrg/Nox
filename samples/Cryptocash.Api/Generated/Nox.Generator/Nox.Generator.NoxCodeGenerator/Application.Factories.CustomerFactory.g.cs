@@ -23,7 +23,7 @@ using Customer = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class CustomerFactoryBase : IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto>
+internal abstract class CustomerFactoryBase : IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto>
 {
 
     public CustomerFactoryBase
@@ -65,6 +65,6 @@ public abstract class CustomerFactoryBase : IEntityFactory<Customer, CustomerCre
     }
 }
 
-public partial class CustomerFactory : CustomerFactoryBase
+internal partial class CustomerFactory : CustomerFactoryBase
 {
 }

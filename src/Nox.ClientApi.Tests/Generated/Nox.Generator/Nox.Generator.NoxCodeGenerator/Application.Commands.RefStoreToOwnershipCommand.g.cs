@@ -23,7 +23,7 @@ public abstract record RefStoreToOwnershipCommand(StoreKeyDto EntityKeyDto, Stor
 public record CreateRefStoreToOwnershipCommand(StoreKeyDto EntityKeyDto, StoreOwnerKeyDto RelatedEntityKeyDto)
 	: RefStoreToOwnershipCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefStoreToOwnershipCommandHandler
+internal partial class CreateRefStoreToOwnershipCommandHandler
 	: RefStoreToOwnershipCommandHandlerBase<CreateRefStoreToOwnershipCommand>
 {
 	public CreateRefStoreToOwnershipCommandHandler(

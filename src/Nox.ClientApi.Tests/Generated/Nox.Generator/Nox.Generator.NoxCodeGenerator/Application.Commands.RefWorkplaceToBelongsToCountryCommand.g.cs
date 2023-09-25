@@ -23,7 +23,7 @@ public abstract record RefWorkplaceToBelongsToCountryCommand(WorkplaceKeyDto Ent
 public record CreateRefWorkplaceToBelongsToCountryCommand(WorkplaceKeyDto EntityKeyDto, CountryKeyDto RelatedEntityKeyDto)
 	: RefWorkplaceToBelongsToCountryCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefWorkplaceToBelongsToCountryCommandHandler
+internal partial class CreateRefWorkplaceToBelongsToCountryCommandHandler
 	: RefWorkplaceToBelongsToCountryCommandHandlerBase<CreateRefWorkplaceToBelongsToCountryCommand>
 {
 	public CreateRefWorkplaceToBelongsToCountryCommandHandler(

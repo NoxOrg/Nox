@@ -15,7 +15,7 @@ namespace ClientApi.Application.Commands;
 
 public record DeleteStoreLicenseByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
-public class DeleteStoreLicenseByIdCommandHandler:DeleteStoreLicenseByIdCommandHandlerBase
+internal class DeleteStoreLicenseByIdCommandHandler:DeleteStoreLicenseByIdCommandHandlerBase
 {
 	public DeleteStoreLicenseByIdCommandHandler(
 		ClientApiDbContext dbContext,
@@ -24,7 +24,7 @@ public class DeleteStoreLicenseByIdCommandHandler:DeleteStoreLicenseByIdCommandH
 	{
 	}
 }
-public abstract class DeleteStoreLicenseByIdCommandHandlerBase: CommandBase<DeleteStoreLicenseByIdCommand,StoreLicense>, IRequestHandler<DeleteStoreLicenseByIdCommand, bool>
+internal abstract class DeleteStoreLicenseByIdCommandHandlerBase: CommandBase<DeleteStoreLicenseByIdCommand,StoreLicense>, IRequestHandler<DeleteStoreLicenseByIdCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 

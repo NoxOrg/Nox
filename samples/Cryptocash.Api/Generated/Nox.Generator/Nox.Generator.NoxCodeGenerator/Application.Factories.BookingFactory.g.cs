@@ -23,7 +23,7 @@ using Booking = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class BookingFactoryBase : IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto>
+internal abstract class BookingFactoryBase : IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto>
 {
 
     public BookingFactoryBase
@@ -76,6 +76,6 @@ public abstract class BookingFactoryBase : IEntityFactory<Booking, BookingCreate
     }
 }
 
-public partial class BookingFactory : BookingFactoryBase
+internal partial class BookingFactory : BookingFactoryBase
 {
 }

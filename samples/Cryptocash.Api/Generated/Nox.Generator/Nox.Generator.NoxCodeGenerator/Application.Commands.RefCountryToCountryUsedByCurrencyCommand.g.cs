@@ -23,7 +23,7 @@ public abstract record RefCountryToCountryUsedByCurrencyCommand(CountryKeyDto En
 public record CreateRefCountryToCountryUsedByCurrencyCommand(CountryKeyDto EntityKeyDto, CurrencyKeyDto RelatedEntityKeyDto)
 	: RefCountryToCountryUsedByCurrencyCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefCountryToCountryUsedByCurrencyCommandHandler
+internal partial class CreateRefCountryToCountryUsedByCurrencyCommandHandler
 	: RefCountryToCountryUsedByCurrencyCommandHandlerBase<CreateRefCountryToCountryUsedByCurrencyCommand>
 {
 	public CreateRefCountryToCountryUsedByCurrencyCommandHandler(

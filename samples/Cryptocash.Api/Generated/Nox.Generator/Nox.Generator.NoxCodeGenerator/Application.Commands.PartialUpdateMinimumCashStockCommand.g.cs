@@ -18,7 +18,7 @@ namespace Cryptocash.Application.Commands;
 
 public record PartialUpdateMinimumCashStockCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <MinimumCashStockKeyDto?>;
 
-public class PartialUpdateMinimumCashStockCommandHandler: PartialUpdateMinimumCashStockCommandHandlerBase
+internal class PartialUpdateMinimumCashStockCommandHandler: PartialUpdateMinimumCashStockCommandHandlerBase
 {
 	public PartialUpdateMinimumCashStockCommandHandler(
 		CryptocashDbContext dbContext,
@@ -28,7 +28,7 @@ public class PartialUpdateMinimumCashStockCommandHandler: PartialUpdateMinimumCa
 	{
 	}
 }
-public class PartialUpdateMinimumCashStockCommandHandlerBase: CommandBase<PartialUpdateMinimumCashStockCommand, MinimumCashStock>, IRequestHandler<PartialUpdateMinimumCashStockCommand, MinimumCashStockKeyDto?>
+internal class PartialUpdateMinimumCashStockCommandHandlerBase: CommandBase<PartialUpdateMinimumCashStockCommand, MinimumCashStock>, IRequestHandler<PartialUpdateMinimumCashStockCommand, MinimumCashStockKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<MinimumCashStock> EntityMapper { get; }

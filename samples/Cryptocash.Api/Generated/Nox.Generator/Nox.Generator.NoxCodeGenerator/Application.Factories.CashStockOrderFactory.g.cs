@@ -23,7 +23,7 @@ using CashStockOrder = Cryptocash.Domain.CashStockOrder;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto>
+internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto>
 {
 
     public CashStockOrderFactoryBase
@@ -61,6 +61,6 @@ public abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrder,
     }
 }
 
-public partial class CashStockOrderFactory : CashStockOrderFactoryBase
+internal partial class CashStockOrderFactory : CashStockOrderFactoryBase
 {
 }

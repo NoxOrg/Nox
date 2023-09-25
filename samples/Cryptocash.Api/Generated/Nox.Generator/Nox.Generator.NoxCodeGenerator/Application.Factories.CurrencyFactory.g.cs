@@ -23,7 +23,7 @@ using Currency = Cryptocash.Domain.Currency;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class CurrencyFactoryBase : IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto>
+internal abstract class CurrencyFactoryBase : IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto>
 {
     protected IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto> BankNoteFactory {get;}
     protected IEntityFactory<ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto> ExchangeRateFactory {get;}
@@ -90,7 +90,7 @@ public abstract class CurrencyFactoryBase : IEntityFactory<Currency, CurrencyCre
     }
 }
 
-public partial class CurrencyFactory : CurrencyFactoryBase
+internal partial class CurrencyFactory : CurrencyFactoryBase
 {
     public CurrencyFactory
     (

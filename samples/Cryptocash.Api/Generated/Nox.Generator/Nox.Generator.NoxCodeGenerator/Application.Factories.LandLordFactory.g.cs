@@ -23,7 +23,7 @@ using LandLord = Cryptocash.Domain.LandLord;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class LandLordFactoryBase : IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto>
+internal abstract class LandLordFactoryBase : IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto>
 {
 
     public LandLordFactoryBase
@@ -57,6 +57,6 @@ public abstract class LandLordFactoryBase : IEntityFactory<LandLord, LandLordCre
     }
 }
 
-public partial class LandLordFactory : LandLordFactoryBase
+internal partial class LandLordFactory : LandLordFactoryBase
 {
 }

@@ -14,7 +14,7 @@ namespace ClientApi.Application.Queries;
 
 public record GetStoreLicenseByIdQuery(System.Int64 keyId) : IRequest <IQueryable<StoreLicenseDto>>;
 
-public partial class GetStoreLicenseByIdQueryHandler:GetStoreLicenseByIdQueryHandlerBase
+internal partial class GetStoreLicenseByIdQueryHandler:GetStoreLicenseByIdQueryHandlerBase
 {
     public  GetStoreLicenseByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
@@ -22,7 +22,7 @@ public partial class GetStoreLicenseByIdQueryHandler:GetStoreLicenseByIdQueryHan
     }
 }
 
-public abstract class GetStoreLicenseByIdQueryHandlerBase:  QueryBase<IQueryable<StoreLicenseDto>>, IRequestHandler<GetStoreLicenseByIdQuery, IQueryable<StoreLicenseDto>>
+internal abstract class GetStoreLicenseByIdQueryHandlerBase:  QueryBase<IQueryable<StoreLicenseDto>>, IRequestHandler<GetStoreLicenseByIdQuery, IQueryable<StoreLicenseDto>>
 {
     public  GetStoreLicenseByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {

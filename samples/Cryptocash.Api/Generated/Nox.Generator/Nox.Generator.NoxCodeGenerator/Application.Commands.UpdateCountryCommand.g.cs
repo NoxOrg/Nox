@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Commands;
 
 public record UpdateCountryCommand(System.String keyId, CountryUpdateDto EntityDto, System.Guid? Etag) : IRequest<CountryKeyDto?>;
 
-public partial class UpdateCountryCommandHandler: UpdateCountryCommandHandlerBase
+internal partial class UpdateCountryCommandHandler: UpdateCountryCommandHandlerBase
 {
 	public UpdateCountryCommandHandler(
 		CryptocashDbContext dbContext,
@@ -28,7 +28,7 @@ public partial class UpdateCountryCommandHandler: UpdateCountryCommandHandlerBas
 	}
 }
 
-public abstract class UpdateCountryCommandHandlerBase: CommandBase<UpdateCountryCommand, Country>, IRequestHandler<UpdateCountryCommand, CountryKeyDto?>
+internal abstract class UpdateCountryCommandHandlerBase: CommandBase<UpdateCountryCommand, Country>, IRequestHandler<UpdateCountryCommand, CountryKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	private readonly IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> _entityFactory;

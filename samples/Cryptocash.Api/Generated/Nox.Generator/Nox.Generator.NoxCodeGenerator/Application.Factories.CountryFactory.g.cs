@@ -23,7 +23,7 @@ using Country = Cryptocash.Domain.Country;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class CountryFactoryBase : IEntityFactory<Country, CountryCreateDto, CountryUpdateDto>
+internal abstract class CountryFactoryBase : IEntityFactory<Country, CountryCreateDto, CountryUpdateDto>
 {
     protected IEntityFactory<CountryTimeZone, CountryTimeZoneCreateDto, CountryTimeZoneUpdateDto> CountryTimeZoneFactory {get;}
     protected IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> HolidayFactory {get;}
@@ -110,7 +110,7 @@ public abstract class CountryFactoryBase : IEntityFactory<Country, CountryCreate
     }
 }
 
-public partial class CountryFactory : CountryFactoryBase
+internal partial class CountryFactory : CountryFactoryBase
 {
     public CountryFactory
     (

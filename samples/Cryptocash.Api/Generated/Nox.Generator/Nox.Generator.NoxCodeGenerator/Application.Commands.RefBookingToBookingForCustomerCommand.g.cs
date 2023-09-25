@@ -23,7 +23,7 @@ public abstract record RefBookingToBookingForCustomerCommand(BookingKeyDto Entit
 public record CreateRefBookingToBookingForCustomerCommand(BookingKeyDto EntityKeyDto, CustomerKeyDto RelatedEntityKeyDto)
 	: RefBookingToBookingForCustomerCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefBookingToBookingForCustomerCommandHandler
+internal partial class CreateRefBookingToBookingForCustomerCommandHandler
 	: RefBookingToBookingForCustomerCommandHandlerBase<CreateRefBookingToBookingForCustomerCommand>
 {
 	public CreateRefBookingToBookingForCustomerCommandHandler(

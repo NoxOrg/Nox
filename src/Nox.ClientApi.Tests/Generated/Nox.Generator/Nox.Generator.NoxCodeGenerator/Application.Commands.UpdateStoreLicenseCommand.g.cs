@@ -17,7 +17,7 @@ namespace ClientApi.Application.Commands;
 
 public record UpdateStoreLicenseCommand(System.Int64 keyId, StoreLicenseUpdateDto EntityDto, System.Guid? Etag) : IRequest<StoreLicenseKeyDto?>;
 
-public partial class UpdateStoreLicenseCommandHandler: UpdateStoreLicenseCommandHandlerBase
+internal partial class UpdateStoreLicenseCommandHandler: UpdateStoreLicenseCommandHandlerBase
 {
 	public UpdateStoreLicenseCommandHandler(
 		ClientApiDbContext dbContext,
@@ -28,7 +28,7 @@ public partial class UpdateStoreLicenseCommandHandler: UpdateStoreLicenseCommand
 	}
 }
 
-public abstract class UpdateStoreLicenseCommandHandlerBase: CommandBase<UpdateStoreLicenseCommand, StoreLicense>, IRequestHandler<UpdateStoreLicenseCommand, StoreLicenseKeyDto?>
+internal abstract class UpdateStoreLicenseCommandHandlerBase: CommandBase<UpdateStoreLicenseCommand, StoreLicense>, IRequestHandler<UpdateStoreLicenseCommand, StoreLicenseKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	private readonly IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> _entityFactory;

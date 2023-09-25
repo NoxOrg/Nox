@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Commands;
 
 public record UpdateEmployeeCommand(System.Int64 keyId, EmployeeUpdateDto EntityDto, System.Guid? Etag) : IRequest<EmployeeKeyDto?>;
 
-public partial class UpdateEmployeeCommandHandler: UpdateEmployeeCommandHandlerBase
+internal partial class UpdateEmployeeCommandHandler: UpdateEmployeeCommandHandlerBase
 {
 	public UpdateEmployeeCommandHandler(
 		CryptocashDbContext dbContext,
@@ -28,7 +28,7 @@ public partial class UpdateEmployeeCommandHandler: UpdateEmployeeCommandHandlerB
 	}
 }
 
-public abstract class UpdateEmployeeCommandHandlerBase: CommandBase<UpdateEmployeeCommand, Employee>, IRequestHandler<UpdateEmployeeCommand, EmployeeKeyDto?>
+internal abstract class UpdateEmployeeCommandHandlerBase: CommandBase<UpdateEmployeeCommand, Employee>, IRequestHandler<UpdateEmployeeCommand, EmployeeKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	private readonly IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> _entityFactory;

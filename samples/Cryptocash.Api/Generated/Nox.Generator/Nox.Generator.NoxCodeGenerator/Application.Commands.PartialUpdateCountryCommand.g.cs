@@ -18,7 +18,7 @@ namespace Cryptocash.Application.Commands;
 
 public record PartialUpdateCountryCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CountryKeyDto?>;
 
-public class PartialUpdateCountryCommandHandler: PartialUpdateCountryCommandHandlerBase
+internal class PartialUpdateCountryCommandHandler: PartialUpdateCountryCommandHandlerBase
 {
 	public PartialUpdateCountryCommandHandler(
 		CryptocashDbContext dbContext,
@@ -28,7 +28,7 @@ public class PartialUpdateCountryCommandHandler: PartialUpdateCountryCommandHand
 	{
 	}
 }
-public class PartialUpdateCountryCommandHandlerBase: CommandBase<PartialUpdateCountryCommand, Country>, IRequestHandler<PartialUpdateCountryCommand, CountryKeyDto?>
+internal class PartialUpdateCountryCommandHandlerBase: CommandBase<PartialUpdateCountryCommand, Country>, IRequestHandler<PartialUpdateCountryCommand, CountryKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<Country> EntityMapper { get; }

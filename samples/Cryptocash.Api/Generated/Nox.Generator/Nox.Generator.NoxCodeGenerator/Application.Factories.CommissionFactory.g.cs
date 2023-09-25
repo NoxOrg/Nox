@@ -23,7 +23,7 @@ using Commission = Cryptocash.Domain.Commission;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class CommissionFactoryBase : IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto>
+internal abstract class CommissionFactoryBase : IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto>
 {
 
     public CommissionFactoryBase
@@ -57,6 +57,6 @@ public abstract class CommissionFactoryBase : IEntityFactory<Commission, Commiss
     }
 }
 
-public partial class CommissionFactory : CommissionFactoryBase
+internal partial class CommissionFactory : CommissionFactoryBase
 {
 }

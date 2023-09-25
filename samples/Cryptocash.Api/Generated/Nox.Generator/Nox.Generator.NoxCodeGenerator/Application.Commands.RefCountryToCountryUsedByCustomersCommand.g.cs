@@ -23,7 +23,7 @@ public abstract record RefCountryToCountryUsedByCustomersCommand(CountryKeyDto E
 public record CreateRefCountryToCountryUsedByCustomersCommand(CountryKeyDto EntityKeyDto, CustomerKeyDto RelatedEntityKeyDto)
 	: RefCountryToCountryUsedByCustomersCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefCountryToCountryUsedByCustomersCommandHandler
+internal partial class CreateRefCountryToCountryUsedByCustomersCommandHandler
 	: RefCountryToCountryUsedByCustomersCommandHandlerBase<CreateRefCountryToCountryUsedByCustomersCommand>
 {
 	public CreateRefCountryToCountryUsedByCustomersCommandHandler(

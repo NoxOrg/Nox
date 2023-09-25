@@ -15,7 +15,7 @@ using Cryptocash.Application.Dto;
 namespace Cryptocash.Application.Commands;
 public record DeleteBankNoteForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteKeyDto EntityKeyDto) : IRequest <bool>;
 
-public partial class DeleteBankNoteForCurrencyCommandHandler: CommandBase<DeleteBankNoteForCurrencyCommand, BankNote>, IRequestHandler <DeleteBankNoteForCurrencyCommand, bool>
+internal partial class DeleteBankNoteForCurrencyCommandHandler: CommandBase<DeleteBankNoteForCurrencyCommand, BankNote>, IRequestHandler <DeleteBankNoteForCurrencyCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 

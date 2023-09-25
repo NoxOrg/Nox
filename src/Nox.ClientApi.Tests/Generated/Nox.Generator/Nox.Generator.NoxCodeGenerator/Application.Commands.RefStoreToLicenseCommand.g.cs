@@ -23,7 +23,7 @@ public abstract record RefStoreToLicenseCommand(StoreKeyDto EntityKeyDto, StoreL
 public record CreateRefStoreToLicenseCommand(StoreKeyDto EntityKeyDto, StoreLicenseKeyDto RelatedEntityKeyDto)
 	: RefStoreToLicenseCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefStoreToLicenseCommandHandler
+internal partial class CreateRefStoreToLicenseCommandHandler
 	: RefStoreToLicenseCommandHandlerBase<CreateRefStoreToLicenseCommand>
 {
 	public CreateRefStoreToLicenseCommandHandler(

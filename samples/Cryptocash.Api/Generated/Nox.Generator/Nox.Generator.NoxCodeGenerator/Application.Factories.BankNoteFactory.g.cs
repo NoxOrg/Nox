@@ -23,7 +23,7 @@ using BankNote = Cryptocash.Domain.BankNote;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class BankNoteFactoryBase : IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto>
+internal abstract class BankNoteFactoryBase : IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto>
 {
 
     public BankNoteFactoryBase
@@ -57,6 +57,6 @@ public abstract class BankNoteFactoryBase : IEntityFactory<BankNote, BankNoteCre
     }
 }
 
-public partial class BankNoteFactory : BankNoteFactoryBase
+internal partial class BankNoteFactory : BankNoteFactoryBase
 {
 }

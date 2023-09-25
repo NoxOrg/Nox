@@ -15,7 +15,7 @@ using ClientApi.Application.Dto;
 namespace ClientApi.Application.Commands;
 public record PartialUpdateEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <EmailAddressKeyDto?>;
 
-public partial class PartialUpdateEmailAddressForStoreCommandHandler: PartialUpdateEmailAddressForStoreCommandHandlerBase
+internal partial class PartialUpdateEmailAddressForStoreCommandHandler: PartialUpdateEmailAddressForStoreCommandHandlerBase
 {
 	public PartialUpdateEmailAddressForStoreCommandHandler(
 		ClientApiDbContext dbContext,
@@ -25,7 +25,7 @@ public partial class PartialUpdateEmailAddressForStoreCommandHandler: PartialUpd
 	{
 	}
 }
-public abstract class PartialUpdateEmailAddressForStoreCommandHandlerBase: CommandBase<PartialUpdateEmailAddressForStoreCommand, EmailAddress>, IRequestHandler <PartialUpdateEmailAddressForStoreCommand, EmailAddressKeyDto?>
+internal abstract class PartialUpdateEmailAddressForStoreCommandHandlerBase: CommandBase<PartialUpdateEmailAddressForStoreCommand, EmailAddress>, IRequestHandler <PartialUpdateEmailAddressForStoreCommand, EmailAddressKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<EmailAddress> EntityMapper { get; }

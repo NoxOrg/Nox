@@ -18,7 +18,7 @@ namespace ClientApi.Application.Commands;
 
 public record PartialUpdateStoreLicenseCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <StoreLicenseKeyDto?>;
 
-public class PartialUpdateStoreLicenseCommandHandler: PartialUpdateStoreLicenseCommandHandlerBase
+internal class PartialUpdateStoreLicenseCommandHandler: PartialUpdateStoreLicenseCommandHandlerBase
 {
 	public PartialUpdateStoreLicenseCommandHandler(
 		ClientApiDbContext dbContext,
@@ -28,7 +28,7 @@ public class PartialUpdateStoreLicenseCommandHandler: PartialUpdateStoreLicenseC
 	{
 	}
 }
-public class PartialUpdateStoreLicenseCommandHandlerBase: CommandBase<PartialUpdateStoreLicenseCommand, StoreLicense>, IRequestHandler<PartialUpdateStoreLicenseCommand, StoreLicenseKeyDto?>
+internal class PartialUpdateStoreLicenseCommandHandlerBase: CommandBase<PartialUpdateStoreLicenseCommand, StoreLicense>, IRequestHandler<PartialUpdateStoreLicenseCommand, StoreLicenseKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<StoreLicense> EntityMapper { get; }

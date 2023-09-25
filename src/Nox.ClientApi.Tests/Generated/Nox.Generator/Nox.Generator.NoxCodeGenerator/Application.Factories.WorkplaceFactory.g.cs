@@ -23,7 +23,7 @@ using Workplace = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto>
+internal abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto>
 {
 
     public WorkplaceFactoryBase
@@ -61,6 +61,6 @@ public abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, Workplace
     }
 }
 
-public partial class WorkplaceFactory : WorkplaceFactoryBase
+internal partial class WorkplaceFactory : WorkplaceFactoryBase
 {
 }

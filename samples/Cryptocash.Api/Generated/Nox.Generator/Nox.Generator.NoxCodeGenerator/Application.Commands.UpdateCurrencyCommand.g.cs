@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Commands;
 
 public record UpdateCurrencyCommand(System.String keyId, CurrencyUpdateDto EntityDto, System.Guid? Etag) : IRequest<CurrencyKeyDto?>;
 
-public partial class UpdateCurrencyCommandHandler: UpdateCurrencyCommandHandlerBase
+internal partial class UpdateCurrencyCommandHandler: UpdateCurrencyCommandHandlerBase
 {
 	public UpdateCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
@@ -28,7 +28,7 @@ public partial class UpdateCurrencyCommandHandler: UpdateCurrencyCommandHandlerB
 	}
 }
 
-public abstract class UpdateCurrencyCommandHandlerBase: CommandBase<UpdateCurrencyCommand, Currency>, IRequestHandler<UpdateCurrencyCommand, CurrencyKeyDto?>
+internal abstract class UpdateCurrencyCommandHandlerBase: CommandBase<UpdateCurrencyCommand, Currency>, IRequestHandler<UpdateCurrencyCommand, CurrencyKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	private readonly IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> _entityFactory;

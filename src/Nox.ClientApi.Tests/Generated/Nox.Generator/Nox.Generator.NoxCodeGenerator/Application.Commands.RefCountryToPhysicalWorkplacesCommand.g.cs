@@ -23,7 +23,7 @@ public abstract record RefCountryToPhysicalWorkplacesCommand(CountryKeyDto Entit
 public record CreateRefCountryToPhysicalWorkplacesCommand(CountryKeyDto EntityKeyDto, WorkplaceKeyDto RelatedEntityKeyDto)
 	: RefCountryToPhysicalWorkplacesCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefCountryToPhysicalWorkplacesCommandHandler
+internal partial class CreateRefCountryToPhysicalWorkplacesCommandHandler
 	: RefCountryToPhysicalWorkplacesCommandHandlerBase<CreateRefCountryToPhysicalWorkplacesCommand>
 {
 	public CreateRefCountryToPhysicalWorkplacesCommandHandler(

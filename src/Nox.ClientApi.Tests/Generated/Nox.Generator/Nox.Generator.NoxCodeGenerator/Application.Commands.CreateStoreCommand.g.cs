@@ -20,7 +20,7 @@ namespace ClientApi.Application.Commands;
 
 public record CreateStoreCommand(StoreCreateDto EntityDto) : IRequest<StoreKeyDto>;
 
-public partial class CreateStoreCommandHandler: CreateStoreCommandHandlerBase
+internal partial class CreateStoreCommandHandler: CreateStoreCommandHandlerBase
 {
 	public CreateStoreCommandHandler(
 		ClientApiDbContext dbContext,
@@ -35,7 +35,7 @@ public partial class CreateStoreCommandHandler: CreateStoreCommandHandlerBase
 }
 
 
-public abstract class CreateStoreCommandHandlerBase: CommandBase<CreateStoreCommand,Store>, IRequestHandler <CreateStoreCommand, StoreKeyDto>
+internal abstract class CreateStoreCommandHandlerBase: CommandBase<CreateStoreCommand,Store>, IRequestHandler <CreateStoreCommand, StoreKeyDto>
 {
 	private readonly ClientApiDbContext _dbContext;
 	private readonly IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> _entityFactory;

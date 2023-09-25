@@ -27,7 +27,7 @@ using {{entity.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Factories;
 
-public abstract class {{className}}Base : IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto>
+internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto>
 {
     {{- for ownedEntity in ownedEntities #Factories Properties for owned entitites}}
     protected IEntityFactory<{{ownedEntity}}, {{ownedEntity}}CreateDto, {{ownedEntity}}UpdateDto> {{ownedEntity}}Factory {get;}
@@ -131,7 +131,7 @@ public abstract class {{className}}Base : IEntityFactory<{{entity.Name}}, {{enti
     }
 }
 
-public partial class {{className}} : {{className}}Base
+internal partial class {{className}} : {{className}}Base
 {
     {{- if ownedEntities | array.size > 0 #Factories for owned entitites}}
     public {{className}}

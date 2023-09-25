@@ -18,7 +18,7 @@ namespace Cryptocash.Application.Commands;
 
 public record PartialUpdateCommissionCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CommissionKeyDto?>;
 
-public class PartialUpdateCommissionCommandHandler: PartialUpdateCommissionCommandHandlerBase
+internal class PartialUpdateCommissionCommandHandler: PartialUpdateCommissionCommandHandlerBase
 {
 	public PartialUpdateCommissionCommandHandler(
 		CryptocashDbContext dbContext,
@@ -28,7 +28,7 @@ public class PartialUpdateCommissionCommandHandler: PartialUpdateCommissionComma
 	{
 	}
 }
-public class PartialUpdateCommissionCommandHandlerBase: CommandBase<PartialUpdateCommissionCommand, Commission>, IRequestHandler<PartialUpdateCommissionCommand, CommissionKeyDto?>
+internal class PartialUpdateCommissionCommandHandlerBase: CommandBase<PartialUpdateCommissionCommand, Commission>, IRequestHandler<PartialUpdateCommissionCommand, CommissionKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<Commission> EntityMapper { get; }

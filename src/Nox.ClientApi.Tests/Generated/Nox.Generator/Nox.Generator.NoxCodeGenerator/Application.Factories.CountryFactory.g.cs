@@ -23,7 +23,7 @@ using Country = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class CountryFactoryBase : IEntityFactory<Country, CountryCreateDto, CountryUpdateDto>
+internal abstract class CountryFactoryBase : IEntityFactory<Country, CountryCreateDto, CountryUpdateDto>
 {
     protected IEntityFactory<CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> CountryLocalNameFactory {get;}
     protected IEntityFactory<CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto> CountryBarCodeFactory {get;}
@@ -78,7 +78,7 @@ public abstract class CountryFactoryBase : IEntityFactory<Country, CountryCreate
     }
 }
 
-public partial class CountryFactory : CountryFactoryBase
+internal partial class CountryFactory : CountryFactoryBase
 {
     public CountryFactory
     (

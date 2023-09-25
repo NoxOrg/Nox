@@ -34,7 +34,7 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
             code.AppendLine($"using {solution.Name}.Presentation.Api.OData;");
         code.AppendLine();
 
-        code.AppendLine("public static class NoxWebApplicationBuilderExtension");
+        code.AppendLine("internal static class NoxWebApplicationBuilderExtension");
         code.StartBlock();
         code.AppendLine(@"public static IServiceCollection AddNox(this IServiceCollection services)
                         {

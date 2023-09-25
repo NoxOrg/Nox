@@ -23,7 +23,7 @@ public abstract record Ref{{entity.Name}}To{{relationship.Name}}Command({{entity
 public record CreateRef{{entity.Name}}To{{relationship.Name}}Command({{entity.Name}}KeyDto EntityKeyDto, {{relatedEntity.Name}}KeyDto RelatedEntityKeyDto)
 	: Ref{{entity.Name}}To{{relationship.Name}}Command(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRef{{entity.Name}}To{{relationship.Name}}CommandHandler
+internal partial class CreateRef{{entity.Name}}To{{relationship.Name}}CommandHandler
 	: Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBase<CreateRef{{entity.Name}}To{{relationship.Name}}Command>
 {
 	public CreateRef{{entity.Name}}To{{relationship.Name}}CommandHandler(

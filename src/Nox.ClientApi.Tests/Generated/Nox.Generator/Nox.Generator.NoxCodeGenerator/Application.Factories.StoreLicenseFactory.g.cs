@@ -23,7 +23,7 @@ using StoreLicense = ClientApi.Domain.StoreLicense;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto>
+internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto>
 {
 
     public StoreLicenseFactoryBase
@@ -55,6 +55,6 @@ public abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicense, Sto
     }
 }
 
-public partial class StoreLicenseFactory : StoreLicenseFactoryBase
+internal partial class StoreLicenseFactory : StoreLicenseFactoryBase
 {
 }

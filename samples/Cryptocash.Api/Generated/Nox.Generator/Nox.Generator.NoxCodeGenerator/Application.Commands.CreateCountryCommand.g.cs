@@ -20,7 +20,7 @@ namespace Cryptocash.Application.Commands;
 
 public record CreateCountryCommand(CountryCreateDto EntityDto) : IRequest<CountryKeyDto>;
 
-public partial class CreateCountryCommandHandler: CreateCountryCommandHandlerBase
+internal partial class CreateCountryCommandHandler: CreateCountryCommandHandlerBase
 {
 	public CreateCountryCommandHandler(
 		CryptocashDbContext dbContext,
@@ -37,7 +37,7 @@ public partial class CreateCountryCommandHandler: CreateCountryCommandHandlerBas
 }
 
 
-public abstract class CreateCountryCommandHandlerBase: CommandBase<CreateCountryCommand,Country>, IRequestHandler <CreateCountryCommand, CountryKeyDto>
+internal abstract class CreateCountryCommandHandlerBase: CommandBase<CreateCountryCommand,Country>, IRequestHandler <CreateCountryCommand, CountryKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> _entityFactory;

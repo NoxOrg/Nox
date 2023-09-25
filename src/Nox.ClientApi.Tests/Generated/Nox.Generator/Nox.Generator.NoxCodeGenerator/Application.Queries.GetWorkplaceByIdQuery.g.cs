@@ -14,7 +14,7 @@ namespace ClientApi.Application.Queries;
 
 public record GetWorkplaceByIdQuery(System.UInt32 keyId) : IRequest <IQueryable<WorkplaceDto>>;
 
-public partial class GetWorkplaceByIdQueryHandler:GetWorkplaceByIdQueryHandlerBase
+internal partial class GetWorkplaceByIdQueryHandler:GetWorkplaceByIdQueryHandlerBase
 {
     public  GetWorkplaceByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
@@ -22,7 +22,7 @@ public partial class GetWorkplaceByIdQueryHandler:GetWorkplaceByIdQueryHandlerBa
     }
 }
 
-public abstract class GetWorkplaceByIdQueryHandlerBase:  QueryBase<IQueryable<WorkplaceDto>>, IRequestHandler<GetWorkplaceByIdQuery, IQueryable<WorkplaceDto>>
+internal abstract class GetWorkplaceByIdQueryHandlerBase:  QueryBase<IQueryable<WorkplaceDto>>, IRequestHandler<GetWorkplaceByIdQuery, IQueryable<WorkplaceDto>>
 {
     public  GetWorkplaceByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {

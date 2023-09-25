@@ -23,7 +23,7 @@ public abstract record RefCustomerToCustomerBaseCountryCommand(CustomerKeyDto En
 public record CreateRefCustomerToCustomerBaseCountryCommand(CustomerKeyDto EntityKeyDto, CountryKeyDto RelatedEntityKeyDto)
 	: RefCustomerToCustomerBaseCountryCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefCustomerToCustomerBaseCountryCommandHandler
+internal partial class CreateRefCustomerToCustomerBaseCountryCommandHandler
 	: RefCustomerToCustomerBaseCountryCommandHandlerBase<CreateRefCustomerToCustomerBaseCountryCommand>
 {
 	public CreateRefCustomerToCustomerBaseCountryCommandHandler(

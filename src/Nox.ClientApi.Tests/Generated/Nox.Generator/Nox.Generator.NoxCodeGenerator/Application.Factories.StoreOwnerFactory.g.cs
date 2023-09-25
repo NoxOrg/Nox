@@ -23,7 +23,7 @@ using StoreOwner = ClientApi.Domain.StoreOwner;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto>
+internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto>
 {
 
     public StoreOwnerFactoryBase
@@ -74,6 +74,6 @@ public abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwner, StoreOw
     }
 }
 
-public partial class StoreOwnerFactory : StoreOwnerFactoryBase
+internal partial class StoreOwnerFactory : StoreOwnerFactoryBase
 {
 }
