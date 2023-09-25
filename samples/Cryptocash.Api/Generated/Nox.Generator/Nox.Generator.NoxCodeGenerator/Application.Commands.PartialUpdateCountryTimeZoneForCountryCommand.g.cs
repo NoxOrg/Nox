@@ -14,7 +14,7 @@ using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
 public record PartialUpdateCountryTimeZoneForCountryCommand(CountryKeyDto ParentKeyDto, CountryTimeZoneKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CountryTimeZoneKeyDto?>;
-public partial class PartialUpdateCountryTimeZoneForCountryCommandHandler: PartialUpdateCountryTimeZoneForCountryCommandHandlerBase
+internal partial class PartialUpdateCountryTimeZoneForCountryCommandHandler: PartialUpdateCountryTimeZoneForCountryCommandHandlerBase
 {
 	public PartialUpdateCountryTimeZoneForCountryCommandHandler(
 		CryptocashDbContext dbContext,
@@ -24,7 +24,7 @@ public partial class PartialUpdateCountryTimeZoneForCountryCommandHandler: Parti
 	{
 	}
 }
-public abstract class PartialUpdateCountryTimeZoneForCountryCommandHandlerBase: CommandBase<PartialUpdateCountryTimeZoneForCountryCommand, CountryTimeZone>, IRequestHandler <PartialUpdateCountryTimeZoneForCountryCommand, CountryTimeZoneKeyDto?>
+internal abstract class PartialUpdateCountryTimeZoneForCountryCommandHandlerBase: CommandBase<PartialUpdateCountryTimeZoneForCountryCommand, CountryTimeZone>, IRequestHandler <PartialUpdateCountryTimeZoneForCountryCommand, CountryTimeZoneKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<CountryTimeZone> EntityMapper { get; }

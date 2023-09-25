@@ -100,7 +100,7 @@ public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Currency used by OneOrMany Countries
     /// </summary>
-    public virtual List<Country> CurrencyUsedByCountry { get; set; } = new();
+    public virtual List<Country> CurrencyUsedByCountry { get; private set; } = new();
 
     public virtual void CreateRefToCurrencyUsedByCountry(Country relatedCountry)
     {
@@ -110,14 +110,21 @@ public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
     public virtual void DeleteRefToCurrencyUsedByCountry(Country relatedCountry)
     {
         if(CurrencyUsedByCountry.Count() < 2)
-            throw new Exception($"The relatioship cannot be deleted.");
+            throw new Exception($"The relationship cannot be deleted.");
         CurrencyUsedByCountry.Remove(relatedCountry);
+    }
+
+    public virtual void DeleteAllRefToCurrencyUsedByCountry()
+    {
+        if(CurrencyUsedByCountry.Count() < 2)
+            throw new Exception($"The relationship cannot be deleted.");
+        CurrencyUsedByCountry.Clear();
     }
 
     /// <summary>
     /// Currency used by ZeroOrMany MinimumCashStocks
     /// </summary>
-    public virtual List<MinimumCashStock> CurrencyUsedByMinimumCashStocks { get; set; } = new();
+    public virtual List<MinimumCashStock> CurrencyUsedByMinimumCashStocks { get; private set; } = new();
 
     public virtual void CreateRefToCurrencyUsedByMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
     {
@@ -127,6 +134,11 @@ public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
     public virtual void DeleteRefToCurrencyUsedByMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
     {
         CurrencyUsedByMinimumCashStocks.Remove(relatedMinimumCashStock);
+    }
+
+    public virtual void DeleteAllRefToCurrencyUsedByMinimumCashStocks()
+    {
+        CurrencyUsedByMinimumCashStocks.Clear();
     }
 
     /// <summary>

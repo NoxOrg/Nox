@@ -75,7 +75,7 @@ public abstract class WorkplaceBase : EntityBase, IEntityConcurrent
     /// <summary>
     /// Workplace Workplace country ZeroOrOne Countries
     /// </summary>
-    public virtual Country? BelongsToCountry { get; set; } = null!;
+    public virtual Country? BelongsToCountry { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ZeroOrOne to entity Country
@@ -90,6 +90,11 @@ public abstract class WorkplaceBase : EntityBase, IEntityConcurrent
     public virtual void DeleteRefToBelongsToCountry(Country relatedCountry)
     {
         BelongsToCountry = null;
+    }
+
+    public virtual void DeleteAllRefToBelongsToCountry()
+    {
+        BelongsToCountryId = null;
     }
 
     /// <summary>

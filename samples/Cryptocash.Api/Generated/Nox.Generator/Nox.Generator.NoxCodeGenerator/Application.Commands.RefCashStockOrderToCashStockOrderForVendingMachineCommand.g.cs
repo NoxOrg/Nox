@@ -18,12 +18,13 @@ using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
 
-public abstract record RefCashStockOrderToCashStockOrderForVendingMachineCommand(CashStockOrderKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefCashStockOrderToCashStockOrderForVendingMachineCommand(CashStockOrderKeyDto EntityKeyDto, VendingMachineKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
 public record CreateRefCashStockOrderToCashStockOrderForVendingMachineCommand(CashStockOrderKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto)
 	: RefCashStockOrderToCashStockOrderForVendingMachineCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefCashStockOrderToCashStockOrderForVendingMachineCommandHandler: RefCashStockOrderToCashStockOrderForVendingMachineCommandHandlerBase<CreateRefCashStockOrderToCashStockOrderForVendingMachineCommand>
+internal partial class CreateRefCashStockOrderToCashStockOrderForVendingMachineCommandHandler
+	: RefCashStockOrderToCashStockOrderForVendingMachineCommandHandlerBase<CreateRefCashStockOrderToCashStockOrderForVendingMachineCommand>
 {
 	public CreateRefCashStockOrderToCashStockOrderForVendingMachineCommandHandler(
 		CryptocashDbContext dbContext,
@@ -37,7 +38,8 @@ public partial class CreateRefCashStockOrderToCashStockOrderForVendingMachineCom
 public record DeleteRefCashStockOrderToCashStockOrderForVendingMachineCommand(CashStockOrderKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto)
 	: RefCashStockOrderToCashStockOrderForVendingMachineCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefCashStockOrderToCashStockOrderForVendingMachineCommandHandler: RefCashStockOrderToCashStockOrderForVendingMachineCommandHandlerBase<DeleteRefCashStockOrderToCashStockOrderForVendingMachineCommand>
+internal partial class DeleteRefCashStockOrderToCashStockOrderForVendingMachineCommandHandler
+	: RefCashStockOrderToCashStockOrderForVendingMachineCommandHandlerBase<DeleteRefCashStockOrderToCashStockOrderForVendingMachineCommand>
 {
 	public DeleteRefCashStockOrderToCashStockOrderForVendingMachineCommandHandler(
 		CryptocashDbContext dbContext,
@@ -48,14 +50,29 @@ public partial class DeleteRefCashStockOrderToCashStockOrderForVendingMachineCom
 	{ }
 }
 
-public abstract class RefCashStockOrderToCashStockOrderForVendingMachineCommandHandlerBase<TRequest>: CommandBase<TRequest, CashStockOrder>, 
+public record DeleteAllRefCashStockOrderToCashStockOrderForVendingMachineCommand(CashStockOrderKeyDto EntityKeyDto)
+	: RefCashStockOrderToCashStockOrderForVendingMachineCommand(EntityKeyDto, null);
+
+internal partial class DeleteAllRefCashStockOrderToCashStockOrderForVendingMachineCommandHandler
+	: RefCashStockOrderToCashStockOrderForVendingMachineCommandHandlerBase<DeleteAllRefCashStockOrderToCashStockOrderForVendingMachineCommand>
+{
+	public DeleteAllRefCashStockOrderToCashStockOrderForVendingMachineCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+	{ }
+}
+
+internal abstract class RefCashStockOrderToCashStockOrderForVendingMachineCommandHandlerBase<TRequest>: CommandBase<TRequest, CashStockOrder>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefCashStockOrderToCashStockOrderForVendingMachineCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete };
+    public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefCashStockOrderToCashStockOrderForVendingMachineCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -78,11 +95,16 @@ public abstract class RefCashStockOrderToCashStockOrderForVendingMachineCommandH
 		{
 			return false;
 		}
-		var relatedKeyId = CreateNoxTypeForKey<VendingMachine, Nox.Types.Guid>("Id", request.RelatedEntityKeyDto.keyId);
-		var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKeyId);
-		if (relatedEntity == null)
+
+		VendingMachine? relatedEntity = null!;
+		if(request.RelatedEntityKeyDto is not null)
 		{
-			return false;
+			var relatedKeyId = CreateNoxTypeForKey<VendingMachine, Nox.Types.Guid>("Id", request.RelatedEntityKeyDto.keyId);
+			relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKeyId);
+			if (relatedEntity == null)
+			{
+				return false;
+			}
 		}
 		
 		switch (Action)
@@ -92,6 +114,9 @@ public abstract class RefCashStockOrderToCashStockOrderForVendingMachineCommandH
                 break;
             case RelationshipAction.Delete:
                 entity.DeleteRefToCashStockOrderForVendingMachine(relatedEntity);
+                break;
+            case RelationshipAction.DeleteAll:
+                entity.DeleteAllRefToCashStockOrderForVendingMachine();
                 break;
         }
 

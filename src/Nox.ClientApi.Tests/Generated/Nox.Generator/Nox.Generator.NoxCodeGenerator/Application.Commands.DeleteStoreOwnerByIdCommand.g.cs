@@ -15,7 +15,7 @@ namespace ClientApi.Application.Commands;
 
 public record DeleteStoreOwnerByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
 
-public class DeleteStoreOwnerByIdCommandHandler:DeleteStoreOwnerByIdCommandHandlerBase
+internal class DeleteStoreOwnerByIdCommandHandler:DeleteStoreOwnerByIdCommandHandlerBase
 {
 	public DeleteStoreOwnerByIdCommandHandler(
 		ClientApiDbContext dbContext,
@@ -24,7 +24,7 @@ public class DeleteStoreOwnerByIdCommandHandler:DeleteStoreOwnerByIdCommandHandl
 	{
 	}
 }
-public abstract class DeleteStoreOwnerByIdCommandHandlerBase: CommandBase<DeleteStoreOwnerByIdCommand,StoreOwner>, IRequestHandler<DeleteStoreOwnerByIdCommand, bool>
+internal abstract class DeleteStoreOwnerByIdCommandHandlerBase: CommandBase<DeleteStoreOwnerByIdCommand,StoreOwner>, IRequestHandler<DeleteStoreOwnerByIdCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 

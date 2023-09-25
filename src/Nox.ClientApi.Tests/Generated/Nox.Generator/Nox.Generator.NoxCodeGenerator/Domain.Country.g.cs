@@ -69,7 +69,7 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Country Country workplaces ZeroOrMany Workplaces
     /// </summary>
-    public virtual List<Workplace> PhysicalWorkplaces { get; set; } = new();
+    public virtual List<Workplace> PhysicalWorkplaces { get; private set; } = new();
 
     public virtual void CreateRefToPhysicalWorkplaces(Workplace relatedWorkplace)
     {
@@ -79,6 +79,11 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     public virtual void DeleteRefToPhysicalWorkplaces(Workplace relatedWorkplace)
     {
         PhysicalWorkplaces.Remove(relatedWorkplace);
+    }
+
+    public virtual void DeleteAllRefToPhysicalWorkplaces()
+    {
+        PhysicalWorkplaces.Clear();
     }
 
     /// <summary>

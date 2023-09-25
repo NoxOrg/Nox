@@ -25,16 +25,11 @@ namespace ClientApi.Presentation.Api.OData;
 
 public partial class StoreOwnersController : StoreOwnersControllerBase
 {
-    public StoreOwnersController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    public StoreOwnersController(IMediator mediator):base(mediator)
     {}
 }
 public abstract class StoreOwnersControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -42,11 +37,9 @@ public abstract class StoreOwnersControllerBase : ODataController
     protected readonly IMediator _mediator;
     
     public StoreOwnersControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
     }
     
@@ -181,6 +174,22 @@ public abstract class StoreOwnersControllerBase : ODataController
         
         var deletedRef = await _mediator.Send(new DeleteRefStoreOwnerToStoresCommand(new StoreOwnerKeyDto(key), new StoreKeyDto(relatedKey)));
         if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> DeleteRefToStores([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefStoreOwnerToStoresCommand(new StoreOwnerKeyDto(key)));
+        if (!deletedAllRef)
         {
             return NotFound();
         }

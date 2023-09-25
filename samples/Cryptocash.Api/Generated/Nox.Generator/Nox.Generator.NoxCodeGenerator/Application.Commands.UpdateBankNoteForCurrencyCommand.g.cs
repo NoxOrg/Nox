@@ -15,7 +15,7 @@ using Cryptocash.Application.Dto;
 namespace Cryptocash.Application.Commands;
 public record UpdateBankNoteForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteKeyDto EntityKeyDto, BankNoteUpdateDto EntityDto, System.Guid? Etag) : IRequest <BankNoteKeyDto?>;
 
-public partial class UpdateBankNoteForCurrencyCommandHandler: CommandBase<UpdateBankNoteForCurrencyCommand, BankNote>, IRequestHandler <UpdateBankNoteForCurrencyCommand, BankNoteKeyDto?>
+internal partial class UpdateBankNoteForCurrencyCommandHandler: CommandBase<UpdateBankNoteForCurrencyCommand, BankNote>, IRequestHandler <UpdateBankNoteForCurrencyCommand, BankNoteKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	private readonly IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto> _entityFactory;

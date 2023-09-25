@@ -25,16 +25,11 @@ namespace ClientApi.Presentation.Api.OData;
 
 public partial class CountriesController : CountriesControllerBase
 {
-    public CountriesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    public CountriesController(IMediator mediator):base(mediator)
     {}
 }
 public abstract class CountriesControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -42,11 +37,9 @@ public abstract class CountriesControllerBase : ODataController
     protected readonly IMediator _mediator;
     
     public CountriesControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
     }
     
@@ -433,6 +426,22 @@ public abstract class CountriesControllerBase : ODataController
         
         var deletedRef = await _mediator.Send(new DeleteRefCountryToPhysicalWorkplacesCommand(new CountryKeyDto(key), new WorkplaceKeyDto(relatedKey)));
         if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> DeleteRefToPhysicalWorkplaces([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefCountryToPhysicalWorkplacesCommand(new CountryKeyDto(key)));
+        if (!deletedAllRef)
         {
             return NotFound();
         }

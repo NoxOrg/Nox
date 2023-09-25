@@ -18,12 +18,13 @@ using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
 
-public abstract record RefCustomerToCustomerRelatedBookingsCommand(CustomerKeyDto EntityKeyDto, BookingKeyDto RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefCustomerToCustomerRelatedBookingsCommand(CustomerKeyDto EntityKeyDto, BookingKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
 public record CreateRefCustomerToCustomerRelatedBookingsCommand(CustomerKeyDto EntityKeyDto, BookingKeyDto RelatedEntityKeyDto)
 	: RefCustomerToCustomerRelatedBookingsCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefCustomerToCustomerRelatedBookingsCommandHandler: RefCustomerToCustomerRelatedBookingsCommandHandlerBase<CreateRefCustomerToCustomerRelatedBookingsCommand>
+internal partial class CreateRefCustomerToCustomerRelatedBookingsCommandHandler
+	: RefCustomerToCustomerRelatedBookingsCommandHandlerBase<CreateRefCustomerToCustomerRelatedBookingsCommand>
 {
 	public CreateRefCustomerToCustomerRelatedBookingsCommandHandler(
 		CryptocashDbContext dbContext,
@@ -37,7 +38,8 @@ public partial class CreateRefCustomerToCustomerRelatedBookingsCommandHandler: R
 public record DeleteRefCustomerToCustomerRelatedBookingsCommand(CustomerKeyDto EntityKeyDto, BookingKeyDto RelatedEntityKeyDto)
 	: RefCustomerToCustomerRelatedBookingsCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefCustomerToCustomerRelatedBookingsCommandHandler: RefCustomerToCustomerRelatedBookingsCommandHandlerBase<DeleteRefCustomerToCustomerRelatedBookingsCommand>
+internal partial class DeleteRefCustomerToCustomerRelatedBookingsCommandHandler
+	: RefCustomerToCustomerRelatedBookingsCommandHandlerBase<DeleteRefCustomerToCustomerRelatedBookingsCommand>
 {
 	public DeleteRefCustomerToCustomerRelatedBookingsCommandHandler(
 		CryptocashDbContext dbContext,
@@ -48,14 +50,29 @@ public partial class DeleteRefCustomerToCustomerRelatedBookingsCommandHandler: R
 	{ }
 }
 
-public abstract class RefCustomerToCustomerRelatedBookingsCommandHandlerBase<TRequest>: CommandBase<TRequest, Customer>, 
+public record DeleteAllRefCustomerToCustomerRelatedBookingsCommand(CustomerKeyDto EntityKeyDto)
+	: RefCustomerToCustomerRelatedBookingsCommand(EntityKeyDto, null);
+
+internal partial class DeleteAllRefCustomerToCustomerRelatedBookingsCommandHandler
+	: RefCustomerToCustomerRelatedBookingsCommandHandlerBase<DeleteAllRefCustomerToCustomerRelatedBookingsCommand>
+{
+	public DeleteAllRefCustomerToCustomerRelatedBookingsCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+	{ }
+}
+
+internal abstract class RefCustomerToCustomerRelatedBookingsCommandHandlerBase<TRequest>: CommandBase<TRequest, Customer>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefCustomerToCustomerRelatedBookingsCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete };
+    public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefCustomerToCustomerRelatedBookingsCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -78,11 +95,16 @@ public abstract class RefCustomerToCustomerRelatedBookingsCommandHandlerBase<TRe
 		{
 			return false;
 		}
-		var relatedKeyId = CreateNoxTypeForKey<Booking, Nox.Types.Guid>("Id", request.RelatedEntityKeyDto.keyId);
-		var relatedEntity = await DbContext.Bookings.FindAsync(relatedKeyId);
-		if (relatedEntity == null)
+
+		Booking? relatedEntity = null!;
+		if(request.RelatedEntityKeyDto is not null)
 		{
-			return false;
+			var relatedKeyId = CreateNoxTypeForKey<Booking, Nox.Types.Guid>("Id", request.RelatedEntityKeyDto.keyId);
+			relatedEntity = await DbContext.Bookings.FindAsync(relatedKeyId);
+			if (relatedEntity == null)
+			{
+				return false;
+			}
 		}
 		
 		switch (Action)
@@ -92,6 +114,10 @@ public abstract class RefCustomerToCustomerRelatedBookingsCommandHandlerBase<TRe
                 break;
             case RelationshipAction.Delete:
                 entity.DeleteRefToCustomerRelatedBookings(relatedEntity);
+                break;
+            case RelationshipAction.DeleteAll:
+				await DbContext.Entry(entity).Collection(x => x.CustomerRelatedBookings).LoadAsync();
+                entity.DeleteAllRefToCustomerRelatedBookings();
                 break;
         }
 

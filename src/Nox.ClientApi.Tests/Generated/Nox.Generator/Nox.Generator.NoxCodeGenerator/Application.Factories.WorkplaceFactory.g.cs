@@ -23,7 +23,7 @@ using Workplace = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto>
+internal abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto>
 {
 
     public WorkplaceFactoryBase
@@ -48,7 +48,6 @@ public abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, Workplace
         entity.Name = ClientApi.Domain.Workplace.CreateName(createDto.Name);
         if (createDto.Description is not null)entity.Description = ClientApi.Domain.Workplace.CreateDescription(createDto.Description.NonNullValue<System.String>());
 		entity.EnsureId();
-        //entity.Country = Country?.ToEntity();
         return entity;
     }
 
@@ -59,10 +58,9 @@ public abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, Workplace
             entity.Description = ClientApi.Domain.Workplace.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>());
         }
 		entity.EnsureId();
-        //entity.Country = Country?.ToEntity();
     }
 }
 
-public partial class WorkplaceFactory : WorkplaceFactoryBase
+internal partial class WorkplaceFactory : WorkplaceFactoryBase
 {
 }

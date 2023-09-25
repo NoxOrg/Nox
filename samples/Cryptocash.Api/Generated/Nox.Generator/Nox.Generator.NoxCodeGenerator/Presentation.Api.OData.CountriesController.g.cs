@@ -25,16 +25,11 @@ namespace Cryptocash.Presentation.Api.OData;
 
 public partial class CountriesController : CountriesControllerBase
 {
-    public CountriesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    public CountriesController(IMediator mediator):base(mediator)
     {}
 }
 public abstract class CountriesControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -42,11 +37,9 @@ public abstract class CountriesControllerBase : ODataController
     protected readonly IMediator _mediator;
     
     public CountriesControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
     }
     
@@ -461,6 +454,22 @@ public abstract class CountriesControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> DeleteRefToCountryUsedByCurrency([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefCountryToCountryUsedByCurrencyCommand(new CountryKeyDto(key)));
+        if (!deletedAllRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> CreateRefToCountryUsedByCommissions([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -502,6 +511,22 @@ public abstract class CountriesControllerBase : ODataController
         
         var deletedRef = await _mediator.Send(new DeleteRefCountryToCountryUsedByCommissionsCommand(new CountryKeyDto(key), new CommissionKeyDto(relatedKey)));
         if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> DeleteRefToCountryUsedByCommissions([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefCountryToCountryUsedByCommissionsCommand(new CountryKeyDto(key)));
+        if (!deletedAllRef)
         {
             return NotFound();
         }
@@ -557,6 +582,22 @@ public abstract class CountriesControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> DeleteRefToCountryUsedByVendingMachines([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefCountryToCountryUsedByVendingMachinesCommand(new CountryKeyDto(key)));
+        if (!deletedAllRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> CreateRefToCountryUsedByCustomers([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -598,6 +639,22 @@ public abstract class CountriesControllerBase : ODataController
         
         var deletedRef = await _mediator.Send(new DeleteRefCountryToCountryUsedByCustomersCommand(new CountryKeyDto(key), new CustomerKeyDto(relatedKey)));
         if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> DeleteRefToCountryUsedByCustomers([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefCountryToCountryUsedByCustomersCommand(new CountryKeyDto(key)));
+        if (!deletedAllRef)
         {
             return NotFound();
         }

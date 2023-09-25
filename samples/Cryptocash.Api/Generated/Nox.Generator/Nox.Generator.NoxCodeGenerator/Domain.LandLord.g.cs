@@ -50,7 +50,7 @@ public abstract class LandLordBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// LandLord leases an area to house ZeroOrMany VendingMachines
     /// </summary>
-    public virtual List<VendingMachine> ContractedAreasForVendingMachines { get; set; } = new();
+    public virtual List<VendingMachine> ContractedAreasForVendingMachines { get; private set; } = new();
 
     public virtual void CreateRefToContractedAreasForVendingMachines(VendingMachine relatedVendingMachine)
     {
@@ -60,6 +60,11 @@ public abstract class LandLordBase : AuditableEntityBase, IEntityConcurrent
     public virtual void DeleteRefToContractedAreasForVendingMachines(VendingMachine relatedVendingMachine)
     {
         ContractedAreasForVendingMachines.Remove(relatedVendingMachine);
+    }
+
+    public virtual void DeleteAllRefToContractedAreasForVendingMachines()
+    {
+        ContractedAreasForVendingMachines.Clear();
     }
 
     /// <summary>

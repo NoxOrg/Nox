@@ -14,7 +14,7 @@ namespace Cryptocash.Application.Queries;
 
 public record GetCustomersQuery() : IRequest<IQueryable<CustomerDto>>;
 
-public partial class GetCustomersQueryHandler: GetCustomersQueryHandlerBase
+internal partial class GetCustomersQueryHandler: GetCustomersQueryHandlerBase
 {
     public GetCustomersQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
@@ -22,7 +22,7 @@ public partial class GetCustomersQueryHandler: GetCustomersQueryHandlerBase
     }
 }
 
-public abstract class GetCustomersQueryHandlerBase : QueryBase<IQueryable<CustomerDto>>, IRequestHandler<GetCustomersQuery, IQueryable<CustomerDto>>
+internal abstract class GetCustomersQueryHandlerBase : QueryBase<IQueryable<CustomerDto>>, IRequestHandler<GetCustomersQuery, IQueryable<CustomerDto>>
 {
     public  GetCustomersQueryHandlerBase(DtoDbContext dataDbContext)
     {

@@ -25,16 +25,11 @@ namespace Cryptocash.Presentation.Api.OData;
 
 public partial class BookingsController : BookingsControllerBase
 {
-    public BookingsController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    public BookingsController(IMediator mediator):base(mediator)
     {}
 }
 public abstract class BookingsControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -42,11 +37,9 @@ public abstract class BookingsControllerBase : ODataController
     protected readonly IMediator _mediator;
     
     public BookingsControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
     }
     
@@ -184,6 +177,22 @@ public abstract class BookingsControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> DeleteRefToBookingForCustomer([FromRoute] System.Guid key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefBookingToBookingForCustomerCommand(new BookingKeyDto(key)));
+        if (!deletedAllRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> CreateRefToBookingRelatedVendingMachine([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -221,6 +230,22 @@ public abstract class BookingsControllerBase : ODataController
         
         var deletedRef = await _mediator.Send(new DeleteRefBookingToBookingRelatedVendingMachineCommand(new BookingKeyDto(key), new VendingMachineKeyDto(relatedKey)));
         if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> DeleteRefToBookingRelatedVendingMachine([FromRoute] System.Guid key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefBookingToBookingRelatedVendingMachineCommand(new BookingKeyDto(key)));
+        if (!deletedAllRef)
         {
             return NotFound();
         }
@@ -272,6 +297,22 @@ public abstract class BookingsControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> DeleteRefToBookingFeesForCommission([FromRoute] System.Guid key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefBookingToBookingFeesForCommissionCommand(new BookingKeyDto(key)));
+        if (!deletedAllRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> CreateRefToBookingRelatedTransaction([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -309,6 +350,22 @@ public abstract class BookingsControllerBase : ODataController
         
         var deletedRef = await _mediator.Send(new DeleteRefBookingToBookingRelatedTransactionCommand(new BookingKeyDto(key), new TransactionKeyDto(relatedKey)));
         if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> DeleteRefToBookingRelatedTransaction([FromRoute] System.Guid key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefBookingToBookingRelatedTransactionCommand(new BookingKeyDto(key)));
+        if (!deletedAllRef)
         {
             return NotFound();
         }

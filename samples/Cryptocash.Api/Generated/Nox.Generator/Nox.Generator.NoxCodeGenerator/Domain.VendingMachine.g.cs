@@ -91,7 +91,7 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
     /// <summary>
     /// VendingMachine installed in ExactlyOne Countries
     /// </summary>
-    public virtual Country VendingMachineInstallationCountry { get; set; } = null!;
+    public virtual Country VendingMachineInstallationCountry { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Country
@@ -105,13 +105,18 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
 
     public virtual void DeleteRefToVendingMachineInstallationCountry(Country relatedCountry)
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
+    }
+
+    public virtual void DeleteAllRefToVendingMachineInstallationCountry()
+    {
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>
     /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
-    public virtual LandLord VendingMachineContractedAreaLandLord { get; set; } = null!;
+    public virtual LandLord VendingMachineContractedAreaLandLord { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity LandLord
@@ -125,13 +130,18 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
 
     public virtual void DeleteRefToVendingMachineContractedAreaLandLord(LandLord relatedLandLord)
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
+    }
+
+    public virtual void DeleteAllRefToVendingMachineContractedAreaLandLord()
+    {
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>
     /// VendingMachine related to ZeroOrMany Bookings
     /// </summary>
-    public virtual List<Booking> VendingMachineRelatedBookings { get; set; } = new();
+    public virtual List<Booking> VendingMachineRelatedBookings { get; private set; } = new();
 
     public virtual void CreateRefToVendingMachineRelatedBookings(Booking relatedBooking)
     {
@@ -143,10 +153,15 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
         VendingMachineRelatedBookings.Remove(relatedBooking);
     }
 
+    public virtual void DeleteAllRefToVendingMachineRelatedBookings()
+    {
+        VendingMachineRelatedBookings.Clear();
+    }
+
     /// <summary>
     /// VendingMachine related to ZeroOrMany CashStockOrders
     /// </summary>
-    public virtual List<CashStockOrder> VendingMachineRelatedCashStockOrders { get; set; } = new();
+    public virtual List<CashStockOrder> VendingMachineRelatedCashStockOrders { get; private set; } = new();
 
     public virtual void CreateRefToVendingMachineRelatedCashStockOrders(CashStockOrder relatedCashStockOrder)
     {
@@ -158,10 +173,15 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
         VendingMachineRelatedCashStockOrders.Remove(relatedCashStockOrder);
     }
 
+    public virtual void DeleteAllRefToVendingMachineRelatedCashStockOrders()
+    {
+        VendingMachineRelatedCashStockOrders.Clear();
+    }
+
     /// <summary>
     /// VendingMachine required ZeroOrMany MinimumCashStocks
     /// </summary>
-    public virtual List<MinimumCashStock> VendingMachineRequiredMinimumCashStocks { get; set; } = new();
+    public virtual List<MinimumCashStock> VendingMachineRequiredMinimumCashStocks { get; private set; } = new();
 
     public virtual void CreateRefToVendingMachineRequiredMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
     {
@@ -171,6 +191,11 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
     public virtual void DeleteRefToVendingMachineRequiredMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
     {
         VendingMachineRequiredMinimumCashStocks.Remove(relatedMinimumCashStock);
+    }
+
+    public virtual void DeleteAllRefToVendingMachineRequiredMinimumCashStocks()
+    {
+        VendingMachineRequiredMinimumCashStocks.Clear();
     }
 
     /// <summary>

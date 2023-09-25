@@ -14,7 +14,7 @@ using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
 public record PartialUpdateEmployeePhoneNumberForEmployeeCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <EmployeePhoneNumberKeyDto?>;
-public partial class PartialUpdateEmployeePhoneNumberForEmployeeCommandHandler: PartialUpdateEmployeePhoneNumberForEmployeeCommandHandlerBase
+internal partial class PartialUpdateEmployeePhoneNumberForEmployeeCommandHandler: PartialUpdateEmployeePhoneNumberForEmployeeCommandHandlerBase
 {
 	public PartialUpdateEmployeePhoneNumberForEmployeeCommandHandler(
 		CryptocashDbContext dbContext,
@@ -24,7 +24,7 @@ public partial class PartialUpdateEmployeePhoneNumberForEmployeeCommandHandler: 
 	{
 	}
 }
-public abstract class PartialUpdateEmployeePhoneNumberForEmployeeCommandHandlerBase: CommandBase<PartialUpdateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumber>, IRequestHandler <PartialUpdateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumberKeyDto?>
+internal abstract class PartialUpdateEmployeePhoneNumberForEmployeeCommandHandlerBase: CommandBase<PartialUpdateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumber>, IRequestHandler <PartialUpdateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumberKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<EmployeePhoneNumber> EntityMapper { get; }

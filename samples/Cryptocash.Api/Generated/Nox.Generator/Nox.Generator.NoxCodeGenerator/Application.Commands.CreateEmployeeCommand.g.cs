@@ -20,7 +20,7 @@ namespace Cryptocash.Application.Commands;
 
 public record CreateEmployeeCommand(EmployeeCreateDto EntityDto) : IRequest<EmployeeKeyDto>;
 
-public partial class CreateEmployeeCommandHandler: CreateEmployeeCommandHandlerBase
+internal partial class CreateEmployeeCommandHandler: CreateEmployeeCommandHandlerBase
 {
 	public CreateEmployeeCommandHandler(
 		CryptocashDbContext dbContext,
@@ -34,7 +34,7 @@ public partial class CreateEmployeeCommandHandler: CreateEmployeeCommandHandlerB
 }
 
 
-public abstract class CreateEmployeeCommandHandlerBase: CommandBase<CreateEmployeeCommand,Employee>, IRequestHandler <CreateEmployeeCommand, EmployeeKeyDto>
+internal abstract class CreateEmployeeCommandHandlerBase: CommandBase<CreateEmployeeCommand,Employee>, IRequestHandler <CreateEmployeeCommand, EmployeeKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> _entityFactory;

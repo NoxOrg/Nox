@@ -14,7 +14,7 @@ namespace ClientApi.Application.Queries;
 
 public record GetStoreOwnersQuery() : IRequest<IQueryable<StoreOwnerDto>>;
 
-public partial class GetStoreOwnersQueryHandler: GetStoreOwnersQueryHandlerBase
+internal partial class GetStoreOwnersQueryHandler: GetStoreOwnersQueryHandlerBase
 {
     public GetStoreOwnersQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
@@ -22,7 +22,7 @@ public partial class GetStoreOwnersQueryHandler: GetStoreOwnersQueryHandlerBase
     }
 }
 
-public abstract class GetStoreOwnersQueryHandlerBase : QueryBase<IQueryable<StoreOwnerDto>>, IRequestHandler<GetStoreOwnersQuery, IQueryable<StoreOwnerDto>>
+internal abstract class GetStoreOwnersQueryHandlerBase : QueryBase<IQueryable<StoreOwnerDto>>, IRequestHandler<GetStoreOwnersQuery, IQueryable<StoreOwnerDto>>
 {
     public  GetStoreOwnersQueryHandlerBase(DtoDbContext dataDbContext)
     {

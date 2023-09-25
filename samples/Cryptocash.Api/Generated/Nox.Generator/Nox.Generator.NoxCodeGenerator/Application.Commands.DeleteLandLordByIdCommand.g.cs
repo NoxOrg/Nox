@@ -15,7 +15,7 @@ namespace Cryptocash.Application.Commands;
 
 public record DeleteLandLordByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
-public class DeleteLandLordByIdCommandHandler:DeleteLandLordByIdCommandHandlerBase
+internal class DeleteLandLordByIdCommandHandler:DeleteLandLordByIdCommandHandlerBase
 {
 	public DeleteLandLordByIdCommandHandler(
 		CryptocashDbContext dbContext,
@@ -24,7 +24,7 @@ public class DeleteLandLordByIdCommandHandler:DeleteLandLordByIdCommandHandlerBa
 	{
 	}
 }
-public abstract class DeleteLandLordByIdCommandHandlerBase: CommandBase<DeleteLandLordByIdCommand,LandLord>, IRequestHandler<DeleteLandLordByIdCommand, bool>
+internal abstract class DeleteLandLordByIdCommandHandlerBase: CommandBase<DeleteLandLordByIdCommand,LandLord>, IRequestHandler<DeleteLandLordByIdCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 

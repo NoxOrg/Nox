@@ -15,7 +15,7 @@ namespace Cryptocash.Application.Commands;
 
 public record DeleteBookingByIdCommand(System.Guid keyId, System.Guid? Etag) : IRequest<bool>;
 
-public class DeleteBookingByIdCommandHandler:DeleteBookingByIdCommandHandlerBase
+internal class DeleteBookingByIdCommandHandler:DeleteBookingByIdCommandHandlerBase
 {
 	public DeleteBookingByIdCommandHandler(
 		CryptocashDbContext dbContext,
@@ -24,7 +24,7 @@ public class DeleteBookingByIdCommandHandler:DeleteBookingByIdCommandHandlerBase
 	{
 	}
 }
-public abstract class DeleteBookingByIdCommandHandlerBase: CommandBase<DeleteBookingByIdCommand,Booking>, IRequestHandler<DeleteBookingByIdCommand, bool>
+internal abstract class DeleteBookingByIdCommandHandlerBase: CommandBase<DeleteBookingByIdCommand,Booking>, IRequestHandler<DeleteBookingByIdCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 

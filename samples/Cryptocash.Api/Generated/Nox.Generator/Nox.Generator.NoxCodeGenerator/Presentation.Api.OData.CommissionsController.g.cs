@@ -25,16 +25,11 @@ namespace Cryptocash.Presentation.Api.OData;
 
 public partial class CommissionsController : CommissionsControllerBase
 {
-    public CommissionsController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    public CommissionsController(IMediator mediator):base(mediator)
     {}
 }
 public abstract class CommissionsControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -42,11 +37,9 @@ public abstract class CommissionsControllerBase : ODataController
     protected readonly IMediator _mediator;
     
     public CommissionsControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
     }
     
@@ -184,6 +177,22 @@ public abstract class CommissionsControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> DeleteRefToCommissionFeesForCountry([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefCommissionToCommissionFeesForCountryCommand(new CommissionKeyDto(key)));
+        if (!deletedAllRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> CreateRefToCommissionFeesForBooking([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -225,6 +234,22 @@ public abstract class CommissionsControllerBase : ODataController
         
         var deletedRef = await _mediator.Send(new DeleteRefCommissionToCommissionFeesForBookingCommand(new CommissionKeyDto(key), new BookingKeyDto(relatedKey)));
         if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> DeleteRefToCommissionFeesForBooking([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefCommissionToCommissionFeesForBookingCommand(new CommissionKeyDto(key)));
+        if (!deletedAllRef)
         {
             return NotFound();
         }

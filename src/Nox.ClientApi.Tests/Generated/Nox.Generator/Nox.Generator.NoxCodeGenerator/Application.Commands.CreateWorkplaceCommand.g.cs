@@ -19,7 +19,7 @@ namespace ClientApi.Application.Commands;
 
 public record CreateWorkplaceCommand(WorkplaceCreateDto EntityDto) : IRequest<WorkplaceKeyDto>;
 
-public partial class CreateWorkplaceCommandHandler: CreateWorkplaceCommandHandlerBase
+internal partial class CreateWorkplaceCommandHandler: CreateWorkplaceCommandHandlerBase
 {
 	public CreateWorkplaceCommandHandler(
 		ClientApiDbContext dbContext,
@@ -33,7 +33,7 @@ public partial class CreateWorkplaceCommandHandler: CreateWorkplaceCommandHandle
 }
 
 
-public abstract class CreateWorkplaceCommandHandlerBase: CommandBase<CreateWorkplaceCommand,Workplace>, IRequestHandler <CreateWorkplaceCommand, WorkplaceKeyDto>
+internal abstract class CreateWorkplaceCommandHandlerBase: CommandBase<CreateWorkplaceCommand,Workplace>, IRequestHandler <CreateWorkplaceCommand, WorkplaceKeyDto>
 {
 	private readonly ClientApiDbContext _dbContext;
 	private readonly IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> _entityFactory;

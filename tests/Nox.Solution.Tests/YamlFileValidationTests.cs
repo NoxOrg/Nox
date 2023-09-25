@@ -35,6 +35,15 @@ public class YamlFileValidationTests
     }
 
     [Fact]
+    public void When_AzureServiceBus_AzureServiceBusConfig_Is_Required()
+    {
+        var noxConfigBuilder = new NoxSolutionBuilder()
+       .UseYamlFile($"./files/invalid-messaging.azureservicebus.solution.nox.yaml");
+
+        Assert.Throws<ValidationException>(() => noxConfigBuilder.Build());
+    }
+
+    [Fact]
     public void Deserialize_WithNoxYamlSerializer_ThrowsException()
     {
         var yaml = File.ReadAllText("./files/invalid-sample.solution.nox.yaml");

@@ -17,7 +17,7 @@ namespace ClientApi.Application.Commands;
 
 public record UpdateCountryCommand(System.Int64 keyId, CountryUpdateDto EntityDto, System.Guid? Etag) : IRequest<CountryKeyDto?>;
 
-public partial class UpdateCountryCommandHandler: UpdateCountryCommandHandlerBase
+internal partial class UpdateCountryCommandHandler: UpdateCountryCommandHandlerBase
 {
 	public UpdateCountryCommandHandler(
 		ClientApiDbContext dbContext,
@@ -28,7 +28,7 @@ public partial class UpdateCountryCommandHandler: UpdateCountryCommandHandlerBas
 	}
 }
 
-public abstract class UpdateCountryCommandHandlerBase: CommandBase<UpdateCountryCommand, Country>, IRequestHandler<UpdateCountryCommand, CountryKeyDto?>
+internal abstract class UpdateCountryCommandHandlerBase: CommandBase<UpdateCountryCommand, Country>, IRequestHandler<UpdateCountryCommand, CountryKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	private readonly IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> _entityFactory;

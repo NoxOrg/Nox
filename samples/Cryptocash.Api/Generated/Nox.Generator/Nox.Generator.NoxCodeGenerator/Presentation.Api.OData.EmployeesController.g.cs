@@ -25,16 +25,11 @@ namespace Cryptocash.Presentation.Api.OData;
 
 public partial class EmployeesController : EmployeesControllerBase
 {
-    public EmployeesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    public EmployeesController(IMediator mediator):base(mediator)
     {}
 }
 public abstract class EmployeesControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -42,11 +37,9 @@ public abstract class EmployeesControllerBase : ODataController
     protected readonly IMediator _mediator;
     
     public EmployeesControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
     }
     
@@ -318,6 +311,22 @@ public abstract class EmployeesControllerBase : ODataController
         
         var deletedRef = await _mediator.Send(new DeleteRefEmployeeToEmployeeReviewingCashStockOrderCommand(new EmployeeKeyDto(key), new CashStockOrderKeyDto(relatedKey)));
         if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> DeleteRefToEmployeeReviewingCashStockOrder([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefEmployeeToEmployeeReviewingCashStockOrderCommand(new EmployeeKeyDto(key)));
+        if (!deletedAllRef)
         {
             return NotFound();
         }

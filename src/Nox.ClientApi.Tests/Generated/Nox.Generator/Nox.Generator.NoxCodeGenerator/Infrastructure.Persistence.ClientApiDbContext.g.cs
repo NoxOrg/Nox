@@ -1,6 +1,13 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
+
+using System.Reflection;
+using System.Diagnostics;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 using Nox;
 using Nox.Abstractions;
@@ -11,17 +18,14 @@ using Nox.Types;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Solution;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using System.Reflection;
-using System.Diagnostics;
+using Nox.Configuration;
+
 
 using ClientApi.Domain;
 
 namespace ClientApi.Infrastructure.Persistence;
 
-public partial class ClientApiDbContext : DbContext
+internal partial class ClientApiDbContext : DbContext
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
@@ -55,6 +59,8 @@ public partial class ClientApiDbContext : DbContext
 
     public DbSet<StoreOwner> StoreOwners { get; set; } = null!;
 
+    public DbSet<StoreLicense> StoreLicenses { get; set; } = null!;
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -68,9 +74,11 @@ public partial class ClientApiDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+       
+
         if (_noxSolution.Domain != null)
         {
-            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
+            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);                            
             foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
             {
                 Console.WriteLine($"ClientApiDbContext Configure database for Entity {entity.Name}");
@@ -104,7 +112,7 @@ public partial class ClientApiDbContext : DbContext
         }
         catch(DbUpdateConcurrencyException)
         {
-            throw new ConcurrencyException($"Latest value of {nameof(IEntityConcurrent.Etag)} must be provided");
+            throw new Nox.Exceptions.ConcurrencyException($"Latest value of {nameof(IEntityConcurrent.Etag)} must be provided");
         }
     }
 

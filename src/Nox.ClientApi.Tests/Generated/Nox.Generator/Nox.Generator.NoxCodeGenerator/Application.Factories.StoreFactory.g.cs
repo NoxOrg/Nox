@@ -23,7 +23,7 @@ using Store = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto, StoreUpdateDto>
+internal abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto, StoreUpdateDto>
 {
     protected IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> EmailAddressFactory {get;}
 
@@ -51,8 +51,8 @@ public abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto, S
         entity.Name = ClientApi.Domain.Store.CreateName(createDto.Name);
         entity.Address = ClientApi.Domain.Store.CreateAddress(createDto.Address);
         entity.Location = ClientApi.Domain.Store.CreateLocation(createDto.Location);
+        if (createDto.OpeningDay is not null)entity.OpeningDay = ClientApi.Domain.Store.CreateOpeningDay(createDto.OpeningDay.NonNullValue<System.DateTimeOffset>());
         entity.EnsureId(createDto.Id);
-        //entity.StoreOwner = StoreOwner?.ToEntity();
         if (createDto.VerifiedEmails is not null)
         {
             entity.VerifiedEmails = EmailAddressFactory.CreateEntity(createDto.VerifiedEmails);
@@ -65,11 +65,13 @@ public abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto, S
         entity.Name = ClientApi.Domain.Store.CreateName(updateDto.Name.NonNullValue<System.String>());
         entity.Address = ClientApi.Domain.Store.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
         entity.Location = ClientApi.Domain.Store.CreateLocation(updateDto.Location.NonNullValue<LatLongDto>());
-        //entity.StoreOwner = StoreOwner?.ToEntity();
+        if (updateDto.OpeningDay == null) { entity.OpeningDay = null; } else {
+            entity.OpeningDay = ClientApi.Domain.Store.CreateOpeningDay(updateDto.OpeningDay.ToValueFromNonNull<System.DateTimeOffset>());
+        }
     }
 }
 
-public partial class StoreFactory : StoreFactoryBase
+internal partial class StoreFactory : StoreFactoryBase
 {
     public StoreFactory
     (

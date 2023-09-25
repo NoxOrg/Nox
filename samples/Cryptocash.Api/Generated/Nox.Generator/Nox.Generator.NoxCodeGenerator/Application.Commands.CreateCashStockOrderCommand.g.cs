@@ -20,7 +20,7 @@ namespace Cryptocash.Application.Commands;
 
 public record CreateCashStockOrderCommand(CashStockOrderCreateDto EntityDto) : IRequest<CashStockOrderKeyDto>;
 
-public partial class CreateCashStockOrderCommandHandler: CreateCashStockOrderCommandHandlerBase
+internal partial class CreateCashStockOrderCommandHandler: CreateCashStockOrderCommandHandlerBase
 {
 	public CreateCashStockOrderCommandHandler(
 		CryptocashDbContext dbContext,
@@ -35,7 +35,7 @@ public partial class CreateCashStockOrderCommandHandler: CreateCashStockOrderCom
 }
 
 
-public abstract class CreateCashStockOrderCommandHandlerBase: CommandBase<CreateCashStockOrderCommand,CashStockOrder>, IRequestHandler <CreateCashStockOrderCommand, CashStockOrderKeyDto>
+internal abstract class CreateCashStockOrderCommandHandlerBase: CommandBase<CreateCashStockOrderCommand,CashStockOrder>, IRequestHandler <CreateCashStockOrderCommand, CashStockOrderKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> _entityFactory;

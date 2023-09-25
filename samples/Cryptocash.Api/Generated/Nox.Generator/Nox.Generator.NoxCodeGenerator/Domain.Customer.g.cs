@@ -65,7 +65,7 @@ public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Customer related to ZeroOrMany PaymentDetails
     /// </summary>
-    public virtual List<PaymentDetail> CustomerRelatedPaymentDetails { get; set; } = new();
+    public virtual List<PaymentDetail> CustomerRelatedPaymentDetails { get; private set; } = new();
 
     public virtual void CreateRefToCustomerRelatedPaymentDetails(PaymentDetail relatedPaymentDetail)
     {
@@ -77,10 +77,15 @@ public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
         CustomerRelatedPaymentDetails.Remove(relatedPaymentDetail);
     }
 
+    public virtual void DeleteAllRefToCustomerRelatedPaymentDetails()
+    {
+        CustomerRelatedPaymentDetails.Clear();
+    }
+
     /// <summary>
     /// Customer related to ZeroOrMany Bookings
     /// </summary>
-    public virtual List<Booking> CustomerRelatedBookings { get; set; } = new();
+    public virtual List<Booking> CustomerRelatedBookings { get; private set; } = new();
 
     public virtual void CreateRefToCustomerRelatedBookings(Booking relatedBooking)
     {
@@ -92,10 +97,15 @@ public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
         CustomerRelatedBookings.Remove(relatedBooking);
     }
 
+    public virtual void DeleteAllRefToCustomerRelatedBookings()
+    {
+        CustomerRelatedBookings.Clear();
+    }
+
     /// <summary>
     /// Customer related to ZeroOrMany Transactions
     /// </summary>
-    public virtual List<Transaction> CustomerRelatedTransactions { get; set; } = new();
+    public virtual List<Transaction> CustomerRelatedTransactions { get; private set; } = new();
 
     public virtual void CreateRefToCustomerRelatedTransactions(Transaction relatedTransaction)
     {
@@ -107,10 +117,15 @@ public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
         CustomerRelatedTransactions.Remove(relatedTransaction);
     }
 
+    public virtual void DeleteAllRefToCustomerRelatedTransactions()
+    {
+        CustomerRelatedTransactions.Clear();
+    }
+
     /// <summary>
     /// Customer based in ExactlyOne Countries
     /// </summary>
-    public virtual Country CustomerBaseCountry { get; set; } = null!;
+    public virtual Country CustomerBaseCountry { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Country
@@ -124,7 +139,12 @@ public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteRefToCustomerBaseCountry(Country relatedCountry)
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
+    }
+
+    public virtual void DeleteAllRefToCustomerBaseCountry()
+    {
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>

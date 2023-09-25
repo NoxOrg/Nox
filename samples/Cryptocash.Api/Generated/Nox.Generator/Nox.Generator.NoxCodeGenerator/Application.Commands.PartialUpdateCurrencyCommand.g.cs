@@ -18,7 +18,7 @@ namespace Cryptocash.Application.Commands;
 
 public record PartialUpdateCurrencyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CurrencyKeyDto?>;
 
-public class PartialUpdateCurrencyCommandHandler: PartialUpdateCurrencyCommandHandlerBase
+internal class PartialUpdateCurrencyCommandHandler: PartialUpdateCurrencyCommandHandlerBase
 {
 	public PartialUpdateCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
@@ -28,7 +28,7 @@ public class PartialUpdateCurrencyCommandHandler: PartialUpdateCurrencyCommandHa
 	{
 	}
 }
-public class PartialUpdateCurrencyCommandHandlerBase: CommandBase<PartialUpdateCurrencyCommand, Currency>, IRequestHandler<PartialUpdateCurrencyCommand, CurrencyKeyDto?>
+internal class PartialUpdateCurrencyCommandHandlerBase: CommandBase<PartialUpdateCurrencyCommand, Currency>, IRequestHandler<PartialUpdateCurrencyCommand, CurrencyKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<Currency> EntityMapper { get; }

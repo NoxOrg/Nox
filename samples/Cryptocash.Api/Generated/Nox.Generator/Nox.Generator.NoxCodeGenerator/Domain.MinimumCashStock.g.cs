@@ -45,7 +45,7 @@ public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurr
     /// <summary>
     /// MinimumCashStock required by ZeroOrMany VendingMachines
     /// </summary>
-    public virtual List<VendingMachine> MinimumCashStocksRequiredByVendingMachines { get; set; } = new();
+    public virtual List<VendingMachine> MinimumCashStocksRequiredByVendingMachines { get; private set; } = new();
 
     public virtual void CreateRefToMinimumCashStocksRequiredByVendingMachines(VendingMachine relatedVendingMachine)
     {
@@ -57,10 +57,15 @@ public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurr
         MinimumCashStocksRequiredByVendingMachines.Remove(relatedVendingMachine);
     }
 
+    public virtual void DeleteAllRefToMinimumCashStocksRequiredByVendingMachines()
+    {
+        MinimumCashStocksRequiredByVendingMachines.Clear();
+    }
+
     /// <summary>
     /// MinimumCashStock related to ExactlyOne Currencies
     /// </summary>
-    public virtual Currency MinimumCashStockRelatedCurrency { get; set; } = null!;
+    public virtual Currency MinimumCashStockRelatedCurrency { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Currency
@@ -74,7 +79,12 @@ public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurr
 
     public virtual void DeleteRefToMinimumCashStockRelatedCurrency(Currency relatedCurrency)
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
+    }
+
+    public virtual void DeleteAllRefToMinimumCashStockRelatedCurrency()
+    {
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>

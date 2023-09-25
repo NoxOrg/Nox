@@ -15,7 +15,7 @@ using Cryptocash.Application.Dto;
 namespace Cryptocash.Application.Commands;
 public record DeleteCountryTimeZoneForCountryCommand(CountryKeyDto ParentKeyDto, CountryTimeZoneKeyDto EntityKeyDto) : IRequest <bool>;
 
-public partial class DeleteCountryTimeZoneForCountryCommandHandler: CommandBase<DeleteCountryTimeZoneForCountryCommand, CountryTimeZone>, IRequestHandler <DeleteCountryTimeZoneForCountryCommand, bool>
+internal partial class DeleteCountryTimeZoneForCountryCommandHandler: CommandBase<DeleteCountryTimeZoneForCountryCommand, CountryTimeZone>, IRequestHandler <DeleteCountryTimeZoneForCountryCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 

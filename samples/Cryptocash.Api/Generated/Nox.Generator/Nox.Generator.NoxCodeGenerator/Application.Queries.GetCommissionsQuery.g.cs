@@ -14,7 +14,7 @@ namespace Cryptocash.Application.Queries;
 
 public record GetCommissionsQuery() : IRequest<IQueryable<CommissionDto>>;
 
-public partial class GetCommissionsQueryHandler: GetCommissionsQueryHandlerBase
+internal partial class GetCommissionsQueryHandler: GetCommissionsQueryHandlerBase
 {
     public GetCommissionsQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
@@ -22,7 +22,7 @@ public partial class GetCommissionsQueryHandler: GetCommissionsQueryHandlerBase
     }
 }
 
-public abstract class GetCommissionsQueryHandlerBase : QueryBase<IQueryable<CommissionDto>>, IRequestHandler<GetCommissionsQuery, IQueryable<CommissionDto>>
+internal abstract class GetCommissionsQueryHandlerBase : QueryBase<IQueryable<CommissionDto>>, IRequestHandler<GetCommissionsQuery, IQueryable<CommissionDto>>
 {
     public  GetCommissionsQueryHandlerBase(DtoDbContext dataDbContext)
     {

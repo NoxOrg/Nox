@@ -45,11 +45,20 @@ public abstract class StoreCreateDtoBase : IEntityDto<Store>
     [Required(ErrorMessage = "Location is required")]
     
     public virtual LatLongDto Location { get; set; } = default!;
+    /// <summary>
+    /// Opening day (Optional).
+    /// </summary>
+    public virtual System.DateTimeOffset? OpeningDay { get; set; }
 
     /// <summary>
     /// Store Owner of the Store ZeroOrOne StoreOwners
     /// </summary>
     public virtual StoreOwnerCreateDto? Ownership { get; set; } = default!;
+
+    /// <summary>
+    /// Store License that this store uses ZeroOrOne StoreLicenses
+    /// </summary>
+    public virtual StoreLicenseCreateDto? License { get; set; } = default!;
 
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses

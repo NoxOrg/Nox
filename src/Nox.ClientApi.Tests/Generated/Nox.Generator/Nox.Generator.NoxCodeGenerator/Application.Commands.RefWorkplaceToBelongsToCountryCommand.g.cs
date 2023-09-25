@@ -18,12 +18,13 @@ using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.Commands;
 
-public abstract record RefWorkplaceToBelongsToCountryCommand(WorkplaceKeyDto EntityKeyDto, CountryKeyDto RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefWorkplaceToBelongsToCountryCommand(WorkplaceKeyDto EntityKeyDto, CountryKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
 public record CreateRefWorkplaceToBelongsToCountryCommand(WorkplaceKeyDto EntityKeyDto, CountryKeyDto RelatedEntityKeyDto)
 	: RefWorkplaceToBelongsToCountryCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefWorkplaceToBelongsToCountryCommandHandler: RefWorkplaceToBelongsToCountryCommandHandlerBase<CreateRefWorkplaceToBelongsToCountryCommand>
+internal partial class CreateRefWorkplaceToBelongsToCountryCommandHandler
+	: RefWorkplaceToBelongsToCountryCommandHandlerBase<CreateRefWorkplaceToBelongsToCountryCommand>
 {
 	public CreateRefWorkplaceToBelongsToCountryCommandHandler(
 		ClientApiDbContext dbContext,
@@ -37,7 +38,8 @@ public partial class CreateRefWorkplaceToBelongsToCountryCommandHandler: RefWork
 public record DeleteRefWorkplaceToBelongsToCountryCommand(WorkplaceKeyDto EntityKeyDto, CountryKeyDto RelatedEntityKeyDto)
 	: RefWorkplaceToBelongsToCountryCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefWorkplaceToBelongsToCountryCommandHandler: RefWorkplaceToBelongsToCountryCommandHandlerBase<DeleteRefWorkplaceToBelongsToCountryCommand>
+internal partial class DeleteRefWorkplaceToBelongsToCountryCommandHandler
+	: RefWorkplaceToBelongsToCountryCommandHandlerBase<DeleteRefWorkplaceToBelongsToCountryCommand>
 {
 	public DeleteRefWorkplaceToBelongsToCountryCommandHandler(
 		ClientApiDbContext dbContext,
@@ -48,14 +50,29 @@ public partial class DeleteRefWorkplaceToBelongsToCountryCommandHandler: RefWork
 	{ }
 }
 
-public abstract class RefWorkplaceToBelongsToCountryCommandHandlerBase<TRequest>: CommandBase<TRequest, Workplace>, 
+public record DeleteAllRefWorkplaceToBelongsToCountryCommand(WorkplaceKeyDto EntityKeyDto)
+	: RefWorkplaceToBelongsToCountryCommand(EntityKeyDto, null);
+
+internal partial class DeleteAllRefWorkplaceToBelongsToCountryCommandHandler
+	: RefWorkplaceToBelongsToCountryCommandHandlerBase<DeleteAllRefWorkplaceToBelongsToCountryCommand>
+{
+	public DeleteAllRefWorkplaceToBelongsToCountryCommandHandler(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+	{ }
+}
+
+internal abstract class RefWorkplaceToBelongsToCountryCommandHandlerBase<TRequest>: CommandBase<TRequest, Workplace>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefWorkplaceToBelongsToCountryCommand
 {
 	public ClientApiDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete };
+    public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefWorkplaceToBelongsToCountryCommandHandlerBase(
 		ClientApiDbContext dbContext,
@@ -78,11 +95,16 @@ public abstract class RefWorkplaceToBelongsToCountryCommandHandlerBase<TRequest>
 		{
 			return false;
 		}
-		var relatedKeyId = CreateNoxTypeForKey<Country, Nox.Types.AutoNumber>("Id", request.RelatedEntityKeyDto.keyId);
-		var relatedEntity = await DbContext.Countries.FindAsync(relatedKeyId);
-		if (relatedEntity == null)
+
+		Country? relatedEntity = null!;
+		if(request.RelatedEntityKeyDto is not null)
 		{
-			return false;
+			var relatedKeyId = CreateNoxTypeForKey<Country, Nox.Types.AutoNumber>("Id", request.RelatedEntityKeyDto.keyId);
+			relatedEntity = await DbContext.Countries.FindAsync(relatedKeyId);
+			if (relatedEntity == null)
+			{
+				return false;
+			}
 		}
 		
 		switch (Action)
@@ -92,6 +114,9 @@ public abstract class RefWorkplaceToBelongsToCountryCommandHandlerBase<TRequest>
                 break;
             case RelationshipAction.Delete:
                 entity.DeleteRefToBelongsToCountry(relatedEntity);
+                break;
+            case RelationshipAction.DeleteAll:
+                entity.DeleteAllRefToBelongsToCountry();
                 break;
         }
 

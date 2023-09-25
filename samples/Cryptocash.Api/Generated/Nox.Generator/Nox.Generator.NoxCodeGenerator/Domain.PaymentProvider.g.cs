@@ -50,7 +50,7 @@ public abstract class PaymentProviderBase : AuditableEntityBase, IEntityConcurre
     /// <summary>
     /// PaymentProvider related to ZeroOrMany PaymentDetails
     /// </summary>
-    public virtual List<PaymentDetail> PaymentProviderRelatedPaymentDetails { get; set; } = new();
+    public virtual List<PaymentDetail> PaymentProviderRelatedPaymentDetails { get; private set; } = new();
 
     public virtual void CreateRefToPaymentProviderRelatedPaymentDetails(PaymentDetail relatedPaymentDetail)
     {
@@ -60,6 +60,11 @@ public abstract class PaymentProviderBase : AuditableEntityBase, IEntityConcurre
     public virtual void DeleteRefToPaymentProviderRelatedPaymentDetails(PaymentDetail relatedPaymentDetail)
     {
         PaymentProviderRelatedPaymentDetails.Remove(relatedPaymentDetail);
+    }
+
+    public virtual void DeleteAllRefToPaymentProviderRelatedPaymentDetails()
+    {
+        PaymentProviderRelatedPaymentDetails.Clear();
     }
 
     /// <summary>

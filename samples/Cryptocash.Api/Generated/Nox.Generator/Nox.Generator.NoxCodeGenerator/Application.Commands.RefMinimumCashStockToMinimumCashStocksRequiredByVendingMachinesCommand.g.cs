@@ -18,12 +18,13 @@ using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
 
-public abstract record RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand(MinimumCashStockKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand(MinimumCashStockKeyDto EntityKeyDto, VendingMachineKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
 public record CreateRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand(MinimumCashStockKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto)
 	: RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandler: RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandlerBase<CreateRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand>
+internal partial class CreateRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandler
+	: RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandlerBase<CreateRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand>
 {
 	public CreateRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandler(
 		CryptocashDbContext dbContext,
@@ -37,7 +38,8 @@ public partial class CreateRefMinimumCashStockToMinimumCashStocksRequiredByVendi
 public record DeleteRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand(MinimumCashStockKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto)
 	: RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandler: RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandlerBase<DeleteRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand>
+internal partial class DeleteRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandler
+	: RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandlerBase<DeleteRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand>
 {
 	public DeleteRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandler(
 		CryptocashDbContext dbContext,
@@ -48,14 +50,29 @@ public partial class DeleteRefMinimumCashStockToMinimumCashStocksRequiredByVendi
 	{ }
 }
 
-public abstract class RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandlerBase<TRequest>: CommandBase<TRequest, MinimumCashStock>, 
+public record DeleteAllRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand(MinimumCashStockKeyDto EntityKeyDto)
+	: RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand(EntityKeyDto, null);
+
+internal partial class DeleteAllRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandler
+	: RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandlerBase<DeleteAllRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand>
+{
+	public DeleteAllRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+	{ }
+}
+
+internal abstract class RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandlerBase<TRequest>: CommandBase<TRequest, MinimumCashStock>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete };
+    public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -78,11 +95,16 @@ public abstract class RefMinimumCashStockToMinimumCashStocksRequiredByVendingMac
 		{
 			return false;
 		}
-		var relatedKeyId = CreateNoxTypeForKey<VendingMachine, Nox.Types.Guid>("Id", request.RelatedEntityKeyDto.keyId);
-		var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKeyId);
-		if (relatedEntity == null)
+
+		VendingMachine? relatedEntity = null!;
+		if(request.RelatedEntityKeyDto is not null)
 		{
-			return false;
+			var relatedKeyId = CreateNoxTypeForKey<VendingMachine, Nox.Types.Guid>("Id", request.RelatedEntityKeyDto.keyId);
+			relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKeyId);
+			if (relatedEntity == null)
+			{
+				return false;
+			}
 		}
 		
 		switch (Action)
@@ -92,6 +114,10 @@ public abstract class RefMinimumCashStockToMinimumCashStocksRequiredByVendingMac
                 break;
             case RelationshipAction.Delete:
                 entity.DeleteRefToMinimumCashStocksRequiredByVendingMachines(relatedEntity);
+                break;
+            case RelationshipAction.DeleteAll:
+				await DbContext.Entry(entity).Collection(x => x.MinimumCashStocksRequiredByVendingMachines).LoadAsync();
+                entity.DeleteAllRefToMinimumCashStocksRequiredByVendingMachines();
                 break;
         }
 

@@ -52,15 +52,15 @@ public partial class TransactionDto
     /// Transaction for ExactlyOne Customers
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Int64 TransactionForCustomerId { get; set; } = default!;
-    public virtual CustomerDto TransactionForCustomer { get; set; } = null!;
+    public System.Int64? TransactionForCustomerId { get; set; } = default!;
+    public virtual CustomerDto? TransactionForCustomer { get; set; } = null!;
 
     /// <summary>
     /// Transaction for ExactlyOne Bookings
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Guid TransactionForBookingId { get; set; } = default!;
-    public virtual BookingDto TransactionForBooking { get; set; } = null!;
+    public System.Guid? TransactionForBookingId { get; set; } = default!;
+    public virtual BookingDto? TransactionForBooking { get; set; } = null!;
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

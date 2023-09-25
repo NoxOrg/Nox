@@ -69,9 +69,14 @@ public abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
     public Nox.Types.LatLong Location { get; set; } = null!;
 
     /// <summary>
+    /// Opening day (Optional).
+    /// </summary>
+    public Nox.Types.DateTime? OpeningDay { get; set; } = null!;
+
+    /// <summary>
     /// Store Owner of the Store ZeroOrOne StoreOwners
     /// </summary>
-    public virtual StoreOwner? Ownership { get; set; } = null!;
+    public virtual StoreOwner? Ownership { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ZeroOrOne to entity StoreOwner
@@ -86,6 +91,31 @@ public abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
     public virtual void DeleteRefToOwnership(StoreOwner relatedStoreOwner)
     {
         Ownership = null;
+    }
+
+    public virtual void DeleteAllRefToOwnership()
+    {
+        OwnershipId = null;
+    }
+
+    /// <summary>
+    /// Store License that this store uses ZeroOrOne StoreLicenses
+    /// </summary>
+    public virtual StoreLicense? License { get; private set; } = null!;
+
+    public virtual void CreateRefToLicense(StoreLicense relatedStoreLicense)
+    {
+        License = relatedStoreLicense;
+    }
+
+    public virtual void DeleteRefToLicense(StoreLicense relatedStoreLicense)
+    {
+        License = null;
+    }
+
+    public virtual void DeleteAllRefToLicense()
+    {
+        License = null;
     }
 
     /// <summary>

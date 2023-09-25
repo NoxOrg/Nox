@@ -71,6 +71,20 @@ public partial class StoreMapper : EntityMapperBase<Store>
                 }
             }
         }
+        {
+            if (updatedProperties.TryGetValue("OpeningDay", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "OpeningDay", value);
+                if(noxTypeValue == null)
+                {
+                    entity.OpeningDay = null;
+                }
+                else
+                {
+                    entity.OpeningDay = noxTypeValue;
+                }
+            }
+        }
     
     
         /// <summary>

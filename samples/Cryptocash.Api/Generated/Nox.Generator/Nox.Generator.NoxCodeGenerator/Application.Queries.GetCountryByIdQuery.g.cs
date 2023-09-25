@@ -14,7 +14,7 @@ namespace Cryptocash.Application.Queries;
 
 public record GetCountryByIdQuery(System.String keyId) : IRequest <IQueryable<CountryDto>>;
 
-public partial class GetCountryByIdQueryHandler:GetCountryByIdQueryHandlerBase
+internal partial class GetCountryByIdQueryHandler:GetCountryByIdQueryHandlerBase
 {
     public  GetCountryByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
@@ -22,7 +22,7 @@ public partial class GetCountryByIdQueryHandler:GetCountryByIdQueryHandlerBase
     }
 }
 
-public abstract class GetCountryByIdQueryHandlerBase:  QueryBase<IQueryable<CountryDto>>, IRequestHandler<GetCountryByIdQuery, IQueryable<CountryDto>>
+internal abstract class GetCountryByIdQueryHandlerBase:  QueryBase<IQueryable<CountryDto>>, IRequestHandler<GetCountryByIdQuery, IQueryable<CountryDto>>
 {
     public  GetCountryByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {

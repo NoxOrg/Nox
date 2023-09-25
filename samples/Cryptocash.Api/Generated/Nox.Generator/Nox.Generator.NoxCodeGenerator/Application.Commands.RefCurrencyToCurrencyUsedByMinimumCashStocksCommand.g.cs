@@ -18,12 +18,13 @@ using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
 
-public abstract record RefCurrencyToCurrencyUsedByMinimumCashStocksCommand(CurrencyKeyDto EntityKeyDto, MinimumCashStockKeyDto RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefCurrencyToCurrencyUsedByMinimumCashStocksCommand(CurrencyKeyDto EntityKeyDto, MinimumCashStockKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
 public record CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommand(CurrencyKeyDto EntityKeyDto, MinimumCashStockKeyDto RelatedEntityKeyDto)
 	: RefCurrencyToCurrencyUsedByMinimumCashStocksCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandler: RefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandlerBase<CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommand>
+internal partial class CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandler
+	: RefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandlerBase<CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommand>
 {
 	public CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandler(
 		CryptocashDbContext dbContext,
@@ -37,7 +38,8 @@ public partial class CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHa
 public record DeleteRefCurrencyToCurrencyUsedByMinimumCashStocksCommand(CurrencyKeyDto EntityKeyDto, MinimumCashStockKeyDto RelatedEntityKeyDto)
 	: RefCurrencyToCurrencyUsedByMinimumCashStocksCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandler: RefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandlerBase<DeleteRefCurrencyToCurrencyUsedByMinimumCashStocksCommand>
+internal partial class DeleteRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandler
+	: RefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandlerBase<DeleteRefCurrencyToCurrencyUsedByMinimumCashStocksCommand>
 {
 	public DeleteRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandler(
 		CryptocashDbContext dbContext,
@@ -48,14 +50,29 @@ public partial class DeleteRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHa
 	{ }
 }
 
-public abstract class RefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandlerBase<TRequest>: CommandBase<TRequest, Currency>, 
+public record DeleteAllRefCurrencyToCurrencyUsedByMinimumCashStocksCommand(CurrencyKeyDto EntityKeyDto)
+	: RefCurrencyToCurrencyUsedByMinimumCashStocksCommand(EntityKeyDto, null);
+
+internal partial class DeleteAllRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandler
+	: RefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandlerBase<DeleteAllRefCurrencyToCurrencyUsedByMinimumCashStocksCommand>
+{
+	public DeleteAllRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+	{ }
+}
+
+internal abstract class RefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandlerBase<TRequest>: CommandBase<TRequest, Currency>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefCurrencyToCurrencyUsedByMinimumCashStocksCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete };
+    public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -78,11 +95,16 @@ public abstract class RefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandler
 		{
 			return false;
 		}
-		var relatedKeyId = CreateNoxTypeForKey<MinimumCashStock, Nox.Types.AutoNumber>("Id", request.RelatedEntityKeyDto.keyId);
-		var relatedEntity = await DbContext.MinimumCashStocks.FindAsync(relatedKeyId);
-		if (relatedEntity == null)
+
+		MinimumCashStock? relatedEntity = null!;
+		if(request.RelatedEntityKeyDto is not null)
 		{
-			return false;
+			var relatedKeyId = CreateNoxTypeForKey<MinimumCashStock, Nox.Types.AutoNumber>("Id", request.RelatedEntityKeyDto.keyId);
+			relatedEntity = await DbContext.MinimumCashStocks.FindAsync(relatedKeyId);
+			if (relatedEntity == null)
+			{
+				return false;
+			}
 		}
 		
 		switch (Action)
@@ -92,6 +114,10 @@ public abstract class RefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandler
                 break;
             case RelationshipAction.Delete:
                 entity.DeleteRefToCurrencyUsedByMinimumCashStocks(relatedEntity);
+                break;
+            case RelationshipAction.DeleteAll:
+				await DbContext.Entry(entity).Collection(x => x.CurrencyUsedByMinimumCashStocks).LoadAsync();
+                entity.DeleteAllRefToCurrencyUsedByMinimumCashStocks();
                 break;
         }
 

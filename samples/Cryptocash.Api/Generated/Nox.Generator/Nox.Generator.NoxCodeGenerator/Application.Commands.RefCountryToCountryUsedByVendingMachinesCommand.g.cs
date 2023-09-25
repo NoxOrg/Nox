@@ -18,12 +18,13 @@ using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
 
-public abstract record RefCountryToCountryUsedByVendingMachinesCommand(CountryKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefCountryToCountryUsedByVendingMachinesCommand(CountryKeyDto EntityKeyDto, VendingMachineKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
 public record CreateRefCountryToCountryUsedByVendingMachinesCommand(CountryKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto)
 	: RefCountryToCountryUsedByVendingMachinesCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefCountryToCountryUsedByVendingMachinesCommandHandler: RefCountryToCountryUsedByVendingMachinesCommandHandlerBase<CreateRefCountryToCountryUsedByVendingMachinesCommand>
+internal partial class CreateRefCountryToCountryUsedByVendingMachinesCommandHandler
+	: RefCountryToCountryUsedByVendingMachinesCommandHandlerBase<CreateRefCountryToCountryUsedByVendingMachinesCommand>
 {
 	public CreateRefCountryToCountryUsedByVendingMachinesCommandHandler(
 		CryptocashDbContext dbContext,
@@ -37,7 +38,8 @@ public partial class CreateRefCountryToCountryUsedByVendingMachinesCommandHandle
 public record DeleteRefCountryToCountryUsedByVendingMachinesCommand(CountryKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto)
 	: RefCountryToCountryUsedByVendingMachinesCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefCountryToCountryUsedByVendingMachinesCommandHandler: RefCountryToCountryUsedByVendingMachinesCommandHandlerBase<DeleteRefCountryToCountryUsedByVendingMachinesCommand>
+internal partial class DeleteRefCountryToCountryUsedByVendingMachinesCommandHandler
+	: RefCountryToCountryUsedByVendingMachinesCommandHandlerBase<DeleteRefCountryToCountryUsedByVendingMachinesCommand>
 {
 	public DeleteRefCountryToCountryUsedByVendingMachinesCommandHandler(
 		CryptocashDbContext dbContext,
@@ -48,14 +50,29 @@ public partial class DeleteRefCountryToCountryUsedByVendingMachinesCommandHandle
 	{ }
 }
 
-public abstract class RefCountryToCountryUsedByVendingMachinesCommandHandlerBase<TRequest>: CommandBase<TRequest, Country>, 
+public record DeleteAllRefCountryToCountryUsedByVendingMachinesCommand(CountryKeyDto EntityKeyDto)
+	: RefCountryToCountryUsedByVendingMachinesCommand(EntityKeyDto, null);
+
+internal partial class DeleteAllRefCountryToCountryUsedByVendingMachinesCommandHandler
+	: RefCountryToCountryUsedByVendingMachinesCommandHandlerBase<DeleteAllRefCountryToCountryUsedByVendingMachinesCommand>
+{
+	public DeleteAllRefCountryToCountryUsedByVendingMachinesCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+	{ }
+}
+
+internal abstract class RefCountryToCountryUsedByVendingMachinesCommandHandlerBase<TRequest>: CommandBase<TRequest, Country>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefCountryToCountryUsedByVendingMachinesCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete };
+    public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefCountryToCountryUsedByVendingMachinesCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -78,11 +95,16 @@ public abstract class RefCountryToCountryUsedByVendingMachinesCommandHandlerBase
 		{
 			return false;
 		}
-		var relatedKeyId = CreateNoxTypeForKey<VendingMachine, Nox.Types.Guid>("Id", request.RelatedEntityKeyDto.keyId);
-		var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKeyId);
-		if (relatedEntity == null)
+
+		VendingMachine? relatedEntity = null!;
+		if(request.RelatedEntityKeyDto is not null)
 		{
-			return false;
+			var relatedKeyId = CreateNoxTypeForKey<VendingMachine, Nox.Types.Guid>("Id", request.RelatedEntityKeyDto.keyId);
+			relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKeyId);
+			if (relatedEntity == null)
+			{
+				return false;
+			}
 		}
 		
 		switch (Action)
@@ -92,6 +114,10 @@ public abstract class RefCountryToCountryUsedByVendingMachinesCommandHandlerBase
                 break;
             case RelationshipAction.Delete:
                 entity.DeleteRefToCountryUsedByVendingMachines(relatedEntity);
+                break;
+            case RelationshipAction.DeleteAll:
+				await DbContext.Entry(entity).Collection(x => x.CountryUsedByVendingMachines).LoadAsync();
+                entity.DeleteAllRefToCountryUsedByVendingMachines();
                 break;
         }
 

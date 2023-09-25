@@ -11,7 +11,7 @@ using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-public static class ODataServiceCollectionExtensions
+internal static class ODataServiceCollectionExtensions
 {
     public static void AddNoxOdata(this IServiceCollection services)
     {

@@ -18,7 +18,7 @@ public record PartialUpdate{{entity.Name}}For{{parent.Name}}Command({{parent.Nam
 {{ else }}
 public record PartialUpdate{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}KeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
 {{- end }}
-public partial class PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHandler: PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHandlerBase
+internal partial class PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHandler: PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHandlerBase
 {
 	public PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
@@ -28,7 +28,7 @@ public partial class PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHandle
 	{
 	}
 }
-public abstract class PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHandlerBase: CommandBase<PartialUpdate{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}>, IRequestHandler <PartialUpdate{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}KeyDto?>
+internal abstract class PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHandlerBase: CommandBase<PartialUpdate{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}>, IRequestHandler <PartialUpdate{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}KeyDto?>
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
 	public IEntityMapper<{{entity.Name}}> EntityMapper { get; }

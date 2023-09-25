@@ -18,12 +18,13 @@ using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
 
-public abstract record RefCountryToCountryUsedByCommissionsCommand(CountryKeyDto EntityKeyDto, CommissionKeyDto RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record RefCountryToCountryUsedByCommissionsCommand(CountryKeyDto EntityKeyDto, CommissionKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
 public record CreateRefCountryToCountryUsedByCommissionsCommand(CountryKeyDto EntityKeyDto, CommissionKeyDto RelatedEntityKeyDto)
 	: RefCountryToCountryUsedByCommissionsCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefCountryToCountryUsedByCommissionsCommandHandler: RefCountryToCountryUsedByCommissionsCommandHandlerBase<CreateRefCountryToCountryUsedByCommissionsCommand>
+internal partial class CreateRefCountryToCountryUsedByCommissionsCommandHandler
+	: RefCountryToCountryUsedByCommissionsCommandHandlerBase<CreateRefCountryToCountryUsedByCommissionsCommand>
 {
 	public CreateRefCountryToCountryUsedByCommissionsCommandHandler(
 		CryptocashDbContext dbContext,
@@ -37,7 +38,8 @@ public partial class CreateRefCountryToCountryUsedByCommissionsCommandHandler: R
 public record DeleteRefCountryToCountryUsedByCommissionsCommand(CountryKeyDto EntityKeyDto, CommissionKeyDto RelatedEntityKeyDto)
 	: RefCountryToCountryUsedByCommissionsCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefCountryToCountryUsedByCommissionsCommandHandler: RefCountryToCountryUsedByCommissionsCommandHandlerBase<DeleteRefCountryToCountryUsedByCommissionsCommand>
+internal partial class DeleteRefCountryToCountryUsedByCommissionsCommandHandler
+	: RefCountryToCountryUsedByCommissionsCommandHandlerBase<DeleteRefCountryToCountryUsedByCommissionsCommand>
 {
 	public DeleteRefCountryToCountryUsedByCommissionsCommandHandler(
 		CryptocashDbContext dbContext,
@@ -48,14 +50,29 @@ public partial class DeleteRefCountryToCountryUsedByCommissionsCommandHandler: R
 	{ }
 }
 
-public abstract class RefCountryToCountryUsedByCommissionsCommandHandlerBase<TRequest>: CommandBase<TRequest, Country>, 
+public record DeleteAllRefCountryToCountryUsedByCommissionsCommand(CountryKeyDto EntityKeyDto)
+	: RefCountryToCountryUsedByCommissionsCommand(EntityKeyDto, null);
+
+internal partial class DeleteAllRefCountryToCountryUsedByCommissionsCommandHandler
+	: RefCountryToCountryUsedByCommissionsCommandHandlerBase<DeleteAllRefCountryToCountryUsedByCommissionsCommand>
+{
+	public DeleteAllRefCountryToCountryUsedByCommissionsCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+	{ }
+}
+
+internal abstract class RefCountryToCountryUsedByCommissionsCommandHandlerBase<TRequest>: CommandBase<TRequest, Country>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefCountryToCountryUsedByCommissionsCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete };
+    public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefCountryToCountryUsedByCommissionsCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -78,11 +95,16 @@ public abstract class RefCountryToCountryUsedByCommissionsCommandHandlerBase<TRe
 		{
 			return false;
 		}
-		var relatedKeyId = CreateNoxTypeForKey<Commission, Nox.Types.AutoNumber>("Id", request.RelatedEntityKeyDto.keyId);
-		var relatedEntity = await DbContext.Commissions.FindAsync(relatedKeyId);
-		if (relatedEntity == null)
+
+		Commission? relatedEntity = null!;
+		if(request.RelatedEntityKeyDto is not null)
 		{
-			return false;
+			var relatedKeyId = CreateNoxTypeForKey<Commission, Nox.Types.AutoNumber>("Id", request.RelatedEntityKeyDto.keyId);
+			relatedEntity = await DbContext.Commissions.FindAsync(relatedKeyId);
+			if (relatedEntity == null)
+			{
+				return false;
+			}
 		}
 		
 		switch (Action)
@@ -92,6 +114,10 @@ public abstract class RefCountryToCountryUsedByCommissionsCommandHandlerBase<TRe
                 break;
             case RelationshipAction.Delete:
                 entity.DeleteRefToCountryUsedByCommissions(relatedEntity);
+                break;
+            case RelationshipAction.DeleteAll:
+				await DbContext.Entry(entity).Collection(x => x.CountryUsedByCommissions).LoadAsync();
+                entity.DeleteAllRefToCountryUsedByCommissions();
                 break;
         }
 

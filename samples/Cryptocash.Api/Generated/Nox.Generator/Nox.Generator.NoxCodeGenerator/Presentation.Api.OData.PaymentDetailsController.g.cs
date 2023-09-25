@@ -25,16 +25,11 @@ namespace Cryptocash.Presentation.Api.OData;
 
 public partial class PaymentDetailsController : PaymentDetailsControllerBase
 {
-    public PaymentDetailsController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    public PaymentDetailsController(IMediator mediator):base(mediator)
     {}
 }
 public abstract class PaymentDetailsControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -42,11 +37,9 @@ public abstract class PaymentDetailsControllerBase : ODataController
     protected readonly IMediator _mediator;
     
     public PaymentDetailsControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
     }
     
@@ -184,6 +177,22 @@ public abstract class PaymentDetailsControllerBase : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> DeleteRefToPaymentDetailsUsedByCustomer([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefPaymentDetailToPaymentDetailsUsedByCustomerCommand(new PaymentDetailKeyDto(key)));
+        if (!deletedAllRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> CreateRefToPaymentDetailsRelatedPaymentProvider([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -221,6 +230,22 @@ public abstract class PaymentDetailsControllerBase : ODataController
         
         var deletedRef = await _mediator.Send(new DeleteRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommand(new PaymentDetailKeyDto(key), new PaymentProviderKeyDto(relatedKey)));
         if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> DeleteRefToPaymentDetailsRelatedPaymentProvider([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommand(new PaymentDetailKeyDto(key)));
+        if (!deletedAllRef)
         {
             return NotFound();
         }

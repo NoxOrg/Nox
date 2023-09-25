@@ -18,12 +18,13 @@ using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
-public abstract record Ref{{entity.Name}}To{{relationship.Name}}Command({{entity.Name}}KeyDto EntityKeyDto, {{relatedEntity.Name}}KeyDto RelatedEntityKeyDto) : IRequest <bool>;
+public abstract record Ref{{entity.Name}}To{{relationship.Name}}Command({{entity.Name}}KeyDto EntityKeyDto, {{relatedEntity.Name}}KeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
 public record CreateRef{{entity.Name}}To{{relationship.Name}}Command({{entity.Name}}KeyDto EntityKeyDto, {{relatedEntity.Name}}KeyDto RelatedEntityKeyDto)
 	: Ref{{entity.Name}}To{{relationship.Name}}Command(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRef{{entity.Name}}To{{relationship.Name}}CommandHandler: Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBase<CreateRef{{entity.Name}}To{{relationship.Name}}Command>
+internal partial class CreateRef{{entity.Name}}To{{relationship.Name}}CommandHandler
+	: Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBase<CreateRef{{entity.Name}}To{{relationship.Name}}Command>
 {
 	public CreateRef{{entity.Name}}To{{relationship.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
@@ -37,7 +38,8 @@ public partial class CreateRef{{entity.Name}}To{{relationship.Name}}CommandHandl
 public record DeleteRef{{entity.Name}}To{{relationship.Name}}Command({{entity.Name}}KeyDto EntityKeyDto, {{relatedEntity.Name}}KeyDto RelatedEntityKeyDto)
 	: Ref{{entity.Name}}To{{relationship.Name}}Command(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRef{{entity.Name}}To{{relationship.Name}}CommandHandler: Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBase<DeleteRef{{entity.Name}}To{{relationship.Name}}Command>
+internal partial class DeleteRef{{entity.Name}}To{{relationship.Name}}CommandHandler
+	: Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBase<DeleteRef{{entity.Name}}To{{relationship.Name}}Command>
 {
 	public DeleteRef{{entity.Name}}To{{relationship.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
@@ -48,14 +50,29 @@ public partial class DeleteRef{{entity.Name}}To{{relationship.Name}}CommandHandl
 	{ }
 }
 
-public abstract class Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBase<TRequest>: CommandBase<TRequest, {{entity.Name}}>, 
+public record DeleteAllRef{{entity.Name}}To{{relationship.Name}}Command({{entity.Name}}KeyDto EntityKeyDto)
+	: Ref{{entity.Name}}To{{relationship.Name}}Command(EntityKeyDto, null);
+
+internal partial class DeleteAllRef{{entity.Name}}To{{relationship.Name}}CommandHandler
+	: Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBase<DeleteAllRef{{entity.Name}}To{{relationship.Name}}Command>
+{
+	public DeleteAllRef{{entity.Name}}To{{relationship.Name}}CommandHandler(
+		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+	{ }
+}
+
+internal abstract class Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBase<TRequest>: CommandBase<TRequest, {{entity.Name}}>, 
 	IRequestHandler <TRequest, bool> where TRequest : Ref{{entity.Name}}To{{relationship.Name}}Command
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete };
+    public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBase(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
@@ -82,14 +99,17 @@ public abstract class Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBas
 			return false;
 		}
 
-
-		{{- for key in relatedEntity.Keys }}
-		var relatedKey{{key.Name}} = CreateNoxTypeForKey<{{relatedEntity.Name}}, Nox.Types.{{SingleTypeForKey key}}>("{{key.Name}}", request.RelatedEntityKeyDto.key{{key.Name}});
-		{{- end }}
-		var relatedEntity = await DbContext.{{relatedEntity.PluralName}}.FindAsync({{relatedEntityKeysFindQuery}});
-		if (relatedEntity == null)
+		{{relatedEntity.Name}}? relatedEntity = null!;
+		if(request.RelatedEntityKeyDto is not null)
 		{
-			return false;
+			{{- for key in relatedEntity.Keys }}
+			var relatedKey{{key.Name}} = CreateNoxTypeForKey<{{relatedEntity.Name}}, Nox.Types.{{SingleTypeForKey key}}>("{{key.Name}}", request.RelatedEntityKeyDto.key{{key.Name}});
+			{{- end }}
+			relatedEntity = await DbContext.{{relatedEntity.PluralName}}.FindAsync({{relatedEntityKeysFindQuery}});
+			if (relatedEntity == null)
+			{
+				return false;
+			}
 		}
 		
 		switch (Action)
@@ -99,6 +119,12 @@ public abstract class Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBas
                 break;
             case RelationshipAction.Delete:
                 entity.DeleteRefTo{{relationship.Name}}(relatedEntity);
+                break;
+            case RelationshipAction.DeleteAll:
+			{{- if relationship.WithMultiEntity }}
+				await DbContext.Entry(entity).Collection(x => x.{{relationship.Name}}).LoadAsync();
+			{{- end }}
+                entity.DeleteAllRefTo{{relationship.Name}}();
                 break;
         }
 

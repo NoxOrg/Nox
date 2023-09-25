@@ -44,11 +44,21 @@ public partial class StoreDto
     public LatLongDto Location { get; set; } = default!;
 
     /// <summary>
+    /// Opening day (Optional).
+    /// </summary>
+    public System.DateTimeOffset? OpeningDay { get; set; }
+
+    /// <summary>
     /// Store Owner of the Store ZeroOrOne StoreOwners
     /// </summary>
     //EF maps ForeignKey Automatically
     public System.String? OwnershipId { get; set; } = default!;
     public virtual StoreOwnerDto? Ownership { get; set; } = null!;
+
+    /// <summary>
+    /// Store License that this store uses ZeroOrOne StoreLicenses
+    /// </summary>
+    public virtual StoreLicenseDto? License { get; set; } = null!;
 
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses

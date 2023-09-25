@@ -25,16 +25,11 @@ namespace Cryptocash.Presentation.Api.OData;
 
 public partial class LandLordsController : LandLordsControllerBase
 {
-    public LandLordsController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    public LandLordsController(IMediator mediator):base(mediator)
     {}
 }
 public abstract class LandLordsControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -42,11 +37,9 @@ public abstract class LandLordsControllerBase : ODataController
     protected readonly IMediator _mediator;
     
     public LandLordsControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
     }
     
@@ -181,6 +174,22 @@ public abstract class LandLordsControllerBase : ODataController
         
         var deletedRef = await _mediator.Send(new DeleteRefLandLordToContractedAreasForVendingMachinesCommand(new LandLordKeyDto(key), new VendingMachineKeyDto(relatedKey)));
         if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> DeleteRefToContractedAreasForVendingMachines([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefLandLordToContractedAreasForVendingMachinesCommand(new LandLordKeyDto(key)));
+        if (!deletedAllRef)
         {
             return NotFound();
         }

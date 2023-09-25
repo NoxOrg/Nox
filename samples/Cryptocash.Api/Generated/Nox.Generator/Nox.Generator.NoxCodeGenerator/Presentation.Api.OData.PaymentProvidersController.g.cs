@@ -25,16 +25,11 @@ namespace Cryptocash.Presentation.Api.OData;
 
 public partial class PaymentProvidersController : PaymentProvidersControllerBase
 {
-    public PaymentProvidersController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    public PaymentProvidersController(IMediator mediator):base(mediator)
     {}
 }
 public abstract class PaymentProvidersControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -42,11 +37,9 @@ public abstract class PaymentProvidersControllerBase : ODataController
     protected readonly IMediator _mediator;
     
     public PaymentProvidersControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
     }
     
@@ -181,6 +174,22 @@ public abstract class PaymentProvidersControllerBase : ODataController
         
         var deletedRef = await _mediator.Send(new DeleteRefPaymentProviderToPaymentProviderRelatedPaymentDetailsCommand(new PaymentProviderKeyDto(key), new PaymentDetailKeyDto(relatedKey)));
         if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> DeleteRefToPaymentProviderRelatedPaymentDetails([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefPaymentProviderToPaymentProviderRelatedPaymentDetailsCommand(new PaymentProviderKeyDto(key)));
+        if (!deletedAllRef)
         {
             return NotFound();
         }
