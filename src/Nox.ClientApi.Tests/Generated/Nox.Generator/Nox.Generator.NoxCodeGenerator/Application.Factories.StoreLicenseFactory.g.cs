@@ -42,6 +42,11 @@ internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicense, S
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(StoreLicense entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private ClientApi.Domain.StoreLicense ToEntity(StoreLicenseCreateDto createDto)
     {
         var entity = new ClientApi.Domain.StoreLicense();
@@ -52,6 +57,21 @@ internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicense, S
     private void UpdateEntityInternal(StoreLicense entity, StoreLicenseUpdateDto updateDto)
     {
         entity.Issuer = ClientApi.Domain.StoreLicense.CreateIssuer(updateDto.Issuer.NonNullValue<System.String>());
+    }
+
+    private void PartialUpdateEntityInternal(StoreLicense entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("Issuer", out var IssuerUpdateValue))
+        {
+            if (IssuerUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Issuer' can't be null");
+            }
+            {
+                entity.Issuer = ClientApi.Domain.StoreLicense.CreateIssuer(IssuerUpdateValue);
+            }
+        }
     }
 }
 

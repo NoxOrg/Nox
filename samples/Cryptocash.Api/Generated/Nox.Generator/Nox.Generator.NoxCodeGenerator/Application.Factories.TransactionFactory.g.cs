@@ -42,6 +42,11 @@ internal abstract class TransactionFactoryBase : IEntityFactory<Transaction, Tra
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(Transaction entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private Cryptocash.Domain.Transaction ToEntity(TransactionCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Transaction();
@@ -58,6 +63,54 @@ internal abstract class TransactionFactoryBase : IEntityFactory<Transaction, Tra
         entity.ProcessedOnDateTime = Cryptocash.Domain.Transaction.CreateProcessedOnDateTime(updateDto.ProcessedOnDateTime.NonNullValue<System.DateTimeOffset>());
         entity.Amount = Cryptocash.Domain.Transaction.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>());
         entity.Reference = Cryptocash.Domain.Transaction.CreateReference(updateDto.Reference.NonNullValue<System.String>());
+    }
+
+    private void PartialUpdateEntityInternal(Transaction entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("TransactionType", out var TransactionTypeUpdateValue))
+        {
+            if (TransactionTypeUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'TransactionType' can't be null");
+            }
+            {
+                entity.TransactionType = Cryptocash.Domain.Transaction.CreateTransactionType(TransactionTypeUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("ProcessedOnDateTime", out var ProcessedOnDateTimeUpdateValue))
+        {
+            if (ProcessedOnDateTimeUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'ProcessedOnDateTime' can't be null");
+            }
+            {
+                entity.ProcessedOnDateTime = Cryptocash.Domain.Transaction.CreateProcessedOnDateTime(ProcessedOnDateTimeUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Amount", out var AmountUpdateValue))
+        {
+            if (AmountUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Amount' can't be null");
+            }
+            {
+                entity.Amount = Cryptocash.Domain.Transaction.CreateAmount(AmountUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Reference", out var ReferenceUpdateValue))
+        {
+            if (ReferenceUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Reference' can't be null");
+            }
+            {
+                entity.Reference = Cryptocash.Domain.Transaction.CreateReference(ReferenceUpdateValue);
+            }
+        }
     }
 }
 

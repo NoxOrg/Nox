@@ -24,23 +24,23 @@ internal class PartialUpdateCashStockOrderCommandHandler: PartialUpdateCashStock
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<CashStockOrder> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
 internal class PartialUpdateCashStockOrderCommandHandlerBase: CommandBase<PartialUpdateCashStockOrderCommand, CashStockOrder>, IRequestHandler<PartialUpdateCashStockOrderCommand, CashStockOrderKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<CashStockOrder> EntityMapper { get; }
+	public IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateCashStockOrderCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<CashStockOrder> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<CashStockOrderKeyDto?> Handle(PartialUpdateCashStockOrderCommand request, CancellationToken cancellationToken)
@@ -54,7 +54,7 @@ internal class PartialUpdateCashStockOrderCommandHandlerBase: CommandBase<Partia
 		{
 			return null;
 		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<CashStockOrder>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);

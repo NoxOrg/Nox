@@ -42,6 +42,11 @@ internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvi
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(PaymentProvider entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private Cryptocash.Domain.PaymentProvider ToEntity(PaymentProviderCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.PaymentProvider();
@@ -54,6 +59,32 @@ internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvi
     {
         entity.PaymentProviderName = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderName(updateDto.PaymentProviderName.NonNullValue<System.String>());
         entity.PaymentProviderType = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderType(updateDto.PaymentProviderType.NonNullValue<System.String>());
+    }
+
+    private void PartialUpdateEntityInternal(PaymentProvider entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("PaymentProviderName", out var PaymentProviderNameUpdateValue))
+        {
+            if (PaymentProviderNameUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'PaymentProviderName' can't be null");
+            }
+            {
+                entity.PaymentProviderName = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderName(PaymentProviderNameUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("PaymentProviderType", out var PaymentProviderTypeUpdateValue))
+        {
+            if (PaymentProviderTypeUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'PaymentProviderType' can't be null");
+            }
+            {
+                entity.PaymentProviderType = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderType(PaymentProviderTypeUpdateValue);
+            }
+        }
     }
 }
 

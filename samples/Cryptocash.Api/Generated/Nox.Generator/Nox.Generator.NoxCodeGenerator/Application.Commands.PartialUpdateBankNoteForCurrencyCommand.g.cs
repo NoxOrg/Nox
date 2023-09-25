@@ -20,23 +20,23 @@ internal partial class PartialUpdateBankNoteForCurrencyCommandHandler: PartialUp
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<BankNote> entityMapper): base(dbContext, noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto> entityFactory) : base(dbContext, noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
 internal abstract class PartialUpdateBankNoteForCurrencyCommandHandlerBase: CommandBase<PartialUpdateBankNoteForCurrencyCommand, BankNote>, IRequestHandler <PartialUpdateBankNoteForCurrencyCommand, BankNoteKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<BankNote> EntityMapper { get; }
+	public IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateBankNoteForCurrencyCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<BankNote> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<BankNoteKeyDto?> Handle(PartialUpdateBankNoteForCurrencyCommand request, CancellationToken cancellationToken)
@@ -57,7 +57,7 @@ internal abstract class PartialUpdateBankNoteForCurrencyCommandHandlerBase: Comm
 			return null;
 		}
 
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<BankNote>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);

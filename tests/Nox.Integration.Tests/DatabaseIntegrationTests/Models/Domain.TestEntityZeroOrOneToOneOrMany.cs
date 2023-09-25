@@ -64,7 +64,7 @@ public abstract class TestEntityZeroOrOneToOneOrManyBase : AuditableEntityBase, 
 
     public virtual void DeleteAllRefToTestEntityOneOrManyToZeroOrOne()
     {
-        TestEntityOneOrManyToZeroOrOne = null;
+        TestEntityOneOrManyToZeroOrOneId = null;
     }
 
     /// <summary>

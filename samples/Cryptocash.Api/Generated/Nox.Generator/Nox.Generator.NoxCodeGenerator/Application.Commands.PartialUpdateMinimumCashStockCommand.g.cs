@@ -24,23 +24,23 @@ internal class PartialUpdateMinimumCashStockCommandHandler: PartialUpdateMinimum
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<MinimumCashStock> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
 internal class PartialUpdateMinimumCashStockCommandHandlerBase: CommandBase<PartialUpdateMinimumCashStockCommand, MinimumCashStock>, IRequestHandler<PartialUpdateMinimumCashStockCommand, MinimumCashStockKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<MinimumCashStock> EntityMapper { get; }
+	public IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateMinimumCashStockCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<MinimumCashStock> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<MinimumCashStockKeyDto?> Handle(PartialUpdateMinimumCashStockCommand request, CancellationToken cancellationToken)
@@ -54,7 +54,7 @@ internal class PartialUpdateMinimumCashStockCommandHandlerBase: CommandBase<Part
 		{
 			return null;
 		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<MinimumCashStock>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);

@@ -42,6 +42,11 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRate, E
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(ExchangeRate entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private Cryptocash.Domain.ExchangeRate ToEntity(ExchangeRateCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.ExchangeRate();
@@ -54,6 +59,32 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRate, E
     {
         entity.EffectiveRate = Cryptocash.Domain.ExchangeRate.CreateEffectiveRate(updateDto.EffectiveRate.NonNullValue<System.Int32>());
         entity.EffectiveAt = Cryptocash.Domain.ExchangeRate.CreateEffectiveAt(updateDto.EffectiveAt.NonNullValue<System.DateTimeOffset>());
+    }
+
+    private void PartialUpdateEntityInternal(ExchangeRate entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("EffectiveRate", out var EffectiveRateUpdateValue))
+        {
+            if (EffectiveRateUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'EffectiveRate' can't be null");
+            }
+            {
+                entity.EffectiveRate = Cryptocash.Domain.ExchangeRate.CreateEffectiveRate(EffectiveRateUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("EffectiveAt", out var EffectiveAtUpdateValue))
+        {
+            if (EffectiveAtUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'EffectiveAt' can't be null");
+            }
+            {
+                entity.EffectiveAt = Cryptocash.Domain.ExchangeRate.CreateEffectiveAt(EffectiveAtUpdateValue);
+            }
+        }
     }
 }
 

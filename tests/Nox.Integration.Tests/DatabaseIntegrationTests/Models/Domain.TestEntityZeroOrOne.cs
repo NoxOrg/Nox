@@ -64,7 +64,7 @@ public abstract class TestEntityZeroOrOneBase : AuditableEntityBase, IEntityConc
 
     public virtual void DeleteAllRefToSecondTestEntityZeroOrOneRelationship()
     {
-        SecondTestEntityZeroOrOneRelationship = null;
+        SecondTestEntityZeroOrOneRelationshipId = null;
     }
 
     /// <summary>

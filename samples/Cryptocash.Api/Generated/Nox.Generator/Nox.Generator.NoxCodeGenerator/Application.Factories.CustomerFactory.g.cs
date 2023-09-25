@@ -42,6 +42,11 @@ internal abstract class CustomerFactoryBase : IEntityFactory<Customer, CustomerC
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(Customer entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private Cryptocash.Domain.Customer ToEntity(CustomerCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Customer();
@@ -61,6 +66,63 @@ internal abstract class CustomerFactoryBase : IEntityFactory<Customer, CustomerC
         entity.Address = Cryptocash.Domain.Customer.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
         if (updateDto.MobileNumber == null) { entity.MobileNumber = null; } else {
             entity.MobileNumber = Cryptocash.Domain.Customer.CreateMobileNumber(updateDto.MobileNumber.ToValueFromNonNull<System.String>());
+        }
+    }
+
+    private void PartialUpdateEntityInternal(Customer entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("FirstName", out var FirstNameUpdateValue))
+        {
+            if (FirstNameUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'FirstName' can't be null");
+            }
+            {
+                entity.FirstName = Cryptocash.Domain.Customer.CreateFirstName(FirstNameUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("LastName", out var LastNameUpdateValue))
+        {
+            if (LastNameUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'LastName' can't be null");
+            }
+            {
+                entity.LastName = Cryptocash.Domain.Customer.CreateLastName(LastNameUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("EmailAddress", out var EmailAddressUpdateValue))
+        {
+            if (EmailAddressUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'EmailAddress' can't be null");
+            }
+            {
+                entity.EmailAddress = Cryptocash.Domain.Customer.CreateEmailAddress(EmailAddressUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Address", out var AddressUpdateValue))
+        {
+            if (AddressUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Address' can't be null");
+            }
+            {
+                entity.Address = Cryptocash.Domain.Customer.CreateAddress(AddressUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("MobileNumber", out var MobileNumberUpdateValue))
+        {
+            if (MobileNumberUpdateValue == null) { entity.MobileNumber = null; }
+            else
+            {
+                entity.MobileNumber = Cryptocash.Domain.Customer.CreateMobileNumber(MobileNumberUpdateValue);
+            }
         }
     }
 }

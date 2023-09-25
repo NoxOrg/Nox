@@ -20,6 +20,10 @@ domain:
   
     - $ref: ./Entities/countrybarcode.entity.nox.yaml
   
+    - $ref: ./Entities/ratingprogram.entity.nox.yaml
+  
+    - $ref: ./Entities/countryqualityoflifeindex.entity.nox.yaml
+  
     - $ref: ./Entities/store.entity.nox.yaml
   
     - $ref: ./Entities/workplace.entity.nox.yaml

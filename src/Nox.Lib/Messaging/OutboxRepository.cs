@@ -1,9 +1,7 @@
 ﻿using CloudNative.CloudEvents;
-using CloudNative.CloudEvents.SystemTextJson;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Nox.Application;
-using System.Text.Json;
 
 namespace Nox.Messaging
 {
@@ -11,18 +9,23 @@ namespace Nox.Messaging
     {
         private readonly IPublishEndpoint _bus;
         private readonly ILogger<OutboxRepository> _logger;
+        private readonly ICloudEventRecordFactory _cloudEventRecordFactory;
 
-        public OutboxRepository(IPublishEndpoint bus, ILogger<OutboxRepository> logger)
+        public OutboxRepository(IPublishEndpoint bus, ILogger<OutboxRepository> logger) : this(bus, logger, new DefaultCloudEventRecordFactory())
+        {
+        }
+
+        public OutboxRepository(IPublishEndpoint bus, ILogger<OutboxRepository> logger, ICloudEventRecordFactory cloudEventRecordFactory)
         {
             _bus = bus;
             _logger = logger;
+            _cloudEventRecordFactory = cloudEventRecordFactory;
         }
         public async Task AddAsync<T>(T message) where T : IIntegrationEvent
         {
             _logger.LogInformation($"Publish message {typeof(T)} to {_bus.GetType()}");
 
-            var cloudEventRecord = new CloudEventRecord<IIntegrationEvent>(message);
-
+            var cloudEventRecord = _cloudEventRecordFactory.CreateRecordForIntegrationEvent<T>(message);
             await _bus.Publish(cloudEventRecord,            
                 sendContext =>
                 {
@@ -40,11 +43,8 @@ namespace Nox.Messaging
 
                     cloudEvent.Validate();
 
-                    cloudEvent.ToRecord(sendContext.Message);
-                    
-                    // Customize Mass Transit Envelope
-                    sendContext.SourceAddress = cloudEvent.Source;
-                                        
+                    cloudEvent.MapToRecord(sendContext.Message);
+
                 });
             
             _logger.LogInformation("Publish message {typeName} in PublishEndpoint ", typeof(T));
