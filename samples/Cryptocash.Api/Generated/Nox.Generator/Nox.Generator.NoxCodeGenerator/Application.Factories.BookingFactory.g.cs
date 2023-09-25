@@ -23,7 +23,7 @@ using Booking = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class BookingFactoryBase : IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto>
+internal abstract class BookingFactoryBase : IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto>
 {
 
     public BookingFactoryBase
@@ -53,10 +53,6 @@ public abstract class BookingFactoryBase : IEntityFactory<Booking, BookingCreate
         if (createDto.CancelledDateTime is not null)entity.CancelledDateTime = Cryptocash.Domain.Booking.CreateCancelledDateTime(createDto.CancelledDateTime.NonNullValue<System.DateTimeOffset>());
         if (createDto.VatNumber is not null)entity.VatNumber = Cryptocash.Domain.Booking.CreateVatNumber(createDto.VatNumber.NonNullValue<VatNumberDto>());
         entity.EnsureId(createDto.Id);
-        //entity.Customer = Customer.ToEntity();
-        //entity.VendingMachine = VendingMachine.ToEntity();
-        //entity.Commission = Commission.ToEntity();
-        //entity.Transaction = Transaction.ToEntity();
         return entity;
     }
 
@@ -77,13 +73,9 @@ public abstract class BookingFactoryBase : IEntityFactory<Booking, BookingCreate
         if (updateDto.VatNumber == null) { entity.VatNumber = null; } else {
             entity.VatNumber = Cryptocash.Domain.Booking.CreateVatNumber(updateDto.VatNumber.ToValueFromNonNull<VatNumberDto>());
         }
-        //entity.Customer = Customer.ToEntity();
-        //entity.VendingMachine = VendingMachine.ToEntity();
-        //entity.Commission = Commission.ToEntity();
-        //entity.Transaction = Transaction.ToEntity();
     }
 }
 
-public partial class BookingFactory : BookingFactoryBase
+internal partial class BookingFactory : BookingFactoryBase
 {
 }

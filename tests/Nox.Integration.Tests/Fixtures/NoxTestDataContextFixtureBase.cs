@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Application.Providers;
+using Nox.Configuration;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using TestWebApp.Infrastructure.Persistence;
@@ -17,7 +18,7 @@ public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
     protected NoxTestDataContextFixtureBase()
     {
         var services = new ServiceCollection();
-        services.AddNoxLib(Assembly.GetExecutingAssembly());
+        services.AddNoxLib(configure => configure.SetClientAssembly(Assembly.GetExecutingAssembly()));
 
         _serviceProvider = services.BuildServiceProvider();
     }

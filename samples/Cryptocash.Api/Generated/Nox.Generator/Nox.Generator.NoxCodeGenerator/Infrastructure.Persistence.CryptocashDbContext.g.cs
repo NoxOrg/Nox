@@ -18,12 +18,14 @@ using Nox.Types;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Solution;
+using Nox.Configuration;
+
 
 using Cryptocash.Domain;
 
 namespace Cryptocash.Infrastructure.Persistence;
 
-public partial class CryptocashDbContext : DbContext
+internal partial class CryptocashDbContext : DbContext
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;

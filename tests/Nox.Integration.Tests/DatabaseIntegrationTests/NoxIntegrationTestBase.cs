@@ -1,4 +1,6 @@
-﻿using Nox.Integration.Tests.Fixtures;
+﻿using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
+using Nox.Integration.Tests.Fixtures;
 using TestWebApp.Infrastructure.Persistence;
 
 namespace Nox.Integration.Tests.DatabaseIntegrationTests;

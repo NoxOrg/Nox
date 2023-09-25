@@ -25,16 +25,11 @@ namespace Cryptocash.Presentation.Api.OData;
 
 public partial class LandLordsController : LandLordsControllerBase
 {
-    public LandLordsController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    public LandLordsController(IMediator mediator):base(mediator)
     {}
 }
 public abstract class LandLordsControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -42,11 +37,9 @@ public abstract class LandLordsControllerBase : ODataController
     protected readonly IMediator _mediator;
     
     public LandLordsControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
     }
     

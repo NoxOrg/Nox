@@ -14,7 +14,7 @@ namespace Cryptocash.Application.Queries;
 
 public record GetBookingsQuery() : IRequest<IQueryable<BookingDto>>;
 
-public partial class GetBookingsQueryHandler: GetBookingsQueryHandlerBase
+internal partial class GetBookingsQueryHandler: GetBookingsQueryHandlerBase
 {
     public GetBookingsQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
@@ -22,7 +22,7 @@ public partial class GetBookingsQueryHandler: GetBookingsQueryHandlerBase
     }
 }
 
-public abstract class GetBookingsQueryHandlerBase : QueryBase<IQueryable<BookingDto>>, IRequestHandler<GetBookingsQuery, IQueryable<BookingDto>>
+internal abstract class GetBookingsQueryHandlerBase : QueryBase<IQueryable<BookingDto>>, IRequestHandler<GetBookingsQuery, IQueryable<BookingDto>>
 {
     public  GetBookingsQueryHandlerBase(DtoDbContext dataDbContext)
     {

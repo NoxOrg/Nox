@@ -18,7 +18,7 @@ namespace ClientApi.Application.Commands;
 
 public record PartialUpdateWorkplaceCommand(System.UInt32 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <WorkplaceKeyDto?>;
 
-public class PartialUpdateWorkplaceCommandHandler: PartialUpdateWorkplaceCommandHandlerBase
+internal class PartialUpdateWorkplaceCommandHandler: PartialUpdateWorkplaceCommandHandlerBase
 {
 	public PartialUpdateWorkplaceCommandHandler(
 		ClientApiDbContext dbContext,
@@ -28,7 +28,7 @@ public class PartialUpdateWorkplaceCommandHandler: PartialUpdateWorkplaceCommand
 	{
 	}
 }
-public class PartialUpdateWorkplaceCommandHandlerBase: CommandBase<PartialUpdateWorkplaceCommand, Workplace>, IRequestHandler<PartialUpdateWorkplaceCommand, WorkplaceKeyDto?>
+internal class PartialUpdateWorkplaceCommandHandlerBase: CommandBase<PartialUpdateWorkplaceCommand, Workplace>, IRequestHandler<PartialUpdateWorkplaceCommand, WorkplaceKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<Workplace> EntityMapper { get; }

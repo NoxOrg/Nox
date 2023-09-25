@@ -16,7 +16,7 @@ namespace ClientApi.Application.Commands;
 public record UpdateEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto, EmailAddressUpdateDto EntityDto, System.Guid? Etag) : IRequest <EmailAddressKeyDto?>;
 
 
-public partial class UpdateEmailAddressForStoreCommandHandler: CommandBase<UpdateEmailAddressForStoreCommand, EmailAddress>, IRequestHandler <UpdateEmailAddressForStoreCommand, EmailAddressKeyDto?>
+internal partial class UpdateEmailAddressForStoreCommandHandler: CommandBase<UpdateEmailAddressForStoreCommand, EmailAddress>, IRequestHandler <UpdateEmailAddressForStoreCommand, EmailAddressKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	private readonly IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> _entityFactory;

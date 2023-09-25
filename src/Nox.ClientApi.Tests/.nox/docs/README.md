@@ -27,6 +27,9 @@ erDiagram
     StoreOwner {
     }
     StoreOwner|o..o{Store : "Set of stores that this owner owns"
+    StoreLicense {
+    }
+    StoreLicense|o..||Store : "Store that this license related to"
     EmailAddress {
     }
 
@@ -112,6 +115,7 @@ Id|Guid||Required, Primary Key
 Name|Text|Store Name.|Required, MinLength: 4, MaxLength: 63
 Address|StreetAddress|Street Address.|Required
 Location|LatLong|Location.|Required
+OpeningDay|DateTime|Opening day.|
 StoreOwnerId|Text||Required, Foreign Key, MinLength: 3, MaxLength: 3, IsUnicode: false
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
@@ -121,6 +125,7 @@ StoreOwnerId|Text||Required, Foreign Key, MinLength: 3, MaxLength: 3, IsUnicode:
 Description|Cardinality|Related Entity|Name|Can Navigate?
 -----------|-----------|--------------|----|-------------
 Owner of the Store|ZeroOrOne|StoreOwner|Ownership|Yes
+License that this store uses|ZeroOrOne|StoreLicense|License|Yes
 
 
 ### Store.EmailAddress (Owned by Store)
@@ -137,6 +142,30 @@ Email|Email|Email.|
 IsVerified|Boolean|Verified.|
 
 
+
+
+### StoreLicense
+
+Store license info. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
+
+[Endpoints](./endpoints/StoreLicenseEndpoints.md)
+
+[Domain Events](./domainEvents/StoreLicenseDomainEvents.md)
+
+#### <u>Members (Keys, Attributes & Relationships)</u>
+
+Member|Type|Description|Info
+---------|----|----------|-------
+Id|AutoNumber||Required, Primary Key
+Issuer|Text|License issuer.|Required, MinLength: 4, MaxLength: 63
+*(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
+
+
+#### <u>Relationships</u>
+
+Description|Cardinality|Related Entity|Name|Can Navigate?
+-----------|-----------|--------------|----|-------------
+Store that this license related to|ExactlyOne|Store|StoreWithLicense|Yes
 
 
 ### StoreOwner

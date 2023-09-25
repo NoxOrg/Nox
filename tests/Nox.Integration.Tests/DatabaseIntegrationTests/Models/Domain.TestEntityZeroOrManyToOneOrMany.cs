@@ -45,11 +45,21 @@ public abstract class TestEntityZeroOrManyToOneOrManyBase : AuditableEntityBase,
     /// <summary>
     /// TestEntityZeroOrManyToOneOrMany Test entity relationship to TestEntityOneOrManyToZeroOrMany ZeroOrMany TestEntityOneOrManyToZeroOrManies
     /// </summary>
-    public virtual List<TestEntityOneOrManyToZeroOrMany> TestEntityOneOrManyToZeroOrMany { get; set; } = new();
+    public virtual List<TestEntityOneOrManyToZeroOrMany> TestEntityOneOrManyToZeroOrMany { get; private set; } = new();
 
-    public virtual void CreateRefToTestEntityOneOrManyToZeroOrManyTestEntityOneOrManyToZeroOrMany(TestEntityOneOrManyToZeroOrMany relatedTestEntityOneOrManyToZeroOrMany)
+    public virtual void CreateRefToTestEntityOneOrManyToZeroOrMany(TestEntityOneOrManyToZeroOrMany relatedTestEntityOneOrManyToZeroOrMany)
     {
         TestEntityOneOrManyToZeroOrMany.Add(relatedTestEntityOneOrManyToZeroOrMany);
+    }
+
+    public virtual void DeleteRefToTestEntityOneOrManyToZeroOrMany(TestEntityOneOrManyToZeroOrMany relatedTestEntityOneOrManyToZeroOrMany)
+    {
+        TestEntityOneOrManyToZeroOrMany.Remove(relatedTestEntityOneOrManyToZeroOrMany);
+    }
+
+    public virtual void DeleteAllRefToTestEntityOneOrManyToZeroOrMany()
+    {
+        TestEntityOneOrManyToZeroOrMany.Clear();
     }
 
     /// <summary>

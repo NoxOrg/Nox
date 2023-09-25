@@ -25,16 +25,11 @@ namespace SampleWebApp.Presentation.Api.OData;
 
 public partial class CompoundKeysEntitiesController : CompoundKeysEntitiesControllerBase
 {
-    public CompoundKeysEntitiesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    public CompoundKeysEntitiesController(IMediator mediator):base(mediator)
     {}
 }
 public abstract class CompoundKeysEntitiesControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -42,11 +37,9 @@ public abstract class CompoundKeysEntitiesControllerBase : ODataController
     protected readonly IMediator _mediator;
     
     public CompoundKeysEntitiesControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
     }
     

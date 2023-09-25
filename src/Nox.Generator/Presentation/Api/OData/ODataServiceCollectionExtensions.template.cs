@@ -11,7 +11,7 @@ using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 namespace {{codeGeneratorState.ODataNameSpace}};
 
-public static class ODataServiceCollectionExtensions
+internal static class ODataServiceCollectionExtensions
 {
     public static void AddNoxOdata(this IServiceCollection services)
     {

@@ -5,7 +5,7 @@ namespace ClientApi.Application.Commands;
 /// <summary>
 /// Example of adding additional properties to Dto used in commands 
 /// </summary>
-public partial class CreateStoreCommandHandler
+internal partial class CreateStoreCommandHandler
 {
     /// <summary>
     /// Using the added property to do some logic in the request before executing the command

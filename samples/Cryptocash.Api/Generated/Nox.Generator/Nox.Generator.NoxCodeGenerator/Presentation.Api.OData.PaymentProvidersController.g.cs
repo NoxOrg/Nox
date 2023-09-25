@@ -25,16 +25,11 @@ namespace Cryptocash.Presentation.Api.OData;
 
 public partial class PaymentProvidersController : PaymentProvidersControllerBase
 {
-    public PaymentProvidersController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    public PaymentProvidersController(IMediator mediator):base(mediator)
     {}
 }
 public abstract class PaymentProvidersControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -42,11 +37,9 @@ public abstract class PaymentProvidersControllerBase : ODataController
     protected readonly IMediator _mediator;
     
     public PaymentProvidersControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
     }
     

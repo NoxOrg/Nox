@@ -23,7 +23,7 @@ public abstract record RefTransactionToTransactionForBookingCommand(TransactionK
 public record CreateRefTransactionToTransactionForBookingCommand(TransactionKeyDto EntityKeyDto, BookingKeyDto RelatedEntityKeyDto)
 	: RefTransactionToTransactionForBookingCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefTransactionToTransactionForBookingCommandHandler
+internal partial class CreateRefTransactionToTransactionForBookingCommandHandler
 	: RefTransactionToTransactionForBookingCommandHandlerBase<CreateRefTransactionToTransactionForBookingCommand>
 {
 	public CreateRefTransactionToTransactionForBookingCommandHandler(
@@ -38,7 +38,7 @@ public partial class CreateRefTransactionToTransactionForBookingCommandHandler
 public record DeleteRefTransactionToTransactionForBookingCommand(TransactionKeyDto EntityKeyDto, BookingKeyDto RelatedEntityKeyDto)
 	: RefTransactionToTransactionForBookingCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefTransactionToTransactionForBookingCommandHandler
+internal partial class DeleteRefTransactionToTransactionForBookingCommandHandler
 	: RefTransactionToTransactionForBookingCommandHandlerBase<DeleteRefTransactionToTransactionForBookingCommand>
 {
 	public DeleteRefTransactionToTransactionForBookingCommandHandler(
@@ -53,7 +53,7 @@ public partial class DeleteRefTransactionToTransactionForBookingCommandHandler
 public record DeleteAllRefTransactionToTransactionForBookingCommand(TransactionKeyDto EntityKeyDto)
 	: RefTransactionToTransactionForBookingCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefTransactionToTransactionForBookingCommandHandler
+internal partial class DeleteAllRefTransactionToTransactionForBookingCommandHandler
 	: RefTransactionToTransactionForBookingCommandHandlerBase<DeleteAllRefTransactionToTransactionForBookingCommand>
 {
 	public DeleteAllRefTransactionToTransactionForBookingCommandHandler(
@@ -65,7 +65,7 @@ public partial class DeleteAllRefTransactionToTransactionForBookingCommandHandle
 	{ }
 }
 
-public abstract class RefTransactionToTransactionForBookingCommandHandlerBase<TRequest>: CommandBase<TRequest, Transaction>, 
+internal abstract class RefTransactionToTransactionForBookingCommandHandlerBase<TRequest>: CommandBase<TRequest, Transaction>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefTransactionToTransactionForBookingCommand
 {
 	public CryptocashDbContext DbContext { get; }

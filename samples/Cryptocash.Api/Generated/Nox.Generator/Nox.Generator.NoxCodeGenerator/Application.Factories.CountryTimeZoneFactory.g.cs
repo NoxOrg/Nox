@@ -23,7 +23,7 @@ using CountryTimeZone = Cryptocash.Domain.CountryTimeZone;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZone, CountryTimeZoneCreateDto, CountryTimeZoneUpdateDto>
+internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZone, CountryTimeZoneCreateDto, CountryTimeZoneUpdateDto>
 {
 
     public CountryTimeZoneFactoryBase
@@ -55,6 +55,6 @@ public abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZon
     }
 }
 
-public partial class CountryTimeZoneFactory : CountryTimeZoneFactoryBase
+internal partial class CountryTimeZoneFactory : CountryTimeZoneFactoryBase
 {
 }

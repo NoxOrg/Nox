@@ -15,7 +15,7 @@ namespace Cryptocash.Application.Commands;
 
 public record DeletePaymentProviderByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
-public class DeletePaymentProviderByIdCommandHandler:DeletePaymentProviderByIdCommandHandlerBase
+internal class DeletePaymentProviderByIdCommandHandler:DeletePaymentProviderByIdCommandHandlerBase
 {
 	public DeletePaymentProviderByIdCommandHandler(
 		CryptocashDbContext dbContext,
@@ -24,7 +24,7 @@ public class DeletePaymentProviderByIdCommandHandler:DeletePaymentProviderByIdCo
 	{
 	}
 }
-public abstract class DeletePaymentProviderByIdCommandHandlerBase: CommandBase<DeletePaymentProviderByIdCommand,PaymentProvider>, IRequestHandler<DeletePaymentProviderByIdCommand, bool>
+internal abstract class DeletePaymentProviderByIdCommandHandlerBase: CommandBase<DeletePaymentProviderByIdCommand,PaymentProvider>, IRequestHandler<DeletePaymentProviderByIdCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 

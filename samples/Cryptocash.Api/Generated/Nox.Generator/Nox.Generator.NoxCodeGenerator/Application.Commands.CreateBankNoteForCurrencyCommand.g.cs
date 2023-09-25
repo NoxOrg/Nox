@@ -19,7 +19,7 @@ using BankNote = Cryptocash.Domain.BankNote;
 namespace Cryptocash.Application.Commands;
 public record CreateBankNoteForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteCreateDto EntityDto, System.Guid? Etag) : IRequest <BankNoteKeyDto?>;
 
-public partial class CreateBankNoteForCurrencyCommandHandler: CreateBankNoteForCurrencyCommandHandlerBase
+internal partial class CreateBankNoteForCurrencyCommandHandler: CreateBankNoteForCurrencyCommandHandlerBase
 {
 	public CreateBankNoteForCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
@@ -30,7 +30,7 @@ public partial class CreateBankNoteForCurrencyCommandHandler: CreateBankNoteForC
 	{
 	}
 }
-public abstract class CreateBankNoteForCurrencyCommandHandlerBase: CommandBase<CreateBankNoteForCurrencyCommand, BankNote>, IRequestHandler<CreateBankNoteForCurrencyCommand, BankNoteKeyDto?>
+internal abstract class CreateBankNoteForCurrencyCommandHandlerBase: CommandBase<CreateBankNoteForCurrencyCommand, BankNote>, IRequestHandler<CreateBankNoteForCurrencyCommand, BankNoteKeyDto?>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto> _entityFactory;

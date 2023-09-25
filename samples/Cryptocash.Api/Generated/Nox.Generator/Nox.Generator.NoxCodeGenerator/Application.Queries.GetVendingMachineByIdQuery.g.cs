@@ -14,7 +14,7 @@ namespace Cryptocash.Application.Queries;
 
 public record GetVendingMachineByIdQuery(System.Guid keyId) : IRequest <IQueryable<VendingMachineDto>>;
 
-public partial class GetVendingMachineByIdQueryHandler:GetVendingMachineByIdQueryHandlerBase
+internal partial class GetVendingMachineByIdQueryHandler:GetVendingMachineByIdQueryHandlerBase
 {
     public  GetVendingMachineByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
@@ -22,7 +22,7 @@ public partial class GetVendingMachineByIdQueryHandler:GetVendingMachineByIdQuer
     }
 }
 
-public abstract class GetVendingMachineByIdQueryHandlerBase:  QueryBase<IQueryable<VendingMachineDto>>, IRequestHandler<GetVendingMachineByIdQuery, IQueryable<VendingMachineDto>>
+internal abstract class GetVendingMachineByIdQueryHandlerBase:  QueryBase<IQueryable<VendingMachineDto>>, IRequestHandler<GetVendingMachineByIdQuery, IQueryable<VendingMachineDto>>
 {
     public  GetVendingMachineByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {

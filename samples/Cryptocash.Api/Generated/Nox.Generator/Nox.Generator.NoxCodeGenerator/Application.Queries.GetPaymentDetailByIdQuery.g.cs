@@ -14,7 +14,7 @@ namespace Cryptocash.Application.Queries;
 
 public record GetPaymentDetailByIdQuery(System.Int64 keyId) : IRequest <IQueryable<PaymentDetailDto>>;
 
-public partial class GetPaymentDetailByIdQueryHandler:GetPaymentDetailByIdQueryHandlerBase
+internal partial class GetPaymentDetailByIdQueryHandler:GetPaymentDetailByIdQueryHandlerBase
 {
     public  GetPaymentDetailByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
@@ -22,7 +22,7 @@ public partial class GetPaymentDetailByIdQueryHandler:GetPaymentDetailByIdQueryH
     }
 }
 
-public abstract class GetPaymentDetailByIdQueryHandlerBase:  QueryBase<IQueryable<PaymentDetailDto>>, IRequestHandler<GetPaymentDetailByIdQuery, IQueryable<PaymentDetailDto>>
+internal abstract class GetPaymentDetailByIdQueryHandlerBase:  QueryBase<IQueryable<PaymentDetailDto>>, IRequestHandler<GetPaymentDetailByIdQuery, IQueryable<PaymentDetailDto>>
 {
     public  GetPaymentDetailByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {

@@ -23,7 +23,7 @@ public abstract record RefCustomerToCustomerRelatedTransactionsCommand(CustomerK
 public record CreateRefCustomerToCustomerRelatedTransactionsCommand(CustomerKeyDto EntityKeyDto, TransactionKeyDto RelatedEntityKeyDto)
 	: RefCustomerToCustomerRelatedTransactionsCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefCustomerToCustomerRelatedTransactionsCommandHandler
+internal partial class CreateRefCustomerToCustomerRelatedTransactionsCommandHandler
 	: RefCustomerToCustomerRelatedTransactionsCommandHandlerBase<CreateRefCustomerToCustomerRelatedTransactionsCommand>
 {
 	public CreateRefCustomerToCustomerRelatedTransactionsCommandHandler(
@@ -38,7 +38,7 @@ public partial class CreateRefCustomerToCustomerRelatedTransactionsCommandHandle
 public record DeleteRefCustomerToCustomerRelatedTransactionsCommand(CustomerKeyDto EntityKeyDto, TransactionKeyDto RelatedEntityKeyDto)
 	: RefCustomerToCustomerRelatedTransactionsCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefCustomerToCustomerRelatedTransactionsCommandHandler
+internal partial class DeleteRefCustomerToCustomerRelatedTransactionsCommandHandler
 	: RefCustomerToCustomerRelatedTransactionsCommandHandlerBase<DeleteRefCustomerToCustomerRelatedTransactionsCommand>
 {
 	public DeleteRefCustomerToCustomerRelatedTransactionsCommandHandler(
@@ -53,7 +53,7 @@ public partial class DeleteRefCustomerToCustomerRelatedTransactionsCommandHandle
 public record DeleteAllRefCustomerToCustomerRelatedTransactionsCommand(CustomerKeyDto EntityKeyDto)
 	: RefCustomerToCustomerRelatedTransactionsCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefCustomerToCustomerRelatedTransactionsCommandHandler
+internal partial class DeleteAllRefCustomerToCustomerRelatedTransactionsCommandHandler
 	: RefCustomerToCustomerRelatedTransactionsCommandHandlerBase<DeleteAllRefCustomerToCustomerRelatedTransactionsCommand>
 {
 	public DeleteAllRefCustomerToCustomerRelatedTransactionsCommandHandler(
@@ -65,7 +65,7 @@ public partial class DeleteAllRefCustomerToCustomerRelatedTransactionsCommandHan
 	{ }
 }
 
-public abstract class RefCustomerToCustomerRelatedTransactionsCommandHandlerBase<TRequest>: CommandBase<TRequest, Customer>, 
+internal abstract class RefCustomerToCustomerRelatedTransactionsCommandHandlerBase<TRequest>: CommandBase<TRequest, Customer>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefCustomerToCustomerRelatedTransactionsCommand
 {
 	public CryptocashDbContext DbContext { get; }

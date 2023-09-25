@@ -19,7 +19,7 @@ public record Delete{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyD
 public record Delete{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}KeyDto EntityKeyDto) : IRequest <bool>;
 {{- end }}
 
-public partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandler: CommandBase<Delete{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}>, IRequestHandler <Delete{{entity.Name}}For{{parent.Name}}Command, bool>
+internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandler: CommandBase<Delete{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}>, IRequestHandler <Delete{{entity.Name}}For{{parent.Name}}Command, bool>
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
 

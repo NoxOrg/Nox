@@ -25,16 +25,11 @@ namespace Cryptocash.Presentation.Api.OData;
 
 public partial class CashStockOrdersController : CashStockOrdersControllerBase
 {
-    public CashStockOrdersController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    public CashStockOrdersController(IMediator mediator):base(mediator)
     {}
 }
 public abstract class CashStockOrdersControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -42,11 +37,9 @@ public abstract class CashStockOrdersControllerBase : ODataController
     protected readonly IMediator _mediator;
     
     public CashStockOrdersControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
     }
     

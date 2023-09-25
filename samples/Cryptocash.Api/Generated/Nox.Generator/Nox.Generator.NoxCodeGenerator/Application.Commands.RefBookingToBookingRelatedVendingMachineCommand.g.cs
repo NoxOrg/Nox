@@ -23,7 +23,7 @@ public abstract record RefBookingToBookingRelatedVendingMachineCommand(BookingKe
 public record CreateRefBookingToBookingRelatedVendingMachineCommand(BookingKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto)
 	: RefBookingToBookingRelatedVendingMachineCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefBookingToBookingRelatedVendingMachineCommandHandler
+internal partial class CreateRefBookingToBookingRelatedVendingMachineCommandHandler
 	: RefBookingToBookingRelatedVendingMachineCommandHandlerBase<CreateRefBookingToBookingRelatedVendingMachineCommand>
 {
 	public CreateRefBookingToBookingRelatedVendingMachineCommandHandler(
@@ -38,7 +38,7 @@ public partial class CreateRefBookingToBookingRelatedVendingMachineCommandHandle
 public record DeleteRefBookingToBookingRelatedVendingMachineCommand(BookingKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto)
 	: RefBookingToBookingRelatedVendingMachineCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefBookingToBookingRelatedVendingMachineCommandHandler
+internal partial class DeleteRefBookingToBookingRelatedVendingMachineCommandHandler
 	: RefBookingToBookingRelatedVendingMachineCommandHandlerBase<DeleteRefBookingToBookingRelatedVendingMachineCommand>
 {
 	public DeleteRefBookingToBookingRelatedVendingMachineCommandHandler(
@@ -53,7 +53,7 @@ public partial class DeleteRefBookingToBookingRelatedVendingMachineCommandHandle
 public record DeleteAllRefBookingToBookingRelatedVendingMachineCommand(BookingKeyDto EntityKeyDto)
 	: RefBookingToBookingRelatedVendingMachineCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefBookingToBookingRelatedVendingMachineCommandHandler
+internal partial class DeleteAllRefBookingToBookingRelatedVendingMachineCommandHandler
 	: RefBookingToBookingRelatedVendingMachineCommandHandlerBase<DeleteAllRefBookingToBookingRelatedVendingMachineCommand>
 {
 	public DeleteAllRefBookingToBookingRelatedVendingMachineCommandHandler(
@@ -65,7 +65,7 @@ public partial class DeleteAllRefBookingToBookingRelatedVendingMachineCommandHan
 	{ }
 }
 
-public abstract class RefBookingToBookingRelatedVendingMachineCommandHandlerBase<TRequest>: CommandBase<TRequest, Booking>, 
+internal abstract class RefBookingToBookingRelatedVendingMachineCommandHandlerBase<TRequest>: CommandBase<TRequest, Booking>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefBookingToBookingRelatedVendingMachineCommand
 {
 	public CryptocashDbContext DbContext { get; }

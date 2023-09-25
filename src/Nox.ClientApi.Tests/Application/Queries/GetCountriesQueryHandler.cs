@@ -10,7 +10,7 @@ namespace ClientApi.Application.Queries;
 /// Executed after the default handler updating the result with a filter
 /// For Request Validation, before command handler is executed use <see cref="IValidator"/> instead IValidator<CreateClientAutoNumberCommand>.
 /// </summary>
-public partial class GetCountriesQueryHandler
+internal partial class GetCountriesQueryHandler
 {
     protected override IQueryable<CountryDto> OnResponse(IQueryable<CountryDto> response)
     {

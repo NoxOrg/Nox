@@ -60,7 +60,7 @@ public abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Transaction for ExactlyOne Customers
     /// </summary>
-    public virtual Customer TransactionForCustomer { get; set; } = null!;
+    public virtual Customer TransactionForCustomer { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Customer
@@ -74,18 +74,18 @@ public abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteRefToTransactionForCustomer(Customer relatedCustomer)
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToTransactionForCustomer()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>
     /// Transaction for ExactlyOne Bookings
     /// </summary>
-    public virtual Booking TransactionForBooking { get; set; } = null!;
+    public virtual Booking TransactionForBooking { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Booking
@@ -99,12 +99,12 @@ public abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteRefToTransactionForBooking(Booking relatedBooking)
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToTransactionForBooking()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>

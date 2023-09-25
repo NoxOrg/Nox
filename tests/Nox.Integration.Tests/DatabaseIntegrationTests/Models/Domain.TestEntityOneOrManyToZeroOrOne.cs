@@ -45,11 +45,25 @@ public abstract class TestEntityOneOrManyToZeroOrOneBase : AuditableEntityBase, 
     /// <summary>
     /// TestEntityOneOrManyToZeroOrOne Test entity relationship to TestEntityZeroOrOneToOneOrMany OneOrMany TestEntityZeroOrOneToOneOrManies
     /// </summary>
-    public virtual List<TestEntityZeroOrOneToOneOrMany> TestEntityZeroOrOneToOneOrMany { get; set; } = new();
+    public virtual List<TestEntityZeroOrOneToOneOrMany> TestEntityZeroOrOneToOneOrMany { get; private set; } = new();
 
-    public virtual void CreateRefToTestEntityZeroOrOneToOneOrManyTestEntityZeroOrOneToOneOrMany(TestEntityZeroOrOneToOneOrMany relatedTestEntityZeroOrOneToOneOrMany)
+    public virtual void CreateRefToTestEntityZeroOrOneToOneOrMany(TestEntityZeroOrOneToOneOrMany relatedTestEntityZeroOrOneToOneOrMany)
     {
         TestEntityZeroOrOneToOneOrMany.Add(relatedTestEntityZeroOrOneToOneOrMany);
+    }
+
+    public virtual void DeleteRefToTestEntityZeroOrOneToOneOrMany(TestEntityZeroOrOneToOneOrMany relatedTestEntityZeroOrOneToOneOrMany)
+    {
+        if(TestEntityZeroOrOneToOneOrMany.Count() < 2)
+            throw new Exception($"The relationship cannot be deleted.");
+        TestEntityZeroOrOneToOneOrMany.Remove(relatedTestEntityZeroOrOneToOneOrMany);
+    }
+
+    public virtual void DeleteAllRefToTestEntityZeroOrOneToOneOrMany()
+    {
+        if(TestEntityZeroOrOneToOneOrMany.Count() < 2)
+            throw new Exception($"The relationship cannot be deleted.");
+        TestEntityZeroOrOneToOneOrMany.Clear();
     }
 
     /// <summary>

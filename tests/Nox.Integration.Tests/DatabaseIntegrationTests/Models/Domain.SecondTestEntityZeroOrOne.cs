@@ -45,11 +45,21 @@ public abstract class SecondTestEntityZeroOrOneBase : AuditableEntityBase, IEnti
     /// <summary>
     /// SecondTestEntityZeroOrOne Test entity relationship to TestEntity ZeroOrOne TestEntityZeroOrOnes
     /// </summary>
-    public virtual TestEntityZeroOrOne? TestEntityZeroOrOneRelationship { get; set; } = null!;
+    public virtual TestEntityZeroOrOne? TestEntityZeroOrOneRelationship { get; private set; } = null!;
 
-    public virtual void CreateRefToTestEntityZeroOrOneTestEntityZeroOrOneRelationship(TestEntityZeroOrOne relatedTestEntityZeroOrOne)
+    public virtual void CreateRefToTestEntityZeroOrOneRelationship(TestEntityZeroOrOne relatedTestEntityZeroOrOne)
     {
         TestEntityZeroOrOneRelationship = relatedTestEntityZeroOrOne;
+    }
+
+    public virtual void DeleteRefToTestEntityZeroOrOneRelationship(TestEntityZeroOrOne relatedTestEntityZeroOrOne)
+    {
+        TestEntityZeroOrOneRelationship = null;
+    }
+
+    public virtual void DeleteAllRefToTestEntityZeroOrOneRelationship()
+    {
+        TestEntityZeroOrOneRelationship = null;
     }
 
     /// <summary>

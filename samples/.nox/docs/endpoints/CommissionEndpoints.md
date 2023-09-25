@@ -32,55 +32,47 @@ This document provides information about the various endpoints available in our 
 
 ### Country
 
-#### Get Country relation by ID
-- **GET** `/api/Commissions/{key}/Countries/{relatedKey}/$ref`
-  - Description: Retrieve an existing Countries relation for a specific Commission.
-
 #### Get Country relations
-- **GET** `/api/Commissions/{key}/Countries/$ref`
-  - Description: Retrieve all Countries relations for a specific Commission.
+- **GET** `/api/Commissions/{key}/CommissionFeesForCountry/$ref`
+  - Description: Retrieve all existing Countries relations for a specific Commission.
   
 #### Create Country relation
-- **POST** `/api/Commissions/{key}/Countries/{relatedKey}/$ref`
+- **POST** `/api/Commissions/{key}/CommissionFeesForCountry/{relatedKey}/$ref`
   - Description: Create a new Country relation for a specific Commission.
-
-#### Update Country relation
-- **PUT** `/api/Commissions/{key}/Countries/{relatedKey}/$ref`
-  - Description: Update an existing Country relation for a specific Commission.
   
-#### Partially Update Country relation
-- **PATCH** `/api/Commissions/{key}/Countries/{relatedKey}/$ref`
-  - Description: Partially update an existing Country relation for a specific Commission.
+#### Update Country relation
+- **PUT** `/api/Commissions/{key}/CommissionFeesForCountry/{relatedKey}/$ref`
+  - Description: Updates an existing Country relation for a specific Commission.
 
 #### Delete Country relation
-- **DELETE** `/api/Commissions/{key}/Countries/{relatedKey}/$ref`
+- **DELETE** `/api/Commissions/{key}/CommissionFeesForCountry/{relatedKey}/$ref`
   - Description: Delete an existing Country relation for a specific Commission.
+
+#### Delete Country relations
+- **DELETE** `/api/Commissions/{key}/CommissionFeesForCountry/$ref`
+  - Description: Delete all existing Countries relations for a specific Commission.
 
 ### Booking
 
-#### Get Booking relation by ID
-- **GET** `/api/Commissions/{key}/Bookings/{relatedKey}/$ref`
-  - Description: Retrieve an existing Bookings relation for a specific Commission.
-
 #### Get Booking relations
-- **GET** `/api/Commissions/{key}/Bookings/$ref`
-  - Description: Retrieve all Bookings relations for a specific Commission.
+- **GET** `/api/Commissions/{key}/CommissionFeesForBooking/$ref`
+  - Description: Retrieve all existing Bookings relations for a specific Commission.
   
 #### Create Booking relation
-- **POST** `/api/Commissions/{key}/Bookings/{relatedKey}/$ref`
+- **POST** `/api/Commissions/{key}/CommissionFeesForBooking/{relatedKey}/$ref`
   - Description: Create a new Booking relation for a specific Commission.
-
-#### Update Booking relation
-- **PUT** `/api/Commissions/{key}/Bookings/{relatedKey}/$ref`
-  - Description: Update an existing Booking relation for a specific Commission.
   
-#### Partially Update Booking relation
-- **PATCH** `/api/Commissions/{key}/Bookings/{relatedKey}/$ref`
-  - Description: Partially update an existing Booking relation for a specific Commission.
+#### Update Booking relation
+- **PUT** `/api/Commissions/{key}/CommissionFeesForBooking/{relatedKey}/$ref`
+  - Description: Updates an existing Booking relation for a specific Commission.
 
 #### Delete Booking relation
-- **DELETE** `/api/Commissions/{key}/Bookings/{relatedKey}/$ref`
+- **DELETE** `/api/Commissions/{key}/CommissionFeesForBooking/{relatedKey}/$ref`
   - Description: Delete an existing Booking relation for a specific Commission.
+
+#### Delete Booking relations
+- **DELETE** `/api/Commissions/{key}/CommissionFeesForBooking/$ref`
+  - Description: Delete all existing Bookings relations for a specific Commission.
 
 ## Related Entities
 

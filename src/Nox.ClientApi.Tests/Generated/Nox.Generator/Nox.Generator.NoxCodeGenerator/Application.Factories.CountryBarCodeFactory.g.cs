@@ -23,7 +23,7 @@ using CountryBarCode = ClientApi.Domain.CountryBarCode;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto>
+internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto>
 {
 
     public CountryBarCodeFactoryBase
@@ -59,6 +59,6 @@ public abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCode,
     }
 }
 
-public partial class CountryBarCodeFactory : CountryBarCodeFactoryBase
+internal partial class CountryBarCodeFactory : CountryBarCodeFactoryBase
 {
 }
