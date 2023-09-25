@@ -56,6 +56,11 @@ public partial class StoreDto
     public virtual StoreOwnerDto? Ownership { get; set; } = null!;
 
     /// <summary>
+    /// Store License that this store uses ZeroOrOne StoreLicenses
+    /// </summary>
+    public virtual StoreLicenseDto? License { get; set; } = null!;
+
+    /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
     public virtual EmailAddressDto? VerifiedEmails { get; set; } = null!;

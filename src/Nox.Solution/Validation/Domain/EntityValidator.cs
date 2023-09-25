@@ -81,8 +81,17 @@ namespace Nox.Solution.Validation
                 .SetValidator(e => new UniquePropertyValidator<UniqueAttributeConstraint>(e.UniqueAttributeConstraints, x => string.Join(",", x.AttributeNames.OrderBy(a => a)), "unique attribute constraint attribute names"));
 
             When(e => e.IsOwnedEntity, () =>
-                RuleFor(e => e).SetValidator(new OwnedEntityValidator(entities))
-            );
+            {
+                RuleFor(e => e)
+                    .SetValidator(new OwnedEntityValidator(entities));
+            })
+            .Otherwise(() =>
+            {
+                // Keys are mandatory for all other entity usages
+                RuleFor(e => e.Keys)
+                    .NotEmpty()
+                    .WithMessage(e => string.Format(ValidationResources.EntityKeysRequired, e.Name));
+            });
         }
     }
 }

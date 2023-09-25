@@ -16,7 +16,7 @@ namespace ClientApi.Application.Commands;
 public record DeleteEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto) : IRequest <bool>;
 
 
-public partial class DeleteEmailAddressForStoreCommandHandler: CommandBase<DeleteEmailAddressForStoreCommand, EmailAddress>, IRequestHandler <DeleteEmailAddressForStoreCommand, bool>
+internal partial class DeleteEmailAddressForStoreCommandHandler: CommandBase<DeleteEmailAddressForStoreCommand, EmailAddress>, IRequestHandler <DeleteEmailAddressForStoreCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 

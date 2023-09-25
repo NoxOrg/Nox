@@ -23,7 +23,7 @@ public abstract record RefCommissionToCommissionFeesForBookingCommand(Commission
 public record CreateRefCommissionToCommissionFeesForBookingCommand(CommissionKeyDto EntityKeyDto, BookingKeyDto RelatedEntityKeyDto)
 	: RefCommissionToCommissionFeesForBookingCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefCommissionToCommissionFeesForBookingCommandHandler
+internal partial class CreateRefCommissionToCommissionFeesForBookingCommandHandler
 	: RefCommissionToCommissionFeesForBookingCommandHandlerBase<CreateRefCommissionToCommissionFeesForBookingCommand>
 {
 	public CreateRefCommissionToCommissionFeesForBookingCommandHandler(
@@ -38,7 +38,7 @@ public partial class CreateRefCommissionToCommissionFeesForBookingCommandHandler
 public record DeleteRefCommissionToCommissionFeesForBookingCommand(CommissionKeyDto EntityKeyDto, BookingKeyDto RelatedEntityKeyDto)
 	: RefCommissionToCommissionFeesForBookingCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefCommissionToCommissionFeesForBookingCommandHandler
+internal partial class DeleteRefCommissionToCommissionFeesForBookingCommandHandler
 	: RefCommissionToCommissionFeesForBookingCommandHandlerBase<DeleteRefCommissionToCommissionFeesForBookingCommand>
 {
 	public DeleteRefCommissionToCommissionFeesForBookingCommandHandler(
@@ -53,7 +53,7 @@ public partial class DeleteRefCommissionToCommissionFeesForBookingCommandHandler
 public record DeleteAllRefCommissionToCommissionFeesForBookingCommand(CommissionKeyDto EntityKeyDto)
 	: RefCommissionToCommissionFeesForBookingCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefCommissionToCommissionFeesForBookingCommandHandler
+internal partial class DeleteAllRefCommissionToCommissionFeesForBookingCommandHandler
 	: RefCommissionToCommissionFeesForBookingCommandHandlerBase<DeleteAllRefCommissionToCommissionFeesForBookingCommand>
 {
 	public DeleteAllRefCommissionToCommissionFeesForBookingCommandHandler(
@@ -65,7 +65,7 @@ public partial class DeleteAllRefCommissionToCommissionFeesForBookingCommandHand
 	{ }
 }
 
-public abstract class RefCommissionToCommissionFeesForBookingCommandHandlerBase<TRequest>: CommandBase<TRequest, Commission>, 
+internal abstract class RefCommissionToCommissionFeesForBookingCommandHandlerBase<TRequest>: CommandBase<TRequest, Commission>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefCommissionToCommissionFeesForBookingCommand
 {
 	public CryptocashDbContext DbContext { get; }

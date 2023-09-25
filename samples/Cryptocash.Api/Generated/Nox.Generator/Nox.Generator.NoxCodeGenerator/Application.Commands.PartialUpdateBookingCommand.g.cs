@@ -18,7 +18,7 @@ namespace Cryptocash.Application.Commands;
 
 public record PartialUpdateBookingCommand(System.Guid keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <BookingKeyDto?>;
 
-public class PartialUpdateBookingCommandHandler: PartialUpdateBookingCommandHandlerBase
+internal class PartialUpdateBookingCommandHandler: PartialUpdateBookingCommandHandlerBase
 {
 	public PartialUpdateBookingCommandHandler(
 		CryptocashDbContext dbContext,
@@ -28,7 +28,7 @@ public class PartialUpdateBookingCommandHandler: PartialUpdateBookingCommandHand
 	{
 	}
 }
-public class PartialUpdateBookingCommandHandlerBase: CommandBase<PartialUpdateBookingCommand, Booking>, IRequestHandler<PartialUpdateBookingCommand, BookingKeyDto?>
+internal class PartialUpdateBookingCommandHandlerBase: CommandBase<PartialUpdateBookingCommand, Booking>, IRequestHandler<PartialUpdateBookingCommand, BookingKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<Booking> EntityMapper { get; }

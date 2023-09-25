@@ -91,7 +91,7 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
     /// <summary>
     /// VendingMachine installed in ExactlyOne Countries
     /// </summary>
-    public virtual Country VendingMachineInstallationCountry { get; set; } = null!;
+    public virtual Country VendingMachineInstallationCountry { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Country
@@ -110,13 +110,13 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
 
     public virtual void DeleteAllRefToVendingMachineInstallationCountry()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>
     /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
-    public virtual LandLord VendingMachineContractedAreaLandLord { get; set; } = null!;
+    public virtual LandLord VendingMachineContractedAreaLandLord { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity LandLord
@@ -135,13 +135,13 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
 
     public virtual void DeleteAllRefToVendingMachineContractedAreaLandLord()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>
     /// VendingMachine related to ZeroOrMany Bookings
     /// </summary>
-    public virtual List<Booking> VendingMachineRelatedBookings { get; set; } = new();
+    public virtual List<Booking> VendingMachineRelatedBookings { get; private set; } = new();
 
     public virtual void CreateRefToVendingMachineRelatedBookings(Booking relatedBooking)
     {
@@ -161,7 +161,7 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
     /// <summary>
     /// VendingMachine related to ZeroOrMany CashStockOrders
     /// </summary>
-    public virtual List<CashStockOrder> VendingMachineRelatedCashStockOrders { get; set; } = new();
+    public virtual List<CashStockOrder> VendingMachineRelatedCashStockOrders { get; private set; } = new();
 
     public virtual void CreateRefToVendingMachineRelatedCashStockOrders(CashStockOrder relatedCashStockOrder)
     {
@@ -181,7 +181,7 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
     /// <summary>
     /// VendingMachine required ZeroOrMany MinimumCashStocks
     /// </summary>
-    public virtual List<MinimumCashStock> VendingMachineRequiredMinimumCashStocks { get; set; } = new();
+    public virtual List<MinimumCashStock> VendingMachineRequiredMinimumCashStocks { get; private set; } = new();
 
     public virtual void CreateRefToVendingMachineRequiredMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
     {

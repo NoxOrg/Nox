@@ -32,10 +32,6 @@ public record SecondTestEntityOwnedRelationshipZeroOrOneDeleted(SecondTestEntity
 /// </summary>
 public abstract class SecondTestEntityOwnedRelationshipZeroOrOneBase : EntityBase, IOwnedEntity
 {
-    /// <summary>
-    ///  (Required).
-    /// </summary>
-    public Nox.Types.Text Id1 { get; set; } = null!;
 
     /// <summary>
     ///  (Required).

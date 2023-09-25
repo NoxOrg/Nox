@@ -7,7 +7,7 @@ namespace ClientApi.Application.Commands;
 /// Example to extend a Nox command and change a request
 /// For Request Validation, before command handler is executed use <see cref="IValidator"/> instead IValidator<CreateClientAutoNumberCommand>.
 /// </summary>
-public partial class CreateCountryCommandHandler
+internal partial class CreateCountryCommandHandler
 {
     protected override void OnExecuting(CreateCountryCommand request)
     {

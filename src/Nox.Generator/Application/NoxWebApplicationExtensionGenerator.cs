@@ -16,36 +16,17 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
 
         var code = new CodeBuilder($"Application.NoxWebApplicationExtensions.g.cs", context);
 
-        var usings = new List<string>();
-        var dbProvider = "";
+        var usings = new List<string>();       
 
         var solution = codeGeneratorState.Solution;
-        if (solution.Infrastructure?.Persistence is { DatabaseServer: not null })
-        {
-            var dbServer = solution.Infrastructure.Persistence.DatabaseServer;
-            switch (dbServer.Provider)
-            {
-                case DatabaseServerProvider.SqlServer:
-                    usings.Add("using Nox.EntityFramework.SqlServer;");
-                    dbProvider = "SqlServerDatabaseProvider";
-                    break;
-
-                case DatabaseServerProvider.Postgres:
-                    usings.Add("using Nox.EntityFramework.Postgres;");
-                    dbProvider = "PostgresDatabaseProvider";
-                    break;
-                case DatabaseServerProvider.SqLite:
-                    usings.Add("using Nox.EntityFramework.Sqlite;");
-                    dbProvider = "SqliteDatabaseProvider";
-                    break;
-            }
-        }     
+        
 
         code.AppendLine("using Microsoft.EntityFrameworkCore;");               
         code.AppendLine("using System.Reflection;");
         code.AppendLine("using Microsoft.OData.ModelBuilder;");
         code.AppendLine("using Nox;");
         code.AppendLine("using Nox.Solution;");
+        code.AppendLine("using Nox.Configuration;");        
         code.AppendLines(usings.ToArray());
         code.AppendLine("using Nox.Types.EntityFramework.Abstractions;");
         code.AppendLine($"using {solution.Name}.Infrastructure.Persistence;");
@@ -53,26 +34,25 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
             code.AppendLine($"using {solution.Name}.Presentation.Api.OData;");
         code.AppendLine();
 
-        code.AppendLine("public static class NoxWebApplicationBuilderExtension");
+        code.AppendLine("internal static class NoxWebApplicationBuilderExtension");
         code.StartBlock();
         code.AppendLine(@"public static IServiceCollection AddNox(this IServiceCollection services)
                         {
-                            return services.AddNox(null);
+                            return services.AddNox(null, null);
                         }
                         ");
-        code.AppendLine("public static IServiceCollection AddNox(this IServiceCollection services, Action<ODataModelBuilder>? configureOData)");
+        code.AppendLine("public static IServiceCollection AddNox(this IServiceCollection services, Action<INoxBuilderConfigurator>? configureNox, Action<ODataModelBuilder>? configureNoxOdata)");
         code.StartBlock();
         var dbContextName = $"{solution.Name}DbContext";
 
-        code.AppendLine($"var noxSolution = services.AddNoxLib(Assembly.GetExecutingAssembly());");        
-        code.AppendLine($"services.TryAddNoxMessaging<{dbContextName}>(noxSolution);");       
-        code.AppendLine("services.AddNoxOdata(configureOData);");
-        code.AppendLine($"services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));");
-        code.AppendLine($"services.AddSingleton<DbContextOptions<{dbContextName}>>();");
-        code.AppendLine($"services.AddSingleton<INoxDatabaseConfigurator, {dbProvider}>();");
-        code.AppendLine($"services.AddSingleton<INoxDatabaseProvider, {dbProvider}>();");
-        code.AppendLine($"services.AddDbContext<{dbContextName}>();");
-        code.AppendLine($"services.AddDbContext<DtoDbContext>();");
+        code.AppendLine(@$"
+        services.AddNoxLib(configurator => 
+        {{
+            configurator.WithDatabaseContexts<{dbContextName},DtoDbContext>();
+            configurator.WithMessagingTransactionalOutbox<{dbContextName}>();
+            configureNox?.Invoke(configurator);
+        }});");                     
+        code.AppendLine("services.AddNoxOdata(configureNoxOdata);");        
         code.AppendLine("return services;");
         code.EndBlock();
         code.AppendLine();

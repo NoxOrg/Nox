@@ -14,7 +14,7 @@ namespace ClientApi.Application.Queries;
 
 public record GetCountryQualityOfLifeIndicesQuery() : IRequest<IQueryable<CountryQualityOfLifeIndexDto>>;
 
-public partial class GetCountryQualityOfLifeIndicesQueryHandler: GetCountryQualityOfLifeIndicesQueryHandlerBase
+internal partial class GetCountryQualityOfLifeIndicesQueryHandler: GetCountryQualityOfLifeIndicesQueryHandlerBase
 {
     public GetCountryQualityOfLifeIndicesQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
@@ -22,7 +22,7 @@ public partial class GetCountryQualityOfLifeIndicesQueryHandler: GetCountryQuali
     }
 }
 
-public abstract class GetCountryQualityOfLifeIndicesQueryHandlerBase : QueryBase<IQueryable<CountryQualityOfLifeIndexDto>>, IRequestHandler<GetCountryQualityOfLifeIndicesQuery, IQueryable<CountryQualityOfLifeIndexDto>>
+internal abstract class GetCountryQualityOfLifeIndicesQueryHandlerBase : QueryBase<IQueryable<CountryQualityOfLifeIndexDto>>, IRequestHandler<GetCountryQualityOfLifeIndicesQuery, IQueryable<CountryQualityOfLifeIndexDto>>
 {
     public  GetCountryQualityOfLifeIndicesQueryHandlerBase(DtoDbContext dataDbContext)
     {

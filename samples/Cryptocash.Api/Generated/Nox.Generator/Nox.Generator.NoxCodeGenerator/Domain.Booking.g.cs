@@ -100,7 +100,7 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Booking for ExactlyOne Customers
     /// </summary>
-    public virtual Customer BookingForCustomer { get; set; } = null!;
+    public virtual Customer BookingForCustomer { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Customer
@@ -119,13 +119,13 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteAllRefToBookingForCustomer()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>
     /// Booking related to ExactlyOne VendingMachines
     /// </summary>
-    public virtual VendingMachine BookingRelatedVendingMachine { get; set; } = null!;
+    public virtual VendingMachine BookingRelatedVendingMachine { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity VendingMachine
@@ -144,13 +144,13 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteAllRefToBookingRelatedVendingMachine()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>
     /// Booking fees for ExactlyOne Commissions
     /// </summary>
-    public virtual Commission BookingFeesForCommission { get; set; } = null!;
+    public virtual Commission BookingFeesForCommission { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Commission
@@ -169,13 +169,13 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteAllRefToBookingFeesForCommission()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>
     /// Booking related to ExactlyOne Transactions
     /// </summary>
-    public virtual Transaction BookingRelatedTransaction { get; set; } = null!;
+    public virtual Transaction BookingRelatedTransaction { get; private set; } = null!;
 
     public virtual void CreateRefToBookingRelatedTransaction(Transaction relatedTransaction)
     {
@@ -189,7 +189,7 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteAllRefToBookingRelatedTransaction()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>

@@ -23,7 +23,7 @@ using RatingProgram = ClientApi.Domain.RatingProgram;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgram, RatingProgramCreateDto, RatingProgramUpdateDto>
+internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgram, RatingProgramCreateDto, RatingProgramUpdateDto>
 {
 
     public RatingProgramFactoryBase
@@ -58,6 +58,6 @@ public abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgram, R
     }
 }
 
-public partial class RatingProgramFactory : RatingProgramFactoryBase
+internal partial class RatingProgramFactory : RatingProgramFactoryBase
 {
 }

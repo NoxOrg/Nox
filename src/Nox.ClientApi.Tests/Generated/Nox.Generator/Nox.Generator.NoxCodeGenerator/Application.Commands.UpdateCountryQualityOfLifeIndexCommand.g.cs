@@ -17,7 +17,7 @@ namespace ClientApi.Application.Commands;
 
 public record UpdateCountryQualityOfLifeIndexCommand(System.Int64 keyCountryId, System.Int64 keyId, CountryQualityOfLifeIndexUpdateDto EntityDto, System.Guid? Etag) : IRequest<CountryQualityOfLifeIndexKeyDto?>;
 
-public partial class UpdateCountryQualityOfLifeIndexCommandHandler: UpdateCountryQualityOfLifeIndexCommandHandlerBase
+internal partial class UpdateCountryQualityOfLifeIndexCommandHandler: UpdateCountryQualityOfLifeIndexCommandHandlerBase
 {
 	public UpdateCountryQualityOfLifeIndexCommandHandler(
 		ClientApiDbContext dbContext,
@@ -28,7 +28,7 @@ public partial class UpdateCountryQualityOfLifeIndexCommandHandler: UpdateCountr
 	}
 }
 
-public abstract class UpdateCountryQualityOfLifeIndexCommandHandlerBase: CommandBase<UpdateCountryQualityOfLifeIndexCommand, CountryQualityOfLifeIndex>, IRequestHandler<UpdateCountryQualityOfLifeIndexCommand, CountryQualityOfLifeIndexKeyDto?>
+internal abstract class UpdateCountryQualityOfLifeIndexCommandHandlerBase: CommandBase<UpdateCountryQualityOfLifeIndexCommand, CountryQualityOfLifeIndex>, IRequestHandler<UpdateCountryQualityOfLifeIndexCommand, CountryQualityOfLifeIndexKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	private readonly IEntityFactory<CountryQualityOfLifeIndex, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> _entityFactory;

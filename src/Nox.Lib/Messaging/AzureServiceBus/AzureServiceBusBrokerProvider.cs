@@ -7,23 +7,23 @@ public class AzureServiceBusBrokerProvider: IMessageBrokerProvider
 {
     public MessageBrokerProvider Provider => MessageBrokerProvider.AzureServiceBus;
 
-    public IBusRegistrationConfigurator ConfigureMassTransit(MessagingServer messagingServerConfig, IBusRegistrationConfigurator configuration)
+    public IBusRegistrationConfigurator ConfigureMassTransit(MessagingServer messagingServerConfig, 
+        IBusRegistrationConfigurator configuration)
     {
         configuration.UsingAzureServiceBus((context, cfg) =>
         {
-            //cfg.Host(messagingServerConfig.ServerUri);
-            cfg.Host($"Endpoint=sb://{messagingServerConfig.ServerUri}/;SharedAccessKeyName={messagingServerConfig.User};SharedAccessKey={messagingServerConfig.Password}");            
+            AzureServiceBusConfig config = messagingServerConfig.AzureServiceBusConfig!;
+            var connectionString = $"Endpoint={config.Endpoint}/;SharedAccessKeyName={config.SharedAccessKeyName};SharedAccessKey={config.SharedAccessKey}";
+            cfg.Host(connectionString);            
 
             cfg.ConfigureEndpoints(context);
 
             // TODO Cloud Events Raw message?
             //cfg.UseRawJsonSerializer(RawSerializerOptions.AddTransportHeaders | RawSerializerOptions.CopyHeaders | RawSerializerOptions.AnyMessageType);
 
+            
             // TODO Define rules for Topics names
-            cfg.Message<CloudEventRecord<Application.IIntegrationEvent>>(x =>
-            {
-                x.SetEntityName("test-integration-event");
-            });
+            cfg.MessageTopology.SetEntityNameFormatter(new CustomEntityNameFormatter());
         });        
         return configuration;
     }

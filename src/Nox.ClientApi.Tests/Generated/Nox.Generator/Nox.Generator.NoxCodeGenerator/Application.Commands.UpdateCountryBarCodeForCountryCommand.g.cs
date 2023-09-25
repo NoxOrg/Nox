@@ -16,7 +16,7 @@ namespace ClientApi.Application.Commands;
 public record UpdateCountryBarCodeForCountryCommand(CountryKeyDto ParentKeyDto, CountryBarCodeUpdateDto EntityDto, System.Guid? Etag) : IRequest <CountryBarCodeKeyDto?>;
 
 
-public partial class UpdateCountryBarCodeForCountryCommandHandler: CommandBase<UpdateCountryBarCodeForCountryCommand, CountryBarCode>, IRequestHandler <UpdateCountryBarCodeForCountryCommand, CountryBarCodeKeyDto?>
+internal partial class UpdateCountryBarCodeForCountryCommandHandler: CommandBase<UpdateCountryBarCodeForCountryCommand, CountryBarCode>, IRequestHandler <UpdateCountryBarCodeForCountryCommand, CountryBarCodeKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	private readonly IEntityFactory<CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto> _entityFactory;

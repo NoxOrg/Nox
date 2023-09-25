@@ -14,7 +14,7 @@ namespace Cryptocash.Application.Queries;
 
 public record GetCurrencyByIdQuery(System.String keyId) : IRequest <IQueryable<CurrencyDto>>;
 
-public partial class GetCurrencyByIdQueryHandler:GetCurrencyByIdQueryHandlerBase
+internal partial class GetCurrencyByIdQueryHandler:GetCurrencyByIdQueryHandlerBase
 {
     public  GetCurrencyByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
@@ -22,7 +22,7 @@ public partial class GetCurrencyByIdQueryHandler:GetCurrencyByIdQueryHandlerBase
     }
 }
 
-public abstract class GetCurrencyByIdQueryHandlerBase:  QueryBase<IQueryable<CurrencyDto>>, IRequestHandler<GetCurrencyByIdQuery, IQueryable<CurrencyDto>>
+internal abstract class GetCurrencyByIdQueryHandlerBase:  QueryBase<IQueryable<CurrencyDto>>, IRequestHandler<GetCurrencyByIdQuery, IQueryable<CurrencyDto>>
 {
     public  GetCurrencyByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {

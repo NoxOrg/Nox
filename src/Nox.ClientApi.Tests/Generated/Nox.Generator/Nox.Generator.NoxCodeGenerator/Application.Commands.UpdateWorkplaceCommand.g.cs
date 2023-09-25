@@ -17,7 +17,7 @@ namespace ClientApi.Application.Commands;
 
 public record UpdateWorkplaceCommand(System.UInt32 keyId, WorkplaceUpdateDto EntityDto, System.Guid? Etag) : IRequest<WorkplaceKeyDto?>;
 
-public partial class UpdateWorkplaceCommandHandler: UpdateWorkplaceCommandHandlerBase
+internal partial class UpdateWorkplaceCommandHandler: UpdateWorkplaceCommandHandlerBase
 {
 	public UpdateWorkplaceCommandHandler(
 		ClientApiDbContext dbContext,
@@ -28,7 +28,7 @@ public partial class UpdateWorkplaceCommandHandler: UpdateWorkplaceCommandHandle
 	}
 }
 
-public abstract class UpdateWorkplaceCommandHandlerBase: CommandBase<UpdateWorkplaceCommand, Workplace>, IRequestHandler<UpdateWorkplaceCommand, WorkplaceKeyDto?>
+internal abstract class UpdateWorkplaceCommandHandlerBase: CommandBase<UpdateWorkplaceCommand, Workplace>, IRequestHandler<UpdateWorkplaceCommand, WorkplaceKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	private readonly IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> _entityFactory;

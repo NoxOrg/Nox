@@ -23,7 +23,7 @@ public abstract record RefCurrencyToCurrencyUsedByMinimumCashStocksCommand(Curre
 public record CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommand(CurrencyKeyDto EntityKeyDto, MinimumCashStockKeyDto RelatedEntityKeyDto)
 	: RefCurrencyToCurrencyUsedByMinimumCashStocksCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandler
+internal partial class CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandler
 	: RefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandlerBase<CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommand>
 {
 	public CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandler(
@@ -38,7 +38,7 @@ public partial class CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHa
 public record DeleteRefCurrencyToCurrencyUsedByMinimumCashStocksCommand(CurrencyKeyDto EntityKeyDto, MinimumCashStockKeyDto RelatedEntityKeyDto)
 	: RefCurrencyToCurrencyUsedByMinimumCashStocksCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandler
+internal partial class DeleteRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandler
 	: RefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandlerBase<DeleteRefCurrencyToCurrencyUsedByMinimumCashStocksCommand>
 {
 	public DeleteRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandler(
@@ -53,7 +53,7 @@ public partial class DeleteRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHa
 public record DeleteAllRefCurrencyToCurrencyUsedByMinimumCashStocksCommand(CurrencyKeyDto EntityKeyDto)
 	: RefCurrencyToCurrencyUsedByMinimumCashStocksCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandler
+internal partial class DeleteAllRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandler
 	: RefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandlerBase<DeleteAllRefCurrencyToCurrencyUsedByMinimumCashStocksCommand>
 {
 	public DeleteAllRefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandler(
@@ -65,7 +65,7 @@ public partial class DeleteAllRefCurrencyToCurrencyUsedByMinimumCashStocksComman
 	{ }
 }
 
-public abstract class RefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandlerBase<TRequest>: CommandBase<TRequest, Currency>, 
+internal abstract class RefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandlerBase<TRequest>: CommandBase<TRequest, Currency>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefCurrencyToCurrencyUsedByMinimumCashStocksCommand
 {
 	public CryptocashDbContext DbContext { get; }

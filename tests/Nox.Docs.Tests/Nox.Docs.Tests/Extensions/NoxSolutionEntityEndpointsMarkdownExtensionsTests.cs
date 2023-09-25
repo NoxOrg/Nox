@@ -21,22 +21,21 @@ public class NoxSolutionEntityEndpointsMarkdownExtensionsTests
         // Assert
         var expected = new[]
         {
-            new EntityMarkdownFile
-            {
-                Name = "./endpoints/ContinentEndpoints.md",
-                Content = ReadMarkdownFile("ContinentEndpoints.md"),
-                EntityName = "Continent",
-            },
-            new EntityMarkdownFile
-            {
-                Name = "./endpoints/CountryEndpoints.md",
-                Content = ReadMarkdownFile("CountryEndpoints.md"),
-                EntityName = "Country",
-            }
+            CreateMarkdownFile("People"),
+            CreateMarkdownFile("Country"),
+            CreateMarkdownFile("Continent"),
         };
 
         actual.Should().BeEquivalentTo(expected);
     }
+
+    private static EntityMarkdownFile CreateMarkdownFile(string entity)
+        => new()
+        {
+            Name = $"./endpoints/{entity}Endpoints.md",
+            Content = ReadMarkdownFile($"{entity}Endpoints.md"),
+            EntityName = entity,
+        };
 
     private static string ReadMarkdownFile(string name)
         => File.ReadAllText($"./Files/Markdown/{name}");

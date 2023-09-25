@@ -25,16 +25,11 @@ namespace ClientApi.Presentation.Api.OData;
 
 public partial class RatingProgramsController : RatingProgramsControllerBase
 {
-    public RatingProgramsController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    public RatingProgramsController(IMediator mediator):base(mediator)
     {}
 }
 public abstract class RatingProgramsControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -42,11 +37,9 @@ public abstract class RatingProgramsControllerBase : ODataController
     protected readonly IMediator _mediator;
     
     public RatingProgramsControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
     }
     

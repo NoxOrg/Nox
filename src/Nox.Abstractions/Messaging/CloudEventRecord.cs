@@ -2,7 +2,10 @@
 
 namespace Nox.Messaging
 {
-    public record class CloudEventRecord<T>(T Data) where T : IIntegrationEvent
+    /// <summary>
+    /// Default Nox implementation for the cloud event envelop with an <see cref="IIntegrationEvent"/> as the payload."/>
+    /// </summary>
+    public record class CloudEventRecord<T>(T Data)
     {
 #pragma warning disable IDE1006 // Naming Styles
         public string? specversion { get; set; }
@@ -13,10 +16,8 @@ namespace Nox.Messaging
         public Uri? dataschema { get; set; }
         public string? subject { get; set; }
         public DateTimeOffset? time { get; set; }
-        public Guid? xcorrelationid { get; set; }
-        
-
 #pragma warning restore IDE1006 // Naming Styles
+
     }
 
 }

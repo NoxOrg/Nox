@@ -15,7 +15,7 @@ namespace ClientApi.Application.Commands;
 
 public record DeleteRatingProgramByIdCommand(System.Guid keyStoreId, System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
-public class DeleteRatingProgramByIdCommandHandler:DeleteRatingProgramByIdCommandHandlerBase
+internal class DeleteRatingProgramByIdCommandHandler:DeleteRatingProgramByIdCommandHandlerBase
 {
 	public DeleteRatingProgramByIdCommandHandler(
 		ClientApiDbContext dbContext,
@@ -24,7 +24,7 @@ public class DeleteRatingProgramByIdCommandHandler:DeleteRatingProgramByIdComman
 	{
 	}
 }
-public abstract class DeleteRatingProgramByIdCommandHandlerBase: CommandBase<DeleteRatingProgramByIdCommand,RatingProgram>, IRequestHandler<DeleteRatingProgramByIdCommand, bool>
+internal abstract class DeleteRatingProgramByIdCommandHandlerBase: CommandBase<DeleteRatingProgramByIdCommand,RatingProgram>, IRequestHandler<DeleteRatingProgramByIdCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 

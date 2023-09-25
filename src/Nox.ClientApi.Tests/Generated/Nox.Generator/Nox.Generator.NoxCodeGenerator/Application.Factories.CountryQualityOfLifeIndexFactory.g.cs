@@ -23,7 +23,7 @@ using CountryQualityOfLifeIndex = ClientApi.Domain.CountryQualityOfLifeIndex;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<CountryQualityOfLifeIndex, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto>
+internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<CountryQualityOfLifeIndex, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto>
 {
 
     public CountryQualityOfLifeIndexFactoryBase
@@ -56,6 +56,6 @@ public abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<Coun
     }
 }
 
-public partial class CountryQualityOfLifeIndexFactory : CountryQualityOfLifeIndexFactoryBase
+internal partial class CountryQualityOfLifeIndexFactory : CountryQualityOfLifeIndexFactoryBase
 {
 }

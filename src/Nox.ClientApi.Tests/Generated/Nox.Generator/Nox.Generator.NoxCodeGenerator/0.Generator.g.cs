@@ -9,6 +9,7 @@
 //  - countrylocalname.entity.nox.yaml
 //  - countryqualityoflifeindex.entity.nox.yaml
 //  - ratingprogram.entity.nox.yaml
+//  - store-license.entity.nox.yaml
 //  - store-owner.entity.nox.yaml
 //  - store.entity.nox.yaml
 //  - workplace.entity.nox.yaml

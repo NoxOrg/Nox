@@ -18,7 +18,7 @@ namespace ClientApi.Application.Commands;
 
 public record PartialUpdateCountryQualityOfLifeIndexCommand(System.Int64 keyCountryId, System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CountryQualityOfLifeIndexKeyDto?>;
 
-public class PartialUpdateCountryQualityOfLifeIndexCommandHandler: PartialUpdateCountryQualityOfLifeIndexCommandHandlerBase
+internal class PartialUpdateCountryQualityOfLifeIndexCommandHandler: PartialUpdateCountryQualityOfLifeIndexCommandHandlerBase
 {
 	public PartialUpdateCountryQualityOfLifeIndexCommandHandler(
 		ClientApiDbContext dbContext,
@@ -28,7 +28,7 @@ public class PartialUpdateCountryQualityOfLifeIndexCommandHandler: PartialUpdate
 	{
 	}
 }
-public class PartialUpdateCountryQualityOfLifeIndexCommandHandlerBase: CommandBase<PartialUpdateCountryQualityOfLifeIndexCommand, CountryQualityOfLifeIndex>, IRequestHandler<PartialUpdateCountryQualityOfLifeIndexCommand, CountryQualityOfLifeIndexKeyDto?>
+internal class PartialUpdateCountryQualityOfLifeIndexCommandHandlerBase: CommandBase<PartialUpdateCountryQualityOfLifeIndexCommand, CountryQualityOfLifeIndex>, IRequestHandler<PartialUpdateCountryQualityOfLifeIndexCommand, CountryQualityOfLifeIndexKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<CountryQualityOfLifeIndex> EntityMapper { get; }

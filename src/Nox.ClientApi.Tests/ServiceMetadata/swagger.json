@@ -3438,12 +3438,12 @@
         }
       }
     },
-    "/api/RatingPrograms": {
+    "/api/StoreLicenses": {
       "get": {
         "tags": [
-          "RatingPrograms"
+          "StoreLicenses"
         ],
-        "operationId": "api/RatingPrograms",
+        "operationId": "api/StoreLicenses",
         "responses": {
           "200": {
             "description": "Success",
@@ -3452,7 +3452,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3460,7 +3460,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3468,7 +3468,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3476,7 +3476,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3484,7 +3484,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3492,7 +3492,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3500,7 +3500,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3508,7 +3508,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3516,7 +3516,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3524,7 +3524,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3532,7 +3532,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3540,7 +3540,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3548,7 +3548,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3556,7 +3556,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3564,7 +3564,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3572,7 +3572,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               }
@@ -3582,89 +3582,89 @@
       },
       "post": {
         "tags": [
-          "RatingPrograms"
+          "StoreLicenses"
         ],
-        "operationId": "api/RatingPrograms",
+        "operationId": "api/StoreLicenses",
         "requestBody": {
           "content": {
             "application/json;odata.metadata=minimal;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramCreateDto"
+                "$ref": "#/components/schemas/StoreLicenseCreateDto"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramCreateDto"
+                "$ref": "#/components/schemas/StoreLicenseCreateDto"
               }
             },
             "application/json;odata.metadata=minimal": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramCreateDto"
+                "$ref": "#/components/schemas/StoreLicenseCreateDto"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramCreateDto"
+                "$ref": "#/components/schemas/StoreLicenseCreateDto"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramCreateDto"
+                "$ref": "#/components/schemas/StoreLicenseCreateDto"
               }
             },
             "application/json;odata.metadata=full": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramCreateDto"
+                "$ref": "#/components/schemas/StoreLicenseCreateDto"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramCreateDto"
+                "$ref": "#/components/schemas/StoreLicenseCreateDto"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramCreateDto"
+                "$ref": "#/components/schemas/StoreLicenseCreateDto"
               }
             },
             "application/json;odata.metadata=none": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramCreateDto"
+                "$ref": "#/components/schemas/StoreLicenseCreateDto"
               }
             },
             "application/json;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramCreateDto"
+                "$ref": "#/components/schemas/StoreLicenseCreateDto"
               }
             },
             "application/json;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramCreateDto"
+                "$ref": "#/components/schemas/StoreLicenseCreateDto"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramCreateDto"
+                "$ref": "#/components/schemas/StoreLicenseCreateDto"
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramCreateDto"
+                "$ref": "#/components/schemas/StoreLicenseCreateDto"
               }
             },
             "text/plain": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramCreateDto"
+                "$ref": "#/components/schemas/StoreLicenseCreateDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramCreateDto"
+                "$ref": "#/components/schemas/StoreLicenseCreateDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramCreateDto"
+                "$ref": "#/components/schemas/StoreLicenseCreateDto"
               }
             }
           }
@@ -3675,82 +3675,82 @@
             "content": {
               "application/json;odata.metadata=minimal;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.metadata=minimal;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.metadata=minimal": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.metadata=full": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.metadata=none": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/octet-stream": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               }
             }
@@ -3758,12 +3758,12 @@
         }
       }
     },
-    "/api/RatingPrograms/$count": {
+    "/api/StoreLicenses/$count": {
       "get": {
         "tags": [
-          "RatingPrograms"
+          "StoreLicenses"
         ],
-        "operationId": "api/RatingPrograms/$count",
+        "operationId": "api/StoreLicenses/$count",
         "responses": {
           "200": {
             "description": "Success",
@@ -3772,7 +3772,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3780,7 +3780,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3788,7 +3788,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3796,7 +3796,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3804,7 +3804,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3812,7 +3812,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3820,7 +3820,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3828,7 +3828,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3836,7 +3836,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3844,7 +3844,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3852,7 +3852,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3860,7 +3860,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3868,7 +3868,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3876,7 +3876,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3884,7 +3884,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               },
@@ -3892,7 +3892,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RatingProgramDto"
+                    "$ref": "#/components/schemas/StoreLicenseDto"
                   }
                 }
               }
@@ -3901,25 +3901,15 @@
         }
       }
     },
-    "/api/RatingPrograms/Id={keyId},StoreId={keyStoreId}": {
+    "/api/StoreLicenses/{key}": {
       "get": {
         "tags": [
-          "RatingPrograms"
+          "StoreLicenses"
         ],
-        "operationId": "api/RatingPrograms/Id={keyId},StoreId={keyStoreId}",
+        "operationId": "api/StoreLicenses/{key}",
         "parameters": [
           {
-            "name": "keyStoreId",
-            "in": "path",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "keyId",
+            "name": "key",
             "in": "path",
             "required": true,
             "style": "simple",
@@ -3935,82 +3925,82 @@
             "content": {
               "application/json;odata.metadata=minimal;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDtoSingleResult"
+                  "$ref": "#/components/schemas/StoreLicenseDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=minimal;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDtoSingleResult"
+                  "$ref": "#/components/schemas/StoreLicenseDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=minimal": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDtoSingleResult"
+                  "$ref": "#/components/schemas/StoreLicenseDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDtoSingleResult"
+                  "$ref": "#/components/schemas/StoreLicenseDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDtoSingleResult"
+                  "$ref": "#/components/schemas/StoreLicenseDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=full": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDtoSingleResult"
+                  "$ref": "#/components/schemas/StoreLicenseDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDtoSingleResult"
+                  "$ref": "#/components/schemas/StoreLicenseDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDtoSingleResult"
+                  "$ref": "#/components/schemas/StoreLicenseDtoSingleResult"
                 }
               },
               "application/json;odata.metadata=none": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDtoSingleResult"
+                  "$ref": "#/components/schemas/StoreLicenseDtoSingleResult"
                 }
               },
               "application/json;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDtoSingleResult"
+                  "$ref": "#/components/schemas/StoreLicenseDtoSingleResult"
                 }
               },
               "application/json;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDtoSingleResult"
+                  "$ref": "#/components/schemas/StoreLicenseDtoSingleResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDtoSingleResult"
+                  "$ref": "#/components/schemas/StoreLicenseDtoSingleResult"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDtoSingleResult"
+                  "$ref": "#/components/schemas/StoreLicenseDtoSingleResult"
                 }
               },
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDtoSingleResult"
+                  "$ref": "#/components/schemas/StoreLicenseDtoSingleResult"
                 }
               },
               "application/octet-stream": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDtoSingleResult"
+                  "$ref": "#/components/schemas/StoreLicenseDtoSingleResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDtoSingleResult"
+                  "$ref": "#/components/schemas/StoreLicenseDtoSingleResult"
                 }
               }
             }
@@ -4019,22 +4009,12 @@
       },
       "put": {
         "tags": [
-          "RatingPrograms"
+          "StoreLicenses"
         ],
-        "operationId": "api/RatingPrograms/Id={keyId},StoreId={keyStoreId}",
+        "operationId": "api/StoreLicenses/{key}",
         "parameters": [
           {
-            "name": "keyStoreId",
-            "in": "path",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "keyId",
+            "name": "key",
             "in": "path",
             "required": true,
             "style": "simple",
@@ -4048,82 +4028,82 @@
           "content": {
             "application/json;odata.metadata=minimal;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramUpdateDto"
+                "$ref": "#/components/schemas/StoreLicenseUpdateDto"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramUpdateDto"
+                "$ref": "#/components/schemas/StoreLicenseUpdateDto"
               }
             },
             "application/json;odata.metadata=minimal": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramUpdateDto"
+                "$ref": "#/components/schemas/StoreLicenseUpdateDto"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramUpdateDto"
+                "$ref": "#/components/schemas/StoreLicenseUpdateDto"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramUpdateDto"
+                "$ref": "#/components/schemas/StoreLicenseUpdateDto"
               }
             },
             "application/json;odata.metadata=full": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramUpdateDto"
+                "$ref": "#/components/schemas/StoreLicenseUpdateDto"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramUpdateDto"
+                "$ref": "#/components/schemas/StoreLicenseUpdateDto"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramUpdateDto"
+                "$ref": "#/components/schemas/StoreLicenseUpdateDto"
               }
             },
             "application/json;odata.metadata=none": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramUpdateDto"
+                "$ref": "#/components/schemas/StoreLicenseUpdateDto"
               }
             },
             "application/json;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramUpdateDto"
+                "$ref": "#/components/schemas/StoreLicenseUpdateDto"
               }
             },
             "application/json;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramUpdateDto"
+                "$ref": "#/components/schemas/StoreLicenseUpdateDto"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramUpdateDto"
+                "$ref": "#/components/schemas/StoreLicenseUpdateDto"
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramUpdateDto"
+                "$ref": "#/components/schemas/StoreLicenseUpdateDto"
               }
             },
             "text/plain": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramUpdateDto"
+                "$ref": "#/components/schemas/StoreLicenseUpdateDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramUpdateDto"
+                "$ref": "#/components/schemas/StoreLicenseUpdateDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramUpdateDto"
+                "$ref": "#/components/schemas/StoreLicenseUpdateDto"
               }
             }
           }
@@ -4134,82 +4114,82 @@
             "content": {
               "application/json;odata.metadata=minimal;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.metadata=minimal;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.metadata=minimal": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.metadata=full": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.metadata=none": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/octet-stream": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               }
             }
@@ -4218,22 +4198,12 @@
       },
       "patch": {
         "tags": [
-          "RatingPrograms"
+          "StoreLicenses"
         ],
-        "operationId": "api/RatingPrograms/Id={keyId},StoreId={keyStoreId}",
+        "operationId": "api/StoreLicenses/{key}",
         "parameters": [
           {
-            "name": "keyStoreId",
-            "in": "path",
-            "required": true,
-            "style": "simple",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "keyId",
+            "name": "key",
             "in": "path",
             "required": true,
             "style": "simple",
@@ -4247,82 +4217,82 @@
           "content": {
             "application/json;odata.metadata=minimal;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramDtoDelta"
+                "$ref": "#/components/schemas/StoreLicenseDtoDelta"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramDtoDelta"
+                "$ref": "#/components/schemas/StoreLicenseDtoDelta"
               }
             },
             "application/json;odata.metadata=minimal": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramDtoDelta"
+                "$ref": "#/components/schemas/StoreLicenseDtoDelta"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramDtoDelta"
+                "$ref": "#/components/schemas/StoreLicenseDtoDelta"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramDtoDelta"
+                "$ref": "#/components/schemas/StoreLicenseDtoDelta"
               }
             },
             "application/json;odata.metadata=full": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramDtoDelta"
+                "$ref": "#/components/schemas/StoreLicenseDtoDelta"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramDtoDelta"
+                "$ref": "#/components/schemas/StoreLicenseDtoDelta"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramDtoDelta"
+                "$ref": "#/components/schemas/StoreLicenseDtoDelta"
               }
             },
             "application/json;odata.metadata=none": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramDtoDelta"
+                "$ref": "#/components/schemas/StoreLicenseDtoDelta"
               }
             },
             "application/json;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramDtoDelta"
+                "$ref": "#/components/schemas/StoreLicenseDtoDelta"
               }
             },
             "application/json;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramDtoDelta"
+                "$ref": "#/components/schemas/StoreLicenseDtoDelta"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramDtoDelta"
+                "$ref": "#/components/schemas/StoreLicenseDtoDelta"
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramDtoDelta"
+                "$ref": "#/components/schemas/StoreLicenseDtoDelta"
               }
             },
             "text/plain": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramDtoDelta"
+                "$ref": "#/components/schemas/StoreLicenseDtoDelta"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramDtoDelta"
+                "$ref": "#/components/schemas/StoreLicenseDtoDelta"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/RatingProgramDtoDelta"
+                "$ref": "#/components/schemas/StoreLicenseDtoDelta"
               }
             }
           }
@@ -4333,82 +4303,82 @@
             "content": {
               "application/json;odata.metadata=minimal;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.metadata=minimal;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.metadata=minimal": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.metadata=full;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.metadata=full": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.metadata=none;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.metadata=none": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.streaming=true": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json;odata.streaming=false": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "application/octet-stream": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RatingProgramDto"
+                  "$ref": "#/components/schemas/StoreLicenseDto"
                 }
               }
             }
@@ -4417,12 +4387,47 @@
       },
       "delete": {
         "tags": [
-          "RatingPrograms"
+          "StoreLicenses"
         ],
-        "operationId": "api/RatingPrograms/Id={keyId},StoreId={keyStoreId}",
+        "operationId": "api/StoreLicenses/{key}",
         "parameters": [
           {
-            "name": "keyStoreId",
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/StoreLicenses/{key}/StoreWithLicense/{relatedKey}/$ref": {
+      "post": {
+        "tags": [
+          "StoreLicenses"
+        ],
+        "operationId": "api/StoreLicenses/{key}/StoreWithLicense/{relatedKey}/$ref",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "relatedKey",
             "in": "path",
             "required": true,
             "style": "simple",
@@ -4430,9 +4435,113 @@
               "type": "string",
               "format": "uuid"
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "StoreLicenses"
+        ],
+        "operationId": "api/StoreLicenses/{key}/StoreWithLicense/{relatedKey}/$ref",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           },
           {
-            "name": "keyId",
+            "name": "relatedKey",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "StoreLicenses"
+        ],
+        "operationId": "api/StoreLicenses/{key}/StoreWithLicense/{relatedKey}/$ref",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "relatedKey",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/StoreLicenses/{key}/StoreWithLicense/$ref": {
+      "get": {
+        "tags": [
+          "StoreLicenses"
+        ],
+        "operationId": "api/StoreLicenses/{key}/StoreWithLicense/$ref",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "StoreLicenses"
+        ],
+        "operationId": "api/StoreLicenses/{key}/StoreWithLicense/$ref",
+        "parameters": [
+          {
+            "name": "key",
             "in": "path",
             "required": true,
             "style": "simple",
@@ -7190,6 +7299,155 @@
           "Stores"
         ],
         "operationId": "api/Stores/{key}/Ownership/$ref",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Stores/{key}/License/{relatedKey}/$ref": {
+      "post": {
+        "tags": [
+          "Stores"
+        ],
+        "operationId": "api/Stores/{key}/License/{relatedKey}/$ref",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "relatedKey",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Stores"
+        ],
+        "operationId": "api/Stores/{key}/License/{relatedKey}/$ref",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "relatedKey",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Stores"
+        ],
+        "operationId": "api/Stores/{key}/License/{relatedKey}/$ref",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "relatedKey",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Stores/{key}/License/$ref": {
+      "get": {
+        "tags": [
+          "Stores"
+        ],
+        "operationId": "api/Stores/{key}/License/$ref",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Stores"
+        ],
+        "operationId": "api/Stores/{key}/License/$ref",
         "parameters": [
           {
             "name": "key",
@@ -10724,91 +10982,6 @@
         },
         "additionalProperties": false
       },
-      "RatingProgramCreateDto": {
-        "required": [
-          "storeId"
-        ],
-        "type": "object",
-        "properties": {
-          "storeId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "RatingProgramDto": {
-        "type": "object",
-        "properties": {
-          "storeId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "@odata.etag": {
-            "type": "string",
-            "format": "uuid"
-          }
-        },
-        "additionalProperties": false
-      },
-      "RatingProgramDtoDelta": {
-        "type": "object",
-        "properties": {
-          "kind": {
-            "$ref": "#/components/schemas/DeltaItemKind"
-          },
-          "structuredType": {
-            "$ref": "#/components/schemas/Type"
-          },
-          "expectedClrType": {
-            "$ref": "#/components/schemas/Type"
-          },
-          "updatableProperties": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "RatingProgramDtoSingleResult": {
-        "type": "object",
-        "properties": {
-          "queryable": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RatingProgramDto"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "RatingProgramUpdateDto": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "RuntimeFieldHandle": {
         "type": "object",
         "properties": {
@@ -10876,6 +11049,9 @@
           "ownership": {
             "$ref": "#/components/schemas/StoreOwnerCreateDto"
           },
+          "license": {
+            "$ref": "#/components/schemas/StoreLicenseCreateDto"
+          },
           "verifiedEmails": {
             "$ref": "#/components/schemas/EmailAddressCreateDto"
           },
@@ -10913,6 +11089,9 @@
           },
           "ownership": {
             "$ref": "#/components/schemas/StoreOwnerDto"
+          },
+          "license": {
+            "$ref": "#/components/schemas/StoreLicenseDto"
           },
           "verifiedEmails": {
             "$ref": "#/components/schemas/EmailAddressDto"
@@ -10961,6 +11140,107 @@
               "$ref": "#/components/schemas/StoreDto"
             },
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "StoreLicenseCreateDto": {
+        "required": [
+          "issuer"
+        ],
+        "type": "object",
+        "properties": {
+          "issuer": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "storeWithLicense": {
+            "$ref": "#/components/schemas/StoreCreateDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StoreLicenseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "issuer": {
+            "type": "string",
+            "nullable": true
+          },
+          "storeWithLicenseId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "storeWithLicense": {
+            "$ref": "#/components/schemas/StoreDto"
+          },
+          "deletedAtUtc": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "@odata.etag": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StoreLicenseDtoDelta": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "$ref": "#/components/schemas/DeltaItemKind"
+          },
+          "structuredType": {
+            "$ref": "#/components/schemas/Type"
+          },
+          "expectedClrType": {
+            "$ref": "#/components/schemas/Type"
+          },
+          "updatableProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "StoreLicenseDtoSingleResult": {
+        "type": "object",
+        "properties": {
+          "queryable": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StoreLicenseDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "StoreLicenseUpdateDto": {
+        "required": [
+          "issuer",
+          "storeWithLicenseId"
+        ],
+        "type": "object",
+        "properties": {
+          "issuer": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "storeWithLicenseId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false

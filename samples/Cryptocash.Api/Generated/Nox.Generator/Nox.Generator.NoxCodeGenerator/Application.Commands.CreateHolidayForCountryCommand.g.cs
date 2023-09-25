@@ -19,7 +19,7 @@ using Holiday = Cryptocash.Domain.Holiday;
 namespace Cryptocash.Application.Commands;
 public record CreateHolidayForCountryCommand(CountryKeyDto ParentKeyDto, HolidayCreateDto EntityDto, System.Guid? Etag) : IRequest <HolidayKeyDto?>;
 
-public partial class CreateHolidayForCountryCommandHandler: CreateHolidayForCountryCommandHandlerBase
+internal partial class CreateHolidayForCountryCommandHandler: CreateHolidayForCountryCommandHandlerBase
 {
 	public CreateHolidayForCountryCommandHandler(
 		CryptocashDbContext dbContext,
@@ -30,7 +30,7 @@ public partial class CreateHolidayForCountryCommandHandler: CreateHolidayForCoun
 	{
 	}
 }
-public abstract class CreateHolidayForCountryCommandHandlerBase: CommandBase<CreateHolidayForCountryCommand, Holiday>, IRequestHandler<CreateHolidayForCountryCommand, HolidayKeyDto?>
+internal abstract class CreateHolidayForCountryCommandHandlerBase: CommandBase<CreateHolidayForCountryCommand, Holiday>, IRequestHandler<CreateHolidayForCountryCommand, HolidayKeyDto?>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> _entityFactory;

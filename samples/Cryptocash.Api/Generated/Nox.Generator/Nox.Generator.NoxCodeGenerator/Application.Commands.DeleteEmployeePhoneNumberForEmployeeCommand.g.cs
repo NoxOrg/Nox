@@ -15,7 +15,7 @@ using Cryptocash.Application.Dto;
 namespace Cryptocash.Application.Commands;
 public record DeleteEmployeePhoneNumberForEmployeeCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberKeyDto EntityKeyDto) : IRequest <bool>;
 
-public partial class DeleteEmployeePhoneNumberForEmployeeCommandHandler: CommandBase<DeleteEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumber>, IRequestHandler <DeleteEmployeePhoneNumberForEmployeeCommand, bool>
+internal partial class DeleteEmployeePhoneNumberForEmployeeCommandHandler: CommandBase<DeleteEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumber>, IRequestHandler <DeleteEmployeePhoneNumberForEmployeeCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 

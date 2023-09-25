@@ -14,7 +14,7 @@ namespace ClientApi.Application.Queries;
 
 public record GetRatingProgramByIdQuery(System.Guid keyStoreId, System.Int64 keyId) : IRequest <IQueryable<RatingProgramDto>>;
 
-public partial class GetRatingProgramByIdQueryHandler:GetRatingProgramByIdQueryHandlerBase
+internal partial class GetRatingProgramByIdQueryHandler:GetRatingProgramByIdQueryHandlerBase
 {
     public  GetRatingProgramByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
@@ -22,7 +22,7 @@ public partial class GetRatingProgramByIdQueryHandler:GetRatingProgramByIdQueryH
     }
 }
 
-public abstract class GetRatingProgramByIdQueryHandlerBase:  QueryBase<IQueryable<RatingProgramDto>>, IRequestHandler<GetRatingProgramByIdQuery, IQueryable<RatingProgramDto>>
+internal abstract class GetRatingProgramByIdQueryHandlerBase:  QueryBase<IQueryable<RatingProgramDto>>, IRequestHandler<GetRatingProgramByIdQuery, IQueryable<RatingProgramDto>>
 {
     public  GetRatingProgramByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {

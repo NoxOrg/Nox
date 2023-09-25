@@ -17,7 +17,7 @@ namespace ClientApi.Application.Commands;
 
 public record UpdateRatingProgramCommand(System.Guid keyStoreId, System.Int64 keyId, RatingProgramUpdateDto EntityDto, System.Guid? Etag) : IRequest<RatingProgramKeyDto?>;
 
-public partial class UpdateRatingProgramCommandHandler: UpdateRatingProgramCommandHandlerBase
+internal partial class UpdateRatingProgramCommandHandler: UpdateRatingProgramCommandHandlerBase
 {
 	public UpdateRatingProgramCommandHandler(
 		ClientApiDbContext dbContext,
@@ -28,7 +28,7 @@ public partial class UpdateRatingProgramCommandHandler: UpdateRatingProgramComma
 	}
 }
 
-public abstract class UpdateRatingProgramCommandHandlerBase: CommandBase<UpdateRatingProgramCommand, RatingProgram>, IRequestHandler<UpdateRatingProgramCommand, RatingProgramKeyDto?>
+internal abstract class UpdateRatingProgramCommandHandlerBase: CommandBase<UpdateRatingProgramCommand, RatingProgram>, IRequestHandler<UpdateRatingProgramCommand, RatingProgramKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	private readonly IEntityFactory<RatingProgram, RatingProgramCreateDto, RatingProgramUpdateDto> _entityFactory;

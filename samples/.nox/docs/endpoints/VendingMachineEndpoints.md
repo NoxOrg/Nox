@@ -32,133 +32,113 @@ This document provides information about the various endpoints available in our 
 
 ### Country
 
-#### Get Country relation by ID
-- **GET** `/api/VendingMachines/{key}/Countries/{relatedKey}/$ref`
-  - Description: Retrieve an existing Countries relation for a specific VendingMachine.
-
 #### Get Country relations
-- **GET** `/api/VendingMachines/{key}/Countries/$ref`
-  - Description: Retrieve all Countries relations for a specific VendingMachine.
+- **GET** `/api/VendingMachines/{key}/VendingMachineInstallationCountry/$ref`
+  - Description: Retrieve all existing Countries relations for a specific VendingMachine.
   
 #### Create Country relation
-- **POST** `/api/VendingMachines/{key}/Countries/{relatedKey}/$ref`
+- **POST** `/api/VendingMachines/{key}/VendingMachineInstallationCountry/{relatedKey}/$ref`
   - Description: Create a new Country relation for a specific VendingMachine.
-
-#### Update Country relation
-- **PUT** `/api/VendingMachines/{key}/Countries/{relatedKey}/$ref`
-  - Description: Update an existing Country relation for a specific VendingMachine.
   
-#### Partially Update Country relation
-- **PATCH** `/api/VendingMachines/{key}/Countries/{relatedKey}/$ref`
-  - Description: Partially update an existing Country relation for a specific VendingMachine.
+#### Update Country relation
+- **PUT** `/api/VendingMachines/{key}/VendingMachineInstallationCountry/{relatedKey}/$ref`
+  - Description: Updates an existing Country relation for a specific VendingMachine.
 
 #### Delete Country relation
-- **DELETE** `/api/VendingMachines/{key}/Countries/{relatedKey}/$ref`
+- **DELETE** `/api/VendingMachines/{key}/VendingMachineInstallationCountry/{relatedKey}/$ref`
   - Description: Delete an existing Country relation for a specific VendingMachine.
+
+#### Delete Country relations
+- **DELETE** `/api/VendingMachines/{key}/VendingMachineInstallationCountry/$ref`
+  - Description: Delete all existing Countries relations for a specific VendingMachine.
 
 ### LandLord
 
-#### Get LandLord relation by ID
-- **GET** `/api/VendingMachines/{key}/LandLords/{relatedKey}/$ref`
-  - Description: Retrieve an existing LandLords relation for a specific VendingMachine.
-
 #### Get LandLord relations
-- **GET** `/api/VendingMachines/{key}/LandLords/$ref`
-  - Description: Retrieve all LandLords relations for a specific VendingMachine.
+- **GET** `/api/VendingMachines/{key}/VendingMachineContractedAreaLandLord/$ref`
+  - Description: Retrieve all existing LandLords relations for a specific VendingMachine.
   
 #### Create LandLord relation
-- **POST** `/api/VendingMachines/{key}/LandLords/{relatedKey}/$ref`
+- **POST** `/api/VendingMachines/{key}/VendingMachineContractedAreaLandLord/{relatedKey}/$ref`
   - Description: Create a new LandLord relation for a specific VendingMachine.
-
-#### Update LandLord relation
-- **PUT** `/api/VendingMachines/{key}/LandLords/{relatedKey}/$ref`
-  - Description: Update an existing LandLord relation for a specific VendingMachine.
   
-#### Partially Update LandLord relation
-- **PATCH** `/api/VendingMachines/{key}/LandLords/{relatedKey}/$ref`
-  - Description: Partially update an existing LandLord relation for a specific VendingMachine.
+#### Update LandLord relation
+- **PUT** `/api/VendingMachines/{key}/VendingMachineContractedAreaLandLord/{relatedKey}/$ref`
+  - Description: Updates an existing LandLord relation for a specific VendingMachine.
 
 #### Delete LandLord relation
-- **DELETE** `/api/VendingMachines/{key}/LandLords/{relatedKey}/$ref`
+- **DELETE** `/api/VendingMachines/{key}/VendingMachineContractedAreaLandLord/{relatedKey}/$ref`
   - Description: Delete an existing LandLord relation for a specific VendingMachine.
+
+#### Delete LandLord relations
+- **DELETE** `/api/VendingMachines/{key}/VendingMachineContractedAreaLandLord/$ref`
+  - Description: Delete all existing LandLords relations for a specific VendingMachine.
 
 ### Booking
 
-#### Get Booking relation by ID
-- **GET** `/api/VendingMachines/{key}/Bookings/{relatedKey}/$ref`
-  - Description: Retrieve an existing Bookings relation for a specific VendingMachine.
-
 #### Get Booking relations
-- **GET** `/api/VendingMachines/{key}/Bookings/$ref`
-  - Description: Retrieve all Bookings relations for a specific VendingMachine.
+- **GET** `/api/VendingMachines/{key}/VendingMachineRelatedBookings/$ref`
+  - Description: Retrieve all existing Bookings relations for a specific VendingMachine.
   
 #### Create Booking relation
-- **POST** `/api/VendingMachines/{key}/Bookings/{relatedKey}/$ref`
+- **POST** `/api/VendingMachines/{key}/VendingMachineRelatedBookings/{relatedKey}/$ref`
   - Description: Create a new Booking relation for a specific VendingMachine.
-
-#### Update Booking relation
-- **PUT** `/api/VendingMachines/{key}/Bookings/{relatedKey}/$ref`
-  - Description: Update an existing Booking relation for a specific VendingMachine.
   
-#### Partially Update Booking relation
-- **PATCH** `/api/VendingMachines/{key}/Bookings/{relatedKey}/$ref`
-  - Description: Partially update an existing Booking relation for a specific VendingMachine.
+#### Update Booking relation
+- **PUT** `/api/VendingMachines/{key}/VendingMachineRelatedBookings/{relatedKey}/$ref`
+  - Description: Updates an existing Booking relation for a specific VendingMachine.
 
 #### Delete Booking relation
-- **DELETE** `/api/VendingMachines/{key}/Bookings/{relatedKey}/$ref`
+- **DELETE** `/api/VendingMachines/{key}/VendingMachineRelatedBookings/{relatedKey}/$ref`
   - Description: Delete an existing Booking relation for a specific VendingMachine.
+
+#### Delete Booking relations
+- **DELETE** `/api/VendingMachines/{key}/VendingMachineRelatedBookings/$ref`
+  - Description: Delete all existing Bookings relations for a specific VendingMachine.
 
 ### CashStockOrder
 
-#### Get CashStockOrder relation by ID
-- **GET** `/api/VendingMachines/{key}/CashStockOrders/{relatedKey}/$ref`
-  - Description: Retrieve an existing CashStockOrders relation for a specific VendingMachine.
-
 #### Get CashStockOrder relations
-- **GET** `/api/VendingMachines/{key}/CashStockOrders/$ref`
-  - Description: Retrieve all CashStockOrders relations for a specific VendingMachine.
+- **GET** `/api/VendingMachines/{key}/VendingMachineRelatedCashStockOrders/$ref`
+  - Description: Retrieve all existing CashStockOrders relations for a specific VendingMachine.
   
 #### Create CashStockOrder relation
-- **POST** `/api/VendingMachines/{key}/CashStockOrders/{relatedKey}/$ref`
+- **POST** `/api/VendingMachines/{key}/VendingMachineRelatedCashStockOrders/{relatedKey}/$ref`
   - Description: Create a new CashStockOrder relation for a specific VendingMachine.
-
-#### Update CashStockOrder relation
-- **PUT** `/api/VendingMachines/{key}/CashStockOrders/{relatedKey}/$ref`
-  - Description: Update an existing CashStockOrder relation for a specific VendingMachine.
   
-#### Partially Update CashStockOrder relation
-- **PATCH** `/api/VendingMachines/{key}/CashStockOrders/{relatedKey}/$ref`
-  - Description: Partially update an existing CashStockOrder relation for a specific VendingMachine.
+#### Update CashStockOrder relation
+- **PUT** `/api/VendingMachines/{key}/VendingMachineRelatedCashStockOrders/{relatedKey}/$ref`
+  - Description: Updates an existing CashStockOrder relation for a specific VendingMachine.
 
 #### Delete CashStockOrder relation
-- **DELETE** `/api/VendingMachines/{key}/CashStockOrders/{relatedKey}/$ref`
+- **DELETE** `/api/VendingMachines/{key}/VendingMachineRelatedCashStockOrders/{relatedKey}/$ref`
   - Description: Delete an existing CashStockOrder relation for a specific VendingMachine.
+
+#### Delete CashStockOrder relations
+- **DELETE** `/api/VendingMachines/{key}/VendingMachineRelatedCashStockOrders/$ref`
+  - Description: Delete all existing CashStockOrders relations for a specific VendingMachine.
 
 ### MinimumCashStock
 
-#### Get MinimumCashStock relation by ID
-- **GET** `/api/VendingMachines/{key}/MinimumCashStocks/{relatedKey}/$ref`
-  - Description: Retrieve an existing MinimumCashStocks relation for a specific VendingMachine.
-
 #### Get MinimumCashStock relations
-- **GET** `/api/VendingMachines/{key}/MinimumCashStocks/$ref`
-  - Description: Retrieve all MinimumCashStocks relations for a specific VendingMachine.
+- **GET** `/api/VendingMachines/{key}/VendingMachineRequiredMinimumCashStocks/$ref`
+  - Description: Retrieve all existing MinimumCashStocks relations for a specific VendingMachine.
   
 #### Create MinimumCashStock relation
-- **POST** `/api/VendingMachines/{key}/MinimumCashStocks/{relatedKey}/$ref`
+- **POST** `/api/VendingMachines/{key}/VendingMachineRequiredMinimumCashStocks/{relatedKey}/$ref`
   - Description: Create a new MinimumCashStock relation for a specific VendingMachine.
-
-#### Update MinimumCashStock relation
-- **PUT** `/api/VendingMachines/{key}/MinimumCashStocks/{relatedKey}/$ref`
-  - Description: Update an existing MinimumCashStock relation for a specific VendingMachine.
   
-#### Partially Update MinimumCashStock relation
-- **PATCH** `/api/VendingMachines/{key}/MinimumCashStocks/{relatedKey}/$ref`
-  - Description: Partially update an existing MinimumCashStock relation for a specific VendingMachine.
+#### Update MinimumCashStock relation
+- **PUT** `/api/VendingMachines/{key}/VendingMachineRequiredMinimumCashStocks/{relatedKey}/$ref`
+  - Description: Updates an existing MinimumCashStock relation for a specific VendingMachine.
 
 #### Delete MinimumCashStock relation
-- **DELETE** `/api/VendingMachines/{key}/MinimumCashStocks/{relatedKey}/$ref`
+- **DELETE** `/api/VendingMachines/{key}/VendingMachineRequiredMinimumCashStocks/{relatedKey}/$ref`
   - Description: Delete an existing MinimumCashStock relation for a specific VendingMachine.
+
+#### Delete MinimumCashStock relations
+- **DELETE** `/api/VendingMachines/{key}/VendingMachineRequiredMinimumCashStocks/$ref`
+  - Description: Delete all existing MinimumCashStocks relations for a specific VendingMachine.
 
 ## Related Entities
 

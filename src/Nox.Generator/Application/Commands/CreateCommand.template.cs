@@ -26,7 +26,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
 public record Create{{entity.Name}}Command({{entity.Name}}CreateDto EntityDto) : IRequest<{{entity.Name}}KeyDto>;
 
-public partial class Create{{entity.Name}}CommandHandler: Create{{entity.Name}}CommandHandlerBase
+internal partial class Create{{entity.Name}}CommandHandler: Create{{entity.Name}}CommandHandlerBase
 {
 	public Create{{entity.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
@@ -42,7 +42,7 @@ public partial class Create{{entity.Name}}CommandHandler: Create{{entity.Name}}C
 }
 
 
-public abstract class Create{{entity.Name}}CommandHandlerBase: CommandBase<Create{{entity.Name}}Command,{{entity.Name}}>, IRequestHandler <Create{{entity.Name}}Command, {{entity.Name}}KeyDto>
+internal abstract class Create{{entity.Name}}CommandHandlerBase: CommandBase<Create{{entity.Name}}Command,{{entity.Name}}>, IRequestHandler <Create{{entity.Name}}Command, {{entity.Name}}KeyDto>
 {
 	private readonly {{codeGeneratorState.Solution.Name}}DbContext _dbContext;
 	private readonly IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> _entityFactory;

@@ -15,7 +15,7 @@ namespace ClientApi.Application.Commands;
 
 public record DeleteCountryQualityOfLifeIndexByIdCommand(System.Int64 keyCountryId, System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
-public class DeleteCountryQualityOfLifeIndexByIdCommandHandler:DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase
+internal class DeleteCountryQualityOfLifeIndexByIdCommandHandler:DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase
 {
 	public DeleteCountryQualityOfLifeIndexByIdCommandHandler(
 		ClientApiDbContext dbContext,
@@ -24,7 +24,7 @@ public class DeleteCountryQualityOfLifeIndexByIdCommandHandler:DeleteCountryQual
 	{
 	}
 }
-public abstract class DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase: CommandBase<DeleteCountryQualityOfLifeIndexByIdCommand,CountryQualityOfLifeIndex>, IRequestHandler<DeleteCountryQualityOfLifeIndexByIdCommand, bool>
+internal abstract class DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase: CommandBase<DeleteCountryQualityOfLifeIndexByIdCommand,CountryQualityOfLifeIndex>, IRequestHandler<DeleteCountryQualityOfLifeIndexByIdCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 

@@ -18,7 +18,7 @@ namespace ClientApi.Application.Commands;
 
 public record PartialUpdateRatingProgramCommand(System.Guid keyStoreId, System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <RatingProgramKeyDto?>;
 
-public class PartialUpdateRatingProgramCommandHandler: PartialUpdateRatingProgramCommandHandlerBase
+internal class PartialUpdateRatingProgramCommandHandler: PartialUpdateRatingProgramCommandHandlerBase
 {
 	public PartialUpdateRatingProgramCommandHandler(
 		ClientApiDbContext dbContext,
@@ -28,7 +28,7 @@ public class PartialUpdateRatingProgramCommandHandler: PartialUpdateRatingProgra
 	{
 	}
 }
-public class PartialUpdateRatingProgramCommandHandlerBase: CommandBase<PartialUpdateRatingProgramCommand, RatingProgram>, IRequestHandler<PartialUpdateRatingProgramCommand, RatingProgramKeyDto?>
+internal class PartialUpdateRatingProgramCommandHandlerBase: CommandBase<PartialUpdateRatingProgramCommand, RatingProgram>, IRequestHandler<PartialUpdateRatingProgramCommand, RatingProgramKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<RatingProgram> EntityMapper { get; }

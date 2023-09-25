@@ -35,13 +35,9 @@ infrastructure:
 
   messaging:
 
-    integrationEventServer:
+    integrationEventServer:     
       name: IntegrationBus
-      provider: rabbitMq
-      serverUri: rabbitmq://localhost
-      port: 5672
-      user: guest
-      password: guest
+      provider: inMemory      
 
   security:
     secrets:

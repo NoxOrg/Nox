@@ -1,6 +1,13 @@
-﻿// Generated
+// Generated
 
 #nullable enable
+
+using System.Reflection;
+using System.Diagnostics;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 using Nox;
 using Nox.Abstractions;
@@ -11,8 +18,8 @@ using Nox.Types;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Solution;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Nox.Configuration;
+
 
 using TestWebApp.Domain;
 
@@ -30,17 +37,17 @@ public partial class TestWebAppDbContext : DbContext
             DbContextOptions<TestWebAppDbContext> options,
             NoxSolution noxSolution,
             INoxDatabaseProvider databaseProvider,
-            INoxClientAssemblyProvider clientAssemblyProvider,
+            INoxClientAssemblyProvider clientAssemblyProvider, 
             IUserProvider userProvider,
             ISystemProvider systemProvider
         ) : base(options)
-    {
-        _noxSolution = noxSolution;
-        _dbProvider = databaseProvider;
-        _clientAssemblyProvider = clientAssemblyProvider;
-        _userProvider = userProvider;
-        _systemProvider = systemProvider;
-    }
+        {
+            _noxSolution = noxSolution;
+            _dbProvider = databaseProvider;
+            _clientAssemblyProvider = clientAssemblyProvider;
+            _userProvider = userProvider;
+            _systemProvider = systemProvider;
+        }
 
     public DbSet<TestEntityZeroOrOne> TestEntityZeroOrOnes { get; set; } = null!;
 
@@ -94,11 +101,15 @@ public partial class TestWebAppDbContext : DbContext
 
     public DbSet<TestEntityOwnedRelationshipExactlyOne> TestEntityOwnedRelationshipExactlyOnes { get; set; } = null!;
 
+
     public DbSet<TestEntityOwnedRelationshipZeroOrOne> TestEntityOwnedRelationshipZeroOrOnes { get; set; } = null!;
+
 
     public DbSet<TestEntityOwnedRelationshipOneOrMany> TestEntityOwnedRelationshipOneOrManies { get; set; } = null!;
 
+
     public DbSet<TestEntityOwnedRelationshipZeroOrMany> TestEntityOwnedRelationshipZeroOrManies { get; set; } = null!;
+
 
     public DbSet<TestEntityTwoRelationshipsOneToOne> TestEntityTwoRelationshipsOneToOnes { get; set; } = null!;
 
@@ -121,16 +132,18 @@ public partial class TestWebAppDbContext : DbContext
         base.OnConfiguring(optionsBuilder);
         if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })
         {
-            _dbProvider.ConfigureDbContext(optionsBuilder, "TestWebApp", _noxSolution.Infrastructure!.Persistence.DatabaseServer);
+            _dbProvider.ConfigureDbContext(optionsBuilder, "TestWebApp", _noxSolution.Infrastructure!.Persistence.DatabaseServer); 
         }
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+       
+
         if (_noxSolution.Domain != null)
         {
-            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
+            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);                            
             foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
             {
                 Console.WriteLine($"TestWebAppDbContext Configure database for Entity {entity.Name}");
@@ -160,10 +173,11 @@ public partial class TestWebAppDbContext : DbContext
         {
             HandleSystemFields();
             return await base.SaveChangesAsync(cancellationToken);
+
         }
-        catch (DbUpdateConcurrencyException)
+        catch(DbUpdateConcurrencyException)
         {
-            throw new ConcurrencyException($"Latest value of {nameof(IEntityConcurrent.Etag)} must be provided");
+            throw new Nox.Exceptions.ConcurrencyException($"Latest value of {nameof(IEntityConcurrent.Etag)} must be provided");
         }
     }
 

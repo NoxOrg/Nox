@@ -19,7 +19,7 @@ namespace ClientApi.Application.Commands;
 
 public record CreateRatingProgramCommand(RatingProgramCreateDto EntityDto) : IRequest<RatingProgramKeyDto>;
 
-public partial class CreateRatingProgramCommandHandler: CreateRatingProgramCommandHandlerBase
+internal partial class CreateRatingProgramCommandHandler: CreateRatingProgramCommandHandlerBase
 {
 	public CreateRatingProgramCommandHandler(
 		ClientApiDbContext dbContext,
@@ -32,7 +32,7 @@ public partial class CreateRatingProgramCommandHandler: CreateRatingProgramComma
 }
 
 
-public abstract class CreateRatingProgramCommandHandlerBase: CommandBase<CreateRatingProgramCommand,RatingProgram>, IRequestHandler <CreateRatingProgramCommand, RatingProgramKeyDto>
+internal abstract class CreateRatingProgramCommandHandlerBase: CommandBase<CreateRatingProgramCommand,RatingProgram>, IRequestHandler <CreateRatingProgramCommand, RatingProgramKeyDto>
 {
 	private readonly ClientApiDbContext _dbContext;
 	private readonly IEntityFactory<RatingProgram, RatingProgramCreateDto, RatingProgramUpdateDto> _entityFactory;

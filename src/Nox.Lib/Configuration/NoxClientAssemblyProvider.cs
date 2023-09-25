@@ -5,14 +5,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nox
+namespace Nox.Configuration
 {
-    public interface INoxClientAssemblyProvider
-    {
-        Assembly ClientAssembly { get; }
-    }
-
-    public class NoxClientAssemblyProvider : INoxClientAssemblyProvider
+    internal class NoxClientAssemblyProvider : INoxClientAssemblyProvider
     {
         public NoxClientAssemblyProvider(Assembly clientAssembly)
         {
