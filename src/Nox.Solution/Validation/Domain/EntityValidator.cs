@@ -83,6 +83,27 @@ namespace Nox.Solution.Validation
             When(e => e.IsOwnedEntity, () =>
                 RuleFor(e => e).SetValidator(new OwnedEntityValidator(entities))
             );
+
+            /*
+                1. Owned entity with ZeroOrOne or ExactlyOne relationship keys must be null. 
+                2. Keys are mandatory for all other entity usages
+                3. Keys must be single for Entity used a Foreign Key 
+            */
+            When(x => x.Relationships.Any(), () =>
+            {
+                When(x => x.IsOwnedEntity && x.Relationships.Any(x => x.Relationship == EntityRelationshipType.ZeroOrOne || x.Relationship == EntityRelationshipType.ExactlyOne), () =>
+                {
+                    RuleFor(x => x.Keys)
+                        .Empty()
+                        .WithMessage(x => string.Format(ValidationResources.OwnedEntityKeysMustBeNull, x.Name));
+                })
+                .Otherwise(() =>
+                {
+                    RuleFor(x => x.Keys)
+                        .NotEmpty()
+                        .WithMessage(x => string.Format(ValidationResources.EntityKeysRequired, x.Name));
+                });
+            });
         }
     }
 }

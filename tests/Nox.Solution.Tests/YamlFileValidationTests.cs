@@ -155,6 +155,94 @@ public class YamlFileValidationTests
         Assert.Equal("The owned entity 'Country' cannot be referred by other entities relationships.", errors[1].ErrorMessage);
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    [Fact]
+    public void Deserialize_OwnedEntity_HasKeysWhenRelationshipIsZeroOrOne_ThrowsException()
+    {
+        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
+            .UseYamlFile($"./files/owned-entity-has-keys-when-relationship-is-zeroOrOne.solution.nox.yaml")
+            .Build());
+
+        var errors = exception.Errors.ToArray();
+
+        Assert.Equal(2, errors.Length);
+
+        Assert.Equal("Owned entity Country with ZeroOrOne or ExactlyOne relationship can not have key(s).", errors[0].ErrorMessage);
+        Assert.Equal("Owned entity Currency with ZeroOrOne or ExactlyOne relationship can not have key(s).", errors[1].ErrorMessage);
+    }
+
+    [Fact]
+    public void Deserialize_OwnedEntity_HasKeysWhenRelationshipIsExactlyOne_ThrowsException()
+    {
+        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
+            .UseYamlFile($"./files/owned-entity-has-keys-when-relationship-is-exactlyOne.solution.nox.yaml")
+            .Build());
+
+        var errors = exception.Errors.ToArray();
+
+        Assert.Equal(2, errors.Length);
+
+        Assert.Equal("Owned entity Country with ZeroOrOne or ExactlyOne relationship can not have key(s).", errors[0].ErrorMessage);
+        Assert.Equal("Owned entity Currency with ZeroOrOne or ExactlyOne relationship can not have key(s).", errors[1].ErrorMessage);
+    }
+
+    [Fact]
+    public void Deserialize_OwnedEntity_DoesNotHaveKeysWhenRelationshipIsZeroOrMany_ThrowsException()
+    {
+        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
+            .UseYamlFile($"./files/owned-entity-does-not-have-keys-when-relatonship-is-zeroOrMany.solution.nox.yaml")
+            .Build());
+
+        var errors = exception.Errors.ToArray();
+
+        Assert.Equal(2, errors.Length);
+
+        Assert.Equal("Keys are mandatory for entity Country. Except owned entities with ZeroOrOne or ExactlyOne relationships.", errors[0].ErrorMessage);
+        Assert.Equal("Keys are mandatory for entity Currency. Except owned entities with ZeroOrOne or ExactlyOne relationships.", errors[1].ErrorMessage);
+    }
+
+    [Fact]
+    public void Deserialize_OwnedEntity_DoesNotHaveKeysWhenRelationshipIsOneOrMany_ThrowsException()
+    {
+        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
+            .UseYamlFile($"./files/owned-entity-does-not-have-keys-when-relatonship-is-oneOrMany.solution.nox.yaml")
+            .Build());
+
+        var errors = exception.Errors.ToArray();
+
+        Assert.Equal(2, errors.Length);
+
+        Assert.Equal("Keys are mandatory for entity Country. Except owned entities with ZeroOrOne or ExactlyOne relationships.", errors[0].ErrorMessage);
+        Assert.Equal("Keys are mandatory for entity Currency. Except owned entities with ZeroOrOne or ExactlyOne relationships.", errors[1].ErrorMessage);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     [Fact]
     public void Deserialize_EntityItemsNameAreDuplicated_ThrowsException()
     {

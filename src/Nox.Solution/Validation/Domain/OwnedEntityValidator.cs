@@ -14,21 +14,21 @@ internal class OwnedEntityValidator : AbstractValidator<Entity>
             2. Keys are mandatory for all other entity usages
             3. Keys must be single for Entity used a Foreign Key 
         */
-        When(e => e.Relationships.Any(), () =>
-        {
-            When(e => e.Relationships.Any(x => x.Relationship == EntityRelationshipType.ZeroOrOne || x.Relationship == EntityRelationshipType.ExactlyOne), () =>
-            {
-                RuleFor(e => e.Keys)
-                    .Empty()
-                    .WithMessage(e => string.Format(ValidationResources.OwnedEntityKeysMustBeNull, e.Name));
-            })
-            .Otherwise(() =>
-            {
-                RuleFor(e => e.Keys)
-                   .NotEmpty()
-                   .WithMessage(e => string.Format(ValidationResources.EntityKeysRequired, e.Name));
-            });
-        });
+        //When(e => e.Relationships.Any(), () =>
+        //{
+        //    When(e => e.Relationships.Any(r => r.Relationship == EntityRelationshipType.ZeroOrOne || r.Relationship == EntityRelationshipType.ExactlyOne), () =>
+        //    {
+        //        RuleFor(e => e.Keys)
+        //            .Empty()
+        //            .WithMessage(e => string.Format(ValidationResources.OwnedEntityKeysMustBeNull, e.Name));
+        //    })
+        //    .Otherwise(() =>
+        //    {
+        //        RuleFor(e => e.Keys)
+        //           .NotEmpty()
+        //           .WithMessage(e => string.Format(ValidationResources.EntityKeysRequired, e.Name));
+        //    });
+        //});
 
         // Owned entity cannot be auditable
         RuleFor(e => e.Persistence!.IsAudited)
