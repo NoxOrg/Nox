@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
@@ -17,20 +18,20 @@ public partial class PaymentDetail:PaymentDetailBase
 /// <summary>
 /// Record for PaymentDetail created event.
 /// </summary>
-public record PaymentDetailCreated(PaymentDetail PaymentDetail) : IDomainEvent;
+public record PaymentDetailCreated(PaymentDetailBase PaymentDetail) : IDomainEvent;
 /// <summary>
 /// Record for PaymentDetail updated event.
 /// </summary>
-public record PaymentDetailUpdated(PaymentDetail PaymentDetail) : IDomainEvent;
+public record PaymentDetailUpdated(PaymentDetailBase PaymentDetail) : IDomainEvent;
 /// <summary>
 /// Record for PaymentDetail deleted event.
 /// </summary>
-public record PaymentDetailDeleted(PaymentDetail PaymentDetail) : IDomainEvent;
+public record PaymentDetailDeleted(PaymentDetailBase PaymentDetail) : IDomainEvent;
 
 /// <summary>
 /// Customer payment account related data.
 /// </summary>
-public abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent
+public abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     /// Customer payment account unique identifier (Required).
@@ -51,6 +52,35 @@ public abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent
     /// Payment account sort code (Optional).
     /// </summary>
     public Nox.Types.Text? PaymentAccountSortCode { get; set; } = null!;
+
+	///<inheritdoc/>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+
+	private readonly List<IDomainEvent> _domainEvents = new();
+	
+	///<inheritdoc/>
+	public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new PaymentDetailCreated(this));     
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseUpdateEvent()
+	{
+		_domainEvents.Add(new PaymentDetailUpdated(this));  
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseDeleteEvent()
+	{
+		_domainEvents.Add(new PaymentDetailDeleted(this)); 
+	}
+	
+	///<inheritdoc />
+    public virtual void ClearDomainEvents()
+	{
+		_domainEvents.Clear();
+	}
 
     /// <summary>
     /// PaymentDetail used by ExactlyOne Customers

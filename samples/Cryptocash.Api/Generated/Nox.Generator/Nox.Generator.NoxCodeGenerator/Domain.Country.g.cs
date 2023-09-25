@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
@@ -17,20 +18,20 @@ public partial class Country:CountryBase
 /// <summary>
 /// Record for Country created event.
 /// </summary>
-public record CountryCreated(Country Country) : IDomainEvent;
+public record CountryCreated(CountryBase Country) : IDomainEvent;
 /// <summary>
 /// Record for Country updated event.
 /// </summary>
-public record CountryUpdated(Country Country) : IDomainEvent;
+public record CountryUpdated(CountryBase Country) : IDomainEvent;
 /// <summary>
 /// Record for Country deleted event.
 /// </summary>
-public record CountryDeleted(Country Country) : IDomainEvent;
+public record CountryDeleted(CountryBase Country) : IDomainEvent;
 
 /// <summary>
 /// Country and related data.
 /// </summary>
-public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
+public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     /// Country unique identifier (Required).
@@ -101,6 +102,35 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// Country's start of week day (Required).
     /// </summary>
     public Nox.Types.DayOfWeek StartOfWeek { get; set; } = null!;
+
+	///<inheritdoc/>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+
+	private readonly List<IDomainEvent> _domainEvents = new();
+	
+	///<inheritdoc/>
+	public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new CountryCreated(this));     
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseUpdateEvent()
+	{
+		_domainEvents.Add(new CountryUpdated(this));  
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseDeleteEvent()
+	{
+		_domainEvents.Add(new CountryDeleted(this)); 
+	}
+	
+	///<inheritdoc />
+    public virtual void ClearDomainEvents()
+	{
+		_domainEvents.Clear();
+	}
 
     /// <summary>
     /// Country used by ExactlyOne Currencies

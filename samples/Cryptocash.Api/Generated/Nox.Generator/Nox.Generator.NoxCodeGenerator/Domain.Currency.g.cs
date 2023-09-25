@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
@@ -17,20 +18,20 @@ public partial class Currency:CurrencyBase
 /// <summary>
 /// Record for Currency created event.
 /// </summary>
-public record CurrencyCreated(Currency Currency) : IDomainEvent;
+public record CurrencyCreated(CurrencyBase Currency) : IDomainEvent;
 /// <summary>
 /// Record for Currency updated event.
 /// </summary>
-public record CurrencyUpdated(Currency Currency) : IDomainEvent;
+public record CurrencyUpdated(CurrencyBase Currency) : IDomainEvent;
 /// <summary>
 /// Record for Currency deleted event.
 /// </summary>
-public record CurrencyDeleted(Currency Currency) : IDomainEvent;
+public record CurrencyDeleted(CurrencyBase Currency) : IDomainEvent;
 
 /// <summary>
 /// Currency and related data.
 /// </summary>
-public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
+public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     /// Currency unique identifier (Required).
@@ -96,6 +97,35 @@ public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
     /// Currency's minor value when converted to major (Required).
     /// </summary>
     public Nox.Types.Money MinorToMajorValue { get; set; } = null!;
+
+	///<inheritdoc/>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+
+	private readonly List<IDomainEvent> _domainEvents = new();
+	
+	///<inheritdoc/>
+	public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new CurrencyCreated(this));     
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseUpdateEvent()
+	{
+		_domainEvents.Add(new CurrencyUpdated(this));  
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseDeleteEvent()
+	{
+		_domainEvents.Add(new CurrencyDeleted(this)); 
+	}
+	
+	///<inheritdoc />
+    public virtual void ClearDomainEvents()
+	{
+		_domainEvents.Clear();
+	}
 
     /// <summary>
     /// Currency used by OneOrMany Countries

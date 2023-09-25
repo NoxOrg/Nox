@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
@@ -17,20 +18,20 @@ public partial class MinimumCashStock:MinimumCashStockBase
 /// <summary>
 /// Record for MinimumCashStock created event.
 /// </summary>
-public record MinimumCashStockCreated(MinimumCashStock MinimumCashStock) : IDomainEvent;
+public record MinimumCashStockCreated(MinimumCashStockBase MinimumCashStock) : IDomainEvent;
 /// <summary>
 /// Record for MinimumCashStock updated event.
 /// </summary>
-public record MinimumCashStockUpdated(MinimumCashStock MinimumCashStock) : IDomainEvent;
+public record MinimumCashStockUpdated(MinimumCashStockBase MinimumCashStock) : IDomainEvent;
 /// <summary>
 /// Record for MinimumCashStock deleted event.
 /// </summary>
-public record MinimumCashStockDeleted(MinimumCashStock MinimumCashStock) : IDomainEvent;
+public record MinimumCashStockDeleted(MinimumCashStockBase MinimumCashStock) : IDomainEvent;
 
 /// <summary>
 /// Minimum cash stock required for vending machine.
 /// </summary>
-public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurrent
+public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     /// Vending machine cash stock unique identifier (Required).
@@ -41,6 +42,35 @@ public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurr
     /// Cash stock amount (Required).
     /// </summary>
     public Nox.Types.Money Amount { get; set; } = null!;
+
+	///<inheritdoc/>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+
+	private readonly List<IDomainEvent> _domainEvents = new();
+	
+	///<inheritdoc/>
+	public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new MinimumCashStockCreated(this));     
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseUpdateEvent()
+	{
+		_domainEvents.Add(new MinimumCashStockUpdated(this));  
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseDeleteEvent()
+	{
+		_domainEvents.Add(new MinimumCashStockDeleted(this)); 
+	}
+	
+	///<inheritdoc />
+    public virtual void ClearDomainEvents()
+	{
+		_domainEvents.Clear();
+	}
 
     /// <summary>
     /// MinimumCashStock required by ZeroOrMany VendingMachines

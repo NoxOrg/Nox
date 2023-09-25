@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
@@ -17,20 +18,20 @@ public partial class VendingMachine:VendingMachineBase
 /// <summary>
 /// Record for VendingMachine created event.
 /// </summary>
-public record VendingMachineCreated(VendingMachine VendingMachine) : IDomainEvent;
+public record VendingMachineCreated(VendingMachineBase VendingMachine) : IDomainEvent;
 /// <summary>
 /// Record for VendingMachine updated event.
 /// </summary>
-public record VendingMachineUpdated(VendingMachine VendingMachine) : IDomainEvent;
+public record VendingMachineUpdated(VendingMachineBase VendingMachine) : IDomainEvent;
 /// <summary>
 /// Record for VendingMachine deleted event.
 /// </summary>
-public record VendingMachineDeleted(VendingMachine VendingMachine) : IDomainEvent;
+public record VendingMachineDeleted(VendingMachineBase VendingMachine) : IDomainEvent;
 
 /// <summary>
 /// Vending machine definition and related data.
 /// </summary>
-public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurrent
+public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     /// Vending machine unique identifier (Required).
@@ -87,6 +88,35 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
     /// Landlord rent amount based on area of the vending machine installation (Optional).
     /// </summary>
     public Nox.Types.Money? RentPerSquareMetre { get; set; } = null!;
+
+	///<inheritdoc/>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+
+	private readonly List<IDomainEvent> _domainEvents = new();
+	
+	///<inheritdoc/>
+	public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new VendingMachineCreated(this));     
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseUpdateEvent()
+	{
+		_domainEvents.Add(new VendingMachineUpdated(this));  
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseDeleteEvent()
+	{
+		_domainEvents.Add(new VendingMachineDeleted(this)); 
+	}
+	
+	///<inheritdoc />
+    public virtual void ClearDomainEvents()
+	{
+		_domainEvents.Clear();
+	}
 
     /// <summary>
     /// VendingMachine installed in ExactlyOne Countries

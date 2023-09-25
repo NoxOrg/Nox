@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
@@ -17,20 +18,20 @@ public partial class CashStockOrder:CashStockOrderBase
 /// <summary>
 /// Record for CashStockOrder created event.
 /// </summary>
-public record CashStockOrderCreated(CashStockOrder CashStockOrder) : IDomainEvent;
+public record CashStockOrderCreated(CashStockOrderBase CashStockOrder) : IDomainEvent;
 /// <summary>
 /// Record for CashStockOrder updated event.
 /// </summary>
-public record CashStockOrderUpdated(CashStockOrder CashStockOrder) : IDomainEvent;
+public record CashStockOrderUpdated(CashStockOrderBase CashStockOrder) : IDomainEvent;
 /// <summary>
 /// Record for CashStockOrder deleted event.
 /// </summary>
-public record CashStockOrderDeleted(CashStockOrder CashStockOrder) : IDomainEvent;
+public record CashStockOrderDeleted(CashStockOrderBase CashStockOrder) : IDomainEvent;
 
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-public abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurrent
+public abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     /// Vending machine's order unique identifier (Required).
@@ -60,6 +61,35 @@ public abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurren
         get { return DeliveryDateTime != null ? "delivered" : "ordered"; }
         private set { }
     }
+
+	///<inheritdoc/>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+
+	private readonly List<IDomainEvent> _domainEvents = new();
+	
+	///<inheritdoc/>
+	public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new CashStockOrderCreated(this));     
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseUpdateEvent()
+	{
+		_domainEvents.Add(new CashStockOrderUpdated(this));  
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseDeleteEvent()
+	{
+		_domainEvents.Add(new CashStockOrderDeleted(this)); 
+	}
+	
+	///<inheritdoc />
+    public virtual void ClearDomainEvents()
+	{
+		_domainEvents.Clear();
+	}
 
     /// <summary>
     /// CashStockOrder for ExactlyOne VendingMachines

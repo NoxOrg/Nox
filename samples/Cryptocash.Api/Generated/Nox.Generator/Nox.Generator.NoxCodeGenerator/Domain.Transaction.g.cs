@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
@@ -17,20 +18,20 @@ public partial class Transaction:TransactionBase
 /// <summary>
 /// Record for Transaction created event.
 /// </summary>
-public record TransactionCreated(Transaction Transaction) : IDomainEvent;
+public record TransactionCreated(TransactionBase Transaction) : IDomainEvent;
 /// <summary>
 /// Record for Transaction updated event.
 /// </summary>
-public record TransactionUpdated(Transaction Transaction) : IDomainEvent;
+public record TransactionUpdated(TransactionBase Transaction) : IDomainEvent;
 /// <summary>
 /// Record for Transaction deleted event.
 /// </summary>
-public record TransactionDeleted(Transaction Transaction) : IDomainEvent;
+public record TransactionDeleted(TransactionBase Transaction) : IDomainEvent;
 
 /// <summary>
 /// Customer transaction log and related data.
 /// </summary>
-public abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent
+public abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     /// Customer transaction unique identifier (Required).
@@ -56,6 +57,35 @@ public abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent
     /// Transaction external reference (Required).
     /// </summary>
     public Nox.Types.Text Reference { get; set; } = null!;
+
+	///<inheritdoc/>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+
+	private readonly List<IDomainEvent> _domainEvents = new();
+	
+	///<inheritdoc/>
+	public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new TransactionCreated(this));     
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseUpdateEvent()
+	{
+		_domainEvents.Add(new TransactionUpdated(this));  
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseDeleteEvent()
+	{
+		_domainEvents.Add(new TransactionDeleted(this)); 
+	}
+	
+	///<inheritdoc />
+    public virtual void ClearDomainEvents()
+	{
+		_domainEvents.Clear();
+	}
 
     /// <summary>
     /// Transaction for ExactlyOne Customers

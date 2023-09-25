@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
@@ -17,20 +18,20 @@ public partial class Commission:CommissionBase
 /// <summary>
 /// Record for Commission created event.
 /// </summary>
-public record CommissionCreated(Commission Commission) : IDomainEvent;
+public record CommissionCreated(CommissionBase Commission) : IDomainEvent;
 /// <summary>
 /// Record for Commission updated event.
 /// </summary>
-public record CommissionUpdated(Commission Commission) : IDomainEvent;
+public record CommissionUpdated(CommissionBase Commission) : IDomainEvent;
 /// <summary>
 /// Record for Commission deleted event.
 /// </summary>
-public record CommissionDeleted(Commission Commission) : IDomainEvent;
+public record CommissionDeleted(CommissionBase Commission) : IDomainEvent;
 
 /// <summary>
 /// Exchange commission rate and amount.
 /// </summary>
-public abstract class CommissionBase : AuditableEntityBase, IEntityConcurrent
+public abstract class CommissionBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     /// Commission unique identifier (Required).
@@ -46,6 +47,35 @@ public abstract class CommissionBase : AuditableEntityBase, IEntityConcurrent
     /// Exchange rate conversion amount (Required).
     /// </summary>
     public Nox.Types.DateTime EffectiveAt { get; set; } = null!;
+
+	///<inheritdoc/>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+
+	private readonly List<IDomainEvent> _domainEvents = new();
+	
+	///<inheritdoc/>
+	public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new CommissionCreated(this));     
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseUpdateEvent()
+	{
+		_domainEvents.Add(new CommissionUpdated(this));  
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseDeleteEvent()
+	{
+		_domainEvents.Add(new CommissionDeleted(this)); 
+	}
+	
+	///<inheritdoc />
+    public virtual void ClearDomainEvents()
+	{
+		_domainEvents.Clear();
+	}
 
     /// <summary>
     /// Commission fees for ZeroOrOne Countries

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
@@ -17,20 +18,20 @@ public partial class Booking:BookingBase
 /// <summary>
 /// Record for Booking created event.
 /// </summary>
-public record BookingCreated(Booking Booking) : IDomainEvent;
+public record BookingCreated(BookingBase Booking) : IDomainEvent;
 /// <summary>
 /// Record for Booking updated event.
 /// </summary>
-public record BookingUpdated(Booking Booking) : IDomainEvent;
+public record BookingUpdated(BookingBase Booking) : IDomainEvent;
 /// <summary>
 /// Record for Booking deleted event.
 /// </summary>
-public record BookingDeleted(Booking Booking) : IDomainEvent;
+public record BookingDeleted(BookingBase Booking) : IDomainEvent;
 
 /// <summary>
 /// Exchange booking and related data.
 /// </summary>
-public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
+public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     /// Booking unique identifier (Required).
@@ -96,6 +97,35 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
     /// Booking's related vat number (Optional).
     /// </summary>
     public Nox.Types.VatNumber? VatNumber { get; set; } = null!;
+
+	///<inheritdoc/>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+
+	private readonly List<IDomainEvent> _domainEvents = new();
+	
+	///<inheritdoc/>
+	public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new BookingCreated(this));     
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseUpdateEvent()
+	{
+		_domainEvents.Add(new BookingUpdated(this));  
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseDeleteEvent()
+	{
+		_domainEvents.Add(new BookingDeleted(this)); 
+	}
+	
+	///<inheritdoc />
+    public virtual void ClearDomainEvents()
+	{
+		_domainEvents.Clear();
+	}
 
     /// <summary>
     /// Booking for ExactlyOne Customers

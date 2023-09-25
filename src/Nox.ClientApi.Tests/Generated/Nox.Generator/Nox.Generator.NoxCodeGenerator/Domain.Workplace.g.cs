@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
@@ -17,20 +18,20 @@ public partial class Workplace:WorkplaceBase
 /// <summary>
 /// Record for Workplace created event.
 /// </summary>
-public record WorkplaceCreated(Workplace Workplace) : IDomainEvent;
+public record WorkplaceCreated(WorkplaceBase Workplace) : IDomainEvent;
 /// <summary>
 /// Record for Workplace updated event.
 /// </summary>
-public record WorkplaceUpdated(Workplace Workplace) : IDomainEvent;
+public record WorkplaceUpdated(WorkplaceBase Workplace) : IDomainEvent;
 /// <summary>
 /// Record for Workplace deleted event.
 /// </summary>
-public record WorkplaceDeleted(Workplace Workplace) : IDomainEvent;
+public record WorkplaceDeleted(WorkplaceBase Workplace) : IDomainEvent;
 
 /// <summary>
 /// Workplace.
 /// </summary>
-public abstract class WorkplaceBase : EntityBase, IEntityConcurrent
+public abstract class WorkplaceBase : EntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     /// Workplace unique identifier (Required).
@@ -71,6 +72,35 @@ public abstract class WorkplaceBase : EntityBase, IEntityConcurrent
         get { return $"Hello, {Name.Value}!"; }
         private set { }
     }
+
+	///<inheritdoc/>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+
+	private readonly List<IDomainEvent> _domainEvents = new();
+	
+	///<inheritdoc/>
+	public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new WorkplaceCreated(this));     
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseUpdateEvent()
+	{
+		_domainEvents.Add(new WorkplaceUpdated(this));  
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseDeleteEvent()
+	{
+		_domainEvents.Add(new WorkplaceDeleted(this)); 
+	}
+	
+	///<inheritdoc />
+    public virtual void ClearDomainEvents()
+	{
+		_domainEvents.Clear();
+	}
 
     /// <summary>
     /// Workplace Workplace country ZeroOrOne Countries

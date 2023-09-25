@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
@@ -17,20 +18,20 @@ public partial class StoreOwner:StoreOwnerBase
 /// <summary>
 /// Record for StoreOwner created event.
 /// </summary>
-public record StoreOwnerCreated(StoreOwner StoreOwner) : IDomainEvent;
+public record StoreOwnerCreated(StoreOwnerBase StoreOwner) : IDomainEvent;
 /// <summary>
 /// Record for StoreOwner updated event.
 /// </summary>
-public record StoreOwnerUpdated(StoreOwner StoreOwner) : IDomainEvent;
+public record StoreOwnerUpdated(StoreOwnerBase StoreOwner) : IDomainEvent;
 /// <summary>
 /// Record for StoreOwner deleted event.
 /// </summary>
-public record StoreOwnerDeleted(StoreOwner StoreOwner) : IDomainEvent;
+public record StoreOwnerDeleted(StoreOwnerBase StoreOwner) : IDomainEvent;
 
 /// <summary>
 /// Store owners.
 /// </summary>
-public abstract class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent
+public abstract class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     ///  (Required).
@@ -66,6 +67,35 @@ public abstract class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent
     /// Notes (Optional).
     /// </summary>
     public Nox.Types.Text? Notes { get; set; } = null!;
+
+	///<inheritdoc/>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+
+	private readonly List<IDomainEvent> _domainEvents = new();
+	
+	///<inheritdoc/>
+	public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new StoreOwnerCreated(this));     
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseUpdateEvent()
+	{
+		_domainEvents.Add(new StoreOwnerUpdated(this));  
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseDeleteEvent()
+	{
+		_domainEvents.Add(new StoreOwnerDeleted(this)); 
+	}
+	
+	///<inheritdoc />
+    public virtual void ClearDomainEvents()
+	{
+		_domainEvents.Clear();
+	}
 
     /// <summary>
     /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores

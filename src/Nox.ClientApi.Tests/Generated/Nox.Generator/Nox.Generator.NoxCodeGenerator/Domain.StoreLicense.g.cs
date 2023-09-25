@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
@@ -17,20 +18,20 @@ public partial class StoreLicense:StoreLicenseBase
 /// <summary>
 /// Record for StoreLicense created event.
 /// </summary>
-public record StoreLicenseCreated(StoreLicense StoreLicense) : IDomainEvent;
+public record StoreLicenseCreated(StoreLicenseBase StoreLicense) : IDomainEvent;
 /// <summary>
 /// Record for StoreLicense updated event.
 /// </summary>
-public record StoreLicenseUpdated(StoreLicense StoreLicense) : IDomainEvent;
+public record StoreLicenseUpdated(StoreLicenseBase StoreLicense) : IDomainEvent;
 /// <summary>
 /// Record for StoreLicense deleted event.
 /// </summary>
-public record StoreLicenseDeleted(StoreLicense StoreLicense) : IDomainEvent;
+public record StoreLicenseDeleted(StoreLicenseBase StoreLicense) : IDomainEvent;
 
 /// <summary>
 /// Store license info.
 /// </summary>
-public abstract class StoreLicenseBase : AuditableEntityBase, IEntityConcurrent
+public abstract class StoreLicenseBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     ///  (Required).
@@ -41,6 +42,35 @@ public abstract class StoreLicenseBase : AuditableEntityBase, IEntityConcurrent
     /// License issuer (Required).
     /// </summary>
     public Nox.Types.Text Issuer { get; set; } = null!;
+
+	///<inheritdoc/>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+
+	private readonly List<IDomainEvent> _domainEvents = new();
+	
+	///<inheritdoc/>
+	public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new StoreLicenseCreated(this));     
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseUpdateEvent()
+	{
+		_domainEvents.Add(new StoreLicenseUpdated(this));  
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseDeleteEvent()
+	{
+		_domainEvents.Add(new StoreLicenseDeleted(this)); 
+	}
+	
+	///<inheritdoc />
+    public virtual void ClearDomainEvents()
+	{
+		_domainEvents.Clear();
+	}
 
     /// <summary>
     /// StoreLicense Store that this license related to ExactlyOne Stores

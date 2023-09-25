@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
@@ -17,20 +18,20 @@ public partial class Store:StoreBase
 /// <summary>
 /// Record for Store created event.
 /// </summary>
-public record StoreCreated(Store Store) : IDomainEvent;
+public record StoreCreated(StoreBase Store) : IDomainEvent;
 /// <summary>
 /// Record for Store updated event.
 /// </summary>
-public record StoreUpdated(Store Store) : IDomainEvent;
+public record StoreUpdated(StoreBase Store) : IDomainEvent;
 /// <summary>
 /// Record for Store deleted event.
 /// </summary>
-public record StoreDeleted(Store Store) : IDomainEvent;
+public record StoreDeleted(StoreBase Store) : IDomainEvent;
 
 /// <summary>
 /// Stores.
 /// </summary>
-public abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
+public abstract class StoreBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     ///  (Required).
@@ -72,6 +73,35 @@ public abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
     /// Opening day (Optional).
     /// </summary>
     public Nox.Types.DateTime? OpeningDay { get; set; } = null!;
+
+	///<inheritdoc/>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+
+	private readonly List<IDomainEvent> _domainEvents = new();
+	
+	///<inheritdoc/>
+	public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new StoreCreated(this));     
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseUpdateEvent()
+	{
+		_domainEvents.Add(new StoreUpdated(this));  
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseDeleteEvent()
+	{
+		_domainEvents.Add(new StoreDeleted(this)); 
+	}
+	
+	///<inheritdoc />
+    public virtual void ClearDomainEvents()
+	{
+		_domainEvents.Clear();
+	}
 
     /// <summary>
     /// Store Owner of the Store ZeroOrOne StoreOwners

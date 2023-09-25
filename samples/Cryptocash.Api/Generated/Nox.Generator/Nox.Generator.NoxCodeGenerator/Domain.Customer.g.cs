@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
@@ -17,20 +18,20 @@ public partial class Customer:CustomerBase
 /// <summary>
 /// Record for Customer created event.
 /// </summary>
-public record CustomerCreated(Customer Customer) : IDomainEvent;
+public record CustomerCreated(CustomerBase Customer) : IDomainEvent;
 /// <summary>
 /// Record for Customer updated event.
 /// </summary>
-public record CustomerUpdated(Customer Customer) : IDomainEvent;
+public record CustomerUpdated(CustomerBase Customer) : IDomainEvent;
 /// <summary>
 /// Record for Customer deleted event.
 /// </summary>
-public record CustomerDeleted(Customer Customer) : IDomainEvent;
+public record CustomerDeleted(CustomerBase Customer) : IDomainEvent;
 
 /// <summary>
 /// Customer definition and related data.
 /// </summary>
-public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
+public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     /// Customer's unique identifier (Required).
@@ -61,6 +62,35 @@ public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
     /// Customer's mobile number (Optional).
     /// </summary>
     public Nox.Types.PhoneNumber? MobileNumber { get; set; } = null!;
+
+	///<inheritdoc/>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+
+	private readonly List<IDomainEvent> _domainEvents = new();
+	
+	///<inheritdoc/>
+	public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new CustomerCreated(this));     
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseUpdateEvent()
+	{
+		_domainEvents.Add(new CustomerUpdated(this));  
+	}
+	
+	///<inheritdoc/>
+	public virtual void RaiseDeleteEvent()
+	{
+		_domainEvents.Add(new CustomerDeleted(this)); 
+	}
+	
+	///<inheritdoc />
+    public virtual void ClearDomainEvents()
+	{
+		_domainEvents.Clear();
+	}
 
     /// <summary>
     /// Customer related to ZeroOrMany PaymentDetails
