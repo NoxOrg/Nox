@@ -1,27 +1,35 @@
 ﻿// Generated
 
 #nullable enable
-{{~ for namespace in namespaces}}
-using {{ namespace ~}};
+
+using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+using Microsoft.OData.ModelBuilder;
+using Nox;
+using Nox.Solution;
+using Nox.Configuration;
+using Nox.Types.EntityFramework.Abstractions;
+using {{ solutionName }}.Infrastructure.Persistence;
+{{- if configPresentation == true }}
+using {{ solutionName }}.Presentation.Api.OData;
 {{- end }}
 
-public static class NoxWebApplicationBuilderExtension
+internal static class NoxWebApplicationBuilderExtension
 {
     public static IServiceCollection AddNox(this IServiceCollection services)
     {
-        return services.AddNox(null);
+        return services.AddNox(null, null);
     }
 
-    public static IServiceCollection AddNox(this IServiceCollection services, Action<ODataModelBuilder>? configureOData)
+    public static IServiceCollection AddNox(this IServiceCollection services, Action<INoxBuilderConfigurator>? configureNox, Action<ODataModelBuilder>? configureNoxOdata)
     {
-        services.AddNoxLib(Assembly.GetExecutingAssembly());
-        services.AddNoxOdata(configureOData);
-        services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
-        services.AddSingleton<DbContextOptions<{{ dbContext }}>>();
-        services.AddSingleton<INoxDatabaseConfigurator, {{ dbProvider }}>();
-        services.AddSingleton<INoxDatabaseProvider, {{ dbProvider }}>();
-        services.AddDbContext<{{ dbContext }}>();
-        services.AddDbContext<DtoDbContext>();
+        services.AddNoxLib(configurator =>
+        {
+            configurator.WithDatabaseContexts<{{ solutionName }}DbContext, DtoDbContext>();
+            configurator.WithMessagingTransactionalOutbox<{{ solutionName }}DbContext>();
+            configureNox?.Invoke(configurator);
+        });
+        services.AddNoxOdata(configureNoxOdata);
         return services;
     }
 }

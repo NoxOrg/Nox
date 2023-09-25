@@ -21,15 +21,13 @@ internal static class NoxWebApplicationBuilderExtension
 
     public static IServiceCollection AddNox(this IServiceCollection services, Action<INoxBuilderConfigurator>? configureNox, Action<ODataModelBuilder>? configureNoxOdata)
     {
-
         services.AddNoxLib(configurator =>
         {
-            configurator.WithDatabaseContexts<TestWebAppDbContext,DtoDbContext>();
+            configurator.WithDatabaseContexts<TestWebAppDbContext, DtoDbContext>();
             configurator.WithMessagingTransactionalOutbox<TestWebAppDbContext>();
             configureNox?.Invoke(configurator);
         });
         services.AddNoxOdata(configureNoxOdata);
         return services;
     }
-    
 }
