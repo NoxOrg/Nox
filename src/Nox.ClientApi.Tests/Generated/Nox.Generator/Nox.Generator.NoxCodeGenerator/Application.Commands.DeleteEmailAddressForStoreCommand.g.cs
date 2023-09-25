@@ -16,22 +16,11 @@ namespace ClientApi.Application.Commands;
 public record DeleteEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto) : IRequest <bool>;
 
 
-public partial class DeleteEmailAddressForStoreCommandHandler : DeleteEmailAddressForStoreCommandHandlerBase
-{
-	public DeleteEmailAddressForStoreCommandHandler(
-		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution, serviceProvider)
-	{
-	}
-}
-
-public partial class DeleteEmailAddressForStoreCommandHandlerBase : CommandBase<DeleteEmailAddressForStoreCommand, EmailAddress>, IRequestHandler <DeleteEmailAddressForStoreCommand, bool>
+public partial class DeleteEmailAddressForStoreCommandHandler: CommandBase<DeleteEmailAddressForStoreCommand, EmailAddress>, IRequestHandler <DeleteEmailAddressForStoreCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 
-	public DeleteEmailAddressForStoreCommandHandlerBase(
+	public DeleteEmailAddressForStoreCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -39,7 +28,7 @@ public partial class DeleteEmailAddressForStoreCommandHandlerBase : CommandBase<
 		DbContext = dbContext;
 	}
 
-	public virtual async Task<bool> Handle(DeleteEmailAddressForStoreCommand request, CancellationToken cancellationToken)
+	public async Task<bool> Handle(DeleteEmailAddressForStoreCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
@@ -61,7 +50,7 @@ public partial class DeleteEmailAddressForStoreCommandHandlerBase : CommandBase<
 
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		
-
+	
 		var result = await DbContext.SaveChangesAsync(cancellationToken);
 		if (result < 1)
 		{

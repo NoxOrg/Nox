@@ -65,14 +65,14 @@ public partial class DeleteAllRefLandLordToContractedAreasForVendingMachinesComm
 	{ }
 }
 
-public abstract class RefLandLordToContractedAreasForVendingMachinesCommandHandlerBase<TRequest> : CommandBase<TRequest, LandLord>,
+public abstract class RefLandLordToContractedAreasForVendingMachinesCommandHandlerBase<TRequest>: CommandBase<TRequest, LandLord>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefLandLordToContractedAreasForVendingMachinesCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-	public enum RelationshipAction { Create, Delete, DeleteAll };
+    public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefLandLordToContractedAreasForVendingMachinesCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,20 +106,20 @@ public abstract class RefLandLordToContractedAreasForVendingMachinesCommandHandl
 				return false;
 			}
 		}
-
+		
 		switch (Action)
-		{
-			case RelationshipAction.Create:
-				entity.CreateRefToContractedAreasForVendingMachines(relatedEntity);
-				break;
-			case RelationshipAction.Delete:
-				entity.DeleteRefToContractedAreasForVendingMachines(relatedEntity);
-				break;
-			case RelationshipAction.DeleteAll:
+        {
+            case RelationshipAction.Create:
+                entity.CreateRefToContractedAreasForVendingMachines(relatedEntity);
+                break;
+            case RelationshipAction.Delete:
+                entity.DeleteRefToContractedAreasForVendingMachines(relatedEntity);
+                break;
+            case RelationshipAction.DeleteAll:
 				await DbContext.Entry(entity).Collection(x => x.ContractedAreasForVendingMachines).LoadAsync();
-				entity.DeleteAllRefToContractedAreasForVendingMachines();
-				break;
-		}
+                entity.DeleteAllRefToContractedAreasForVendingMachines();
+                break;
+        }
 
 		OnCompleted(request, entity);
 

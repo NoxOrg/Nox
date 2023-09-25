@@ -65,14 +65,14 @@ public partial class DeleteAllRefBookingToBookingForCustomerCommandHandler
 	{ }
 }
 
-public abstract class RefBookingToBookingForCustomerCommandHandlerBase<TRequest> : CommandBase<TRequest, Booking>,
+public abstract class RefBookingToBookingForCustomerCommandHandlerBase<TRequest>: CommandBase<TRequest, Booking>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefBookingToBookingForCustomerCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-	public enum RelationshipAction { Create, Delete, DeleteAll };
+    public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefBookingToBookingForCustomerCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,19 +106,19 @@ public abstract class RefBookingToBookingForCustomerCommandHandlerBase<TRequest>
 				return false;
 			}
 		}
-
+		
 		switch (Action)
-		{
-			case RelationshipAction.Create:
-				entity.CreateRefToBookingForCustomer(relatedEntity);
-				break;
-			case RelationshipAction.Delete:
-				entity.DeleteRefToBookingForCustomer(relatedEntity);
-				break;
-			case RelationshipAction.DeleteAll:
-				entity.DeleteAllRefToBookingForCustomer();
-				break;
-		}
+        {
+            case RelationshipAction.Create:
+                entity.CreateRefToBookingForCustomer(relatedEntity);
+                break;
+            case RelationshipAction.Delete:
+                entity.DeleteRefToBookingForCustomer(relatedEntity);
+                break;
+            case RelationshipAction.DeleteAll:
+                entity.DeleteAllRefToBookingForCustomer();
+                break;
+        }
 
 		OnCompleted(request, entity);
 

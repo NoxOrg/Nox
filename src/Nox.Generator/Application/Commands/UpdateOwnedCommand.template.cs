@@ -20,24 +20,12 @@ public record Update{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyD
 public record Update{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}KeyDto EntityKeyDto, {{entity.Name}}UpdateDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
 {{- end }}
 
-public partial class Update{{entity.Name}}For{{parent.Name}}CommandHandler : Update{{entity.Name}}For{{parent.Name}}CommandHandlerBase
-{
-	public Update{{entity.Name}}For{{parent.Name}}CommandHandler(
-		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory)
-		: base(dbContext, noxSolution, serviceProvider, entityFactory)
-	{
-	}
-}
-
-public partial class Update{{entity.Name}}For{{parent.Name}}CommandHandlerBase : CommandBase<Update{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}>, IRequestHandler <Update{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}KeyDto?>
+public partial class Update{{entity.Name}}For{{parent.Name}}CommandHandler: CommandBase<Update{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}>, IRequestHandler <Update{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}KeyDto?>
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
 	private readonly IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> _entityFactory;
 
-	public Update{{entity.Name}}For{{parent.Name}}CommandHandlerBase(
+	public Update{{entity.Name}}For{{parent.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
@@ -47,7 +35,7 @@ public partial class Update{{entity.Name}}For{{parent.Name}}CommandHandlerBase :
 		_entityFactory = entityFactory;
 	}
 
-	public virtual async Task<{{entity.Name}}KeyDto?> Handle(Update{{entity.Name}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
+	public async Task<{{entity.Name}}KeyDto?> Handle(Update{{entity.Name}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

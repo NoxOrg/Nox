@@ -65,14 +65,14 @@ public partial class DeleteAllRefCountryToCountryUsedByCommissionsCommandHandler
 	{ }
 }
 
-public abstract class RefCountryToCountryUsedByCommissionsCommandHandlerBase<TRequest> : CommandBase<TRequest, Country>,
+public abstract class RefCountryToCountryUsedByCommissionsCommandHandlerBase<TRequest>: CommandBase<TRequest, Country>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefCountryToCountryUsedByCommissionsCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-	public enum RelationshipAction { Create, Delete, DeleteAll };
+    public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefCountryToCountryUsedByCommissionsCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,20 +106,20 @@ public abstract class RefCountryToCountryUsedByCommissionsCommandHandlerBase<TRe
 				return false;
 			}
 		}
-
+		
 		switch (Action)
-		{
-			case RelationshipAction.Create:
-				entity.CreateRefToCountryUsedByCommissions(relatedEntity);
-				break;
-			case RelationshipAction.Delete:
-				entity.DeleteRefToCountryUsedByCommissions(relatedEntity);
-				break;
-			case RelationshipAction.DeleteAll:
+        {
+            case RelationshipAction.Create:
+                entity.CreateRefToCountryUsedByCommissions(relatedEntity);
+                break;
+            case RelationshipAction.Delete:
+                entity.DeleteRefToCountryUsedByCommissions(relatedEntity);
+                break;
+            case RelationshipAction.DeleteAll:
 				await DbContext.Entry(entity).Collection(x => x.CountryUsedByCommissions).LoadAsync();
-				entity.DeleteAllRefToCountryUsedByCommissions();
-				break;
-		}
+                entity.DeleteAllRefToCountryUsedByCommissions();
+                break;
+        }
 
 		OnCompleted(request, entity);
 

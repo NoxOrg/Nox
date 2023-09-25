@@ -65,14 +65,14 @@ public partial class DeleteAllRefVendingMachineToVendingMachineInstallationCount
 	{ }
 }
 
-public abstract class RefVendingMachineToVendingMachineInstallationCountryCommandHandlerBase<TRequest> : CommandBase<TRequest, VendingMachine>,
+public abstract class RefVendingMachineToVendingMachineInstallationCountryCommandHandlerBase<TRequest>: CommandBase<TRequest, VendingMachine>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefVendingMachineToVendingMachineInstallationCountryCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-	public enum RelationshipAction { Create, Delete, DeleteAll };
+    public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefVendingMachineToVendingMachineInstallationCountryCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,19 +106,19 @@ public abstract class RefVendingMachineToVendingMachineInstallationCountryComman
 				return false;
 			}
 		}
-
+		
 		switch (Action)
-		{
-			case RelationshipAction.Create:
-				entity.CreateRefToVendingMachineInstallationCountry(relatedEntity);
-				break;
-			case RelationshipAction.Delete:
-				entity.DeleteRefToVendingMachineInstallationCountry(relatedEntity);
-				break;
-			case RelationshipAction.DeleteAll:
-				entity.DeleteAllRefToVendingMachineInstallationCountry();
-				break;
-		}
+        {
+            case RelationshipAction.Create:
+                entity.CreateRefToVendingMachineInstallationCountry(relatedEntity);
+                break;
+            case RelationshipAction.Delete:
+                entity.DeleteRefToVendingMachineInstallationCountry(relatedEntity);
+                break;
+            case RelationshipAction.DeleteAll:
+                entity.DeleteAllRefToVendingMachineInstallationCountry();
+                break;
+        }
 
 		OnCompleted(request, entity);
 

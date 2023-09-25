@@ -65,14 +65,14 @@ public partial class DeleteAllRefCountryToCountryUsedByCurrencyCommandHandler
 	{ }
 }
 
-public abstract class RefCountryToCountryUsedByCurrencyCommandHandlerBase<TRequest> : CommandBase<TRequest, Country>,
+public abstract class RefCountryToCountryUsedByCurrencyCommandHandlerBase<TRequest>: CommandBase<TRequest, Country>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefCountryToCountryUsedByCurrencyCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-	public enum RelationshipAction { Create, Delete, DeleteAll };
+    public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefCountryToCountryUsedByCurrencyCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,19 +106,19 @@ public abstract class RefCountryToCountryUsedByCurrencyCommandHandlerBase<TReque
 				return false;
 			}
 		}
-
+		
 		switch (Action)
-		{
-			case RelationshipAction.Create:
-				entity.CreateRefToCountryUsedByCurrency(relatedEntity);
-				break;
-			case RelationshipAction.Delete:
-				entity.DeleteRefToCountryUsedByCurrency(relatedEntity);
-				break;
-			case RelationshipAction.DeleteAll:
-				entity.DeleteAllRefToCountryUsedByCurrency();
-				break;
-		}
+        {
+            case RelationshipAction.Create:
+                entity.CreateRefToCountryUsedByCurrency(relatedEntity);
+                break;
+            case RelationshipAction.Delete:
+                entity.DeleteRefToCountryUsedByCurrency(relatedEntity);
+                break;
+            case RelationshipAction.DeleteAll:
+                entity.DeleteAllRefToCountryUsedByCurrency();
+                break;
+        }
 
 		OnCompleted(request, entity);
 

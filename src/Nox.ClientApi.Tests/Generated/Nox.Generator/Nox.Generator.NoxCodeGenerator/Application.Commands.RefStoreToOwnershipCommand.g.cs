@@ -65,14 +65,14 @@ public partial class DeleteAllRefStoreToOwnershipCommandHandler
 	{ }
 }
 
-public abstract class RefStoreToOwnershipCommandHandlerBase<TRequest> : CommandBase<TRequest, Store>,
+public abstract class RefStoreToOwnershipCommandHandlerBase<TRequest>: CommandBase<TRequest, Store>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefStoreToOwnershipCommand
 {
 	public ClientApiDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-	public enum RelationshipAction { Create, Delete, DeleteAll };
+    public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefStoreToOwnershipCommandHandlerBase(
 		ClientApiDbContext dbContext,
@@ -106,19 +106,19 @@ public abstract class RefStoreToOwnershipCommandHandlerBase<TRequest> : CommandB
 				return false;
 			}
 		}
-
+		
 		switch (Action)
-		{
-			case RelationshipAction.Create:
-				entity.CreateRefToOwnership(relatedEntity);
-				break;
-			case RelationshipAction.Delete:
-				entity.DeleteRefToOwnership(relatedEntity);
-				break;
-			case RelationshipAction.DeleteAll:
-				entity.DeleteAllRefToOwnership();
-				break;
-		}
+        {
+            case RelationshipAction.Create:
+                entity.CreateRefToOwnership(relatedEntity);
+                break;
+            case RelationshipAction.Delete:
+                entity.DeleteRefToOwnership(relatedEntity);
+                break;
+            case RelationshipAction.DeleteAll:
+                entity.DeleteAllRefToOwnership();
+                break;
+        }
 
 		OnCompleted(request, entity);
 

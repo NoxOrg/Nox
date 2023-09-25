@@ -65,14 +65,14 @@ public partial class DeleteAllRefMinimumCashStockToMinimumCashStockRelatedCurren
 	{ }
 }
 
-public abstract class RefMinimumCashStockToMinimumCashStockRelatedCurrencyCommandHandlerBase<TRequest> : CommandBase<TRequest, MinimumCashStock>,
+public abstract class RefMinimumCashStockToMinimumCashStockRelatedCurrencyCommandHandlerBase<TRequest>: CommandBase<TRequest, MinimumCashStock>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefMinimumCashStockToMinimumCashStockRelatedCurrencyCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-	public enum RelationshipAction { Create, Delete, DeleteAll };
+    public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefMinimumCashStockToMinimumCashStockRelatedCurrencyCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,19 +106,19 @@ public abstract class RefMinimumCashStockToMinimumCashStockRelatedCurrencyComman
 				return false;
 			}
 		}
-
+		
 		switch (Action)
-		{
-			case RelationshipAction.Create:
-				entity.CreateRefToMinimumCashStockRelatedCurrency(relatedEntity);
-				break;
-			case RelationshipAction.Delete:
-				entity.DeleteRefToMinimumCashStockRelatedCurrency(relatedEntity);
-				break;
-			case RelationshipAction.DeleteAll:
-				entity.DeleteAllRefToMinimumCashStockRelatedCurrency();
-				break;
-		}
+        {
+            case RelationshipAction.Create:
+                entity.CreateRefToMinimumCashStockRelatedCurrency(relatedEntity);
+                break;
+            case RelationshipAction.Delete:
+                entity.DeleteRefToMinimumCashStockRelatedCurrency(relatedEntity);
+                break;
+            case RelationshipAction.DeleteAll:
+                entity.DeleteAllRefToMinimumCashStockRelatedCurrency();
+                break;
+        }
 
 		OnCompleted(request, entity);
 

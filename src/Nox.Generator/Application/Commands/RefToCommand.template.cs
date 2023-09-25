@@ -65,14 +65,14 @@ public partial class DeleteAllRef{{entity.Name}}To{{relationship.Name}}CommandHa
 	{ }
 }
 
-public abstract class Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBase<TRequest> : CommandBase<TRequest, {{entity.Name}}>,
+public abstract class Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBase<TRequest>: CommandBase<TRequest, {{entity.Name}}>, 
 	IRequestHandler <TRequest, bool> where TRequest : Ref{{entity.Name}}To{{relationship.Name}}Command
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-	public enum RelationshipAction { Create, Delete, DeleteAll };
+    public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBase(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
@@ -111,22 +111,22 @@ public abstract class Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBas
 				return false;
 			}
 		}
-
+		
 		switch (Action)
-		{
-			case RelationshipAction.Create:
-				entity.CreateRefTo{{relationship.Name}}(relatedEntity);
-				break;
-			case RelationshipAction.Delete:
-				entity.DeleteRefTo{{relationship.Name}}(relatedEntity);
-				break;
-			case RelationshipAction.DeleteAll:
+        {
+            case RelationshipAction.Create:
+                entity.CreateRefTo{{relationship.Name}}(relatedEntity);
+                break;
+            case RelationshipAction.Delete:
+                entity.DeleteRefTo{{relationship.Name}}(relatedEntity);
+                break;
+            case RelationshipAction.DeleteAll:
 			{{- if relationship.WithMultiEntity }}
 				await DbContext.Entry(entity).Collection(x => x.{{relationship.Name}}).LoadAsync();
 			{{- end }}
-				entity.DeleteAllRefTo{{relationship.Name}}();
-				break;
-		}
+                entity.DeleteAllRefTo{{relationship.Name}}();
+                break;
+        }
 
 		OnCompleted(request, entity);
 
