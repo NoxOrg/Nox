@@ -1,16 +1,20 @@
-﻿using Microsoft.AspNetCore;
+﻿using Divergic.Logging.Xunit;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Nox.Types.EntityFramework.Abstractions;
+using Xunit.Abstractions;
 
 namespace ClientApi.Tests;
 
 public class NoxTestApplicationFactory : WebApplicationFactory<StartupFixture>
 {
-    public NoxTestContainerService _containerService = default!;
+    private readonly NoxTestContainerService _containerService;
+    private readonly ITestOutputHelper _testOutput;
 
-    public void UseContainer(NoxTestContainerService containerService)
+    public NoxTestApplicationFactory(NoxTestContainerService containerService, ITestOutputHelper testOutput)
     {
+        _testOutput = testOutput;
         _containerService = containerService;
     }
 
@@ -30,8 +34,12 @@ public class NoxTestApplicationFactory : WebApplicationFactory<StartupFixture>
                     var configurations = sp.GetServices<INoxTypeDatabaseConfigurator>();
                     return _containerService.GetDatabaseProvider(configurations);
                 });
-            });
+            })
+            .ConfigureLogging(opts => opts.AddXunit(_testOutput, new LoggingConfig
+            {
+                LogLevel = LogLevel.Error
+            }));
+
         return host;
     }
-
 }

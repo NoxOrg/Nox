@@ -43,7 +43,7 @@ internal abstract class DeleteVendingMachineByIdCommandHandlerBase: CommandBase<
 		var keyId = CreateNoxTypeForKey<VendingMachine,Nox.Types.Guid>("Id", request.keyId);
 
 		var entity = await DbContext.VendingMachines.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted.Value == true)
+		if (entity == null || entity.IsDeleted == true)
 		{
 			return false;
 		}

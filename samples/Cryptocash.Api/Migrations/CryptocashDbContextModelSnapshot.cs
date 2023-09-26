@@ -45,8 +45,8 @@ namespace Cryptocash.Api.Migrations
                     b.Property<DateTimeOffset?>("CancelledDateTime")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<DateTimeOffset>("CreatedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -59,8 +59,8 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<DateTimeOffset?>("DeletedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
                         .HasMaxLength(255)
@@ -78,8 +78,8 @@ namespace Cryptocash.Api.Migrations
                     b.Property<DateTimeOffset?>("ExpiryDateTime")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("LastUpdatedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LastUpdatedBy")
                         .HasMaxLength(255)
@@ -116,8 +116,8 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(false)
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset>("CreatedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -130,8 +130,8 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<DateTimeOffset?>("DeletedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
                         .HasMaxLength(255)
@@ -149,8 +149,8 @@ namespace Cryptocash.Api.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("LastUpdatedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LastUpdatedBy")
                         .HasMaxLength(255)
@@ -188,8 +188,8 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("char(2)")
                         .IsFixedLength();
 
-                    b.Property<DateTimeOffset>("CreatedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -202,8 +202,8 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<DateTimeOffset?>("DeletedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
                         .HasMaxLength(255)
@@ -221,8 +221,8 @@ namespace Cryptocash.Api.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("LastUpdatedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LastUpdatedBy")
                         .HasMaxLength(255)
@@ -267,8 +267,8 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("char(3)")
                         .IsFixedLength();
 
-                    b.Property<DateTimeOffset>("CreatedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -281,8 +281,8 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<DateTimeOffset?>("DeletedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
                         .HasMaxLength(255)
@@ -306,8 +306,8 @@ namespace Cryptocash.Api.Migrations
                         .HasMaxLength(2083)
                         .HasColumnType("nvarchar(2083)");
 
-                    b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("LastUpdatedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LastUpdatedBy")
                         .HasMaxLength(255)
@@ -351,8 +351,8 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("char(3)")
                         .IsFixedLength();
 
-                    b.Property<DateTimeOffset>("CreatedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -376,8 +376,8 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(63)");
 
-                    b.Property<DateTimeOffset?>("DeletedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
                         .HasMaxLength(255)
@@ -392,8 +392,8 @@ namespace Cryptocash.Api.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("LastUpdatedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LastUpdatedBy")
                         .HasMaxLength(255)
@@ -461,8 +461,8 @@ namespace Cryptocash.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTimeOffset>("CreatedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -481,8 +481,8 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("char(2)")
                         .IsFixedLength();
 
-                    b.Property<DateTimeOffset?>("DeletedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
                         .HasMaxLength(255)
@@ -515,8 +515,8 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(63)");
 
-                    b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("LastUpdatedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LastUpdatedBy")
                         .HasMaxLength(255)
@@ -546,8 +546,8 @@ namespace Cryptocash.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTimeOffset>("CreatedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -560,8 +560,8 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<DateTimeOffset?>("DeletedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
                         .HasMaxLength(255)
@@ -602,8 +602,8 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(63)");
 
-                    b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("LastUpdatedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LastUpdatedBy")
                         .HasMaxLength(255)
@@ -634,8 +634,8 @@ namespace Cryptocash.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTimeOffset>("CreatedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -648,8 +648,8 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<DateTimeOffset?>("DeletedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
                         .HasMaxLength(255)
@@ -664,8 +664,8 @@ namespace Cryptocash.Api.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("LastUpdatedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LastUpdatedBy")
                         .HasMaxLength(255)
@@ -695,8 +695,8 @@ namespace Cryptocash.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTimeOffset>("CreatedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -709,8 +709,8 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<DateTimeOffset?>("DeletedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
                         .HasMaxLength(255)
@@ -725,8 +725,8 @@ namespace Cryptocash.Api.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("LastUpdatedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LastUpdatedBy")
                         .HasMaxLength(255)
@@ -758,8 +758,8 @@ namespace Cryptocash.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTimeOffset>("CreatedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -772,8 +772,8 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<DateTimeOffset?>("DeletedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
                         .HasMaxLength(255)
@@ -788,8 +788,8 @@ namespace Cryptocash.Api.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("LastUpdatedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LastUpdatedBy")
                         .HasMaxLength(255)
@@ -844,8 +844,8 @@ namespace Cryptocash.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTimeOffset>("CreatedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -858,8 +858,8 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<DateTimeOffset?>("DeletedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
                         .HasMaxLength(255)
@@ -874,8 +874,8 @@ namespace Cryptocash.Api.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("LastUpdatedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LastUpdatedBy")
                         .HasMaxLength(255)
@@ -911,8 +911,8 @@ namespace Cryptocash.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTimeOffset>("CreatedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -925,8 +925,8 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<DateTimeOffset?>("DeletedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
                         .HasMaxLength(255)
@@ -941,8 +941,8 @@ namespace Cryptocash.Api.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("LastUpdatedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LastUpdatedBy")
                         .HasMaxLength(255)
@@ -994,8 +994,8 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(false)
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset>("CreatedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -1008,8 +1008,8 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<DateTimeOffset?>("DeletedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
                         .HasMaxLength(255)
@@ -1025,10 +1025,10 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal?>("InstallationFootPrint")
-                        .HasColumnType("DECIMAL(21, 6)");
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("LastUpdatedAtUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LastUpdatedBy")
                         .HasMaxLength(255)
@@ -1112,7 +1112,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<decimal>("Amount")
-                                .HasColumnType("decimal(13, 4)");
+                                .HasColumnType("decimal(18,2)");
 
                             b1.Property<int>("CurrencyCode")
                                 .HasColumnType("int");
@@ -1131,7 +1131,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<decimal>("Amount")
-                                .HasColumnType("decimal(13, 4)");
+                                .HasColumnType("decimal(18,2)");
 
                             b1.Property<int>("CurrencyCode")
                                 .HasColumnType("int");
@@ -1149,11 +1149,11 @@ namespace Cryptocash.Api.Migrations
                             b1.Property<Guid>("BookingId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<DateTimeOffset>("End")
-                                .HasColumnType("datetimeoffset");
+                            b1.Property<DateTime>("End")
+                                .HasColumnType("datetime2");
 
-                            b1.Property<DateTimeOffset>("Start")
-                                .HasColumnType("datetimeoffset");
+                            b1.Property<DateTime>("Start")
+                                .HasColumnType("datetime2");
 
                             b1.HasKey("BookingId");
 
@@ -1168,11 +1168,11 @@ namespace Cryptocash.Api.Migrations
                             b1.Property<Guid>("BookingId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<DateTimeOffset>("End")
-                                .HasColumnType("datetimeoffset");
+                            b1.Property<DateTime>("End")
+                                .HasColumnType("datetime2");
 
-                            b1.Property<DateTimeOffset>("Start")
-                                .HasColumnType("datetimeoffset");
+                            b1.Property<DateTime>("Start")
+                                .HasColumnType("datetime2");
 
                             b1.HasKey("BookingId");
 
@@ -1240,7 +1240,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("bigint");
 
                             b1.Property<decimal>("Amount")
-                                .HasColumnType("decimal(13, 4)");
+                                .HasColumnType("decimal(18,2)");
 
                             b1.Property<int>("CurrencyCode")
                                 .HasColumnType("int");
@@ -1523,7 +1523,7 @@ namespace Cryptocash.Api.Migrations
                                         .HasColumnType("bigint");
 
                                     b2.Property<decimal>("Amount")
-                                        .HasColumnType("decimal(13, 4)");
+                                        .HasColumnType("decimal(18,2)");
 
                                     b2.Property<int>("CurrencyCode")
                                         .HasColumnType("int");
@@ -1546,7 +1546,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("char(3)");
 
                             b1.Property<decimal>("Amount")
-                                .HasColumnType("decimal(13, 4)");
+                                .HasColumnType("decimal(18,2)");
 
                             b1.Property<int>("CurrencyCode")
                                 .HasColumnType("int");
@@ -1845,7 +1845,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("bigint");
 
                             b1.Property<decimal>("Amount")
-                                .HasColumnType("decimal(13, 4)");
+                                .HasColumnType("decimal(18,2)");
 
                             b1.Property<int>("CurrencyCode")
                                 .HasColumnType("int");
@@ -1895,7 +1895,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("bigint");
 
                             b1.Property<decimal>("Amount")
-                                .HasColumnType("decimal(13, 4)");
+                                .HasColumnType("decimal(18,2)");
 
                             b1.Property<int>("CurrencyCode")
                                 .HasColumnType("int");
@@ -1951,7 +1951,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<decimal>("Amount")
-                                .HasColumnType("decimal(13, 4)");
+                                .HasColumnType("decimal(18,2)");
 
                             b1.Property<int>("CurrencyCode")
                                 .HasColumnType("int");
