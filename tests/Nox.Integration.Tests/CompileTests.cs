@@ -46,6 +46,8 @@ public class CompileTests
         {
             _testOutputHelper.WriteLine(diagnostic.ToString());
             _testOutputHelper.WriteLine(diagnostic.Location.SourceTree?.ToString() ?? "No source tree");
+            // append a star line to the output
+            _testOutputHelper.WriteLine(new string('*', 80));
         }
         
         Assert.Empty(diagnostics);
