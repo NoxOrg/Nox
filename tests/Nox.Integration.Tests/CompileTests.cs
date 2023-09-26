@@ -41,6 +41,7 @@ public class CompileTests
         
         var diagnostics = compilation.GetDiagnostics().Where(x => x.Severity == DiagnosticSeverity.Error).ToList();
     
+        _testOutputHelper.WriteLine("Diagnostics count: " + diagnostics.Count);
         foreach (var diagnostic in diagnostics)
         {
             _testOutputHelper.WriteLine(diagnostic.ToString());

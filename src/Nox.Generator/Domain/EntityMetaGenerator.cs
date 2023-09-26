@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
@@ -26,7 +25,7 @@ internal class EntityMetaGenerator : INoxCodeGenerator
         {
             context.CancellationToken.ThrowIfCancellationRequested();
             
-            var entitiesMetaData = entity.GetAllMembers()
+            var entitiesMetaData = entity.GetAllMembers().GroupBy(m=>m.Value.Name).Select(g=>g.First())
                 .Select( t =>  GeneraEntityMetaData(t.Value, codeGeneratorState.Solution) )
                 .ToList();
             
