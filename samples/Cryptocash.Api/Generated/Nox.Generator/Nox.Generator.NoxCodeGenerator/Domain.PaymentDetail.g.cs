@@ -10,7 +10,8 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-public partial class PaymentDetail:PaymentDetailBase
+
+public partial class PaymentDetail : PaymentDetailBase
 {
 
 }

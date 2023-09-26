@@ -39,7 +39,7 @@ public class EntityPersistence : DefinitionBase
 public class EntityCreateSettings
 {
     public bool IsEnabled { get; internal set; } = true;
-    public bool RaiseEvents { get; internal set; } = true;
+    public RaiseEventsType RaiseEvents { get; internal set; } = RaiseEventsType.DomainEventsOnly;
 }
 
 [Title("Specifies persistence behaviour related to reading the entity.")]
@@ -56,7 +56,7 @@ public class EntityReadSettings
 public class EntityUpdateSettings
 {
     public bool IsEnabled { get; internal set; } = true;
-    public bool RaiseEvents { get; internal set; } = true;
+    public RaiseEventsType RaiseEvents { get; internal set; } = RaiseEventsType.DomainEventsOnly;
 }
 
 [Title("Specifies persistence behaviour related to deleting the entity.")]
@@ -65,5 +65,5 @@ public class EntityUpdateSettings
 public class EntityDeleteSettings
 {
     public bool IsEnabled { get; internal set; } = true;
-    public bool RaiseEvents { get; internal set; } = true;
+    public RaiseEventsType RaiseEvents { get; internal set; } = RaiseEventsType.DomainEventsOnly;
 }

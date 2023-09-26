@@ -10,7 +10,8 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-public partial class CountryQualityOfLifeIndex:CountryQualityOfLifeIndexBase
+
+public partial class CountryQualityOfLifeIndex : CountryQualityOfLifeIndexBase
 {
 
 }

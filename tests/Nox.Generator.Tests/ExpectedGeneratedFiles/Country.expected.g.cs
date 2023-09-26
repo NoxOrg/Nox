@@ -10,7 +10,8 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace SampleWebApp.Domain;
-public partial class Country:CountryBase
+
+public partial class Country : CountryBase
 {
 
 }

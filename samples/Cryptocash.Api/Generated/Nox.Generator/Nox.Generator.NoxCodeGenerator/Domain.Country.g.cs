@@ -10,7 +10,8 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-public partial class Country:CountryBase
+
+public partial class Country : CountryBase
 {
 
 }

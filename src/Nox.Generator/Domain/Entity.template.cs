@@ -10,25 +10,26 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace {{codeGeneratorState.DomainNameSpace}};
-public partial class {{className}}:{{className}}Base
+
+public partial class {{className}} : {{className}}Base
 {
 
 }
-{{- if entity.Persistence.Create.RaiseEvents }}
+{{- if entity.Persistence.Create.RaiseEvents == "DomainEventsOnly" || entity.Persistence.Create.RaiseEvents == "DomainAndIntegrationEvents" }}
 /// <summary>
 /// Record for {{entity.Name}} created event.
 /// </summary>
 public record {{entity.Name}}Created({{entity.Name}} {{entity.Name}}) : IDomainEvent;
 {{- end}}
 
-{{- if entity.Persistence.Update.RaiseEvents }}
+{{- if entity.Persistence.Update.RaiseEvents == "DomainEventsOnly" || entity.Persistence.Update.RaiseEvents == "DomainAndIntegrationEvents" }}
 /// <summary>
 /// Record for {{entity.Name}} updated event.
 /// </summary>
 public record {{entity.Name}}Updated({{entity.Name}} {{entity.Name}}) : IDomainEvent;
 {{- end}}
 
-{{- if entity.Persistence.Delete.RaiseEvents }}
+{{- if entity.Persistence.Delete.RaiseEvents == "DomainEventsOnly" || entity.Persistence.Delete.RaiseEvents == "DomainAndIntegrationEvents" }}
 /// <summary>
 /// Record for {{entity.Name}} deleted event.
 /// </summary>

@@ -10,7 +10,8 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-public partial class Customer:CustomerBase
+
+public partial class Customer : CustomerBase
 {
 
 }

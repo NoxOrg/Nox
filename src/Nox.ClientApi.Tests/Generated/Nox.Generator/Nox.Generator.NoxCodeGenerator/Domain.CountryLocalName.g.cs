@@ -10,7 +10,8 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-public partial class CountryLocalName:CountryLocalNameBase
+
+public partial class CountryLocalName : CountryLocalNameBase
 {
 
 }

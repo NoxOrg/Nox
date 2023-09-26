@@ -10,7 +10,8 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-public partial class BankNote:BankNoteBase
+
+public partial class BankNote : BankNoteBase
 {
 
 }

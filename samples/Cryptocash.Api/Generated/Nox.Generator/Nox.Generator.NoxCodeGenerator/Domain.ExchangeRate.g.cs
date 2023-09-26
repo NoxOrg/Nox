@@ -10,7 +10,8 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-public partial class ExchangeRate:ExchangeRateBase
+
+public partial class ExchangeRate : ExchangeRateBase
 {
 
 }

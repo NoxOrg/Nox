@@ -43,7 +43,7 @@ internal abstract class DeleteStoreLicenseByIdCommandHandlerBase: CommandBase<De
 		var keyId = CreateNoxTypeForKey<StoreLicense,Nox.Types.AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.StoreLicenses.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted.Value == true)
+		if (entity == null || entity.IsDeleted == true)
 		{
 			return false;
 		}

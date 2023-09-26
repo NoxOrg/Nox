@@ -10,7 +10,8 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-public partial class CountryBarCode:CountryBarCodeBase
+
+public partial class CountryBarCode : CountryBarCodeBase
 {
 
 }

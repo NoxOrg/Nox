@@ -10,7 +10,8 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-public partial class Commission:CommissionBase
+
+public partial class Commission : CommissionBase
 {
 
 }

@@ -47,8 +47,13 @@
         },
         "raiseEvents": {    
           "type": [
-            "boolean",
+            "string",
             "null"
+          ],
+          "enum": [
+            "domainAndIntegrationEvents",
+            "domainEventsOnly",
+            "never"
           ]
         }
       },
@@ -87,8 +92,13 @@
         },
         "raiseEvents": {    
           "type": [
-            "boolean",
+            "string",
             "null"
+          ],
+          "enum": [
+            "domainAndIntegrationEvents",
+            "domainEventsOnly",
+            "never"
           ]
         }
       },
@@ -110,8 +120,13 @@
         },
         "raiseEvents": {    
           "type": [
-            "boolean",
+            "string",
             "null"
+          ],
+          "enum": [
+            "domainAndIntegrationEvents",
+            "domainEventsOnly",
+            "never"
           ]
         }
       },

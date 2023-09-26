@@ -10,7 +10,8 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-public partial class CashStockOrder:CashStockOrderBase
+
+public partial class CashStockOrder : CashStockOrderBase
 {
 
 }

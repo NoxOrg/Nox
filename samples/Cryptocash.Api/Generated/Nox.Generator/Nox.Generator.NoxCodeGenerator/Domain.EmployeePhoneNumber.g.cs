@@ -10,7 +10,8 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-public partial class EmployeePhoneNumber:EmployeePhoneNumberBase
+
+public partial class EmployeePhoneNumber : EmployeePhoneNumberBase
 {
 
 }
