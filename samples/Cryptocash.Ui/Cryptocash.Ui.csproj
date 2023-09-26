@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -23,6 +23,12 @@
     <PackageReference Include="Microsoft.Identity.Web" Version="2.13.4" />
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="2.13.4" />
     <PackageReference Include="MudBlazor" Version="6.10.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Nox.Abstractions\Nox.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\Nox.Lib\Nox.Lib.csproj" />
+    <ProjectReference Include="..\..\src\Nox.Types\Nox.Types.csproj" />
   </ItemGroup>
 
 </Project>
