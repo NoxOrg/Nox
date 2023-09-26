@@ -43,7 +43,7 @@ internal abstract class DeleteTransactionByIdCommandHandlerBase: CommandBase<Del
 		var keyId = CreateNoxTypeForKey<Transaction,Nox.Types.AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.Transactions.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted.Value == true)
+		if (entity == null || entity.IsDeleted == true)
 		{
 			return false;
 		}
