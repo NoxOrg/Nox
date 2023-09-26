@@ -72,7 +72,7 @@ internal abstract class RefStoreToLicenseCommandHandlerBase<TRequest>: CommandBa
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefStoreToLicenseCommandHandlerBase(
 		ClientApiDbContext dbContext,
@@ -106,19 +106,19 @@ internal abstract class RefStoreToLicenseCommandHandlerBase<TRequest>: CommandBa
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToLicense(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToLicense(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
-                entity.DeleteAllRefToLicense();
-                break;
-        }
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToLicense(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToLicense(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
+				entity.DeleteAllRefToLicense();
+				break;
+		}
 
 		OnCompleted(request, entity);
 

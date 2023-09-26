@@ -50,7 +50,7 @@ internal partial class DeleteCountryBarCodeForCountryCommandHandler: CommandBase
 
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		
-	
+
 		var result = await DbContext.SaveChangesAsync(cancellationToken);
 		if (result < 1)
 		{

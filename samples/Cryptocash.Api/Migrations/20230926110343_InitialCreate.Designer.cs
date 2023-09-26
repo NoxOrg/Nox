@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cryptocash.Api.Migrations
 {
     [DbContext(typeof(CryptocashDbContext))]
-    [Migration("20230921194350_InitialCreate")]
+    [Migration("20230926110343_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -1028,7 +1028,7 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal?>("InstallationFootPrint")
-                        .HasColumnType("DECIMAL(21, 6)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
                         .HasColumnType("datetimeoffset");
@@ -1115,7 +1115,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<decimal>("Amount")
-                                .HasColumnType("decimal(13, 4)");
+                                .HasColumnType("decimal(18,2)");
 
                             b1.Property<int>("CurrencyCode")
                                 .HasColumnType("int");
@@ -1134,7 +1134,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<decimal>("Amount")
-                                .HasColumnType("decimal(13, 4)");
+                                .HasColumnType("decimal(18,2)");
 
                             b1.Property<int>("CurrencyCode")
                                 .HasColumnType("int");
@@ -1152,11 +1152,11 @@ namespace Cryptocash.Api.Migrations
                             b1.Property<Guid>("BookingId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<DateTimeOffset>("End")
-                                .HasColumnType("datetimeoffset");
+                            b1.Property<DateTime>("End")
+                                .HasColumnType("datetime2");
 
-                            b1.Property<DateTimeOffset>("Start")
-                                .HasColumnType("datetimeoffset");
+                            b1.Property<DateTime>("Start")
+                                .HasColumnType("datetime2");
 
                             b1.HasKey("BookingId");
 
@@ -1171,11 +1171,11 @@ namespace Cryptocash.Api.Migrations
                             b1.Property<Guid>("BookingId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<DateTimeOffset>("End")
-                                .HasColumnType("datetimeoffset");
+                            b1.Property<DateTime>("End")
+                                .HasColumnType("datetime2");
 
-                            b1.Property<DateTimeOffset>("Start")
-                                .HasColumnType("datetimeoffset");
+                            b1.Property<DateTime>("Start")
+                                .HasColumnType("datetime2");
 
                             b1.HasKey("BookingId");
 
@@ -1243,7 +1243,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("bigint");
 
                             b1.Property<decimal>("Amount")
-                                .HasColumnType("decimal(13, 4)");
+                                .HasColumnType("decimal(18,2)");
 
                             b1.Property<int>("CurrencyCode")
                                 .HasColumnType("int");
@@ -1526,7 +1526,7 @@ namespace Cryptocash.Api.Migrations
                                         .HasColumnType("bigint");
 
                                     b2.Property<decimal>("Amount")
-                                        .HasColumnType("decimal(13, 4)");
+                                        .HasColumnType("decimal(18,2)");
 
                                     b2.Property<int>("CurrencyCode")
                                         .HasColumnType("int");
@@ -1549,7 +1549,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("char(3)");
 
                             b1.Property<decimal>("Amount")
-                                .HasColumnType("decimal(13, 4)");
+                                .HasColumnType("decimal(18,2)");
 
                             b1.Property<int>("CurrencyCode")
                                 .HasColumnType("int");
@@ -1848,7 +1848,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("bigint");
 
                             b1.Property<decimal>("Amount")
-                                .HasColumnType("decimal(13, 4)");
+                                .HasColumnType("decimal(18,2)");
 
                             b1.Property<int>("CurrencyCode")
                                 .HasColumnType("int");
@@ -1898,7 +1898,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("bigint");
 
                             b1.Property<decimal>("Amount")
-                                .HasColumnType("decimal(13, 4)");
+                                .HasColumnType("decimal(18,2)");
 
                             b1.Property<int>("CurrencyCode")
                                 .HasColumnType("int");
@@ -1954,7 +1954,7 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<decimal>("Amount")
-                                .HasColumnType("decimal(13, 4)");
+                                .HasColumnType("decimal(18,2)");
 
                             b1.Property<int>("CurrencyCode")
                                 .HasColumnType("int");

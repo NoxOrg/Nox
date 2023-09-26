@@ -56,7 +56,7 @@ internal abstract class PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHan
 		if (parentEntity == null)
 		{
 			return null;
-		}	
+		}
 
 		{{- if isSingleRelationship }}
 		var entity = parentEntity.{{relationship.Name}};
@@ -65,7 +65,7 @@ internal abstract class PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHan
 		var owned{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},Nox.Types.{{SingleTypeForKey key}}>("{{key.Name}}", request.EntityKeyDto.key{{key.Name}});
 		{{- end }}
 		var entity = parentEntity.{{relationship.Name}}.SingleOrDefault(x => {{ownedKeysFindQuery}});
-		{{- end }}	
+		{{- end }}
 		if (entity == null)
 		{
 			return null;
@@ -75,7 +75,7 @@ internal abstract class PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHan
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
-	
+
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)

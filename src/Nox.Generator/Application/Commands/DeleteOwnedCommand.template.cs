@@ -43,7 +43,7 @@ internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandler: Co
 		if (parentEntity == null)
 		{
 			return false;
-		}		
+		}
 
 		{{- if isSingleRelationship }}
 		var entity = parentEntity.{{relationship.Name}};
@@ -71,7 +71,7 @@ internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandler: Co
 
 		DbContext.Entry(entity).State = EntityState.Deleted;
 		{{- end }}
-	
+
 		var result = await DbContext.SaveChangesAsync(cancellationToken);
 		if (result < 1)
 		{
