@@ -43,7 +43,7 @@ internal abstract class DeleteCountryByIdCommandHandlerBase: CommandBase<DeleteC
 		var keyId = CreateNoxTypeForKey<Country,Nox.Types.CountryCode2>("Id", request.keyId);
 
 		var entity = await DbContext.Countries.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted.Value == true)
+		if (entity == null || entity.IsDeleted == true)
 		{
 			return false;
 		}

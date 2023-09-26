@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "Nox.Ui.ApiDashboard": {
+    "Cryptocash.Ui": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
