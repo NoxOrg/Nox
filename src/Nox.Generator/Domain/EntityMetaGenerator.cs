@@ -27,7 +27,7 @@ internal class EntityMetaGenerator : INoxCodeGenerator
             context.CancellationToken.ThrowIfCancellationRequested();
             
             var entitiesMetaData = entity.GetAllMembers()
-                .Select( t =>  GeneraEntityMetaData(t.Value, codeGeneratorState.Solution) )
+                .Select( t => GenerateEntityMetaData(t.Value, codeGeneratorState.Solution) )
                 .ToList();
             
             new TemplateCodeBuilder(context, codeGeneratorState)
@@ -39,7 +39,7 @@ internal class EntityMetaGenerator : INoxCodeGenerator
         }
     }
 
-    private static EntityMetaData GeneraEntityMetaData(NoxSimpleTypeDefinition typeDef, NoxSolution solution)
+    private static EntityMetaData GenerateEntityMetaData(NoxSimpleTypeDefinition typeDef, NoxSolution solution)
     {
         var type = typeDef.Type == NoxType.EntityId ? solution.GetSingleKeyTypeForEntity(typeDef.EntityIdTypeOptions!.Entity) : typeDef.Type;
 

@@ -42,6 +42,11 @@ internal abstract class EmployeePhoneNumberFactoryBase : IEntityFactory<Employee
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(EmployeePhoneNumber entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private Cryptocash.Domain.EmployeePhoneNumber ToEntity(EmployeePhoneNumberCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.EmployeePhoneNumber();
@@ -54,6 +59,32 @@ internal abstract class EmployeePhoneNumberFactoryBase : IEntityFactory<Employee
     {
         entity.PhoneNumberType = Cryptocash.Domain.EmployeePhoneNumber.CreatePhoneNumberType(updateDto.PhoneNumberType.NonNullValue<System.String>());
         entity.PhoneNumber = Cryptocash.Domain.EmployeePhoneNumber.CreatePhoneNumber(updateDto.PhoneNumber.NonNullValue<System.String>());
+    }
+
+    private void PartialUpdateEntityInternal(EmployeePhoneNumber entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("PhoneNumberType", out var PhoneNumberTypeUpdateValue))
+        {
+            if (PhoneNumberTypeUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'PhoneNumberType' can't be null");
+            }
+            {
+                entity.PhoneNumberType = Cryptocash.Domain.EmployeePhoneNumber.CreatePhoneNumberType(PhoneNumberTypeUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("PhoneNumber", out var PhoneNumberUpdateValue))
+        {
+            if (PhoneNumberUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'PhoneNumber' can't be null");
+            }
+            {
+                entity.PhoneNumber = Cryptocash.Domain.EmployeePhoneNumber.CreatePhoneNumber(PhoneNumberUpdateValue);
+            }
+        }
     }
 }
 

@@ -65,14 +65,14 @@ internal partial class DeleteAllRefVendingMachineToVendingMachineContractedAreaL
 	{ }
 }
 
-internal abstract class RefVendingMachineToVendingMachineContractedAreaLandLordCommandHandlerBase<TRequest>: CommandBase<TRequest, VendingMachine>, 
+internal abstract class RefVendingMachineToVendingMachineContractedAreaLandLordCommandHandlerBase<TRequest> : CommandBase<TRequest, VendingMachine>,
 	IRequestHandler <TRequest, bool> where TRequest : RefVendingMachineToVendingMachineContractedAreaLandLordCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefVendingMachineToVendingMachineContractedAreaLandLordCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,19 +106,19 @@ internal abstract class RefVendingMachineToVendingMachineContractedAreaLandLordC
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToVendingMachineContractedAreaLandLord(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToVendingMachineContractedAreaLandLord(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
-                entity.DeleteAllRefToVendingMachineContractedAreaLandLord();
-                break;
-        }
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToVendingMachineContractedAreaLandLord(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToVendingMachineContractedAreaLandLord(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
+				entity.DeleteAllRefToVendingMachineContractedAreaLandLord();
+				break;
+		}
 
 		OnCompleted(request, entity);
 

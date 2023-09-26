@@ -21,11 +21,9 @@ public class AzureServiceBusBrokerProvider: IMessageBrokerProvider
             // TODO Cloud Events Raw message?
             //cfg.UseRawJsonSerializer(RawSerializerOptions.AddTransportHeaders | RawSerializerOptions.CopyHeaders | RawSerializerOptions.AnyMessageType);
 
+            
             // TODO Define rules for Topics names
-            cfg.Message<CloudEventRecord<Application.IIntegrationEvent>>(x =>
-            {
-                x.SetEntityName("test-integration-event");
-            });
+            cfg.MessageTopology.SetEntityNameFormatter(new CustomEntityNameFormatter());
         });        
         return configuration;
     }

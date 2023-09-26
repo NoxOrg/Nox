@@ -24,7 +24,7 @@ internal partial class CreateHolidayForCountryCommandHandler: CreateHolidayForCo
 	public CreateHolidayForCountryCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> entityFactory,
+		IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
 		: base(dbContext, noxSolution, entityFactory, serviceProvider)
 	{
@@ -38,7 +38,7 @@ internal abstract class CreateHolidayForCountryCommandHandlerBase: CommandBase<C
 	public CreateHolidayForCountryCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> entityFactory,
+		IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;

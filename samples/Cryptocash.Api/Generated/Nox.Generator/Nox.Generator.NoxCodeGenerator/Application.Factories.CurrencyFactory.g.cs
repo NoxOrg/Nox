@@ -48,6 +48,11 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<Currency, CurrencyC
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(Currency entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private Cryptocash.Domain.Currency ToEntity(CurrencyCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Currency();
@@ -87,6 +92,138 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<Currency, CurrencyC
         entity.MinorName = Cryptocash.Domain.Currency.CreateMinorName(updateDto.MinorName.NonNullValue<System.String>());
         entity.MinorSymbol = Cryptocash.Domain.Currency.CreateMinorSymbol(updateDto.MinorSymbol.NonNullValue<System.String>());
         entity.MinorToMajorValue = Cryptocash.Domain.Currency.CreateMinorToMajorValue(updateDto.MinorToMajorValue.NonNullValue<MoneyDto>());
+    }
+
+    private void PartialUpdateEntityInternal(Currency entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
+        {
+            if (NameUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Name' can't be null");
+            }
+            {
+                entity.Name = Cryptocash.Domain.Currency.CreateName(NameUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("CurrencyIsoNumeric", out var CurrencyIsoNumericUpdateValue))
+        {
+            if (CurrencyIsoNumericUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'CurrencyIsoNumeric' can't be null");
+            }
+            {
+                entity.CurrencyIsoNumeric = Cryptocash.Domain.Currency.CreateCurrencyIsoNumeric(CurrencyIsoNumericUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Symbol", out var SymbolUpdateValue))
+        {
+            if (SymbolUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Symbol' can't be null");
+            }
+            {
+                entity.Symbol = Cryptocash.Domain.Currency.CreateSymbol(SymbolUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("ThousandsSeparator", out var ThousandsSeparatorUpdateValue))
+        {
+            if (ThousandsSeparatorUpdateValue == null) { entity.ThousandsSeparator = null; }
+            else
+            {
+                entity.ThousandsSeparator = Cryptocash.Domain.Currency.CreateThousandsSeparator(ThousandsSeparatorUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("DecimalSeparator", out var DecimalSeparatorUpdateValue))
+        {
+            if (DecimalSeparatorUpdateValue == null) { entity.DecimalSeparator = null; }
+            else
+            {
+                entity.DecimalSeparator = Cryptocash.Domain.Currency.CreateDecimalSeparator(DecimalSeparatorUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("SpaceBetweenAmountAndSymbol", out var SpaceBetweenAmountAndSymbolUpdateValue))
+        {
+            if (SpaceBetweenAmountAndSymbolUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'SpaceBetweenAmountAndSymbol' can't be null");
+            }
+            {
+                entity.SpaceBetweenAmountAndSymbol = Cryptocash.Domain.Currency.CreateSpaceBetweenAmountAndSymbol(SpaceBetweenAmountAndSymbolUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("DecimalDigits", out var DecimalDigitsUpdateValue))
+        {
+            if (DecimalDigitsUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'DecimalDigits' can't be null");
+            }
+            {
+                entity.DecimalDigits = Cryptocash.Domain.Currency.CreateDecimalDigits(DecimalDigitsUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("MajorName", out var MajorNameUpdateValue))
+        {
+            if (MajorNameUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'MajorName' can't be null");
+            }
+            {
+                entity.MajorName = Cryptocash.Domain.Currency.CreateMajorName(MajorNameUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("MajorSymbol", out var MajorSymbolUpdateValue))
+        {
+            if (MajorSymbolUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'MajorSymbol' can't be null");
+            }
+            {
+                entity.MajorSymbol = Cryptocash.Domain.Currency.CreateMajorSymbol(MajorSymbolUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("MinorName", out var MinorNameUpdateValue))
+        {
+            if (MinorNameUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'MinorName' can't be null");
+            }
+            {
+                entity.MinorName = Cryptocash.Domain.Currency.CreateMinorName(MinorNameUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("MinorSymbol", out var MinorSymbolUpdateValue))
+        {
+            if (MinorSymbolUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'MinorSymbol' can't be null");
+            }
+            {
+                entity.MinorSymbol = Cryptocash.Domain.Currency.CreateMinorSymbol(MinorSymbolUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("MinorToMajorValue", out var MinorToMajorValueUpdateValue))
+        {
+            if (MinorToMajorValueUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'MinorToMajorValue' can't be null");
+            }
+            {
+                entity.MinorToMajorValue = Cryptocash.Domain.Currency.CreateMinorToMajorValue(MinorToMajorValueUpdateValue);
+            }
+        }
     }
 }
 

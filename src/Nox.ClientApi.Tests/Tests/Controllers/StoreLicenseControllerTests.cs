@@ -2,21 +2,26 @@
 using ClientApi.Application.Dto;
 using FluentAssertions;
 using Nox.Types;
+using Xunit.Abstractions;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
-    public class StoreLicenseControllerTests : NoxIntegrationTestBase
+    public class StoreLicenseControllerTests : NoxWebApiTestBase
     {
         private const string EntityUrl = "api/storelicenses";
 
-        public StoreLicenseControllerTests(NoxTestContainerService containerService) : base(containerService)
+        public StoreLicenseControllerTests(
+            ITestOutputHelper testOutput,
+            NoxTestContainerService containerService)
+            : base(testOutput, containerService)
         {
         }
 
         #region Store Examples
 
         #region GET Entity By Key /api/{EntityPluralName}/{EntityKey} => api/storelicenses/1
+
         [Fact]
         public async Task GetById_WithRelationshipSet_ReturnsValidData()
         {
@@ -56,9 +61,11 @@ namespace ClientApi.Tests.Tests.Controllers
             response!.Issuer.Should().BeEquivalentTo(issuer);
             response!.StoreWithLicenseId.Should().Be(getStoreResult!.Id);
         }
-        #endregion
+
+        #endregion GET Entity By Key /api/{EntityPluralName}/{EntityKey} => api/storelicenses/1
 
         #region GET Entity By Key /api/{EntityPluralName}/{EntityKey} => api/storelicenses/1
+
         [Fact]
         public async Task GetById_WithRelationshipNotSet_ReturnsValidData()
         {
@@ -78,8 +85,9 @@ namespace ClientApi.Tests.Tests.Controllers
             response!.Issuer.Should().BeEquivalentTo(issuer);
             response!.StoreWithLicenseId.Should().BeNull();
         }
-        #endregion
 
-        #endregion
+        #endregion GET Entity By Key /api/{EntityPluralName}/{EntityKey} => api/storelicenses/1
+
+        #endregion Store Examples
     }
 }

@@ -43,7 +43,7 @@ internal abstract class DeleteCustomerByIdCommandHandlerBase: CommandBase<Delete
 		var keyId = CreateNoxTypeForKey<Customer,Nox.Types.AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.Customers.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted.Value == true)
+		if (entity == null || entity.IsDeleted == true)
 		{
 			return false;
 		}

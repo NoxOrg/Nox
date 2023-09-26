@@ -43,7 +43,7 @@ internal abstract class DeleteCommissionByIdCommandHandlerBase: CommandBase<Dele
 		var keyId = CreateNoxTypeForKey<Commission,Nox.Types.AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.Commissions.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted.Value == true)
+		if (entity == null || entity.IsDeleted == true)
 		{
 			return false;
 		}

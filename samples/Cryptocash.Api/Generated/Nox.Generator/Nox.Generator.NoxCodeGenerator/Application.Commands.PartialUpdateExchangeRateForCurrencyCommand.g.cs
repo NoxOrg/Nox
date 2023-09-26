@@ -20,23 +20,23 @@ internal partial class PartialUpdateExchangeRateForCurrencyCommandHandler: Parti
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<ExchangeRate> entityMapper): base(dbContext, noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto> entityFactory) : base(dbContext, noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
 internal abstract class PartialUpdateExchangeRateForCurrencyCommandHandlerBase: CommandBase<PartialUpdateExchangeRateForCurrencyCommand, ExchangeRate>, IRequestHandler <PartialUpdateExchangeRateForCurrencyCommand, ExchangeRateKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<ExchangeRate> EntityMapper { get; }
+	public IEntityFactory<ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateExchangeRateForCurrencyCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<ExchangeRate> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<ExchangeRateKeyDto?> Handle(PartialUpdateExchangeRateForCurrencyCommand request, CancellationToken cancellationToken)
@@ -51,17 +51,17 @@ internal abstract class PartialUpdateExchangeRateForCurrencyCommandHandlerBase: 
 			return null;
 		}
 		var ownedId = CreateNoxTypeForKey<ExchangeRate,Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.CurrencyExchangedFromRates.SingleOrDefault(x => x.Id == ownedId);	
+		var entity = parentEntity.CurrencyExchangedFromRates.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
 			return null;
 		}
 
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<ExchangeRate>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
-	
+
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)

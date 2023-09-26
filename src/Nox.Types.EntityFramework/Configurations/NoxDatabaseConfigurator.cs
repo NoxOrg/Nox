@@ -13,8 +13,6 @@ namespace Nox.Types.EntityFramework.Configurations
         //We could use the container to manage this
         protected readonly Dictionary<NoxType, INoxTypeDatabaseConfigurator> TypesDatabaseConfigurations = new();
 
-        private static readonly NoxSimpleTypeDefinition[] AuditableEntityAttributes = new AuditableEntityBaseConfiguration().ToArray();
-
         /// <summary>
         ///
         /// </summary>
@@ -54,11 +52,32 @@ namespace Nox.Types.EntityFramework.Configurations
 
             ConfigureAttributes(codeGeneratorState, builder, entity);
 
+            ConfigureSystemFields(builder, entity);
+
             ConfigureRelationships(codeGeneratorState, builder, entity, relationshipsToCreate);
 
             ConfigureOwnedRelationships(codeGeneratorState, builder, entity, ownedRelationshipsToCreate);
             
             ConfigureUniqueAttributeConstraints(builder, entity);
+        }
+
+        private static void ConfigureSystemFields(IEntityBuilder builder, Entity entity)
+        {
+            // TODO clarify Auditable for owned entities
+            if (entity.Persistence?.IsAudited == true && !entity.IsOwnedEntity)
+            {
+                builder.Property("CreatedAtUtc");
+                builder.Property("CreatedBy").HasMaxLength(255);
+                builder.Property("CreatedVia").HasMaxLength(255).IsUnicode(false);
+
+                builder.Property("LastUpdatedAtUtc").IsRequired(false);
+                builder.Property("LastUpdatedBy").IsRequired(false).HasMaxLength(255);
+                builder.Property("LastUpdatedVia").IsRequired(false).HasMaxLength(255).IsUnicode(false);
+
+                builder.Property("DeletedAtUtc").IsRequired(false);
+                builder.Property("DeletedBy").IsRequired(false).HasMaxLength(255);
+                builder.Property("DeletedVia").IsRequired(false).HasMaxLength(255).IsUnicode(false);
+            }
         }
 
         protected virtual void ConfigureRelationships(
@@ -275,39 +294,20 @@ namespace Nox.Types.EntityFramework.Configurations
             IEntityBuilder builder,
             Entity entity)
         {
-            var allEntityAttributes = GetAllEntityAttributes(entity);
-
-            foreach (var property in allEntityAttributes)
-            {
-                if (TypesDatabaseConfigurations.TryGetValue(property.Type, out var databaseConfiguration))
-                {
-                    databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, property, entity, false);
-                }
-                else
-                {
-                    Debug.WriteLine($"Type {property.Type} not found");
-                }
-            }
-
-        }
-
-        private static List<NoxSimpleTypeDefinition> GetAllEntityAttributes(Entity entity)
-        {
-            var totalCapacity = entity.Attributes?.Count ?? 0 + AuditableEntityAttributes.Length;
-            var allEntityAttributes = new List<NoxSimpleTypeDefinition>(totalCapacity);
-
             if (entity.Attributes is { Count: > 0 })
             {
-                allEntityAttributes.AddRange(entity.Attributes);
+                foreach (var property in entity.Attributes)
+                {
+                    if (TypesDatabaseConfigurations.TryGetValue(property.Type, out var databaseConfiguration))
+                    {
+                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, property, entity, false);
+                    }
+                    else
+                    {
+                        Debug.WriteLine($"Type {property.Type} not found");
+                    }
+                }
             }
-
-            // TODO clarify Auditable for owned entities
-            if (entity.Persistence?.IsAudited == true && !entity.IsOwnedEntity)
-            {
-                allEntityAttributes.AddRange(AuditableEntityAttributes);
-            }
-
-            return allEntityAttributes;
         }
     }
 }

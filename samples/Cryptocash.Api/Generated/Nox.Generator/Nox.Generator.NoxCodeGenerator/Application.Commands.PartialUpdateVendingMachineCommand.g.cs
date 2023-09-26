@@ -24,23 +24,23 @@ internal class PartialUpdateVendingMachineCommandHandler: PartialUpdateVendingMa
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<VendingMachine> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
 internal class PartialUpdateVendingMachineCommandHandlerBase: CommandBase<PartialUpdateVendingMachineCommand, VendingMachine>, IRequestHandler<PartialUpdateVendingMachineCommand, VendingMachineKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<VendingMachine> EntityMapper { get; }
+	public IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateVendingMachineCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<VendingMachine> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<VendingMachineKeyDto?> Handle(PartialUpdateVendingMachineCommand request, CancellationToken cancellationToken)
@@ -54,7 +54,7 @@ internal class PartialUpdateVendingMachineCommandHandlerBase: CommandBase<Partia
 		{
 			return null;
 		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<VendingMachine>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);

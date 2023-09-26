@@ -65,14 +65,14 @@ internal partial class DeleteAllRefCountryToPhysicalWorkplacesCommandHandler
 	{ }
 }
 
-internal abstract class RefCountryToPhysicalWorkplacesCommandHandlerBase<TRequest>: CommandBase<TRequest, Country>, 
+internal abstract class RefCountryToPhysicalWorkplacesCommandHandlerBase<TRequest> : CommandBase<TRequest, Country>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCountryToPhysicalWorkplacesCommand
 {
 	public ClientApiDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefCountryToPhysicalWorkplacesCommandHandlerBase(
 		ClientApiDbContext dbContext,
@@ -106,20 +106,20 @@ internal abstract class RefCountryToPhysicalWorkplacesCommandHandlerBase<TReques
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToPhysicalWorkplaces(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToPhysicalWorkplaces(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToPhysicalWorkplaces(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToPhysicalWorkplaces(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
 				await DbContext.Entry(entity).Collection(x => x.PhysicalWorkplaces).LoadAsync();
-                entity.DeleteAllRefToPhysicalWorkplaces();
-                break;
-        }
+				entity.DeleteAllRefToPhysicalWorkplaces();
+				break;
+		}
 
 		OnCompleted(request, entity);
 

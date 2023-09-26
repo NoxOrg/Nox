@@ -7,7 +7,7 @@ using TestWebApp.Domain;
 namespace Nox.Integration.Tests;
 
 [Collection("Sequential")]
-public class NuidTypeTests : NoxIntegrationTestBase<NoxTestSqliteFixture>
+public class NuidTypeTests : NoxIntegrationContainerTestBase<NoxTestSqliteFixture>
 {
     public NuidTypeTests(NoxTestSqliteFixture fixture) : base(fixture)
     {

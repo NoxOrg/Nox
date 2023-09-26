@@ -6,17 +6,20 @@ using System.Net;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using ClientApi.Tests.Tests.Models;
+using Xunit.Abstractions;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
     [Collection("CountriesControllerTests")]
-    public class CountriesControllerTests : NoxIntegrationTestBase
+    public class CountriesControllerTests : NoxWebApiTestBase
     {
         private const string EntityPluralName = "countries";
         private const string EntityUrl = $"api/{EntityPluralName}";
         private const string WorkplacesUrl = $"api/workplaces";
 
-        public CountriesControllerTests(NoxTestContainerService containerService) : base(containerService)
+        public CountriesControllerTests(ITestOutputHelper testOutput,
+            NoxTestContainerService containerService)
+            : base(testOutput, containerService)
         {
         }
 
@@ -25,6 +28,7 @@ namespace ClientApi.Tests.Tests.Controllers
         #region GET
 
         #region GET Entity By Key With Query /api/{EntityPluralName}/{EntityKey}?Query => api/countries/1?$select=Name
+
         [Fact]
         public async Task GetById_WhenSelect_ReturnsOnlySelectedFields()
         {
@@ -41,17 +45,17 @@ namespace ClientApi.Tests.Tests.Controllers
             const string oDataRequest = "$select=Name";
             var response = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{result!.Id}?{oDataRequest}");
 
-
             //Assert
             response.Should().NotBeNull();
             response!.Name.Should().NotBeNullOrEmpty();
             response.Population.Should().BeNull();
             response.CountryDebt.Should().BeNull();
-
         }
-        #endregion
+
+        #endregion GET Entity By Key With Query /api/{EntityPluralName}/{EntityKey}?Query => api/countries/1?$select=Name
 
         #region GET Single Owned Entity (filter by query) via Parent Entity /api/{EntityPluralName}/{EntityKey}?Query => api/countries/1?$select=CountryLocalNames&$expand=CountryLocalNames($filter=Name eq 'Lusitania')
+
         [Fact]
         public async Task Get_OwnedEntityByParentEntity_ReturnsOnlySelectedOwnedEntityFields()
         {
@@ -71,10 +75,9 @@ namespace ClientApi.Tests.Tests.Controllers
             };
             var result = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
 
-            // Act            
+            // Act
             const string oDataRequest = $"$select={nameof(dto.CountryShortNames)}&$expand={nameof(dto.CountryShortNames)}($filter=Name eq 'Lusitania')";
             var response = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{result!.Id}?{oDataRequest}");
-
 
             //Assert
             response.Should().NotBeNull();
@@ -87,9 +90,11 @@ namespace ClientApi.Tests.Tests.Controllers
             response.CountryBarCode.Should().NotBeNull();
             response.CountryBarCode!.BarCodeName.Should().Be(expectedBarCodeName);
         }
-        #endregion
+
+        #endregion GET Single Owned Entity (filter by query) via Parent Entity /api/{EntityPluralName}/{EntityKey}?Query => api/countries/1?$select=CountryLocalNames&$expand=CountryLocalNames($filter=Name eq 'Lusitania')
 
         #region GET Owned Entities via Parent Key /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName} => api/countries/1/CountryLocalNames
+
         [Fact]
         public async Task Get_OwnedEntitiesByParentKey_ReturnsOwnedEntitiesList()
         {
@@ -115,11 +120,12 @@ namespace ClientApi.Tests.Tests.Controllers
                 .AllSatisfy(x => x.Name.Should().NotBeNullOrEmpty())
                     .And
                 .AllSatisfy(x => x.Id.Should().BeGreaterThan(0));
-
         }
-        #endregion
+
+        #endregion GET Owned Entities via Parent Key /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName} => api/countries/1/CountryLocalNames
 
         #region GET Single Owned Entity (filter by query) via Parent Key /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName}?{Query} => api/countries/1/CountryLocalNames?$filter=Name eq 'Lusitania'
+
         [Fact]
         public async Task Get_OwnedEntityByParentKeyAndFilter_ReturnsSingleEntity()
         {
@@ -146,11 +152,12 @@ namespace ClientApi.Tests.Tests.Controllers
                 .AllSatisfy(x => x.Name.Should().Be(expectedName))
                     .And
                 .AllSatisfy(x => x.Id.Should().BeGreaterThan(0));
-
         }
-        #endregion
+
+        #endregion GET Single Owned Entity (filter by query) via Parent Key /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName}?{Query} => api/countries/1/CountryLocalNames?$filter=Name eq 'Lusitania'
 
         #region GET Owned Entity via Parent Key /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName}/{OwnedEntityKey} => api/countries/1/CountryLocalNames/1
+
         [Fact]
         public async Task Get_OwnedEntityByParentKey_ReturnsOwnedEntity()
         {
@@ -175,9 +182,11 @@ namespace ClientApi.Tests.Tests.Controllers
             countryLocalName!.Id.Should().Be(country!.CountryShortNames[0].Id);
             countryLocalName!.Name.Should().Be(expectedCountryLocalName);
         }
-        #endregion
+
+        #endregion GET Owned Entity via Parent Key /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName}/{OwnedEntityKey} => api/countries/1/CountryLocalNames/1
 
         #region GET [ZeroOrOne] Owned Entity via Parent Key /api/{EntityPluralName}/{EntityKey}/{OwnedEntityName} => api/countries/1/CountryBarCode
+
         [Fact]
         public async Task Get_CountryBarCodeByParentKey_ReturnsCountryBarCode()
         {
@@ -198,13 +207,15 @@ namespace ClientApi.Tests.Tests.Controllers
             countryBarCode.Should().NotBeNull();
             countryBarCode!.BarCodeName.Should().Be(expectedBarCodeName);
         }
-        #endregion
 
-        #endregion
+        #endregion GET [ZeroOrOne] Owned Entity via Parent Key /api/{EntityPluralName}/{EntityKey}/{OwnedEntityName} => api/countries/1/CountryBarCode
+
+        #endregion GET
 
         #region POST
 
         #region POST Entity With Owned Entities /api/{EntityPluralName} => api/countries
+
         [Fact]
         public async Task Post_WithManyOwnedEntity_ReturnsAutoNumberId()
         {
@@ -231,9 +242,11 @@ namespace ClientApi.Tests.Tests.Controllers
             getCountryResponse!.CountryBarCode.Should().NotBeNull();
             getCountryResponse!.CountryBarCode!.BarCodeName.Should().Be(expectedBarCodeName);
         }
-        #endregion
+
+        #endregion POST Entity With Owned Entities /api/{EntityPluralName} => api/countries
 
         #region POST to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName} => api/countries/1/CountryLocalNames
+
         [Fact]
         public async Task PostToCountryLocalNames_ShouldAddToCountryLocalNames()
         {
@@ -262,9 +275,11 @@ namespace ClientApi.Tests.Tests.Controllers
             ownedResult!.Id.Should().BeGreaterThan(0);
             ownedResult!.Name.Should().Be(expectedLocalName);
         }
-        #endregion
+
+        #endregion POST to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName} => api/countries/1/CountryLocalNames
 
         #region POST to [ZeroOrOne] Owned Entity /api/{EntityPluralName}/{EntityKey}/{OwnedEntityName} => api/countries/1/CountryBarCode
+
         [Fact]
         public async Task PostToCountryBarCode_ShouldSetCountryBarCode()
         {
@@ -288,21 +303,22 @@ namespace ClientApi.Tests.Tests.Controllers
             //Act
             var ownedResult = await PostAsync<CountryBarCodeCreateDto, CountryBarCodeDto>($"{EntityUrl}/{result!.Id}/CountryBarCode", barCodeDto, headers);
             var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{result!.Id}");
-            
+
             //Assert
             ownedResult.Should().NotBeNull();
             ownedResult!.BarCodeName.Should().Be(expectedBarCodeName);
             getCountryResponse!.CountryBarCode.Should().NotBeNull();
             getCountryResponse!.CountryBarCode!.BarCodeName.Should().Be(expectedBarCodeName);
-
         }
-        #endregion
 
-        #endregion
+        #endregion POST to [ZeroOrOne] Owned Entity /api/{EntityPluralName}/{EntityKey}/{OwnedEntityName} => api/countries/1/CountryBarCode
+
+        #endregion POST
 
         #region PUT
 
         #region PUT to Owned Entities /api/{EntityPluralName}/{key}/{OwnedEntityPluralName}/{relatedKey} => api/countries/1/CountryLocalNames/1
+
         [Fact]
         public async Task PutToCountryLocalNames_ShouldUpdateCountryLocalName()
         {
@@ -329,9 +345,11 @@ namespace ClientApi.Tests.Tests.Controllers
             ownedResult!.Id.Should().Be(getCountryResponse!.CountryShortNames[0].Id);
             ownedResult!.Name.Should().Be(expectedOwnedName);
         }
-        #endregion
+
+        #endregion PUT to Owned Entities /api/{EntityPluralName}/{key}/{OwnedEntityPluralName}/{relatedKey} => api/countries/1/CountryLocalNames/1
 
         #region PUT to [ZeroOrOne] Owned Entity /api/{EntityPluralName}/{key}/{OwnedEntityName} => api/countries/1/CountryBarCode
+
         [Fact]
         public async Task Put_ToCountryBarCode_ShouldUpdateCountryBarCode()
         {
@@ -350,7 +368,6 @@ namespace ClientApi.Tests.Tests.Controllers
                 new CountryBarCodeUpdateDto
                 {
                     BarCodeName = expectedBarCode
-
                 }, headers);
 
             var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{postCountryResponse!.Id}");
@@ -363,13 +380,15 @@ namespace ClientApi.Tests.Tests.Controllers
             getCountryResponse!.Name.Should().Be(postCountryResponse!.Name);
             getCountryResponse!.CountryBarCode!.BarCodeName.Should().Be(expectedBarCode);
         }
-        #endregion
 
-        #endregion
+        #endregion PUT to [ZeroOrOne] Owned Entity /api/{EntityPluralName}/{key}/{OwnedEntityName} => api/countries/1/CountryBarCode
+
+        #endregion PUT
 
         #region PATCH
 
         #region PATCH to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName}/{OwnedEntityKey} => api/countries/1/CountryLocalNames/1
+
         [Fact]
         public async Task PatchToCountryLocalNames_ShouldUpdateCountryLocalName()
         {
@@ -402,9 +421,11 @@ namespace ClientApi.Tests.Tests.Controllers
             ownedResult!.Name.Should().Be(expectedOwnedName);
             ownedResult!.NativeName.Should().Be(expectedOwnedNativeName);
         }
-        #endregion
+
+        #endregion PATCH to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName}/{OwnedEntityKey} => api/countries/1/CountryLocalNames/1
 
         #region PATCH to [ZeroOrOne] Owned Entity /api/{EntityPluralName}/{EntityKey}/{OwnedEntityName} => api/countries/1/CountryLocalNames
+
         [Fact]
         public async Task PatchToCountryBarCode_ShouldUpdateCountryBarCode()
         {
@@ -414,7 +435,8 @@ namespace ClientApi.Tests.Tests.Controllers
             var dto = new CountryCreateDto
             {
                 Name = _fixture.Create<string>(),
-                CountryBarCode = new CountryBarCodeCreateDto {
+                CountryBarCode = new CountryBarCodeCreateDto
+                {
                     BarCodeName = _fixture.Create<string>(),
                     BarCodeNumber = expectedBarCodeNumber
                 }
@@ -441,13 +463,15 @@ namespace ClientApi.Tests.Tests.Controllers
             getCountryResponse!.CountryBarCode!.BarCodeName.Should().Be(expectedBarCodeName);
             getCountryResponse!.CountryBarCode!.BarCodeNumber.Should().Be(expectedBarCodeNumber);
         }
-        #endregion
 
-        #endregion
+        #endregion PATCH to [ZeroOrOne] Owned Entity /api/{EntityPluralName}/{EntityKey}/{OwnedEntityName} => api/countries/1/CountryLocalNames
+
+        #endregion PATCH
 
         #region DELETE
 
         #region DELETE Owned Entity via Parent Key /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName}/{OwnedEntityKey} => api/countries/1/CountryLocalNames/1
+
         [Fact]
         public async Task Delete_OwnedEntityViaParentKey_DeletesOwnedEntity()
         {
@@ -471,9 +495,11 @@ namespace ClientApi.Tests.Tests.Controllers
             countryResponse.Should().NotBeNull();
             countryResponse!.CountryShortNames.Should().BeEmpty();
         }
-        #endregion
+
+        #endregion DELETE Owned Entity via Parent Key /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName}/{OwnedEntityKey} => api/countries/1/CountryLocalNames/1
 
         #region DELETE [ZeroOrOne] Owned Entity via Parent Key /api/{EntityPluralName}/{EntityKey}/{OwnedEntityName} => api/countries/1/CountryBarCode
+
         [Fact]
         public async Task Delete_CountryBarCodeViaParentKey_DeletesCountryBarCode()
         {
@@ -496,17 +522,19 @@ namespace ClientApi.Tests.Tests.Controllers
             countryResponse.Should().NotBeNull();
             countryResponse!.CountryBarCode.Should().BeNull();
         }
-        #endregion
 
-        #endregion
+        #endregion DELETE [ZeroOrOne] Owned Entity via Parent Key /api/{EntityPluralName}/{EntityKey}/{OwnedEntityName} => api/countries/1/CountryBarCode
 
-        #endregion
+        #endregion DELETE
+
+        #endregion OWNED RELATIONSHIPS EXAMPLES
 
         #region RELATIONSHIPS EXAMPLES
 
         #region GET
 
         #region GET Ref To Related Entities /api/{EntityPluralName}/1/{RelationshipName}/$ref => api/countries/1/PhysicalWorkplaces/$ref
+
         [Fact]
         public async Task GetRefTo_PhysicalWorkplaces_Success()
         {
@@ -534,13 +562,15 @@ namespace ClientApi.Tests.Tests.Controllers
                 .And
                 .AllSatisfy(x => x.ODataId.Should().NotBeNullOrEmpty());
         }
-        #endregion
 
-        #endregion
+        #endregion GET Ref To Related Entities /api/{EntityPluralName}/1/{RelationshipName}/$ref => api/countries/1/PhysicalWorkplaces/$ref
+
+        #endregion GET
 
         #region POST
 
         #region POST Entity With Related Entities /api/{EntityPluralName} => api/countries
+
         [Fact]
         public async Task Post_WithManyRelatedEntities_Success()
         {
@@ -572,9 +602,11 @@ namespace ClientApi.Tests.Tests.Controllers
                     .And
                 .AllSatisfy(x => x.Name.Should().NotBeNullOrEmpty());
         }
-        #endregion
+
+        #endregion POST Entity With Related Entities /api/{EntityPluralName} => api/countries
 
         #region POST Create ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedEntityKey}/$ref => api/countries/1/PhysicalWorkplaces/1/$ref
+
         [Fact]
         public async Task Post_CreateRefToPhysicalWorkplaces_Success()
         {
@@ -586,7 +618,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, countryCreateDto);
             var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(WorkplacesUrl, workplaceCreateDto);
             var createRefResponse = await PostAsync($"{EntityUrl}/{countryResponse!.Id}/physicalworkplaces/{workplaceResponse!.Id}/$ref");
-            
+
             const string oDataRequest = $"$expand={nameof(CountryDto.PhysicalWorkplaces)}";
             var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{countryResponse!.Id}?{oDataRequest}");
 
@@ -604,13 +636,15 @@ namespace ClientApi.Tests.Tests.Controllers
                     .And
                 .AllSatisfy(x => x.Name.Should().NotBeNullOrEmpty());
         }
-        #endregion
 
-        #endregion
+        #endregion POST Create ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedEntityKey}/$ref => api/countries/1/PhysicalWorkplaces/1/$ref
+
+        #endregion POST
 
         #region DELETE
 
         #region DELETE Delete ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedEntityKey}/$ref => api/countries/1/PhysicalWorkplaces/1/$ref
+
         [Fact]
         public async Task Delete_RefToPhysicalWorkplaces_Success()
         {
@@ -635,7 +669,6 @@ namespace ClientApi.Tests.Tests.Controllers
             var deleteRefResponse = await DeleteAsync($"{EntityUrl}/{countryResponse!.Id}/physicalworkplaces/{getCountryResponse!.PhysicalWorkplaces!.First()!.Id}/$ref");
             getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{countryResponse!.Id}?{oDataRequest}");
 
-
             //Assert
             countryResponse.Should().NotBeNull();
             countryResponse!.Id.Should().BeGreaterThan(0);
@@ -648,9 +681,11 @@ namespace ClientApi.Tests.Tests.Controllers
                     .And
                 .AllSatisfy(x => x.Name.Should().NotBeNullOrEmpty());
         }
-        #endregion
+
+        #endregion DELETE Delete ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedEntityKey}/$ref => api/countries/1/PhysicalWorkplaces/1/$ref
 
         #region DELETE Delete all ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/$ref => api/countries/1/PhysicalWorkplaces/1/$ref
+
         [Fact]
         public async Task Delete_AllRefToPhysicalWorkplaces_Success()
         {
@@ -670,7 +705,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
             var deleteRefResponse = await DeleteAsync($"{EntityUrl}/{countryResponse!.Id}/physicalworkplaces/$ref");
 
-            const string oDataRequest = $"$expand={nameof(CountryDto.PhysicalWorkplaces)}"; 
+            const string oDataRequest = $"$expand={nameof(CountryDto.PhysicalWorkplaces)}";
             var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{countryResponse!.Id}?{oDataRequest}");
 
             //Assert
@@ -682,13 +717,15 @@ namespace ClientApi.Tests.Tests.Controllers
             getCountryResponse!.PhysicalWorkplaces.Should().NotBeNull();
             getCountryResponse!.PhysicalWorkplaces.Should().BeEmpty();
         }
-        #endregion
 
-        #endregion
+        #endregion DELETE Delete all ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/$ref => api/countries/1/PhysicalWorkplaces/1/$ref
 
-        #endregion
+        #endregion DELETE
 
-        #region TESTS 
+        #endregion RELATIONSHIPS EXAMPLES
+
+        #region TESTS
+
         [Fact]
         public async Task Post_ReturnsAutoNumberId()
         {
@@ -1036,6 +1073,6 @@ namespace ClientApi.Tests.Tests.Controllers
             queryResult.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
-        #endregion
+        #endregion TESTS
     }
 }

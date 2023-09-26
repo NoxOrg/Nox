@@ -45,6 +45,11 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<Employee, EmployeeC
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(Employee entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private Cryptocash.Domain.Employee ToEntity(EmployeeCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Employee();
@@ -67,6 +72,74 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<Employee, EmployeeC
         entity.FirstWorkingDay = Cryptocash.Domain.Employee.CreateFirstWorkingDay(updateDto.FirstWorkingDay.NonNullValue<System.DateTime>());
         if (updateDto.LastWorkingDay == null) { entity.LastWorkingDay = null; } else {
             entity.LastWorkingDay = Cryptocash.Domain.Employee.CreateLastWorkingDay(updateDto.LastWorkingDay.ToValueFromNonNull<System.DateTime>());
+        }
+    }
+
+    private void PartialUpdateEntityInternal(Employee entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("FirstName", out var FirstNameUpdateValue))
+        {
+            if (FirstNameUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'FirstName' can't be null");
+            }
+            {
+                entity.FirstName = Cryptocash.Domain.Employee.CreateFirstName(FirstNameUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("LastName", out var LastNameUpdateValue))
+        {
+            if (LastNameUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'LastName' can't be null");
+            }
+            {
+                entity.LastName = Cryptocash.Domain.Employee.CreateLastName(LastNameUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("EmailAddress", out var EmailAddressUpdateValue))
+        {
+            if (EmailAddressUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'EmailAddress' can't be null");
+            }
+            {
+                entity.EmailAddress = Cryptocash.Domain.Employee.CreateEmailAddress(EmailAddressUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Address", out var AddressUpdateValue))
+        {
+            if (AddressUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Address' can't be null");
+            }
+            {
+                entity.Address = Cryptocash.Domain.Employee.CreateAddress(AddressUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("FirstWorkingDay", out var FirstWorkingDayUpdateValue))
+        {
+            if (FirstWorkingDayUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'FirstWorkingDay' can't be null");
+            }
+            {
+                entity.FirstWorkingDay = Cryptocash.Domain.Employee.CreateFirstWorkingDay(FirstWorkingDayUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("LastWorkingDay", out var LastWorkingDayUpdateValue))
+        {
+            if (LastWorkingDayUpdateValue == null) { entity.LastWorkingDay = null; }
+            else
+            {
+                entity.LastWorkingDay = Cryptocash.Domain.Employee.CreateLastWorkingDay(LastWorkingDayUpdateValue);
+            }
         }
     }
 }

@@ -42,6 +42,11 @@ internal abstract class CommissionFactoryBase : IEntityFactory<Commission, Commi
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(Commission entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private Cryptocash.Domain.Commission ToEntity(CommissionCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Commission();
@@ -54,6 +59,32 @@ internal abstract class CommissionFactoryBase : IEntityFactory<Commission, Commi
     {
         entity.Rate = Cryptocash.Domain.Commission.CreateRate(updateDto.Rate.NonNullValue<System.Single>());
         entity.EffectiveAt = Cryptocash.Domain.Commission.CreateEffectiveAt(updateDto.EffectiveAt.NonNullValue<System.DateTimeOffset>());
+    }
+
+    private void PartialUpdateEntityInternal(Commission entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("Rate", out var RateUpdateValue))
+        {
+            if (RateUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Rate' can't be null");
+            }
+            {
+                entity.Rate = Cryptocash.Domain.Commission.CreateRate(RateUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("EffectiveAt", out var EffectiveAtUpdateValue))
+        {
+            if (EffectiveAtUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'EffectiveAt' can't be null");
+            }
+            {
+                entity.EffectiveAt = Cryptocash.Domain.Commission.CreateEffectiveAt(EffectiveAtUpdateValue);
+            }
+        }
     }
 }
 

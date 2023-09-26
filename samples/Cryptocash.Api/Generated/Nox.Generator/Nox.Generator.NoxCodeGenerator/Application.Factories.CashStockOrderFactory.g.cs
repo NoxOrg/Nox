@@ -42,6 +42,11 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(CashStockOrder entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private Cryptocash.Domain.CashStockOrder ToEntity(CashStockOrderCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.CashStockOrder();
@@ -57,6 +62,41 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
         entity.RequestedDeliveryDate = Cryptocash.Domain.CashStockOrder.CreateRequestedDeliveryDate(updateDto.RequestedDeliveryDate.NonNullValue<System.DateTime>());
         if (updateDto.DeliveryDateTime == null) { entity.DeliveryDateTime = null; } else {
             entity.DeliveryDateTime = Cryptocash.Domain.CashStockOrder.CreateDeliveryDateTime(updateDto.DeliveryDateTime.ToValueFromNonNull<System.DateTimeOffset>());
+        }
+    }
+
+    private void PartialUpdateEntityInternal(CashStockOrder entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("Amount", out var AmountUpdateValue))
+        {
+            if (AmountUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Amount' can't be null");
+            }
+            {
+                entity.Amount = Cryptocash.Domain.CashStockOrder.CreateAmount(AmountUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("RequestedDeliveryDate", out var RequestedDeliveryDateUpdateValue))
+        {
+            if (RequestedDeliveryDateUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'RequestedDeliveryDate' can't be null");
+            }
+            {
+                entity.RequestedDeliveryDate = Cryptocash.Domain.CashStockOrder.CreateRequestedDeliveryDate(RequestedDeliveryDateUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("DeliveryDateTime", out var DeliveryDateTimeUpdateValue))
+        {
+            if (DeliveryDateTimeUpdateValue == null) { entity.DeliveryDateTime = null; }
+            else
+            {
+                entity.DeliveryDateTime = Cryptocash.Domain.CashStockOrder.CreateDeliveryDateTime(DeliveryDateTimeUpdateValue);
+            }
         }
     }
 }

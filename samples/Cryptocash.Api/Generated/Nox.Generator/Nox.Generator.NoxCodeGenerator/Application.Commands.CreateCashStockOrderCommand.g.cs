@@ -25,9 +25,9 @@ internal partial class CreateCashStockOrderCommandHandler: CreateCashStockOrderC
 	public CreateCashStockOrderCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
-        IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> employeefactory,
-        IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> entityFactory,
+		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
+		IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> employeefactory,
+		IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
 		: base(dbContext, noxSolution,vendingmachinefactory, employeefactory, entityFactory, serviceProvider)
 	{
@@ -39,21 +39,21 @@ internal abstract class CreateCashStockOrderCommandHandlerBase: CommandBase<Crea
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> _entityFactory;
-    private readonly IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> _vendingmachinefactory;
-    private readonly IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> _employeefactory;
+	private readonly IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> _vendingmachinefactory;
+	private readonly IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> _employeefactory;
 
 	public CreateCashStockOrderCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
-        IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> employeefactory,
-        IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> entityFactory,
+		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
+		IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> employeefactory,
+		IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
-        _vendingmachinefactory = vendingmachinefactory;
-        _employeefactory = employeefactory;
+		_vendingmachinefactory = vendingmachinefactory;
+		_employeefactory = employeefactory;
 	}
 
 	public virtual async Task<CashStockOrderKeyDto> Handle(CreateCashStockOrderCommand request, CancellationToken cancellationToken)

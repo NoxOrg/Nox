@@ -4,21 +4,25 @@ using FluentAssertions;
 using FluentAssertions.Common;
 using Nox.Types;
 using System.Net;
+using Xunit.Abstractions;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
-    public class StoresControllerTests : NoxIntegrationTestBase
+    public class StoresControllerTests : NoxWebApiTestBase
     {
         private const string EntityUrl = "api/stores";
 
-        public StoresControllerTests(NoxTestContainerService containerService) : base(containerService)
+        public StoresControllerTests(ITestOutputHelper testOutput,
+            NoxTestContainerService containerService)
+            : base(testOutput, containerService)
         {
         }
 
         #region Store Examples
 
         #region GET Entity By Key (Returns by default owned entitites) /api/{EntityPluralName}/{EntityKey} => api/stores/1
+
         [Fact]
         public async Task GetById_ReturnsOwnedEntitites()
         {
@@ -51,9 +55,11 @@ namespace ClientApi.Tests.Tests.Controllers
             response!.VerifiedEmails.Should().BeEquivalentTo(expectedEmail);
             response!.OpeningDay.Should().BeNull();
         }
-        #endregion
+
+        #endregion GET Entity By Key (Returns by default owned entitites) /api/{EntityPluralName}/{EntityKey} => api/stores/1
 
         #region GET Entities (Properly deserializes opening day field) /api/{EntityPluralName} => api/stores
+
         [Fact]
         public async Task GetById_WithDateFieldSet_ReturnsDateFieldValue()
         {
@@ -86,12 +92,15 @@ namespace ClientApi.Tests.Tests.Controllers
             response!.Should().HaveCount(1);
             response!.ElementAt(0).OpeningDay.Should().Be(expectedDate);
         }
-        #endregion
 
-        #endregion
+        #endregion GET Entities (Properly deserializes opening day field) /api/{EntityPluralName} => api/stores
+
+        #endregion Store Examples
 
         #region Relationship Examples
+
         #region GET Expand Relation /api/{EntityPluralName}/{EntityKey} => api/stores/1?$expand=Ownership
+
         [Fact]
         public async Task Get_StoreOwnerOdataQuery_ReturnOwner()
         {
@@ -102,7 +111,6 @@ namespace ClientApi.Tests.Tests.Controllers
                 Id = "002",
                 Name = ownerExpectedName,
                 TemporaryOwnerName = _fixture.Create<string>()
-
             };
             var createStore = new StoreCreateDto
             {
@@ -127,14 +135,15 @@ namespace ClientApi.Tests.Tests.Controllers
             const string oDataRequest = $"$expand={nameof(StoreDto.Ownership)}";
             var response = await GetODataSimpleResponseAsync<StoreDto>($"{EntityUrl}/{store!.Id}?{oDataRequest}");
 
-
             //Assert
             response.Should().NotBeNull();
             response!.Ownership.Should().NotBeNull();
             response!.Ownership!.Name.Should().Be(ownerExpectedName);
         }
-        #endregion
-        #endregion
+
+        #endregion GET Expand Relation /api/{EntityPluralName}/{EntityKey} => api/stores/1?$expand=Ownership
+
+        #endregion Relationship Examples
 
         [Fact]
         public async Task Post_ReturnsId()
