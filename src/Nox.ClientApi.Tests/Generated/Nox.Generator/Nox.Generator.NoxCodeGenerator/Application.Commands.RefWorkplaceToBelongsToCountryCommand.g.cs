@@ -23,7 +23,7 @@ public abstract record RefWorkplaceToBelongsToCountryCommand(WorkplaceKeyDto Ent
 public record CreateRefWorkplaceToBelongsToCountryCommand(WorkplaceKeyDto EntityKeyDto, CountryKeyDto RelatedEntityKeyDto)
 	: RefWorkplaceToBelongsToCountryCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefWorkplaceToBelongsToCountryCommandHandler
+internal partial class CreateRefWorkplaceToBelongsToCountryCommandHandler
 	: RefWorkplaceToBelongsToCountryCommandHandlerBase<CreateRefWorkplaceToBelongsToCountryCommand>
 {
 	public CreateRefWorkplaceToBelongsToCountryCommandHandler(
@@ -38,7 +38,7 @@ public partial class CreateRefWorkplaceToBelongsToCountryCommandHandler
 public record DeleteRefWorkplaceToBelongsToCountryCommand(WorkplaceKeyDto EntityKeyDto, CountryKeyDto RelatedEntityKeyDto)
 	: RefWorkplaceToBelongsToCountryCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefWorkplaceToBelongsToCountryCommandHandler
+internal partial class DeleteRefWorkplaceToBelongsToCountryCommandHandler
 	: RefWorkplaceToBelongsToCountryCommandHandlerBase<DeleteRefWorkplaceToBelongsToCountryCommand>
 {
 	public DeleteRefWorkplaceToBelongsToCountryCommandHandler(
@@ -53,7 +53,7 @@ public partial class DeleteRefWorkplaceToBelongsToCountryCommandHandler
 public record DeleteAllRefWorkplaceToBelongsToCountryCommand(WorkplaceKeyDto EntityKeyDto)
 	: RefWorkplaceToBelongsToCountryCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefWorkplaceToBelongsToCountryCommandHandler
+internal partial class DeleteAllRefWorkplaceToBelongsToCountryCommandHandler
 	: RefWorkplaceToBelongsToCountryCommandHandlerBase<DeleteAllRefWorkplaceToBelongsToCountryCommand>
 {
 	public DeleteAllRefWorkplaceToBelongsToCountryCommandHandler(
@@ -65,7 +65,7 @@ public partial class DeleteAllRefWorkplaceToBelongsToCountryCommandHandler
 	{ }
 }
 
-public abstract class RefWorkplaceToBelongsToCountryCommandHandlerBase<TRequest>: CommandBase<TRequest, Workplace>, 
+internal abstract class RefWorkplaceToBelongsToCountryCommandHandlerBase<TRequest>: CommandBase<TRequest, Workplace>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefWorkplaceToBelongsToCountryCommand
 {
 	public ClientApiDbContext DbContext { get; }

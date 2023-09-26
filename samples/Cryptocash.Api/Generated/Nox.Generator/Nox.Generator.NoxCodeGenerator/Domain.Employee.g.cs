@@ -70,7 +70,7 @@ public abstract class EmployeeBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Employee reviewing ExactlyOne CashStockOrders
     /// </summary>
-    public virtual CashStockOrder EmployeeReviewingCashStockOrder { get; set; } = null!;
+    public virtual CashStockOrder EmployeeReviewingCashStockOrder { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity CashStockOrder
@@ -89,7 +89,7 @@ public abstract class EmployeeBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteAllRefToEmployeeReviewingCashStockOrder()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>

@@ -19,7 +19,7 @@ using CountryLocalName = ClientApi.Domain.CountryLocalName;
 namespace ClientApi.Application.Commands;
 public record CreateCountryLocalNameForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameCreateDto EntityDto, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto?>;
 
-public partial class CreateCountryLocalNameForCountryCommandHandler: CreateCountryLocalNameForCountryCommandHandlerBase
+internal partial class CreateCountryLocalNameForCountryCommandHandler: CreateCountryLocalNameForCountryCommandHandlerBase
 {
 	public CreateCountryLocalNameForCountryCommandHandler(
 		ClientApiDbContext dbContext,
@@ -30,7 +30,7 @@ public partial class CreateCountryLocalNameForCountryCommandHandler: CreateCount
 	{
 	}
 }
-public abstract class CreateCountryLocalNameForCountryCommandHandlerBase: CommandBase<CreateCountryLocalNameForCountryCommand, CountryLocalName>, IRequestHandler<CreateCountryLocalNameForCountryCommand, CountryLocalNameKeyDto?>
+internal abstract class CreateCountryLocalNameForCountryCommandHandlerBase: CommandBase<CreateCountryLocalNameForCountryCommand, CountryLocalName>, IRequestHandler<CreateCountryLocalNameForCountryCommand, CountryLocalNameKeyDto?>
 {
 	private readonly ClientApiDbContext _dbContext;
 	private readonly IEntityFactory<CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> _entityFactory;

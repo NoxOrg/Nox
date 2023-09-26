@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Commands;
 
 public record UpdateBookingCommand(System.Guid keyId, BookingUpdateDto EntityDto, System.Guid? Etag) : IRequest<BookingKeyDto?>;
 
-public partial class UpdateBookingCommandHandler: UpdateBookingCommandHandlerBase
+internal partial class UpdateBookingCommandHandler: UpdateBookingCommandHandlerBase
 {
 	public UpdateBookingCommandHandler(
 		CryptocashDbContext dbContext,
@@ -28,7 +28,7 @@ public partial class UpdateBookingCommandHandler: UpdateBookingCommandHandlerBas
 	}
 }
 
-public abstract class UpdateBookingCommandHandlerBase: CommandBase<UpdateBookingCommand, Booking>, IRequestHandler<UpdateBookingCommand, BookingKeyDto?>
+internal abstract class UpdateBookingCommandHandlerBase: CommandBase<UpdateBookingCommand, Booking>, IRequestHandler<UpdateBookingCommand, BookingKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	private readonly IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> _entityFactory;

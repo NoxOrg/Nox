@@ -474,4 +474,7 @@
   <data name="EntityOwnedCannotHaveRelationships" xml:space="preserve">
     <value>The owned entity '{0}' cannot have relationships to other entities.</value>
   </data>
+  <data name="IntegrationEventsServerAzureServiceBusConfigRequired" xml:space="preserve">
+    <value>AzureServiceBusConfig is required when the MessageBrokerProvider is  AzureServiceBus.</value>
+  </data>
 </root>

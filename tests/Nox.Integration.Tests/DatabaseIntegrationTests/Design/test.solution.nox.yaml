@@ -766,16 +766,6 @@ domain:
       persistence: 
         isAudited: false
 
-      keys:
-
-        - name: Id1
-          isRequired: true
-          type: text
-          textTypeOptions:
-            isUnicode: false
-            minLength: 2
-            maxLength: 2
-
       attributes:
 
         - name: TextTestField2
@@ -815,16 +805,6 @@ domain:
    
       persistence: 
         isAudited: false
-
-      keys:
-
-        - name: Id1
-          isRequired: true
-          type: text
-          textTypeOptions:
-            isUnicode: false
-            minLength: 2
-            maxLength: 2
 
       attributes:
 

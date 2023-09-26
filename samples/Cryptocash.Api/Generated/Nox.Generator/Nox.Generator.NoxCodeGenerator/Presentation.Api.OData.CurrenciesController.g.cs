@@ -25,16 +25,11 @@ namespace Cryptocash.Presentation.Api.OData;
 
 public partial class CurrenciesController : CurrenciesControllerBase
 {
-    public CurrenciesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    public CurrenciesController(IMediator mediator):base(mediator)
     {}
 }
 public abstract class CurrenciesControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -42,11 +37,9 @@ public abstract class CurrenciesControllerBase : ODataController
     protected readonly IMediator _mediator;
     
     public CurrenciesControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
     }
     

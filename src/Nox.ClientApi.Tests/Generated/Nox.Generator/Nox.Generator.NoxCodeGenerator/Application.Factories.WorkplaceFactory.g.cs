@@ -23,7 +23,7 @@ using Workplace = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto>
+internal abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto>
 {
 
     public WorkplaceFactoryBase
@@ -42,13 +42,17 @@ public abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, Workplace
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(Workplace entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private ClientApi.Domain.Workplace ToEntity(WorkplaceCreateDto createDto)
     {
         var entity = new ClientApi.Domain.Workplace();
         entity.Name = ClientApi.Domain.Workplace.CreateName(createDto.Name);
         if (createDto.Description is not null)entity.Description = ClientApi.Domain.Workplace.CreateDescription(createDto.Description.NonNullValue<System.String>());
 		entity.EnsureId();
-        //entity.Country = Country?.ToEntity();
         return entity;
     }
 
@@ -59,10 +63,34 @@ public abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, Workplace
             entity.Description = ClientApi.Domain.Workplace.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>());
         }
 		entity.EnsureId();
-        //entity.Country = Country?.ToEntity();
+    }
+
+    private void PartialUpdateEntityInternal(Workplace entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
+        {
+            if (NameUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Name' can't be null");
+            }
+            {
+                entity.Name = ClientApi.Domain.Workplace.CreateName(NameUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Description", out var DescriptionUpdateValue))
+        {
+            if (DescriptionUpdateValue == null) { entity.Description = null; }
+            else
+            {
+                entity.Description = ClientApi.Domain.Workplace.CreateDescription(DescriptionUpdateValue);
+            }
+        }
+		entity.EnsureId();
     }
 }
 
-public partial class WorkplaceFactory : WorkplaceFactoryBase
+internal partial class WorkplaceFactory : WorkplaceFactoryBase
 {
 }

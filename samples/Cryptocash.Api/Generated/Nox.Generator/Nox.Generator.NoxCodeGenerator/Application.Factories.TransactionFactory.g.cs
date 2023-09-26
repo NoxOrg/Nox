@@ -23,7 +23,7 @@ using Transaction = Cryptocash.Domain.Transaction;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class TransactionFactoryBase : IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto>
+internal abstract class TransactionFactoryBase : IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto>
 {
 
     public TransactionFactoryBase
@@ -42,6 +42,11 @@ public abstract class TransactionFactoryBase : IEntityFactory<Transaction, Trans
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(Transaction entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private Cryptocash.Domain.Transaction ToEntity(TransactionCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Transaction();
@@ -49,8 +54,6 @@ public abstract class TransactionFactoryBase : IEntityFactory<Transaction, Trans
         entity.ProcessedOnDateTime = Cryptocash.Domain.Transaction.CreateProcessedOnDateTime(createDto.ProcessedOnDateTime);
         entity.Amount = Cryptocash.Domain.Transaction.CreateAmount(createDto.Amount);
         entity.Reference = Cryptocash.Domain.Transaction.CreateReference(createDto.Reference);
-        //entity.Customer = Customer.ToEntity();
-        //entity.Booking = Booking.ToEntity();
         return entity;
     }
 
@@ -60,11 +63,57 @@ public abstract class TransactionFactoryBase : IEntityFactory<Transaction, Trans
         entity.ProcessedOnDateTime = Cryptocash.Domain.Transaction.CreateProcessedOnDateTime(updateDto.ProcessedOnDateTime.NonNullValue<System.DateTimeOffset>());
         entity.Amount = Cryptocash.Domain.Transaction.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>());
         entity.Reference = Cryptocash.Domain.Transaction.CreateReference(updateDto.Reference.NonNullValue<System.String>());
-        //entity.Customer = Customer.ToEntity();
-        //entity.Booking = Booking.ToEntity();
+    }
+
+    private void PartialUpdateEntityInternal(Transaction entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("TransactionType", out var TransactionTypeUpdateValue))
+        {
+            if (TransactionTypeUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'TransactionType' can't be null");
+            }
+            {
+                entity.TransactionType = Cryptocash.Domain.Transaction.CreateTransactionType(TransactionTypeUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("ProcessedOnDateTime", out var ProcessedOnDateTimeUpdateValue))
+        {
+            if (ProcessedOnDateTimeUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'ProcessedOnDateTime' can't be null");
+            }
+            {
+                entity.ProcessedOnDateTime = Cryptocash.Domain.Transaction.CreateProcessedOnDateTime(ProcessedOnDateTimeUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Amount", out var AmountUpdateValue))
+        {
+            if (AmountUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Amount' can't be null");
+            }
+            {
+                entity.Amount = Cryptocash.Domain.Transaction.CreateAmount(AmountUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Reference", out var ReferenceUpdateValue))
+        {
+            if (ReferenceUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Reference' can't be null");
+            }
+            {
+                entity.Reference = Cryptocash.Domain.Transaction.CreateReference(ReferenceUpdateValue);
+            }
+        }
     }
 }
 
-public partial class TransactionFactory : TransactionFactoryBase
+internal partial class TransactionFactory : TransactionFactoryBase
 {
 }

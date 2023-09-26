@@ -15,7 +15,7 @@ namespace ClientApi.Application.Commands;
 
 public record DeleteWorkplaceByIdCommand(System.UInt32 keyId, System.Guid? Etag) : IRequest<bool>;
 
-public class DeleteWorkplaceByIdCommandHandler:DeleteWorkplaceByIdCommandHandlerBase
+internal class DeleteWorkplaceByIdCommandHandler:DeleteWorkplaceByIdCommandHandlerBase
 {
 	public DeleteWorkplaceByIdCommandHandler(
 		ClientApiDbContext dbContext,
@@ -24,7 +24,7 @@ public class DeleteWorkplaceByIdCommandHandler:DeleteWorkplaceByIdCommandHandler
 	{
 	}
 }
-public abstract class DeleteWorkplaceByIdCommandHandlerBase: CommandBase<DeleteWorkplaceByIdCommand,Workplace>, IRequestHandler<DeleteWorkplaceByIdCommand, bool>
+internal abstract class DeleteWorkplaceByIdCommandHandlerBase: CommandBase<DeleteWorkplaceByIdCommand,Workplace>, IRequestHandler<DeleteWorkplaceByIdCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 

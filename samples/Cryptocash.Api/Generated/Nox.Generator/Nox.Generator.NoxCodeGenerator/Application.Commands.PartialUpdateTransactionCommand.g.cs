@@ -18,29 +18,29 @@ namespace Cryptocash.Application.Commands;
 
 public record PartialUpdateTransactionCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <TransactionKeyDto?>;
 
-public class PartialUpdateTransactionCommandHandler: PartialUpdateTransactionCommandHandlerBase
+internal class PartialUpdateTransactionCommandHandler: PartialUpdateTransactionCommandHandlerBase
 {
 	public PartialUpdateTransactionCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<Transaction> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
-public class PartialUpdateTransactionCommandHandlerBase: CommandBase<PartialUpdateTransactionCommand, Transaction>, IRequestHandler<PartialUpdateTransactionCommand, TransactionKeyDto?>
+internal class PartialUpdateTransactionCommandHandlerBase: CommandBase<PartialUpdateTransactionCommand, Transaction>, IRequestHandler<PartialUpdateTransactionCommand, TransactionKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<Transaction> EntityMapper { get; }
+	public IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateTransactionCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<Transaction> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<TransactionKeyDto?> Handle(PartialUpdateTransactionCommand request, CancellationToken cancellationToken)
@@ -54,7 +54,7 @@ public class PartialUpdateTransactionCommandHandlerBase: CommandBase<PartialUpda
 		{
 			return null;
 		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Transaction>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);

@@ -14,7 +14,7 @@ namespace Cryptocash.Application.Queries;
 
 public record GetCashStockOrdersQuery() : IRequest<IQueryable<CashStockOrderDto>>;
 
-public partial class GetCashStockOrdersQueryHandler: GetCashStockOrdersQueryHandlerBase
+internal partial class GetCashStockOrdersQueryHandler: GetCashStockOrdersQueryHandlerBase
 {
     public GetCashStockOrdersQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
@@ -22,7 +22,7 @@ public partial class GetCashStockOrdersQueryHandler: GetCashStockOrdersQueryHand
     }
 }
 
-public abstract class GetCashStockOrdersQueryHandlerBase : QueryBase<IQueryable<CashStockOrderDto>>, IRequestHandler<GetCashStockOrdersQuery, IQueryable<CashStockOrderDto>>
+internal abstract class GetCashStockOrdersQueryHandlerBase : QueryBase<IQueryable<CashStockOrderDto>>, IRequestHandler<GetCashStockOrdersQuery, IQueryable<CashStockOrderDto>>
 {
     public  GetCashStockOrdersQueryHandlerBase(DtoDbContext dataDbContext)
     {

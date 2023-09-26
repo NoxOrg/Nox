@@ -23,7 +23,7 @@ using CountryBarCode = ClientApi.Domain.CountryBarCode;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto>
+internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto>
 {
 
     public CountryBarCodeFactoryBase
@@ -42,6 +42,11 @@ public abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCode,
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(CountryBarCode entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private ClientApi.Domain.CountryBarCode ToEntity(CountryBarCodeCreateDto createDto)
     {
         var entity = new ClientApi.Domain.CountryBarCode();
@@ -57,8 +62,32 @@ public abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCode,
             entity.BarCodeNumber = ClientApi.Domain.CountryBarCode.CreateBarCodeNumber(updateDto.BarCodeNumber.ToValueFromNonNull<System.Int32>());
         }
     }
+
+    private void PartialUpdateEntityInternal(CountryBarCode entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("BarCodeName", out var BarCodeNameUpdateValue))
+        {
+            if (BarCodeNameUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'BarCodeName' can't be null");
+            }
+            {
+                entity.BarCodeName = ClientApi.Domain.CountryBarCode.CreateBarCodeName(BarCodeNameUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("BarCodeNumber", out var BarCodeNumberUpdateValue))
+        {
+            if (BarCodeNumberUpdateValue == null) { entity.BarCodeNumber = null; }
+            else
+            {
+                entity.BarCodeNumber = ClientApi.Domain.CountryBarCode.CreateBarCodeNumber(BarCodeNumberUpdateValue);
+            }
+        }
+    }
 }
 
-public partial class CountryBarCodeFactory : CountryBarCodeFactoryBase
+internal partial class CountryBarCodeFactory : CountryBarCodeFactoryBase
 {
 }

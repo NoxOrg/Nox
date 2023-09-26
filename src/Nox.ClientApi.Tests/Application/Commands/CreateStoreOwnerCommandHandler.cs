@@ -7,7 +7,7 @@ namespace ClientApi.Application.Commands;
 /// <summary>
 /// Example of fully override and implement a default command handler
 /// </summary>
-public partial class CreateStoreOwnerCommandHandler 
+internal partial class CreateStoreOwnerCommandHandler 
 {    
     public override async Task<StoreOwnerKeyDto> Handle(CreateStoreOwnerCommand request, CancellationToken cancellationToken)
     {

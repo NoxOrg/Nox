@@ -23,7 +23,7 @@ using EmailAddress = ClientApi.Domain.EmailAddress;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto>
+internal abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto>
 {
 
     public EmailAddressFactoryBase
@@ -40,6 +40,11 @@ public abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddress, Ema
     public virtual void UpdateEntity(EmailAddress entity, EmailAddressUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
+    }
+
+    public virtual void PartialUpdateEntity(EmailAddress entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
     }
 
     private ClientApi.Domain.EmailAddress ToEntity(EmailAddressCreateDto createDto)
@@ -59,8 +64,30 @@ public abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddress, Ema
             entity.IsVerified = ClientApi.Domain.EmailAddress.CreateIsVerified(updateDto.IsVerified.ToValueFromNonNull<System.Boolean>());
         }
     }
+
+    private void PartialUpdateEntityInternal(EmailAddress entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("Email", out var EmailUpdateValue))
+        {
+            if (EmailUpdateValue == null) { entity.Email = null; }
+            else
+            {
+                entity.Email = ClientApi.Domain.EmailAddress.CreateEmail(EmailUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("IsVerified", out var IsVerifiedUpdateValue))
+        {
+            if (IsVerifiedUpdateValue == null) { entity.IsVerified = null; }
+            else
+            {
+                entity.IsVerified = ClientApi.Domain.EmailAddress.CreateIsVerified(IsVerifiedUpdateValue);
+            }
+        }
+    }
 }
 
-public partial class EmailAddressFactory : EmailAddressFactoryBase
+internal partial class EmailAddressFactory : EmailAddressFactoryBase
 {
 }

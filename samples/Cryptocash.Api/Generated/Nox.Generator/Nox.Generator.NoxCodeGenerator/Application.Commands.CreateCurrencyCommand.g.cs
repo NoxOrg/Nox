@@ -20,7 +20,7 @@ namespace Cryptocash.Application.Commands;
 
 public record CreateCurrencyCommand(CurrencyCreateDto EntityDto) : IRequest<CurrencyKeyDto>;
 
-public partial class CreateCurrencyCommandHandler: CreateCurrencyCommandHandlerBase
+internal partial class CreateCurrencyCommandHandler: CreateCurrencyCommandHandlerBase
 {
 	public CreateCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
@@ -35,7 +35,7 @@ public partial class CreateCurrencyCommandHandler: CreateCurrencyCommandHandlerB
 }
 
 
-public abstract class CreateCurrencyCommandHandlerBase: CommandBase<CreateCurrencyCommand,Currency>, IRequestHandler <CreateCurrencyCommand, CurrencyKeyDto>
+internal abstract class CreateCurrencyCommandHandlerBase: CommandBase<CreateCurrencyCommand,Currency>, IRequestHandler <CreateCurrencyCommand, CurrencyKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> _entityFactory;

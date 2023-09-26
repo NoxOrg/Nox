@@ -23,7 +23,7 @@ using StoreOwner = ClientApi.Domain.StoreOwner;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto>
+internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto>
 {
 
     public StoreOwnerFactoryBase
@@ -42,6 +42,11 @@ public abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwner, StoreOw
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(StoreOwner entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private ClientApi.Domain.StoreOwner ToEntity(StoreOwnerCreateDto createDto)
     {
         var entity = new ClientApi.Domain.StoreOwner();
@@ -52,7 +57,6 @@ public abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwner, StoreOw
         if (createDto.StreetAddress is not null)entity.StreetAddress = ClientApi.Domain.StoreOwner.CreateStreetAddress(createDto.StreetAddress.NonNullValue<StreetAddressDto>());
         if (createDto.LocalGreeting is not null)entity.LocalGreeting = ClientApi.Domain.StoreOwner.CreateLocalGreeting(createDto.LocalGreeting.NonNullValue<TranslatedTextDto>());
         if (createDto.Notes is not null)entity.Notes = ClientApi.Domain.StoreOwner.CreateNotes(createDto.Notes.NonNullValue<System.String>());
-        //entity.Stores = Stores.Select(dto => dto.ToEntity()).ToList();
         return entity;
     }
 
@@ -72,10 +76,71 @@ public abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwner, StoreOw
         if (updateDto.Notes == null) { entity.Notes = null; } else {
             entity.Notes = ClientApi.Domain.StoreOwner.CreateNotes(updateDto.Notes.ToValueFromNonNull<System.String>());
         }
-        //entity.Stores = Stores.Select(dto => dto.ToEntity()).ToList();
+    }
+
+    private void PartialUpdateEntityInternal(StoreOwner entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
+        {
+            if (NameUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Name' can't be null");
+            }
+            {
+                entity.Name = ClientApi.Domain.StoreOwner.CreateName(NameUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("TemporaryOwnerName", out var TemporaryOwnerNameUpdateValue))
+        {
+            if (TemporaryOwnerNameUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'TemporaryOwnerName' can't be null");
+            }
+            {
+                entity.TemporaryOwnerName = ClientApi.Domain.StoreOwner.CreateTemporaryOwnerName(TemporaryOwnerNameUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("VatNumber", out var VatNumberUpdateValue))
+        {
+            if (VatNumberUpdateValue == null) { entity.VatNumber = null; }
+            else
+            {
+                entity.VatNumber = ClientApi.Domain.StoreOwner.CreateVatNumber(VatNumberUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("StreetAddress", out var StreetAddressUpdateValue))
+        {
+            if (StreetAddressUpdateValue == null) { entity.StreetAddress = null; }
+            else
+            {
+                entity.StreetAddress = ClientApi.Domain.StoreOwner.CreateStreetAddress(StreetAddressUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("LocalGreeting", out var LocalGreetingUpdateValue))
+        {
+            if (LocalGreetingUpdateValue == null) { entity.LocalGreeting = null; }
+            else
+            {
+                entity.LocalGreeting = ClientApi.Domain.StoreOwner.CreateLocalGreeting(LocalGreetingUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Notes", out var NotesUpdateValue))
+        {
+            if (NotesUpdateValue == null) { entity.Notes = null; }
+            else
+            {
+                entity.Notes = ClientApi.Domain.StoreOwner.CreateNotes(NotesUpdateValue);
+            }
+        }
     }
 }
 
-public partial class StoreOwnerFactory : StoreOwnerFactoryBase
+internal partial class StoreOwnerFactory : StoreOwnerFactoryBase
 {
 }

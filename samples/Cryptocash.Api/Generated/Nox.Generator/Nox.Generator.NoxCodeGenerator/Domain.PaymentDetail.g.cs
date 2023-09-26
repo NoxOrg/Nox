@@ -55,7 +55,7 @@ public abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// PaymentDetail used by ExactlyOne Customers
     /// </summary>
-    public virtual Customer PaymentDetailsUsedByCustomer { get; set; } = null!;
+    public virtual Customer PaymentDetailsUsedByCustomer { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Customer
@@ -74,13 +74,13 @@ public abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteAllRefToPaymentDetailsUsedByCustomer()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>
     /// PaymentDetail related to ExactlyOne PaymentProviders
     /// </summary>
-    public virtual PaymentProvider PaymentDetailsRelatedPaymentProvider { get; set; } = null!;
+    public virtual PaymentProvider PaymentDetailsRelatedPaymentProvider { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity PaymentProvider
@@ -99,7 +99,7 @@ public abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteAllRefToPaymentDetailsRelatedPaymentProvider()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>

@@ -23,7 +23,7 @@ using PaymentDetail = Cryptocash.Domain.PaymentDetail;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto>
+internal abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto>
 {
 
     public PaymentDetailFactoryBase
@@ -42,14 +42,17 @@ public abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetail, P
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(PaymentDetail entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private Cryptocash.Domain.PaymentDetail ToEntity(PaymentDetailCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.PaymentDetail();
         entity.PaymentAccountName = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountName(createDto.PaymentAccountName);
         entity.PaymentAccountNumber = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountNumber(createDto.PaymentAccountNumber);
         if (createDto.PaymentAccountSortCode is not null)entity.PaymentAccountSortCode = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountSortCode(createDto.PaymentAccountSortCode.NonNullValue<System.String>());
-        //entity.Customer = Customer.ToEntity();
-        //entity.PaymentProvider = PaymentProvider.ToEntity();
         return entity;
     }
 
@@ -60,11 +63,44 @@ public abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetail, P
         if (updateDto.PaymentAccountSortCode == null) { entity.PaymentAccountSortCode = null; } else {
             entity.PaymentAccountSortCode = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountSortCode(updateDto.PaymentAccountSortCode.ToValueFromNonNull<System.String>());
         }
-        //entity.Customer = Customer.ToEntity();
-        //entity.PaymentProvider = PaymentProvider.ToEntity();
+    }
+
+    private void PartialUpdateEntityInternal(PaymentDetail entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("PaymentAccountName", out var PaymentAccountNameUpdateValue))
+        {
+            if (PaymentAccountNameUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'PaymentAccountName' can't be null");
+            }
+            {
+                entity.PaymentAccountName = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountName(PaymentAccountNameUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("PaymentAccountNumber", out var PaymentAccountNumberUpdateValue))
+        {
+            if (PaymentAccountNumberUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'PaymentAccountNumber' can't be null");
+            }
+            {
+                entity.PaymentAccountNumber = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountNumber(PaymentAccountNumberUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("PaymentAccountSortCode", out var PaymentAccountSortCodeUpdateValue))
+        {
+            if (PaymentAccountSortCodeUpdateValue == null) { entity.PaymentAccountSortCode = null; }
+            else
+            {
+                entity.PaymentAccountSortCode = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountSortCode(PaymentAccountSortCodeUpdateValue);
+            }
+        }
     }
 }
 
-public partial class PaymentDetailFactory : PaymentDetailFactoryBase
+internal partial class PaymentDetailFactory : PaymentDetailFactoryBase
 {
 }

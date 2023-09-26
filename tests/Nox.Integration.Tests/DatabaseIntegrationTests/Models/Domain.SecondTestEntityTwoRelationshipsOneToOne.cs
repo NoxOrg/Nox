@@ -45,21 +45,41 @@ public abstract class SecondTestEntityTwoRelationshipsOneToOneBase : EntityBase,
     /// <summary>
     /// SecondTestEntityTwoRelationshipsOneToOne First relationship to the same entity on the other side ZeroOrOne TestEntityTwoRelationshipsOneToOnes
     /// </summary>
-    public virtual TestEntityTwoRelationshipsOneToOne? TestRelationshipOneOnOtherSide { get; set; } = null!;
+    public virtual TestEntityTwoRelationshipsOneToOne? TestRelationshipOneOnOtherSide { get; private set; } = null!;
 
-    public virtual void CreateRefToTestEntityTwoRelationshipsOneToOneTestRelationshipOneOnOtherSide(TestEntityTwoRelationshipsOneToOne relatedTestEntityTwoRelationshipsOneToOne)
+    public virtual void CreateRefToTestRelationshipOneOnOtherSide(TestEntityTwoRelationshipsOneToOne relatedTestEntityTwoRelationshipsOneToOne)
     {
         TestRelationshipOneOnOtherSide = relatedTestEntityTwoRelationshipsOneToOne;
+    }
+
+    public virtual void DeleteRefToTestRelationshipOneOnOtherSide(TestEntityTwoRelationshipsOneToOne relatedTestEntityTwoRelationshipsOneToOne)
+    {
+        TestRelationshipOneOnOtherSide = null;
+    }
+
+    public virtual void DeleteAllRefToTestRelationshipOneOnOtherSide()
+    {
+        TestRelationshipOneOnOtherSide = null;
     }
 
     /// <summary>
     /// SecondTestEntityTwoRelationshipsOneToOne Second relationship to the same entity on the other side ZeroOrOne TestEntityTwoRelationshipsOneToOnes
     /// </summary>
-    public virtual TestEntityTwoRelationshipsOneToOne? TestRelationshipTwoOnOtherSide { get; set; } = null!;
+    public virtual TestEntityTwoRelationshipsOneToOne? TestRelationshipTwoOnOtherSide { get; private set; } = null!;
 
-    public virtual void CreateRefToTestEntityTwoRelationshipsOneToOneTestRelationshipTwoOnOtherSide(TestEntityTwoRelationshipsOneToOne relatedTestEntityTwoRelationshipsOneToOne)
+    public virtual void CreateRefToTestRelationshipTwoOnOtherSide(TestEntityTwoRelationshipsOneToOne relatedTestEntityTwoRelationshipsOneToOne)
     {
         TestRelationshipTwoOnOtherSide = relatedTestEntityTwoRelationshipsOneToOne;
+    }
+
+    public virtual void DeleteRefToTestRelationshipTwoOnOtherSide(TestEntityTwoRelationshipsOneToOne relatedTestEntityTwoRelationshipsOneToOne)
+    {
+        TestRelationshipTwoOnOtherSide = null;
+    }
+
+    public virtual void DeleteAllRefToTestRelationshipTwoOnOtherSide()
+    {
+        TestRelationshipTwoOnOtherSide = null;
     }
 
     /// <summary>

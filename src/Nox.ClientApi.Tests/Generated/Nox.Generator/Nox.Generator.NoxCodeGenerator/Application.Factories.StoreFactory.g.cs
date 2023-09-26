@@ -23,7 +23,7 @@ using Store = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto, StoreUpdateDto>
+internal abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto, StoreUpdateDto>
 {
     protected IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> EmailAddressFactory {get;}
 
@@ -45,6 +45,11 @@ public abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto, S
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(Store entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private ClientApi.Domain.Store ToEntity(StoreCreateDto createDto)
     {
         var entity = new ClientApi.Domain.Store();
@@ -53,7 +58,6 @@ public abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto, S
         entity.Location = ClientApi.Domain.Store.CreateLocation(createDto.Location);
         if (createDto.OpeningDay is not null)entity.OpeningDay = ClientApi.Domain.Store.CreateOpeningDay(createDto.OpeningDay.NonNullValue<System.DateTimeOffset>());
         entity.EnsureId(createDto.Id);
-        //entity.StoreOwner = StoreOwner?.ToEntity();
         if (createDto.VerifiedEmails is not null)
         {
             entity.VerifiedEmails = EmailAddressFactory.CreateEntity(createDto.VerifiedEmails);
@@ -69,11 +73,56 @@ public abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto, S
         if (updateDto.OpeningDay == null) { entity.OpeningDay = null; } else {
             entity.OpeningDay = ClientApi.Domain.Store.CreateOpeningDay(updateDto.OpeningDay.ToValueFromNonNull<System.DateTimeOffset>());
         }
-        //entity.StoreOwner = StoreOwner?.ToEntity();
+    }
+
+    private void PartialUpdateEntityInternal(Store entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
+        {
+            if (NameUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Name' can't be null");
+            }
+            {
+                entity.Name = ClientApi.Domain.Store.CreateName(NameUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Address", out var AddressUpdateValue))
+        {
+            if (AddressUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Address' can't be null");
+            }
+            {
+                entity.Address = ClientApi.Domain.Store.CreateAddress(AddressUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Location", out var LocationUpdateValue))
+        {
+            if (LocationUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Location' can't be null");
+            }
+            {
+                entity.Location = ClientApi.Domain.Store.CreateLocation(LocationUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("OpeningDay", out var OpeningDayUpdateValue))
+        {
+            if (OpeningDayUpdateValue == null) { entity.OpeningDay = null; }
+            else
+            {
+                entity.OpeningDay = ClientApi.Domain.Store.CreateOpeningDay(OpeningDayUpdateValue);
+            }
+        }
     }
 }
 
-public partial class StoreFactory : StoreFactoryBase
+internal partial class StoreFactory : StoreFactoryBase
 {
     public StoreFactory
     (

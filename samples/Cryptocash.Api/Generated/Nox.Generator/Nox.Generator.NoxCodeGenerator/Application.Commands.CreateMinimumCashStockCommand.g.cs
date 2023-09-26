@@ -20,7 +20,7 @@ namespace Cryptocash.Application.Commands;
 
 public record CreateMinimumCashStockCommand(MinimumCashStockCreateDto EntityDto) : IRequest<MinimumCashStockKeyDto>;
 
-public partial class CreateMinimumCashStockCommandHandler: CreateMinimumCashStockCommandHandlerBase
+internal partial class CreateMinimumCashStockCommandHandler: CreateMinimumCashStockCommandHandlerBase
 {
 	public CreateMinimumCashStockCommandHandler(
 		CryptocashDbContext dbContext,
@@ -35,7 +35,7 @@ public partial class CreateMinimumCashStockCommandHandler: CreateMinimumCashStoc
 }
 
 
-public abstract class CreateMinimumCashStockCommandHandlerBase: CommandBase<CreateMinimumCashStockCommand,MinimumCashStock>, IRequestHandler <CreateMinimumCashStockCommand, MinimumCashStockKeyDto>
+internal abstract class CreateMinimumCashStockCommandHandlerBase: CommandBase<CreateMinimumCashStockCommand,MinimumCashStock>, IRequestHandler <CreateMinimumCashStockCommand, MinimumCashStockKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> _entityFactory;

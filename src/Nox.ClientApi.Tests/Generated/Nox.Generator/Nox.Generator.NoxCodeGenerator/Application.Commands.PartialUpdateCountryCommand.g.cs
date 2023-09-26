@@ -18,29 +18,29 @@ namespace ClientApi.Application.Commands;
 
 public record PartialUpdateCountryCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CountryKeyDto?>;
 
-public class PartialUpdateCountryCommandHandler: PartialUpdateCountryCommandHandlerBase
+internal class PartialUpdateCountryCommandHandler: PartialUpdateCountryCommandHandlerBase
 {
 	public PartialUpdateCountryCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<Country> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
-public class PartialUpdateCountryCommandHandlerBase: CommandBase<PartialUpdateCountryCommand, Country>, IRequestHandler<PartialUpdateCountryCommand, CountryKeyDto?>
+internal class PartialUpdateCountryCommandHandlerBase: CommandBase<PartialUpdateCountryCommand, Country>, IRequestHandler<PartialUpdateCountryCommand, CountryKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
-	public IEntityMapper<Country> EntityMapper { get; }
+	public IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateCountryCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<Country> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<CountryKeyDto?> Handle(PartialUpdateCountryCommand request, CancellationToken cancellationToken)
@@ -54,7 +54,7 @@ public class PartialUpdateCountryCommandHandlerBase: CommandBase<PartialUpdateCo
 		{
 			return null;
 		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Country>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);

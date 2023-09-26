@@ -27,7 +27,7 @@ using {{entity.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Factories;
 
-public abstract class {{className}}Base : IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto>
+internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto>
 {
     {{- for ownedEntity in ownedEntities #Factories Properties for owned entitites}}
     protected IEntityFactory<{{ownedEntity}}, {{ownedEntity}}CreateDto, {{ownedEntity}}UpdateDto> {{ownedEntity}}Factory {get;}
@@ -53,6 +53,11 @@ public abstract class {{className}}Base : IEntityFactory<{{entity.Name}}, {{enti
     public virtual void UpdateEntity({{entity.Name}} entity, {{entity.Name}}UpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
+    }
+
+    public virtual void PartialUpdateEntity({{entity.Name}} entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
     }
 
     private {{codeGeneratorState.DomainNameSpace}}.{{ entity.Name }} ToEntity({{entity.Name}}CreateDto createDto)
@@ -88,14 +93,6 @@ public abstract class {{className}}Base : IEntityFactory<{{entity.Name}}, {{enti
         entity.Ensure{{key.Name}}(createDto.{{key.Name}});
             {{- end }}
 		{{- end }}
-
-        {{- for relationship in entity.Relationships }}
-            {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-        //entity.{{relationship.EntityPlural}} = {{relationship.EntityPlural}}.Select(dto => dto.ToEntity()).ToList();
-            {{- else}}
-        //entity.{{relationship.Entity}} = {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}}.ToEntity();
-            {{-end}}
-        {{- end }}
 
         {{- for relationship in entity.OwnedRelationships }}
             {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
@@ -136,18 +133,42 @@ public abstract class {{className}}Base : IEntityFactory<{{entity.Name}}, {{enti
 		entity.Ensure{{key.Name}}();
 		    {{- end }}
 		{{- end }}
+    }
 
-        {{- for relationship in entity.Relationships }}
-            {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-        //entity.{{relationship.EntityPlural}} = {{relationship.EntityPlural}}.Select(dto => dto.ToEntity()).ToList();
-            {{- else}}
-        //entity.{{relationship.Entity}} = {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}}.ToEntity();
-            {{-end}}
+    private void PartialUpdateEntityInternal({{entity.Name}} entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        {{- for attribute in entity.Attributes }}
+            {{- if !IsNoxTypeReadable attribute.Type || attribute.Type == "Formula" -}}
+                {{ continue; }}
+            {{- end}}
+
+        if (updatedProperties.TryGetValue("{{attribute.Name}}", out var {{attribute.Name}}UpdateValue))
+        {
+            {{- if attribute.IsRequired }}
+            if ({{attribute.Name}}UpdateValue == null)
+            {
+                throw new ArgumentException("Attribute '{{attribute.Name}}' can't be null");
+            }
+            {{- else }}
+            if ({{attribute.Name}}UpdateValue == null) { entity.{{attribute.Name}} = null; }
+            else
+            {{- end }}
+            {
+                entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}.Create{{attribute.Name}}({{attribute.Name}}UpdateValue);
+            }
+        }
+
         {{- end }}
+
+        {{- for key in entity.Keys ~}}
+		    {{- if key.Type == "Nuid" }}
+		entity.Ensure{{key.Name}}();
+		    {{- end }}
+		{{- end }}
     }
 }
 
-public partial class {{className}} : {{className}}Base
+internal partial class {{className}} : {{className}}Base
 {
     {{- if ownedEntities | array.size > 0 #Factories for owned entitites}}
     public {{className}}

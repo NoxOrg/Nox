@@ -18,29 +18,29 @@ namespace ClientApi.Application.Commands;
 
 public record PartialUpdateStoreOwnerCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <StoreOwnerKeyDto?>;
 
-public class PartialUpdateStoreOwnerCommandHandler: PartialUpdateStoreOwnerCommandHandlerBase
+internal class PartialUpdateStoreOwnerCommandHandler: PartialUpdateStoreOwnerCommandHandlerBase
 {
 	public PartialUpdateStoreOwnerCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<StoreOwner> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
-public class PartialUpdateStoreOwnerCommandHandlerBase: CommandBase<PartialUpdateStoreOwnerCommand, StoreOwner>, IRequestHandler<PartialUpdateStoreOwnerCommand, StoreOwnerKeyDto?>
+internal class PartialUpdateStoreOwnerCommandHandlerBase: CommandBase<PartialUpdateStoreOwnerCommand, StoreOwner>, IRequestHandler<PartialUpdateStoreOwnerCommand, StoreOwnerKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
-	public IEntityMapper<StoreOwner> EntityMapper { get; }
+	public IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateStoreOwnerCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<StoreOwner> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<StoreOwnerKeyDto?> Handle(PartialUpdateStoreOwnerCommand request, CancellationToken cancellationToken)
@@ -54,7 +54,7 @@ public class PartialUpdateStoreOwnerCommandHandlerBase: CommandBase<PartialUpdat
 		{
 			return null;
 		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<StoreOwner>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);

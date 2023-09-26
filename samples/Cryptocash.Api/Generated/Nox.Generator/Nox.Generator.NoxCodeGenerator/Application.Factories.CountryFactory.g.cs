@@ -23,7 +23,7 @@ using Country = Cryptocash.Domain.Country;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class CountryFactoryBase : IEntityFactory<Country, CountryCreateDto, CountryUpdateDto>
+internal abstract class CountryFactoryBase : IEntityFactory<Country, CountryCreateDto, CountryUpdateDto>
 {
     protected IEntityFactory<CountryTimeZone, CountryTimeZoneCreateDto, CountryTimeZoneUpdateDto> CountryTimeZoneFactory {get;}
     protected IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> HolidayFactory {get;}
@@ -48,6 +48,11 @@ public abstract class CountryFactoryBase : IEntityFactory<Country, CountryCreate
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(Country entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private Cryptocash.Domain.Country ToEntity(CountryCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Country();
@@ -65,10 +70,6 @@ public abstract class CountryFactoryBase : IEntityFactory<Country, CountryCreate
         if (createDto.GoogleMapsUrl is not null)entity.GoogleMapsUrl = Cryptocash.Domain.Country.CreateGoogleMapsUrl(createDto.GoogleMapsUrl.NonNullValue<System.String>());
         if (createDto.OpenStreetMapsUrl is not null)entity.OpenStreetMapsUrl = Cryptocash.Domain.Country.CreateOpenStreetMapsUrl(createDto.OpenStreetMapsUrl.NonNullValue<System.String>());
         entity.StartOfWeek = Cryptocash.Domain.Country.CreateStartOfWeek(createDto.StartOfWeek);
-        //entity.Currency = Currency.ToEntity();
-        //entity.Commissions = Commissions.Select(dto => dto.ToEntity()).ToList();
-        //entity.VendingMachines = VendingMachines.Select(dto => dto.ToEntity()).ToList();
-        //entity.Customers = Customers.Select(dto => dto.ToEntity()).ToList();
         entity.CountryOwnedTimeZones = createDto.CountryOwnedTimeZones.Select(dto => CountryTimeZoneFactory.CreateEntity(dto)).ToList();
         entity.CountryOwnedHolidays = createDto.CountryOwnedHolidays.Select(dto => HolidayFactory.CreateEntity(dto)).ToList();
         return entity;
@@ -111,14 +112,135 @@ public abstract class CountryFactoryBase : IEntityFactory<Country, CountryCreate
             entity.OpenStreetMapsUrl = Cryptocash.Domain.Country.CreateOpenStreetMapsUrl(updateDto.OpenStreetMapsUrl.ToValueFromNonNull<System.String>());
         }
         entity.StartOfWeek = Cryptocash.Domain.Country.CreateStartOfWeek(updateDto.StartOfWeek.NonNullValue<System.UInt16>());
-        //entity.Currency = Currency.ToEntity();
-        //entity.Commissions = Commissions.Select(dto => dto.ToEntity()).ToList();
-        //entity.VendingMachines = VendingMachines.Select(dto => dto.ToEntity()).ToList();
-        //entity.Customers = Customers.Select(dto => dto.ToEntity()).ToList();
+    }
+
+    private void PartialUpdateEntityInternal(Country entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
+        {
+            if (NameUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Name' can't be null");
+            }
+            {
+                entity.Name = Cryptocash.Domain.Country.CreateName(NameUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("OfficialName", out var OfficialNameUpdateValue))
+        {
+            if (OfficialNameUpdateValue == null) { entity.OfficialName = null; }
+            else
+            {
+                entity.OfficialName = Cryptocash.Domain.Country.CreateOfficialName(OfficialNameUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("CountryIsoNumeric", out var CountryIsoNumericUpdateValue))
+        {
+            if (CountryIsoNumericUpdateValue == null) { entity.CountryIsoNumeric = null; }
+            else
+            {
+                entity.CountryIsoNumeric = Cryptocash.Domain.Country.CreateCountryIsoNumeric(CountryIsoNumericUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("CountryIsoAlpha3", out var CountryIsoAlpha3UpdateValue))
+        {
+            if (CountryIsoAlpha3UpdateValue == null) { entity.CountryIsoAlpha3 = null; }
+            else
+            {
+                entity.CountryIsoAlpha3 = Cryptocash.Domain.Country.CreateCountryIsoAlpha3(CountryIsoAlpha3UpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("GeoCoords", out var GeoCoordsUpdateValue))
+        {
+            if (GeoCoordsUpdateValue == null) { entity.GeoCoords = null; }
+            else
+            {
+                entity.GeoCoords = Cryptocash.Domain.Country.CreateGeoCoords(GeoCoordsUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("FlagEmoji", out var FlagEmojiUpdateValue))
+        {
+            if (FlagEmojiUpdateValue == null) { entity.FlagEmoji = null; }
+            else
+            {
+                entity.FlagEmoji = Cryptocash.Domain.Country.CreateFlagEmoji(FlagEmojiUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("FlagSvg", out var FlagSvgUpdateValue))
+        {
+            if (FlagSvgUpdateValue == null) { entity.FlagSvg = null; }
+            else
+            {
+                entity.FlagSvg = Cryptocash.Domain.Country.CreateFlagSvg(FlagSvgUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("FlagPng", out var FlagPngUpdateValue))
+        {
+            if (FlagPngUpdateValue == null) { entity.FlagPng = null; }
+            else
+            {
+                entity.FlagPng = Cryptocash.Domain.Country.CreateFlagPng(FlagPngUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("CoatOfArmsSvg", out var CoatOfArmsSvgUpdateValue))
+        {
+            if (CoatOfArmsSvgUpdateValue == null) { entity.CoatOfArmsSvg = null; }
+            else
+            {
+                entity.CoatOfArmsSvg = Cryptocash.Domain.Country.CreateCoatOfArmsSvg(CoatOfArmsSvgUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("CoatOfArmsPng", out var CoatOfArmsPngUpdateValue))
+        {
+            if (CoatOfArmsPngUpdateValue == null) { entity.CoatOfArmsPng = null; }
+            else
+            {
+                entity.CoatOfArmsPng = Cryptocash.Domain.Country.CreateCoatOfArmsPng(CoatOfArmsPngUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("GoogleMapsUrl", out var GoogleMapsUrlUpdateValue))
+        {
+            if (GoogleMapsUrlUpdateValue == null) { entity.GoogleMapsUrl = null; }
+            else
+            {
+                entity.GoogleMapsUrl = Cryptocash.Domain.Country.CreateGoogleMapsUrl(GoogleMapsUrlUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("OpenStreetMapsUrl", out var OpenStreetMapsUrlUpdateValue))
+        {
+            if (OpenStreetMapsUrlUpdateValue == null) { entity.OpenStreetMapsUrl = null; }
+            else
+            {
+                entity.OpenStreetMapsUrl = Cryptocash.Domain.Country.CreateOpenStreetMapsUrl(OpenStreetMapsUrlUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("StartOfWeek", out var StartOfWeekUpdateValue))
+        {
+            if (StartOfWeekUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'StartOfWeek' can't be null");
+            }
+            {
+                entity.StartOfWeek = Cryptocash.Domain.Country.CreateStartOfWeek(StartOfWeekUpdateValue);
+            }
+        }
     }
 }
 
-public partial class CountryFactory : CountryFactoryBase
+internal partial class CountryFactory : CountryFactoryBase
 {
     public CountryFactory
     (

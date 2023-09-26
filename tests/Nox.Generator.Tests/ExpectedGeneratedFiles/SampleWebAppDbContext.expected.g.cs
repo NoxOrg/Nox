@@ -19,12 +19,14 @@ using Nox.Types;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Solution;
+using Nox.Configuration;
+
 
 using SampleWebApp.Domain;
 
 namespace SampleWebApp.Infrastructure.Persistence;
 
-public partial class SampleWebAppDbContext : DbContext
+internal partial class SampleWebAppDbContext : DbContext
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;

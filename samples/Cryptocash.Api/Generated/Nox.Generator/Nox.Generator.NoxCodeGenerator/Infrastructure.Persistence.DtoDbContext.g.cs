@@ -5,11 +5,13 @@ using Microsoft.EntityFrameworkCore;
 using Nox;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Configuration;
+
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Infrastructure.Persistence;
 
-public class DtoDbContext : DbContext
+internal class DtoDbContext : DbContext
 {
     /// <summary>
     /// The Nox solution configuration.

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
@@ -45,6 +46,7 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
         code.AppendLine("using Nox.Abstractions;");
         code.AppendLine("using Nox;");
         code.AppendLine("using Nox.Solution;");
+        code.AppendLine("using Nox.Configuration;");        
         code.AppendLines(usings.ToArray());
         code.AppendLine("using Nox.Types.EntityFramework.Abstractions;");
         code.AppendLine("using Nox.Types.EntityFramework.Enums;");
@@ -53,14 +55,14 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
             code.AppendLine($"using {solution.Name}.Presentation.Api.OData;");
         code.AppendLine();
 
-        code.AppendLine("public static class NoxWebApplicationBuilderExtension");
+        code.AppendLine("internal static class NoxWebApplicationBuilderExtension");
         code.StartBlock();
         code.AppendLine(@"public static IServiceCollection AddNox(this IServiceCollection services)
                         {
-                            return services.AddNox(null);
+                            return services.AddNox(null, null);
                         }
                         ");
-        code.AppendLine("public static IServiceCollection AddNox(this IServiceCollection services, Action<ODataModelBuilder>? configureOData)");
+        code.AppendLine("public static IServiceCollection AddNox(this IServiceCollection services, Action<INoxBuilderConfigurator>? configureNox, Action<ODataModelBuilder>? configureNoxOdata)");
         code.StartBlock();
         code.AppendLine($"services.AddNoxLib(Assembly.GetExecutingAssembly());");
         if(codeGeneratorState.Solution.Infrastructure?.Messaging is not null)
@@ -86,6 +88,14 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
         code.AppendLine(");");
         code.AppendLine($"services.AddDbContext<{dbContextName}>();");
         code.AppendLine($"services.AddDbContext<DtoDbContext>();");
+        code.AppendLine(@$"
+        services.AddNoxLib(configurator => 
+        {{
+            configurator.WithDatabaseContexts<{dbContextName},DtoDbContext>();
+            configurator.WithMessagingTransactionalOutbox<{dbContextName}>();
+            configureNox?.Invoke(configurator);
+        }});");                     
+        code.AppendLine("services.AddNoxOdata(configureNoxOdata);");        
         code.AppendLine("return services;");
         code.EndBlock();
         code.AppendLine();

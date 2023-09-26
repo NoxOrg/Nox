@@ -15,7 +15,7 @@ namespace Cryptocash.Application.Commands;
 
 public record DeleteMinimumCashStockByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
-public class DeleteMinimumCashStockByIdCommandHandler:DeleteMinimumCashStockByIdCommandHandlerBase
+internal class DeleteMinimumCashStockByIdCommandHandler:DeleteMinimumCashStockByIdCommandHandlerBase
 {
 	public DeleteMinimumCashStockByIdCommandHandler(
 		CryptocashDbContext dbContext,
@@ -24,7 +24,7 @@ public class DeleteMinimumCashStockByIdCommandHandler:DeleteMinimumCashStockById
 	{
 	}
 }
-public abstract class DeleteMinimumCashStockByIdCommandHandlerBase: CommandBase<DeleteMinimumCashStockByIdCommand,MinimumCashStock>, IRequestHandler<DeleteMinimumCashStockByIdCommand, bool>
+internal abstract class DeleteMinimumCashStockByIdCommandHandlerBase: CommandBase<DeleteMinimumCashStockByIdCommand,MinimumCashStock>, IRequestHandler<DeleteMinimumCashStockByIdCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 

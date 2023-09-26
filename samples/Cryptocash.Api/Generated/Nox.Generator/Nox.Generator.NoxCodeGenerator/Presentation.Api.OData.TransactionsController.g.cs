@@ -25,16 +25,11 @@ namespace Cryptocash.Presentation.Api.OData;
 
 public partial class TransactionsController : TransactionsControllerBase
 {
-    public TransactionsController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    public TransactionsController(IMediator mediator):base(mediator)
     {}
 }
 public abstract class TransactionsControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -42,11 +37,9 @@ public abstract class TransactionsControllerBase : ODataController
     protected readonly IMediator _mediator;
     
     public TransactionsControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
     }
     

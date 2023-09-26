@@ -18,29 +18,29 @@ namespace Cryptocash.Application.Commands;
 
 public record PartialUpdatePaymentProviderCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <PaymentProviderKeyDto?>;
 
-public class PartialUpdatePaymentProviderCommandHandler: PartialUpdatePaymentProviderCommandHandlerBase
+internal class PartialUpdatePaymentProviderCommandHandler: PartialUpdatePaymentProviderCommandHandlerBase
 {
 	public PartialUpdatePaymentProviderCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<PaymentProvider> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<PaymentProvider, PaymentProviderCreateDto, PaymentProviderUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
-public class PartialUpdatePaymentProviderCommandHandlerBase: CommandBase<PartialUpdatePaymentProviderCommand, PaymentProvider>, IRequestHandler<PartialUpdatePaymentProviderCommand, PaymentProviderKeyDto?>
+internal class PartialUpdatePaymentProviderCommandHandlerBase: CommandBase<PartialUpdatePaymentProviderCommand, PaymentProvider>, IRequestHandler<PartialUpdatePaymentProviderCommand, PaymentProviderKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<PaymentProvider> EntityMapper { get; }
+	public IEntityFactory<PaymentProvider, PaymentProviderCreateDto, PaymentProviderUpdateDto> EntityFactory { get; }
 
 	public PartialUpdatePaymentProviderCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<PaymentProvider> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<PaymentProvider, PaymentProviderCreateDto, PaymentProviderUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<PaymentProviderKeyDto?> Handle(PartialUpdatePaymentProviderCommand request, CancellationToken cancellationToken)
@@ -54,7 +54,7 @@ public class PartialUpdatePaymentProviderCommandHandlerBase: CommandBase<Partial
 		{
 			return null;
 		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<PaymentProvider>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);

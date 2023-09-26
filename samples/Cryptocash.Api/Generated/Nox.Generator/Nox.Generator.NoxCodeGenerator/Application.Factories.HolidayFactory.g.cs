@@ -23,7 +23,7 @@ using Holiday = Cryptocash.Domain.Holiday;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class HolidayFactoryBase : IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto>
+internal abstract class HolidayFactoryBase : IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto>
 {
 
     public HolidayFactoryBase
@@ -42,6 +42,11 @@ public abstract class HolidayFactoryBase : IEntityFactory<Holiday, HolidayCreate
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(Holiday entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private Cryptocash.Domain.Holiday ToEntity(HolidayCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Holiday();
@@ -57,8 +62,45 @@ public abstract class HolidayFactoryBase : IEntityFactory<Holiday, HolidayCreate
         entity.Type = Cryptocash.Domain.Holiday.CreateType(updateDto.Type.NonNullValue<System.String>());
         entity.Date = Cryptocash.Domain.Holiday.CreateDate(updateDto.Date.NonNullValue<System.DateTime>());
     }
+
+    private void PartialUpdateEntityInternal(Holiday entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
+        {
+            if (NameUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Name' can't be null");
+            }
+            {
+                entity.Name = Cryptocash.Domain.Holiday.CreateName(NameUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Type", out var TypeUpdateValue))
+        {
+            if (TypeUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Type' can't be null");
+            }
+            {
+                entity.Type = Cryptocash.Domain.Holiday.CreateType(TypeUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Date", out var DateUpdateValue))
+        {
+            if (DateUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Date' can't be null");
+            }
+            {
+                entity.Date = Cryptocash.Domain.Holiday.CreateDate(DateUpdateValue);
+            }
+        }
+    }
 }
 
-public partial class HolidayFactory : HolidayFactoryBase
+internal partial class HolidayFactory : HolidayFactoryBase
 {
 }

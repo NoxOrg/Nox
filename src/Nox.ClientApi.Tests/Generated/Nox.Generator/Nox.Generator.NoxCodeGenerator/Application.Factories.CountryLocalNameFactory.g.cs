@@ -23,7 +23,7 @@ using CountryLocalName = ClientApi.Domain.CountryLocalName;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto>
+internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto>
 {
 
     public CountryLocalNameFactoryBase
@@ -42,6 +42,11 @@ public abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLocalN
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(CountryLocalName entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private ClientApi.Domain.CountryLocalName ToEntity(CountryLocalNameCreateDto createDto)
     {
         var entity = new ClientApi.Domain.CountryLocalName();
@@ -57,8 +62,32 @@ public abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLocalN
             entity.NativeName = ClientApi.Domain.CountryLocalName.CreateNativeName(updateDto.NativeName.ToValueFromNonNull<System.String>());
         }
     }
+
+    private void PartialUpdateEntityInternal(CountryLocalName entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
+        {
+            if (NameUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Name' can't be null");
+            }
+            {
+                entity.Name = ClientApi.Domain.CountryLocalName.CreateName(NameUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("NativeName", out var NativeNameUpdateValue))
+        {
+            if (NativeNameUpdateValue == null) { entity.NativeName = null; }
+            else
+            {
+                entity.NativeName = ClientApi.Domain.CountryLocalName.CreateNativeName(NativeNameUpdateValue);
+            }
+        }
+    }
 }
 
-public partial class CountryLocalNameFactory : CountryLocalNameFactoryBase
+internal partial class CountryLocalNameFactory : CountryLocalNameFactoryBase
 {
 }

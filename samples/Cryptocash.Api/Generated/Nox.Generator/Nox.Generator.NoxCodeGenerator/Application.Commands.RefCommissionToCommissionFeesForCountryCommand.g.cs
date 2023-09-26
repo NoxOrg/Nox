@@ -23,7 +23,7 @@ public abstract record RefCommissionToCommissionFeesForCountryCommand(Commission
 public record CreateRefCommissionToCommissionFeesForCountryCommand(CommissionKeyDto EntityKeyDto, CountryKeyDto RelatedEntityKeyDto)
 	: RefCommissionToCommissionFeesForCountryCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefCommissionToCommissionFeesForCountryCommandHandler
+internal partial class CreateRefCommissionToCommissionFeesForCountryCommandHandler
 	: RefCommissionToCommissionFeesForCountryCommandHandlerBase<CreateRefCommissionToCommissionFeesForCountryCommand>
 {
 	public CreateRefCommissionToCommissionFeesForCountryCommandHandler(
@@ -38,7 +38,7 @@ public partial class CreateRefCommissionToCommissionFeesForCountryCommandHandler
 public record DeleteRefCommissionToCommissionFeesForCountryCommand(CommissionKeyDto EntityKeyDto, CountryKeyDto RelatedEntityKeyDto)
 	: RefCommissionToCommissionFeesForCountryCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefCommissionToCommissionFeesForCountryCommandHandler
+internal partial class DeleteRefCommissionToCommissionFeesForCountryCommandHandler
 	: RefCommissionToCommissionFeesForCountryCommandHandlerBase<DeleteRefCommissionToCommissionFeesForCountryCommand>
 {
 	public DeleteRefCommissionToCommissionFeesForCountryCommandHandler(
@@ -53,7 +53,7 @@ public partial class DeleteRefCommissionToCommissionFeesForCountryCommandHandler
 public record DeleteAllRefCommissionToCommissionFeesForCountryCommand(CommissionKeyDto EntityKeyDto)
 	: RefCommissionToCommissionFeesForCountryCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefCommissionToCommissionFeesForCountryCommandHandler
+internal partial class DeleteAllRefCommissionToCommissionFeesForCountryCommandHandler
 	: RefCommissionToCommissionFeesForCountryCommandHandlerBase<DeleteAllRefCommissionToCommissionFeesForCountryCommand>
 {
 	public DeleteAllRefCommissionToCommissionFeesForCountryCommandHandler(
@@ -65,7 +65,7 @@ public partial class DeleteAllRefCommissionToCommissionFeesForCountryCommandHand
 	{ }
 }
 
-public abstract class RefCommissionToCommissionFeesForCountryCommandHandlerBase<TRequest>: CommandBase<TRequest, Commission>, 
+internal abstract class RefCommissionToCommissionFeesForCountryCommandHandlerBase<TRequest>: CommandBase<TRequest, Commission>, 
 	IRequestHandler <TRequest, bool> where TRequest : RefCommissionToCommissionFeesForCountryCommand
 {
 	public CryptocashDbContext DbContext { get; }

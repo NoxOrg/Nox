@@ -19,7 +19,7 @@ using EmployeePhoneNumber = Cryptocash.Domain.EmployeePhoneNumber;
 namespace Cryptocash.Application.Commands;
 public record CreateEmployeePhoneNumberForEmployeeCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberCreateDto EntityDto, System.Guid? Etag) : IRequest <EmployeePhoneNumberKeyDto?>;
 
-public partial class CreateEmployeePhoneNumberForEmployeeCommandHandler: CreateEmployeePhoneNumberForEmployeeCommandHandlerBase
+internal partial class CreateEmployeePhoneNumberForEmployeeCommandHandler: CreateEmployeePhoneNumberForEmployeeCommandHandlerBase
 {
 	public CreateEmployeePhoneNumberForEmployeeCommandHandler(
 		CryptocashDbContext dbContext,
@@ -30,7 +30,7 @@ public partial class CreateEmployeePhoneNumberForEmployeeCommandHandler: CreateE
 	{
 	}
 }
-public abstract class CreateEmployeePhoneNumberForEmployeeCommandHandlerBase: CommandBase<CreateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumber>, IRequestHandler<CreateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumberKeyDto?>
+internal abstract class CreateEmployeePhoneNumberForEmployeeCommandHandlerBase: CommandBase<CreateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumber>, IRequestHandler<CreateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumberKeyDto?>
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<EmployeePhoneNumber, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> _entityFactory;

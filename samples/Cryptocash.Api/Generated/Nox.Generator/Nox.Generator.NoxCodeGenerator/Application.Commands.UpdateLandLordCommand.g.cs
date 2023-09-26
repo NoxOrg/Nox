@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Commands;
 
 public record UpdateLandLordCommand(System.Int64 keyId, LandLordUpdateDto EntityDto, System.Guid? Etag) : IRequest<LandLordKeyDto?>;
 
-public partial class UpdateLandLordCommandHandler: UpdateLandLordCommandHandlerBase
+internal partial class UpdateLandLordCommandHandler: UpdateLandLordCommandHandlerBase
 {
 	public UpdateLandLordCommandHandler(
 		CryptocashDbContext dbContext,
@@ -28,7 +28,7 @@ public partial class UpdateLandLordCommandHandler: UpdateLandLordCommandHandlerB
 	}
 }
 
-public abstract class UpdateLandLordCommandHandlerBase: CommandBase<UpdateLandLordCommand, LandLord>, IRequestHandler<UpdateLandLordCommand, LandLordKeyDto?>
+internal abstract class UpdateLandLordCommandHandlerBase: CommandBase<UpdateLandLordCommand, LandLord>, IRequestHandler<UpdateLandLordCommand, LandLordKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	private readonly IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto> _entityFactory;

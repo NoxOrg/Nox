@@ -18,29 +18,29 @@ namespace Cryptocash.Application.Commands;
 
 public record PartialUpdateLandLordCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <LandLordKeyDto?>;
 
-public class PartialUpdateLandLordCommandHandler: PartialUpdateLandLordCommandHandlerBase
+internal class PartialUpdateLandLordCommandHandler: PartialUpdateLandLordCommandHandlerBase
 {
 	public PartialUpdateLandLordCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<LandLord> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
-public class PartialUpdateLandLordCommandHandlerBase: CommandBase<PartialUpdateLandLordCommand, LandLord>, IRequestHandler<PartialUpdateLandLordCommand, LandLordKeyDto?>
+internal class PartialUpdateLandLordCommandHandlerBase: CommandBase<PartialUpdateLandLordCommand, LandLord>, IRequestHandler<PartialUpdateLandLordCommand, LandLordKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<LandLord> EntityMapper { get; }
+	public IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateLandLordCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<LandLord> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<LandLordKeyDto?> Handle(PartialUpdateLandLordCommand request, CancellationToken cancellationToken)
@@ -54,7 +54,7 @@ public class PartialUpdateLandLordCommandHandlerBase: CommandBase<PartialUpdateL
 		{
 			return null;
 		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<LandLord>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);

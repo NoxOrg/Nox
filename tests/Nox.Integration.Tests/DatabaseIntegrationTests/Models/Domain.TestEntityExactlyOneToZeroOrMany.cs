@@ -45,16 +45,26 @@ public abstract class TestEntityExactlyOneToZeroOrManyBase : AuditableEntityBase
     /// <summary>
     /// TestEntityExactlyOneToZeroOrMany Test entity relationship to TestEntityZeroOrManyToExactlyOne ExactlyOne TestEntityZeroOrManyToExactlyOnes
     /// </summary>
-    public virtual TestEntityZeroOrManyToExactlyOne TestEntityZeroOrManyToExactlyOne { get; set; } = null!;
+    public virtual TestEntityZeroOrManyToExactlyOne TestEntityZeroOrManyToExactlyOne { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity TestEntityZeroOrManyToExactlyOne
     /// </summary>
     public Nox.Types.Text TestEntityZeroOrManyToExactlyOneId { get; set; } = null!;
 
-    public virtual void CreateRefToTestEntityZeroOrManyToExactlyOneTestEntityZeroOrManyToExactlyOne(TestEntityZeroOrManyToExactlyOne relatedTestEntityZeroOrManyToExactlyOne)
+    public virtual void CreateRefToTestEntityZeroOrManyToExactlyOne(TestEntityZeroOrManyToExactlyOne relatedTestEntityZeroOrManyToExactlyOne)
     {
         TestEntityZeroOrManyToExactlyOne = relatedTestEntityZeroOrManyToExactlyOne;
+    }
+
+    public virtual void DeleteRefToTestEntityZeroOrManyToExactlyOne(TestEntityZeroOrManyToExactlyOne relatedTestEntityZeroOrManyToExactlyOne)
+    {
+        throw new Exception($"The relationship cannot be deleted.");
+    }
+
+    public virtual void DeleteAllRefToTestEntityZeroOrManyToExactlyOne()
+    {
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>

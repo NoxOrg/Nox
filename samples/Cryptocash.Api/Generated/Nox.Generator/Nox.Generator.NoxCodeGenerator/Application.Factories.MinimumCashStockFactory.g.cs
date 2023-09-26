@@ -23,7 +23,7 @@ using MinimumCashStock = Cryptocash.Domain.MinimumCashStock;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto>
+internal abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto>
 {
 
     public MinimumCashStockFactoryBase
@@ -42,23 +42,39 @@ public abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCashSt
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(MinimumCashStock entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private Cryptocash.Domain.MinimumCashStock ToEntity(MinimumCashStockCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.MinimumCashStock();
         entity.Amount = Cryptocash.Domain.MinimumCashStock.CreateAmount(createDto.Amount);
-        //entity.VendingMachines = VendingMachines.Select(dto => dto.ToEntity()).ToList();
-        //entity.Currency = Currency.ToEntity();
         return entity;
     }
 
     private void UpdateEntityInternal(MinimumCashStock entity, MinimumCashStockUpdateDto updateDto)
     {
         entity.Amount = Cryptocash.Domain.MinimumCashStock.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>());
-        //entity.VendingMachines = VendingMachines.Select(dto => dto.ToEntity()).ToList();
-        //entity.Currency = Currency.ToEntity();
+    }
+
+    private void PartialUpdateEntityInternal(MinimumCashStock entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("Amount", out var AmountUpdateValue))
+        {
+            if (AmountUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Amount' can't be null");
+            }
+            {
+                entity.Amount = Cryptocash.Domain.MinimumCashStock.CreateAmount(AmountUpdateValue);
+            }
+        }
     }
 }
 
-public partial class MinimumCashStockFactory : MinimumCashStockFactoryBase
+internal partial class MinimumCashStockFactory : MinimumCashStockFactoryBase
 {
 }

@@ -14,29 +14,29 @@ using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
 public record PartialUpdateHolidayForCountryCommand(CountryKeyDto ParentKeyDto, HolidayKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <HolidayKeyDto?>;
-public partial class PartialUpdateHolidayForCountryCommandHandler: PartialUpdateHolidayForCountryCommandHandlerBase
+internal partial class PartialUpdateHolidayForCountryCommandHandler: PartialUpdateHolidayForCountryCommandHandlerBase
 {
 	public PartialUpdateHolidayForCountryCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<Holiday> entityMapper): base(dbContext, noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> entityFactory) : base(dbContext, noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
-public abstract class PartialUpdateHolidayForCountryCommandHandlerBase: CommandBase<PartialUpdateHolidayForCountryCommand, Holiday>, IRequestHandler <PartialUpdateHolidayForCountryCommand, HolidayKeyDto?>
+internal abstract class PartialUpdateHolidayForCountryCommandHandlerBase: CommandBase<PartialUpdateHolidayForCountryCommand, Holiday>, IRequestHandler <PartialUpdateHolidayForCountryCommand, HolidayKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<Holiday> EntityMapper { get; }
+	public IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateHolidayForCountryCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<Holiday> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<HolidayKeyDto?> Handle(PartialUpdateHolidayForCountryCommand request, CancellationToken cancellationToken)
@@ -57,7 +57,7 @@ public abstract class PartialUpdateHolidayForCountryCommandHandlerBase: CommandB
 			return null;
 		}
 
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Holiday>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);

@@ -50,7 +50,7 @@ public abstract class CommissionBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Commission fees for ZeroOrOne Countries
     /// </summary>
-    public virtual Country? CommissionFeesForCountry { get; set; } = null!;
+    public virtual Country? CommissionFeesForCountry { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ZeroOrOne to entity Country
@@ -75,7 +75,7 @@ public abstract class CommissionBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Commission fees for ZeroOrMany Bookings
     /// </summary>
-    public virtual List<Booking> CommissionFeesForBooking { get; set; } = new();
+    public virtual List<Booking> CommissionFeesForBooking { get; private set; } = new();
 
     public virtual void CreateRefToCommissionFeesForBooking(Booking relatedBooking)
     {

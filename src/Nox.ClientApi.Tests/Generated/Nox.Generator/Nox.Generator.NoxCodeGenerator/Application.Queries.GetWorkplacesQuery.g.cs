@@ -14,7 +14,7 @@ namespace ClientApi.Application.Queries;
 
 public record GetWorkplacesQuery() : IRequest<IQueryable<WorkplaceDto>>;
 
-public partial class GetWorkplacesQueryHandler: GetWorkplacesQueryHandlerBase
+internal partial class GetWorkplacesQueryHandler: GetWorkplacesQueryHandlerBase
 {
     public GetWorkplacesQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
@@ -22,7 +22,7 @@ public partial class GetWorkplacesQueryHandler: GetWorkplacesQueryHandlerBase
     }
 }
 
-public abstract class GetWorkplacesQueryHandlerBase : QueryBase<IQueryable<WorkplaceDto>>, IRequestHandler<GetWorkplacesQuery, IQueryable<WorkplaceDto>>
+internal abstract class GetWorkplacesQueryHandlerBase : QueryBase<IQueryable<WorkplaceDto>>, IRequestHandler<GetWorkplacesQuery, IQueryable<WorkplaceDto>>
 {
     public  GetWorkplacesQueryHandlerBase(DtoDbContext dataDbContext)
     {
