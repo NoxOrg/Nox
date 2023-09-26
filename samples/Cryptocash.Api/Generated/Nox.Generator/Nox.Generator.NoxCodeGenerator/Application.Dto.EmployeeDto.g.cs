@@ -23,6 +23,38 @@ public record EmployeeKeyDto(System.Int64 keyId);
 public partial class EmployeeDto
 {
 
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+        ValidateField("FirstName", () => Cryptocash.Domain.Employee.CreateFirstName(this.FirstName), result);
+        ValidateField("LastName", () => Cryptocash.Domain.Employee.CreateLastName(this.LastName), result);
+        ValidateField("EmailAddress", () => Cryptocash.Domain.Employee.CreateEmailAddress(this.EmailAddress), result);
+        ValidateField("Address", () => Cryptocash.Domain.Employee.CreateAddress(this.Address), result);
+        ValidateField("FirstWorkingDay", () => Cryptocash.Domain.Employee.CreateFirstWorkingDay(this.FirstWorkingDay), result);
+        if (this.LastWorkingDay is not null)
+            ValidateField("LastWorkingDay", () => Cryptocash.Domain.Employee.CreateLastWorkingDay(this.LastWorkingDay.NonNullValue<System.DateTime>()), result);
+
+        return result;
+    }
+
+    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
+    {
+        try
+        {
+            action();
+        }
+        catch (TypeValidationException ex)
+        {
+            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
+        }
+        catch (NullReferenceException)
+        {
+            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
+        }
+    }
+    #endregion
+
     /// <summary>
     /// Employee's unique identifier (Required).
     /// </summary>

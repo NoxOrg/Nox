@@ -23,6 +23,34 @@ public record WorkplaceKeyDto(System.UInt32 keyId);
 public partial class WorkplaceDto
 {
 
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+        ValidateField("Name", () => ClientApi.Domain.Workplace.CreateName(this.Name), result);
+        if (this.Description is not null)
+            ValidateField("Description", () => ClientApi.Domain.Workplace.CreateDescription(this.Description.NonNullValue<System.String>()), result); 
+
+        return result;
+    }
+
+    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
+    {
+        try
+        {
+            action();
+        }
+        catch (TypeValidationException ex)
+        {
+            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
+        }
+        catch (NullReferenceException)
+        {
+            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
+        }
+    }
+    #endregion
+
     /// <summary>
     /// Workplace unique identifier (Required).
     /// </summary>

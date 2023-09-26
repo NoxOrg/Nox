@@ -22,6 +22,48 @@ public record {{entity.Name}}KeyDto({{primaryKeys}});
 /// </summary>
 public partial class {{className}}
 {
+
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+
+    {{- for attribute in entity.Attributes }}
+
+        {{- if attribute.Type == "Formula" || !IsNoxTypeReadable attribute.Type}} {{ continue; }} {{ end }}
+
+        {{- if attribute.IsRequired }}
+        ValidateField("{{attribute.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}.Create{{attribute.Name}}(this.{{attribute.Name}}), result);
+        {{- else }}
+        if (this.{{attribute.Name}} is not null)
+        {{- if IsNoxTypeSimpleType attribute.Type }}
+            ValidateField("{{attribute.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}.Create{{attribute.Name}}(this.{{attribute.Name}}.NonNullValue<{{SinglePrimitiveTypeForKey attribute}}>()), result);
+        {{- else }}
+            ValidateField("{{attribute.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}.Create{{attribute.Name}}(this.{{attribute.Name}}.NonNullValue<{{attribute.Type}}Dto>()), result);
+        {{- end}}
+        {{- end }}
+    {{- end}}
+
+        return result;
+    }
+
+    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
+    {
+        try
+        {
+            action();
+        }
+        catch (TypeValidationException ex)
+        {
+            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
+        }
+        catch (NullReferenceException)
+        {
+            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
+        }
+    }
+    #endregion
+
 {{- for key in entity.Keys }}
 
     /// <summary>

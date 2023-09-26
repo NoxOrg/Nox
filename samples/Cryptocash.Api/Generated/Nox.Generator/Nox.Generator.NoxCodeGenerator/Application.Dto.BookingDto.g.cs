@@ -23,6 +23,42 @@ public record BookingKeyDto(System.Guid keyId);
 public partial class BookingDto
 {
 
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+        ValidateField("AmountFrom", () => Cryptocash.Domain.Booking.CreateAmountFrom(this.AmountFrom), result);
+        ValidateField("AmountTo", () => Cryptocash.Domain.Booking.CreateAmountTo(this.AmountTo), result);
+        ValidateField("RequestedPickUpDate", () => Cryptocash.Domain.Booking.CreateRequestedPickUpDate(this.RequestedPickUpDate), result);
+        if (this.PickedUpDateTime is not null)
+            ValidateField("PickedUpDateTime", () => Cryptocash.Domain.Booking.CreatePickedUpDateTime(this.PickedUpDateTime.NonNullValue<DateTimeRangeDto>()), result);
+        if (this.ExpiryDateTime is not null)
+            ValidateField("ExpiryDateTime", () => Cryptocash.Domain.Booking.CreateExpiryDateTime(this.ExpiryDateTime.NonNullValue<System.DateTimeOffset>()), result);
+        if (this.CancelledDateTime is not null)
+            ValidateField("CancelledDateTime", () => Cryptocash.Domain.Booking.CreateCancelledDateTime(this.CancelledDateTime.NonNullValue<System.DateTimeOffset>()), result); 
+        if (this.VatNumber is not null)
+            ValidateField("VatNumber", () => Cryptocash.Domain.Booking.CreateVatNumber(this.VatNumber.NonNullValue<VatNumberDto>()), result);
+
+        return result;
+    }
+
+    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
+    {
+        try
+        {
+            action();
+        }
+        catch (TypeValidationException ex)
+        {
+            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
+        }
+        catch (NullReferenceException)
+        {
+            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
+        }
+    }
+    #endregion
+
     /// <summary>
     /// Booking unique identifier (Required).
     /// </summary>

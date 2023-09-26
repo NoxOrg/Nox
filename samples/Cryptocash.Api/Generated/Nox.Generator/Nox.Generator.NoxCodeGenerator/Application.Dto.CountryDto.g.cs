@@ -23,6 +23,55 @@ public record CountryKeyDto(System.String keyId);
 public partial class CountryDto
 {
 
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+        ValidateField("Name", () => Cryptocash.Domain.Country.CreateName(this.Name), result);
+        if (this.OfficialName is not null)
+            ValidateField("OfficialName", () => Cryptocash.Domain.Country.CreateOfficialName(this.OfficialName.NonNullValue<System.String>()), result);
+        if (this.CountryIsoNumeric is not null)
+            ValidateField("CountryIsoNumeric", () => Cryptocash.Domain.Country.CreateCountryIsoNumeric(this.CountryIsoNumeric.NonNullValue<System.UInt16>()), result);
+        if (this.CountryIsoAlpha3 is not null)
+            ValidateField("CountryIsoAlpha3", () => Cryptocash.Domain.Country.CreateCountryIsoAlpha3(this.CountryIsoAlpha3.NonNullValue<System.String>()), result);
+        if (this.GeoCoords is not null)
+            ValidateField("GeoCoords", () => Cryptocash.Domain.Country.CreateGeoCoords(this.GeoCoords.NonNullValue<LatLongDto>()), result);
+        if (this.FlagEmoji is not null)
+            ValidateField("FlagEmoji", () => Cryptocash.Domain.Country.CreateFlagEmoji(this.FlagEmoji.NonNullValue<System.String>()), result);
+        if (this.FlagSvg is not null)
+            ValidateField("FlagSvg", () => Cryptocash.Domain.Country.CreateFlagSvg(this.FlagSvg.NonNullValue<ImageDto>()), result);
+        if (this.FlagPng is not null)
+            ValidateField("FlagPng", () => Cryptocash.Domain.Country.CreateFlagPng(this.FlagPng.NonNullValue<ImageDto>()), result);
+        if (this.CoatOfArmsSvg is not null)
+            ValidateField("CoatOfArmsSvg", () => Cryptocash.Domain.Country.CreateCoatOfArmsSvg(this.CoatOfArmsSvg.NonNullValue<ImageDto>()), result);
+        if (this.CoatOfArmsPng is not null)
+            ValidateField("CoatOfArmsPng", () => Cryptocash.Domain.Country.CreateCoatOfArmsPng(this.CoatOfArmsPng.NonNullValue<ImageDto>()), result);
+        if (this.GoogleMapsUrl is not null)
+            ValidateField("GoogleMapsUrl", () => Cryptocash.Domain.Country.CreateGoogleMapsUrl(this.GoogleMapsUrl.NonNullValue<System.String>()), result);
+        if (this.OpenStreetMapsUrl is not null)
+            ValidateField("OpenStreetMapsUrl", () => Cryptocash.Domain.Country.CreateOpenStreetMapsUrl(this.OpenStreetMapsUrl.NonNullValue<System.String>()), result);
+        ValidateField("StartOfWeek", () => Cryptocash.Domain.Country.CreateStartOfWeek(this.StartOfWeek), result);
+
+        return result;
+    }
+
+    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
+    {
+        try
+        {
+            action();
+        }
+        catch (TypeValidationException ex)
+        {
+            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
+        }
+        catch (NullReferenceException)
+        {
+            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
+        }
+    }
+    #endregion
+
     /// <summary>
     /// Country unique identifier (Required).
     /// </summary>

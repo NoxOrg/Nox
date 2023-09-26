@@ -23,6 +23,38 @@ public record CountryKeyDto(System.Int64 keyId);
 public partial class CountryDto
 {
 
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+        ValidateField("Name", () => ClientApi.Domain.Country.CreateName(this.Name), result);
+        if (this.Population is not null)
+            ValidateField("Population", () => ClientApi.Domain.Country.CreatePopulation(this.Population.NonNullValue<System.Int32>()), result);
+        if (this.CountryDebt is not null)
+            ValidateField("CountryDebt", () => ClientApi.Domain.Country.CreateCountryDebt(this.CountryDebt.NonNullValue<MoneyDto>()), result);
+        if (this.FirstLanguageCode is not null)
+            ValidateField("FirstLanguageCode", () => ClientApi.Domain.Country.CreateFirstLanguageCode(this.FirstLanguageCode.NonNullValue<System.String>()), result); 
+
+        return result;
+    }
+
+    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
+    {
+        try
+        {
+            action();
+        }
+        catch (TypeValidationException ex)
+        {
+            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
+        }
+        catch (NullReferenceException)
+        {
+            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
+        }
+    }
+    #endregion
+
     /// <summary>
     /// The unique identifier (Required).
     /// </summary>

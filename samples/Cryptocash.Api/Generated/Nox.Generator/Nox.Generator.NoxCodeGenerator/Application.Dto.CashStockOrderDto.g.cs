@@ -23,6 +23,35 @@ public record CashStockOrderKeyDto(System.Int64 keyId);
 public partial class CashStockOrderDto
 {
 
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+        ValidateField("Amount", () => Cryptocash.Domain.CashStockOrder.CreateAmount(this.Amount), result);
+        ValidateField("RequestedDeliveryDate", () => Cryptocash.Domain.CashStockOrder.CreateRequestedDeliveryDate(this.RequestedDeliveryDate), result);
+        if (this.DeliveryDateTime is not null)
+            ValidateField("DeliveryDateTime", () => Cryptocash.Domain.CashStockOrder.CreateDeliveryDateTime(this.DeliveryDateTime.NonNullValue<System.DateTimeOffset>()), result); 
+
+        return result;
+    }
+
+    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
+    {
+        try
+        {
+            action();
+        }
+        catch (TypeValidationException ex)
+        {
+            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
+        }
+        catch (NullReferenceException)
+        {
+            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
+        }
+    }
+    #endregion
+
     /// <summary>
     /// Vending machine's order unique identifier (Required).
     /// </summary>

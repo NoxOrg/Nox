@@ -23,6 +23,33 @@ public record LandLordKeyDto(System.Int64 keyId);
 public partial class LandLordDto
 {
 
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+        ValidateField("Name", () => Cryptocash.Domain.LandLord.CreateName(this.Name), result);
+        ValidateField("Address", () => Cryptocash.Domain.LandLord.CreateAddress(this.Address), result);
+
+        return result;
+    }
+
+    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
+    {
+        try
+        {
+            action();
+        }
+        catch (TypeValidationException ex)
+        {
+            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
+        }
+        catch (NullReferenceException)
+        {
+            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
+        }
+    }
+    #endregion
+
     /// <summary>
     /// Landlord unique identifier (Required).
     /// </summary>

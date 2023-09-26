@@ -23,6 +23,36 @@ public record StoreKeyDto(System.Guid keyId);
 public partial class StoreDto
 {
 
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+        ValidateField("Name", () => ClientApi.Domain.Store.CreateName(this.Name), result);
+        ValidateField("Address", () => ClientApi.Domain.Store.CreateAddress(this.Address), result);
+        ValidateField("Location", () => ClientApi.Domain.Store.CreateLocation(this.Location), result);
+        if (this.OpeningDay is not null)
+            ValidateField("OpeningDay", () => ClientApi.Domain.Store.CreateOpeningDay(this.OpeningDay.NonNullValue<System.DateTimeOffset>()), result);
+
+        return result;
+    }
+
+    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
+    {
+        try
+        {
+            action();
+        }
+        catch (TypeValidationException ex)
+        {
+            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
+        }
+        catch (NullReferenceException)
+        {
+            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
+        }
+    }
+    #endregion
+
     /// <summary>
     ///  (Required).
     /// </summary>

@@ -23,6 +23,33 @@ public record EmployeePhoneNumberKeyDto(System.Int64 keyId);
 public partial class EmployeePhoneNumberDto
 {
 
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+        ValidateField("PhoneNumberType", () => Cryptocash.Domain.EmployeePhoneNumber.CreatePhoneNumberType(this.PhoneNumberType), result);
+        ValidateField("PhoneNumber", () => Cryptocash.Domain.EmployeePhoneNumber.CreatePhoneNumber(this.PhoneNumber), result);
+
+        return result;
+    }
+
+    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
+    {
+        try
+        {
+            action();
+        }
+        catch (TypeValidationException ex)
+        {
+            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
+        }
+        catch (NullReferenceException)
+        {
+            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
+        }
+    }
+    #endregion
+
     /// <summary>
     /// Employee's phone number identifier (Required).
     /// </summary>

@@ -23,6 +23,45 @@ public record CurrencyKeyDto(System.String keyId);
 public partial class CurrencyDto
 {
 
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+        ValidateField("Name", () => Cryptocash.Domain.Currency.CreateName(this.Name), result);
+        ValidateField("CurrencyIsoNumeric", () => Cryptocash.Domain.Currency.CreateCurrencyIsoNumeric(this.CurrencyIsoNumeric), result);
+        ValidateField("Symbol", () => Cryptocash.Domain.Currency.CreateSymbol(this.Symbol), result);
+        if (this.ThousandsSeparator is not null)
+            ValidateField("ThousandsSeparator", () => Cryptocash.Domain.Currency.CreateThousandsSeparator(this.ThousandsSeparator.NonNullValue<System.String>()), result);
+        if (this.DecimalSeparator is not null)
+            ValidateField("DecimalSeparator", () => Cryptocash.Domain.Currency.CreateDecimalSeparator(this.DecimalSeparator.NonNullValue<System.String>()), result);
+        ValidateField("SpaceBetweenAmountAndSymbol", () => Cryptocash.Domain.Currency.CreateSpaceBetweenAmountAndSymbol(this.SpaceBetweenAmountAndSymbol), result);
+        ValidateField("DecimalDigits", () => Cryptocash.Domain.Currency.CreateDecimalDigits(this.DecimalDigits), result);
+        ValidateField("MajorName", () => Cryptocash.Domain.Currency.CreateMajorName(this.MajorName), result);
+        ValidateField("MajorSymbol", () => Cryptocash.Domain.Currency.CreateMajorSymbol(this.MajorSymbol), result);
+        ValidateField("MinorName", () => Cryptocash.Domain.Currency.CreateMinorName(this.MinorName), result);
+        ValidateField("MinorSymbol", () => Cryptocash.Domain.Currency.CreateMinorSymbol(this.MinorSymbol), result);
+        ValidateField("MinorToMajorValue", () => Cryptocash.Domain.Currency.CreateMinorToMajorValue(this.MinorToMajorValue), result);
+
+        return result;
+    }
+
+    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
+    {
+        try
+        {
+            action();
+        }
+        catch (TypeValidationException ex)
+        {
+            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
+        }
+        catch (NullReferenceException)
+        {
+            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
+        }
+    }
+    #endregion
+
     /// <summary>
     /// Currency unique identifier (Required).
     /// </summary>

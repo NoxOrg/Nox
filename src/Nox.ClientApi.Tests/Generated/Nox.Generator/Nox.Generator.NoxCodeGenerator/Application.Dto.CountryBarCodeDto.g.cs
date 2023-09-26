@@ -23,6 +23,34 @@ public record CountryBarCodeKeyDto();
 public partial class CountryBarCodeDto
 {
 
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+        ValidateField("BarCodeName", () => ClientApi.Domain.CountryBarCode.CreateBarCodeName(this.BarCodeName), result);
+        if (this.BarCodeNumber is not null)
+            ValidateField("BarCodeNumber", () => ClientApi.Domain.CountryBarCode.CreateBarCodeNumber(this.BarCodeNumber.NonNullValue<System.Int32>()), result);
+
+        return result;
+    }
+
+    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
+    {
+        try
+        {
+            action();
+        }
+        catch (TypeValidationException ex)
+        {
+            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
+        }
+        catch (NullReferenceException)
+        {
+            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
+        }
+    }
+    #endregion
+
     /// <summary>
     /// Bar code name (Required).
     /// </summary>

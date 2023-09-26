@@ -23,6 +23,35 @@ public record TransactionKeyDto(System.Int64 keyId);
 public partial class TransactionDto
 {
 
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+        ValidateField("TransactionType", () => Cryptocash.Domain.Transaction.CreateTransactionType(this.TransactionType), result);
+        ValidateField("ProcessedOnDateTime", () => Cryptocash.Domain.Transaction.CreateProcessedOnDateTime(this.ProcessedOnDateTime), result);
+        ValidateField("Amount", () => Cryptocash.Domain.Transaction.CreateAmount(this.Amount), result);
+        ValidateField("Reference", () => Cryptocash.Domain.Transaction.CreateReference(this.Reference), result);
+
+        return result;
+    }
+
+    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
+    {
+        try
+        {
+            action();
+        }
+        catch (TypeValidationException ex)
+        {
+            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
+        }
+        catch (NullReferenceException)
+        {
+            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
+        }
+    }
+    #endregion
+
     /// <summary>
     /// Customer transaction unique identifier (Required).
     /// </summary>

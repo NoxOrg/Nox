@@ -23,6 +23,33 @@ public record PaymentProviderKeyDto(System.Int64 keyId);
 public partial class PaymentProviderDto
 {
 
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+        ValidateField("PaymentProviderName", () => Cryptocash.Domain.PaymentProvider.CreatePaymentProviderName(this.PaymentProviderName), result);
+        ValidateField("PaymentProviderType", () => Cryptocash.Domain.PaymentProvider.CreatePaymentProviderType(this.PaymentProviderType), result);
+
+        return result;
+    }
+
+    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
+    {
+        try
+        {
+            action();
+        }
+        catch (TypeValidationException ex)
+        {
+            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
+        }
+        catch (NullReferenceException)
+        {
+            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
+        }
+    }
+    #endregion
+
     /// <summary>
     /// Payment provider unique identifier (Required).
     /// </summary>

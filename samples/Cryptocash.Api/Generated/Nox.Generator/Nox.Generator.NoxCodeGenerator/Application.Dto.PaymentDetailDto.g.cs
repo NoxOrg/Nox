@@ -23,6 +23,35 @@ public record PaymentDetailKeyDto(System.Int64 keyId);
 public partial class PaymentDetailDto
 {
 
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+        ValidateField("PaymentAccountName", () => Cryptocash.Domain.PaymentDetail.CreatePaymentAccountName(this.PaymentAccountName), result);
+        ValidateField("PaymentAccountNumber", () => Cryptocash.Domain.PaymentDetail.CreatePaymentAccountNumber(this.PaymentAccountNumber), result);
+        if (this.PaymentAccountSortCode is not null)
+            ValidateField("PaymentAccountSortCode", () => Cryptocash.Domain.PaymentDetail.CreatePaymentAccountSortCode(this.PaymentAccountSortCode.NonNullValue<System.String>()), result);
+
+        return result;
+    }
+
+    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
+    {
+        try
+        {
+            action();
+        }
+        catch (TypeValidationException ex)
+        {
+            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
+        }
+        catch (NullReferenceException)
+        {
+            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
+        }
+    }
+    #endregion
+
     /// <summary>
     /// Customer payment account unique identifier (Required).
     /// </summary>

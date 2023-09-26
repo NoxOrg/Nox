@@ -23,6 +23,34 @@ public record HolidayKeyDto(System.Int64 keyId);
 public partial class HolidayDto
 {
 
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+        ValidateField("Name", () => Cryptocash.Domain.Holiday.CreateName(this.Name), result);
+        ValidateField("Type", () => Cryptocash.Domain.Holiday.CreateType(this.Type), result);
+        ValidateField("Date", () => Cryptocash.Domain.Holiday.CreateDate(this.Date), result);
+
+        return result;
+    }
+
+    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
+    {
+        try
+        {
+            action();
+        }
+        catch (TypeValidationException ex)
+        {
+            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
+        }
+        catch (NullReferenceException)
+        {
+            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
+        }
+    }
+    #endregion
+
     /// <summary>
     /// Country's holiday unique identifier (Required).
     /// </summary>

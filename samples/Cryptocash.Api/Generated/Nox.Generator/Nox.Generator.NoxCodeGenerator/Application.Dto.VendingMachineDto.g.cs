@@ -23,6 +23,40 @@ public record VendingMachineKeyDto(System.Guid keyId);
 public partial class VendingMachineDto
 {
 
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+        ValidateField("MacAddress", () => Cryptocash.Domain.VendingMachine.CreateMacAddress(this.MacAddress), result);
+        ValidateField("PublicIp", () => Cryptocash.Domain.VendingMachine.CreatePublicIp(this.PublicIp), result);
+        ValidateField("GeoLocation", () => Cryptocash.Domain.VendingMachine.CreateGeoLocation(this.GeoLocation), result);
+        ValidateField("StreetAddress", () => Cryptocash.Domain.VendingMachine.CreateStreetAddress(this.StreetAddress), result);
+        ValidateField("SerialNumber", () => Cryptocash.Domain.VendingMachine.CreateSerialNumber(this.SerialNumber), result);
+        if (this.InstallationFootPrint is not null)
+            ValidateField("InstallationFootPrint", () => Cryptocash.Domain.VendingMachine.CreateInstallationFootPrint(this.InstallationFootPrint.NonNullValue<System.Decimal>()), result);
+        if (this.RentPerSquareMetre is not null)
+            ValidateField("RentPerSquareMetre", () => Cryptocash.Domain.VendingMachine.CreateRentPerSquareMetre(this.RentPerSquareMetre.NonNullValue<MoneyDto>()), result);
+
+        return result;
+    }
+
+    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
+    {
+        try
+        {
+            action();
+        }
+        catch (TypeValidationException ex)
+        {
+            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
+        }
+        catch (NullReferenceException)
+        {
+            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
+        }
+    }
+    #endregion
+
     /// <summary>
     /// Vending machine unique identifier (Required).
     /// </summary>

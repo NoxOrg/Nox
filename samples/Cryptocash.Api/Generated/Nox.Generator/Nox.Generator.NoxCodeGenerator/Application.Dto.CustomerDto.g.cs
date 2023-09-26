@@ -23,6 +23,37 @@ public record CustomerKeyDto(System.Int64 keyId);
 public partial class CustomerDto
 {
 
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+        ValidateField("FirstName", () => Cryptocash.Domain.Customer.CreateFirstName(this.FirstName), result);
+        ValidateField("LastName", () => Cryptocash.Domain.Customer.CreateLastName(this.LastName), result);
+        ValidateField("EmailAddress", () => Cryptocash.Domain.Customer.CreateEmailAddress(this.EmailAddress), result);
+        ValidateField("Address", () => Cryptocash.Domain.Customer.CreateAddress(this.Address), result);
+        if (this.MobileNumber is not null)
+            ValidateField("MobileNumber", () => Cryptocash.Domain.Customer.CreateMobileNumber(this.MobileNumber.NonNullValue<System.String>()), result);
+
+        return result;
+    }
+
+    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
+    {
+        try
+        {
+            action();
+        }
+        catch (TypeValidationException ex)
+        {
+            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
+        }
+        catch (NullReferenceException)
+        {
+            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
+        }
+    }
+    #endregion
+
     /// <summary>
     /// Customer's unique identifier (Required).
     /// </summary>
