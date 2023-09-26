@@ -10,27 +10,27 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-public partial class CashStockOrder:CashStockOrderBase
+internal partial class CashStockOrder:CashStockOrderBase
 {
 
 }
 /// <summary>
 /// Record for CashStockOrder created event.
 /// </summary>
-public record CashStockOrderCreated(CashStockOrder CashStockOrder) : IDomainEvent;
+internal record CashStockOrderCreated(CashStockOrder CashStockOrder) : IDomainEvent;
 /// <summary>
 /// Record for CashStockOrder updated event.
 /// </summary>
-public record CashStockOrderUpdated(CashStockOrder CashStockOrder) : IDomainEvent;
+internal record CashStockOrderUpdated(CashStockOrder CashStockOrder) : IDomainEvent;
 /// <summary>
 /// Record for CashStockOrder deleted event.
 /// </summary>
-public record CashStockOrderDeleted(CashStockOrder CashStockOrder) : IDomainEvent;
+internal record CashStockOrderDeleted(CashStockOrder CashStockOrder) : IDomainEvent;
 
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-public abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurrent
+internal abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Vending machine's order unique identifier (Required).

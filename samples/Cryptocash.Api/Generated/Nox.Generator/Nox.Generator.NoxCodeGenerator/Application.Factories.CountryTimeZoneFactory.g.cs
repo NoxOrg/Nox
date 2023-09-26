@@ -50,13 +50,13 @@ internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZ
     private Cryptocash.Domain.CountryTimeZone ToEntity(CountryTimeZoneCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.CountryTimeZone();
-        entity.TimeZoneCode = Cryptocash.Domain.CountryTimeZone.CreateTimeZoneCode(createDto.TimeZoneCode);
+        entity.TimeZoneCode = Cryptocash.Domain.CountryTimeZoneMetadata.CreateTimeZoneCode(createDto.TimeZoneCode);
         return entity;
     }
 
     private void UpdateEntityInternal(CountryTimeZone entity, CountryTimeZoneUpdateDto updateDto)
     {
-        entity.TimeZoneCode = Cryptocash.Domain.CountryTimeZone.CreateTimeZoneCode(updateDto.TimeZoneCode.NonNullValue<System.String>());
+        entity.TimeZoneCode = Cryptocash.Domain.CountryTimeZoneMetadata.CreateTimeZoneCode(updateDto.TimeZoneCode.NonNullValue<System.String>());
     }
 
     private void PartialUpdateEntityInternal(CountryTimeZone entity, Dictionary<string, dynamic> updatedProperties)
@@ -69,7 +69,7 @@ internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZ
                 throw new ArgumentException("Attribute 'TimeZoneCode' can't be null");
             }
             {
-                entity.TimeZoneCode = Cryptocash.Domain.CountryTimeZone.CreateTimeZoneCode(TimeZoneCodeUpdateValue);
+                entity.TimeZoneCode = Cryptocash.Domain.CountryTimeZoneMetadata.CreateTimeZoneCode(TimeZoneCodeUpdateValue);
             }
         }
     }

@@ -10,10 +10,17 @@ using System.Collections.Generic;
 namespace ClientApi.Domain;
 
 /// <summary>
-/// Static methods for the CountryLocalName class.
+/// Static methods for the RatingProgram class.
 /// </summary>
-public partial class CountryLocalName
+public partial class RatingProgramMetadata
 {
+    
+        /// <summary>
+        /// Factory for property 'StoreId'
+        /// </summary>
+        public static Nox.Types.Guid CreateStoreId(System.Guid value)
+            => Nox.Types.Guid.From(value);
+        
     
         /// <summary>
         /// Factory for property 'Id'
@@ -27,8 +34,8 @@ public partial class CountryLocalName
         /// </summary>
         public static Nox.Types.TextTypeOptions NameTypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
+            MinLength = 1,
+            MaxLength = 256,
             IsUnicode = true,
             IsLocalized = true,
             Casing = Nox.Types.TextTypeCasing.Normal,
@@ -40,25 +47,5 @@ public partial class CountryLocalName
         /// </summary>
         public static Nox.Types.Text CreateName(System.String value)
             => Nox.Types.Text.From(value, NameTypeOptions);
-        
-    
-        /// <summary>
-        /// Type options for property 'NativeName'
-        /// </summary>
-        public static Nox.Types.TextTypeOptions NativeNameTypeOptions {get; private set;} = new ()
-        {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
-        };
-    
-    
-        /// <summary>
-        /// Factory for property 'NativeName'
-        /// </summary>
-        public static Nox.Types.Text CreateNativeName(System.String value)
-            => Nox.Types.Text.From(value, NativeNameTypeOptions);
         
 }

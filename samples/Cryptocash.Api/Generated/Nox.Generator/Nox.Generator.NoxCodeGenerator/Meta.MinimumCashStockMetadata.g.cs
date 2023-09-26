@@ -12,7 +12,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Static methods for the MinimumCashStock class.
 /// </summary>
-public partial class MinimumCashStock
+public partial class MinimumCashStockMetadata
 {
     
         /// <summary>

@@ -12,7 +12,7 @@ namespace ClientApi.Domain;
 /// <summary>
 /// Static methods for the EmailAddress class.
 /// </summary>
-public partial class EmailAddress
+public partial class EmailAddressMetadata
 {
     
         /// <summary>

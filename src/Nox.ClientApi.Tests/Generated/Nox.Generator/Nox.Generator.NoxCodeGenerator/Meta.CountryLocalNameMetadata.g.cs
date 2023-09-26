@@ -7,12 +7,12 @@ using Nox.Domain;
 using System;
 using System.Collections.Generic;
 
-namespace Cryptocash.Domain;
+namespace ClientApi.Domain;
 
 /// <summary>
-/// Static methods for the PaymentProvider class.
+/// Static methods for the CountryLocalName class.
 /// </summary>
-public partial class PaymentProvider
+public partial class CountryLocalNameMetadata
 {
     
         /// <summary>
@@ -23,9 +23,9 @@ public partial class PaymentProvider
         
     
         /// <summary>
-        /// Type options for property 'PaymentProviderName'
+        /// Type options for property 'Name'
         /// </summary>
-        public static Nox.Types.TextTypeOptions PaymentProviderNameTypeOptions {get; private set;} = new ()
+        public static Nox.Types.TextTypeOptions NameTypeOptions {get; private set;} = new ()
         {
             MinLength = 4,
             MaxLength = 63,
@@ -36,16 +36,16 @@ public partial class PaymentProvider
     
     
         /// <summary>
-        /// Factory for property 'PaymentProviderName'
+        /// Factory for property 'Name'
         /// </summary>
-        public static Nox.Types.Text CreatePaymentProviderName(System.String value)
-            => Nox.Types.Text.From(value, PaymentProviderNameTypeOptions);
+        public static Nox.Types.Text CreateName(System.String value)
+            => Nox.Types.Text.From(value, NameTypeOptions);
         
     
         /// <summary>
-        /// Type options for property 'PaymentProviderType'
+        /// Type options for property 'NativeName'
         /// </summary>
-        public static Nox.Types.TextTypeOptions PaymentProviderTypeTypeOptions {get; private set;} = new ()
+        public static Nox.Types.TextTypeOptions NativeNameTypeOptions {get; private set;} = new ()
         {
             MinLength = 4,
             MaxLength = 63,
@@ -56,9 +56,9 @@ public partial class PaymentProvider
     
     
         /// <summary>
-        /// Factory for property 'PaymentProviderType'
+        /// Factory for property 'NativeName'
         /// </summary>
-        public static Nox.Types.Text CreatePaymentProviderType(System.String value)
-            => Nox.Types.Text.From(value, PaymentProviderTypeTypeOptions);
+        public static Nox.Types.Text CreateNativeName(System.String value)
+            => Nox.Types.Text.From(value, NativeNameTypeOptions);
         
 }

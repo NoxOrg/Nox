@@ -12,7 +12,7 @@ namespace ClientApi.Domain;
 /// <summary>
 /// Static methods for the Country class.
 /// </summary>
-public partial class Country
+public partial class CountryMetadata
 {
     
         /// <summary>

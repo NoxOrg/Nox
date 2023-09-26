@@ -56,10 +56,10 @@ internal abstract class CountryFactoryBase : IEntityFactory<Country, CountryCrea
     private ClientApi.Domain.Country ToEntity(CountryCreateDto createDto)
     {
         var entity = new ClientApi.Domain.Country();
-        entity.Name = ClientApi.Domain.Country.CreateName(createDto.Name);
-        if (createDto.Population is not null)entity.Population = ClientApi.Domain.Country.CreatePopulation(createDto.Population.NonNullValue<System.Int32>());
-        if (createDto.CountryDebt is not null)entity.CountryDebt = ClientApi.Domain.Country.CreateCountryDebt(createDto.CountryDebt.NonNullValue<MoneyDto>());
-        if (createDto.FirstLanguageCode is not null)entity.FirstLanguageCode = ClientApi.Domain.Country.CreateFirstLanguageCode(createDto.FirstLanguageCode.NonNullValue<System.String>());
+        entity.Name = ClientApi.Domain.CountryMetadata.CreateName(createDto.Name);
+        if (createDto.Population is not null)entity.Population = ClientApi.Domain.CountryMetadata.CreatePopulation(createDto.Population.NonNullValue<System.Int32>());
+        if (createDto.CountryDebt is not null)entity.CountryDebt = ClientApi.Domain.CountryMetadata.CreateCountryDebt(createDto.CountryDebt.NonNullValue<MoneyDto>());
+        if (createDto.FirstLanguageCode is not null)entity.FirstLanguageCode = ClientApi.Domain.CountryMetadata.CreateFirstLanguageCode(createDto.FirstLanguageCode.NonNullValue<System.String>());
         entity.CountryShortNames = createDto.CountryShortNames.Select(dto => CountryLocalNameFactory.CreateEntity(dto)).ToList();
         if (createDto.CountryBarCode is not null)
         {
@@ -70,15 +70,15 @@ internal abstract class CountryFactoryBase : IEntityFactory<Country, CountryCrea
 
     private void UpdateEntityInternal(Country entity, CountryUpdateDto updateDto)
     {
-        entity.Name = ClientApi.Domain.Country.CreateName(updateDto.Name.NonNullValue<System.String>());
+        entity.Name = ClientApi.Domain.CountryMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         if (updateDto.Population == null) { entity.Population = null; } else {
-            entity.Population = ClientApi.Domain.Country.CreatePopulation(updateDto.Population.ToValueFromNonNull<System.Int32>());
+            entity.Population = ClientApi.Domain.CountryMetadata.CreatePopulation(updateDto.Population.ToValueFromNonNull<System.Int32>());
         }
         if (updateDto.CountryDebt == null) { entity.CountryDebt = null; } else {
-            entity.CountryDebt = ClientApi.Domain.Country.CreateCountryDebt(updateDto.CountryDebt.ToValueFromNonNull<MoneyDto>());
+            entity.CountryDebt = ClientApi.Domain.CountryMetadata.CreateCountryDebt(updateDto.CountryDebt.ToValueFromNonNull<MoneyDto>());
         }
         if (updateDto.FirstLanguageCode == null) { entity.FirstLanguageCode = null; } else {
-            entity.FirstLanguageCode = ClientApi.Domain.Country.CreateFirstLanguageCode(updateDto.FirstLanguageCode.ToValueFromNonNull<System.String>());
+            entity.FirstLanguageCode = ClientApi.Domain.CountryMetadata.CreateFirstLanguageCode(updateDto.FirstLanguageCode.ToValueFromNonNull<System.String>());
         }
     }
 
@@ -92,7 +92,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<Country, CountryCrea
                 throw new ArgumentException("Attribute 'Name' can't be null");
             }
             {
-                entity.Name = ClientApi.Domain.Country.CreateName(NameUpdateValue);
+                entity.Name = ClientApi.Domain.CountryMetadata.CreateName(NameUpdateValue);
             }
         }
 
@@ -101,7 +101,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<Country, CountryCrea
             if (PopulationUpdateValue == null) { entity.Population = null; }
             else
             {
-                entity.Population = ClientApi.Domain.Country.CreatePopulation(PopulationUpdateValue);
+                entity.Population = ClientApi.Domain.CountryMetadata.CreatePopulation(PopulationUpdateValue);
             }
         }
 
@@ -110,7 +110,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<Country, CountryCrea
             if (CountryDebtUpdateValue == null) { entity.CountryDebt = null; }
             else
             {
-                entity.CountryDebt = ClientApi.Domain.Country.CreateCountryDebt(CountryDebtUpdateValue);
+                entity.CountryDebt = ClientApi.Domain.CountryMetadata.CreateCountryDebt(CountryDebtUpdateValue);
             }
         }
 
@@ -119,7 +119,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<Country, CountryCrea
             if (FirstLanguageCodeUpdateValue == null) { entity.FirstLanguageCode = null; }
             else
             {
-                entity.FirstLanguageCode = ClientApi.Domain.Country.CreateFirstLanguageCode(FirstLanguageCodeUpdateValue);
+                entity.FirstLanguageCode = ClientApi.Domain.CountryMetadata.CreateFirstLanguageCode(FirstLanguageCodeUpdateValue);
             }
         }
     }

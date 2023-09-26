@@ -12,7 +12,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Static methods for the CountryTimeZone class.
 /// </summary>
-public partial class CountryTimeZone
+public partial class CountryTimeZoneMetadata
 {
     
         /// <summary>

@@ -50,15 +50,15 @@ internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgram,
     private ClientApi.Domain.RatingProgram ToEntity(RatingProgramCreateDto createDto)
     {
         var entity = new ClientApi.Domain.RatingProgram();
-        entity.StoreId = RatingProgram.CreateStoreId(createDto.StoreId);
-        if (createDto.Name is not null)entity.Name = ClientApi.Domain.RatingProgram.CreateName(createDto.Name.NonNullValue<System.String>());
+        entity.StoreId = RatingProgramMetadata.CreateStoreId(createDto.StoreId);
+        if (createDto.Name is not null)entity.Name = ClientApi.Domain.RatingProgramMetadata.CreateName(createDto.Name.NonNullValue<System.String>());
         return entity;
     }
 
     private void UpdateEntityInternal(RatingProgram entity, RatingProgramUpdateDto updateDto)
     {
         if (updateDto.Name == null) { entity.Name = null; } else {
-            entity.Name = ClientApi.Domain.RatingProgram.CreateName(updateDto.Name.ToValueFromNonNull<System.String>());
+            entity.Name = ClientApi.Domain.RatingProgramMetadata.CreateName(updateDto.Name.ToValueFromNonNull<System.String>());
         }
     }
 
@@ -70,7 +70,7 @@ internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgram,
             if (NameUpdateValue == null) { entity.Name = null; }
             else
             {
-                entity.Name = ClientApi.Domain.RatingProgram.CreateName(NameUpdateValue);
+                entity.Name = ClientApi.Domain.RatingProgramMetadata.CreateName(NameUpdateValue);
             }
         }
     }
