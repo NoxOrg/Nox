@@ -19,7 +19,7 @@ public static class NoxWebApplicationBuilderExtension
                         
     public static IServiceCollection AddNox(this IServiceCollection services, Action<ODataModelBuilder>? configureOData)
     {
-        services.AddNoxLib(Assembly.GetExecutingAssembly());
+        services.AddNoxLib((builder) => builder.SetClientAssembly(Assembly.GetExecutingAssembly()));
         return services;
     }
     
