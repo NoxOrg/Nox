@@ -3,21 +3,19 @@ using ClientApi.Application.Dto;
 using AutoFixture;
 using Nox.Types;
 using System.Net;
-using Microsoft.AspNetCore.OData.Deltas;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-using ClientApi.Tests.Tests.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Xunit.Abstractions;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
     [Collection("StoreDescriptionsControllerTests")]
-    public class RatingProgramControllerTests : NoxIntegrationTestBase
+    public class RatingProgramControllerTests : NoxWebApiTestBase
     {
         private const string EntityPluralName = "ratingprograms";
         private const string EntityUrl = $"api/{EntityPluralName}";
         private const string StoresUrl = $"api/stores";
 
-        public RatingProgramControllerTests(NoxTestContainerService containerService) : base(containerService)
+        public RatingProgramControllerTests(ITestOutputHelper testOutput, NoxTestContainerService containerService)
+            : base(testOutput, containerService)
         {
         }
 
@@ -78,6 +76,6 @@ namespace ClientApi.Tests.Tests.Controllers
             result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
 
-        #endregion
+        #endregion KEY AS ENTITYID
     }
 }

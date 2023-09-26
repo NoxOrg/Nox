@@ -4,15 +4,18 @@ using AutoFixture;
 using System.Net;
 using AutoFixture.AutoMoq;
 using Nox.Types;
+using Xunit.Abstractions;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
-    public class StoreOwnersControllerTests : NoxIntegrationTestBase
+    public class StoreOwnersControllerTests : NoxWebApiTestBase
     {
         private const string StoreOwnersControllerName = "api/storeowners";
 
-        public StoreOwnersControllerTests(NoxTestContainerService containerService) : base(containerService)
+        public StoreOwnersControllerTests(ITestOutputHelper testOutput,
+            NoxTestContainerService containerService)
+            : base(testOutput, containerService)
         {
         }
 
@@ -31,6 +34,7 @@ namespace ClientApi.Tests.Tests.Controllers
             //Assert
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
         [Fact]
         public async Task Post_WhenInvalidId_ReturnsBadRequestError()
         {
@@ -48,6 +52,7 @@ namespace ClientApi.Tests.Tests.Controllers
             // represent a nox type exception
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
         [Fact]
         public async Task Post_WhenValidId_ReturnCreated()
         {
@@ -64,7 +69,6 @@ namespace ClientApi.Tests.Tests.Controllers
             //Assert
             result.StatusCode.Should().Be(HttpStatusCode.Created);
         }
-
 
         [Fact]
         public async Task Post_VatNumberIsCreated()

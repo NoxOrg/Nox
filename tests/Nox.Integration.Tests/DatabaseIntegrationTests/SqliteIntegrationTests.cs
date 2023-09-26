@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Nox.Integration.Tests.Fixtures;
 
 namespace Nox.Integration.Tests.DatabaseIntegrationTests;
