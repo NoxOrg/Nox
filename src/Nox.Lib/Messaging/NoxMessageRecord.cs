@@ -5,7 +5,7 @@ namespace Nox.Messaging
     /// <summary>
     /// Default Nox implementation for the cloud event envelop with an <see cref="IIntegrationEvent"/> as the payload."/>
     /// </summary>
-    public record class CloudEventRecord<T>(T Data)
+    internal record class NoxMessageRecord<T>(T Data)
     {
 #pragma warning disable IDE1006 // Naming Styles
         public string? specversion { get; set; }
