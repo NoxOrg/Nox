@@ -72,7 +72,7 @@ internal abstract class RefLandLordToContractedAreasForVendingMachinesCommandHan
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefLandLordToContractedAreasForVendingMachinesCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,20 +106,20 @@ internal abstract class RefLandLordToContractedAreasForVendingMachinesCommandHan
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToContractedAreasForVendingMachines(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToContractedAreasForVendingMachines(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToContractedAreasForVendingMachines(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToContractedAreasForVendingMachines(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
 				await DbContext.Entry(entity).Collection(x => x.ContractedAreasForVendingMachines).LoadAsync();
-                entity.DeleteAllRefToContractedAreasForVendingMachines();
-                break;
-        }
+				entity.DeleteAllRefToContractedAreasForVendingMachines();
+				break;
+		}
 
 		OnCompleted(request, entity);
 

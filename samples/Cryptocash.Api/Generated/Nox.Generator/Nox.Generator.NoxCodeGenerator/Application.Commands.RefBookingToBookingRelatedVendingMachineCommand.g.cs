@@ -72,7 +72,7 @@ internal abstract class RefBookingToBookingRelatedVendingMachineCommandHandlerBa
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefBookingToBookingRelatedVendingMachineCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,19 +106,19 @@ internal abstract class RefBookingToBookingRelatedVendingMachineCommandHandlerBa
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToBookingRelatedVendingMachine(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToBookingRelatedVendingMachine(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
-                entity.DeleteAllRefToBookingRelatedVendingMachine();
-                break;
-        }
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToBookingRelatedVendingMachine(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToBookingRelatedVendingMachine(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
+				entity.DeleteAllRefToBookingRelatedVendingMachine();
+				break;
+		}
 
 		OnCompleted(request, entity);
 

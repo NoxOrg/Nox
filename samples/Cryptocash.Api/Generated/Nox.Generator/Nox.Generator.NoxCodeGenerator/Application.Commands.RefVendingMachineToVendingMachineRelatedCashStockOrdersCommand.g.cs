@@ -72,7 +72,7 @@ internal abstract class RefVendingMachineToVendingMachineRelatedCashStockOrdersC
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefVendingMachineToVendingMachineRelatedCashStockOrdersCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,20 +106,20 @@ internal abstract class RefVendingMachineToVendingMachineRelatedCashStockOrdersC
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToVendingMachineRelatedCashStockOrders(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToVendingMachineRelatedCashStockOrders(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToVendingMachineRelatedCashStockOrders(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToVendingMachineRelatedCashStockOrders(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
 				await DbContext.Entry(entity).Collection(x => x.VendingMachineRelatedCashStockOrders).LoadAsync();
-                entity.DeleteAllRefToVendingMachineRelatedCashStockOrders();
-                break;
-        }
+				entity.DeleteAllRefToVendingMachineRelatedCashStockOrders();
+				break;
+		}
 
 		OnCompleted(request, entity);
 

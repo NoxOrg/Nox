@@ -72,7 +72,7 @@ internal abstract class RefCustomerToCustomerRelatedBookingsCommandHandlerBase<T
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefCustomerToCustomerRelatedBookingsCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,20 +106,20 @@ internal abstract class RefCustomerToCustomerRelatedBookingsCommandHandlerBase<T
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToCustomerRelatedBookings(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToCustomerRelatedBookings(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToCustomerRelatedBookings(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToCustomerRelatedBookings(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
 				await DbContext.Entry(entity).Collection(x => x.CustomerRelatedBookings).LoadAsync();
-                entity.DeleteAllRefToCustomerRelatedBookings();
-                break;
-        }
+				entity.DeleteAllRefToCustomerRelatedBookings();
+				break;
+		}
 
 		OnCompleted(request, entity);
 

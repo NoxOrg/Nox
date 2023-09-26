@@ -72,7 +72,7 @@ internal abstract class RefCustomerToCustomerBaseCountryCommandHandlerBase<TRequ
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefCustomerToCustomerBaseCountryCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,19 +106,19 @@ internal abstract class RefCustomerToCustomerBaseCountryCommandHandlerBase<TRequ
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToCustomerBaseCountry(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToCustomerBaseCountry(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
-                entity.DeleteAllRefToCustomerBaseCountry();
-                break;
-        }
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToCustomerBaseCountry(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToCustomerBaseCountry(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
+				entity.DeleteAllRefToCustomerBaseCountry();
+				break;
+		}
 
 		OnCompleted(request, entity);
 

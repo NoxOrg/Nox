@@ -72,7 +72,7 @@ internal abstract class RefTransactionToTransactionForBookingCommandHandlerBase<
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefTransactionToTransactionForBookingCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,19 +106,19 @@ internal abstract class RefTransactionToTransactionForBookingCommandHandlerBase<
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToTransactionForBooking(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToTransactionForBooking(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
-                entity.DeleteAllRefToTransactionForBooking();
-                break;
-        }
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToTransactionForBooking(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToTransactionForBooking(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
+				entity.DeleteAllRefToTransactionForBooking();
+				break;
+		}
 
 		OnCompleted(request, entity);
 
