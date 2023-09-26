@@ -24,7 +24,7 @@ internal partial class CreateBankNoteForCurrencyCommandHandler: CreateBankNoteFo
 	public CreateBankNoteForCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto> entityFactory,
+		IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
 		: base(dbContext, noxSolution, entityFactory, serviceProvider)
 	{
@@ -38,7 +38,7 @@ internal abstract class CreateBankNoteForCurrencyCommandHandlerBase: CommandBase
 	public CreateBankNoteForCurrencyCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto> entityFactory,
+		IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;

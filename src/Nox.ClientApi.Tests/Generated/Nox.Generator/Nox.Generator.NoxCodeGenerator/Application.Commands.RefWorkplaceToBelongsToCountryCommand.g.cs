@@ -72,7 +72,7 @@ internal abstract class RefWorkplaceToBelongsToCountryCommandHandlerBase<TReques
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefWorkplaceToBelongsToCountryCommandHandlerBase(
 		ClientApiDbContext dbContext,
@@ -106,19 +106,19 @@ internal abstract class RefWorkplaceToBelongsToCountryCommandHandlerBase<TReques
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToBelongsToCountry(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToBelongsToCountry(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
-                entity.DeleteAllRefToBelongsToCountry();
-                break;
-        }
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToBelongsToCountry(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToBelongsToCountry(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
+				entity.DeleteAllRefToBelongsToCountry();
+				break;
+		}
 
 		OnCompleted(request, entity);
 

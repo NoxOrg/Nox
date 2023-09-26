@@ -72,7 +72,7 @@ internal abstract class RefEmployeeToEmployeeReviewingCashStockOrderCommandHandl
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefEmployeeToEmployeeReviewingCashStockOrderCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,19 +106,19 @@ internal abstract class RefEmployeeToEmployeeReviewingCashStockOrderCommandHandl
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToEmployeeReviewingCashStockOrder(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToEmployeeReviewingCashStockOrder(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
-                entity.DeleteAllRefToEmployeeReviewingCashStockOrder();
-                break;
-        }
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToEmployeeReviewingCashStockOrder(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToEmployeeReviewingCashStockOrder(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
+				entity.DeleteAllRefToEmployeeReviewingCashStockOrder();
+				break;
+		}
 
 		OnCompleted(request, entity);
 

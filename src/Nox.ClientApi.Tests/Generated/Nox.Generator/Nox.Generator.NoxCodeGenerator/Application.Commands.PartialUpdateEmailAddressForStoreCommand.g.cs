@@ -52,7 +52,7 @@ internal abstract class PartialUpdateEmailAddressForStoreCommandHandlerBase: Com
 			return null;
 		}
 		var entity = parentEntity.VerifiedEmails;
-			
+		
 		if (entity == null)
 		{
 			return null;
@@ -62,7 +62,7 @@ internal abstract class PartialUpdateEmailAddressForStoreCommandHandlerBase: Com
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
-	
+
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)

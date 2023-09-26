@@ -72,7 +72,7 @@ internal abstract class RefCommissionToCommissionFeesForBookingCommandHandlerBas
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefCommissionToCommissionFeesForBookingCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,20 +106,20 @@ internal abstract class RefCommissionToCommissionFeesForBookingCommandHandlerBas
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToCommissionFeesForBooking(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToCommissionFeesForBooking(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToCommissionFeesForBooking(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToCommissionFeesForBooking(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
 				await DbContext.Entry(entity).Collection(x => x.CommissionFeesForBooking).LoadAsync();
-                entity.DeleteAllRefToCommissionFeesForBooking();
-                break;
-        }
+				entity.DeleteAllRefToCommissionFeesForBooking();
+				break;
+		}
 
 		OnCompleted(request, entity);
 

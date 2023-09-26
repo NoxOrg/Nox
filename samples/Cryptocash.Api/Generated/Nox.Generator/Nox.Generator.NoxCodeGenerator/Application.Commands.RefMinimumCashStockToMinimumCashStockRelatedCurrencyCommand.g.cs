@@ -72,7 +72,7 @@ internal abstract class RefMinimumCashStockToMinimumCashStockRelatedCurrencyComm
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefMinimumCashStockToMinimumCashStockRelatedCurrencyCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,19 +106,19 @@ internal abstract class RefMinimumCashStockToMinimumCashStockRelatedCurrencyComm
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToMinimumCashStockRelatedCurrency(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToMinimumCashStockRelatedCurrency(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
-                entity.DeleteAllRefToMinimumCashStockRelatedCurrency();
-                break;
-        }
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToMinimumCashStockRelatedCurrency(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToMinimumCashStockRelatedCurrency(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
+				entity.DeleteAllRefToMinimumCashStockRelatedCurrency();
+				break;
+		}
 
 		OnCompleted(request, entity);
 

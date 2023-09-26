@@ -72,7 +72,7 @@ internal abstract class RefStoreToOwnershipCommandHandlerBase<TRequest>: Command
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefStoreToOwnershipCommandHandlerBase(
 		ClientApiDbContext dbContext,
@@ -106,19 +106,19 @@ internal abstract class RefStoreToOwnershipCommandHandlerBase<TRequest>: Command
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToOwnership(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToOwnership(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
-                entity.DeleteAllRefToOwnership();
-                break;
-        }
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToOwnership(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToOwnership(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
+				entity.DeleteAllRefToOwnership();
+				break;
+		}
 
 		OnCompleted(request, entity);
 

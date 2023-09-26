@@ -72,7 +72,7 @@ internal abstract class RefMinimumCashStockToMinimumCashStocksRequiredByVendingM
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,20 +106,20 @@ internal abstract class RefMinimumCashStockToMinimumCashStocksRequiredByVendingM
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToMinimumCashStocksRequiredByVendingMachines(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToMinimumCashStocksRequiredByVendingMachines(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToMinimumCashStocksRequiredByVendingMachines(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToMinimumCashStocksRequiredByVendingMachines(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
 				await DbContext.Entry(entity).Collection(x => x.MinimumCashStocksRequiredByVendingMachines).LoadAsync();
-                entity.DeleteAllRefToMinimumCashStocksRequiredByVendingMachines();
-                break;
-        }
+				entity.DeleteAllRefToMinimumCashStocksRequiredByVendingMachines();
+				break;
+		}
 
 		OnCompleted(request, entity);
 

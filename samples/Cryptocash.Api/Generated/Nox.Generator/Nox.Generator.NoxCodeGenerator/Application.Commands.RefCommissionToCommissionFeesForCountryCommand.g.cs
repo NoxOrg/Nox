@@ -72,7 +72,7 @@ internal abstract class RefCommissionToCommissionFeesForCountryCommandHandlerBas
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefCommissionToCommissionFeesForCountryCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,19 +106,19 @@ internal abstract class RefCommissionToCommissionFeesForCountryCommandHandlerBas
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToCommissionFeesForCountry(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToCommissionFeesForCountry(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
-                entity.DeleteAllRefToCommissionFeesForCountry();
-                break;
-        }
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToCommissionFeesForCountry(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToCommissionFeesForCountry(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
+				entity.DeleteAllRefToCommissionFeesForCountry();
+				break;
+		}
 
 		OnCompleted(request, entity);
 

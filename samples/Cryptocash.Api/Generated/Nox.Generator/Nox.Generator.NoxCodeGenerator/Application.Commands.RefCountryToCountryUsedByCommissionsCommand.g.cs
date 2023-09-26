@@ -72,7 +72,7 @@ internal abstract class RefCountryToCountryUsedByCommissionsCommandHandlerBase<T
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefCountryToCountryUsedByCommissionsCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,20 +106,20 @@ internal abstract class RefCountryToCountryUsedByCommissionsCommandHandlerBase<T
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToCountryUsedByCommissions(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToCountryUsedByCommissions(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToCountryUsedByCommissions(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToCountryUsedByCommissions(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
 				await DbContext.Entry(entity).Collection(x => x.CountryUsedByCommissions).LoadAsync();
-                entity.DeleteAllRefToCountryUsedByCommissions();
-                break;
-        }
+				entity.DeleteAllRefToCountryUsedByCommissions();
+				break;
+		}
 
 		OnCompleted(request, entity);
 
