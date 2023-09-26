@@ -3,17 +3,19 @@ using Nox.Solution;
 
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Configurations;
+using Nox.Types.EntityFramework.Enums;
 
 namespace Nox.EntityFramework.Sqlite;
 
 public sealed class SqliteDatabaseProvider : NoxDatabaseConfigurator, INoxDatabaseProvider
 {
     public string ConnectionString { get; } = string.Empty;
+    public NoxDataStoreType StoreType { get; }
 
-    public SqliteDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators) 
+    public SqliteDatabaseProvider(NoxDataStoreType storeType, IEnumerable<INoxTypeDatabaseConfigurator> configurators) 
         : base(configurators, typeof(ISqliteNoxTypeDatabaseConfigurator))
     {
-
+        StoreType = storeType;
     }
     public DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)
     {        

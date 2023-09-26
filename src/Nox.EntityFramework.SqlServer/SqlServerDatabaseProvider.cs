@@ -5,15 +5,18 @@ using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Configurations;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
+using Nox.Types.EntityFramework.Enums;
 
 namespace Nox.EntityFramework.SqlServer;
 
 public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProvider 
 {
     public string ConnectionString { get; protected set; } = string.Empty;
+    public NoxDataStoreType StoreType { get; }
 
-    public SqlServerDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators): base(configurators, typeof(ISqlServerNoxTypeDatabaseConfigurator))
+    public SqlServerDatabaseProvider(NoxDataStoreType storeType, IEnumerable<INoxTypeDatabaseConfigurator> configurators): base(configurators, typeof(ISqlServerNoxTypeDatabaseConfigurator))
     {
+        StoreType = storeType;
     }
 
     protected override IList<IndexBuilder> ConfigureUniqueAttributeConstraints(IEntityBuilder builder, Entity entity)

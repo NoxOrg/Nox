@@ -4,17 +4,20 @@ using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Configurations;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
+using Nox.Types.EntityFramework.Enums;
 using Npgsql;
 
 namespace Nox.EntityFramework.Postgres;
 
 public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProvider 
 {
-    public PostgresDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators) : base(configurators, typeof(IPostgresNoxTypeDatabaseConfigurator))
-    {
-    }
-
     public string ConnectionString { get; protected set; } = string.Empty;
+    public NoxDataStoreType StoreType { get; }
+    
+    public PostgresDatabaseProvider(NoxDataStoreType storeType, IEnumerable<INoxTypeDatabaseConfigurator> configurators) : base(configurators, typeof(IPostgresNoxTypeDatabaseConfigurator))
+    {
+        StoreType = storeType;
+    }
 
     protected override IList<IndexBuilder> ConfigureUniqueAttributeConstraints(IEntityBuilder builder, Entity entity)
     {
