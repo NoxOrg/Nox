@@ -65,7 +65,7 @@ internal partial class DeleteAllRefCountryToPhysicalWorkplacesCommandHandler
 	{ }
 }
 
-internal abstract class RefCountryToPhysicalWorkplacesCommandHandlerBase<TRequest>: CommandBase<TRequest, Country>, 
+internal abstract class RefCountryToPhysicalWorkplacesCommandHandlerBase<TRequest> : CommandBase<TRequest, Country>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCountryToPhysicalWorkplacesCommand
 {
 	public ClientApiDbContext DbContext { get; }

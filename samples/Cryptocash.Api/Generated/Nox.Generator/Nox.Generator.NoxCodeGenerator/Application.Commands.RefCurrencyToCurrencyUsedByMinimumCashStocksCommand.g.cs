@@ -65,7 +65,7 @@ internal partial class DeleteAllRefCurrencyToCurrencyUsedByMinimumCashStocksComm
 	{ }
 }
 
-internal abstract class RefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandlerBase<TRequest>: CommandBase<TRequest, Currency>, 
+internal abstract class RefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandlerBase<TRequest> : CommandBase<TRequest, Currency>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCurrencyToCurrencyUsedByMinimumCashStocksCommand
 {
 	public CryptocashDbContext DbContext { get; }

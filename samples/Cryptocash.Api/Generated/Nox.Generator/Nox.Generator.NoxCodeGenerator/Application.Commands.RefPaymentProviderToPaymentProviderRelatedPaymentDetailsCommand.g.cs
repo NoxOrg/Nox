@@ -65,7 +65,7 @@ internal partial class DeleteAllRefPaymentProviderToPaymentProviderRelatedPaymen
 	{ }
 }
 
-internal abstract class RefPaymentProviderToPaymentProviderRelatedPaymentDetailsCommandHandlerBase<TRequest>: CommandBase<TRequest, PaymentProvider>, 
+internal abstract class RefPaymentProviderToPaymentProviderRelatedPaymentDetailsCommandHandlerBase<TRequest> : CommandBase<TRequest, PaymentProvider>,
 	IRequestHandler <TRequest, bool> where TRequest : RefPaymentProviderToPaymentProviderRelatedPaymentDetailsCommand
 {
 	public CryptocashDbContext DbContext { get; }

@@ -15,11 +15,22 @@ using Cryptocash.Application.Dto;
 namespace Cryptocash.Application.Commands;
 public record DeleteHolidayForCountryCommand(CountryKeyDto ParentKeyDto, HolidayKeyDto EntityKeyDto) : IRequest <bool>;
 
-internal partial class DeleteHolidayForCountryCommandHandler: CommandBase<DeleteHolidayForCountryCommand, Holiday>, IRequestHandler <DeleteHolidayForCountryCommand, bool>
+internal partial class DeleteHolidayForCountryCommandHandler : DeleteHolidayForCountryCommandHandlerBase
+{
+	public DeleteHolidayForCountryCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution, serviceProvider)
+	{
+	}
+}
+
+internal partial class DeleteHolidayForCountryCommandHandlerBase : CommandBase<DeleteHolidayForCountryCommand, Holiday>, IRequestHandler <DeleteHolidayForCountryCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public DeleteHolidayForCountryCommandHandler(
+	public DeleteHolidayForCountryCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -27,7 +38,7 @@ internal partial class DeleteHolidayForCountryCommandHandler: CommandBase<Delete
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeleteHolidayForCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteHolidayForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);

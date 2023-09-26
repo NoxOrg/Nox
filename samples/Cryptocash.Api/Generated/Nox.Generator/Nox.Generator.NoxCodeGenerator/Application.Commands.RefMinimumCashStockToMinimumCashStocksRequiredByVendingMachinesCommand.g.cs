@@ -65,7 +65,7 @@ internal partial class DeleteAllRefMinimumCashStockToMinimumCashStocksRequiredBy
 	{ }
 }
 
-internal abstract class RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandlerBase<TRequest>: CommandBase<TRequest, MinimumCashStock>, 
+internal abstract class RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandlerBase<TRequest> : CommandBase<TRequest, MinimumCashStock>,
 	IRequestHandler <TRequest, bool> where TRequest : RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand
 {
 	public CryptocashDbContext DbContext { get; }

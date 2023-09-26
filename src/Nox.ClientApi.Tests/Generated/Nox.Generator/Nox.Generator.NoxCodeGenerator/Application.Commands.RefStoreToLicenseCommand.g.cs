@@ -65,7 +65,7 @@ internal partial class DeleteAllRefStoreToLicenseCommandHandler
 	{ }
 }
 
-internal abstract class RefStoreToLicenseCommandHandlerBase<TRequest>: CommandBase<TRequest, Store>, 
+internal abstract class RefStoreToLicenseCommandHandlerBase<TRequest> : CommandBase<TRequest, Store>,
 	IRequestHandler <TRequest, bool> where TRequest : RefStoreToLicenseCommand
 {
 	public ClientApiDbContext DbContext { get; }

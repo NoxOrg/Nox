@@ -65,7 +65,7 @@ internal partial class DeleteAllRefTransactionToTransactionForCustomerCommandHan
 	{ }
 }
 
-internal abstract class RefTransactionToTransactionForCustomerCommandHandlerBase<TRequest>: CommandBase<TRequest, Transaction>, 
+internal abstract class RefTransactionToTransactionForCustomerCommandHandlerBase<TRequest> : CommandBase<TRequest, Transaction>,
 	IRequestHandler <TRequest, bool> where TRequest : RefTransactionToTransactionForCustomerCommand
 {
 	public CryptocashDbContext DbContext { get; }

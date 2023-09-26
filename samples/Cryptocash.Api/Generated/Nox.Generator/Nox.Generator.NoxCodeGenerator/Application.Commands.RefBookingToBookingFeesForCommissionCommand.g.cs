@@ -65,7 +65,7 @@ internal partial class DeleteAllRefBookingToBookingFeesForCommissionCommandHandl
 	{ }
 }
 
-internal abstract class RefBookingToBookingFeesForCommissionCommandHandlerBase<TRequest>: CommandBase<TRequest, Booking>, 
+internal abstract class RefBookingToBookingFeesForCommissionCommandHandlerBase<TRequest> : CommandBase<TRequest, Booking>,
 	IRequestHandler <TRequest, bool> where TRequest : RefBookingToBookingFeesForCommissionCommand
 {
 	public CryptocashDbContext DbContext { get; }
