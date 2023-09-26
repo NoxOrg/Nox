@@ -10,12 +10,12 @@ namespace Nox.EntityFramework.Sqlite;
 public sealed class SqliteDatabaseProvider : NoxDatabaseConfigurator, INoxDatabaseProvider
 {
     public string ConnectionString { get; } = string.Empty;
-    public NoxDataStoreType StoreType { get; }
+    public NoxDataStoreTypeFlags StoreTypes { get; private set; }
 
-    public SqliteDatabaseProvider(NoxDataStoreType storeType, IEnumerable<INoxTypeDatabaseConfigurator> configurators) 
+    public SqliteDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators) 
         : base(configurators, typeof(ISqliteNoxTypeDatabaseConfigurator))
     {
-        StoreType = storeType;
+       
     }
     public DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)
     {        
@@ -32,5 +32,15 @@ public sealed class SqliteDatabaseProvider : NoxDatabaseConfigurator, INoxDataba
     public string ToTableNameForSqlRaw(string table, string schema)
     {
         throw new NotImplementedException();
+    }
+
+    public void SetStoreTypeFlag(NoxDataStoreTypeFlags storeType)
+    {
+        StoreTypes |= storeType;
+    }
+
+    public void UnSetStoreTypeFlag(NoxDataStoreTypeFlags storeTypeFlag)
+    {
+        StoreTypes &= storeTypeFlag;
     }
 }

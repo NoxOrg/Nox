@@ -16,10 +16,9 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
 
         var code = new CodeBuilder($"Application.NoxWebApplicationExtensions.g.cs", context);
 
-        var usings = new List<string>();       
+        var usings = new List<string>();
 
         var solution = codeGeneratorState.Solution;
-        
 
         code.AppendLine("using Microsoft.EntityFrameworkCore;");               
         code.AppendLine("using System.Reflection;");

@@ -12,11 +12,10 @@ namespace Nox.EntityFramework.Postgres;
 public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProvider 
 {
     public string ConnectionString { get; protected set; } = string.Empty;
-    public NoxDataStoreType StoreType { get; }
+    public NoxDataStoreTypeFlags StoreTypes { get; private set; }
     
-    public PostgresDatabaseProvider(NoxDataStoreType storeType, IEnumerable<INoxTypeDatabaseConfigurator> configurators) : base(configurators, typeof(IPostgresNoxTypeDatabaseConfigurator))
+    public PostgresDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators) : base(configurators, typeof(IPostgresNoxTypeDatabaseConfigurator))
     {
-        StoreType = storeType;
     }
 
     protected override IList<IndexBuilder> ConfigureUniqueAttributeConstraints(IEntityBuilder builder, Entity entity)
@@ -56,5 +55,15 @@ public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProv
     public string ToTableNameForSqlRaw(string table, string schema)
     {
         throw new NotImplementedException();
+    }
+
+    public void SetStoreTypeFlag(NoxDataStoreTypeFlags storeType)
+    {
+        StoreTypes |= storeType;
+    }
+
+    public void UnSetStoreTypeFlag(NoxDataStoreTypeFlags storeTypeFlag)
+    {
+        StoreTypes &= storeTypeFlag;
     }
 }

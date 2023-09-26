@@ -9,14 +9,14 @@ using Nox.Types.EntityFramework.Enums;
 
 namespace Nox.EntityFramework.SqlServer;
 
-public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProvider 
+public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProvider
 {
-    public string ConnectionString { get; protected set; } = string.Empty;
-    public NoxDataStoreType StoreType { get; }
+    public NoxDataStoreTypeFlags StoreTypes { get; private set; }
 
-    public SqlServerDatabaseProvider(NoxDataStoreType storeType, IEnumerable<INoxTypeDatabaseConfigurator> configurators): base(configurators, typeof(ISqlServerNoxTypeDatabaseConfigurator))
+    public string ConnectionString { get; protected set; } = string.Empty;
+    
+    public SqlServerDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators): base(configurators, typeof(ISqlServerNoxTypeDatabaseConfigurator))
     {
-        StoreType = storeType;
     }
 
     protected override IList<IndexBuilder> ConfigureUniqueAttributeConstraints(IEntityBuilder builder, Entity entity)
@@ -57,5 +57,15 @@ public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabasePro
     public string ToTableNameForSqlRaw(string table, string schema)
     {
         throw new NotImplementedException();
+    }
+
+    public void SetStoreTypeFlag(NoxDataStoreTypeFlags storeType)
+    {
+        StoreTypes |= storeType;
+    }
+
+    public void UnSetStoreTypeFlag(NoxDataStoreTypeFlags storeTypeFlag)
+    {
+        StoreTypes &= storeTypeFlag;
     }
 }
