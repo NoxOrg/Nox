@@ -65,7 +65,7 @@ internal partial class DeleteAllRefStoreOwnerToStoresCommandHandler
 	{ }
 }
 
-internal abstract class RefStoreOwnerToStoresCommandHandlerBase<TRequest>: CommandBase<TRequest, StoreOwner>, 
+internal abstract class RefStoreOwnerToStoresCommandHandlerBase<TRequest> : CommandBase<TRequest, StoreOwner>,
 	IRequestHandler <TRequest, bool> where TRequest : RefStoreOwnerToStoresCommand
 {
 	public ClientApiDbContext DbContext { get; }

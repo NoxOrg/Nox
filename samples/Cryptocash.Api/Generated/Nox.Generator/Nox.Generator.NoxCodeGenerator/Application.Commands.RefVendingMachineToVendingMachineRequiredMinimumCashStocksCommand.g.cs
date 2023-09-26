@@ -65,7 +65,7 @@ internal partial class DeleteAllRefVendingMachineToVendingMachineRequiredMinimum
 	{ }
 }
 
-internal abstract class RefVendingMachineToVendingMachineRequiredMinimumCashStocksCommandHandlerBase<TRequest>: CommandBase<TRequest, VendingMachine>, 
+internal abstract class RefVendingMachineToVendingMachineRequiredMinimumCashStocksCommandHandlerBase<TRequest> : CommandBase<TRequest, VendingMachine>,
 	IRequestHandler <TRequest, bool> where TRequest : RefVendingMachineToVendingMachineRequiredMinimumCashStocksCommand
 {
 	public CryptocashDbContext DbContext { get; }

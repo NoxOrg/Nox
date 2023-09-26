@@ -65,7 +65,7 @@ internal partial class DeleteAllRef{{entity.Name}}To{{relationship.Name}}Command
 	{ }
 }
 
-internal abstract class Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBase<TRequest>: CommandBase<TRequest, {{entity.Name}}>, 
+internal abstract class Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBase<TRequest> : CommandBase<TRequest, {{entity.Name}}>,
 	IRequestHandler <TRequest, bool> where TRequest : Ref{{entity.Name}}To{{relationship.Name}}Command
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }

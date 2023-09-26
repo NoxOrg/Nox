@@ -65,7 +65,7 @@ internal partial class DeleteAllRefVendingMachineToVendingMachineRelatedBookings
 	{ }
 }
 
-internal abstract class RefVendingMachineToVendingMachineRelatedBookingsCommandHandlerBase<TRequest>: CommandBase<TRequest, VendingMachine>, 
+internal abstract class RefVendingMachineToVendingMachineRelatedBookingsCommandHandlerBase<TRequest> : CommandBase<TRequest, VendingMachine>,
 	IRequestHandler <TRequest, bool> where TRequest : RefVendingMachineToVendingMachineRelatedBookingsCommand
 {
 	public CryptocashDbContext DbContext { get; }

@@ -65,7 +65,7 @@ internal partial class DeleteAllRefCashStockOrderToCashStockOrderReviewedByEmplo
 	{ }
 }
 
-internal abstract class RefCashStockOrderToCashStockOrderReviewedByEmployeeCommandHandlerBase<TRequest>: CommandBase<TRequest, CashStockOrder>, 
+internal abstract class RefCashStockOrderToCashStockOrderReviewedByEmployeeCommandHandlerBase<TRequest> : CommandBase<TRequest, CashStockOrder>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCashStockOrderToCashStockOrderReviewedByEmployeeCommand
 {
 	public CryptocashDbContext DbContext { get; }

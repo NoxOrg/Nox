@@ -65,7 +65,7 @@ internal partial class DeleteAllRefCommissionToCommissionFeesForCountryCommandHa
 	{ }
 }
 
-internal abstract class RefCommissionToCommissionFeesForCountryCommandHandlerBase<TRequest>: CommandBase<TRequest, Commission>, 
+internal abstract class RefCommissionToCommissionFeesForCountryCommandHandlerBase<TRequest> : CommandBase<TRequest, Commission>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCommissionToCommissionFeesForCountryCommand
 {
 	public CryptocashDbContext DbContext { get; }

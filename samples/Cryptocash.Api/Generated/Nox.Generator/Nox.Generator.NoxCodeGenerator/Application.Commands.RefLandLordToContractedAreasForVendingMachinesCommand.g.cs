@@ -65,7 +65,7 @@ internal partial class DeleteAllRefLandLordToContractedAreasForVendingMachinesCo
 	{ }
 }
 
-internal abstract class RefLandLordToContractedAreasForVendingMachinesCommandHandlerBase<TRequest>: CommandBase<TRequest, LandLord>, 
+internal abstract class RefLandLordToContractedAreasForVendingMachinesCommandHandlerBase<TRequest> : CommandBase<TRequest, LandLord>,
 	IRequestHandler <TRequest, bool> where TRequest : RefLandLordToContractedAreasForVendingMachinesCommand
 {
 	public CryptocashDbContext DbContext { get; }
