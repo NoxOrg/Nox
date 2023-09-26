@@ -15,11 +15,22 @@ using ClientApi.Application.Dto;
 namespace ClientApi.Application.Commands;
 public record DeleteCountryLocalNameForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameKeyDto EntityKeyDto) : IRequest <bool>;
 
-internal partial class DeleteCountryLocalNameForCountryCommandHandler: CommandBase<DeleteCountryLocalNameForCountryCommand, CountryLocalName>, IRequestHandler <DeleteCountryLocalNameForCountryCommand, bool>
+internal partial class DeleteCountryLocalNameForCountryCommandHandler : DeleteCountryLocalNameForCountryCommandHandlerBase
+{
+	public DeleteCountryLocalNameForCountryCommandHandler(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution, serviceProvider)
+	{
+	}
+}
+
+internal partial class DeleteCountryLocalNameForCountryCommandHandlerBase : CommandBase<DeleteCountryLocalNameForCountryCommand, CountryLocalName>, IRequestHandler <DeleteCountryLocalNameForCountryCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 
-	public DeleteCountryLocalNameForCountryCommandHandler(
+	public DeleteCountryLocalNameForCountryCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -27,7 +38,7 @@ internal partial class DeleteCountryLocalNameForCountryCommandHandler: CommandBa
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeleteCountryLocalNameForCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteCountryLocalNameForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
@@ -47,7 +58,7 @@ internal partial class DeleteCountryLocalNameForCountryCommandHandler: CommandBa
 		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Deleted;
-	
+
 		var result = await DbContext.SaveChangesAsync(cancellationToken);
 		if (result < 1)
 		{

@@ -65,14 +65,14 @@ internal partial class DeleteAllRefCashStockOrderToCashStockOrderForVendingMachi
 	{ }
 }
 
-internal abstract class RefCashStockOrderToCashStockOrderForVendingMachineCommandHandlerBase<TRequest>: CommandBase<TRequest, CashStockOrder>, 
+internal abstract class RefCashStockOrderToCashStockOrderForVendingMachineCommandHandlerBase<TRequest> : CommandBase<TRequest, CashStockOrder>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCashStockOrderToCashStockOrderForVendingMachineCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefCashStockOrderToCashStockOrderForVendingMachineCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,19 +106,19 @@ internal abstract class RefCashStockOrderToCashStockOrderForVendingMachineComman
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToCashStockOrderForVendingMachine(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToCashStockOrderForVendingMachine(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
-                entity.DeleteAllRefToCashStockOrderForVendingMachine();
-                break;
-        }
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToCashStockOrderForVendingMachine(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToCashStockOrderForVendingMachine(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
+				entity.DeleteAllRefToCashStockOrderForVendingMachine();
+				break;
+		}
 
 		OnCompleted(request, entity);
 

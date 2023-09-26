@@ -57,7 +57,7 @@ internal abstract class Delete{{entity.Name}}ByIdCommandHandlerBase: CommandBase
 		{{- end }}
 
 		OnCompleted(request, entity);
-		
+
 		{{- if (entity.Persistence?.IsAudited ?? true) }}
 		DbContext.Entry(entity).State = EntityState.Deleted;
 		{{-else-}}

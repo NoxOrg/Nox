@@ -25,9 +25,9 @@ internal partial class CreateStoreCommandHandler: CreateStoreCommandHandlerBase
 	public CreateStoreCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> storeownerfactory,
-        IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> storelicensefactory,
-        IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> entityFactory,
+		IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> storeownerfactory,
+		IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> storelicensefactory,
+		IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
 		: base(dbContext, noxSolution,storeownerfactory, storelicensefactory, entityFactory, serviceProvider)
 	{
@@ -39,21 +39,21 @@ internal abstract class CreateStoreCommandHandlerBase: CommandBase<CreateStoreCo
 {
 	private readonly ClientApiDbContext _dbContext;
 	private readonly IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> _entityFactory;
-    private readonly IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> _storeownerfactory;
-    private readonly IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> _storelicensefactory;
+	private readonly IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> _storeownerfactory;
+	private readonly IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> _storelicensefactory;
 
 	public CreateStoreCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> storeownerfactory,
-        IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> storelicensefactory,
-        IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> entityFactory,
+		IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> storeownerfactory,
+		IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> storelicensefactory,
+		IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
-        _storeownerfactory = storeownerfactory;
-        _storelicensefactory = storelicensefactory;
+		_storeownerfactory = storeownerfactory;
+		_storelicensefactory = storelicensefactory;
 	}
 
 	public virtual async Task<StoreKeyDto> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
