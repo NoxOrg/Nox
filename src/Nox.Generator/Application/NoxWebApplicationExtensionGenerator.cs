@@ -24,6 +24,7 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
         code.AppendLine("using Microsoft.EntityFrameworkCore;");               
         code.AppendLine("using System.Reflection;");
         code.AppendLine("using Microsoft.OData.ModelBuilder;");
+        code.AppendLine("using Microsoft.Extensions.DependencyInjection;");
         code.AppendLine("using Nox;");
         code.AppendLine("using Nox.Solution;");
         code.AppendLine("using Nox.Configuration;");        
