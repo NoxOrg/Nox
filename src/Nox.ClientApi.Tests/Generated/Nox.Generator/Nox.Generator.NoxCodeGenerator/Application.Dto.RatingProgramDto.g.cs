@@ -23,6 +23,33 @@ public record RatingProgramKeyDto(System.Guid keyStoreId, System.Int64 keyId);
 public partial class RatingProgramDto
 {
 
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+        if (this.Name is not null)
+            ValidateField("Name", () => ClientApi.Domain.RatingProgram.CreateName(this.Name.NonNullValue<System.String>()), result);
+
+        return result;
+    }
+
+    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
+    {
+        try
+        {
+            action();
+        }
+        catch (TypeValidationException ex)
+        {
+            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
+        }
+        catch (NullReferenceException)
+        {
+            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
+        }
+    }
+    #endregion
+
     /// <summary>
     ///  (Required).
     /// </summary>

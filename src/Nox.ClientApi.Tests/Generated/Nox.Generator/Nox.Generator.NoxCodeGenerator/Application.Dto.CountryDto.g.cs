@@ -34,6 +34,14 @@ public partial class CountryDto
             ValidateField("CountryDebt", () => ClientApi.Domain.Country.CreateCountryDebt(this.CountryDebt.NonNullValue<MoneyDto>()), result);
         if (this.FirstLanguageCode is not null)
             ValidateField("FirstLanguageCode", () => ClientApi.Domain.Country.CreateFirstLanguageCode(this.FirstLanguageCode.NonNullValue<System.String>()), result); 
+        if (this.CountryIsoNumeric is not null)
+            ValidateField("CountryIsoNumeric", () => ClientApi.Domain.Country.CreateCountryIsoNumeric(this.CountryIsoNumeric.NonNullValue<System.UInt16>()), result);
+        if (this.CountryIsoAlpha3 is not null)
+            ValidateField("CountryIsoAlpha3", () => ClientApi.Domain.Country.CreateCountryIsoAlpha3(this.CountryIsoAlpha3.NonNullValue<System.String>()), result);
+        if (this.GoogleMapsUrl is not null)
+            ValidateField("GoogleMapsUrl", () => ClientApi.Domain.Country.CreateGoogleMapsUrl(this.GoogleMapsUrl.NonNullValue<System.String>()), result);
+        if (this.StartOfWeek is not null)
+            ValidateField("StartOfWeek", () => ClientApi.Domain.Country.CreateStartOfWeek(this.StartOfWeek.NonNullValue<System.UInt16>()), result);
 
         return result;
     }
@@ -84,6 +92,26 @@ public partial class CountryDto
     /// The Formula (Optional).
     /// </summary>
     public System.String? ShortDescription { get; set; }
+
+    /// <summary>
+    /// Country's iso number id (Optional).
+    /// </summary>
+    public System.UInt16? CountryIsoNumeric { get; set; }
+
+    /// <summary>
+    /// Country's iso alpha3 id (Optional).
+    /// </summary>
+    public System.String? CountryIsoAlpha3 { get; set; }
+
+    /// <summary>
+    /// Country's map via google maps (Optional).
+    /// </summary>
+    public System.String? GoogleMapsUrl { get; set; }
+
+    /// <summary>
+    /// Country's start of week day (Optional).
+    /// </summary>
+    public System.UInt16? StartOfWeek { get; set; }
 
     /// <summary>
     /// Country Country workplaces ZeroOrMany Workplaces

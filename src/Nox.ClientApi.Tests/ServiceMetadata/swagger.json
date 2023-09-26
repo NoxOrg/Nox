@@ -11210,6 +11210,24 @@
             "type": "string",
             "nullable": true
           },
+          "countryIsoNumeric": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "countryIsoAlpha3": {
+            "type": "string",
+            "nullable": true
+          },
+          "googleMapsUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "startOfWeek": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
           "physicalWorkplaces": {
             "type": "array",
             "items": {
@@ -11255,6 +11273,24 @@
           },
           "shortDescription": {
             "type": "string",
+            "nullable": true
+          },
+          "countryIsoNumeric": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "countryIsoAlpha3": {
+            "type": "string",
+            "nullable": true
+          },
+          "googleMapsUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "startOfWeek": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           },
           "physicalWorkplaces": {
@@ -11506,6 +11542,24 @@
           },
           "firstLanguageCode": {
             "type": "string",
+            "nullable": true
+          },
+          "countryIsoNumeric": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "countryIsoAlpha3": {
+            "type": "string",
+            "nullable": true
+          },
+          "googleMapsUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "startOfWeek": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           },
           "countryBarCode": {

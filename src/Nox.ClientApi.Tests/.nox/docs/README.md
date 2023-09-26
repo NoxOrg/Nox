@@ -55,10 +55,14 @@ Member|Type|Description|Info
 ---------|----|----------|-------
 Id|AutoNumber|The unique identifier.|Required, Primary Key
 Name|Text|The Country Name.|Required, MinLength: 4, MaxLength: 63
-Population|Number|Population.|
-CountryDebt|Money|The Money.|
+Population|Number|Population.|MaxValue: 1500000000
+CountryDebt|Money|The Money.|MinValue: 100000
 FirstLanguageCode|LanguageCode|First Official Language.|
 ShortDescription|Formula|The Formula.|
+CountryIsoNumeric|CountryNumber|Country's iso number id.|
+CountryIsoAlpha3|CountryCode3|Country's iso alpha3 id.|
+GoogleMapsUrl|Url|Country's map via google maps.|
+StartOfWeek|DayOfWeek|Country's start of week day.|
 CountryLocalNameId|AutoNumber|The unique identifier.|Required, Owned Entity
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 

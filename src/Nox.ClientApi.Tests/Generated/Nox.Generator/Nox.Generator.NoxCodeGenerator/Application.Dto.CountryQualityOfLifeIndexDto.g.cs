@@ -23,6 +23,32 @@ public record CountryQualityOfLifeIndexKeyDto(System.Int64 keyCountryId, System.
 public partial class CountryQualityOfLifeIndexDto
 {
 
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+        ValidateField("IndexRating", () => ClientApi.Domain.CountryQualityOfLifeIndex.CreateIndexRating(this.IndexRating), result);
+
+        return result;
+    }
+
+    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
+    {
+        try
+        {
+            action();
+        }
+        catch (TypeValidationException ex)
+        {
+            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
+        }
+        catch (NullReferenceException)
+        {
+            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
+        }
+    }
+    #endregion
+
     /// <summary>
     ///  (Required).
     /// </summary>

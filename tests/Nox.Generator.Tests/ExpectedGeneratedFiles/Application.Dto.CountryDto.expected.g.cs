@@ -23,6 +23,52 @@ public record CountryKeyDto(System.String keyId);
 public partial class CountryDto
 {
 
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+        ValidateField("Name", () => SampleWebApp.Domain.Country.CreateName(this.Name), result);
+        ValidateField("FormalName", () => SampleWebApp.Domain.Country.CreateFormalName(this.FormalName), result);
+        ValidateField("AlphaCode3", () => SampleWebApp.Domain.Country.CreateAlphaCode3(this.AlphaCode3), result);
+        ValidateField("AlphaCode2", () => SampleWebApp.Domain.Country.CreateAlphaCode2(this.AlphaCode2), result);
+        ValidateField("NumericCode", () => SampleWebApp.Domain.Country.CreateNumericCode(this.NumericCode), result);
+        if (this.DialingCodes is not null)
+            ValidateField("DialingCodes", () => SampleWebApp.Domain.Country.CreateDialingCodes(this.DialingCodes.NonNullValue<System.String>()), result);
+        if (this.Capital is not null)
+            ValidateField("Capital", () => SampleWebApp.Domain.Country.CreateCapital(this.Capital.NonNullValue<System.String>()), result);
+        if (this.Demonym is not null)
+            ValidateField("Demonym", () => SampleWebApp.Domain.Country.CreateDemonym(this.Demonym.NonNullValue<System.String>()), result);
+        ValidateField("AreaInSquareKilometres", () => SampleWebApp.Domain.Country.CreateAreaInSquareKilometres(this.AreaInSquareKilometres), result);
+        if (this.GeoCoord is not null)
+            ValidateField("GeoCoord", () => SampleWebApp.Domain.Country.CreateGeoCoord(this.GeoCoord.NonNullValue<LatLongDto>()), result);
+        ValidateField("GeoRegion", () => SampleWebApp.Domain.Country.CreateGeoRegion(this.GeoRegion), result);
+        ValidateField("GeoSubRegion", () => SampleWebApp.Domain.Country.CreateGeoSubRegion(this.GeoSubRegion), result);
+        ValidateField("GeoWorldRegion", () => SampleWebApp.Domain.Country.CreateGeoWorldRegion(this.GeoWorldRegion), result);
+        if (this.Population is not null)
+            ValidateField("Population", () => SampleWebApp.Domain.Country.CreatePopulation(this.Population.NonNullValue<System.Int32>()), result);
+        if (this.TopLevelDomains is not null)
+            ValidateField("TopLevelDomains", () => SampleWebApp.Domain.Country.CreateTopLevelDomains(this.TopLevelDomains.NonNullValue<System.String>()), result);   
+
+        return result;
+    }
+
+    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
+    {
+        try
+        {
+            action();
+        }
+        catch (TypeValidationException ex)
+        {
+            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
+        }
+        catch (NullReferenceException)
+        {
+            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
+        }
+    }
+    #endregion
+
     /// <summary>
     ///  (Required).
     /// </summary>
