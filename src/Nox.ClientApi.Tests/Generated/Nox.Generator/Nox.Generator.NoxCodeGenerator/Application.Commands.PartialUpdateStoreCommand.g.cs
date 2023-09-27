@@ -24,23 +24,23 @@ internal class PartialUpdateStoreCommandHandler: PartialUpdateStoreCommandHandle
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<Store> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
 internal class PartialUpdateStoreCommandHandlerBase: CommandBase<PartialUpdateStoreCommand, Store>, IRequestHandler<PartialUpdateStoreCommand, StoreKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
-	public IEntityMapper<Store> EntityMapper { get; }
+	public IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateStoreCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<Store> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<StoreKeyDto?> Handle(PartialUpdateStoreCommand request, CancellationToken cancellationToken)
@@ -54,7 +54,7 @@ internal class PartialUpdateStoreCommandHandlerBase: CommandBase<PartialUpdateSt
 		{
 			return null;
 		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Store>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);

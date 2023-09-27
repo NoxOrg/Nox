@@ -24,7 +24,7 @@ internal partial class CreateEmailAddressForStoreCommandHandler: CreateEmailAddr
 	public CreateEmailAddressForStoreCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> entityFactory,
+		IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
 		: base(dbContext, noxSolution, entityFactory, serviceProvider)
 	{
@@ -38,7 +38,7 @@ internal abstract class CreateEmailAddressForStoreCommandHandlerBase: CommandBas
 	public CreateEmailAddressForStoreCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> entityFactory,
+		IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;

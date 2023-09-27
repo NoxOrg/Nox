@@ -32,55 +32,47 @@ This document provides information about the various endpoints available in our 
 
 ### Customer
 
-#### Get Customer relation by ID
-- **GET** `/api/Transactions/{key}/Customers/{relatedKey}/$ref`
-  - Description: Retrieve an existing Customers relation for a specific Transaction.
-
 #### Get Customer relations
-- **GET** `/api/Transactions/{key}/Customers/$ref`
-  - Description: Retrieve all Customers relations for a specific Transaction.
+- **GET** `/api/Transactions/{key}/TransactionForCustomer/$ref`
+  - Description: Retrieve all existing Customers relations for a specific Transaction.
   
 #### Create Customer relation
-- **POST** `/api/Transactions/{key}/Customers/{relatedKey}/$ref`
+- **POST** `/api/Transactions/{key}/TransactionForCustomer/{relatedKey}/$ref`
   - Description: Create a new Customer relation for a specific Transaction.
-
-#### Update Customer relation
-- **PUT** `/api/Transactions/{key}/Customers/{relatedKey}/$ref`
-  - Description: Update an existing Customer relation for a specific Transaction.
   
-#### Partially Update Customer relation
-- **PATCH** `/api/Transactions/{key}/Customers/{relatedKey}/$ref`
-  - Description: Partially update an existing Customer relation for a specific Transaction.
+#### Update Customer relation
+- **PUT** `/api/Transactions/{key}/TransactionForCustomer/{relatedKey}/$ref`
+  - Description: Updates an existing Customer relation for a specific Transaction.
 
 #### Delete Customer relation
-- **DELETE** `/api/Transactions/{key}/Customers/{relatedKey}/$ref`
+- **DELETE** `/api/Transactions/{key}/TransactionForCustomer/{relatedKey}/$ref`
   - Description: Delete an existing Customer relation for a specific Transaction.
+
+#### Delete Customer relations
+- **DELETE** `/api/Transactions/{key}/TransactionForCustomer/$ref`
+  - Description: Delete all existing Customers relations for a specific Transaction.
 
 ### Booking
 
-#### Get Booking relation by ID
-- **GET** `/api/Transactions/{key}/Bookings/{relatedKey}/$ref`
-  - Description: Retrieve an existing Bookings relation for a specific Transaction.
-
 #### Get Booking relations
-- **GET** `/api/Transactions/{key}/Bookings/$ref`
-  - Description: Retrieve all Bookings relations for a specific Transaction.
+- **GET** `/api/Transactions/{key}/TransactionForBooking/$ref`
+  - Description: Retrieve all existing Bookings relations for a specific Transaction.
   
 #### Create Booking relation
-- **POST** `/api/Transactions/{key}/Bookings/{relatedKey}/$ref`
+- **POST** `/api/Transactions/{key}/TransactionForBooking/{relatedKey}/$ref`
   - Description: Create a new Booking relation for a specific Transaction.
-
-#### Update Booking relation
-- **PUT** `/api/Transactions/{key}/Bookings/{relatedKey}/$ref`
-  - Description: Update an existing Booking relation for a specific Transaction.
   
-#### Partially Update Booking relation
-- **PATCH** `/api/Transactions/{key}/Bookings/{relatedKey}/$ref`
-  - Description: Partially update an existing Booking relation for a specific Transaction.
+#### Update Booking relation
+- **PUT** `/api/Transactions/{key}/TransactionForBooking/{relatedKey}/$ref`
+  - Description: Updates an existing Booking relation for a specific Transaction.
 
 #### Delete Booking relation
-- **DELETE** `/api/Transactions/{key}/Bookings/{relatedKey}/$ref`
+- **DELETE** `/api/Transactions/{key}/TransactionForBooking/{relatedKey}/$ref`
   - Description: Delete an existing Booking relation for a specific Transaction.
+
+#### Delete Booking relations
+- **DELETE** `/api/Transactions/{key}/TransactionForBooking/$ref`
+  - Description: Delete all existing Bookings relations for a specific Transaction.
 
 ## Related Entities
 

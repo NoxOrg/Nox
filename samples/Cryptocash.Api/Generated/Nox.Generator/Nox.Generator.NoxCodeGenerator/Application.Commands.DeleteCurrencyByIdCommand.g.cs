@@ -43,7 +43,7 @@ internal abstract class DeleteCurrencyByIdCommandHandlerBase: CommandBase<Delete
 		var keyId = CreateNoxTypeForKey<Currency,Nox.Types.CurrencyCode3>("Id", request.keyId);
 
 		var entity = await DbContext.Currencies.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted.Value == true)
+		if (entity == null || entity.IsDeleted == true)
 		{
 			return false;
 		}

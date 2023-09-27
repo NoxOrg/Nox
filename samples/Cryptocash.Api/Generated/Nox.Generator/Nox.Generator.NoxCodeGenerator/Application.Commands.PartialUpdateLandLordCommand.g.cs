@@ -24,23 +24,23 @@ internal class PartialUpdateLandLordCommandHandler: PartialUpdateLandLordCommand
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<LandLord> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
 internal class PartialUpdateLandLordCommandHandlerBase: CommandBase<PartialUpdateLandLordCommand, LandLord>, IRequestHandler<PartialUpdateLandLordCommand, LandLordKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<LandLord> EntityMapper { get; }
+	public IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateLandLordCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<LandLord> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<LandLordKeyDto?> Handle(PartialUpdateLandLordCommand request, CancellationToken cancellationToken)
@@ -54,7 +54,7 @@ internal class PartialUpdateLandLordCommandHandlerBase: CommandBase<PartialUpdat
 		{
 			return null;
 		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<LandLord>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);

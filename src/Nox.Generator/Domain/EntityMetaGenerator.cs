@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
@@ -26,20 +25,20 @@ internal class EntityMetaGenerator : INoxCodeGenerator
         {
             context.CancellationToken.ThrowIfCancellationRequested();
             
-            var entitiesMetaData = entity.GetAllMembers()
-                .Select( t =>  GeneraEntityMetaData(t.Value, codeGeneratorState.Solution) )
+            var entitiesMetaData = entity.GetAllMembers().GroupBy(m=>m.Value.Name).Select(g=>g.First())
+                .Select( t =>  GenerateEntityMetaData(t.Value, codeGeneratorState.Solution) )
                 .ToList();
             
             new TemplateCodeBuilder(context, codeGeneratorState)
-                .WithClassName(entity.Name)
-                .WithFileNamePrefix($"Domain.Meta")
+                .WithClassName($"{entity.Name}Metadata")
+                .WithFileNamePrefix($"Meta")
                 .WithObject("entity", entity)
                 .WithObject("entitiesMetaData", entitiesMetaData)
                 .GenerateSourceCodeFromResource("Domain.EntityMeta");
         }
     }
 
-    private static EntityMetaData GeneraEntityMetaData(NoxSimpleTypeDefinition typeDef, NoxSolution solution)
+    private static EntityMetaData GenerateEntityMetaData(NoxSimpleTypeDefinition typeDef, NoxSolution solution)
     {
         var type = typeDef.Type == NoxType.EntityId ? solution.GetSingleKeyTypeForEntity(typeDef.EntityIdTypeOptions!.Entity) : typeDef.Type;
 

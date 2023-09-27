@@ -57,29 +57,25 @@ This document provides information about the various endpoints available in our 
 {{ for relationship in entity.Relationships }}
 ### {{relationship.Entity}}
 {{ if relationship.Related.Entity.Persistence.Read.IsEnabled }}
-#### Get {{relationship.Entity}} relation by ID
-- **GET** `/api/{{entity.PluralName}}/{key}/{{relationship.EntityPlural}}/{relatedKey}/$ref`
-  - Description: Retrieve an existing {{relationship.EntityPlural}} relation for a specific {{entity.Name}}.
-
 #### Get {{relationship.Entity}} relations
-- **GET** `/api/{{entity.PluralName}}/{key}/{{relationship.EntityPlural}}/$ref`
-  - Description: Retrieve all {{relationship.EntityPlural}} relations for a specific {{entity.Name}}.
+- **GET** `/api/{{entity.PluralName}}/{key}/{{relationship.Name}}/$ref`
+  - Description: Retrieve all existing {{relationship.EntityPlural}} relations for a specific {{entity.Name}}.
 {{ end }}{{ if relationship.Related.Entity.Persistence.Create.IsEnabled }}  
 #### Create {{relationship.Entity}} relation
-- **POST** `/api/{{entity.PluralName}}/{key}/{{relationship.EntityPlural}}/{relatedKey}/$ref`
+- **POST** `/api/{{entity.PluralName}}/{key}/{{relationship.Name}}/{relatedKey}/$ref`
   - Description: Create a new {{relationship.Entity}} relation for a specific {{entity.Name}}.
-{{ end }}{{ if relationship.Related.Entity.Persistence.Update.IsEnabled }}
+{{ end }}{{ if relationship.Related.Entity.Persistence.Update.IsEnabled }}  
 #### Update {{relationship.Entity}} relation
-- **PUT** `/api/{{entity.PluralName}}/{key}/{{relationship.EntityPlural}}/{relatedKey}/$ref`
-  - Description: Update an existing {{relationship.Entity}} relation for a specific {{entity.Name}}.
-  
-#### Partially Update {{relationship.Entity}} relation
-- **PATCH** `/api/{{entity.PluralName}}/{key}/{{relationship.EntityPlural}}/{relatedKey}/$ref`
-  - Description: Partially update an existing {{relationship.Entity}} relation for a specific {{entity.Name}}.
+- **PUT** `/api/{{entity.PluralName}}/{key}/{{relationship.Name}}/{relatedKey}/$ref`
+  - Description: Updates an existing {{relationship.Entity}} relation for a specific {{entity.Name}}.
 {{ end }}{{ if relationship.Related.Entity.Persistence.Delete.IsEnabled }}
 #### Delete {{relationship.Entity}} relation
-- **DELETE** `/api/{{entity.PluralName}}/{key}/{{relationship.EntityPlural}}/{relatedKey}/$ref`
+- **DELETE** `/api/{{entity.PluralName}}/{key}/{{relationship.Name}}/{relatedKey}/$ref`
   - Description: Delete an existing {{relationship.Entity}} relation for a specific {{entity.Name}}.
+
+#### Delete {{relationship.Entity}} relations
+- **DELETE** `/api/{{entity.PluralName}}/{key}/{{relationship.Name}}/$ref`
+  - Description: Delete all existing {{relationship.EntityPlural}} relations for a specific {{entity.Name}}.
 {{ end }}{{ end -}}
 {{ end}}{{ if entity.Commands | array.size > 0 }}
 ## Custom Commands

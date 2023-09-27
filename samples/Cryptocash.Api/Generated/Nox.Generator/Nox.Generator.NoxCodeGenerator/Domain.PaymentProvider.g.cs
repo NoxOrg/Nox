@@ -10,27 +10,27 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-public partial class PaymentProvider:PaymentProviderBase
+internal partial class PaymentProvider:PaymentProviderBase
 {
 
 }
 /// <summary>
 /// Record for PaymentProvider created event.
 /// </summary>
-public record PaymentProviderCreated(PaymentProvider PaymentProvider) : IDomainEvent;
+internal record PaymentProviderCreated(PaymentProvider PaymentProvider) : IDomainEvent;
 /// <summary>
 /// Record for PaymentProvider updated event.
 /// </summary>
-public record PaymentProviderUpdated(PaymentProvider PaymentProvider) : IDomainEvent;
+internal record PaymentProviderUpdated(PaymentProvider PaymentProvider) : IDomainEvent;
 /// <summary>
 /// Record for PaymentProvider deleted event.
 /// </summary>
-public record PaymentProviderDeleted(PaymentProvider PaymentProvider) : IDomainEvent;
+internal record PaymentProviderDeleted(PaymentProvider PaymentProvider) : IDomainEvent;
 
 /// <summary>
 /// Payment provider related data.
 /// </summary>
-public abstract class PaymentProviderBase : AuditableEntityBase, IEntityConcurrent
+internal abstract class PaymentProviderBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Payment provider unique identifier (Required).

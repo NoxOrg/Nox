@@ -13,19 +13,17 @@ public class AzureServiceBusBrokerProvider: IMessageBrokerProvider
         configuration.UsingAzureServiceBus((context, cfg) =>
         {
             AzureServiceBusConfig config = messagingServerConfig.AzureServiceBusConfig!;
+
             var connectionString = $"Endpoint={config.Endpoint}/;SharedAccessKeyName={config.SharedAccessKeyName};SharedAccessKey={config.SharedAccessKey}";
+
             cfg.Host(connectionString);            
 
             cfg.ConfigureEndpoints(context);
-
-            // TODO Cloud Events Raw message?
-            //cfg.UseRawJsonSerializer(RawSerializerOptions.AddTransportHeaders | RawSerializerOptions.CopyHeaders | RawSerializerOptions.AnyMessageType);
-
+            
+            cfg.UseRawJsonSerializer();
+                        
             // TODO Define rules for Topics names
-            cfg.Message<CloudEventRecord<Application.IIntegrationEvent>>(x =>
-            {
-                x.SetEntityName("test-integration-event");
-            });
+            cfg.MessageTopology.SetEntityNameFormatter(new CustomEntityNameFormatter());
         });        
         return configuration;
     }

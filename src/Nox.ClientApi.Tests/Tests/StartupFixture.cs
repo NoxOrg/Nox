@@ -24,18 +24,19 @@ public class StartupFixture
             oDataModelBuilder.ConfigureHouseDto();
         })
         .AddEndpointsApiExplorer()
-        .AddSwaggerGen(); 
+        .AddSwaggerGen();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         app.UseRouting();
-        
+
         app.UseNox();
 
         app.UseSwagger();
 
+        // Ensure a new / clean db for each test
         var clientApiDbContext = app.ApplicationServices.GetRequiredService<ClientApiDbContext>();
         clientApiDbContext!.Database.EnsureDeleted();
         clientApiDbContext!.Database.EnsureCreated();

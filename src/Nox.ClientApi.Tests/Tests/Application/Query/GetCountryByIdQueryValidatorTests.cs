@@ -3,15 +3,19 @@ using ClientApi.Application.Dto;
 using AutoFixture;
 using System.Net;
 using ClientApi.Tests.Tests.Models;
+using Xunit.Abstractions;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
-    public class GetCountryByIdQueryValidatorTests : NoxIntegrationTestBase
+    public class GetCountryByIdQueryValidatorTests : NoxWebApiTestBase
     {
         private const string CountryControllerName = "api/countries";
 
-        public GetCountryByIdQueryValidatorTests(NoxTestContainerService containerService) : base(containerService)
+        public GetCountryByIdQueryValidatorTests(
+            ITestOutputHelper testOutputHelper,
+            NoxTestContainerService containerService)
+            : base(testOutputHelper, containerService)
         {
         }
 

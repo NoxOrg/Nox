@@ -25,11 +25,11 @@ internal partial class CreateCountryCommandHandler: CreateCountryCommandHandlerB
 	public CreateCountryCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> currencyfactory,
-        IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> commissionfactory,
-        IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
-        IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> customerfactory,
-        IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> entityFactory,
+		IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> currencyfactory,
+		IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> commissionfactory,
+		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
+		IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> customerfactory,
+		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
 		: base(dbContext, noxSolution,currencyfactory, commissionfactory, vendingmachinefactory, customerfactory, entityFactory, serviceProvider)
 	{
@@ -41,27 +41,27 @@ internal abstract class CreateCountryCommandHandlerBase: CommandBase<CreateCount
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> _entityFactory;
-    private readonly IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> _currencyfactory;
-    private readonly IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> _commissionfactory;
-    private readonly IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> _vendingmachinefactory;
-    private readonly IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> _customerfactory;
+	private readonly IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> _currencyfactory;
+	private readonly IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> _commissionfactory;
+	private readonly IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> _vendingmachinefactory;
+	private readonly IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> _customerfactory;
 
 	public CreateCountryCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> currencyfactory,
-        IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> commissionfactory,
-        IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
-        IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> customerfactory,
-        IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> entityFactory,
+		IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> currencyfactory,
+		IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> commissionfactory,
+		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
+		IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> customerfactory,
+		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
-        _currencyfactory = currencyfactory;
-        _commissionfactory = commissionfactory;
-        _vendingmachinefactory = vendingmachinefactory;
-        _customerfactory = customerfactory;
+		_currencyfactory = currencyfactory;
+		_commissionfactory = commissionfactory;
+		_vendingmachinefactory = vendingmachinefactory;
+		_customerfactory = customerfactory;
 	}
 
 	public virtual async Task<CountryKeyDto> Handle(CreateCountryCommand request, CancellationToken cancellationToken)

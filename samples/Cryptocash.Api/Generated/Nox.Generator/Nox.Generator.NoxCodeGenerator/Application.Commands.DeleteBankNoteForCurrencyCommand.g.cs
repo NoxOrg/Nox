@@ -15,11 +15,22 @@ using Cryptocash.Application.Dto;
 namespace Cryptocash.Application.Commands;
 public record DeleteBankNoteForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteKeyDto EntityKeyDto) : IRequest <bool>;
 
-internal partial class DeleteBankNoteForCurrencyCommandHandler: CommandBase<DeleteBankNoteForCurrencyCommand, BankNote>, IRequestHandler <DeleteBankNoteForCurrencyCommand, bool>
+internal partial class DeleteBankNoteForCurrencyCommandHandler : DeleteBankNoteForCurrencyCommandHandlerBase
+{
+	public DeleteBankNoteForCurrencyCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution, serviceProvider)
+	{
+	}
+}
+
+internal partial class DeleteBankNoteForCurrencyCommandHandlerBase : CommandBase<DeleteBankNoteForCurrencyCommand, BankNote>, IRequestHandler <DeleteBankNoteForCurrencyCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public DeleteBankNoteForCurrencyCommandHandler(
+	public DeleteBankNoteForCurrencyCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -27,7 +38,7 @@ internal partial class DeleteBankNoteForCurrencyCommandHandler: CommandBase<Dele
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeleteBankNoteForCurrencyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteBankNoteForCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
@@ -47,7 +58,7 @@ internal partial class DeleteBankNoteForCurrencyCommandHandler: CommandBase<Dele
 		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Deleted;
-	
+
 		var result = await DbContext.SaveChangesAsync(cancellationToken);
 		if (result < 1)
 		{

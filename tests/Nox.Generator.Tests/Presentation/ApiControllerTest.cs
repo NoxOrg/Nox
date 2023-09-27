@@ -43,7 +43,7 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
         Assert.Single(allOutputs);
 
         var generatedSources = result.GeneratedSources;
-        Assert.Equal(57, generatedSources.Length);
+        Assert.Equal(54, generatedSources.Length);
         Assert.True(generatedSources.Any(s => s.HintName == "Application.NoxWebApplicationExtensions.g.cs"), "NoxWebApplicationExtensions.g.cs not generated");
 
         // Check base files
@@ -51,7 +51,7 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
 
         // check entities/queries/commands
         Assert.True(generatedSources.Any(s => s.HintName == "Domain.Country.g.cs"), "Country.g.cs not generated");
-        Assert.True(generatedSources.Any(s => s.HintName == "Domain.Meta.Country.g.cs"), "Country.Meta.g.cs not generated");
+        Assert.True(generatedSources.Any(s => s.HintName == "Meta.CountryMetadata.g.cs"), "Country.Meta.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "DtoDynamic.UpdatePopulationStatistics.g.cs"), "UpdatePopulationStatistics.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "UpdatePopulationStatisticsCommandHandlerBase.g.cs"), "UpdatePopulationStatisticsCommandHandlerBase.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "DtoDynamic.CountryInfo.g.cs"), "CountryInfo.g.cs not generated");

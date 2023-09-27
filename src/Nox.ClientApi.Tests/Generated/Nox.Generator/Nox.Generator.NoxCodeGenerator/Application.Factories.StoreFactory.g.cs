@@ -45,13 +45,18 @@ internal abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto,
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(Store entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private ClientApi.Domain.Store ToEntity(StoreCreateDto createDto)
     {
         var entity = new ClientApi.Domain.Store();
-        entity.Name = ClientApi.Domain.Store.CreateName(createDto.Name);
-        entity.Address = ClientApi.Domain.Store.CreateAddress(createDto.Address);
-        entity.Location = ClientApi.Domain.Store.CreateLocation(createDto.Location);
-        if (createDto.OpeningDay is not null)entity.OpeningDay = ClientApi.Domain.Store.CreateOpeningDay(createDto.OpeningDay.NonNullValue<System.DateTimeOffset>());
+        entity.Name = ClientApi.Domain.StoreMetadata.CreateName(createDto.Name);
+        entity.Address = ClientApi.Domain.StoreMetadata.CreateAddress(createDto.Address);
+        entity.Location = ClientApi.Domain.StoreMetadata.CreateLocation(createDto.Location);
+        if (createDto.OpeningDay is not null)entity.OpeningDay = ClientApi.Domain.StoreMetadata.CreateOpeningDay(createDto.OpeningDay.NonNullValue<System.DateTimeOffset>());
         entity.EnsureId(createDto.Id);
         if (createDto.VerifiedEmails is not null)
         {
@@ -62,11 +67,57 @@ internal abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto,
 
     private void UpdateEntityInternal(Store entity, StoreUpdateDto updateDto)
     {
-        entity.Name = ClientApi.Domain.Store.CreateName(updateDto.Name.NonNullValue<System.String>());
-        entity.Address = ClientApi.Domain.Store.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
-        entity.Location = ClientApi.Domain.Store.CreateLocation(updateDto.Location.NonNullValue<LatLongDto>());
+        entity.Name = ClientApi.Domain.StoreMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
+        entity.Address = ClientApi.Domain.StoreMetadata.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
+        entity.Location = ClientApi.Domain.StoreMetadata.CreateLocation(updateDto.Location.NonNullValue<LatLongDto>());
         if (updateDto.OpeningDay == null) { entity.OpeningDay = null; } else {
-            entity.OpeningDay = ClientApi.Domain.Store.CreateOpeningDay(updateDto.OpeningDay.ToValueFromNonNull<System.DateTimeOffset>());
+            entity.OpeningDay = ClientApi.Domain.StoreMetadata.CreateOpeningDay(updateDto.OpeningDay.ToValueFromNonNull<System.DateTimeOffset>());
+        }
+    }
+
+    private void PartialUpdateEntityInternal(Store entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
+        {
+            if (NameUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Name' can't be null");
+            }
+            {
+                entity.Name = ClientApi.Domain.StoreMetadata.CreateName(NameUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Address", out var AddressUpdateValue))
+        {
+            if (AddressUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Address' can't be null");
+            }
+            {
+                entity.Address = ClientApi.Domain.StoreMetadata.CreateAddress(AddressUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Location", out var LocationUpdateValue))
+        {
+            if (LocationUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Location' can't be null");
+            }
+            {
+                entity.Location = ClientApi.Domain.StoreMetadata.CreateLocation(LocationUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("OpeningDay", out var OpeningDayUpdateValue))
+        {
+            if (OpeningDayUpdateValue == null) { entity.OpeningDay = null; }
+            else
+            {
+                entity.OpeningDay = ClientApi.Domain.StoreMetadata.CreateOpeningDay(OpeningDayUpdateValue);
+            }
         }
     }
 }

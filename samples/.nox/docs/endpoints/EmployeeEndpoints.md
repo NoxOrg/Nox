@@ -56,29 +56,25 @@ This document provides information about the various endpoints available in our 
 
 ### CashStockOrder
 
-#### Get CashStockOrder relation by ID
-- **GET** `/api/Employees/{key}/CashStockOrders/{relatedKey}/$ref`
-  - Description: Retrieve an existing CashStockOrders relation for a specific Employee.
-
 #### Get CashStockOrder relations
-- **GET** `/api/Employees/{key}/CashStockOrders/$ref`
-  - Description: Retrieve all CashStockOrders relations for a specific Employee.
+- **GET** `/api/Employees/{key}/EmployeeReviewingCashStockOrder/$ref`
+  - Description: Retrieve all existing CashStockOrders relations for a specific Employee.
   
 #### Create CashStockOrder relation
-- **POST** `/api/Employees/{key}/CashStockOrders/{relatedKey}/$ref`
+- **POST** `/api/Employees/{key}/EmployeeReviewingCashStockOrder/{relatedKey}/$ref`
   - Description: Create a new CashStockOrder relation for a specific Employee.
-
-#### Update CashStockOrder relation
-- **PUT** `/api/Employees/{key}/CashStockOrders/{relatedKey}/$ref`
-  - Description: Update an existing CashStockOrder relation for a specific Employee.
   
-#### Partially Update CashStockOrder relation
-- **PATCH** `/api/Employees/{key}/CashStockOrders/{relatedKey}/$ref`
-  - Description: Partially update an existing CashStockOrder relation for a specific Employee.
+#### Update CashStockOrder relation
+- **PUT** `/api/Employees/{key}/EmployeeReviewingCashStockOrder/{relatedKey}/$ref`
+  - Description: Updates an existing CashStockOrder relation for a specific Employee.
 
 #### Delete CashStockOrder relation
-- **DELETE** `/api/Employees/{key}/CashStockOrders/{relatedKey}/$ref`
+- **DELETE** `/api/Employees/{key}/EmployeeReviewingCashStockOrder/{relatedKey}/$ref`
   - Description: Delete an existing CashStockOrder relation for a specific Employee.
+
+#### Delete CashStockOrder relations
+- **DELETE** `/api/Employees/{key}/EmployeeReviewingCashStockOrder/$ref`
+  - Description: Delete all existing CashStockOrders relations for a specific Employee.
 
 ## Related Entities
 

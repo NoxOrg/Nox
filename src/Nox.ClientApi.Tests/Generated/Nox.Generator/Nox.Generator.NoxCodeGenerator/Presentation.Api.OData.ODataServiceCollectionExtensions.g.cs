@@ -24,6 +24,8 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<CountryDto>().HasKey(e => new { e.Id });
         builder.EntityType<CountryLocalNameDto>().HasKey(e => new { e.Id });
         builder.EntityType<CountryBarCodeDto>().HasKey(e => new { });
+        builder.EntityType<RatingProgramDto>().HasKey(e => new { e.StoreId, e.Id });
+        builder.EntityType<CountryQualityOfLifeIndexDto>().HasKey(e => new { e.CountryId, e.Id });
         builder.EntityType<StoreDto>().HasKey(e => new { e.Id });
         builder.EntityType<WorkplaceDto>().HasKey(e => new { e.Id });
         builder.EntityType<StoreOwnerDto>().HasKey(e => new { e.Id });
@@ -43,6 +45,12 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<CountryLocalNameDto>();
 
         builder.EntityType<CountryBarCodeDto>();
+        builder.EntitySet<RatingProgramDto>("RatingPrograms");
+
+        builder.EntityType<RatingProgramDto>();
+        builder.EntitySet<CountryQualityOfLifeIndexDto>("CountryQualityOfLifeIndices");
+
+        builder.EntityType<CountryQualityOfLifeIndexDto>();
         builder.EntitySet<StoreDto>("Stores");
         builder.EntityType<StoreDto>().ContainsOptional(e => e.VerifiedEmails).AutoExpand = true;
         builder.EntityType<StoreDto>().ContainsOptional(e => e.Ownership);

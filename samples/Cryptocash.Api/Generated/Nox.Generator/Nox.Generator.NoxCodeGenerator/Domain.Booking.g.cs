@@ -10,27 +10,27 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-public partial class Booking:BookingBase
+internal partial class Booking:BookingBase
 {
 
 }
 /// <summary>
 /// Record for Booking created event.
 /// </summary>
-public record BookingCreated(Booking Booking) : IDomainEvent;
+internal record BookingCreated(Booking Booking) : IDomainEvent;
 /// <summary>
 /// Record for Booking updated event.
 /// </summary>
-public record BookingUpdated(Booking Booking) : IDomainEvent;
+internal record BookingUpdated(Booking Booking) : IDomainEvent;
 /// <summary>
 /// Record for Booking deleted event.
 /// </summary>
-public record BookingDeleted(Booking Booking) : IDomainEvent;
+internal record BookingDeleted(Booking Booking) : IDomainEvent;
 
 /// <summary>
 /// Exchange booking and related data.
 /// </summary>
-public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
+internal abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Booking unique identifier (Required).

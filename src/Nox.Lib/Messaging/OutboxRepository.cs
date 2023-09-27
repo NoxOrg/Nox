@@ -1,9 +1,8 @@
 ﻿using CloudNative.CloudEvents;
-using CloudNative.CloudEvents.SystemTextJson;
 using MassTransit;
 using Microsoft.Extensions.Logging;
+using Nox.Abstractions;
 using Nox.Application;
-using System.Text.Json;
 
 namespace Nox.Messaging
 {
@@ -11,18 +10,19 @@ namespace Nox.Messaging
     {
         private readonly IPublishEndpoint _bus;
         private readonly ILogger<OutboxRepository> _logger;
+        private readonly IUserProvider _userProvider;
 
-        public OutboxRepository(IPublishEndpoint bus, ILogger<OutboxRepository> logger)
+        public OutboxRepository(IPublishEndpoint bus, ILogger<OutboxRepository> logger, IUserProvider userProvider)
         {
             _bus = bus;
             _logger = logger;
+            _userProvider = userProvider;
         }
-        public async Task AddAsync<T>(T message) where T : IIntegrationEvent
+        public async Task AddAsync<T>(T integrationEvent) where T : IIntegrationEvent
         {
             _logger.LogInformation($"Publish message {typeof(T)} to {_bus.GetType()}");
 
-            var cloudEventRecord = new CloudEventRecord<IIntegrationEvent>(message);
-
+            var cloudEventRecord =  new NoxMessageRecord<T>(integrationEvent);
             await _bus.Publish(cloudEventRecord,            
                 sendContext =>
                 {
@@ -32,19 +32,17 @@ namespace Nox.Messaging
                         Id = sendContext.MessageId.ToString(),
                         Source = new Uri("https://api.nox.com/lib"),
                         Subject = "entities:service:entity:6802e075-978b-422f-9d3a-484f43709362",
-                        Data = message,
+                        Data = integrationEvent,
                         Time = sendContext.SentTime,
                         Type = "api.nox.entity.v1.action",
-                        DataSchema = new Uri("https://api.nox.com/lib/v1/action.json")
+                        //Optional
+                        //DataSchema = new Uri("https://api.nox.com/lib/v1/action.json"),
                     };
 
                     cloudEvent.Validate();
 
-                    cloudEvent.ToRecord(sendContext.Message);
+                    cloudEvent.MapToRecord(sendContext.Message, _userProvider.GetUser().ToString());
                     
-                    // Customize Mass Transit Envelope
-                    sendContext.SourceAddress = cloudEvent.Source;
-                                        
                 });
             
             _logger.LogInformation("Publish message {typeName} in PublishEndpoint ", typeof(T));

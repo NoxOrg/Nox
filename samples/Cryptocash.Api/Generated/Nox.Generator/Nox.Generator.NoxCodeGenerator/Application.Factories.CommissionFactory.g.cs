@@ -42,18 +42,49 @@ internal abstract class CommissionFactoryBase : IEntityFactory<Commission, Commi
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(Commission entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private Cryptocash.Domain.Commission ToEntity(CommissionCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Commission();
-        entity.Rate = Cryptocash.Domain.Commission.CreateRate(createDto.Rate);
-        entity.EffectiveAt = Cryptocash.Domain.Commission.CreateEffectiveAt(createDto.EffectiveAt);
+        entity.Rate = Cryptocash.Domain.CommissionMetadata.CreateRate(createDto.Rate);
+        entity.EffectiveAt = Cryptocash.Domain.CommissionMetadata.CreateEffectiveAt(createDto.EffectiveAt);
         return entity;
     }
 
     private void UpdateEntityInternal(Commission entity, CommissionUpdateDto updateDto)
     {
-        entity.Rate = Cryptocash.Domain.Commission.CreateRate(updateDto.Rate.NonNullValue<System.Single>());
-        entity.EffectiveAt = Cryptocash.Domain.Commission.CreateEffectiveAt(updateDto.EffectiveAt.NonNullValue<System.DateTimeOffset>());
+        entity.Rate = Cryptocash.Domain.CommissionMetadata.CreateRate(updateDto.Rate.NonNullValue<System.Single>());
+        entity.EffectiveAt = Cryptocash.Domain.CommissionMetadata.CreateEffectiveAt(updateDto.EffectiveAt.NonNullValue<System.DateTimeOffset>());
+    }
+
+    private void PartialUpdateEntityInternal(Commission entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("Rate", out var RateUpdateValue))
+        {
+            if (RateUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Rate' can't be null");
+            }
+            {
+                entity.Rate = Cryptocash.Domain.CommissionMetadata.CreateRate(RateUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("EffectiveAt", out var EffectiveAtUpdateValue))
+        {
+            if (EffectiveAtUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'EffectiveAt' can't be null");
+            }
+            {
+                entity.EffectiveAt = Cryptocash.Domain.CommissionMetadata.CreateEffectiveAt(EffectiveAtUpdateValue);
+            }
+        }
     }
 }
 

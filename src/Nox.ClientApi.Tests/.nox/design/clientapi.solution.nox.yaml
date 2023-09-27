@@ -20,6 +20,10 @@ domain:
   
     - $ref: ./Entities/countrybarcode.entity.nox.yaml
   
+    - $ref: ./Entities/ratingprogram.entity.nox.yaml
+  
+    - $ref: ./Entities/countryqualityoflifeindex.entity.nox.yaml
+  
     - $ref: ./Entities/store.entity.nox.yaml
   
     - $ref: ./Entities/workplace.entity.nox.yaml
@@ -64,8 +68,12 @@ infrastructure:
       user: "sa"  
       password: "pwd"
       
+  messaging:
+    integrationEventServer:      
+      name: IntegrationBus
+      provider: inMemory      
 
-application:
+application:  
   integrationEvents:
         - name: CountryPopulationHigherThan100M
           description: Country Population Updated with Population Higher then 100M

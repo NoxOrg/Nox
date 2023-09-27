@@ -32,29 +32,25 @@ This document provides information about the various endpoints available in our 
 
 ### Store
 
-#### Get Store relation by ID
-- **GET** `/api/StoreLicenses/{key}/Stores/{relatedKey}/$ref`
-  - Description: Retrieve an existing Stores relation for a specific StoreLicense.
-
 #### Get Store relations
-- **GET** `/api/StoreLicenses/{key}/Stores/$ref`
-  - Description: Retrieve all Stores relations for a specific StoreLicense.
+- **GET** `/api/StoreLicenses/{key}/StoreWithLicense/$ref`
+  - Description: Retrieve all existing Stores relations for a specific StoreLicense.
   
 #### Create Store relation
-- **POST** `/api/StoreLicenses/{key}/Stores/{relatedKey}/$ref`
+- **POST** `/api/StoreLicenses/{key}/StoreWithLicense/{relatedKey}/$ref`
   - Description: Create a new Store relation for a specific StoreLicense.
-
-#### Update Store relation
-- **PUT** `/api/StoreLicenses/{key}/Stores/{relatedKey}/$ref`
-  - Description: Update an existing Store relation for a specific StoreLicense.
   
-#### Partially Update Store relation
-- **PATCH** `/api/StoreLicenses/{key}/Stores/{relatedKey}/$ref`
-  - Description: Partially update an existing Store relation for a specific StoreLicense.
+#### Update Store relation
+- **PUT** `/api/StoreLicenses/{key}/StoreWithLicense/{relatedKey}/$ref`
+  - Description: Updates an existing Store relation for a specific StoreLicense.
 
 #### Delete Store relation
-- **DELETE** `/api/StoreLicenses/{key}/Stores/{relatedKey}/$ref`
+- **DELETE** `/api/StoreLicenses/{key}/StoreWithLicense/{relatedKey}/$ref`
   - Description: Delete an existing Store relation for a specific StoreLicense.
+
+#### Delete Store relations
+- **DELETE** `/api/StoreLicenses/{key}/StoreWithLicense/$ref`
+  - Description: Delete all existing Stores relations for a specific StoreLicense.
 
 ## Related Entities
 

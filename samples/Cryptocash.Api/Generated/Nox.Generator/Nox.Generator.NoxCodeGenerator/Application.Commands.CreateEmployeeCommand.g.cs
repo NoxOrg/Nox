@@ -25,8 +25,8 @@ internal partial class CreateEmployeeCommandHandler: CreateEmployeeCommandHandle
 	public CreateEmployeeCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> cashstockorderfactory,
-        IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> entityFactory,
+		IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> cashstockorderfactory,
+		IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
 		: base(dbContext, noxSolution,cashstockorderfactory, entityFactory, serviceProvider)
 	{
@@ -38,18 +38,18 @@ internal abstract class CreateEmployeeCommandHandlerBase: CommandBase<CreateEmpl
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> _entityFactory;
-    private readonly IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> _cashstockorderfactory;
+	private readonly IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> _cashstockorderfactory;
 
 	public CreateEmployeeCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> cashstockorderfactory,
-        IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> entityFactory,
+		IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> cashstockorderfactory,
+		IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
-        _cashstockorderfactory = cashstockorderfactory;
+		_cashstockorderfactory = cashstockorderfactory;
 	}
 
 	public virtual async Task<EmployeeKeyDto> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)

@@ -4,7 +4,7 @@ using Nox.Solution;
 
 namespace Nox.Messaging
 {
-    public interface IMessageBrokerProvider
+    internal interface IMessageBrokerProvider
     {
         MessageBrokerProvider Provider { get; }
 

@@ -10,27 +10,27 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-public partial class EmailAddress:EmailAddressBase
+internal partial class EmailAddress:EmailAddressBase
 {
 
 }
 /// <summary>
 /// Record for EmailAddress created event.
 /// </summary>
-public record EmailAddressCreated(EmailAddress EmailAddress) : IDomainEvent;
+internal record EmailAddressCreated(EmailAddress EmailAddress) : IDomainEvent;
 /// <summary>
 /// Record for EmailAddress updated event.
 /// </summary>
-public record EmailAddressUpdated(EmailAddress EmailAddress) : IDomainEvent;
+internal record EmailAddressUpdated(EmailAddress EmailAddress) : IDomainEvent;
 /// <summary>
 /// Record for EmailAddress deleted event.
 /// </summary>
-public record EmailAddressDeleted(EmailAddress EmailAddress) : IDomainEvent;
+internal record EmailAddressDeleted(EmailAddress EmailAddress) : IDomainEvent;
 
 /// <summary>
 /// Verified Email Address.
 /// </summary>
-public abstract class EmailAddressBase : EntityBase, IOwnedEntity
+internal abstract class EmailAddressBase : EntityBase, IOwnedEntity
 {
 
     /// <summary>
