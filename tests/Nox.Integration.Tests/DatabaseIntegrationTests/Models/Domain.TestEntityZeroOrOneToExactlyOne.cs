@@ -7,7 +7,6 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
-using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
@@ -18,20 +17,20 @@ public partial class TestEntityZeroOrOneToExactlyOne:TestEntityZeroOrOneToExactl
 /// <summary>
 /// Record for TestEntityZeroOrOneToExactlyOne created event.
 /// </summary>
-public record TestEntityZeroOrOneToExactlyOneCreated(TestEntityZeroOrOneToExactlyOneBase TestEntityZeroOrOneToExactlyOne) : IDomainEvent;
+public record TestEntityZeroOrOneToExactlyOneCreated(TestEntityZeroOrOneToExactlyOne TestEntityZeroOrOneToExactlyOne) : IDomainEvent;
 /// <summary>
 /// Record for TestEntityZeroOrOneToExactlyOne updated event.
 /// </summary>
-public record TestEntityZeroOrOneToExactlyOneUpdated(TestEntityZeroOrOneToExactlyOneBase TestEntityZeroOrOneToExactlyOne) : IDomainEvent;
+public record TestEntityZeroOrOneToExactlyOneUpdated(TestEntityZeroOrOneToExactlyOne TestEntityZeroOrOneToExactlyOne) : IDomainEvent;
 /// <summary>
 /// Record for TestEntityZeroOrOneToExactlyOne deleted event.
 /// </summary>
-public record TestEntityZeroOrOneToExactlyOneDeleted(TestEntityZeroOrOneToExactlyOneBase TestEntityZeroOrOneToExactlyOne) : IDomainEvent;
+public record TestEntityZeroOrOneToExactlyOneDeleted(TestEntityZeroOrOneToExactlyOne TestEntityZeroOrOneToExactlyOne) : IDomainEvent;
 
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public abstract class TestEntityZeroOrOneToExactlyOneBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+public abstract class TestEntityZeroOrOneToExactlyOneBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -42,32 +41,6 @@ public abstract class TestEntityZeroOrOneToExactlyOneBase : AuditableEntityBase,
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField { get; set; } = null!;
-
-	///<inheritdoc/>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
-
-	private readonly List<IDomainEvent> _domainEvents = new();
-	
-	///<inheritdoc/>
-	public virtual void RaiseCreateEvent()
-	{
-		_domainEvents.Add(new TestEntityZeroOrOneToExactlyOneCreated(this));
-	}
-	///<inheritdoc/>
-	public virtual void RaiseUpdateEvent()
-	{
-		_domainEvents.Add(new TestEntityZeroOrOneToExactlyOneUpdated(this));
-	}
-	///<inheritdoc/>
-	public virtual void RaiseDeleteEvent()
-	{
-		_domainEvents.Add(new TestEntityZeroOrOneToExactlyOneDeleted(this));
-	}
-	///<inheritdoc />
-    public virtual void ClearDomainEvents()
-	{
-		_domainEvents.Clear();
-	}
 
     /// <summary>
     /// TestEntityZeroOrOneToExactlyOne Test entity relationship to TestEntityExactlyOneToZeroOrOne ZeroOrOne TestEntityExactlyOneToZeroOrOnes

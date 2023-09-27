@@ -7,7 +7,6 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
-using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
@@ -18,20 +17,20 @@ public partial class SecondTestEntityTwoRelationshipsOneToOne:SecondTestEntityTw
 /// <summary>
 /// Record for SecondTestEntityTwoRelationshipsOneToOne created event.
 /// </summary>
-public record SecondTestEntityTwoRelationshipsOneToOneCreated(SecondTestEntityTwoRelationshipsOneToOneBase SecondTestEntityTwoRelationshipsOneToOne) : IDomainEvent;
+public record SecondTestEntityTwoRelationshipsOneToOneCreated(SecondTestEntityTwoRelationshipsOneToOne SecondTestEntityTwoRelationshipsOneToOne) : IDomainEvent;
 /// <summary>
 /// Record for SecondTestEntityTwoRelationshipsOneToOne updated event.
 /// </summary>
-public record SecondTestEntityTwoRelationshipsOneToOneUpdated(SecondTestEntityTwoRelationshipsOneToOneBase SecondTestEntityTwoRelationshipsOneToOne) : IDomainEvent;
+public record SecondTestEntityTwoRelationshipsOneToOneUpdated(SecondTestEntityTwoRelationshipsOneToOne SecondTestEntityTwoRelationshipsOneToOne) : IDomainEvent;
 /// <summary>
 /// Record for SecondTestEntityTwoRelationshipsOneToOne deleted event.
 /// </summary>
-public record SecondTestEntityTwoRelationshipsOneToOneDeleted(SecondTestEntityTwoRelationshipsOneToOneBase SecondTestEntityTwoRelationshipsOneToOne) : IDomainEvent;
+public record SecondTestEntityTwoRelationshipsOneToOneDeleted(SecondTestEntityTwoRelationshipsOneToOne SecondTestEntityTwoRelationshipsOneToOne) : IDomainEvent;
 
 /// <summary>
 /// .
 /// </summary>
-public abstract class SecondTestEntityTwoRelationshipsOneToOneBase : EntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+public abstract class SecondTestEntityTwoRelationshipsOneToOneBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -42,32 +41,6 @@ public abstract class SecondTestEntityTwoRelationshipsOneToOneBase : EntityBase,
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField2 { get; set; } = null!;
-
-	///<inheritdoc/>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
-
-	private readonly List<IDomainEvent> _domainEvents = new();
-	
-	///<inheritdoc/>
-	public virtual void RaiseCreateEvent()
-	{
-		_domainEvents.Add(new SecondTestEntityTwoRelationshipsOneToOneCreated(this));
-	}
-	///<inheritdoc/>
-	public virtual void RaiseUpdateEvent()
-	{
-		_domainEvents.Add(new SecondTestEntityTwoRelationshipsOneToOneUpdated(this));
-	}
-	///<inheritdoc/>
-	public virtual void RaiseDeleteEvent()
-	{
-		_domainEvents.Add(new SecondTestEntityTwoRelationshipsOneToOneDeleted(this));
-	}
-	///<inheritdoc />
-    public virtual void ClearDomainEvents()
-	{
-		_domainEvents.Clear();
-	}
 
     /// <summary>
     /// SecondTestEntityTwoRelationshipsOneToOne First relationship to the same entity on the other side ZeroOrOne TestEntityTwoRelationshipsOneToOnes

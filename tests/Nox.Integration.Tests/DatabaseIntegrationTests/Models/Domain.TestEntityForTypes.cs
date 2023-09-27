@@ -7,7 +7,6 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
-using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
@@ -18,20 +17,20 @@ public partial class TestEntityForTypes:TestEntityForTypesBase
 /// <summary>
 /// Record for TestEntityForTypes created event.
 /// </summary>
-public record TestEntityForTypesCreated(TestEntityForTypesBase TestEntityForTypes) : IDomainEvent;
+public record TestEntityForTypesCreated(TestEntityForTypes TestEntityForTypes) : IDomainEvent;
 /// <summary>
 /// Record for TestEntityForTypes updated event.
 /// </summary>
-public record TestEntityForTypesUpdated(TestEntityForTypesBase TestEntityForTypes) : IDomainEvent;
+public record TestEntityForTypesUpdated(TestEntityForTypes TestEntityForTypes) : IDomainEvent;
 /// <summary>
 /// Record for TestEntityForTypes deleted event.
 /// </summary>
-public record TestEntityForTypesDeleted(TestEntityForTypesBase TestEntityForTypes) : IDomainEvent;
+public record TestEntityForTypesDeleted(TestEntityForTypes TestEntityForTypes) : IDomainEvent;
 
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public abstract class TestEntityForTypesBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+public abstract class TestEntityForTypesBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -316,32 +315,6 @@ public abstract class TestEntityForTypesBase : AuditableEntityBase, IEntityConcu
     ///  (Optional).
     /// </summary>
     public Nox.Types.Image? ImageTestField { get; set; } = null!;
-
-	///<inheritdoc/>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
-
-	private readonly List<IDomainEvent> _domainEvents = new();
-	
-	///<inheritdoc/>
-	public virtual void RaiseCreateEvent()
-	{
-		_domainEvents.Add(new TestEntityForTypesCreated(this));
-	}
-	///<inheritdoc/>
-	public virtual void RaiseUpdateEvent()
-	{
-		_domainEvents.Add(new TestEntityForTypesUpdated(this));
-	}
-	///<inheritdoc/>
-	public virtual void RaiseDeleteEvent()
-	{
-		_domainEvents.Add(new TestEntityForTypesDeleted(this));
-	}
-	///<inheritdoc />
-    public virtual void ClearDomainEvents()
-	{
-		_domainEvents.Clear();
-	}
 
     /// <summary>
     /// Entity tag used as concurrency token.

@@ -7,7 +7,6 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
-using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
@@ -18,20 +17,20 @@ public partial class TestEntityExactlyOne:TestEntityExactlyOneBase
 /// <summary>
 /// Record for TestEntityExactlyOne created event.
 /// </summary>
-public record TestEntityExactlyOneCreated(TestEntityExactlyOneBase TestEntityExactlyOne) : IDomainEvent;
+public record TestEntityExactlyOneCreated(TestEntityExactlyOne TestEntityExactlyOne) : IDomainEvent;
 /// <summary>
 /// Record for TestEntityExactlyOne updated event.
 /// </summary>
-public record TestEntityExactlyOneUpdated(TestEntityExactlyOneBase TestEntityExactlyOne) : IDomainEvent;
+public record TestEntityExactlyOneUpdated(TestEntityExactlyOne TestEntityExactlyOne) : IDomainEvent;
 /// <summary>
 /// Record for TestEntityExactlyOne deleted event.
 /// </summary>
-public record TestEntityExactlyOneDeleted(TestEntityExactlyOneBase TestEntityExactlyOne) : IDomainEvent;
+public record TestEntityExactlyOneDeleted(TestEntityExactlyOne TestEntityExactlyOne) : IDomainEvent;
 
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public abstract class TestEntityExactlyOneBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+public abstract class TestEntityExactlyOneBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -42,32 +41,6 @@ public abstract class TestEntityExactlyOneBase : AuditableEntityBase, IEntityCon
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField { get; set; } = null!;
-
-	///<inheritdoc/>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
-
-	private readonly List<IDomainEvent> _domainEvents = new();
-	
-	///<inheritdoc/>
-	public virtual void RaiseCreateEvent()
-	{
-		_domainEvents.Add(new TestEntityExactlyOneCreated(this));
-	}
-	///<inheritdoc/>
-	public virtual void RaiseUpdateEvent()
-	{
-		_domainEvents.Add(new TestEntityExactlyOneUpdated(this));
-	}
-	///<inheritdoc/>
-	public virtual void RaiseDeleteEvent()
-	{
-		_domainEvents.Add(new TestEntityExactlyOneDeleted(this));
-	}
-	///<inheritdoc />
-    public virtual void ClearDomainEvents()
-	{
-		_domainEvents.Clear();
-	}
 
     /// <summary>
     /// TestEntityExactlyOne Test entity relationship to SecondTestEntityExactlyOneRelationship ExactlyOne SecondTestEntityExactlyOnes

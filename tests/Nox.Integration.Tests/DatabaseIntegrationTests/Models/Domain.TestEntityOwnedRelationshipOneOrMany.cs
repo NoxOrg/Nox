@@ -7,7 +7,6 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
-using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
@@ -18,20 +17,20 @@ public partial class TestEntityOwnedRelationshipOneOrMany:TestEntityOwnedRelatio
 /// <summary>
 /// Record for TestEntityOwnedRelationshipOneOrMany created event.
 /// </summary>
-public record TestEntityOwnedRelationshipOneOrManyCreated(TestEntityOwnedRelationshipOneOrManyBase TestEntityOwnedRelationshipOneOrMany) : IDomainEvent;
+public record TestEntityOwnedRelationshipOneOrManyCreated(TestEntityOwnedRelationshipOneOrMany TestEntityOwnedRelationshipOneOrMany) : IDomainEvent;
 /// <summary>
 /// Record for TestEntityOwnedRelationshipOneOrMany updated event.
 /// </summary>
-public record TestEntityOwnedRelationshipOneOrManyUpdated(TestEntityOwnedRelationshipOneOrManyBase TestEntityOwnedRelationshipOneOrMany) : IDomainEvent;
+public record TestEntityOwnedRelationshipOneOrManyUpdated(TestEntityOwnedRelationshipOneOrMany TestEntityOwnedRelationshipOneOrMany) : IDomainEvent;
 /// <summary>
 /// Record for TestEntityOwnedRelationshipOneOrMany deleted event.
 /// </summary>
-public record TestEntityOwnedRelationshipOneOrManyDeleted(TestEntityOwnedRelationshipOneOrManyBase TestEntityOwnedRelationshipOneOrMany) : IDomainEvent;
+public record TestEntityOwnedRelationshipOneOrManyDeleted(TestEntityOwnedRelationshipOneOrMany TestEntityOwnedRelationshipOneOrMany) : IDomainEvent;
 
 /// <summary>
 /// .
 /// </summary>
-public abstract class TestEntityOwnedRelationshipOneOrManyBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+public abstract class TestEntityOwnedRelationshipOneOrManyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -42,32 +41,6 @@ public abstract class TestEntityOwnedRelationshipOneOrManyBase : AuditableEntity
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField { get; set; } = null!;
-
-	///<inheritdoc/>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
-
-	private readonly List<IDomainEvent> _domainEvents = new();
-	
-	///<inheritdoc/>
-	public virtual void RaiseCreateEvent()
-	{
-		_domainEvents.Add(new TestEntityOwnedRelationshipOneOrManyCreated(this));
-	}
-	///<inheritdoc/>
-	public virtual void RaiseUpdateEvent()
-	{
-		_domainEvents.Add(new TestEntityOwnedRelationshipOneOrManyUpdated(this));
-	}
-	///<inheritdoc/>
-	public virtual void RaiseDeleteEvent()
-	{
-		_domainEvents.Add(new TestEntityOwnedRelationshipOneOrManyDeleted(this));
-	}
-	///<inheritdoc />
-    public virtual void ClearDomainEvents()
-	{
-		_domainEvents.Clear();
-	}
 
     /// <summary>
     /// TestEntityOwnedRelationshipOneOrMany Test entity relationship to SecondTestEntityOwnedRelationshipOneOrMany OneOrMany SecondTestEntityOwnedRelationshipOneOrManies

@@ -7,7 +7,6 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
-using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
@@ -18,20 +17,20 @@ public partial class TestEntityForUniqueConstraints:TestEntityForUniqueConstrain
 /// <summary>
 /// Record for TestEntityForUniqueConstraints created event.
 /// </summary>
-public record TestEntityForUniqueConstraintsCreated(TestEntityForUniqueConstraintsBase TestEntityForUniqueConstraints) : IDomainEvent;
+public record TestEntityForUniqueConstraintsCreated(TestEntityForUniqueConstraints TestEntityForUniqueConstraints) : IDomainEvent;
 /// <summary>
 /// Record for TestEntityForUniqueConstraints updated event.
 /// </summary>
-public record TestEntityForUniqueConstraintsUpdated(TestEntityForUniqueConstraintsBase TestEntityForUniqueConstraints) : IDomainEvent;
+public record TestEntityForUniqueConstraintsUpdated(TestEntityForUniqueConstraints TestEntityForUniqueConstraints) : IDomainEvent;
 /// <summary>
 /// Record for TestEntityForUniqueConstraints deleted event.
 /// </summary>
-public record TestEntityForUniqueConstraintsDeleted(TestEntityForUniqueConstraintsBase TestEntityForUniqueConstraints) : IDomainEvent;
+public record TestEntityForUniqueConstraintsDeleted(TestEntityForUniqueConstraints TestEntityForUniqueConstraints) : IDomainEvent;
 
 /// <summary>
 /// Entity created for testing constraints.
 /// </summary>
-public abstract class TestEntityForUniqueConstraintsBase : EntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+public abstract class TestEntityForUniqueConstraintsBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -62,32 +61,6 @@ public abstract class TestEntityForUniqueConstraintsBase : EntityBase, IEntityCo
     ///  (Required).
     /// </summary>
     public Nox.Types.CurrencyCode3 UniqueCurrencyCode { get; set; } = null!;
-
-	///<inheritdoc/>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
-
-	private readonly List<IDomainEvent> _domainEvents = new();
-	
-	///<inheritdoc/>
-	public virtual void RaiseCreateEvent()
-	{
-		_domainEvents.Add(new TestEntityForUniqueConstraintsCreated(this));
-	}
-	///<inheritdoc/>
-	public virtual void RaiseUpdateEvent()
-	{
-		_domainEvents.Add(new TestEntityForUniqueConstraintsUpdated(this));
-	}
-	///<inheritdoc/>
-	public virtual void RaiseDeleteEvent()
-	{
-		_domainEvents.Add(new TestEntityForUniqueConstraintsDeleted(this));
-	}
-	///<inheritdoc />
-    public virtual void ClearDomainEvents()
-	{
-		_domainEvents.Clear();
-	}
 
     /// <summary>
     /// Entity tag used as concurrency token.

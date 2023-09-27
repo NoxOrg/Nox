@@ -7,7 +7,6 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
-using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
@@ -18,20 +17,20 @@ public partial class TestEntityOneOrManyToZeroOrOne:TestEntityOneOrManyToZeroOrO
 /// <summary>
 /// Record for TestEntityOneOrManyToZeroOrOne created event.
 /// </summary>
-public record TestEntityOneOrManyToZeroOrOneCreated(TestEntityOneOrManyToZeroOrOneBase TestEntityOneOrManyToZeroOrOne) : IDomainEvent;
+public record TestEntityOneOrManyToZeroOrOneCreated(TestEntityOneOrManyToZeroOrOne TestEntityOneOrManyToZeroOrOne) : IDomainEvent;
 /// <summary>
 /// Record for TestEntityOneOrManyToZeroOrOne updated event.
 /// </summary>
-public record TestEntityOneOrManyToZeroOrOneUpdated(TestEntityOneOrManyToZeroOrOneBase TestEntityOneOrManyToZeroOrOne) : IDomainEvent;
+public record TestEntityOneOrManyToZeroOrOneUpdated(TestEntityOneOrManyToZeroOrOne TestEntityOneOrManyToZeroOrOne) : IDomainEvent;
 /// <summary>
 /// Record for TestEntityOneOrManyToZeroOrOne deleted event.
 /// </summary>
-public record TestEntityOneOrManyToZeroOrOneDeleted(TestEntityOneOrManyToZeroOrOneBase TestEntityOneOrManyToZeroOrOne) : IDomainEvent;
+public record TestEntityOneOrManyToZeroOrOneDeleted(TestEntityOneOrManyToZeroOrOne TestEntityOneOrManyToZeroOrOne) : IDomainEvent;
 
 /// <summary>
 /// .
 /// </summary>
-public abstract class TestEntityOneOrManyToZeroOrOneBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+public abstract class TestEntityOneOrManyToZeroOrOneBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -42,32 +41,6 @@ public abstract class TestEntityOneOrManyToZeroOrOneBase : AuditableEntityBase, 
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField2 { get; set; } = null!;
-
-	///<inheritdoc/>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
-
-	private readonly List<IDomainEvent> _domainEvents = new();
-	
-	///<inheritdoc/>
-	public virtual void RaiseCreateEvent()
-	{
-		_domainEvents.Add(new TestEntityOneOrManyToZeroOrOneCreated(this));
-	}
-	///<inheritdoc/>
-	public virtual void RaiseUpdateEvent()
-	{
-		_domainEvents.Add(new TestEntityOneOrManyToZeroOrOneUpdated(this));
-	}
-	///<inheritdoc/>
-	public virtual void RaiseDeleteEvent()
-	{
-		_domainEvents.Add(new TestEntityOneOrManyToZeroOrOneDeleted(this));
-	}
-	///<inheritdoc />
-    public virtual void ClearDomainEvents()
-	{
-		_domainEvents.Clear();
-	}
 
     /// <summary>
     /// TestEntityOneOrManyToZeroOrOne Test entity relationship to TestEntityZeroOrOneToOneOrMany OneOrMany TestEntityZeroOrOneToOneOrManies
