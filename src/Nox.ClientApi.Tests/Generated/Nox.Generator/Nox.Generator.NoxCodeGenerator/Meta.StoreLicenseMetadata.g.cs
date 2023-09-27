@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -41,4 +42,13 @@ public partial class StoreLicenseMetadata
         public static Nox.Types.Text CreateIssuer(System.String value)
             => Nox.Types.Text.From(value, IssuerTypeOptions);
         
+
+        /// <summary>
+        /// User Interface for property 'Issuer'
+        /// </summary>
+        public static TypeUserInterface? IssuerUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "StoreLicense")?
+                .Attributes?.FirstOrDefault(a => a.Name == "Issuer")?
+                .UserInterface;
 }

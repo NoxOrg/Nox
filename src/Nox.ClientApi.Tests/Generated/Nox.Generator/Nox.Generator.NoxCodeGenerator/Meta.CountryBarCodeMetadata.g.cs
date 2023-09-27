@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -41,4 +42,22 @@ public partial class CountryBarCodeMetadata
         public static Nox.Types.Number CreateBarCodeNumber(System.Int32 value)
             => Nox.Types.Number.From(value);
         
+
+        /// <summary>
+        /// User Interface for property 'BarCodeName'
+        /// </summary>
+        public static TypeUserInterface? BarCodeNameUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "CountryBarCode")?
+                .Attributes?.FirstOrDefault(a => a.Name == "BarCodeName")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'BarCodeNumber'
+        /// </summary>
+        public static TypeUserInterface? BarCodeNumberUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "CountryBarCode")?
+                .Attributes?.FirstOrDefault(a => a.Name == "BarCodeNumber")?
+                .UserInterface;
 }

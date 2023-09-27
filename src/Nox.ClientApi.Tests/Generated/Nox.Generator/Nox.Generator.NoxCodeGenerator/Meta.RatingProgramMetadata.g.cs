@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -48,4 +49,13 @@ public partial class RatingProgramMetadata
         public static Nox.Types.Text CreateName(System.String value)
             => Nox.Types.Text.From(value, NameTypeOptions);
         
+
+        /// <summary>
+        /// User Interface for property 'Name'
+        /// </summary>
+        public static TypeUserInterface? NameUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "RatingProgram")?
+                .Attributes?.FirstOrDefault(a => a.Name == "Name")?
+                .UserInterface;
 }

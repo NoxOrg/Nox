@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -82,4 +83,40 @@ public partial class TransactionMetadata
         public static Nox.Types.AutoNumber CreateCustomerId(System.Int64 value)
             => Nox.Types.AutoNumber.From(value);
         
+
+        /// <summary>
+        /// User Interface for property 'TransactionType'
+        /// </summary>
+        public TypeUserInterface? TransactionTypeUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "Transaction")?
+                .Attributes?.FirstOrDefault(a => a.Name == "TransactionType")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'ProcessedOnDateTime'
+        /// </summary>
+        public TypeUserInterface? ProcessedOnDateTimeUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "Transaction")?
+                .Attributes?.FirstOrDefault(a => a.Name == "ProcessedOnDateTime")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Amount'
+        /// </summary>
+        public TypeUserInterface? AmountUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "Transaction")?
+                .Attributes?.FirstOrDefault(a => a.Name == "Amount")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Reference'
+        /// </summary>
+        public TypeUserInterface? ReferenceUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "Transaction")?
+                .Attributes?.FirstOrDefault(a => a.Name == "Reference")?
+                .UserInterface;
 }

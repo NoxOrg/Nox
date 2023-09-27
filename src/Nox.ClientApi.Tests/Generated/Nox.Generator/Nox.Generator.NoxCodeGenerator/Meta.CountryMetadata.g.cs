@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -86,4 +87,49 @@ public partial class CountryMetadata
         public static Nox.Types.AutoNumber CreateCountryLocalNameId(System.Int64 value)
             => Nox.Types.AutoNumber.From(value);
         
+
+        /// <summary>
+        /// User Interface for property 'Name'
+        /// </summary>
+        public static TypeUserInterface? NameUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "Country")?
+                .Attributes?.FirstOrDefault(a => a.Name == "Name")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Population'
+        /// </summary>
+        public static TypeUserInterface? PopulationUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "Country")?
+                .Attributes?.FirstOrDefault(a => a.Name == "Population")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'CountryDebt'
+        /// </summary>
+        public static TypeUserInterface? CountryDebtUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "Country")?
+                .Attributes?.FirstOrDefault(a => a.Name == "CountryDebt")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'FirstLanguageCode'
+        /// </summary>
+        public static TypeUserInterface? FirstLanguageCodeUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "Country")?
+                .Attributes?.FirstOrDefault(a => a.Name == "FirstLanguageCode")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'ShortDescription'
+        /// </summary>
+        public static TypeUserInterface? ShortDescriptionUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "Country")?
+                .Attributes?.FirstOrDefault(a => a.Name == "ShortDescription")?
+                .UserInterface;
 }

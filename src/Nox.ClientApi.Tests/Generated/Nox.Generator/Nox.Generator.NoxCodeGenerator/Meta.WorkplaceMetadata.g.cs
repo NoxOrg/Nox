@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -98,4 +99,31 @@ public partial class WorkplaceMetadata
         public static Nox.Types.AutoNumber CreateCountryId(System.Int64 value)
             => Nox.Types.AutoNumber.From(value);
         
+
+        /// <summary>
+        /// User Interface for property 'Name'
+        /// </summary>
+        public static TypeUserInterface? NameUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "Workplace")?
+                .Attributes?.FirstOrDefault(a => a.Name == "Name")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Description'
+        /// </summary>
+        public static TypeUserInterface? DescriptionUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "Workplace")?
+                .Attributes?.FirstOrDefault(a => a.Name == "Description")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Greeting'
+        /// </summary>
+        public static TypeUserInterface? GreetingUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "Workplace")?
+                .Attributes?.FirstOrDefault(a => a.Name == "Greeting")?
+                .UserInterface;
 }

@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -89,4 +90,49 @@ public partial class CustomerMetadata
         public static Nox.Types.CountryCode2 CreateCountryId(System.String value)
             => Nox.Types.CountryCode2.From(value);
         
+
+        /// <summary>
+        /// User Interface for property 'FirstName'
+        /// </summary>
+        public TypeUserInterface? FirstNameUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "Customer")?
+                .Attributes?.FirstOrDefault(a => a.Name == "FirstName")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'LastName'
+        /// </summary>
+        public TypeUserInterface? LastNameUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "Customer")?
+                .Attributes?.FirstOrDefault(a => a.Name == "LastName")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'EmailAddress'
+        /// </summary>
+        public TypeUserInterface? EmailAddressUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "Customer")?
+                .Attributes?.FirstOrDefault(a => a.Name == "EmailAddress")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Address'
+        /// </summary>
+        public TypeUserInterface? AddressUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "Customer")?
+                .Attributes?.FirstOrDefault(a => a.Name == "Address")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'MobileNumber'
+        /// </summary>
+        public TypeUserInterface? MobileNumberUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "Customer")?
+                .Attributes?.FirstOrDefault(a => a.Name == "MobileNumber")?
+                .UserInterface;
 }

@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -61,4 +62,22 @@ public partial class PaymentProviderMetadata
         public static Nox.Types.Text CreatePaymentProviderType(System.String value)
             => Nox.Types.Text.From(value, PaymentProviderTypeTypeOptions);
         
+
+        /// <summary>
+        /// User Interface for property 'PaymentProviderName'
+        /// </summary>
+        public TypeUserInterface? PaymentProviderNameUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "PaymentProvider")?
+                .Attributes?.FirstOrDefault(a => a.Name == "PaymentProviderName")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'PaymentProviderType'
+        /// </summary>
+        public TypeUserInterface? PaymentProviderTypeUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "PaymentProvider")?
+                .Attributes?.FirstOrDefault(a => a.Name == "PaymentProviderType")?
+                .UserInterface;
 }

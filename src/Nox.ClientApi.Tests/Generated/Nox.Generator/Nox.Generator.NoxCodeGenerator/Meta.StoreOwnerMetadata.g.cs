@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -100,4 +101,58 @@ public partial class StoreOwnerMetadata
         public static Nox.Types.Text CreateNotes(System.String value)
             => Nox.Types.Text.From(value);
         
+
+        /// <summary>
+        /// User Interface for property 'Name'
+        /// </summary>
+        public static TypeUserInterface? NameUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "StoreOwner")?
+                .Attributes?.FirstOrDefault(a => a.Name == "Name")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'TemporaryOwnerName'
+        /// </summary>
+        public static TypeUserInterface? TemporaryOwnerNameUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "StoreOwner")?
+                .Attributes?.FirstOrDefault(a => a.Name == "TemporaryOwnerName")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'VatNumber'
+        /// </summary>
+        public static TypeUserInterface? VatNumberUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "StoreOwner")?
+                .Attributes?.FirstOrDefault(a => a.Name == "VatNumber")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'StreetAddress'
+        /// </summary>
+        public static TypeUserInterface? StreetAddressUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "StoreOwner")?
+                .Attributes?.FirstOrDefault(a => a.Name == "StreetAddress")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'LocalGreeting'
+        /// </summary>
+        public static TypeUserInterface? LocalGreetingUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "StoreOwner")?
+                .Attributes?.FirstOrDefault(a => a.Name == "LocalGreeting")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Notes'
+        /// </summary>
+        public static TypeUserInterface? NotesUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "StoreOwner")?
+                .Attributes?.FirstOrDefault(a => a.Name == "Notes")?
+                .UserInterface;
 }

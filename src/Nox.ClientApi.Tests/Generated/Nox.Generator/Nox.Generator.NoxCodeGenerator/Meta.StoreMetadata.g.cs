@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -82,4 +83,40 @@ public partial class StoreMetadata
         public static Nox.Types.Text CreateStoreOwnerId(System.String value)
             => Nox.Types.Text.From(value, StoreOwnerIdTypeOptions);
         
+
+        /// <summary>
+        /// User Interface for property 'Name'
+        /// </summary>
+        public static TypeUserInterface? NameUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "Store")?
+                .Attributes?.FirstOrDefault(a => a.Name == "Name")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Address'
+        /// </summary>
+        public static TypeUserInterface? AddressUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "Store")?
+                .Attributes?.FirstOrDefault(a => a.Name == "Address")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Location'
+        /// </summary>
+        public static TypeUserInterface? LocationUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "Store")?
+                .Attributes?.FirstOrDefault(a => a.Name == "Location")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'OpeningDay'
+        /// </summary>
+        public static TypeUserInterface? OpeningDayUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "Store")?
+                .Attributes?.FirstOrDefault(a => a.Name == "OpeningDay")?
+                .UserInterface;
 }

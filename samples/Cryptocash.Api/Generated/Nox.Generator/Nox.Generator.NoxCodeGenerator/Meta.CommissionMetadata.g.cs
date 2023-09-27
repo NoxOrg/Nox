@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -42,4 +43,22 @@ public partial class CommissionMetadata
         public static Nox.Types.CountryCode2 CreateCountryId(System.String value)
             => Nox.Types.CountryCode2.From(value);
         
+
+        /// <summary>
+        /// User Interface for property 'Rate'
+        /// </summary>
+        public TypeUserInterface? RateUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "Commission")?
+                .Attributes?.FirstOrDefault(a => a.Name == "Rate")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'EffectiveAt'
+        /// </summary>
+        public TypeUserInterface? EffectiveAtUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "Commission")?
+                .Attributes?.FirstOrDefault(a => a.Name == "EffectiveAt")?
+                .UserInterface;
 }

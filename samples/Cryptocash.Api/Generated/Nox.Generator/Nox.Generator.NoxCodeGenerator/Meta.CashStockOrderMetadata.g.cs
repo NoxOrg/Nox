@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -66,4 +67,40 @@ public partial class CashStockOrderMetadata
         public static Nox.Types.Guid CreateVendingMachineId(System.Guid value)
             => Nox.Types.Guid.From(value);
         
+
+        /// <summary>
+        /// User Interface for property 'Amount'
+        /// </summary>
+        public TypeUserInterface? AmountUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "CashStockOrder")?
+                .Attributes?.FirstOrDefault(a => a.Name == "Amount")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'RequestedDeliveryDate'
+        /// </summary>
+        public TypeUserInterface? RequestedDeliveryDateUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "CashStockOrder")?
+                .Attributes?.FirstOrDefault(a => a.Name == "RequestedDeliveryDate")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'DeliveryDateTime'
+        /// </summary>
+        public TypeUserInterface? DeliveryDateTimeUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "CashStockOrder")?
+                .Attributes?.FirstOrDefault(a => a.Name == "DeliveryDateTime")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Status'
+        /// </summary>
+        public TypeUserInterface? StatusUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "CashStockOrder")?
+                .Attributes?.FirstOrDefault(a => a.Name == "Status")?
+                .UserInterface;
 }

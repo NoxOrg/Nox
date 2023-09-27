@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -48,4 +49,22 @@ public partial class LandLordMetadata
         public static Nox.Types.StreetAddress CreateAddress(IStreetAddress value)
             => Nox.Types.StreetAddress.From(value);
         
+
+        /// <summary>
+        /// User Interface for property 'Name'
+        /// </summary>
+        public TypeUserInterface? NameUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "LandLord")?
+                .Attributes?.FirstOrDefault(a => a.Name == "Name")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Address'
+        /// </summary>
+        public TypeUserInterface? AddressUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "LandLord")?
+                .Attributes?.FirstOrDefault(a => a.Name == "Address")?
+                .UserInterface;
 }

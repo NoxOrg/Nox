@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -28,4 +29,13 @@ public partial class CountryTimeZoneMetadata
         public static Nox.Types.TimeZoneCode CreateTimeZoneCode(System.String value)
             => Nox.Types.TimeZoneCode.From(value);
         
+
+        /// <summary>
+        /// User Interface for property 'TimeZoneCode'
+        /// </summary>
+        public TypeUserInterface? TimeZoneCodeUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "CountryTimeZone")?
+                .Attributes?.FirstOrDefault(a => a.Name == "TimeZoneCode")?
+                .UserInterface;
 }

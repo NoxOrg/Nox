@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -68,4 +69,31 @@ public partial class HolidayMetadata
         public static Nox.Types.Date CreateDate(System.DateTime value)
             => Nox.Types.Date.From(value);
         
+
+        /// <summary>
+        /// User Interface for property 'Name'
+        /// </summary>
+        public TypeUserInterface? NameUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "Holiday")?
+                .Attributes?.FirstOrDefault(a => a.Name == "Name")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Type'
+        /// </summary>
+        public TypeUserInterface? TypeUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "Holiday")?
+                .Attributes?.FirstOrDefault(a => a.Name == "Type")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Date'
+        /// </summary>
+        public TypeUserInterface? DateUserInterface(NoxSolution solution) 
+            => solution.Domain?
+                .Entities?.FirstOrDefault(e => e.Name == "Holiday")?
+                .Attributes?.FirstOrDefault(a => a.Name == "Date")?
+                .UserInterface;
 }
