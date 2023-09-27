@@ -7,11 +7,6 @@ namespace Nox.Docs.Extensions;
 public static class NoxSolutionEntityDomainEventsMarkdownExtensions
 {
     private const string ResourceName = "Nox.Docs.Templates.EntityDomainEvents.template.md";
-    private static readonly IEnumerable<RaiseEventsType> Events = new[] 
-    { 
-        RaiseEventsType.DomainEventsOnly,
-        RaiseEventsType.DomainAndIntegrationEvents 
-    };
 
     public static IEnumerable<EntityMarkdownFile> ToMarkdownEntityDomainEvents(this NoxSolution noxSolution)
     {
@@ -25,9 +20,9 @@ public static class NoxSolutionEntityDomainEventsMarkdownExtensions
     }
 
     private static bool ShouldCreateMarkdown(Entity entity)
-        => Events.Contains(entity.Persistence!.Create!.RaiseEvents)
-        || Events.Contains(entity.Persistence!.Update!.RaiseEvents)
-        || Events.Contains(entity.Persistence!.Delete!.RaiseEvents);
+        => entity.Persistence!.Create!.RaiseDomainEvents
+        || entity.Persistence!.Update!.RaiseDomainEvents
+        || entity.Persistence!.Delete!.RaiseDomainEvents;
 
     private static IEnumerable<EntityMarkdownFile> CreateMarkdownEntityEndpoints(Template template, Entity[] entities)
     {

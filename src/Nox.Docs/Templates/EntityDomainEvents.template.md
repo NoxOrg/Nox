@@ -3,7 +3,7 @@
 This document provides information about the {{entity.Name}} Domain Events in our application.
 
 ## Events
-{{ if entity.Persistence.Create.RaiseEvents == "DomainEventsOnly" ||  entity.Persistence.Create.RaiseEvents == "DomainAndIntegrationEvents" }}
+{{ if entity.Persistence.Create.RaiseDomainEvents }}
 ### `{{entity.Name}}Created`
 
 **Description:**
@@ -18,7 +18,7 @@ Member|Type|Description
 {{- if entity.Persistence.IsAudited -}}
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 {{ end }}
-{{ end }}{{ if entity.Persistence.Update.RaiseEvents == "DomainEventsOnly" ||  entity.Persistence.Update.RaiseEvents == "DomainAndIntegrationEvents" }}
+{{ end }}{{ if entity.Persistence.Update.RaiseDomainEvents }}
 ### `{{entity.Name}}Updated`
 
 **Description:** 
@@ -33,7 +33,7 @@ Member|Type|Description
 {{- if entity.Persistence.IsAudited -}}
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 {{ end }}
-{{ end }}{{ if entity.Persistence.Delete.RaiseEvents == "DomainEventsOnly" ||  entity.Persistence.Delete.RaiseEvents == "DomainAndIntegrationEvents" }}
+{{ end }}{{ if entity.Persistence.Delete.RaiseDomainEvents }}
 ### `{{entity.Name}}Deleted`
 
 **Description:**

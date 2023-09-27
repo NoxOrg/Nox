@@ -55,6 +55,12 @@
             "domainEventsOnly",
             "never"
           ]
+        },
+        "raiseDomainEvents": {    
+          "type": [
+            "boolean",
+            "null"
+          ]
         }
       },
       "additionalProperties": false
@@ -100,6 +106,12 @@
             "domainEventsOnly",
             "never"
           ]
+        },
+        "raiseDomainEvents": {    
+          "type": [
+            "boolean",
+            "null"
+          ]
         }
       },
       "additionalProperties": false
@@ -127,6 +139,12 @@
             "domainAndIntegrationEvents",
             "domainEventsOnly",
             "never"
+          ]
+        },
+        "raiseDomainEvents": {    
+          "type": [
+            "boolean",
+            "null"
           ]
         }
       },

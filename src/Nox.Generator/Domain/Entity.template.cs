@@ -15,21 +15,21 @@ internal partial class {{className}} : {{className}}Base
 {
 
 }
-{{- if entity.Persistence.Create.RaiseEvents == "DomainEventsOnly" || entity.Persistence.Create.RaiseEvents == "DomainAndIntegrationEvents" }}
+{{- if entity.Persistence.Create.RaiseDomainEvents }}
 /// <summary>
 /// Record for {{entity.Name}} created event.
 /// </summary>
 internal record {{entity.Name}}Created({{entity.Name}} {{entity.Name}}) : IDomainEvent;
 {{- end}}
 
-{{- if entity.Persistence.Update.RaiseEvents == "DomainEventsOnly" || entity.Persistence.Update.RaiseEvents == "DomainAndIntegrationEvents" }}
+{{- if entity.Persistence.Update.RaiseDomainEvents }}
 /// <summary>
 /// Record for {{entity.Name}} updated event.
 /// </summary>
 internal record {{entity.Name}}Updated({{entity.Name}} {{entity.Name}}) : IDomainEvent;
 {{- end}}
 
-{{- if entity.Persistence.Delete.RaiseEvents == "DomainEventsOnly" || entity.Persistence.Delete.RaiseEvents == "DomainAndIntegrationEvents" }}
+{{- if entity.Persistence.Delete.RaiseDomainEvents }}
 /// <summary>
 /// Record for {{entity.Name}} deleted event.
 /// </summary>
