@@ -10,27 +10,27 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-public partial class Store:StoreBase
+internal partial class Store:StoreBase
 {
 
 }
 /// <summary>
 /// Record for Store created event.
 /// </summary>
-public record StoreCreated(Store Store) : IDomainEvent;
+internal record StoreCreated(Store Store) : IDomainEvent;
 /// <summary>
 /// Record for Store updated event.
 /// </summary>
-public record StoreUpdated(Store Store) : IDomainEvent;
+internal record StoreUpdated(Store Store) : IDomainEvent;
 /// <summary>
 /// Record for Store deleted event.
 /// </summary>
-public record StoreDeleted(Store Store) : IDomainEvent;
+internal record StoreDeleted(Store Store) : IDomainEvent;
 
 /// <summary>
 /// Stores.
 /// </summary>
-public abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
+internal abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).

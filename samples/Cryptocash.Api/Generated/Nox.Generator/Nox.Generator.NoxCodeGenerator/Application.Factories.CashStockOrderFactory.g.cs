@@ -50,18 +50,18 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
     private Cryptocash.Domain.CashStockOrder ToEntity(CashStockOrderCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.CashStockOrder();
-        entity.Amount = Cryptocash.Domain.CashStockOrder.CreateAmount(createDto.Amount);
-        entity.RequestedDeliveryDate = Cryptocash.Domain.CashStockOrder.CreateRequestedDeliveryDate(createDto.RequestedDeliveryDate);
-        if (createDto.DeliveryDateTime is not null)entity.DeliveryDateTime = Cryptocash.Domain.CashStockOrder.CreateDeliveryDateTime(createDto.DeliveryDateTime.NonNullValue<System.DateTimeOffset>());
+        entity.Amount = Cryptocash.Domain.CashStockOrderMetadata.CreateAmount(createDto.Amount);
+        entity.RequestedDeliveryDate = Cryptocash.Domain.CashStockOrderMetadata.CreateRequestedDeliveryDate(createDto.RequestedDeliveryDate);
+        if (createDto.DeliveryDateTime is not null)entity.DeliveryDateTime = Cryptocash.Domain.CashStockOrderMetadata.CreateDeliveryDateTime(createDto.DeliveryDateTime.NonNullValue<System.DateTimeOffset>());
         return entity;
     }
 
     private void UpdateEntityInternal(CashStockOrder entity, CashStockOrderUpdateDto updateDto)
     {
-        entity.Amount = Cryptocash.Domain.CashStockOrder.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>());
-        entity.RequestedDeliveryDate = Cryptocash.Domain.CashStockOrder.CreateRequestedDeliveryDate(updateDto.RequestedDeliveryDate.NonNullValue<System.DateTime>());
+        entity.Amount = Cryptocash.Domain.CashStockOrderMetadata.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>());
+        entity.RequestedDeliveryDate = Cryptocash.Domain.CashStockOrderMetadata.CreateRequestedDeliveryDate(updateDto.RequestedDeliveryDate.NonNullValue<System.DateTime>());
         if (updateDto.DeliveryDateTime == null) { entity.DeliveryDateTime = null; } else {
-            entity.DeliveryDateTime = Cryptocash.Domain.CashStockOrder.CreateDeliveryDateTime(updateDto.DeliveryDateTime.ToValueFromNonNull<System.DateTimeOffset>());
+            entity.DeliveryDateTime = Cryptocash.Domain.CashStockOrderMetadata.CreateDeliveryDateTime(updateDto.DeliveryDateTime.ToValueFromNonNull<System.DateTimeOffset>());
         }
     }
 
@@ -75,7 +75,7 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
                 throw new ArgumentException("Attribute 'Amount' can't be null");
             }
             {
-                entity.Amount = Cryptocash.Domain.CashStockOrder.CreateAmount(AmountUpdateValue);
+                entity.Amount = Cryptocash.Domain.CashStockOrderMetadata.CreateAmount(AmountUpdateValue);
             }
         }
 
@@ -86,7 +86,7 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
                 throw new ArgumentException("Attribute 'RequestedDeliveryDate' can't be null");
             }
             {
-                entity.RequestedDeliveryDate = Cryptocash.Domain.CashStockOrder.CreateRequestedDeliveryDate(RequestedDeliveryDateUpdateValue);
+                entity.RequestedDeliveryDate = Cryptocash.Domain.CashStockOrderMetadata.CreateRequestedDeliveryDate(RequestedDeliveryDateUpdateValue);
             }
         }
 
@@ -95,7 +95,7 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
             if (DeliveryDateTimeUpdateValue == null) { entity.DeliveryDateTime = null; }
             else
             {
-                entity.DeliveryDateTime = Cryptocash.Domain.CashStockOrder.CreateDeliveryDateTime(DeliveryDateTimeUpdateValue);
+                entity.DeliveryDateTime = Cryptocash.Domain.CashStockOrderMetadata.CreateDeliveryDateTime(DeliveryDateTimeUpdateValue);
             }
         }
     }

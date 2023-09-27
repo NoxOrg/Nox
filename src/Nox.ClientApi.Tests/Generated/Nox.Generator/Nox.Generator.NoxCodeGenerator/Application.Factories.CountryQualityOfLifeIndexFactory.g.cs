@@ -50,14 +50,14 @@ internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<Co
     private ClientApi.Domain.CountryQualityOfLifeIndex ToEntity(CountryQualityOfLifeIndexCreateDto createDto)
     {
         var entity = new ClientApi.Domain.CountryQualityOfLifeIndex();
-        entity.CountryId = CountryQualityOfLifeIndex.CreateCountryId(createDto.CountryId);
-        entity.IndexRating = ClientApi.Domain.CountryQualityOfLifeIndex.CreateIndexRating(createDto.IndexRating);
+        entity.CountryId = CountryQualityOfLifeIndexMetadata.CreateCountryId(createDto.CountryId);
+        entity.IndexRating = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateIndexRating(createDto.IndexRating);
         return entity;
     }
 
     private void UpdateEntityInternal(CountryQualityOfLifeIndex entity, CountryQualityOfLifeIndexUpdateDto updateDto)
     {
-        entity.IndexRating = ClientApi.Domain.CountryQualityOfLifeIndex.CreateIndexRating(updateDto.IndexRating.NonNullValue<System.Int32>());
+        entity.IndexRating = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateIndexRating(updateDto.IndexRating.NonNullValue<System.Int32>());
     }
 
     private void PartialUpdateEntityInternal(CountryQualityOfLifeIndex entity, Dictionary<string, dynamic> updatedProperties)
@@ -70,7 +70,7 @@ internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<Co
                 throw new ArgumentException("Attribute 'IndexRating' can't be null");
             }
             {
-                entity.IndexRating = ClientApi.Domain.CountryQualityOfLifeIndex.CreateIndexRating(IndexRatingUpdateValue);
+                entity.IndexRating = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateIndexRating(IndexRatingUpdateValue);
             }
         }
     }

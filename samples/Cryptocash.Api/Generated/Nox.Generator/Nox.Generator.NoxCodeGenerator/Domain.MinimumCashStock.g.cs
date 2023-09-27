@@ -10,27 +10,27 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-public partial class MinimumCashStock:MinimumCashStockBase
+internal partial class MinimumCashStock:MinimumCashStockBase
 {
 
 }
 /// <summary>
 /// Record for MinimumCashStock created event.
 /// </summary>
-public record MinimumCashStockCreated(MinimumCashStock MinimumCashStock) : IDomainEvent;
+internal record MinimumCashStockCreated(MinimumCashStock MinimumCashStock) : IDomainEvent;
 /// <summary>
 /// Record for MinimumCashStock updated event.
 /// </summary>
-public record MinimumCashStockUpdated(MinimumCashStock MinimumCashStock) : IDomainEvent;
+internal record MinimumCashStockUpdated(MinimumCashStock MinimumCashStock) : IDomainEvent;
 /// <summary>
 /// Record for MinimumCashStock deleted event.
 /// </summary>
-public record MinimumCashStockDeleted(MinimumCashStock MinimumCashStock) : IDomainEvent;
+internal record MinimumCashStockDeleted(MinimumCashStock MinimumCashStock) : IDomainEvent;
 
 /// <summary>
 /// Minimum cash stock required for vending machine.
 /// </summary>
-public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurrent
+internal abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Vending machine cash stock unique identifier (Required).

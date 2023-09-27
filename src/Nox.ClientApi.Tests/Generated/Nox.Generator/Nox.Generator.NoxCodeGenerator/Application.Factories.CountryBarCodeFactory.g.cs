@@ -50,16 +50,16 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
     private ClientApi.Domain.CountryBarCode ToEntity(CountryBarCodeCreateDto createDto)
     {
         var entity = new ClientApi.Domain.CountryBarCode();
-        entity.BarCodeName = ClientApi.Domain.CountryBarCode.CreateBarCodeName(createDto.BarCodeName);
-        if (createDto.BarCodeNumber is not null)entity.BarCodeNumber = ClientApi.Domain.CountryBarCode.CreateBarCodeNumber(createDto.BarCodeNumber.NonNullValue<System.Int32>());
+        entity.BarCodeName = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeName(createDto.BarCodeName);
+        if (createDto.BarCodeNumber is not null)entity.BarCodeNumber = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeNumber(createDto.BarCodeNumber.NonNullValue<System.Int32>());
         return entity;
     }
 
     private void UpdateEntityInternal(CountryBarCode entity, CountryBarCodeUpdateDto updateDto)
     {
-        entity.BarCodeName = ClientApi.Domain.CountryBarCode.CreateBarCodeName(updateDto.BarCodeName.NonNullValue<System.String>());
+        entity.BarCodeName = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeName(updateDto.BarCodeName.NonNullValue<System.String>());
         if (updateDto.BarCodeNumber == null) { entity.BarCodeNumber = null; } else {
-            entity.BarCodeNumber = ClientApi.Domain.CountryBarCode.CreateBarCodeNumber(updateDto.BarCodeNumber.ToValueFromNonNull<System.Int32>());
+            entity.BarCodeNumber = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeNumber(updateDto.BarCodeNumber.ToValueFromNonNull<System.Int32>());
         }
     }
 
@@ -73,7 +73,7 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
                 throw new ArgumentException("Attribute 'BarCodeName' can't be null");
             }
             {
-                entity.BarCodeName = ClientApi.Domain.CountryBarCode.CreateBarCodeName(BarCodeNameUpdateValue);
+                entity.BarCodeName = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeName(BarCodeNameUpdateValue);
             }
         }
 
@@ -82,7 +82,7 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
             if (BarCodeNumberUpdateValue == null) { entity.BarCodeNumber = null; }
             else
             {
-                entity.BarCodeNumber = ClientApi.Domain.CountryBarCode.CreateBarCodeNumber(BarCodeNumberUpdateValue);
+                entity.BarCodeNumber = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeNumber(BarCodeNumberUpdateValue);
             }
         }
     }

@@ -10,9 +10,9 @@ using System.Collections.Generic;
 namespace Cryptocash.Domain;
 
 /// <summary>
-/// Static methods for the ExchangeRate class.
+/// Static methods for the Commission class.
 /// </summary>
-public partial class ExchangeRate
+public partial class CommissionMetadata
 {
     
         /// <summary>
@@ -23,10 +23,10 @@ public partial class ExchangeRate
         
     
         /// <summary>
-        /// Factory for property 'EffectiveRate'
+        /// Factory for property 'Rate'
         /// </summary>
-        public static Nox.Types.Number CreateEffectiveRate(System.Int32 value)
-            => Nox.Types.Number.From(value);
+        public static Nox.Types.Percentage CreateRate(System.Single value)
+            => Nox.Types.Percentage.From(value);
         
     
         /// <summary>
@@ -34,5 +34,12 @@ public partial class ExchangeRate
         /// </summary>
         public static Nox.Types.DateTime CreateEffectiveAt(System.DateTimeOffset value)
             => Nox.Types.DateTime.From(value);
+        
+    
+        /// <summary>
+        /// Factory for property 'CountryId'
+        /// </summary>
+        public static Nox.Types.CountryCode2 CreateCountryId(System.String value)
+            => Nox.Types.CountryCode2.From(value);
         
 }

@@ -12,7 +12,7 @@ namespace ClientApi.Domain;
 /// <summary>
 /// Static methods for the StoreOwner class.
 /// </summary>
-public partial class StoreOwner
+public partial class StoreOwnerMetadata
 {
     
         /// <summary>

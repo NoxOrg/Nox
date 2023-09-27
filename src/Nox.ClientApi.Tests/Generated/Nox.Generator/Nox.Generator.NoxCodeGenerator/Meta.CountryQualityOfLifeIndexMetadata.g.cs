@@ -12,7 +12,7 @@ namespace ClientApi.Domain;
 /// <summary>
 /// Static methods for the CountryQualityOfLifeIndex class.
 /// </summary>
-public partial class CountryQualityOfLifeIndex
+public partial class CountryQualityOfLifeIndexMetadata
 {
     
         /// <summary>

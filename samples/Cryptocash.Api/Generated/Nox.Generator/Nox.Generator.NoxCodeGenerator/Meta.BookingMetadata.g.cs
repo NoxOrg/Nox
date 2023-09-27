@@ -12,7 +12,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Static methods for the Booking class.
 /// </summary>
-public partial class Booking
+public partial class BookingMetadata
 {
     
         /// <summary>
