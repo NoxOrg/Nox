@@ -50,15 +50,15 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNote, BankNoteC
     private Cryptocash.Domain.BankNote ToEntity(BankNoteCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.BankNote();
-        entity.CashNote = Cryptocash.Domain.BankNote.CreateCashNote(createDto.CashNote);
-        entity.Value = Cryptocash.Domain.BankNote.CreateValue(createDto.Value);
+        entity.CashNote = Cryptocash.Domain.BankNoteMetadata.CreateCashNote(createDto.CashNote);
+        entity.Value = Cryptocash.Domain.BankNoteMetadata.CreateValue(createDto.Value);
         return entity;
     }
 
     private void UpdateEntityInternal(BankNote entity, BankNoteUpdateDto updateDto)
     {
-        entity.CashNote = Cryptocash.Domain.BankNote.CreateCashNote(updateDto.CashNote.NonNullValue<System.String>());
-        entity.Value = Cryptocash.Domain.BankNote.CreateValue(updateDto.Value.NonNullValue<MoneyDto>());
+        entity.CashNote = Cryptocash.Domain.BankNoteMetadata.CreateCashNote(updateDto.CashNote.NonNullValue<System.String>());
+        entity.Value = Cryptocash.Domain.BankNoteMetadata.CreateValue(updateDto.Value.NonNullValue<MoneyDto>());
     }
 
     private void PartialUpdateEntityInternal(BankNote entity, Dictionary<string, dynamic> updatedProperties)
@@ -71,7 +71,7 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNote, BankNoteC
                 throw new ArgumentException("Attribute 'CashNote' can't be null");
             }
             {
-                entity.CashNote = Cryptocash.Domain.BankNote.CreateCashNote(CashNoteUpdateValue);
+                entity.CashNote = Cryptocash.Domain.BankNoteMetadata.CreateCashNote(CashNoteUpdateValue);
             }
         }
 
@@ -82,7 +82,7 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNote, BankNoteC
                 throw new ArgumentException("Attribute 'Value' can't be null");
             }
             {
-                entity.Value = Cryptocash.Domain.BankNote.CreateValue(ValueUpdateValue);
+                entity.Value = Cryptocash.Domain.BankNoteMetadata.CreateValue(ValueUpdateValue);
             }
         }
     }

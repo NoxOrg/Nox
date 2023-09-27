@@ -1,14 +1,17 @@
 ﻿using FluentAssertions;
 using ClientApi.Application.Dto;
+using Xunit.Abstractions;
 
 namespace ClientApi.Tests.Tests.Controllers;
 
 [Collection("CreateCountryCommandHandlerTests")]
-public class CreateCountryCommandHandlerTests : NoxIntegrationTestBase
+public class CreateCountryCommandHandlerTests : NoxWebApiTestBase
 {
     private const string CountryControllerName = "api/countries";
 
-    public CreateCountryCommandHandlerTests(NoxTestContainerService containerService) : base(containerService)
+    public CreateCountryCommandHandlerTests(
+        ITestOutputHelper testOutputHelper,
+        NoxTestContainerService containerService) : base(testOutputHelper, containerService)
     {
     }
 
@@ -31,7 +34,7 @@ public class CreateCountryCommandHandlerTests : NoxIntegrationTestBase
             Name = "Test",
             Population = expectedNumber
         };
-        
+
         // Act
         var postResult = await PostAsync<CountryCreateDto, CountryDto>(CountryControllerName, countryDto);
         var headers = CreateEtagHeader(postResult?.Etag);

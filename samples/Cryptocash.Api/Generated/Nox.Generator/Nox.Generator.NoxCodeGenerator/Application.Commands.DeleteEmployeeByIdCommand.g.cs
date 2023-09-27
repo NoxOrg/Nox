@@ -43,7 +43,7 @@ internal abstract class DeleteEmployeeByIdCommandHandlerBase: CommandBase<Delete
 		var keyId = CreateNoxTypeForKey<Employee,Nox.Types.AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.Employees.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted.Value == true)
+		if (entity == null || entity.IsDeleted == true)
 		{
 			return false;
 		}

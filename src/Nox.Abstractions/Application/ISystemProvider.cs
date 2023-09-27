@@ -4,5 +4,5 @@ namespace Nox.Abstractions;
 
 public interface ISystemProvider
 {
-    Text GetSystem();
+    string GetSystem();
 }

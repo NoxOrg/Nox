@@ -10,27 +10,27 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-public partial class StoreLicense:StoreLicenseBase
+internal partial class StoreLicense:StoreLicenseBase
 {
 
 }
 /// <summary>
 /// Record for StoreLicense created event.
 /// </summary>
-public record StoreLicenseCreated(StoreLicense StoreLicense) : IDomainEvent;
+internal record StoreLicenseCreated(StoreLicense StoreLicense) : IDomainEvent;
 /// <summary>
 /// Record for StoreLicense updated event.
 /// </summary>
-public record StoreLicenseUpdated(StoreLicense StoreLicense) : IDomainEvent;
+internal record StoreLicenseUpdated(StoreLicense StoreLicense) : IDomainEvent;
 /// <summary>
 /// Record for StoreLicense deleted event.
 /// </summary>
-public record StoreLicenseDeleted(StoreLicense StoreLicense) : IDomainEvent;
+internal record StoreLicenseDeleted(StoreLicense StoreLicense) : IDomainEvent;
 
 /// <summary>
 /// Store license info.
 /// </summary>
-public abstract class StoreLicenseBase : AuditableEntityBase, IEntityConcurrent
+internal abstract class StoreLicenseBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
