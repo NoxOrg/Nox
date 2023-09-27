@@ -51,21 +51,18 @@ public abstract class SecondTestEntityExactlyOneBase : AuditableEntityBase, IEnt
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new SecondTestEntityExactlyOneCreated(this));     
+		_domainEvents.Add(new SecondTestEntityExactlyOneCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new SecondTestEntityExactlyOneUpdated(this));  
+		_domainEvents.Add(new SecondTestEntityExactlyOneUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new SecondTestEntityExactlyOneDeleted(this)); 
+		_domainEvents.Add(new SecondTestEntityExactlyOneDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

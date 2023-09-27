@@ -51,21 +51,18 @@ public abstract class ThirdTestEntityZeroOrManyBase : AuditableEntityBase, IEnti
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new ThirdTestEntityZeroOrManyCreated(this));     
+		_domainEvents.Add(new ThirdTestEntityZeroOrManyCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new ThirdTestEntityZeroOrManyUpdated(this));  
+		_domainEvents.Add(new ThirdTestEntityZeroOrManyUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new ThirdTestEntityZeroOrManyDeleted(this)); 
+		_domainEvents.Add(new ThirdTestEntityZeroOrManyDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

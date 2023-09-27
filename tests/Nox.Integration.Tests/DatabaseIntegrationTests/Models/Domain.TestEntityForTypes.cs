@@ -325,21 +325,18 @@ public abstract class TestEntityForTypesBase : AuditableEntityBase, IEntityConcu
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new TestEntityForTypesCreated(this));     
+		_domainEvents.Add(new TestEntityForTypesCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new TestEntityForTypesUpdated(this));  
+		_domainEvents.Add(new TestEntityForTypesUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new TestEntityForTypesDeleted(this)); 
+		_domainEvents.Add(new TestEntityForTypesDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

@@ -51,21 +51,18 @@ public abstract class ThirdTestEntityExactlyOneBase : AuditableEntityBase, IEnti
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new ThirdTestEntityExactlyOneCreated(this));     
+		_domainEvents.Add(new ThirdTestEntityExactlyOneCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new ThirdTestEntityExactlyOneUpdated(this));  
+		_domainEvents.Add(new ThirdTestEntityExactlyOneUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new ThirdTestEntityExactlyOneDeleted(this)); 
+		_domainEvents.Add(new ThirdTestEntityExactlyOneDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

@@ -51,21 +51,18 @@ public abstract class SecondTestEntityOwnedRelationshipZeroOrOneBase : EntityBas
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new SecondTestEntityOwnedRelationshipZeroOrOneCreated(this));     
+		_domainEvents.Add(new SecondTestEntityOwnedRelationshipZeroOrOneCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new SecondTestEntityOwnedRelationshipZeroOrOneUpdated(this));  
+		_domainEvents.Add(new SecondTestEntityOwnedRelationshipZeroOrOneUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new SecondTestEntityOwnedRelationshipZeroOrOneDeleted(this)); 
+		_domainEvents.Add(new SecondTestEntityOwnedRelationshipZeroOrOneDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

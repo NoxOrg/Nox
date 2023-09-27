@@ -51,21 +51,18 @@ public abstract class TestEntityExactlyOneBase : AuditableEntityBase, IEntityCon
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new TestEntityExactlyOneCreated(this));     
+		_domainEvents.Add(new TestEntityExactlyOneCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new TestEntityExactlyOneUpdated(this));  
+		_domainEvents.Add(new TestEntityExactlyOneUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new TestEntityExactlyOneDeleted(this)); 
+		_domainEvents.Add(new TestEntityExactlyOneDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

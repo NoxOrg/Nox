@@ -51,21 +51,18 @@ public abstract class TestEntityOwnedRelationshipExactlyOneBase : AuditableEntit
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new TestEntityOwnedRelationshipExactlyOneCreated(this));     
+		_domainEvents.Add(new TestEntityOwnedRelationshipExactlyOneCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new TestEntityOwnedRelationshipExactlyOneUpdated(this));  
+		_domainEvents.Add(new TestEntityOwnedRelationshipExactlyOneUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new TestEntityOwnedRelationshipExactlyOneDeleted(this)); 
+		_domainEvents.Add(new TestEntityOwnedRelationshipExactlyOneDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

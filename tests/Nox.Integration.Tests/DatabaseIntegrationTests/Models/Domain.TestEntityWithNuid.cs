@@ -67,21 +67,18 @@ public abstract class TestEntityWithNuidBase : AuditableEntityBase, IEntityConcu
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new TestEntityWithNuidCreated(this));     
+		_domainEvents.Add(new TestEntityWithNuidCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new TestEntityWithNuidUpdated(this));  
+		_domainEvents.Add(new TestEntityWithNuidUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new TestEntityWithNuidDeleted(this)); 
+		_domainEvents.Add(new TestEntityWithNuidDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

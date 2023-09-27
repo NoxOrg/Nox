@@ -51,21 +51,18 @@ public abstract class TestEntityTwoRelationshipsOneToOneBase : AuditableEntityBa
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new TestEntityTwoRelationshipsOneToOneCreated(this));     
+		_domainEvents.Add(new TestEntityTwoRelationshipsOneToOneCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new TestEntityTwoRelationshipsOneToOneUpdated(this));  
+		_domainEvents.Add(new TestEntityTwoRelationshipsOneToOneUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new TestEntityTwoRelationshipsOneToOneDeleted(this)); 
+		_domainEvents.Add(new TestEntityTwoRelationshipsOneToOneDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

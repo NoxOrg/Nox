@@ -51,21 +51,18 @@ public abstract class TestEntityOwnedRelationshipOneOrManyBase : AuditableEntity
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new TestEntityOwnedRelationshipOneOrManyCreated(this));     
+		_domainEvents.Add(new TestEntityOwnedRelationshipOneOrManyCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new TestEntityOwnedRelationshipOneOrManyUpdated(this));  
+		_domainEvents.Add(new TestEntityOwnedRelationshipOneOrManyUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new TestEntityOwnedRelationshipOneOrManyDeleted(this)); 
+		_domainEvents.Add(new TestEntityOwnedRelationshipOneOrManyDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

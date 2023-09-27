@@ -51,21 +51,18 @@ public abstract class SecondTestEntityOwnedRelationshipExactlyOneBase : EntityBa
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new SecondTestEntityOwnedRelationshipExactlyOneCreated(this));     
+		_domainEvents.Add(new SecondTestEntityOwnedRelationshipExactlyOneCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new SecondTestEntityOwnedRelationshipExactlyOneUpdated(this));  
+		_domainEvents.Add(new SecondTestEntityOwnedRelationshipExactlyOneUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new SecondTestEntityOwnedRelationshipExactlyOneDeleted(this)); 
+		_domainEvents.Add(new SecondTestEntityOwnedRelationshipExactlyOneDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

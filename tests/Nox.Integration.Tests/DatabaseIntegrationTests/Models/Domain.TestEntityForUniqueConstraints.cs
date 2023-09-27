@@ -71,21 +71,18 @@ public abstract class TestEntityForUniqueConstraintsBase : EntityBase, IEntityCo
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new TestEntityForUniqueConstraintsCreated(this));     
+		_domainEvents.Add(new TestEntityForUniqueConstraintsCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new TestEntityForUniqueConstraintsUpdated(this));  
+		_domainEvents.Add(new TestEntityForUniqueConstraintsUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new TestEntityForUniqueConstraintsDeleted(this)); 
+		_domainEvents.Add(new TestEntityForUniqueConstraintsDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

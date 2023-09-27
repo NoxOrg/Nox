@@ -51,21 +51,18 @@ public abstract class SecondTestEntityOwnedRelationshipOneOrManyBase : EntityBas
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new SecondTestEntityOwnedRelationshipOneOrManyCreated(this));     
+		_domainEvents.Add(new SecondTestEntityOwnedRelationshipOneOrManyCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new SecondTestEntityOwnedRelationshipOneOrManyUpdated(this));  
+		_domainEvents.Add(new SecondTestEntityOwnedRelationshipOneOrManyUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new SecondTestEntityOwnedRelationshipOneOrManyDeleted(this)); 
+		_domainEvents.Add(new SecondTestEntityOwnedRelationshipOneOrManyDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

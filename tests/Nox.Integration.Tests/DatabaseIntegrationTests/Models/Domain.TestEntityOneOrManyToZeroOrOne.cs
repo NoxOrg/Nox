@@ -51,21 +51,18 @@ public abstract class TestEntityOneOrManyToZeroOrOneBase : AuditableEntityBase, 
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new TestEntityOneOrManyToZeroOrOneCreated(this));     
+		_domainEvents.Add(new TestEntityOneOrManyToZeroOrOneCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new TestEntityOneOrManyToZeroOrOneUpdated(this));  
+		_domainEvents.Add(new TestEntityOneOrManyToZeroOrOneUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new TestEntityOneOrManyToZeroOrOneDeleted(this)); 
+		_domainEvents.Add(new TestEntityOneOrManyToZeroOrOneDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

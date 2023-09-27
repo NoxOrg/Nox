@@ -117,32 +117,26 @@ public abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if ent
 	private readonly List<IDomainEvent> _domainEvents = new();
 	
 	///<inheritdoc/>
-	{{- if entity.Persistence.Create.RaiseEvents }}
 	public virtual void RaiseCreateEvent()
 	{
+	{{- if entity.Persistence.Create.RaiseEvents }}
 		_domainEvents.Add(new {{entity.Name}}Created(this));     
-	}
-	{{ else }}
-	public virtual void RaiseCreateEvent(){ }
 	{{- end }}
+	}
 	///<inheritdoc/>
-	{{- if entity.Persistence.Update.RaiseEvents }}
 	public virtual void RaiseUpdateEvent()
 	{
+	{{- if entity.Persistence.Update.RaiseEvents }}
 		_domainEvents.Add(new {{entity.Name}}Updated(this));  
-	}
-	{{ else }}
-	public virtual void RaiseUpdateEvent(){ }
     {{- end }}
+	}
 	///<inheritdoc/>
-	{{- if entity.Persistence.Delete.RaiseEvents }}
 	public virtual void RaiseDeleteEvent()
 	{
+	{{- if entity.Persistence.Delete.RaiseEvents }}
 		_domainEvents.Add(new {{entity.Name}}Deleted(this)); 
+    {{- end }}
 	}
-	{{ else }}
-	public virtual void RaiseDeleteEvent(){ }
-    {{- end}}
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

@@ -51,21 +51,18 @@ public abstract class TestEntityOwnedRelationshipZeroOrManyBase : AuditableEntit
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new TestEntityOwnedRelationshipZeroOrManyCreated(this));     
+		_domainEvents.Add(new TestEntityOwnedRelationshipZeroOrManyCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new TestEntityOwnedRelationshipZeroOrManyUpdated(this));  
+		_domainEvents.Add(new TestEntityOwnedRelationshipZeroOrManyUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new TestEntityOwnedRelationshipZeroOrManyDeleted(this)); 
+		_domainEvents.Add(new TestEntityOwnedRelationshipZeroOrManyDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

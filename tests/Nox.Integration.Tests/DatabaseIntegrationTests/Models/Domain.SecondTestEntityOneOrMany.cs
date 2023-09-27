@@ -51,21 +51,18 @@ public abstract class SecondTestEntityOneOrManyBase : AuditableEntityBase, IEnti
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new SecondTestEntityOneOrManyCreated(this));     
+		_domainEvents.Add(new SecondTestEntityOneOrManyCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new SecondTestEntityOneOrManyUpdated(this));  
+		_domainEvents.Add(new SecondTestEntityOneOrManyUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new SecondTestEntityOneOrManyDeleted(this)); 
+		_domainEvents.Add(new SecondTestEntityOneOrManyDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

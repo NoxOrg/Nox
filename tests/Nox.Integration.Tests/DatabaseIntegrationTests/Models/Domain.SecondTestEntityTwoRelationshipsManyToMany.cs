@@ -51,21 +51,18 @@ public abstract class SecondTestEntityTwoRelationshipsManyToManyBase : EntityBas
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new SecondTestEntityTwoRelationshipsManyToManyCreated(this));     
+		_domainEvents.Add(new SecondTestEntityTwoRelationshipsManyToManyCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new SecondTestEntityTwoRelationshipsManyToManyUpdated(this));  
+		_domainEvents.Add(new SecondTestEntityTwoRelationshipsManyToManyUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new SecondTestEntityTwoRelationshipsManyToManyDeleted(this)); 
+		_domainEvents.Add(new SecondTestEntityTwoRelationshipsManyToManyDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

@@ -51,21 +51,18 @@ public abstract class TestEntityZeroOrManyToExactlyOneBase : AuditableEntityBase
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new TestEntityZeroOrManyToExactlyOneCreated(this));     
+		_domainEvents.Add(new TestEntityZeroOrManyToExactlyOneCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new TestEntityZeroOrManyToExactlyOneUpdated(this));  
+		_domainEvents.Add(new TestEntityZeroOrManyToExactlyOneUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new TestEntityZeroOrManyToExactlyOneDeleted(this)); 
+		_domainEvents.Add(new TestEntityZeroOrManyToExactlyOneDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{
