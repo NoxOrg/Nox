@@ -1,4 +1,5 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
@@ -11,27 +12,41 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class PaymentProvider:PaymentProviderBase
+internal partial class PaymentProvider:PaymentProviderBase, IEntityHaveDomainEvents
 {
-
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for PaymentProvider created event.
 /// </summary>
-internal record PaymentProviderCreated(PaymentProviderBase PaymentProvider) : IDomainEvent;
+internal record PaymentProviderCreated(PaymentProvider PaymentProvider) : IDomainEvent;
 /// <summary>
 /// Record for PaymentProvider updated event.
 /// </summary>
-internal record PaymentProviderUpdated(PaymentProviderBase PaymentProvider) : IDomainEvent;
+internal record PaymentProviderUpdated(PaymentProvider PaymentProvider) : IDomainEvent;
 /// <summary>
 /// Record for PaymentProvider deleted event.
 /// </summary>
-internal record PaymentProviderDeleted(PaymentProviderBase PaymentProvider) : IDomainEvent;
+internal record PaymentProviderDeleted(PaymentProvider PaymentProvider) : IDomainEvent;
 
 /// <summary>
 /// Payment provider related data.
 /// </summary>
-internal abstract class PaymentProviderBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class PaymentProviderBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Payment provider unique identifier (Required).
@@ -47,31 +62,32 @@ internal abstract class PaymentProviderBase : AuditableEntityBase, IEntityConcur
     /// Payment provider account type (Required).
     /// </summary>
     public Nox.Types.Text PaymentProviderType { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	///<inheritdoc/>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
-
-	protected readonly List<IDomainEvent> _domainEvents = new();
+	protected virtual void InternalRaiseCreateEvent(PaymentProvider paymentProvider)
+	{
+		InternalDomainEvents.Add(new PaymentProviderCreated(paymentProvider));
+	}
 	
-	///<inheritdoc/>
-	public virtual void RaiseCreateEvent()
+	protected virtual void InternalRaiseUpdateEvent(PaymentProvider paymentProvider)
 	{
-		_domainEvents.Add(new PaymentProviderCreated(this));
+		InternalDomainEvents.Add(new PaymentProviderUpdated(paymentProvider));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseUpdateEvent()
+	
+	protected virtual void InternalRaiseDeleteEvent(PaymentProvider paymentProvider)
 	{
-		_domainEvents.Add(new PaymentProviderUpdated(this));
+		InternalDomainEvents.Add(new PaymentProviderDeleted(paymentProvider));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseDeleteEvent()
-	{
-		_domainEvents.Add(new PaymentProviderDeleted(this));
-	}
-	///<inheritdoc />
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
     public virtual void ClearDomainEvents()
 	{
-		_domainEvents.Clear();
+		InternalDomainEvents.Clear();
 	}
 
     /// <summary>

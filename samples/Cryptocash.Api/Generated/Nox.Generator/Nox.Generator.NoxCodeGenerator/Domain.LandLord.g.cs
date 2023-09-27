@@ -1,4 +1,5 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
@@ -11,27 +12,41 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class LandLord:LandLordBase
+internal partial class LandLord:LandLordBase, IEntityHaveDomainEvents
 {
-
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for LandLord created event.
 /// </summary>
-internal record LandLordCreated(LandLordBase LandLord) : IDomainEvent;
+internal record LandLordCreated(LandLord LandLord) : IDomainEvent;
 /// <summary>
 /// Record for LandLord updated event.
 /// </summary>
-internal record LandLordUpdated(LandLordBase LandLord) : IDomainEvent;
+internal record LandLordUpdated(LandLord LandLord) : IDomainEvent;
 /// <summary>
 /// Record for LandLord deleted event.
 /// </summary>
-internal record LandLordDeleted(LandLordBase LandLord) : IDomainEvent;
+internal record LandLordDeleted(LandLord LandLord) : IDomainEvent;
 
 /// <summary>
 /// Landlord related data.
 /// </summary>
-internal abstract class LandLordBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class LandLordBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Landlord unique identifier (Required).
@@ -47,31 +62,32 @@ internal abstract class LandLordBase : AuditableEntityBase, IEntityConcurrent, I
     /// Landlord's street address (Required).
     /// </summary>
     public Nox.Types.StreetAddress Address { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	///<inheritdoc/>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
-
-	protected readonly List<IDomainEvent> _domainEvents = new();
+	protected virtual void InternalRaiseCreateEvent(LandLord landLord)
+	{
+		InternalDomainEvents.Add(new LandLordCreated(landLord));
+	}
 	
-	///<inheritdoc/>
-	public virtual void RaiseCreateEvent()
+	protected virtual void InternalRaiseUpdateEvent(LandLord landLord)
 	{
-		_domainEvents.Add(new LandLordCreated(this));
+		InternalDomainEvents.Add(new LandLordUpdated(landLord));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseUpdateEvent()
+	
+	protected virtual void InternalRaiseDeleteEvent(LandLord landLord)
 	{
-		_domainEvents.Add(new LandLordUpdated(this));
+		InternalDomainEvents.Add(new LandLordDeleted(landLord));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseDeleteEvent()
-	{
-		_domainEvents.Add(new LandLordDeleted(this));
-	}
-	///<inheritdoc />
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
     public virtual void ClearDomainEvents()
 	{
-		_domainEvents.Clear();
+		InternalDomainEvents.Clear();
 	}
 
     /// <summary>

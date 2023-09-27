@@ -1,4 +1,5 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
@@ -11,27 +12,41 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-internal partial class CountryBarCode:CountryBarCodeBase
+internal partial class CountryBarCode:CountryBarCodeBase, IEntityHaveDomainEvents
 {
-
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for CountryBarCode created event.
 /// </summary>
-internal record CountryBarCodeCreated(CountryBarCodeBase CountryBarCode) : IDomainEvent;
+internal record CountryBarCodeCreated(CountryBarCode CountryBarCode) : IDomainEvent;
 /// <summary>
 /// Record for CountryBarCode updated event.
 /// </summary>
-internal record CountryBarCodeUpdated(CountryBarCodeBase CountryBarCode) : IDomainEvent;
+internal record CountryBarCodeUpdated(CountryBarCode CountryBarCode) : IDomainEvent;
 /// <summary>
 /// Record for CountryBarCode deleted event.
 /// </summary>
-internal record CountryBarCodeDeleted(CountryBarCodeBase CountryBarCode) : IDomainEvent;
+internal record CountryBarCodeDeleted(CountryBarCode CountryBarCode) : IDomainEvent;
 
 /// <summary>
 /// Bar code for country.
 /// </summary>
-internal abstract class CountryBarCodeBase : EntityBase, IOwnedEntity, IEntityHaveDomainEvents
+internal abstract class CountryBarCodeBase : EntityBase, IOwnedEntity
 {
 
     /// <summary>
@@ -43,31 +58,32 @@ internal abstract class CountryBarCodeBase : EntityBase, IOwnedEntity, IEntityHa
     /// Bar code number (Optional).
     /// </summary>
     public Nox.Types.Number? BarCodeNumber { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	///<inheritdoc/>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
-
-	protected readonly List<IDomainEvent> _domainEvents = new();
+	protected virtual void InternalRaiseCreateEvent(CountryBarCode countryBarCode)
+	{
+		InternalDomainEvents.Add(new CountryBarCodeCreated(countryBarCode));
+	}
 	
-	///<inheritdoc/>
-	public virtual void RaiseCreateEvent()
+	protected virtual void InternalRaiseUpdateEvent(CountryBarCode countryBarCode)
 	{
-		_domainEvents.Add(new CountryBarCodeCreated(this));
+		InternalDomainEvents.Add(new CountryBarCodeUpdated(countryBarCode));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseUpdateEvent()
+	
+	protected virtual void InternalRaiseDeleteEvent(CountryBarCode countryBarCode)
 	{
-		_domainEvents.Add(new CountryBarCodeUpdated(this));
+		InternalDomainEvents.Add(new CountryBarCodeDeleted(countryBarCode));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseDeleteEvent()
-	{
-		_domainEvents.Add(new CountryBarCodeDeleted(this));
-	}
-	///<inheritdoc />
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
     public virtual void ClearDomainEvents()
 	{
-		_domainEvents.Clear();
+		InternalDomainEvents.Clear();
 	}
 
 }

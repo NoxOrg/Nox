@@ -1,4 +1,5 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
@@ -11,27 +12,41 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class Transaction:TransactionBase
+internal partial class Transaction:TransactionBase, IEntityHaveDomainEvents
 {
-
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for Transaction created event.
 /// </summary>
-internal record TransactionCreated(TransactionBase Transaction) : IDomainEvent;
+internal record TransactionCreated(Transaction Transaction) : IDomainEvent;
 /// <summary>
 /// Record for Transaction updated event.
 /// </summary>
-internal record TransactionUpdated(TransactionBase Transaction) : IDomainEvent;
+internal record TransactionUpdated(Transaction Transaction) : IDomainEvent;
 /// <summary>
 /// Record for Transaction deleted event.
 /// </summary>
-internal record TransactionDeleted(TransactionBase Transaction) : IDomainEvent;
+internal record TransactionDeleted(Transaction Transaction) : IDomainEvent;
 
 /// <summary>
 /// Customer transaction log and related data.
 /// </summary>
-internal abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Customer transaction unique identifier (Required).
@@ -57,31 +72,32 @@ internal abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent
     /// Transaction external reference (Required).
     /// </summary>
     public Nox.Types.Text Reference { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	///<inheritdoc/>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
-
-	protected readonly List<IDomainEvent> _domainEvents = new();
+	protected virtual void InternalRaiseCreateEvent(Transaction transaction)
+	{
+		InternalDomainEvents.Add(new TransactionCreated(transaction));
+	}
 	
-	///<inheritdoc/>
-	public virtual void RaiseCreateEvent()
+	protected virtual void InternalRaiseUpdateEvent(Transaction transaction)
 	{
-		_domainEvents.Add(new TransactionCreated(this));
+		InternalDomainEvents.Add(new TransactionUpdated(transaction));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseUpdateEvent()
+	
+	protected virtual void InternalRaiseDeleteEvent(Transaction transaction)
 	{
-		_domainEvents.Add(new TransactionUpdated(this));
+		InternalDomainEvents.Add(new TransactionDeleted(transaction));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseDeleteEvent()
-	{
-		_domainEvents.Add(new TransactionDeleted(this));
-	}
-	///<inheritdoc />
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
     public virtual void ClearDomainEvents()
 	{
-		_domainEvents.Clear();
+		InternalDomainEvents.Clear();
 	}
 
     /// <summary>

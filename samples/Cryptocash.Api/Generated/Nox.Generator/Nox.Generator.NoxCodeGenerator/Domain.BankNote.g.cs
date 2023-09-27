@@ -1,4 +1,5 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
@@ -11,27 +12,41 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class BankNote:BankNoteBase
+internal partial class BankNote:BankNoteBase, IEntityHaveDomainEvents
 {
-
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for BankNote created event.
 /// </summary>
-internal record BankNoteCreated(BankNoteBase BankNote) : IDomainEvent;
+internal record BankNoteCreated(BankNote BankNote) : IDomainEvent;
 /// <summary>
 /// Record for BankNote updated event.
 /// </summary>
-internal record BankNoteUpdated(BankNoteBase BankNote) : IDomainEvent;
+internal record BankNoteUpdated(BankNote BankNote) : IDomainEvent;
 /// <summary>
 /// Record for BankNote deleted event.
 /// </summary>
-internal record BankNoteDeleted(BankNoteBase BankNote) : IDomainEvent;
+internal record BankNoteDeleted(BankNote BankNote) : IDomainEvent;
 
 /// <summary>
 /// Currencies related frequent and rare bank notes.
 /// </summary>
-internal abstract class BankNoteBase : EntityBase, IOwnedEntity, IEntityHaveDomainEvents
+internal abstract class BankNoteBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// Currency bank note unique identifier (Required).
@@ -47,31 +62,32 @@ internal abstract class BankNoteBase : EntityBase, IOwnedEntity, IEntityHaveDoma
     /// Bank note value (Required).
     /// </summary>
     public Nox.Types.Money Value { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	///<inheritdoc/>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
-
-	protected readonly List<IDomainEvent> _domainEvents = new();
+	protected virtual void InternalRaiseCreateEvent(BankNote bankNote)
+	{
+		InternalDomainEvents.Add(new BankNoteCreated(bankNote));
+	}
 	
-	///<inheritdoc/>
-	public virtual void RaiseCreateEvent()
+	protected virtual void InternalRaiseUpdateEvent(BankNote bankNote)
 	{
-		_domainEvents.Add(new BankNoteCreated(this));
+		InternalDomainEvents.Add(new BankNoteUpdated(bankNote));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseUpdateEvent()
+	
+	protected virtual void InternalRaiseDeleteEvent(BankNote bankNote)
 	{
-		_domainEvents.Add(new BankNoteUpdated(this));
+		InternalDomainEvents.Add(new BankNoteDeleted(bankNote));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseDeleteEvent()
-	{
-		_domainEvents.Add(new BankNoteDeleted(this));
-	}
-	///<inheritdoc />
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
     public virtual void ClearDomainEvents()
 	{
-		_domainEvents.Clear();
+		InternalDomainEvents.Clear();
 	}
 
 }

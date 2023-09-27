@@ -1,4 +1,5 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
@@ -11,27 +12,41 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-internal partial class Store:StoreBase
+internal partial class Store:StoreBase, IEntityHaveDomainEvents
 {
-
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for Store created event.
 /// </summary>
-internal record StoreCreated(StoreBase Store) : IDomainEvent;
+internal record StoreCreated(Store Store) : IDomainEvent;
 /// <summary>
 /// Record for Store updated event.
 /// </summary>
-internal record StoreUpdated(StoreBase Store) : IDomainEvent;
+internal record StoreUpdated(Store Store) : IDomainEvent;
 /// <summary>
 /// Record for Store deleted event.
 /// </summary>
-internal record StoreDeleted(StoreBase Store) : IDomainEvent;
+internal record StoreDeleted(Store Store) : IDomainEvent;
 
 /// <summary>
 /// Stores.
 /// </summary>
-internal abstract class StoreBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -73,31 +88,32 @@ internal abstract class StoreBase : AuditableEntityBase, IEntityConcurrent, IEnt
     /// Opening day (Optional).
     /// </summary>
     public Nox.Types.DateTime? OpeningDay { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	///<inheritdoc/>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
-
-	protected readonly List<IDomainEvent> _domainEvents = new();
+	protected virtual void InternalRaiseCreateEvent(Store store)
+	{
+		InternalDomainEvents.Add(new StoreCreated(store));
+	}
 	
-	///<inheritdoc/>
-	public virtual void RaiseCreateEvent()
+	protected virtual void InternalRaiseUpdateEvent(Store store)
 	{
-		_domainEvents.Add(new StoreCreated(this));
+		InternalDomainEvents.Add(new StoreUpdated(store));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseUpdateEvent()
+	
+	protected virtual void InternalRaiseDeleteEvent(Store store)
 	{
-		_domainEvents.Add(new StoreUpdated(this));
+		InternalDomainEvents.Add(new StoreDeleted(store));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseDeleteEvent()
-	{
-		_domainEvents.Add(new StoreDeleted(this));
-	}
-	///<inheritdoc />
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
     public virtual void ClearDomainEvents()
 	{
-		_domainEvents.Clear();
+		InternalDomainEvents.Clear();
 	}
 
     /// <summary>

@@ -1,4 +1,5 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
@@ -11,27 +12,41 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-internal partial class RatingProgram:RatingProgramBase
+internal partial class RatingProgram:RatingProgramBase, IEntityHaveDomainEvents
 {
-
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for RatingProgram created event.
 /// </summary>
-internal record RatingProgramCreated(RatingProgramBase RatingProgram) : IDomainEvent;
+internal record RatingProgramCreated(RatingProgram RatingProgram) : IDomainEvent;
 /// <summary>
 /// Record for RatingProgram updated event.
 /// </summary>
-internal record RatingProgramUpdated(RatingProgramBase RatingProgram) : IDomainEvent;
+internal record RatingProgramUpdated(RatingProgram RatingProgram) : IDomainEvent;
 /// <summary>
 /// Record for RatingProgram deleted event.
 /// </summary>
-internal record RatingProgramDeleted(RatingProgramBase RatingProgram) : IDomainEvent;
+internal record RatingProgramDeleted(RatingProgram RatingProgram) : IDomainEvent;
 
 /// <summary>
 /// Rating program for store.
 /// </summary>
-internal abstract class RatingProgramBase : EntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class RatingProgramBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -48,31 +63,32 @@ internal abstract class RatingProgramBase : EntityBase, IEntityConcurrent, IEnti
     /// Rating Program Name (Optional).
     /// </summary>
     public Nox.Types.Text? Name { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	///<inheritdoc/>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
-
-	protected readonly List<IDomainEvent> _domainEvents = new();
+	protected virtual void InternalRaiseCreateEvent(RatingProgram ratingProgram)
+	{
+		InternalDomainEvents.Add(new RatingProgramCreated(ratingProgram));
+	}
 	
-	///<inheritdoc/>
-	public virtual void RaiseCreateEvent()
+	protected virtual void InternalRaiseUpdateEvent(RatingProgram ratingProgram)
 	{
-		_domainEvents.Add(new RatingProgramCreated(this));
+		InternalDomainEvents.Add(new RatingProgramUpdated(ratingProgram));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseUpdateEvent()
+	
+	protected virtual void InternalRaiseDeleteEvent(RatingProgram ratingProgram)
 	{
-		_domainEvents.Add(new RatingProgramUpdated(this));
+		InternalDomainEvents.Add(new RatingProgramDeleted(ratingProgram));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseDeleteEvent()
-	{
-		_domainEvents.Add(new RatingProgramDeleted(this));
-	}
-	///<inheritdoc />
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
     public virtual void ClearDomainEvents()
 	{
-		_domainEvents.Clear();
+		InternalDomainEvents.Clear();
 	}
 
     /// <summary>

@@ -1,5 +1,16 @@
 // Generated
+{{func pascalCaseToCamelCase(pascal)
+		$result = ""	
+	if pascal != ""
+		$first = pascal | string.slice1 0
+		$first = $first | string.downcase
+		$rest = pascal | string.slice 1
+		$result = $first + $rest 
+	end
+		
+	ret $result	
 
+end}}
 #nullable enable
 
 using System;
@@ -11,35 +22,52 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace {{codeGeneratorState.DomainNameSpace}};
-internal partial class {{className}}:{{className}}Base
+internal partial class {{className}}:{{className}}Base{{if entity.HasDomainEvents}}, IEntityHaveDomainEvents{{end}}
 {
-
+{{- if entity.HasDomainEvents}}
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
+{{- end}}
 }
+
 {{- if entity.Persistence.Create.RaiseEvents }}
 /// <summary>
 /// Record for {{entity.Name}} created event.
 /// </summary>
-internal record {{entity.Name}}Created({{entity.Name}}Base {{entity.Name}}) : IDomainEvent;
+internal record {{entity.Name}}Created({{entity.Name}} {{entity.Name}}) : IDomainEvent;
 {{- end}}
 
 {{- if entity.Persistence.Update.RaiseEvents }}
 /// <summary>
 /// Record for {{entity.Name}} updated event.
 /// </summary>
-internal record {{entity.Name}}Updated({{entity.Name}}Base {{entity.Name}}) : IDomainEvent;
+internal record {{entity.Name}}Updated({{entity.Name}} {{entity.Name}}) : IDomainEvent;
 {{- end}}
 
 {{- if entity.Persistence.Delete.RaiseEvents }}
 /// <summary>
 /// Record for {{entity.Name}} deleted event.
 /// </summary>
-internal record {{entity.Name}}Deleted({{entity.Name}}Base {{entity.Name}}) : IDomainEvent;
+internal record {{entity.Name}}Deleted({{entity.Name}} {{entity.Name}}) : IDomainEvent;
 {{- end}}
 
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-internal abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase, IEntityConcurrent{{else}}EntityBase, IEntityConcurrent{{end}}{{else}} : EntityBase, IOwnedEntity{{end}}{{if entity.HasDomainEvents}}, IEntityHaveDomainEvents{{end}}
+internal abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase, IEntityConcurrent{{else}}EntityBase, IEntityConcurrent{{end}}{{else}} : EntityBase, IOwnedEntity{{end}}
 {
 {{- for key in entity.Keys }}
     /// <summary>
@@ -111,36 +139,39 @@ internal abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if e
 {{- end }}
 {{-if entity.HasDomainEvents}}
 
-	///<inheritdoc/>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+	{{- pascalEntityName = entity.Name | pascalCaseToCamelCase }}
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected readonly List<IDomainEvent> _domainEvents = new();
-	
-	///<inheritdoc/>
-	public virtual void RaiseCreateEvent()
+	protected virtual void InternalRaiseCreateEvent({{entity.Name}} {{pascalEntityName}})
 	{
 	{{- if entity.Persistence.Create.RaiseEvents }}
-		_domainEvents.Add(new {{entity.Name}}Created(this));     
+		InternalDomainEvents.Add(new {{entity.Name}}Created({{pascalEntityName}}));     
 	{{- end }}
 	}
-	///<inheritdoc/>
-	public virtual void RaiseUpdateEvent()
+	
+	protected virtual void InternalRaiseUpdateEvent({{entity.Name}} {{pascalEntityName}})
 	{
 	{{- if entity.Persistence.Update.RaiseEvents }}
-		_domainEvents.Add(new {{entity.Name}}Updated(this));  
+		InternalDomainEvents.Add(new {{entity.Name}}Updated({{pascalEntityName}}));
     {{- end }}
 	}
-	///<inheritdoc/>
-	public virtual void RaiseDeleteEvent()
+	
+	protected virtual void InternalRaiseDeleteEvent({{entity.Name}} {{pascalEntityName}})
 	{
 	{{- if entity.Persistence.Delete.RaiseEvents }}
-		_domainEvents.Add(new {{entity.Name}}Deleted(this)); 
-    {{- end }}
+		InternalDomainEvents.Add(new {{entity.Name}}Deleted({{pascalEntityName}})); 
+	{{- end }}
 	}
-	///<inheritdoc />
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
     public virtual void ClearDomainEvents()
 	{
-		_domainEvents.Clear();
+		InternalDomainEvents.Clear();
 	}
 {{- end}}
 {{- ######################################### Relationships###################################################### -}}

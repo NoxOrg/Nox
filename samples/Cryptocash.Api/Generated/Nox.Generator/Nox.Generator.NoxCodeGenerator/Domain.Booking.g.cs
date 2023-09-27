@@ -1,4 +1,5 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
@@ -11,27 +12,41 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class Booking:BookingBase
+internal partial class Booking:BookingBase, IEntityHaveDomainEvents
 {
-
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for Booking created event.
 /// </summary>
-internal record BookingCreated(BookingBase Booking) : IDomainEvent;
+internal record BookingCreated(Booking Booking) : IDomainEvent;
 /// <summary>
 /// Record for Booking updated event.
 /// </summary>
-internal record BookingUpdated(BookingBase Booking) : IDomainEvent;
+internal record BookingUpdated(Booking Booking) : IDomainEvent;
 /// <summary>
 /// Record for Booking deleted event.
 /// </summary>
-internal record BookingDeleted(BookingBase Booking) : IDomainEvent;
+internal record BookingDeleted(Booking Booking) : IDomainEvent;
 
 /// <summary>
 /// Exchange booking and related data.
 /// </summary>
-internal abstract class BookingBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Booking unique identifier (Required).
@@ -97,31 +112,32 @@ internal abstract class BookingBase : AuditableEntityBase, IEntityConcurrent, IE
     /// Booking's related vat number (Optional).
     /// </summary>
     public Nox.Types.VatNumber? VatNumber { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	///<inheritdoc/>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
-
-	protected readonly List<IDomainEvent> _domainEvents = new();
+	protected virtual void InternalRaiseCreateEvent(Booking booking)
+	{
+		InternalDomainEvents.Add(new BookingCreated(booking));
+	}
 	
-	///<inheritdoc/>
-	public virtual void RaiseCreateEvent()
+	protected virtual void InternalRaiseUpdateEvent(Booking booking)
 	{
-		_domainEvents.Add(new BookingCreated(this));
+		InternalDomainEvents.Add(new BookingUpdated(booking));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseUpdateEvent()
+	
+	protected virtual void InternalRaiseDeleteEvent(Booking booking)
 	{
-		_domainEvents.Add(new BookingUpdated(this));
+		InternalDomainEvents.Add(new BookingDeleted(booking));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseDeleteEvent()
-	{
-		_domainEvents.Add(new BookingDeleted(this));
-	}
-	///<inheritdoc />
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
     public virtual void ClearDomainEvents()
 	{
-		_domainEvents.Clear();
+		InternalDomainEvents.Clear();
 	}
 
     /// <summary>

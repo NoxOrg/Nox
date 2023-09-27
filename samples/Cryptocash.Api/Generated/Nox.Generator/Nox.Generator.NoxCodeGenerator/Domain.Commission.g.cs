@@ -1,4 +1,5 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
@@ -11,27 +12,41 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class Commission:CommissionBase
+internal partial class Commission:CommissionBase, IEntityHaveDomainEvents
 {
-
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for Commission created event.
 /// </summary>
-internal record CommissionCreated(CommissionBase Commission) : IDomainEvent;
+internal record CommissionCreated(Commission Commission) : IDomainEvent;
 /// <summary>
 /// Record for Commission updated event.
 /// </summary>
-internal record CommissionUpdated(CommissionBase Commission) : IDomainEvent;
+internal record CommissionUpdated(Commission Commission) : IDomainEvent;
 /// <summary>
 /// Record for Commission deleted event.
 /// </summary>
-internal record CommissionDeleted(CommissionBase Commission) : IDomainEvent;
+internal record CommissionDeleted(Commission Commission) : IDomainEvent;
 
 /// <summary>
 /// Exchange commission rate and amount.
 /// </summary>
-internal abstract class CommissionBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class CommissionBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Commission unique identifier (Required).
@@ -47,31 +62,32 @@ internal abstract class CommissionBase : AuditableEntityBase, IEntityConcurrent,
     /// Exchange rate conversion amount (Required).
     /// </summary>
     public Nox.Types.DateTime EffectiveAt { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	///<inheritdoc/>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
-
-	protected readonly List<IDomainEvent> _domainEvents = new();
+	protected virtual void InternalRaiseCreateEvent(Commission commission)
+	{
+		InternalDomainEvents.Add(new CommissionCreated(commission));
+	}
 	
-	///<inheritdoc/>
-	public virtual void RaiseCreateEvent()
+	protected virtual void InternalRaiseUpdateEvent(Commission commission)
 	{
-		_domainEvents.Add(new CommissionCreated(this));
+		InternalDomainEvents.Add(new CommissionUpdated(commission));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseUpdateEvent()
+	
+	protected virtual void InternalRaiseDeleteEvent(Commission commission)
 	{
-		_domainEvents.Add(new CommissionUpdated(this));
+		InternalDomainEvents.Add(new CommissionDeleted(commission));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseDeleteEvent()
-	{
-		_domainEvents.Add(new CommissionDeleted(this));
-	}
-	///<inheritdoc />
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
     public virtual void ClearDomainEvents()
 	{
-		_domainEvents.Clear();
+		InternalDomainEvents.Clear();
 	}
 
     /// <summary>

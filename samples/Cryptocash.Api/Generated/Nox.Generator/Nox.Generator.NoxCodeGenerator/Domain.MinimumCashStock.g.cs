@@ -1,4 +1,5 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
@@ -11,27 +12,41 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class MinimumCashStock:MinimumCashStockBase
+internal partial class MinimumCashStock:MinimumCashStockBase, IEntityHaveDomainEvents
 {
-
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for MinimumCashStock created event.
 /// </summary>
-internal record MinimumCashStockCreated(MinimumCashStockBase MinimumCashStock) : IDomainEvent;
+internal record MinimumCashStockCreated(MinimumCashStock MinimumCashStock) : IDomainEvent;
 /// <summary>
 /// Record for MinimumCashStock updated event.
 /// </summary>
-internal record MinimumCashStockUpdated(MinimumCashStockBase MinimumCashStock) : IDomainEvent;
+internal record MinimumCashStockUpdated(MinimumCashStock MinimumCashStock) : IDomainEvent;
 /// <summary>
 /// Record for MinimumCashStock deleted event.
 /// </summary>
-internal record MinimumCashStockDeleted(MinimumCashStockBase MinimumCashStock) : IDomainEvent;
+internal record MinimumCashStockDeleted(MinimumCashStock MinimumCashStock) : IDomainEvent;
 
 /// <summary>
 /// Minimum cash stock required for vending machine.
 /// </summary>
-internal abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Vending machine cash stock unique identifier (Required).
@@ -42,31 +57,32 @@ internal abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcu
     /// Cash stock amount (Required).
     /// </summary>
     public Nox.Types.Money Amount { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	///<inheritdoc/>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
-
-	protected readonly List<IDomainEvent> _domainEvents = new();
+	protected virtual void InternalRaiseCreateEvent(MinimumCashStock minimumCashStock)
+	{
+		InternalDomainEvents.Add(new MinimumCashStockCreated(minimumCashStock));
+	}
 	
-	///<inheritdoc/>
-	public virtual void RaiseCreateEvent()
+	protected virtual void InternalRaiseUpdateEvent(MinimumCashStock minimumCashStock)
 	{
-		_domainEvents.Add(new MinimumCashStockCreated(this));
+		InternalDomainEvents.Add(new MinimumCashStockUpdated(minimumCashStock));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseUpdateEvent()
+	
+	protected virtual void InternalRaiseDeleteEvent(MinimumCashStock minimumCashStock)
 	{
-		_domainEvents.Add(new MinimumCashStockUpdated(this));
+		InternalDomainEvents.Add(new MinimumCashStockDeleted(minimumCashStock));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseDeleteEvent()
-	{
-		_domainEvents.Add(new MinimumCashStockDeleted(this));
-	}
-	///<inheritdoc />
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
     public virtual void ClearDomainEvents()
 	{
-		_domainEvents.Clear();
+		InternalDomainEvents.Clear();
 	}
 
     /// <summary>

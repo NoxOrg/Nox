@@ -1,4 +1,5 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
@@ -11,27 +12,41 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class Currency:CurrencyBase
+internal partial class Currency:CurrencyBase, IEntityHaveDomainEvents
 {
-
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for Currency created event.
 /// </summary>
-internal record CurrencyCreated(CurrencyBase Currency) : IDomainEvent;
+internal record CurrencyCreated(Currency Currency) : IDomainEvent;
 /// <summary>
 /// Record for Currency updated event.
 /// </summary>
-internal record CurrencyUpdated(CurrencyBase Currency) : IDomainEvent;
+internal record CurrencyUpdated(Currency Currency) : IDomainEvent;
 /// <summary>
 /// Record for Currency deleted event.
 /// </summary>
-internal record CurrencyDeleted(CurrencyBase Currency) : IDomainEvent;
+internal record CurrencyDeleted(Currency Currency) : IDomainEvent;
 
 /// <summary>
 /// Currency and related data.
 /// </summary>
-internal abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Currency unique identifier (Required).
@@ -97,31 +112,32 @@ internal abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent, I
     /// Currency's minor value when converted to major (Required).
     /// </summary>
     public Nox.Types.Money MinorToMajorValue { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	///<inheritdoc/>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
-
-	protected readonly List<IDomainEvent> _domainEvents = new();
+	protected virtual void InternalRaiseCreateEvent(Currency currency)
+	{
+		InternalDomainEvents.Add(new CurrencyCreated(currency));
+	}
 	
-	///<inheritdoc/>
-	public virtual void RaiseCreateEvent()
+	protected virtual void InternalRaiseUpdateEvent(Currency currency)
 	{
-		_domainEvents.Add(new CurrencyCreated(this));
+		InternalDomainEvents.Add(new CurrencyUpdated(currency));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseUpdateEvent()
+	
+	protected virtual void InternalRaiseDeleteEvent(Currency currency)
 	{
-		_domainEvents.Add(new CurrencyUpdated(this));
+		InternalDomainEvents.Add(new CurrencyDeleted(currency));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseDeleteEvent()
-	{
-		_domainEvents.Add(new CurrencyDeleted(this));
-	}
-	///<inheritdoc />
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
     public virtual void ClearDomainEvents()
 	{
-		_domainEvents.Clear();
+		InternalDomainEvents.Clear();
 	}
 
     /// <summary>

@@ -1,4 +1,5 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
@@ -11,27 +12,41 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-internal partial class CountryLocalName:CountryLocalNameBase
+internal partial class CountryLocalName:CountryLocalNameBase, IEntityHaveDomainEvents
 {
-
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for CountryLocalName created event.
 /// </summary>
-internal record CountryLocalNameCreated(CountryLocalNameBase CountryLocalName) : IDomainEvent;
+internal record CountryLocalNameCreated(CountryLocalName CountryLocalName) : IDomainEvent;
 /// <summary>
 /// Record for CountryLocalName updated event.
 /// </summary>
-internal record CountryLocalNameUpdated(CountryLocalNameBase CountryLocalName) : IDomainEvent;
+internal record CountryLocalNameUpdated(CountryLocalName CountryLocalName) : IDomainEvent;
 /// <summary>
 /// Record for CountryLocalName deleted event.
 /// </summary>
-internal record CountryLocalNameDeleted(CountryLocalNameBase CountryLocalName) : IDomainEvent;
+internal record CountryLocalNameDeleted(CountryLocalName CountryLocalName) : IDomainEvent;
 
 /// <summary>
 /// Local names for countries.
 /// </summary>
-internal abstract class CountryLocalNameBase : EntityBase, IOwnedEntity, IEntityHaveDomainEvents
+internal abstract class CountryLocalNameBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// The unique identifier (Required).
@@ -47,31 +62,32 @@ internal abstract class CountryLocalNameBase : EntityBase, IOwnedEntity, IEntity
     /// Local name in native tongue (Optional).
     /// </summary>
     public Nox.Types.Text? NativeName { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	///<inheritdoc/>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
-
-	protected readonly List<IDomainEvent> _domainEvents = new();
+	protected virtual void InternalRaiseCreateEvent(CountryLocalName countryLocalName)
+	{
+		InternalDomainEvents.Add(new CountryLocalNameCreated(countryLocalName));
+	}
 	
-	///<inheritdoc/>
-	public virtual void RaiseCreateEvent()
+	protected virtual void InternalRaiseUpdateEvent(CountryLocalName countryLocalName)
 	{
-		_domainEvents.Add(new CountryLocalNameCreated(this));
+		InternalDomainEvents.Add(new CountryLocalNameUpdated(countryLocalName));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseUpdateEvent()
+	
+	protected virtual void InternalRaiseDeleteEvent(CountryLocalName countryLocalName)
 	{
-		_domainEvents.Add(new CountryLocalNameUpdated(this));
+		InternalDomainEvents.Add(new CountryLocalNameDeleted(countryLocalName));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseDeleteEvent()
-	{
-		_domainEvents.Add(new CountryLocalNameDeleted(this));
-	}
-	///<inheritdoc />
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
     public virtual void ClearDomainEvents()
 	{
-		_domainEvents.Clear();
+		InternalDomainEvents.Clear();
 	}
 
 }

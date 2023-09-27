@@ -1,4 +1,5 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
@@ -11,27 +12,41 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-internal partial class StoreOwner:StoreOwnerBase
+internal partial class StoreOwner:StoreOwnerBase, IEntityHaveDomainEvents
 {
-
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for StoreOwner created event.
 /// </summary>
-internal record StoreOwnerCreated(StoreOwnerBase StoreOwner) : IDomainEvent;
+internal record StoreOwnerCreated(StoreOwner StoreOwner) : IDomainEvent;
 /// <summary>
 /// Record for StoreOwner updated event.
 /// </summary>
-internal record StoreOwnerUpdated(StoreOwnerBase StoreOwner) : IDomainEvent;
+internal record StoreOwnerUpdated(StoreOwner StoreOwner) : IDomainEvent;
 /// <summary>
 /// Record for StoreOwner deleted event.
 /// </summary>
-internal record StoreOwnerDeleted(StoreOwnerBase StoreOwner) : IDomainEvent;
+internal record StoreOwnerDeleted(StoreOwner StoreOwner) : IDomainEvent;
 
 /// <summary>
 /// Store owners.
 /// </summary>
-internal abstract class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -67,31 +82,32 @@ internal abstract class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent,
     /// Notes (Optional).
     /// </summary>
     public Nox.Types.Text? Notes { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	///<inheritdoc/>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
-
-	protected readonly List<IDomainEvent> _domainEvents = new();
+	protected virtual void InternalRaiseCreateEvent(StoreOwner storeOwner)
+	{
+		InternalDomainEvents.Add(new StoreOwnerCreated(storeOwner));
+	}
 	
-	///<inheritdoc/>
-	public virtual void RaiseCreateEvent()
+	protected virtual void InternalRaiseUpdateEvent(StoreOwner storeOwner)
 	{
-		_domainEvents.Add(new StoreOwnerCreated(this));
+		InternalDomainEvents.Add(new StoreOwnerUpdated(storeOwner));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseUpdateEvent()
+	
+	protected virtual void InternalRaiseDeleteEvent(StoreOwner storeOwner)
 	{
-		_domainEvents.Add(new StoreOwnerUpdated(this));
+		InternalDomainEvents.Add(new StoreOwnerDeleted(storeOwner));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseDeleteEvent()
-	{
-		_domainEvents.Add(new StoreOwnerDeleted(this));
-	}
-	///<inheritdoc />
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
     public virtual void ClearDomainEvents()
 	{
-		_domainEvents.Clear();
+		InternalDomainEvents.Clear();
 	}
 
     /// <summary>

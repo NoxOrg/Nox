@@ -1,4 +1,5 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
@@ -11,27 +12,41 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-internal partial class Workplace:WorkplaceBase
+internal partial class Workplace:WorkplaceBase, IEntityHaveDomainEvents
 {
-
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for Workplace created event.
 /// </summary>
-internal record WorkplaceCreated(WorkplaceBase Workplace) : IDomainEvent;
+internal record WorkplaceCreated(Workplace Workplace) : IDomainEvent;
 /// <summary>
 /// Record for Workplace updated event.
 /// </summary>
-internal record WorkplaceUpdated(WorkplaceBase Workplace) : IDomainEvent;
+internal record WorkplaceUpdated(Workplace Workplace) : IDomainEvent;
 /// <summary>
 /// Record for Workplace deleted event.
 /// </summary>
-internal record WorkplaceDeleted(WorkplaceBase Workplace) : IDomainEvent;
+internal record WorkplaceDeleted(Workplace Workplace) : IDomainEvent;
 
 /// <summary>
 /// Workplace.
 /// </summary>
-internal abstract class WorkplaceBase : EntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class WorkplaceBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Workplace unique identifier (Required).
@@ -72,31 +87,32 @@ internal abstract class WorkplaceBase : EntityBase, IEntityConcurrent, IEntityHa
         get { return $"Hello, {Name.Value}!"; }
         private set { }
     }
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	///<inheritdoc/>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
-
-	protected readonly List<IDomainEvent> _domainEvents = new();
+	protected virtual void InternalRaiseCreateEvent(Workplace workplace)
+	{
+		InternalDomainEvents.Add(new WorkplaceCreated(workplace));
+	}
 	
-	///<inheritdoc/>
-	public virtual void RaiseCreateEvent()
+	protected virtual void InternalRaiseUpdateEvent(Workplace workplace)
 	{
-		_domainEvents.Add(new WorkplaceCreated(this));
+		InternalDomainEvents.Add(new WorkplaceUpdated(workplace));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseUpdateEvent()
+	
+	protected virtual void InternalRaiseDeleteEvent(Workplace workplace)
 	{
-		_domainEvents.Add(new WorkplaceUpdated(this));
+		InternalDomainEvents.Add(new WorkplaceDeleted(workplace));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseDeleteEvent()
-	{
-		_domainEvents.Add(new WorkplaceDeleted(this));
-	}
-	///<inheritdoc />
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
     public virtual void ClearDomainEvents()
 	{
-		_domainEvents.Clear();
+		InternalDomainEvents.Clear();
 	}
 
     /// <summary>

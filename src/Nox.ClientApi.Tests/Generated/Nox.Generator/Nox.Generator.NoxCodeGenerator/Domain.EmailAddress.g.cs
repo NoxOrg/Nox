@@ -1,4 +1,5 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
@@ -11,27 +12,41 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-internal partial class EmailAddress:EmailAddressBase
+internal partial class EmailAddress:EmailAddressBase, IEntityHaveDomainEvents
 {
-
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for EmailAddress created event.
 /// </summary>
-internal record EmailAddressCreated(EmailAddressBase EmailAddress) : IDomainEvent;
+internal record EmailAddressCreated(EmailAddress EmailAddress) : IDomainEvent;
 /// <summary>
 /// Record for EmailAddress updated event.
 /// </summary>
-internal record EmailAddressUpdated(EmailAddressBase EmailAddress) : IDomainEvent;
+internal record EmailAddressUpdated(EmailAddress EmailAddress) : IDomainEvent;
 /// <summary>
 /// Record for EmailAddress deleted event.
 /// </summary>
-internal record EmailAddressDeleted(EmailAddressBase EmailAddress) : IDomainEvent;
+internal record EmailAddressDeleted(EmailAddress EmailAddress) : IDomainEvent;
 
 /// <summary>
 /// Verified Email Address.
 /// </summary>
-internal abstract class EmailAddressBase : EntityBase, IOwnedEntity, IEntityHaveDomainEvents
+internal abstract class EmailAddressBase : EntityBase, IOwnedEntity
 {
 
     /// <summary>
@@ -43,31 +58,32 @@ internal abstract class EmailAddressBase : EntityBase, IOwnedEntity, IEntityHave
     /// Verified (Optional).
     /// </summary>
     public Nox.Types.Boolean? IsVerified { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	///<inheritdoc/>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
-
-	protected readonly List<IDomainEvent> _domainEvents = new();
+	protected virtual void InternalRaiseCreateEvent(EmailAddress emailAddress)
+	{
+		InternalDomainEvents.Add(new EmailAddressCreated(emailAddress));
+	}
 	
-	///<inheritdoc/>
-	public virtual void RaiseCreateEvent()
+	protected virtual void InternalRaiseUpdateEvent(EmailAddress emailAddress)
 	{
-		_domainEvents.Add(new EmailAddressCreated(this));
+		InternalDomainEvents.Add(new EmailAddressUpdated(emailAddress));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseUpdateEvent()
+	
+	protected virtual void InternalRaiseDeleteEvent(EmailAddress emailAddress)
 	{
-		_domainEvents.Add(new EmailAddressUpdated(this));
+		InternalDomainEvents.Add(new EmailAddressDeleted(emailAddress));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseDeleteEvent()
-	{
-		_domainEvents.Add(new EmailAddressDeleted(this));
-	}
-	///<inheritdoc />
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
     public virtual void ClearDomainEvents()
 	{
-		_domainEvents.Clear();
+		InternalDomainEvents.Clear();
 	}
 
 }

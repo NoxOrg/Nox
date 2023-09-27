@@ -1,4 +1,5 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
@@ -11,27 +12,41 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-internal partial class CountryQualityOfLifeIndex:CountryQualityOfLifeIndexBase
+internal partial class CountryQualityOfLifeIndex:CountryQualityOfLifeIndexBase, IEntityHaveDomainEvents
 {
-
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for CountryQualityOfLifeIndex created event.
 /// </summary>
-internal record CountryQualityOfLifeIndexCreated(CountryQualityOfLifeIndexBase CountryQualityOfLifeIndex) : IDomainEvent;
+internal record CountryQualityOfLifeIndexCreated(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) : IDomainEvent;
 /// <summary>
 /// Record for CountryQualityOfLifeIndex updated event.
 /// </summary>
-internal record CountryQualityOfLifeIndexUpdated(CountryQualityOfLifeIndexBase CountryQualityOfLifeIndex) : IDomainEvent;
+internal record CountryQualityOfLifeIndexUpdated(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) : IDomainEvent;
 /// <summary>
 /// Record for CountryQualityOfLifeIndex deleted event.
 /// </summary>
-internal record CountryQualityOfLifeIndexDeleted(CountryQualityOfLifeIndexBase CountryQualityOfLifeIndex) : IDomainEvent;
+internal record CountryQualityOfLifeIndexDeleted(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) : IDomainEvent;
 
 /// <summary>
 /// Country Quality Of Life Index.
 /// </summary>
-internal abstract class CountryQualityOfLifeIndexBase : EntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class CountryQualityOfLifeIndexBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -48,31 +63,32 @@ internal abstract class CountryQualityOfLifeIndexBase : EntityBase, IEntityConcu
     /// Rating Index (Required).
     /// </summary>
     public Nox.Types.Number IndexRating { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	///<inheritdoc/>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
-
-	protected readonly List<IDomainEvent> _domainEvents = new();
+	protected virtual void InternalRaiseCreateEvent(CountryQualityOfLifeIndex countryQualityOfLifeIndex)
+	{
+		InternalDomainEvents.Add(new CountryQualityOfLifeIndexCreated(countryQualityOfLifeIndex));
+	}
 	
-	///<inheritdoc/>
-	public virtual void RaiseCreateEvent()
+	protected virtual void InternalRaiseUpdateEvent(CountryQualityOfLifeIndex countryQualityOfLifeIndex)
 	{
-		_domainEvents.Add(new CountryQualityOfLifeIndexCreated(this));
+		InternalDomainEvents.Add(new CountryQualityOfLifeIndexUpdated(countryQualityOfLifeIndex));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseUpdateEvent()
+	
+	protected virtual void InternalRaiseDeleteEvent(CountryQualityOfLifeIndex countryQualityOfLifeIndex)
 	{
-		_domainEvents.Add(new CountryQualityOfLifeIndexUpdated(this));
+		InternalDomainEvents.Add(new CountryQualityOfLifeIndexDeleted(countryQualityOfLifeIndex));
 	}
-	///<inheritdoc/>
-	public virtual void RaiseDeleteEvent()
-	{
-		_domainEvents.Add(new CountryQualityOfLifeIndexDeleted(this));
-	}
-	///<inheritdoc />
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
     public virtual void ClearDomainEvents()
 	{
-		_domainEvents.Clear();
+		InternalDomainEvents.Clear();
 	}
 
     /// <summary>
