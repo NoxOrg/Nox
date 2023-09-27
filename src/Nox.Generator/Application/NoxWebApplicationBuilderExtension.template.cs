@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -9,8 +9,10 @@ using Nox;
 using Nox.Solution;
 using Nox.Configuration;
 using Nox.Types.EntityFramework.Abstractions;
-using TestWebApp.Infrastructure.Persistence;
-using TestWebApp.Presentation.Api.OData;
+using {{ solutionName }}.Infrastructure.Persistence;
+{{- if configPresentation == true }}
+using {{ solutionName }}.Presentation.Api.OData;
+{{- end }}
 
 internal static class NoxWebApplicationBuilderExtension
 {
@@ -23,8 +25,8 @@ internal static class NoxWebApplicationBuilderExtension
     {
         services.AddNoxLib(configurator =>
         {
-            configurator.WithDatabaseContexts<TestWebAppDbContext, DtoDbContext>();
-            configurator.WithMessagingTransactionalOutbox<TestWebAppDbContext>();
+            configurator.WithDatabaseContexts<{{ solutionName }}DbContext, DtoDbContext>();
+            configurator.WithMessagingTransactionalOutbox<{{ solutionName }}DbContext>();
             configureNox?.Invoke(configurator);
         });
         services.AddNoxOdata(configureNoxOdata);

@@ -12,7 +12,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Static methods for the CashStockOrder class.
 /// </summary>
-public partial class CashStockOrder
+public partial class CashStockOrderMetadata
 {
     
         /// <summary>

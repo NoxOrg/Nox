@@ -10,27 +10,27 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-public partial class EmployeePhoneNumber:EmployeePhoneNumberBase
+internal partial class EmployeePhoneNumber:EmployeePhoneNumberBase
 {
 
 }
 /// <summary>
 /// Record for EmployeePhoneNumber created event.
 /// </summary>
-public record EmployeePhoneNumberCreated(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent;
+internal record EmployeePhoneNumberCreated(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent;
 /// <summary>
 /// Record for EmployeePhoneNumber updated event.
 /// </summary>
-public record EmployeePhoneNumberUpdated(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent;
+internal record EmployeePhoneNumberUpdated(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent;
 /// <summary>
 /// Record for EmployeePhoneNumber deleted event.
 /// </summary>
-public record EmployeePhoneNumberDeleted(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent;
+internal record EmployeePhoneNumberDeleted(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent;
 
 /// <summary>
 /// Employee phone number and related data.
 /// </summary>
-public abstract class EmployeePhoneNumberBase : EntityBase, IOwnedEntity
+internal abstract class EmployeePhoneNumberBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// Employee's phone number identifier (Required).

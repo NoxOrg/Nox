@@ -30,8 +30,8 @@ internal class EntityMetaGenerator : INoxCodeGenerator
                 .ToList();
             
             new TemplateCodeBuilder(context, codeGeneratorState)
-                .WithClassName(entity.Name)
-                .WithFileNamePrefix($"Domain.Meta")
+                .WithClassName($"{entity.Name}Metadata")
+                .WithFileNamePrefix($"Meta")
                 .WithObject("entity", entity)
                 .WithObject("entitiesMetaData", entitiesMetaData)
                 .GenerateSourceCodeFromResource("Domain.EntityMeta");

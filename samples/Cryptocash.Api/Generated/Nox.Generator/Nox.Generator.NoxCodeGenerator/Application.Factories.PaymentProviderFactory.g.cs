@@ -50,15 +50,15 @@ internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvi
     private Cryptocash.Domain.PaymentProvider ToEntity(PaymentProviderCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.PaymentProvider();
-        entity.PaymentProviderName = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderName(createDto.PaymentProviderName);
-        entity.PaymentProviderType = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderType(createDto.PaymentProviderType);
+        entity.PaymentProviderName = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderName(createDto.PaymentProviderName);
+        entity.PaymentProviderType = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderType(createDto.PaymentProviderType);
         return entity;
     }
 
     private void UpdateEntityInternal(PaymentProvider entity, PaymentProviderUpdateDto updateDto)
     {
-        entity.PaymentProviderName = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderName(updateDto.PaymentProviderName.NonNullValue<System.String>());
-        entity.PaymentProviderType = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderType(updateDto.PaymentProviderType.NonNullValue<System.String>());
+        entity.PaymentProviderName = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderName(updateDto.PaymentProviderName.NonNullValue<System.String>());
+        entity.PaymentProviderType = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderType(updateDto.PaymentProviderType.NonNullValue<System.String>());
     }
 
     private void PartialUpdateEntityInternal(PaymentProvider entity, Dictionary<string, dynamic> updatedProperties)
@@ -71,7 +71,7 @@ internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvi
                 throw new ArgumentException("Attribute 'PaymentProviderName' can't be null");
             }
             {
-                entity.PaymentProviderName = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderName(PaymentProviderNameUpdateValue);
+                entity.PaymentProviderName = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderName(PaymentProviderNameUpdateValue);
             }
         }
 
@@ -82,7 +82,7 @@ internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvi
                 throw new ArgumentException("Attribute 'PaymentProviderType' can't be null");
             }
             {
-                entity.PaymentProviderType = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderType(PaymentProviderTypeUpdateValue);
+                entity.PaymentProviderType = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderType(PaymentProviderTypeUpdateValue);
             }
         }
     }

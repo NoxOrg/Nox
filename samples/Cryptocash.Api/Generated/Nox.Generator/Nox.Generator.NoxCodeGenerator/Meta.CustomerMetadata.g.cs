@@ -12,7 +12,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Static methods for the Customer class.
 /// </summary>
-public partial class Customer
+public partial class CustomerMetadata
 {
     
         /// <summary>

@@ -12,7 +12,7 @@ namespace ClientApi.Domain;
 /// <summary>
 /// Static methods for the Store class.
 /// </summary>
-public partial class Store
+public partial class StoreMetadata
 {
     
         /// <summary>

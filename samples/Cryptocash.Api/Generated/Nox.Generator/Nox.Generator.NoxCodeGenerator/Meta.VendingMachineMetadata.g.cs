@@ -12,7 +12,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Static methods for the VendingMachine class.
 /// </summary>
-public partial class VendingMachine
+public partial class VendingMachineMetadata
 {
     
         /// <summary>
