@@ -68,8 +68,12 @@ infrastructure:
       user: "sa"  
       password: "pwd"
       
+  messaging:
+    integrationEventServer:      
+      name: IntegrationBus
+      provider: inMemory      
 
-application:
+application:  
   integrationEvents:
         - name: CountryPopulationHigherThan100M
           description: Country Population Updated with Population Higher then 100M

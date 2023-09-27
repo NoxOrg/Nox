@@ -5,6 +5,8 @@ using System.Net;
 using AutoFixture.AutoMoq;
 using Nox.Types;
 using Xunit.Abstractions;
+using ClientApi.Application.IntegrationEvents.StoreOwner;
+using Nox.Application;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
@@ -239,5 +241,28 @@ namespace ClientApi.Tests.Tests.Controllers
             //Assert
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        #region Integration Events
+        [Fact]
+        public async Task Post_StoreOwner_SendsCustomIntegrationEvent()
+        {
+            // Arrange
+            var expectedVatNumber = "515714941";
+            var createDto = new StoreOwnerCreateDto
+            {
+                Id = "002",
+                Name = _fixture.Create<string>(),
+                VatNumber = new VatNumberDto(expectedVatNumber, Nox.Types.CountryCode.PT)
+            };
+
+            // Act
+            var result = await PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(StoreOwnersControllerName, createDto);
+
+            //Assert
+            result.Should().NotBeNull();
+
+            (await _massTransitTestHarness.Published.Any<Nox.Messaging.NoxMessageRecord<CustomStoreOwnerCreated>>()).Should().BeTrue();
+        }
+        #endregion
     }
 }
