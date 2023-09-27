@@ -20,23 +20,23 @@ internal partial class PartialUpdateHolidayForCountryCommandHandler: PartialUpda
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<Holiday> entityMapper): base(dbContext, noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> entityFactory) : base(dbContext, noxSolution, serviceProvider, entityFactory)
 	{
 	}
 }
 internal abstract class PartialUpdateHolidayForCountryCommandHandlerBase: CommandBase<PartialUpdateHolidayForCountryCommand, Holiday>, IRequestHandler <PartialUpdateHolidayForCountryCommand, HolidayKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<Holiday> EntityMapper { get; }
+	public IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateHolidayForCountryCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<Holiday> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<HolidayKeyDto?> Handle(PartialUpdateHolidayForCountryCommand request, CancellationToken cancellationToken)
@@ -51,17 +51,17 @@ internal abstract class PartialUpdateHolidayForCountryCommandHandlerBase: Comman
 			return null;
 		}
 		var ownedId = CreateNoxTypeForKey<Holiday,Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.CountryOwnedHolidays.SingleOrDefault(x => x.Id == ownedId);	
+		var entity = parentEntity.CountryOwnedHolidays.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
 			return null;
 		}
 
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Holiday>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
-	
+
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)

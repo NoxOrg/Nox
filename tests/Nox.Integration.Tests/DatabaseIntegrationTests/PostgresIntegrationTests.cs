@@ -3,7 +3,7 @@ using Nox.Integration.Tests.Fixtures;
 namespace Nox.Integration.Tests.DatabaseIntegrationTests;
 
 [Collection("Sequential")]
-public class PostgresIntegrationTests : NoxIntegrationTestBase<NoxTestPostgreContainerFixture>
+public class PostgresIntegrationTests : NoxIntegrationContainerTestBase<NoxTestPostgreContainerFixture>
 {
     private readonly NoxCommonTestCaseFactory _noxCommonTestCases;
 

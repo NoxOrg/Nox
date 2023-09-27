@@ -42,16 +42,36 @@ internal abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCash
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(MinimumCashStock entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private Cryptocash.Domain.MinimumCashStock ToEntity(MinimumCashStockCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.MinimumCashStock();
-        entity.Amount = Cryptocash.Domain.MinimumCashStock.CreateAmount(createDto.Amount);
+        entity.Amount = Cryptocash.Domain.MinimumCashStockMetadata.CreateAmount(createDto.Amount);
         return entity;
     }
 
     private void UpdateEntityInternal(MinimumCashStock entity, MinimumCashStockUpdateDto updateDto)
     {
-        entity.Amount = Cryptocash.Domain.MinimumCashStock.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>());
+        entity.Amount = Cryptocash.Domain.MinimumCashStockMetadata.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>());
+    }
+
+    private void PartialUpdateEntityInternal(MinimumCashStock entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("Amount", out var AmountUpdateValue))
+        {
+            if (AmountUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Amount' can't be null");
+            }
+            {
+                entity.Amount = Cryptocash.Domain.MinimumCashStockMetadata.CreateAmount(AmountUpdateValue);
+            }
+        }
     }
 }
 

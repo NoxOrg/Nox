@@ -15,21 +15,19 @@ using TestWebApp.Presentation.Api.OData;
 internal static class NoxWebApplicationBuilderExtension
 {
     public static IServiceCollection AddNox(this IServiceCollection services)
-                        {
-                            return services.AddNox(null, null);
-                        }
-                        
+    {
+        return services.AddNox(null, null);
+    }
+
     public static IServiceCollection AddNox(this IServiceCollection services, Action<INoxBuilderConfigurator>? configureNox, Action<ODataModelBuilder>? configureNoxOdata)
     {
-        
-        services.AddNoxLib(configurator => 
+        services.AddNoxLib(configurator =>
         {
-            configurator.WithDatabaseContexts<TestWebAppDbContext,DtoDbContext>();
+            configurator.WithDatabaseContexts<TestWebAppDbContext, DtoDbContext>();
             configurator.WithMessagingTransactionalOutbox<TestWebAppDbContext>();
             configureNox?.Invoke(configurator);
         });
         services.AddNoxOdata(configureNoxOdata);
         return services;
     }
-    
 }

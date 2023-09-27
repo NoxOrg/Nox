@@ -18,6 +18,10 @@ erDiagram
     }
     CountryBarCode {
     }
+    RatingProgram {
+    }
+    CountryQualityOfLifeIndex {
+    }
     Store {
     }
     Store||--o|EmailAddress : "Verified emails"
@@ -95,6 +99,44 @@ Member|Type|Description|Info
 Id|AutoNumber|The unique identifier.|Required, Primary Key
 Name|Text|Local name.|Required, MinLength: 4, MaxLength: 63
 NativeName|Text|Local name in native tongue.|MinLength: 4, MaxLength: 63
+
+
+
+
+### CountryQualityOfLifeIndex
+
+Country Quality Of Life Index.
+
+[Endpoints](./endpoints/CountryQualityOfLifeIndexEndpoints.md)
+
+[Domain Events](./domainEvents/CountryQualityOfLifeIndexDomainEvents.md)
+
+#### <u>Members (Keys, Attributes & Relationships)</u>
+
+Member|Type|Description|Info
+---------|----|----------|-------
+CountryId|EntityId||Required, Primary Key
+Id|AutoNumber|The unique identifier.|Required, Primary Key
+IndexRating|Number|Rating Index.|Required
+
+
+
+
+### RatingProgram
+
+Rating program for store.
+
+[Endpoints](./endpoints/RatingProgramEndpoints.md)
+
+[Domain Events](./domainEvents/RatingProgramDomainEvents.md)
+
+#### <u>Members (Keys, Attributes & Relationships)</u>
+
+Member|Type|Description|Info
+---------|----|----------|-------
+StoreId|EntityId||Required, Primary Key
+Id|AutoNumber|The unique identifier.|Required, Primary Key
+Name|Text|Rating Program Name.|MinLength: 1, MaxLength: 256
 
 
 

@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -11,7 +11,7 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-public partial class StoreOwner:StoreOwnerBase
+internal partial class StoreOwner:StoreOwnerBase
 {
 
 }

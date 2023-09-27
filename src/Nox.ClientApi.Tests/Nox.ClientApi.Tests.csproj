@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
@@ -38,16 +38,7 @@
 		</AdditionalFiles>
 	</ItemGroup>
 
-	<ItemGroup>				
-		<AdditionalFiles Include=".nox\design\Entitities\store-license.entity.nox.yaml">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</AdditionalFiles>				
-		<AdditionalFiles Include=".nox\design\Entitities\store-owner.entity.nox.yaml">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</AdditionalFiles>				
-		<AdditionalFiles Include=".nox\design\Entitities\store.entity.nox.yaml">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</AdditionalFiles>				
+	<ItemGroup>						
 		<AdditionalFiles Include="generator.nox.yaml" />
 	</ItemGroup>
 
@@ -68,6 +59,7 @@
 		<PackageReference Include="Testcontainers.MsSql" Version="3.5.0" />
 		<PackageReference Include="Testcontainers.PostgreSql" Version="3.5.0" />
 		<PackageReference Include="xunit" Version="2.5.1" />
+		<PackageReference Include="Divergic.Logging.Xunit" Version="4.2.0" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="2.5.1">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>

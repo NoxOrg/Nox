@@ -42,18 +42,49 @@ internal abstract class LandLordFactoryBase : IEntityFactory<LandLord, LandLordC
         UpdateEntityInternal(entity, updateDto);
     }
 
+    public virtual void PartialUpdateEntity(LandLord entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
+    }
+
     private Cryptocash.Domain.LandLord ToEntity(LandLordCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.LandLord();
-        entity.Name = Cryptocash.Domain.LandLord.CreateName(createDto.Name);
-        entity.Address = Cryptocash.Domain.LandLord.CreateAddress(createDto.Address);
+        entity.Name = Cryptocash.Domain.LandLordMetadata.CreateName(createDto.Name);
+        entity.Address = Cryptocash.Domain.LandLordMetadata.CreateAddress(createDto.Address);
         return entity;
     }
 
     private void UpdateEntityInternal(LandLord entity, LandLordUpdateDto updateDto)
     {
-        entity.Name = Cryptocash.Domain.LandLord.CreateName(updateDto.Name.NonNullValue<System.String>());
-        entity.Address = Cryptocash.Domain.LandLord.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
+        entity.Name = Cryptocash.Domain.LandLordMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
+        entity.Address = Cryptocash.Domain.LandLordMetadata.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
+    }
+
+    private void PartialUpdateEntityInternal(LandLord entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
+        {
+            if (NameUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Name' can't be null");
+            }
+            {
+                entity.Name = Cryptocash.Domain.LandLordMetadata.CreateName(NameUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Address", out var AddressUpdateValue))
+        {
+            if (AddressUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Address' can't be null");
+            }
+            {
+                entity.Address = Cryptocash.Domain.LandLordMetadata.CreateAddress(AddressUpdateValue);
+            }
+        }
     }
 }
 

@@ -85,10 +85,10 @@ namespace Nox.Configuration
 
         public void Configure(IServiceCollection services)
         {
-            var allAssemblies = _clientAssembly!.GetReferencedAssemblies();
+            var referencedAssemblies = _clientAssembly!.GetReferencedAssemblies();
 
             // Nox + Entry Assembly
-            var noxAssemblies = allAssemblies
+            var noxAndEntryAssemblies = referencedAssemblies
                 .Where(a => a.Name != null && a.Name.StartsWith("Nox"))
                 .Select(Assembly.Load)
                 .Union(new[] { _clientAssembly! }).ToArray();
@@ -100,13 +100,13 @@ namespace Nox.Configuration
                 .AddSingleton(typeof(INoxClientAssemblyProvider), serviceProvider => new NoxClientAssemblyProvider(_clientAssembly))
                 .AddSecretsResolver()
                 .AddNoxMediatR(_clientAssembly)
-                .AddNoxFactories(noxAssemblies)
+                .AddNoxFactories(noxAndEntryAssemblies)
                 .AddNoxProviders()
                 .AddNoxDtos();
 
 
-            TryAddNoxMessaging(services, _noxSolution);
-            TryAddNoxDatabase(services, _noxSolution, noxAssemblies);
+            TryAddNoxMessaging(services, _noxSolution, noxAndEntryAssemblies);
+            TryAddNoxDatabase(services, _noxSolution, noxAndEntryAssemblies);
         }
 
         private bool TryAddNoxDatabase(IServiceCollection services, NoxSolution noxSolution, Assembly[] noxAssemblies)
@@ -140,12 +140,13 @@ namespace Nox.Configuration
             }
             return false;
         }
-        private bool TryAddNoxMessaging(IServiceCollection services, NoxSolution noxSolution)
+        private bool TryAddNoxMessaging(IServiceCollection services, NoxSolution noxSolution, Assembly[] noxAssemblies)
         {
             if (noxSolution.Infrastructure?.Messaging?.IntegrationEventServer is null)
             {
                 return false;
             }
+                                 
             MessagingServer messagingConfig = noxSolution.Infrastructure!.Messaging!.IntegrationEventServer!;
 
             services.AddScoped<IOutboxRepository, OutboxRepository>();

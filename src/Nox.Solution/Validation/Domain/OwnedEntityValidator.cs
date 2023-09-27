@@ -1,5 +1,4 @@
-﻿
-using FluentValidation;
+﻿using FluentValidation;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,25 +8,19 @@ internal class OwnedEntityValidator : AbstractValidator<Entity>
 {
     public OwnedEntityValidator(IEnumerable<Entity> entities)
     {
-        /*
-            1. Owned entity with ZeroOrOne or ExactlyOne relationship keys must be null. 
-            2. Keys are mandatory for all other entity usages
-            3. Keys must be single for Entity used a Foreign Key 
-        */
-        When(e => e.Relationships.Any(), () =>
+        //  Owned entity with ZeroOrOne or ExactlyOne relationship => keys must be null
+        When(e => e.OwnerEntity!.OwnedRelationships.Any(r => r.Entity == e.Name && (r.Relationship == EntityRelationshipType.ZeroOrOne || r.Relationship == EntityRelationshipType.ExactlyOne)), () =>
         {
-            When(e => e.Relationships.Any(x => x.Relationship == EntityRelationshipType.ZeroOrOne || x.Relationship == EntityRelationshipType.ExactlyOne), () =>
-            {
-                RuleFor(e => e.Keys)
-                    .Empty()
-                    .WithMessage(e => string.Format(ValidationResources.OwnedEntityKeysMustBeNull, e.Name));
-            })
-            .Otherwise(() =>
-            {
-                RuleFor(e => e.Keys)
-                   .NotEmpty()
-                   .WithMessage(e => string.Format(ValidationResources.EntityKeysRequired, e.Name));
-            });
+            RuleFor(e => e.Keys)
+                .Empty()
+                .WithMessage(e => string.Format(ValidationResources.OwnedEntityKeysMustBeNull, e.Name));
+        })
+        //  Owned entity with ZeroOrMany or OneOrMeny relationship => keys must be defined
+        .Otherwise(() =>
+        {
+            RuleFor(e => e.Keys)
+                .NotEmpty()
+                .WithMessage(e => string.Format(ValidationResources.EntityKeysRequired, e.Name));
         });
 
         // Owned entity cannot be auditable

@@ -65,14 +65,14 @@ internal partial class DeleteAllRefStoreOwnerToStoresCommandHandler
 	{ }
 }
 
-internal abstract class RefStoreOwnerToStoresCommandHandlerBase<TRequest>: CommandBase<TRequest, StoreOwner>, 
+internal abstract class RefStoreOwnerToStoresCommandHandlerBase<TRequest> : CommandBase<TRequest, StoreOwner>,
 	IRequestHandler <TRequest, bool> where TRequest : RefStoreOwnerToStoresCommand
 {
 	public ClientApiDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefStoreOwnerToStoresCommandHandlerBase(
 		ClientApiDbContext dbContext,
@@ -106,20 +106,20 @@ internal abstract class RefStoreOwnerToStoresCommandHandlerBase<TRequest>: Comma
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToStores(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToStores(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToStores(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToStores(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
 				await DbContext.Entry(entity).Collection(x => x.Stores).LoadAsync();
-                entity.DeleteAllRefToStores();
-                break;
-        }
+				entity.DeleteAllRefToStores();
+				break;
+		}
 
 		OnCompleted(request, entity);
 

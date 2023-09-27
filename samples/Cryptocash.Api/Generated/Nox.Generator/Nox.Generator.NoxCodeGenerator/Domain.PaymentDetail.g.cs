@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -11,7 +11,7 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-public partial class PaymentDetail:PaymentDetailBase
+internal partial class PaymentDetail:PaymentDetailBase
 {
 
 }

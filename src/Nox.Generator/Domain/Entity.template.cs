@@ -11,7 +11,7 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace {{codeGeneratorState.DomainNameSpace}};
-public partial class {{className}}:{{className}}Base
+internal partial class {{className}}:{{className}}Base
 {
 
 }
@@ -39,14 +39,14 @@ public record {{entity.Name}}Deleted({{entity.Name}}Base {{entity.Name}}) : IDom
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase, IEntityConcurrent{{else}}EntityBase, IEntityConcurrent{{end}}{{else}} : EntityBase, IOwnedEntity{{end}}{{if entity.HasDomainEvents}}, IEntityHaveDomainEvents{{end}}
+internal abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase, IEntityConcurrent{{else}}EntityBase, IEntityConcurrent{{end}}{{else}} : EntityBase, IOwnedEntity{{end}}{{if entity.HasDomainEvents}}, IEntityHaveDomainEvents{{end}}
 {
 {{- for key in entity.Keys }}
     /// <summary>
     /// {{key.Description}} (Required).
     /// </summary>
     {{ if key.Type == "EntityId" -}}
-    public {{SingleKeyTypeForEntity key.EntityIdTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
+    public Nox.Types.{{SingleKeyTypeForEntity key.EntityIdTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
     {{- # Navigation Property }}
 
     public virtual {{key.EntityIdTypeOptions.Entity}} {{key.EntityIdTypeOptions.Entity}} { get; set; } = null!;
