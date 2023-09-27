@@ -29,7 +29,7 @@ internal class EntityControllerOwnedRelationshipsGenerator : INoxCodeGenerator
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            if (codeGeneratorState.Solution.Domain.Entities.Any(e => e.OwnedRelationships != null && e.OwnedRelationships.Any(r => r.Entity.Equals(entity.Name))))
+            if (entity.IsOwnedEntity)
             {
                 continue;
             }
