@@ -27,7 +27,6 @@ public record Create{{entity.Name}}Command({{entity.Name}}CreateDto EntityDto) :
 
 internal partial class Create{{entity.Name}}CommandHandler: Create{{entity.Name}}CommandHandlerBase
 {
-//Updated template
 	public Create{{entity.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,

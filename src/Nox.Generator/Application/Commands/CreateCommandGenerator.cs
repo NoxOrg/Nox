@@ -25,8 +25,6 @@ internal class CreateCommandGenerator : INoxCodeGenerator
 
             var primaryKeysQuery = string.Join(", ", entity.Keys.Select(k => $"entityToCreate.{k.Name}.Value"));
 
-            //TestEntityTwoRelationshipsOneToOne has more than one relationship to SecondTestEntityTwoRelationshipsOneToOne
-            // not sure if this handles that case correctly
             var relatedEntities = entity.Relationships.GroupBy(r => r.Entity).Select(g => g.First().Entity).ToList();
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"Create{entity.Name}Command")
