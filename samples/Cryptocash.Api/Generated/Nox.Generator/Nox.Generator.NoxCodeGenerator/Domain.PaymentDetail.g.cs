@@ -11,27 +11,27 @@ using Nox.Types;
 
 namespace Cryptocash.Domain;
 
-public partial class PaymentDetail : PaymentDetailBase
+internal partial class PaymentDetail : PaymentDetailBase
 {
 
 }
 /// <summary>
 /// Record for PaymentDetail created event.
 /// </summary>
-public record PaymentDetailCreated(PaymentDetail PaymentDetail) : IDomainEvent;
+internal record PaymentDetailCreated(PaymentDetail PaymentDetail) : IDomainEvent;
 /// <summary>
 /// Record for PaymentDetail updated event.
 /// </summary>
-public record PaymentDetailUpdated(PaymentDetail PaymentDetail) : IDomainEvent;
+internal record PaymentDetailUpdated(PaymentDetail PaymentDetail) : IDomainEvent;
 /// <summary>
 /// Record for PaymentDetail deleted event.
 /// </summary>
-public record PaymentDetailDeleted(PaymentDetail PaymentDetail) : IDomainEvent;
+internal record PaymentDetailDeleted(PaymentDetail PaymentDetail) : IDomainEvent;
 
 /// <summary>
 /// Customer payment account related data.
 /// </summary>
-public abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent
+internal abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Customer payment account unique identifier (Required).

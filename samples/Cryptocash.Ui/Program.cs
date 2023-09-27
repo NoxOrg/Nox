@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using MudBlazor.Services;
+using Nox;
 using Cryptocash.Ui.Generated.Data.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,7 +27,11 @@ builder.Services.AddServerSideBlazor()
 builder.Services.AddMudServices();
 builder.Services.AddTransient<NavigationHelper>();
 
+builder.Services.AddNox();
+
 var app = builder.Build();
+
+app.UseNox();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

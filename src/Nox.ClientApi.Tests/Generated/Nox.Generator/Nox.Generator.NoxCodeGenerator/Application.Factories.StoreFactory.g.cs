@@ -53,10 +53,10 @@ internal abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto,
     private ClientApi.Domain.Store ToEntity(StoreCreateDto createDto)
     {
         var entity = new ClientApi.Domain.Store();
-        entity.Name = ClientApi.Domain.Store.CreateName(createDto.Name);
-        entity.Address = ClientApi.Domain.Store.CreateAddress(createDto.Address);
-        entity.Location = ClientApi.Domain.Store.CreateLocation(createDto.Location);
-        if (createDto.OpeningDay is not null)entity.OpeningDay = ClientApi.Domain.Store.CreateOpeningDay(createDto.OpeningDay.NonNullValue<System.DateTimeOffset>());
+        entity.Name = ClientApi.Domain.StoreMetadata.CreateName(createDto.Name);
+        entity.Address = ClientApi.Domain.StoreMetadata.CreateAddress(createDto.Address);
+        entity.Location = ClientApi.Domain.StoreMetadata.CreateLocation(createDto.Location);
+        if (createDto.OpeningDay is not null)entity.OpeningDay = ClientApi.Domain.StoreMetadata.CreateOpeningDay(createDto.OpeningDay.NonNullValue<System.DateTimeOffset>());
         entity.EnsureId(createDto.Id);
         if (createDto.VerifiedEmails is not null)
         {
@@ -67,11 +67,11 @@ internal abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto,
 
     private void UpdateEntityInternal(Store entity, StoreUpdateDto updateDto)
     {
-        entity.Name = ClientApi.Domain.Store.CreateName(updateDto.Name.NonNullValue<System.String>());
-        entity.Address = ClientApi.Domain.Store.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
-        entity.Location = ClientApi.Domain.Store.CreateLocation(updateDto.Location.NonNullValue<LatLongDto>());
+        entity.Name = ClientApi.Domain.StoreMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
+        entity.Address = ClientApi.Domain.StoreMetadata.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
+        entity.Location = ClientApi.Domain.StoreMetadata.CreateLocation(updateDto.Location.NonNullValue<LatLongDto>());
         if (updateDto.OpeningDay == null) { entity.OpeningDay = null; } else {
-            entity.OpeningDay = ClientApi.Domain.Store.CreateOpeningDay(updateDto.OpeningDay.ToValueFromNonNull<System.DateTimeOffset>());
+            entity.OpeningDay = ClientApi.Domain.StoreMetadata.CreateOpeningDay(updateDto.OpeningDay.ToValueFromNonNull<System.DateTimeOffset>());
         }
     }
 
@@ -85,7 +85,7 @@ internal abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto,
                 throw new ArgumentException("Attribute 'Name' can't be null");
             }
             {
-                entity.Name = ClientApi.Domain.Store.CreateName(NameUpdateValue);
+                entity.Name = ClientApi.Domain.StoreMetadata.CreateName(NameUpdateValue);
             }
         }
 
@@ -96,7 +96,7 @@ internal abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto,
                 throw new ArgumentException("Attribute 'Address' can't be null");
             }
             {
-                entity.Address = ClientApi.Domain.Store.CreateAddress(AddressUpdateValue);
+                entity.Address = ClientApi.Domain.StoreMetadata.CreateAddress(AddressUpdateValue);
             }
         }
 
@@ -107,7 +107,7 @@ internal abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto,
                 throw new ArgumentException("Attribute 'Location' can't be null");
             }
             {
-                entity.Location = ClientApi.Domain.Store.CreateLocation(LocationUpdateValue);
+                entity.Location = ClientApi.Domain.StoreMetadata.CreateLocation(LocationUpdateValue);
             }
         }
 
@@ -116,7 +116,7 @@ internal abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto,
             if (OpeningDayUpdateValue == null) { entity.OpeningDay = null; }
             else
             {
-                entity.OpeningDay = ClientApi.Domain.Store.CreateOpeningDay(OpeningDayUpdateValue);
+                entity.OpeningDay = ClientApi.Domain.StoreMetadata.CreateOpeningDay(OpeningDayUpdateValue);
             }
         }
     }

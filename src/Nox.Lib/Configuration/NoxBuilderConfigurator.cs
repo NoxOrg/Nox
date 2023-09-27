@@ -146,15 +146,7 @@ namespace Nox.Configuration
             {
                 return false;
             }
-                      
-            services.Scan(scan => scan
-                    // Excluding nox Lib to not register default factory
-                   .FromAssemblies(noxAssemblies.Except(new[]{ Assembly.GetExecutingAssembly()}))                   
-                   .AddClasses(classes => classes.AssignableTo<ICloudEventRecordFactory>())
-                   .As<ICloudEventRecordFactory>()
-                   .WithTransientLifetime()
-               );
-
+                                 
             MessagingServer messagingConfig = noxSolution.Infrastructure!.Messaging!.IntegrationEventServer!;
 
             services.AddScoped<IOutboxRepository, OutboxRepository>();

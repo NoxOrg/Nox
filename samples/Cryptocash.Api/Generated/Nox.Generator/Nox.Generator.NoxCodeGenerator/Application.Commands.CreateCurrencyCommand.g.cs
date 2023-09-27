@@ -25,9 +25,9 @@ internal partial class CreateCurrencyCommandHandler: CreateCurrencyCommandHandle
 	public CreateCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
-        IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> minimumcashstockfactory,
-        IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> entityFactory,
+		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
+		IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> minimumcashstockfactory,
+		IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
 		: base(dbContext, noxSolution,countryfactory, minimumcashstockfactory, entityFactory, serviceProvider)
 	{
@@ -39,21 +39,21 @@ internal abstract class CreateCurrencyCommandHandlerBase: CommandBase<CreateCurr
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> _entityFactory;
-    private readonly IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> _countryfactory;
-    private readonly IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> _minimumcashstockfactory;
+	private readonly IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> _countryfactory;
+	private readonly IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> _minimumcashstockfactory;
 
 	public CreateCurrencyCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
-        IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> minimumcashstockfactory,
-        IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> entityFactory,
+		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
+		IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> minimumcashstockfactory,
+		IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
-        _countryfactory = countryfactory;
-        _minimumcashstockfactory = minimumcashstockfactory;
+		_countryfactory = countryfactory;
+		_minimumcashstockfactory = minimumcashstockfactory;
 	}
 
 	public virtual async Task<CurrencyKeyDto> Handle(CreateCurrencyCommand request, CancellationToken cancellationToken)

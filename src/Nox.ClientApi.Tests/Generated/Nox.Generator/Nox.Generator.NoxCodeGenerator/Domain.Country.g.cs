@@ -11,27 +11,27 @@ using Nox.Types;
 
 namespace ClientApi.Domain;
 
-public partial class Country : CountryBase
+internal partial class Country : CountryBase
 {
 
 }
 /// <summary>
 /// Record for Country created event.
 /// </summary>
-public record CountryCreated(Country Country) : IDomainEvent;
+internal record CountryCreated(Country Country) : IDomainEvent;
 /// <summary>
 /// Record for Country updated event.
 /// </summary>
-public record CountryUpdated(Country Country) : IDomainEvent;
+internal record CountryUpdated(Country Country) : IDomainEvent;
 /// <summary>
 /// Record for Country deleted event.
 /// </summary>
-public record CountryDeleted(Country Country) : IDomainEvent;
+internal record CountryDeleted(Country Country) : IDomainEvent;
 
 /// <summary>
 /// Country Entity.
 /// </summary>
-public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
+internal abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// The unique identifier (Required).

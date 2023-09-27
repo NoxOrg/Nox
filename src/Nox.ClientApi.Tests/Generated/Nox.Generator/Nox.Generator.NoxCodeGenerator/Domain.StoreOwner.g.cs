@@ -11,27 +11,27 @@ using Nox.Types;
 
 namespace ClientApi.Domain;
 
-public partial class StoreOwner : StoreOwnerBase
+internal partial class StoreOwner : StoreOwnerBase
 {
 
 }
 /// <summary>
 /// Record for StoreOwner created event.
 /// </summary>
-public record StoreOwnerCreated(StoreOwner StoreOwner) : IDomainEvent;
+internal record StoreOwnerCreated(StoreOwner StoreOwner) : IDomainEvent;
 /// <summary>
 /// Record for StoreOwner updated event.
 /// </summary>
-public record StoreOwnerUpdated(StoreOwner StoreOwner) : IDomainEvent;
+internal record StoreOwnerUpdated(StoreOwner StoreOwner) : IDomainEvent;
 /// <summary>
 /// Record for StoreOwner deleted event.
 /// </summary>
-public record StoreOwnerDeleted(StoreOwner StoreOwner) : IDomainEvent;
+internal record StoreOwnerDeleted(StoreOwner StoreOwner) : IDomainEvent;
 
 /// <summary>
 /// Store owners.
 /// </summary>
-public abstract class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent
+internal abstract class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).

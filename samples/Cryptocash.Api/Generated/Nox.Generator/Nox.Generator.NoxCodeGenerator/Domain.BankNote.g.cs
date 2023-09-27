@@ -11,27 +11,27 @@ using Nox.Types;
 
 namespace Cryptocash.Domain;
 
-public partial class BankNote : BankNoteBase
+internal partial class BankNote : BankNoteBase
 {
 
 }
 /// <summary>
 /// Record for BankNote created event.
 /// </summary>
-public record BankNoteCreated(BankNote BankNote) : IDomainEvent;
+internal record BankNoteCreated(BankNote BankNote) : IDomainEvent;
 /// <summary>
 /// Record for BankNote updated event.
 /// </summary>
-public record BankNoteUpdated(BankNote BankNote) : IDomainEvent;
+internal record BankNoteUpdated(BankNote BankNote) : IDomainEvent;
 /// <summary>
 /// Record for BankNote deleted event.
 /// </summary>
-public record BankNoteDeleted(BankNote BankNote) : IDomainEvent;
+internal record BankNoteDeleted(BankNote BankNote) : IDomainEvent;
 
 /// <summary>
 /// Currencies related frequent and rare bank notes.
 /// </summary>
-public abstract class BankNoteBase : EntityBase, IOwnedEntity
+internal abstract class BankNoteBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// Currency bank note unique identifier (Required).

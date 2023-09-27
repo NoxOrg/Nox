@@ -25,8 +25,8 @@ internal partial class CreateStoreOwnerCommandHandler: CreateStoreOwnerCommandHa
 	public CreateStoreOwnerCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> storefactory,
-        IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory,
+		IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> storefactory,
+		IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
 		: base(dbContext, noxSolution,storefactory, entityFactory, serviceProvider)
 	{
@@ -38,18 +38,18 @@ internal abstract class CreateStoreOwnerCommandHandlerBase: CommandBase<CreateSt
 {
 	private readonly ClientApiDbContext _dbContext;
 	private readonly IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> _entityFactory;
-    private readonly IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> _storefactory;
+	private readonly IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> _storefactory;
 
 	public CreateStoreOwnerCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> storefactory,
-        IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory,
+		IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> storefactory,
+		IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
-        _storefactory = storefactory;
+		_storefactory = storefactory;
 	}
 
 	public virtual async Task<StoreOwnerKeyDto> Handle(CreateStoreOwnerCommand request, CancellationToken cancellationToken)

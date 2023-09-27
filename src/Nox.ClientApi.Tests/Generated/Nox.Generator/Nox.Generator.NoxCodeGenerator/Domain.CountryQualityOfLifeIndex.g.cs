@@ -11,27 +11,27 @@ using Nox.Types;
 
 namespace ClientApi.Domain;
 
-public partial class CountryQualityOfLifeIndex : CountryQualityOfLifeIndexBase
+internal partial class CountryQualityOfLifeIndex : CountryQualityOfLifeIndexBase
 {
 
 }
 /// <summary>
 /// Record for CountryQualityOfLifeIndex created event.
 /// </summary>
-public record CountryQualityOfLifeIndexCreated(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) : IDomainEvent;
+internal record CountryQualityOfLifeIndexCreated(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) : IDomainEvent;
 /// <summary>
 /// Record for CountryQualityOfLifeIndex updated event.
 /// </summary>
-public record CountryQualityOfLifeIndexUpdated(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) : IDomainEvent;
+internal record CountryQualityOfLifeIndexUpdated(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) : IDomainEvent;
 /// <summary>
 /// Record for CountryQualityOfLifeIndex deleted event.
 /// </summary>
-public record CountryQualityOfLifeIndexDeleted(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) : IDomainEvent;
+internal record CountryQualityOfLifeIndexDeleted(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) : IDomainEvent;
 
 /// <summary>
 /// Country Quality Of Life Index.
 /// </summary>
-public abstract class CountryQualityOfLifeIndexBase : EntityBase, IEntityConcurrent
+internal abstract class CountryQualityOfLifeIndexBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).

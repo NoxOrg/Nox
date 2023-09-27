@@ -11,27 +11,27 @@ using Nox.Types;
 
 namespace Cryptocash.Domain;
 
-public partial class Customer : CustomerBase
+internal partial class Customer : CustomerBase
 {
 
 }
 /// <summary>
 /// Record for Customer created event.
 /// </summary>
-public record CustomerCreated(Customer Customer) : IDomainEvent;
+internal record CustomerCreated(Customer Customer) : IDomainEvent;
 /// <summary>
 /// Record for Customer updated event.
 /// </summary>
-public record CustomerUpdated(Customer Customer) : IDomainEvent;
+internal record CustomerUpdated(Customer Customer) : IDomainEvent;
 /// <summary>
 /// Record for Customer deleted event.
 /// </summary>
-public record CustomerDeleted(Customer Customer) : IDomainEvent;
+internal record CustomerDeleted(Customer Customer) : IDomainEvent;
 
 /// <summary>
 /// Customer definition and related data.
 /// </summary>
-public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
+internal abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Customer's unique identifier (Required).

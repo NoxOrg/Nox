@@ -11,27 +11,27 @@ using Nox.Types;
 
 namespace Cryptocash.Domain;
 
-public partial class CountryTimeZone : CountryTimeZoneBase
+internal partial class CountryTimeZone : CountryTimeZoneBase
 {
 
 }
 /// <summary>
 /// Record for CountryTimeZone created event.
 /// </summary>
-public record CountryTimeZoneCreated(CountryTimeZone CountryTimeZone) : IDomainEvent;
+internal record CountryTimeZoneCreated(CountryTimeZone CountryTimeZone) : IDomainEvent;
 /// <summary>
 /// Record for CountryTimeZone updated event.
 /// </summary>
-public record CountryTimeZoneUpdated(CountryTimeZone CountryTimeZone) : IDomainEvent;
+internal record CountryTimeZoneUpdated(CountryTimeZone CountryTimeZone) : IDomainEvent;
 /// <summary>
 /// Record for CountryTimeZone deleted event.
 /// </summary>
-public record CountryTimeZoneDeleted(CountryTimeZone CountryTimeZone) : IDomainEvent;
+internal record CountryTimeZoneDeleted(CountryTimeZone CountryTimeZone) : IDomainEvent;
 
 /// <summary>
 /// Time zone related to country.
 /// </summary>
-public abstract class CountryTimeZoneBase : EntityBase, IOwnedEntity
+internal abstract class CountryTimeZoneBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// Country's time zone unique identifier (Required).

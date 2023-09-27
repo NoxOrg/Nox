@@ -11,27 +11,27 @@ using Nox.Types;
 
 namespace Cryptocash.Domain;
 
-public partial class VendingMachine : VendingMachineBase
+internal partial class VendingMachine : VendingMachineBase
 {
 
 }
 /// <summary>
 /// Record for VendingMachine created event.
 /// </summary>
-public record VendingMachineCreated(VendingMachine VendingMachine) : IDomainEvent;
+internal record VendingMachineCreated(VendingMachine VendingMachine) : IDomainEvent;
 /// <summary>
 /// Record for VendingMachine updated event.
 /// </summary>
-public record VendingMachineUpdated(VendingMachine VendingMachine) : IDomainEvent;
+internal record VendingMachineUpdated(VendingMachine VendingMachine) : IDomainEvent;
 /// <summary>
 /// Record for VendingMachine deleted event.
 /// </summary>
-public record VendingMachineDeleted(VendingMachine VendingMachine) : IDomainEvent;
+internal record VendingMachineDeleted(VendingMachine VendingMachine) : IDomainEvent;
 
 /// <summary>
 /// Vending machine definition and related data.
 /// </summary>
-public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurrent
+internal abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Vending machine unique identifier (Required).

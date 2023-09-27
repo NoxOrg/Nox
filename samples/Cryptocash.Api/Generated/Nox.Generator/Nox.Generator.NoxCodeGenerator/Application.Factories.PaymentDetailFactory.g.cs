@@ -50,18 +50,18 @@ internal abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetail,
     private Cryptocash.Domain.PaymentDetail ToEntity(PaymentDetailCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.PaymentDetail();
-        entity.PaymentAccountName = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountName(createDto.PaymentAccountName);
-        entity.PaymentAccountNumber = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountNumber(createDto.PaymentAccountNumber);
-        if (createDto.PaymentAccountSortCode is not null)entity.PaymentAccountSortCode = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountSortCode(createDto.PaymentAccountSortCode.NonNullValue<System.String>());
+        entity.PaymentAccountName = Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountName(createDto.PaymentAccountName);
+        entity.PaymentAccountNumber = Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountNumber(createDto.PaymentAccountNumber);
+        if (createDto.PaymentAccountSortCode is not null)entity.PaymentAccountSortCode = Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountSortCode(createDto.PaymentAccountSortCode.NonNullValue<System.String>());
         return entity;
     }
 
     private void UpdateEntityInternal(PaymentDetail entity, PaymentDetailUpdateDto updateDto)
     {
-        entity.PaymentAccountName = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountName(updateDto.PaymentAccountName.NonNullValue<System.String>());
-        entity.PaymentAccountNumber = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountNumber(updateDto.PaymentAccountNumber.NonNullValue<System.String>());
+        entity.PaymentAccountName = Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountName(updateDto.PaymentAccountName.NonNullValue<System.String>());
+        entity.PaymentAccountNumber = Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountNumber(updateDto.PaymentAccountNumber.NonNullValue<System.String>());
         if (updateDto.PaymentAccountSortCode == null) { entity.PaymentAccountSortCode = null; } else {
-            entity.PaymentAccountSortCode = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountSortCode(updateDto.PaymentAccountSortCode.ToValueFromNonNull<System.String>());
+            entity.PaymentAccountSortCode = Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountSortCode(updateDto.PaymentAccountSortCode.ToValueFromNonNull<System.String>());
         }
     }
 
@@ -75,7 +75,7 @@ internal abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetail,
                 throw new ArgumentException("Attribute 'PaymentAccountName' can't be null");
             }
             {
-                entity.PaymentAccountName = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountName(PaymentAccountNameUpdateValue);
+                entity.PaymentAccountName = Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountName(PaymentAccountNameUpdateValue);
             }
         }
 
@@ -86,7 +86,7 @@ internal abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetail,
                 throw new ArgumentException("Attribute 'PaymentAccountNumber' can't be null");
             }
             {
-                entity.PaymentAccountNumber = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountNumber(PaymentAccountNumberUpdateValue);
+                entity.PaymentAccountNumber = Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountNumber(PaymentAccountNumberUpdateValue);
             }
         }
 
@@ -95,7 +95,7 @@ internal abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetail,
             if (PaymentAccountSortCodeUpdateValue == null) { entity.PaymentAccountSortCode = null; }
             else
             {
-                entity.PaymentAccountSortCode = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountSortCode(PaymentAccountSortCodeUpdateValue);
+                entity.PaymentAccountSortCode = Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountSortCode(PaymentAccountSortCodeUpdateValue);
             }
         }
     }

@@ -25,11 +25,11 @@ internal partial class CreateCustomerCommandHandler: CreateCustomerCommandHandle
 	public CreateCustomerCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> paymentdetailfactory,
-        IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> bookingfactory,
-        IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> transactionfactory,
-        IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
-        IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> entityFactory,
+		IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> paymentdetailfactory,
+		IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> bookingfactory,
+		IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> transactionfactory,
+		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
+		IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
 		: base(dbContext, noxSolution,paymentdetailfactory, bookingfactory, transactionfactory, countryfactory, entityFactory, serviceProvider)
 	{
@@ -41,27 +41,27 @@ internal abstract class CreateCustomerCommandHandlerBase: CommandBase<CreateCust
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> _entityFactory;
-    private readonly IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> _paymentdetailfactory;
-    private readonly IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> _bookingfactory;
-    private readonly IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> _transactionfactory;
-    private readonly IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> _countryfactory;
+	private readonly IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> _paymentdetailfactory;
+	private readonly IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> _bookingfactory;
+	private readonly IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> _transactionfactory;
+	private readonly IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> _countryfactory;
 
 	public CreateCustomerCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> paymentdetailfactory,
-        IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> bookingfactory,
-        IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> transactionfactory,
-        IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
-        IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> entityFactory,
+		IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> paymentdetailfactory,
+		IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> bookingfactory,
+		IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> transactionfactory,
+		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
+		IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
-        _paymentdetailfactory = paymentdetailfactory;
-        _bookingfactory = bookingfactory;
-        _transactionfactory = transactionfactory;
-        _countryfactory = countryfactory;
+		_paymentdetailfactory = paymentdetailfactory;
+		_bookingfactory = bookingfactory;
+		_transactionfactory = transactionfactory;
+		_countryfactory = countryfactory;
 	}
 
 	public virtual async Task<CustomerKeyDto> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)

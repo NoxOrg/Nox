@@ -50,15 +50,15 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRate, E
     private Cryptocash.Domain.ExchangeRate ToEntity(ExchangeRateCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.ExchangeRate();
-        entity.EffectiveRate = Cryptocash.Domain.ExchangeRate.CreateEffectiveRate(createDto.EffectiveRate);
-        entity.EffectiveAt = Cryptocash.Domain.ExchangeRate.CreateEffectiveAt(createDto.EffectiveAt);
+        entity.EffectiveRate = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveRate(createDto.EffectiveRate);
+        entity.EffectiveAt = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveAt(createDto.EffectiveAt);
         return entity;
     }
 
     private void UpdateEntityInternal(ExchangeRate entity, ExchangeRateUpdateDto updateDto)
     {
-        entity.EffectiveRate = Cryptocash.Domain.ExchangeRate.CreateEffectiveRate(updateDto.EffectiveRate.NonNullValue<System.Int32>());
-        entity.EffectiveAt = Cryptocash.Domain.ExchangeRate.CreateEffectiveAt(updateDto.EffectiveAt.NonNullValue<System.DateTimeOffset>());
+        entity.EffectiveRate = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveRate(updateDto.EffectiveRate.NonNullValue<System.Int32>());
+        entity.EffectiveAt = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveAt(updateDto.EffectiveAt.NonNullValue<System.DateTimeOffset>());
     }
 
     private void PartialUpdateEntityInternal(ExchangeRate entity, Dictionary<string, dynamic> updatedProperties)
@@ -71,7 +71,7 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRate, E
                 throw new ArgumentException("Attribute 'EffectiveRate' can't be null");
             }
             {
-                entity.EffectiveRate = Cryptocash.Domain.ExchangeRate.CreateEffectiveRate(EffectiveRateUpdateValue);
+                entity.EffectiveRate = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveRate(EffectiveRateUpdateValue);
             }
         }
 
@@ -82,7 +82,7 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRate, E
                 throw new ArgumentException("Attribute 'EffectiveAt' can't be null");
             }
             {
-                entity.EffectiveAt = Cryptocash.Domain.ExchangeRate.CreateEffectiveAt(EffectiveAtUpdateValue);
+                entity.EffectiveAt = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveAt(EffectiveAtUpdateValue);
             }
         }
     }

@@ -11,27 +11,27 @@ using Nox.Types;
 
 namespace Cryptocash.Domain;
 
-public partial class Employee : EmployeeBase
+internal partial class Employee : EmployeeBase
 {
 
 }
 /// <summary>
 /// Record for Employee created event.
 /// </summary>
-public record EmployeeCreated(Employee Employee) : IDomainEvent;
+internal record EmployeeCreated(Employee Employee) : IDomainEvent;
 /// <summary>
 /// Record for Employee updated event.
 /// </summary>
-public record EmployeeUpdated(Employee Employee) : IDomainEvent;
+internal record EmployeeUpdated(Employee Employee) : IDomainEvent;
 /// <summary>
 /// Record for Employee deleted event.
 /// </summary>
-public record EmployeeDeleted(Employee Employee) : IDomainEvent;
+internal record EmployeeDeleted(Employee Employee) : IDomainEvent;
 
 /// <summary>
 /// Employee definition and related data.
 /// </summary>
-public abstract class EmployeeBase : AuditableEntityBase, IEntityConcurrent
+internal abstract class EmployeeBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Employee's unique identifier (Required).

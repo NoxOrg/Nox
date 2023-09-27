@@ -11,7 +11,7 @@ using Nox.Types;
 
 namespace {{codeGeneratorState.DomainNameSpace}};
 
-public partial class {{className}} : {{className}}Base
+internal partial class {{className}} : {{className}}Base
 {
 
 }
@@ -19,27 +19,27 @@ public partial class {{className}} : {{className}}Base
 /// <summary>
 /// Record for {{entity.Name}} created event.
 /// </summary>
-public record {{entity.Name}}Created({{entity.Name}} {{entity.Name}}) : IDomainEvent;
+internal record {{entity.Name}}Created({{entity.Name}} {{entity.Name}}) : IDomainEvent;
 {{- end}}
 
 {{- if entity.Persistence.Update.RaiseEvents == "DomainEventsOnly" || entity.Persistence.Update.RaiseEvents == "DomainAndIntegrationEvents" }}
 /// <summary>
 /// Record for {{entity.Name}} updated event.
 /// </summary>
-public record {{entity.Name}}Updated({{entity.Name}} {{entity.Name}}) : IDomainEvent;
+internal record {{entity.Name}}Updated({{entity.Name}} {{entity.Name}}) : IDomainEvent;
 {{- end}}
 
 {{- if entity.Persistence.Delete.RaiseEvents == "DomainEventsOnly" || entity.Persistence.Delete.RaiseEvents == "DomainAndIntegrationEvents" }}
 /// <summary>
 /// Record for {{entity.Name}} deleted event.
 /// </summary>
-public record {{entity.Name}}Deleted({{entity.Name}} {{entity.Name}}) : IDomainEvent;
+internal record {{entity.Name}}Deleted({{entity.Name}} {{entity.Name}}) : IDomainEvent;
 {{- end}}
 
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase, IEntityConcurrent{{else}}EntityBase, IEntityConcurrent{{end}}{{else}} : EntityBase, IOwnedEntity{{end}}
+internal abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase, IEntityConcurrent{{else}}EntityBase, IEntityConcurrent{{end}}{{else}} : EntityBase, IOwnedEntity{{end}}
 {
 {{- for key in entity.Keys }}
     /// <summary>
