@@ -19,21 +19,21 @@ internal partial class {{className}}:{{className}}Base
 /// <summary>
 /// Record for {{entity.Name}} created event.
 /// </summary>
-public record {{entity.Name}}Created({{entity.Name}}Base {{entity.Name}}) : IDomainEvent;
+internal record {{entity.Name}}Created({{entity.Name}}Base {{entity.Name}}) : IDomainEvent;
 {{- end}}
 
 {{- if entity.Persistence.Update.RaiseEvents }}
 /// <summary>
 /// Record for {{entity.Name}} updated event.
 /// </summary>
-public record {{entity.Name}}Updated({{entity.Name}}Base {{entity.Name}}) : IDomainEvent;
+internal record {{entity.Name}}Updated({{entity.Name}}Base {{entity.Name}}) : IDomainEvent;
 {{- end}}
 
 {{- if entity.Persistence.Delete.RaiseEvents }}
 /// <summary>
 /// Record for {{entity.Name}} deleted event.
 /// </summary>
-public record {{entity.Name}}Deleted({{entity.Name}}Base {{entity.Name}}) : IDomainEvent;
+internal record {{entity.Name}}Deleted({{entity.Name}}Base {{entity.Name}}) : IDomainEvent;
 {{- end}}
 
 /// <summary>
@@ -114,7 +114,7 @@ internal abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if e
 	///<inheritdoc/>
 	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
 
-	private readonly List<IDomainEvent> _domainEvents = new();
+	protected readonly List<IDomainEvent> _domainEvents = new();
 	
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()

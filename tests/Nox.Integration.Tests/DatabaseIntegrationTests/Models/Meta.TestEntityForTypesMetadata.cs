@@ -12,7 +12,7 @@ namespace TestWebApp.Domain;
 /// <summary>
 /// Static methods for the TestEntityForTypes class.
 /// </summary>
-public partial class TestEntityForTypes
+public partial class TestEntityForTypesMetadata
 {
     
         /// <summary>
