@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
@@ -17,20 +18,20 @@ internal partial class CountryQualityOfLifeIndex:CountryQualityOfLifeIndexBase
 /// <summary>
 /// Record for CountryQualityOfLifeIndex created event.
 /// </summary>
-internal record CountryQualityOfLifeIndexCreated(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) : IDomainEvent;
+internal record CountryQualityOfLifeIndexCreated(CountryQualityOfLifeIndexBase CountryQualityOfLifeIndex) : IDomainEvent;
 /// <summary>
 /// Record for CountryQualityOfLifeIndex updated event.
 /// </summary>
-internal record CountryQualityOfLifeIndexUpdated(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) : IDomainEvent;
+internal record CountryQualityOfLifeIndexUpdated(CountryQualityOfLifeIndexBase CountryQualityOfLifeIndex) : IDomainEvent;
 /// <summary>
 /// Record for CountryQualityOfLifeIndex deleted event.
 /// </summary>
-internal record CountryQualityOfLifeIndexDeleted(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) : IDomainEvent;
+internal record CountryQualityOfLifeIndexDeleted(CountryQualityOfLifeIndexBase CountryQualityOfLifeIndex) : IDomainEvent;
 
 /// <summary>
 /// Country Quality Of Life Index.
 /// </summary>
-internal abstract class CountryQualityOfLifeIndexBase : EntityBase, IEntityConcurrent
+internal abstract class CountryQualityOfLifeIndexBase : EntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     ///  (Required).
@@ -47,6 +48,32 @@ internal abstract class CountryQualityOfLifeIndexBase : EntityBase, IEntityConcu
     /// Rating Index (Required).
     /// </summary>
     public Nox.Types.Number IndexRating { get; set; } = null!;
+
+	///<inheritdoc/>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
+
+	protected readonly List<IDomainEvent> _domainEvents = new();
+	
+	///<inheritdoc/>
+	public virtual void RaiseCreateEvent()
+	{
+		_domainEvents.Add(new CountryQualityOfLifeIndexCreated(this));
+	}
+	///<inheritdoc/>
+	public virtual void RaiseUpdateEvent()
+	{
+		_domainEvents.Add(new CountryQualityOfLifeIndexUpdated(this));
+	}
+	///<inheritdoc/>
+	public virtual void RaiseDeleteEvent()
+	{
+		_domainEvents.Add(new CountryQualityOfLifeIndexDeleted(this));
+	}
+	///<inheritdoc />
+    public virtual void ClearDomainEvents()
+	{
+		_domainEvents.Clear();
+	}
 
     /// <summary>
     /// Entity tag used as concurrency token.

@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -18,20 +18,20 @@ internal partial class StoreOwner:StoreOwnerBase
 /// <summary>
 /// Record for StoreOwner created event.
 /// </summary>
-public record StoreOwnerCreated(StoreOwnerBase StoreOwner) : IDomainEvent;
+internal record StoreOwnerCreated(StoreOwnerBase StoreOwner) : IDomainEvent;
 /// <summary>
 /// Record for StoreOwner updated event.
 /// </summary>
-public record StoreOwnerUpdated(StoreOwnerBase StoreOwner) : IDomainEvent;
+internal record StoreOwnerUpdated(StoreOwnerBase StoreOwner) : IDomainEvent;
 /// <summary>
 /// Record for StoreOwner deleted event.
 /// </summary>
-public record StoreOwnerDeleted(StoreOwnerBase StoreOwner) : IDomainEvent;
+internal record StoreOwnerDeleted(StoreOwnerBase StoreOwner) : IDomainEvent;
 
 /// <summary>
 /// Store owners.
 /// </summary>
-public abstract class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     ///  (Required).
@@ -71,26 +71,23 @@ public abstract class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent, I
 	///<inheritdoc/>
 	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
 
-	private readonly List<IDomainEvent> _domainEvents = new();
+	protected readonly List<IDomainEvent> _domainEvents = new();
 	
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new StoreOwnerCreated(this));     
+		_domainEvents.Add(new StoreOwnerCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new StoreOwnerUpdated(this));  
+		_domainEvents.Add(new StoreOwnerUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new StoreOwnerDeleted(this)); 
+		_domainEvents.Add(new StoreOwnerDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

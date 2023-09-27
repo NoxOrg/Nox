@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -18,20 +18,20 @@ internal partial class LandLord:LandLordBase
 /// <summary>
 /// Record for LandLord created event.
 /// </summary>
-public record LandLordCreated(LandLordBase LandLord) : IDomainEvent;
+internal record LandLordCreated(LandLordBase LandLord) : IDomainEvent;
 /// <summary>
 /// Record for LandLord updated event.
 /// </summary>
-public record LandLordUpdated(LandLordBase LandLord) : IDomainEvent;
+internal record LandLordUpdated(LandLordBase LandLord) : IDomainEvent;
 /// <summary>
 /// Record for LandLord deleted event.
 /// </summary>
-public record LandLordDeleted(LandLordBase LandLord) : IDomainEvent;
+internal record LandLordDeleted(LandLordBase LandLord) : IDomainEvent;
 
 /// <summary>
 /// Landlord related data.
 /// </summary>
-public abstract class LandLordBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class LandLordBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     /// Landlord unique identifier (Required).
@@ -51,26 +51,23 @@ public abstract class LandLordBase : AuditableEntityBase, IEntityConcurrent, IEn
 	///<inheritdoc/>
 	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
 
-	private readonly List<IDomainEvent> _domainEvents = new();
+	protected readonly List<IDomainEvent> _domainEvents = new();
 	
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new LandLordCreated(this));     
+		_domainEvents.Add(new LandLordCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new LandLordUpdated(this));  
+		_domainEvents.Add(new LandLordUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new LandLordDeleted(this)); 
+		_domainEvents.Add(new LandLordDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

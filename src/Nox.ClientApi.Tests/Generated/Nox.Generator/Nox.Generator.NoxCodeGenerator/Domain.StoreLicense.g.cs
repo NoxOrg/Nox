@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -18,20 +18,20 @@ internal partial class StoreLicense:StoreLicenseBase
 /// <summary>
 /// Record for StoreLicense created event.
 /// </summary>
-public record StoreLicenseCreated(StoreLicenseBase StoreLicense) : IDomainEvent;
+internal record StoreLicenseCreated(StoreLicenseBase StoreLicense) : IDomainEvent;
 /// <summary>
 /// Record for StoreLicense updated event.
 /// </summary>
-public record StoreLicenseUpdated(StoreLicenseBase StoreLicense) : IDomainEvent;
+internal record StoreLicenseUpdated(StoreLicenseBase StoreLicense) : IDomainEvent;
 /// <summary>
 /// Record for StoreLicense deleted event.
 /// </summary>
-public record StoreLicenseDeleted(StoreLicenseBase StoreLicense) : IDomainEvent;
+internal record StoreLicenseDeleted(StoreLicenseBase StoreLicense) : IDomainEvent;
 
 /// <summary>
 /// Store license info.
 /// </summary>
-public abstract class StoreLicenseBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class StoreLicenseBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     ///  (Required).
@@ -46,26 +46,23 @@ public abstract class StoreLicenseBase : AuditableEntityBase, IEntityConcurrent,
 	///<inheritdoc/>
 	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
 
-	private readonly List<IDomainEvent> _domainEvents = new();
+	protected readonly List<IDomainEvent> _domainEvents = new();
 	
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new StoreLicenseCreated(this));     
+		_domainEvents.Add(new StoreLicenseCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new StoreLicenseUpdated(this));  
+		_domainEvents.Add(new StoreLicenseUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new StoreLicenseDeleted(this)); 
+		_domainEvents.Add(new StoreLicenseDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

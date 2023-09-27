@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -18,20 +18,20 @@ internal partial class CashStockOrder:CashStockOrderBase
 /// <summary>
 /// Record for CashStockOrder created event.
 /// </summary>
-public record CashStockOrderCreated(CashStockOrderBase CashStockOrder) : IDomainEvent;
+internal record CashStockOrderCreated(CashStockOrderBase CashStockOrder) : IDomainEvent;
 /// <summary>
 /// Record for CashStockOrder updated event.
 /// </summary>
-public record CashStockOrderUpdated(CashStockOrderBase CashStockOrder) : IDomainEvent;
+internal record CashStockOrderUpdated(CashStockOrderBase CashStockOrder) : IDomainEvent;
 /// <summary>
 /// Record for CashStockOrder deleted event.
 /// </summary>
-public record CashStockOrderDeleted(CashStockOrderBase CashStockOrder) : IDomainEvent;
+internal record CashStockOrderDeleted(CashStockOrderBase CashStockOrder) : IDomainEvent;
 
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-public abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     /// Vending machine's order unique identifier (Required).
@@ -65,26 +65,23 @@ public abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurren
 	///<inheritdoc/>
 	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
 
-	private readonly List<IDomainEvent> _domainEvents = new();
+	protected readonly List<IDomainEvent> _domainEvents = new();
 	
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new CashStockOrderCreated(this));     
+		_domainEvents.Add(new CashStockOrderCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new CashStockOrderUpdated(this));  
+		_domainEvents.Add(new CashStockOrderUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new CashStockOrderDeleted(this)); 
+		_domainEvents.Add(new CashStockOrderDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -18,20 +18,20 @@ internal partial class Commission:CommissionBase
 /// <summary>
 /// Record for Commission created event.
 /// </summary>
-public record CommissionCreated(CommissionBase Commission) : IDomainEvent;
+internal record CommissionCreated(CommissionBase Commission) : IDomainEvent;
 /// <summary>
 /// Record for Commission updated event.
 /// </summary>
-public record CommissionUpdated(CommissionBase Commission) : IDomainEvent;
+internal record CommissionUpdated(CommissionBase Commission) : IDomainEvent;
 /// <summary>
 /// Record for Commission deleted event.
 /// </summary>
-public record CommissionDeleted(CommissionBase Commission) : IDomainEvent;
+internal record CommissionDeleted(CommissionBase Commission) : IDomainEvent;
 
 /// <summary>
 /// Exchange commission rate and amount.
 /// </summary>
-public abstract class CommissionBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class CommissionBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     /// Commission unique identifier (Required).
@@ -51,26 +51,23 @@ public abstract class CommissionBase : AuditableEntityBase, IEntityConcurrent, I
 	///<inheritdoc/>
 	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
 
-	private readonly List<IDomainEvent> _domainEvents = new();
+	protected readonly List<IDomainEvent> _domainEvents = new();
 	
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new CommissionCreated(this));     
+		_domainEvents.Add(new CommissionCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new CommissionUpdated(this));  
+		_domainEvents.Add(new CommissionUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new CommissionDeleted(this)); 
+		_domainEvents.Add(new CommissionDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

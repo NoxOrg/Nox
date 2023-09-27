@@ -12,7 +12,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Static methods for the PaymentDetail class.
 /// </summary>
-public partial class PaymentDetail
+public partial class PaymentDetailMetadata
 {
     
         /// <summary>

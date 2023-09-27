@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -18,20 +18,20 @@ internal partial class Transaction:TransactionBase
 /// <summary>
 /// Record for Transaction created event.
 /// </summary>
-public record TransactionCreated(TransactionBase Transaction) : IDomainEvent;
+internal record TransactionCreated(TransactionBase Transaction) : IDomainEvent;
 /// <summary>
 /// Record for Transaction updated event.
 /// </summary>
-public record TransactionUpdated(TransactionBase Transaction) : IDomainEvent;
+internal record TransactionUpdated(TransactionBase Transaction) : IDomainEvent;
 /// <summary>
 /// Record for Transaction deleted event.
 /// </summary>
-public record TransactionDeleted(TransactionBase Transaction) : IDomainEvent;
+internal record TransactionDeleted(TransactionBase Transaction) : IDomainEvent;
 
 /// <summary>
 /// Customer transaction log and related data.
 /// </summary>
-public abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     /// Customer transaction unique identifier (Required).
@@ -61,26 +61,23 @@ public abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent, 
 	///<inheritdoc/>
 	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
 
-	private readonly List<IDomainEvent> _domainEvents = new();
+	protected readonly List<IDomainEvent> _domainEvents = new();
 	
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new TransactionCreated(this));     
+		_domainEvents.Add(new TransactionCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new TransactionUpdated(this));  
+		_domainEvents.Add(new TransactionUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new TransactionDeleted(this)); 
+		_domainEvents.Add(new TransactionDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

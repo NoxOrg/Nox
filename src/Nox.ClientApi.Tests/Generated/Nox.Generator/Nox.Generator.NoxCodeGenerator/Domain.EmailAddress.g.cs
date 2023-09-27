@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -18,20 +18,20 @@ internal partial class EmailAddress:EmailAddressBase
 /// <summary>
 /// Record for EmailAddress created event.
 /// </summary>
-public record EmailAddressCreated(EmailAddressBase EmailAddress) : IDomainEvent;
+internal record EmailAddressCreated(EmailAddressBase EmailAddress) : IDomainEvent;
 /// <summary>
 /// Record for EmailAddress updated event.
 /// </summary>
-public record EmailAddressUpdated(EmailAddressBase EmailAddress) : IDomainEvent;
+internal record EmailAddressUpdated(EmailAddressBase EmailAddress) : IDomainEvent;
 /// <summary>
 /// Record for EmailAddress deleted event.
 /// </summary>
-public record EmailAddressDeleted(EmailAddressBase EmailAddress) : IDomainEvent;
+internal record EmailAddressDeleted(EmailAddressBase EmailAddress) : IDomainEvent;
 
 /// <summary>
 /// Verified Email Address.
 /// </summary>
-public abstract class EmailAddressBase : EntityBase, IOwnedEntity, IEntityHaveDomainEvents
+internal abstract class EmailAddressBase : EntityBase, IOwnedEntity, IEntityHaveDomainEvents
 {
 
     /// <summary>
@@ -47,26 +47,23 @@ public abstract class EmailAddressBase : EntityBase, IOwnedEntity, IEntityHaveDo
 	///<inheritdoc/>
 	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
 
-	private readonly List<IDomainEvent> _domainEvents = new();
+	protected readonly List<IDomainEvent> _domainEvents = new();
 	
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new EmailAddressCreated(this));     
+		_domainEvents.Add(new EmailAddressCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new EmailAddressUpdated(this));  
+		_domainEvents.Add(new EmailAddressUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new EmailAddressDeleted(this)); 
+		_domainEvents.Add(new EmailAddressDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

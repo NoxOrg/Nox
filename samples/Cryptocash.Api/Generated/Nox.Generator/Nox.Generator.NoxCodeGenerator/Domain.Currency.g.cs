@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -18,20 +18,20 @@ internal partial class Currency:CurrencyBase
 /// <summary>
 /// Record for Currency created event.
 /// </summary>
-public record CurrencyCreated(CurrencyBase Currency) : IDomainEvent;
+internal record CurrencyCreated(CurrencyBase Currency) : IDomainEvent;
 /// <summary>
 /// Record for Currency updated event.
 /// </summary>
-public record CurrencyUpdated(CurrencyBase Currency) : IDomainEvent;
+internal record CurrencyUpdated(CurrencyBase Currency) : IDomainEvent;
 /// <summary>
 /// Record for Currency deleted event.
 /// </summary>
-public record CurrencyDeleted(CurrencyBase Currency) : IDomainEvent;
+internal record CurrencyDeleted(CurrencyBase Currency) : IDomainEvent;
 
 /// <summary>
 /// Currency and related data.
 /// </summary>
-public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     /// Currency unique identifier (Required).
@@ -101,26 +101,23 @@ public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent, IEn
 	///<inheritdoc/>
 	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
 
-	private readonly List<IDomainEvent> _domainEvents = new();
+	protected readonly List<IDomainEvent> _domainEvents = new();
 	
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new CurrencyCreated(this));     
+		_domainEvents.Add(new CurrencyCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new CurrencyUpdated(this));  
+		_domainEvents.Add(new CurrencyUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new CurrencyDeleted(this)); 
+		_domainEvents.Add(new CurrencyDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -18,20 +18,20 @@ internal partial class Country:CountryBase
 /// <summary>
 /// Record for Country created event.
 /// </summary>
-public record CountryCreated(CountryBase Country) : IDomainEvent;
+internal record CountryCreated(CountryBase Country) : IDomainEvent;
 /// <summary>
 /// Record for Country updated event.
 /// </summary>
-public record CountryUpdated(CountryBase Country) : IDomainEvent;
+internal record CountryUpdated(CountryBase Country) : IDomainEvent;
 /// <summary>
 /// Record for Country deleted event.
 /// </summary>
-public record CountryDeleted(CountryBase Country) : IDomainEvent;
+internal record CountryDeleted(CountryBase Country) : IDomainEvent;
 
 /// <summary>
 /// Country Entity.
 /// </summary>
-public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class CountryBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     /// The unique identifier (Required).
@@ -70,26 +70,23 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent, IEnt
 	///<inheritdoc/>
 	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
 
-	private readonly List<IDomainEvent> _domainEvents = new();
+	protected readonly List<IDomainEvent> _domainEvents = new();
 	
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new CountryCreated(this));     
+		_domainEvents.Add(new CountryCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new CountryUpdated(this));  
+		_domainEvents.Add(new CountryUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new CountryDeleted(this)); 
+		_domainEvents.Add(new CountryDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

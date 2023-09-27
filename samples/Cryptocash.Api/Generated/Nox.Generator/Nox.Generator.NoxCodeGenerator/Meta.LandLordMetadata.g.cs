@@ -7,12 +7,12 @@ using Nox.Domain;
 using System;
 using System.Collections.Generic;
 
-namespace ClientApi.Domain;
+namespace Cryptocash.Domain;
 
 /// <summary>
-/// Static methods for the CountryLocalName class.
+/// Static methods for the LandLord class.
 /// </summary>
-public partial class CountryLocalName
+public partial class LandLordMetadata
 {
     
         /// <summary>
@@ -43,22 +43,9 @@ public partial class CountryLocalName
         
     
         /// <summary>
-        /// Type options for property 'NativeName'
+        /// Factory for property 'Address'
         /// </summary>
-        public static Nox.Types.TextTypeOptions NativeNameTypeOptions {get; private set;} = new ()
-        {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
-        };
-    
-    
-        /// <summary>
-        /// Factory for property 'NativeName'
-        /// </summary>
-        public static Nox.Types.Text CreateNativeName(System.String value)
-            => Nox.Types.Text.From(value, NativeNameTypeOptions);
+        public static Nox.Types.StreetAddress CreateAddress(IStreetAddress value)
+            => Nox.Types.StreetAddress.From(value);
         
 }

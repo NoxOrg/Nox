@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -18,20 +18,20 @@ internal partial class PaymentDetail:PaymentDetailBase
 /// <summary>
 /// Record for PaymentDetail created event.
 /// </summary>
-public record PaymentDetailCreated(PaymentDetailBase PaymentDetail) : IDomainEvent;
+internal record PaymentDetailCreated(PaymentDetailBase PaymentDetail) : IDomainEvent;
 /// <summary>
 /// Record for PaymentDetail updated event.
 /// </summary>
-public record PaymentDetailUpdated(PaymentDetailBase PaymentDetail) : IDomainEvent;
+internal record PaymentDetailUpdated(PaymentDetailBase PaymentDetail) : IDomainEvent;
 /// <summary>
 /// Record for PaymentDetail deleted event.
 /// </summary>
-public record PaymentDetailDeleted(PaymentDetailBase PaymentDetail) : IDomainEvent;
+internal record PaymentDetailDeleted(PaymentDetailBase PaymentDetail) : IDomainEvent;
 
 /// <summary>
 /// Customer payment account related data.
 /// </summary>
-public abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     /// Customer payment account unique identifier (Required).
@@ -56,26 +56,23 @@ public abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent
 	///<inheritdoc/>
 	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
 
-	private readonly List<IDomainEvent> _domainEvents = new();
+	protected readonly List<IDomainEvent> _domainEvents = new();
 	
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new PaymentDetailCreated(this));     
+		_domainEvents.Add(new PaymentDetailCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new PaymentDetailUpdated(this));  
+		_domainEvents.Add(new PaymentDetailUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new PaymentDetailDeleted(this)); 
+		_domainEvents.Add(new PaymentDetailDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

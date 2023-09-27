@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -18,20 +18,20 @@ internal partial class VendingMachine:VendingMachineBase
 /// <summary>
 /// Record for VendingMachine created event.
 /// </summary>
-public record VendingMachineCreated(VendingMachineBase VendingMachine) : IDomainEvent;
+internal record VendingMachineCreated(VendingMachineBase VendingMachine) : IDomainEvent;
 /// <summary>
 /// Record for VendingMachine updated event.
 /// </summary>
-public record VendingMachineUpdated(VendingMachineBase VendingMachine) : IDomainEvent;
+internal record VendingMachineUpdated(VendingMachineBase VendingMachine) : IDomainEvent;
 /// <summary>
 /// Record for VendingMachine deleted event.
 /// </summary>
-public record VendingMachineDeleted(VendingMachineBase VendingMachine) : IDomainEvent;
+internal record VendingMachineDeleted(VendingMachineBase VendingMachine) : IDomainEvent;
 
 /// <summary>
 /// Vending machine definition and related data.
 /// </summary>
-public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     /// Vending machine unique identifier (Required).
@@ -92,26 +92,23 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
 	///<inheritdoc/>
 	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
 
-	private readonly List<IDomainEvent> _domainEvents = new();
+	protected readonly List<IDomainEvent> _domainEvents = new();
 	
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new VendingMachineCreated(this));     
+		_domainEvents.Add(new VendingMachineCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new VendingMachineUpdated(this));  
+		_domainEvents.Add(new VendingMachineUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new VendingMachineDeleted(this)); 
+		_domainEvents.Add(new VendingMachineDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

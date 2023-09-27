@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -18,20 +18,20 @@ internal partial class BankNote:BankNoteBase
 /// <summary>
 /// Record for BankNote created event.
 /// </summary>
-public record BankNoteCreated(BankNoteBase BankNote) : IDomainEvent;
+internal record BankNoteCreated(BankNoteBase BankNote) : IDomainEvent;
 /// <summary>
 /// Record for BankNote updated event.
 /// </summary>
-public record BankNoteUpdated(BankNoteBase BankNote) : IDomainEvent;
+internal record BankNoteUpdated(BankNoteBase BankNote) : IDomainEvent;
 /// <summary>
 /// Record for BankNote deleted event.
 /// </summary>
-public record BankNoteDeleted(BankNoteBase BankNote) : IDomainEvent;
+internal record BankNoteDeleted(BankNoteBase BankNote) : IDomainEvent;
 
 /// <summary>
 /// Currencies related frequent and rare bank notes.
 /// </summary>
-public abstract class BankNoteBase : EntityBase, IOwnedEntity, IEntityHaveDomainEvents
+internal abstract class BankNoteBase : EntityBase, IOwnedEntity, IEntityHaveDomainEvents
 {
     /// <summary>
     /// Currency bank note unique identifier (Required).
@@ -51,26 +51,23 @@ public abstract class BankNoteBase : EntityBase, IOwnedEntity, IEntityHaveDomain
 	///<inheritdoc/>
 	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
 
-	private readonly List<IDomainEvent> _domainEvents = new();
+	protected readonly List<IDomainEvent> _domainEvents = new();
 	
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new BankNoteCreated(this));     
+		_domainEvents.Add(new BankNoteCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new BankNoteUpdated(this));  
+		_domainEvents.Add(new BankNoteUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new BankNoteDeleted(this)); 
+		_domainEvents.Add(new BankNoteDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

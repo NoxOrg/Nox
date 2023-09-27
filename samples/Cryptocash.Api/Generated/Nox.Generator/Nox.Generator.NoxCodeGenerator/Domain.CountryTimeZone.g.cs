@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -18,20 +18,20 @@ internal partial class CountryTimeZone:CountryTimeZoneBase
 /// <summary>
 /// Record for CountryTimeZone created event.
 /// </summary>
-public record CountryTimeZoneCreated(CountryTimeZoneBase CountryTimeZone) : IDomainEvent;
+internal record CountryTimeZoneCreated(CountryTimeZoneBase CountryTimeZone) : IDomainEvent;
 /// <summary>
 /// Record for CountryTimeZone updated event.
 /// </summary>
-public record CountryTimeZoneUpdated(CountryTimeZoneBase CountryTimeZone) : IDomainEvent;
+internal record CountryTimeZoneUpdated(CountryTimeZoneBase CountryTimeZone) : IDomainEvent;
 /// <summary>
 /// Record for CountryTimeZone deleted event.
 /// </summary>
-public record CountryTimeZoneDeleted(CountryTimeZoneBase CountryTimeZone) : IDomainEvent;
+internal record CountryTimeZoneDeleted(CountryTimeZoneBase CountryTimeZone) : IDomainEvent;
 
 /// <summary>
 /// Time zone related to country.
 /// </summary>
-public abstract class CountryTimeZoneBase : EntityBase, IOwnedEntity, IEntityHaveDomainEvents
+internal abstract class CountryTimeZoneBase : EntityBase, IOwnedEntity, IEntityHaveDomainEvents
 {
     /// <summary>
     /// Country's time zone unique identifier (Required).
@@ -46,26 +46,23 @@ public abstract class CountryTimeZoneBase : EntityBase, IOwnedEntity, IEntityHav
 	///<inheritdoc/>
 	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
 
-	private readonly List<IDomainEvent> _domainEvents = new();
+	protected readonly List<IDomainEvent> _domainEvents = new();
 	
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new CountryTimeZoneCreated(this));     
+		_domainEvents.Add(new CountryTimeZoneCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new CountryTimeZoneUpdated(this));  
+		_domainEvents.Add(new CountryTimeZoneUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new CountryTimeZoneDeleted(this)); 
+		_domainEvents.Add(new CountryTimeZoneDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

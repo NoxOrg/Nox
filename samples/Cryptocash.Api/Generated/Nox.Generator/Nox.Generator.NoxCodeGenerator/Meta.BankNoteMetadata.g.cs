@@ -7,12 +7,12 @@ using Nox.Domain;
 using System;
 using System.Collections.Generic;
 
-namespace ClientApi.Domain;
+namespace Cryptocash.Domain;
 
 /// <summary>
-/// Static methods for the StoreLicense class.
+/// Static methods for the BankNote class.
 /// </summary>
-public partial class StoreLicense
+public partial class BankNoteMetadata
 {
     
         /// <summary>
@@ -23,9 +23,9 @@ public partial class StoreLicense
         
     
         /// <summary>
-        /// Type options for property 'Issuer'
+        /// Type options for property 'CashNote'
         /// </summary>
-        public static Nox.Types.TextTypeOptions IssuerTypeOptions {get; private set;} = new ()
+        public static Nox.Types.TextTypeOptions CashNoteTypeOptions {get; private set;} = new ()
         {
             MinLength = 4,
             MaxLength = 63,
@@ -36,9 +36,16 @@ public partial class StoreLicense
     
     
         /// <summary>
-        /// Factory for property 'Issuer'
+        /// Factory for property 'CashNote'
         /// </summary>
-        public static Nox.Types.Text CreateIssuer(System.String value)
-            => Nox.Types.Text.From(value, IssuerTypeOptions);
+        public static Nox.Types.Text CreateCashNote(System.String value)
+            => Nox.Types.Text.From(value, CashNoteTypeOptions);
+        
+    
+        /// <summary>
+        /// Factory for property 'Value'
+        /// </summary>
+        public static Nox.Types.Money CreateValue(IMoney value)
+            => Nox.Types.Money.From(value);
         
 }

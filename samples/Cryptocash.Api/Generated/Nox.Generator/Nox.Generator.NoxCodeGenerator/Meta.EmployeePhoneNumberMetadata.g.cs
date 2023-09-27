@@ -10,9 +10,9 @@ using System.Collections.Generic;
 namespace Cryptocash.Domain;
 
 /// <summary>
-/// Static methods for the LandLord class.
+/// Static methods for the EmployeePhoneNumber class.
 /// </summary>
-public partial class LandLord
+public partial class EmployeePhoneNumberMetadata
 {
     
         /// <summary>
@@ -23,9 +23,9 @@ public partial class LandLord
         
     
         /// <summary>
-        /// Type options for property 'Name'
+        /// Type options for property 'PhoneNumberType'
         /// </summary>
-        public static Nox.Types.TextTypeOptions NameTypeOptions {get; private set;} = new ()
+        public static Nox.Types.TextTypeOptions PhoneNumberTypeTypeOptions {get; private set;} = new ()
         {
             MinLength = 4,
             MaxLength = 63,
@@ -36,16 +36,16 @@ public partial class LandLord
     
     
         /// <summary>
-        /// Factory for property 'Name'
+        /// Factory for property 'PhoneNumberType'
         /// </summary>
-        public static Nox.Types.Text CreateName(System.String value)
-            => Nox.Types.Text.From(value, NameTypeOptions);
+        public static Nox.Types.Text CreatePhoneNumberType(System.String value)
+            => Nox.Types.Text.From(value, PhoneNumberTypeTypeOptions);
         
     
         /// <summary>
-        /// Factory for property 'Address'
+        /// Factory for property 'PhoneNumber'
         /// </summary>
-        public static Nox.Types.StreetAddress CreateAddress(IStreetAddress value)
-            => Nox.Types.StreetAddress.From(value);
+        public static Nox.Types.PhoneNumber CreatePhoneNumber(System.String value)
+            => Nox.Types.PhoneNumber.From(value);
         
 }

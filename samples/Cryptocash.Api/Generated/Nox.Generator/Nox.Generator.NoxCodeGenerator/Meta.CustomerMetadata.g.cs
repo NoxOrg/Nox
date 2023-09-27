@@ -10,9 +10,9 @@ using System.Collections.Generic;
 namespace Cryptocash.Domain;
 
 /// <summary>
-/// Static methods for the Employee class.
+/// Static methods for the Customer class.
 /// </summary>
-public partial class Employee
+public partial class CustomerMetadata
 {
     
         /// <summary>
@@ -77,23 +77,16 @@ public partial class Employee
         
     
         /// <summary>
-        /// Factory for property 'FirstWorkingDay'
+        /// Factory for property 'MobileNumber'
         /// </summary>
-        public static Nox.Types.Date CreateFirstWorkingDay(System.DateTime value)
-            => Nox.Types.Date.From(value);
+        public static Nox.Types.PhoneNumber CreateMobileNumber(System.String value)
+            => Nox.Types.PhoneNumber.From(value);
         
     
         /// <summary>
-        /// Factory for property 'LastWorkingDay'
+        /// Factory for property 'CountryId'
         /// </summary>
-        public static Nox.Types.Date CreateLastWorkingDay(System.DateTime value)
-            => Nox.Types.Date.From(value);
-        
-    
-        /// <summary>
-        /// Factory for property 'EmployeePhoneNumberId'
-        /// </summary>
-        public static Nox.Types.AutoNumber CreateEmployeePhoneNumberId(System.Int64 value)
-            => Nox.Types.AutoNumber.From(value);
+        public static Nox.Types.CountryCode2 CreateCountryId(System.String value)
+            => Nox.Types.CountryCode2.From(value);
         
 }

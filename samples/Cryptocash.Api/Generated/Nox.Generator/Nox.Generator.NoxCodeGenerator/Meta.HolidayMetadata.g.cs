@@ -12,7 +12,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Static methods for the Holiday class.
 /// </summary>
-public partial class Holiday
+public partial class HolidayMetadata
 {
     
         /// <summary>

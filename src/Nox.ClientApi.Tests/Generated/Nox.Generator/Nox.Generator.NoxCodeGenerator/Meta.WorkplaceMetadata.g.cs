@@ -12,7 +12,7 @@ namespace ClientApi.Domain;
 /// <summary>
 /// Static methods for the Workplace class.
 /// </summary>
-public partial class Workplace
+public partial class WorkplaceMetadata
 {
     
         /// <summary>

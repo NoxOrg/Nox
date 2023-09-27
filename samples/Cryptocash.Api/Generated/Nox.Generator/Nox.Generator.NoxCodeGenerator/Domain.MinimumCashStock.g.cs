@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -18,20 +18,20 @@ internal partial class MinimumCashStock:MinimumCashStockBase
 /// <summary>
 /// Record for MinimumCashStock created event.
 /// </summary>
-public record MinimumCashStockCreated(MinimumCashStockBase MinimumCashStock) : IDomainEvent;
+internal record MinimumCashStockCreated(MinimumCashStockBase MinimumCashStock) : IDomainEvent;
 /// <summary>
 /// Record for MinimumCashStock updated event.
 /// </summary>
-public record MinimumCashStockUpdated(MinimumCashStockBase MinimumCashStock) : IDomainEvent;
+internal record MinimumCashStockUpdated(MinimumCashStockBase MinimumCashStock) : IDomainEvent;
 /// <summary>
 /// Record for MinimumCashStock deleted event.
 /// </summary>
-public record MinimumCashStockDeleted(MinimumCashStockBase MinimumCashStock) : IDomainEvent;
+internal record MinimumCashStockDeleted(MinimumCashStockBase MinimumCashStock) : IDomainEvent;
 
 /// <summary>
 /// Minimum cash stock required for vending machine.
 /// </summary>
-public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     /// Vending machine cash stock unique identifier (Required).
@@ -46,26 +46,23 @@ public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurr
 	///<inheritdoc/>
 	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
 
-	private readonly List<IDomainEvent> _domainEvents = new();
+	protected readonly List<IDomainEvent> _domainEvents = new();
 	
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new MinimumCashStockCreated(this));     
+		_domainEvents.Add(new MinimumCashStockCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new MinimumCashStockUpdated(this));  
+		_domainEvents.Add(new MinimumCashStockUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new MinimumCashStockDeleted(this)); 
+		_domainEvents.Add(new MinimumCashStockDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -18,20 +18,20 @@ internal partial class Workplace:WorkplaceBase
 /// <summary>
 /// Record for Workplace created event.
 /// </summary>
-public record WorkplaceCreated(WorkplaceBase Workplace) : IDomainEvent;
+internal record WorkplaceCreated(WorkplaceBase Workplace) : IDomainEvent;
 /// <summary>
 /// Record for Workplace updated event.
 /// </summary>
-public record WorkplaceUpdated(WorkplaceBase Workplace) : IDomainEvent;
+internal record WorkplaceUpdated(WorkplaceBase Workplace) : IDomainEvent;
 /// <summary>
 /// Record for Workplace deleted event.
 /// </summary>
-public record WorkplaceDeleted(WorkplaceBase Workplace) : IDomainEvent;
+internal record WorkplaceDeleted(WorkplaceBase Workplace) : IDomainEvent;
 
 /// <summary>
 /// Workplace.
 /// </summary>
-public abstract class WorkplaceBase : EntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class WorkplaceBase : EntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     /// Workplace unique identifier (Required).
@@ -76,26 +76,23 @@ public abstract class WorkplaceBase : EntityBase, IEntityConcurrent, IEntityHave
 	///<inheritdoc/>
 	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
 
-	private readonly List<IDomainEvent> _domainEvents = new();
+	protected readonly List<IDomainEvent> _domainEvents = new();
 	
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new WorkplaceCreated(this));     
+		_domainEvents.Add(new WorkplaceCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new WorkplaceUpdated(this));  
+		_domainEvents.Add(new WorkplaceUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new WorkplaceDeleted(this)); 
+		_domainEvents.Add(new WorkplaceDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

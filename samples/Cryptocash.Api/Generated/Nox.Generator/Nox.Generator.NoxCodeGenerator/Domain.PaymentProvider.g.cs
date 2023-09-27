@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -18,20 +18,20 @@ internal partial class PaymentProvider:PaymentProviderBase
 /// <summary>
 /// Record for PaymentProvider created event.
 /// </summary>
-public record PaymentProviderCreated(PaymentProviderBase PaymentProvider) : IDomainEvent;
+internal record PaymentProviderCreated(PaymentProviderBase PaymentProvider) : IDomainEvent;
 /// <summary>
 /// Record for PaymentProvider updated event.
 /// </summary>
-public record PaymentProviderUpdated(PaymentProviderBase PaymentProvider) : IDomainEvent;
+internal record PaymentProviderUpdated(PaymentProviderBase PaymentProvider) : IDomainEvent;
 /// <summary>
 /// Record for PaymentProvider deleted event.
 /// </summary>
-public record PaymentProviderDeleted(PaymentProviderBase PaymentProvider) : IDomainEvent;
+internal record PaymentProviderDeleted(PaymentProviderBase PaymentProvider) : IDomainEvent;
 
 /// <summary>
 /// Payment provider related data.
 /// </summary>
-public abstract class PaymentProviderBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class PaymentProviderBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     /// Payment provider unique identifier (Required).
@@ -51,26 +51,23 @@ public abstract class PaymentProviderBase : AuditableEntityBase, IEntityConcurre
 	///<inheritdoc/>
 	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
 
-	private readonly List<IDomainEvent> _domainEvents = new();
+	protected readonly List<IDomainEvent> _domainEvents = new();
 	
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new PaymentProviderCreated(this));     
+		_domainEvents.Add(new PaymentProviderCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new PaymentProviderUpdated(this));  
+		_domainEvents.Add(new PaymentProviderUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new PaymentProviderDeleted(this)); 
+		_domainEvents.Add(new PaymentProviderDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

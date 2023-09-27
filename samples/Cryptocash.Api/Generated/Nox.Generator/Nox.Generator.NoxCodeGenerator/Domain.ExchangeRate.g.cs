@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -18,20 +18,20 @@ internal partial class ExchangeRate:ExchangeRateBase
 /// <summary>
 /// Record for ExchangeRate created event.
 /// </summary>
-public record ExchangeRateCreated(ExchangeRateBase ExchangeRate) : IDomainEvent;
+internal record ExchangeRateCreated(ExchangeRateBase ExchangeRate) : IDomainEvent;
 /// <summary>
 /// Record for ExchangeRate updated event.
 /// </summary>
-public record ExchangeRateUpdated(ExchangeRateBase ExchangeRate) : IDomainEvent;
+internal record ExchangeRateUpdated(ExchangeRateBase ExchangeRate) : IDomainEvent;
 /// <summary>
 /// Record for ExchangeRate deleted event.
 /// </summary>
-public record ExchangeRateDeleted(ExchangeRateBase ExchangeRate) : IDomainEvent;
+internal record ExchangeRateDeleted(ExchangeRateBase ExchangeRate) : IDomainEvent;
 
 /// <summary>
 /// Exchange rate and related data.
 /// </summary>
-public abstract class ExchangeRateBase : EntityBase, IOwnedEntity, IEntityHaveDomainEvents
+internal abstract class ExchangeRateBase : EntityBase, IOwnedEntity, IEntityHaveDomainEvents
 {
     /// <summary>
     /// Exchange rate unique identifier (Required).
@@ -51,26 +51,23 @@ public abstract class ExchangeRateBase : EntityBase, IOwnedEntity, IEntityHaveDo
 	///<inheritdoc/>
 	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
 
-	private readonly List<IDomainEvent> _domainEvents = new();
+	protected readonly List<IDomainEvent> _domainEvents = new();
 	
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new ExchangeRateCreated(this));     
+		_domainEvents.Add(new ExchangeRateCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new ExchangeRateUpdated(this));  
+		_domainEvents.Add(new ExchangeRateUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new ExchangeRateDeleted(this)); 
+		_domainEvents.Add(new ExchangeRateDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

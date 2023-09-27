@@ -12,7 +12,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Static methods for the Currency class.
 /// </summary>
-public partial class Currency
+public partial class CurrencyMetadata
 {
     
         /// <summary>

@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -18,20 +18,20 @@ internal partial class CountryLocalName:CountryLocalNameBase
 /// <summary>
 /// Record for CountryLocalName created event.
 /// </summary>
-public record CountryLocalNameCreated(CountryLocalNameBase CountryLocalName) : IDomainEvent;
+internal record CountryLocalNameCreated(CountryLocalNameBase CountryLocalName) : IDomainEvent;
 /// <summary>
 /// Record for CountryLocalName updated event.
 /// </summary>
-public record CountryLocalNameUpdated(CountryLocalNameBase CountryLocalName) : IDomainEvent;
+internal record CountryLocalNameUpdated(CountryLocalNameBase CountryLocalName) : IDomainEvent;
 /// <summary>
 /// Record for CountryLocalName deleted event.
 /// </summary>
-public record CountryLocalNameDeleted(CountryLocalNameBase CountryLocalName) : IDomainEvent;
+internal record CountryLocalNameDeleted(CountryLocalNameBase CountryLocalName) : IDomainEvent;
 
 /// <summary>
 /// Local names for countries.
 /// </summary>
-public abstract class CountryLocalNameBase : EntityBase, IOwnedEntity, IEntityHaveDomainEvents
+internal abstract class CountryLocalNameBase : EntityBase, IOwnedEntity, IEntityHaveDomainEvents
 {
     /// <summary>
     /// The unique identifier (Required).
@@ -51,26 +51,23 @@ public abstract class CountryLocalNameBase : EntityBase, IOwnedEntity, IEntityHa
 	///<inheritdoc/>
 	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
 
-	private readonly List<IDomainEvent> _domainEvents = new();
+	protected readonly List<IDomainEvent> _domainEvents = new();
 	
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new CountryLocalNameCreated(this));     
+		_domainEvents.Add(new CountryLocalNameCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new CountryLocalNameUpdated(this));  
+		_domainEvents.Add(new CountryLocalNameUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new CountryLocalNameDeleted(this)); 
+		_domainEvents.Add(new CountryLocalNameDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -18,20 +18,20 @@ internal partial class Booking:BookingBase
 /// <summary>
 /// Record for Booking created event.
 /// </summary>
-public record BookingCreated(BookingBase Booking) : IDomainEvent;
+internal record BookingCreated(BookingBase Booking) : IDomainEvent;
 /// <summary>
 /// Record for Booking updated event.
 /// </summary>
-public record BookingUpdated(BookingBase Booking) : IDomainEvent;
+internal record BookingUpdated(BookingBase Booking) : IDomainEvent;
 /// <summary>
 /// Record for Booking deleted event.
 /// </summary>
-public record BookingDeleted(BookingBase Booking) : IDomainEvent;
+internal record BookingDeleted(BookingBase Booking) : IDomainEvent;
 
 /// <summary>
 /// Exchange booking and related data.
 /// </summary>
-public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class BookingBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     /// Booking unique identifier (Required).
@@ -101,26 +101,23 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent, IEnt
 	///<inheritdoc/>
 	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
 
-	private readonly List<IDomainEvent> _domainEvents = new();
+	protected readonly List<IDomainEvent> _domainEvents = new();
 	
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new BookingCreated(this));     
+		_domainEvents.Add(new BookingCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new BookingUpdated(this));  
+		_domainEvents.Add(new BookingUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new BookingDeleted(this)); 
+		_domainEvents.Add(new BookingDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{

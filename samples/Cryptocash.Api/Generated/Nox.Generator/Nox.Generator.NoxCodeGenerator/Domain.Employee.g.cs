@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -18,20 +18,20 @@ internal partial class Employee:EmployeeBase
 /// <summary>
 /// Record for Employee created event.
 /// </summary>
-public record EmployeeCreated(EmployeeBase Employee) : IDomainEvent;
+internal record EmployeeCreated(EmployeeBase Employee) : IDomainEvent;
 /// <summary>
 /// Record for Employee updated event.
 /// </summary>
-public record EmployeeUpdated(EmployeeBase Employee) : IDomainEvent;
+internal record EmployeeUpdated(EmployeeBase Employee) : IDomainEvent;
 /// <summary>
 /// Record for Employee deleted event.
 /// </summary>
-public record EmployeeDeleted(EmployeeBase Employee) : IDomainEvent;
+internal record EmployeeDeleted(EmployeeBase Employee) : IDomainEvent;
 
 /// <summary>
 /// Employee definition and related data.
 /// </summary>
-public abstract class EmployeeBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
+internal abstract class EmployeeBase : AuditableEntityBase, IEntityConcurrent, IEntityHaveDomainEvents
 {
     /// <summary>
     /// Employee's unique identifier (Required).
@@ -71,26 +71,23 @@ public abstract class EmployeeBase : AuditableEntityBase, IEntityConcurrent, IEn
 	///<inheritdoc/>
 	public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents;
 
-	private readonly List<IDomainEvent> _domainEvents = new();
+	protected readonly List<IDomainEvent> _domainEvents = new();
 	
 	///<inheritdoc/>
 	public virtual void RaiseCreateEvent()
 	{
-		_domainEvents.Add(new EmployeeCreated(this));     
+		_domainEvents.Add(new EmployeeCreated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseUpdateEvent()
 	{
-		_domainEvents.Add(new EmployeeUpdated(this));  
+		_domainEvents.Add(new EmployeeUpdated(this));
 	}
-	
 	///<inheritdoc/>
 	public virtual void RaiseDeleteEvent()
 	{
-		_domainEvents.Add(new EmployeeDeleted(this)); 
+		_domainEvents.Add(new EmployeeDeleted(this));
 	}
-	
 	///<inheritdoc />
     public virtual void ClearDomainEvents()
 	{
