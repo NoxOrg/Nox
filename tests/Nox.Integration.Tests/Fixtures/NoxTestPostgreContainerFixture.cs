@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 using Nox.EntityFramework.Postgres;
 using Nox.Types.EntityFramework.Abstractions;
 using Testcontainers.PostgreSql;
@@ -11,7 +12,7 @@ public class NoxTestPostgreContainerFixture : NoxTestContainerFixtureBase<Postgr
     public NoxTestPostgreContainerFixture()
     {
         _container = new PostgreSqlBuilder()
-          .WithImage("postgres:14.7")
+          .WithImage("postgres:15.4")
           .WithDatabase("db")
           .WithUsername("postgres")
           .WithPassword("postgres")
