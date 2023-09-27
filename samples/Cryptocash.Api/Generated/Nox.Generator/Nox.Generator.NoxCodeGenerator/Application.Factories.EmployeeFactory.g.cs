@@ -53,25 +53,25 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<Employee, EmployeeC
     private Cryptocash.Domain.Employee ToEntity(EmployeeCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Employee();
-        entity.FirstName = Cryptocash.Domain.Employee.CreateFirstName(createDto.FirstName);
-        entity.LastName = Cryptocash.Domain.Employee.CreateLastName(createDto.LastName);
-        entity.EmailAddress = Cryptocash.Domain.Employee.CreateEmailAddress(createDto.EmailAddress);
-        entity.Address = Cryptocash.Domain.Employee.CreateAddress(createDto.Address);
-        entity.FirstWorkingDay = Cryptocash.Domain.Employee.CreateFirstWorkingDay(createDto.FirstWorkingDay);
-        if (createDto.LastWorkingDay is not null)entity.LastWorkingDay = Cryptocash.Domain.Employee.CreateLastWorkingDay(createDto.LastWorkingDay.NonNullValue<System.DateTime>());
+        entity.FirstName = Cryptocash.Domain.EmployeeMetadata.CreateFirstName(createDto.FirstName);
+        entity.LastName = Cryptocash.Domain.EmployeeMetadata.CreateLastName(createDto.LastName);
+        entity.EmailAddress = Cryptocash.Domain.EmployeeMetadata.CreateEmailAddress(createDto.EmailAddress);
+        entity.Address = Cryptocash.Domain.EmployeeMetadata.CreateAddress(createDto.Address);
+        entity.FirstWorkingDay = Cryptocash.Domain.EmployeeMetadata.CreateFirstWorkingDay(createDto.FirstWorkingDay);
+        if (createDto.LastWorkingDay is not null)entity.LastWorkingDay = Cryptocash.Domain.EmployeeMetadata.CreateLastWorkingDay(createDto.LastWorkingDay.NonNullValue<System.DateTime>());
         entity.EmployeeContactPhoneNumbers = createDto.EmployeeContactPhoneNumbers.Select(dto => EmployeePhoneNumberFactory.CreateEntity(dto)).ToList();
         return entity;
     }
 
     private void UpdateEntityInternal(Employee entity, EmployeeUpdateDto updateDto)
     {
-        entity.FirstName = Cryptocash.Domain.Employee.CreateFirstName(updateDto.FirstName.NonNullValue<System.String>());
-        entity.LastName = Cryptocash.Domain.Employee.CreateLastName(updateDto.LastName.NonNullValue<System.String>());
-        entity.EmailAddress = Cryptocash.Domain.Employee.CreateEmailAddress(updateDto.EmailAddress.NonNullValue<System.String>());
-        entity.Address = Cryptocash.Domain.Employee.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
-        entity.FirstWorkingDay = Cryptocash.Domain.Employee.CreateFirstWorkingDay(updateDto.FirstWorkingDay.NonNullValue<System.DateTime>());
+        entity.FirstName = Cryptocash.Domain.EmployeeMetadata.CreateFirstName(updateDto.FirstName.NonNullValue<System.String>());
+        entity.LastName = Cryptocash.Domain.EmployeeMetadata.CreateLastName(updateDto.LastName.NonNullValue<System.String>());
+        entity.EmailAddress = Cryptocash.Domain.EmployeeMetadata.CreateEmailAddress(updateDto.EmailAddress.NonNullValue<System.String>());
+        entity.Address = Cryptocash.Domain.EmployeeMetadata.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
+        entity.FirstWorkingDay = Cryptocash.Domain.EmployeeMetadata.CreateFirstWorkingDay(updateDto.FirstWorkingDay.NonNullValue<System.DateTime>());
         if (updateDto.LastWorkingDay == null) { entity.LastWorkingDay = null; } else {
-            entity.LastWorkingDay = Cryptocash.Domain.Employee.CreateLastWorkingDay(updateDto.LastWorkingDay.ToValueFromNonNull<System.DateTime>());
+            entity.LastWorkingDay = Cryptocash.Domain.EmployeeMetadata.CreateLastWorkingDay(updateDto.LastWorkingDay.ToValueFromNonNull<System.DateTime>());
         }
     }
 
@@ -85,7 +85,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<Employee, EmployeeC
                 throw new ArgumentException("Attribute 'FirstName' can't be null");
             }
             {
-                entity.FirstName = Cryptocash.Domain.Employee.CreateFirstName(FirstNameUpdateValue);
+                entity.FirstName = Cryptocash.Domain.EmployeeMetadata.CreateFirstName(FirstNameUpdateValue);
             }
         }
 
@@ -96,7 +96,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<Employee, EmployeeC
                 throw new ArgumentException("Attribute 'LastName' can't be null");
             }
             {
-                entity.LastName = Cryptocash.Domain.Employee.CreateLastName(LastNameUpdateValue);
+                entity.LastName = Cryptocash.Domain.EmployeeMetadata.CreateLastName(LastNameUpdateValue);
             }
         }
 
@@ -107,7 +107,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<Employee, EmployeeC
                 throw new ArgumentException("Attribute 'EmailAddress' can't be null");
             }
             {
-                entity.EmailAddress = Cryptocash.Domain.Employee.CreateEmailAddress(EmailAddressUpdateValue);
+                entity.EmailAddress = Cryptocash.Domain.EmployeeMetadata.CreateEmailAddress(EmailAddressUpdateValue);
             }
         }
 
@@ -118,7 +118,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<Employee, EmployeeC
                 throw new ArgumentException("Attribute 'Address' can't be null");
             }
             {
-                entity.Address = Cryptocash.Domain.Employee.CreateAddress(AddressUpdateValue);
+                entity.Address = Cryptocash.Domain.EmployeeMetadata.CreateAddress(AddressUpdateValue);
             }
         }
 
@@ -129,7 +129,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<Employee, EmployeeC
                 throw new ArgumentException("Attribute 'FirstWorkingDay' can't be null");
             }
             {
-                entity.FirstWorkingDay = Cryptocash.Domain.Employee.CreateFirstWorkingDay(FirstWorkingDayUpdateValue);
+                entity.FirstWorkingDay = Cryptocash.Domain.EmployeeMetadata.CreateFirstWorkingDay(FirstWorkingDayUpdateValue);
             }
         }
 
@@ -138,7 +138,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<Employee, EmployeeC
             if (LastWorkingDayUpdateValue == null) { entity.LastWorkingDay = null; }
             else
             {
-                entity.LastWorkingDay = Cryptocash.Domain.Employee.CreateLastWorkingDay(LastWorkingDayUpdateValue);
+                entity.LastWorkingDay = Cryptocash.Domain.EmployeeMetadata.CreateLastWorkingDay(LastWorkingDayUpdateValue);
             }
         }
     }

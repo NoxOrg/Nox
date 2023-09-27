@@ -7,6 +7,7 @@ using Scriban.Parsing;
 using Scriban.Runtime;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -23,6 +24,7 @@ internal class TemplateCodeBuilder
     
     private string? _className;
     private string? _fileNamePrefix;
+    private string? _fileNameSuffix;
 
     private readonly Dictionary<string, object> _model;
 
@@ -51,7 +53,7 @@ internal class TemplateCodeBuilder
         return this;
     }
     /// <summary>
-    /// Oprional prefix to the generated fie, example Domain.Entity.g.cs
+    /// Optional prefix to the generated file, example Domain.Entity.g.cs
     /// Uses template name if undefined
     /// </summary>
     /// <param name="fileNamePrefix">Prefix to add to the file name. A dot will be added between the prefix and the class name</param>
@@ -59,6 +61,17 @@ internal class TemplateCodeBuilder
     public TemplateCodeBuilder WithFileNamePrefix(string fileNamePrefix)
     {
         _fileNamePrefix = fileNamePrefix;
+        return this;
+    }
+
+    /// <summary>
+    /// Oprional suffix to the generated file, for example "Relationships" will generate a file name Entity.Relationships.g.cs
+    /// </summary>
+    /// <param name="fileNameSuffix">Prefix to add to the file name. A dot will be added between the prefix and the class name</param>
+    /// <returns></returns>
+    public TemplateCodeBuilder WithFileNameSuffix(string fileNameSuffix)
+    {
+        _fileNameSuffix = fileNameSuffix;
         return this;
     }
 
@@ -92,14 +105,10 @@ internal class TemplateCodeBuilder
             template = reader.ReadToEnd();
         }
 
-        if(!string.IsNullOrEmpty(_fileNamePrefix))
-        {
-            GenerateSourceCode(template, _model, $"{_fileNamePrefix}.{_className}.g.cs");
-        }
-        else
-        {
-            GenerateSourceCode(template, _model, $"{_className}.g.cs");
-        }
+        var fileName = string.Join(".", 
+            new[] { _fileNamePrefix, _className, _fileNameSuffix }.Where(x => !string.IsNullOrWhiteSpace(x)));
+
+        GenerateSourceCode(template, _model, $"{fileName}.g.cs");
              
         return this;
     }

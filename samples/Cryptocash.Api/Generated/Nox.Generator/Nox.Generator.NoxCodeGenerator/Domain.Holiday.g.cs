@@ -10,27 +10,27 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-public partial class Holiday:HolidayBase
+internal partial class Holiday:HolidayBase
 {
 
 }
 /// <summary>
 /// Record for Holiday created event.
 /// </summary>
-public record HolidayCreated(Holiday Holiday) : IDomainEvent;
+internal record HolidayCreated(Holiday Holiday) : IDomainEvent;
 /// <summary>
 /// Record for Holiday updated event.
 /// </summary>
-public record HolidayUpdated(Holiday Holiday) : IDomainEvent;
+internal record HolidayUpdated(Holiday Holiday) : IDomainEvent;
 /// <summary>
 /// Record for Holiday deleted event.
 /// </summary>
-public record HolidayDeleted(Holiday Holiday) : IDomainEvent;
+internal record HolidayDeleted(Holiday Holiday) : IDomainEvent;
 
 /// <summary>
 /// Holiday related to country.
 /// </summary>
-public abstract class HolidayBase : EntityBase, IOwnedEntity
+internal abstract class HolidayBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// Country's holiday unique identifier (Required).

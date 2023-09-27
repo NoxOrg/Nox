@@ -36,6 +36,7 @@ public class StartupFixture
 
         app.UseSwagger();
 
+        // Ensure a new / clean db for each test
         var clientApiDbContext = app.ApplicationServices.GetRequiredService<ClientApiDbContext>();
         clientApiDbContext!.Database.EnsureDeleted();
         clientApiDbContext!.Database.EnsureCreated();

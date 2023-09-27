@@ -50,29 +50,29 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
     private Cryptocash.Domain.VendingMachine ToEntity(VendingMachineCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.VendingMachine();
-        entity.MacAddress = Cryptocash.Domain.VendingMachine.CreateMacAddress(createDto.MacAddress);
-        entity.PublicIp = Cryptocash.Domain.VendingMachine.CreatePublicIp(createDto.PublicIp);
-        entity.GeoLocation = Cryptocash.Domain.VendingMachine.CreateGeoLocation(createDto.GeoLocation);
-        entity.StreetAddress = Cryptocash.Domain.VendingMachine.CreateStreetAddress(createDto.StreetAddress);
-        entity.SerialNumber = Cryptocash.Domain.VendingMachine.CreateSerialNumber(createDto.SerialNumber);
-        if (createDto.InstallationFootPrint is not null)entity.InstallationFootPrint = Cryptocash.Domain.VendingMachine.CreateInstallationFootPrint(createDto.InstallationFootPrint.NonNullValue<System.Decimal>());
-        if (createDto.RentPerSquareMetre is not null)entity.RentPerSquareMetre = Cryptocash.Domain.VendingMachine.CreateRentPerSquareMetre(createDto.RentPerSquareMetre.NonNullValue<MoneyDto>());
+        entity.MacAddress = Cryptocash.Domain.VendingMachineMetadata.CreateMacAddress(createDto.MacAddress);
+        entity.PublicIp = Cryptocash.Domain.VendingMachineMetadata.CreatePublicIp(createDto.PublicIp);
+        entity.GeoLocation = Cryptocash.Domain.VendingMachineMetadata.CreateGeoLocation(createDto.GeoLocation);
+        entity.StreetAddress = Cryptocash.Domain.VendingMachineMetadata.CreateStreetAddress(createDto.StreetAddress);
+        entity.SerialNumber = Cryptocash.Domain.VendingMachineMetadata.CreateSerialNumber(createDto.SerialNumber);
+        if (createDto.InstallationFootPrint is not null)entity.InstallationFootPrint = Cryptocash.Domain.VendingMachineMetadata.CreateInstallationFootPrint(createDto.InstallationFootPrint.NonNullValue<System.Decimal>());
+        if (createDto.RentPerSquareMetre is not null)entity.RentPerSquareMetre = Cryptocash.Domain.VendingMachineMetadata.CreateRentPerSquareMetre(createDto.RentPerSquareMetre.NonNullValue<MoneyDto>());
         entity.EnsureId(createDto.Id);
         return entity;
     }
 
     private void UpdateEntityInternal(VendingMachine entity, VendingMachineUpdateDto updateDto)
     {
-        entity.MacAddress = Cryptocash.Domain.VendingMachine.CreateMacAddress(updateDto.MacAddress.NonNullValue<System.String>());
-        entity.PublicIp = Cryptocash.Domain.VendingMachine.CreatePublicIp(updateDto.PublicIp.NonNullValue<System.String>());
-        entity.GeoLocation = Cryptocash.Domain.VendingMachine.CreateGeoLocation(updateDto.GeoLocation.NonNullValue<LatLongDto>());
-        entity.StreetAddress = Cryptocash.Domain.VendingMachine.CreateStreetAddress(updateDto.StreetAddress.NonNullValue<StreetAddressDto>());
-        entity.SerialNumber = Cryptocash.Domain.VendingMachine.CreateSerialNumber(updateDto.SerialNumber.NonNullValue<System.String>());
+        entity.MacAddress = Cryptocash.Domain.VendingMachineMetadata.CreateMacAddress(updateDto.MacAddress.NonNullValue<System.String>());
+        entity.PublicIp = Cryptocash.Domain.VendingMachineMetadata.CreatePublicIp(updateDto.PublicIp.NonNullValue<System.String>());
+        entity.GeoLocation = Cryptocash.Domain.VendingMachineMetadata.CreateGeoLocation(updateDto.GeoLocation.NonNullValue<LatLongDto>());
+        entity.StreetAddress = Cryptocash.Domain.VendingMachineMetadata.CreateStreetAddress(updateDto.StreetAddress.NonNullValue<StreetAddressDto>());
+        entity.SerialNumber = Cryptocash.Domain.VendingMachineMetadata.CreateSerialNumber(updateDto.SerialNumber.NonNullValue<System.String>());
         if (updateDto.InstallationFootPrint == null) { entity.InstallationFootPrint = null; } else {
-            entity.InstallationFootPrint = Cryptocash.Domain.VendingMachine.CreateInstallationFootPrint(updateDto.InstallationFootPrint.ToValueFromNonNull<System.Decimal>());
+            entity.InstallationFootPrint = Cryptocash.Domain.VendingMachineMetadata.CreateInstallationFootPrint(updateDto.InstallationFootPrint.ToValueFromNonNull<System.Decimal>());
         }
         if (updateDto.RentPerSquareMetre == null) { entity.RentPerSquareMetre = null; } else {
-            entity.RentPerSquareMetre = Cryptocash.Domain.VendingMachine.CreateRentPerSquareMetre(updateDto.RentPerSquareMetre.ToValueFromNonNull<MoneyDto>());
+            entity.RentPerSquareMetre = Cryptocash.Domain.VendingMachineMetadata.CreateRentPerSquareMetre(updateDto.RentPerSquareMetre.ToValueFromNonNull<MoneyDto>());
         }
     }
 
@@ -86,7 +86,7 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
                 throw new ArgumentException("Attribute 'MacAddress' can't be null");
             }
             {
-                entity.MacAddress = Cryptocash.Domain.VendingMachine.CreateMacAddress(MacAddressUpdateValue);
+                entity.MacAddress = Cryptocash.Domain.VendingMachineMetadata.CreateMacAddress(MacAddressUpdateValue);
             }
         }
 
@@ -97,7 +97,7 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
                 throw new ArgumentException("Attribute 'PublicIp' can't be null");
             }
             {
-                entity.PublicIp = Cryptocash.Domain.VendingMachine.CreatePublicIp(PublicIpUpdateValue);
+                entity.PublicIp = Cryptocash.Domain.VendingMachineMetadata.CreatePublicIp(PublicIpUpdateValue);
             }
         }
 
@@ -108,7 +108,7 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
                 throw new ArgumentException("Attribute 'GeoLocation' can't be null");
             }
             {
-                entity.GeoLocation = Cryptocash.Domain.VendingMachine.CreateGeoLocation(GeoLocationUpdateValue);
+                entity.GeoLocation = Cryptocash.Domain.VendingMachineMetadata.CreateGeoLocation(GeoLocationUpdateValue);
             }
         }
 
@@ -119,7 +119,7 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
                 throw new ArgumentException("Attribute 'StreetAddress' can't be null");
             }
             {
-                entity.StreetAddress = Cryptocash.Domain.VendingMachine.CreateStreetAddress(StreetAddressUpdateValue);
+                entity.StreetAddress = Cryptocash.Domain.VendingMachineMetadata.CreateStreetAddress(StreetAddressUpdateValue);
             }
         }
 
@@ -130,7 +130,7 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
                 throw new ArgumentException("Attribute 'SerialNumber' can't be null");
             }
             {
-                entity.SerialNumber = Cryptocash.Domain.VendingMachine.CreateSerialNumber(SerialNumberUpdateValue);
+                entity.SerialNumber = Cryptocash.Domain.VendingMachineMetadata.CreateSerialNumber(SerialNumberUpdateValue);
             }
         }
 
@@ -139,7 +139,7 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
             if (InstallationFootPrintUpdateValue == null) { entity.InstallationFootPrint = null; }
             else
             {
-                entity.InstallationFootPrint = Cryptocash.Domain.VendingMachine.CreateInstallationFootPrint(InstallationFootPrintUpdateValue);
+                entity.InstallationFootPrint = Cryptocash.Domain.VendingMachineMetadata.CreateInstallationFootPrint(InstallationFootPrintUpdateValue);
             }
         }
 
@@ -148,7 +148,7 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
             if (RentPerSquareMetreUpdateValue == null) { entity.RentPerSquareMetre = null; }
             else
             {
-                entity.RentPerSquareMetre = Cryptocash.Domain.VendingMachine.CreateRentPerSquareMetre(RentPerSquareMetreUpdateValue);
+                entity.RentPerSquareMetre = Cryptocash.Domain.VendingMachineMetadata.CreateRentPerSquareMetre(RentPerSquareMetreUpdateValue);
             }
         }
     }

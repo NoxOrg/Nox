@@ -8,6 +8,7 @@ using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using MassTransit;
 
 using Nox;
 using Nox.Abstractions;
@@ -82,7 +83,10 @@ internal partial class ClientApiDbContext : DbContext
 
         if (_noxSolution.Domain != null)
         {
-            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);                            
+            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
+            modelBuilder.AddInboxStateEntity();
+            modelBuilder.AddOutboxMessageEntity();
+            modelBuilder.AddOutboxStateEntity();                            
             foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
             {
                 Console.WriteLine($"ClientApiDbContext Configure database for Entity {entity.Name}");
