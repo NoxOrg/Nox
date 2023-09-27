@@ -65,14 +65,14 @@ internal partial class DeleteAllRefCustomerToCustomerRelatedPaymentDetailsComman
 	{ }
 }
 
-internal abstract class RefCustomerToCustomerRelatedPaymentDetailsCommandHandlerBase<TRequest>: CommandBase<TRequest, Customer>, 
+internal abstract class RefCustomerToCustomerRelatedPaymentDetailsCommandHandlerBase<TRequest> : CommandBase<TRequest, Customer>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCustomerToCustomerRelatedPaymentDetailsCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefCustomerToCustomerRelatedPaymentDetailsCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,20 +106,20 @@ internal abstract class RefCustomerToCustomerRelatedPaymentDetailsCommandHandler
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToCustomerRelatedPaymentDetails(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToCustomerRelatedPaymentDetails(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToCustomerRelatedPaymentDetails(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToCustomerRelatedPaymentDetails(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
 				await DbContext.Entry(entity).Collection(x => x.CustomerRelatedPaymentDetails).LoadAsync();
-                entity.DeleteAllRefToCustomerRelatedPaymentDetails();
-                break;
-        }
+				entity.DeleteAllRefToCustomerRelatedPaymentDetails();
+				break;
+		}
 
 		OnCompleted(request, entity);
 

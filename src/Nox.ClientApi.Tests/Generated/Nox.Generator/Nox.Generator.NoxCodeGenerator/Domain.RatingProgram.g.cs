@@ -10,27 +10,27 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-public partial class RatingProgram:RatingProgramBase
+internal partial class RatingProgram:RatingProgramBase
 {
 
 }
 /// <summary>
 /// Record for RatingProgram created event.
 /// </summary>
-public record RatingProgramCreated(RatingProgram RatingProgram) : IDomainEvent;
+internal record RatingProgramCreated(RatingProgram RatingProgram) : IDomainEvent;
 /// <summary>
 /// Record for RatingProgram updated event.
 /// </summary>
-public record RatingProgramUpdated(RatingProgram RatingProgram) : IDomainEvent;
+internal record RatingProgramUpdated(RatingProgram RatingProgram) : IDomainEvent;
 /// <summary>
 /// Record for RatingProgram deleted event.
 /// </summary>
-public record RatingProgramDeleted(RatingProgram RatingProgram) : IDomainEvent;
+internal record RatingProgramDeleted(RatingProgram RatingProgram) : IDomainEvent;
 
 /// <summary>
 /// Rating program for store.
 /// </summary>
-public abstract class RatingProgramBase : EntityBase, IEntityConcurrent
+internal abstract class RatingProgramBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).

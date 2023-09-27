@@ -10,27 +10,27 @@ using Nox.Domain;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-public partial class Currency:CurrencyBase
+internal partial class Currency:CurrencyBase
 {
 
 }
 /// <summary>
 /// Record for Currency created event.
 /// </summary>
-public record CurrencyCreated(Currency Currency) : IDomainEvent;
+internal record CurrencyCreated(Currency Currency) : IDomainEvent;
 /// <summary>
 /// Record for Currency updated event.
 /// </summary>
-public record CurrencyUpdated(Currency Currency) : IDomainEvent;
+internal record CurrencyUpdated(Currency Currency) : IDomainEvent;
 /// <summary>
 /// Record for Currency deleted event.
 /// </summary>
-public record CurrencyDeleted(Currency Currency) : IDomainEvent;
+internal record CurrencyDeleted(Currency Currency) : IDomainEvent;
 
 /// <summary>
 /// Currency and related data.
 /// </summary>
-public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
+internal abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Currency unique identifier (Required).

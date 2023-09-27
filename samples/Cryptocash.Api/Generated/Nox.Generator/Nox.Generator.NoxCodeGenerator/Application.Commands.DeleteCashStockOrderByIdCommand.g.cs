@@ -43,7 +43,7 @@ internal abstract class DeleteCashStockOrderByIdCommandHandlerBase: CommandBase<
 		var keyId = CreateNoxTypeForKey<CashStockOrder,Nox.Types.AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.CashStockOrders.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted.Value == true)
+		if (entity == null || entity.IsDeleted == true)
 		{
 			return false;
 		}

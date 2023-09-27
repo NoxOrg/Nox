@@ -24,8 +24,8 @@ internal partial class CreateWorkplaceCommandHandler: CreateWorkplaceCommandHand
 	public CreateWorkplaceCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
-        IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
+		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
+		IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
 		: base(dbContext, noxSolution,countryfactory, entityFactory, serviceProvider)
 	{
@@ -37,18 +37,18 @@ internal abstract class CreateWorkplaceCommandHandlerBase: CommandBase<CreateWor
 {
 	private readonly ClientApiDbContext _dbContext;
 	private readonly IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> _entityFactory;
-    private readonly IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> _countryfactory;
+	private readonly IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> _countryfactory;
 
 	public CreateWorkplaceCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
-        IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
+		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
+		IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
-        _countryfactory = countryfactory;
+		_countryfactory = countryfactory;
 	}
 
 	public virtual async Task<WorkplaceKeyDto> Handle(CreateWorkplaceCommand request, CancellationToken cancellationToken)

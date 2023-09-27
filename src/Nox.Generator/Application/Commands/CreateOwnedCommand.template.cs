@@ -24,7 +24,7 @@ internal partial class Create{{entity.Name}}For{{parent.Name}}CommandHandler: Cr
 	public Create{{entity.Name}}For{{parent.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory,
+		IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
 		: base(dbContext, noxSolution, entityFactory, serviceProvider)
 	{
@@ -38,7 +38,7 @@ internal abstract class Create{{entity.Name}}For{{parent.Name}}CommandHandlerBas
 	public Create{{entity.Name}}For{{parent.Name}}CommandHandlerBase(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory,
+		IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;

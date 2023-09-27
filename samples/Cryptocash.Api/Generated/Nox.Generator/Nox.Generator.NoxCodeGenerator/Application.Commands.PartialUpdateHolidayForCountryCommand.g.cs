@@ -51,7 +51,7 @@ internal abstract class PartialUpdateHolidayForCountryCommandHandlerBase: Comman
 			return null;
 		}
 		var ownedId = CreateNoxTypeForKey<Holiday,Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.CountryOwnedHolidays.SingleOrDefault(x => x.Id == ownedId);	
+		var entity = parentEntity.CountryOwnedHolidays.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
 			return null;
@@ -61,7 +61,7 @@ internal abstract class PartialUpdateHolidayForCountryCommandHandlerBase: Comman
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
-	
+
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)

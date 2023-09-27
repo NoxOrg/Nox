@@ -2,8 +2,8 @@
 
 public interface IEntityAuditDeleted
 {
-    Types.User? DeletedBy { get; }
-    Types.Text? DeletedVia { get; }
-    Types.DateTime? DeletedAtUtc { get; }
-    Types.Boolean IsDeleted { get; }
+    string? DeletedBy { get; }
+    string? DeletedVia { get; }
+    System.DateTime? DeletedAtUtc { get; }
+    bool IsDeleted { get; }
 }

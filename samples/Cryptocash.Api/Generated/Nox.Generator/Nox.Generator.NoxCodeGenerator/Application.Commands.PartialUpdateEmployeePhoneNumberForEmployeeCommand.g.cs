@@ -51,7 +51,7 @@ internal abstract class PartialUpdateEmployeePhoneNumberForEmployeeCommandHandle
 			return null;
 		}
 		var ownedId = CreateNoxTypeForKey<EmployeePhoneNumber,Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.EmployeeContactPhoneNumbers.SingleOrDefault(x => x.Id == ownedId);	
+		var entity = parentEntity.EmployeeContactPhoneNumbers.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
 			return null;
@@ -61,7 +61,7 @@ internal abstract class PartialUpdateEmployeePhoneNumberForEmployeeCommandHandle
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
-	
+
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)

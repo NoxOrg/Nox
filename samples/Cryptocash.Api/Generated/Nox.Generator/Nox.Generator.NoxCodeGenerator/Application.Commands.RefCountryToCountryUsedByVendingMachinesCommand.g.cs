@@ -65,14 +65,14 @@ internal partial class DeleteAllRefCountryToCountryUsedByVendingMachinesCommandH
 	{ }
 }
 
-internal abstract class RefCountryToCountryUsedByVendingMachinesCommandHandlerBase<TRequest>: CommandBase<TRequest, Country>, 
+internal abstract class RefCountryToCountryUsedByVendingMachinesCommandHandlerBase<TRequest> : CommandBase<TRequest, Country>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCountryToCountryUsedByVendingMachinesCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefCountryToCountryUsedByVendingMachinesCommandHandlerBase(
 		CryptocashDbContext dbContext,
@@ -106,20 +106,20 @@ internal abstract class RefCountryToCountryUsedByVendingMachinesCommandHandlerBa
 				return false;
 			}
 		}
-		
+
 		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToCountryUsedByVendingMachines(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToCountryUsedByVendingMachines(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToCountryUsedByVendingMachines(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToCountryUsedByVendingMachines(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
 				await DbContext.Entry(entity).Collection(x => x.CountryUsedByVendingMachines).LoadAsync();
-                entity.DeleteAllRefToCountryUsedByVendingMachines();
-                break;
-        }
+				entity.DeleteAllRefToCountryUsedByVendingMachines();
+				break;
+		}
 
 		OnCompleted(request, entity);
 

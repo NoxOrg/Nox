@@ -43,7 +43,7 @@ internal abstract class DeleteStoreByIdCommandHandlerBase: CommandBase<DeleteSto
 		var keyId = CreateNoxTypeForKey<Store,Nox.Types.Guid>("Id", request.keyId);
 
 		var entity = await DbContext.Stores.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted.Value == true)
+		if (entity == null || entity.IsDeleted == true)
 		{
 			return false;
 		}

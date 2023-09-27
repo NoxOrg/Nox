@@ -50,17 +50,17 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, Workpla
     private ClientApi.Domain.Workplace ToEntity(WorkplaceCreateDto createDto)
     {
         var entity = new ClientApi.Domain.Workplace();
-        entity.Name = ClientApi.Domain.Workplace.CreateName(createDto.Name);
-        if (createDto.Description is not null)entity.Description = ClientApi.Domain.Workplace.CreateDescription(createDto.Description.NonNullValue<System.String>());
+        entity.Name = ClientApi.Domain.WorkplaceMetadata.CreateName(createDto.Name);
+        if (createDto.Description is not null)entity.Description = ClientApi.Domain.WorkplaceMetadata.CreateDescription(createDto.Description.NonNullValue<System.String>());
 		entity.EnsureId();
         return entity;
     }
 
     private void UpdateEntityInternal(Workplace entity, WorkplaceUpdateDto updateDto)
     {
-        entity.Name = ClientApi.Domain.Workplace.CreateName(updateDto.Name.NonNullValue<System.String>());
+        entity.Name = ClientApi.Domain.WorkplaceMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         if (updateDto.Description == null) { entity.Description = null; } else {
-            entity.Description = ClientApi.Domain.Workplace.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>());
+            entity.Description = ClientApi.Domain.WorkplaceMetadata.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>());
         }
 		entity.EnsureId();
     }
@@ -75,7 +75,7 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, Workpla
                 throw new ArgumentException("Attribute 'Name' can't be null");
             }
             {
-                entity.Name = ClientApi.Domain.Workplace.CreateName(NameUpdateValue);
+                entity.Name = ClientApi.Domain.WorkplaceMetadata.CreateName(NameUpdateValue);
             }
         }
 
@@ -84,7 +84,7 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, Workpla
             if (DescriptionUpdateValue == null) { entity.Description = null; }
             else
             {
-                entity.Description = ClientApi.Domain.Workplace.CreateDescription(DescriptionUpdateValue);
+                entity.Description = ClientApi.Domain.WorkplaceMetadata.CreateDescription(DescriptionUpdateValue);
             }
         }
 		entity.EnsureId();

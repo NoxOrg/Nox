@@ -50,17 +50,17 @@ internal abstract class HolidayFactoryBase : IEntityFactory<Holiday, HolidayCrea
     private Cryptocash.Domain.Holiday ToEntity(HolidayCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Holiday();
-        entity.Name = Cryptocash.Domain.Holiday.CreateName(createDto.Name);
-        entity.Type = Cryptocash.Domain.Holiday.CreateType(createDto.Type);
-        entity.Date = Cryptocash.Domain.Holiday.CreateDate(createDto.Date);
+        entity.Name = Cryptocash.Domain.HolidayMetadata.CreateName(createDto.Name);
+        entity.Type = Cryptocash.Domain.HolidayMetadata.CreateType(createDto.Type);
+        entity.Date = Cryptocash.Domain.HolidayMetadata.CreateDate(createDto.Date);
         return entity;
     }
 
     private void UpdateEntityInternal(Holiday entity, HolidayUpdateDto updateDto)
     {
-        entity.Name = Cryptocash.Domain.Holiday.CreateName(updateDto.Name.NonNullValue<System.String>());
-        entity.Type = Cryptocash.Domain.Holiday.CreateType(updateDto.Type.NonNullValue<System.String>());
-        entity.Date = Cryptocash.Domain.Holiday.CreateDate(updateDto.Date.NonNullValue<System.DateTime>());
+        entity.Name = Cryptocash.Domain.HolidayMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
+        entity.Type = Cryptocash.Domain.HolidayMetadata.CreateType(updateDto.Type.NonNullValue<System.String>());
+        entity.Date = Cryptocash.Domain.HolidayMetadata.CreateDate(updateDto.Date.NonNullValue<System.DateTime>());
     }
 
     private void PartialUpdateEntityInternal(Holiday entity, Dictionary<string, dynamic> updatedProperties)
@@ -73,7 +73,7 @@ internal abstract class HolidayFactoryBase : IEntityFactory<Holiday, HolidayCrea
                 throw new ArgumentException("Attribute 'Name' can't be null");
             }
             {
-                entity.Name = Cryptocash.Domain.Holiday.CreateName(NameUpdateValue);
+                entity.Name = Cryptocash.Domain.HolidayMetadata.CreateName(NameUpdateValue);
             }
         }
 
@@ -84,7 +84,7 @@ internal abstract class HolidayFactoryBase : IEntityFactory<Holiday, HolidayCrea
                 throw new ArgumentException("Attribute 'Type' can't be null");
             }
             {
-                entity.Type = Cryptocash.Domain.Holiday.CreateType(TypeUpdateValue);
+                entity.Type = Cryptocash.Domain.HolidayMetadata.CreateType(TypeUpdateValue);
             }
         }
 
@@ -95,7 +95,7 @@ internal abstract class HolidayFactoryBase : IEntityFactory<Holiday, HolidayCrea
                 throw new ArgumentException("Attribute 'Date' can't be null");
             }
             {
-                entity.Date = Cryptocash.Domain.Holiday.CreateDate(DateUpdateValue);
+                entity.Date = Cryptocash.Domain.HolidayMetadata.CreateDate(DateUpdateValue);
             }
         }
     }
