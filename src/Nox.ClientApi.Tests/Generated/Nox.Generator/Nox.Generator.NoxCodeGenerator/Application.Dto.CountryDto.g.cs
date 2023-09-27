@@ -1,12 +1,15 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
@@ -17,49 +20,43 @@ namespace ClientApi.Application.Dto;
 
 public record CountryKeyDto(System.Int64 keyId);
 
+public partial class CountryDto : CountryDtoBase
+{
+
+}
+
 /// <summary>
 /// Country Entity.
 /// </summary>
-public partial class CountryDto
+public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<Country>
 {
 
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
-        ValidateField("Name", () => ClientApi.Domain.Country.CreateName(this.Name), result);
+    
+        if (this.Name is not null)
+            TryGetValidationExceptions("Name", () => ClientApi.Domain.CountryMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+        else
+            result.Add("Name", new [] { "Name is Required." });
+    
         if (this.Population is not null)
-            ValidateField("Population", () => ClientApi.Domain.Country.CreatePopulation(this.Population.NonNullValue<System.Int32>()), result);
+            TryGetValidationExceptions("Population", () => ClientApi.Domain.CountryMetadata.CreatePopulation(this.Population.NonNullValue<System.Int32>()), result);
         if (this.CountryDebt is not null)
-            ValidateField("CountryDebt", () => ClientApi.Domain.Country.CreateCountryDebt(this.CountryDebt.NonNullValue<MoneyDto>()), result);
+            TryGetValidationExceptions("CountryDebt", () => ClientApi.Domain.CountryMetadata.CreateCountryDebt(this.CountryDebt.NonNullValue<MoneyDto>()), result);
         if (this.FirstLanguageCode is not null)
-            ValidateField("FirstLanguageCode", () => ClientApi.Domain.Country.CreateFirstLanguageCode(this.FirstLanguageCode.NonNullValue<System.String>()), result); 
+            TryGetValidationExceptions("FirstLanguageCode", () => ClientApi.Domain.CountryMetadata.CreateFirstLanguageCode(this.FirstLanguageCode.NonNullValue<System.String>()), result); 
         if (this.CountryIsoNumeric is not null)
-            ValidateField("CountryIsoNumeric", () => ClientApi.Domain.Country.CreateCountryIsoNumeric(this.CountryIsoNumeric.NonNullValue<System.UInt16>()), result);
+            TryGetValidationExceptions("CountryIsoNumeric", () => ClientApi.Domain.CountryMetadata.CreateCountryIsoNumeric(this.CountryIsoNumeric.NonNullValue<System.UInt16>()), result);
         if (this.CountryIsoAlpha3 is not null)
-            ValidateField("CountryIsoAlpha3", () => ClientApi.Domain.Country.CreateCountryIsoAlpha3(this.CountryIsoAlpha3.NonNullValue<System.String>()), result);
+            TryGetValidationExceptions("CountryIsoAlpha3", () => ClientApi.Domain.CountryMetadata.CreateCountryIsoAlpha3(this.CountryIsoAlpha3.NonNullValue<System.String>()), result);
         if (this.GoogleMapsUrl is not null)
-            ValidateField("GoogleMapsUrl", () => ClientApi.Domain.Country.CreateGoogleMapsUrl(this.GoogleMapsUrl.NonNullValue<System.String>()), result);
+            TryGetValidationExceptions("GoogleMapsUrl", () => ClientApi.Domain.CountryMetadata.CreateGoogleMapsUrl(this.GoogleMapsUrl.NonNullValue<System.String>()), result);
         if (this.StartOfWeek is not null)
-            ValidateField("StartOfWeek", () => ClientApi.Domain.Country.CreateStartOfWeek(this.StartOfWeek.NonNullValue<System.UInt16>()), result);
+            TryGetValidationExceptions("StartOfWeek", () => ClientApi.Domain.CountryMetadata.CreateStartOfWeek(this.StartOfWeek.NonNullValue<System.UInt16>()), result);
 
         return result;
-    }
-
-    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
-    {
-        try
-        {
-            action();
-        }
-        catch (TypeValidationException ex)
-        {
-            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
-        }
-        catch (NullReferenceException)
-        {
-            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
-        }
     }
     #endregion
 

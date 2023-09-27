@@ -25,11 +25,11 @@
                     <PropertyRef Name="Id" />
                 </Key>
                 <Property Name="Id" Type="Edm.Int64" Nullable="false" />
-                <Property Name="Name" Type="Edm.String" Nullable="false" />
+                <Property Name="Name" Type="Edm.String" />
                 <Property Name="NativeName" Type="Edm.String" />
             </EntityType>
             <EntityType Name="CountryBarCodeDto">
-                <Property Name="BarCodeName" Type="Edm.String" Nullable="false" />
+                <Property Name="BarCodeName" Type="Edm.String" />
                 <Property Name="BarCodeNumber" Type="Edm.Int32" />
             </EntityType>
             <EntityType Name="RatingProgramDto">
@@ -83,8 +83,8 @@
                     <PropertyRef Name="Id" />
                 </Key>
                 <Property Name="Id" Type="Edm.String" Nullable="false" />
-                <Property Name="Name" Type="Edm.String" Nullable="false" />
-                <Property Name="TemporaryOwnerName" Type="Edm.String" Nullable="false" />
+                <Property Name="Name" Type="Edm.String" />
+                <Property Name="TemporaryOwnerName" Type="Edm.String" />
                 <Property Name="VatNumber" Type="ClientApi.Application.Dto.VatNumberDto" />
                 <Property Name="StreetAddress" Type="ClientApi.Application.Dto.StreetAddressDto" />
                 <Property Name="LocalGreeting" Type="ClientApi.Application.Dto.TranslatedTextDto" />
@@ -96,7 +96,7 @@
                     <PropertyRef Name="Id" />
                 </Key>
                 <Property Name="Id" Type="Edm.Int64" Nullable="false" />
-                <Property Name="Issuer" Type="Edm.String" Nullable="false" />
+                <Property Name="Issuer" Type="Edm.String" />
                 <Property Name="StoreWithLicenseId" Type="Edm.Guid" />
                 <NavigationProperty Name="StoreWithLicense" Type="ClientApi.Application.Dto.StoreDto" Nullable="false" ContainsTarget="true" />
             </EntityType>

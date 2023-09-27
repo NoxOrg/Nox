@@ -1,12 +1,15 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
@@ -17,38 +20,36 @@ namespace Cryptocash.Application.Dto;
 
 public record PaymentDetailKeyDto(System.Int64 keyId);
 
+public partial class PaymentDetailDto : PaymentDetailDtoBase
+{
+
+}
+
 /// <summary>
 /// Customer payment account related data.
 /// </summary>
-public partial class PaymentDetailDto
+public abstract class PaymentDetailDtoBase : EntityDtoBase, IEntityDto<PaymentDetail>
 {
 
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
-        ValidateField("PaymentAccountName", () => Cryptocash.Domain.PaymentDetail.CreatePaymentAccountName(this.PaymentAccountName), result);
-        ValidateField("PaymentAccountNumber", () => Cryptocash.Domain.PaymentDetail.CreatePaymentAccountNumber(this.PaymentAccountNumber), result);
+    
+        if (this.PaymentAccountName is not null)
+            TryGetValidationExceptions("PaymentAccountName", () => Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountName(this.PaymentAccountName.NonNullValue<System.String>()), result);
+        else
+            result.Add("PaymentAccountName", new [] { "PaymentAccountName is Required." });
+    
+        if (this.PaymentAccountNumber is not null)
+            TryGetValidationExceptions("PaymentAccountNumber", () => Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountNumber(this.PaymentAccountNumber.NonNullValue<System.String>()), result);
+        else
+            result.Add("PaymentAccountNumber", new [] { "PaymentAccountNumber is Required." });
+    
         if (this.PaymentAccountSortCode is not null)
-            ValidateField("PaymentAccountSortCode", () => Cryptocash.Domain.PaymentDetail.CreatePaymentAccountSortCode(this.PaymentAccountSortCode.NonNullValue<System.String>()), result);
+            TryGetValidationExceptions("PaymentAccountSortCode", () => Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountSortCode(this.PaymentAccountSortCode.NonNullValue<System.String>()), result);
 
         return result;
-    }
-
-    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
-    {
-        try
-        {
-            action();
-        }
-        catch (TypeValidationException ex)
-        {
-            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
-        }
-        catch (NullReferenceException)
-        {
-            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
-        }
     }
     #endregion
 

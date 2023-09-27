@@ -1,12 +1,15 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
@@ -17,35 +20,29 @@ namespace Cryptocash.Application.Dto;
 
 public record MinimumCashStockKeyDto(System.Int64 keyId);
 
+public partial class MinimumCashStockDto : MinimumCashStockDtoBase
+{
+
+}
+
 /// <summary>
 /// Minimum cash stock required for vending machine.
 /// </summary>
-public partial class MinimumCashStockDto
+public abstract class MinimumCashStockDtoBase : EntityDtoBase, IEntityDto<MinimumCashStock>
 {
 
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
-        ValidateField("Amount", () => Cryptocash.Domain.MinimumCashStock.CreateAmount(this.Amount), result);
+    
+        if (this.Amount is not null)
+            TryGetValidationExceptions("Amount", () => Cryptocash.Domain.MinimumCashStockMetadata.CreateAmount(this.Amount.NonNullValue<MoneyDto>()), result);
+        else
+            result.Add("Amount", new [] { "Amount is Required." });
+    
 
         return result;
-    }
-
-    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
-    {
-        try
-        {
-            action();
-        }
-        catch (TypeValidationException ex)
-        {
-            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
-        }
-        catch (NullReferenceException)
-        {
-            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
-        }
     }
     #endregion
 

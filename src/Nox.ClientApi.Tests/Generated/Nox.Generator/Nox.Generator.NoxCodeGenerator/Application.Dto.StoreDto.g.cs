@@ -1,12 +1,15 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
@@ -17,39 +20,41 @@ namespace ClientApi.Application.Dto;
 
 public record StoreKeyDto(System.Guid keyId);
 
+public partial class StoreDto : StoreDtoBase
+{
+
+}
+
 /// <summary>
 /// Stores.
 /// </summary>
-public partial class StoreDto
+public abstract class StoreDtoBase : EntityDtoBase, IEntityDto<Store>
 {
 
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
-        ValidateField("Name", () => ClientApi.Domain.Store.CreateName(this.Name), result);
-        ValidateField("Address", () => ClientApi.Domain.Store.CreateAddress(this.Address), result);
-        ValidateField("Location", () => ClientApi.Domain.Store.CreateLocation(this.Location), result);
+    
+        if (this.Name is not null)
+            TryGetValidationExceptions("Name", () => ClientApi.Domain.StoreMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+        else
+            result.Add("Name", new [] { "Name is Required." });
+    
+        if (this.Address is not null)
+            TryGetValidationExceptions("Address", () => ClientApi.Domain.StoreMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
+        else
+            result.Add("Address", new [] { "Address is Required." });
+    
+        if (this.Location is not null)
+            TryGetValidationExceptions("Location", () => ClientApi.Domain.StoreMetadata.CreateLocation(this.Location.NonNullValue<LatLongDto>()), result);
+        else
+            result.Add("Location", new [] { "Location is Required." });
+    
         if (this.OpeningDay is not null)
-            ValidateField("OpeningDay", () => ClientApi.Domain.Store.CreateOpeningDay(this.OpeningDay.NonNullValue<System.DateTimeOffset>()), result);
+            TryGetValidationExceptions("OpeningDay", () => ClientApi.Domain.StoreMetadata.CreateOpeningDay(this.OpeningDay.NonNullValue<System.DateTimeOffset>()), result);
 
         return result;
-    }
-
-    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
-    {
-        try
-        {
-            action();
-        }
-        catch (TypeValidationException ex)
-        {
-            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
-        }
-        catch (NullReferenceException)
-        {
-            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
-        }
     }
     #endregion
 

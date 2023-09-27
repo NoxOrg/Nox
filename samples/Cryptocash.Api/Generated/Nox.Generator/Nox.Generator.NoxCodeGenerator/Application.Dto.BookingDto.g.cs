@@ -1,12 +1,15 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
@@ -17,45 +20,47 @@ namespace Cryptocash.Application.Dto;
 
 public record BookingKeyDto(System.Guid keyId);
 
+public partial class BookingDto : BookingDtoBase
+{
+
+}
+
 /// <summary>
 /// Exchange booking and related data.
 /// </summary>
-public partial class BookingDto
+public abstract class BookingDtoBase : EntityDtoBase, IEntityDto<Booking>
 {
 
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
-        ValidateField("AmountFrom", () => Cryptocash.Domain.Booking.CreateAmountFrom(this.AmountFrom), result);
-        ValidateField("AmountTo", () => Cryptocash.Domain.Booking.CreateAmountTo(this.AmountTo), result);
-        ValidateField("RequestedPickUpDate", () => Cryptocash.Domain.Booking.CreateRequestedPickUpDate(this.RequestedPickUpDate), result);
+    
+        if (this.AmountFrom is not null)
+            TryGetValidationExceptions("AmountFrom", () => Cryptocash.Domain.BookingMetadata.CreateAmountFrom(this.AmountFrom.NonNullValue<MoneyDto>()), result);
+        else
+            result.Add("AmountFrom", new [] { "AmountFrom is Required." });
+    
+        if (this.AmountTo is not null)
+            TryGetValidationExceptions("AmountTo", () => Cryptocash.Domain.BookingMetadata.CreateAmountTo(this.AmountTo.NonNullValue<MoneyDto>()), result);
+        else
+            result.Add("AmountTo", new [] { "AmountTo is Required." });
+    
+        if (this.RequestedPickUpDate is not null)
+            TryGetValidationExceptions("RequestedPickUpDate", () => Cryptocash.Domain.BookingMetadata.CreateRequestedPickUpDate(this.RequestedPickUpDate.NonNullValue<DateTimeRangeDto>()), result);
+        else
+            result.Add("RequestedPickUpDate", new [] { "RequestedPickUpDate is Required." });
+    
         if (this.PickedUpDateTime is not null)
-            ValidateField("PickedUpDateTime", () => Cryptocash.Domain.Booking.CreatePickedUpDateTime(this.PickedUpDateTime.NonNullValue<DateTimeRangeDto>()), result);
+            TryGetValidationExceptions("PickedUpDateTime", () => Cryptocash.Domain.BookingMetadata.CreatePickedUpDateTime(this.PickedUpDateTime.NonNullValue<DateTimeRangeDto>()), result);
         if (this.ExpiryDateTime is not null)
-            ValidateField("ExpiryDateTime", () => Cryptocash.Domain.Booking.CreateExpiryDateTime(this.ExpiryDateTime.NonNullValue<System.DateTimeOffset>()), result);
+            TryGetValidationExceptions("ExpiryDateTime", () => Cryptocash.Domain.BookingMetadata.CreateExpiryDateTime(this.ExpiryDateTime.NonNullValue<System.DateTimeOffset>()), result);
         if (this.CancelledDateTime is not null)
-            ValidateField("CancelledDateTime", () => Cryptocash.Domain.Booking.CreateCancelledDateTime(this.CancelledDateTime.NonNullValue<System.DateTimeOffset>()), result); 
+            TryGetValidationExceptions("CancelledDateTime", () => Cryptocash.Domain.BookingMetadata.CreateCancelledDateTime(this.CancelledDateTime.NonNullValue<System.DateTimeOffset>()), result); 
         if (this.VatNumber is not null)
-            ValidateField("VatNumber", () => Cryptocash.Domain.Booking.CreateVatNumber(this.VatNumber.NonNullValue<VatNumberDto>()), result);
+            TryGetValidationExceptions("VatNumber", () => Cryptocash.Domain.BookingMetadata.CreateVatNumber(this.VatNumber.NonNullValue<VatNumberDto>()), result);
 
         return result;
-    }
-
-    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
-    {
-        try
-        {
-            action();
-        }
-        catch (TypeValidationException ex)
-        {
-            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
-        }
-        catch (NullReferenceException)
-        {
-            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
-        }
     }
     #endregion
 

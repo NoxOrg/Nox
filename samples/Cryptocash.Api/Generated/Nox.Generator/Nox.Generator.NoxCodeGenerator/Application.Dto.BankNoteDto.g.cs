@@ -1,12 +1,15 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
@@ -17,36 +20,34 @@ namespace Cryptocash.Application.Dto;
 
 public record BankNoteKeyDto(System.Int64 keyId);
 
+public partial class BankNoteDto : BankNoteDtoBase
+{
+
+}
+
 /// <summary>
 /// Currencies related frequent and rare bank notes.
 /// </summary>
-public partial class BankNoteDto
+public abstract class BankNoteDtoBase : EntityDtoBase, IEntityDto<BankNote>
 {
 
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
-        ValidateField("CashNote", () => Cryptocash.Domain.BankNote.CreateCashNote(this.CashNote), result);
-        ValidateField("Value", () => Cryptocash.Domain.BankNote.CreateValue(this.Value), result);
+    
+        if (this.CashNote is not null)
+            TryGetValidationExceptions("CashNote", () => Cryptocash.Domain.BankNoteMetadata.CreateCashNote(this.CashNote.NonNullValue<System.String>()), result);
+        else
+            result.Add("CashNote", new [] { "CashNote is Required." });
+    
+        if (this.Value is not null)
+            TryGetValidationExceptions("Value", () => Cryptocash.Domain.BankNoteMetadata.CreateValue(this.Value.NonNullValue<MoneyDto>()), result);
+        else
+            result.Add("Value", new [] { "Value is Required." });
+    
 
         return result;
-    }
-
-    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
-    {
-        try
-        {
-            action();
-        }
-        catch (TypeValidationException ex)
-        {
-            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
-        }
-        catch (NullReferenceException)
-        {
-            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
-        }
     }
     #endregion
 

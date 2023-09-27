@@ -1,12 +1,15 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
@@ -17,36 +20,28 @@ namespace Cryptocash.Application.Dto;
 
 public record ExchangeRateKeyDto(System.Int64 keyId);
 
+public partial class ExchangeRateDto : ExchangeRateDtoBase
+{
+
+}
+
 /// <summary>
 /// Exchange rate and related data.
 /// </summary>
-public partial class ExchangeRateDto
+public abstract class ExchangeRateDtoBase : EntityDtoBase, IEntityDto<ExchangeRate>
 {
 
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
-        ValidateField("EffectiveRate", () => Cryptocash.Domain.ExchangeRate.CreateEffectiveRate(this.EffectiveRate), result);
-        ValidateField("EffectiveAt", () => Cryptocash.Domain.ExchangeRate.CreateEffectiveAt(this.EffectiveAt), result);
+    
+        TryGetValidationExceptions("EffectiveRate", () => Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveRate(this.EffectiveRate), result);
+    
+        TryGetValidationExceptions("EffectiveAt", () => Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveAt(this.EffectiveAt), result);
+    
 
         return result;
-    }
-
-    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
-    {
-        try
-        {
-            action();
-        }
-        catch (TypeValidationException ex)
-        {
-            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
-        }
-        catch (NullReferenceException)
-        {
-            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
-        }
     }
     #endregion
 

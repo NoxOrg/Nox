@@ -1,12 +1,15 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
@@ -17,36 +20,27 @@ namespace ClientApi.Application.Dto;
 
 public record RatingProgramKeyDto(System.Guid keyStoreId, System.Int64 keyId);
 
+public partial class RatingProgramDto : RatingProgramDtoBase
+{
+
+}
+
 /// <summary>
 /// Rating program for store.
 /// </summary>
-public partial class RatingProgramDto
+public abstract class RatingProgramDtoBase : EntityDtoBase, IEntityDto<RatingProgram>
 {
 
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
+    
+        TryGetValidationExceptions("StoreId", () => ClientApi.Domain.RatingProgramMetadata.CreateStoreId(this.StoreId), result);
         if (this.Name is not null)
-            ValidateField("Name", () => ClientApi.Domain.RatingProgram.CreateName(this.Name.NonNullValue<System.String>()), result);
+            TryGetValidationExceptions("Name", () => ClientApi.Domain.RatingProgramMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
 
         return result;
-    }
-
-    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
-    {
-        try
-        {
-            action();
-        }
-        catch (TypeValidationException ex)
-        {
-            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
-        }
-        catch (NullReferenceException)
-        {
-            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
-        }
     }
     #endregion
 

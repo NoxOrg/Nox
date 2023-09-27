@@ -1,12 +1,15 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
@@ -17,41 +20,48 @@ namespace Cryptocash.Application.Dto;
 
 public record EmployeeKeyDto(System.Int64 keyId);
 
+public partial class EmployeeDto : EmployeeDtoBase
+{
+
+}
+
 /// <summary>
 /// Employee definition and related data.
 /// </summary>
-public partial class EmployeeDto
+public abstract class EmployeeDtoBase : EntityDtoBase, IEntityDto<Employee>
 {
 
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
-        ValidateField("FirstName", () => Cryptocash.Domain.Employee.CreateFirstName(this.FirstName), result);
-        ValidateField("LastName", () => Cryptocash.Domain.Employee.CreateLastName(this.LastName), result);
-        ValidateField("EmailAddress", () => Cryptocash.Domain.Employee.CreateEmailAddress(this.EmailAddress), result);
-        ValidateField("Address", () => Cryptocash.Domain.Employee.CreateAddress(this.Address), result);
-        ValidateField("FirstWorkingDay", () => Cryptocash.Domain.Employee.CreateFirstWorkingDay(this.FirstWorkingDay), result);
+    
+        if (this.FirstName is not null)
+            TryGetValidationExceptions("FirstName", () => Cryptocash.Domain.EmployeeMetadata.CreateFirstName(this.FirstName.NonNullValue<System.String>()), result);
+        else
+            result.Add("FirstName", new [] { "FirstName is Required." });
+    
+        if (this.LastName is not null)
+            TryGetValidationExceptions("LastName", () => Cryptocash.Domain.EmployeeMetadata.CreateLastName(this.LastName.NonNullValue<System.String>()), result);
+        else
+            result.Add("LastName", new [] { "LastName is Required." });
+    
+        if (this.EmailAddress is not null)
+            TryGetValidationExceptions("EmailAddress", () => Cryptocash.Domain.EmployeeMetadata.CreateEmailAddress(this.EmailAddress.NonNullValue<System.String>()), result);
+        else
+            result.Add("EmailAddress", new [] { "EmailAddress is Required." });
+    
+        if (this.Address is not null)
+            TryGetValidationExceptions("Address", () => Cryptocash.Domain.EmployeeMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
+        else
+            result.Add("Address", new [] { "Address is Required." });
+    
+        TryGetValidationExceptions("FirstWorkingDay", () => Cryptocash.Domain.EmployeeMetadata.CreateFirstWorkingDay(this.FirstWorkingDay), result);
+    
         if (this.LastWorkingDay is not null)
-            ValidateField("LastWorkingDay", () => Cryptocash.Domain.Employee.CreateLastWorkingDay(this.LastWorkingDay.NonNullValue<System.DateTime>()), result);
+            TryGetValidationExceptions("LastWorkingDay", () => Cryptocash.Domain.EmployeeMetadata.CreateLastWorkingDay(this.LastWorkingDay.NonNullValue<System.DateTime>()), result);
 
         return result;
-    }
-
-    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
-    {
-        try
-        {
-            action();
-        }
-        catch (TypeValidationException ex)
-        {
-            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
-        }
-        catch (NullReferenceException)
-        {
-            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
-        }
     }
     #endregion
 

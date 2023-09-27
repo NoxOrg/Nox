@@ -1,12 +1,15 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
@@ -17,58 +20,53 @@ namespace Cryptocash.Application.Dto;
 
 public record CountryKeyDto(System.String keyId);
 
+public partial class CountryDto : CountryDtoBase
+{
+
+}
+
 /// <summary>
 /// Country and related data.
 /// </summary>
-public partial class CountryDto
+public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<Country>
 {
 
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
-        ValidateField("Name", () => Cryptocash.Domain.Country.CreateName(this.Name), result);
+    
+        if (this.Name is not null)
+            TryGetValidationExceptions("Name", () => Cryptocash.Domain.CountryMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+        else
+            result.Add("Name", new [] { "Name is Required." });
+    
         if (this.OfficialName is not null)
-            ValidateField("OfficialName", () => Cryptocash.Domain.Country.CreateOfficialName(this.OfficialName.NonNullValue<System.String>()), result);
+            TryGetValidationExceptions("OfficialName", () => Cryptocash.Domain.CountryMetadata.CreateOfficialName(this.OfficialName.NonNullValue<System.String>()), result);
         if (this.CountryIsoNumeric is not null)
-            ValidateField("CountryIsoNumeric", () => Cryptocash.Domain.Country.CreateCountryIsoNumeric(this.CountryIsoNumeric.NonNullValue<System.UInt16>()), result);
+            TryGetValidationExceptions("CountryIsoNumeric", () => Cryptocash.Domain.CountryMetadata.CreateCountryIsoNumeric(this.CountryIsoNumeric.NonNullValue<System.UInt16>()), result);
         if (this.CountryIsoAlpha3 is not null)
-            ValidateField("CountryIsoAlpha3", () => Cryptocash.Domain.Country.CreateCountryIsoAlpha3(this.CountryIsoAlpha3.NonNullValue<System.String>()), result);
+            TryGetValidationExceptions("CountryIsoAlpha3", () => Cryptocash.Domain.CountryMetadata.CreateCountryIsoAlpha3(this.CountryIsoAlpha3.NonNullValue<System.String>()), result);
         if (this.GeoCoords is not null)
-            ValidateField("GeoCoords", () => Cryptocash.Domain.Country.CreateGeoCoords(this.GeoCoords.NonNullValue<LatLongDto>()), result);
+            TryGetValidationExceptions("GeoCoords", () => Cryptocash.Domain.CountryMetadata.CreateGeoCoords(this.GeoCoords.NonNullValue<LatLongDto>()), result);
         if (this.FlagEmoji is not null)
-            ValidateField("FlagEmoji", () => Cryptocash.Domain.Country.CreateFlagEmoji(this.FlagEmoji.NonNullValue<System.String>()), result);
+            TryGetValidationExceptions("FlagEmoji", () => Cryptocash.Domain.CountryMetadata.CreateFlagEmoji(this.FlagEmoji.NonNullValue<System.String>()), result);
         if (this.FlagSvg is not null)
-            ValidateField("FlagSvg", () => Cryptocash.Domain.Country.CreateFlagSvg(this.FlagSvg.NonNullValue<ImageDto>()), result);
+            TryGetValidationExceptions("FlagSvg", () => Cryptocash.Domain.CountryMetadata.CreateFlagSvg(this.FlagSvg.NonNullValue<ImageDto>()), result);
         if (this.FlagPng is not null)
-            ValidateField("FlagPng", () => Cryptocash.Domain.Country.CreateFlagPng(this.FlagPng.NonNullValue<ImageDto>()), result);
+            TryGetValidationExceptions("FlagPng", () => Cryptocash.Domain.CountryMetadata.CreateFlagPng(this.FlagPng.NonNullValue<ImageDto>()), result);
         if (this.CoatOfArmsSvg is not null)
-            ValidateField("CoatOfArmsSvg", () => Cryptocash.Domain.Country.CreateCoatOfArmsSvg(this.CoatOfArmsSvg.NonNullValue<ImageDto>()), result);
+            TryGetValidationExceptions("CoatOfArmsSvg", () => Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsSvg(this.CoatOfArmsSvg.NonNullValue<ImageDto>()), result);
         if (this.CoatOfArmsPng is not null)
-            ValidateField("CoatOfArmsPng", () => Cryptocash.Domain.Country.CreateCoatOfArmsPng(this.CoatOfArmsPng.NonNullValue<ImageDto>()), result);
+            TryGetValidationExceptions("CoatOfArmsPng", () => Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsPng(this.CoatOfArmsPng.NonNullValue<ImageDto>()), result);
         if (this.GoogleMapsUrl is not null)
-            ValidateField("GoogleMapsUrl", () => Cryptocash.Domain.Country.CreateGoogleMapsUrl(this.GoogleMapsUrl.NonNullValue<System.String>()), result);
+            TryGetValidationExceptions("GoogleMapsUrl", () => Cryptocash.Domain.CountryMetadata.CreateGoogleMapsUrl(this.GoogleMapsUrl.NonNullValue<System.String>()), result);
         if (this.OpenStreetMapsUrl is not null)
-            ValidateField("OpenStreetMapsUrl", () => Cryptocash.Domain.Country.CreateOpenStreetMapsUrl(this.OpenStreetMapsUrl.NonNullValue<System.String>()), result);
-        ValidateField("StartOfWeek", () => Cryptocash.Domain.Country.CreateStartOfWeek(this.StartOfWeek), result);
+            TryGetValidationExceptions("OpenStreetMapsUrl", () => Cryptocash.Domain.CountryMetadata.CreateOpenStreetMapsUrl(this.OpenStreetMapsUrl.NonNullValue<System.String>()), result);
+        TryGetValidationExceptions("StartOfWeek", () => Cryptocash.Domain.CountryMetadata.CreateStartOfWeek(this.StartOfWeek), result);
+    
 
         return result;
-    }
-
-    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
-    {
-        try
-        {
-            action();
-        }
-        catch (TypeValidationException ex)
-        {
-            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
-        }
-        catch (NullReferenceException)
-        {
-            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
-        }
     }
     #endregion
 

@@ -1,12 +1,15 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
@@ -17,43 +20,53 @@ namespace Cryptocash.Application.Dto;
 
 public record VendingMachineKeyDto(System.Guid keyId);
 
+public partial class VendingMachineDto : VendingMachineDtoBase
+{
+
+}
+
 /// <summary>
 /// Vending machine definition and related data.
 /// </summary>
-public partial class VendingMachineDto
+public abstract class VendingMachineDtoBase : EntityDtoBase, IEntityDto<VendingMachine>
 {
 
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
-        ValidateField("MacAddress", () => Cryptocash.Domain.VendingMachine.CreateMacAddress(this.MacAddress), result);
-        ValidateField("PublicIp", () => Cryptocash.Domain.VendingMachine.CreatePublicIp(this.PublicIp), result);
-        ValidateField("GeoLocation", () => Cryptocash.Domain.VendingMachine.CreateGeoLocation(this.GeoLocation), result);
-        ValidateField("StreetAddress", () => Cryptocash.Domain.VendingMachine.CreateStreetAddress(this.StreetAddress), result);
-        ValidateField("SerialNumber", () => Cryptocash.Domain.VendingMachine.CreateSerialNumber(this.SerialNumber), result);
+    
+        if (this.MacAddress is not null)
+            TryGetValidationExceptions("MacAddress", () => Cryptocash.Domain.VendingMachineMetadata.CreateMacAddress(this.MacAddress.NonNullValue<System.String>()), result);
+        else
+            result.Add("MacAddress", new [] { "MacAddress is Required." });
+    
+        if (this.PublicIp is not null)
+            TryGetValidationExceptions("PublicIp", () => Cryptocash.Domain.VendingMachineMetadata.CreatePublicIp(this.PublicIp.NonNullValue<System.String>()), result);
+        else
+            result.Add("PublicIp", new [] { "PublicIp is Required." });
+    
+        if (this.GeoLocation is not null)
+            TryGetValidationExceptions("GeoLocation", () => Cryptocash.Domain.VendingMachineMetadata.CreateGeoLocation(this.GeoLocation.NonNullValue<LatLongDto>()), result);
+        else
+            result.Add("GeoLocation", new [] { "GeoLocation is Required." });
+    
+        if (this.StreetAddress is not null)
+            TryGetValidationExceptions("StreetAddress", () => Cryptocash.Domain.VendingMachineMetadata.CreateStreetAddress(this.StreetAddress.NonNullValue<StreetAddressDto>()), result);
+        else
+            result.Add("StreetAddress", new [] { "StreetAddress is Required." });
+    
+        if (this.SerialNumber is not null)
+            TryGetValidationExceptions("SerialNumber", () => Cryptocash.Domain.VendingMachineMetadata.CreateSerialNumber(this.SerialNumber.NonNullValue<System.String>()), result);
+        else
+            result.Add("SerialNumber", new [] { "SerialNumber is Required." });
+    
         if (this.InstallationFootPrint is not null)
-            ValidateField("InstallationFootPrint", () => Cryptocash.Domain.VendingMachine.CreateInstallationFootPrint(this.InstallationFootPrint.NonNullValue<System.Decimal>()), result);
+            TryGetValidationExceptions("InstallationFootPrint", () => Cryptocash.Domain.VendingMachineMetadata.CreateInstallationFootPrint(this.InstallationFootPrint.NonNullValue<System.Decimal>()), result);
         if (this.RentPerSquareMetre is not null)
-            ValidateField("RentPerSquareMetre", () => Cryptocash.Domain.VendingMachine.CreateRentPerSquareMetre(this.RentPerSquareMetre.NonNullValue<MoneyDto>()), result);
+            TryGetValidationExceptions("RentPerSquareMetre", () => Cryptocash.Domain.VendingMachineMetadata.CreateRentPerSquareMetre(this.RentPerSquareMetre.NonNullValue<MoneyDto>()), result);
 
         return result;
-    }
-
-    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
-    {
-        try
-        {
-            action();
-        }
-        catch (TypeValidationException ex)
-        {
-            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
-        }
-        catch (NullReferenceException)
-        {
-            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
-        }
     }
     #endregion
 

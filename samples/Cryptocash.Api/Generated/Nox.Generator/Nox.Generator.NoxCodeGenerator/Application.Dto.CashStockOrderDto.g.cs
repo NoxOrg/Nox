@@ -1,12 +1,15 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
@@ -17,38 +20,33 @@ namespace Cryptocash.Application.Dto;
 
 public record CashStockOrderKeyDto(System.Int64 keyId);
 
+public partial class CashStockOrderDto : CashStockOrderDtoBase
+{
+
+}
+
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-public partial class CashStockOrderDto
+public abstract class CashStockOrderDtoBase : EntityDtoBase, IEntityDto<CashStockOrder>
 {
 
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
-        ValidateField("Amount", () => Cryptocash.Domain.CashStockOrder.CreateAmount(this.Amount), result);
-        ValidateField("RequestedDeliveryDate", () => Cryptocash.Domain.CashStockOrder.CreateRequestedDeliveryDate(this.RequestedDeliveryDate), result);
+    
+        if (this.Amount is not null)
+            TryGetValidationExceptions("Amount", () => Cryptocash.Domain.CashStockOrderMetadata.CreateAmount(this.Amount.NonNullValue<MoneyDto>()), result);
+        else
+            result.Add("Amount", new [] { "Amount is Required." });
+    
+        TryGetValidationExceptions("RequestedDeliveryDate", () => Cryptocash.Domain.CashStockOrderMetadata.CreateRequestedDeliveryDate(this.RequestedDeliveryDate), result);
+    
         if (this.DeliveryDateTime is not null)
-            ValidateField("DeliveryDateTime", () => Cryptocash.Domain.CashStockOrder.CreateDeliveryDateTime(this.DeliveryDateTime.NonNullValue<System.DateTimeOffset>()), result); 
+            TryGetValidationExceptions("DeliveryDateTime", () => Cryptocash.Domain.CashStockOrderMetadata.CreateDeliveryDateTime(this.DeliveryDateTime.NonNullValue<System.DateTimeOffset>()), result); 
 
         return result;
-    }
-
-    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
-    {
-        try
-        {
-            action();
-        }
-        catch (TypeValidationException ex)
-        {
-            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
-        }
-        catch (NullReferenceException)
-        {
-            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
-        }
     }
     #endregion
 

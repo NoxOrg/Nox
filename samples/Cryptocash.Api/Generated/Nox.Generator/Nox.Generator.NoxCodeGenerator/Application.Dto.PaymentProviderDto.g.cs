@@ -1,12 +1,15 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
@@ -17,36 +20,34 @@ namespace Cryptocash.Application.Dto;
 
 public record PaymentProviderKeyDto(System.Int64 keyId);
 
+public partial class PaymentProviderDto : PaymentProviderDtoBase
+{
+
+}
+
 /// <summary>
 /// Payment provider related data.
 /// </summary>
-public partial class PaymentProviderDto
+public abstract class PaymentProviderDtoBase : EntityDtoBase, IEntityDto<PaymentProvider>
 {
 
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
-        ValidateField("PaymentProviderName", () => Cryptocash.Domain.PaymentProvider.CreatePaymentProviderName(this.PaymentProviderName), result);
-        ValidateField("PaymentProviderType", () => Cryptocash.Domain.PaymentProvider.CreatePaymentProviderType(this.PaymentProviderType), result);
+    
+        if (this.PaymentProviderName is not null)
+            TryGetValidationExceptions("PaymentProviderName", () => Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderName(this.PaymentProviderName.NonNullValue<System.String>()), result);
+        else
+            result.Add("PaymentProviderName", new [] { "PaymentProviderName is Required." });
+    
+        if (this.PaymentProviderType is not null)
+            TryGetValidationExceptions("PaymentProviderType", () => Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderType(this.PaymentProviderType.NonNullValue<System.String>()), result);
+        else
+            result.Add("PaymentProviderType", new [] { "PaymentProviderType is Required." });
+    
 
         return result;
-    }
-
-    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
-    {
-        try
-        {
-            action();
-        }
-        catch (TypeValidationException ex)
-        {
-            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
-        }
-        catch (NullReferenceException)
-        {
-            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
-        }
     }
     #endregion
 

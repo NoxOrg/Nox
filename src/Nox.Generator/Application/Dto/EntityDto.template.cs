@@ -1,12 +1,17 @@
-﻿// Generated
+﻿{{func attributeType(attribute)
+   ret IsNoxTypeSimpleType attribute.Type ? (SinglePrimitiveTypeForKey attribute) : (attribute.Type + "Dto")
+end}}
+// Generated
 
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
@@ -17,50 +22,58 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 public record {{entity.Name}}KeyDto({{primaryKeys}});
 
+public partial class {{className}} : {{className}}Base
+{
+
+}
+
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public partial class {{className}}
+public abstract class {{className}}Base : EntityDtoBase, IEntityDto<{{entity.Name}}>
 {
 
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
-
-    {{- for attribute in entity.Attributes }}
-
-        {{- if attribute.Type == "Formula" || !IsNoxTypeReadable attribute.Type}} {{ continue; }} {{ end }}
-
-        {{- if attribute.IsRequired }}
-        ValidateField("{{attribute.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}.Create{{attribute.Name}}(this.{{attribute.Name}}), result);
+    {{ for key in entity.Keys }}
+    {{- if key.Type == "EntityId" }}
+        {{- if key.IsRequired }}        
+            {{- if IsValueType (SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity) }}
+        TryGetValidationExceptions("{{key.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(this.{{key.Name}}), result);
+            {{- else }}
+        if (this.{{key.Name}} is not null)
+            TryGetValidationExceptions("{{key.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(this.{{key.Name}}), result);
+        else
+            result.Add("{{key.Name}}", new [] { "{{key.Name}} is Required." });
+            {{- end }}
         {{- else }}
         if (this.{{attribute.Name}} is not null)
-        {{- if IsNoxTypeSimpleType attribute.Type }}
-            ValidateField("{{attribute.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}.Create{{attribute.Name}}(this.{{attribute.Name}}.NonNullValue<{{SinglePrimitiveTypeForKey attribute}}>()), result);
-        {{- else }}
-            ValidateField("{{attribute.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}.Create{{attribute.Name}}(this.{{attribute.Name}}.NonNullValue<{{attribute.Type}}Dto>()), result);
-        {{- end}}
+            TryGetValidationExceptions("{{key.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(this.{{key.Name}}), result);
         {{- end }}
+    {{- end }}
+    {{- end }}
+
+    {{- for attribute in entity.Attributes }}
+    {{- if attribute.Type == "Formula" || !IsNoxTypeReadable attribute.Type}} {{ continue; }} {{ end }}
+
+    {{- if attribute.IsRequired }}
+        {{- if IsValueType (attributeType attribute) }}
+        TryGetValidationExceptions("{{attribute.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(this.{{attribute.Name}}), result);
+        {{- else }}
+        if (this.{{attribute.Name}} is not null)
+            TryGetValidationExceptions("{{attribute.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(this.{{attribute.Name}}.NonNullValue<{{attributeType attribute}}>()), result);
+        else
+            result.Add("{{attribute.Name}}", new [] { "{{attribute.Name}} is Required." });
+        {{- end }}
+    {{ else }}
+        if (this.{{attribute.Name}} is not null)
+            TryGetValidationExceptions("{{attribute.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(this.{{attribute.Name}}.NonNullValue<{{attributeType attribute}}>()), result);
+    {{- end }}
     {{- end}}
 
         return result;
-    }
-
-    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
-    {
-        try
-        {
-            action();
-        }
-        catch (TypeValidationException ex)
-        {
-            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
-        }
-        catch (NullReferenceException)
-        {
-            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
-        }
     }
     #endregion
 
@@ -83,11 +96,7 @@ public partial class {{className}}
     /// <summary>
     /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
     /// </summary>
-    {{ if IsNoxTypeSimpleType attribute.Type -}}
-    public {{SinglePrimitiveTypeForKey attribute}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
-    {{- else -}}
-    public {{attribute.Type}}Dto{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
-    {{- end}}
+    public {{attributeType attribute}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
 {{- end }}
 {{- ######################################### Relationships###################################################### -}}
 {{- for relationship in entity.Relationships }}

@@ -1,12 +1,15 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
@@ -17,38 +20,41 @@ namespace Cryptocash.Application.Dto;
 
 public record TransactionKeyDto(System.Int64 keyId);
 
+public partial class TransactionDto : TransactionDtoBase
+{
+
+}
+
 /// <summary>
 /// Customer transaction log and related data.
 /// </summary>
-public partial class TransactionDto
+public abstract class TransactionDtoBase : EntityDtoBase, IEntityDto<Transaction>
 {
 
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
-        ValidateField("TransactionType", () => Cryptocash.Domain.Transaction.CreateTransactionType(this.TransactionType), result);
-        ValidateField("ProcessedOnDateTime", () => Cryptocash.Domain.Transaction.CreateProcessedOnDateTime(this.ProcessedOnDateTime), result);
-        ValidateField("Amount", () => Cryptocash.Domain.Transaction.CreateAmount(this.Amount), result);
-        ValidateField("Reference", () => Cryptocash.Domain.Transaction.CreateReference(this.Reference), result);
+    
+        if (this.TransactionType is not null)
+            TryGetValidationExceptions("TransactionType", () => Cryptocash.Domain.TransactionMetadata.CreateTransactionType(this.TransactionType.NonNullValue<System.String>()), result);
+        else
+            result.Add("TransactionType", new [] { "TransactionType is Required." });
+    
+        TryGetValidationExceptions("ProcessedOnDateTime", () => Cryptocash.Domain.TransactionMetadata.CreateProcessedOnDateTime(this.ProcessedOnDateTime), result);
+    
+        if (this.Amount is not null)
+            TryGetValidationExceptions("Amount", () => Cryptocash.Domain.TransactionMetadata.CreateAmount(this.Amount.NonNullValue<MoneyDto>()), result);
+        else
+            result.Add("Amount", new [] { "Amount is Required." });
+    
+        if (this.Reference is not null)
+            TryGetValidationExceptions("Reference", () => Cryptocash.Domain.TransactionMetadata.CreateReference(this.Reference.NonNullValue<System.String>()), result);
+        else
+            result.Add("Reference", new [] { "Reference is Required." });
+    
 
         return result;
-    }
-
-    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
-    {
-        try
-        {
-            action();
-        }
-        catch (TypeValidationException ex)
-        {
-            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
-        }
-        catch (NullReferenceException)
-        {
-            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
-        }
     }
     #endregion
 

@@ -1,12 +1,15 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
@@ -17,37 +20,36 @@ namespace Cryptocash.Application.Dto;
 
 public record HolidayKeyDto(System.Int64 keyId);
 
+public partial class HolidayDto : HolidayDtoBase
+{
+
+}
+
 /// <summary>
 /// Holiday related to country.
 /// </summary>
-public partial class HolidayDto
+public abstract class HolidayDtoBase : EntityDtoBase, IEntityDto<Holiday>
 {
 
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
-        ValidateField("Name", () => Cryptocash.Domain.Holiday.CreateName(this.Name), result);
-        ValidateField("Type", () => Cryptocash.Domain.Holiday.CreateType(this.Type), result);
-        ValidateField("Date", () => Cryptocash.Domain.Holiday.CreateDate(this.Date), result);
+    
+        if (this.Name is not null)
+            TryGetValidationExceptions("Name", () => Cryptocash.Domain.HolidayMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+        else
+            result.Add("Name", new [] { "Name is Required." });
+    
+        if (this.Type is not null)
+            TryGetValidationExceptions("Type", () => Cryptocash.Domain.HolidayMetadata.CreateType(this.Type.NonNullValue<System.String>()), result);
+        else
+            result.Add("Type", new [] { "Type is Required." });
+    
+        TryGetValidationExceptions("Date", () => Cryptocash.Domain.HolidayMetadata.CreateDate(this.Date), result);
+    
 
         return result;
-    }
-
-    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
-    {
-        try
-        {
-            action();
-        }
-        catch (TypeValidationException ex)
-        {
-            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
-        }
-        catch (NullReferenceException)
-        {
-            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
-        }
     }
     #endregion
 

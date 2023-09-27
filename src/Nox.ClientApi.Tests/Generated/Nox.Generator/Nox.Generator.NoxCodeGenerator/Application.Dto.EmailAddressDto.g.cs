@@ -1,12 +1,15 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
@@ -17,38 +20,28 @@ namespace ClientApi.Application.Dto;
 
 public record EmailAddressKeyDto();
 
+public partial class EmailAddressDto : EmailAddressDtoBase
+{
+
+}
+
 /// <summary>
 /// Verified Email Address.
 /// </summary>
-public partial class EmailAddressDto
+public abstract class EmailAddressDtoBase : EntityDtoBase, IEntityDto<EmailAddress>
 {
 
     #region Validation
     public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
     {
         var result = new Dictionary<string, IEnumerable<string>>();
+    
         if (this.Email is not null)
-            ValidateField("Email", () => ClientApi.Domain.EmailAddress.CreateEmail(this.Email.NonNullValue<System.String>()), result);
+            TryGetValidationExceptions("Email", () => ClientApi.Domain.EmailAddressMetadata.CreateEmail(this.Email.NonNullValue<System.String>()), result);
         if (this.IsVerified is not null)
-            ValidateField("IsVerified", () => ClientApi.Domain.EmailAddress.CreateIsVerified(this.IsVerified.NonNullValue<System.Boolean>()), result);
+            TryGetValidationExceptions("IsVerified", () => ClientApi.Domain.EmailAddressMetadata.CreateIsVerified(this.IsVerified.NonNullValue<System.Boolean>()), result);
 
         return result;
-    }
-
-    private void ValidateField<T>(string fieldName, Func<T> action, Dictionary<string, IEnumerable<string>> result)
-    {
-        try
-        {
-            action();
-        }
-        catch (TypeValidationException ex)
-        {
-            result.Add(fieldName, ex.Errors.Select(x => x.ErrorMessage));
-        }
-        catch (NullReferenceException)
-        {
-            result.Add(fieldName, new List<string> { $"{fieldName} is Required." });
-        }
     }
     #endregion
 
