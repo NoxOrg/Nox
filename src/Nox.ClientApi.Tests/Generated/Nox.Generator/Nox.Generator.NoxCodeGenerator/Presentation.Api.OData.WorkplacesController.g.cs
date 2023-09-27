@@ -28,7 +28,7 @@ public partial class WorkplacesController : WorkplacesControllerBase
     public WorkplacesController(IMediator mediator):base(mediator)
     {}
 }
-public abstract class WorkplacesControllerBase : ODataController
+public abstract partial class WorkplacesControllerBase : ODataController
 {
     
     /// <summary>

@@ -28,7 +28,7 @@ public partial class CashStockOrdersController : CashStockOrdersControllerBase
     public CashStockOrdersController(IMediator mediator):base(mediator)
     {}
 }
-public abstract class CashStockOrdersControllerBase : ODataController
+public abstract partial class CashStockOrdersControllerBase : ODataController
 {
     
     /// <summary>

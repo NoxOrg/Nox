@@ -28,7 +28,7 @@ public partial class VendingMachinesController : VendingMachinesControllerBase
     public VendingMachinesController(IMediator mediator):base(mediator)
     {}
 }
-public abstract class VendingMachinesControllerBase : ODataController
+public abstract partial class VendingMachinesControllerBase : ODataController
 {
     
     /// <summary>
