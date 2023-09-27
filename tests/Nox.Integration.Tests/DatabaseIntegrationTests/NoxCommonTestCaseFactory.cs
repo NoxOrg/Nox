@@ -22,7 +22,7 @@ public class NoxCommonTestCaseFactory
 
     private TestWebAppDbContext DataContext => _dbContextFixture.DataContext;
 
-    public void GenerateEntityCanSaveAndReadFieldsAllTypes()
+    public void GenerateEntityCanSaveAndReadFieldsAllTypes(bool supportDateTimeOffset = true)
     {
         // TODO:
         // array
@@ -276,13 +276,24 @@ public class NoxCommonTestCaseFactory
         testEntity.GeoCoordTestField!.Latitude.Should().Be(latitude);
         testEntity.GeoCoordTestField!.Longitude.Should().Be(longitude);
 
-        testEntity.DateTimeRangeTestField!.Start.Should().Be(dateTimeRangeStart);
-        testEntity.DateTimeRangeTestField!.End.Should().Be(dateTimeRangeEnd);
-
-        testEntity.DateTimeRangeTestField!.Start.ToString().Should().Be(dateTimeRangeStart.ToString());
-        testEntity.DateTimeRangeTestField!.End.ToString().Should().Be(dateTimeRangeEnd.ToString());
-        testEntity.DateTimeRangeTestField!.Start.Offset.Should().Be(dateTimeRangeStart.Offset);
-        testEntity.DateTimeRangeTestField!.End.Offset.Should().Be(dateTimeRangeEnd.Offset);
+        if (supportDateTimeOffset)
+        {
+            testEntity.DateTimeRangeTestField!.Start.Should().Be(dateTimeRangeStart);
+            testEntity.DateTimeRangeTestField!.End.Should().Be(dateTimeRangeEnd);
+            testEntity.DateTimeRangeTestField!.Start.ToString().Should().Be(dateTimeRangeStart.ToString());
+            testEntity.DateTimeRangeTestField!.End.ToString().Should().Be(dateTimeRangeEnd.ToString());
+            testEntity.DateTimeRangeTestField!.Start.Offset.Should().Be(dateTimeRangeStart.Offset);
+            testEntity.DateTimeRangeTestField!.End.Offset.Should().Be(dateTimeRangeEnd.Offset);
+        }
+        else
+        {
+            testEntity.DateTimeRangeTestField!.Start.UtcDateTime.Should().Be(dateTimeRangeStart.UtcDateTime);
+            testEntity.DateTimeRangeTestField!.End.UtcDateTime.Should().Be(dateTimeRangeEnd.UtcDateTime);
+            testEntity.DateTimeRangeTestField!.Start.UtcDateTime.ToString().Should().Be(dateTimeRangeStart.UtcDateTime.ToString());
+            testEntity.DateTimeRangeTestField!.End.UtcDateTime.ToString().Should().Be(dateTimeRangeEnd.UtcDateTime.ToString());
+            testEntity.DateTimeRangeTestField!.Start.Offset.Should().Be(TimeSpan.Zero);
+            testEntity.DateTimeRangeTestField!.End.Offset.Should().Be(TimeSpan.Zero);
+        }
 
         testEntity.HtmlTestField!.Value.Should().Be(html);
         testEntity.ImageTestField!.Url.Should().Be(imageUrl);

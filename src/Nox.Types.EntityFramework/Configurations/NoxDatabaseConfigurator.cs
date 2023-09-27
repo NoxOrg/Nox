@@ -57,7 +57,7 @@ namespace Nox.Types.EntityFramework.Configurations
             ConfigureRelationships(codeGeneratorState, builder, entity, relationshipsToCreate);
 
             ConfigureOwnedRelationships(codeGeneratorState, builder, entity, ownedRelationshipsToCreate);
-            
+
             ConfigureUniqueAttributeConstraints(builder, entity);
         }
 
@@ -76,7 +76,8 @@ namespace Nox.Types.EntityFramework.Configurations
                 {
                     builder
                         .HasMany(relationshipToCreate.Relationship.Name)
-                        .WithMany(relationshipToCreate.Relationship.Related.EntityRelationship.Name);
+                        .WithMany(relationshipToCreate.Relationship.Related.EntityRelationship.Name)
+                        .UsingEntity(x => x.ToTable(relationshipToCreate.Relationship.Name));
                 }
                 // OneToOne and OneToMany, setup should be done only on foreign key side
                 else if (relationshipToCreate.Relationship.ShouldGenerateForeignKeyOnThisSide() &&
@@ -233,7 +234,7 @@ namespace Nox.Types.EntityFramework.Configurations
                 databaseConfigurationForForeignKey.ConfigureEntityProperty(codeGeneratorState, builder, foreignEntityKeyDefinition, entity, false);
             }
         }
-        
+
         protected virtual IList<IndexBuilder> ConfigureUniqueAttributeConstraints(IEntityBuilder builder, Entity entity)
         {
             var result = new List<IndexBuilder>();
@@ -288,7 +289,6 @@ namespace Nox.Types.EntityFramework.Configurations
                     Debug.WriteLine($"Type {property.Type} not found");
                 }
             }
-
         }
 
         private static List<NoxSimpleTypeDefinition> GetAllEntityAttributes(Entity entity)
