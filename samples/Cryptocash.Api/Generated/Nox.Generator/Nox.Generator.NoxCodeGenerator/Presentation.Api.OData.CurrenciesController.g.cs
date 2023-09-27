@@ -28,7 +28,7 @@ public partial class CurrenciesController : CurrenciesControllerBase
     public CurrenciesController(IMediator mediator):base(mediator)
     {}
 }
-public abstract class CurrenciesControllerBase : ODataController
+public abstract partial class CurrenciesControllerBase : ODataController
 {
     
     /// <summary>

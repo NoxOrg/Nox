@@ -28,7 +28,7 @@ public partial class BookingsController : BookingsControllerBase
     public BookingsController(IMediator mediator):base(mediator)
     {}
 }
-public abstract class BookingsControllerBase : ODataController
+public abstract partial class BookingsControllerBase : ODataController
 {
     
     /// <summary>
