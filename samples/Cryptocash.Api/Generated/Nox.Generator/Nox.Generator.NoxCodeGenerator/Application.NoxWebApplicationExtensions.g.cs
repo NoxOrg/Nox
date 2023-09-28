@@ -3,6 +3,7 @@
 #nullable enable
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Microsoft.OData.ModelBuilder;
 using Nox;
