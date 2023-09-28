@@ -7,8 +7,6 @@
 
 name: SampleService
 
-platformId: "nox.com"
-
 description: Sample Nox solution yaml configuration
 
 versionControl:

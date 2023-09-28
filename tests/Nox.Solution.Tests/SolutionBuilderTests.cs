@@ -59,7 +59,6 @@ public class SolutionBuilderTests
             .Build();
 
         noxConfig.Should().NotBeNull();
-        noxConfig.PlatformId.Should().Be("nox.com");
     }
 
     [Fact]
