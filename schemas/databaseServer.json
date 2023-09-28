@@ -34,9 +34,17 @@
     "port": {    
       "title": "Server port",
       "description": "The port to connect to.",
-      "type": [
-        "integer",
-        "null"
+      "anyOf": [
+		{
+			"type": "integer"
+		},
+		{
+			"type": "string",
+			"pattern": "^(\$\{\{\s*(.*)\s*\}\})"
+		},
+		{
+			"type": "null"
+		}
       ]
     },
     "user": {    

@@ -11,3 +11,5 @@ databaseServer:
     serverUri: localhost
     user: sa  
     password: Developer*123
+    port: ${{ env.DB_SERVER }}
+    
