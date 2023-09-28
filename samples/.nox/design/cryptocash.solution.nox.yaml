@@ -6,10 +6,6 @@
 
 name: Cryptocash
 
-platformId: "https://www.nox.com"
-
-version: "1.0"
-
 description: A sample solution for the imaginary Crypocash business. 
 
 overview: >
