@@ -7,12 +7,28 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-
-internal partial class CountryTimeZone : CountryTimeZoneBase
+internal partial class CountryTimeZone:CountryTimeZoneBase, IEntityHaveDomainEvents
 {
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
+}
 
 }
 /// <summary>
@@ -42,5 +58,32 @@ internal abstract class CountryTimeZoneBase : EntityBase, IOwnedEntity
     /// Country's related time zone code (Required).
     /// </summary>
     public Nox.Types.TimeZoneCode TimeZoneCode { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(CountryTimeZone countryTimeZone)
+	{
+		InternalDomainEvents.Add(new CountryTimeZoneCreated(countryTimeZone));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(CountryTimeZone countryTimeZone)
+	{
+		InternalDomainEvents.Add(new CountryTimeZoneUpdated(countryTimeZone));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(CountryTimeZone countryTimeZone)
+	{
+		InternalDomainEvents.Add(new CountryTimeZoneDeleted(countryTimeZone));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
 }

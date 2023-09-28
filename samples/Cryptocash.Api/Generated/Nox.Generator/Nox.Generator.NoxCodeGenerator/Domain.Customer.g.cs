@@ -7,12 +7,28 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-
-internal partial class Customer : CustomerBase
+internal partial class Customer:CustomerBase, IEntityHaveDomainEvents
 {
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
+}
 
 }
 /// <summary>
@@ -62,6 +78,33 @@ internal abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
     /// Customer's mobile number (Optional).
     /// </summary>
     public Nox.Types.PhoneNumber? MobileNumber { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(Customer customer)
+	{
+		InternalDomainEvents.Add(new CustomerCreated(customer));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(Customer customer)
+	{
+		InternalDomainEvents.Add(new CustomerUpdated(customer));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(Customer customer)
+	{
+		InternalDomainEvents.Add(new CustomerDeleted(customer));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// Customer related to ZeroOrMany PaymentDetails

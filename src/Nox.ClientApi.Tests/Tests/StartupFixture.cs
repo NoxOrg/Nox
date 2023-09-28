@@ -18,7 +18,14 @@ public class StartupFixture
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddNox(null,(oDataModelBuilder) => {
+        services.AddNox(
+        (noxConfigurator) => 
+        {
+            // No Transactional Outbox in tests
+            noxConfigurator.WithoutMessagingTransactionalOutbox();
+        },
+        (oDataModelBuilder) => 
+        {
             //Example register a custom odata function
             oDataModelBuilder.Function("countriesWithDebt").ReturnsCollectionFromEntitySet<CountryDto>("Countries");
             oDataModelBuilder.ConfigureHouseDto();
@@ -36,6 +43,7 @@ public class StartupFixture
 
         app.UseSwagger();
 
+        // Ensure a new / clean db for each test
         var clientApiDbContext = app.ApplicationServices.GetRequiredService<ClientApiDbContext>();
         clientApiDbContext!.Database.EnsureDeleted();
         clientApiDbContext!.Database.EnsureCreated();

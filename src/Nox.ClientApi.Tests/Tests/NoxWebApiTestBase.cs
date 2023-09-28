@@ -2,6 +2,7 @@
 using AutoFixture.AutoMoq;
 using ClientApi.Tests.Tests.Models;
 using FluentAssertions;
+using MassTransit.Testing;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Xunit.Abstractions;
@@ -12,12 +13,25 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
 {
     private readonly NoxTestApplicationFactory _appFactory;
     protected readonly Fixture _fixture;
+    protected ITestHarness _massTransitTestHarness => _appFactory.Services.GetTestHarness();
 
-    protected NoxWebApiTestBase(ITestOutputHelper testOutputHelper, NoxTestContainerService containerService)
+    /// <summary>
+    /// TODO  enableMessagingTests is causing the GitHub CI to hang...
+    /// </summary>
+    /// <param name="testOutputHelper"></param>
+    /// <param name="containerService"></param>
+    /// <param name="enableMessagingTests"></param>
+    protected NoxWebApiTestBase(ITestOutputHelper testOutputHelper, NoxTestContainerService containerService, bool enableMessagingTests = false)
     {
         _fixture = new Fixture();
         _fixture.Customize(new AutoMoqCustomization());
-        _fixture.Register(() => new NoxTestApplicationFactory(containerService, testOutputHelper));
+        _fixture.Register(() =>
+            new NoxTestApplicationFactory(
+                containerService, 
+                testOutputHelper, 
+                NoxTestContainerService.DbProviderKind,
+                enableMessagingTests)
+        );
 
         _appFactory = _fixture.Create<NoxTestApplicationFactory>();
     }

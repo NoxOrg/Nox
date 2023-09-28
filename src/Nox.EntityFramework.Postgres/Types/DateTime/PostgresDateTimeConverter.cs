@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-
 namespace Nox.EntityFramework.Postgres.Types.DateTime;
 
 public class PostgresDateTimeConverter : ValueConverter<Nox.Types.DateTime, System.DateTime>

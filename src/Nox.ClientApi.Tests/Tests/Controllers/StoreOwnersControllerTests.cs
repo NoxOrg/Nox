@@ -5,6 +5,8 @@ using System.Net;
 using AutoFixture.AutoMoq;
 using Nox.Types;
 using Xunit.Abstractions;
+using ClientApi.Application.IntegrationEvents.StoreOwner;
+using Nox.Application;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
@@ -239,5 +241,6 @@ namespace ClientApi.Tests.Tests.Controllers
             //Assert
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+        
     }
 }

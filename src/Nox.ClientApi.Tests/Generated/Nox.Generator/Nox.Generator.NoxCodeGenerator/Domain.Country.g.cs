@@ -7,12 +7,28 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-
-internal partial class Country : CountryBase
+internal partial class Country:CountryBase, IEntityHaveDomainEvents
 {
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
+}
 
 }
 /// <summary>
@@ -66,6 +82,33 @@ internal abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
         get { return $"{Name} has a population of {Population} people."; }
         private set { }
     }
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(Country country)
+	{
+		InternalDomainEvents.Add(new CountryCreated(country));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(Country country)
+	{
+		InternalDomainEvents.Add(new CountryUpdated(country));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(Country country)
+	{
+		InternalDomainEvents.Add(new CountryDeleted(country));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// Country Country workplaces ZeroOrMany Workplaces

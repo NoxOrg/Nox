@@ -7,12 +7,28 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-
-internal partial class Workplace : WorkplaceBase
+internal partial class Workplace:WorkplaceBase, IEntityHaveDomainEvents
 {
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
+}
 
 }
 /// <summary>
@@ -72,6 +88,33 @@ internal abstract class WorkplaceBase : EntityBase, IEntityConcurrent
         get { return $"Hello, {Name.Value}!"; }
         private set { }
     }
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(Workplace workplace)
+	{
+		InternalDomainEvents.Add(new WorkplaceCreated(workplace));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(Workplace workplace)
+	{
+		InternalDomainEvents.Add(new WorkplaceUpdated(workplace));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(Workplace workplace)
+	{
+		InternalDomainEvents.Add(new WorkplaceDeleted(workplace));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// Workplace Workplace country ZeroOrOne Countries

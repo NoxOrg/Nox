@@ -7,12 +7,28 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-
-internal partial class Currency : CurrencyBase
+internal partial class Currency:CurrencyBase, IEntityHaveDomainEvents
 {
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
+}
 
 }
 /// <summary>
@@ -97,6 +113,33 @@ internal abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
     /// Currency's minor value when converted to major (Required).
     /// </summary>
     public Nox.Types.Money MinorToMajorValue { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(Currency currency)
+	{
+		InternalDomainEvents.Add(new CurrencyCreated(currency));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(Currency currency)
+	{
+		InternalDomainEvents.Add(new CurrencyUpdated(currency));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(Currency currency)
+	{
+		InternalDomainEvents.Add(new CurrencyDeleted(currency));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// Currency used by OneOrMany Countries
