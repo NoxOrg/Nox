@@ -20,9 +20,9 @@ public static class NoxSolutionEntityDomainEventsMarkdownExtensions
     }
 
     private static bool ShouldCreateMarkdown(Entity entity)
-        => entity.Persistence?.Create.RaiseEvents == true
-        || entity.Persistence?.Update.RaiseEvents == true
-        || entity.Persistence?.Delete.RaiseEvents == true;
+        => entity.Persistence!.Create!.RaiseDomainEvents
+        || entity.Persistence!.Update!.RaiseDomainEvents
+        || entity.Persistence!.Delete!.RaiseDomainEvents;
 
     private static IEnumerable<EntityMarkdownFile> CreateMarkdownEntityEndpoints(Template template, Entity[] entities)
     {

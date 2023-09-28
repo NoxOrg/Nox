@@ -18,15 +18,15 @@ domain:
         schema: dbo
         create:
           isEnabled: false
-          raiseEvents: false
+          raiseEvents: never
         read:
           isEnabled: false
         update:
           isEnabled: false
-          raiseEvents: false
+          raiseEvents: never
         delete:
           isEnabled: false
-          raiseEvents: false
+          raiseEvents: never
 
       keys:
         - name: Id
@@ -42,15 +42,15 @@ domain:
         schema: dbo
         create:
           isEnabled: false
-          raiseEvents: false
+          raiseEvents: never
         read:
           isEnabled: true
         update:
           isEnabled: false
-          raiseEvents: false
+          raiseEvents: never
         delete:
           isEnabled: false
-          raiseEvents: false
+          raiseEvents: never
 
       keys:
         - name: Id
@@ -82,15 +82,15 @@ domain:
         schema: dbo
         create:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
         read:
           isEnabled: true
         update:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
         delete:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
 
       keys:
         - name: Id
@@ -182,15 +182,15 @@ domain:
         schema: dbo
         create:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
         read:
           isEnabled: true
         update:
           isEnabled: false
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
         delete:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
 
       keys:
         - name: Id
@@ -215,15 +215,15 @@ domain:
         schema: dbo
         create:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
         read:
           isEnabled: true
         update:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
         delete:
           isEnabled: false
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
 
       keys:
         - name: Id

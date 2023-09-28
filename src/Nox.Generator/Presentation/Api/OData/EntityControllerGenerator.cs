@@ -86,7 +86,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     {{}}
 }}");
 
-            code.AppendLine($"public abstract class {controllerName}Base : ODataController");
+            code.AppendLine($"public abstract partial class {controllerName}Base : ODataController");
 
             // Class
             code.StartBlock();

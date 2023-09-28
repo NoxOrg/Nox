@@ -28,7 +28,7 @@ public partial class StoreOwnersController : StoreOwnersControllerBase
     public StoreOwnersController(IMediator mediator):base(mediator)
     {}
 }
-public abstract class StoreOwnersControllerBase : ODataController
+public abstract partial class StoreOwnersControllerBase : ODataController
 {
     
     /// <summary>

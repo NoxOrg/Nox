@@ -28,7 +28,7 @@ public partial class CountryQualityOfLifeIndicesController : CountryQualityOfLif
     public CountryQualityOfLifeIndicesController(IMediator mediator):base(mediator)
     {}
 }
-public abstract class CountryQualityOfLifeIndicesControllerBase : ODataController
+public abstract partial class CountryQualityOfLifeIndicesControllerBase : ODataController
 {
     
     /// <summary>

@@ -37,12 +37,12 @@ persistence:
     isAudited: false    
     create:
         isEnabled: true
-        raiseEvents: true
+        raiseEvents: domainEventsOnly
     read:
         isEnabled: true
     update:
         isEnabled: true
-        raiseEvents: true
+        raiseEvents: domainEventsOnly
     delete:
         isEnabled: true
-        raiseEvents: true
+        raiseEvents: domainEventsOnly
