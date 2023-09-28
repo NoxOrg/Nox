@@ -47,21 +47,30 @@ internal partial class {{className}}:{{className}}Base{{if entity.HasDomainEvent
 /// <summary>
 /// Record for {{entity.Name}} created event.
 /// </summary>
-internal record {{entity.Name}}Created({{entity.Name}} {{entity.Name}}) : IDomainEvent;
+internal record {{entity.Name}}Created({{entity.Name}} {{entity.Name}}) : IDomainEvent
+{
+	public bool IsPublished { get; set; }
+}
 {{- end}}
 
 {{- if entity.Persistence.Update.RaiseEvents }}
 /// <summary>
 /// Record for {{entity.Name}} updated event.
 /// </summary>
-internal record {{entity.Name}}Updated({{entity.Name}} {{entity.Name}}) : IDomainEvent;
+internal record {{entity.Name}}Updated({{entity.Name}} {{entity.Name}}) : IDomainEvent
+{
+	public bool IsPublished { get; set; }
+}
 {{- end}}
 
 {{- if entity.Persistence.Delete.RaiseEvents }}
 /// <summary>
 /// Record for {{entity.Name}} deleted event.
 /// </summary>
-internal record {{entity.Name}}Deleted({{entity.Name}} {{entity.Name}}) : IDomainEvent;
+internal record {{entity.Name}}Deleted({{entity.Name}} {{entity.Name}}) : IDomainEvent
+{
+	public bool IsPublished { get; set; }
+}
 {{- end}}
 
 /// <summary>

@@ -108,12 +108,51 @@ internal partial class {{className}} : DbContext
         try
         {
             HandleSystemFields();
+           
             return await base.SaveChangesAsync(cancellationToken);
 
         }
         catch(DbUpdateConcurrencyException)
         {
             throw new Nox.Exceptions.ConcurrencyException($"Latest value of {nameof(IEntityConcurrent.Etag)} must be provided");
+        }
+    }
+
+    private void HandleDomainEvents()
+    {
+        List<IDomainEvent> domainEvents = new();
+        foreach (var entry in ChangeTracker.Entries<IEntityHaveDomainEvents>())
+        {
+            RaiseDomainEvent(entry);
+            domainEvents.AddRange(entry.Entity.DomainEvents);
+        }
+        PublishDomainEvents(domainEvents);
+    }
+
+    private void PublishDomainEvents(List<IDomainEvent> domainEvents)
+    {
+        // var eventPublisher = _dbProvider.GetEventPublisher();
+        // if (eventPublisher != null)
+        // {
+        //     eventPublisher.Publish(domainEvents);
+        // }
+    }
+
+    private void RaiseDomainEvent(EntityEntry<IEntityHaveDomainEvents> entry)
+    {
+        switch (entry.State)
+        {
+            case EntityState.Added:
+                entry.Entity.RaiseCreateEvent();
+                break;
+
+            case EntityState.Modified:
+                entry.Entity.RaiseUpdateEvent();
+                break;
+
+            case EntityState.Deleted:
+                entry.Entity.RaiseDeleteEvent();
+                break;
         }
     }
 
