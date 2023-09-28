@@ -1,6 +1,6 @@
-﻿{{func attributeType(attribute)
+﻿{{- func attributeType(attribute)
    ret IsNoxTypeSimpleType attribute.Type ? (SinglePrimitiveTypeForKey attribute) : (attribute.Type + "Dto")
-end}}
+end -}}
 // Generated
 
 #nullable enable
@@ -42,18 +42,18 @@ public abstract class {{className}}Base : EntityDtoBase, IEntityDto<{{entity.Nam
         {{- if key.IsRequired }}        
             {{- if IsValueType (SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity) }}
         if(this.{{key.Name}} != default({{SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity}}))
-            TryGetValidationExceptions("{{key.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(this.{{key.Name}}), result);
+            ExecuteActionAndCollectValidationExceptions("{{key.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(this.{{key.Name}}), result);
         else
             result.Add("{{key.Name}}", new [] { "{{key.Name}} is Required." });
             {{- else }}
         if (this.{{key.Name}} is not null)
-            TryGetValidationExceptions("{{key.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(this.{{key.Name}}), result);
+            ExecuteActionAndCollectValidationExceptions("{{key.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(this.{{key.Name}}), result);
         else
             result.Add("{{key.Name}}", new [] { "{{key.Name}} is Required." });
             {{- end }}
         {{- else }}
         if (this.{{attribute.Name}} is not null)
-            TryGetValidationExceptions("{{key.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(this.{{key.Name}}), result);
+            ExecuteActionAndCollectValidationExceptions("{{key.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(this.{{key.Name}}), result);
         {{- end }}
     {{- end }}
     {{- end }}
@@ -63,16 +63,16 @@ public abstract class {{className}}Base : EntityDtoBase, IEntityDto<{{entity.Nam
 
     {{- if attribute.IsRequired }}
         {{- if IsValueType (attributeType attribute) }}
-        TryGetValidationExceptions("{{attribute.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(this.{{attribute.Name}}), result);
+        ExecuteActionAndCollectValidationExceptions("{{attribute.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(this.{{attribute.Name}}), result);
         {{- else }}
         if (this.{{attribute.Name}} is not null)
-            TryGetValidationExceptions("{{attribute.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(this.{{attribute.Name}}.NonNullValue<{{attributeType attribute}}>()), result);
+            ExecuteActionAndCollectValidationExceptions("{{attribute.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(this.{{attribute.Name}}.NonNullValue<{{attributeType attribute}}>()), result);
         else
             result.Add("{{attribute.Name}}", new [] { "{{attribute.Name}} is Required." });
         {{- end }}
     {{ else }}
         if (this.{{attribute.Name}} is not null)
-            TryGetValidationExceptions("{{attribute.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(this.{{attribute.Name}}.NonNullValue<{{attributeType attribute}}>()), result);
+            ExecuteActionAndCollectValidationExceptions("{{attribute.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(this.{{attribute.Name}}.NonNullValue<{{attributeType attribute}}>()), result);
     {{- end }}
     {{- end}}
 

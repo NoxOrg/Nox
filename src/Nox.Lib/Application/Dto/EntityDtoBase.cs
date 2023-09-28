@@ -8,7 +8,7 @@ namespace Nox.Application.Dto;
 /// </summary>
 public abstract class EntityDtoBase
 {
-    public void TryGetValidationExceptions<T>(string propertyName, Func<T> createAction, Dictionary<string, IEnumerable<string>> validationResult)
+    public void ExecuteActionAndCollectValidationExceptions<T>(string propertyName, Func<T> createAction, Dictionary<string, IEnumerable<string>> validationResult)
     {
         try
         {

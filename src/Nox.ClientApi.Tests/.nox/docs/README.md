@@ -121,7 +121,7 @@ Member|Type|Description|Info
 ---------|----|----------|-------
 CountryId|EntityId||Required, Primary Key
 Id|AutoNumber|The unique identifier.|Required, Primary Key
-IndexRating|Number|Rating Index.|Required
+IndexRating|Number|Rating Index.|Required, MinValue: 1
 
 
 
@@ -140,7 +140,7 @@ Member|Type|Description|Info
 ---------|----|----------|-------
 StoreId|EntityId||Required, Primary Key
 Id|AutoNumber|The unique identifier.|Required, Primary Key
-Name|Text|Rating Program Name.|MinLength: 1, MaxLength: 256
+Name|Text|Rating Program Name.|MinLength: 2, MaxLength: 256
 
 
 
