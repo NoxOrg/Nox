@@ -27,11 +27,11 @@ public partial class CountryLocalNameMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions NameTypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
@@ -47,11 +47,11 @@ public partial class CountryLocalNameMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions NativeNameTypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
