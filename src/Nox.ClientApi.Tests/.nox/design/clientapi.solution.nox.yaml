@@ -56,24 +56,24 @@ infrastructure:
   
   persistence:
 
-    databaseServer:
+    databaseServer: # tests will override this configuration
       name: ClientApi
-      # provider: sqlServer      
-      # options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True
-      # serverUri: localhost
-      # user: sa  
-      # password: Developer*123
       provider: sqlServer      
-      #options: "DataSource=:memory:"
-      options: "Data Source=Client.db"
-      serverUri: "localhost"
-      user: "sa"  
-      password: "pwd"
+      options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True
+      serverUri: localhost
+      user: sa  
+      password: Developer*123
+      # provider: sqLite      
+      # #options: "DataSource=:memory:"
+      # options: "Data Source=Client.db"
+      # serverUri: "localhost"
+      # user: "sa"  
+      # password: "pwd"
       
-  # messaging:
-  #   integrationEventServer:      
-  #     name: IntegrationBus
-  #     provider: inMemory      
+  messaging:
+    integrationEventServer:      
+      name: IntegrationBus
+      provider: inMemory      
 
 application:  
   integrationEvents:
