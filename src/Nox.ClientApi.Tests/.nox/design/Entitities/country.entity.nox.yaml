@@ -23,7 +23,14 @@ attributes:
     textTypeOptions:
       minLength: 4
       maxLength: 63
-    isRequired: true 
+    isRequired: true
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
 
   - name: Population
     description: Population

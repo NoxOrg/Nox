@@ -13,7 +13,7 @@ namespace Nox.Configuration
         /// </summary>
         /// <typeparam name="T">DbContext associated</typeparam>
         /// <param name="disableDeliveryService">All messages will be kept in Outbox and will not be sent until enabled</param>
-        void WithMessagingTransactionalOutbox<T>(bool disableDeliveryService) where T : DbContext;
+        void WithMessagingTransactionalOutbox<T>(bool disableDeliveryService = false) where T : DbContext;
         /// <summary>
         /// Disable Transactional Outbox for Messaging Integration Server
         /// </summary>

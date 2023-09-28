@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -96,4 +97,58 @@ public partial class EmployeeMetadata
         public static Nox.Types.AutoNumber CreateEmployeePhoneNumberId(System.Int64 value)
             => Nox.Types.AutoNumber.From(value);
         
+
+        /// <summary>
+        /// User Interface for property 'FirstName'
+        /// </summary>
+        public static TypeUserInterface? FirstNameUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Employee")
+                .GetAttributeByName("FirstName")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'LastName'
+        /// </summary>
+        public static TypeUserInterface? LastNameUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Employee")
+                .GetAttributeByName("LastName")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'EmailAddress'
+        /// </summary>
+        public static TypeUserInterface? EmailAddressUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Employee")
+                .GetAttributeByName("EmailAddress")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Address'
+        /// </summary>
+        public static TypeUserInterface? AddressUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Employee")
+                .GetAttributeByName("Address")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'FirstWorkingDay'
+        /// </summary>
+        public static TypeUserInterface? FirstWorkingDayUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Employee")
+                .GetAttributeByName("FirstWorkingDay")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'LastWorkingDay'
+        /// </summary>
+        public static TypeUserInterface? LastWorkingDayUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Employee")
+                .GetAttributeByName("LastWorkingDay")?
+                .UserInterface;
 }

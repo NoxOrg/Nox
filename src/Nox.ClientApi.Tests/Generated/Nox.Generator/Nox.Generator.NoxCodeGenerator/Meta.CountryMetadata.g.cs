@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -138,4 +139,49 @@ public partial class CountryMetadata
         public static Nox.Types.AutoNumber CreateCountryLocalNameId(System.Int64 value)
             => Nox.Types.AutoNumber.From(value);
         
+
+        /// <summary>
+        /// User Interface for property 'Name'
+        /// </summary>
+        public static TypeUserInterface? NameUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("Name")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Population'
+        /// </summary>
+        public static TypeUserInterface? PopulationUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("Population")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'CountryDebt'
+        /// </summary>
+        public static TypeUserInterface? CountryDebtUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("CountryDebt")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'FirstLanguageCode'
+        /// </summary>
+        public static TypeUserInterface? FirstLanguageCodeUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("FirstLanguageCode")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'ShortDescription'
+        /// </summary>
+        public static TypeUserInterface? ShortDescriptionUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("ShortDescription")?
+                .UserInterface;
 }
