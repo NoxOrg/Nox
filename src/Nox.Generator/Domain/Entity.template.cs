@@ -22,7 +22,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace {{codeGeneratorState.DomainNameSpace}};
-internal partial class {{className}}:{{className}}Base{{if entity.HasDomainEvents}}, IEntityHaveDomainEvents{{end}}
+
+internal partial class {{className}} : {{className}}Base{{if entity.HasDomainEvents}}, IEntityHaveDomainEvents{{end}}
 {
 {{- if entity.HasDomainEvents}}
 	///<inheritdoc/>
@@ -43,21 +44,21 @@ internal partial class {{className}}:{{className}}Base{{if entity.HasDomainEvent
 {{- end}}
 }
 
-{{- if entity.Persistence.Create.RaiseEvents }}
+{{- if entity.Persistence.Create.RaiseDomainEvents }}
 /// <summary>
 /// Record for {{entity.Name}} created event.
 /// </summary>
 internal record {{entity.Name}}Created({{entity.Name}} {{entity.Name}}) : IDomainEvent;
 {{- end}}
 
-{{- if entity.Persistence.Update.RaiseEvents }}
+{{- if entity.Persistence.Update.RaiseDomainEvents }}
 /// <summary>
 /// Record for {{entity.Name}} updated event.
 /// </summary>
 internal record {{entity.Name}}Updated({{entity.Name}} {{entity.Name}}) : IDomainEvent;
 {{- end}}
 
-{{- if entity.Persistence.Delete.RaiseEvents }}
+{{- if entity.Persistence.Delete.RaiseDomainEvents }}
 /// <summary>
 /// Record for {{entity.Name}} deleted event.
 /// </summary>

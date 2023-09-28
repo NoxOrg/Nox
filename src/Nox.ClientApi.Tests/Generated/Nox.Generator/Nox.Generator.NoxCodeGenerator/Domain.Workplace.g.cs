@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-internal partial class Workplace:WorkplaceBase, IEntityHaveDomainEvents
+
+internal partial class Workplace : WorkplaceBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()

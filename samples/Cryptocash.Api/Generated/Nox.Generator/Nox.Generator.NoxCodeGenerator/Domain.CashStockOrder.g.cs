@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class CashStockOrder:CashStockOrderBase, IEntityHaveDomainEvents
+
+internal partial class CashStockOrder : CashStockOrderBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()

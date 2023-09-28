@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class Holiday:HolidayBase, IEntityHaveDomainEvents
+
+internal partial class Holiday : HolidayBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()

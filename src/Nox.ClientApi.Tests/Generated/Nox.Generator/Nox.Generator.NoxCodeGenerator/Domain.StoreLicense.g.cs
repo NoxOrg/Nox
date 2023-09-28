@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-internal partial class StoreLicense:StoreLicenseBase, IEntityHaveDomainEvents
+
+internal partial class StoreLicense : StoreLicenseBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()

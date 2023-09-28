@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-internal partial class CountryQualityOfLifeIndex:CountryQualityOfLifeIndexBase, IEntityHaveDomainEvents
+
+internal partial class CountryQualityOfLifeIndex : CountryQualityOfLifeIndexBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()

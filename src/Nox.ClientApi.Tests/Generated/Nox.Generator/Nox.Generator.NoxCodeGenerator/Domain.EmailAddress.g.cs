@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-internal partial class EmailAddress:EmailAddressBase, IEntityHaveDomainEvents
+
+internal partial class EmailAddress : EmailAddressBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()

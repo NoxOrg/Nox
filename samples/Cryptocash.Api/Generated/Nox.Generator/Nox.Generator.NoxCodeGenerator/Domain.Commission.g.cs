@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class Commission:CommissionBase, IEntityHaveDomainEvents
+
+internal partial class Commission : CommissionBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()

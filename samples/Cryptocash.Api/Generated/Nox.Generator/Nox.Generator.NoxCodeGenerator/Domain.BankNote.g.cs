@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class BankNote:BankNoteBase, IEntityHaveDomainEvents
+
+internal partial class BankNote : BankNoteBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()

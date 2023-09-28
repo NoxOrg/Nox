@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class MinimumCashStock:MinimumCashStockBase, IEntityHaveDomainEvents
+
+internal partial class MinimumCashStock : MinimumCashStockBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()
