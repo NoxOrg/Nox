@@ -1,6 +1,6 @@
 using FluentValidation;
+using Nox.Solution.Constants;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,6 +14,16 @@ namespace Nox.Solution.Validation
                 .NotEmpty()
                 .WithMessage(solution => string.Format(ValidationResources.SolutionNameEmpty));
 
+            RuleFor(solution => solution.PlatformId)
+                .NotEmpty()
+                .WithMessage(solution => string.Format(ValidationResources.SolutionPlatformIdEmpty));
+
+            RuleFor(solution => solution.Version)
+                .NotEmpty()
+                .WithMessage(ValidationResources.SolutionVersionEmpty)
+                .Matches(RegexConstants.SolutionVersionPattern)
+                .WithMessage(ValidationResources.SolutionVersionPattern);
+
             RuleForEach(sln => sln.Environments)
                 .SetValidator(sln => new EnvironmentValidator(sln.Environments));
 
@@ -26,7 +36,6 @@ namespace Nox.Solution.Validation
             RuleFor(sln => sln.Domain!)
                 .SetValidator(sln => new DomainValidator(sln.Application));
 
-            
             RuleFor(sln => sln.Application!)
                 .SetValidator(sln =>
                 {
@@ -45,7 +54,7 @@ namespace Nox.Solution.Validation
                             Password = db.Password,
                             Port = db.Port,
                             ServerUri = db.ServerUri,
-                            Provider = (DataConnectionProvider)Enum.Parse(typeof(DataConnectionProvider),db.Provider.ToString())
+                            Provider = (DataConnectionProvider)Enum.Parse(typeof(DataConnectionProvider), db.Provider.ToString())
                         };
                         dataConnections = dataConnections.Append(connectionProxyForDatabase);
                     }

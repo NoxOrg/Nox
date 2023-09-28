@@ -9,7 +9,6 @@ namespace Nox.Solution.Tests.Extensions;
 
 public class ObjectExtensionsTests
 {
-
     internal class TestClass
     {
         public int IntegerProperty { get; set; } = 42;
@@ -20,6 +19,7 @@ public class ObjectExtensionsTests
         public Uri UrlProperty { get; set; } = new Uri("https://douglasadams.com/creations/hhgg.html");
         public long LongProperty { get; set; } = 62_786_623_987_425_1234;
         public IReadOnlyList<string> StringListProperty { get; set; } = new List<string>() { "So", "long", "and", "thanks", "for", "all", "the", "fish" };
+
         public IReadOnlyDictionary<int, string> StringDictionaryProperty { get; set; } = new Dictionary<int, string>()
         {
             [1] = "The Hitch Hiker's Guide to the Galaxy",
@@ -28,11 +28,12 @@ public class ObjectExtensionsTests
             [4] = "So Long, and Thanks For All The Fish",
             [5] = "Mostly Harmless",
         };
+
         public string? NullStringProperty { get; set; } = "Empty void of space";
         public string? HiddenNullStringProperty { get; set; } = null;
         public int[] IntArrayProperty { get; set; } = new int[] { 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144 };
         public DateTime DateTimeProperty { get; set; } = new DateTime(1952, 3, 11, 11, 10, 12, 307, 69);
-        public DateTimeOffset DateTimeOffsetProperty { get; set; } = new DateTimeOffset(1952, 3, 11, 11, 10, 12, 307, 69, new TimeSpan(1,0,0));
+        public DateTimeOffset DateTimeOffsetProperty { get; set; } = new DateTimeOffset(1952, 3, 11, 11, 10, 12, 307, 69, new TimeSpan(1, 0, 0));
         public TimeSpan TimeSpanProperty { get; set; } = new TimeSpan(1, 2, 3, 4, 5, 6);
         public double DoubleProperty { get; set; } = 3.14159265358979323;
     }
@@ -40,7 +41,7 @@ public class ObjectExtensionsTests
     [Fact]
     public void TestClassInstance_ToSource_Generates_Correct_Source()
     {
-        // Arrange            
+        // Arrange
         var instance = new TestClass();
 
         var expectedSource = """
@@ -104,13 +105,10 @@ public class ObjectExtensionsTests
         source.Should().Be(expectedSource);
     }
 
-     
-
-
     [Fact]
     public void Object_ToSource_Generates_Correct_Source()
     {
-        // Arrange            
+        // Arrange
         var textOptions = new TextTypeOptions()
         {
             MaxLength = 16,
@@ -133,11 +131,10 @@ public class ObjectExtensionsTests
                 """;
 
         // Act
-        var source = textOptions.ToSourceCode(nameof(textOptions)+"2");
-            
+        var source = textOptions.ToSourceCode(nameof(textOptions) + "2");
+
         // Assert
         source.Should().Be(expectedSource);
-
     }
 
     [Fact]
@@ -152,10 +149,11 @@ public class ObjectExtensionsTests
         var source = noxConfig.ToSourceCode("solution");
 
         // Assert
-        noxConfig.Should().NotBeNull(); ;
+        noxConfig.Should().NotBeNull();
+        noxConfig.Version.Should().Be("2.0");
+        noxConfig.PlatformId.Should().Be("Nox");
+
         source.Should().NotBeNull();
         source.Length.Should().BeGreaterThan(40000);
-
     }
 }
-

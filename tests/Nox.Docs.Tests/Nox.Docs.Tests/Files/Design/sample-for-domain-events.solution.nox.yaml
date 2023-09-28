@@ -5,6 +5,9 @@
 #
 
 name: SampleForEntityDomainEventsMarkdownGeneration
+
+version: "1.0"
+
 description: Nox solution yaml configuration for generating domain events markdown
 
 domain:

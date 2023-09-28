@@ -477,4 +477,13 @@
   <data name="IntegrationEventsServerAzureServiceBusConfigRequired" xml:space="preserve">
     <value>AzureServiceBusConfig is required when the MessageBrokerProvider is  AzureServiceBus.</value>
   </data>
+  <data name="SolutionPlatformIdEmpty" xml:space="preserve">
+    <value>Solution Platform Id is missing. Platform Id must be specified for the solution.</value>
+  </data>
+  <data name="SolutionVersionEmpty" xml:space="preserve">
+    <value>Solution version is missing. Version must be specified for the solution.</value>
+  </data>
+  <data name="SolutionVersionPattern" xml:space="preserve">
+    <value>Solution Version doesn't satisfy pattern.</value>
+  </data>
 </root>

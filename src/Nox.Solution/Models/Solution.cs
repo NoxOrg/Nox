@@ -1,4 +1,5 @@
-﻿using Nox.Types.Schema;
+﻿using Nox.Solution.Constants;
+using Nox.Types.Schema;
 using System;
 using System.Collections.Generic;
 
@@ -10,11 +11,26 @@ namespace Nox.Solution;
 [AdditionalProperties(false)]
 public class Solution : DefinitionBase
 {
+    private string _platformId = null!;
+
     [Required]
     [Title("The short name for the solution. Contains no spaces.")]
     [Description("The name of the NOX solution, application or service. This value is used extensively by the NOX tooling and libraries and should ideally be unique within an organisation.")]
-    [Pattern(@"^[^\s]*$")]
-    public string Name { get; internal set; } = null!;
+    [Pattern(RegexConstants.SolutionNamePattern)]
+    public string Name { get; set; } = null!;
+
+    [Title("Platform Identifier. Used to build a unique Uri.")]
+    [Description("Identify a Platform, that is a set of different services. Use to produce a unique Uri, by encoding the provided value.")]
+    public string PlatformId
+    {
+        get => _platformId ?? Name;
+        internal set => _platformId = value;
+    }
+
+    [Title("The version of the NOX solution. Expected a Semantic Version format.")]
+    [Description("Required, but if not defined default 1.0.")]
+    [Pattern(RegexConstants.SolutionVersionPattern)]
+    public string Version { get; internal set; } = "1.0";
 
     [Title("A short description of the NOX solution.")]
     [Description("A brief description of the solution with what it's purpose or goals are.")]
