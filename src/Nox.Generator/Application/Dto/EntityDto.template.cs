@@ -41,7 +41,10 @@ public abstract class {{className}}Base : EntityDtoBase, IEntityDto<{{entity.Nam
     {{- if key.Type == "EntityId" }}
         {{- if key.IsRequired }}        
             {{- if IsValueType (SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity) }}
-        TryGetValidationExceptions("{{key.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(this.{{key.Name}}), result);
+        if(this.{{key.Name}} != default({{SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity}}))
+            TryGetValidationExceptions("{{key.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(this.{{key.Name}}), result);
+        else
+            result.Add("{{key.Name}}", new [] { "{{key.Name}} is Required." });
             {{- else }}
         if (this.{{key.Name}} is not null)
             TryGetValidationExceptions("{{key.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(this.{{key.Name}}), result);

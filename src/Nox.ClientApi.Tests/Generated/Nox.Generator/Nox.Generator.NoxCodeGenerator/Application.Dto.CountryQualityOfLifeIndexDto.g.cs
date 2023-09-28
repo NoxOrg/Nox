@@ -36,7 +36,10 @@ public abstract class CountryQualityOfLifeIndexDtoBase : EntityDtoBase, IEntityD
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
-        TryGetValidationExceptions("CountryId", () => ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateCountryId(this.CountryId), result);
+        if(this.CountryId != default(System.Int64))
+            TryGetValidationExceptions("CountryId", () => ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateCountryId(this.CountryId), result);
+        else
+            result.Add("CountryId", new [] { "CountryId is Required." });
         TryGetValidationExceptions("IndexRating", () => ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateIndexRating(this.IndexRating), result);
     
 
