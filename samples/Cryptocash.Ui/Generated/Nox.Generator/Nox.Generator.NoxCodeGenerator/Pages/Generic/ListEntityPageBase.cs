@@ -5,6 +5,7 @@ using Cryptocash.Ui.Generated.Data.ApiSetting;
 using Cryptocash.Ui.Generated.Data.Enum;
 using Microsoft.AspNetCore.Components.Web;
 using Cryptocash.Ui.Generated.Data.Generic;
+using MassTransit.Serialization.JsonConverters;
 
 namespace Cryptocash.Ui.Generated.Pages.Generic
 {
@@ -56,6 +57,26 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         /// Property IsOpenViewDrawer flag used to control view column drawer panel hidden or displayed state
         /// </summary>
         public bool IsOpenViewDrawer = false;
+
+        /// <summary>
+        /// Property IsOpenDeleteEntityConfirmation flag used to control Delete Entity confirmation dialog
+        /// </summary>
+        public bool IsOpenDeleteEntityConfirmation = false;
+
+        /// <summary>
+        /// Property IsDeleteEntityProcessing flag used to control display awaiting async process to complete
+        /// </summary>
+        public bool IsDeleteEntityProcessing = false;
+
+        /// <summary>
+        /// Property CurrentDeleteEntityId used to store the current entity Id to delete
+        /// </summary>
+        public string CurrentDeleteEntityId = string.Empty;
+
+        /// <summary>
+        /// Property ApiDeleteEtag used to reference Api Entity when deleting
+        /// </summary>
+        public System.Guid? CurrentDeleteEtag { get; set; } = null;
 
         /// <summary>
         /// Property SearchMainValue used as main binding source for Ui text search input control
@@ -145,6 +166,15 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
 
                 PagedData = ApiEntityData?.EntityList;
             }
+        }
+
+        /// <summary>
+        /// Method to send add entity data to Api
+        /// </summary>
+        /// <returns></returns>
+        private async Task DeleteApiEntityData()
+        {
+            await EntityDataService<T>.DeleteEntityData(CurrentApiUiService);            
         }
 
         #endregion
@@ -472,6 +502,110 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
                 return CurrentApiUiService != null
                     && CurrentApiUiService.Paging != null;
             }
+        }
+
+        #endregion
+
+        #region Delete
+
+        /// <summary>
+        /// Method to Reset CurrentDeleteEntityId
+        /// </summary>
+        private void ResetDeleteEntity()
+        {
+            CurrentDeleteEntityId = string.Empty;
+            CurrentDeleteEtag = null;
+        }
+
+        /// <summary>
+        /// Method to open Delete Entity confirmation
+        /// </summary>
+        public void DeleteEntitySelect(string EntityId, System.Guid EntityEtag)
+        {
+            CurrentDeleteEntityId = EntityId;
+            CurrentDeleteEtag = EntityEtag;
+            DeleteEntityOpenConfirmation();
+        }
+
+        /// <summary>
+        /// Method to open Delete Entity confirmation
+        /// </summary>
+        public void DeleteEntityOpenConfirmation()
+        {
+            IsOpenDeleteEntityConfirmation = true;
+        }
+
+        /// <summary>
+        /// Method to close Delete Entity confirmation
+        /// </summary>
+        public void DeleteEntityCloseConfirmation()
+        {
+            IsOpenDeleteEntityConfirmation = false;
+        }
+
+        /// <summary>
+        /// Method to Delete Entity within Api
+        /// </summary>
+        /// <returns>Task</returns>
+        public async Task DeleteEntitySubmit()
+        {
+            if (!String.IsNullOrWhiteSpace(CurrentDeleteEntityId)
+                && CurrentApiUiService != null)
+            {
+                IsDeleteEntityProcessing = true;
+
+                CurrentApiUiService!.ApiDeleteQueryData = CurrentDeleteEntityId;
+                CurrentApiUiService!.ApiDeleteEtag = CurrentDeleteEtag;
+
+                await DeleteApiEntityData();
+
+                CurrentApiUiService!.ResetAllSearchFilterList();
+                CurrentApiUiService!.ResetOrderList();
+                ResetViewList();
+                ResetDeleteEntity();
+
+                ShowSuccessSnackbar("Vending machine deleted successfully");
+
+                PreviousAPiQuery = String.Empty;
+                if (DataGridTable != null)
+                {
+                    await DataGridTable!.ReloadServerData();
+                }
+
+                IsOpenDeleteEntityConfirmation = false;
+            }
+
+            IsDeleteEntityProcessing = false;
+        }
+
+        #endregion
+
+        #region Snackbar Alert
+
+        [Inject]
+        public ISnackbar? Snackbar { get; set; }
+
+        /// <summary>
+        /// Method to show disappearing snackbar alert message to Ui
+        /// </summary>
+        /// <param name="Message"></param>
+        public void ShowSuccessSnackbar(string Message)
+        {
+            Snackbar!.Configuration.NewestOnTop = true;
+            Snackbar!.Configuration.PreventDuplicates = true;
+            Snackbar!.Configuration.PositionClass = Defaults.Classes.Position.BottomCenter;
+
+            Snackbar!.Add(Message,
+                Severity.Success,
+                config =>
+                {
+                    config.ShowCloseIcon = true;
+                    config.DuplicatesBehavior = SnackbarDuplicatesBehavior.Prevent;
+                    config.VisibleStateDuration = 4000;
+                    config.HideTransitionDuration = 500;
+                    config.ShowTransitionDuration = 500;
+                    config.SnackbarVariant = Variant.Filled;
+                });
         }
 
         #endregion

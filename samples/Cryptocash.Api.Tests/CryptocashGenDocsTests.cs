@@ -2,7 +2,7 @@ using Nox.Solution;
 using Nox.Docs.Extensions;
 using FluentAssertions;
 
-namespace Cryptocash.Api.Tests;
+namespace Cryptocash.Tests;
 
 public class CryptocashGenDocsTests
 {

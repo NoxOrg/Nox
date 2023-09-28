@@ -29,6 +29,7 @@
     <ProjectReference Include="..\..\src\Nox.Abstractions\Nox.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\Nox.Lib\Nox.Lib.csproj" />
     <ProjectReference Include="..\..\src\Nox.Types\Nox.Types.csproj" />
+    <ProjectReference Include="..\Cryptocash.Api\Cryptocash.Api.csproj" />
   </ItemGroup>
 
 </Project>

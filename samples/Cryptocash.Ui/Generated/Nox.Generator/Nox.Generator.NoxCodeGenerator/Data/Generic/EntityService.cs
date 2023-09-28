@@ -21,5 +21,15 @@ namespace Cryptocash.Ui.Generated.Data.Generic
 
             return Entities;
         }
+
+        /// <summary>
+        /// Method to delete entity
+        /// </summary>
+        /// <param name="ApiUiService"></param>
+        /// <returns>Task<string></returns>
+        public static async Task DeleteEntityData(ApiUiService? ApiUiService)
+        {
+            await ApiDataService.DeleteApi(ApiUiService);
+        }
     }
 }
