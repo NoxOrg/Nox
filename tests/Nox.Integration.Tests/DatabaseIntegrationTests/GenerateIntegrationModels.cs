@@ -74,7 +74,7 @@ namespace Nox.Integration.Tests.DatabaseIntegrationTests
                 "Domain.SecondTestEntityTwoRelationshipsManyToMany",
                 "Domain.TestEntityTwoRelationshipsOneToMany",
                 "Domain.SecondTestEntityTwoRelationshipsOneToMany",
-                "Domain.Meta.TestEntityForTypes",
+                "Meta.TestEntityForTypesMetadata",
             };
 
             foreach (var className in classNames)

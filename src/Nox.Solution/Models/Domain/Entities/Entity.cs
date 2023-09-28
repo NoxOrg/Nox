@@ -87,6 +87,12 @@ public class Entity : DefinitionBase
 
     [YamlIgnore]
     public Entity? OwnerEntity { get; internal set; }
+    
+    [YamlIgnore]
+    public bool HasDomainEvents =>
+        (Persistence is not null) && (Persistence!.Create.RaiseDomainEvents ||
+        Persistence.Update.RaiseDomainEvents ||
+        Persistence.Delete.RaiseDomainEvents); 
 
     internal bool ApplyDefaults()
     {
