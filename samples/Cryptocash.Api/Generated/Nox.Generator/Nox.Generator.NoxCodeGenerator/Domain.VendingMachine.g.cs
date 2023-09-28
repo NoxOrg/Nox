@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class VendingMachine:VendingMachineBase, IEntityHaveDomainEvents
+
+internal partial class VendingMachine : VendingMachineBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()
@@ -28,8 +29,6 @@ internal partial class VendingMachine:VendingMachineBase, IEntityHaveDomainEvent
 	{
 		InternalRaiseUpdateEvent(this);
 	}
-}
-
 }
 /// <summary>
 /// Record for VendingMachine created event.

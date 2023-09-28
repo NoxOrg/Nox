@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class LandLord:LandLordBase, IEntityHaveDomainEvents
+
+internal partial class LandLord : LandLordBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()
@@ -28,8 +29,6 @@ internal partial class LandLord:LandLordBase, IEntityHaveDomainEvents
 	{
 		InternalRaiseUpdateEvent(this);
 	}
-}
-
 }
 /// <summary>
 /// Record for LandLord created event.

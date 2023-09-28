@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class CountryTimeZone:CountryTimeZoneBase, IEntityHaveDomainEvents
+
+internal partial class CountryTimeZone : CountryTimeZoneBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()
@@ -28,8 +29,6 @@ internal partial class CountryTimeZone:CountryTimeZoneBase, IEntityHaveDomainEve
 	{
 		InternalRaiseUpdateEvent(this);
 	}
-}
-
 }
 /// <summary>
 /// Record for CountryTimeZone created event.

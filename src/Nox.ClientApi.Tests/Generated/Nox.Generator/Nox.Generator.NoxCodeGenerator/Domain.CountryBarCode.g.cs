@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-internal partial class CountryBarCode:CountryBarCodeBase, IEntityHaveDomainEvents
+
+internal partial class CountryBarCode : CountryBarCodeBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()
@@ -28,8 +29,6 @@ internal partial class CountryBarCode:CountryBarCodeBase, IEntityHaveDomainEvent
 	{
 		InternalRaiseUpdateEvent(this);
 	}
-}
-
 }
 /// <summary>
 /// Record for CountryBarCode created event.

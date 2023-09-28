@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-internal partial class RatingProgram:RatingProgramBase, IEntityHaveDomainEvents
+
+internal partial class RatingProgram : RatingProgramBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()
@@ -28,8 +29,6 @@ internal partial class RatingProgram:RatingProgramBase, IEntityHaveDomainEvents
 	{
 		InternalRaiseUpdateEvent(this);
 	}
-}
-
 }
 /// <summary>
 /// Record for RatingProgram created event.

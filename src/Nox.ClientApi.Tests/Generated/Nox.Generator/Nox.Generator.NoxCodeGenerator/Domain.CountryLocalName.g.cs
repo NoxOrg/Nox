@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-internal partial class CountryLocalName:CountryLocalNameBase, IEntityHaveDomainEvents
+
+internal partial class CountryLocalName : CountryLocalNameBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()
@@ -28,8 +29,6 @@ internal partial class CountryLocalName:CountryLocalNameBase, IEntityHaveDomainE
 	{
 		InternalRaiseUpdateEvent(this);
 	}
-}
-
 }
 /// <summary>
 /// Record for CountryLocalName created event.

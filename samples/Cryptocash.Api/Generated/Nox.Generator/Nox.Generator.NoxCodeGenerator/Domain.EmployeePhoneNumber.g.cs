@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class EmployeePhoneNumber:EmployeePhoneNumberBase, IEntityHaveDomainEvents
+
+internal partial class EmployeePhoneNumber : EmployeePhoneNumberBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()
@@ -28,8 +29,6 @@ internal partial class EmployeePhoneNumber:EmployeePhoneNumberBase, IEntityHaveD
 	{
 		InternalRaiseUpdateEvent(this);
 	}
-}
-
 }
 /// <summary>
 /// Record for EmployeePhoneNumber created event.

@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class PaymentProvider:PaymentProviderBase, IEntityHaveDomainEvents
+
+internal partial class PaymentProvider : PaymentProviderBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()
@@ -28,8 +29,6 @@ internal partial class PaymentProvider:PaymentProviderBase, IEntityHaveDomainEve
 	{
 		InternalRaiseUpdateEvent(this);
 	}
-}
-
 }
 /// <summary>
 /// Record for PaymentProvider created event.
