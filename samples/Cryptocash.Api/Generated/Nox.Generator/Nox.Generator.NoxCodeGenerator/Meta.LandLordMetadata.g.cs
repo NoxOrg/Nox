@@ -53,7 +53,7 @@ public partial class LandLordMetadata
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
-        public static TypeUserInterface? NameUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? NameUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("LandLord")
                 .GetAttributeByName("Name")?
@@ -62,7 +62,7 @@ public partial class LandLordMetadata
         /// <summary>
         /// User Interface for property 'Address'
         /// </summary>
-        public static TypeUserInterface? AddressUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? AddressUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("LandLord")
                 .GetAttributeByName("Address")?

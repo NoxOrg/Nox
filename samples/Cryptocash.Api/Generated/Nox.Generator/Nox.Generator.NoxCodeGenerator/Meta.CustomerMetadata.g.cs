@@ -94,7 +94,7 @@ public partial class CustomerMetadata
         /// <summary>
         /// User Interface for property 'FirstName'
         /// </summary>
-        public static TypeUserInterface? FirstNameUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? FirstNameUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Customer")
                 .GetAttributeByName("FirstName")?
@@ -103,7 +103,7 @@ public partial class CustomerMetadata
         /// <summary>
         /// User Interface for property 'LastName'
         /// </summary>
-        public static TypeUserInterface? LastNameUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? LastNameUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Customer")
                 .GetAttributeByName("LastName")?
@@ -112,7 +112,7 @@ public partial class CustomerMetadata
         /// <summary>
         /// User Interface for property 'EmailAddress'
         /// </summary>
-        public static TypeUserInterface? EmailAddressUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? EmailAddressUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Customer")
                 .GetAttributeByName("EmailAddress")?
@@ -121,7 +121,7 @@ public partial class CustomerMetadata
         /// <summary>
         /// User Interface for property 'Address'
         /// </summary>
-        public static TypeUserInterface? AddressUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? AddressUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Customer")
                 .GetAttributeByName("Address")?
@@ -130,7 +130,7 @@ public partial class CustomerMetadata
         /// <summary>
         /// User Interface for property 'MobileNumber'
         /// </summary>
-        public static TypeUserInterface? MobileNumberUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? MobileNumberUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Customer")
                 .GetAttributeByName("MobileNumber")?

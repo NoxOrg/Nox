@@ -113,7 +113,7 @@ public partial class BookingMetadata
         /// <summary>
         /// User Interface for property 'AmountFrom'
         /// </summary>
-        public static TypeUserInterface? AmountFromUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? AmountFromUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Booking")
                 .GetAttributeByName("AmountFrom")?
@@ -122,7 +122,7 @@ public partial class BookingMetadata
         /// <summary>
         /// User Interface for property 'AmountTo'
         /// </summary>
-        public static TypeUserInterface? AmountToUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? AmountToUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Booking")
                 .GetAttributeByName("AmountTo")?
@@ -131,7 +131,7 @@ public partial class BookingMetadata
         /// <summary>
         /// User Interface for property 'RequestedPickUpDate'
         /// </summary>
-        public static TypeUserInterface? RequestedPickUpDateUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? RequestedPickUpDateUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Booking")
                 .GetAttributeByName("RequestedPickUpDate")?
@@ -140,7 +140,7 @@ public partial class BookingMetadata
         /// <summary>
         /// User Interface for property 'PickedUpDateTime'
         /// </summary>
-        public static TypeUserInterface? PickedUpDateTimeUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? PickedUpDateTimeUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Booking")
                 .GetAttributeByName("PickedUpDateTime")?
@@ -149,7 +149,7 @@ public partial class BookingMetadata
         /// <summary>
         /// User Interface for property 'ExpiryDateTime'
         /// </summary>
-        public static TypeUserInterface? ExpiryDateTimeUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? ExpiryDateTimeUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Booking")
                 .GetAttributeByName("ExpiryDateTime")?
@@ -158,7 +158,7 @@ public partial class BookingMetadata
         /// <summary>
         /// User Interface for property 'CancelledDateTime'
         /// </summary>
-        public static TypeUserInterface? CancelledDateTimeUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? CancelledDateTimeUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Booking")
                 .GetAttributeByName("CancelledDateTime")?
@@ -167,7 +167,7 @@ public partial class BookingMetadata
         /// <summary>
         /// User Interface for property 'Status'
         /// </summary>
-        public static TypeUserInterface? StatusUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? StatusUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Booking")
                 .GetAttributeByName("Status")?
@@ -176,7 +176,7 @@ public partial class BookingMetadata
         /// <summary>
         /// User Interface for property 'VatNumber'
         /// </summary>
-        public static TypeUserInterface? VatNumberUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? VatNumberUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Booking")
                 .GetAttributeByName("VatNumber")?

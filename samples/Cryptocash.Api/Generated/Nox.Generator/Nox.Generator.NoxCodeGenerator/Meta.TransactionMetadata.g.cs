@@ -87,7 +87,7 @@ public partial class TransactionMetadata
         /// <summary>
         /// User Interface for property 'TransactionType'
         /// </summary>
-        public static TypeUserInterface? TransactionTypeUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? TransactionTypeUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Transaction")
                 .GetAttributeByName("TransactionType")?
@@ -96,7 +96,7 @@ public partial class TransactionMetadata
         /// <summary>
         /// User Interface for property 'ProcessedOnDateTime'
         /// </summary>
-        public static TypeUserInterface? ProcessedOnDateTimeUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? ProcessedOnDateTimeUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Transaction")
                 .GetAttributeByName("ProcessedOnDateTime")?
@@ -105,7 +105,7 @@ public partial class TransactionMetadata
         /// <summary>
         /// User Interface for property 'Amount'
         /// </summary>
-        public static TypeUserInterface? AmountUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? AmountUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Transaction")
                 .GetAttributeByName("Amount")?
@@ -114,7 +114,7 @@ public partial class TransactionMetadata
         /// <summary>
         /// User Interface for property 'Reference'
         /// </summary>
-        public static TypeUserInterface? ReferenceUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? ReferenceUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Transaction")
                 .GetAttributeByName("Reference")?

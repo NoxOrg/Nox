@@ -184,4 +184,40 @@ public partial class CountryMetadata
                 .GetEntityByName("Country")
                 .GetAttributeByName("ShortDescription")?
                 .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'CountryIsoNumeric'
+        /// </summary>
+        public static TypeUserInterface? CountryIsoNumericUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("CountryIsoNumeric")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'CountryIsoAlpha3'
+        /// </summary>
+        public static TypeUserInterface? CountryIsoAlpha3UiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("CountryIsoAlpha3")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'GoogleMapsUrl'
+        /// </summary>
+        public static TypeUserInterface? GoogleMapsUrlUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("GoogleMapsUrl")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'StartOfWeek'
+        /// </summary>
+        public static TypeUserInterface? StartOfWeekUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("StartOfWeek")?
+                .UserInterface;
 }

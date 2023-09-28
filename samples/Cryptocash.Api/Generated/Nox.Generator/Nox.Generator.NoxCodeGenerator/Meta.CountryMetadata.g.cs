@@ -177,7 +177,7 @@ public partial class CountryMetadata
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
-        public static TypeUserInterface? NameUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? NameUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Country")
                 .GetAttributeByName("Name")?
@@ -186,7 +186,7 @@ public partial class CountryMetadata
         /// <summary>
         /// User Interface for property 'OfficialName'
         /// </summary>
-        public static TypeUserInterface? OfficialNameUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? OfficialNameUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Country")
                 .GetAttributeByName("OfficialName")?
@@ -195,7 +195,7 @@ public partial class CountryMetadata
         /// <summary>
         /// User Interface for property 'CountryIsoNumeric'
         /// </summary>
-        public static TypeUserInterface? CountryIsoNumericUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? CountryIsoNumericUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Country")
                 .GetAttributeByName("CountryIsoNumeric")?
@@ -204,7 +204,7 @@ public partial class CountryMetadata
         /// <summary>
         /// User Interface for property 'CountryIsoAlpha3'
         /// </summary>
-        public static TypeUserInterface? CountryIsoAlpha3UserInterface(NoxSolution solution) 
+        public static TypeUserInterface? CountryIsoAlpha3UiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Country")
                 .GetAttributeByName("CountryIsoAlpha3")?
@@ -213,7 +213,7 @@ public partial class CountryMetadata
         /// <summary>
         /// User Interface for property 'GeoCoords'
         /// </summary>
-        public static TypeUserInterface? GeoCoordsUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? GeoCoordsUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Country")
                 .GetAttributeByName("GeoCoords")?
@@ -222,7 +222,7 @@ public partial class CountryMetadata
         /// <summary>
         /// User Interface for property 'FlagEmoji'
         /// </summary>
-        public static TypeUserInterface? FlagEmojiUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? FlagEmojiUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Country")
                 .GetAttributeByName("FlagEmoji")?
@@ -231,7 +231,7 @@ public partial class CountryMetadata
         /// <summary>
         /// User Interface for property 'FlagSvg'
         /// </summary>
-        public static TypeUserInterface? FlagSvgUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? FlagSvgUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Country")
                 .GetAttributeByName("FlagSvg")?
@@ -240,7 +240,7 @@ public partial class CountryMetadata
         /// <summary>
         /// User Interface for property 'FlagPng'
         /// </summary>
-        public static TypeUserInterface? FlagPngUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? FlagPngUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Country")
                 .GetAttributeByName("FlagPng")?
@@ -249,7 +249,7 @@ public partial class CountryMetadata
         /// <summary>
         /// User Interface for property 'CoatOfArmsSvg'
         /// </summary>
-        public static TypeUserInterface? CoatOfArmsSvgUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? CoatOfArmsSvgUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Country")
                 .GetAttributeByName("CoatOfArmsSvg")?
@@ -258,7 +258,7 @@ public partial class CountryMetadata
         /// <summary>
         /// User Interface for property 'CoatOfArmsPng'
         /// </summary>
-        public static TypeUserInterface? CoatOfArmsPngUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? CoatOfArmsPngUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Country")
                 .GetAttributeByName("CoatOfArmsPng")?
@@ -267,7 +267,7 @@ public partial class CountryMetadata
         /// <summary>
         /// User Interface for property 'GoogleMapsUrl'
         /// </summary>
-        public static TypeUserInterface? GoogleMapsUrlUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? GoogleMapsUrlUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Country")
                 .GetAttributeByName("GoogleMapsUrl")?
@@ -276,7 +276,7 @@ public partial class CountryMetadata
         /// <summary>
         /// User Interface for property 'OpenStreetMapsUrl'
         /// </summary>
-        public static TypeUserInterface? OpenStreetMapsUrlUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? OpenStreetMapsUrlUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Country")
                 .GetAttributeByName("OpenStreetMapsUrl")?
@@ -285,7 +285,7 @@ public partial class CountryMetadata
         /// <summary>
         /// User Interface for property 'StartOfWeek'
         /// </summary>
-        public static TypeUserInterface? StartOfWeekUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? StartOfWeekUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Country")
                 .GetAttributeByName("StartOfWeek")?
