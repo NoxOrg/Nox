@@ -1,4 +1,5 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
@@ -7,12 +8,27 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class Country:CountryBase
+internal partial class Country:CountryBase, IEntityHaveDomainEvents
 {
-
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for Country created event.
@@ -101,6 +117,33 @@ internal abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// Country's start of week day (Required).
     /// </summary>
     public Nox.Types.DayOfWeek StartOfWeek { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(Country country)
+	{
+		InternalDomainEvents.Add(new CountryCreated(country));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(Country country)
+	{
+		InternalDomainEvents.Add(new CountryUpdated(country));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(Country country)
+	{
+		InternalDomainEvents.Add(new CountryDeleted(country));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// Country used by ExactlyOne Currencies

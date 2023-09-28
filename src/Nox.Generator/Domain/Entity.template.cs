@@ -1,5 +1,16 @@
 // Generated
+{{func pascalCaseToCamelCase(pascal)
+		$result = ""	
+	if pascal != ""
+		$first = pascal | string.slice1 0
+		$first = $first | string.downcase
+		$rest = pascal | string.slice 1
+		$result = $first + $rest 
+	end
+		
+	ret $result	
 
+end}}
 #nullable enable
 
 using System;
@@ -7,13 +18,31 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace {{codeGeneratorState.DomainNameSpace}};
-internal partial class {{className}}:{{className}}Base
+internal partial class {{className}}:{{className}}Base{{if entity.HasDomainEvents}}, IEntityHaveDomainEvents{{end}}
 {
-
+{{- if entity.HasDomainEvents}}
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
+{{- end}}
 }
+
 {{- if entity.Persistence.Create.RaiseEvents }}
 /// <summary>
 /// Record for {{entity.Name}} created event.
@@ -108,6 +137,43 @@ internal abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if e
     public Nox.Types.{{attribute.Type}}{{if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } = null!;
     {{- end}}
 {{- end }}
+{{-if entity.HasDomainEvents}}
+
+	{{- pascalEntityName = entity.Name | pascalCaseToCamelCase }}
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent({{entity.Name}} {{pascalEntityName}})
+	{
+	{{- if entity.Persistence.Create.RaiseEvents }}
+		InternalDomainEvents.Add(new {{entity.Name}}Created({{pascalEntityName}}));     
+	{{- end }}
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent({{entity.Name}} {{pascalEntityName}})
+	{
+	{{- if entity.Persistence.Update.RaiseEvents }}
+		InternalDomainEvents.Add(new {{entity.Name}}Updated({{pascalEntityName}}));
+    {{- end }}
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent({{entity.Name}} {{pascalEntityName}})
+	{
+	{{- if entity.Persistence.Delete.RaiseEvents }}
+		InternalDomainEvents.Add(new {{entity.Name}}Deleted({{pascalEntityName}})); 
+	{{- end }}
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
+{{- end}}
 {{- ######################################### Relationships###################################################### -}}
 {{- for relationship in entity.Relationships }}
 

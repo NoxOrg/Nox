@@ -1,4 +1,5 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
@@ -7,12 +8,27 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class PaymentProvider:PaymentProviderBase
+internal partial class PaymentProvider:PaymentProviderBase, IEntityHaveDomainEvents
 {
-
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for PaymentProvider created event.
@@ -46,6 +62,33 @@ internal abstract class PaymentProviderBase : AuditableEntityBase, IEntityConcur
     /// Payment provider account type (Required).
     /// </summary>
     public Nox.Types.Text PaymentProviderType { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(PaymentProvider paymentProvider)
+	{
+		InternalDomainEvents.Add(new PaymentProviderCreated(paymentProvider));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(PaymentProvider paymentProvider)
+	{
+		InternalDomainEvents.Add(new PaymentProviderUpdated(paymentProvider));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(PaymentProvider paymentProvider)
+	{
+		InternalDomainEvents.Add(new PaymentProviderDeleted(paymentProvider));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// PaymentProvider related to ZeroOrMany PaymentDetails

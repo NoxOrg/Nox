@@ -20,11 +20,11 @@ public partial class WorkplaceMetadata
         /// </summary>
         public static Nox.Types.NuidTypeOptions IdTypeOptions {get; private set;} = new ()
         {
-            Separator = "-",
-            PropertyNames = new System.String[]
-            {
-                "Name",
-            },
+            Separator = "-",
+            PropertyNames = new System.String[]
+            {
+                "Name",
+            },
         };
     
     
@@ -40,11 +40,11 @@ public partial class WorkplaceMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions NameTypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
@@ -60,11 +60,11 @@ public partial class WorkplaceMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions DescriptionTypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
@@ -80,8 +80,8 @@ public partial class WorkplaceMetadata
         /// </summary>
         public static Nox.Types.FormulaTypeOptions GreetingTypeOptions {get; private set;} = new ()
         {
-            Expression = "$\"Hello, {Name.Value}!\"",
-            Returns = Nox.Types.FormulaReturnType.@string,
+            Expression = "$\"Hello, {Name.Value}!\"",
+            Returns = Nox.Types.FormulaReturnType.@string,
         };
     
     

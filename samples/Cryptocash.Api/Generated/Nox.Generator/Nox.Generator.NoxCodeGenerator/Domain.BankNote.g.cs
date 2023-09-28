@@ -1,4 +1,5 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
@@ -7,12 +8,27 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class BankNote:BankNoteBase
+internal partial class BankNote:BankNoteBase, IEntityHaveDomainEvents
 {
-
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for BankNote created event.
@@ -46,5 +62,32 @@ internal abstract class BankNoteBase : EntityBase, IOwnedEntity
     /// Bank note value (Required).
     /// </summary>
     public Nox.Types.Money Value { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(BankNote bankNote)
+	{
+		InternalDomainEvents.Add(new BankNoteCreated(bankNote));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(BankNote bankNote)
+	{
+		InternalDomainEvents.Add(new BankNoteUpdated(bankNote));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(BankNote bankNote)
+	{
+		InternalDomainEvents.Add(new BankNoteDeleted(bankNote));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
 }

@@ -12,7 +12,7 @@ namespace TestWebApp.Domain;
 /// <summary>
 /// Static methods for the TestEntityForTypes class.
 /// </summary>
-public partial class TestEntityForTypes
+public partial class TestEntityForTypesMetadata
 {
     
         /// <summary>
@@ -20,11 +20,16 @@ public partial class TestEntityForTypes
         /// </summary>
         public static Nox.Types.TextTypeOptions IdTypeOptions {get; private set;} = new ()
         {
-            MinLength = 2,
-            MaxLength = 2,
-            IsUnicode = false,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 2,
+
+            MaxLength = 2,
+
+            IsUnicode = false,
+
+            IsLocalized = true,
+
+            Casing = Nox.Types.TextTypeCasing.Normal,
+
         };
     
     
@@ -40,11 +45,16 @@ public partial class TestEntityForTypes
         /// </summary>
         public static Nox.Types.TextTypeOptions TextTestFieldTypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 4,
+
+            MaxLength = 63,
+
+            IsUnicode = true,
+
+            IsLocalized = true,
+
+            Casing = Nox.Types.TextTypeCasing.Normal,
+
         };
     
     
@@ -60,9 +70,12 @@ public partial class TestEntityForTypes
         /// </summary>
         public static Nox.Types.NumberTypeOptions NumberTestFieldTypeOptions {get; private set;} = new ()
         {
-            MinValue = 4m,
-            MaxValue = 894m,
-            DecimalDigits = 0,
+            MinValue = 4m,
+
+            MaxValue = 894m,
+
+            DecimalDigits = 0,
+
         };
     
     
@@ -421,8 +434,10 @@ public partial class TestEntityForTypes
         /// </summary>
         public static Nox.Types.FormulaTypeOptions FormulaTestFieldTypeOptions {get; private set;} = new ()
         {
-            Expression = "2 + 2",
-            Returns = Nox.Types.FormulaReturnType.@int,
+            Expression = "2 + 2",
+
+            Returns = Nox.Types.FormulaReturnType.@int,
+
         };
     
     
