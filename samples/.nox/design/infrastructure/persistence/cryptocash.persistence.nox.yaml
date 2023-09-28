@@ -10,4 +10,4 @@ databaseServer:
     options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True
     serverUri: localhost
     user: sa  
-    password: Developer*123
+    password: Developer*123      

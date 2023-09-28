@@ -6,13 +6,14 @@ namespace Nox.Configuration
 {
     public interface INoxBuilderConfigurator
     {
+
         /// <summary>
         /// Enable  Transactional Outbox for Messaging Integration Server
         /// Using the same DbContext to whare Domain Changes are saved
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        void WithMessagingTransactionalOutbox<T>() where T : DbContext;
-
+        /// <typeparam name="T">DbContext associated</typeparam>
+        /// <param name="disableDeliveryService">All messages will be kept in Outbox and will not be sent until enabled</param>
+        void WithMessagingTransactionalOutbox<T>(bool disableDeliveryService) where T : DbContext;
         /// <summary>
         /// Disable Transactional Outbox for Messaging Integration Server
         /// </summary>
