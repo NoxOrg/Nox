@@ -28,7 +28,7 @@ public partial class MinimumCashStocksController : MinimumCashStocksControllerBa
     public MinimumCashStocksController(IMediator mediator):base(mediator)
     {}
 }
-public abstract class MinimumCashStocksControllerBase : ODataController
+public abstract partial class MinimumCashStocksControllerBase : ODataController
 {
     
     /// <summary>

@@ -28,7 +28,7 @@ public partial class PaymentDetailsController : PaymentDetailsControllerBase
     public PaymentDetailsController(IMediator mediator):base(mediator)
     {}
 }
-public abstract class PaymentDetailsControllerBase : ODataController
+public abstract partial class PaymentDetailsControllerBase : ODataController
 {
     
     /// <summary>

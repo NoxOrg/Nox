@@ -1,4 +1,5 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
@@ -7,12 +8,27 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class Transaction:TransactionBase
+internal partial class Transaction:TransactionBase, IEntityHaveDomainEvents
 {
-
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for Transaction created event.
@@ -56,6 +72,33 @@ internal abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent
     /// Transaction external reference (Required).
     /// </summary>
     public Nox.Types.Text Reference { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(Transaction transaction)
+	{
+		InternalDomainEvents.Add(new TransactionCreated(transaction));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(Transaction transaction)
+	{
+		InternalDomainEvents.Add(new TransactionUpdated(transaction));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(Transaction transaction)
+	{
+		InternalDomainEvents.Add(new TransactionDeleted(transaction));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// Transaction for ExactlyOne Customers

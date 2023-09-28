@@ -14,6 +14,7 @@ using Nox.Types.EntityFramework.Abstractions;
 using Nox.EntityFramework.Sqlite;
 using Nox.EntityFramework.Postgres;
 using Nox.EntityFramework.SqlServer;
+using Nox.Messaging.InMemoryBus;
 
 namespace Nox.Configuration
 {

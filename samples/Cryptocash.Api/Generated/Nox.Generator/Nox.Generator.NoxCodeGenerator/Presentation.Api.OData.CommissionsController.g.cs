@@ -28,7 +28,7 @@ public partial class CommissionsController : CommissionsControllerBase
     public CommissionsController(IMediator mediator):base(mediator)
     {}
 }
-public abstract class CommissionsControllerBase : ODataController
+public abstract partial class CommissionsControllerBase : ODataController
 {
     
     /// <summary>

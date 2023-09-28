@@ -1,4 +1,5 @@
-﻿// Generated
+﻿
+// Generated
 
 #nullable enable
 
@@ -7,12 +8,27 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class CashStockOrder:CashStockOrderBase
+internal partial class CashStockOrder:CashStockOrderBase, IEntityHaveDomainEvents
 {
-
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for CashStockOrder created event.
@@ -60,6 +76,33 @@ internal abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurr
         get { return DeliveryDateTime != null ? "delivered" : "ordered"; }
         private set { }
     }
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(CashStockOrder cashStockOrder)
+	{
+		InternalDomainEvents.Add(new CashStockOrderCreated(cashStockOrder));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(CashStockOrder cashStockOrder)
+	{
+		InternalDomainEvents.Add(new CashStockOrderUpdated(cashStockOrder));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(CashStockOrder cashStockOrder)
+	{
+		InternalDomainEvents.Add(new CashStockOrderDeleted(cashStockOrder));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// CashStockOrder for ExactlyOne VendingMachines

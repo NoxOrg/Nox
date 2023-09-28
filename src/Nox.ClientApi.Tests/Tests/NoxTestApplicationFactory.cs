@@ -1,4 +1,6 @@
 ﻿using Divergic.Logging.Xunit;
+using FluentAssertions.Common;
+using MassTransit;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -22,6 +24,8 @@ public class NoxTestApplicationFactory : WebApplicationFactory<StartupFixture>
     {
         var host = WebHost.CreateDefaultBuilder(null!)
             .UseStartup<StartupFixture>()
+            // this extension makes it sure that our lambda will run after the Startup.ConfigureServices()
+            // method has been executed.
             .ConfigureTestServices(services =>
             {
                 var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(INoxDatabaseProvider));
@@ -34,11 +38,14 @@ public class NoxTestApplicationFactory : WebApplicationFactory<StartupFixture>
                     var configurations = sp.GetServices<INoxTypeDatabaseConfigurator>();
                     return _containerService.GetDatabaseProvider(configurations);
                 });
+                //services.AddMassTransitTestHarness();
+               
             })
             .ConfigureLogging(opts => opts.AddXunit(_testOutput, new LoggingConfig
             {
                 LogLevel = LogLevel.Error
             }));
+        
 
         return host;
     }

@@ -2,6 +2,7 @@
 using AutoFixture.AutoMoq;
 using ClientApi.Tests.Tests.Models;
 using FluentAssertions;
+using MassTransit.Testing;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Xunit.Abstractions;
@@ -12,6 +13,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
 {
     private readonly NoxTestApplicationFactory _appFactory;
     protected readonly Fixture _fixture;
+    //protected readonly ITestHarness _massTransitTestHarness;
 
     protected NoxWebApiTestBase(ITestOutputHelper testOutputHelper, NoxTestContainerService containerService)
     {
@@ -20,6 +22,8 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
         _fixture.Register(() => new NoxTestApplicationFactory(containerService, testOutputHelper));
 
         _appFactory = _fixture.Create<NoxTestApplicationFactory>();
+
+        //_massTransitTestHarness = _appFactory.Services.GetTestHarness();
     }
 
     /// <summary>

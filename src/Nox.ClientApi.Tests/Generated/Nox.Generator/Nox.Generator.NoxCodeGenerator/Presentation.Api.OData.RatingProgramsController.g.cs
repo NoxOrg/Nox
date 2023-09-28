@@ -28,7 +28,7 @@ public partial class RatingProgramsController : RatingProgramsControllerBase
     public RatingProgramsController(IMediator mediator):base(mediator)
     {}
 }
-public abstract class RatingProgramsControllerBase : ODataController
+public abstract partial class RatingProgramsControllerBase : ODataController
 {
     
     /// <summary>

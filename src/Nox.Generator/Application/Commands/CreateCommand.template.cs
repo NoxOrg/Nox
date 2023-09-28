@@ -1,4 +1,3 @@
-﻿{{- relatedEntities = entity.Relationships | array.map "Entity" }}
 {{- func fieldFactoryName
 	ret (string.downcase $0 + "Factory")
 end -}}

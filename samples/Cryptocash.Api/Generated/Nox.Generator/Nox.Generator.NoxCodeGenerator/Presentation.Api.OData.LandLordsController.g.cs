@@ -28,7 +28,7 @@ public partial class LandLordsController : LandLordsControllerBase
     public LandLordsController(IMediator mediator):base(mediator)
     {}
 }
-public abstract class LandLordsControllerBase : ODataController
+public abstract partial class LandLordsControllerBase : ODataController
 {
     
     /// <summary>
