@@ -32,8 +32,7 @@ internal partial class CreateStoreOwnerCommandHandler
         /* Fully Implement the handler if needed */
 
         // Send a integration event to the outbox
-        // Mass transit is failing in the CI build
-        //await _outboxRepository!.AddAsync(new CustomStoreOwnerCreated());
+        await _outboxRepository!.AddAsync(new CustomStoreOwnerCreated());
 
         return await base.Handle(request, cancellationToken);        
     }
