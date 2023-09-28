@@ -5,6 +5,9 @@
 #
 
 name: SampleForEntityEndpointMarkdownGeneration
+
+version: "1.0"
+
 description: Nox solution yaml configuration for generating entity endpoints markdown
 
 domain:

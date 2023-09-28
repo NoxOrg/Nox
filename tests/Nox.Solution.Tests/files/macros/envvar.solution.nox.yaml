@@ -6,6 +6,8 @@
 
 name: EnvTestService
 
+version: "1.0"
+
 description: ${{ env.MyTemp }} ${{ env.MyTempDir }}
 
 

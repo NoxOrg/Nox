@@ -6,6 +6,8 @@
 
 name: TestWebApp
 
+version: "1.0"
+
 description: Test Nox solution yaml configuration
 
 infrastructure:

@@ -7,7 +7,8 @@
     "null"
   ],
   "required": [
-    "name"
+    "name",
+    "version"
   ],
   "properties": {
     "name": {    
@@ -15,6 +16,20 @@
       "description": "The name of the NOX solution, application or service. This value is used extensively by the NOX tooling and libraries and should ideally be unique within an organisation.",
       "type": "string",
       "pattern": "^[^\\s]*$"
+    },
+    "platformId": {    
+      "title": "The message identification Platform Id.",
+      "description": "For message identification a PlatformId  will be used and configured in the Nox Solution. Required, but if not defined default to solution name (so the user may not set it explicitly).",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "version": {    
+      "title": "The version of the NOX solution.",
+      "description": "Required, but if not defined default 1.0 (so the user may not set it explicitly).",
+      "type": "string",
+      "pattern": "^(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$"
     },
     "description": {    
       "title": "A short description of the NOX solution.",

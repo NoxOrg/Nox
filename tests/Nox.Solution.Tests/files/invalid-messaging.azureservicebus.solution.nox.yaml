@@ -6,6 +6,8 @@
 
 name: MinimalService
 
+version: "1.0"
+
 description: Minimal yaml file for tests
 
 

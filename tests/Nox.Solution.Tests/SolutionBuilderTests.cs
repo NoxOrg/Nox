@@ -1,3 +1,5 @@
+using FluentAssertions;
+using FluentValidation;
 using Nox.Solution.Exceptions;
 
 namespace Nox.Solution.Tests;
@@ -10,16 +12,17 @@ public class SolutionBuilderTests
         var noxConfig = new NoxSolutionBuilder()
             .UseYamlFile("./files/minimal.solution.nox.yaml")
             .Build();
-        Assert.NotNull(noxConfig);
-        Assert.NotNull(noxConfig);
-        Assert.Equal("MinimalService", noxConfig.Name);
-        Assert.Equal("Minimal yaml file for tests", noxConfig.Description);
+        noxConfig.Should().NotBeNull();
+        noxConfig.Name.Should().Be("MinimalService");
+        noxConfig.PlatformId.Should().Be("MinimalService");
+
+        noxConfig.Description.Should().Be("Minimal yaml file for tests");
+        noxConfig.Version.Should().Be("1.0");
     }
 
     [Fact]
     public void Can_get_instance_after_builder_build()
     {
-
         _ = new NoxSolutionBuilder()
             .UseYamlFile("./files/minimal.solution.nox.yaml")
             .Build();
@@ -35,7 +38,18 @@ public class SolutionBuilderTests
     {
         var noxConfigBuilder = new NoxSolutionBuilder()
             .UseYamlFile("./files/missing.solution.nox.yaml");
-        Assert.Throws<NoxSolutionConfigurationException>(() => noxConfigBuilder.Build());
+        Assert.Throws<NoxSolutionConfigurationException>(noxConfigBuilder.Build);
+    }
+
+    [Fact]
+    public void Throw_if_solution_wrong_set()
+    {
+        var noxConfigBuilder = new NoxSolutionBuilder()
+            .UseYamlFile("./files/wrong.solution.nox.yaml");
+
+        var exception = Assert.Throws<ValidationException>(noxConfigBuilder.Build);
+
+        exception.Message.Should().Contain("Solution Version doesn't satisfy pattern.");
     }
 
     [Fact]
@@ -43,7 +57,9 @@ public class SolutionBuilderTests
     {
         var noxConfig = new NoxSolutionBuilder()
             .Build();
-        Assert.NotNull(noxConfig);
+
+        noxConfig.Should().NotBeNull();
+        noxConfig.PlatformId.Should().Be("nox.com");
     }
 
     [Fact]
@@ -55,7 +71,7 @@ public class SolutionBuilderTests
         Assert.Throws<NoxSolutionConfigurationException>(() => noxConfigBuilder.Build());
     }
 
-    [Fact]    
+    [Fact]
     public void When_InMemmory_AzureServiceBusConfig_Must_Be_Null()
     {
         var noxConfigBuilder = new NoxSolutionBuilder()

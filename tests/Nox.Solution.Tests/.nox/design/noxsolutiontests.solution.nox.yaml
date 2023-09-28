@@ -6,6 +6,10 @@
 
 name: NoxSolutionTests
 
+platformId: "nox.com"
+
+version: "1.0"
+
 description: NoxSolution tests
 
 variables:

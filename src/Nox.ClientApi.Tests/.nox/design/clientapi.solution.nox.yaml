@@ -8,6 +8,8 @@
 
 name: ClientApi
 
+version: "1.0"
+
 description: Project for Nox System Testing
 
 domain:

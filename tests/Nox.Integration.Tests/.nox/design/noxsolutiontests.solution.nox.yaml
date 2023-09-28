@@ -6,6 +6,8 @@
 
 name: NoxSolutionTests
 
+version: "1.0"
+
 description: NoxSolution tests
 
 variables:
