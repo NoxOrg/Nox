@@ -46,7 +46,7 @@ internal record StoreOwnerDeleted(StoreOwner StoreOwner) : IDomainEvent;
 /// <summary>
 /// Store owners.
 /// </summary>
-internal abstract class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).

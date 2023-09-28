@@ -46,7 +46,7 @@ internal record CommissionDeleted(Commission Commission) : IDomainEvent;
 /// <summary>
 /// Exchange commission rate and amount.
 /// </summary>
-internal abstract class CommissionBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class CommissionBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Commission unique identifier (Required).

@@ -46,7 +46,7 @@ internal record StoreDeleted(Store Store) : IDomainEvent;
 /// <summary>
 /// Stores.
 /// </summary>
-internal abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class StoreBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).

@@ -46,7 +46,7 @@ internal record PaymentProviderDeleted(PaymentProvider PaymentProvider) : IDomai
 /// <summary>
 /// Payment provider related data.
 /// </summary>
-internal abstract class PaymentProviderBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class PaymentProviderBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Payment provider unique identifier (Required).

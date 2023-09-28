@@ -46,7 +46,7 @@ internal record RatingProgramDeleted(RatingProgram RatingProgram) : IDomainEvent
 /// <summary>
 /// Rating program for store.
 /// </summary>
-internal abstract class RatingProgramBase : EntityBase, IEntityConcurrent
+internal abstract partial class RatingProgramBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).

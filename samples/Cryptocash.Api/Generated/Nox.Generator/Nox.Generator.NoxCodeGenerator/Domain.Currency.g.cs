@@ -46,7 +46,7 @@ internal record CurrencyDeleted(Currency Currency) : IDomainEvent;
 /// <summary>
 /// Currency and related data.
 /// </summary>
-internal abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Currency unique identifier (Required).

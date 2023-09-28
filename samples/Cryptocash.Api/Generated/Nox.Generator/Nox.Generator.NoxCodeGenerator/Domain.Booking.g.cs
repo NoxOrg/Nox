@@ -46,7 +46,7 @@ internal record BookingDeleted(Booking Booking) : IDomainEvent;
 /// <summary>
 /// Exchange booking and related data.
 /// </summary>
-internal abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class BookingBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Booking unique identifier (Required).

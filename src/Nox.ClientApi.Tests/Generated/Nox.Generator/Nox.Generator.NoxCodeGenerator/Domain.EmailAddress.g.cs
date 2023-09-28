@@ -46,7 +46,7 @@ internal record EmailAddressDeleted(EmailAddress EmailAddress) : IDomainEvent;
 /// <summary>
 /// Verified Email Address.
 /// </summary>
-internal abstract class EmailAddressBase : EntityBase, IOwnedEntity
+internal abstract partial class EmailAddressBase : EntityBase, IOwnedEntity
 {
 
     /// <summary>

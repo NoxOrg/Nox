@@ -46,7 +46,7 @@ internal record LandLordDeleted(LandLord LandLord) : IDomainEvent;
 /// <summary>
 /// Landlord related data.
 /// </summary>
-internal abstract class LandLordBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class LandLordBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Landlord unique identifier (Required).

@@ -46,7 +46,7 @@ internal record EmployeeDeleted(Employee Employee) : IDomainEvent;
 /// <summary>
 /// Employee definition and related data.
 /// </summary>
-internal abstract class EmployeeBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class EmployeeBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Employee's unique identifier (Required).

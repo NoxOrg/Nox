@@ -46,7 +46,7 @@ internal record CountryBarCodeDeleted(CountryBarCode CountryBarCode) : IDomainEv
 /// <summary>
 /// Bar code for country.
 /// </summary>
-internal abstract class CountryBarCodeBase : EntityBase, IOwnedEntity
+internal abstract partial class CountryBarCodeBase : EntityBase, IOwnedEntity
 {
 
     /// <summary>

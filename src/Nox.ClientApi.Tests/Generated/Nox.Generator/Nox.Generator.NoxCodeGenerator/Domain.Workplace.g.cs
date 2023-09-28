@@ -46,7 +46,7 @@ internal record WorkplaceDeleted(Workplace Workplace) : IDomainEvent;
 /// <summary>
 /// Workplace.
 /// </summary>
-internal abstract class WorkplaceBase : EntityBase, IEntityConcurrent
+internal abstract partial class WorkplaceBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Workplace unique identifier (Required).

@@ -46,7 +46,7 @@ internal record CountryDeleted(Country Country) : IDomainEvent;
 /// <summary>
 /// Country Entity.
 /// </summary>
-internal abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// The unique identifier (Required).

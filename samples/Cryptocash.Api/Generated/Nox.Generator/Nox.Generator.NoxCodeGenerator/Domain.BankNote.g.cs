@@ -46,7 +46,7 @@ internal record BankNoteDeleted(BankNote BankNote) : IDomainEvent;
 /// <summary>
 /// Currencies related frequent and rare bank notes.
 /// </summary>
-internal abstract class BankNoteBase : EntityBase, IOwnedEntity
+internal abstract partial class BankNoteBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// Currency bank note unique identifier (Required).

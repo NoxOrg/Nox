@@ -46,7 +46,7 @@ internal record CountryLocalNameDeleted(CountryLocalName CountryLocalName) : IDo
 /// <summary>
 /// Local names for countries.
 /// </summary>
-internal abstract class CountryLocalNameBase : EntityBase, IOwnedEntity
+internal abstract partial class CountryLocalNameBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// The unique identifier (Required).

@@ -46,7 +46,7 @@ internal record VendingMachineDeleted(VendingMachine VendingMachine) : IDomainEv
 /// <summary>
 /// Vending machine definition and related data.
 /// </summary>
-internal abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class VendingMachineBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Vending machine unique identifier (Required).

@@ -46,7 +46,7 @@ internal record HolidayDeleted(Holiday Holiday) : IDomainEvent;
 /// <summary>
 /// Holiday related to country.
 /// </summary>
-internal abstract class HolidayBase : EntityBase, IOwnedEntity
+internal abstract partial class HolidayBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// Country's holiday unique identifier (Required).
