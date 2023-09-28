@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -48,4 +49,22 @@ public partial class EmployeePhoneNumberMetadata
         public static Nox.Types.PhoneNumber CreatePhoneNumber(System.String value)
             => Nox.Types.PhoneNumber.From(value);
         
+
+        /// <summary>
+        /// User Interface for property 'PhoneNumberType'
+        /// </summary>
+        public static TypeUserInterface? PhoneNumberTypeUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("EmployeePhoneNumber")
+                .GetAttributeByName("PhoneNumberType")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'PhoneNumber'
+        /// </summary>
+        public static TypeUserInterface? PhoneNumberUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("EmployeePhoneNumber")
+                .GetAttributeByName("PhoneNumber")?
+                .UserInterface;
 }

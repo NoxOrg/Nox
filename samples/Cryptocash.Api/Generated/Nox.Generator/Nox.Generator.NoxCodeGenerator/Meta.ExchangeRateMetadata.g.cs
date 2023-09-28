@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -35,4 +36,22 @@ public partial class ExchangeRateMetadata
         public static Nox.Types.DateTime CreateEffectiveAt(System.DateTimeOffset value)
             => Nox.Types.DateTime.From(value);
         
+
+        /// <summary>
+        /// User Interface for property 'EffectiveRate'
+        /// </summary>
+        public static TypeUserInterface? EffectiveRateUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("ExchangeRate")
+                .GetAttributeByName("EffectiveRate")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'EffectiveAt'
+        /// </summary>
+        public static TypeUserInterface? EffectiveAtUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("ExchangeRate")
+                .GetAttributeByName("EffectiveAt")?
+                .UserInterface;
 }
