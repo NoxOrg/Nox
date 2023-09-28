@@ -28,7 +28,7 @@ public partial class CompoundKeysEntitiesController : CompoundKeysEntitiesContro
     public CompoundKeysEntitiesController(IMediator mediator):base(mediator)
     {}
 }
-public abstract class CompoundKeysEntitiesControllerBase : ODataController
+public abstract partial class CompoundKeysEntitiesControllerBase : ODataController
 {
     
     /// <summary>

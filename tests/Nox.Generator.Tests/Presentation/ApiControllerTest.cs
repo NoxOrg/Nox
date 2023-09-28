@@ -43,7 +43,7 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
         Assert.Single(allOutputs);
 
         var generatedSources = result.GeneratedSources;
-        Assert.Equal(44, generatedSources.Length);
+        Assert.Equal(54, generatedSources.Length);
         Assert.True(generatedSources.Any(s => s.HintName == "Application.NoxWebApplicationExtensions.g.cs"), "NoxWebApplicationExtensions.g.cs not generated");
 
         // Check base files
@@ -58,17 +58,45 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
         Assert.True(generatedSources.Any(s => s.HintName == "GetCountriesByContinentQueryBase.g.cs"), "GetCountriesByContinentQuery.g.cs not generated");
 
         // check controllers
-        CheckController("Presentation.Api.OData.CountriesController.g.cs", generatedSources);
-        CheckController("Presentation.Api.OData.CompoundKeysEntitiesController.g.cs", generatedSources);
+        CheckController("CountriesController", generatedSources);
+        CheckController("CompoundKeysEntitiesController", generatedSources);
 
         //can further extend this test to verify contents of source files.
     }
 
-    private void CheckController(string controllerFileName, ImmutableArray<GeneratedSourceResult> generatedSources)
+    private void CheckController(string controllerName, ImmutableArray<GeneratedSourceResult> generatedSources)
     {
+        var controllerFileName = $"Presentation.Api.OData.{controllerName}.g.cs";
+        var controllerEntityFileName = $"Presentation.Api.OData.{controllerName}.Entity.g.cs";
+        var controllerCustomQueriesFileName = $"Presentation.Api.OData.{controllerName}.CustomQueries.g.cs";
+        var controllerCustomCommandsFileName = $"Presentation.Api.OData.{controllerName}.CustomCommands.g.cs";
+        var controllerRelationshipsFileName = $"Presentation.Api.OData.{controllerName}.Relationships.g.cs";
+        var controllerOwnedRelationshipsFileName = $"Presentation.Api.OData.{controllerName}.OwnedRelationships.g.cs";
+
         Assert.True(generatedSources.Any(s => s.HintName == controllerFileName), $"{controllerFileName} not generated");
+        Assert.True(generatedSources.Any(s => s.HintName == controllerEntityFileName), $"{controllerEntityFileName} not generated");
+        Assert.True(generatedSources.Any(s => s.HintName == controllerCustomQueriesFileName), $"{controllerCustomQueriesFileName} not generated");
+        Assert.True(generatedSources.Any(s => s.HintName == controllerCustomCommandsFileName), $"{controllerCustomCommandsFileName} not generated");
+        Assert.True(generatedSources.Any(s => s.HintName == controllerRelationshipsFileName), $"{controllerRelationshipsFileName} not generated");
+        Assert.True(generatedSources.Any(s => s.HintName == controllerOwnedRelationshipsFileName), $"{controllerOwnedRelationshipsFileName} not generated");
+
         Assert.Equal(File.ReadAllText($"./ExpectedGeneratedFiles/{controllerFileName}"),
             generatedSources.First(s => s.HintName == controllerFileName).SourceText.ToString());
+
+        Assert.Equal(File.ReadAllText($"./ExpectedGeneratedFiles/{controllerEntityFileName}"),
+            generatedSources.First(s => s.HintName == controllerEntityFileName).SourceText.ToString());
+
+        Assert.Equal(File.ReadAllText($"./ExpectedGeneratedFiles/{controllerCustomQueriesFileName}"),
+            generatedSources.First(s => s.HintName == controllerCustomQueriesFileName).SourceText.ToString());
+
+        Assert.Equal(File.ReadAllText($"./ExpectedGeneratedFiles/{controllerCustomCommandsFileName}"),
+            generatedSources.First(s => s.HintName == controllerCustomCommandsFileName).SourceText.ToString());
+
+        Assert.Equal(File.ReadAllText($"./ExpectedGeneratedFiles/{controllerRelationshipsFileName}"),
+            generatedSources.First(s => s.HintName == controllerRelationshipsFileName).SourceText.ToString());
+
+        Assert.Equal(File.ReadAllText($"./ExpectedGeneratedFiles/{controllerOwnedRelationshipsFileName}"),
+            generatedSources.First(s => s.HintName == controllerOwnedRelationshipsFileName).SourceText.ToString());
 
     }
 }

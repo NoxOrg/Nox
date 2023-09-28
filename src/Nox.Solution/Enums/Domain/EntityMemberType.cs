@@ -1,13 +1,10 @@
-﻿namespace Nox
+﻿namespace Nox;
+
+public enum EntityMemberType
 {
-
-    public enum EntityMemberType
-    {
-        Attribute,
-        Key,
-        Relationship,
-        OwnedRelationship,
-        ImpliedRelationship
-    }
-
+    Attribute,
+    Key,
+    Relationship,
+    OwnedRelationship,
+    ImpliedRelationship
 }

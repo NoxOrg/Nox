@@ -28,7 +28,7 @@ public partial class CountriesController : CountriesControllerBase
     public CountriesController(IMediator mediator):base(mediator)
     {}
 }
-public abstract class CountriesControllerBase : ODataController
+public abstract partial class CountriesControllerBase : ODataController
 {
     
     /// <summary>
