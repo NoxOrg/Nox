@@ -53,18 +53,18 @@ public partial class LandLordMetadata
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
-        public TypeUserInterface? NameUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "LandLord")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Name")?
+        public static TypeUserInterface? NameUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("LandLord")
+                .GetAttributeByName("Name")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'Address'
         /// </summary>
-        public TypeUserInterface? AddressUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "LandLord")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Address")?
+        public static TypeUserInterface? AddressUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("LandLord")
+                .GetAttributeByName("Address")?
                 .UserInterface;
 }

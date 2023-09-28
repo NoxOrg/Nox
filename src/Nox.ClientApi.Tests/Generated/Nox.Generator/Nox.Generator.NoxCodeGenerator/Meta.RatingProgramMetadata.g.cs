@@ -53,9 +53,9 @@ public partial class RatingProgramMetadata
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
-        public static TypeUserInterface? NameUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "RatingProgram")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Name")?
+        public static TypeUserInterface? NameUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("RatingProgram")
+                .GetAttributeByName("Name")?
                 .UserInterface;
 }

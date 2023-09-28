@@ -46,9 +46,9 @@ public partial class StoreLicenseMetadata
         /// <summary>
         /// User Interface for property 'Issuer'
         /// </summary>
-        public static TypeUserInterface? IssuerUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "StoreLicense")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Issuer")?
+        public static TypeUserInterface? IssuerUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("StoreLicense")
+                .GetAttributeByName("Issuer")?
                 .UserInterface;
 }

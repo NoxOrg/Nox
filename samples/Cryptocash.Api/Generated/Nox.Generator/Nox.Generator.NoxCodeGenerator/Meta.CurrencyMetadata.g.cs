@@ -228,108 +228,108 @@ public partial class CurrencyMetadata
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
-        public TypeUserInterface? NameUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Currency")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Name")?
+        public static TypeUserInterface? NameUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Currency")
+                .GetAttributeByName("Name")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'CurrencyIsoNumeric'
         /// </summary>
-        public TypeUserInterface? CurrencyIsoNumericUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Currency")?
-                .Attributes?.FirstOrDefault(a => a.Name == "CurrencyIsoNumeric")?
+        public static TypeUserInterface? CurrencyIsoNumericUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Currency")
+                .GetAttributeByName("CurrencyIsoNumeric")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'Symbol'
         /// </summary>
-        public TypeUserInterface? SymbolUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Currency")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Symbol")?
+        public static TypeUserInterface? SymbolUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Currency")
+                .GetAttributeByName("Symbol")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'ThousandsSeparator'
         /// </summary>
-        public TypeUserInterface? ThousandsSeparatorUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Currency")?
-                .Attributes?.FirstOrDefault(a => a.Name == "ThousandsSeparator")?
+        public static TypeUserInterface? ThousandsSeparatorUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Currency")
+                .GetAttributeByName("ThousandsSeparator")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'DecimalSeparator'
         /// </summary>
-        public TypeUserInterface? DecimalSeparatorUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Currency")?
-                .Attributes?.FirstOrDefault(a => a.Name == "DecimalSeparator")?
+        public static TypeUserInterface? DecimalSeparatorUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Currency")
+                .GetAttributeByName("DecimalSeparator")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'SpaceBetweenAmountAndSymbol'
         /// </summary>
-        public TypeUserInterface? SpaceBetweenAmountAndSymbolUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Currency")?
-                .Attributes?.FirstOrDefault(a => a.Name == "SpaceBetweenAmountAndSymbol")?
+        public static TypeUserInterface? SpaceBetweenAmountAndSymbolUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Currency")
+                .GetAttributeByName("SpaceBetweenAmountAndSymbol")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'DecimalDigits'
         /// </summary>
-        public TypeUserInterface? DecimalDigitsUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Currency")?
-                .Attributes?.FirstOrDefault(a => a.Name == "DecimalDigits")?
+        public static TypeUserInterface? DecimalDigitsUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Currency")
+                .GetAttributeByName("DecimalDigits")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'MajorName'
         /// </summary>
-        public TypeUserInterface? MajorNameUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Currency")?
-                .Attributes?.FirstOrDefault(a => a.Name == "MajorName")?
+        public static TypeUserInterface? MajorNameUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Currency")
+                .GetAttributeByName("MajorName")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'MajorSymbol'
         /// </summary>
-        public TypeUserInterface? MajorSymbolUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Currency")?
-                .Attributes?.FirstOrDefault(a => a.Name == "MajorSymbol")?
+        public static TypeUserInterface? MajorSymbolUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Currency")
+                .GetAttributeByName("MajorSymbol")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'MinorName'
         /// </summary>
-        public TypeUserInterface? MinorNameUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Currency")?
-                .Attributes?.FirstOrDefault(a => a.Name == "MinorName")?
+        public static TypeUserInterface? MinorNameUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Currency")
+                .GetAttributeByName("MinorName")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'MinorSymbol'
         /// </summary>
-        public TypeUserInterface? MinorSymbolUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Currency")?
-                .Attributes?.FirstOrDefault(a => a.Name == "MinorSymbol")?
+        public static TypeUserInterface? MinorSymbolUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Currency")
+                .GetAttributeByName("MinorSymbol")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'MinorToMajorValue'
         /// </summary>
-        public TypeUserInterface? MinorToMajorValueUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Currency")?
-                .Attributes?.FirstOrDefault(a => a.Name == "MinorToMajorValue")?
+        public static TypeUserInterface? MinorToMajorValueUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Currency")
+                .GetAttributeByName("MinorToMajorValue")?
                 .UserInterface;
 }

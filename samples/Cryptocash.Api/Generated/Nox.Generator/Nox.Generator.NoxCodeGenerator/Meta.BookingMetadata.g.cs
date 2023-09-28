@@ -113,72 +113,72 @@ public partial class BookingMetadata
         /// <summary>
         /// User Interface for property 'AmountFrom'
         /// </summary>
-        public TypeUserInterface? AmountFromUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Booking")?
-                .Attributes?.FirstOrDefault(a => a.Name == "AmountFrom")?
+        public static TypeUserInterface? AmountFromUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Booking")
+                .GetAttributeByName("AmountFrom")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'AmountTo'
         /// </summary>
-        public TypeUserInterface? AmountToUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Booking")?
-                .Attributes?.FirstOrDefault(a => a.Name == "AmountTo")?
+        public static TypeUserInterface? AmountToUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Booking")
+                .GetAttributeByName("AmountTo")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'RequestedPickUpDate'
         /// </summary>
-        public TypeUserInterface? RequestedPickUpDateUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Booking")?
-                .Attributes?.FirstOrDefault(a => a.Name == "RequestedPickUpDate")?
+        public static TypeUserInterface? RequestedPickUpDateUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Booking")
+                .GetAttributeByName("RequestedPickUpDate")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'PickedUpDateTime'
         /// </summary>
-        public TypeUserInterface? PickedUpDateTimeUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Booking")?
-                .Attributes?.FirstOrDefault(a => a.Name == "PickedUpDateTime")?
+        public static TypeUserInterface? PickedUpDateTimeUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Booking")
+                .GetAttributeByName("PickedUpDateTime")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'ExpiryDateTime'
         /// </summary>
-        public TypeUserInterface? ExpiryDateTimeUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Booking")?
-                .Attributes?.FirstOrDefault(a => a.Name == "ExpiryDateTime")?
+        public static TypeUserInterface? ExpiryDateTimeUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Booking")
+                .GetAttributeByName("ExpiryDateTime")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'CancelledDateTime'
         /// </summary>
-        public TypeUserInterface? CancelledDateTimeUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Booking")?
-                .Attributes?.FirstOrDefault(a => a.Name == "CancelledDateTime")?
+        public static TypeUserInterface? CancelledDateTimeUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Booking")
+                .GetAttributeByName("CancelledDateTime")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'Status'
         /// </summary>
-        public TypeUserInterface? StatusUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Booking")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Status")?
+        public static TypeUserInterface? StatusUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Booking")
+                .GetAttributeByName("Status")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'VatNumber'
         /// </summary>
-        public TypeUserInterface? VatNumberUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Booking")?
-                .Attributes?.FirstOrDefault(a => a.Name == "VatNumber")?
+        public static TypeUserInterface? VatNumberUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Booking")
+                .GetAttributeByName("VatNumber")?
                 .UserInterface;
 }

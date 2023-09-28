@@ -46,18 +46,18 @@ public partial class CountryBarCodeMetadata
         /// <summary>
         /// User Interface for property 'BarCodeName'
         /// </summary>
-        public static TypeUserInterface? BarCodeNameUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "CountryBarCode")?
-                .Attributes?.FirstOrDefault(a => a.Name == "BarCodeName")?
+        public static TypeUserInterface? BarCodeNameUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("CountryBarCode")
+                .GetAttributeByName("BarCodeName")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'BarCodeNumber'
         /// </summary>
-        public static TypeUserInterface? BarCodeNumberUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "CountryBarCode")?
-                .Attributes?.FirstOrDefault(a => a.Name == "BarCodeNumber")?
+        public static TypeUserInterface? BarCodeNumberUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("CountryBarCode")
+                .GetAttributeByName("BarCodeNumber")?
                 .UserInterface;
 }

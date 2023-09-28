@@ -105,54 +105,54 @@ public partial class StoreOwnerMetadata
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
-        public static TypeUserInterface? NameUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "StoreOwner")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Name")?
+        public static TypeUserInterface? NameUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("StoreOwner")
+                .GetAttributeByName("Name")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'TemporaryOwnerName'
         /// </summary>
-        public static TypeUserInterface? TemporaryOwnerNameUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "StoreOwner")?
-                .Attributes?.FirstOrDefault(a => a.Name == "TemporaryOwnerName")?
+        public static TypeUserInterface? TemporaryOwnerNameUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("StoreOwner")
+                .GetAttributeByName("TemporaryOwnerName")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'VatNumber'
         /// </summary>
-        public static TypeUserInterface? VatNumberUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "StoreOwner")?
-                .Attributes?.FirstOrDefault(a => a.Name == "VatNumber")?
+        public static TypeUserInterface? VatNumberUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("StoreOwner")
+                .GetAttributeByName("VatNumber")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'StreetAddress'
         /// </summary>
-        public static TypeUserInterface? StreetAddressUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "StoreOwner")?
-                .Attributes?.FirstOrDefault(a => a.Name == "StreetAddress")?
+        public static TypeUserInterface? StreetAddressUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("StoreOwner")
+                .GetAttributeByName("StreetAddress")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'LocalGreeting'
         /// </summary>
-        public static TypeUserInterface? LocalGreetingUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "StoreOwner")?
-                .Attributes?.FirstOrDefault(a => a.Name == "LocalGreeting")?
+        public static TypeUserInterface? LocalGreetingUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("StoreOwner")
+                .GetAttributeByName("LocalGreeting")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'Notes'
         /// </summary>
-        public static TypeUserInterface? NotesUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "StoreOwner")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Notes")?
+        public static TypeUserInterface? NotesUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("StoreOwner")
+                .GetAttributeByName("Notes")?
                 .UserInterface;
 }

@@ -47,18 +47,18 @@ public partial class CommissionMetadata
         /// <summary>
         /// User Interface for property 'Rate'
         /// </summary>
-        public TypeUserInterface? RateUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Commission")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Rate")?
+        public static TypeUserInterface? RateUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Commission")
+                .GetAttributeByName("Rate")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'EffectiveAt'
         /// </summary>
-        public TypeUserInterface? EffectiveAtUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Commission")?
-                .Attributes?.FirstOrDefault(a => a.Name == "EffectiveAt")?
+        public static TypeUserInterface? EffectiveAtUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Commission")
+                .GetAttributeByName("EffectiveAt")?
                 .UserInterface;
 }

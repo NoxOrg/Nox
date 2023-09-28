@@ -66,18 +66,18 @@ public partial class CountryLocalNameMetadata
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
-        public static TypeUserInterface? NameUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "CountryLocalName")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Name")?
+        public static TypeUserInterface? NameUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("CountryLocalName")
+                .GetAttributeByName("Name")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'NativeName'
         /// </summary>
-        public static TypeUserInterface? NativeNameUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "CountryLocalName")?
-                .Attributes?.FirstOrDefault(a => a.Name == "NativeName")?
+        public static TypeUserInterface? NativeNameUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("CountryLocalName")
+                .GetAttributeByName("NativeName")?
                 .UserInterface;
 }

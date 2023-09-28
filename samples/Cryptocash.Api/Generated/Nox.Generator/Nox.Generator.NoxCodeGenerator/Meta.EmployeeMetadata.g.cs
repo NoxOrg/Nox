@@ -101,54 +101,54 @@ public partial class EmployeeMetadata
         /// <summary>
         /// User Interface for property 'FirstName'
         /// </summary>
-        public TypeUserInterface? FirstNameUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Employee")?
-                .Attributes?.FirstOrDefault(a => a.Name == "FirstName")?
+        public static TypeUserInterface? FirstNameUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Employee")
+                .GetAttributeByName("FirstName")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'LastName'
         /// </summary>
-        public TypeUserInterface? LastNameUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Employee")?
-                .Attributes?.FirstOrDefault(a => a.Name == "LastName")?
+        public static TypeUserInterface? LastNameUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Employee")
+                .GetAttributeByName("LastName")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'EmailAddress'
         /// </summary>
-        public TypeUserInterface? EmailAddressUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Employee")?
-                .Attributes?.FirstOrDefault(a => a.Name == "EmailAddress")?
+        public static TypeUserInterface? EmailAddressUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Employee")
+                .GetAttributeByName("EmailAddress")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'Address'
         /// </summary>
-        public TypeUserInterface? AddressUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Employee")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Address")?
+        public static TypeUserInterface? AddressUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Employee")
+                .GetAttributeByName("Address")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'FirstWorkingDay'
         /// </summary>
-        public TypeUserInterface? FirstWorkingDayUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Employee")?
-                .Attributes?.FirstOrDefault(a => a.Name == "FirstWorkingDay")?
+        public static TypeUserInterface? FirstWorkingDayUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Employee")
+                .GetAttributeByName("FirstWorkingDay")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'LastWorkingDay'
         /// </summary>
-        public TypeUserInterface? LastWorkingDayUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Employee")?
-                .Attributes?.FirstOrDefault(a => a.Name == "LastWorkingDay")?
+        public static TypeUserInterface? LastWorkingDayUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Employee")
+                .GetAttributeByName("LastWorkingDay")?
                 .UserInterface;
 }

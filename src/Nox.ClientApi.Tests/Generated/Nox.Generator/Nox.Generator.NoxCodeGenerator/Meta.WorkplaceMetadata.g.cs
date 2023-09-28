@@ -103,27 +103,27 @@ public partial class WorkplaceMetadata
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
-        public static TypeUserInterface? NameUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Workplace")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Name")?
+        public static TypeUserInterface? NameUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Workplace")
+                .GetAttributeByName("Name")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'Description'
         /// </summary>
-        public static TypeUserInterface? DescriptionUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Workplace")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Description")?
+        public static TypeUserInterface? DescriptionUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Workplace")
+                .GetAttributeByName("Description")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'Greeting'
         /// </summary>
-        public static TypeUserInterface? GreetingUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Workplace")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Greeting")?
+        public static TypeUserInterface? GreetingUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Workplace")
+                .GetAttributeByName("Greeting")?
                 .UserInterface;
 }

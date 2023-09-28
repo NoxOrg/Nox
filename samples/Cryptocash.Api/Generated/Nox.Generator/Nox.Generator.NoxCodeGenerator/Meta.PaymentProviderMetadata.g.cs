@@ -66,18 +66,18 @@ public partial class PaymentProviderMetadata
         /// <summary>
         /// User Interface for property 'PaymentProviderName'
         /// </summary>
-        public TypeUserInterface? PaymentProviderNameUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "PaymentProvider")?
-                .Attributes?.FirstOrDefault(a => a.Name == "PaymentProviderName")?
+        public static TypeUserInterface? PaymentProviderNameUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("PaymentProvider")
+                .GetAttributeByName("PaymentProviderName")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'PaymentProviderType'
         /// </summary>
-        public TypeUserInterface? PaymentProviderTypeUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "PaymentProvider")?
-                .Attributes?.FirstOrDefault(a => a.Name == "PaymentProviderType")?
+        public static TypeUserInterface? PaymentProviderTypeUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("PaymentProvider")
+                .GetAttributeByName("PaymentProviderType")?
                 .UserInterface;
 }

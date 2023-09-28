@@ -33,18 +33,18 @@ public partial class EmailAddressMetadata
         /// <summary>
         /// User Interface for property 'Email'
         /// </summary>
-        public static TypeUserInterface? EmailUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "EmailAddress")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Email")?
+        public static TypeUserInterface? EmailUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("EmailAddress")
+                .GetAttributeByName("Email")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'IsVerified'
         /// </summary>
-        public static TypeUserInterface? IsVerifiedUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "EmailAddress")?
-                .Attributes?.FirstOrDefault(a => a.Name == "IsVerified")?
+        public static TypeUserInterface? IsVerifiedUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("EmailAddress")
+                .GetAttributeByName("IsVerified")?
                 .UserInterface;
 }

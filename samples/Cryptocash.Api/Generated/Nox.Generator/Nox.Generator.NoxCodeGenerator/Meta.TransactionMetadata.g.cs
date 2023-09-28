@@ -87,36 +87,36 @@ public partial class TransactionMetadata
         /// <summary>
         /// User Interface for property 'TransactionType'
         /// </summary>
-        public TypeUserInterface? TransactionTypeUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Transaction")?
-                .Attributes?.FirstOrDefault(a => a.Name == "TransactionType")?
+        public static TypeUserInterface? TransactionTypeUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Transaction")
+                .GetAttributeByName("TransactionType")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'ProcessedOnDateTime'
         /// </summary>
-        public TypeUserInterface? ProcessedOnDateTimeUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Transaction")?
-                .Attributes?.FirstOrDefault(a => a.Name == "ProcessedOnDateTime")?
+        public static TypeUserInterface? ProcessedOnDateTimeUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Transaction")
+                .GetAttributeByName("ProcessedOnDateTime")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'Amount'
         /// </summary>
-        public TypeUserInterface? AmountUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Transaction")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Amount")?
+        public static TypeUserInterface? AmountUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Transaction")
+                .GetAttributeByName("Amount")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'Reference'
         /// </summary>
-        public TypeUserInterface? ReferenceUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Transaction")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Reference")?
+        public static TypeUserInterface? ReferenceUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Transaction")
+                .GetAttributeByName("Reference")?
                 .UserInterface;
 }

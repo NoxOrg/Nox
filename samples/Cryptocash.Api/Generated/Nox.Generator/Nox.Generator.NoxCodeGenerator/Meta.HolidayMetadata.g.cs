@@ -73,27 +73,27 @@ public partial class HolidayMetadata
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
-        public TypeUserInterface? NameUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Holiday")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Name")?
+        public static TypeUserInterface? NameUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Holiday")
+                .GetAttributeByName("Name")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'Type'
         /// </summary>
-        public TypeUserInterface? TypeUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Holiday")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Type")?
+        public static TypeUserInterface? TypeUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Holiday")
+                .GetAttributeByName("Type")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'Date'
         /// </summary>
-        public TypeUserInterface? DateUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Holiday")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Date")?
+        public static TypeUserInterface? DateUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Holiday")
+                .GetAttributeByName("Date")?
                 .UserInterface;
 }

@@ -71,36 +71,36 @@ public partial class CashStockOrderMetadata
         /// <summary>
         /// User Interface for property 'Amount'
         /// </summary>
-        public TypeUserInterface? AmountUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "CashStockOrder")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Amount")?
+        public static TypeUserInterface? AmountUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("CashStockOrder")
+                .GetAttributeByName("Amount")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'RequestedDeliveryDate'
         /// </summary>
-        public TypeUserInterface? RequestedDeliveryDateUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "CashStockOrder")?
-                .Attributes?.FirstOrDefault(a => a.Name == "RequestedDeliveryDate")?
+        public static TypeUserInterface? RequestedDeliveryDateUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("CashStockOrder")
+                .GetAttributeByName("RequestedDeliveryDate")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'DeliveryDateTime'
         /// </summary>
-        public TypeUserInterface? DeliveryDateTimeUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "CashStockOrder")?
-                .Attributes?.FirstOrDefault(a => a.Name == "DeliveryDateTime")?
+        public static TypeUserInterface? DeliveryDateTimeUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("CashStockOrder")
+                .GetAttributeByName("DeliveryDateTime")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'Status'
         /// </summary>
-        public TypeUserInterface? StatusUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "CashStockOrder")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Status")?
+        public static TypeUserInterface? StatusUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("CashStockOrder")
+                .GetAttributeByName("Status")?
                 .UserInterface;
 }

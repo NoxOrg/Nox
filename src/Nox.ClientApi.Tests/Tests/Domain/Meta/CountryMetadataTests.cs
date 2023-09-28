@@ -15,7 +15,7 @@ namespace ClientApi.Tests.Domain.Meta
         }
 
         [Fact]
-        public void CountryMetadata_ShouldHaveUserInterfaces()
+        public void CountryMetadata_ShouldHaveUiOptions()
         {
             //Arrange
             var rootPath = "../../../.nox";
@@ -24,13 +24,13 @@ namespace ClientApi.Tests.Domain.Meta
                 .Build();
             
             //Act
-            var nameUserInterface = CountryMetadata.NameUserInterface(noxSolution);
+            var nameUiOptions = CountryMetadata.NameUiOptions(noxSolution);
 
             //Assert
-            nameUserInterface.Should().NotBeNull();
-            nameUserInterface!.CanSort.Should().BeTrue();
-            nameUserInterface!.CanSearch.Should().BeTrue();
-            nameUserInterface!.CanFilter.Should().BeTrue();
+            nameUiOptions.Should().NotBeNull();
+            nameUiOptions!.CanSort.Should().BeTrue();
+            nameUiOptions!.CanSearch.Should().BeTrue();
+            nameUiOptions!.CanFilter.Should().BeTrue();
         }
     }
 }

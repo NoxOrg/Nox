@@ -47,9 +47,9 @@ public partial class MinimumCashStockMetadata
         /// <summary>
         /// User Interface for property 'Amount'
         /// </summary>
-        public TypeUserInterface? AmountUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "MinimumCashStock")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Amount")?
+        public static TypeUserInterface? AmountUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("MinimumCashStock")
+                .GetAttributeByName("Amount")?
                 .UserInterface;
 }

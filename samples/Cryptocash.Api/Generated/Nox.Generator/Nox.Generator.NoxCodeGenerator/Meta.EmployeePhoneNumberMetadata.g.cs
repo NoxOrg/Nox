@@ -53,18 +53,18 @@ public partial class EmployeePhoneNumberMetadata
         /// <summary>
         /// User Interface for property 'PhoneNumberType'
         /// </summary>
-        public TypeUserInterface? PhoneNumberTypeUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "EmployeePhoneNumber")?
-                .Attributes?.FirstOrDefault(a => a.Name == "PhoneNumberType")?
+        public static TypeUserInterface? PhoneNumberTypeUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("EmployeePhoneNumber")
+                .GetAttributeByName("PhoneNumberType")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'PhoneNumber'
         /// </summary>
-        public TypeUserInterface? PhoneNumberUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "EmployeePhoneNumber")?
-                .Attributes?.FirstOrDefault(a => a.Name == "PhoneNumber")?
+        public static TypeUserInterface? PhoneNumberUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("EmployeePhoneNumber")
+                .GetAttributeByName("PhoneNumber")?
                 .UserInterface;
 }

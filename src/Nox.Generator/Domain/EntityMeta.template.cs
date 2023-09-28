@@ -47,10 +47,10 @@ public partial class {{className}}
         /// <summary>
         /// User Interface for property '{{attribute.Name}}'
         /// </summary>
-        public static TypeUserInterface? {{attribute.Name}}UserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "{{entity.Name}}")?
-                .Attributes?.FirstOrDefault(a => a.Name == "{{attribute.Name}}")?
+        public static TypeUserInterface? {{attribute.Name}}UiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("{{entity.Name}}")
+                .GetAttributeByName("{{attribute.Name}}")?
                 .UserInterface;
     {{- end }}
 }

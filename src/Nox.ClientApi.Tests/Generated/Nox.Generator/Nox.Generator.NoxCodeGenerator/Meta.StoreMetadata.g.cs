@@ -87,36 +87,36 @@ public partial class StoreMetadata
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
-        public static TypeUserInterface? NameUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Store")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Name")?
+        public static TypeUserInterface? NameUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Store")
+                .GetAttributeByName("Name")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'Address'
         /// </summary>
-        public static TypeUserInterface? AddressUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Store")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Address")?
+        public static TypeUserInterface? AddressUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Store")
+                .GetAttributeByName("Address")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'Location'
         /// </summary>
-        public static TypeUserInterface? LocationUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Store")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Location")?
+        public static TypeUserInterface? LocationUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Store")
+                .GetAttributeByName("Location")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'OpeningDay'
         /// </summary>
-        public static TypeUserInterface? OpeningDayUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Store")?
-                .Attributes?.FirstOrDefault(a => a.Name == "OpeningDay")?
+        public static TypeUserInterface? OpeningDayUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Store")
+                .GetAttributeByName("OpeningDay")?
                 .UserInterface;
 }

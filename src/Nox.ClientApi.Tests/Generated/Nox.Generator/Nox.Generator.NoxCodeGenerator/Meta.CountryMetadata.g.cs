@@ -91,45 +91,45 @@ public partial class CountryMetadata
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
-        public static TypeUserInterface? NameUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Country")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Name")?
+        public static TypeUserInterface? NameUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("Name")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'Population'
         /// </summary>
-        public static TypeUserInterface? PopulationUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Country")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Population")?
+        public static TypeUserInterface? PopulationUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("Population")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'CountryDebt'
         /// </summary>
-        public static TypeUserInterface? CountryDebtUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Country")?
-                .Attributes?.FirstOrDefault(a => a.Name == "CountryDebt")?
+        public static TypeUserInterface? CountryDebtUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("CountryDebt")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'FirstLanguageCode'
         /// </summary>
-        public static TypeUserInterface? FirstLanguageCodeUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Country")?
-                .Attributes?.FirstOrDefault(a => a.Name == "FirstLanguageCode")?
+        public static TypeUserInterface? FirstLanguageCodeUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("FirstLanguageCode")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'ShortDescription'
         /// </summary>
-        public static TypeUserInterface? ShortDescriptionUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Country")?
-                .Attributes?.FirstOrDefault(a => a.Name == "ShortDescription")?
+        public static TypeUserInterface? ShortDescriptionUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("ShortDescription")?
                 .UserInterface;
 }

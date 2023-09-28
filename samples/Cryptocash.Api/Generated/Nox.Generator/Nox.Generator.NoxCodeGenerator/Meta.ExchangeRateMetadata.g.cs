@@ -40,18 +40,18 @@ public partial class ExchangeRateMetadata
         /// <summary>
         /// User Interface for property 'EffectiveRate'
         /// </summary>
-        public TypeUserInterface? EffectiveRateUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "ExchangeRate")?
-                .Attributes?.FirstOrDefault(a => a.Name == "EffectiveRate")?
+        public static TypeUserInterface? EffectiveRateUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("ExchangeRate")
+                .GetAttributeByName("EffectiveRate")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'EffectiveAt'
         /// </summary>
-        public TypeUserInterface? EffectiveAtUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "ExchangeRate")?
-                .Attributes?.FirstOrDefault(a => a.Name == "EffectiveAt")?
+        public static TypeUserInterface? EffectiveAtUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("ExchangeRate")
+                .GetAttributeByName("EffectiveAt")?
                 .UserInterface;
 }

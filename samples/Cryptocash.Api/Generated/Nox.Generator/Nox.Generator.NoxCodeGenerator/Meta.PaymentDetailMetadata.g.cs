@@ -100,27 +100,27 @@ public partial class PaymentDetailMetadata
         /// <summary>
         /// User Interface for property 'PaymentAccountName'
         /// </summary>
-        public TypeUserInterface? PaymentAccountNameUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "PaymentDetail")?
-                .Attributes?.FirstOrDefault(a => a.Name == "PaymentAccountName")?
+        public static TypeUserInterface? PaymentAccountNameUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("PaymentDetail")
+                .GetAttributeByName("PaymentAccountName")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'PaymentAccountNumber'
         /// </summary>
-        public TypeUserInterface? PaymentAccountNumberUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "PaymentDetail")?
-                .Attributes?.FirstOrDefault(a => a.Name == "PaymentAccountNumber")?
+        public static TypeUserInterface? PaymentAccountNumberUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("PaymentDetail")
+                .GetAttributeByName("PaymentAccountNumber")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'PaymentAccountSortCode'
         /// </summary>
-        public TypeUserInterface? PaymentAccountSortCodeUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "PaymentDetail")?
-                .Attributes?.FirstOrDefault(a => a.Name == "PaymentAccountSortCode")?
+        public static TypeUserInterface? PaymentAccountSortCodeUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("PaymentDetail")
+                .GetAttributeByName("PaymentAccountSortCode")?
                 .UserInterface;
 }

@@ -53,18 +53,18 @@ public partial class BankNoteMetadata
         /// <summary>
         /// User Interface for property 'CashNote'
         /// </summary>
-        public TypeUserInterface? CashNoteUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "BankNote")?
-                .Attributes?.FirstOrDefault(a => a.Name == "CashNote")?
+        public static TypeUserInterface? CashNoteUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("BankNote")
+                .GetAttributeByName("CashNote")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'Value'
         /// </summary>
-        public TypeUserInterface? ValueUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "BankNote")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Value")?
+        public static TypeUserInterface? ValueUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("BankNote")
+                .GetAttributeByName("Value")?
                 .UserInterface;
 }

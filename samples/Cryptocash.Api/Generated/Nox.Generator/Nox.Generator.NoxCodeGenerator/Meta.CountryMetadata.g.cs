@@ -177,117 +177,117 @@ public partial class CountryMetadata
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
-        public TypeUserInterface? NameUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Country")?
-                .Attributes?.FirstOrDefault(a => a.Name == "Name")?
+        public static TypeUserInterface? NameUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("Name")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'OfficialName'
         /// </summary>
-        public TypeUserInterface? OfficialNameUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Country")?
-                .Attributes?.FirstOrDefault(a => a.Name == "OfficialName")?
+        public static TypeUserInterface? OfficialNameUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("OfficialName")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'CountryIsoNumeric'
         /// </summary>
-        public TypeUserInterface? CountryIsoNumericUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Country")?
-                .Attributes?.FirstOrDefault(a => a.Name == "CountryIsoNumeric")?
+        public static TypeUserInterface? CountryIsoNumericUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("CountryIsoNumeric")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'CountryIsoAlpha3'
         /// </summary>
-        public TypeUserInterface? CountryIsoAlpha3UserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Country")?
-                .Attributes?.FirstOrDefault(a => a.Name == "CountryIsoAlpha3")?
+        public static TypeUserInterface? CountryIsoAlpha3UserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("CountryIsoAlpha3")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'GeoCoords'
         /// </summary>
-        public TypeUserInterface? GeoCoordsUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Country")?
-                .Attributes?.FirstOrDefault(a => a.Name == "GeoCoords")?
+        public static TypeUserInterface? GeoCoordsUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("GeoCoords")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'FlagEmoji'
         /// </summary>
-        public TypeUserInterface? FlagEmojiUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Country")?
-                .Attributes?.FirstOrDefault(a => a.Name == "FlagEmoji")?
+        public static TypeUserInterface? FlagEmojiUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("FlagEmoji")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'FlagSvg'
         /// </summary>
-        public TypeUserInterface? FlagSvgUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Country")?
-                .Attributes?.FirstOrDefault(a => a.Name == "FlagSvg")?
+        public static TypeUserInterface? FlagSvgUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("FlagSvg")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'FlagPng'
         /// </summary>
-        public TypeUserInterface? FlagPngUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Country")?
-                .Attributes?.FirstOrDefault(a => a.Name == "FlagPng")?
+        public static TypeUserInterface? FlagPngUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("FlagPng")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'CoatOfArmsSvg'
         /// </summary>
-        public TypeUserInterface? CoatOfArmsSvgUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Country")?
-                .Attributes?.FirstOrDefault(a => a.Name == "CoatOfArmsSvg")?
+        public static TypeUserInterface? CoatOfArmsSvgUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("CoatOfArmsSvg")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'CoatOfArmsPng'
         /// </summary>
-        public TypeUserInterface? CoatOfArmsPngUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Country")?
-                .Attributes?.FirstOrDefault(a => a.Name == "CoatOfArmsPng")?
+        public static TypeUserInterface? CoatOfArmsPngUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("CoatOfArmsPng")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'GoogleMapsUrl'
         /// </summary>
-        public TypeUserInterface? GoogleMapsUrlUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Country")?
-                .Attributes?.FirstOrDefault(a => a.Name == "GoogleMapsUrl")?
+        public static TypeUserInterface? GoogleMapsUrlUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("GoogleMapsUrl")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'OpenStreetMapsUrl'
         /// </summary>
-        public TypeUserInterface? OpenStreetMapsUrlUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Country")?
-                .Attributes?.FirstOrDefault(a => a.Name == "OpenStreetMapsUrl")?
+        public static TypeUserInterface? OpenStreetMapsUrlUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("OpenStreetMapsUrl")?
                 .UserInterface;
 
         /// <summary>
         /// User Interface for property 'StartOfWeek'
         /// </summary>
-        public TypeUserInterface? StartOfWeekUserInterface(NoxSolution solution) 
-            => solution.Domain?
-                .Entities?.FirstOrDefault(e => e.Name == "Country")?
-                .Attributes?.FirstOrDefault(a => a.Name == "StartOfWeek")?
+        public static TypeUserInterface? StartOfWeekUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("StartOfWeek")?
                 .UserInterface;
 }
