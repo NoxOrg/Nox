@@ -13,7 +13,7 @@ public class InMemoryBrokerProvider: IMessageBrokerProvider
         {
             cfg.ConfigureEndpoints(context);
             
-            cfg.UseRawJsonSerializer(RawSerializerOptions.AddTransportHeaders | RawSerializerOptions.CopyHeaders | RawSerializerOptions.AnyMessageType);            
+            cfg.UseRawJsonSerializer();            
         });        
         return configuration;
     }
