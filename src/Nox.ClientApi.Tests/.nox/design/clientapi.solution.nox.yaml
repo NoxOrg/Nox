@@ -61,17 +61,17 @@ infrastructure:
       # serverUri: localhost
       # user: sa  
       # password: Developer*123
-      provider: sqLite      
+      provider: sqlServer      
       #options: "DataSource=:memory:"
       options: "Data Source=Client.db"
       serverUri: "localhost"
       user: "sa"  
       password: "pwd"
       
-  messaging:
-    integrationEventServer:      
-      name: IntegrationBus
-      provider: inMemory      
+  # messaging:
+  #   integrationEventServer:      
+  #     name: IntegrationBus
+  #     provider: inMemory      
 
 application:  
   integrationEvents:
