@@ -61,7 +61,7 @@ infrastructure:
       # serverUri: localhost
       # user: sa  
       # password: Developer*123
-      provider: sqLite      
+      provider: sqlServer      
       #options: "DataSource=:memory:"
       options: "Data Source=Client.db"
       serverUri: "localhost"
