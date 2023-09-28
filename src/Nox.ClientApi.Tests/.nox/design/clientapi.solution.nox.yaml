@@ -68,10 +68,10 @@ infrastructure:
       user: "sa"  
       password: "pwd"
       
-  messaging:
-    integrationEventServer:      
-      name: IntegrationBus
-      provider: inMemory      
+  # messaging:
+  #   integrationEventServer:      
+  #     name: IntegrationBus
+  #     provider: inMemory      
 
 application:  
   integrationEvents:

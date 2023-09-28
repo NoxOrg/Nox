@@ -13,7 +13,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
 {
     private readonly NoxTestApplicationFactory _appFactory;
     protected readonly Fixture _fixture;
-    protected readonly ITestHarness _massTransitTestHarness;
+    //protected readonly ITestHarness _massTransitTestHarness;
 
     protected NoxWebApiTestBase(ITestOutputHelper testOutputHelper, NoxTestContainerService containerService)
     {
@@ -23,7 +23,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
 
         _appFactory = _fixture.Create<NoxTestApplicationFactory>();
 
-        _massTransitTestHarness = _appFactory.Services.GetTestHarness();
+        //_massTransitTestHarness = _appFactory.Services.GetTestHarness();
     }
 
     /// <summary>
