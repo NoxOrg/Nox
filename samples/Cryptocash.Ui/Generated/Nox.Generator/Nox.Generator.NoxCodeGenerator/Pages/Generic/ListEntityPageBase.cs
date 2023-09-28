@@ -155,7 +155,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
                 || String.IsNullOrEmpty(PreviousAPiQuery)
                 || !String.Equals(PreviousAPiQuery, CurrentApiQuery, StringComparison.OrdinalIgnoreCase))
             {
-                ApiEntityData = await EntityDataService<T>.GetEntityData(CurrentApiUiService);
+                ApiEntityData = await EntityDataService<T>.GetAsyncEntityData(CurrentApiUiService);
 
                 PreviousAPiQuery = CurrentApiQuery;
 
@@ -174,7 +174,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         /// <returns></returns>
         private async Task DeleteApiEntityData()
         {
-            await EntityDataService<T>.DeleteEntityData(CurrentApiUiService);            
+            await EntityDataService<T>.DeleteAsyncEntityData(CurrentApiUiService);            
         }
 
         #endregion

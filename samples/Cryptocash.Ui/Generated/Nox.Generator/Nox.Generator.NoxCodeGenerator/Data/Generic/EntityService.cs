@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Cryptocash.Ui.Generated.Data.Generic
 {
@@ -12,12 +13,15 @@ namespace Cryptocash.Ui.Generated.Data.Generic
         /// Method used to Get Api results
         /// </summary>
         /// <param name="ApiUiService"></param>
-        /// <returns>Task<ApiEntityData?></returns>
-        public static async Task<EntityData<T>?> GetEntityData(ApiUiService? ApiUiService)
+        /// <returns>Task<EntityData?></returns>
+        public static async Task<EntityData<T>?> GetAsyncEntityData(ApiUiService? ApiUiService)
         {
             await Task.Delay(100); //deliberate for UI to avoid flicker
 
-            EntityData<T>? Entities = JsonSerializer.Deserialize<EntityData<T>>(await ApiDataService.ReadApi(ApiUiService));
+            var jsonOptions = new JsonSerializerOptions();
+            jsonOptions.Converters.Add(new JsonStringEnumConverter());
+
+            EntityData<T>? Entities = JsonSerializer.Deserialize<EntityData<T>>(await ApiDataService.ReadAsyncApi(ApiUiService), jsonOptions);
 
             return Entities;
         }
@@ -27,9 +31,9 @@ namespace Cryptocash.Ui.Generated.Data.Generic
         /// </summary>
         /// <param name="ApiUiService"></param>
         /// <returns>Task<string></returns>
-        public static async Task DeleteEntityData(ApiUiService? ApiUiService)
+        public static async Task DeleteAsyncEntityData(ApiUiService? ApiUiService)
         {
-            await ApiDataService.DeleteApi(ApiUiService);
+            await ApiDataService.DeleteAsyncApi(ApiUiService);
         }
     }
 }

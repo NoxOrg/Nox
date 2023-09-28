@@ -15,7 +15,7 @@ namespace Cryptocash.Ui.Generated.Data.Generic
         /// <returns>Task<string>(Json)</returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="Exception"></exception>
-        public static async Task<string> ReadApi(ApiUiService? ApiUiService)
+        public static async Task<string> ReadAsyncApi(ApiUiService? ApiUiService)
         {
             if (ApiUiService == null || string.IsNullOrWhiteSpace(ApiUiService.Url))
             {
@@ -47,7 +47,7 @@ namespace Cryptocash.Ui.Generated.Data.Generic
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="Exception"></exception>
-        public static async Task DeleteApi(ApiUiService? ApiUiService)
+        public static async Task DeleteAsyncApi(ApiUiService? ApiUiService)
         {
             if (ApiUiService == null || string.IsNullOrWhiteSpace(ApiUiService.Url))
             {
