@@ -7,8 +7,7 @@
     "null"
   ],
   "required": [
-    "name",
-    "version"
+    "name"
   ],
   "properties": {
     "name": {    
@@ -18,17 +17,20 @@
       "pattern": "^[^\\s]*$"
     },
     "platformId": {    
-      "title": "The message identification Platform Id.",
-      "description": "For message identification a PlatformId  will be used and configured in the Nox Solution. Required, but if not defined default to solution name (so the user may not set it explicitly).",
+      "title": "Platform Identifier. Used to build a unique Uri.",
+      "description": "Identify a Platform, that is a set of different services. Use to produce a unique Uri, by encoding the provided value.",
       "type": [
         "string",
         "null"
       ]
     },
     "version": {    
-      "title": "The version of the NOX solution.",
-      "description": "Required, but if not defined default 1.0 (so the user may not set it explicitly).",
-      "type": "string",
+      "title": "The version of the NOX solution. Expected a Semantic Version format.",
+      "description": "Required, but if not defined default 1.0.",
+      "type": [
+        "string",
+        "null"
+      ],
       "pattern": "^(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$"
     },
     "description": {    

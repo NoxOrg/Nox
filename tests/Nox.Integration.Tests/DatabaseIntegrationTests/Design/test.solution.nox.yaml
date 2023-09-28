@@ -6,8 +6,6 @@
 
 name: TestWebApp
 
-version: "1.0"
-
 description: Sample Nox solution yaml configuration
 
 variables:

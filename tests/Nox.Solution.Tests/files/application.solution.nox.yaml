@@ -7,8 +7,6 @@
 
 name: TestService
 
-version: "1.0"
-
 description: Yaml file for testing application
 
 application:

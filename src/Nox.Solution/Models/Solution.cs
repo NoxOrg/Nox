@@ -19,15 +19,18 @@ public class Solution : DefinitionBase
     [Pattern(RegexConstants.SolutionNamePattern)]
     public string Name { get; set; } = null!;
 
-    [Title("The message identification Platform Id.")]
-    [Description("For message identification a PlatformId  will be used and configured in the Nox Solution. Required, but if not defined default to solution name (so the user may not set it explicitly).")]
-    public string PlatformId { get => _platformId ?? Name; internal set => _platformId = value; }
+    [Title("Platform Identifier. Used to build a unique Uri.")]
+    [Description("Identify a Platform, that is a set of different services. Use to produce a unique Uri, by encoding the provided value.")]
+    public string PlatformId
+    {
+        get => _platformId ?? Name;
+        internal set => _platformId = value;
+    }
 
-    [Required]
-    [Title("The version of the NOX solution.")]
-    [Description("Required, but if not defined default 1.0 (so the user may not set it explicitly).")]
+    [Title("The version of the NOX solution. Expected a Semantic Version format.")]
+    [Description("Required, but if not defined default 1.0.")]
     [Pattern(RegexConstants.SolutionVersionPattern)]
-    public string Version { get; internal set; } = null!;
+    public string Version { get; internal set; } = "1.0";
 
     [Title("A short description of the NOX solution.")]
     [Description("A brief description of the solution with what it's purpose or goals are.")]

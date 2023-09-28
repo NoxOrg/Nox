@@ -7,8 +7,6 @@
 
 description: Sample Nox solution yaml configuration
 
-version: "1.0"
-
 variables:
   DATABASE_PROVIDER: slqServer
   DATABASE_SERVER: localhost
