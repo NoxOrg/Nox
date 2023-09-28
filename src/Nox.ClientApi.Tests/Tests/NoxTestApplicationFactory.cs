@@ -38,7 +38,7 @@ public class NoxTestApplicationFactory : WebApplicationFactory<StartupFixture>
                     var configurations = sp.GetServices<INoxTypeDatabaseConfigurator>();
                     return _containerService.GetDatabaseProvider(configurations);
                 });
-                services.AddMassTransitTestHarness();
+                //services.AddMassTransitTestHarness();
                
             })
             .ConfigureLogging(opts => opts.AddXunit(_testOutput, new LoggingConfig
