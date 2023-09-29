@@ -75,12 +75,12 @@ public class Entity : DefinitionBase
     [Title("Attributes that describe this entity.")]
     [Description("Define one or more attribute(s) that describes the composition of this domain entity.")]
     [AdditionalProperties(false)]
-    public virtual IReadOnlyList<NoxSimpleTypeDefinition>? Attributes { get; internal set; }
+    public virtual IReadOnlyList<NoxSimpleTypeDefinition> Attributes { get; internal set; } = Array.Empty<NoxSimpleTypeDefinition>();
     
     [Title("Unique constraints for this entity.")]
     [Description("Define one or more unique constraints for this entity.")]
     [AdditionalProperties(false)]
-    public IReadOnlyList<UniqueAttributeConstraint>? UniqueAttributeConstraints { get; internal set; } = Array.Empty<UniqueAttributeConstraint>();
+    public IReadOnlyList<UniqueAttributeConstraint> UniqueAttributeConstraints { get; internal set; } = Array.Empty<UniqueAttributeConstraint>();
 
     [YamlIgnore]
     public bool IsOwnedEntity { get; internal set; }
@@ -90,9 +90,9 @@ public class Entity : DefinitionBase
     
     [YamlIgnore]
     public bool HasDomainEvents =>
-        (Persistence is not null) && (Persistence!.Create.RaiseEvents ||
-        Persistence.Update.RaiseEvents ||
-        Persistence.Delete.RaiseEvents); 
+        (Persistence is not null) && (Persistence!.Create.RaiseDomainEvents ||
+        Persistence.Update.RaiseDomainEvents ||
+        Persistence.Delete.RaiseDomainEvents); 
 
     internal bool ApplyDefaults()
     {

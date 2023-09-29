@@ -3,10 +3,12 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
@@ -17,11 +19,33 @@ namespace ClientApi.Application.Dto;
 
 public record WorkplaceKeyDto(System.UInt32 keyId);
 
+public partial class WorkplaceDto : WorkplaceDtoBase
+{
+
+}
+
 /// <summary>
 /// Workplace.
 /// </summary>
-public partial class WorkplaceDto
+public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<Workplace>
 {
+
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+    
+        if (this.Name is not null)
+            ExecuteActionAndCollectValidationExceptions("Name", () => ClientApi.Domain.WorkplaceMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+        else
+            result.Add("Name", new [] { "Name is Required." });
+    
+        if (this.Description is not null)
+            ExecuteActionAndCollectValidationExceptions("Description", () => ClientApi.Domain.WorkplaceMetadata.CreateDescription(this.Description.NonNullValue<System.String>()), result); 
+
+        return result;
+    }
+    #endregion
 
     /// <summary>
     /// Workplace unique identifier (Required).

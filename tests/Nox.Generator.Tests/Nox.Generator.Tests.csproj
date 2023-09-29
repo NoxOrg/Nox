@@ -58,6 +58,7 @@
 
   <ItemGroup>
     <Compile Remove="ExpectedGeneratedFiles\Application.Dto.CountryDto.expected.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Application.ServiceCollectionExtensions.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\Country.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\CountryNameChangedAppEvent.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\CountryNameUpdatedEvent.expected.g.cs" />
@@ -79,7 +80,6 @@
     <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CountriesController.Relationships.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\SampleWebAppDbContext.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\UpdatePopulationStatisticsCommandHandlerBase.expected.g.cs" />
-    <Compile Remove="ExpectedGeneratedFiles\NoxWebApplicationExtensions.expected.g.cs" />
     <Compile Remove="Files\TestExecutable\Program.cs" />
   </ItemGroup>
 
@@ -202,7 +202,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Compile Remove="ExpectedGeneratedFiles\NoxWebApplicationExtensions.g.cs" />
-    <AdditionalFiles Include="ExpectedGeneratedFiles\NoxWebApplicationExtensions.expected.g.cs">
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Application.ServiceCollectionExtensions.expected.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
   </ItemGroup>

@@ -3,10 +3,12 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
@@ -17,11 +19,43 @@ namespace Cryptocash.Application.Dto;
 
 public record TransactionKeyDto(System.Int64 keyId);
 
+public partial class TransactionDto : TransactionDtoBase
+{
+
+}
+
 /// <summary>
 /// Customer transaction log and related data.
 /// </summary>
-public partial class TransactionDto
+public abstract class TransactionDtoBase : EntityDtoBase, IEntityDto<Transaction>
 {
+
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+    
+        if (this.TransactionType is not null)
+            ExecuteActionAndCollectValidationExceptions("TransactionType", () => Cryptocash.Domain.TransactionMetadata.CreateTransactionType(this.TransactionType.NonNullValue<System.String>()), result);
+        else
+            result.Add("TransactionType", new [] { "TransactionType is Required." });
+    
+        ExecuteActionAndCollectValidationExceptions("ProcessedOnDateTime", () => Cryptocash.Domain.TransactionMetadata.CreateProcessedOnDateTime(this.ProcessedOnDateTime), result);
+    
+        if (this.Amount is not null)
+            ExecuteActionAndCollectValidationExceptions("Amount", () => Cryptocash.Domain.TransactionMetadata.CreateAmount(this.Amount.NonNullValue<MoneyDto>()), result);
+        else
+            result.Add("Amount", new [] { "Amount is Required." });
+    
+        if (this.Reference is not null)
+            ExecuteActionAndCollectValidationExceptions("Reference", () => Cryptocash.Domain.TransactionMetadata.CreateReference(this.Reference.NonNullValue<System.String>()), result);
+        else
+            result.Add("Reference", new [] { "Reference is Required." });
+    
+
+        return result;
+    }
+    #endregion
 
     /// <summary>
     /// Customer transaction unique identifier (Required).

@@ -26,6 +26,8 @@ attributes:
     description: Rating Index
     type: number
     isRequired: true
+    numberTypeOptions:
+      minValue: 1
 
 persistence:
     isAudited: false

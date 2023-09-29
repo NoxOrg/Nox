@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class CountryTimeZone:CountryTimeZoneBase, IEntityHaveDomainEvents
+
+internal partial class CountryTimeZone : CountryTimeZoneBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()
@@ -45,7 +46,7 @@ internal record CountryTimeZoneDeleted(CountryTimeZone CountryTimeZone) : IDomai
 /// <summary>
 /// Time zone related to country.
 /// </summary>
-internal abstract class CountryTimeZoneBase : EntityBase, IOwnedEntity
+internal abstract partial class CountryTimeZoneBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// Country's time zone unique identifier (Required).

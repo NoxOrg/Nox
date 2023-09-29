@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -42,4 +43,13 @@ public partial class MinimumCashStockMetadata
         public static Nox.Types.CurrencyCode3 CreateCurrencyId(System.String value)
             => Nox.Types.CurrencyCode3.From(value);
         
+
+        /// <summary>
+        /// User Interface for property 'Amount'
+        /// </summary>
+        public static TypeUserInterface? AmountUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("MinimumCashStock")
+                .GetAttributeByName("Amount")?
+                .UserInterface;
 }

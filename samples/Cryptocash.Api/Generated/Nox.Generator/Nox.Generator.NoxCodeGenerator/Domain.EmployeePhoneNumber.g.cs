@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class EmployeePhoneNumber:EmployeePhoneNumberBase, IEntityHaveDomainEvents
+
+internal partial class EmployeePhoneNumber : EmployeePhoneNumberBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()
@@ -45,7 +46,7 @@ internal record EmployeePhoneNumberDeleted(EmployeePhoneNumber EmployeePhoneNumb
 /// <summary>
 /// Employee phone number and related data.
 /// </summary>
-internal abstract class EmployeePhoneNumberBase : EntityBase, IOwnedEntity
+internal abstract partial class EmployeePhoneNumberBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// Employee's phone number identifier (Required).

@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class ExchangeRate:ExchangeRateBase, IEntityHaveDomainEvents
+
+internal partial class ExchangeRate : ExchangeRateBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()
@@ -45,7 +46,7 @@ internal record ExchangeRateDeleted(ExchangeRate ExchangeRate) : IDomainEvent;
 /// <summary>
 /// Exchange rate and related data.
 /// </summary>
-internal abstract class ExchangeRateBase : EntityBase, IOwnedEntity
+internal abstract partial class ExchangeRateBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// Exchange rate unique identifier (Required).

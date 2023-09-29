@@ -40,7 +40,8 @@ namespace Nox.Configuration
         {
             _configureMassTransitTransactionalOutbox = null;
         }
-        public void WithMessagingTransactionalOutbox<T>() where T : DbContext
+        
+        public void WithMessagingTransactionalOutbox<T>(bool disableDeliveryService = false) where T : DbContext
         {
             _configureMassTransitTransactionalOutbox = (_serviceCollectionBusConfigurator, databaseProvider) =>
             {
@@ -68,9 +69,15 @@ namespace Nox.Configuration
                     o.DisableInboxCleanupService();
 
                     //Disable message delivery
-                    //o.UseBusOutbox(c=>c.DisableDeliveryService());
-                    // enable the bus outbox
-                    o.UseBusOutbox();
+                    if(disableDeliveryService)
+                    {
+                        o.UseBusOutbox(c => c.DisableDeliveryService());
+                    }
+                    else
+                    {
+                        // enable the bus outbox
+                        o.UseBusOutbox();
+                    }                    
                 });
             };
         }

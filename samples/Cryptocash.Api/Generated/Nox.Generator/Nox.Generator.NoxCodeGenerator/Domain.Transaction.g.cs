@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class Transaction:TransactionBase, IEntityHaveDomainEvents
+
+internal partial class Transaction : TransactionBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()
@@ -45,7 +46,7 @@ internal record TransactionDeleted(Transaction Transaction) : IDomainEvent;
 /// <summary>
 /// Customer transaction log and related data.
 /// </summary>
-internal abstract class TransactionBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class TransactionBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Customer transaction unique identifier (Required).

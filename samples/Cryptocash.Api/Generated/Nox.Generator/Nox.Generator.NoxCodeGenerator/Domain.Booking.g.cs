@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class Booking:BookingBase, IEntityHaveDomainEvents
+
+internal partial class Booking : BookingBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()
@@ -45,7 +46,7 @@ internal record BookingDeleted(Booking Booking) : IDomainEvent;
 /// <summary>
 /// Exchange booking and related data.
 /// </summary>
-internal abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class BookingBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Booking unique identifier (Required).

@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-internal partial class RatingProgram:RatingProgramBase, IEntityHaveDomainEvents
+
+internal partial class RatingProgram : RatingProgramBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()
@@ -45,7 +46,7 @@ internal record RatingProgramDeleted(RatingProgram RatingProgram) : IDomainEvent
 /// <summary>
 /// Rating program for store.
 /// </summary>
-internal abstract class RatingProgramBase : EntityBase, IEntityConcurrent
+internal abstract partial class RatingProgramBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).

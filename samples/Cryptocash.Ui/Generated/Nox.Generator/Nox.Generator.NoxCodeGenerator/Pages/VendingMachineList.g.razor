@@ -1,7 +1,7 @@
 ﻿@using Cryptocash.Ui
 @using System.Dynamic
 @using System.Data
-@using Cryptocash.Ui.Application.Dto;
+@using Cryptocash.Application.Dto;
 @using Cryptocash.Ui.Generated.Data.ApiSetting;
 @using Cryptocash.Ui.Generated.Data.Enum;
 @using Cryptocash.Ui.Generated.Pages.Generic
@@ -71,7 +71,9 @@
                                   Style="border-style:solid;border-width:2px;border-color:lightgray;"
                                   HeaderClass="custom-header"
                                   Dense="true">
-                            <HeaderContent>                             
+                            <HeaderContent>
+
+                                <MudTh>Action</MudTh>
 
                                 @if (CurrentApiUiService!.IsPropertyShowInSearch("SerialNumber"))
                                 {
@@ -130,6 +132,14 @@
                             </HeaderContent>
                             <RowTemplate>
 
+                                <MudTd>
+                                    <MudMenu Icon="@Icons.Material.Filled.MoreHoriz" Color="Color.Info">
+                                        <MudMenuItem Icon="@Icons.Material.Filled.DeleteOutline" IconColor="Color.Error" OnClick="@(e=>DeleteEntitySelect(context.Id.ToString(), context.Etag))">
+                                            <MudText Color="Color.Error">DELETE</MudText>
+                                        </MudMenuItem>
+                                    </MudMenu>
+                                </MudTd>
+
                                 @if (CurrentApiUiService!.IsPropertyShowInSearch("SerialNumber"))
                                 {
                                     <MudTd>@UtilityHelper.FormatOutput(typeof(VendingMachineDto).GetProperty("SerialNumber"), context)</MudTd>
@@ -158,6 +168,34 @@
             </MudGrid>
         </MudItem>
     </MudGrid>
+
+    <MudDialog @bind-IsVisible="IsOpenDeleteEntityConfirmation" Options="DialogOptions">
+        <TitleContent>
+            <MudText Typo="Typo.h6">
+                Delete Vending Machine
+            </MudText>
+        </TitleContent>
+        <DialogContent>
+            <MudText>Do you really want to delete this vending machine?</MudText>
+        </DialogContent>
+        <DialogActions>
+            <MudButton OnClick="DeleteEntityCloseConfirmation">CANCEL</MudButton>
+            <MudButton OnClick="@(async () => await DeleteEntitySubmit())"
+                       Variant="Variant.Filled"
+                       Color="Color.Error"
+                       Disabled="@IsDeleteEntityProcessing">
+                @if (IsDeleteEntityProcessing)
+                {
+                    <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                    <MudText Class="ms-2">PROCESSING</MudText>
+                }
+                else
+                {
+                    <MudText>DELETE</MudText>
+                }
+            </MudButton>
+        </DialogActions>
+    </MudDialog>
 
     @if (IsOpenSearchFilterDrawer)
     {

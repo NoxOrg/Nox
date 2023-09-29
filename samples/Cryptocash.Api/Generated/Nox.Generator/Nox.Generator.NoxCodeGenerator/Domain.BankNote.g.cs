@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class BankNote:BankNoteBase, IEntityHaveDomainEvents
+
+internal partial class BankNote : BankNoteBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()
@@ -45,7 +46,7 @@ internal record BankNoteDeleted(BankNote BankNote) : IDomainEvent;
 /// <summary>
 /// Currencies related frequent and rare bank notes.
 /// </summary>
-internal abstract class BankNoteBase : EntityBase, IOwnedEntity
+internal abstract partial class BankNoteBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// Currency bank note unique identifier (Required).

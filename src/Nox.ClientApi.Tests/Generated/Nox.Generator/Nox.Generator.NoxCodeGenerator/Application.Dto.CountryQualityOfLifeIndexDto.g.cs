@@ -3,10 +3,12 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
@@ -17,11 +19,32 @@ namespace ClientApi.Application.Dto;
 
 public record CountryQualityOfLifeIndexKeyDto(System.Int64 keyCountryId, System.Int64 keyId);
 
+public partial class CountryQualityOfLifeIndexDto : CountryQualityOfLifeIndexDtoBase
+{
+
+}
+
 /// <summary>
 /// Country Quality Of Life Index.
 /// </summary>
-public partial class CountryQualityOfLifeIndexDto
+public abstract class CountryQualityOfLifeIndexDtoBase : EntityDtoBase, IEntityDto<CountryQualityOfLifeIndex>
 {
+
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+    
+        if(this.CountryId != default(System.Int64))
+            ExecuteActionAndCollectValidationExceptions("CountryId", () => ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateCountryId(this.CountryId), result);
+        else
+            result.Add("CountryId", new [] { "CountryId is Required." });
+        ExecuteActionAndCollectValidationExceptions("IndexRating", () => ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateIndexRating(this.IndexRating), result);
+    
+
+        return result;
+    }
+    #endregion
 
     /// <summary>
     ///  (Required).

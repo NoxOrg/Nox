@@ -1,4 +1,5 @@
 ﻿using Nox.Types.Schema;
+using YamlDotNet.Serialization;
 
 namespace Nox.Solution;
 
@@ -24,7 +25,7 @@ public class EntityPersistence : DefinitionBase
     public EntityReadSettings Read { get; internal set; } = new EntityReadSettings();
     public EntityUpdateSettings Update { get; internal set; } = new EntityUpdateSettings();
     public EntityDeleteSettings Delete { get; internal set; } = new EntityDeleteSettings();
-    
+
     internal bool ApplyDefaults(string entityName)
     {
         if (string.IsNullOrWhiteSpace(TableName)) TableName = entityName;
@@ -39,7 +40,10 @@ public class EntityPersistence : DefinitionBase
 public class EntityCreateSettings
 {
     public bool IsEnabled { get; internal set; } = true;
-    public bool RaiseEvents { get; internal set; } = true;
+    public RaiseEventsType RaiseEvents { get; internal set; } = RaiseEventsType.DomainEventsOnly;
+
+    [YamlIgnore]
+    public bool RaiseDomainEvents => RaiseEvents == RaiseEventsType.DomainEventsOnly || RaiseEvents == RaiseEventsType.DomainAndIntegrationEvents;
 }
 
 [Title("Specifies persistence behaviour related to reading the entity.")]
@@ -56,7 +60,10 @@ public class EntityReadSettings
 public class EntityUpdateSettings
 {
     public bool IsEnabled { get; internal set; } = true;
-    public bool RaiseEvents { get; internal set; } = true;
+    public RaiseEventsType RaiseEvents { get; internal set; } = RaiseEventsType.DomainEventsOnly;
+
+    [YamlIgnore]
+    public bool RaiseDomainEvents => RaiseEvents == RaiseEventsType.DomainEventsOnly || RaiseEvents == RaiseEventsType.DomainAndIntegrationEvents;
 }
 
 [Title("Specifies persistence behaviour related to deleting the entity.")]
@@ -65,5 +72,8 @@ public class EntityUpdateSettings
 public class EntityDeleteSettings
 {
     public bool IsEnabled { get; internal set; } = true;
-    public bool RaiseEvents { get; internal set; } = true;
+    public RaiseEventsType RaiseEvents { get; internal set; } = RaiseEventsType.DomainEventsOnly;
+
+    [YamlIgnore]
+    public bool RaiseDomainEvents => RaiseEvents == RaiseEventsType.DomainEventsOnly || RaiseEvents == RaiseEventsType.DomainAndIntegrationEvents;
 }

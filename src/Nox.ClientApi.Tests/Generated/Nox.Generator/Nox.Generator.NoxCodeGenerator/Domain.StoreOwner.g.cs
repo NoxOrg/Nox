@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-internal partial class StoreOwner:StoreOwnerBase, IEntityHaveDomainEvents
+
+internal partial class StoreOwner : StoreOwnerBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()
@@ -45,7 +46,7 @@ internal record StoreOwnerDeleted(StoreOwner StoreOwner) : IDomainEvent;
 /// <summary>
 /// Store owners.
 /// </summary>
-internal abstract class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).

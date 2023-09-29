@@ -1,12 +1,9 @@
-namespace Nox
+namespace Nox;
+
+public enum EntityRelationshipType
 {
-
-    public enum EntityRelationshipType
-    {
-        ZeroOrOne,
-        ExactlyOne,
-        ZeroOrMany,
-        OneOrMany
-    }
-
+    ZeroOrOne,
+    ExactlyOne,
+    ZeroOrMany,
+    OneOrMany
 }

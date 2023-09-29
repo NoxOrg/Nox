@@ -21,15 +21,15 @@ domain:
         schema: dbo
         create:
           isEnabled: true
-          raiseEvents: false          
+          raiseEvents: never          
         read:
           isEnabled: false
         update:
           isEnabled: true
-          raiseEvents: false
+          raiseEvents: never
         delete:
           isEnabled: true
-          raiseEvents: false
+          raiseEvents: never
 
       keys:
         - name: Id
@@ -45,15 +45,15 @@ domain:
         schema: dbo
         create:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
         read:
           isEnabled: true
         update:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
         delete:
           isEnabled: false
-          raiseEvents: false
+          raiseEvents: never
 
       keys:
         - name: Id
@@ -85,15 +85,15 @@ domain:
         schema: dbo
         create:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainAndIntegrationEvents
         read:
           isEnabled: true
         update:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainAndIntegrationEvents
         delete:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainAndIntegrationEvents
 
       keys:
         - name: Id

@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class PaymentProvider:PaymentProviderBase, IEntityHaveDomainEvents
+
+internal partial class PaymentProvider : PaymentProviderBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()
@@ -45,7 +46,7 @@ internal record PaymentProviderDeleted(PaymentProvider PaymentProvider) : IDomai
 /// <summary>
 /// Payment provider related data.
 /// </summary>
-internal abstract class PaymentProviderBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class PaymentProviderBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Payment provider unique identifier (Required).

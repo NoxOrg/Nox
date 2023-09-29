@@ -34,7 +34,7 @@ namespace ClientApi.Tests.Tests.Controllers
             {
                 Name = _fixture.Create<string>(),
                 Population = 1_000_000,
-                CountryDebt = new MoneyDto(10, CurrencyCode.USD)
+                CountryDebt = new MoneyDto(200_000, CurrencyCode.USD)
             };
             var result = await PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
 
@@ -63,7 +63,7 @@ namespace ClientApi.Tests.Tests.Controllers
             {
                 Name = "Portugal",
                 Population = 1_000_000,
-                CountryDebt = new MoneyDto(10, CurrencyCode.USD),
+                CountryDebt = new MoneyDto(200_000, CurrencyCode.USD),
                 CountryShortNames = new List<CountryLocalNameCreateDto>() {
                     new CountryLocalNameCreateDto() { Name = "Iberia" },
                     new CountryLocalNameCreateDto() { Name = expectedLocalName}
@@ -772,7 +772,7 @@ namespace ClientApi.Tests.Tests.Controllers
         public async Task Post_WithCompoundMoney_ReturnsAutoNumberId()
         {
             // Arrange
-            var expectedAmount = 100;
+            var expectedAmount = 200_000;
             var dto = new CountryCreateDto
             {
                 Name = _fixture.Create<string>(),
@@ -1048,7 +1048,7 @@ namespace ClientApi.Tests.Tests.Controllers
             {
                 Name = "Portugal",
                 Population = 1_000_000,
-                CountryDebt = new MoneyDto(10, CurrencyCode.USD),
+                CountryDebt = new MoneyDto(200_000, CurrencyCode.USD),
                 CountryShortNames = new List<CountryLocalNameCreateDto>()
                 {
                     new CountryLocalNameCreateDto() { Name = "Iberia" },

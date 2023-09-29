@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -82,4 +83,40 @@ public partial class TransactionMetadata
         public static Nox.Types.AutoNumber CreateCustomerId(System.Int64 value)
             => Nox.Types.AutoNumber.From(value);
         
+
+        /// <summary>
+        /// User Interface for property 'TransactionType'
+        /// </summary>
+        public static TypeUserInterface? TransactionTypeUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Transaction")
+                .GetAttributeByName("TransactionType")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'ProcessedOnDateTime'
+        /// </summary>
+        public static TypeUserInterface? ProcessedOnDateTimeUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Transaction")
+                .GetAttributeByName("ProcessedOnDateTime")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Amount'
+        /// </summary>
+        public static TypeUserInterface? AmountUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Transaction")
+                .GetAttributeByName("Amount")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Reference'
+        /// </summary>
+        public static TypeUserInterface? ReferenceUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Transaction")
+                .GetAttributeByName("Reference")?
+                .UserInterface;
 }

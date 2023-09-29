@@ -4,7 +4,7 @@ using Nox.Solution;
 
 namespace Nox.Generator.Application;
 
-internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
+internal class ServiceCollectionExtensionsGenerator : INoxCodeGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.None;
 
@@ -15,10 +15,10 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
         var namePrefix = "Application";
 
         new TemplateCodeBuilder(context, codeGeneratorState)
-            .WithClassName("NoxWebApplicationExtensions")
+            .WithClassName("ServiceCollectionExtensions")
             .WithFileNamePrefix(namePrefix)
             .WithObject("solutionName", codeGeneratorState.Solution.Name)
             .WithObject("configPresentation", config.Presentation)
-            .GenerateSourceCodeFromResource($"{namePrefix}.NoxWebApplicationBuilderExtension");
+            .GenerateSourceCodeFromResource($"{namePrefix}.ServiceCollectionExtensions");
     }
 }

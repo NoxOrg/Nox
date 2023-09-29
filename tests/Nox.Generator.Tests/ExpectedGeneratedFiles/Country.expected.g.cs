@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace SampleWebApp.Domain;
-internal partial class Country:CountryBase, IEntityHaveDomainEvents
+
+internal partial class Country : CountryBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()
@@ -45,7 +46,7 @@ internal record CountryDeleted(Country Country) : IDomainEvent;
 /// <summary>
 /// The list of countries.
 /// </summary>
-internal abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).

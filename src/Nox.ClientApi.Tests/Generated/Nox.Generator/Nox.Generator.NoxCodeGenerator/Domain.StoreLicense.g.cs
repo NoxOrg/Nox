@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-internal partial class StoreLicense:StoreLicenseBase, IEntityHaveDomainEvents
+
+internal partial class StoreLicense : StoreLicenseBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()
@@ -45,7 +46,7 @@ internal record StoreLicenseDeleted(StoreLicense StoreLicense) : IDomainEvent;
 /// <summary>
 /// Store license info.
 /// </summary>
-internal abstract class StoreLicenseBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class StoreLicenseBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).

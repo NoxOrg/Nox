@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -89,4 +90,49 @@ public partial class CustomerMetadata
         public static Nox.Types.CountryCode2 CreateCountryId(System.String value)
             => Nox.Types.CountryCode2.From(value);
         
+
+        /// <summary>
+        /// User Interface for property 'FirstName'
+        /// </summary>
+        public static TypeUserInterface? FirstNameUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Customer")
+                .GetAttributeByName("FirstName")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'LastName'
+        /// </summary>
+        public static TypeUserInterface? LastNameUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Customer")
+                .GetAttributeByName("LastName")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'EmailAddress'
+        /// </summary>
+        public static TypeUserInterface? EmailAddressUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Customer")
+                .GetAttributeByName("EmailAddress")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Address'
+        /// </summary>
+        public static TypeUserInterface? AddressUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Customer")
+                .GetAttributeByName("Address")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'MobileNumber'
+        /// </summary>
+        public static TypeUserInterface? MobileNumberUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Customer")
+                .GetAttributeByName("MobileNumber")?
+                .UserInterface;
 }

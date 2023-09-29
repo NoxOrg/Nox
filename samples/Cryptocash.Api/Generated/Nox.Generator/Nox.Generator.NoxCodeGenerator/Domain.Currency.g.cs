@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-internal partial class Currency:CurrencyBase, IEntityHaveDomainEvents
+
+internal partial class Currency : CurrencyBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()
@@ -45,7 +46,7 @@ internal record CurrencyDeleted(Currency Currency) : IDomainEvent;
 /// <summary>
 /// Currency and related data.
 /// </summary>
-internal abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Currency unique identifier (Required).

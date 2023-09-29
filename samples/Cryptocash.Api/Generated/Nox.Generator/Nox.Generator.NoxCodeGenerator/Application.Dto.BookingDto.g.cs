@@ -3,10 +3,12 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
@@ -17,11 +19,49 @@ namespace Cryptocash.Application.Dto;
 
 public record BookingKeyDto(System.Guid keyId);
 
+public partial class BookingDto : BookingDtoBase
+{
+
+}
+
 /// <summary>
 /// Exchange booking and related data.
 /// </summary>
-public partial class BookingDto
+public abstract class BookingDtoBase : EntityDtoBase, IEntityDto<Booking>
 {
+
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+    
+        if (this.AmountFrom is not null)
+            ExecuteActionAndCollectValidationExceptions("AmountFrom", () => Cryptocash.Domain.BookingMetadata.CreateAmountFrom(this.AmountFrom.NonNullValue<MoneyDto>()), result);
+        else
+            result.Add("AmountFrom", new [] { "AmountFrom is Required." });
+    
+        if (this.AmountTo is not null)
+            ExecuteActionAndCollectValidationExceptions("AmountTo", () => Cryptocash.Domain.BookingMetadata.CreateAmountTo(this.AmountTo.NonNullValue<MoneyDto>()), result);
+        else
+            result.Add("AmountTo", new [] { "AmountTo is Required." });
+    
+        if (this.RequestedPickUpDate is not null)
+            ExecuteActionAndCollectValidationExceptions("RequestedPickUpDate", () => Cryptocash.Domain.BookingMetadata.CreateRequestedPickUpDate(this.RequestedPickUpDate.NonNullValue<DateTimeRangeDto>()), result);
+        else
+            result.Add("RequestedPickUpDate", new [] { "RequestedPickUpDate is Required." });
+    
+        if (this.PickedUpDateTime is not null)
+            ExecuteActionAndCollectValidationExceptions("PickedUpDateTime", () => Cryptocash.Domain.BookingMetadata.CreatePickedUpDateTime(this.PickedUpDateTime.NonNullValue<DateTimeRangeDto>()), result);
+        if (this.ExpiryDateTime is not null)
+            ExecuteActionAndCollectValidationExceptions("ExpiryDateTime", () => Cryptocash.Domain.BookingMetadata.CreateExpiryDateTime(this.ExpiryDateTime.NonNullValue<System.DateTimeOffset>()), result);
+        if (this.CancelledDateTime is not null)
+            ExecuteActionAndCollectValidationExceptions("CancelledDateTime", () => Cryptocash.Domain.BookingMetadata.CreateCancelledDateTime(this.CancelledDateTime.NonNullValue<System.DateTimeOffset>()), result); 
+        if (this.VatNumber is not null)
+            ExecuteActionAndCollectValidationExceptions("VatNumber", () => Cryptocash.Domain.BookingMetadata.CreateVatNumber(this.VatNumber.NonNullValue<VatNumberDto>()), result);
+
+        return result;
+    }
+    #endregion
 
     /// <summary>
     /// Booking unique identifier (Required).

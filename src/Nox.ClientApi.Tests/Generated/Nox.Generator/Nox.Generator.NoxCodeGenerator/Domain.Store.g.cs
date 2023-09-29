@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-internal partial class Store:StoreBase, IEntityHaveDomainEvents
+
+internal partial class Store : StoreBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()
@@ -45,7 +46,7 @@ internal record StoreDeleted(Store Store) : IDomainEvent;
 /// <summary>
 /// Stores.
 /// </summary>
-internal abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class StoreBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).

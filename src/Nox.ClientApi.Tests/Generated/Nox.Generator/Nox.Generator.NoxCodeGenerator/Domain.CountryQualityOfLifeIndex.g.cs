@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-internal partial class CountryQualityOfLifeIndex:CountryQualityOfLifeIndexBase, IEntityHaveDomainEvents
+
+internal partial class CountryQualityOfLifeIndex : CountryQualityOfLifeIndexBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()
@@ -45,7 +46,7 @@ internal record CountryQualityOfLifeIndexDeleted(CountryQualityOfLifeIndex Count
 /// <summary>
 /// Country Quality Of Life Index.
 /// </summary>
-internal abstract class CountryQualityOfLifeIndexBase : EntityBase, IEntityConcurrent
+internal abstract partial class CountryQualityOfLifeIndexBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).

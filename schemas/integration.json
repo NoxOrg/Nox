@@ -2,9 +2,13 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "The definition namespace for an application ETL data integration.",
   "description": "Details pertaining to a solution data integration. Includes common ETL attributes like source, transform and target.",
-  "type": [
-    "object",
-    "null"
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
   ],
   "required": [
     "name",
@@ -21,9 +25,13 @@
     "description": {    
       "title": "A phrase describing the objective of the ETL data integration.",
       "description": "A phrase describing the high-level objective of the ETL. A reference to data source and format is especially useful.",
-      "type": [
-        "string",
-        "null"
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
       ]
     },
     "source": {    

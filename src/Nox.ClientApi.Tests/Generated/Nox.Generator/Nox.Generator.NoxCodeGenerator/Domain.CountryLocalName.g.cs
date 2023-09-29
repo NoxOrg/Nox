@@ -11,7 +11,8 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-internal partial class CountryLocalName:CountryLocalNameBase, IEntityHaveDomainEvents
+
+internal partial class CountryLocalName : CountryLocalNameBase, IEntityHaveDomainEvents
 {
 	///<inheritdoc/>
 	public void RaiseCreateEvent()
@@ -45,7 +46,7 @@ internal record CountryLocalNameDeleted(CountryLocalName CountryLocalName) : IDo
 /// <summary>
 /// Local names for countries.
 /// </summary>
-internal abstract class CountryLocalNameBase : EntityBase, IOwnedEntity
+internal abstract partial class CountryLocalNameBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// The unique identifier (Required).

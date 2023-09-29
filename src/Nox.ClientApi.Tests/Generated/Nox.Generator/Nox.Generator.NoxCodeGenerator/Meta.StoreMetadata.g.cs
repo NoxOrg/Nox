@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -82,4 +83,40 @@ public partial class StoreMetadata
         public static Nox.Types.Text CreateStoreOwnerId(System.String value)
             => Nox.Types.Text.From(value, StoreOwnerIdTypeOptions);
         
+
+        /// <summary>
+        /// User Interface for property 'Name'
+        /// </summary>
+        public static TypeUserInterface? NameUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Store")
+                .GetAttributeByName("Name")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Address'
+        /// </summary>
+        public static TypeUserInterface? AddressUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Store")
+                .GetAttributeByName("Address")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Location'
+        /// </summary>
+        public static TypeUserInterface? LocationUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Store")
+                .GetAttributeByName("Location")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'OpeningDay'
+        /// </summary>
+        public static TypeUserInterface? OpeningDayUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Store")
+                .GetAttributeByName("OpeningDay")?
+                .UserInterface;
 }
