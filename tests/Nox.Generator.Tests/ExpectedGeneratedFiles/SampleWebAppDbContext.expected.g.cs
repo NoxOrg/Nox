@@ -1,9 +1,11 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
 using System.Reflection;
 using System.Diagnostics;
+
+using MediatR;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -33,9 +35,11 @@ internal partial class SampleWebAppDbContext : DbContext
     private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
     private readonly IUserProvider _userProvider;
     private readonly ISystemProvider _systemProvider;
+    private readonly IPublisher _publisher;
 
     public SampleWebAppDbContext(
             DbContextOptions<SampleWebAppDbContext> options,
+            IPublisher publisher,
             NoxSolution noxSolution,
             INoxDatabaseProvider databaseProvider,
             INoxClientAssemblyProvider clientAssemblyProvider, 
@@ -43,6 +47,7 @@ internal partial class SampleWebAppDbContext : DbContext
             ISystemProvider systemProvider
         ) : base(options)
         {
+            _publisher = publisher;
             _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
             _clientAssemblyProvider = clientAssemblyProvider;
@@ -100,12 +105,67 @@ internal partial class SampleWebAppDbContext : DbContext
         try
         {
             HandleSystemFields();
+            await HandleDomainEvents();
             return await base.SaveChangesAsync(cancellationToken);
-
         }
         catch(DbUpdateConcurrencyException)
         {
             throw new Nox.Exceptions.ConcurrencyException($"Latest value of {nameof(IEntityConcurrent.Etag)} must be provided");
+        }
+    }
+
+    private async Task HandleDomainEvents()
+    {
+        var domainEvents =  GetPendingDomainEvents();
+        
+        await DispatchEvents(domainEvents);
+        
+        ClearDomainEvents();
+    }
+
+    private List<IDomainEvent> GetPendingDomainEvents()
+    {
+        List<IDomainEvent> domainEvents = new();
+        foreach (var entry in ChangeTracker.Entries<IEntityHaveDomainEvents>())
+        {
+            RaiseDomainEvent(entry);
+            domainEvents.AddRange(entry.Entity.DomainEvents);
+        }
+
+        return domainEvents;
+    }
+
+    private void RaiseDomainEvent(EntityEntry<IEntityHaveDomainEvents> entry)
+    {
+        switch (entry.State)
+        {
+            case EntityState.Added:
+                entry.Entity.RaiseCreateEvent();
+                break;
+
+            case EntityState.Modified:
+                entry.Entity.RaiseUpdateEvent();
+                break;
+
+            case EntityState.Deleted:
+                entry.Entity.RaiseDeleteEvent();
+                break;
+        }
+    }
+
+    private async Task DispatchEvents(List<IDomainEvent> domainEvents)
+    {
+        foreach (var domainEvent in domainEvents)
+        {
+            await _publisher.Publish(domainEvent);
+        }
+    }
+    
+    private void ClearDomainEvents()
+    {
+        foreach (var entry in ChangeTracker.Entries<IEntityHaveDomainEvents>())
+        {
+            entry.Entity.ClearDomainEvents();
         }
     }
 

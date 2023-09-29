@@ -13,7 +13,6 @@ namespace Nox.Generator.Tests.Common;
 
 public class CompileTests
 {
-    private const string BasePath = "../../../Generated/";
     private readonly ITestOutputHelper _testOutputHelper;
 
     public CompileTests(ITestOutputHelper testOutputHelper)
@@ -56,7 +55,6 @@ public class CompileTests
             _testOutputHelper.WriteLine(new string('*', 120));
         }
 
-        GenerateFiles(result);
         Assert.Empty(diagnostics);
     }
 
@@ -121,17 +119,5 @@ global using global::System.Threading.Tasks;";
         
 
         return references;
-    }
-    
-    private static void GenerateFiles(GeneratorRunResult result)
-    {
-        if(!Directory.Exists(BasePath))
-            Directory.CreateDirectory(BasePath);
-        
-        foreach (var generatedSource in result.GeneratedSources)
-        {
-            var fileContent = generatedSource.SourceText.ToString();
-            File.WriteAllText($"{BasePath}{generatedSource.HintName}", fileContent);
-        }
     }
 }
