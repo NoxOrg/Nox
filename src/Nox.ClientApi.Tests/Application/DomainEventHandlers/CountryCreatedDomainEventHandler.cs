@@ -1,6 +1,5 @@
 using ClientApi.Domain;
 using MediatR;
-using Nox.Types;
 
 namespace ClientApi.Application.DomainEventHandlers;
 
@@ -10,6 +9,13 @@ namespace ClientApi.Application.DomainEventHandlers;
 /// </summary>
 internal class CountryCreatedDomainEventHandler : INotificationHandler<CountryCreated>
 {
+    private readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
+    
+    /// <summary>
+    /// How many times the handler was called.
+    /// </summary>
+    public static int HandledEventCount { get; private set; }=0;
+    
     /// <summary>
     /// Handles the domain event asynchronously.
     /// </summary>
@@ -18,9 +24,9 @@ internal class CountryCreatedDomainEventHandler : INotificationHandler<CountryCr
     /// <returns>A task representing the asynchronous operation.</returns>
     public async Task Handle(CountryCreated notification, CancellationToken cancellationToken)
     {
-        // Modify the country name to be in uppercase invariant form.
-        notification.Country.Name = Text.From(notification.Country.Name.Value.ToUpperInvariant());
-
+        await _semaphoreSlim.WaitAsync(cancellationToken);
+        HandledEventCount++;
+        _semaphoreSlim.Release();
         // Perform any additional handling if necessary.
 
         // Return a completed task to indicate completion.

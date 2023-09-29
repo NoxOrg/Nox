@@ -1,3 +1,4 @@
+using ClientApi.Application.DomainEventHandlers;
 using ClientApi.Application.Dto;
 using FluentAssertions;
 using Xunit.Abstractions;
@@ -15,35 +16,27 @@ public class CountryCreatedDomainEventHandlerTests : NoxWebApiTestBase
     }
     
     [Fact]
-    public async Task Name_ShouldConvertToUpperCase_OnCrete()
+    public async Task Post_Country_ShouldInvokeCountryCreatedDomainEventHandler()
     {
         // Arrange
        
         var countryDto = new CountryCreateDto
         {
-            Name = "Türkiye",
-            Population = 85000000
-        };
-        var countryUpdateDto = new CountryUpdateDto
-        {
-            Name = "Türkiye",
+            Name = "Turkiye",
             Population = 85000000
         };
 
+        var handledEventCountBeforeEvent = CountryCreatedDomainEventHandler.HandledEventCount;
+        
         // Act
         var postResult = await PostAsync<CountryCreateDto, CountryDto>(CountryControllerName, countryDto);
         //Assert
         
         postResult.Should().NotBeNull();
-        postResult!.Name.Should().Be("TÜRKIYE");
+        postResult!.Name.Should().Be("Turkiye");
+        var handledEventCountAfterEvent = CountryCreatedDomainEventHandler.HandledEventCount;
+        handledEventCountAfterEvent.Should().BeGreaterThan(handledEventCountBeforeEvent);
         
-        // Act
-        var headers = CreateEtagHeader(postResult.Etag);
-        var putResult = await PutAsync<CountryUpdateDto, CountryDto>($"{CountryControllerName}/{postResult!.Id}", countryUpdateDto, headers);
-
-        //Assert
-        //Since update notification handler not registered, name should not be changed
-        putResult.Should().NotBeNull();
-        putResult!.Name.Should().Be("Türkiye");
+       
     }
 }
