@@ -2,9 +2,13 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "The definition namespace for dependencies pertaining to a Nox solution.",
   "description": "Define dependencies pertinent to a Nox solution here. These include translations, data connections, notifications and other.",
-  "type": [
-    "object",
-    "null"
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
   ],
   "properties": {
     "uiLocalizations": {    
@@ -25,9 +29,13 @@
     "dataConnections": {    
       "title": "The definition namespace for data connections pertaining to a Nox solution.",
       "description": "Define data connections pertinent to a Nox solution here. Possible data formats include Json, Excel, CSV, XML and Parquet.",
-      "type": [
-        "array",
-        "null"
+      "oneOf": [
+        {
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
       ],
       "items":   {
         "anyOf": [

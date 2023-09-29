@@ -2,9 +2,13 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Defines a one way relationship to another entity.",
   "description": "Defines a one way relationship to another entity. It is required to define the reverse relationship on the target entity.",
-  "type": [
-    "object",
-    "null"
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
   ],
   "required": [
     "name",
@@ -41,47 +45,75 @@
       "type": "string"
     },
     "entityPlural": {    
-      "type": [
-        "string",
-        "null"
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
       ]
     },
     "canNavigate": {    
       "title": "Determines whether this side of the relationship is exposed in the generated code and ODATA endpoints.",
       "description": "This boolean controls whether this side of the relationship is exposed in the generated code and ODATA endpoints.",
-      "type": [
-        "boolean",
-        "null"
+      "oneOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
       ]
     },
     "shouldGenerateForeignOnThisSide": {    
-      "type": [
-        "boolean",
-        "null"
+      "oneOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
       ]
     },
     "withSingleEntity": {    
-      "type": [
-        "boolean",
-        "null"
+      "oneOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
       ]
     },
     "withMultiEntity": {    
-      "type": [
-        "boolean",
-        "null"
+      "oneOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
       ]
     },
     "foreignKeyPrimitiveType": {    
-      "type": [
-        "string",
-        "null"
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
       ]
     },
     "related": {    
-      "type": [
-        "object",
-        "null"
+      "oneOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
       ],
       "properties": {
         "entity": {    

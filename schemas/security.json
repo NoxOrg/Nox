@@ -2,25 +2,37 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "The definition namespace for security settings pertaining to a Nox solution.",
   "description": "Define security settings pertinent to a Nox solution here. These may include secrets among other.",
-  "type": [
-    "object",
-    "null"
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
   ],
   "properties": {
     "secrets": {    
       "title": "The definition namespace for secrets used in a Nox solution.",
       "description": "Specify properties pertinent to secrets as configured within a Nox solution here. Examples include servers and validity period.",
-      "type": [
-        "object",
-        "null"
+      "oneOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
       ],
       "properties": {
         "organizationSecretsServer": {    
           "title": "The definition namespace for the secrets server used in a Nox solution.",
           "description": "Specify properties pertinent to the secrets server here. Examples include name, serverUri, Port, connection credentials and provider",
-          "type": [
-            "object",
-            "null"
+          "oneOf": [
+            {
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
           ],
           "required": [
             "provider",
@@ -31,47 +43,71 @@
             "provider": {    
               "title": "The secrets server provider.",
               "description": "The provider used for this secrets server. Examples include AzureKeyVault, AwsKeyManagementService and HashicorpVault.",
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "awsKeyManagementService",
-                "azureKeyVault",
-                "hashicorpVault"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "awsKeyManagementService",
+                    "azureKeyVault",
+                    "hashicorpVault"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
               ],
               "additionalProperties": false
             },
             "validFor": {    
               "title": "The definition namespace for the validity period of secrets as defined in a Nox solution.",
               "description": "Specify the validity period of secrets pertaining to the solution here. Possible units of measure include days, hours, minutes and seconds.",
-              "type": [
-                "object",
-                "null"
+              "oneOf": [
+                {
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
               ],
               "properties": {
                 "days": {    
-                  "type": [
-                    "integer",
-                    "null"
+                  "oneOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
                   ]
                 },
                 "hours": {    
-                  "type": [
-                    "integer",
-                    "null"
+                  "oneOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
                   ]
                 },
                 "minutes": {    
-                  "type": [
-                    "integer",
-                    "null"
+                  "oneOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
                   ]
                 },
                 "seconds": {    
-                  "type": [
-                    "integer",
-                    "null"
+                  "oneOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
                   ]
                 }
               },
@@ -86,38 +122,78 @@
             "serverUri": {    
               "title": "Hostname, IP address or URI.",
               "description": "The name, address, URI or IP of the server to connect to.",
-              "type": "string"
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+                }
+              ]
             },
             "port": {    
               "title": "Server port",
               "description": "The port to connect to.",
-              "type": [
-                "integer",
-                "null"
+              "oneOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+                },
+                {
+                  "type": "null"
+                }
               ]
             },
             "user": {    
               "title": "Username.",
               "description": "The username to use when connecting to this server.",
-              "type": [
-                "string",
-                "null"
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+                },
+                {
+                  "type": "null"
+                }
               ]
             },
             "password": {    
               "title": "Password.",
               "description": "The password to use when connecting to this server.",
-              "type": [
-                "string",
-                "null"
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+                },
+                {
+                  "type": "null"
+                }
               ]
             },
             "options": {    
               "title": "Additional options.",
               "description": "A list of additional options to set when connecting to this server.",
-              "type": [
-                "string",
-                "null"
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+                },
+                {
+                  "type": "null"
+                }
               ]
             }
           },
@@ -126,9 +202,13 @@
         "solutionSecretsServer": {    
           "title": "The definition namespace for the secrets server used in a Nox solution.",
           "description": "Specify properties pertinent to the secrets server here. Examples include name, serverUri, Port, connection credentials and provider",
-          "type": [
-            "object",
-            "null"
+          "oneOf": [
+            {
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
           ],
           "required": [
             "provider",
@@ -139,47 +219,71 @@
             "provider": {    
               "title": "The secrets server provider.",
               "description": "The provider used for this secrets server. Examples include AzureKeyVault, AwsKeyManagementService and HashicorpVault.",
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "awsKeyManagementService",
-                "azureKeyVault",
-                "hashicorpVault"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "awsKeyManagementService",
+                    "azureKeyVault",
+                    "hashicorpVault"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
               ],
               "additionalProperties": false
             },
             "validFor": {    
               "title": "The definition namespace for the validity period of secrets as defined in a Nox solution.",
               "description": "Specify the validity period of secrets pertaining to the solution here. Possible units of measure include days, hours, minutes and seconds.",
-              "type": [
-                "object",
-                "null"
+              "oneOf": [
+                {
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
               ],
               "properties": {
                 "days": {    
-                  "type": [
-                    "integer",
-                    "null"
+                  "oneOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
                   ]
                 },
                 "hours": {    
-                  "type": [
-                    "integer",
-                    "null"
+                  "oneOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
                   ]
                 },
                 "minutes": {    
-                  "type": [
-                    "integer",
-                    "null"
+                  "oneOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
                   ]
                 },
                 "seconds": {    
-                  "type": [
-                    "integer",
-                    "null"
+                  "oneOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
                   ]
                 }
               },
@@ -194,38 +298,78 @@
             "serverUri": {    
               "title": "Hostname, IP address or URI.",
               "description": "The name, address, URI or IP of the server to connect to.",
-              "type": "string"
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+                }
+              ]
             },
             "port": {    
               "title": "Server port",
               "description": "The port to connect to.",
-              "type": [
-                "integer",
-                "null"
+              "oneOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+                },
+                {
+                  "type": "null"
+                }
               ]
             },
             "user": {    
               "title": "Username.",
               "description": "The username to use when connecting to this server.",
-              "type": [
-                "string",
-                "null"
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+                },
+                {
+                  "type": "null"
+                }
               ]
             },
             "password": {    
               "title": "Password.",
               "description": "The password to use when connecting to this server.",
-              "type": [
-                "string",
-                "null"
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+                },
+                {
+                  "type": "null"
+                }
               ]
             },
             "options": {    
               "title": "Additional options.",
               "description": "A list of additional options to set when connecting to this server.",
-              "type": [
-                "string",
-                "null"
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+                },
+                {
+                  "type": "null"
+                }
               ]
             }
           },
@@ -237,9 +381,13 @@
     "userIdentity": {    
       "title": "Configuration for the end-user identity provider.",
       "description": "Specify the settings required to authenticate the application to the end-user identity provider.",
-      "type": [
-        "object",
-        "null"
+      "oneOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
       ],
       "required": [
         "provider"
@@ -256,9 +404,13 @@
             "azureAdOptions": {    
               "title": "The options to connect to the Azure AD identity provider.",
               "description": "Specify the properties required to connect the application with the Azure AD identity provider. See https://learn.microsoft.com/en-us/azure/api-management/api-management-howto-protect-backend-with-aad",
-              "type": [
-                "object",
-                "null"
+              "oneOf": [
+                {
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
               ],
               "required": [
                 "instance",
