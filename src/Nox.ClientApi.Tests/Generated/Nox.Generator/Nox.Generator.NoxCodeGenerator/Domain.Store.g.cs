@@ -1,10 +1,11 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
 using System;
 using System.Collections.Generic;
+
+using MediatR;
 
 using Nox.Abstractions;
 using Nox.Domain;
@@ -33,15 +34,15 @@ internal partial class Store:StoreBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for Store created event.
 /// </summary>
-internal record StoreCreated(Store Store) : IDomainEvent;
+internal record StoreCreated(Store Store) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for Store updated event.
 /// </summary>
-internal record StoreUpdated(Store Store) : IDomainEvent;
+internal record StoreUpdated(Store Store) : IDomainEvent, INotification;
 /// <summary>
 /// Record for Store deleted event.
 /// </summary>
-internal record StoreDeleted(Store Store) : IDomainEvent;
+internal record StoreDeleted(Store Store) : IDomainEvent, INotification;
 
 /// <summary>
 /// Stores.

@@ -1,10 +1,11 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
 using System;
 using System.Collections.Generic;
+
+using MediatR;
 
 using Nox.Abstractions;
 using Nox.Domain;
@@ -33,15 +34,15 @@ internal partial class CountryLocalName:CountryLocalNameBase, IEntityHaveDomainE
 /// <summary>
 /// Record for CountryLocalName created event.
 /// </summary>
-internal record CountryLocalNameCreated(CountryLocalName CountryLocalName) : IDomainEvent;
+internal record CountryLocalNameCreated(CountryLocalName CountryLocalName) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for CountryLocalName updated event.
 /// </summary>
-internal record CountryLocalNameUpdated(CountryLocalName CountryLocalName) : IDomainEvent;
+internal record CountryLocalNameUpdated(CountryLocalName CountryLocalName) : IDomainEvent, INotification;
 /// <summary>
 /// Record for CountryLocalName deleted event.
 /// </summary>
-internal record CountryLocalNameDeleted(CountryLocalName CountryLocalName) : IDomainEvent;
+internal record CountryLocalNameDeleted(CountryLocalName CountryLocalName) : IDomainEvent, INotification;
 
 /// <summary>
 /// Local names for countries.

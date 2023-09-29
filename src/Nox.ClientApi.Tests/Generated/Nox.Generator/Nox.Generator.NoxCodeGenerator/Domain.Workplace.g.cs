@@ -1,10 +1,11 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
 using System;
 using System.Collections.Generic;
+
+using MediatR;
 
 using Nox.Abstractions;
 using Nox.Domain;
@@ -33,15 +34,15 @@ internal partial class Workplace:WorkplaceBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for Workplace created event.
 /// </summary>
-internal record WorkplaceCreated(Workplace Workplace) : IDomainEvent;
+internal record WorkplaceCreated(Workplace Workplace) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for Workplace updated event.
 /// </summary>
-internal record WorkplaceUpdated(Workplace Workplace) : IDomainEvent;
+internal record WorkplaceUpdated(Workplace Workplace) : IDomainEvent, INotification;
 /// <summary>
 /// Record for Workplace deleted event.
 /// </summary>
-internal record WorkplaceDeleted(Workplace Workplace) : IDomainEvent;
+internal record WorkplaceDeleted(Workplace Workplace) : IDomainEvent, INotification;
 
 /// <summary>
 /// Workplace.

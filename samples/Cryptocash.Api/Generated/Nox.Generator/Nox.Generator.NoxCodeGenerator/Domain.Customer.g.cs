@@ -1,10 +1,11 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
 using System;
 using System.Collections.Generic;
+
+using MediatR;
 
 using Nox.Abstractions;
 using Nox.Domain;
@@ -33,15 +34,15 @@ internal partial class Customer:CustomerBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for Customer created event.
 /// </summary>
-internal record CustomerCreated(Customer Customer) : IDomainEvent;
+internal record CustomerCreated(Customer Customer) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for Customer updated event.
 /// </summary>
-internal record CustomerUpdated(Customer Customer) : IDomainEvent;
+internal record CustomerUpdated(Customer Customer) : IDomainEvent, INotification;
 /// <summary>
 /// Record for Customer deleted event.
 /// </summary>
-internal record CustomerDeleted(Customer Customer) : IDomainEvent;
+internal record CustomerDeleted(Customer Customer) : IDomainEvent, INotification;
 
 /// <summary>
 /// Customer definition and related data.

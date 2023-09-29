@@ -1,10 +1,11 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
 using System;
 using System.Collections.Generic;
+
+using MediatR;
 
 using Nox.Abstractions;
 using Nox.Domain;
@@ -33,15 +34,15 @@ internal partial class LandLord:LandLordBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for LandLord created event.
 /// </summary>
-internal record LandLordCreated(LandLord LandLord) : IDomainEvent;
+internal record LandLordCreated(LandLord LandLord) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for LandLord updated event.
 /// </summary>
-internal record LandLordUpdated(LandLord LandLord) : IDomainEvent;
+internal record LandLordUpdated(LandLord LandLord) : IDomainEvent, INotification;
 /// <summary>
 /// Record for LandLord deleted event.
 /// </summary>
-internal record LandLordDeleted(LandLord LandLord) : IDomainEvent;
+internal record LandLordDeleted(LandLord LandLord) : IDomainEvent, INotification;
 
 /// <summary>
 /// Landlord related data.

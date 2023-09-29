@@ -1,10 +1,11 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
 using System;
 using System.Collections.Generic;
+
+using MediatR;
 
 using Nox.Abstractions;
 using Nox.Domain;
@@ -33,15 +34,15 @@ internal partial class EmailAddress:EmailAddressBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for EmailAddress created event.
 /// </summary>
-internal record EmailAddressCreated(EmailAddress EmailAddress) : IDomainEvent;
+internal record EmailAddressCreated(EmailAddress EmailAddress) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for EmailAddress updated event.
 /// </summary>
-internal record EmailAddressUpdated(EmailAddress EmailAddress) : IDomainEvent;
+internal record EmailAddressUpdated(EmailAddress EmailAddress) : IDomainEvent, INotification;
 /// <summary>
 /// Record for EmailAddress deleted event.
 /// </summary>
-internal record EmailAddressDeleted(EmailAddress EmailAddress) : IDomainEvent;
+internal record EmailAddressDeleted(EmailAddress EmailAddress) : IDomainEvent, INotification;
 
 /// <summary>
 /// Verified Email Address.

@@ -1,10 +1,11 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
 using System;
 using System.Collections.Generic;
+
+using MediatR;
 
 using Nox.Abstractions;
 using Nox.Domain;
@@ -33,15 +34,15 @@ internal partial class Commission:CommissionBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for Commission created event.
 /// </summary>
-internal record CommissionCreated(Commission Commission) : IDomainEvent;
+internal record CommissionCreated(Commission Commission) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for Commission updated event.
 /// </summary>
-internal record CommissionUpdated(Commission Commission) : IDomainEvent;
+internal record CommissionUpdated(Commission Commission) : IDomainEvent, INotification;
 /// <summary>
 /// Record for Commission deleted event.
 /// </summary>
-internal record CommissionDeleted(Commission Commission) : IDomainEvent;
+internal record CommissionDeleted(Commission Commission) : IDomainEvent, INotification;
 
 /// <summary>
 /// Exchange commission rate and amount.

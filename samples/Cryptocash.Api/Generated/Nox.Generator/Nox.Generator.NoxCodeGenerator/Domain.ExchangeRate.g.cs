@@ -1,10 +1,11 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
 using System;
 using System.Collections.Generic;
+
+using MediatR;
 
 using Nox.Abstractions;
 using Nox.Domain;
@@ -33,15 +34,15 @@ internal partial class ExchangeRate:ExchangeRateBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for ExchangeRate created event.
 /// </summary>
-internal record ExchangeRateCreated(ExchangeRate ExchangeRate) : IDomainEvent;
+internal record ExchangeRateCreated(ExchangeRate ExchangeRate) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for ExchangeRate updated event.
 /// </summary>
-internal record ExchangeRateUpdated(ExchangeRate ExchangeRate) : IDomainEvent;
+internal record ExchangeRateUpdated(ExchangeRate ExchangeRate) : IDomainEvent, INotification;
 /// <summary>
 /// Record for ExchangeRate deleted event.
 /// </summary>
-internal record ExchangeRateDeleted(ExchangeRate ExchangeRate) : IDomainEvent;
+internal record ExchangeRateDeleted(ExchangeRate ExchangeRate) : IDomainEvent, INotification;
 
 /// <summary>
 /// Exchange rate and related data.

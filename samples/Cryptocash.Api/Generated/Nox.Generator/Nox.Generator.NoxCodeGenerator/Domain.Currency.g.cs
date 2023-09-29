@@ -1,10 +1,11 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
 using System;
 using System.Collections.Generic;
+
+using MediatR;
 
 using Nox.Abstractions;
 using Nox.Domain;
@@ -33,15 +34,15 @@ internal partial class Currency:CurrencyBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for Currency created event.
 /// </summary>
-internal record CurrencyCreated(Currency Currency) : IDomainEvent;
+internal record CurrencyCreated(Currency Currency) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for Currency updated event.
 /// </summary>
-internal record CurrencyUpdated(Currency Currency) : IDomainEvent;
+internal record CurrencyUpdated(Currency Currency) : IDomainEvent, INotification;
 /// <summary>
 /// Record for Currency deleted event.
 /// </summary>
-internal record CurrencyDeleted(Currency Currency) : IDomainEvent;
+internal record CurrencyDeleted(Currency Currency) : IDomainEvent, INotification;
 
 /// <summary>
 /// Currency and related data.

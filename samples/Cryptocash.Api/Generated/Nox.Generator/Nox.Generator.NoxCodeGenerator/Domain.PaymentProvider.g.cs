@@ -1,10 +1,11 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
 using System;
 using System.Collections.Generic;
+
+using MediatR;
 
 using Nox.Abstractions;
 using Nox.Domain;
@@ -33,15 +34,15 @@ internal partial class PaymentProvider:PaymentProviderBase, IEntityHaveDomainEve
 /// <summary>
 /// Record for PaymentProvider created event.
 /// </summary>
-internal record PaymentProviderCreated(PaymentProvider PaymentProvider) : IDomainEvent;
+internal record PaymentProviderCreated(PaymentProvider PaymentProvider) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for PaymentProvider updated event.
 /// </summary>
-internal record PaymentProviderUpdated(PaymentProvider PaymentProvider) : IDomainEvent;
+internal record PaymentProviderUpdated(PaymentProvider PaymentProvider) : IDomainEvent, INotification;
 /// <summary>
 /// Record for PaymentProvider deleted event.
 /// </summary>
-internal record PaymentProviderDeleted(PaymentProvider PaymentProvider) : IDomainEvent;
+internal record PaymentProviderDeleted(PaymentProvider PaymentProvider) : IDomainEvent, INotification;
 
 /// <summary>
 /// Payment provider related data.

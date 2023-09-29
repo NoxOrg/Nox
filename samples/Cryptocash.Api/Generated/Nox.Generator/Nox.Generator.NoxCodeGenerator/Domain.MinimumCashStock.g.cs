@@ -1,10 +1,11 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
 using System;
 using System.Collections.Generic;
+
+using MediatR;
 
 using Nox.Abstractions;
 using Nox.Domain;
@@ -33,15 +34,15 @@ internal partial class MinimumCashStock:MinimumCashStockBase, IEntityHaveDomainE
 /// <summary>
 /// Record for MinimumCashStock created event.
 /// </summary>
-internal record MinimumCashStockCreated(MinimumCashStock MinimumCashStock) : IDomainEvent;
+internal record MinimumCashStockCreated(MinimumCashStock MinimumCashStock) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for MinimumCashStock updated event.
 /// </summary>
-internal record MinimumCashStockUpdated(MinimumCashStock MinimumCashStock) : IDomainEvent;
+internal record MinimumCashStockUpdated(MinimumCashStock MinimumCashStock) : IDomainEvent, INotification;
 /// <summary>
 /// Record for MinimumCashStock deleted event.
 /// </summary>
-internal record MinimumCashStockDeleted(MinimumCashStock MinimumCashStock) : IDomainEvent;
+internal record MinimumCashStockDeleted(MinimumCashStock MinimumCashStock) : IDomainEvent, INotification;
 
 /// <summary>
 /// Minimum cash stock required for vending machine.

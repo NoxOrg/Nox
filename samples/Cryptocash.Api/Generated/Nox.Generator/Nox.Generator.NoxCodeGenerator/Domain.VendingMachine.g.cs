@@ -1,10 +1,11 @@
-﻿
-// Generated
+﻿// Generated
 
 #nullable enable
 
 using System;
 using System.Collections.Generic;
+
+using MediatR;
 
 using Nox.Abstractions;
 using Nox.Domain;
@@ -33,15 +34,15 @@ internal partial class VendingMachine:VendingMachineBase, IEntityHaveDomainEvent
 /// <summary>
 /// Record for VendingMachine created event.
 /// </summary>
-internal record VendingMachineCreated(VendingMachine VendingMachine) : IDomainEvent;
+internal record VendingMachineCreated(VendingMachine VendingMachine) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for VendingMachine updated event.
 /// </summary>
-internal record VendingMachineUpdated(VendingMachine VendingMachine) : IDomainEvent;
+internal record VendingMachineUpdated(VendingMachine VendingMachine) : IDomainEvent, INotification;
 /// <summary>
 /// Record for VendingMachine deleted event.
 /// </summary>
-internal record VendingMachineDeleted(VendingMachine VendingMachine) : IDomainEvent;
+internal record VendingMachineDeleted(VendingMachine VendingMachine) : IDomainEvent, INotification;
 
 /// <summary>
 /// Vending machine definition and related data.
