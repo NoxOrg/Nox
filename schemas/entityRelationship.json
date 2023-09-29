@@ -2,10 +2,11 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Defines a one way relationship to another entity.",
   "description": "Defines a one way relationship to another entity. It is required to define the reverse relationship on the target entity.",
-  "type": [
-    "object",
-    "null"
-  ],
+  "oneOf": [
+    {
+      "type": "object"
+    }
+  ]
   "required": [
     "name",
     "description",
@@ -41,48 +42,55 @@
       "type": "string"
     },
     "entityPlural": {    
-      "type": [
-        "string",
-        "null"
+      "oneOf": [
+        {
+          "type": "string"
+        }
       ]
     },
     "canNavigate": {    
       "title": "Determines whether this side of the relationship is exposed in the generated code and ODATA endpoints.",
       "description": "This boolean controls whether this side of the relationship is exposed in the generated code and ODATA endpoints.",
-      "type": [
-        "boolean",
-        "null"
+      "oneOf": [
+        {
+          "type": "boolean"
+        }
       ]
     },
     "shouldGenerateForeignOnThisSide": {    
-      "type": [
-        "boolean",
-        "null"
+      "oneOf": [
+        {
+          "type": "boolean"
+        }
       ]
     },
     "withSingleEntity": {    
-      "type": [
-        "boolean",
-        "null"
+      "oneOf": [
+        {
+          "type": "boolean"
+        }
       ]
     },
     "withMultiEntity": {    
-      "type": [
-        "boolean",
-        "null"
+      "oneOf": [
+        {
+          "type": "boolean"
+        }
       ]
     },
     "foreignKeyPrimitiveType": {    
-      "type": [
-        "string",
-        "null"
+      "oneOf": [
+        {
+          "type": "string"
+        }
       ]
     },
     "related": {    
-      "type": [
-        "object",
-        "null"
-      ],
+      "oneOf": [
+        {
+          "type": "object"
+        }
+      ]
       "properties": {
         "entity": {    
           "anyOf": [

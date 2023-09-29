@@ -2,18 +2,20 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "A definition for application components used in a Nox solution.",
   "description": "A definition for Integrations, DataTransferObjects and other pertinent components pertaining to a Nox solution application component.",
-  "type": [
-    "object",
-    "null"
-  ],
+  "oneOf": [
+    {
+      "type": "object"
+    }
+  ]
   "properties": {
     "integrations": {    
       "title": "The definition namespace for application ETL data integrations.",
       "description": "One or more solution data integrations with common ETL attributes including source, transform and target.",
-      "type": [
-        "array",
-        "null"
-      ],
+      "oneOf": [
+        {
+          "type": "array"
+        }
+      ]
       "items":   {
         "anyOf": [
           { "$ref": "integration.json" },
@@ -34,15 +36,17 @@
     "dataTransferObjects": {    
       "title": "The definition namespace for application DTOs within a Nox solution.",
       "description": "One or more DTOs (Data Transfer Objects used to transfer data between processes in a Nox solution.",
-      "type": [
-        "array",
-        "null"
-      ],
+      "oneOf": [
+        {
+          "type": "array"
+        }
+      ]
       "items":   {
-        "type": [
-          "object",
-          "null"
-        ],
+        "oneOf": [
+          {
+            "type": "object"
+          }
+        ]
         "required": [
           "name",
           "attributes"
@@ -57,15 +61,16 @@
           "description": {    
             "title": "The description of the DTO.",
             "description": "A phrase describing the DTO and what it represents in the real world.",
-            "type": [
-              "string",
-              "null"
+            "oneOf": [
+              {
+                "type": "string"
+              }
             ]
           },
           "attributes": {    
             "title": "The attributes of which the DTO is comprised.",
             "description": "One or more attributes describing the composition of the DTO.",
-            "type": "array",
+            "type": "array"
             "items":   {
               "anyOf": [
                 { "$ref": "type.json" },
@@ -91,10 +96,11 @@
     "integrationEvents": {    
       "title": "The events that this application can raise.",
       "description": "The collection of events that this application can raise to the outside world.",
-      "type": [
-        "array",
-        "null"
-      ],
+      "oneOf": [
+        {
+          "type": "array"
+        }
+      ]
       "items":   {
         "anyOf": [
           { "$ref": "dto.json" },

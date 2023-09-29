@@ -2,10 +2,11 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "The definition namespace for the Event Source server used in a Nox solution.",
   "description": "Specify properties pertinent to the solution Event Source server here. Examples include name, serverUri, Port and connection credentials",
-  "type": [
-    "object",
-    "null"
-  ],
+  "oneOf": [
+    {
+      "type": "object"
+    }
+  ]
   "required": [
     "provider",
     "name",
@@ -29,38 +30,69 @@
     "serverUri": {    
       "title": "Hostname, IP address or URI.",
       "description": "The name, address, URI or IP of the server to connect to.",
-      "type": "string"
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string",
+          "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+        }
+      ]
     },
     "port": {    
       "title": "Server port",
       "description": "The port to connect to.",
-      "type": [
-        "integer",
-        "null"
+      "oneOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "string",
+          "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+        },
+        {
+          "type": "null"
+        }
       ]
     },
     "user": {    
       "title": "Username.",
       "description": "The username to use when connecting to this server.",
-      "type": [
-        "string",
-        "null"
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string",
+          "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+        }
       ]
     },
     "password": {    
       "title": "Password.",
       "description": "The password to use when connecting to this server.",
-      "type": [
-        "string",
-        "null"
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string",
+          "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+        }
       ]
     },
     "options": {    
       "title": "Additional options.",
       "description": "A list of additional options to set when connecting to this server.",
-      "type": [
-        "string",
-        "null"
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string",
+          "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+        }
       ]
     }
   },

@@ -2,10 +2,11 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Information about the team member working on this solution.",
   "description": "Information of the team member including username and their respective role(s) of which their might me more than one.",
-  "type": [
-    "object",
-    "null"
-  ],
+  "oneOf": [
+    {
+      "type": "object"
+    }
+  ]
   "required": [
     "userName"
   ],
@@ -13,9 +14,10 @@
     "name": {    
       "title": "The name and surname of the team member.",
       "description": "The name and surname of the member in the team.",
-      "type": [
-        "string",
-        "null"
+      "oneOf": [
+        {
+          "type": "string"
+        }
       ]
     },
     "userName": {    
@@ -27,32 +29,34 @@
     "roles": {    
       "title": "Roles that a team member fulfills for this solution.",
       "description": "The list of one or more roles that the user fulfills for this solution. At least one role is required",
-      "type": [
-        "array",
-        "null"
-      ],
+      "oneOf": [
+        {
+          "type": "array"
+        }
+      ]
       "items":   {
-        "type": [
-          "string",
-          "null"
-        ],
-        "enum": [
-          "administrator",
-          "architect",
-          "databaseAdministrator",
-          "developer",
-          "devOpsEngineer",
-          "endUser",
-          "manager",
-          "owner",
-          "projectManager",
-          "qualityAssurer",
-          "releaseEngineer",
-          "requirementAnalyst",
-          "supportEngineer",
-          "technicalWriter",
-          "tester",
-          "userExperienceDesigner"
+        "oneOf": [
+          {
+            "type": "string",
+            "enum": [
+              "administrator",
+              "architect",
+              "databaseAdministrator",
+              "developer",
+              "devOpsEngineer",
+              "endUser",
+              "manager",
+              "owner",
+              "projectManager",
+              "qualityAssurer",
+              "releaseEngineer",
+              "requirementAnalyst",
+              "supportEngineer",
+              "technicalWriter",
+              "tester",
+              "userExperienceDesigner"
+            ]
+          }
         ]
       },
       "additionalProperties": false

@@ -121,27 +121,67 @@ internal class SchemaGenerator
 
         if (schemaProperty.Type is not null)
         {
-            if (schemaProperty.IsNullable || !schemaProperty.IsRequired)
+            if (schemaProperty.IsNullable || !schemaProperty.IsRequired || schemaProperty.IsVariableAllowed)
             {
-                jb.AppendProperty("type", new string[] { schemaProperty.Type, "null" });
+                jb.AppendLine("\"oneOf\": [");
+                jb.Indent();
+                jb.AppendLine("{");
+                jb.Indent();
+                jb.AppendProperty("type", schemaProperty.Type);
+                if (schemaProperty.Format is not null)
+                    jb.AppendProperty("format", schemaProperty.Format);
+        
+                if (schemaProperty.Pattern is not null && (schemaProperty.Items is null || schemaProperty.Items.Ignore) )
+                    jb.AppendProperty("pattern", schemaProperty.Pattern);
+
+                if (schemaProperty.Enum is not null)
+                    jb.AppendProperty("enum", schemaProperty.Enum);
+                jb.RemoveTrailingCommas();
+                jb.UnIndent();
+                jb.AppendLine("},");
+
+                if (schemaProperty.IsVariableAllowed)
+                {
+                    jb.AppendLine("{");
+                    jb.Indent();
+                    jb.AppendProperty("type", "string");
+                    jb.AppendProperty("pattern", "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})");
+                    jb.RemoveTrailingCommas();
+                    jb.UnIndent();
+                    jb.AppendLine("},");
+                }
+
+                if (schemaProperty.IsNullable)
+                {
+                    jb.AppendLine("{");
+                    jb.Indent();
+                    jb.AppendProperty("type", "null");
+                    jb.RemoveTrailingCommas();
+                    jb.UnIndent();
+                    jb.AppendLine("}");
+                }
+                
+                jb.RemoveTrailingCommas();
+                jb.UnIndent();
+                jb.AppendLine("]");
             }
             else
             {
                 jb.AppendProperty("type", schemaProperty.Type);
+                if (schemaProperty.Format is not null)
+                    jb.AppendProperty("format", schemaProperty.Format);
+        
+                if (schemaProperty.Pattern is not null && (schemaProperty.Items is null || schemaProperty.Items.Ignore) )
+                    jb.AppendProperty("pattern", schemaProperty.Pattern);
+
+                if (schemaProperty.Enum is not null)
+                    jb.AppendProperty("enum", schemaProperty.Enum);
+                jb.RemoveTrailingCommas();
             }
         }
 
         if (schemaProperty.TypeConst is not null)
             jb.Append($"  \"const\": \"{schemaProperty.TypeConst}\"\n");
-
-        if (schemaProperty.Format is not null)
-            jb.AppendProperty("format", schemaProperty.Format);
-        
-        if (schemaProperty.Pattern is not null && (schemaProperty.Items is null || schemaProperty.Items.Ignore) )
-            jb.AppendProperty("pattern", schemaProperty.Pattern);
-
-        if (schemaProperty.Enum is not null)
-            jb.AppendProperty("enum", schemaProperty.Enum);
 
         if (schemaProperty.Required is not null)
             jb.AppendProperty("required", schemaProperty.Required);

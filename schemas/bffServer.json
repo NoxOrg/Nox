@@ -2,10 +2,11 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Details pertaining to the BFF server settings in a Nox solution.",
   "description": "Defines settings pertinent to a BFF (Backend for Frontend) server here. These include name, serverUri, Port, connection credentials and provider (e.g. Blazor).",
-  "type": [
-    "object",
-    "null"
-  ],
+  "oneOf": [
+    {
+      "type": "object"
+    }
+  ]
   "required": [
     "provider",
     "name",
@@ -18,7 +19,7 @@
       "type": "string",
       "enum": [
         "blazor"
-      ],
+      ]
       "additionalProperties": false
     },
     "name": {    
@@ -30,38 +31,69 @@
     "serverUri": {    
       "title": "Hostname, IP address or URI.",
       "description": "The name, address, URI or IP of the server to connect to.",
-      "type": "string"
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string",
+          "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+        }
+      ]
     },
     "port": {    
       "title": "Server port",
       "description": "The port to connect to.",
-      "type": [
-        "integer",
-        "null"
+      "oneOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "string",
+          "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+        },
+        {
+          "type": "null"
+        }
       ]
     },
     "user": {    
       "title": "Username.",
       "description": "The username to use when connecting to this server.",
-      "type": [
-        "string",
-        "null"
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string",
+          "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+        }
       ]
     },
     "password": {    
       "title": "Password.",
       "description": "The password to use when connecting to this server.",
-      "type": [
-        "string",
-        "null"
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string",
+          "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+        }
       ]
     },
     "options": {    
       "title": "Additional options.",
       "description": "A list of additional options to set when connecting to this server.",
-      "type": [
-        "string",
-        "null"
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string",
+          "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+        }
       ]
     }
   },

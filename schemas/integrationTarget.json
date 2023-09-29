@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Definition namespace for attributes describing the target component of an ETL integration.",
   "description": "This section details ETL target attributes like name, description and type among other.",
-  "type": "object",
+  "type": "object"
   "required": [
     "name",
     "targetType",
@@ -25,19 +25,21 @@
         "description": {    
           "title": "The description of the ETL target.",
           "description": "A phrase describing the ETL target.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "targetType": {    
           "const": "database"
         },
         "databaseOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "required": [
             "storedProcedure"
           ],
@@ -54,7 +56,7 @@
           "title": "The name of the ETL target data connection. Contains no spaces.",
           "description": "The name should be a commonly used singular noun and be unique within a solution.",
           "type": "string",
-          "pattern": "^[^\\s]*$",
+          "pattern": "^[^\\s]*$"
           "additionalProperties": false
         }
       },
@@ -76,19 +78,21 @@
         "description": {    
           "title": "The description of the ETL target.",
           "description": "A phrase describing the ETL target.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "targetType": {    
           "const": "file"
         },
         "fileOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "required": [
             "filename"
           ],
@@ -105,7 +109,7 @@
           "title": "The name of the ETL target data connection. Contains no spaces.",
           "description": "The name should be a commonly used singular noun and be unique within a solution.",
           "type": "string",
-          "pattern": "^[^\\s]*$",
+          "pattern": "^[^\\s]*$"
           "additionalProperties": false
         }
       },
@@ -127,45 +131,50 @@
         "description": {    
           "title": "The description of the ETL target.",
           "description": "A phrase describing the ETL target.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "targetType": {    
           "const": "webApi"
         },
         "webApiOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "route": {    
-              "type": [
-                "string",
-                "null"
+              "oneOf": [
+                {
+                  "type": "string"
+                }
               ]
             },
             "requestFormat": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "json",
-                "xml"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "json",
+                    "xml"
+                  ]
+                }
               ]
             },
             "httpVerb": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "patch",
-                "post",
-                "put"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "patch",
+                    "post",
+                    "put"
+                  ]
+                }
               ]
             }
           },
@@ -175,7 +184,7 @@
           "title": "The name of the ETL target data connection. Contains no spaces.",
           "description": "The name should be a commonly used singular noun and be unique within a solution.",
           "type": "string",
-          "pattern": "^[^\\s]*$",
+          "pattern": "^[^\\s]*$"
           "additionalProperties": false
         }
       },
@@ -197,19 +206,21 @@
         "description": {    
           "title": "The description of the ETL target.",
           "description": "A phrase describing the ETL target.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "targetType": {    
           "const": "messageQueue"
         },
         "messageQueueOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "required": [
             "targetName"
           ],
@@ -226,7 +237,7 @@
           "title": "The name of the ETL target data connection. Contains no spaces.",
           "description": "The name should be a commonly used singular noun and be unique within a solution.",
           "type": "string",
-          "pattern": "^[^\\s]*$",
+          "pattern": "^[^\\s]*$"
           "additionalProperties": false
         }
       },
@@ -248,19 +259,21 @@
         "description": {    
           "title": "The description of the ETL target.",
           "description": "A phrase describing the ETL target.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "targetType": {    
           "const": "entity"
         },
         "entityOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "required": [
             "entity"
           ],
@@ -277,7 +290,7 @@
           "title": "The name of the ETL target data connection. Contains no spaces.",
           "description": "The name should be a commonly used singular noun and be unique within a solution.",
           "type": "string",
-          "pattern": "^[^\\s]*$",
+          "pattern": "^[^\\s]*$"
           "additionalProperties": false
         }
       },

@@ -34,6 +34,8 @@ internal class SchemaProperty
 
     #region Properties to support JSON schema generation
     public bool IsRequired { get; private set; }
+    
+    public bool IsVariableAllowed { get; private set; }
     public bool Ignore { get; private set; }
     public bool SuppressProperties { get; private set; }
     public Type ActualType { get; private set; }
@@ -84,6 +86,8 @@ internal class SchemaProperty
         SuppressProperties = AdditionalPropertiesObject is not null;
 
         IsRequired = info.GetCustomAttribute<RequiredAttribute>(false) != null;
+
+        IsVariableAllowed = info.GetCustomAttribute<AllowVariableAttribute>(false) != null;
         
         Ignore = info.GetCustomAttribute<IgnoreAttribute>(false) != null;
 

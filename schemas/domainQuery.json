@@ -2,10 +2,11 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Defines a query for the domain.",
   "description": "Defines a query that operates on the domain. Queries should have no side effects and not mutate the domain state.",
-  "type": [
-    "object",
-    "null"
-  ],
+  "oneOf": [
+    {
+      "type": "object"
+    }
+  ]
   "required": [
     "name",
     "responseOutput"
@@ -20,18 +21,20 @@
     "description": {    
       "title": "A phrase describing expected output from the domain query.",
       "description": "A phrase that describes expected result from the query. Eg. \"Returns a list of countries for a given continent\".",
-      "type": [
-        "string",
-        "null"
+      "oneOf": [
+        {
+          "type": "string"
+        }
       ]
     },
     "requestInput": {    
       "title": "Defines the request input parameters for domain queries",
       "description": "Specifies one or more domain query input parameter collections",
-      "type": [
-        "array",
-        "null"
-      ],
+      "oneOf": [
+        {
+          "type": "array"
+        }
+      ]
       "items":   {
         "anyOf": [
           { "$ref": "dto.json" },

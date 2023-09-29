@@ -2,10 +2,11 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Defines an entity or aggregate root",
   "description": "The declaration of an entity, its attributes, commands and queries. See https://noxorg.dev for more.",
-  "type": [
-    "object",
-    "null"
-  ],
+  "oneOf": [
+    {
+      "type": "object"
+    }
+  ]
   "required": [
     "name"
   ],
@@ -19,19 +20,21 @@
     "description": {    
       "title": "A phrase describing the entity.",
       "description": "A description of the entity and what it represents in the real world.",
-      "type": [
-        "string",
-        "null"
+      "oneOf": [
+        {
+          "type": "string"
+        }
       ]
     },
     "pluralName": {    
       "title": "The plural name of the entity. Contains no spaces",
       "description": "The name for a set, group or collection of the entity. NOX will guess the plural if it is not supplied.",
-      "type": [
-        "string",
-        "null"
-      ],
-      "pattern": "^[^\\s]*$"
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        }
+      ]
     },
     "userInterface": {    
       "anyOf": [
@@ -66,10 +69,11 @@
     "relationships": {    
       "title": "Defines relationships to other entities.",
       "description": "Defines one way relationships to other entities. Remember to define the reverse relationship on the target entities.",
-      "type": [
-        "array",
-        "null"
-      ],
+      "oneOf": [
+        {
+          "type": "array"
+        }
+      ]
       "items":   {
         "anyOf": [
           { "$ref": "entityRelationship.json" },
@@ -90,10 +94,11 @@
     "ownedRelationships": {    
       "title": "Defines owned relationships to another entity.",
       "description": "Defines relationship to owned entities. This entity will be treated as an aggregate root.",
-      "type": [
-        "array",
-        "null"
-      ],
+      "oneOf": [
+        {
+          "type": "array"
+        }
+      ]
       "items":   {
         "anyOf": [
           { "$ref": "entityRelationship.json" },
@@ -114,10 +119,11 @@
     "queries": {    
       "title": "Domain queries for this entity.",
       "description": "Define one or more domain querie(s) that operate on this entity. Queries should have no side effects and not mutate the domain state.",
-      "type": [
-        "array",
-        "null"
-      ],
+      "oneOf": [
+        {
+          "type": "array"
+        }
+      ]
       "items":   {
         "anyOf": [
           { "$ref": "domainQuery.json" },
@@ -138,10 +144,11 @@
     "commands": {    
       "title": "Domain commands for this entity.",
       "description": "Define one or more domain command(s) that operate on this entity. Commands may have side effects and mutate the domain state.",
-      "type": [
-        "array",
-        "null"
-      ],
+      "oneOf": [
+        {
+          "type": "array"
+        }
+      ]
       "items":   {
         "anyOf": [
           { "$ref": "domainCommand.json" },
@@ -162,10 +169,11 @@
     "events": {    
       "title": "Domain events for this entity.",
       "description": "Define one or more event(s) that may be raised when state change occurs on this entity.",
-      "type": [
-        "array",
-        "null"
-      ],
+      "oneOf": [
+        {
+          "type": "array"
+        }
+      ]
       "items":   {
         "anyOf": [
           { "$ref": "dto.json" },
@@ -186,10 +194,11 @@
     "keys": {    
       "title": "Keys for this entity.",
       "description": "Define one or more keys for this entity.",
-      "type": [
-        "array",
-        "null"
-      ],
+      "oneOf": [
+        {
+          "type": "array"
+        }
+      ]
       "items":   {
         "anyOf": [
           { "$ref": "type.json" },
@@ -209,10 +218,11 @@
     "attributes": {    
       "title": "Attributes that describe this entity.",
       "description": "Define one or more attribute(s) that describes the composition of this domain entity.",
-      "type": [
-        "array",
-        "null"
-      ],
+      "oneOf": [
+        {
+          "type": "array"
+        }
+      ]
       "items":   {
         "anyOf": [
           { "$ref": "type.json" },
@@ -233,10 +243,11 @@
     "uniqueAttributeConstraints": {    
       "title": "Unique constraints for this entity.",
       "description": "Define one or more unique constraints for this entity.",
-      "type": [
-        "array",
-        "null"
-      ],
+      "oneOf": [
+        {
+          "type": "array"
+        }
+      ]
       "items":   {
         "anyOf": [
           { "$ref": "uniqueAttributeConstraint.json" },
@@ -255,9 +266,10 @@
       "additionalProperties": false
     },
     "isOwnedEntity": {    
-      "type": [
-        "boolean",
-        "null"
+      "oneOf": [
+        {
+          "type": "boolean"
+        }
       ]
     },
     "ownerEntity": {    
@@ -276,9 +288,10 @@
       ]
     },
     "hasDomainEvents": {    
-      "type": [
-        "boolean",
-        "null"
+      "oneOf": [
+        {
+          "type": "boolean"
+        }
       ]
     }
   },

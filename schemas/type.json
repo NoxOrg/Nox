@@ -2,10 +2,11 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Definition namespace for Nox simple types.",
   "description": "Nox simple types definition used throughout Nox.Solution project.",
-  "type": [
-    "object",
-    "null"
-  ],
+  "oneOf": [
+    {
+      "type": "object"
+    }
+  ]
   "required": [
     "name",
     "type"
@@ -26,53 +27,60 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "text"
         },
         "textTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "minLength": {    
-              "type": [
-                "integer",
-                "null"
+              "oneOf": [
+                {
+                  "type": "integer"
+                }
               ]
             },
             "maxLength": {    
-              "type": [
-                "integer",
-                "null"
+              "oneOf": [
+                {
+                  "type": "integer"
+                }
               ]
             },
             "isUnicode": {    
-              "type": [
-                "boolean",
-                "null"
+              "oneOf": [
+                {
+                  "type": "boolean"
+                }
               ]
             },
             "isLocalized": {    
-              "type": [
-                "boolean",
-                "null"
+              "oneOf": [
+                {
+                  "type": "boolean"
+                }
               ]
             },
             "casing": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "lower",
-                "normal",
-                "upper"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "lower",
+                    "normal",
+                    "upper"
+                  ]
+                }
               ]
             }
           }
@@ -80,9 +88,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -103,9 +112,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -126,36 +136,41 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "number"
         },
         "numberTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "minValue": {    
-              "type": [
-                "number",
-                "null"
+              "oneOf": [
+                {
+                  "type": "number"
+                }
               ]
             },
             "maxValue": {    
-              "type": [
-                "number",
-                "null"
+              "oneOf": [
+                {
+                  "type": "number"
+                }
               ]
             },
             "decimalDigits": {    
-              "type": [
-                "integer",
-                "null"
+              "oneOf": [
+                {
+                  "type": "integer"
+                }
               ]
             }
           }
@@ -163,9 +178,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -186,9 +202,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -209,230 +226,237 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "money"
         },
         "moneyTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "decimalDigits": {    
-              "type": [
-                "integer",
-                "null"
+              "oneOf": [
+                {
+                  "type": "integer"
+                }
               ]
             },
             "integerDigits": {    
-              "type": [
-                "integer",
-                "null"
+              "oneOf": [
+                {
+                  "type": "integer"
+                }
               ]
             },
             "minValue": {    
-              "type": [
-                "number",
-                "null"
+              "oneOf": [
+                {
+                  "type": "number"
+                }
               ]
             },
             "maxValue": {    
-              "type": [
-                "number",
-                "null"
+              "oneOf": [
+                {
+                  "type": "number"
+                }
               ]
             },
             "defaultCurrency": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "AED",
-                "AFN",
-                "ALL",
-                "AMD",
-                "ANG",
-                "AOA",
-                "ARS",
-                "AUD",
-                "AWG",
-                "AZN",
-                "BAM",
-                "BBD",
-                "BDT",
-                "BGN",
-                "BHD",
-                "BIF",
-                "BMD",
-                "BND",
-                "BOB",
-                "BOV",
-                "BRL",
-                "BSD",
-                "BTN",
-                "BWP",
-                "BYN",
-                "BZD",
-                "CAD",
-                "CDF",
-                "CHE",
-                "CHF",
-                "CHW",
-                "CLF",
-                "CLP",
-                "CNY",
-                "COP",
-                "COU",
-                "CRC",
-                "CUC",
-                "CUP",
-                "CVE",
-                "CZK",
-                "DJF",
-                "DKK",
-                "DOP",
-                "DZD",
-                "EGP",
-                "ERN",
-                "ETB",
-                "EUR",
-                "FJD",
-                "FKP",
-                "GBP",
-                "GEL",
-                "GHS",
-                "GIP",
-                "GMD",
-                "GNF",
-                "GTQ",
-                "GYD",
-                "HKD",
-                "HNL",
-                "HTG",
-                "HUF",
-                "IDR",
-                "ILS",
-                "INR",
-                "IQD",
-                "IRR",
-                "ISK",
-                "JMD",
-                "JOD",
-                "JPY",
-                "KES",
-                "KGS",
-                "KHR",
-                "KMF",
-                "KPW",
-                "KRW",
-                "KWD",
-                "KYD",
-                "KZT",
-                "LAK",
-                "LBP",
-                "LKR",
-                "LRD",
-                "LSL",
-                "LYD",
-                "MAD",
-                "MDL",
-                "MGA",
-                "MKD",
-                "MMK",
-                "MNT",
-                "MOP",
-                "MRU",
-                "MUR",
-                "MVR",
-                "MWK",
-                "MXN",
-                "MXV",
-                "MYR",
-                "MZN",
-                "NAD",
-                "NGN",
-                "NIO",
-                "NOK",
-                "NPR",
-                "NZD",
-                "OMR",
-                "PAB",
-                "PEN",
-                "PGK",
-                "PHP",
-                "PKR",
-                "PLN",
-                "PYG",
-                "QAR",
-                "RON",
-                "RSD",
-                "RUB",
-                "RWF",
-                "SAR",
-                "SBD",
-                "SCR",
-                "SDG",
-                "SEK",
-                "SGD",
-                "SHP",
-                "SLE",
-                "SLL",
-                "SOS",
-                "SRD",
-                "SSP",
-                "STN",
-                "SVC",
-                "SYP",
-                "SZL",
-                "THB",
-                "TJS",
-                "TMT",
-                "TND",
-                "TOP",
-                "TRY",
-                "TTD",
-                "TWD",
-                "TZS",
-                "UAH",
-                "UGX",
-                "USD",
-                "USN",
-                "UYI",
-                "UYU",
-                "UYW",
-                "UZS",
-                "VED",
-                "VES",
-                "VND",
-                "VUV",
-                "WST",
-                "XAF",
-                "XAG",
-                "XAU",
-                "XBA",
-                "XBB",
-                "XBC",
-                "XBD",
-                "XCD",
-                "XDR",
-                "XOF",
-                "XPD",
-                "XPF",
-                "XPT",
-                "XSU",
-                "XTS",
-                "XUA",
-                "XXX",
-                "YER",
-                "ZAR",
-                "ZMW",
-                "ZWL"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "AED",
+                    "AFN",
+                    "ALL",
+                    "AMD",
+                    "ANG",
+                    "AOA",
+                    "ARS",
+                    "AUD",
+                    "AWG",
+                    "AZN",
+                    "BAM",
+                    "BBD",
+                    "BDT",
+                    "BGN",
+                    "BHD",
+                    "BIF",
+                    "BMD",
+                    "BND",
+                    "BOB",
+                    "BOV",
+                    "BRL",
+                    "BSD",
+                    "BTN",
+                    "BWP",
+                    "BYN",
+                    "BZD",
+                    "CAD",
+                    "CDF",
+                    "CHE",
+                    "CHF",
+                    "CHW",
+                    "CLF",
+                    "CLP",
+                    "CNY",
+                    "COP",
+                    "COU",
+                    "CRC",
+                    "CUC",
+                    "CUP",
+                    "CVE",
+                    "CZK",
+                    "DJF",
+                    "DKK",
+                    "DOP",
+                    "DZD",
+                    "EGP",
+                    "ERN",
+                    "ETB",
+                    "EUR",
+                    "FJD",
+                    "FKP",
+                    "GBP",
+                    "GEL",
+                    "GHS",
+                    "GIP",
+                    "GMD",
+                    "GNF",
+                    "GTQ",
+                    "GYD",
+                    "HKD",
+                    "HNL",
+                    "HTG",
+                    "HUF",
+                    "IDR",
+                    "ILS",
+                    "INR",
+                    "IQD",
+                    "IRR",
+                    "ISK",
+                    "JMD",
+                    "JOD",
+                    "JPY",
+                    "KES",
+                    "KGS",
+                    "KHR",
+                    "KMF",
+                    "KPW",
+                    "KRW",
+                    "KWD",
+                    "KYD",
+                    "KZT",
+                    "LAK",
+                    "LBP",
+                    "LKR",
+                    "LRD",
+                    "LSL",
+                    "LYD",
+                    "MAD",
+                    "MDL",
+                    "MGA",
+                    "MKD",
+                    "MMK",
+                    "MNT",
+                    "MOP",
+                    "MRU",
+                    "MUR",
+                    "MVR",
+                    "MWK",
+                    "MXN",
+                    "MXV",
+                    "MYR",
+                    "MZN",
+                    "NAD",
+                    "NGN",
+                    "NIO",
+                    "NOK",
+                    "NPR",
+                    "NZD",
+                    "OMR",
+                    "PAB",
+                    "PEN",
+                    "PGK",
+                    "PHP",
+                    "PKR",
+                    "PLN",
+                    "PYG",
+                    "QAR",
+                    "RON",
+                    "RSD",
+                    "RUB",
+                    "RWF",
+                    "SAR",
+                    "SBD",
+                    "SCR",
+                    "SDG",
+                    "SEK",
+                    "SGD",
+                    "SHP",
+                    "SLE",
+                    "SLL",
+                    "SOS",
+                    "SRD",
+                    "SSP",
+                    "STN",
+                    "SVC",
+                    "SYP",
+                    "SZL",
+                    "THB",
+                    "TJS",
+                    "TMT",
+                    "TND",
+                    "TOP",
+                    "TRY",
+                    "TTD",
+                    "TWD",
+                    "TZS",
+                    "UAH",
+                    "UGX",
+                    "USD",
+                    "USN",
+                    "UYI",
+                    "UYU",
+                    "UYW",
+                    "UZS",
+                    "VED",
+                    "VES",
+                    "VND",
+                    "VUV",
+                    "WST",
+                    "XAF",
+                    "XAG",
+                    "XAU",
+                    "XBA",
+                    "XBB",
+                    "XBC",
+                    "XBD",
+                    "XCD",
+                    "XDR",
+                    "XOF",
+                    "XPD",
+                    "XPF",
+                    "XPT",
+                    "XSU",
+                    "XTS",
+                    "XUA",
+                    "XXX",
+                    "YER",
+                    "ZAR",
+                    "ZMW",
+                    "ZWL"
+                  ]
+                }
               ]
             }
           }
@@ -440,9 +464,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -463,9 +488,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -486,24 +512,27 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "entityId"
         },
         "entityIdTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "entity": {    
-              "type": [
-                "string",
-                "null"
+              "oneOf": [
+                {
+                  "type": "string"
+                }
               ]
             }
           }
@@ -511,9 +540,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -534,9 +564,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -557,42 +588,47 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "date"
         },
         "dateTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "minValue": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "format": "date-time"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              ]
             },
             "maxValue": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "format": "date-time"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              ]
             }
           }
         },
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -613,9 +649,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -636,36 +673,41 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "percentage"
         },
         "percentageTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "minValue": {    
-              "type": [
-                "number",
-                "null"
+              "oneOf": [
+                {
+                  "type": "number"
+                }
               ]
             },
             "maxValue": {    
-              "type": [
-                "number",
-                "null"
+              "oneOf": [
+                {
+                  "type": "number"
+                }
               ]
             },
             "digits": {    
-              "type": [
-                "integer",
-                "null"
+              "oneOf": [
+                {
+                  "type": "integer"
+                }
               ]
             }
           }
@@ -673,9 +715,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -696,9 +739,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -719,41 +763,46 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "translatedText"
         },
         "translatedTextTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "minLength": {    
-              "type": [
-                "integer",
-                "null"
+              "oneOf": [
+                {
+                  "type": "integer"
+                }
               ]
             },
             "maxLength": {    
-              "type": [
-                "integer",
-                "null"
+              "oneOf": [
+                {
+                  "type": "integer"
+                }
               ]
             },
             "characterCasing": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "lower",
-                "normal",
-                "upper"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "lower",
+                    "normal",
+                    "upper"
+                  ]
+                }
               ]
             }
           }
@@ -761,9 +810,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -784,9 +834,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -807,41 +858,47 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "nuid"
         },
         "nuidTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "prefix": {    
-              "type": [
-                "string",
-                "null"
+              "oneOf": [
+                {
+                  "type": "string"
+                }
               ]
             },
             "separator": {    
-              "type": [
-                "string",
-                "null"
+              "oneOf": [
+                {
+                  "type": "string"
+                }
               ]
             },
             "propertyNames": {    
-              "type": [
-                "array",
-                "null"
-              ],
+              "oneOf": [
+                {
+                  "type": "array"
+                }
+              ]
               "items":   {
-                "type": [
-                  "string",
-                  "null"
+                "oneOf": [
+                  {
+                    "type": "string"
+                  }
                 ]
               }
             }
@@ -850,9 +907,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -873,9 +931,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -896,36 +955,41 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "year"
         },
         "yearTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "minValue": {    
-              "type": [
-                "integer",
-                "null"
+              "oneOf": [
+                {
+                  "type": "integer"
+                }
               ]
             },
             "maxValue": {    
-              "type": [
-                "integer",
-                "null"
+              "oneOf": [
+                {
+                  "type": "integer"
+                }
               ]
             },
             "allowFutureOnly": {    
-              "type": [
-                "boolean",
-                "null"
+              "oneOf": [
+                {
+                  "type": "boolean"
+                }
               ]
             }
           }
@@ -933,9 +997,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -956,9 +1021,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -979,56 +1045,63 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "dateTimeDuration"
         },
         "dateTimeDurationTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "maxDuration": {    
-              "type": [
-                "number",
-                "null"
+              "oneOf": [
+                {
+                  "type": "number"
+                }
               ]
             },
             "maxDurationCustomFormat": {    
-              "type": [
-                "string",
-                "null"
+              "oneOf": [
+                {
+                  "type": "string"
+                }
               ]
             },
             "minDuration": {    
-              "type": [
-                "number",
-                "null"
+              "oneOf": [
+                {
+                  "type": "number"
+                }
               ]
             },
             "minDurationCustomFormat": {    
-              "type": [
-                "string",
-                "null"
+              "oneOf": [
+                {
+                  "type": "string"
+                }
               ]
             },
             "timeUnit": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "customFormat",
-                "day",
-                "hour",
-                "millisecond",
-                "minute",
-                "second"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "customFormat",
+                    "day",
+                    "hour",
+                    "millisecond",
+                    "minute",
+                    "second"
+                  ]
+                }
               ]
             }
           }
@@ -1036,9 +1109,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -1059,9 +1133,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -1082,34 +1157,38 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "hashedText"
         },
         "hashedTextTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "hashingAlgorithm": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "sHA256",
-                "sHA512"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "sHA256",
+                    "sHA512"
+                  ]
+                }
               ]
             },
             "saltLength": {    
-              "type": [
-                "integer",
-                "null"
+              "oneOf": [
+                {
+                  "type": "integer"
+                }
               ]
             }
           }
@@ -1117,9 +1196,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -1140,9 +1220,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -1163,36 +1244,41 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "dateTime"
         },
         "dateTimeTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "minValue": {    
-              "type": [
-                "object",
-                "null"
+              "oneOf": [
+                {
+                  "type": "object"
+                }
               ]
             },
             "maxValue": {    
-              "type": [
-                "object",
-                "null"
+              "oneOf": [
+                {
+                  "type": "object"
+                }
               ]
             },
             "allowFutureOnly": {    
-              "type": [
-                "boolean",
-                "null"
+              "oneOf": [
+                {
+                  "type": "boolean"
+                }
               ]
             }
           }
@@ -1200,9 +1286,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -1223,9 +1310,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -1246,40 +1334,44 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "image"
         },
         "imageTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "imageFormatTypes": {    
-              "type": [
-                "array",
-                "null"
-              ],
+              "oneOf": [
+                {
+                  "type": "array"
+                }
+              ]
               "items":   {
-                "type": [
-                  "string",
-                  "null"
-                ],
-                "enum": [
-                  "all",
-                  "bmp",
-                  "gif",
-                  "ico",
-                  "jpeg",
-                  "png",
-                  "svg",
-                  "tiff",
-                  "webp"
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "all",
+                      "bmp",
+                      "gif",
+                      "ico",
+                      "jpeg",
+                      "png",
+                      "svg",
+                      "tiff",
+                      "webp"
+                    ]
+                  }
                 ]
               }
             }
@@ -1288,9 +1380,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -1311,9 +1404,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -1334,30 +1428,34 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "time"
         },
         "timeTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "minTimeTicks": {    
-              "type": [
-                "integer",
-                "null"
+              "oneOf": [
+                {
+                  "type": "integer"
+                }
               ]
             },
             "maxTimeTicks": {    
-              "type": [
-                "integer",
-                "null"
+              "oneOf": [
+                {
+                  "type": "integer"
+                }
               ]
             }
           }
@@ -1365,9 +1463,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -1388,9 +1487,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -1411,42 +1511,46 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "file"
         },
         "fileTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "supportedFileFormats": {    
-              "type": [
-                "array",
-                "null"
-              ],
+              "oneOf": [
+                {
+                  "type": "array"
+                }
+              ]
               "items":   {
-                "type": [
-                  "string",
-                  "null"
-                ],
-                "enum": [
-                  "all",
-                  "csv",
-                  "doc",
-                  "docx",
-                  "eml",
-                  "pdf",
-                  "ppt",
-                  "pptx",
-                  "txt",
-                  "xls",
-                  "xlsx"
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "all",
+                      "csv",
+                      "doc",
+                      "docx",
+                      "eml",
+                      "pdf",
+                      "ppt",
+                      "pptx",
+                      "txt",
+                      "xls",
+                      "xlsx"
+                    ]
+                  }
                 ]
               }
             }
@@ -1455,9 +1559,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -1478,9 +1583,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -1501,50 +1607,56 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "area"
         },
         "areaTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "minValue": {    
-              "type": [
-                "number",
-                "null"
+              "oneOf": [
+                {
+                  "type": "number"
+                }
               ]
             },
             "maxValue": {    
-              "type": [
-                "number",
-                "null"
+              "oneOf": [
+                {
+                  "type": "number"
+                }
               ]
             },
             "units": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "squareFoot",
-                "squareMeter"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "squareFoot",
+                    "squareMeter"
+                  ]
+                }
               ]
             },
             "persistAs": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "squareFoot",
-                "squareMeter"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "squareFoot",
+                    "squareMeter"
+                  ]
+                }
               ]
             }
           }
@@ -1552,9 +1664,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -1575,9 +1688,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -1598,39 +1712,44 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "encryptedText"
         },
         "encryptedTextTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "encryptionAlgorithm": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "aes"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "aes"
+                  ]
+                }
               ]
             },
             "publicKey": {    
-              "type": [
-                "string",
-                "null"
+              "oneOf": [
+                {
+                  "type": "string"
+                }
               ]
             },
             "iv": {    
-              "type": [
-                "string",
-                "null"
+              "oneOf": [
+                {
+                  "type": "string"
+                }
               ]
             }
           }
@@ -1638,9 +1757,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -1661,9 +1781,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -1684,48 +1805,55 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "user"
         },
         "userTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "minLength": {    
-              "type": [
-                "integer",
-                "null"
+              "oneOf": [
+                {
+                  "type": "integer"
+                }
               ]
             },
             "maxLength": {    
-              "type": [
-                "integer",
-                "null"
+              "oneOf": [
+                {
+                  "type": "integer"
+                }
               ]
             },
             "validEmailFormat": {    
-              "type": [
-                "boolean",
-                "null"
+              "oneOf": [
+                {
+                  "type": "boolean"
+                }
               ]
             },
             "validGuidFormat": {    
-              "type": [
-                "boolean",
-                "null"
+              "oneOf": [
+                {
+                  "type": "boolean"
+                }
               ]
             },
             "isCaseSensitive": {    
-              "type": [
-                "boolean",
-                "null"
+              "oneOf": [
+                {
+                  "type": "boolean"
+                }
               ]
             }
           }
@@ -1733,9 +1861,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -1756,9 +1885,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -1779,229 +1909,255 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "password"
         },
         "passwordTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "hashingAlgorithm": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "sHA256",
-                "sHA512"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "sHA256",
+                    "sHA512"
+                  ]
+                }
               ]
             },
             "saltLength": {    
-              "type": [
-                "integer",
-                "null"
+              "oneOf": [
+                {
+                  "type": "integer"
+                }
               ]
             },
             "minLength": {    
-              "type": [
-                "integer",
-                "null"
+              "oneOf": [
+                {
+                  "type": "integer"
+                }
               ]
             },
             "maxLength": {    
-              "type": [
-                "integer",
-                "null"
+              "oneOf": [
+                {
+                  "type": "integer"
+                }
               ]
             },
             "forceUppercase": {    
-              "type": [
-                "boolean",
-                "null"
+              "oneOf": [
+                {
+                  "type": "boolean"
+                }
               ]
             },
             "forceLowercase": {    
-              "type": [
-                "boolean",
-                "null"
+              "oneOf": [
+                {
+                  "type": "boolean"
+                }
               ]
             },
             "forceSymbol": {    
-              "type": [
-                "boolean",
-                "null"
+              "oneOf": [
+                {
+                  "type": "boolean"
+                }
               ]
             },
             "forceNumber": {    
-              "type": [
-                "boolean",
-                "null"
+              "oneOf": [
+                {
+                  "type": "boolean"
+                }
               ]
             },
             "passwordContainsUpperCase": {    
-              "type": [
-                "object",
-                "null"
-              ],
+              "oneOf": [
+                {
+                  "type": "object"
+                }
+              ]
               "properties": {
                 "options": {    
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "enum": [
-                    "compiled",
-                    "cultureInvariant",
-                    "eCMAScript",
-                    "explicitCapture",
-                    "ignoreCase",
-                    "ignorePatternWhitespace",
-                    "multiline",
-                    "nonBacktracking",
-                    "none",
-                    "rightToLeft",
-                    "singleline"
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "compiled",
+                        "cultureInvariant",
+                        "eCMAScript",
+                        "explicitCapture",
+                        "ignoreCase",
+                        "ignorePatternWhitespace",
+                        "multiline",
+                        "nonBacktracking",
+                        "none",
+                        "rightToLeft",
+                        "singleline"
+                      ]
+                    }
                   ]
                 },
                 "rightToLeft": {    
-                  "type": [
-                    "boolean",
-                    "null"
+                  "oneOf": [
+                    {
+                      "type": "boolean"
+                    }
                   ]
                 },
                 "matchTimeout": {    
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "format": "duration"
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "format": "duration"
+                    }
+                  ]
                 }
               }
             },
             "passwordContainsLowerCase": {    
-              "type": [
-                "object",
-                "null"
-              ],
+              "oneOf": [
+                {
+                  "type": "object"
+                }
+              ]
               "properties": {
                 "options": {    
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "enum": [
-                    "compiled",
-                    "cultureInvariant",
-                    "eCMAScript",
-                    "explicitCapture",
-                    "ignoreCase",
-                    "ignorePatternWhitespace",
-                    "multiline",
-                    "nonBacktracking",
-                    "none",
-                    "rightToLeft",
-                    "singleline"
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "compiled",
+                        "cultureInvariant",
+                        "eCMAScript",
+                        "explicitCapture",
+                        "ignoreCase",
+                        "ignorePatternWhitespace",
+                        "multiline",
+                        "nonBacktracking",
+                        "none",
+                        "rightToLeft",
+                        "singleline"
+                      ]
+                    }
                   ]
                 },
                 "rightToLeft": {    
-                  "type": [
-                    "boolean",
-                    "null"
+                  "oneOf": [
+                    {
+                      "type": "boolean"
+                    }
                   ]
                 },
                 "matchTimeout": {    
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "format": "duration"
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "format": "duration"
+                    }
+                  ]
                 }
               }
             },
             "passwordContainsSymbol": {    
-              "type": [
-                "object",
-                "null"
-              ],
+              "oneOf": [
+                {
+                  "type": "object"
+                }
+              ]
               "properties": {
                 "options": {    
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "enum": [
-                    "compiled",
-                    "cultureInvariant",
-                    "eCMAScript",
-                    "explicitCapture",
-                    "ignoreCase",
-                    "ignorePatternWhitespace",
-                    "multiline",
-                    "nonBacktracking",
-                    "none",
-                    "rightToLeft",
-                    "singleline"
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "compiled",
+                        "cultureInvariant",
+                        "eCMAScript",
+                        "explicitCapture",
+                        "ignoreCase",
+                        "ignorePatternWhitespace",
+                        "multiline",
+                        "nonBacktracking",
+                        "none",
+                        "rightToLeft",
+                        "singleline"
+                      ]
+                    }
                   ]
                 },
                 "rightToLeft": {    
-                  "type": [
-                    "boolean",
-                    "null"
+                  "oneOf": [
+                    {
+                      "type": "boolean"
+                    }
                   ]
                 },
                 "matchTimeout": {    
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "format": "duration"
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "format": "duration"
+                    }
+                  ]
                 }
               }
             },
             "passwordContainsNumber": {    
-              "type": [
-                "object",
-                "null"
-              ],
+              "oneOf": [
+                {
+                  "type": "object"
+                }
+              ]
               "properties": {
                 "options": {    
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "enum": [
-                    "compiled",
-                    "cultureInvariant",
-                    "eCMAScript",
-                    "explicitCapture",
-                    "ignoreCase",
-                    "ignorePatternWhitespace",
-                    "multiline",
-                    "nonBacktracking",
-                    "none",
-                    "rightToLeft",
-                    "singleline"
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "compiled",
+                        "cultureInvariant",
+                        "eCMAScript",
+                        "explicitCapture",
+                        "ignoreCase",
+                        "ignorePatternWhitespace",
+                        "multiline",
+                        "nonBacktracking",
+                        "none",
+                        "rightToLeft",
+                        "singleline"
+                      ]
+                    }
                   ]
                 },
                 "rightToLeft": {    
-                  "type": [
-                    "boolean",
-                    "null"
+                  "oneOf": [
+                    {
+                      "type": "boolean"
+                    }
                   ]
                 },
                 "matchTimeout": {    
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "format": "duration"
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "format": "duration"
+                    }
+                  ]
                 }
               }
             }
@@ -2010,9 +2166,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -2033,9 +2190,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -2056,39 +2214,43 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "formula"
         },
         "formulaTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "expression": {    
-              "type": [
-                "string",
-                "null"
+              "oneOf": [
+                {
+                  "type": "string"
+                }
               ]
             },
             "returns": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "bool",
-                "dateTime",
-                "decimal",
-                "double",
-                "int",
-                "long",
-                "string"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "bool",
+                    "dateTime",
+                    "decimal",
+                    "double",
+                    "int",
+                    "long",
+                    "string"
+                  ]
+                }
               ]
             }
           }
@@ -2096,9 +2258,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -2119,9 +2282,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -2142,275 +2306,278 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "vatNumber"
         },
         "vatNumberTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "countryCode": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "AD",
-                "AE",
-                "AF",
-                "AG",
-                "AI",
-                "AL",
-                "AM",
-                "AO",
-                "AQ",
-                "AR",
-                "AS",
-                "AT",
-                "AU",
-                "AW",
-                "AX",
-                "AZ",
-                "BA",
-                "BB",
-                "BD",
-                "BE",
-                "BF",
-                "BG",
-                "BH",
-                "BI",
-                "BJ",
-                "BL",
-                "BM",
-                "BN",
-                "BO",
-                "BQ",
-                "BR",
-                "BS",
-                "BT",
-                "BV",
-                "BW",
-                "BY",
-                "BZ",
-                "CA",
-                "CC",
-                "CD",
-                "CF",
-                "CG",
-                "CH",
-                "CI",
-                "CK",
-                "CL",
-                "CM",
-                "CN",
-                "CO",
-                "CR",
-                "CU",
-                "CV",
-                "CW",
-                "CX",
-                "CY",
-                "CZ",
-                "DE",
-                "DJ",
-                "DK",
-                "DM",
-                "DO",
-                "DZ",
-                "EC",
-                "EE",
-                "EG",
-                "EH",
-                "ER",
-                "ES",
-                "ET",
-                "FI",
-                "FJ",
-                "FK",
-                "FM",
-                "FO",
-                "FR",
-                "GA",
-                "GB",
-                "GD",
-                "GE",
-                "GF",
-                "GG",
-                "GH",
-                "GI",
-                "GL",
-                "GM",
-                "GN",
-                "GP",
-                "GQ",
-                "GR",
-                "GS",
-                "GT",
-                "GU",
-                "GW",
-                "GY",
-                "HK",
-                "HM",
-                "HN",
-                "HR",
-                "HT",
-                "HU",
-                "ID",
-                "IE",
-                "IL",
-                "IM",
-                "IN",
-                "IO",
-                "IQ",
-                "IR",
-                "IS",
-                "IT",
-                "JE",
-                "JM",
-                "JO",
-                "JP",
-                "KE",
-                "KG",
-                "KH",
-                "KI",
-                "KM",
-                "KN",
-                "KP",
-                "KR",
-                "KW",
-                "KY",
-                "KZ",
-                "LA",
-                "LB",
-                "LC",
-                "LI",
-                "LK",
-                "LR",
-                "LS",
-                "LT",
-                "LU",
-                "LV",
-                "LY",
-                "MA",
-                "MC",
-                "MD",
-                "ME",
-                "MF",
-                "MG",
-                "MH",
-                "MK",
-                "ML",
-                "MM",
-                "MN",
-                "MO",
-                "MP",
-                "MQ",
-                "MR",
-                "MS",
-                "MT",
-                "MU",
-                "MV",
-                "MW",
-                "MX",
-                "MY",
-                "MZ",
-                "NA",
-                "NC",
-                "NE",
-                "NF",
-                "NG",
-                "NI",
-                "NL",
-                "NO",
-                "NP",
-                "NR",
-                "NU",
-                "NZ",
-                "OM",
-                "PA",
-                "PE",
-                "PF",
-                "PG",
-                "PH",
-                "PK",
-                "PL",
-                "PM",
-                "PN",
-                "PR",
-                "PS",
-                "PT",
-                "PW",
-                "PY",
-                "QA",
-                "RE",
-                "RO",
-                "RS",
-                "RU",
-                "RW",
-                "SA",
-                "SB",
-                "SC",
-                "SD",
-                "SE",
-                "SG",
-                "SH",
-                "SI",
-                "SJ",
-                "SK",
-                "SL",
-                "SM",
-                "SN",
-                "SO",
-                "SR",
-                "SS",
-                "ST",
-                "SV",
-                "SX",
-                "SY",
-                "SZ",
-                "TC",
-                "TD",
-                "TF",
-                "TG",
-                "TH",
-                "TJ",
-                "TK",
-                "TL",
-                "TM",
-                "TN",
-                "TO",
-                "TR",
-                "TT",
-                "TV",
-                "TW",
-                "TZ",
-                "UA",
-                "UG",
-                "UM",
-                "US",
-                "UY",
-                "UZ",
-                "VA",
-                "VC",
-                "VE",
-                "VG",
-                "VI",
-                "VN",
-                "VU",
-                "WF",
-                "WS",
-                "YE",
-                "YT",
-                "ZA",
-                "ZM",
-                "ZW"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "AD",
+                    "AE",
+                    "AF",
+                    "AG",
+                    "AI",
+                    "AL",
+                    "AM",
+                    "AO",
+                    "AQ",
+                    "AR",
+                    "AS",
+                    "AT",
+                    "AU",
+                    "AW",
+                    "AX",
+                    "AZ",
+                    "BA",
+                    "BB",
+                    "BD",
+                    "BE",
+                    "BF",
+                    "BG",
+                    "BH",
+                    "BI",
+                    "BJ",
+                    "BL",
+                    "BM",
+                    "BN",
+                    "BO",
+                    "BQ",
+                    "BR",
+                    "BS",
+                    "BT",
+                    "BV",
+                    "BW",
+                    "BY",
+                    "BZ",
+                    "CA",
+                    "CC",
+                    "CD",
+                    "CF",
+                    "CG",
+                    "CH",
+                    "CI",
+                    "CK",
+                    "CL",
+                    "CM",
+                    "CN",
+                    "CO",
+                    "CR",
+                    "CU",
+                    "CV",
+                    "CW",
+                    "CX",
+                    "CY",
+                    "CZ",
+                    "DE",
+                    "DJ",
+                    "DK",
+                    "DM",
+                    "DO",
+                    "DZ",
+                    "EC",
+                    "EE",
+                    "EG",
+                    "EH",
+                    "ER",
+                    "ES",
+                    "ET",
+                    "FI",
+                    "FJ",
+                    "FK",
+                    "FM",
+                    "FO",
+                    "FR",
+                    "GA",
+                    "GB",
+                    "GD",
+                    "GE",
+                    "GF",
+                    "GG",
+                    "GH",
+                    "GI",
+                    "GL",
+                    "GM",
+                    "GN",
+                    "GP",
+                    "GQ",
+                    "GR",
+                    "GS",
+                    "GT",
+                    "GU",
+                    "GW",
+                    "GY",
+                    "HK",
+                    "HM",
+                    "HN",
+                    "HR",
+                    "HT",
+                    "HU",
+                    "ID",
+                    "IE",
+                    "IL",
+                    "IM",
+                    "IN",
+                    "IO",
+                    "IQ",
+                    "IR",
+                    "IS",
+                    "IT",
+                    "JE",
+                    "JM",
+                    "JO",
+                    "JP",
+                    "KE",
+                    "KG",
+                    "KH",
+                    "KI",
+                    "KM",
+                    "KN",
+                    "KP",
+                    "KR",
+                    "KW",
+                    "KY",
+                    "KZ",
+                    "LA",
+                    "LB",
+                    "LC",
+                    "LI",
+                    "LK",
+                    "LR",
+                    "LS",
+                    "LT",
+                    "LU",
+                    "LV",
+                    "LY",
+                    "MA",
+                    "MC",
+                    "MD",
+                    "ME",
+                    "MF",
+                    "MG",
+                    "MH",
+                    "MK",
+                    "ML",
+                    "MM",
+                    "MN",
+                    "MO",
+                    "MP",
+                    "MQ",
+                    "MR",
+                    "MS",
+                    "MT",
+                    "MU",
+                    "MV",
+                    "MW",
+                    "MX",
+                    "MY",
+                    "MZ",
+                    "NA",
+                    "NC",
+                    "NE",
+                    "NF",
+                    "NG",
+                    "NI",
+                    "NL",
+                    "NO",
+                    "NP",
+                    "NR",
+                    "NU",
+                    "NZ",
+                    "OM",
+                    "PA",
+                    "PE",
+                    "PF",
+                    "PG",
+                    "PH",
+                    "PK",
+                    "PL",
+                    "PM",
+                    "PN",
+                    "PR",
+                    "PS",
+                    "PT",
+                    "PW",
+                    "PY",
+                    "QA",
+                    "RE",
+                    "RO",
+                    "RS",
+                    "RU",
+                    "RW",
+                    "SA",
+                    "SB",
+                    "SC",
+                    "SD",
+                    "SE",
+                    "SG",
+                    "SH",
+                    "SI",
+                    "SJ",
+                    "SK",
+                    "SL",
+                    "SM",
+                    "SN",
+                    "SO",
+                    "SR",
+                    "SS",
+                    "ST",
+                    "SV",
+                    "SX",
+                    "SY",
+                    "SZ",
+                    "TC",
+                    "TD",
+                    "TF",
+                    "TG",
+                    "TH",
+                    "TJ",
+                    "TK",
+                    "TL",
+                    "TM",
+                    "TN",
+                    "TO",
+                    "TR",
+                    "TT",
+                    "TV",
+                    "TW",
+                    "TZ",
+                    "UA",
+                    "UG",
+                    "UM",
+                    "US",
+                    "UY",
+                    "UZ",
+                    "VA",
+                    "VC",
+                    "VE",
+                    "VG",
+                    "VI",
+                    "VN",
+                    "VU",
+                    "WF",
+                    "WS",
+                    "YE",
+                    "YT",
+                    "ZA",
+                    "ZM",
+                    "ZW"
+                  ]
+                }
               ]
             }
           }
@@ -2418,9 +2585,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -2441,9 +2609,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -2464,30 +2633,34 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "json"
         },
         "jsonTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "persistMinified": {    
-              "type": [
-                "boolean",
-                "null"
+              "oneOf": [
+                {
+                  "type": "boolean"
+                }
               ]
             },
             "maxHashDepth": {    
-              "type": [
-                "integer",
-                "null"
+              "oneOf": [
+                {
+                  "type": "integer"
+                }
               ]
             }
           }
@@ -2495,9 +2668,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -2518,9 +2692,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -2541,36 +2716,41 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "markdown"
         },
         "markdownTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "minLength": {    
-              "type": [
-                "integer",
-                "null"
+              "oneOf": [
+                {
+                  "type": "integer"
+                }
               ]
             },
             "maxLength": {    
-              "type": [
-                "integer",
-                "null"
+              "oneOf": [
+                {
+                  "type": "integer"
+                }
               ]
             },
             "isUnicode": {    
-              "type": [
-                "boolean",
-                "null"
+              "oneOf": [
+                {
+                  "type": "boolean"
+                }
               ]
             }
           }
@@ -2578,9 +2758,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -2601,9 +2782,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -2624,38 +2806,42 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "temperature"
         },
         "temperatureTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "persistAs": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "celsius",
-                "fahrenheit"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "celsius",
+                    "fahrenheit"
+                  ]
+                }
               ]
             },
             "units": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "celsius",
-                "fahrenheit"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "celsius",
+                    "fahrenheit"
+                  ]
+                }
               ]
             }
           }
@@ -2663,9 +2849,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -2686,9 +2873,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -2709,50 +2897,56 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "length"
         },
         "lengthTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "minValue": {    
-              "type": [
-                "number",
-                "null"
+              "oneOf": [
+                {
+                  "type": "number"
+                }
               ]
             },
             "maxValue": {    
-              "type": [
-                "number",
-                "null"
+              "oneOf": [
+                {
+                  "type": "number"
+                }
               ]
             },
             "units": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "foot",
-                "meter"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "foot",
+                    "meter"
+                  ]
+                }
               ]
             },
             "persistAs": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "foot",
-                "meter"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "foot",
+                    "meter"
+                  ]
+                }
               ]
             }
           }
@@ -2760,9 +2954,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -2783,9 +2978,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -2806,50 +3002,56 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "volume"
         },
         "volumeTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "minValue": {    
-              "type": [
-                "number",
-                "null"
+              "oneOf": [
+                {
+                  "type": "number"
+                }
               ]
             },
             "maxValue": {    
-              "type": [
-                "number",
-                "null"
+              "oneOf": [
+                {
+                  "type": "number"
+                }
               ]
             },
             "unit": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "cubicFoot",
-                "cubicMeter"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "cubicFoot",
+                    "cubicMeter"
+                  ]
+                }
               ]
             },
             "persistAs": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "cubicFoot",
-                "cubicMeter"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "cubicFoot",
+                    "cubicMeter"
+                  ]
+                }
               ]
             }
           }
@@ -2857,9 +3059,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -2880,9 +3083,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -2903,50 +3107,56 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "weight"
         },
         "weightTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "minValue": {    
-              "type": [
-                "number",
-                "null"
+              "oneOf": [
+                {
+                  "type": "number"
+                }
               ]
             },
             "maxValue": {    
-              "type": [
-                "number",
-                "null"
+              "oneOf": [
+                {
+                  "type": "number"
+                }
               ]
             },
             "units": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "kilogram",
-                "pound"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "kilogram",
+                    "pound"
+                  ]
+                }
               ]
             },
             "persistAs": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "kilogram",
-                "pound"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "kilogram",
+                    "pound"
+                  ]
+                }
               ]
             }
           }
@@ -2954,9 +3164,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -2977,9 +3188,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -3000,50 +3212,56 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "distance"
         },
         "distanceTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "minValue": {    
-              "type": [
-                "number",
-                "null"
+              "oneOf": [
+                {
+                  "type": "number"
+                }
               ]
             },
             "maxValue": {    
-              "type": [
-                "number",
-                "null"
+              "oneOf": [
+                {
+                  "type": "number"
+                }
               ]
             },
             "units": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "kilometer",
-                "mile"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "kilometer",
+                    "mile"
+                  ]
+                }
               ]
             },
             "persistAs": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "kilometer",
-                "mile"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "kilometer",
+                    "mile"
+                  ]
+                }
               ]
             }
           }
@@ -3051,9 +3269,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -3074,9 +3293,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
@@ -3097,30 +3317,34 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
           "const": "dateTimeRange"
         },
         "dateTimeRangeTypeOptions": {    
-          "type": [
-            "object",
-            "null"
-          ],
+          "oneOf": [
+            {
+              "type": "object"
+            }
+          ]
           "properties": {
             "minStartValue": {    
-              "type": [
-                "object",
-                "null"
+              "oneOf": [
+                {
+                  "type": "object"
+                }
               ]
             },
             "maxEndValue": {    
-              "type": [
-                "object",
-                "null"
+              "oneOf": [
+                {
+                  "type": "object"
+                }
               ]
             }
           }
@@ -3128,9 +3352,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -3151,16 +3376,17 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },
       "additionalProperties": false
     },
     {
-      "type": "object",
+      "type": "object"
       "required": [
         "name",
         "type"
@@ -3175,9 +3401,10 @@
         "description": {    
           "title": "The description of the attribute.",
           "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            }
           ]
         },
         "type": {    
@@ -3218,9 +3445,10 @@
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
           "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         },
         "userInterface": {    
@@ -3241,9 +3469,10 @@
         "isReadonly": {    
           "title": "Is this attribute readonly? Boolean value.",
           "description": "Indicates whether this attribute is readonly. Defaults to false.",
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            }
           ]
         }
       },

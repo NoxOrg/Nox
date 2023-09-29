@@ -2,25 +2,28 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Definition namespace for attributes describing the transform component of an ETL integration.",
   "description": "This section details ETL transform attributes like field mapping and value lookups.",
-  "type": [
-    "object",
-    "null"
-  ],
+  "oneOf": [
+    {
+      "type": "object"
+    }
+  ]
   "properties": {
     "mappings": {    
       "title": "Source to target column mappings details of the ETL transform component.",
       "description": "Specifies one or more column mappings between source and target in an ETL data integration.",
-      "type": [
-        "array",
-        "null"
-      ],
+      "oneOf": [
+        {
+          "type": "array"
+        }
+      ]
       "items":   {
         "title": "Mapping details of the ETL transform component.",
         "description": "Specifies how columns are mapped between source and target in an ETL data integration.",
-        "type": [
-          "object",
-          "null"
-        ],
+        "oneOf": [
+          {
+            "type": "object"
+          }
+        ]
         "required": [
           "sourceColumn",
           "targetAttribute"
@@ -34,13 +37,17 @@
           "converter": {    
             "title": "Specify case conversion during source to target transform.",
             "description": "Specifies whether any case conversion is performed during the ETL transform. Source data may be converted to lowercase or uppercase for example.",
-            "type": [
-              "string",
-              "null"
-            ],
-            "enum": [
-              "lowerCase",
-              "upperCase"
+            "oneOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "lowerCase",
+                  "upperCase"
+                ]
+              },
+              {
+                "type": "null"
+              }
             ]
           },
           "targetAttribute": {    
@@ -56,17 +63,19 @@
     "lookups": {    
       "title": "Details of lookups performed during the ETL transform component.",
       "description": "Specifies information related to lookups during the ETL transform. Attributes include source columns and target attributes, as well as match directives like lookup table and column and return column name.",
-      "type": [
-        "array",
-        "null"
-      ],
+      "oneOf": [
+        {
+          "type": "array"
+        }
+      ]
       "items":   {
         "title": "Details pertaining to a lookup performed during the ETL transform component.",
         "description": "Specifies information related to a data lookup. Includes the source column and target attribute, as well as match directives like lookup table, column and return column name.",
-        "type": [
-          "object",
-          "null"
-        ],
+        "oneOf": [
+          {
+            "type": "object"
+          }
+        ]
         "required": [
           "sourceColumn",
           "match",
@@ -81,7 +90,7 @@
           "match": {    
             "title": "Attributes related to source table used for the lookup.",
             "description": "Specify information about the source lookup table. This includes table name, lookup column and return column.",
-            "type": "object",
+            "type": "object"
             "required": [
               "table",
               "lookupColumn",
