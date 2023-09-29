@@ -2,7 +2,7 @@
 using ClientApi.Application.Dto;
 using Xunit.Abstractions;
 
-namespace ClientApi.Tests.Tests.Controllers;
+namespace ClientApi.Tests.Application.CommandHandlers;
 
 [Collection("CreateCountryCommandHandlerTests")]
 public class CreateCountryCommandHandlerTests : NoxWebApiTestBase

@@ -44,17 +44,41 @@ public partial class CountryMetadata
         
     
         /// <summary>
+        /// Type options for property 'Population'
+        /// </summary>
+        public static Nox.Types.NumberTypeOptions PopulationTypeOptions {get; private set;} = new ()
+        {
+            MinValue = -999999999m,
+            MaxValue = 1500000000m,
+            DecimalDigits = 0,
+        };
+    
+    
+        /// <summary>
         /// Factory for property 'Population'
         /// </summary>
         public static Nox.Types.Number CreatePopulation(System.Int32 value)
-            => Nox.Types.Number.From(value);
+            => Nox.Types.Number.From(value, PopulationTypeOptions);
         
+    
+        /// <summary>
+        /// Type options for property 'CountryDebt'
+        /// </summary>
+        public static Nox.Types.MoneyTypeOptions CountryDebtTypeOptions {get; private set;} = new ()
+        {
+            DecimalDigits = 4,
+            IntegerDigits = 9,
+            MinValue = 100000m,
+            MaxValue = 999999999.9999m,
+            DefaultCurrency = Nox.Types.CurrencyCode.USD,
+        };
+    
     
         /// <summary>
         /// Factory for property 'CountryDebt'
         /// </summary>
         public static Nox.Types.Money CreateCountryDebt(IMoney value)
-            => Nox.Types.Money.From(value);
+            => Nox.Types.Money.From(value, CountryDebtTypeOptions);
         
     
         /// <summary>
@@ -79,6 +103,34 @@ public partial class CountryMetadata
         /// </summary>
         public static Nox.Types.Formula CreateShortDescription(System.String value)
             => Nox.Types.Formula.From(value, ShortDescriptionTypeOptions);
+        
+    
+        /// <summary>
+        /// Factory for property 'CountryIsoNumeric'
+        /// </summary>
+        public static Nox.Types.CountryNumber CreateCountryIsoNumeric(System.UInt16 value)
+            => Nox.Types.CountryNumber.From(value);
+        
+    
+        /// <summary>
+        /// Factory for property 'CountryIsoAlpha3'
+        /// </summary>
+        public static Nox.Types.CountryCode3 CreateCountryIsoAlpha3(System.String value)
+            => Nox.Types.CountryCode3.From(value);
+        
+    
+        /// <summary>
+        /// Factory for property 'GoogleMapsUrl'
+        /// </summary>
+        public static Nox.Types.Url CreateGoogleMapsUrl(System.String value)
+            => Nox.Types.Url.From(value);
+        
+    
+        /// <summary>
+        /// Factory for property 'StartOfWeek'
+        /// </summary>
+        public static Nox.Types.DayOfWeek CreateStartOfWeek(System.UInt16 value)
+            => Nox.Types.DayOfWeek.From(value);
         
     
         /// <summary>
@@ -131,5 +183,41 @@ public partial class CountryMetadata
             => solution.Domain!
                 .GetEntityByName("Country")
                 .GetAttributeByName("ShortDescription")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'CountryIsoNumeric'
+        /// </summary>
+        public static TypeUserInterface? CountryIsoNumericUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("CountryIsoNumeric")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'CountryIsoAlpha3'
+        /// </summary>
+        public static TypeUserInterface? CountryIsoAlpha3UiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("CountryIsoAlpha3")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'GoogleMapsUrl'
+        /// </summary>
+        public static TypeUserInterface? GoogleMapsUrlUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("GoogleMapsUrl")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'StartOfWeek'
+        /// </summary>
+        public static TypeUserInterface? StartOfWeekUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("StartOfWeek")?
                 .UserInterface;
 }

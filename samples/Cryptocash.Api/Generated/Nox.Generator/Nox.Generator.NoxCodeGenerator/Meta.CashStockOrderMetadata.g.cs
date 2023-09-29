@@ -71,7 +71,7 @@ public partial class CashStockOrderMetadata
         /// <summary>
         /// User Interface for property 'Amount'
         /// </summary>
-        public static TypeUserInterface? AmountUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? AmountUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("CashStockOrder")
                 .GetAttributeByName("Amount")?
@@ -80,7 +80,7 @@ public partial class CashStockOrderMetadata
         /// <summary>
         /// User Interface for property 'RequestedDeliveryDate'
         /// </summary>
-        public static TypeUserInterface? RequestedDeliveryDateUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? RequestedDeliveryDateUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("CashStockOrder")
                 .GetAttributeByName("RequestedDeliveryDate")?
@@ -89,7 +89,7 @@ public partial class CashStockOrderMetadata
         /// <summary>
         /// User Interface for property 'DeliveryDateTime'
         /// </summary>
-        public static TypeUserInterface? DeliveryDateTimeUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? DeliveryDateTimeUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("CashStockOrder")
                 .GetAttributeByName("DeliveryDateTime")?
@@ -98,7 +98,7 @@ public partial class CashStockOrderMetadata
         /// <summary>
         /// User Interface for property 'Status'
         /// </summary>
-        public static TypeUserInterface? StatusUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? StatusUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("CashStockOrder")
                 .GetAttributeByName("Status")?

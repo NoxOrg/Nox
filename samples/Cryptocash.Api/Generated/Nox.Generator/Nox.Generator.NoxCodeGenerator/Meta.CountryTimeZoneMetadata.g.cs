@@ -33,7 +33,7 @@ public partial class CountryTimeZoneMetadata
         /// <summary>
         /// User Interface for property 'TimeZoneCode'
         /// </summary>
-        public static TypeUserInterface? TimeZoneCodeUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? TimeZoneCodeUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("CountryTimeZone")
                 .GetAttributeByName("TimeZoneCode")?

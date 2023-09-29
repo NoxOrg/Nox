@@ -29,78 +29,38 @@
     "serverUri": {    
       "title": "Hostname, IP address or URI.",
       "description": "The name, address, URI or IP of the server to connect to.",
-      "oneOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "string",
-          "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
-        }
-      ]
+      "type": "string"
     },
     "port": {    
       "title": "Server port",
       "description": "The port to connect to.",
-      "oneOf": [
-        {
-          "type": "integer"
-        },
-        {
-          "type": "string",
-          "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
-        },
-        {
-          "type": "null"
-        }
+      "type": [
+        "integer",
+        "null"
       ]
     },
     "user": {    
       "title": "Username.",
       "description": "The username to use when connecting to this server.",
-      "oneOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "string",
-          "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
-        },
-        {
-          "type": "null"
-        }
+      "type": [
+        "string",
+        "null"
       ]
     },
     "password": {    
       "title": "Password.",
       "description": "The password to use when connecting to this server.",
-      "oneOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "string",
-          "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
-        },
-        {
-          "type": "null"
-        }
+      "type": [
+        "string",
+        "null"
       ]
     },
     "options": {    
       "title": "Additional options.",
       "description": "A list of additional options to set when connecting to this server.",
-      "oneOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "string",
-          "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
-        },
-        {
-          "type": "null"
-        }
+      "type": [
+        "string",
+        "null"
       ]
     }
   },

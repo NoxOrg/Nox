@@ -35,12 +35,16 @@ attributes:
   - name: Population
     description: Population
     type: number    
-    isRequired: false 
+    isRequired: false
+    numberTypeOptions:
+      maxValue: 1500000000
 
   - name: CountryDebt
     description: The Money
     type: money    
     isRequired: false
+    moneyTypeOptions:
+      minValue: 100000
 
   - name: FirstLanguageCode
     description: First Official Language
@@ -53,6 +57,26 @@ attributes:
     formulaTypeOptions:
       returns: string
       expression: $"{Name} has a population of {Population} people."
+
+  - name: CountryIsoNumeric
+    description: Country's iso number id
+    type: countryNumber     
+    isRequired: false
+
+  - name: CountryIsoAlpha3
+    description: Country's iso alpha3 id
+    type: countryCode3     
+    isRequired: false
+
+  - name: GoogleMapsUrl
+    description: Country's map via google maps
+    type: url     
+    isRequired: false
+
+  - name: StartOfWeek
+    description: Country's start of week day
+    type: dayOfWeek     
+    isRequired: false
 
 ownedRelationships:
 

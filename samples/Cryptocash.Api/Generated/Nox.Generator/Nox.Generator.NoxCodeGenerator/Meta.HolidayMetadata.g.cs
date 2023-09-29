@@ -73,7 +73,7 @@ public partial class HolidayMetadata
         /// <summary>
         /// User Interface for property 'Name'
         /// </summary>
-        public static TypeUserInterface? NameUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? NameUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Holiday")
                 .GetAttributeByName("Name")?
@@ -82,7 +82,7 @@ public partial class HolidayMetadata
         /// <summary>
         /// User Interface for property 'Type'
         /// </summary>
-        public static TypeUserInterface? TypeUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? TypeUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Holiday")
                 .GetAttributeByName("Type")?
@@ -91,7 +91,7 @@ public partial class HolidayMetadata
         /// <summary>
         /// User Interface for property 'Date'
         /// </summary>
-        public static TypeUserInterface? DateUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? DateUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Holiday")
                 .GetAttributeByName("Date")?

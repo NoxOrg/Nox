@@ -101,7 +101,7 @@ public partial class EmployeeMetadata
         /// <summary>
         /// User Interface for property 'FirstName'
         /// </summary>
-        public static TypeUserInterface? FirstNameUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? FirstNameUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Employee")
                 .GetAttributeByName("FirstName")?
@@ -110,7 +110,7 @@ public partial class EmployeeMetadata
         /// <summary>
         /// User Interface for property 'LastName'
         /// </summary>
-        public static TypeUserInterface? LastNameUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? LastNameUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Employee")
                 .GetAttributeByName("LastName")?
@@ -119,7 +119,7 @@ public partial class EmployeeMetadata
         /// <summary>
         /// User Interface for property 'EmailAddress'
         /// </summary>
-        public static TypeUserInterface? EmailAddressUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? EmailAddressUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Employee")
                 .GetAttributeByName("EmailAddress")?
@@ -128,7 +128,7 @@ public partial class EmployeeMetadata
         /// <summary>
         /// User Interface for property 'Address'
         /// </summary>
-        public static TypeUserInterface? AddressUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? AddressUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Employee")
                 .GetAttributeByName("Address")?
@@ -137,7 +137,7 @@ public partial class EmployeeMetadata
         /// <summary>
         /// User Interface for property 'FirstWorkingDay'
         /// </summary>
-        public static TypeUserInterface? FirstWorkingDayUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? FirstWorkingDayUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Employee")
                 .GetAttributeByName("FirstWorkingDay")?
@@ -146,7 +146,7 @@ public partial class EmployeeMetadata
         /// <summary>
         /// User Interface for property 'LastWorkingDay'
         /// </summary>
-        public static TypeUserInterface? LastWorkingDayUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? LastWorkingDayUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Employee")
                 .GetAttributeByName("LastWorkingDay")?
