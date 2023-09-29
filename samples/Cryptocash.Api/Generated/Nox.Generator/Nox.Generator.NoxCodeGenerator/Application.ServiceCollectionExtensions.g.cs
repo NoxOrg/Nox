@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -10,10 +10,10 @@ using Nox;
 using Nox.Solution;
 using Nox.Configuration;
 using Nox.Types.EntityFramework.Abstractions;
-using TestWebApp.Infrastructure.Persistence;
-using TestWebApp.Presentation.Api.OData;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Presentation.Api.OData;
 
-internal static class NoxWebApplicationBuilderExtension
+internal static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddNox(this IServiceCollection services)
     {
@@ -24,8 +24,8 @@ internal static class NoxWebApplicationBuilderExtension
     {
         services.AddNoxLib(configurator =>
         {
-            configurator.WithDatabaseContexts<TestWebAppDbContext, DtoDbContext>();
-            configurator.WithMessagingTransactionalOutbox<TestWebAppDbContext>();
+            configurator.WithDatabaseContexts<CryptocashDbContext, DtoDbContext>();
+            configurator.WithMessagingTransactionalOutbox<CryptocashDbContext>();
             configureNox?.Invoke(configurator);
         });
         services.AddNoxOdata(configureNoxOdata);

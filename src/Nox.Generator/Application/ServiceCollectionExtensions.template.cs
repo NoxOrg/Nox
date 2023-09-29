@@ -15,7 +15,7 @@ using {{ solutionName }}.Infrastructure.Persistence;
 using {{ solutionName }}.Presentation.Api.OData;
 {{- end }}
 
-internal static class NoxWebApplicationBuilderExtension
+internal static class {{className}}
 {
     public static IServiceCollection AddNox(this IServiceCollection services)
     {
@@ -30,7 +30,9 @@ internal static class NoxWebApplicationBuilderExtension
             configurator.WithMessagingTransactionalOutbox<{{ solutionName }}DbContext>();
             configureNox?.Invoke(configurator);
         });
+        {{- if configPresentation == true }}
         services.AddNoxOdata(configureNoxOdata);
+        {{- end }}
         return services;
     }
 }

@@ -45,10 +45,10 @@ public class ApplicationExtensionTests : IClassFixture<GeneratorFixture>
         Assert.Equal(2, generatedSources.Length);
         Assert.True(generatedSources.Any(s => s.HintName == "0.Generator.g.cs"), "Generator not generated");
 
-        var extensionsFilename = "Application.NoxWebApplicationExtensions.g.cs";
+        var extensionsFilename = "Application.ServiceCollectionExtensions.g.cs";
         Assert.True(generatedSources.Any(s => s.HintName == extensionsFilename), $"{extensionsFilename} not generated");
 
-        Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/NoxWebApplicationExtensions.expected.g.cs"), generatedSources.First(s => s.HintName == extensionsFilename).SourceText.ToString());
+        Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/Application.ServiceCollectionExtensions.expected.g.cs"), generatedSources.First(s => s.HintName == extensionsFilename).SourceText.ToString());
         //can further extend this test to verify contents of source files.
     }
 }
