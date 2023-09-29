@@ -18,6 +18,10 @@ Population|Number|Population
 CountryDebt|Money|The Money
 FirstLanguageCode|LanguageCode|First Official Language
 ShortDescription|Formula|The Formula
+CountryIsoNumeric|CountryNumber|Country's iso number id
+CountryIsoAlpha3|CountryCode3|Country's iso alpha3 id
+GoogleMapsUrl|Url|Country's map via google maps
+StartOfWeek|DayOfWeek|Country's start of week day
 CountryLocalNameId|AutoNumber|The unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
@@ -36,6 +40,10 @@ Population|Number|Population
 CountryDebt|Money|The Money
 FirstLanguageCode|LanguageCode|First Official Language
 ShortDescription|Formula|The Formula
+CountryIsoNumeric|CountryNumber|Country's iso number id
+CountryIsoAlpha3|CountryCode3|Country's iso alpha3 id
+GoogleMapsUrl|Url|Country's map via google maps
+StartOfWeek|DayOfWeek|Country's start of week day
 CountryLocalNameId|AutoNumber|The unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
@@ -54,6 +62,10 @@ Population|Number|Population
 CountryDebt|Money|The Money
 FirstLanguageCode|LanguageCode|First Official Language
 ShortDescription|Formula|The Formula
+CountryIsoNumeric|CountryNumber|Country's iso number id
+CountryIsoAlpha3|CountryCode3|Country's iso alpha3 id
+GoogleMapsUrl|Url|Country's map via google maps
+StartOfWeek|DayOfWeek|Country's start of week day
 CountryLocalNameId|AutoNumber|The unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 

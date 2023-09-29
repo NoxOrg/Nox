@@ -1,6 +1,6 @@
 ﻿using Nox.Types.Schema;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using YamlDotNet.Serialization;
 
 namespace Nox.Solution;
@@ -15,7 +15,7 @@ public class Domain : DefinitionBase
     [Title("The entities that describe the domain.")]
     [Description("The collection of entities and their relationships with each other.")]
     [AdditionalProperties(false)]
-    public IReadOnlyList<Entity> Entities { get; internal set; } = new List<Entity>();
+    public IReadOnlyList<Entity> Entities { get; internal set; } = Array.Empty<Entity>();
 
     public Entity GetEntityByName(string entityName)
     {

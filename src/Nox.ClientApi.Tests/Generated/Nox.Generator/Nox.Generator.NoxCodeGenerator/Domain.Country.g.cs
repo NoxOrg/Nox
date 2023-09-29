@@ -81,6 +81,26 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
         get { return $"{Name} has a population of {Population} people."; }
         private set { }
     }
+
+    /// <summary>
+    /// Country's iso number id (Optional).
+    /// </summary>
+    public Nox.Types.CountryNumber? CountryIsoNumeric { get; set; } = null!;
+
+    /// <summary>
+    /// Country's iso alpha3 id (Optional).
+    /// </summary>
+    public Nox.Types.CountryCode3? CountryIsoAlpha3 { get; set; } = null!;
+
+    /// <summary>
+    /// Country's map via google maps (Optional).
+    /// </summary>
+    public Nox.Types.Url? GoogleMapsUrl { get; set; } = null!;
+
+    /// <summary>
+    /// Country's start of week day (Optional).
+    /// </summary>
+    public Nox.Types.DayOfWeek? StartOfWeek { get; set; } = null!;
 	/// <summary>
 	/// Domain events raised by this entity.
 	/// </summary>

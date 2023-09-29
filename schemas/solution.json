@@ -16,6 +16,23 @@
       "type": "string",
       "pattern": "^[^\\s]*$"
     },
+    "platformId": {    
+      "title": "Platform Identifier. Used to build a unique Uri.",
+      "description": "Identify a Platform, that is a set of different services. Use to produce a unique Uri, by encoding the provided value.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "version": {    
+      "title": "The version of the NOX solution. Expected a Semantic Version format.",
+      "description": "Required, but if not defined default 1.0.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$"
+    },
     "description": {    
       "title": "A short description of the NOX solution.",
       "description": "A brief description of the solution with what it's purpose or goals are.",

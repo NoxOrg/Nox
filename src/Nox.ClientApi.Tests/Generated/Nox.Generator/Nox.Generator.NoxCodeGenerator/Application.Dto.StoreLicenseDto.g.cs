@@ -3,10 +3,12 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
@@ -17,11 +19,31 @@ namespace ClientApi.Application.Dto;
 
 public record StoreLicenseKeyDto(System.Int64 keyId);
 
+public partial class StoreLicenseDto : StoreLicenseDtoBase
+{
+
+}
+
 /// <summary>
 /// Store license info.
 /// </summary>
-public partial class StoreLicenseDto
+public abstract class StoreLicenseDtoBase : EntityDtoBase, IEntityDto<StoreLicense>
 {
+
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+    
+        if (this.Issuer is not null)
+            TryGetValidationExceptions("Issuer", () => ClientApi.Domain.StoreLicenseMetadata.CreateIssuer(this.Issuer.NonNullValue<System.String>()), result);
+        else
+            result.Add("Issuer", new [] { "Issuer is Required." });
+    
+
+        return result;
+    }
+    #endregion
 
     /// <summary>
     ///  (Required).
