@@ -36,19 +36,19 @@ public abstract class TransactionDtoBase : EntityDtoBase, IEntityDto<Transaction
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.TransactionType is not null)
-            TryGetValidationExceptions("TransactionType", () => Cryptocash.Domain.TransactionMetadata.CreateTransactionType(this.TransactionType.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("TransactionType", () => Cryptocash.Domain.TransactionMetadata.CreateTransactionType(this.TransactionType.NonNullValue<System.String>()), result);
         else
             result.Add("TransactionType", new [] { "TransactionType is Required." });
     
-        TryGetValidationExceptions("ProcessedOnDateTime", () => Cryptocash.Domain.TransactionMetadata.CreateProcessedOnDateTime(this.ProcessedOnDateTime), result);
+        ExecuteActionAndCollectValidationExceptions("ProcessedOnDateTime", () => Cryptocash.Domain.TransactionMetadata.CreateProcessedOnDateTime(this.ProcessedOnDateTime), result);
     
         if (this.Amount is not null)
-            TryGetValidationExceptions("Amount", () => Cryptocash.Domain.TransactionMetadata.CreateAmount(this.Amount.NonNullValue<MoneyDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("Amount", () => Cryptocash.Domain.TransactionMetadata.CreateAmount(this.Amount.NonNullValue<MoneyDto>()), result);
         else
             result.Add("Amount", new [] { "Amount is Required." });
     
         if (this.Reference is not null)
-            TryGetValidationExceptions("Reference", () => Cryptocash.Domain.TransactionMetadata.CreateReference(this.Reference.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("Reference", () => Cryptocash.Domain.TransactionMetadata.CreateReference(this.Reference.NonNullValue<System.String>()), result);
         else
             result.Add("Reference", new [] { "Reference is Required." });
     

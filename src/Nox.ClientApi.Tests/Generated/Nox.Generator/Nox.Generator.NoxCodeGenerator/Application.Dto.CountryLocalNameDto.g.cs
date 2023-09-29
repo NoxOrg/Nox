@@ -36,12 +36,12 @@ public abstract class CountryLocalNameDtoBase : EntityDtoBase, IEntityDto<Countr
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            TryGetValidationExceptions("Name", () => ClientApi.Domain.CountryLocalNameMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("Name", () => ClientApi.Domain.CountryLocalNameMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
         if (this.NativeName is not null)
-            TryGetValidationExceptions("NativeName", () => ClientApi.Domain.CountryLocalNameMetadata.CreateNativeName(this.NativeName.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("NativeName", () => ClientApi.Domain.CountryLocalNameMetadata.CreateNativeName(this.NativeName.NonNullValue<System.String>()), result);
 
         return result;
     }

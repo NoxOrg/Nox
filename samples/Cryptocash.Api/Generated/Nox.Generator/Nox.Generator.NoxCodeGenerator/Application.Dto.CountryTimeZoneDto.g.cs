@@ -36,7 +36,7 @@ public abstract class CountryTimeZoneDtoBase : EntityDtoBase, IEntityDto<Country
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.TimeZoneCode is not null)
-            TryGetValidationExceptions("TimeZoneCode", () => Cryptocash.Domain.CountryTimeZoneMetadata.CreateTimeZoneCode(this.TimeZoneCode.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("TimeZoneCode", () => Cryptocash.Domain.CountryTimeZoneMetadata.CreateTimeZoneCode(this.TimeZoneCode.NonNullValue<System.String>()), result);
         else
             result.Add("TimeZoneCode", new [] { "TimeZoneCode is Required." });
     

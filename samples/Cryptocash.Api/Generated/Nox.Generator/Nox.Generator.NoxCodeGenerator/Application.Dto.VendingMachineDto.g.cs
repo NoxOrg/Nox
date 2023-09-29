@@ -36,34 +36,34 @@ public abstract class VendingMachineDtoBase : EntityDtoBase, IEntityDto<VendingM
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.MacAddress is not null)
-            TryGetValidationExceptions("MacAddress", () => Cryptocash.Domain.VendingMachineMetadata.CreateMacAddress(this.MacAddress.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("MacAddress", () => Cryptocash.Domain.VendingMachineMetadata.CreateMacAddress(this.MacAddress.NonNullValue<System.String>()), result);
         else
             result.Add("MacAddress", new [] { "MacAddress is Required." });
     
         if (this.PublicIp is not null)
-            TryGetValidationExceptions("PublicIp", () => Cryptocash.Domain.VendingMachineMetadata.CreatePublicIp(this.PublicIp.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("PublicIp", () => Cryptocash.Domain.VendingMachineMetadata.CreatePublicIp(this.PublicIp.NonNullValue<System.String>()), result);
         else
             result.Add("PublicIp", new [] { "PublicIp is Required." });
     
         if (this.GeoLocation is not null)
-            TryGetValidationExceptions("GeoLocation", () => Cryptocash.Domain.VendingMachineMetadata.CreateGeoLocation(this.GeoLocation.NonNullValue<LatLongDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("GeoLocation", () => Cryptocash.Domain.VendingMachineMetadata.CreateGeoLocation(this.GeoLocation.NonNullValue<LatLongDto>()), result);
         else
             result.Add("GeoLocation", new [] { "GeoLocation is Required." });
     
         if (this.StreetAddress is not null)
-            TryGetValidationExceptions("StreetAddress", () => Cryptocash.Domain.VendingMachineMetadata.CreateStreetAddress(this.StreetAddress.NonNullValue<StreetAddressDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("StreetAddress", () => Cryptocash.Domain.VendingMachineMetadata.CreateStreetAddress(this.StreetAddress.NonNullValue<StreetAddressDto>()), result);
         else
             result.Add("StreetAddress", new [] { "StreetAddress is Required." });
     
         if (this.SerialNumber is not null)
-            TryGetValidationExceptions("SerialNumber", () => Cryptocash.Domain.VendingMachineMetadata.CreateSerialNumber(this.SerialNumber.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("SerialNumber", () => Cryptocash.Domain.VendingMachineMetadata.CreateSerialNumber(this.SerialNumber.NonNullValue<System.String>()), result);
         else
             result.Add("SerialNumber", new [] { "SerialNumber is Required." });
     
         if (this.InstallationFootPrint is not null)
-            TryGetValidationExceptions("InstallationFootPrint", () => Cryptocash.Domain.VendingMachineMetadata.CreateInstallationFootPrint(this.InstallationFootPrint.NonNullValue<System.Decimal>()), result);
+            ExecuteActionAndCollectValidationExceptions("InstallationFootPrint", () => Cryptocash.Domain.VendingMachineMetadata.CreateInstallationFootPrint(this.InstallationFootPrint.NonNullValue<System.Decimal>()), result);
         if (this.RentPerSquareMetre is not null)
-            TryGetValidationExceptions("RentPerSquareMetre", () => Cryptocash.Domain.VendingMachineMetadata.CreateRentPerSquareMetre(this.RentPerSquareMetre.NonNullValue<MoneyDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("RentPerSquareMetre", () => Cryptocash.Domain.VendingMachineMetadata.CreateRentPerSquareMetre(this.RentPerSquareMetre.NonNullValue<MoneyDto>()), result);
 
         return result;
     }

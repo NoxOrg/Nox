@@ -36,9 +36,9 @@ public abstract class EmailAddressDtoBase : EntityDtoBase, IEntityDto<EmailAddre
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Email is not null)
-            TryGetValidationExceptions("Email", () => ClientApi.Domain.EmailAddressMetadata.CreateEmail(this.Email.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("Email", () => ClientApi.Domain.EmailAddressMetadata.CreateEmail(this.Email.NonNullValue<System.String>()), result);
         if (this.IsVerified is not null)
-            TryGetValidationExceptions("IsVerified", () => ClientApi.Domain.EmailAddressMetadata.CreateIsVerified(this.IsVerified.NonNullValue<System.Boolean>()), result);
+            ExecuteActionAndCollectValidationExceptions("IsVerified", () => ClientApi.Domain.EmailAddressMetadata.CreateIsVerified(this.IsVerified.NonNullValue<System.Boolean>()), result);
 
         return result;
     }

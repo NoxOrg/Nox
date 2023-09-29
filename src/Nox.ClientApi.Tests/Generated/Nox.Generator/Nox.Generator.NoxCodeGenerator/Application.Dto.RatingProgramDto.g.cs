@@ -36,11 +36,11 @@ public abstract class RatingProgramDtoBase : EntityDtoBase, IEntityDto<RatingPro
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if(this.StoreId != default(System.Guid))
-            TryGetValidationExceptions("StoreId", () => ClientApi.Domain.RatingProgramMetadata.CreateStoreId(this.StoreId), result);
+            ExecuteActionAndCollectValidationExceptions("StoreId", () => ClientApi.Domain.RatingProgramMetadata.CreateStoreId(this.StoreId), result);
         else
             result.Add("StoreId", new [] { "StoreId is Required." });
         if (this.Name is not null)
-            TryGetValidationExceptions("Name", () => ClientApi.Domain.RatingProgramMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("Name", () => ClientApi.Domain.RatingProgramMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
 
         return result;
     }

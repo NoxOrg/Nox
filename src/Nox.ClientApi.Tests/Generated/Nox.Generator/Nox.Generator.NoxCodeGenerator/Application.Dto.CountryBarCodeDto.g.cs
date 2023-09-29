@@ -36,12 +36,12 @@ public abstract class CountryBarCodeDtoBase : EntityDtoBase, IEntityDto<CountryB
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.BarCodeName is not null)
-            TryGetValidationExceptions("BarCodeName", () => ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeName(this.BarCodeName.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("BarCodeName", () => ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeName(this.BarCodeName.NonNullValue<System.String>()), result);
         else
             result.Add("BarCodeName", new [] { "BarCodeName is Required." });
     
         if (this.BarCodeNumber is not null)
-            TryGetValidationExceptions("BarCodeNumber", () => ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeNumber(this.BarCodeNumber.NonNullValue<System.Int32>()), result);
+            ExecuteActionAndCollectValidationExceptions("BarCodeNumber", () => ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeNumber(this.BarCodeNumber.NonNullValue<System.Int32>()), result);
 
         return result;
     }

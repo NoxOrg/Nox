@@ -35,9 +35,9 @@ public abstract class CommissionDtoBase : EntityDtoBase, IEntityDto<Commission>
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
-        TryGetValidationExceptions("Rate", () => Cryptocash.Domain.CommissionMetadata.CreateRate(this.Rate), result);
+        ExecuteActionAndCollectValidationExceptions("Rate", () => Cryptocash.Domain.CommissionMetadata.CreateRate(this.Rate), result);
     
-        TryGetValidationExceptions("EffectiveAt", () => Cryptocash.Domain.CommissionMetadata.CreateEffectiveAt(this.EffectiveAt), result);
+        ExecuteActionAndCollectValidationExceptions("EffectiveAt", () => Cryptocash.Domain.CommissionMetadata.CreateEffectiveAt(this.EffectiveAt), result);
     
 
         return result;

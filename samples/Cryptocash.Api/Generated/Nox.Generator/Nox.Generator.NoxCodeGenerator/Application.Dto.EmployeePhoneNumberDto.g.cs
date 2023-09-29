@@ -36,12 +36,12 @@ public abstract class EmployeePhoneNumberDtoBase : EntityDtoBase, IEntityDto<Emp
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.PhoneNumberType is not null)
-            TryGetValidationExceptions("PhoneNumberType", () => Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumberType(this.PhoneNumberType.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("PhoneNumberType", () => Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumberType(this.PhoneNumberType.NonNullValue<System.String>()), result);
         else
             result.Add("PhoneNumberType", new [] { "PhoneNumberType is Required." });
     
         if (this.PhoneNumber is not null)
-            TryGetValidationExceptions("PhoneNumber", () => Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumber(this.PhoneNumber.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("PhoneNumber", () => Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumber(this.PhoneNumber.NonNullValue<System.String>()), result);
         else
             result.Add("PhoneNumber", new [] { "PhoneNumber is Required." });
     

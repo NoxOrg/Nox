@@ -12,11 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cryptocash.Api.Migrations
 {
     [DbContext(typeof(CryptocashDbContext))]
-<<<<<<<< HEAD:samples/Cryptocash.Api/Migrations/20230928091446_InitialCreate.Designer.cs
-    [Migration("20230928091446_InitialCreate")]
-========
-    [Migration("20230926113020_InitialCreate")]
->>>>>>>> main:samples/Cryptocash.Api/Migrations/20230926113020_InitialCreate.Designer.cs
+    [Migration("20230929083336_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -1096,7 +1092,7 @@ namespace Cryptocash.Api.Migrations
 
                     b.HasIndex("VendingMachineRequiredMinimumCashStocksId");
 
-                    b.ToTable("MinimumCashStockVendingMachine");
+                    b.ToTable("VendingMachineRequiredMinimumCashStocks", (string)null);
                 });
 
             modelBuilder.Entity("Cryptocash.Domain.Booking", b =>

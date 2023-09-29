@@ -36,29 +36,29 @@ public abstract class EmployeeDtoBase : EntityDtoBase, IEntityDto<Employee>
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.FirstName is not null)
-            TryGetValidationExceptions("FirstName", () => Cryptocash.Domain.EmployeeMetadata.CreateFirstName(this.FirstName.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("FirstName", () => Cryptocash.Domain.EmployeeMetadata.CreateFirstName(this.FirstName.NonNullValue<System.String>()), result);
         else
             result.Add("FirstName", new [] { "FirstName is Required." });
     
         if (this.LastName is not null)
-            TryGetValidationExceptions("LastName", () => Cryptocash.Domain.EmployeeMetadata.CreateLastName(this.LastName.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("LastName", () => Cryptocash.Domain.EmployeeMetadata.CreateLastName(this.LastName.NonNullValue<System.String>()), result);
         else
             result.Add("LastName", new [] { "LastName is Required." });
     
         if (this.EmailAddress is not null)
-            TryGetValidationExceptions("EmailAddress", () => Cryptocash.Domain.EmployeeMetadata.CreateEmailAddress(this.EmailAddress.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("EmailAddress", () => Cryptocash.Domain.EmployeeMetadata.CreateEmailAddress(this.EmailAddress.NonNullValue<System.String>()), result);
         else
             result.Add("EmailAddress", new [] { "EmailAddress is Required." });
     
         if (this.Address is not null)
-            TryGetValidationExceptions("Address", () => Cryptocash.Domain.EmployeeMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("Address", () => Cryptocash.Domain.EmployeeMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
         else
             result.Add("Address", new [] { "Address is Required." });
     
-        TryGetValidationExceptions("FirstWorkingDay", () => Cryptocash.Domain.EmployeeMetadata.CreateFirstWorkingDay(this.FirstWorkingDay), result);
+        ExecuteActionAndCollectValidationExceptions("FirstWorkingDay", () => Cryptocash.Domain.EmployeeMetadata.CreateFirstWorkingDay(this.FirstWorkingDay), result);
     
         if (this.LastWorkingDay is not null)
-            TryGetValidationExceptions("LastWorkingDay", () => Cryptocash.Domain.EmployeeMetadata.CreateLastWorkingDay(this.LastWorkingDay.NonNullValue<System.DateTime>()), result);
+            ExecuteActionAndCollectValidationExceptions("LastWorkingDay", () => Cryptocash.Domain.EmployeeMetadata.CreateLastWorkingDay(this.LastWorkingDay.NonNullValue<System.DateTime>()), result);
 
         return result;
     }
