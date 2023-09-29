@@ -7,6 +7,10 @@
 
 name: SampleService
 
+platformId: "Nox"
+
+version: "2.0"
+
 description: Sample Nox solution yaml configuration
 
 variables:
@@ -80,15 +84,15 @@ domain:
         schema: dbo
         create:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
         read:
           isEnabled: true
         update:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
         delete:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
 
       relationships:
 

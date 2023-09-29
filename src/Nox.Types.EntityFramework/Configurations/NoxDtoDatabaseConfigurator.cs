@@ -57,7 +57,8 @@ public class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
             {
                 builder
                     .HasMany(relationshipToCreate.Name)
-                    .WithMany(relationshipToCreate.Related.EntityRelationship.Name);
+                    .WithMany(relationshipToCreate.Related.EntityRelationship.Name)
+                    .UsingEntity(x => x.ToTable(relationshipToCreate.Name));
             }
             // OneToOne and OneToMany, setup should be done only on foreign key side
             else if (relationshipToCreate.ShouldGenerateForeignKeyOnThisSide() &&
@@ -85,7 +86,6 @@ public class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
 
     private static void ConfigureOwnedRelations(NoxSolutionCodeGeneratorState codeGeneratorState, IEntityBuilder builder, Entity entity)
     {
-
         var keyNames = entity.Keys!.Select(x => x.Name);
 
         //#pragma warning disable S3267 // Loops should be simplified with "LINQ" expressions

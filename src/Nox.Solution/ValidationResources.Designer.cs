@@ -1078,6 +1078,33 @@ namespace Nox.Solution {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Solution Platform Id is missing. Platform Id must be specified for the solution..
+        /// </summary>
+        internal static string SolutionPlatformIdEmpty {
+            get {
+                return ResourceManager.GetString("SolutionPlatformIdEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Solution version is missing. Version must be specified for the solution..
+        /// </summary>
+        internal static string SolutionVersionEmpty {
+            get {
+                return ResourceManager.GetString("SolutionVersionEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Solution Version doesn&apos;t satisfy pattern..
+        /// </summary>
+        internal static string SolutionVersionPattern {
+            get {
+                return ResourceManager.GetString("SolutionVersionPattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Team Member &apos;{0}&apos; has no roles defined. Each member in the solution team must have at least one role..
         /// </summary>
         internal static string TeamRolesEmpty {

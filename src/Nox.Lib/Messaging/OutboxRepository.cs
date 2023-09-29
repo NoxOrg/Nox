@@ -22,7 +22,7 @@ namespace Nox.Messaging
         {
             _logger.LogInformation($"Publish message {typeof(T)} to {_bus.GetType()}");
 
-            var cloudEventRecord =  new CloudEventRecord<T>(integrationEvent);
+            var cloudEventRecord =  new NoxMessageRecord<T>(integrationEvent);
             await _bus.Publish(cloudEventRecord,            
                 sendContext =>
                 {
@@ -42,6 +42,7 @@ namespace Nox.Messaging
                     cloudEvent.Validate();
 
                     cloudEvent.MapToRecord(sendContext.Message, _userProvider.GetUser().ToString());
+                    
                 });
             
             _logger.LogInformation("Publish message {typeName} in PublishEndpoint ", typeof(T));

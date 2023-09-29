@@ -25,11 +25,11 @@ internal partial class CreateBookingCommandHandler: CreateBookingCommandHandlerB
 	public CreateBookingCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> customerfactory,
-        IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
-        IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> commissionfactory,
-        IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> transactionfactory,
-        IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> entityFactory,
+		IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> customerfactory,
+		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
+		IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> commissionfactory,
+		IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> transactionfactory,
+		IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> entityFactory,
 		IServiceProvider serviceProvider)
 		: base(dbContext, noxSolution,customerfactory, vendingmachinefactory, commissionfactory, transactionfactory, entityFactory, serviceProvider)
 	{
@@ -41,27 +41,27 @@ internal abstract class CreateBookingCommandHandlerBase: CommandBase<CreateBooki
 {
 	private readonly CryptocashDbContext _dbContext;
 	private readonly IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> _entityFactory;
-    private readonly IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> _customerfactory;
-    private readonly IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> _vendingmachinefactory;
-    private readonly IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> _commissionfactory;
-    private readonly IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> _transactionfactory;
+	private readonly IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> _customerfactory;
+	private readonly IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> _vendingmachinefactory;
+	private readonly IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> _commissionfactory;
+	private readonly IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> _transactionfactory;
 
 	public CreateBookingCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> customerfactory,
-        IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
-        IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> commissionfactory,
-        IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> transactionfactory,
-        IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> entityFactory,
+		IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> customerfactory,
+		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
+		IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> commissionfactory,
+		IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> transactionfactory,
+		IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
-        _customerfactory = customerfactory;
-        _vendingmachinefactory = vendingmachinefactory;
-        _commissionfactory = commissionfactory;
-        _transactionfactory = transactionfactory;
+		_customerfactory = customerfactory;
+		_vendingmachinefactory = vendingmachinefactory;
+		_commissionfactory = commissionfactory;
+		_transactionfactory = transactionfactory;
 	}
 
 	public virtual async Task<BookingKeyDto> Handle(CreateBookingCommand request, CancellationToken cancellationToken)

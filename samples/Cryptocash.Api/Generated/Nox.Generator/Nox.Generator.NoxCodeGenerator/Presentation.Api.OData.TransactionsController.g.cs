@@ -28,7 +28,7 @@ public partial class TransactionsController : TransactionsControllerBase
     public TransactionsController(IMediator mediator):base(mediator)
     {}
 }
-public abstract class TransactionsControllerBase : ODataController
+public abstract partial class TransactionsControllerBase : ODataController
 {
     
     /// <summary>

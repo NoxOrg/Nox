@@ -1,7 +1,7 @@
 #
-# databaseguid.entity.nox.yaml
+# workplace.entity.nox.yaml
 #
-# yaml-language-server: $schema=https://noxorg.dev/schemas/entity.json
+# yaml-language-server: $schema=../../../../../schemas/entity.json
 #
 
 name: Workplace
@@ -54,12 +54,12 @@ persistence:
     isAudited: false    
     create:
         isEnabled: true
-        raiseEvents: true
+        raiseEvents: domainEventsOnly
     read:
         isEnabled: true
     update:
         isEnabled: true
-        raiseEvents: true
+        raiseEvents: domainEventsOnly
     delete:
         isEnabled: true
-        raiseEvents: true
+        raiseEvents: domainEventsOnly

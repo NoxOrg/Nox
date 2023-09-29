@@ -35,6 +35,22 @@ public partial class CountryUpdateDto : IEntityDto<Country>
     /// </summary>
     public System.String? FirstLanguageCode { get; set; }
     /// <summary>
+    /// Country's iso number id (Optional).
+    /// </summary>
+    public System.UInt16? CountryIsoNumeric { get; set; }
+    /// <summary>
+    /// Country's iso alpha3 id (Optional).
+    /// </summary>
+    public System.String? CountryIsoAlpha3 { get; set; }
+    /// <summary>
+    /// Country's map via google maps (Optional).
+    /// </summary>
+    public System.String? GoogleMapsUrl { get; set; }
+    /// <summary>
+    /// Country's start of week day (Optional).
+    /// </summary>
+    public System.UInt16? StartOfWeek { get; set; }
+    /// <summary>
     /// Country is also coded as ZeroOrOne CountryBarCodes
     /// </summary>
     public CountryBarCodeUpdateDto? CountryBarCode { get; set; } = null!;

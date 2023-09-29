@@ -14,6 +14,7 @@ using Nox.Types.EntityFramework.Abstractions;
 using Nox.EntityFramework.Sqlite;
 using Nox.EntityFramework.Postgres;
 using Nox.EntityFramework.SqlServer;
+using Nox.Messaging.InMemoryBus;
 
 namespace Nox.Configuration
 {
@@ -39,7 +40,8 @@ namespace Nox.Configuration
         {
             _configureMassTransitTransactionalOutbox = null;
         }
-        public void WithMessagingTransactionalOutbox<T>() where T : DbContext
+        
+        public void WithMessagingTransactionalOutbox<T>(bool disableDeliveryService = false) where T : DbContext
         {
             _configureMassTransitTransactionalOutbox = (_serviceCollectionBusConfigurator, databaseProvider) =>
             {
@@ -67,9 +69,15 @@ namespace Nox.Configuration
                     o.DisableInboxCleanupService();
 
                     //Disable message delivery
-                    //o.UseBusOutbox(c=>c.DisableDeliveryService());
-                    // enable the bus outbox
-                    o.UseBusOutbox();
+                    if(disableDeliveryService)
+                    {
+                        o.UseBusOutbox(c => c.DisableDeliveryService());
+                    }
+                    else
+                    {
+                        // enable the bus outbox
+                        o.UseBusOutbox();
+                    }                    
                 });
             };
         }

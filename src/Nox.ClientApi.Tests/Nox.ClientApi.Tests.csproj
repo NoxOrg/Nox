@@ -43,6 +43,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Folder Include="Application\Commands\" />
 		<Folder Include="Generated\Nox.Generator\Nox.Generator.NoxCodeGenerator\" />
 	</ItemGroup>
 	<ItemGroup>

@@ -50,16 +50,16 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
     private ClientApi.Domain.CountryLocalName ToEntity(CountryLocalNameCreateDto createDto)
     {
         var entity = new ClientApi.Domain.CountryLocalName();
-        entity.Name = ClientApi.Domain.CountryLocalName.CreateName(createDto.Name);
-        if (createDto.NativeName is not null)entity.NativeName = ClientApi.Domain.CountryLocalName.CreateNativeName(createDto.NativeName.NonNullValue<System.String>());
+        entity.Name = ClientApi.Domain.CountryLocalNameMetadata.CreateName(createDto.Name);
+        if (createDto.NativeName is not null)entity.NativeName = ClientApi.Domain.CountryLocalNameMetadata.CreateNativeName(createDto.NativeName.NonNullValue<System.String>());
         return entity;
     }
 
     private void UpdateEntityInternal(CountryLocalName entity, CountryLocalNameUpdateDto updateDto)
     {
-        entity.Name = ClientApi.Domain.CountryLocalName.CreateName(updateDto.Name.NonNullValue<System.String>());
+        entity.Name = ClientApi.Domain.CountryLocalNameMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         if (updateDto.NativeName == null) { entity.NativeName = null; } else {
-            entity.NativeName = ClientApi.Domain.CountryLocalName.CreateNativeName(updateDto.NativeName.ToValueFromNonNull<System.String>());
+            entity.NativeName = ClientApi.Domain.CountryLocalNameMetadata.CreateNativeName(updateDto.NativeName.ToValueFromNonNull<System.String>());
         }
     }
 
@@ -73,7 +73,7 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
                 throw new ArgumentException("Attribute 'Name' can't be null");
             }
             {
-                entity.Name = ClientApi.Domain.CountryLocalName.CreateName(NameUpdateValue);
+                entity.Name = ClientApi.Domain.CountryLocalNameMetadata.CreateName(NameUpdateValue);
             }
         }
 
@@ -82,7 +82,7 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
             if (NativeNameUpdateValue == null) { entity.NativeName = null; }
             else
             {
-                entity.NativeName = ClientApi.Domain.CountryLocalName.CreateNativeName(NativeNameUpdateValue);
+                entity.NativeName = ClientApi.Domain.CountryLocalNameMetadata.CreateNativeName(NativeNameUpdateValue);
             }
         }
     }

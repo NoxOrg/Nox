@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -7,30 +7,46 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace SampleWebApp.Domain;
-public partial class Country:CountryBase
-{
 
+internal partial class Country : CountryBase, IEntityHaveDomainEvents
+{
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for Country created event.
 /// </summary>
-public record CountryCreated(Country Country) : IDomainEvent;
+internal record CountryCreated(Country Country) : IDomainEvent;
 /// <summary>
 /// Record for Country updated event.
 /// </summary>
-public record CountryUpdated(Country Country) : IDomainEvent;
+internal record CountryUpdated(Country Country) : IDomainEvent;
 /// <summary>
 /// Record for Country deleted event.
 /// </summary>
-public record CountryDeleted(Country Country) : IDomainEvent;
+internal record CountryDeleted(Country Country) : IDomainEvent;
 
 /// <summary>
 /// The list of countries.
 /// </summary>
-public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -62,6 +78,33 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// The country's official name (Required).
     /// </summary>
     public Nox.Types.Text FormalName { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(Country country)
+	{
+		InternalDomainEvents.Add(new CountryCreated(country));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(Country country)
+	{
+		InternalDomainEvents.Add(new CountryUpdated(country));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(Country country)
+	{
+		InternalDomainEvents.Add(new CountryDeleted(country));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// Entity tag used as concurrency token.

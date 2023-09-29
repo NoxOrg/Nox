@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -40,4 +41,16 @@ public partial class {{className}}
         => Nox.Types.{{entityMetaData.Type}}.From(value);
     {{ end }}
 {{- end }}
+
+    {{- for attribute in entity.Attributes }}
+
+        /// <summary>
+        /// User Interface for property '{{attribute.Name}}'
+        /// </summary>
+        public static TypeUserInterface? {{attribute.Name}}UiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("{{entity.Name}}")
+                .GetAttributeByName("{{attribute.Name}}")?
+                .UserInterface;
+    {{- end }}
 }

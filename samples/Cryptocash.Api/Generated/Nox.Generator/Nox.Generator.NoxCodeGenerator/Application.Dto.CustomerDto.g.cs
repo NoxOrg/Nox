@@ -3,10 +3,12 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
@@ -17,11 +19,48 @@ namespace Cryptocash.Application.Dto;
 
 public record CustomerKeyDto(System.Int64 keyId);
 
+public partial class CustomerDto : CustomerDtoBase
+{
+
+}
+
 /// <summary>
 /// Customer definition and related data.
 /// </summary>
-public partial class CustomerDto
+public abstract class CustomerDtoBase : EntityDtoBase, IEntityDto<Customer>
 {
+
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+    
+        if (this.FirstName is not null)
+            TryGetValidationExceptions("FirstName", () => Cryptocash.Domain.CustomerMetadata.CreateFirstName(this.FirstName.NonNullValue<System.String>()), result);
+        else
+            result.Add("FirstName", new [] { "FirstName is Required." });
+    
+        if (this.LastName is not null)
+            TryGetValidationExceptions("LastName", () => Cryptocash.Domain.CustomerMetadata.CreateLastName(this.LastName.NonNullValue<System.String>()), result);
+        else
+            result.Add("LastName", new [] { "LastName is Required." });
+    
+        if (this.EmailAddress is not null)
+            TryGetValidationExceptions("EmailAddress", () => Cryptocash.Domain.CustomerMetadata.CreateEmailAddress(this.EmailAddress.NonNullValue<System.String>()), result);
+        else
+            result.Add("EmailAddress", new [] { "EmailAddress is Required." });
+    
+        if (this.Address is not null)
+            TryGetValidationExceptions("Address", () => Cryptocash.Domain.CustomerMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
+        else
+            result.Add("Address", new [] { "Address is Required." });
+    
+        if (this.MobileNumber is not null)
+            TryGetValidationExceptions("MobileNumber", () => Cryptocash.Domain.CustomerMetadata.CreateMobileNumber(this.MobileNumber.NonNullValue<System.String>()), result);
+
+        return result;
+    }
+    #endregion
 
     /// <summary>
     /// Customer's unique identifier (Required).

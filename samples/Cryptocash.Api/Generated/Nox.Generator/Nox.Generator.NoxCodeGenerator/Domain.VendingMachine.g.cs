@@ -7,30 +7,46 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-public partial class VendingMachine:VendingMachineBase
-{
 
+internal partial class VendingMachine : VendingMachineBase, IEntityHaveDomainEvents
+{
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for VendingMachine created event.
 /// </summary>
-public record VendingMachineCreated(VendingMachine VendingMachine) : IDomainEvent;
+internal record VendingMachineCreated(VendingMachine VendingMachine) : IDomainEvent;
 /// <summary>
 /// Record for VendingMachine updated event.
 /// </summary>
-public record VendingMachineUpdated(VendingMachine VendingMachine) : IDomainEvent;
+internal record VendingMachineUpdated(VendingMachine VendingMachine) : IDomainEvent;
 /// <summary>
 /// Record for VendingMachine deleted event.
 /// </summary>
-public record VendingMachineDeleted(VendingMachine VendingMachine) : IDomainEvent;
+internal record VendingMachineDeleted(VendingMachine VendingMachine) : IDomainEvent;
 
 /// <summary>
 /// Vending machine definition and related data.
 /// </summary>
-public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class VendingMachineBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Vending machine unique identifier (Required).
@@ -87,6 +103,33 @@ public abstract class VendingMachineBase : AuditableEntityBase, IEntityConcurren
     /// Landlord rent amount based on area of the vending machine installation (Optional).
     /// </summary>
     public Nox.Types.Money? RentPerSquareMetre { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(VendingMachine vendingMachine)
+	{
+		InternalDomainEvents.Add(new VendingMachineCreated(vendingMachine));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(VendingMachine vendingMachine)
+	{
+		InternalDomainEvents.Add(new VendingMachineUpdated(vendingMachine));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(VendingMachine vendingMachine)
+	{
+		InternalDomainEvents.Add(new VendingMachineDeleted(vendingMachine));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// VendingMachine installed in ExactlyOne Countries

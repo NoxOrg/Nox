@@ -7,30 +7,46 @@ using System.Collections.Generic;
 
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-public partial class CashStockOrder:CashStockOrderBase
-{
 
+internal partial class CashStockOrder : CashStockOrderBase, IEntityHaveDomainEvents
+{
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for CashStockOrder created event.
 /// </summary>
-public record CashStockOrderCreated(CashStockOrder CashStockOrder) : IDomainEvent;
+internal record CashStockOrderCreated(CashStockOrder CashStockOrder) : IDomainEvent;
 /// <summary>
 /// Record for CashStockOrder updated event.
 /// </summary>
-public record CashStockOrderUpdated(CashStockOrder CashStockOrder) : IDomainEvent;
+internal record CashStockOrderUpdated(CashStockOrder CashStockOrder) : IDomainEvent;
 /// <summary>
 /// Record for CashStockOrder deleted event.
 /// </summary>
-public record CashStockOrderDeleted(CashStockOrder CashStockOrder) : IDomainEvent;
+internal record CashStockOrderDeleted(CashStockOrder CashStockOrder) : IDomainEvent;
 
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-public abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class CashStockOrderBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Vending machine's order unique identifier (Required).
@@ -60,6 +76,33 @@ public abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurren
         get { return DeliveryDateTime != null ? "delivered" : "ordered"; }
         private set { }
     }
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(CashStockOrder cashStockOrder)
+	{
+		InternalDomainEvents.Add(new CashStockOrderCreated(cashStockOrder));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(CashStockOrder cashStockOrder)
+	{
+		InternalDomainEvents.Add(new CashStockOrderUpdated(cashStockOrder));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(CashStockOrder cashStockOrder)
+	{
+		InternalDomainEvents.Add(new CashStockOrderDeleted(cashStockOrder));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// CashStockOrder for ExactlyOne VendingMachines

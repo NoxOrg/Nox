@@ -46,6 +46,22 @@ public abstract class CountryCreateDtoBase : IEntityDto<Country>
     /// The Formula (Optional).
     /// </summary>
     public virtual System.String? ShortDescription { get; set; }
+    /// <summary>
+    /// Country's iso number id (Optional).
+    /// </summary>
+    public virtual System.UInt16? CountryIsoNumeric { get; set; }
+    /// <summary>
+    /// Country's iso alpha3 id (Optional).
+    /// </summary>
+    public virtual System.String? CountryIsoAlpha3 { get; set; }
+    /// <summary>
+    /// Country's map via google maps (Optional).
+    /// </summary>
+    public virtual System.String? GoogleMapsUrl { get; set; }
+    /// <summary>
+    /// Country's start of week day (Optional).
+    /// </summary>
+    public virtual System.UInt16? StartOfWeek { get; set; }
 
     /// <summary>
     /// Country Country workplaces ZeroOrMany Workplaces

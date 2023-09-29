@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Nox.Generator.Tests.Common;
 
-public class ApplicationExtensionTests: IClassFixture<GeneratorFixture>
+public class ApplicationExtensionTests : IClassFixture<GeneratorFixture>
 {
     private readonly GeneratorFixture _fixture;
 
@@ -15,24 +15,23 @@ public class ApplicationExtensionTests: IClassFixture<GeneratorFixture>
     {
         _fixture = fixture;
     }
-    
-    
+
     [Fact]
     public void Can_generate_application_extensions_file()
     {
         var path = "files/yaml/common/";
         var additionalFiles = new List<AdditionalSourceText>
         {
-            new AdditionalSourceText(File.ReadAllText($"./{path}generator.nox.yaml"), $"{path}/generator.nox.yaml"),
-            new AdditionalSourceText(File.ReadAllText($"./{path}app-builder.solution.nox.yaml"), $"{path}/app-builder.solution.nox.yaml")
+            new(File.ReadAllText($"./{path}generator.nox.yaml"), $"{path}/generator.nox.yaml"),
+            new(File.ReadAllText($"./{path}app-builder.solution.nox.yaml"), $"{path}/app-builder.solution.nox.yaml")
         };
 
         // trackIncrementalGeneratorSteps allows to report info about each step of the generator
         GeneratorDriver driver = CSharpGeneratorDriver.Create(
-            generators: new [] { _fixture.TestGenerator },
+            generators: new[] { _fixture.TestGenerator },
             additionalTexts: additionalFiles,
             driverOptions: new GeneratorDriverOptions(default, trackIncrementalGeneratorSteps: true));
-        
+
         // Run the generator
         driver = driver.RunGenerators(_fixture.TestCompilation!);
 
@@ -48,7 +47,7 @@ public class ApplicationExtensionTests: IClassFixture<GeneratorFixture>
 
         var extensionsFilename = "Application.NoxWebApplicationExtensions.g.cs";
         Assert.True(generatedSources.Any(s => s.HintName == extensionsFilename), $"{extensionsFilename} not generated");
-        
+
         Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/NoxWebApplicationExtensions.expected.g.cs"), generatedSources.First(s => s.HintName == extensionsFilename).SourceText.ToString());
         //can further extend this test to verify contents of source files.
     }
