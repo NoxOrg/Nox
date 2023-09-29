@@ -5,8 +5,11 @@
   "oneOf": [
     {
       "type": "object"
+    },
+    {
+      "type": "null"
     }
-  ]
+  ],
   "required": [
     "name"
   ],
@@ -23,6 +26,9 @@
       "oneOf": [
         {
           "type": "string"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -33,6 +39,9 @@
         {
           "type": "string",
           "pattern": "^[^\\s]*$"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -72,8 +81,11 @@
       "oneOf": [
         {
           "type": "array"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "items":   {
         "anyOf": [
           { "$ref": "entityRelationship.json" },
@@ -97,8 +109,11 @@
       "oneOf": [
         {
           "type": "array"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "items":   {
         "anyOf": [
           { "$ref": "entityRelationship.json" },
@@ -122,8 +137,11 @@
       "oneOf": [
         {
           "type": "array"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "items":   {
         "anyOf": [
           { "$ref": "domainQuery.json" },
@@ -147,8 +165,11 @@
       "oneOf": [
         {
           "type": "array"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "items":   {
         "anyOf": [
           { "$ref": "domainCommand.json" },
@@ -172,8 +193,11 @@
       "oneOf": [
         {
           "type": "array"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "items":   {
         "anyOf": [
           { "$ref": "dto.json" },
@@ -197,8 +221,11 @@
       "oneOf": [
         {
           "type": "array"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "items":   {
         "anyOf": [
           { "$ref": "type.json" },
@@ -221,8 +248,11 @@
       "oneOf": [
         {
           "type": "array"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "items":   {
         "anyOf": [
           { "$ref": "type.json" },
@@ -246,8 +276,11 @@
       "oneOf": [
         {
           "type": "array"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "items":   {
         "anyOf": [
           { "$ref": "uniqueAttributeConstraint.json" },
@@ -269,6 +302,9 @@
       "oneOf": [
         {
           "type": "boolean"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -291,6 +327,9 @@
       "oneOf": [
         {
           "type": "boolean"
+        },
+        {
+          "type": "null"
         }
       ]
     }

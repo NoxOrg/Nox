@@ -5,8 +5,11 @@
   "oneOf": [
     {
       "type": "object"
+    },
+    {
+      "type": "null"
     }
-  ]
+  ],
   "properties": {
     "emailServer": {    
       "anyOf": [

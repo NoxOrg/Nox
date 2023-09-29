@@ -5,8 +5,11 @@
   "oneOf": [
     {
       "type": "object"
+    },
+    {
+      "type": "null"
     }
-  ]
+  ],
   "properties": {
     "icon": {    
       "title": "An icon that distinctly and visually represents the entity.",
@@ -15,6 +18,9 @@
         {
           "type": "string",
           "pattern": "^[^\\s]*$"
+        },
+        {
+          "type": "null"
         }
       ]
     }

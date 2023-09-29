@@ -5,8 +5,11 @@
   "oneOf": [
     {
       "type": "object"
+    },
+    {
+      "type": "null"
     }
-  ]
+  ],
   "required": [
     "name",
     "source",
@@ -25,6 +28,9 @@
       "oneOf": [
         {
           "type": "string"
+        },
+        {
+          "type": "null"
         }
       ]
     },

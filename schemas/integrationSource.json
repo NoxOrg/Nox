@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Definition namespace for attributes describing the source component of an ETL integration.",
   "description": "This section details ETL source attributes like name, description, scheduling and watermark specifications.",
-  "type": "object"
+  "type": "object",
   "required": [
     "name",
     "sourceType",
@@ -28,6 +28,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -37,8 +40,11 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "required": [
             "start"
           ],
@@ -54,8 +60,11 @@
               "oneOf": [
                 {
                   "type": "object"
+                },
+                {
+                  "type": "null"
                 }
-              ]
+              ],
               "properties": {
                 "limit": {    
                   "oneOf": [
@@ -114,8 +123,11 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "required": [
             "query"
           ],
@@ -144,7 +156,7 @@
           "title": "The name of the integration source. Contains no spaces.",
           "description": "The name of the data connection for this integration source. This must refer to an existing data connection in infrastructure, dependencies, dataConnections.",
           "type": "string",
-          "pattern": "^[^\\s]*$"
+          "pattern": "^[^\\s]*$",
           "additionalProperties": false
         },
         "watermark": {    
@@ -153,8 +165,11 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "dateColumns": {    
               "title": "Column(s) in datetime format used for watermark purpose.",
@@ -162,12 +177,18 @@
               "oneOf": [
                 {
                   "type": "array"
+                },
+                {
+                  "type": "null"
                 }
-              ]
+              ],
               "items":   {
                 "oneOf": [
                   {
                     "type": "string"
+                  },
+                  {
+                    "type": "null"
                   }
                 ]
               }
@@ -178,6 +199,9 @@
               "oneOf": [
                 {
                   "type": "string"
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -206,6 +230,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -215,8 +242,11 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "required": [
             "start"
           ],
@@ -232,8 +262,11 @@
               "oneOf": [
                 {
                   "type": "object"
+                },
+                {
+                  "type": "null"
                 }
-              ]
+              ],
               "properties": {
                 "limit": {    
                   "oneOf": [
@@ -292,8 +325,11 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "required": [
             "filename"
           ],
@@ -310,7 +346,7 @@
           "title": "The name of the integration source. Contains no spaces.",
           "description": "The name of the data connection for this integration source. This must refer to an existing data connection in infrastructure, dependencies, dataConnections.",
           "type": "string",
-          "pattern": "^[^\\s]*$"
+          "pattern": "^[^\\s]*$",
           "additionalProperties": false
         },
         "watermark": {    
@@ -319,8 +355,11 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "dateColumns": {    
               "title": "Column(s) in datetime format used for watermark purpose.",
@@ -328,12 +367,18 @@
               "oneOf": [
                 {
                   "type": "array"
+                },
+                {
+                  "type": "null"
                 }
-              ]
+              ],
               "items":   {
                 "oneOf": [
                   {
                     "type": "string"
+                  },
+                  {
+                    "type": "null"
                   }
                 ]
               }
@@ -344,6 +389,9 @@
               "oneOf": [
                 {
                   "type": "string"
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -372,6 +420,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -381,8 +432,11 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "required": [
             "start"
           ],
@@ -398,8 +452,11 @@
               "oneOf": [
                 {
                   "type": "object"
+                },
+                {
+                  "type": "null"
                 }
-              ]
+              ],
               "properties": {
                 "limit": {    
                   "oneOf": [
@@ -458,8 +515,11 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "required": [
             "sourceName"
           ],
@@ -476,7 +536,7 @@
           "title": "The name of the integration source. Contains no spaces.",
           "description": "The name of the data connection for this integration source. This must refer to an existing data connection in infrastructure, dependencies, dataConnections.",
           "type": "string",
-          "pattern": "^[^\\s]*$"
+          "pattern": "^[^\\s]*$",
           "additionalProperties": false
         },
         "watermark": {    
@@ -485,8 +545,11 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "dateColumns": {    
               "title": "Column(s) in datetime format used for watermark purpose.",
@@ -494,12 +557,18 @@
               "oneOf": [
                 {
                   "type": "array"
+                },
+                {
+                  "type": "null"
                 }
-              ]
+              ],
               "items":   {
                 "oneOf": [
                   {
                     "type": "string"
+                  },
+                  {
+                    "type": "null"
                   }
                 ]
               }
@@ -510,6 +579,9 @@
               "oneOf": [
                 {
                   "type": "string"
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -538,6 +610,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -547,8 +622,11 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "required": [
             "start"
           ],
@@ -564,8 +642,11 @@
               "oneOf": [
                 {
                   "type": "object"
+                },
+                {
+                  "type": "null"
                 }
-              ]
+              ],
               "properties": {
                 "limit": {    
                   "oneOf": [
@@ -624,8 +705,11 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "route": {    
               "title": "The path component for the request URI.",
@@ -633,6 +717,9 @@
               "oneOf": [
                 {
                   "type": "string"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -646,6 +733,9 @@
                     "json",
                     "xml"
                   ]
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -659,6 +749,9 @@
                     "get",
                     "post"
                   ]
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -669,7 +762,7 @@
           "title": "The name of the integration source. Contains no spaces.",
           "description": "The name of the data connection for this integration source. This must refer to an existing data connection in infrastructure, dependencies, dataConnections.",
           "type": "string",
-          "pattern": "^[^\\s]*$"
+          "pattern": "^[^\\s]*$",
           "additionalProperties": false
         },
         "watermark": {    
@@ -678,8 +771,11 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "dateColumns": {    
               "title": "Column(s) in datetime format used for watermark purpose.",
@@ -687,12 +783,18 @@
               "oneOf": [
                 {
                   "type": "array"
+                },
+                {
+                  "type": "null"
                 }
-              ]
+              ],
               "items":   {
                 "oneOf": [
                   {
                     "type": "string"
+                  },
+                  {
+                    "type": "null"
                   }
                 ]
               }
@@ -703,6 +805,9 @@
               "oneOf": [
                 {
                   "type": "string"
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -713,7 +818,7 @@
       "additionalProperties": false
     },
     {
-      "type": "object"
+      "type": "object",
       "required": [
         "name",
         "sourceType",
@@ -732,6 +837,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -741,8 +849,11 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "required": [
             "start"
           ],
@@ -758,8 +869,11 @@
               "oneOf": [
                 {
                   "type": "object"
+                },
+                {
+                  "type": "null"
                 }
-              ]
+              ],
               "properties": {
                 "limit": {    
                   "oneOf": [
@@ -819,7 +933,7 @@
           "title": "The name of the integration source. Contains no spaces.",
           "description": "The name of the data connection for this integration source. This must refer to an existing data connection in infrastructure, dependencies, dataConnections.",
           "type": "string",
-          "pattern": "^[^\\s]*$"
+          "pattern": "^[^\\s]*$",
           "additionalProperties": false
         },
         "watermark": {    
@@ -828,8 +942,11 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "dateColumns": {    
               "title": "Column(s) in datetime format used for watermark purpose.",
@@ -837,12 +954,18 @@
               "oneOf": [
                 {
                   "type": "array"
+                },
+                {
+                  "type": "null"
                 }
-              ]
+              ],
               "items":   {
                 "oneOf": [
                   {
                     "type": "string"
+                  },
+                  {
+                    "type": "null"
                   }
                 ]
               }
@@ -853,6 +976,9 @@
               "oneOf": [
                 {
                   "type": "string"
+                },
+                {
+                  "type": "null"
                 }
               ]
             }

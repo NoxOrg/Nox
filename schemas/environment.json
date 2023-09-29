@@ -5,8 +5,11 @@
   "oneOf": [
     {
       "type": "object"
+    },
+    {
+      "type": "null"
     }
-  ]
+  ],
   "required": [
     "name"
   ],
@@ -23,6 +26,9 @@
       "oneOf": [
         {
           "type": "string"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -32,6 +38,9 @@
       "oneOf": [
         {
           "type": "boolean"
+        },
+        {
+          "type": "null"
         }
       ]
     }

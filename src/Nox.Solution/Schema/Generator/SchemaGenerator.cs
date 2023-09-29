@@ -151,7 +151,7 @@ internal class SchemaGenerator
                     jb.AppendLine("},");
                 }
 
-                if (schemaProperty.IsNullable)
+                if (schemaProperty.IsNullable || !schemaProperty.IsRequired)
                 {
                     jb.AppendLine("{");
                     jb.Indent();
@@ -163,7 +163,7 @@ internal class SchemaGenerator
                 
                 jb.RemoveTrailingCommas();
                 jb.UnIndent();
-                jb.AppendLine("]");
+                jb.AppendLine("],");
             }
             else
             {
@@ -176,7 +176,6 @@ internal class SchemaGenerator
 
                 if (schemaProperty.Enum is not null)
                     jb.AppendProperty("enum", schemaProperty.Enum);
-                jb.RemoveTrailingCommas();
             }
         }
 

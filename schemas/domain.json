@@ -5,8 +5,11 @@
   "oneOf": [
     {
       "type": "object"
+    },
+    {
+      "type": "null"
     }
-  ]
+  ],
   "required": [
     "entities"
   ],
@@ -14,7 +17,7 @@
     "entities": {    
       "title": "The entities that describe the domain.",
       "description": "The collection of entities and their relationships with each other.",
-      "type": "array"
+      "type": "array",
       "items":   {
         "anyOf": [
           { "$ref": "entity.json" },

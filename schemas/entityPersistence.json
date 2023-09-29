@@ -5,8 +5,11 @@
   "oneOf": [
     {
       "type": "object"
+    },
+    {
+      "type": "null"
     }
-  ]
+  ],
   "properties": {
     "isAudited": {    
       "title": "Whether all changes to this entity is tracked for  auditing.",
@@ -14,6 +17,9 @@
       "oneOf": [
         {
           "type": "boolean"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -23,6 +29,9 @@
       "oneOf": [
         {
           "type": "string"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -32,6 +41,9 @@
       "oneOf": [
         {
           "type": "string"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -41,13 +53,19 @@
       "oneOf": [
         {
           "type": "object"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "properties": {
         "isEnabled": {    
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -60,6 +78,9 @@
                 "domainEventsOnly",
                 "never"
               ]
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -67,6 +88,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -79,13 +103,19 @@
       "oneOf": [
         {
           "type": "object"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "properties": {
         "isEnabled": {    
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -98,13 +128,19 @@
       "oneOf": [
         {
           "type": "object"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "properties": {
         "isEnabled": {    
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -117,6 +153,9 @@
                 "domainEventsOnly",
                 "never"
               ]
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -124,6 +163,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -136,13 +178,19 @@
       "oneOf": [
         {
           "type": "object"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "properties": {
         "isEnabled": {    
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -155,6 +203,9 @@
                 "domainEventsOnly",
                 "never"
               ]
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -162,6 +213,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }

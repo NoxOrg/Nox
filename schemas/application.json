@@ -5,8 +5,11 @@
   "oneOf": [
     {
       "type": "object"
+    },
+    {
+      "type": "null"
     }
-  ]
+  ],
   "properties": {
     "integrations": {    
       "title": "The definition namespace for application ETL data integrations.",
@@ -14,8 +17,11 @@
       "oneOf": [
         {
           "type": "array"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "items":   {
         "anyOf": [
           { "$ref": "integration.json" },
@@ -39,14 +45,20 @@
       "oneOf": [
         {
           "type": "array"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "items":   {
         "oneOf": [
           {
             "type": "object"
+          },
+          {
+            "type": "null"
           }
-        ]
+        ],
         "required": [
           "name",
           "attributes"
@@ -64,13 +76,16 @@
             "oneOf": [
               {
                 "type": "string"
+              },
+              {
+                "type": "null"
               }
             ]
           },
           "attributes": {    
             "title": "The attributes of which the DTO is comprised.",
             "description": "One or more attributes describing the composition of the DTO.",
-            "type": "array"
+            "type": "array",
             "items":   {
               "anyOf": [
                 { "$ref": "type.json" },
@@ -99,8 +114,11 @@
       "oneOf": [
         {
           "type": "array"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "items":   {
         "anyOf": [
           { "$ref": "dto.json" },

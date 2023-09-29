@@ -5,8 +5,11 @@
   "oneOf": [
     {
       "type": "object"
+    },
+    {
+      "type": "null"
     }
-  ]
+  ],
   "required": [
     "name",
     "type"
@@ -30,6 +33,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -40,13 +46,19 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "minLength": {    
               "oneOf": [
                 {
                   "type": "integer"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -54,6 +66,9 @@
               "oneOf": [
                 {
                   "type": "integer"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -61,6 +76,9 @@
               "oneOf": [
                 {
                   "type": "boolean"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -68,6 +86,9 @@
               "oneOf": [
                 {
                   "type": "boolean"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -80,6 +101,9 @@
                     "normal",
                     "upper"
                   ]
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -91,6 +115,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -115,6 +142,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -139,6 +169,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -149,13 +182,19 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "minValue": {    
               "oneOf": [
                 {
                   "type": "number"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -163,6 +202,9 @@
               "oneOf": [
                 {
                   "type": "number"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -170,6 +212,9 @@
               "oneOf": [
                 {
                   "type": "integer"
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -181,6 +226,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -205,6 +253,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -229,6 +280,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -239,13 +293,19 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "decimalDigits": {    
               "oneOf": [
                 {
                   "type": "integer"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -253,6 +313,9 @@
               "oneOf": [
                 {
                   "type": "integer"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -260,6 +323,9 @@
               "oneOf": [
                 {
                   "type": "number"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -267,6 +333,9 @@
               "oneOf": [
                 {
                   "type": "number"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -456,6 +525,9 @@
                     "ZMW",
                     "ZWL"
                   ]
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -467,6 +539,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -491,6 +566,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -515,6 +593,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -525,13 +606,19 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "entity": {    
               "oneOf": [
                 {
                   "type": "string"
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -543,6 +630,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -567,6 +657,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -591,6 +684,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -601,14 +697,20 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "minValue": {    
               "oneOf": [
                 {
                   "type": "string",
                   "format": "date-time"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -617,6 +719,9 @@
                 {
                   "type": "string",
                   "format": "date-time"
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -628,6 +733,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -652,6 +760,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -676,6 +787,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -686,13 +800,19 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "minValue": {    
               "oneOf": [
                 {
                   "type": "number"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -700,6 +820,9 @@
               "oneOf": [
                 {
                   "type": "number"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -707,6 +830,9 @@
               "oneOf": [
                 {
                   "type": "integer"
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -718,6 +844,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -742,6 +871,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -766,6 +898,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -776,13 +911,19 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "minLength": {    
               "oneOf": [
                 {
                   "type": "integer"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -790,6 +931,9 @@
               "oneOf": [
                 {
                   "type": "integer"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -802,6 +946,9 @@
                     "normal",
                     "upper"
                   ]
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -813,6 +960,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -837,6 +987,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -861,6 +1014,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -871,13 +1027,19 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "prefix": {    
               "oneOf": [
                 {
                   "type": "string"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -885,6 +1047,9 @@
               "oneOf": [
                 {
                   "type": "string"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -892,12 +1057,18 @@
               "oneOf": [
                 {
                   "type": "array"
+                },
+                {
+                  "type": "null"
                 }
-              ]
+              ],
               "items":   {
                 "oneOf": [
                   {
                     "type": "string"
+                  },
+                  {
+                    "type": "null"
                   }
                 ]
               }
@@ -910,6 +1081,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -934,6 +1108,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -958,6 +1135,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -968,13 +1148,19 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "minValue": {    
               "oneOf": [
                 {
                   "type": "integer"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -982,6 +1168,9 @@
               "oneOf": [
                 {
                   "type": "integer"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -989,6 +1178,9 @@
               "oneOf": [
                 {
                   "type": "boolean"
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -1000,6 +1192,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -1024,6 +1219,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -1048,6 +1246,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -1058,13 +1259,19 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "maxDuration": {    
               "oneOf": [
                 {
                   "type": "number"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -1072,6 +1279,9 @@
               "oneOf": [
                 {
                   "type": "string"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -1079,6 +1289,9 @@
               "oneOf": [
                 {
                   "type": "number"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -1086,6 +1299,9 @@
               "oneOf": [
                 {
                   "type": "string"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -1101,6 +1317,9 @@
                     "minute",
                     "second"
                   ]
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -1112,6 +1331,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -1136,6 +1358,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -1160,6 +1385,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -1170,8 +1398,11 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "hashingAlgorithm": {    
               "oneOf": [
@@ -1181,6 +1412,9 @@
                     "sHA256",
                     "sHA512"
                   ]
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -1188,6 +1422,9 @@
               "oneOf": [
                 {
                   "type": "integer"
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -1199,6 +1436,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -1223,6 +1463,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -1247,6 +1490,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -1257,13 +1503,19 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "minValue": {    
               "oneOf": [
                 {
                   "type": "object"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -1271,6 +1523,9 @@
               "oneOf": [
                 {
                   "type": "object"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -1278,6 +1533,9 @@
               "oneOf": [
                 {
                   "type": "boolean"
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -1289,6 +1547,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -1313,6 +1574,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -1337,6 +1601,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -1347,15 +1614,21 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "imageFormatTypes": {    
               "oneOf": [
                 {
                   "type": "array"
+                },
+                {
+                  "type": "null"
                 }
-              ]
+              ],
               "items":   {
                 "oneOf": [
                   {
@@ -1371,6 +1644,9 @@
                       "tiff",
                       "webp"
                     ]
+                  },
+                  {
+                    "type": "null"
                   }
                 ]
               }
@@ -1383,6 +1659,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -1407,6 +1686,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -1431,6 +1713,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -1441,13 +1726,19 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "minTimeTicks": {    
               "oneOf": [
                 {
                   "type": "integer"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -1455,6 +1746,9 @@
               "oneOf": [
                 {
                   "type": "integer"
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -1466,6 +1760,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -1490,6 +1787,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -1514,6 +1814,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -1524,15 +1827,21 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "supportedFileFormats": {    
               "oneOf": [
                 {
                   "type": "array"
+                },
+                {
+                  "type": "null"
                 }
-              ]
+              ],
               "items":   {
                 "oneOf": [
                   {
@@ -1550,6 +1859,9 @@
                       "xls",
                       "xlsx"
                     ]
+                  },
+                  {
+                    "type": "null"
                   }
                 ]
               }
@@ -1562,6 +1874,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -1586,6 +1901,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -1610,6 +1928,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -1620,13 +1941,19 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "minValue": {    
               "oneOf": [
                 {
                   "type": "number"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -1634,6 +1961,9 @@
               "oneOf": [
                 {
                   "type": "number"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -1645,6 +1975,9 @@
                     "squareFoot",
                     "squareMeter"
                   ]
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -1656,6 +1989,9 @@
                     "squareFoot",
                     "squareMeter"
                   ]
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -1667,6 +2003,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -1691,6 +2030,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -1715,6 +2057,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -1725,8 +2070,11 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "encryptionAlgorithm": {    
               "oneOf": [
@@ -1735,6 +2083,9 @@
                   "enum": [
                     "aes"
                   ]
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -1742,6 +2093,9 @@
               "oneOf": [
                 {
                   "type": "string"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -1749,6 +2103,9 @@
               "oneOf": [
                 {
                   "type": "string"
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -1760,6 +2117,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -1784,6 +2144,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -1808,6 +2171,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -1818,13 +2184,19 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "minLength": {    
               "oneOf": [
                 {
                   "type": "integer"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -1832,6 +2204,9 @@
               "oneOf": [
                 {
                   "type": "integer"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -1839,6 +2214,9 @@
               "oneOf": [
                 {
                   "type": "boolean"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -1846,6 +2224,9 @@
               "oneOf": [
                 {
                   "type": "boolean"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -1853,6 +2234,9 @@
               "oneOf": [
                 {
                   "type": "boolean"
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -1864,6 +2248,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -1888,6 +2275,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -1912,6 +2302,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -1922,8 +2315,11 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "hashingAlgorithm": {    
               "oneOf": [
@@ -1933,6 +2329,9 @@
                     "sHA256",
                     "sHA512"
                   ]
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -1940,6 +2339,9 @@
               "oneOf": [
                 {
                   "type": "integer"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -1947,6 +2349,9 @@
               "oneOf": [
                 {
                   "type": "integer"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -1954,6 +2359,9 @@
               "oneOf": [
                 {
                   "type": "integer"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -1961,6 +2369,9 @@
               "oneOf": [
                 {
                   "type": "boolean"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -1968,6 +2379,9 @@
               "oneOf": [
                 {
                   "type": "boolean"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -1975,6 +2389,9 @@
               "oneOf": [
                 {
                   "type": "boolean"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -1982,6 +2399,9 @@
               "oneOf": [
                 {
                   "type": "boolean"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -1989,8 +2409,11 @@
               "oneOf": [
                 {
                   "type": "object"
+                },
+                {
+                  "type": "null"
                 }
-              ]
+              ],
               "properties": {
                 "options": {    
                   "oneOf": [
@@ -2009,6 +2432,9 @@
                         "rightToLeft",
                         "singleline"
                       ]
+                    },
+                    {
+                      "type": "null"
                     }
                   ]
                 },
@@ -2016,6 +2442,9 @@
                   "oneOf": [
                     {
                       "type": "boolean"
+                    },
+                    {
+                      "type": "null"
                     }
                   ]
                 },
@@ -2024,6 +2453,9 @@
                     {
                       "type": "string",
                       "format": "duration"
+                    },
+                    {
+                      "type": "null"
                     }
                   ]
                 }
@@ -2033,8 +2465,11 @@
               "oneOf": [
                 {
                   "type": "object"
+                },
+                {
+                  "type": "null"
                 }
-              ]
+              ],
               "properties": {
                 "options": {    
                   "oneOf": [
@@ -2053,6 +2488,9 @@
                         "rightToLeft",
                         "singleline"
                       ]
+                    },
+                    {
+                      "type": "null"
                     }
                   ]
                 },
@@ -2060,6 +2498,9 @@
                   "oneOf": [
                     {
                       "type": "boolean"
+                    },
+                    {
+                      "type": "null"
                     }
                   ]
                 },
@@ -2068,6 +2509,9 @@
                     {
                       "type": "string",
                       "format": "duration"
+                    },
+                    {
+                      "type": "null"
                     }
                   ]
                 }
@@ -2077,8 +2521,11 @@
               "oneOf": [
                 {
                   "type": "object"
+                },
+                {
+                  "type": "null"
                 }
-              ]
+              ],
               "properties": {
                 "options": {    
                   "oneOf": [
@@ -2097,6 +2544,9 @@
                         "rightToLeft",
                         "singleline"
                       ]
+                    },
+                    {
+                      "type": "null"
                     }
                   ]
                 },
@@ -2104,6 +2554,9 @@
                   "oneOf": [
                     {
                       "type": "boolean"
+                    },
+                    {
+                      "type": "null"
                     }
                   ]
                 },
@@ -2112,6 +2565,9 @@
                     {
                       "type": "string",
                       "format": "duration"
+                    },
+                    {
+                      "type": "null"
                     }
                   ]
                 }
@@ -2121,8 +2577,11 @@
               "oneOf": [
                 {
                   "type": "object"
+                },
+                {
+                  "type": "null"
                 }
-              ]
+              ],
               "properties": {
                 "options": {    
                   "oneOf": [
@@ -2141,6 +2600,9 @@
                         "rightToLeft",
                         "singleline"
                       ]
+                    },
+                    {
+                      "type": "null"
                     }
                   ]
                 },
@@ -2148,6 +2610,9 @@
                   "oneOf": [
                     {
                       "type": "boolean"
+                    },
+                    {
+                      "type": "null"
                     }
                   ]
                 },
@@ -2156,6 +2621,9 @@
                     {
                       "type": "string",
                       "format": "duration"
+                    },
+                    {
+                      "type": "null"
                     }
                   ]
                 }
@@ -2169,6 +2637,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -2193,6 +2664,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -2217,6 +2691,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -2227,13 +2704,19 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "expression": {    
               "oneOf": [
                 {
                   "type": "string"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -2250,6 +2733,9 @@
                     "long",
                     "string"
                   ]
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -2261,6 +2747,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -2285,6 +2774,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -2309,6 +2801,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -2319,8 +2814,11 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "countryCode": {    
               "oneOf": [
@@ -2577,6 +3075,9 @@
                     "ZM",
                     "ZW"
                   ]
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -2588,6 +3089,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -2612,6 +3116,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -2636,6 +3143,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -2646,13 +3156,19 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "persistMinified": {    
               "oneOf": [
                 {
                   "type": "boolean"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -2660,6 +3176,9 @@
               "oneOf": [
                 {
                   "type": "integer"
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -2671,6 +3190,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -2695,6 +3217,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -2719,6 +3244,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -2729,13 +3257,19 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "minLength": {    
               "oneOf": [
                 {
                   "type": "integer"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -2743,6 +3277,9 @@
               "oneOf": [
                 {
                   "type": "integer"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -2750,6 +3287,9 @@
               "oneOf": [
                 {
                   "type": "boolean"
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -2761,6 +3301,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -2785,6 +3328,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -2809,6 +3355,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -2819,8 +3368,11 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "persistAs": {    
               "oneOf": [
@@ -2830,6 +3382,9 @@
                     "celsius",
                     "fahrenheit"
                   ]
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -2841,6 +3396,9 @@
                     "celsius",
                     "fahrenheit"
                   ]
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -2852,6 +3410,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -2876,6 +3437,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -2900,6 +3464,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -2910,13 +3477,19 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "minValue": {    
               "oneOf": [
                 {
                   "type": "number"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -2924,6 +3497,9 @@
               "oneOf": [
                 {
                   "type": "number"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -2935,6 +3511,9 @@
                     "foot",
                     "meter"
                   ]
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -2946,6 +3525,9 @@
                     "foot",
                     "meter"
                   ]
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -2957,6 +3539,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -2981,6 +3566,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -3005,6 +3593,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -3015,13 +3606,19 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "minValue": {    
               "oneOf": [
                 {
                   "type": "number"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -3029,6 +3626,9 @@
               "oneOf": [
                 {
                   "type": "number"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -3040,6 +3640,9 @@
                     "cubicFoot",
                     "cubicMeter"
                   ]
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -3051,6 +3654,9 @@
                     "cubicFoot",
                     "cubicMeter"
                   ]
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -3062,6 +3668,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -3086,6 +3695,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -3110,6 +3722,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -3120,13 +3735,19 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "minValue": {    
               "oneOf": [
                 {
                   "type": "number"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -3134,6 +3755,9 @@
               "oneOf": [
                 {
                   "type": "number"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -3145,6 +3769,9 @@
                     "kilogram",
                     "pound"
                   ]
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -3156,6 +3783,9 @@
                     "kilogram",
                     "pound"
                   ]
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -3167,6 +3797,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -3191,6 +3824,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -3215,6 +3851,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -3225,13 +3864,19 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "minValue": {    
               "oneOf": [
                 {
                   "type": "number"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -3239,6 +3884,9 @@
               "oneOf": [
                 {
                   "type": "number"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -3250,6 +3898,9 @@
                     "kilometer",
                     "mile"
                   ]
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -3261,6 +3912,9 @@
                     "kilometer",
                     "mile"
                   ]
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -3272,6 +3926,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -3296,6 +3953,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -3320,6 +3980,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -3330,13 +3993,19 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "minStartValue": {    
               "oneOf": [
                 {
                   "type": "object"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -3344,6 +4013,9 @@
               "oneOf": [
                 {
                   "type": "object"
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -3355,6 +4027,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -3379,6 +4054,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }
@@ -3386,7 +4064,7 @@
       "additionalProperties": false
     },
     {
-      "type": "object"
+      "type": "object",
       "required": [
         "name",
         "type"
@@ -3404,6 +4082,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -3448,6 +4129,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -3472,6 +4156,9 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
             }
           ]
         }

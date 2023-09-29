@@ -5,8 +5,11 @@
   "oneOf": [
     {
       "type": "object"
+    },
+    {
+      "type": "null"
     }
-  ]
+  ],
   "required": [
     "supportedCultures",
     "defaultCulture"
@@ -15,12 +18,15 @@
     "supportedCultures": {    
       "title": "The list of culture codes supported by the solution.",
       "description": "The list of culture codes that the solution supports.",
-      "type": "array"
+      "type": "array",
       "items":   {
         "oneOf": [
           {
             "type": "string",
             "pattern": "^[a-z]{2}-[A-Z]{2}$"
+          },
+          {
+            "type": "null"
           }
         ]
       }

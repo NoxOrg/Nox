@@ -5,8 +5,11 @@
   "oneOf": [
     {
       "type": "object"
+    },
+    {
+      "type": "null"
     }
-  ]
+  ],
   "properties": {
     "label": {    
       "title": "A descriptive label for this attribute on the user interface.",
@@ -14,6 +17,9 @@
       "oneOf": [
         {
           "type": "string"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -52,6 +58,9 @@
       "oneOf": [
         {
           "type": "string"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -77,6 +86,9 @@
       "oneOf": [
         {
           "type": "string"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -86,6 +98,9 @@
       "oneOf": [
         {
           "type": "string"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -95,6 +110,9 @@
       "oneOf": [
         {
           "type": "string"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -104,6 +122,9 @@
       "oneOf": [
         {
           "type": "string"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -113,6 +134,9 @@
       "oneOf": [
         {
           "type": "string"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -122,6 +146,9 @@
       "oneOf": [
         {
           "type": "integer"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -131,6 +158,9 @@
       "oneOf": [
         {
           "type": "string"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -140,6 +170,9 @@
       "oneOf": [
         {
           "type": "string"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -155,6 +188,9 @@
             "optionalAndOffByDefault",
             "optionalAndOnByDefault"
           ]
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -164,6 +200,9 @@
       "oneOf": [
         {
           "type": "boolean"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -173,6 +212,9 @@
       "oneOf": [
         {
           "type": "boolean"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -182,6 +224,9 @@
       "oneOf": [
         {
           "type": "boolean"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -191,6 +236,9 @@
       "oneOf": [
         {
           "type": "boolean"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -200,6 +248,9 @@
       "oneOf": [
         {
           "type": "boolean"
+        },
+        {
+          "type": "null"
         }
       ]
     }

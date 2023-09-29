@@ -5,8 +5,11 @@
   "oneOf": [
     {
       "type": "object"
+    },
+    {
+      "type": "null"
     }
-  ]
+  ],
   "required": [
     "name",
     "description",
@@ -45,6 +48,9 @@
       "oneOf": [
         {
           "type": "string"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -54,6 +60,9 @@
       "oneOf": [
         {
           "type": "boolean"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -61,6 +70,9 @@
       "oneOf": [
         {
           "type": "boolean"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -68,6 +80,9 @@
       "oneOf": [
         {
           "type": "boolean"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -75,6 +90,9 @@
       "oneOf": [
         {
           "type": "boolean"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -82,6 +100,9 @@
       "oneOf": [
         {
           "type": "string"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -89,8 +110,11 @@
       "oneOf": [
         {
           "type": "object"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "properties": {
         "entity": {    
           "anyOf": [

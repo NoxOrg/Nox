@@ -5,8 +5,11 @@
   "oneOf": [
     {
       "type": "object"
+    },
+    {
+      "type": "null"
     }
-  ]
+  ],
   "properties": {
     "uiLocalizations": {    
       "anyOf": [
@@ -29,8 +32,11 @@
       "oneOf": [
         {
           "type": "array"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "items":   {
         "anyOf": [
           { "$ref": "dataConnection.json" },

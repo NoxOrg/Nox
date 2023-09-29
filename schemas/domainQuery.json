@@ -5,8 +5,11 @@
   "oneOf": [
     {
       "type": "object"
+    },
+    {
+      "type": "null"
     }
-  ]
+  ],
   "required": [
     "name",
     "responseOutput"
@@ -24,6 +27,9 @@
       "oneOf": [
         {
           "type": "string"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -33,8 +39,11 @@
       "oneOf": [
         {
           "type": "array"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "items":   {
         "anyOf": [
           { "$ref": "dto.json" },

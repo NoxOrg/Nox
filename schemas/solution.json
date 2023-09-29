@@ -5,8 +5,11 @@
   "oneOf": [
     {
       "type": "object"
+    },
+    {
+      "type": "null"
     }
-  ]
+  ],
   "required": [
     "name"
   ],
@@ -23,6 +26,9 @@
       "oneOf": [
         {
           "type": "string"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -33,6 +39,9 @@
         {
           "type": "string",
           "pattern": "^(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -42,6 +51,9 @@
       "oneOf": [
         {
           "type": "string"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -52,6 +64,9 @@
         {
           "type": "string",
           "format": "uri"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -61,8 +76,11 @@
       "oneOf": [
         {
           "type": "object"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "additionalProperties":   {
         "Type": "string"
       }
@@ -73,8 +91,11 @@
       "oneOf": [
         {
           "type": "array"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "items":   {
         "anyOf": [
           { "$ref": "environment.json" },
@@ -113,8 +134,11 @@
       "oneOf": [
         {
           "type": "array"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "items":   {
         "anyOf": [
           { "$ref": "teamMember.json" },

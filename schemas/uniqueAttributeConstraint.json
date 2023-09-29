@@ -5,8 +5,11 @@
   "oneOf": [
     {
       "type": "object"
+    },
+    {
+      "type": "null"
     }
-  ]
+  ],
   "required": [
     "name",
     "attributeNames"
@@ -24,17 +27,23 @@
       "oneOf": [
         {
           "type": "string"
+        },
+        {
+          "type": "null"
         }
       ]
     },
     "attributeNames": {    
       "title": "Attribute Names",
       "description": "List of attribute names that together form the unique constraint.",
-      "type": "array"
+      "type": "array",
       "items":   {
         "oneOf": [
           {
             "type": "string"
+          },
+          {
+            "type": "null"
           }
         ]
       }

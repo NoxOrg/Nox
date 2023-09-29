@@ -5,8 +5,11 @@
   "oneOf": [
     {
       "type": "object"
+    },
+    {
+      "type": "null"
     }
-  ]
+  ],
   "required": [
     "persistence"
   ],
@@ -32,8 +35,11 @@
       "oneOf": [
         {
           "type": "object"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "required": [
         "integrationEventServer"
       ],
@@ -62,8 +68,11 @@
       "oneOf": [
         {
           "type": "object"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "properties": {
         "apiServer": {    
           "anyOf": [

@@ -5,8 +5,11 @@
   "oneOf": [
     {
       "type": "object"
+    },
+    {
+      "type": "null"
     }
-  ]
+  ],
   "required": [
     "provider",
     "name",
@@ -39,7 +42,7 @@
         {
           "type": "null"
         }
-      ]
+      ],
       "additionalProperties": false
     },
     "name": {    
@@ -87,6 +90,9 @@
         {
           "type": "string",
           "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -100,6 +106,9 @@
         {
           "type": "string",
           "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -113,6 +122,9 @@
         {
           "type": "string",
           "pattern": "^(\\$\\{\\{\\s*(.*)\\s*\\}\\})"
+        },
+        {
+          "type": "null"
         }
       ]
     }

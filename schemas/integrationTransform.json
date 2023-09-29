@@ -5,8 +5,11 @@
   "oneOf": [
     {
       "type": "object"
+    },
+    {
+      "type": "null"
     }
-  ]
+  ],
   "properties": {
     "mappings": {    
       "title": "Source to target column mappings details of the ETL transform component.",
@@ -14,16 +17,22 @@
       "oneOf": [
         {
           "type": "array"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "items":   {
         "title": "Mapping details of the ETL transform component.",
         "description": "Specifies how columns are mapped between source and target in an ETL data integration.",
         "oneOf": [
           {
             "type": "object"
+          },
+          {
+            "type": "null"
           }
-        ]
+        ],
         "required": [
           "sourceColumn",
           "targetAttribute"
@@ -66,16 +75,22 @@
       "oneOf": [
         {
           "type": "array"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "items":   {
         "title": "Details pertaining to a lookup performed during the ETL transform component.",
         "description": "Specifies information related to a data lookup. Includes the source column and target attribute, as well as match directives like lookup table, column and return column name.",
         "oneOf": [
           {
             "type": "object"
+          },
+          {
+            "type": "null"
           }
-        ]
+        ],
         "required": [
           "sourceColumn",
           "match",
@@ -90,7 +105,7 @@
           "match": {    
             "title": "Attributes related to source table used for the lookup.",
             "description": "Specify information about the source lookup table. This includes table name, lookup column and return column.",
-            "type": "object"
+            "type": "object",
             "required": [
               "table",
               "lookupColumn",

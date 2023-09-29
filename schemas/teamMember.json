@@ -5,8 +5,11 @@
   "oneOf": [
     {
       "type": "object"
+    },
+    {
+      "type": "null"
     }
-  ]
+  ],
   "required": [
     "userName"
   ],
@@ -17,6 +20,9 @@
       "oneOf": [
         {
           "type": "string"
+        },
+        {
+          "type": "null"
         }
       ]
     },
@@ -32,8 +38,11 @@
       "oneOf": [
         {
           "type": "array"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "items":   {
         "oneOf": [
           {
@@ -56,6 +65,9 @@
               "tester",
               "userExperienceDesigner"
             ]
+          },
+          {
+            "type": "null"
           }
         ]
       },

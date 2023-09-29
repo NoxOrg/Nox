@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Definition namespace for attributes describing the target component of an ETL integration.",
   "description": "This section details ETL target attributes like name, description and type among other.",
-  "type": "object"
+  "type": "object",
   "required": [
     "name",
     "targetType",
@@ -28,6 +28,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -38,8 +41,11 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "required": [
             "storedProcedure"
           ],
@@ -56,7 +62,7 @@
           "title": "The name of the ETL target data connection. Contains no spaces.",
           "description": "The name should be a commonly used singular noun and be unique within a solution.",
           "type": "string",
-          "pattern": "^[^\\s]*$"
+          "pattern": "^[^\\s]*$",
           "additionalProperties": false
         }
       },
@@ -81,6 +87,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -91,8 +100,11 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "required": [
             "filename"
           ],
@@ -109,7 +121,7 @@
           "title": "The name of the ETL target data connection. Contains no spaces.",
           "description": "The name should be a commonly used singular noun and be unique within a solution.",
           "type": "string",
-          "pattern": "^[^\\s]*$"
+          "pattern": "^[^\\s]*$",
           "additionalProperties": false
         }
       },
@@ -134,6 +146,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -144,13 +159,19 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "properties": {
             "route": {    
               "oneOf": [
                 {
                   "type": "string"
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -162,6 +183,9 @@
                     "json",
                     "xml"
                   ]
+                },
+                {
+                  "type": "null"
                 }
               ]
             },
@@ -174,6 +198,9 @@
                     "post",
                     "put"
                   ]
+                },
+                {
+                  "type": "null"
                 }
               ]
             }
@@ -184,7 +211,7 @@
           "title": "The name of the ETL target data connection. Contains no spaces.",
           "description": "The name should be a commonly used singular noun and be unique within a solution.",
           "type": "string",
-          "pattern": "^[^\\s]*$"
+          "pattern": "^[^\\s]*$",
           "additionalProperties": false
         }
       },
@@ -209,6 +236,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -219,8 +249,11 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "required": [
             "targetName"
           ],
@@ -237,7 +270,7 @@
           "title": "The name of the ETL target data connection. Contains no spaces.",
           "description": "The name should be a commonly used singular noun and be unique within a solution.",
           "type": "string",
-          "pattern": "^[^\\s]*$"
+          "pattern": "^[^\\s]*$",
           "additionalProperties": false
         }
       },
@@ -262,6 +295,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -272,8 +308,11 @@
           "oneOf": [
             {
               "type": "object"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
           "required": [
             "entity"
           ],
@@ -290,7 +329,7 @@
           "title": "The name of the ETL target data connection. Contains no spaces.",
           "description": "The name should be a commonly used singular noun and be unique within a solution.",
           "type": "string",
-          "pattern": "^[^\\s]*$"
+          "pattern": "^[^\\s]*$",
           "additionalProperties": false
         }
       },

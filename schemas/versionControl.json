@@ -5,8 +5,11 @@
   "oneOf": [
     {
       "type": "object"
+    },
+    {
+      "type": "null"
     }
-  ]
+  ],
   "required": [
     "provider",
     "host"
@@ -34,8 +37,11 @@
       "oneOf": [
         {
           "type": "object"
+        },
+        {
+          "type": "null"
         }
-      ]
+      ],
       "required": [
         "sourceCode",
         "containers"
@@ -52,6 +58,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -66,6 +75,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         },
@@ -75,6 +87,9 @@
           "oneOf": [
             {
               "type": "string"
+            },
+            {
+              "type": "null"
             }
           ]
         }
