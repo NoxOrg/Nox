@@ -6,6 +6,8 @@ using Nox.Abstractions;
 using Nox.Application;
 using Nox.Types;
 
+using SampleWebApp.Application.Dto;
+
 namespace SampleWebApp.Application.IntegrationEvents;
 
 /// <summary>
@@ -16,10 +18,10 @@ public partial class CountryNameChangedAppEvent : IIntegrationEvent
     /// <summary>
     /// The identifier of the country. The Iso alpha 2 code.
     /// </summary>
-    public Nox.Types.CountryCode2? CountryId { get; set; } = null!;
+    public System.String? CountryId { get; set; }
  
     /// <summary>
     /// The new name of the country.
     /// </summary>
-    public Nox.Types.Text? CountryName { get; set; } = null!;
+    public System.String? CountryName { get; set; }
 }

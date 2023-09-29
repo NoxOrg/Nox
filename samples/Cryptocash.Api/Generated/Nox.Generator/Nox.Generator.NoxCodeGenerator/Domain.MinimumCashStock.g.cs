@@ -33,15 +33,15 @@ internal partial class MinimumCashStock : MinimumCashStockBase, IEntityHaveDomai
 /// <summary>
 /// Record for MinimumCashStock created event.
 /// </summary>
-internal record MinimumCashStockCreated(MinimumCashStock MinimumCashStock) : IDomainEvent;
+internal record MinimumCashStockCreated(MinimumCashStock MinimumCashStock) : IDomainEvent, MediatR.INotification;
 /// <summary>
 /// Record for MinimumCashStock updated event.
 /// </summary>
-internal record MinimumCashStockUpdated(MinimumCashStock MinimumCashStock) : IDomainEvent;
+internal record MinimumCashStockUpdated(MinimumCashStock MinimumCashStock) : IDomainEvent, MediatR.INotification;
 /// <summary>
 /// Record for MinimumCashStock deleted event.
 /// </summary>
-internal record MinimumCashStockDeleted(MinimumCashStock MinimumCashStock) : IDomainEvent;
+internal record MinimumCashStockDeleted(MinimumCashStock MinimumCashStock) : IDomainEvent, MediatR.INotification;
 
 /// <summary>
 /// Minimum cash stock required for vending machine.

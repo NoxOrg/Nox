@@ -33,15 +33,15 @@ internal partial class EmployeePhoneNumber : EmployeePhoneNumberBase, IEntityHav
 /// <summary>
 /// Record for EmployeePhoneNumber created event.
 /// </summary>
-internal record EmployeePhoneNumberCreated(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent;
+internal record EmployeePhoneNumberCreated(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent, MediatR.INotification;
 /// <summary>
 /// Record for EmployeePhoneNumber updated event.
 /// </summary>
-internal record EmployeePhoneNumberUpdated(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent;
+internal record EmployeePhoneNumberUpdated(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent, MediatR.INotification;
 /// <summary>
 /// Record for EmployeePhoneNumber deleted event.
 /// </summary>
-internal record EmployeePhoneNumberDeleted(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent;
+internal record EmployeePhoneNumberDeleted(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent, MediatR.INotification;
 
 /// <summary>
 /// Employee phone number and related data.

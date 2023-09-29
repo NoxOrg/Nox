@@ -33,15 +33,15 @@ internal partial class PaymentProvider : PaymentProviderBase, IEntityHaveDomainE
 /// <summary>
 /// Record for PaymentProvider created event.
 /// </summary>
-internal record PaymentProviderCreated(PaymentProvider PaymentProvider) : IDomainEvent;
+internal record PaymentProviderCreated(PaymentProvider PaymentProvider) : IDomainEvent, MediatR.INotification;
 /// <summary>
 /// Record for PaymentProvider updated event.
 /// </summary>
-internal record PaymentProviderUpdated(PaymentProvider PaymentProvider) : IDomainEvent;
+internal record PaymentProviderUpdated(PaymentProvider PaymentProvider) : IDomainEvent, MediatR.INotification;
 /// <summary>
 /// Record for PaymentProvider deleted event.
 /// </summary>
-internal record PaymentProviderDeleted(PaymentProvider PaymentProvider) : IDomainEvent;
+internal record PaymentProviderDeleted(PaymentProvider PaymentProvider) : IDomainEvent, MediatR.INotification;
 
 /// <summary>
 /// Payment provider related data.

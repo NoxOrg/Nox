@@ -36,16 +36,16 @@ public abstract class HolidayDtoBase : EntityDtoBase, IEntityDto<Holiday>
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            TryGetValidationExceptions("Name", () => Cryptocash.Domain.HolidayMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("Name", () => Cryptocash.Domain.HolidayMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
         if (this.Type is not null)
-            TryGetValidationExceptions("Type", () => Cryptocash.Domain.HolidayMetadata.CreateType(this.Type.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("Type", () => Cryptocash.Domain.HolidayMetadata.CreateType(this.Type.NonNullValue<System.String>()), result);
         else
             result.Add("Type", new [] { "Type is Required." });
     
-        TryGetValidationExceptions("Date", () => Cryptocash.Domain.HolidayMetadata.CreateDate(this.Date), result);
+        ExecuteActionAndCollectValidationExceptions("Date", () => Cryptocash.Domain.HolidayMetadata.CreateDate(this.Date), result);
     
 
         return result;

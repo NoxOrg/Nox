@@ -33,15 +33,15 @@ internal partial class Booking : BookingBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for Booking created event.
 /// </summary>
-internal record BookingCreated(Booking Booking) : IDomainEvent;
+internal record BookingCreated(Booking Booking) : IDomainEvent, MediatR.INotification;
 /// <summary>
 /// Record for Booking updated event.
 /// </summary>
-internal record BookingUpdated(Booking Booking) : IDomainEvent;
+internal record BookingUpdated(Booking Booking) : IDomainEvent, MediatR.INotification;
 /// <summary>
 /// Record for Booking deleted event.
 /// </summary>
-internal record BookingDeleted(Booking Booking) : IDomainEvent;
+internal record BookingDeleted(Booking Booking) : IDomainEvent, MediatR.INotification;
 
 /// <summary>
 /// Exchange booking and related data.

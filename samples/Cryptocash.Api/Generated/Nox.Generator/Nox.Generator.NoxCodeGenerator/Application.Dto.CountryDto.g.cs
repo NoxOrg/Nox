@@ -36,33 +36,33 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<Country>
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            TryGetValidationExceptions("Name", () => Cryptocash.Domain.CountryMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("Name", () => Cryptocash.Domain.CountryMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
         if (this.OfficialName is not null)
-            TryGetValidationExceptions("OfficialName", () => Cryptocash.Domain.CountryMetadata.CreateOfficialName(this.OfficialName.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("OfficialName", () => Cryptocash.Domain.CountryMetadata.CreateOfficialName(this.OfficialName.NonNullValue<System.String>()), result);
         if (this.CountryIsoNumeric is not null)
-            TryGetValidationExceptions("CountryIsoNumeric", () => Cryptocash.Domain.CountryMetadata.CreateCountryIsoNumeric(this.CountryIsoNumeric.NonNullValue<System.UInt16>()), result);
+            ExecuteActionAndCollectValidationExceptions("CountryIsoNumeric", () => Cryptocash.Domain.CountryMetadata.CreateCountryIsoNumeric(this.CountryIsoNumeric.NonNullValue<System.UInt16>()), result);
         if (this.CountryIsoAlpha3 is not null)
-            TryGetValidationExceptions("CountryIsoAlpha3", () => Cryptocash.Domain.CountryMetadata.CreateCountryIsoAlpha3(this.CountryIsoAlpha3.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("CountryIsoAlpha3", () => Cryptocash.Domain.CountryMetadata.CreateCountryIsoAlpha3(this.CountryIsoAlpha3.NonNullValue<System.String>()), result);
         if (this.GeoCoords is not null)
-            TryGetValidationExceptions("GeoCoords", () => Cryptocash.Domain.CountryMetadata.CreateGeoCoords(this.GeoCoords.NonNullValue<LatLongDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("GeoCoords", () => Cryptocash.Domain.CountryMetadata.CreateGeoCoords(this.GeoCoords.NonNullValue<LatLongDto>()), result);
         if (this.FlagEmoji is not null)
-            TryGetValidationExceptions("FlagEmoji", () => Cryptocash.Domain.CountryMetadata.CreateFlagEmoji(this.FlagEmoji.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("FlagEmoji", () => Cryptocash.Domain.CountryMetadata.CreateFlagEmoji(this.FlagEmoji.NonNullValue<System.String>()), result);
         if (this.FlagSvg is not null)
-            TryGetValidationExceptions("FlagSvg", () => Cryptocash.Domain.CountryMetadata.CreateFlagSvg(this.FlagSvg.NonNullValue<ImageDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("FlagSvg", () => Cryptocash.Domain.CountryMetadata.CreateFlagSvg(this.FlagSvg.NonNullValue<ImageDto>()), result);
         if (this.FlagPng is not null)
-            TryGetValidationExceptions("FlagPng", () => Cryptocash.Domain.CountryMetadata.CreateFlagPng(this.FlagPng.NonNullValue<ImageDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("FlagPng", () => Cryptocash.Domain.CountryMetadata.CreateFlagPng(this.FlagPng.NonNullValue<ImageDto>()), result);
         if (this.CoatOfArmsSvg is not null)
-            TryGetValidationExceptions("CoatOfArmsSvg", () => Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsSvg(this.CoatOfArmsSvg.NonNullValue<ImageDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("CoatOfArmsSvg", () => Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsSvg(this.CoatOfArmsSvg.NonNullValue<ImageDto>()), result);
         if (this.CoatOfArmsPng is not null)
-            TryGetValidationExceptions("CoatOfArmsPng", () => Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsPng(this.CoatOfArmsPng.NonNullValue<ImageDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("CoatOfArmsPng", () => Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsPng(this.CoatOfArmsPng.NonNullValue<ImageDto>()), result);
         if (this.GoogleMapsUrl is not null)
-            TryGetValidationExceptions("GoogleMapsUrl", () => Cryptocash.Domain.CountryMetadata.CreateGoogleMapsUrl(this.GoogleMapsUrl.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("GoogleMapsUrl", () => Cryptocash.Domain.CountryMetadata.CreateGoogleMapsUrl(this.GoogleMapsUrl.NonNullValue<System.String>()), result);
         if (this.OpenStreetMapsUrl is not null)
-            TryGetValidationExceptions("OpenStreetMapsUrl", () => Cryptocash.Domain.CountryMetadata.CreateOpenStreetMapsUrl(this.OpenStreetMapsUrl.NonNullValue<System.String>()), result);
-        TryGetValidationExceptions("StartOfWeek", () => Cryptocash.Domain.CountryMetadata.CreateStartOfWeek(this.StartOfWeek), result);
+            ExecuteActionAndCollectValidationExceptions("OpenStreetMapsUrl", () => Cryptocash.Domain.CountryMetadata.CreateOpenStreetMapsUrl(this.OpenStreetMapsUrl.NonNullValue<System.String>()), result);
+        ExecuteActionAndCollectValidationExceptions("StartOfWeek", () => Cryptocash.Domain.CountryMetadata.CreateStartOfWeek(this.StartOfWeek), result);
     
 
         return result;

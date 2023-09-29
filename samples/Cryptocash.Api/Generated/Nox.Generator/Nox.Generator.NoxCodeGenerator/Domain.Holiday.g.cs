@@ -33,15 +33,15 @@ internal partial class Holiday : HolidayBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for Holiday created event.
 /// </summary>
-internal record HolidayCreated(Holiday Holiday) : IDomainEvent;
+internal record HolidayCreated(Holiday Holiday) : IDomainEvent, MediatR.INotification;
 /// <summary>
 /// Record for Holiday updated event.
 /// </summary>
-internal record HolidayUpdated(Holiday Holiday) : IDomainEvent;
+internal record HolidayUpdated(Holiday Holiday) : IDomainEvent, MediatR.INotification;
 /// <summary>
 /// Record for Holiday deleted event.
 /// </summary>
-internal record HolidayDeleted(Holiday Holiday) : IDomainEvent;
+internal record HolidayDeleted(Holiday Holiday) : IDomainEvent, MediatR.INotification;
 
 /// <summary>
 /// Holiday related to country.

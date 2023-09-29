@@ -33,15 +33,15 @@ internal partial class Employee : EmployeeBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for Employee created event.
 /// </summary>
-internal record EmployeeCreated(Employee Employee) : IDomainEvent;
+internal record EmployeeCreated(Employee Employee) : IDomainEvent, MediatR.INotification;
 /// <summary>
 /// Record for Employee updated event.
 /// </summary>
-internal record EmployeeUpdated(Employee Employee) : IDomainEvent;
+internal record EmployeeUpdated(Employee Employee) : IDomainEvent, MediatR.INotification;
 /// <summary>
 /// Record for Employee deleted event.
 /// </summary>
-internal record EmployeeDeleted(Employee Employee) : IDomainEvent;
+internal record EmployeeDeleted(Employee Employee) : IDomainEvent, MediatR.INotification;
 
 /// <summary>
 /// Employee definition and related data.

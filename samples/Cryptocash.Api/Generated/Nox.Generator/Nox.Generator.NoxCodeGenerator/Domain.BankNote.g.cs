@@ -33,15 +33,15 @@ internal partial class BankNote : BankNoteBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for BankNote created event.
 /// </summary>
-internal record BankNoteCreated(BankNote BankNote) : IDomainEvent;
+internal record BankNoteCreated(BankNote BankNote) : IDomainEvent, MediatR.INotification;
 /// <summary>
 /// Record for BankNote updated event.
 /// </summary>
-internal record BankNoteUpdated(BankNote BankNote) : IDomainEvent;
+internal record BankNoteUpdated(BankNote BankNote) : IDomainEvent, MediatR.INotification;
 /// <summary>
 /// Record for BankNote deleted event.
 /// </summary>
-internal record BankNoteDeleted(BankNote BankNote) : IDomainEvent;
+internal record BankNoteDeleted(BankNote BankNote) : IDomainEvent, MediatR.INotification;
 
 /// <summary>
 /// Currencies related frequent and rare bank notes.

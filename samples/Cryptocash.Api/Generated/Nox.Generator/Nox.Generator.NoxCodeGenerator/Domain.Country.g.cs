@@ -33,15 +33,15 @@ internal partial class Country : CountryBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for Country created event.
 /// </summary>
-internal record CountryCreated(Country Country) : IDomainEvent;
+internal record CountryCreated(Country Country) : IDomainEvent, MediatR.INotification;
 /// <summary>
 /// Record for Country updated event.
 /// </summary>
-internal record CountryUpdated(Country Country) : IDomainEvent;
+internal record CountryUpdated(Country Country) : IDomainEvent, MediatR.INotification;
 /// <summary>
 /// Record for Country deleted event.
 /// </summary>
-internal record CountryDeleted(Country Country) : IDomainEvent;
+internal record CountryDeleted(Country Country) : IDomainEvent, MediatR.INotification;
 
 /// <summary>
 /// Country and related data.

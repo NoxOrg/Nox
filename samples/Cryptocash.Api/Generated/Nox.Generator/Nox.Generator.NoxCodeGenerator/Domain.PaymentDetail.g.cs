@@ -33,15 +33,15 @@ internal partial class PaymentDetail : PaymentDetailBase, IEntityHaveDomainEvent
 /// <summary>
 /// Record for PaymentDetail created event.
 /// </summary>
-internal record PaymentDetailCreated(PaymentDetail PaymentDetail) : IDomainEvent;
+internal record PaymentDetailCreated(PaymentDetail PaymentDetail) : IDomainEvent, MediatR.INotification;
 /// <summary>
 /// Record for PaymentDetail updated event.
 /// </summary>
-internal record PaymentDetailUpdated(PaymentDetail PaymentDetail) : IDomainEvent;
+internal record PaymentDetailUpdated(PaymentDetail PaymentDetail) : IDomainEvent, MediatR.INotification;
 /// <summary>
 /// Record for PaymentDetail deleted event.
 /// </summary>
-internal record PaymentDetailDeleted(PaymentDetail PaymentDetail) : IDomainEvent;
+internal record PaymentDetailDeleted(PaymentDetail PaymentDetail) : IDomainEvent, MediatR.INotification;
 
 /// <summary>
 /// Customer payment account related data.

@@ -36,14 +36,14 @@ public abstract class CashStockOrderDtoBase : EntityDtoBase, IEntityDto<CashStoc
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Amount is not null)
-            TryGetValidationExceptions("Amount", () => Cryptocash.Domain.CashStockOrderMetadata.CreateAmount(this.Amount.NonNullValue<MoneyDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("Amount", () => Cryptocash.Domain.CashStockOrderMetadata.CreateAmount(this.Amount.NonNullValue<MoneyDto>()), result);
         else
             result.Add("Amount", new [] { "Amount is Required." });
     
-        TryGetValidationExceptions("RequestedDeliveryDate", () => Cryptocash.Domain.CashStockOrderMetadata.CreateRequestedDeliveryDate(this.RequestedDeliveryDate), result);
+        ExecuteActionAndCollectValidationExceptions("RequestedDeliveryDate", () => Cryptocash.Domain.CashStockOrderMetadata.CreateRequestedDeliveryDate(this.RequestedDeliveryDate), result);
     
         if (this.DeliveryDateTime is not null)
-            TryGetValidationExceptions("DeliveryDateTime", () => Cryptocash.Domain.CashStockOrderMetadata.CreateDeliveryDateTime(this.DeliveryDateTime.NonNullValue<System.DateTimeOffset>()), result); 
+            ExecuteActionAndCollectValidationExceptions("DeliveryDateTime", () => Cryptocash.Domain.CashStockOrderMetadata.CreateDeliveryDateTime(this.DeliveryDateTime.NonNullValue<System.DateTimeOffset>()), result); 
 
         return result;
     }

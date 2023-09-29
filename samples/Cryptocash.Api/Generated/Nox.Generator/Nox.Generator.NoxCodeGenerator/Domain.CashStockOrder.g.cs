@@ -33,15 +33,15 @@ internal partial class CashStockOrder : CashStockOrderBase, IEntityHaveDomainEve
 /// <summary>
 /// Record for CashStockOrder created event.
 /// </summary>
-internal record CashStockOrderCreated(CashStockOrder CashStockOrder) : IDomainEvent;
+internal record CashStockOrderCreated(CashStockOrder CashStockOrder) : IDomainEvent, MediatR.INotification;
 /// <summary>
 /// Record for CashStockOrder updated event.
 /// </summary>
-internal record CashStockOrderUpdated(CashStockOrder CashStockOrder) : IDomainEvent;
+internal record CashStockOrderUpdated(CashStockOrder CashStockOrder) : IDomainEvent, MediatR.INotification;
 /// <summary>
 /// Record for CashStockOrder deleted event.
 /// </summary>
-internal record CashStockOrderDeleted(CashStockOrder CashStockOrder) : IDomainEvent;
+internal record CashStockOrderDeleted(CashStockOrder CashStockOrder) : IDomainEvent, MediatR.INotification;
 
 /// <summary>
 /// Vending machine cash stock order and related data.

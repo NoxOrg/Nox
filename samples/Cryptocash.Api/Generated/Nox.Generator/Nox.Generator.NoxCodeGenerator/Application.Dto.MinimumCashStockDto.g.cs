@@ -36,7 +36,7 @@ public abstract class MinimumCashStockDtoBase : EntityDtoBase, IEntityDto<Minimu
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Amount is not null)
-            TryGetValidationExceptions("Amount", () => Cryptocash.Domain.MinimumCashStockMetadata.CreateAmount(this.Amount.NonNullValue<MoneyDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("Amount", () => Cryptocash.Domain.MinimumCashStockMetadata.CreateAmount(this.Amount.NonNullValue<MoneyDto>()), result);
         else
             result.Add("Amount", new [] { "Amount is Required." });
     
