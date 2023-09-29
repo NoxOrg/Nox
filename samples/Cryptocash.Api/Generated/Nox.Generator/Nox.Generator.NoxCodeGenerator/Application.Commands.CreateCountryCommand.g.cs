@@ -70,7 +70,14 @@ internal abstract class CreateCountryCommandHandlerBase: CommandBase<CreateCount
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.CountryUsedByCurrency is not null)
+		if(request.EntityDto.CountryUsedByCurrencyId is not null)
+		{
+			var relatedKey = CreateNoxTypeForKey<Currency, Nox.Types.CurrencyCode3>("Id", request.EntityDto.CountryUsedByCurrencyId);
+			var relatedEntity = await _dbContext.Currencies.FindAsync(relatedKey);
+			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+				entityToCreate.CreateRefToCountryUsedByCurrency(relatedEntity);
+		}
+		else if(request.EntityDto.CountryUsedByCurrency is not null)
 		{
 			var relatedEntity = _currencyfactory.CreateEntity(request.EntityDto.CountryUsedByCurrency);
 			entityToCreate.CreateRefToCountryUsedByCurrency(relatedEntity);

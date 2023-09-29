@@ -62,12 +62,26 @@ internal abstract class CreateStoreCommandHandlerBase: CommandBase<CreateStoreCo
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.Ownership is not null)
+		if(request.EntityDto.OwnershipId is not null)
+		{
+			var relatedKey = CreateNoxTypeForKey<StoreOwner, Nox.Types.Text>("Id", request.EntityDto.OwnershipId);
+			var relatedEntity = await _dbContext.StoreOwners.FindAsync(relatedKey);
+			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+				entityToCreate.CreateRefToOwnership(relatedEntity);
+		}
+		else if(request.EntityDto.Ownership is not null)
 		{
 			var relatedEntity = _storeownerfactory.CreateEntity(request.EntityDto.Ownership);
 			entityToCreate.CreateRefToOwnership(relatedEntity);
 		}
-		if(request.EntityDto.License is not null)
+		if(request.EntityDto.LicenseId is not null)
+		{
+			var relatedKey = CreateNoxTypeForKey<StoreLicense, Nox.Types.AutoNumber>("Id", request.EntityDto.LicenseId);
+			var relatedEntity = await _dbContext.StoreLicenses.FindAsync(relatedKey);
+			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+				entityToCreate.CreateRefToLicense(relatedEntity);
+		}
+		else if(request.EntityDto.License is not null)
 		{
 			var relatedEntity = _storelicensefactory.CreateEntity(request.EntityDto.License);
 			entityToCreate.CreateRefToLicense(relatedEntity);

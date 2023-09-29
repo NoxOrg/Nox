@@ -62,12 +62,26 @@ internal abstract class CreateTransactionCommandHandlerBase: CommandBase<CreateT
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.TransactionForCustomer is not null)
+		if(request.EntityDto.TransactionForCustomerId is not null)
+		{
+			var relatedKey = CreateNoxTypeForKey<Customer, Nox.Types.AutoNumber>("Id", request.EntityDto.TransactionForCustomerId);
+			var relatedEntity = await _dbContext.Customers.FindAsync(relatedKey);
+			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+				entityToCreate.CreateRefToTransactionForCustomer(relatedEntity);
+		}
+		else if(request.EntityDto.TransactionForCustomer is not null)
 		{
 			var relatedEntity = _customerfactory.CreateEntity(request.EntityDto.TransactionForCustomer);
 			entityToCreate.CreateRefToTransactionForCustomer(relatedEntity);
 		}
-		if(request.EntityDto.TransactionForBooking is not null)
+		if(request.EntityDto.TransactionForBookingId is not null)
+		{
+			var relatedKey = CreateNoxTypeForKey<Booking, Nox.Types.Guid>("Id", request.EntityDto.TransactionForBookingId);
+			var relatedEntity = await _dbContext.Bookings.FindAsync(relatedKey);
+			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+				entityToCreate.CreateRefToTransactionForBooking(relatedEntity);
+		}
+		else if(request.EntityDto.TransactionForBooking is not null)
 		{
 			var relatedEntity = _bookingfactory.CreateEntity(request.EntityDto.TransactionForBooking);
 			entityToCreate.CreateRefToTransactionForBooking(relatedEntity);

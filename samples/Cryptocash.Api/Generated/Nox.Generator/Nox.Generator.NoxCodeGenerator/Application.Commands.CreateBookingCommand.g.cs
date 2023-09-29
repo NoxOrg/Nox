@@ -70,22 +70,50 @@ internal abstract class CreateBookingCommandHandlerBase: CommandBase<CreateBooki
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.BookingForCustomer is not null)
+		if(request.EntityDto.BookingForCustomerId is not null)
+		{
+			var relatedKey = CreateNoxTypeForKey<Customer, Nox.Types.AutoNumber>("Id", request.EntityDto.BookingForCustomerId);
+			var relatedEntity = await _dbContext.Customers.FindAsync(relatedKey);
+			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+				entityToCreate.CreateRefToBookingForCustomer(relatedEntity);
+		}
+		else if(request.EntityDto.BookingForCustomer is not null)
 		{
 			var relatedEntity = _customerfactory.CreateEntity(request.EntityDto.BookingForCustomer);
 			entityToCreate.CreateRefToBookingForCustomer(relatedEntity);
 		}
-		if(request.EntityDto.BookingRelatedVendingMachine is not null)
+		if(request.EntityDto.BookingRelatedVendingMachineId is not null)
+		{
+			var relatedKey = CreateNoxTypeForKey<VendingMachine, Nox.Types.Guid>("Id", request.EntityDto.BookingRelatedVendingMachineId);
+			var relatedEntity = await _dbContext.VendingMachines.FindAsync(relatedKey);
+			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+				entityToCreate.CreateRefToBookingRelatedVendingMachine(relatedEntity);
+		}
+		else if(request.EntityDto.BookingRelatedVendingMachine is not null)
 		{
 			var relatedEntity = _vendingmachinefactory.CreateEntity(request.EntityDto.BookingRelatedVendingMachine);
 			entityToCreate.CreateRefToBookingRelatedVendingMachine(relatedEntity);
 		}
-		if(request.EntityDto.BookingFeesForCommission is not null)
+		if(request.EntityDto.BookingFeesForCommissionId is not null)
+		{
+			var relatedKey = CreateNoxTypeForKey<Commission, Nox.Types.AutoNumber>("Id", request.EntityDto.BookingFeesForCommissionId);
+			var relatedEntity = await _dbContext.Commissions.FindAsync(relatedKey);
+			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+				entityToCreate.CreateRefToBookingFeesForCommission(relatedEntity);
+		}
+		else if(request.EntityDto.BookingFeesForCommission is not null)
 		{
 			var relatedEntity = _commissionfactory.CreateEntity(request.EntityDto.BookingFeesForCommission);
 			entityToCreate.CreateRefToBookingFeesForCommission(relatedEntity);
 		}
-		if(request.EntityDto.BookingRelatedTransaction is not null)
+		if(request.EntityDto.BookingRelatedTransactionId is not null)
+		{
+			var relatedKey = CreateNoxTypeForKey<Transaction, Nox.Types.AutoNumber>("Id", request.EntityDto.BookingRelatedTransactionId);
+			var relatedEntity = await _dbContext.Transactions.FindAsync(relatedKey);
+			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+				entityToCreate.CreateRefToBookingRelatedTransaction(relatedEntity);
+		}
+		else if(request.EntityDto.BookingRelatedTransaction is not null)
 		{
 			var relatedEntity = _transactionfactory.CreateEntity(request.EntityDto.BookingRelatedTransaction);
 			entityToCreate.CreateRefToBookingRelatedTransaction(relatedEntity);

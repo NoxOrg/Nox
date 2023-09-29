@@ -74,12 +74,26 @@ internal abstract class CreateVendingMachineCommandHandlerBase: CommandBase<Crea
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.VendingMachineInstallationCountry is not null)
+		if(request.EntityDto.VendingMachineInstallationCountryId is not null)
+		{
+			var relatedKey = CreateNoxTypeForKey<Country, Nox.Types.CountryCode2>("Id", request.EntityDto.VendingMachineInstallationCountryId);
+			var relatedEntity = await _dbContext.Countries.FindAsync(relatedKey);
+			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+				entityToCreate.CreateRefToVendingMachineInstallationCountry(relatedEntity);
+		}
+		else if(request.EntityDto.VendingMachineInstallationCountry is not null)
 		{
 			var relatedEntity = _countryfactory.CreateEntity(request.EntityDto.VendingMachineInstallationCountry);
 			entityToCreate.CreateRefToVendingMachineInstallationCountry(relatedEntity);
 		}
-		if(request.EntityDto.VendingMachineContractedAreaLandLord is not null)
+		if(request.EntityDto.VendingMachineContractedAreaLandLordId is not null)
+		{
+			var relatedKey = CreateNoxTypeForKey<LandLord, Nox.Types.AutoNumber>("Id", request.EntityDto.VendingMachineContractedAreaLandLordId);
+			var relatedEntity = await _dbContext.LandLords.FindAsync(relatedKey);
+			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+				entityToCreate.CreateRefToVendingMachineContractedAreaLandLord(relatedEntity);
+		}
+		else if(request.EntityDto.VendingMachineContractedAreaLandLord is not null)
 		{
 			var relatedEntity = _landlordfactory.CreateEntity(request.EntityDto.VendingMachineContractedAreaLandLord);
 			entityToCreate.CreateRefToVendingMachineContractedAreaLandLord(relatedEntity);

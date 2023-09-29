@@ -62,12 +62,26 @@ internal abstract class CreateCashStockOrderCommandHandlerBase: CommandBase<Crea
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.CashStockOrderForVendingMachine is not null)
+		if(request.EntityDto.CashStockOrderForVendingMachineId is not null)
+		{
+			var relatedKey = CreateNoxTypeForKey<VendingMachine, Nox.Types.Guid>("Id", request.EntityDto.CashStockOrderForVendingMachineId);
+			var relatedEntity = await _dbContext.VendingMachines.FindAsync(relatedKey);
+			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+				entityToCreate.CreateRefToCashStockOrderForVendingMachine(relatedEntity);
+		}
+		else if(request.EntityDto.CashStockOrderForVendingMachine is not null)
 		{
 			var relatedEntity = _vendingmachinefactory.CreateEntity(request.EntityDto.CashStockOrderForVendingMachine);
 			entityToCreate.CreateRefToCashStockOrderForVendingMachine(relatedEntity);
 		}
-		if(request.EntityDto.CashStockOrderReviewedByEmployee is not null)
+		if(request.EntityDto.CashStockOrderReviewedByEmployeeId is not null)
+		{
+			var relatedKey = CreateNoxTypeForKey<Employee, Nox.Types.AutoNumber>("Id", request.EntityDto.CashStockOrderReviewedByEmployeeId);
+			var relatedEntity = await _dbContext.Employees.FindAsync(relatedKey);
+			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+				entityToCreate.CreateRefToCashStockOrderReviewedByEmployee(relatedEntity);
+		}
+		else if(request.EntityDto.CashStockOrderReviewedByEmployee is not null)
 		{
 			var relatedEntity = _employeefactory.CreateEntity(request.EntityDto.CashStockOrderReviewedByEmployee);
 			entityToCreate.CreateRefToCashStockOrderReviewedByEmployee(relatedEntity);

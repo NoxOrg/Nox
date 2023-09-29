@@ -57,7 +57,14 @@ internal abstract class CreateWorkplaceCommandHandlerBase: CommandBase<CreateWor
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.BelongsToCountry is not null)
+		if(request.EntityDto.BelongsToCountryId is not null)
+		{
+			var relatedKey = CreateNoxTypeForKey<Country, Nox.Types.AutoNumber>("Id", request.EntityDto.BelongsToCountryId);
+			var relatedEntity = await _dbContext.Countries.FindAsync(relatedKey);
+			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+				entityToCreate.CreateRefToBelongsToCountry(relatedEntity);
+		}
+		else if(request.EntityDto.BelongsToCountry is not null)
 		{
 			var relatedEntity = _countryfactory.CreateEntity(request.EntityDto.BelongsToCountry);
 			entityToCreate.CreateRefToBelongsToCountry(relatedEntity);

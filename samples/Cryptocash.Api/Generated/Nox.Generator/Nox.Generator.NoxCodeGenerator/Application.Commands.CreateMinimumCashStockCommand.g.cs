@@ -67,7 +67,14 @@ internal abstract class CreateMinimumCashStockCommandHandlerBase: CommandBase<Cr
 			var relatedEntity = _vendingmachinefactory.CreateEntity(relatedCreateDto);
 			entityToCreate.CreateRefToMinimumCashStocksRequiredByVendingMachines(relatedEntity);
 		}
-		if(request.EntityDto.MinimumCashStockRelatedCurrency is not null)
+		if(request.EntityDto.MinimumCashStockRelatedCurrencyId is not null)
+		{
+			var relatedKey = CreateNoxTypeForKey<Currency, Nox.Types.CurrencyCode3>("Id", request.EntityDto.MinimumCashStockRelatedCurrencyId);
+			var relatedEntity = await _dbContext.Currencies.FindAsync(relatedKey);
+			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+				entityToCreate.CreateRefToMinimumCashStockRelatedCurrency(relatedEntity);
+		}
+		else if(request.EntityDto.MinimumCashStockRelatedCurrency is not null)
 		{
 			var relatedEntity = _currencyfactory.CreateEntity(request.EntityDto.MinimumCashStockRelatedCurrency);
 			entityToCreate.CreateRefToMinimumCashStockRelatedCurrency(relatedEntity);

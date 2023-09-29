@@ -62,12 +62,26 @@ internal abstract class CreatePaymentDetailCommandHandlerBase: CommandBase<Creat
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.PaymentDetailsUsedByCustomer is not null)
+		if(request.EntityDto.PaymentDetailsUsedByCustomerId is not null)
+		{
+			var relatedKey = CreateNoxTypeForKey<Customer, Nox.Types.AutoNumber>("Id", request.EntityDto.PaymentDetailsUsedByCustomerId);
+			var relatedEntity = await _dbContext.Customers.FindAsync(relatedKey);
+			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+				entityToCreate.CreateRefToPaymentDetailsUsedByCustomer(relatedEntity);
+		}
+		else if(request.EntityDto.PaymentDetailsUsedByCustomer is not null)
 		{
 			var relatedEntity = _customerfactory.CreateEntity(request.EntityDto.PaymentDetailsUsedByCustomer);
 			entityToCreate.CreateRefToPaymentDetailsUsedByCustomer(relatedEntity);
 		}
-		if(request.EntityDto.PaymentDetailsRelatedPaymentProvider is not null)
+		if(request.EntityDto.PaymentDetailsRelatedPaymentProviderId is not null)
+		{
+			var relatedKey = CreateNoxTypeForKey<PaymentProvider, Nox.Types.AutoNumber>("Id", request.EntityDto.PaymentDetailsRelatedPaymentProviderId);
+			var relatedEntity = await _dbContext.PaymentProviders.FindAsync(relatedKey);
+			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+				entityToCreate.CreateRefToPaymentDetailsRelatedPaymentProvider(relatedEntity);
+		}
+		else if(request.EntityDto.PaymentDetailsRelatedPaymentProvider is not null)
 		{
 			var relatedEntity = _paymentproviderfactory.CreateEntity(request.EntityDto.PaymentDetailsRelatedPaymentProvider);
 			entityToCreate.CreateRefToPaymentDetailsRelatedPaymentProvider(relatedEntity);

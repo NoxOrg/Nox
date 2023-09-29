@@ -58,7 +58,14 @@ internal abstract class CreateStoreLicenseCommandHandlerBase: CommandBase<Create
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.StoreWithLicense is not null)
+		if(request.EntityDto.StoreWithLicenseId is not null)
+		{
+			var relatedKey = CreateNoxTypeForKey<Store, Nox.Types.Guid>("Id", request.EntityDto.StoreWithLicenseId);
+			var relatedEntity = await _dbContext.Stores.FindAsync(relatedKey);
+			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+				entityToCreate.CreateRefToStoreWithLicense(relatedEntity);
+		}
+		else if(request.EntityDto.StoreWithLicense is not null)
 		{
 			var relatedEntity = _storefactory.CreateEntity(request.EntityDto.StoreWithLicense);
 			entityToCreate.CreateRefToStoreWithLicense(relatedEntity);

@@ -58,7 +58,14 @@ internal abstract class CreateEmployeeCommandHandlerBase: CommandBase<CreateEmpl
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.EmployeeReviewingCashStockOrder is not null)
+		if(request.EntityDto.EmployeeReviewingCashStockOrderId is not null)
+		{
+			var relatedKey = CreateNoxTypeForKey<CashStockOrder, Nox.Types.AutoNumber>("Id", request.EntityDto.EmployeeReviewingCashStockOrderId);
+			var relatedEntity = await _dbContext.CashStockOrders.FindAsync(relatedKey);
+			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+				entityToCreate.CreateRefToEmployeeReviewingCashStockOrder(relatedEntity);
+		}
+		else if(request.EntityDto.EmployeeReviewingCashStockOrder is not null)
 		{
 			var relatedEntity = _cashstockorderfactory.CreateEntity(request.EntityDto.EmployeeReviewingCashStockOrder);
 			entityToCreate.CreateRefToEmployeeReviewingCashStockOrder(relatedEntity);

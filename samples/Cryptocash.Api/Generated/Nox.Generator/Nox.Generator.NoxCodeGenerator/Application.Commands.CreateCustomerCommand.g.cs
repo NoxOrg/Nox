@@ -85,7 +85,14 @@ internal abstract class CreateCustomerCommandHandlerBase: CommandBase<CreateCust
 			var relatedEntity = _transactionfactory.CreateEntity(relatedCreateDto);
 			entityToCreate.CreateRefToCustomerRelatedTransactions(relatedEntity);
 		}
-		if(request.EntityDto.CustomerBaseCountry is not null)
+		if(request.EntityDto.CustomerBaseCountryId is not null)
+		{
+			var relatedKey = CreateNoxTypeForKey<Country, Nox.Types.CountryCode2>("Id", request.EntityDto.CustomerBaseCountryId);
+			var relatedEntity = await _dbContext.Countries.FindAsync(relatedKey);
+			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+				entityToCreate.CreateRefToCustomerBaseCountry(relatedEntity);
+		}
+		else if(request.EntityDto.CustomerBaseCountry is not null)
 		{
 			var relatedEntity = _countryfactory.CreateEntity(request.EntityDto.CustomerBaseCountry);
 			entityToCreate.CreateRefToCustomerBaseCountry(relatedEntity);

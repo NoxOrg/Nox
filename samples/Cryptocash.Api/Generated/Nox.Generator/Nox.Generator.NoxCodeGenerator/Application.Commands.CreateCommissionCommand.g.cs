@@ -62,7 +62,14 @@ internal abstract class CreateCommissionCommandHandlerBase: CommandBase<CreateCo
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.CommissionFeesForCountry is not null)
+		if(request.EntityDto.CommissionFeesForCountryId is not null)
+		{
+			var relatedKey = CreateNoxTypeForKey<Country, Nox.Types.CountryCode2>("Id", request.EntityDto.CommissionFeesForCountryId);
+			var relatedEntity = await _dbContext.Countries.FindAsync(relatedKey);
+			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+				entityToCreate.CreateRefToCommissionFeesForCountry(relatedEntity);
+		}
+		else if(request.EntityDto.CommissionFeesForCountry is not null)
 		{
 			var relatedEntity = _countryfactory.CreateEntity(request.EntityDto.CommissionFeesForCountry);
 			entityToCreate.CreateRefToCommissionFeesForCountry(relatedEntity);

@@ -112,7 +112,7 @@ public abstract class {{className}}Base : EntityDtoBase, IEntityDto<{{entity.Nam
     {{- else}}
         {{- if relationship.ShouldGenerateForeignOnThisSide}}
     //EF maps ForeignKey Automatically
-    public System.{{relationship.ForeignKeyPrimitiveType}}? {{relationship.Name}}Id { get; set; } = default!;
+    public {{relationship.ForeignKeyPrimitiveType}}? {{relationship.Name}}Id { get; set; } = default!;
         {{- end}}
     public virtual {{relationship.Entity}}Dto? {{relationship.Name}} { get; set; } = null!;
     {{-end}}
