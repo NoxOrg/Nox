@@ -18,7 +18,6 @@ namespace Nox.Solution
 
         [Title("Server port")]
         [Description("The port to connect to.")]
-        [AllowVariable]
         public int? Port { get; internal set; }
 
         [Title("Username.")]

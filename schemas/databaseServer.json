@@ -12,7 +12,7 @@
     "provider": {    
       "title": "The database provider.",
       "description": "The provider used for this database server. Examples include SqlServer, Postgres and others. Can also be a Nox variable i.e. ${{ env.DB_PROVIDER }}",
-      anyOf: [
+      "anyOf": [
       	{
       		"type": "string",
 			"enum": [
