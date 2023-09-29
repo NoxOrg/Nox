@@ -33,15 +33,15 @@ internal partial class EmailAddress : EmailAddressBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for EmailAddress created event.
 /// </summary>
-internal record EmailAddressCreated(EmailAddress EmailAddress) : IDomainEvent;
+internal record EmailAddressCreated(EmailAddress EmailAddress) : IDomainEvent, MediatR.INotification;
 /// <summary>
 /// Record for EmailAddress updated event.
 /// </summary>
-internal record EmailAddressUpdated(EmailAddress EmailAddress) : IDomainEvent;
+internal record EmailAddressUpdated(EmailAddress EmailAddress) : IDomainEvent, MediatR.INotification;
 /// <summary>
 /// Record for EmailAddress deleted event.
 /// </summary>
-internal record EmailAddressDeleted(EmailAddress EmailAddress) : IDomainEvent;
+internal record EmailAddressDeleted(EmailAddress EmailAddress) : IDomainEvent, MediatR.INotification;
 
 /// <summary>
 /// Verified Email Address.

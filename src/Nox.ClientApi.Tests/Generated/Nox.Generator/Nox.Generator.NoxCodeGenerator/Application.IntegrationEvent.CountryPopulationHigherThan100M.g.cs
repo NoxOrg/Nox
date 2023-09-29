@@ -6,6 +6,8 @@ using Nox.Abstractions;
 using Nox.Application;
 using Nox.Types;
 
+using ClientApi.Application.Dto;
+
 namespace ClientApi.Application.IntegrationEvents;
 
 /// <summary>
@@ -13,9 +15,9 @@ namespace ClientApi.Application.IntegrationEvents;
 /// </summary>
 public partial class CountryPopulationHigherThan100M : IIntegrationEvent
 {
-    public Nox.Types.CountryCode2? Code { get; set; } = null!;
+    public System.String? Name { get; set; }
 
-    public Nox.Types.Text? Name { get; set; } = null!;
+    public System.Int32? Population { get; set; }
 
-    public Nox.Types.Number? Population { get; set; } = null!;
+    public MoneyDto? CountryDebt { get; set; }
 }

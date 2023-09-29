@@ -33,15 +33,15 @@ internal partial class CountryQualityOfLifeIndex : CountryQualityOfLifeIndexBase
 /// <summary>
 /// Record for CountryQualityOfLifeIndex created event.
 /// </summary>
-internal record CountryQualityOfLifeIndexCreated(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) : IDomainEvent;
+internal record CountryQualityOfLifeIndexCreated(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) : IDomainEvent, MediatR.INotification;
 /// <summary>
 /// Record for CountryQualityOfLifeIndex updated event.
 /// </summary>
-internal record CountryQualityOfLifeIndexUpdated(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) : IDomainEvent;
+internal record CountryQualityOfLifeIndexUpdated(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) : IDomainEvent, MediatR.INotification;
 /// <summary>
 /// Record for CountryQualityOfLifeIndex deleted event.
 /// </summary>
-internal record CountryQualityOfLifeIndexDeleted(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) : IDomainEvent;
+internal record CountryQualityOfLifeIndexDeleted(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) : IDomainEvent, MediatR.INotification;
 
 /// <summary>
 /// Country Quality Of Life Index.

@@ -6,6 +6,8 @@ using Nox.Abstractions;
 using Nox.Application;
 using Nox.Types;
 
+using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
+
 namespace {{codeGeneratorState.ApplicationNameSpace}}.IntegrationEvents;
 
 {{ if integrationEvent.Description -}}
@@ -22,7 +24,11 @@ public partial class {{integrationEvent.Name}} : IIntegrationEvent
     /// {{attribute.Description}}{{if !(attribute.Description | string.ends_with ".")}}.{{end}}
     /// </summary>
 {{- end }}
-    public Nox.Types.{{attribute.Type}}{{if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } = null!;
+{{- if IsNoxTypeSimpleType attribute.Type }}
+    public {{SinglePrimitiveTypeForKey attribute}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
+{{- else }}
+    public {{attribute.Type}}Dto{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
+{{- end }}
 {{ end -}}
 {{ end -}}
 }

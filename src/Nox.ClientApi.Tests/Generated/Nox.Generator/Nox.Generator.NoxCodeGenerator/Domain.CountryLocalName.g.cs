@@ -33,15 +33,15 @@ internal partial class CountryLocalName : CountryLocalNameBase, IEntityHaveDomai
 /// <summary>
 /// Record for CountryLocalName created event.
 /// </summary>
-internal record CountryLocalNameCreated(CountryLocalName CountryLocalName) : IDomainEvent;
+internal record CountryLocalNameCreated(CountryLocalName CountryLocalName) : IDomainEvent, MediatR.INotification;
 /// <summary>
 /// Record for CountryLocalName updated event.
 /// </summary>
-internal record CountryLocalNameUpdated(CountryLocalName CountryLocalName) : IDomainEvent;
+internal record CountryLocalNameUpdated(CountryLocalName CountryLocalName) : IDomainEvent, MediatR.INotification;
 /// <summary>
 /// Record for CountryLocalName deleted event.
 /// </summary>
-internal record CountryLocalNameDeleted(CountryLocalName CountryLocalName) : IDomainEvent;
+internal record CountryLocalNameDeleted(CountryLocalName CountryLocalName) : IDomainEvent, MediatR.INotification;
 
 /// <summary>
 /// Local names for countries.
