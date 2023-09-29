@@ -47,7 +47,7 @@ public partial class CommissionMetadata
         /// <summary>
         /// User Interface for property 'Rate'
         /// </summary>
-        public static TypeUserInterface? RateUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? RateUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Commission")
                 .GetAttributeByName("Rate")?
@@ -56,7 +56,7 @@ public partial class CommissionMetadata
         /// <summary>
         /// User Interface for property 'EffectiveAt'
         /// </summary>
-        public static TypeUserInterface? EffectiveAtUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? EffectiveAtUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("Commission")
                 .GetAttributeByName("EffectiveAt")?

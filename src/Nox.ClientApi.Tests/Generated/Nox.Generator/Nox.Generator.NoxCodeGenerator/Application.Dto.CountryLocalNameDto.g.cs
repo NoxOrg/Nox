@@ -3,10 +3,12 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
@@ -17,11 +19,33 @@ namespace ClientApi.Application.Dto;
 
 public record CountryLocalNameKeyDto(System.Int64 keyId);
 
+public partial class CountryLocalNameDto : CountryLocalNameDtoBase
+{
+
+}
+
 /// <summary>
 /// Local names for countries.
 /// </summary>
-public partial class CountryLocalNameDto
+public abstract class CountryLocalNameDtoBase : EntityDtoBase, IEntityDto<CountryLocalName>
 {
+
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+    
+        if (this.Name is not null)
+            TryGetValidationExceptions("Name", () => ClientApi.Domain.CountryLocalNameMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+        else
+            result.Add("Name", new [] { "Name is Required." });
+    
+        if (this.NativeName is not null)
+            TryGetValidationExceptions("NativeName", () => ClientApi.Domain.CountryLocalNameMetadata.CreateNativeName(this.NativeName.NonNullValue<System.String>()), result);
+
+        return result;
+    }
+    #endregion
 
     /// <summary>
     /// The unique identifier (Required).

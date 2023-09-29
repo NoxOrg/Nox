@@ -31,10 +31,21 @@ public partial class CountryQualityOfLifeIndexMetadata
         
     
         /// <summary>
+        /// Type options for property 'IndexRating'
+        /// </summary>
+        public static Nox.Types.NumberTypeOptions IndexRatingTypeOptions {get; private set;} = new ()
+        {
+            MinValue = 1m,
+            MaxValue = 999999999m,
+            DecimalDigits = 0,
+        };
+    
+    
+        /// <summary>
         /// Factory for property 'IndexRating'
         /// </summary>
         public static Nox.Types.Number CreateIndexRating(System.Int32 value)
-            => Nox.Types.Number.From(value);
+            => Nox.Types.Number.From(value, IndexRatingTypeOptions);
         
 
         /// <summary>

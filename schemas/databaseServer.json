@@ -11,23 +11,14 @@
   "properties": {
     "provider": {    
       "title": "The database provider.",
-      "description": "The provider used for this database server. Examples include SqlServer, Postgres and others. Can also be a Nox variable i.e. ${{ env.DB_PROVIDER }}",
-      anyOf: [
-      	{
-      		"type": "string",
-			"enum": [
-				"mySql",
-				"postgres",
-				"sqLite",
-				"sqlServer"
-			]
-      	},
-      	{
-      		"type": "string",
-			"pattern": "^(\$\{\{\s*(.*)\s*\}\})"
-      	}
+      "description": "The provider used for this database server. Examples include SqlServer, Postgres and others.",
+      "type": "string",
+      "enum": [
+        "mySql",
+        "postgres",
+        "sqLite",
+        "sqlServer"
       ]
-      
     },
     "name": {    
       "title": "The unique name of this server component in the solution.",
@@ -42,18 +33,10 @@
     },
     "port": {    
       "title": "Server port",
-      "description": "The port to connect to. Can be an integer or a Nox variable i.e. ${{ env.DB_PORT }}",
-      "anyOf": [
-		{
-			"type": "integer"
-		},
-		{
-			"type": "string",
-			"pattern": "^(\$\{\{\s*(.*)\s*\}\})"
-		},
-		{
-			"type": "null"
-		}
+      "description": "The port to connect to.",
+      "type": [
+        "integer",
+        "null"
       ]
     },
     "user": {    

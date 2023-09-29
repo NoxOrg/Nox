@@ -109,7 +109,7 @@ public partial class VendingMachineMetadata
         /// <summary>
         /// User Interface for property 'MacAddress'
         /// </summary>
-        public static TypeUserInterface? MacAddressUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? MacAddressUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("VendingMachine")
                 .GetAttributeByName("MacAddress")?
@@ -118,7 +118,7 @@ public partial class VendingMachineMetadata
         /// <summary>
         /// User Interface for property 'PublicIp'
         /// </summary>
-        public static TypeUserInterface? PublicIpUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? PublicIpUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("VendingMachine")
                 .GetAttributeByName("PublicIp")?
@@ -127,7 +127,7 @@ public partial class VendingMachineMetadata
         /// <summary>
         /// User Interface for property 'GeoLocation'
         /// </summary>
-        public static TypeUserInterface? GeoLocationUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? GeoLocationUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("VendingMachine")
                 .GetAttributeByName("GeoLocation")?
@@ -136,7 +136,7 @@ public partial class VendingMachineMetadata
         /// <summary>
         /// User Interface for property 'StreetAddress'
         /// </summary>
-        public static TypeUserInterface? StreetAddressUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? StreetAddressUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("VendingMachine")
                 .GetAttributeByName("StreetAddress")?
@@ -145,7 +145,7 @@ public partial class VendingMachineMetadata
         /// <summary>
         /// User Interface for property 'SerialNumber'
         /// </summary>
-        public static TypeUserInterface? SerialNumberUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? SerialNumberUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("VendingMachine")
                 .GetAttributeByName("SerialNumber")?
@@ -154,7 +154,7 @@ public partial class VendingMachineMetadata
         /// <summary>
         /// User Interface for property 'InstallationFootPrint'
         /// </summary>
-        public static TypeUserInterface? InstallationFootPrintUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? InstallationFootPrintUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("VendingMachine")
                 .GetAttributeByName("InstallationFootPrint")?
@@ -163,7 +163,7 @@ public partial class VendingMachineMetadata
         /// <summary>
         /// User Interface for property 'RentPerSquareMetre'
         /// </summary>
-        public static TypeUserInterface? RentPerSquareMetreUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? RentPerSquareMetreUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("VendingMachine")
                 .GetAttributeByName("RentPerSquareMetre")?

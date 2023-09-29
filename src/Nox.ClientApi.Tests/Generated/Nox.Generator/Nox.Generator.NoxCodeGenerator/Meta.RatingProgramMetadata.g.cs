@@ -35,7 +35,7 @@ public partial class RatingProgramMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions NameTypeOptions {get; private set;} = new ()
         {
-            MinLength = 1,
+            MinLength = 2,
             MaxLength = 256,
             IsUnicode = true,
             IsLocalized = true,

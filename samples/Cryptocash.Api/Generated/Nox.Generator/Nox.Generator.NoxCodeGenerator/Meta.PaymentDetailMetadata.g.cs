@@ -100,7 +100,7 @@ public partial class PaymentDetailMetadata
         /// <summary>
         /// User Interface for property 'PaymentAccountName'
         /// </summary>
-        public static TypeUserInterface? PaymentAccountNameUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? PaymentAccountNameUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("PaymentDetail")
                 .GetAttributeByName("PaymentAccountName")?
@@ -109,7 +109,7 @@ public partial class PaymentDetailMetadata
         /// <summary>
         /// User Interface for property 'PaymentAccountNumber'
         /// </summary>
-        public static TypeUserInterface? PaymentAccountNumberUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? PaymentAccountNumberUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("PaymentDetail")
                 .GetAttributeByName("PaymentAccountNumber")?
@@ -118,7 +118,7 @@ public partial class PaymentDetailMetadata
         /// <summary>
         /// User Interface for property 'PaymentAccountSortCode'
         /// </summary>
-        public static TypeUserInterface? PaymentAccountSortCodeUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? PaymentAccountSortCodeUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("PaymentDetail")
                 .GetAttributeByName("PaymentAccountSortCode")?

@@ -3,10 +3,12 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
@@ -17,11 +19,32 @@ namespace ClientApi.Application.Dto;
 
 public record RatingProgramKeyDto(System.Guid keyStoreId, System.Int64 keyId);
 
+public partial class RatingProgramDto : RatingProgramDtoBase
+{
+
+}
+
 /// <summary>
 /// Rating program for store.
 /// </summary>
-public partial class RatingProgramDto
+public abstract class RatingProgramDtoBase : EntityDtoBase, IEntityDto<RatingProgram>
 {
+
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+    
+        if(this.StoreId != default(System.Guid))
+            TryGetValidationExceptions("StoreId", () => ClientApi.Domain.RatingProgramMetadata.CreateStoreId(this.StoreId), result);
+        else
+            result.Add("StoreId", new [] { "StoreId is Required." });
+        if (this.Name is not null)
+            TryGetValidationExceptions("Name", () => ClientApi.Domain.RatingProgramMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+
+        return result;
+    }
+    #endregion
 
     /// <summary>
     ///  (Required).

@@ -66,7 +66,7 @@ public partial class PaymentProviderMetadata
         /// <summary>
         /// User Interface for property 'PaymentProviderName'
         /// </summary>
-        public static TypeUserInterface? PaymentProviderNameUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? PaymentProviderNameUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("PaymentProvider")
                 .GetAttributeByName("PaymentProviderName")?
@@ -75,7 +75,7 @@ public partial class PaymentProviderMetadata
         /// <summary>
         /// User Interface for property 'PaymentProviderType'
         /// </summary>
-        public static TypeUserInterface? PaymentProviderTypeUserInterface(NoxSolution solution) 
+        public static TypeUserInterface? PaymentProviderTypeUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("PaymentProvider")
                 .GetAttributeByName("PaymentProviderType")?
