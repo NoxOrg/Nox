@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
@@ -33,15 +35,15 @@ internal partial class BankNote : BankNoteBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for BankNote created event.
 /// </summary>
-internal record BankNoteCreated(BankNote BankNote) : IDomainEvent, MediatR.INotification;
+internal record BankNoteCreated(BankNote BankNote) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for BankNote updated event.
 /// </summary>
-internal record BankNoteUpdated(BankNote BankNote) : IDomainEvent, MediatR.INotification;
+internal record BankNoteUpdated(BankNote BankNote) : IDomainEvent, INotification;
 /// <summary>
 /// Record for BankNote deleted event.
 /// </summary>
-internal record BankNoteDeleted(BankNote BankNote) : IDomainEvent, MediatR.INotification;
+internal record BankNoteDeleted(BankNote BankNote) : IDomainEvent, INotification;
 
 /// <summary>
 /// Currencies related frequent and rare bank notes.

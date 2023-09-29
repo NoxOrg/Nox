@@ -14,22 +14,27 @@ namespace Nox.Solution
         [Required]
         [Title("Hostname, IP address or URI.")]
         [Description("The name, address, URI or IP of the server to connect to.")]
+        [AllowVariable]
         public string ServerUri { get; internal set; } = null!;
 
         [Title("Server port")]
         [Description("The port to connect to.")]
+        [AllowVariable]
         public int? Port { get; internal set; }
 
         [Title("Username.")]
         [Description("The username to use when connecting to this server.")]
+        [AllowVariable]
         public string? User { get; internal set; }
 
         [Title("Password.")]
         [Description("The password to use when connecting to this server.")]
+        [AllowVariable]
         public string? Password { get; internal set; }
 
         [Title("Additional options.")]
         [Description("A list of additional options to set when connecting to this server.")]
+        [AllowVariable]
         public string? Options { get; internal set; }
     }
 }

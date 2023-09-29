@@ -2,9 +2,13 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Fully describes a NOX solution",
   "description": "Contains all configuration, domain objects and infrastructure declarations that defines a NOX solution. See https://noxorg.dev for more.",
-  "type": [
-    "object",
-    "null"
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
   ],
   "required": [
     "name"
@@ -19,43 +23,63 @@
     "platformId": {    
       "title": "Platform Identifier. Used to build a unique Uri.",
       "description": "Identify a Platform, that is a set of different services. Use to produce a unique Uri, by encoding the provided value.",
-      "type": [
-        "string",
-        "null"
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
       ]
     },
     "version": {    
       "title": "The version of the NOX solution. Expected a Semantic Version format.",
       "description": "Required, but if not defined default 1.0.",
-      "type": [
-        "string",
-        "null"
-      ],
-      "pattern": "^(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$"
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$"
+        },
+        {
+          "type": "null"
+        }
+      ]
     },
     "description": {    
       "title": "A short description of the NOX solution.",
       "description": "A brief description of the solution with what it's purpose or goals are.",
-      "type": [
-        "string",
-        "null"
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
       ]
     },
     "overview": {    
       "title": "URL to the documentation or specification of the solution.",
       "description": "A URL which contains the requirements, documentation or specification for this solution.",
-      "type": [
-        "string",
-        "null"
-      ],
-      "format": "uri"
+      "oneOf": [
+        {
+          "type": "string",
+          "format": "uri"
+        },
+        {
+          "type": "null"
+        }
+      ]
     },
     "variables": {    
       "title": "The environment variables used in your solution and default values.",
       "description": "A key/value pair of environment variables used in your solution and their defaults.",
-      "type": [
-        "object",
-        "null"
+      "oneOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
       ],
       "additionalProperties":   {
         "Type": "string"
@@ -64,9 +88,13 @@
     "environments": {    
       "title": "Definitions for run-time environments.",
       "description": "Definitions for the name, production status and other pertinent information pertaining to run-time environments.",
-      "type": [
-        "array",
-        "null"
+      "oneOf": [
+        {
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
       ],
       "items":   {
         "anyOf": [
@@ -103,9 +131,13 @@
     "team": {    
       "title": "Information about the team working on this solution.",
       "description": "Specify the members of the team working on the solution including their respective roles.",
-      "type": [
-        "array",
-        "null"
+      "oneOf": [
+        {
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
       ],
       "items":   {
         "anyOf": [

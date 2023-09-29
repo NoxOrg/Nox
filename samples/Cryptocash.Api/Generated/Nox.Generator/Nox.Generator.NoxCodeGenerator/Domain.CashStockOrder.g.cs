@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
@@ -33,15 +35,15 @@ internal partial class CashStockOrder : CashStockOrderBase, IEntityHaveDomainEve
 /// <summary>
 /// Record for CashStockOrder created event.
 /// </summary>
-internal record CashStockOrderCreated(CashStockOrder CashStockOrder) : IDomainEvent, MediatR.INotification;
+internal record CashStockOrderCreated(CashStockOrder CashStockOrder) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for CashStockOrder updated event.
 /// </summary>
-internal record CashStockOrderUpdated(CashStockOrder CashStockOrder) : IDomainEvent, MediatR.INotification;
+internal record CashStockOrderUpdated(CashStockOrder CashStockOrder) : IDomainEvent, INotification;
 /// <summary>
 /// Record for CashStockOrder deleted event.
 /// </summary>
-internal record CashStockOrderDeleted(CashStockOrder CashStockOrder) : IDomainEvent, MediatR.INotification;
+internal record CashStockOrderDeleted(CashStockOrder CashStockOrder) : IDomainEvent, INotification;
 
 /// <summary>
 /// Vending machine cash stock order and related data.

@@ -2,9 +2,13 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Source code repository and related info for the solution.",
   "description": "Contains information about where source code is kept and the folders of the main components thereof.",
-  "type": [
-    "object",
-    "null"
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
   ],
   "required": [
     "provider",
@@ -30,9 +34,13 @@
     "folders": {    
       "title": "A list of well-known folders pertaining to version control for the solution.",
       "description": "The relative path to source code, tests, containers and other well-known code assets.",
-      "type": [
-        "object",
-        "null"
+      "oneOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
       ],
       "required": [
         "sourceCode",
@@ -47,9 +55,13 @@
         "tests": {    
           "title": "The path or relative path to the solution tests.",
           "description": "The path or relative path that contains your solution tests. Allows auto-configuration of build pipelines.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
           ]
         },
         "containers": {    
@@ -60,17 +72,25 @@
         "samples": {    
           "title": "The path or relative path to the samples folder.",
           "description": "The path or relative path that contains your solution samples.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
           ]
         },
         "docs": {    
           "title": "The path or relative path to the solution documentation.",
           "description": "The path or relative path that contains your solution documentation.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
           ]
         }
       },

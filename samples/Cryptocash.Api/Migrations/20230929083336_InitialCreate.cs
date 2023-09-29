@@ -516,7 +516,7 @@ namespace Cryptocash.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MinimumCashStockVendingMachine",
+                name: "VendingMachineRequiredMinimumCashStocks",
                 columns: table => new
                 {
                     MinimumCashStocksRequiredByVendingMachinesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -524,15 +524,15 @@ namespace Cryptocash.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MinimumCashStockVendingMachine", x => new { x.MinimumCashStocksRequiredByVendingMachinesId, x.VendingMachineRequiredMinimumCashStocksId });
+                    table.PrimaryKey("PK_VendingMachineRequiredMinimumCashStocks", x => new { x.MinimumCashStocksRequiredByVendingMachinesId, x.VendingMachineRequiredMinimumCashStocksId });
                     table.ForeignKey(
-                        name: "FK_MinimumCashStockVendingMachine_MinimumCashStocks_VendingMachineRequiredMinimumCashStocksId",
+                        name: "FK_VendingMachineRequiredMinimumCashStocks_MinimumCashStocks_VendingMachineRequiredMinimumCashStocksId",
                         column: x => x.VendingMachineRequiredMinimumCashStocksId,
                         principalTable: "MinimumCashStocks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MinimumCashStockVendingMachine_VendingMachines_MinimumCashStocksRequiredByVendingMachinesId",
+                        name: "FK_VendingMachineRequiredMinimumCashStocks_VendingMachines_MinimumCashStocksRequiredByVendingMachinesId",
                         column: x => x.MinimumCashStocksRequiredByVendingMachinesId,
                         principalTable: "VendingMachines",
                         principalColumn: "Id",
@@ -716,11 +716,6 @@ namespace Cryptocash.Api.Migrations
                 column: "MinimumCashStockRelatedCurrencyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MinimumCashStockVendingMachine_VendingMachineRequiredMinimumCashStocksId",
-                table: "MinimumCashStockVendingMachine",
-                column: "VendingMachineRequiredMinimumCashStocksId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_PaymentDetails_PaymentDetailsRelatedPaymentProviderId",
                 table: "PaymentDetails",
                 column: "PaymentDetailsRelatedPaymentProviderId");
@@ -741,6 +736,11 @@ namespace Cryptocash.Api.Migrations
                 name: "IX_Transactions_TransactionForCustomerId",
                 table: "Transactions",
                 column: "TransactionForCustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VendingMachineRequiredMinimumCashStocks_VendingMachineRequiredMinimumCashStocksId",
+                table: "VendingMachineRequiredMinimumCashStocks",
+                column: "VendingMachineRequiredMinimumCashStocksId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_VendingMachines_VendingMachineContractedAreaLandLordId",
@@ -772,25 +772,25 @@ namespace Cryptocash.Api.Migrations
                 name: "Holiday");
 
             migrationBuilder.DropTable(
-                name: "MinimumCashStockVendingMachine");
-
-            migrationBuilder.DropTable(
                 name: "PaymentDetails");
 
             migrationBuilder.DropTable(
                 name: "Transactions");
 
             migrationBuilder.DropTable(
-                name: "Employees");
+                name: "VendingMachineRequiredMinimumCashStocks");
 
             migrationBuilder.DropTable(
-                name: "MinimumCashStocks");
+                name: "Employees");
 
             migrationBuilder.DropTable(
                 name: "PaymentProviders");
 
             migrationBuilder.DropTable(
                 name: "Bookings");
+
+            migrationBuilder.DropTable(
+                name: "MinimumCashStocks");
 
             migrationBuilder.DropTable(
                 name: "CashStockOrders");

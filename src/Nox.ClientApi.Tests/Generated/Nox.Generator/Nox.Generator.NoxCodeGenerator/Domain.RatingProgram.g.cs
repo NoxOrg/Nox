@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
@@ -33,15 +35,15 @@ internal partial class RatingProgram : RatingProgramBase, IEntityHaveDomainEvent
 /// <summary>
 /// Record for RatingProgram created event.
 /// </summary>
-internal record RatingProgramCreated(RatingProgram RatingProgram) : IDomainEvent, MediatR.INotification;
+internal record RatingProgramCreated(RatingProgram RatingProgram) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for RatingProgram updated event.
 /// </summary>
-internal record RatingProgramUpdated(RatingProgram RatingProgram) : IDomainEvent, MediatR.INotification;
+internal record RatingProgramUpdated(RatingProgram RatingProgram) : IDomainEvent, INotification;
 /// <summary>
 /// Record for RatingProgram deleted event.
 /// </summary>
-internal record RatingProgramDeleted(RatingProgram RatingProgram) : IDomainEvent, MediatR.INotification;
+internal record RatingProgramDeleted(RatingProgram RatingProgram) : IDomainEvent, INotification;
 
 /// <summary>
 /// Rating program for store.

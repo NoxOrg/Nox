@@ -16,6 +16,8 @@ end}}
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
@@ -48,21 +50,21 @@ internal partial class {{className}} : {{className}}Base{{if entity.HasDomainEve
 /// <summary>
 /// Record for {{entity.Name}} created event.
 /// </summary>
-internal record {{entity.Name}}Created({{entity.Name}} {{entity.Name}}) : IDomainEvent, MediatR.INotification;
+internal record {{entity.Name}}Created({{entity.Name}} {{entity.Name}}) :  IDomainEvent, INotification;
 {{- end}}
 
 {{- if entity.Persistence.Update.RaiseDomainEvents }}
 /// <summary>
 /// Record for {{entity.Name}} updated event.
 /// </summary>
-internal record {{entity.Name}}Updated({{entity.Name}} {{entity.Name}}) : IDomainEvent, MediatR.INotification;
+internal record {{entity.Name}}Updated({{entity.Name}} {{entity.Name}}) : IDomainEvent, INotification;
 {{- end}}
 
 {{- if entity.Persistence.Delete.RaiseDomainEvents }}
 /// <summary>
 /// Record for {{entity.Name}} deleted event.
 /// </summary>
-internal record {{entity.Name}}Deleted({{entity.Name}} {{entity.Name}}) : IDomainEvent, MediatR.INotification;
+internal record {{entity.Name}}Deleted({{entity.Name}} {{entity.Name}}) : IDomainEvent, INotification;
 {{- end}}
 
 /// <summary>

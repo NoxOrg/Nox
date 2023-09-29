@@ -43,7 +43,7 @@ public class CommandTests : IClassFixture<GeneratorFixture>
 
         var generatedSources = result.GeneratedSources;
         Assert.Equal(17, generatedSources.Length);
-        Assert.True(generatedSources.Any(s => s.HintName == "Application.NoxWebApplicationExtensions.g.cs"), "NoxWebApplicationExtensions.g.cs not generated");
+        Assert.True(generatedSources.Any(s => s.HintName == "Application.ServiceCollectionExtensions.g.cs"), "NoxWebApplicationExtensions.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "0.Generator.g.cs"), "Generator.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "Domain.Country.g.cs"), "Country.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "DtoDynamic.UpdatePopulationStatistics.g.cs"), "UpdatePopulationStatistics.g.cs not generated");

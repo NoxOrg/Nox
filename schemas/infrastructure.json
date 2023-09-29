@@ -2,9 +2,13 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "The definition namespace for infrastructure components pertaining to a Nox solution.",
   "description": "Define components pertinent to solution infrastructure here. Examples include persistence, messaging, dependencies and endpoints.",
-  "type": [
-    "object",
-    "null"
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
   ],
   "required": [
     "persistence"
@@ -28,9 +32,13 @@
     "messaging": {    
       "title": "The definition namespace for messaging settings pertaining to a Nox solution.",
       "description": "Defines settings pertinent to solution messaging here. These include IntegrationEventServer provider (RabbitMQ, Azure ServiceBus, Amazon SQS etc) and additional server connection details.",
-      "type": [
-        "object",
-        "null"
+      "oneOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
       ],
       "required": [
         "integrationEventServer"
@@ -57,9 +65,13 @@
     "endpoints": {    
       "title": "The definition namespace for default endpoints pertaining to a Nox solution.",
       "description": "Define default endpoints pertinent to a Nox solution here. These include endpoints for API and BFF servers.",
-      "type": [
-        "object",
-        "null"
+      "oneOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
       ],
       "properties": {
         "apiServer": {    

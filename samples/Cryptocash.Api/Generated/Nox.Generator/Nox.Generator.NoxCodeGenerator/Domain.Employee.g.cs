@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
@@ -33,15 +35,15 @@ internal partial class Employee : EmployeeBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for Employee created event.
 /// </summary>
-internal record EmployeeCreated(Employee Employee) : IDomainEvent, MediatR.INotification;
+internal record EmployeeCreated(Employee Employee) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for Employee updated event.
 /// </summary>
-internal record EmployeeUpdated(Employee Employee) : IDomainEvent, MediatR.INotification;
+internal record EmployeeUpdated(Employee Employee) : IDomainEvent, INotification;
 /// <summary>
 /// Record for Employee deleted event.
 /// </summary>
-internal record EmployeeDeleted(Employee Employee) : IDomainEvent, MediatR.INotification;
+internal record EmployeeDeleted(Employee Employee) : IDomainEvent, INotification;
 
 /// <summary>
 /// Employee definition and related data.

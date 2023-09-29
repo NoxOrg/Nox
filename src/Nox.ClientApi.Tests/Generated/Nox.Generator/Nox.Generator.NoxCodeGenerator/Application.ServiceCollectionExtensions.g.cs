@@ -13,7 +13,7 @@ using Nox.Types.EntityFramework.Abstractions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Presentation.Api.OData;
 
-internal static class NoxWebApplicationBuilderExtension
+internal static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddNox(this IServiceCollection services)
     {

@@ -44,7 +44,7 @@ public class DatabaseServerTests : IClassFixture<GeneratorFixture>
 
         var generatedSources = result.GeneratedSources;
         Assert.Equal(17, generatedSources.Length);
-        Assert.True(generatedSources.Any(s => s.HintName == "Application.NoxWebApplicationExtensions.g.cs"), "NoxWebApplicationExtensions.g.cs not generated");
+        Assert.True(generatedSources.Any(s => s.HintName == "Application.ServiceCollectionExtensions.g.cs"), "ServiceCollectionExtensions.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "0.Generator.g.cs"), "Generator.g.cs not generated");
 
         var countryFileName = "Domain.Country.g.cs";

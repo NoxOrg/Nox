@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
@@ -33,15 +35,15 @@ internal partial class MinimumCashStock : MinimumCashStockBase, IEntityHaveDomai
 /// <summary>
 /// Record for MinimumCashStock created event.
 /// </summary>
-internal record MinimumCashStockCreated(MinimumCashStock MinimumCashStock) : IDomainEvent, MediatR.INotification;
+internal record MinimumCashStockCreated(MinimumCashStock MinimumCashStock) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for MinimumCashStock updated event.
 /// </summary>
-internal record MinimumCashStockUpdated(MinimumCashStock MinimumCashStock) : IDomainEvent, MediatR.INotification;
+internal record MinimumCashStockUpdated(MinimumCashStock MinimumCashStock) : IDomainEvent, INotification;
 /// <summary>
 /// Record for MinimumCashStock deleted event.
 /// </summary>
-internal record MinimumCashStockDeleted(MinimumCashStock MinimumCashStock) : IDomainEvent, MediatR.INotification;
+internal record MinimumCashStockDeleted(MinimumCashStock MinimumCashStock) : IDomainEvent, INotification;
 
 /// <summary>
 /// Minimum cash stock required for vending machine.

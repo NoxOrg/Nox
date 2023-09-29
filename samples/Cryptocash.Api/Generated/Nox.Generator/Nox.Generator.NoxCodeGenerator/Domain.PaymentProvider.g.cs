@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
@@ -33,15 +35,15 @@ internal partial class PaymentProvider : PaymentProviderBase, IEntityHaveDomainE
 /// <summary>
 /// Record for PaymentProvider created event.
 /// </summary>
-internal record PaymentProviderCreated(PaymentProvider PaymentProvider) : IDomainEvent, MediatR.INotification;
+internal record PaymentProviderCreated(PaymentProvider PaymentProvider) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for PaymentProvider updated event.
 /// </summary>
-internal record PaymentProviderUpdated(PaymentProvider PaymentProvider) : IDomainEvent, MediatR.INotification;
+internal record PaymentProviderUpdated(PaymentProvider PaymentProvider) : IDomainEvent, INotification;
 /// <summary>
 /// Record for PaymentProvider deleted event.
 /// </summary>
-internal record PaymentProviderDeleted(PaymentProvider PaymentProvider) : IDomainEvent, MediatR.INotification;
+internal record PaymentProviderDeleted(PaymentProvider PaymentProvider) : IDomainEvent, INotification;
 
 /// <summary>
 /// Payment provider related data.

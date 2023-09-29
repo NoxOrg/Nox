@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
@@ -33,15 +35,15 @@ internal partial class CountryTimeZone : CountryTimeZoneBase, IEntityHaveDomainE
 /// <summary>
 /// Record for CountryTimeZone created event.
 /// </summary>
-internal record CountryTimeZoneCreated(CountryTimeZone CountryTimeZone) : IDomainEvent, MediatR.INotification;
+internal record CountryTimeZoneCreated(CountryTimeZone CountryTimeZone) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for CountryTimeZone updated event.
 /// </summary>
-internal record CountryTimeZoneUpdated(CountryTimeZone CountryTimeZone) : IDomainEvent, MediatR.INotification;
+internal record CountryTimeZoneUpdated(CountryTimeZone CountryTimeZone) : IDomainEvent, INotification;
 /// <summary>
 /// Record for CountryTimeZone deleted event.
 /// </summary>
-internal record CountryTimeZoneDeleted(CountryTimeZone CountryTimeZone) : IDomainEvent, MediatR.INotification;
+internal record CountryTimeZoneDeleted(CountryTimeZone CountryTimeZone) : IDomainEvent, INotification;
 
 /// <summary>
 /// Time zone related to country.

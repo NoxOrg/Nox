@@ -1,4 +1,4 @@
-using Cryptocash.Ui.Application.Dto;
+using Cryptocash.Application.Dto;
 using Cryptocash.Ui.Generated.Data.Generic;
 using Cryptocash.Ui.Generated.Data.Generic.VendingMachineService;
 

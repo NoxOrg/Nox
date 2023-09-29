@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using MudBlazor.Services;
-using Nox;
 using Cryptocash.Ui.Generated.Data.Helper;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,12 +26,14 @@ builder.Services.AddServerSideBlazor()
     .AddMicrosoftIdentityConsentHandler();
 builder.Services.AddMudServices();
 builder.Services.AddTransient<NavigationHelper>();
-
-builder.Services.AddNox();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+    });
 
 var app = builder.Build();
-
-app.UseNox();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

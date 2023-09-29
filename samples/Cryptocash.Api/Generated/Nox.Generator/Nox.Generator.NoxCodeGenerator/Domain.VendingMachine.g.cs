@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
@@ -33,15 +35,15 @@ internal partial class VendingMachine : VendingMachineBase, IEntityHaveDomainEve
 /// <summary>
 /// Record for VendingMachine created event.
 /// </summary>
-internal record VendingMachineCreated(VendingMachine VendingMachine) : IDomainEvent, MediatR.INotification;
+internal record VendingMachineCreated(VendingMachine VendingMachine) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for VendingMachine updated event.
 /// </summary>
-internal record VendingMachineUpdated(VendingMachine VendingMachine) : IDomainEvent, MediatR.INotification;
+internal record VendingMachineUpdated(VendingMachine VendingMachine) : IDomainEvent, INotification;
 /// <summary>
 /// Record for VendingMachine deleted event.
 /// </summary>
-internal record VendingMachineDeleted(VendingMachine VendingMachine) : IDomainEvent, MediatR.INotification;
+internal record VendingMachineDeleted(VendingMachine VendingMachine) : IDomainEvent, INotification;
 
 /// <summary>
 /// Vending machine definition and related data.
