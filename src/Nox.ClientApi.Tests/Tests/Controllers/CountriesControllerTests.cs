@@ -3,8 +3,6 @@ using ClientApi.Application.Dto;
 using AutoFixture;
 using Nox.Types;
 using System.Net;
-using Microsoft.AspNetCore.OData.Deltas;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using ClientApi.Tests.Tests.Models;
 using Xunit.Abstractions;
 
@@ -17,9 +15,8 @@ namespace ClientApi.Tests.Tests.Controllers
         private const string EntityUrl = $"api/{EntityPluralName}";
         private const string WorkplacesUrl = $"api/workplaces";
 
-        public CountriesControllerTests(ITestOutputHelper testOutput,
-            NoxTestContainerService containerService)
-            : base(testOutput, containerService)
+        public CountriesControllerTests(ITestOutputHelper testOutputHelper, NoxTestContainerService containerService)
+            : base(testOutputHelper, containerService)
         {
         }
 

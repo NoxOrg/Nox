@@ -241,6 +241,5 @@ namespace ClientApi.Tests.Tests.Controllers
             //Assert
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
-        
     }
 }
