@@ -36,7 +36,7 @@ public abstract class StoreLicenseDtoBase : EntityDtoBase, IEntityDto<StoreLicen
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Issuer is not null)
-            TryGetValidationExceptions("Issuer", () => ClientApi.Domain.StoreLicenseMetadata.CreateIssuer(this.Issuer.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("Issuer", () => ClientApi.Domain.StoreLicenseMetadata.CreateIssuer(this.Issuer.NonNullValue<System.String>()), result);
         else
             result.Add("Issuer", new [] { "Issuer is Required." });
     

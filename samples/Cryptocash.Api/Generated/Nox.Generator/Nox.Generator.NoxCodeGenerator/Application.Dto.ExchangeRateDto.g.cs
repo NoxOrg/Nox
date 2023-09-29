@@ -35,9 +35,9 @@ public abstract class ExchangeRateDtoBase : EntityDtoBase, IEntityDto<ExchangeRa
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
-        TryGetValidationExceptions("EffectiveRate", () => Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveRate(this.EffectiveRate), result);
+        ExecuteActionAndCollectValidationExceptions("EffectiveRate", () => Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveRate(this.EffectiveRate), result);
     
-        TryGetValidationExceptions("EffectiveAt", () => Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveAt(this.EffectiveAt), result);
+        ExecuteActionAndCollectValidationExceptions("EffectiveAt", () => Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveAt(this.EffectiveAt), result);
     
 
         return result;

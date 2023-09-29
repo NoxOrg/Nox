@@ -36,12 +36,12 @@ public abstract class PaymentProviderDtoBase : EntityDtoBase, IEntityDto<Payment
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.PaymentProviderName is not null)
-            TryGetValidationExceptions("PaymentProviderName", () => Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderName(this.PaymentProviderName.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("PaymentProviderName", () => Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderName(this.PaymentProviderName.NonNullValue<System.String>()), result);
         else
             result.Add("PaymentProviderName", new [] { "PaymentProviderName is Required." });
     
         if (this.PaymentProviderType is not null)
-            TryGetValidationExceptions("PaymentProviderType", () => Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderType(this.PaymentProviderType.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("PaymentProviderType", () => Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderType(this.PaymentProviderType.NonNullValue<System.String>()), result);
         else
             result.Add("PaymentProviderType", new [] { "PaymentProviderType is Required." });
     

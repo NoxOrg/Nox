@@ -36,24 +36,24 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<Country>
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            TryGetValidationExceptions("Name", () => ClientApi.Domain.CountryMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("Name", () => ClientApi.Domain.CountryMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
         if (this.Population is not null)
-            TryGetValidationExceptions("Population", () => ClientApi.Domain.CountryMetadata.CreatePopulation(this.Population.NonNullValue<System.Int32>()), result);
+            ExecuteActionAndCollectValidationExceptions("Population", () => ClientApi.Domain.CountryMetadata.CreatePopulation(this.Population.NonNullValue<System.Int32>()), result);
         if (this.CountryDebt is not null)
-            TryGetValidationExceptions("CountryDebt", () => ClientApi.Domain.CountryMetadata.CreateCountryDebt(this.CountryDebt.NonNullValue<MoneyDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("CountryDebt", () => ClientApi.Domain.CountryMetadata.CreateCountryDebt(this.CountryDebt.NonNullValue<MoneyDto>()), result);
         if (this.FirstLanguageCode is not null)
-            TryGetValidationExceptions("FirstLanguageCode", () => ClientApi.Domain.CountryMetadata.CreateFirstLanguageCode(this.FirstLanguageCode.NonNullValue<System.String>()), result); 
+            ExecuteActionAndCollectValidationExceptions("FirstLanguageCode", () => ClientApi.Domain.CountryMetadata.CreateFirstLanguageCode(this.FirstLanguageCode.NonNullValue<System.String>()), result); 
         if (this.CountryIsoNumeric is not null)
-            TryGetValidationExceptions("CountryIsoNumeric", () => ClientApi.Domain.CountryMetadata.CreateCountryIsoNumeric(this.CountryIsoNumeric.NonNullValue<System.UInt16>()), result);
+            ExecuteActionAndCollectValidationExceptions("CountryIsoNumeric", () => ClientApi.Domain.CountryMetadata.CreateCountryIsoNumeric(this.CountryIsoNumeric.NonNullValue<System.UInt16>()), result);
         if (this.CountryIsoAlpha3 is not null)
-            TryGetValidationExceptions("CountryIsoAlpha3", () => ClientApi.Domain.CountryMetadata.CreateCountryIsoAlpha3(this.CountryIsoAlpha3.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("CountryIsoAlpha3", () => ClientApi.Domain.CountryMetadata.CreateCountryIsoAlpha3(this.CountryIsoAlpha3.NonNullValue<System.String>()), result);
         if (this.GoogleMapsUrl is not null)
-            TryGetValidationExceptions("GoogleMapsUrl", () => ClientApi.Domain.CountryMetadata.CreateGoogleMapsUrl(this.GoogleMapsUrl.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("GoogleMapsUrl", () => ClientApi.Domain.CountryMetadata.CreateGoogleMapsUrl(this.GoogleMapsUrl.NonNullValue<System.String>()), result);
         if (this.StartOfWeek is not null)
-            TryGetValidationExceptions("StartOfWeek", () => ClientApi.Domain.CountryMetadata.CreateStartOfWeek(this.StartOfWeek.NonNullValue<System.UInt16>()), result);
+            ExecuteActionAndCollectValidationExceptions("StartOfWeek", () => ClientApi.Domain.CountryMetadata.CreateStartOfWeek(this.StartOfWeek.NonNullValue<System.UInt16>()), result);
 
         return result;
     }

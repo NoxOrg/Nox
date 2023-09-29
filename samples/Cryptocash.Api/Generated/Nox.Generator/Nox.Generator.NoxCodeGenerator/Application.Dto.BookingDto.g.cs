@@ -36,28 +36,28 @@ public abstract class BookingDtoBase : EntityDtoBase, IEntityDto<Booking>
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.AmountFrom is not null)
-            TryGetValidationExceptions("AmountFrom", () => Cryptocash.Domain.BookingMetadata.CreateAmountFrom(this.AmountFrom.NonNullValue<MoneyDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("AmountFrom", () => Cryptocash.Domain.BookingMetadata.CreateAmountFrom(this.AmountFrom.NonNullValue<MoneyDto>()), result);
         else
             result.Add("AmountFrom", new [] { "AmountFrom is Required." });
     
         if (this.AmountTo is not null)
-            TryGetValidationExceptions("AmountTo", () => Cryptocash.Domain.BookingMetadata.CreateAmountTo(this.AmountTo.NonNullValue<MoneyDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("AmountTo", () => Cryptocash.Domain.BookingMetadata.CreateAmountTo(this.AmountTo.NonNullValue<MoneyDto>()), result);
         else
             result.Add("AmountTo", new [] { "AmountTo is Required." });
     
         if (this.RequestedPickUpDate is not null)
-            TryGetValidationExceptions("RequestedPickUpDate", () => Cryptocash.Domain.BookingMetadata.CreateRequestedPickUpDate(this.RequestedPickUpDate.NonNullValue<DateTimeRangeDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("RequestedPickUpDate", () => Cryptocash.Domain.BookingMetadata.CreateRequestedPickUpDate(this.RequestedPickUpDate.NonNullValue<DateTimeRangeDto>()), result);
         else
             result.Add("RequestedPickUpDate", new [] { "RequestedPickUpDate is Required." });
     
         if (this.PickedUpDateTime is not null)
-            TryGetValidationExceptions("PickedUpDateTime", () => Cryptocash.Domain.BookingMetadata.CreatePickedUpDateTime(this.PickedUpDateTime.NonNullValue<DateTimeRangeDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("PickedUpDateTime", () => Cryptocash.Domain.BookingMetadata.CreatePickedUpDateTime(this.PickedUpDateTime.NonNullValue<DateTimeRangeDto>()), result);
         if (this.ExpiryDateTime is not null)
-            TryGetValidationExceptions("ExpiryDateTime", () => Cryptocash.Domain.BookingMetadata.CreateExpiryDateTime(this.ExpiryDateTime.NonNullValue<System.DateTimeOffset>()), result);
+            ExecuteActionAndCollectValidationExceptions("ExpiryDateTime", () => Cryptocash.Domain.BookingMetadata.CreateExpiryDateTime(this.ExpiryDateTime.NonNullValue<System.DateTimeOffset>()), result);
         if (this.CancelledDateTime is not null)
-            TryGetValidationExceptions("CancelledDateTime", () => Cryptocash.Domain.BookingMetadata.CreateCancelledDateTime(this.CancelledDateTime.NonNullValue<System.DateTimeOffset>()), result); 
+            ExecuteActionAndCollectValidationExceptions("CancelledDateTime", () => Cryptocash.Domain.BookingMetadata.CreateCancelledDateTime(this.CancelledDateTime.NonNullValue<System.DateTimeOffset>()), result); 
         if (this.VatNumber is not null)
-            TryGetValidationExceptions("VatNumber", () => Cryptocash.Domain.BookingMetadata.CreateVatNumber(this.VatNumber.NonNullValue<VatNumberDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("VatNumber", () => Cryptocash.Domain.BookingMetadata.CreateVatNumber(this.VatNumber.NonNullValue<VatNumberDto>()), result);
 
         return result;
     }

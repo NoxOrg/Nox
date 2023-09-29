@@ -36,17 +36,17 @@ public abstract class PaymentDetailDtoBase : EntityDtoBase, IEntityDto<PaymentDe
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.PaymentAccountName is not null)
-            TryGetValidationExceptions("PaymentAccountName", () => Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountName(this.PaymentAccountName.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("PaymentAccountName", () => Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountName(this.PaymentAccountName.NonNullValue<System.String>()), result);
         else
             result.Add("PaymentAccountName", new [] { "PaymentAccountName is Required." });
     
         if (this.PaymentAccountNumber is not null)
-            TryGetValidationExceptions("PaymentAccountNumber", () => Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountNumber(this.PaymentAccountNumber.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("PaymentAccountNumber", () => Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountNumber(this.PaymentAccountNumber.NonNullValue<System.String>()), result);
         else
             result.Add("PaymentAccountNumber", new [] { "PaymentAccountNumber is Required." });
     
         if (this.PaymentAccountSortCode is not null)
-            TryGetValidationExceptions("PaymentAccountSortCode", () => Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountSortCode(this.PaymentAccountSortCode.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("PaymentAccountSortCode", () => Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountSortCode(this.PaymentAccountSortCode.NonNullValue<System.String>()), result);
 
         return result;
     }

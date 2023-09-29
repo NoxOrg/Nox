@@ -1089,7 +1089,7 @@ namespace Cryptocash.Api.Migrations
 
                     b.HasIndex("VendingMachineRequiredMinimumCashStocksId");
 
-                    b.ToTable("MinimumCashStockVendingMachine");
+                    b.ToTable("VendingMachineRequiredMinimumCashStocks", (string)null);
                 });
 
             modelBuilder.Entity("Cryptocash.Domain.Booking", b =>

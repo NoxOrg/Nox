@@ -36,27 +36,27 @@ public abstract class CustomerDtoBase : EntityDtoBase, IEntityDto<Customer>
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.FirstName is not null)
-            TryGetValidationExceptions("FirstName", () => Cryptocash.Domain.CustomerMetadata.CreateFirstName(this.FirstName.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("FirstName", () => Cryptocash.Domain.CustomerMetadata.CreateFirstName(this.FirstName.NonNullValue<System.String>()), result);
         else
             result.Add("FirstName", new [] { "FirstName is Required." });
     
         if (this.LastName is not null)
-            TryGetValidationExceptions("LastName", () => Cryptocash.Domain.CustomerMetadata.CreateLastName(this.LastName.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("LastName", () => Cryptocash.Domain.CustomerMetadata.CreateLastName(this.LastName.NonNullValue<System.String>()), result);
         else
             result.Add("LastName", new [] { "LastName is Required." });
     
         if (this.EmailAddress is not null)
-            TryGetValidationExceptions("EmailAddress", () => Cryptocash.Domain.CustomerMetadata.CreateEmailAddress(this.EmailAddress.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("EmailAddress", () => Cryptocash.Domain.CustomerMetadata.CreateEmailAddress(this.EmailAddress.NonNullValue<System.String>()), result);
         else
             result.Add("EmailAddress", new [] { "EmailAddress is Required." });
     
         if (this.Address is not null)
-            TryGetValidationExceptions("Address", () => Cryptocash.Domain.CustomerMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("Address", () => Cryptocash.Domain.CustomerMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
         else
             result.Add("Address", new [] { "Address is Required." });
     
         if (this.MobileNumber is not null)
-            TryGetValidationExceptions("MobileNumber", () => Cryptocash.Domain.CustomerMetadata.CreateMobileNumber(this.MobileNumber.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("MobileNumber", () => Cryptocash.Domain.CustomerMetadata.CreateMobileNumber(this.MobileNumber.NonNullValue<System.String>()), result);
 
         return result;
     }

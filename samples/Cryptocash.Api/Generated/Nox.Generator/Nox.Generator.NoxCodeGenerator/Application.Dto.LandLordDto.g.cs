@@ -36,12 +36,12 @@ public abstract class LandLordDtoBase : EntityDtoBase, IEntityDto<LandLord>
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            TryGetValidationExceptions("Name", () => Cryptocash.Domain.LandLordMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("Name", () => Cryptocash.Domain.LandLordMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
         if (this.Address is not null)
-            TryGetValidationExceptions("Address", () => Cryptocash.Domain.LandLordMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("Address", () => Cryptocash.Domain.LandLordMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
         else
             result.Add("Address", new [] { "Address is Required." });
     

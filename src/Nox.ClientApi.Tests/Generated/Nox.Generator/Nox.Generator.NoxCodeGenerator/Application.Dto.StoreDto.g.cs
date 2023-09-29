@@ -36,22 +36,22 @@ public abstract class StoreDtoBase : EntityDtoBase, IEntityDto<Store>
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            TryGetValidationExceptions("Name", () => ClientApi.Domain.StoreMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("Name", () => ClientApi.Domain.StoreMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
         if (this.Address is not null)
-            TryGetValidationExceptions("Address", () => ClientApi.Domain.StoreMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("Address", () => ClientApi.Domain.StoreMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
         else
             result.Add("Address", new [] { "Address is Required." });
     
         if (this.Location is not null)
-            TryGetValidationExceptions("Location", () => ClientApi.Domain.StoreMetadata.CreateLocation(this.Location.NonNullValue<LatLongDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("Location", () => ClientApi.Domain.StoreMetadata.CreateLocation(this.Location.NonNullValue<LatLongDto>()), result);
         else
             result.Add("Location", new [] { "Location is Required." });
     
         if (this.OpeningDay is not null)
-            TryGetValidationExceptions("OpeningDay", () => ClientApi.Domain.StoreMetadata.CreateOpeningDay(this.OpeningDay.NonNullValue<System.DateTimeOffset>()), result);
+            ExecuteActionAndCollectValidationExceptions("OpeningDay", () => ClientApi.Domain.StoreMetadata.CreateOpeningDay(this.OpeningDay.NonNullValue<System.DateTimeOffset>()), result);
 
         return result;
     }

@@ -36,12 +36,12 @@ public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<Workplace>
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            TryGetValidationExceptions("Name", () => ClientApi.Domain.WorkplaceMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("Name", () => ClientApi.Domain.WorkplaceMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
         if (this.Description is not null)
-            TryGetValidationExceptions("Description", () => ClientApi.Domain.WorkplaceMetadata.CreateDescription(this.Description.NonNullValue<System.String>()), result); 
+            ExecuteActionAndCollectValidationExceptions("Description", () => ClientApi.Domain.WorkplaceMetadata.CreateDescription(this.Description.NonNullValue<System.String>()), result); 
 
         return result;
     }

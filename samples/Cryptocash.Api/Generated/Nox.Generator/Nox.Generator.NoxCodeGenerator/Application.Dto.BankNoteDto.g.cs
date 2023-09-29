@@ -36,12 +36,12 @@ public abstract class BankNoteDtoBase : EntityDtoBase, IEntityDto<BankNote>
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.CashNote is not null)
-            TryGetValidationExceptions("CashNote", () => Cryptocash.Domain.BankNoteMetadata.CreateCashNote(this.CashNote.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("CashNote", () => Cryptocash.Domain.BankNoteMetadata.CreateCashNote(this.CashNote.NonNullValue<System.String>()), result);
         else
             result.Add("CashNote", new [] { "CashNote is Required." });
     
         if (this.Value is not null)
-            TryGetValidationExceptions("Value", () => Cryptocash.Domain.BankNoteMetadata.CreateValue(this.Value.NonNullValue<MoneyDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("Value", () => Cryptocash.Domain.BankNoteMetadata.CreateValue(this.Value.NonNullValue<MoneyDto>()), result);
         else
             result.Add("Value", new [] { "Value is Required." });
     

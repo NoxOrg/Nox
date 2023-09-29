@@ -36,47 +36,47 @@ public abstract class CurrencyDtoBase : EntityDtoBase, IEntityDto<Currency>
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            TryGetValidationExceptions("Name", () => Cryptocash.Domain.CurrencyMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("Name", () => Cryptocash.Domain.CurrencyMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
-        TryGetValidationExceptions("CurrencyIsoNumeric", () => Cryptocash.Domain.CurrencyMetadata.CreateCurrencyIsoNumeric(this.CurrencyIsoNumeric), result);
+        ExecuteActionAndCollectValidationExceptions("CurrencyIsoNumeric", () => Cryptocash.Domain.CurrencyMetadata.CreateCurrencyIsoNumeric(this.CurrencyIsoNumeric), result);
     
         if (this.Symbol is not null)
-            TryGetValidationExceptions("Symbol", () => Cryptocash.Domain.CurrencyMetadata.CreateSymbol(this.Symbol.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("Symbol", () => Cryptocash.Domain.CurrencyMetadata.CreateSymbol(this.Symbol.NonNullValue<System.String>()), result);
         else
             result.Add("Symbol", new [] { "Symbol is Required." });
     
         if (this.ThousandsSeparator is not null)
-            TryGetValidationExceptions("ThousandsSeparator", () => Cryptocash.Domain.CurrencyMetadata.CreateThousandsSeparator(this.ThousandsSeparator.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("ThousandsSeparator", () => Cryptocash.Domain.CurrencyMetadata.CreateThousandsSeparator(this.ThousandsSeparator.NonNullValue<System.String>()), result);
         if (this.DecimalSeparator is not null)
-            TryGetValidationExceptions("DecimalSeparator", () => Cryptocash.Domain.CurrencyMetadata.CreateDecimalSeparator(this.DecimalSeparator.NonNullValue<System.String>()), result);
-        TryGetValidationExceptions("SpaceBetweenAmountAndSymbol", () => Cryptocash.Domain.CurrencyMetadata.CreateSpaceBetweenAmountAndSymbol(this.SpaceBetweenAmountAndSymbol), result);
+            ExecuteActionAndCollectValidationExceptions("DecimalSeparator", () => Cryptocash.Domain.CurrencyMetadata.CreateDecimalSeparator(this.DecimalSeparator.NonNullValue<System.String>()), result);
+        ExecuteActionAndCollectValidationExceptions("SpaceBetweenAmountAndSymbol", () => Cryptocash.Domain.CurrencyMetadata.CreateSpaceBetweenAmountAndSymbol(this.SpaceBetweenAmountAndSymbol), result);
     
-        TryGetValidationExceptions("DecimalDigits", () => Cryptocash.Domain.CurrencyMetadata.CreateDecimalDigits(this.DecimalDigits), result);
+        ExecuteActionAndCollectValidationExceptions("DecimalDigits", () => Cryptocash.Domain.CurrencyMetadata.CreateDecimalDigits(this.DecimalDigits), result);
     
         if (this.MajorName is not null)
-            TryGetValidationExceptions("MajorName", () => Cryptocash.Domain.CurrencyMetadata.CreateMajorName(this.MajorName.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("MajorName", () => Cryptocash.Domain.CurrencyMetadata.CreateMajorName(this.MajorName.NonNullValue<System.String>()), result);
         else
             result.Add("MajorName", new [] { "MajorName is Required." });
     
         if (this.MajorSymbol is not null)
-            TryGetValidationExceptions("MajorSymbol", () => Cryptocash.Domain.CurrencyMetadata.CreateMajorSymbol(this.MajorSymbol.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("MajorSymbol", () => Cryptocash.Domain.CurrencyMetadata.CreateMajorSymbol(this.MajorSymbol.NonNullValue<System.String>()), result);
         else
             result.Add("MajorSymbol", new [] { "MajorSymbol is Required." });
     
         if (this.MinorName is not null)
-            TryGetValidationExceptions("MinorName", () => Cryptocash.Domain.CurrencyMetadata.CreateMinorName(this.MinorName.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("MinorName", () => Cryptocash.Domain.CurrencyMetadata.CreateMinorName(this.MinorName.NonNullValue<System.String>()), result);
         else
             result.Add("MinorName", new [] { "MinorName is Required." });
     
         if (this.MinorSymbol is not null)
-            TryGetValidationExceptions("MinorSymbol", () => Cryptocash.Domain.CurrencyMetadata.CreateMinorSymbol(this.MinorSymbol.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("MinorSymbol", () => Cryptocash.Domain.CurrencyMetadata.CreateMinorSymbol(this.MinorSymbol.NonNullValue<System.String>()), result);
         else
             result.Add("MinorSymbol", new [] { "MinorSymbol is Required." });
     
         if (this.MinorToMajorValue is not null)
-            TryGetValidationExceptions("MinorToMajorValue", () => Cryptocash.Domain.CurrencyMetadata.CreateMinorToMajorValue(this.MinorToMajorValue.NonNullValue<MoneyDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("MinorToMajorValue", () => Cryptocash.Domain.CurrencyMetadata.CreateMinorToMajorValue(this.MinorToMajorValue.NonNullValue<MoneyDto>()), result);
         else
             result.Add("MinorToMajorValue", new [] { "MinorToMajorValue is Required." });
     
