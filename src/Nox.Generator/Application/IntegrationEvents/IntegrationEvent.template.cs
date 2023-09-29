@@ -15,7 +15,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.IntegrationEvents;
 /// {{integrationEvent.Description}}{{if !(integrationEvent.Description | string.ends_with ".")}}.{{end}}
 /// </summary>
 {{ end -}}
-public partial class {{integrationEvent.Name}} : IIntegrationEvent
+public partial class {{className}} : IIntegrationEvent
 {
 {{- if integrationEvent.ObjectTypeOptions -}}
 {{- for attribute in integrationEvent.ObjectTypeOptions.Attributes -}}
