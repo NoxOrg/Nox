@@ -116,23 +116,22 @@ internal partial class SampleWebAppDbContext : DbContext
 
     private async Task HandleDomainEvents()
     {
-        var domainEvents =  GetPendingDomainEvents();
-        
-        await DispatchEvents(domainEvents);
-        
-        ClearDomainEvents();
+        var entriesWithDomainEvents = GetEntriesWithDomainEvents();
+        RaiseDomainEventsFor(entriesWithDomainEvents); 
+        await DispatchEvents(entriesWithDomainEvents.SelectMany(e=>e.Entity.DomainEvents));
+        ClearDomainEvents(entriesWithDomainEvents.ToList());
+    }
+    public IEnumerable<EntityEntry<IEntityHaveDomainEvents>> GetEntriesWithDomainEvents()
+    {
+        return ChangeTracker.Entries<IEntityHaveDomainEvents>();
     }
 
-    private List<IDomainEvent> GetPendingDomainEvents()
+    public void RaiseDomainEventsFor(IEnumerable<EntityEntry<IEntityHaveDomainEvents>> entriesWithDomainEvents)
     {
-        List<IDomainEvent> domainEvents = new();
-        foreach (var entry in ChangeTracker.Entries<IEntityHaveDomainEvents>())
+        foreach (var entry in entriesWithDomainEvents)
         {
             RaiseDomainEvent(entry);
-            domainEvents.AddRange(entry.Entity.DomainEvents);
         }
-
-        return domainEvents;
     }
 
     private void RaiseDomainEvent(EntityEntry<IEntityHaveDomainEvents> entry)
@@ -152,21 +151,16 @@ internal partial class SampleWebAppDbContext : DbContext
                 break;
         }
     }
-
-    private async Task DispatchEvents(List<IDomainEvent> domainEvents)
+        
+    private async Task DispatchEvents(IEnumerable<IDomainEvent> selectMany)
     {
-        foreach (var domainEvent in domainEvents)
-        {
-            await _publisher.Publish(domainEvent);
-        }
+        var tasks = selectMany.Select(domainEvent => _publisher.Publish(domainEvent));
+        await Task.WhenAll(tasks);
     }
-    
-    private void ClearDomainEvents()
+        
+    private void ClearDomainEvents(List<EntityEntry<IEntityHaveDomainEvents>> entriesWithDomainEvents)
     {
-        foreach (var entry in ChangeTracker.Entries<IEntityHaveDomainEvents>())
-        {
-            entry.Entity.ClearDomainEvents();
-        }
+        entriesWithDomainEvents.ForEach(e=>e.Entity.ClearDomainEvents());
     }
 
     private void HandleSystemFields()
