@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
@@ -33,15 +35,15 @@ internal partial class Transaction : TransactionBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for Transaction created event.
 /// </summary>
-internal record TransactionCreated(Transaction Transaction) : IDomainEvent;
+internal record TransactionCreated(Transaction Transaction) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for Transaction updated event.
 /// </summary>
-internal record TransactionUpdated(Transaction Transaction) : IDomainEvent;
+internal record TransactionUpdated(Transaction Transaction) : IDomainEvent, INotification;
 /// <summary>
 /// Record for Transaction deleted event.
 /// </summary>
-internal record TransactionDeleted(Transaction Transaction) : IDomainEvent;
+internal record TransactionDeleted(Transaction Transaction) : IDomainEvent, INotification;
 
 /// <summary>
 /// Customer transaction log and related data.

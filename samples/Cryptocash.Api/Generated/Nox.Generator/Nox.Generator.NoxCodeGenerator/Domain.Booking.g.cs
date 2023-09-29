@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
@@ -33,15 +35,15 @@ internal partial class Booking : BookingBase, IEntityHaveDomainEvents
 /// <summary>
 /// Record for Booking created event.
 /// </summary>
-internal record BookingCreated(Booking Booking) : IDomainEvent;
+internal record BookingCreated(Booking Booking) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for Booking updated event.
 /// </summary>
-internal record BookingUpdated(Booking Booking) : IDomainEvent;
+internal record BookingUpdated(Booking Booking) : IDomainEvent, INotification;
 /// <summary>
 /// Record for Booking deleted event.
 /// </summary>
-internal record BookingDeleted(Booking Booking) : IDomainEvent;
+internal record BookingDeleted(Booking Booking) : IDomainEvent, INotification;
 
 /// <summary>
 /// Exchange booking and related data.

@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
@@ -33,15 +35,15 @@ internal partial class CountryBarCode : CountryBarCodeBase, IEntityHaveDomainEve
 /// <summary>
 /// Record for CountryBarCode created event.
 /// </summary>
-internal record CountryBarCodeCreated(CountryBarCode CountryBarCode) : IDomainEvent;
+internal record CountryBarCodeCreated(CountryBarCode CountryBarCode) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for CountryBarCode updated event.
 /// </summary>
-internal record CountryBarCodeUpdated(CountryBarCode CountryBarCode) : IDomainEvent;
+internal record CountryBarCodeUpdated(CountryBarCode CountryBarCode) : IDomainEvent, INotification;
 /// <summary>
 /// Record for CountryBarCode deleted event.
 /// </summary>
-internal record CountryBarCodeDeleted(CountryBarCode CountryBarCode) : IDomainEvent;
+internal record CountryBarCodeDeleted(CountryBarCode CountryBarCode) : IDomainEvent, INotification;
 
 /// <summary>
 /// Bar code for country.
