@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -20,11 +21,11 @@ public partial class WorkplaceMetadata
         /// </summary>
         public static Nox.Types.NuidTypeOptions IdTypeOptions {get; private set;} = new ()
         {
-            Separator = "-",
-            PropertyNames = new System.String[]
-            {
-                "Name",
-            },
+            Separator = "-",
+            PropertyNames = new System.String[]
+            {
+                "Name",
+            },
         };
     
     
@@ -40,11 +41,11 @@ public partial class WorkplaceMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions NameTypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
@@ -60,11 +61,11 @@ public partial class WorkplaceMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions DescriptionTypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
@@ -80,8 +81,8 @@ public partial class WorkplaceMetadata
         /// </summary>
         public static Nox.Types.FormulaTypeOptions GreetingTypeOptions {get; private set;} = new ()
         {
-            Expression = "$\"Hello, {Name.Value}!\"",
-            Returns = Nox.Types.FormulaReturnType.@string,
+            Expression = "$\"Hello, {Name.Value}!\"",
+            Returns = Nox.Types.FormulaReturnType.@string,
         };
     
     
@@ -98,4 +99,31 @@ public partial class WorkplaceMetadata
         public static Nox.Types.AutoNumber CreateCountryId(System.Int64 value)
             => Nox.Types.AutoNumber.From(value);
         
+
+        /// <summary>
+        /// User Interface for property 'Name'
+        /// </summary>
+        public static TypeUserInterface? NameUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Workplace")
+                .GetAttributeByName("Name")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Description'
+        /// </summary>
+        public static TypeUserInterface? DescriptionUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Workplace")
+                .GetAttributeByName("Description")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Greeting'
+        /// </summary>
+        public static TypeUserInterface? GreetingUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Workplace")
+                .GetAttributeByName("Greeting")?
+                .UserInterface;
 }

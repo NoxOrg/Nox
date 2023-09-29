@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -28,4 +29,22 @@ public partial class EmailAddressMetadata
         public static Nox.Types.Boolean CreateIsVerified(System.Boolean value)
             => Nox.Types.Boolean.From(value);
         
+
+        /// <summary>
+        /// User Interface for property 'Email'
+        /// </summary>
+        public static TypeUserInterface? EmailUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("EmailAddress")
+                .GetAttributeByName("Email")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'IsVerified'
+        /// </summary>
+        public static TypeUserInterface? IsVerifiedUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("EmailAddress")
+                .GetAttributeByName("IsVerified")?
+                .UserInterface;
 }

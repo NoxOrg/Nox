@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -27,11 +28,11 @@ public partial class CountryLocalNameMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions NameTypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
@@ -47,11 +48,11 @@ public partial class CountryLocalNameMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions NativeNameTypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
@@ -61,4 +62,22 @@ public partial class CountryLocalNameMetadata
         public static Nox.Types.Text CreateNativeName(System.String value)
             => Nox.Types.Text.From(value, NativeNameTypeOptions);
         
+
+        /// <summary>
+        /// User Interface for property 'Name'
+        /// </summary>
+        public static TypeUserInterface? NameUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("CountryLocalName")
+                .GetAttributeByName("Name")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'NativeName'
+        /// </summary>
+        public static TypeUserInterface? NativeNameUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("CountryLocalName")
+                .GetAttributeByName("NativeName")?
+                .UserInterface;
 }

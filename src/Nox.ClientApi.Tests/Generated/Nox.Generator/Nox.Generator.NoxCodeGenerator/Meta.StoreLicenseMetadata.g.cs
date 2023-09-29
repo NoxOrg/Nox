@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -27,11 +28,11 @@ public partial class StoreLicenseMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions IssuerTypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
@@ -41,4 +42,13 @@ public partial class StoreLicenseMetadata
         public static Nox.Types.Text CreateIssuer(System.String value)
             => Nox.Types.Text.From(value, IssuerTypeOptions);
         
+
+        /// <summary>
+        /// User Interface for property 'Issuer'
+        /// </summary>
+        public static TypeUserInterface? IssuerUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("StoreLicense")
+                .GetAttributeByName("Issuer")?
+                .UserInterface;
 }

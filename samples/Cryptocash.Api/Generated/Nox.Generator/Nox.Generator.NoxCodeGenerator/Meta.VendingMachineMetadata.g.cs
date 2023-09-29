@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -104,4 +105,67 @@ public partial class VendingMachineMetadata
         public static Nox.Types.AutoNumber CreateMinimumCashStockId(System.Int64 value)
             => Nox.Types.AutoNumber.From(value);
         
+
+        /// <summary>
+        /// User Interface for property 'MacAddress'
+        /// </summary>
+        public static TypeUserInterface? MacAddressUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("VendingMachine")
+                .GetAttributeByName("MacAddress")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'PublicIp'
+        /// </summary>
+        public static TypeUserInterface? PublicIpUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("VendingMachine")
+                .GetAttributeByName("PublicIp")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'GeoLocation'
+        /// </summary>
+        public static TypeUserInterface? GeoLocationUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("VendingMachine")
+                .GetAttributeByName("GeoLocation")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'StreetAddress'
+        /// </summary>
+        public static TypeUserInterface? StreetAddressUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("VendingMachine")
+                .GetAttributeByName("StreetAddress")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'SerialNumber'
+        /// </summary>
+        public static TypeUserInterface? SerialNumberUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("VendingMachine")
+                .GetAttributeByName("SerialNumber")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'InstallationFootPrint'
+        /// </summary>
+        public static TypeUserInterface? InstallationFootPrintUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("VendingMachine")
+                .GetAttributeByName("InstallationFootPrint")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'RentPerSquareMetre'
+        /// </summary>
+        public static TypeUserInterface? RentPerSquareMetreUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("VendingMachine")
+                .GetAttributeByName("RentPerSquareMetre")?
+                .UserInterface;
 }

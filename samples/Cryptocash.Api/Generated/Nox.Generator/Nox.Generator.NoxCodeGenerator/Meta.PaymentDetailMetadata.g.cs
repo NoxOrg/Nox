@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -95,4 +96,31 @@ public partial class PaymentDetailMetadata
         public static Nox.Types.AutoNumber CreatePaymentProviderId(System.Int64 value)
             => Nox.Types.AutoNumber.From(value);
         
+
+        /// <summary>
+        /// User Interface for property 'PaymentAccountName'
+        /// </summary>
+        public static TypeUserInterface? PaymentAccountNameUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("PaymentDetail")
+                .GetAttributeByName("PaymentAccountName")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'PaymentAccountNumber'
+        /// </summary>
+        public static TypeUserInterface? PaymentAccountNumberUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("PaymentDetail")
+                .GetAttributeByName("PaymentAccountNumber")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'PaymentAccountSortCode'
+        /// </summary>
+        public static TypeUserInterface? PaymentAccountSortCodeUserInterface(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("PaymentDetail")
+                .GetAttributeByName("PaymentAccountSortCode")?
+                .UserInterface;
 }
