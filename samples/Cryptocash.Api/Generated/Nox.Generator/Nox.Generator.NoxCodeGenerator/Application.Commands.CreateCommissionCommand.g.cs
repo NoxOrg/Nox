@@ -27,9 +27,8 @@ internal partial class CreateCommissionCommandHandler: CreateCommissionCommandHa
 		NoxSolution noxSolution,
 		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
 		IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> bookingfactory,
-		IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,countryfactory, bookingfactory, entityFactory, serviceProvider)
+		IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,countryfactory, bookingfactory, entityFactory)
 	{
 	}
 }
@@ -47,8 +46,7 @@ internal abstract class CreateCommissionCommandHandlerBase: CommandBase<CreateCo
 		NoxSolution noxSolution,
 		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
 		IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> bookingfactory,
-		IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

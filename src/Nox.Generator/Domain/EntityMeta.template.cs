@@ -38,7 +38,7 @@ public partial class {{className}}
     /// Factory for property '{{entityMetaData.Name}}'
     /// </summary>
     public static Nox.Types.{{entityMetaData.Type}} Create{{entityMetaData.Name}}({{entityMetaData.InParams}})
-        => Nox.Types.{{entityMetaData.Type}}.From(value);
+        => Nox.Types.{{entityMetaData.Type}}.{{ if entityMetaData.Type == "AutoNumber" }}FromDatabase{{ else }}From{{ end }}(value);
     {{ end }}
 {{- end }}
 

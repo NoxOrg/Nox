@@ -97,7 +97,7 @@ public partial class WorkplaceMetadata
         /// Factory for property 'CountryId'
         /// </summary>
         public static Nox.Types.AutoNumber CreateCountryId(System.Int64 value)
-            => Nox.Types.AutoNumber.From(value);
+            => Nox.Types.AutoNumber.FromDatabase(value);
         
 
         /// <summary>

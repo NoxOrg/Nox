@@ -25,9 +25,8 @@ internal partial class CreateWorkplaceCommandHandler: CreateWorkplaceCommandHand
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
-		IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,countryfactory, entityFactory, serviceProvider)
+		IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,countryfactory, entityFactory)
 	{
 	}
 }
@@ -43,8 +42,7 @@ internal abstract class CreateWorkplaceCommandHandlerBase: CommandBase<CreateWor
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
-		IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

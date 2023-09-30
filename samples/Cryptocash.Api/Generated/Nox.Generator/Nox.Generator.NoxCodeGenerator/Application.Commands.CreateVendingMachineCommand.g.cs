@@ -30,9 +30,8 @@ internal partial class CreateVendingMachineCommandHandler: CreateVendingMachineC
 		IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> bookingfactory,
 		IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> cashstockorderfactory,
 		IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> minimumcashstockfactory,
-		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,countryfactory, landlordfactory, bookingfactory, cashstockorderfactory, minimumcashstockfactory, entityFactory, serviceProvider)
+		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,countryfactory, landlordfactory, bookingfactory, cashstockorderfactory, minimumcashstockfactory, entityFactory)
 	{
 	}
 }
@@ -56,8 +55,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase: CommandBase<Crea
 		IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> bookingfactory,
 		IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> cashstockorderfactory,
 		IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> minimumcashstockfactory,
-		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

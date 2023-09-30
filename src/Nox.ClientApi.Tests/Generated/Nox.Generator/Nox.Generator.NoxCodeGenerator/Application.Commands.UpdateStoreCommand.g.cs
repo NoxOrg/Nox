@@ -22,8 +22,7 @@ internal partial class UpdateStoreCommandHandler: UpdateStoreCommandHandlerBase
 	public UpdateStoreCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> entityFactory): base(dbContext, noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> entityFactory): base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,8 +35,7 @@ internal abstract class UpdateStoreCommandHandlerBase: CommandBase<UpdateStoreCo
 	public UpdateStoreCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> entityFactory): base(noxSolution, serviceProvider)
+		IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> entityFactory): base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -47,7 +45,7 @@ internal abstract class UpdateStoreCommandHandlerBase: CommandBase<UpdateStoreCo
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Store,Nox.Types.Guid>("Id", request.keyId);
+		var keyId = ClientApi.Domain.StoreMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Stores.FindAsync(keyId);
 		if (entity == null)
