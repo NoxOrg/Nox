@@ -4,6 +4,7 @@ using AutoFixture;
 using Nox.Types;
 using Xunit.Abstractions;
 using ClientApi.Application.IntegrationEvents.StoreOwner;
+using Xunit.Sdk;
 
 namespace ClientApi.Tests.Application.Messaging
 {
@@ -12,14 +13,15 @@ namespace ClientApi.Tests.Application.Messaging
     {
         private const string StoreOwnersControllerName = "api/storeowners";
 
-        public IntegrationEventsTests(ITestOutputHelper testOutput,
+        public IntegrationEventsTests(
+            ITestOutputHelper testOutput,
            NoxTestContainerService containerService)
            : base(testOutput, containerService, true)
         {
         }
 
-
         #region Integration Events
+
         [Fact]
         public async Task Post_StoreOwner_SendsCustomIntegrationEvent()
         {
@@ -38,8 +40,9 @@ namespace ClientApi.Tests.Application.Messaging
             //Assert
             result.Should().NotBeNull();
 
-            (await _massTransitTestHarness.Published.Any<Nox.Messaging.NoxMessageRecord<CustomStoreOwnerCreated>>()).Should().BeTrue();
+            (await MassTransitTestHarness.Published.Any<Nox.Messaging.NoxMessageRecord<CustomStoreOwnerCreated>>()).Should().BeTrue();
         }
-        #endregion
+
+        #endregion Integration Events
     }
 }

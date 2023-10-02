@@ -19,8 +19,7 @@ internal class Delete{{entity.Name}}ByIdCommandHandler:Delete{{entity.Name}}ById
 {
 	public Delete{{entity.Name}}ByIdCommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+		NoxSolution noxSolution): base(dbContext, noxSolution)
 	{
 	}
 }
@@ -30,8 +29,7 @@ internal abstract class Delete{{entity.Name}}ByIdCommandHandlerBase: CommandBase
 
 	public Delete{{entity.Name}}ByIdCommandHandlerBase(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution): base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
@@ -43,7 +41,7 @@ internal abstract class Delete{{entity.Name}}ByIdCommandHandlerBase: CommandBase
 
 		{{- for key in entity.Keys }}
 		{{- keyType = SingleTypeForKey key }}
-		var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},Nox.Types.{{keyType}}>("{{key.Name}}", request.key{{key.Name}});
+		var key{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(request.key{{key.Name}});
 		{{- end }}
 
 		var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysQuery}});

@@ -1,4 +1,4 @@
-{{- func fieldFactoryName
+﻿{{- func fieldFactoryName
 	ret (string.downcase $0 + "Factory")
 end -}}
 ﻿// Generated
@@ -33,9 +33,8 @@ internal partial class Create{{entity.Name}}CommandHandler: Create{{entity.Name}
 		{{- for relatedEntity in relatedEntities }}
 		IEntityFactory<{{relatedEntity}}, {{relatedEntity}}CreateDto, {{relatedEntity}}UpdateDto> {{fieldFactoryName relatedEntity}},
 		{{- end }}
-		IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution, {{- for relatedEntity in relatedEntities}}{{fieldFactoryName relatedEntity}}, {{end}}entityFactory, serviceProvider)
+		IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory)
+		: base(dbContext, noxSolution, {{- for relatedEntity in relatedEntities}}{{fieldFactoryName relatedEntity}}, {{end}}entityFactory)
 	{
 	}
 }
@@ -55,8 +54,7 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase: CommandBase<Cre
 		{{- for relatedEntity in relatedEntities }}
 		IEntityFactory<{{relatedEntity}}, {{relatedEntity}}CreateDto, {{relatedEntity}}UpdateDto> {{fieldFactoryName relatedEntity}},
 		{{- end }}
-		IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

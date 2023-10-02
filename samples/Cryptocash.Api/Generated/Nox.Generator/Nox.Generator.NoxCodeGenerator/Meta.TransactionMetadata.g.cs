@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -20,7 +20,7 @@ public partial class TransactionMetadata
         /// Factory for property 'Id'
         /// </summary>
         public static Nox.Types.AutoNumber CreateId(System.Int64 value)
-            => Nox.Types.AutoNumber.From(value);
+            => Nox.Types.AutoNumber.FromDatabase(value);
         
     
         /// <summary>
@@ -81,7 +81,7 @@ public partial class TransactionMetadata
         /// Factory for property 'CustomerId'
         /// </summary>
         public static Nox.Types.AutoNumber CreateCustomerId(System.Int64 value)
-            => Nox.Types.AutoNumber.From(value);
+            => Nox.Types.AutoNumber.FromDatabase(value);
         
 
         /// <summary>

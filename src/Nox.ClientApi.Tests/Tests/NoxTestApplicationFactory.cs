@@ -1,32 +1,41 @@
 ﻿using Divergic.Logging.Xunit;
-using FluentAssertions.Common;
 using MassTransit;
+using MassTransit.Testing;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
-using Nox;
 using Nox.Types.EntityFramework.Abstractions;
+using ClientApi.Infrastructure.Persistence;
 using Xunit.Abstractions;
 
 namespace ClientApi.Tests;
 
 public class NoxTestApplicationFactory : WebApplicationFactory<StartupFixture>
 {
-    private readonly NoxTestContainerService _containerService;
     private readonly ITestOutputHelper _testOutput;
-    private readonly DatabaseServerProvider _dbProviderKind;
+    private readonly NoxTestContainerService _containerService;
     private readonly bool _enableMessaging;
 
     public NoxTestApplicationFactory(
-        NoxTestContainerService containerService,
         ITestOutputHelper testOutput,
-        Nox.DatabaseServerProvider dbProviderKind,
+        NoxTestContainerService containerService,
         bool enableMessaging)
     {
         _testOutput = testOutput;
-        _dbProviderKind = dbProviderKind;
-        _enableMessaging = enableMessaging;
         _containerService = containerService;
+        _enableMessaging = enableMessaging;
+    }
+
+    public ITestHarness GetTestHarness()
+    {
+        return Services.GetTestHarness();
+    }
+
+    public void ResetDataContext()
+    {
+        var dbContext = Services.GetRequiredService<ClientApiDbContext>();
+        dbContext.Database.EnsureDeleted();
+        dbContext.Database.EnsureCreated();
     }
 
     protected override IWebHostBuilder? CreateWebHostBuilder()
@@ -48,8 +57,8 @@ public class NoxTestApplicationFactory : WebApplicationFactory<StartupFixture>
                     var configurations = sp.GetServices<INoxTypeDatabaseConfigurator>();
                     return _containerService.GetDatabaseProvider(configurations);
                 });
-                
-                if(_enableMessaging)
+
+                if (_enableMessaging)
                     services.AddMassTransitTestHarness();
 
                 //TODO Override NoxSolution with _dbProviderKind
@@ -58,7 +67,6 @@ public class NoxTestApplicationFactory : WebApplicationFactory<StartupFixture>
             {
                 LogLevel = LogLevel.Error
             }));
-        
 
         return host;
     }

@@ -26,9 +26,8 @@ internal partial class CreateEmployeeCommandHandler: CreateEmployeeCommandHandle
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> cashstockorderfactory,
-		IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,cashstockorderfactory, entityFactory, serviceProvider)
+		IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,cashstockorderfactory, entityFactory)
 	{
 	}
 }
@@ -44,8 +43,7 @@ internal abstract class CreateEmployeeCommandHandlerBase: CommandBase<CreateEmpl
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> cashstockorderfactory,
-		IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

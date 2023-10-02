@@ -19,8 +19,7 @@ internal class DeleteCountryQualityOfLifeIndexByIdCommandHandler:DeleteCountryQu
 {
 	public DeleteCountryQualityOfLifeIndexByIdCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+		NoxSolution noxSolution): base(dbContext, noxSolution)
 	{
 	}
 }
@@ -30,8 +29,7 @@ internal abstract class DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase: C
 
 	public DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution): base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
@@ -40,8 +38,8 @@ internal abstract class DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase: C
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyCountryId = CreateNoxTypeForKey<CountryQualityOfLifeIndex,Nox.Types.AutoNumber>("CountryId", request.keyCountryId);
-		var keyId = CreateNoxTypeForKey<CountryQualityOfLifeIndex,Nox.Types.AutoNumber>("Id", request.keyId);
+		var keyCountryId = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateCountryId(request.keyCountryId);
+		var keyId = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.CountryQualityOfLifeIndices.FindAsync(keyCountryId, keyId);
 		if (entity == null)

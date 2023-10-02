@@ -20,8 +20,7 @@ internal partial class PartialUpdateEmailAddressForStoreCommandHandler: PartialU
 	public PartialUpdateEmailAddressForStoreCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> entityFactory) : base(dbContext, noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -33,8 +32,7 @@ internal abstract class PartialUpdateEmailAddressForStoreCommandHandlerBase: Com
 	public PartialUpdateEmailAddressForStoreCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
+		IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -44,7 +42,7 @@ internal abstract class PartialUpdateEmailAddressForStoreCommandHandlerBase: Com
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Store,Nox.Types.Guid>("Id", request.ParentKeyDto.keyId);
+		var keyId = ClientApi.Domain.StoreMetadata.CreateId(request.ParentKeyDto.keyId);
 
 		var parentEntity = await DbContext.Stores.FindAsync(keyId);
 		if (parentEntity == null)

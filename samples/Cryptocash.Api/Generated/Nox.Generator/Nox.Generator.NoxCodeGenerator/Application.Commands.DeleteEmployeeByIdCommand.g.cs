@@ -19,8 +19,7 @@ internal class DeleteEmployeeByIdCommandHandler:DeleteEmployeeByIdCommandHandler
 {
 	public DeleteEmployeeByIdCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+		NoxSolution noxSolution): base(dbContext, noxSolution)
 	{
 	}
 }
@@ -30,8 +29,7 @@ internal abstract class DeleteEmployeeByIdCommandHandlerBase: CommandBase<Delete
 
 	public DeleteEmployeeByIdCommandHandlerBase(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution): base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
@@ -40,7 +38,7 @@ internal abstract class DeleteEmployeeByIdCommandHandlerBase: CommandBase<Delete
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Employee,Nox.Types.AutoNumber>("Id", request.keyId);
+		var keyId = Cryptocash.Domain.EmployeeMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Employees.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted == true)

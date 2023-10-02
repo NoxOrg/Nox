@@ -19,8 +19,7 @@ internal class DeleteCountryByIdCommandHandler:DeleteCountryByIdCommandHandlerBa
 {
 	public DeleteCountryByIdCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+		NoxSolution noxSolution): base(dbContext, noxSolution)
 	{
 	}
 }
@@ -30,8 +29,7 @@ internal abstract class DeleteCountryByIdCommandHandlerBase: CommandBase<DeleteC
 
 	public DeleteCountryByIdCommandHandlerBase(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution): base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
@@ -40,7 +38,7 @@ internal abstract class DeleteCountryByIdCommandHandlerBase: CommandBase<DeleteC
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Country,Nox.Types.AutoNumber>("Id", request.keyId);
+		var keyId = ClientApi.Domain.CountryMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Countries.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted == true)

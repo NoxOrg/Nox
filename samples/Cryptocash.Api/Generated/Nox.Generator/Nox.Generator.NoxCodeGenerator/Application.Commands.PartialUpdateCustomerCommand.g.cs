@@ -23,8 +23,7 @@ internal class PartialUpdateCustomerCommandHandler: PartialUpdateCustomerCommand
 	public PartialUpdateCustomerCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,8 +35,7 @@ internal class PartialUpdateCustomerCommandHandlerBase: CommandBase<PartialUpdat
 	public PartialUpdateCustomerCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
+		IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -47,7 +45,7 @@ internal class PartialUpdateCustomerCommandHandlerBase: CommandBase<PartialUpdat
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Customer,Nox.Types.AutoNumber>("Id", request.keyId);
+		var keyId = Cryptocash.Domain.CustomerMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Customers.FindAsync(keyId);
 		if (entity == null)

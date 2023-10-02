@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -157,14 +157,14 @@ public partial class CountryMetadata
         /// Factory for property 'CountryTimeZoneId'
         /// </summary>
         public static Nox.Types.AutoNumber CreateCountryTimeZoneId(System.Int64 value)
-            => Nox.Types.AutoNumber.From(value);
+            => Nox.Types.AutoNumber.FromDatabase(value);
         
     
         /// <summary>
         /// Factory for property 'HolidayId'
         /// </summary>
         public static Nox.Types.AutoNumber CreateHolidayId(System.Int64 value)
-            => Nox.Types.AutoNumber.From(value);
+            => Nox.Types.AutoNumber.FromDatabase(value);
         
     
         /// <summary>

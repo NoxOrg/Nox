@@ -23,8 +23,7 @@ internal class PartialUpdateBookingCommandHandler: PartialUpdateBookingCommandHa
 	public PartialUpdateBookingCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,8 +35,7 @@ internal class PartialUpdateBookingCommandHandlerBase: CommandBase<PartialUpdate
 	public PartialUpdateBookingCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
+		IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -47,7 +45,7 @@ internal class PartialUpdateBookingCommandHandlerBase: CommandBase<PartialUpdate
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Booking,Nox.Types.Guid>("Id", request.keyId);
+		var keyId = Cryptocash.Domain.BookingMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Bookings.FindAsync(keyId);
 		if (entity == null)

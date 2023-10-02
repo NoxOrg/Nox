@@ -26,9 +26,8 @@ internal partial class CreateLandLordCommandHandler: CreateLandLordCommandHandle
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
-		IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,vendingmachinefactory, entityFactory, serviceProvider)
+		IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,vendingmachinefactory, entityFactory)
 	{
 	}
 }
@@ -44,8 +43,7 @@ internal abstract class CreateLandLordCommandHandlerBase: CommandBase<CreateLand
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
-		IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
