@@ -40,7 +40,7 @@ public class StartupFixture
     {
         app.UseRouting();
 
-        app.UseNox();
+        app.UseNox(false);
 
         app.UseSwagger();
 

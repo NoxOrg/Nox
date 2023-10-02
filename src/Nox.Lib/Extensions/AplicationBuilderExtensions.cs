@@ -11,11 +11,14 @@ namespace Nox
 {
     public static class ApplicationBuilderBuilderExtensions
     {
-        public static INoxBuilder UseNox(this IApplicationBuilder builder)
+        /// <summary>
+        /// Add Nox to the application builder, with optional Serilog request logging
+        /// </summary>
+        public static INoxBuilder UseNox(this IApplicationBuilder builder,bool useSerilogRequestLogging = true)
         {
             // Enabling http requests logging 
-            // TODO add option to not use this
-            builder.UseSerilogRequestLogging();
+            if(useSerilogRequestLogging)
+                builder.UseSerilogRequestLogging();
 
             builder.UseMiddleware<NoxExceptionHanderMiddleware>();
 
