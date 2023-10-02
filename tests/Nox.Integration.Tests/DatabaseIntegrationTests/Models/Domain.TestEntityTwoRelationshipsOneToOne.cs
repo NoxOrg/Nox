@@ -5,32 +5,50 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
-public partial class TestEntityTwoRelationshipsOneToOne:TestEntityTwoRelationshipsOneToOneBase
-{
 
+internal partial class TestEntityTwoRelationshipsOneToOne : TestEntityTwoRelationshipsOneToOneBase, IEntityHaveDomainEvents
+{
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for TestEntityTwoRelationshipsOneToOne created event.
 /// </summary>
-public record TestEntityTwoRelationshipsOneToOneCreated(TestEntityTwoRelationshipsOneToOne TestEntityTwoRelationshipsOneToOne) : IDomainEvent;
+internal record TestEntityTwoRelationshipsOneToOneCreated(TestEntityTwoRelationshipsOneToOne TestEntityTwoRelationshipsOneToOne) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityTwoRelationshipsOneToOne updated event.
 /// </summary>
-public record TestEntityTwoRelationshipsOneToOneUpdated(TestEntityTwoRelationshipsOneToOne TestEntityTwoRelationshipsOneToOne) : IDomainEvent;
+internal record TestEntityTwoRelationshipsOneToOneUpdated(TestEntityTwoRelationshipsOneToOne TestEntityTwoRelationshipsOneToOne) : IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityTwoRelationshipsOneToOne deleted event.
 /// </summary>
-public record TestEntityTwoRelationshipsOneToOneDeleted(TestEntityTwoRelationshipsOneToOne TestEntityTwoRelationshipsOneToOne) : IDomainEvent;
+internal record TestEntityTwoRelationshipsOneToOneDeleted(TestEntityTwoRelationshipsOneToOne TestEntityTwoRelationshipsOneToOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// .
 /// </summary>
-public abstract class TestEntityTwoRelationshipsOneToOneBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class TestEntityTwoRelationshipsOneToOneBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -41,6 +59,33 @@ public abstract class TestEntityTwoRelationshipsOneToOneBase : AuditableEntityBa
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(TestEntityTwoRelationshipsOneToOne testEntityTwoRelationshipsOneToOne)
+	{
+		InternalDomainEvents.Add(new TestEntityTwoRelationshipsOneToOneCreated(testEntityTwoRelationshipsOneToOne));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(TestEntityTwoRelationshipsOneToOne testEntityTwoRelationshipsOneToOne)
+	{
+		InternalDomainEvents.Add(new TestEntityTwoRelationshipsOneToOneUpdated(testEntityTwoRelationshipsOneToOne));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(TestEntityTwoRelationshipsOneToOne testEntityTwoRelationshipsOneToOne)
+	{
+		InternalDomainEvents.Add(new TestEntityTwoRelationshipsOneToOneDeleted(testEntityTwoRelationshipsOneToOne));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// TestEntityTwoRelationshipsOneToOne First relationship to the same entity ExactlyOne SecondTestEntityTwoRelationshipsOneToOnes

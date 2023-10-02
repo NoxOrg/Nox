@@ -49,6 +49,7 @@ public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
 
         _dbContext = new TestWebAppDbContext(
                 options,
+                new PublisherFixture(),
                 solution,
                 databaseProvider,
                 assemblyProvider,

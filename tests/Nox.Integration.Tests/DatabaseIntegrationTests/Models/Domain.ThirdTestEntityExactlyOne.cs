@@ -5,32 +5,50 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
-public partial class ThirdTestEntityExactlyOne:ThirdTestEntityExactlyOneBase
-{
 
+internal partial class ThirdTestEntityExactlyOne : ThirdTestEntityExactlyOneBase, IEntityHaveDomainEvents
+{
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for ThirdTestEntityExactlyOne created event.
 /// </summary>
-public record ThirdTestEntityExactlyOneCreated(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) : IDomainEvent;
+internal record ThirdTestEntityExactlyOneCreated(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for ThirdTestEntityExactlyOne updated event.
 /// </summary>
-public record ThirdTestEntityExactlyOneUpdated(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) : IDomainEvent;
+internal record ThirdTestEntityExactlyOneUpdated(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) : IDomainEvent, INotification;
 /// <summary>
 /// Record for ThirdTestEntityExactlyOne deleted event.
 /// </summary>
-public record ThirdTestEntityExactlyOneDeleted(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) : IDomainEvent;
+internal record ThirdTestEntityExactlyOneDeleted(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public abstract class ThirdTestEntityExactlyOneBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class ThirdTestEntityExactlyOneBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -41,6 +59,33 @@ public abstract class ThirdTestEntityExactlyOneBase : AuditableEntityBase, IEnti
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(ThirdTestEntityExactlyOne thirdTestEntityExactlyOne)
+	{
+		InternalDomainEvents.Add(new ThirdTestEntityExactlyOneCreated(thirdTestEntityExactlyOne));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(ThirdTestEntityExactlyOne thirdTestEntityExactlyOne)
+	{
+		InternalDomainEvents.Add(new ThirdTestEntityExactlyOneUpdated(thirdTestEntityExactlyOne));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(ThirdTestEntityExactlyOne thirdTestEntityExactlyOne)
+	{
+		InternalDomainEvents.Add(new ThirdTestEntityExactlyOneDeleted(thirdTestEntityExactlyOne));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// ThirdTestEntityExactlyOne Test entity relationship to ThirdTestEntityZeroOrOne ExactlyOne ThirdTestEntityZeroOrOnes

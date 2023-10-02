@@ -5,32 +5,50 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
-public partial class SecondTestEntityOneOrMany:SecondTestEntityOneOrManyBase
-{
 
+internal partial class SecondTestEntityOneOrMany : SecondTestEntityOneOrManyBase, IEntityHaveDomainEvents
+{
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for SecondTestEntityOneOrMany created event.
 /// </summary>
-public record SecondTestEntityOneOrManyCreated(SecondTestEntityOneOrMany SecondTestEntityOneOrMany) : IDomainEvent;
+internal record SecondTestEntityOneOrManyCreated(SecondTestEntityOneOrMany SecondTestEntityOneOrMany) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for SecondTestEntityOneOrMany updated event.
 /// </summary>
-public record SecondTestEntityOneOrManyUpdated(SecondTestEntityOneOrMany SecondTestEntityOneOrMany) : IDomainEvent;
+internal record SecondTestEntityOneOrManyUpdated(SecondTestEntityOneOrMany SecondTestEntityOneOrMany) : IDomainEvent, INotification;
 /// <summary>
 /// Record for SecondTestEntityOneOrMany deleted event.
 /// </summary>
-public record SecondTestEntityOneOrManyDeleted(SecondTestEntityOneOrMany SecondTestEntityOneOrMany) : IDomainEvent;
+internal record SecondTestEntityOneOrManyDeleted(SecondTestEntityOneOrMany SecondTestEntityOneOrMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// .
 /// </summary>
-public abstract class SecondTestEntityOneOrManyBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class SecondTestEntityOneOrManyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -41,6 +59,33 @@ public abstract class SecondTestEntityOneOrManyBase : AuditableEntityBase, IEnti
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField2 { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(SecondTestEntityOneOrMany secondTestEntityOneOrMany)
+	{
+		InternalDomainEvents.Add(new SecondTestEntityOneOrManyCreated(secondTestEntityOneOrMany));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(SecondTestEntityOneOrMany secondTestEntityOneOrMany)
+	{
+		InternalDomainEvents.Add(new SecondTestEntityOneOrManyUpdated(secondTestEntityOneOrMany));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(SecondTestEntityOneOrMany secondTestEntityOneOrMany)
+	{
+		InternalDomainEvents.Add(new SecondTestEntityOneOrManyDeleted(secondTestEntityOneOrMany));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// SecondTestEntityOneOrMany Test entity relationship to TestEntityOneOrMany OneOrMany TestEntityOneOrManies
