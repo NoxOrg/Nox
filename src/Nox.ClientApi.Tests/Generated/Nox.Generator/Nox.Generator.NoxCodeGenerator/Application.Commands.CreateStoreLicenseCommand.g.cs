@@ -26,9 +26,8 @@ internal partial class CreateStoreLicenseCommandHandler: CreateStoreLicenseComma
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> storefactory,
-		IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,storefactory, entityFactory, serviceProvider)
+		IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,storefactory, entityFactory)
 	{
 	}
 }
@@ -44,8 +43,7 @@ internal abstract class CreateStoreLicenseCommandHandlerBase: CommandBase<Create
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> storefactory,
-		IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

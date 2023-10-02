@@ -27,9 +27,8 @@ internal partial class CreatePaymentDetailCommandHandler: CreatePaymentDetailCom
 		NoxSolution noxSolution,
 		IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> customerfactory,
 		IEntityFactory<PaymentProvider, PaymentProviderCreateDto, PaymentProviderUpdateDto> paymentproviderfactory,
-		IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,customerfactory, paymentproviderfactory, entityFactory, serviceProvider)
+		IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,customerfactory, paymentproviderfactory, entityFactory)
 	{
 	}
 }
@@ -47,8 +46,7 @@ internal abstract class CreatePaymentDetailCommandHandlerBase: CommandBase<Creat
 		NoxSolution noxSolution,
 		IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> customerfactory,
 		IEntityFactory<PaymentProvider, PaymentProviderCreateDto, PaymentProviderUpdateDto> paymentproviderfactory,
-		IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

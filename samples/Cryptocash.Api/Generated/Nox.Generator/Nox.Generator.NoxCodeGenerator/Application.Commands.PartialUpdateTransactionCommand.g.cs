@@ -23,8 +23,7 @@ internal class PartialUpdateTransactionCommandHandler: PartialUpdateTransactionC
 	public PartialUpdateTransactionCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,8 +35,7 @@ internal class PartialUpdateTransactionCommandHandlerBase: CommandBase<PartialUp
 	public PartialUpdateTransactionCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
+		IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -47,7 +45,7 @@ internal class PartialUpdateTransactionCommandHandlerBase: CommandBase<PartialUp
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Transaction,Nox.Types.AutoNumber>("Id", request.keyId);
+		var keyId = Cryptocash.Domain.TransactionMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Transactions.FindAsync(keyId);
 		if (entity == null)

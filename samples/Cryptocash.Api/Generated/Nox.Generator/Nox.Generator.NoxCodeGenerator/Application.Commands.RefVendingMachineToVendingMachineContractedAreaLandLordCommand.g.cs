@@ -28,10 +28,9 @@ internal partial class CreateRefVendingMachineToVendingMachineContractedAreaLand
 {
 	public CreateRefVendingMachineToVendingMachineContractedAreaLandLordCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Create)
+		: base(dbContext, noxSolution, RelationshipAction.Create)
 	{ }
 }
 
@@ -43,10 +42,9 @@ internal partial class DeleteRefVendingMachineToVendingMachineContractedAreaLand
 {
 	public DeleteRefVendingMachineToVendingMachineContractedAreaLandLordCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Delete)
+		: base(dbContext, noxSolution, RelationshipAction.Delete)
 	{ }
 }
 
@@ -58,10 +56,9 @@ internal partial class DeleteAllRefVendingMachineToVendingMachineContractedAreaL
 {
 	public DeleteAllRefVendingMachineToVendingMachineContractedAreaLandLordCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
 	{ }
 }
 
@@ -77,9 +74,8 @@ internal abstract class RefVendingMachineToVendingMachineContractedAreaLandLordC
 	public RefVendingMachineToVendingMachineContractedAreaLandLordCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
 		RelationshipAction action)
-		: base(noxSolution, serviceProvider)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		Action = action;
@@ -89,7 +85,7 @@ internal abstract class RefVendingMachineToVendingMachineContractedAreaLandLordC
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<VendingMachine, Nox.Types.Guid>("Id", request.EntityKeyDto.keyId);
+		var keyId = Cryptocash.Domain.VendingMachineMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.VendingMachines.FindAsync(keyId);
 		if (entity == null)
 		{
@@ -99,7 +95,7 @@ internal abstract class RefVendingMachineToVendingMachineContractedAreaLandLordC
 		LandLord? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
-			var relatedKeyId = CreateNoxTypeForKey<LandLord, Nox.Types.AutoNumber>("Id", request.RelatedEntityKeyDto.keyId);
+			var relatedKeyId = Cryptocash.Domain.LandLordMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
 			relatedEntity = await DbContext.LandLords.FindAsync(relatedKeyId);
 			if (relatedEntity == null)
 			{

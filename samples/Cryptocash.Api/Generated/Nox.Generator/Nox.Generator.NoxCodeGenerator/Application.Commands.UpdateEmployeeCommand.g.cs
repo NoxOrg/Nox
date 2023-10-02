@@ -22,8 +22,7 @@ internal partial class UpdateEmployeeCommandHandler: UpdateEmployeeCommandHandle
 	public UpdateEmployeeCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> entityFactory): base(dbContext, noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> entityFactory): base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,8 +35,7 @@ internal abstract class UpdateEmployeeCommandHandlerBase: CommandBase<UpdateEmpl
 	public UpdateEmployeeCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> entityFactory): base(noxSolution, serviceProvider)
+		IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> entityFactory): base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -47,7 +45,7 @@ internal abstract class UpdateEmployeeCommandHandlerBase: CommandBase<UpdateEmpl
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Employee,Nox.Types.AutoNumber>("Id", request.keyId);
+		var keyId = Cryptocash.Domain.EmployeeMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Employees.FindAsync(keyId);
 		if (entity == null)

@@ -27,9 +27,8 @@ internal partial class CreateTransactionCommandHandler: CreateTransactionCommand
 		NoxSolution noxSolution,
 		IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> customerfactory,
 		IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> bookingfactory,
-		IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,customerfactory, bookingfactory, entityFactory, serviceProvider)
+		IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,customerfactory, bookingfactory, entityFactory)
 	{
 	}
 }
@@ -47,8 +46,7 @@ internal abstract class CreateTransactionCommandHandlerBase: CommandBase<CreateT
 		NoxSolution noxSolution,
 		IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> customerfactory,
 		IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> bookingfactory,
-		IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

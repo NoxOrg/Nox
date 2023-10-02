@@ -19,8 +19,7 @@ internal partial class PartialUpdateHolidayForCountryCommandHandler: PartialUpda
 	public PartialUpdateHolidayForCountryCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> entityFactory) : base(dbContext, noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -32,8 +31,7 @@ internal abstract class PartialUpdateHolidayForCountryCommandHandlerBase: Comman
 	public PartialUpdateHolidayForCountryCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
+		IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -43,14 +41,14 @@ internal abstract class PartialUpdateHolidayForCountryCommandHandlerBase: Comman
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Country,Nox.Types.CountryCode2>("Id", request.ParentKeyDto.keyId);
+		var keyId = Cryptocash.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
 
 		var parentEntity = await DbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return null;
 		}
-		var ownedId = CreateNoxTypeForKey<Holiday,Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);
+		var ownedId = Cryptocash.Domain.HolidayMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.CountryOwnedHolidays.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{

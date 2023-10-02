@@ -23,8 +23,7 @@ internal class PartialUpdateVendingMachineCommandHandler: PartialUpdateVendingMa
 	public PartialUpdateVendingMachineCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,8 +35,7 @@ internal class PartialUpdateVendingMachineCommandHandlerBase: CommandBase<Partia
 	public PartialUpdateVendingMachineCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
+		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -47,7 +45,7 @@ internal class PartialUpdateVendingMachineCommandHandlerBase: CommandBase<Partia
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<VendingMachine,Nox.Types.Guid>("Id", request.keyId);
+		var keyId = Cryptocash.Domain.VendingMachineMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.VendingMachines.FindAsync(keyId);
 		if (entity == null)

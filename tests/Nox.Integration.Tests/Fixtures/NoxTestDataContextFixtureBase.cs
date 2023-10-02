@@ -18,7 +18,7 @@ public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
     protected NoxTestDataContextFixtureBase()
     {
         var services = new ServiceCollection();
-        services.AddNoxLib(configure => configure.SetClientAssembly(Assembly.GetExecutingAssembly()));
+        services.AddNoxLib(configure => configure.WithClientAssembly(Assembly.GetExecutingAssembly()));
 
         _serviceProvider = services.BuildServiceProvider();
     }

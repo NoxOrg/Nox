@@ -22,8 +22,7 @@ internal partial class UpdateRatingProgramCommandHandler: UpdateRatingProgramCom
 	public UpdateRatingProgramCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<RatingProgram, RatingProgramCreateDto, RatingProgramUpdateDto> entityFactory): base(dbContext, noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<RatingProgram, RatingProgramCreateDto, RatingProgramUpdateDto> entityFactory): base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,8 +35,7 @@ internal abstract class UpdateRatingProgramCommandHandlerBase: CommandBase<Updat
 	public UpdateRatingProgramCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<RatingProgram, RatingProgramCreateDto, RatingProgramUpdateDto> entityFactory): base(noxSolution, serviceProvider)
+		IEntityFactory<RatingProgram, RatingProgramCreateDto, RatingProgramUpdateDto> entityFactory): base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -47,8 +45,8 @@ internal abstract class UpdateRatingProgramCommandHandlerBase: CommandBase<Updat
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyStoreId = CreateNoxTypeForKey<RatingProgram,Nox.Types.Guid>("StoreId", request.keyStoreId);
-		var keyId = CreateNoxTypeForKey<RatingProgram,Nox.Types.AutoNumber>("Id", request.keyId);
+		var keyStoreId = ClientApi.Domain.RatingProgramMetadata.CreateStoreId(request.keyStoreId);
+		var keyId = ClientApi.Domain.RatingProgramMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.RatingPrograms.FindAsync(keyStoreId, keyId);
 		if (entity == null)

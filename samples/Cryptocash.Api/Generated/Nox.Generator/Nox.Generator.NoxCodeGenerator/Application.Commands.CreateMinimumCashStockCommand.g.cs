@@ -27,9 +27,8 @@ internal partial class CreateMinimumCashStockCommandHandler: CreateMinimumCashSt
 		NoxSolution noxSolution,
 		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
 		IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> currencyfactory,
-		IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,vendingmachinefactory, currencyfactory, entityFactory, serviceProvider)
+		IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,vendingmachinefactory, currencyfactory, entityFactory)
 	{
 	}
 }
@@ -47,8 +46,7 @@ internal abstract class CreateMinimumCashStockCommandHandlerBase: CommandBase<Cr
 		NoxSolution noxSolution,
 		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
 		IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> currencyfactory,
-		IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

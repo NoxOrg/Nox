@@ -23,8 +23,7 @@ internal class PartialUpdate{{entity.Name}}CommandHandler: PartialUpdate{{entity
 	public PartialUpdate{{entity.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,8 +35,7 @@ internal class PartialUpdate{{entity.Name}}CommandHandlerBase: CommandBase<Parti
 	public PartialUpdate{{entity.Name}}CommandHandlerBase(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(noxSolution, serviceProvider)
+		IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -49,7 +47,7 @@ internal class PartialUpdate{{entity.Name}}CommandHandlerBase: CommandBase<Parti
 		OnExecuting(request);
 
 		{{- for key in entity.Keys }}
-		var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},Nox.Types.{{SingleTypeForKey key}}>("{{key.Name}}", request.key{{key.Name}});
+		var key{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(request.key{{key.Name}});
 		{{- end }}
 
 		var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysFindQuery}});

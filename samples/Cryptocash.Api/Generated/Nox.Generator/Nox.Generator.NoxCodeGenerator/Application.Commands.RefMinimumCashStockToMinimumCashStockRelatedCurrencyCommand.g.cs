@@ -28,10 +28,9 @@ internal partial class CreateRefMinimumCashStockToMinimumCashStockRelatedCurrenc
 {
 	public CreateRefMinimumCashStockToMinimumCashStockRelatedCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Create)
+		: base(dbContext, noxSolution, RelationshipAction.Create)
 	{ }
 }
 
@@ -43,10 +42,9 @@ internal partial class DeleteRefMinimumCashStockToMinimumCashStockRelatedCurrenc
 {
 	public DeleteRefMinimumCashStockToMinimumCashStockRelatedCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Delete)
+		: base(dbContext, noxSolution, RelationshipAction.Delete)
 	{ }
 }
 
@@ -58,10 +56,9 @@ internal partial class DeleteAllRefMinimumCashStockToMinimumCashStockRelatedCurr
 {
 	public DeleteAllRefMinimumCashStockToMinimumCashStockRelatedCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
 	{ }
 }
 
@@ -77,9 +74,8 @@ internal abstract class RefMinimumCashStockToMinimumCashStockRelatedCurrencyComm
 	public RefMinimumCashStockToMinimumCashStockRelatedCurrencyCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
 		RelationshipAction action)
-		: base(noxSolution, serviceProvider)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		Action = action;
@@ -89,7 +85,7 @@ internal abstract class RefMinimumCashStockToMinimumCashStockRelatedCurrencyComm
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<MinimumCashStock, Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);
+		var keyId = Cryptocash.Domain.MinimumCashStockMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.MinimumCashStocks.FindAsync(keyId);
 		if (entity == null)
 		{
@@ -99,7 +95,7 @@ internal abstract class RefMinimumCashStockToMinimumCashStockRelatedCurrencyComm
 		Currency? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
-			var relatedKeyId = CreateNoxTypeForKey<Currency, Nox.Types.CurrencyCode3>("Id", request.RelatedEntityKeyDto.keyId);
+			var relatedKeyId = Cryptocash.Domain.CurrencyMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
 			relatedEntity = await DbContext.Currencies.FindAsync(relatedKeyId);
 			if (relatedEntity == null)
 			{

@@ -23,8 +23,7 @@ internal class PartialUpdateStoreLicenseCommandHandler: PartialUpdateStoreLicens
 	public PartialUpdateStoreLicenseCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,8 +35,7 @@ internal class PartialUpdateStoreLicenseCommandHandlerBase: CommandBase<PartialU
 	public PartialUpdateStoreLicenseCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
+		IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -47,7 +45,7 @@ internal class PartialUpdateStoreLicenseCommandHandlerBase: CommandBase<PartialU
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<StoreLicense,Nox.Types.AutoNumber>("Id", request.keyId);
+		var keyId = ClientApi.Domain.StoreLicenseMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.StoreLicenses.FindAsync(keyId);
 		if (entity == null)

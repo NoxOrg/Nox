@@ -27,9 +27,8 @@ internal partial class CreateCashStockOrderCommandHandler: CreateCashStockOrderC
 		NoxSolution noxSolution,
 		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
 		IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> employeefactory,
-		IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,vendingmachinefactory, employeefactory, entityFactory, serviceProvider)
+		IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,vendingmachinefactory, employeefactory, entityFactory)
 	{
 	}
 }
@@ -47,8 +46,7 @@ internal abstract class CreateCashStockOrderCommandHandlerBase: CommandBase<Crea
 		NoxSolution noxSolution,
 		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
 		IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> employeefactory,
-		IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
