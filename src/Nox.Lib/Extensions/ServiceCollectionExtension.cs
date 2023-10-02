@@ -21,13 +21,22 @@ namespace Nox;
 
 public static class ServiceCollectionExtension
 {
-    public static IServiceCollection AddNoxLib(this IServiceCollection services, Action<INoxBuilder>? configure = null)
+    /// <summary>
+    /// Use for testing without a WebApplicationBuilder
+    /// Do not use directly on production code
+    /// </summary>
+    public static IServiceCollection AddNoxLib(this IServiceCollection services, Action<INoxOptions>? configure = null)
     {
-        NoxBuilder configurator = new();
+        AddNoxLib(services, null, configure);
+        return services;
+    }
+    public static IServiceCollection AddNoxLib(this IServiceCollection services, WebApplicationBuilder? webApplicationBuilder, Action<INoxOptions>? configure = null)
+    {
+        NoxOptions configurator = new();
         // Default service/entry assembly is the one calling this method
         configurator.WithClientAssembly(Assembly.GetCallingAssembly());
         configure?.Invoke(configurator);
-        configurator.Configure(services);
+        configurator.Configure(services, webApplicationBuilder);
 
         return services;
     }
@@ -42,7 +51,7 @@ public static class ServiceCollectionExtension
 
         return services;
     }
-    internal static IServiceCollection AddNoxMediatR(this IServiceCollection services,Assembly serviceAssembly)
+    internal static IServiceCollection AddNoxMediatR(this IServiceCollection services, Assembly serviceAssembly)
     {
         // Register all Behaviors - Filtering for example
         services.Scan(scan =>
