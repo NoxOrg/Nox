@@ -234,7 +234,8 @@ namespace Nox.Types.EntityFramework.Configurations
             NoxSimpleTypeDefinition key)
         {
             // Key type of the Foreign Entity Key
-            var foreignEntityKeyType = codeGeneratorState.Solution.GetSingleKeyTypeForEntity(key.EntityIdTypeOptions!.Entity);
+            var keyType = codeGeneratorState.Solution.GetSingleKeyTypeForEntity(key.EntityIdTypeOptions!.Entity);
+            var foreignEntityKeyType = keyType;
 
             builder
             .HasOne(key.EntityIdTypeOptions!.Entity)
@@ -250,6 +251,7 @@ namespace Nox.Types.EntityFramework.Configurations
                 foreignEntityKeyDefinition.Description = "-";
                 foreignEntityKeyDefinition.IsRequired = false;
                 foreignEntityKeyDefinition.IsReadonly = false;
+
                 databaseConfigurationForForeignKey.ConfigureEntityProperty(codeGeneratorState, builder, foreignEntityKeyDefinition, entity, false);
             }
         }

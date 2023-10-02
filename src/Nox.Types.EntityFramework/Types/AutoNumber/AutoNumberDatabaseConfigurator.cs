@@ -37,11 +37,21 @@ public class AutoNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
         Entity entity,
         bool isKey)
     {
-        builder
-            .Property(property.Name)
-            .IsRequired(property.IsRequired)
-            .HasConversion<AutoNumberConverter>()
-            .ValueGeneratedOnAdd();
+        if (!isKey)
+        {
+            builder
+                .Property(property.Name)
+                .IsRequired(property.IsRequired)
+                .HasConversion<AutoNumberConverter>();
+        }
+        else
+        {
+            builder
+                .Property(property.Name)
+                .IsRequired(property.IsRequired)
+                .HasConversion<AutoNumberConverter>()
+                .ValueGeneratedOnAdd();
+        }
     }
 
     /// <summary>
