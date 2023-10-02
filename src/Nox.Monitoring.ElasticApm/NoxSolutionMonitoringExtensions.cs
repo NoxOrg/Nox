@@ -3,7 +3,7 @@ using Nox.Solution.Builders;
 
 namespace Nox.Monitoring.ElasticApm;
 
-public static class ElasticApmConfigurationExtension
+public static class NoxSolutionMonitoringExtensions
 {
     public static IConfiguration ToConfiguration(this Solution.Monitoring? monitoringConfiguration)
     {
