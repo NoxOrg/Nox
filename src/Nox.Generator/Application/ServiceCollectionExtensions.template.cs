@@ -2,10 +2,11 @@
 
 #nullable enable
 
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 using Microsoft.OData.ModelBuilder;
+using System.Reflection;
 using Nox;
 using Nox.Solution;
 using Nox.Configuration;
@@ -14,6 +15,7 @@ using {{ solutionName }}.Infrastructure.Persistence;
 {{- if configPresentation == true }}
 using {{ solutionName }}.Presentation.Api.OData;
 {{- end }}
+
 
 internal static class {{className}}
 {
