@@ -143,6 +143,7 @@ namespace Nox.Configuration
                     .ReadFrom.Configuration(context.Configuration)
                     .ReadFrom.Services(services)
                     .Enrich.FromLogContext()
+                    .WriteTo.Debug()
                     .WriteTo.Console();
 
                     _loggerConfigurationAction?.Invoke(loggerConfig);
