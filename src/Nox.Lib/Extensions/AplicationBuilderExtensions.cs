@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.OData;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Lib;
 using Nox.Solution;
+using Serilog;
 
 namespace Nox
 {
@@ -12,6 +13,9 @@ namespace Nox
     {
         public static INoxBuilder UseNox(this IApplicationBuilder builder)
         {
+            // Enabling http requests logging 
+            // TODO add option to not use this
+            builder.UseSerilogRequestLogging();
 
             builder.UseMiddleware<NoxExceptionHanderMiddleware>();
 

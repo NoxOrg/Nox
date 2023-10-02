@@ -1,4 +1,5 @@
 using Nox;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +10,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddNox();
+builder.AddNox();
+
 
 var app = builder.Build();
 
