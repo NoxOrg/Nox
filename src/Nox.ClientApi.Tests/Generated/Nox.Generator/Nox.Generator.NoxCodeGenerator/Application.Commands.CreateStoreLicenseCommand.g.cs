@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Factories;
 using Nox.Solution;
 
@@ -56,7 +58,16 @@ internal abstract class CreateStoreLicenseCommandHandlerBase: CommandBase<Create
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.StoreWithLicense is not null)
+		if(request.EntityDto.StoreWithLicenseId is not null)
+		{
+			var relatedKey = ClientApi.Domain.StoreMetadata.CreateId(request.EntityDto.StoreWithLicenseId.NonNullValue<System.Guid>());
+			var relatedEntity = await _dbContext.Stores.FindAsync(relatedKey);
+			if(relatedEntity is not null)
+				entityToCreate.CreateRefToStoreWithLicense(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("StoreWithLicense", request.EntityDto.StoreWithLicenseId.NonNullValue<System.Guid>().ToString());
+		}
+		else if(request.EntityDto.StoreWithLicense is not null)
 		{
 			var relatedEntity = _storefactory.CreateEntity(request.EntityDto.StoreWithLicense);
 			entityToCreate.CreateRefToStoreWithLicense(relatedEntity);

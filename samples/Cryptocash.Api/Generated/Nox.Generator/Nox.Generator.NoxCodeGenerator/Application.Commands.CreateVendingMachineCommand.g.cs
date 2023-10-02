@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Factories;
 using Nox.Solution;
 
@@ -72,12 +74,30 @@ internal abstract class CreateVendingMachineCommandHandlerBase: CommandBase<Crea
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.VendingMachineInstallationCountry is not null)
+		if(request.EntityDto.VendingMachineInstallationCountryId is not null)
+		{
+			var relatedKey = Cryptocash.Domain.CountryMetadata.CreateId(request.EntityDto.VendingMachineInstallationCountryId.NonNullValue<System.String>());
+			var relatedEntity = await _dbContext.Countries.FindAsync(relatedKey);
+			if(relatedEntity is not null)
+				entityToCreate.CreateRefToVendingMachineInstallationCountry(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("VendingMachineInstallationCountry", request.EntityDto.VendingMachineInstallationCountryId.NonNullValue<System.String>().ToString());
+		}
+		else if(request.EntityDto.VendingMachineInstallationCountry is not null)
 		{
 			var relatedEntity = _countryfactory.CreateEntity(request.EntityDto.VendingMachineInstallationCountry);
 			entityToCreate.CreateRefToVendingMachineInstallationCountry(relatedEntity);
 		}
-		if(request.EntityDto.VendingMachineContractedAreaLandLord is not null)
+		if(request.EntityDto.VendingMachineContractedAreaLandLordId is not null)
+		{
+			var relatedKey = Cryptocash.Domain.LandLordMetadata.CreateId(request.EntityDto.VendingMachineContractedAreaLandLordId.NonNullValue<System.Int64>());
+			var relatedEntity = await _dbContext.LandLords.FindAsync(relatedKey);
+			if(relatedEntity is not null)
+				entityToCreate.CreateRefToVendingMachineContractedAreaLandLord(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("VendingMachineContractedAreaLandLord", request.EntityDto.VendingMachineContractedAreaLandLordId.NonNullValue<System.Int64>().ToString());
+		}
+		else if(request.EntityDto.VendingMachineContractedAreaLandLord is not null)
 		{
 			var relatedEntity = _landlordfactory.CreateEntity(request.EntityDto.VendingMachineContractedAreaLandLord);
 			entityToCreate.CreateRefToVendingMachineContractedAreaLandLord(relatedEntity);

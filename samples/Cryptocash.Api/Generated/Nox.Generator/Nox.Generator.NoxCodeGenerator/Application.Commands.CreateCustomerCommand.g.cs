@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Factories;
 using Nox.Solution;
 
@@ -83,7 +85,16 @@ internal abstract class CreateCustomerCommandHandlerBase: CommandBase<CreateCust
 			var relatedEntity = _transactionfactory.CreateEntity(relatedCreateDto);
 			entityToCreate.CreateRefToCustomerRelatedTransactions(relatedEntity);
 		}
-		if(request.EntityDto.CustomerBaseCountry is not null)
+		if(request.EntityDto.CustomerBaseCountryId is not null)
+		{
+			var relatedKey = Cryptocash.Domain.CountryMetadata.CreateId(request.EntityDto.CustomerBaseCountryId.NonNullValue<System.String>());
+			var relatedEntity = await _dbContext.Countries.FindAsync(relatedKey);
+			if(relatedEntity is not null)
+				entityToCreate.CreateRefToCustomerBaseCountry(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("CustomerBaseCountry", request.EntityDto.CustomerBaseCountryId.NonNullValue<System.String>().ToString());
+		}
+		else if(request.EntityDto.CustomerBaseCountry is not null)
 		{
 			var relatedEntity = _countryfactory.CreateEntity(request.EntityDto.CustomerBaseCountry);
 			entityToCreate.CreateRefToCustomerBaseCountry(relatedEntity);

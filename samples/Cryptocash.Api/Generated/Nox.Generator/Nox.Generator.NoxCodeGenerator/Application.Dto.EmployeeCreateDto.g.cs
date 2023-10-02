@@ -62,6 +62,7 @@ public abstract class EmployeeCreateDtoBase : IEntityDto<Employee>
     /// <summary>
     /// Employee reviewing ExactlyOne CashStockOrders
     /// </summary>
+    public System.Int64? EmployeeReviewingCashStockOrderId { get; set; } = default!;
     public virtual CashStockOrderCreateDto? EmployeeReviewingCashStockOrder { get; set; } = default!;
 
     /// <summary>
