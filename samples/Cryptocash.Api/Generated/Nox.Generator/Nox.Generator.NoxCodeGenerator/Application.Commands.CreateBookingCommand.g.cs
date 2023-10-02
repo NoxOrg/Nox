@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Factories;
 using Nox.Solution;
 
@@ -70,10 +72,12 @@ internal abstract class CreateBookingCommandHandlerBase: CommandBase<CreateBooki
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.BookingForCustomerId is not null)
 		{
-			var relatedKey = CreateNoxTypeForKey<Customer, Nox.Types.AutoNumber>("Id", request.EntityDto.BookingForCustomerId);
+			var relatedKey = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityDto.BookingForCustomerId.NonNullValue<System.Int64>());
 			var relatedEntity = await _dbContext.Customers.FindAsync(relatedKey);
-			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+			if(relatedEntity is not null)
 				entityToCreate.CreateRefToBookingForCustomer(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("BookingForCustomer", request.EntityDto.BookingForCustomerId.NonNullValue<System.Int64>().ToString());
 		}
 		else if(request.EntityDto.BookingForCustomer is not null)
 		{
@@ -82,10 +86,12 @@ internal abstract class CreateBookingCommandHandlerBase: CommandBase<CreateBooki
 		}
 		if(request.EntityDto.BookingRelatedVendingMachineId is not null)
 		{
-			var relatedKey = CreateNoxTypeForKey<VendingMachine, Nox.Types.Guid>("Id", request.EntityDto.BookingRelatedVendingMachineId);
+			var relatedKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(request.EntityDto.BookingRelatedVendingMachineId.NonNullValue<System.Guid>());
 			var relatedEntity = await _dbContext.VendingMachines.FindAsync(relatedKey);
-			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+			if(relatedEntity is not null)
 				entityToCreate.CreateRefToBookingRelatedVendingMachine(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("BookingRelatedVendingMachine", request.EntityDto.BookingRelatedVendingMachineId.NonNullValue<System.Guid>().ToString());
 		}
 		else if(request.EntityDto.BookingRelatedVendingMachine is not null)
 		{
@@ -94,10 +100,12 @@ internal abstract class CreateBookingCommandHandlerBase: CommandBase<CreateBooki
 		}
 		if(request.EntityDto.BookingFeesForCommissionId is not null)
 		{
-			var relatedKey = CreateNoxTypeForKey<Commission, Nox.Types.AutoNumber>("Id", request.EntityDto.BookingFeesForCommissionId);
+			var relatedKey = Cryptocash.Domain.CommissionMetadata.CreateId(request.EntityDto.BookingFeesForCommissionId.NonNullValue<System.Int64>());
 			var relatedEntity = await _dbContext.Commissions.FindAsync(relatedKey);
-			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+			if(relatedEntity is not null)
 				entityToCreate.CreateRefToBookingFeesForCommission(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("BookingFeesForCommission", request.EntityDto.BookingFeesForCommissionId.NonNullValue<System.Int64>().ToString());
 		}
 		else if(request.EntityDto.BookingFeesForCommission is not null)
 		{
@@ -106,10 +114,12 @@ internal abstract class CreateBookingCommandHandlerBase: CommandBase<CreateBooki
 		}
 		if(request.EntityDto.BookingRelatedTransactionId is not null)
 		{
-			var relatedKey = CreateNoxTypeForKey<Transaction, Nox.Types.AutoNumber>("Id", request.EntityDto.BookingRelatedTransactionId);
+			var relatedKey = Cryptocash.Domain.TransactionMetadata.CreateId(request.EntityDto.BookingRelatedTransactionId.NonNullValue<System.Int64>());
 			var relatedEntity = await _dbContext.Transactions.FindAsync(relatedKey);
-			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+			if(relatedEntity is not null)
 				entityToCreate.CreateRefToBookingRelatedTransaction(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("BookingRelatedTransaction", request.EntityDto.BookingRelatedTransactionId.NonNullValue<System.Int64>().ToString());
 		}
 		else if(request.EntityDto.BookingRelatedTransaction is not null)
 		{

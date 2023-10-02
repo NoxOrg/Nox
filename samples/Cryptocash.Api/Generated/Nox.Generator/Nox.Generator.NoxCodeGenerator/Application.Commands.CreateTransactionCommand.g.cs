@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Factories;
 using Nox.Solution;
 
@@ -62,10 +64,12 @@ internal abstract class CreateTransactionCommandHandlerBase: CommandBase<CreateT
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.TransactionForCustomerId is not null)
 		{
-			var relatedKey = CreateNoxTypeForKey<Customer, Nox.Types.AutoNumber>("Id", request.EntityDto.TransactionForCustomerId);
+			var relatedKey = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityDto.TransactionForCustomerId.NonNullValue<System.Int64>());
 			var relatedEntity = await _dbContext.Customers.FindAsync(relatedKey);
-			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+			if(relatedEntity is not null)
 				entityToCreate.CreateRefToTransactionForCustomer(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("TransactionForCustomer", request.EntityDto.TransactionForCustomerId.NonNullValue<System.Int64>().ToString());
 		}
 		else if(request.EntityDto.TransactionForCustomer is not null)
 		{
@@ -74,10 +78,12 @@ internal abstract class CreateTransactionCommandHandlerBase: CommandBase<CreateT
 		}
 		if(request.EntityDto.TransactionForBookingId is not null)
 		{
-			var relatedKey = CreateNoxTypeForKey<Booking, Nox.Types.Guid>("Id", request.EntityDto.TransactionForBookingId);
+			var relatedKey = Cryptocash.Domain.BookingMetadata.CreateId(request.EntityDto.TransactionForBookingId.NonNullValue<System.Guid>());
 			var relatedEntity = await _dbContext.Bookings.FindAsync(relatedKey);
-			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+			if(relatedEntity is not null)
 				entityToCreate.CreateRefToTransactionForBooking(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("TransactionForBooking", request.EntityDto.TransactionForBookingId.NonNullValue<System.Guid>().ToString());
 		}
 		else if(request.EntityDto.TransactionForBooking is not null)
 		{

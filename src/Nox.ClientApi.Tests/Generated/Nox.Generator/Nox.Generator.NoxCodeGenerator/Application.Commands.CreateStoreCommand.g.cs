@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Factories;
 using Nox.Solution;
 
@@ -62,10 +64,12 @@ internal abstract class CreateStoreCommandHandlerBase: CommandBase<CreateStoreCo
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.OwnershipId is not null)
 		{
-			var relatedKey = CreateNoxTypeForKey<StoreOwner, Nox.Types.Text>("Id", request.EntityDto.OwnershipId);
+			var relatedKey = ClientApi.Domain.StoreOwnerMetadata.CreateId(request.EntityDto.OwnershipId.NonNullValue<System.String>());
 			var relatedEntity = await _dbContext.StoreOwners.FindAsync(relatedKey);
-			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+			if(relatedEntity is not null)
 				entityToCreate.CreateRefToOwnership(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("Ownership", request.EntityDto.OwnershipId.NonNullValue<System.String>().ToString());
 		}
 		else if(request.EntityDto.Ownership is not null)
 		{
@@ -74,10 +78,12 @@ internal abstract class CreateStoreCommandHandlerBase: CommandBase<CreateStoreCo
 		}
 		if(request.EntityDto.LicenseId is not null)
 		{
-			var relatedKey = CreateNoxTypeForKey<StoreLicense, Nox.Types.AutoNumber>("Id", request.EntityDto.LicenseId);
+			var relatedKey = ClientApi.Domain.StoreLicenseMetadata.CreateId(request.EntityDto.LicenseId.NonNullValue<System.Int64>());
 			var relatedEntity = await _dbContext.StoreLicenses.FindAsync(relatedKey);
-			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+			if(relatedEntity is not null)
 				entityToCreate.CreateRefToLicense(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("License", request.EntityDto.LicenseId.NonNullValue<System.Int64>().ToString());
 		}
 		else if(request.EntityDto.License is not null)
 		{

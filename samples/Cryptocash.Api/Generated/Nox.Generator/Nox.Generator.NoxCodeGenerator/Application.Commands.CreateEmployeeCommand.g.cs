@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Factories;
 using Nox.Solution;
 
@@ -58,10 +60,12 @@ internal abstract class CreateEmployeeCommandHandlerBase: CommandBase<CreateEmpl
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.EmployeeReviewingCashStockOrderId is not null)
 		{
-			var relatedKey = CreateNoxTypeForKey<CashStockOrder, Nox.Types.AutoNumber>("Id", request.EntityDto.EmployeeReviewingCashStockOrderId);
+			var relatedKey = Cryptocash.Domain.CashStockOrderMetadata.CreateId(request.EntityDto.EmployeeReviewingCashStockOrderId.NonNullValue<System.Int64>());
 			var relatedEntity = await _dbContext.CashStockOrders.FindAsync(relatedKey);
-			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+			if(relatedEntity is not null)
 				entityToCreate.CreateRefToEmployeeReviewingCashStockOrder(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("EmployeeReviewingCashStockOrder", request.EntityDto.EmployeeReviewingCashStockOrderId.NonNullValue<System.Int64>().ToString());
 		}
 		else if(request.EntityDto.EmployeeReviewingCashStockOrder is not null)
 		{

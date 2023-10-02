@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Factories;
 using Nox.Solution;
 
@@ -67,10 +69,12 @@ internal abstract class CreateMinimumCashStockCommandHandlerBase: CommandBase<Cr
 		}
 		if(request.EntityDto.MinimumCashStockRelatedCurrencyId is not null)
 		{
-			var relatedKey = CreateNoxTypeForKey<Currency, Nox.Types.CurrencyCode3>("Id", request.EntityDto.MinimumCashStockRelatedCurrencyId);
+			var relatedKey = Cryptocash.Domain.CurrencyMetadata.CreateId(request.EntityDto.MinimumCashStockRelatedCurrencyId.NonNullValue<System.String>());
 			var relatedEntity = await _dbContext.Currencies.FindAsync(relatedKey);
-			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+			if(relatedEntity is not null)
 				entityToCreate.CreateRefToMinimumCashStockRelatedCurrency(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("MinimumCashStockRelatedCurrency", request.EntityDto.MinimumCashStockRelatedCurrencyId.NonNullValue<System.String>().ToString());
 		}
 		else if(request.EntityDto.MinimumCashStockRelatedCurrency is not null)
 		{

@@ -19,6 +19,8 @@ using Nox.Abstractions;
 {{- end}}
 using Nox.Application;
 using Nox.Application.Commands;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Factories;
 using Nox.Solution;
 
@@ -84,19 +86,21 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase: CommandBase<Cre
 			{{- if (array.size relatedEntity.Keys) == 1 }}
 
 			{{- key = array.first relatedEntity.Keys }}
-			var relatedKey = CreateNoxTypeForKey<{{relatedEntity.Name}}, Nox.Types.{{SingleTypeForKey key}}>("{{key.Name}}", request.EntityDto.{{relationship.Name}}Id);
+			var relatedKey = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{relationship.Name}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>());
 			var relatedEntity = await _dbContext.{{relatedEntity.PluralName}}.FindAsync(relatedKey);
 			
 			{{- else }}
 
 			{{- for key in relatedEntity.Keys }}
-			var relatedKey{{key.Name}} = CreateNoxTypeForKey<{{relatedEntity.Name}}, Nox.Types.{{SingleTypeForKey key}}>("{{key.Name}}", request.EntityDto.{{relationship.Name}}Id.key{{key.Name}});
+			var relatedKey{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}request.EntityDto.{{relationship.Name}}Id!.key{{key.Name}});
 			{{- end }}
 			var relatedEntity = await _dbContext.{{relatedEntity.PluralName}}.FindAsync({{relatedEntity.Keys | array.map "Name" | keysQuery}});
 			
 			{{- end }}
-			if(relatedEntity is not null{{if (relatedEntity.Persistence?.IsAudited ?? true)}} && relatedEntity.DeletedAtUtc == null{{end}})
+			if(relatedEntity is not null)
 				entityToCreate.CreateRefTo{{relationship.Name}}(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("{{relationship.Name}}", request.EntityDto.{{relationship.Name}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>().ToString());
 		}
 		else if(request.EntityDto.{{relationship.Name}} is not null)
 		{

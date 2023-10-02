@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Factories;
 using Nox.Solution;
 
@@ -62,10 +64,12 @@ internal abstract class CreateCashStockOrderCommandHandlerBase: CommandBase<Crea
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.CashStockOrderForVendingMachineId is not null)
 		{
-			var relatedKey = CreateNoxTypeForKey<VendingMachine, Nox.Types.Guid>("Id", request.EntityDto.CashStockOrderForVendingMachineId);
+			var relatedKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(request.EntityDto.CashStockOrderForVendingMachineId.NonNullValue<System.Guid>());
 			var relatedEntity = await _dbContext.VendingMachines.FindAsync(relatedKey);
-			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCashStockOrderForVendingMachine(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("CashStockOrderForVendingMachine", request.EntityDto.CashStockOrderForVendingMachineId.NonNullValue<System.Guid>().ToString());
 		}
 		else if(request.EntityDto.CashStockOrderForVendingMachine is not null)
 		{
@@ -74,10 +78,12 @@ internal abstract class CreateCashStockOrderCommandHandlerBase: CommandBase<Crea
 		}
 		if(request.EntityDto.CashStockOrderReviewedByEmployeeId is not null)
 		{
-			var relatedKey = CreateNoxTypeForKey<Employee, Nox.Types.AutoNumber>("Id", request.EntityDto.CashStockOrderReviewedByEmployeeId);
+			var relatedKey = Cryptocash.Domain.EmployeeMetadata.CreateId(request.EntityDto.CashStockOrderReviewedByEmployeeId.NonNullValue<System.Int64>());
 			var relatedEntity = await _dbContext.Employees.FindAsync(relatedKey);
-			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCashStockOrderReviewedByEmployee(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("CashStockOrderReviewedByEmployee", request.EntityDto.CashStockOrderReviewedByEmployeeId.NonNullValue<System.Int64>().ToString());
 		}
 		else if(request.EntityDto.CashStockOrderReviewedByEmployee is not null)
 		{

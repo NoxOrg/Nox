@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Factories;
 using Nox.Solution;
 
@@ -70,10 +72,12 @@ internal abstract class CreateCountryCommandHandlerBase: CommandBase<CreateCount
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.CountryUsedByCurrencyId is not null)
 		{
-			var relatedKey = CreateNoxTypeForKey<Currency, Nox.Types.CurrencyCode3>("Id", request.EntityDto.CountryUsedByCurrencyId);
+			var relatedKey = Cryptocash.Domain.CurrencyMetadata.CreateId(request.EntityDto.CountryUsedByCurrencyId.NonNullValue<System.String>());
 			var relatedEntity = await _dbContext.Currencies.FindAsync(relatedKey);
-			if(relatedEntity is not null && relatedEntity.DeletedAtUtc == null)
+			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCountryUsedByCurrency(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("CountryUsedByCurrency", request.EntityDto.CountryUsedByCurrencyId.NonNullValue<System.String>().ToString());
 		}
 		else if(request.EntityDto.CountryUsedByCurrency is not null)
 		{
