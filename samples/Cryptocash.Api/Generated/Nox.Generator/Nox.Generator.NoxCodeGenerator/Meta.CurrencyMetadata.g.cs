@@ -215,14 +215,14 @@ public partial class CurrencyMetadata
         /// Factory for property 'BankNoteId'
         /// </summary>
         public static Nox.Types.AutoNumber CreateBankNoteId(System.Int64 value)
-            => Nox.Types.AutoNumber.From(value);
+            => Nox.Types.AutoNumber.FromDatabase(value);
         
     
         /// <summary>
         /// Factory for property 'ExchangeRateId'
         /// </summary>
         public static Nox.Types.AutoNumber CreateExchangeRateId(System.Int64 value)
-            => Nox.Types.AutoNumber.From(value);
+            => Nox.Types.AutoNumber.FromDatabase(value);
         
 
         /// <summary>

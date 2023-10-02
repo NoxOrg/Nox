@@ -20,7 +20,7 @@ public partial class CountryMetadata
         /// Factory for property 'Id'
         /// </summary>
         public static Nox.Types.AutoNumber CreateId(System.Int64 value)
-            => Nox.Types.AutoNumber.From(value);
+            => Nox.Types.AutoNumber.FromDatabase(value);
         
     
         /// <summary>
@@ -137,7 +137,7 @@ public partial class CountryMetadata
         /// Factory for property 'CountryLocalNameId'
         /// </summary>
         public static Nox.Types.AutoNumber CreateCountryLocalNameId(System.Int64 value)
-            => Nox.Types.AutoNumber.From(value);
+            => Nox.Types.AutoNumber.FromDatabase(value);
         
 
         /// <summary>
