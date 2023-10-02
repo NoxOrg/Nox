@@ -14,16 +14,18 @@ using Nox.Configuration;
 using FluentValidation;
 using MediatR;
 using Nox.Application.Behaviors;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.OData.ModelBuilder;
 
 namespace Nox;
 
 public static class ServiceCollectionExtension
 {
-    public static IServiceCollection AddNoxLib(this IServiceCollection services, Action<INoxBuilderConfigurator>? configure = null)
+    public static IServiceCollection AddNoxLib(this IServiceCollection services, Action<INoxBuilder>? configure = null)
     {
-        NoxBuilderConfigurator configurator = new();
+        NoxBuilder configurator = new();
         // Default service/entry assembly is the one calling this method
-        configurator.SetClientAssembly(Assembly.GetCallingAssembly());
+        configurator.WithClientAssembly(Assembly.GetCallingAssembly());
         configure?.Invoke(configurator);
         configurator.Configure(services);
 

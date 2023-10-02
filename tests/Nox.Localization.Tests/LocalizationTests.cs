@@ -47,7 +47,7 @@ public class LocalizationTests
 
         builder.Services.AddNoxLib(configure =>
         {
-            configure.SetClientAssembly(Assembly.GetExecutingAssembly());
+            configure.WithClientAssembly(Assembly.GetExecutingAssembly());
         });
 
         builder.Services.AddNoxLocalization();
