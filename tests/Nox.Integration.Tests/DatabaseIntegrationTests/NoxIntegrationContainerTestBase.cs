@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Nox.Integration.Tests.Fixtures;
-using TestWebApp.Infrastructure.Persistence;
-using Xunit.Abstractions;
 
 namespace Nox.Integration.Tests.DatabaseIntegrationTests;
 

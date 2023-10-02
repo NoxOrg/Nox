@@ -1,0 +1,70 @@
+﻿﻿// Generated
+
+#nullable enable
+
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Nox.Application.Commands;
+using Nox.Solution;
+using Nox.Types;
+using Nox.Factories;
+using TestWebApp.Infrastructure.Persistence;
+using TestWebApp.Domain;
+using TestWebApp.Application.Dto;
+
+namespace TestWebApp.Application.Commands;
+public record DeleteSecondTestEntityOwnedRelationshipZeroOrManyForTestEntityOwnedRelationshipZeroOrManyCommand(TestEntityOwnedRelationshipZeroOrManyKeyDto ParentKeyDto, SecondTestEntityOwnedRelationshipZeroOrManyKeyDto EntityKeyDto) : IRequest <bool>;
+
+internal partial class DeleteSecondTestEntityOwnedRelationshipZeroOrManyForTestEntityOwnedRelationshipZeroOrManyCommandHandler : DeleteSecondTestEntityOwnedRelationshipZeroOrManyForTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase
+{
+	public DeleteSecondTestEntityOwnedRelationshipZeroOrManyForTestEntityOwnedRelationshipZeroOrManyCommandHandler(
+		TestWebAppDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution, serviceProvider)
+	{
+	}
+}
+
+internal partial class DeleteSecondTestEntityOwnedRelationshipZeroOrManyForTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase : CommandBase<DeleteSecondTestEntityOwnedRelationshipZeroOrManyForTestEntityOwnedRelationshipZeroOrManyCommand, SecondTestEntityOwnedRelationshipZeroOrMany>, IRequestHandler <DeleteSecondTestEntityOwnedRelationshipZeroOrManyForTestEntityOwnedRelationshipZeroOrManyCommand, bool>
+{
+	public TestWebAppDbContext DbContext { get; }
+
+	public DeleteSecondTestEntityOwnedRelationshipZeroOrManyForTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase(
+		TestWebAppDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+	{
+		DbContext = dbContext;
+	}
+
+	public virtual async Task<bool> Handle(DeleteSecondTestEntityOwnedRelationshipZeroOrManyForTestEntityOwnedRelationshipZeroOrManyCommand request, CancellationToken cancellationToken)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
+		var keyId = CreateNoxTypeForKey<TestEntityOwnedRelationshipZeroOrMany,Nox.Types.Text>("Id", request.ParentKeyDto.keyId);
+		var parentEntity = await DbContext.TestEntityOwnedRelationshipZeroOrManies.FindAsync(keyId);
+		if (parentEntity == null)
+		{
+			return false;
+		}
+		var ownedId = CreateNoxTypeForKey<SecondTestEntityOwnedRelationshipZeroOrMany,Nox.Types.Text>("Id", request.EntityKeyDto.keyId);
+		var entity = parentEntity.SecondTestEntityOwnedRelationshipZeroOrMany.SingleOrDefault(x => x.Id == ownedId);
+		if (entity == null)
+		{
+			return false;
+		}
+		parentEntity.SecondTestEntityOwnedRelationshipZeroOrMany.Remove(entity);
+		OnCompleted(request, entity);
+
+		DbContext.Entry(entity).State = EntityState.Deleted;
+
+		var result = await DbContext.SaveChangesAsync(cancellationToken);
+		if (result < 1)
+		{
+			return false;
+		}
+
+		return true;
+	}
+}

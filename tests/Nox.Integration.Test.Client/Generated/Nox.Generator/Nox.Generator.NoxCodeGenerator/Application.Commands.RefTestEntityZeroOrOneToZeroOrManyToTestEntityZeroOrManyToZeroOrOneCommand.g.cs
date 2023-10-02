@@ -1,0 +1,129 @@
+﻿
+// Generated
+
+#nullable enable
+
+using MediatR;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Nox.Application;
+using Nox.Application.Commands;
+using Nox.Factories;
+using Nox.Solution;
+using Nox.Types;
+
+using TestWebApp.Infrastructure.Persistence;
+using TestWebApp.Domain;
+using TestWebApp.Application.Dto;
+
+namespace TestWebApp.Application.Commands;
+
+public abstract record RefTestEntityZeroOrOneToZeroOrManyToTestEntityZeroOrManyToZeroOrOneCommand(TestEntityZeroOrOneToZeroOrManyKeyDto EntityKeyDto, TestEntityZeroOrManyToZeroOrOneKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
+
+public record CreateRefTestEntityZeroOrOneToZeroOrManyToTestEntityZeroOrManyToZeroOrOneCommand(TestEntityZeroOrOneToZeroOrManyKeyDto EntityKeyDto, TestEntityZeroOrManyToZeroOrOneKeyDto RelatedEntityKeyDto)
+	: RefTestEntityZeroOrOneToZeroOrManyToTestEntityZeroOrManyToZeroOrOneCommand(EntityKeyDto, RelatedEntityKeyDto);
+
+internal partial class CreateRefTestEntityZeroOrOneToZeroOrManyToTestEntityZeroOrManyToZeroOrOneCommandHandler
+	: RefTestEntityZeroOrOneToZeroOrManyToTestEntityZeroOrManyToZeroOrOneCommandHandlerBase<CreateRefTestEntityZeroOrOneToZeroOrManyToTestEntityZeroOrManyToZeroOrOneCommand>
+{
+	public CreateRefTestEntityZeroOrOneToZeroOrManyToTestEntityZeroOrManyToZeroOrOneCommandHandler(
+		TestWebAppDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Create)
+	{ }
+}
+
+public record DeleteRefTestEntityZeroOrOneToZeroOrManyToTestEntityZeroOrManyToZeroOrOneCommand(TestEntityZeroOrOneToZeroOrManyKeyDto EntityKeyDto, TestEntityZeroOrManyToZeroOrOneKeyDto RelatedEntityKeyDto)
+	: RefTestEntityZeroOrOneToZeroOrManyToTestEntityZeroOrManyToZeroOrOneCommand(EntityKeyDto, RelatedEntityKeyDto);
+
+internal partial class DeleteRefTestEntityZeroOrOneToZeroOrManyToTestEntityZeroOrManyToZeroOrOneCommandHandler
+	: RefTestEntityZeroOrOneToZeroOrManyToTestEntityZeroOrManyToZeroOrOneCommandHandlerBase<DeleteRefTestEntityZeroOrOneToZeroOrManyToTestEntityZeroOrManyToZeroOrOneCommand>
+{
+	public DeleteRefTestEntityZeroOrOneToZeroOrManyToTestEntityZeroOrManyToZeroOrOneCommandHandler(
+		TestWebAppDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Delete)
+	{ }
+}
+
+public record DeleteAllRefTestEntityZeroOrOneToZeroOrManyToTestEntityZeroOrManyToZeroOrOneCommand(TestEntityZeroOrOneToZeroOrManyKeyDto EntityKeyDto)
+	: RefTestEntityZeroOrOneToZeroOrManyToTestEntityZeroOrManyToZeroOrOneCommand(EntityKeyDto, null);
+
+internal partial class DeleteAllRefTestEntityZeroOrOneToZeroOrManyToTestEntityZeroOrManyToZeroOrOneCommandHandler
+	: RefTestEntityZeroOrOneToZeroOrManyToTestEntityZeroOrManyToZeroOrOneCommandHandlerBase<DeleteAllRefTestEntityZeroOrOneToZeroOrManyToTestEntityZeroOrManyToZeroOrOneCommand>
+{
+	public DeleteAllRefTestEntityZeroOrOneToZeroOrManyToTestEntityZeroOrManyToZeroOrOneCommandHandler(
+		TestWebAppDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider
+		)
+		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+	{ }
+}
+
+internal abstract class RefTestEntityZeroOrOneToZeroOrManyToTestEntityZeroOrManyToZeroOrOneCommandHandlerBase<TRequest> : CommandBase<TRequest, TestEntityZeroOrOneToZeroOrMany>,
+	IRequestHandler <TRequest, bool> where TRequest : RefTestEntityZeroOrOneToZeroOrManyToTestEntityZeroOrManyToZeroOrOneCommand
+{
+	public TestWebAppDbContext DbContext { get; }
+
+	public RelationshipAction Action { get; }
+
+	public enum RelationshipAction { Create, Delete, DeleteAll };
+
+	public RefTestEntityZeroOrOneToZeroOrManyToTestEntityZeroOrManyToZeroOrOneCommandHandlerBase(
+		TestWebAppDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		RelationshipAction action)
+		: base(noxSolution, serviceProvider)
+	{
+		DbContext = dbContext;
+		Action = action;
+	}
+
+	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
+		var keyId = CreateNoxTypeForKey<TestEntityZeroOrOneToZeroOrMany, Nox.Types.Text>("Id", request.EntityKeyDto.keyId);
+		var entity = await DbContext.TestEntityZeroOrOneToZeroOrManies.FindAsync(keyId);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		TestEntityZeroOrManyToZeroOrOne? relatedEntity = null!;
+		if(request.RelatedEntityKeyDto is not null)
+		{
+			var relatedKeyId = CreateNoxTypeForKey<TestEntityZeroOrManyToZeroOrOne, Nox.Types.Text>("Id", request.RelatedEntityKeyDto.keyId);
+			relatedEntity = await DbContext.TestEntityZeroOrManyToZeroOrOnes.FindAsync(relatedKeyId);
+			if (relatedEntity == null)
+			{
+				return false;
+			}
+		}
+
+		switch (Action)
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToTestEntityZeroOrManyToZeroOrOne(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToTestEntityZeroOrManyToZeroOrOne(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
+				entity.DeleteAllRefToTestEntityZeroOrManyToZeroOrOne();
+				break;
+		}
+
+		OnCompleted(request, entity);
+
+		DbContext.Entry(entity).State = EntityState.Modified;
+		var result = await DbContext.SaveChangesAsync();
+		return true;
+	}
+}

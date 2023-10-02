@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Nox.Generator.TestData": {
+      "commandName": "Project",
+      "commandLineArgs": "\"DatabaseIntegrationTests/Design/test.solution.nox.yaml\" \"../../../DatabaseIntegrationTests/Models/\""
+    }
+  }
+}

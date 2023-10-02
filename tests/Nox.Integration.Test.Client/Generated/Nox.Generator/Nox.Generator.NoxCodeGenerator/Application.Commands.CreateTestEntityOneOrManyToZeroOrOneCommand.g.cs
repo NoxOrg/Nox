@@ -1,0 +1,72 @@
+﻿﻿// Generated
+
+#nullable enable
+
+using MediatR;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
+using Nox.Application;
+using Nox.Application.Commands;
+using Nox.Factories;
+using Nox.Solution;
+
+using TestWebApp.Infrastructure.Persistence;
+using TestWebApp.Domain;
+using TestWebApp.Application.Dto;
+using TestEntityOneOrManyToZeroOrOne = TestWebApp.Domain.TestEntityOneOrManyToZeroOrOne;
+
+namespace TestWebApp.Application.Commands;
+
+public record CreateTestEntityOneOrManyToZeroOrOneCommand(TestEntityOneOrManyToZeroOrOneCreateDto EntityDto) : IRequest<TestEntityOneOrManyToZeroOrOneKeyDto>;
+
+internal partial class CreateTestEntityOneOrManyToZeroOrOneCommandHandler: CreateTestEntityOneOrManyToZeroOrOneCommandHandlerBase
+{
+	public CreateTestEntityOneOrManyToZeroOrOneCommandHandler(
+		TestWebAppDbContext dbContext,
+		NoxSolution noxSolution,
+		IEntityFactory<TestEntityZeroOrOneToOneOrMany, TestEntityZeroOrOneToOneOrManyCreateDto, TestEntityZeroOrOneToOneOrManyUpdateDto> testentityzerooronetooneormanyfactory,
+		IEntityFactory<TestEntityOneOrManyToZeroOrOne, TestEntityOneOrManyToZeroOrOneCreateDto, TestEntityOneOrManyToZeroOrOneUpdateDto> entityFactory,
+		IServiceProvider serviceProvider)
+		: base(dbContext, noxSolution,testentityzerooronetooneormanyfactory, entityFactory, serviceProvider)
+	{
+	}
+}
+
+
+internal abstract class CreateTestEntityOneOrManyToZeroOrOneCommandHandlerBase: CommandBase<CreateTestEntityOneOrManyToZeroOrOneCommand,TestEntityOneOrManyToZeroOrOne>, IRequestHandler <CreateTestEntityOneOrManyToZeroOrOneCommand, TestEntityOneOrManyToZeroOrOneKeyDto>
+{
+	private readonly TestWebAppDbContext _dbContext;
+	private readonly IEntityFactory<TestEntityOneOrManyToZeroOrOne, TestEntityOneOrManyToZeroOrOneCreateDto, TestEntityOneOrManyToZeroOrOneUpdateDto> _entityFactory;
+	private readonly IEntityFactory<TestEntityZeroOrOneToOneOrMany, TestEntityZeroOrOneToOneOrManyCreateDto, TestEntityZeroOrOneToOneOrManyUpdateDto> _testentityzerooronetooneormanyfactory;
+
+	public CreateTestEntityOneOrManyToZeroOrOneCommandHandlerBase(
+		TestWebAppDbContext dbContext,
+		NoxSolution noxSolution,
+		IEntityFactory<TestEntityZeroOrOneToOneOrMany, TestEntityZeroOrOneToOneOrManyCreateDto, TestEntityZeroOrOneToOneOrManyUpdateDto> testentityzerooronetooneormanyfactory,
+		IEntityFactory<TestEntityOneOrManyToZeroOrOne, TestEntityOneOrManyToZeroOrOneCreateDto, TestEntityOneOrManyToZeroOrOneUpdateDto> entityFactory,
+		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+	{
+		_dbContext = dbContext;
+		_entityFactory = entityFactory;
+		_testentityzerooronetooneormanyfactory = testentityzerooronetooneormanyfactory;
+	}
+
+	public virtual async Task<TestEntityOneOrManyToZeroOrOneKeyDto> Handle(CreateTestEntityOneOrManyToZeroOrOneCommand request, CancellationToken cancellationToken)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
+
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		foreach(var relatedCreateDto in request.EntityDto.TestEntityZeroOrOneToOneOrMany)
+		{
+			var relatedEntity = _testentityzerooronetooneormanyfactory.CreateEntity(relatedCreateDto);
+			entityToCreate.CreateRefToTestEntityZeroOrOneToOneOrMany(relatedEntity);
+		}
+
+		OnCompleted(request, entityToCreate);
+		_dbContext.TestEntityOneOrManyToZeroOrOnes.Add(entityToCreate);
+		await _dbContext.SaveChangesAsync();
+		return new TestEntityOneOrManyToZeroOrOneKeyDto(entityToCreate.Id.Value);
+	}
+}

@@ -100,6 +100,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptocash.Tests", "..\samp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.ClientApi.Tests", "Nox.ClientApi.Tests\Nox.ClientApi.Tests.csproj", "{32312EDB-D27D-4BD7-98B6-D158766C2CDF}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Integration.Test.Client", "..\tests\Nox.Integration.Test.Client\Nox.Integration.Test.Client.csproj", "{3A0D0727-3EDF-4360-B1F3-B913B1F66FD3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -226,6 +228,10 @@ Global
 		{32312EDB-D27D-4BD7-98B6-D158766C2CDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32312EDB-D27D-4BD7-98B6-D158766C2CDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32312EDB-D27D-4BD7-98B6-D158766C2CDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A0D0727-3EDF-4360-B1F3-B913B1F66FD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A0D0727-3EDF-4360-B1F3-B913B1F66FD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A0D0727-3EDF-4360-B1F3-B913B1F66FD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A0D0727-3EDF-4360-B1F3-B913B1F66FD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
