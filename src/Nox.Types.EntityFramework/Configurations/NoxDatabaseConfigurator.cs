@@ -234,8 +234,7 @@ namespace Nox.Types.EntityFramework.Configurations
             NoxSimpleTypeDefinition key)
         {
             // Key type of the Foreign Entity Key
-            var keyType = codeGeneratorState.Solution.GetSingleKeyTypeForEntity(key.EntityIdTypeOptions!.Entity);
-            var foreignEntityKeyType = keyType;
+            var foreignEntityKeyType = codeGeneratorState.Solution.GetSingleKeyTypeForEntity(key.EntityIdTypeOptions!.Entity);
 
             builder
             .HasOne(key.EntityIdTypeOptions!.Entity)
