@@ -18,7 +18,7 @@ using Nox.Messaging.InMemoryBus;
 
 namespace Nox.Configuration
 {
-    internal sealed class NoxBuilderConfigurator : INoxBuilderConfigurator
+    internal sealed class NoxBuilder : INoxBuilder
     {
         private Assembly? _clientAssembly;
         private NoxSolution? _noxSolution;
@@ -82,7 +82,7 @@ namespace Nox.Configuration
             };
         }
 
-        public void SetClientAssembly(Assembly serviceAssembly)
+        public void WithClientAssembly(Assembly serviceAssembly)
         {
             if (serviceAssembly is null)
             {
