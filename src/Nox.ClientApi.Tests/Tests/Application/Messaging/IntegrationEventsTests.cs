@@ -70,7 +70,7 @@ namespace ClientApi.Tests.Application.Messaging
             var createDto = new CountryCreateDto
             {
                 Name = _fixture.Create<string>(),
-                Population = 10_000,
+                Population = 99_999_999,
             };
 
             var createResult = await PostAsync<CountryCreateDto, CountryDto>(CountriesControllerName, createDto);
