@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Nox.Configuration
 {
-    public interface INoxBuilderConfigurator
+    public interface INoxBuilder
     {
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace Nox.Configuration
         /// <summary>
         /// Defines the client assembly, used for testing purposes mainly
         /// </summary>
-        void SetClientAssembly(Assembly clientAssembly);
+        void WithClientAssembly(Assembly clientAssembly);
 
         /// <summary>
         /// Set the generated DbContext for Dto and Entities

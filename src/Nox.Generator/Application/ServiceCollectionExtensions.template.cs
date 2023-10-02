@@ -22,7 +22,12 @@ internal static class {{className}}
         return services.AddNox(null, null);
     }
 
-    public static IServiceCollection AddNox(this IServiceCollection services, Action<INoxBuilderConfigurator>? configureNox, Action<ODataModelBuilder>? configureNoxOdata)
+    public static IServiceCollection AddNox(this WebApplicationBuilder webApplicationBuilder, Action<INoxBuilder>? configureNox = null, Action<ODataModelBuilder>? configureNoxOdata = null)
+    {
+        return webApplicationBuilder.Services.AddNox(configureNox, configureNoxOdata);
+    }
+
+    public static IServiceCollection AddNox(this IServiceCollection services, Action<INoxBuilder>? configureNox, Action<ODataModelBuilder>? configureNoxOdata)
     {
         services.AddNoxLib(configurator =>
         {
