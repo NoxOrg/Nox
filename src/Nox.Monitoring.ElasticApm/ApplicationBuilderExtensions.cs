@@ -1,14 +1,13 @@
 using Elastic.Apm.NetCoreAll;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Nox.Solution;
 using Nox.Solution.Exceptions;
 
 namespace Nox.Monitoring.ElasticApm;
 
-public static class MiddlewareExtension
+public static class ApplicationBuilderExtensions
 {
-    public static IApplicationBuilder UseNoxElasticMonitoring(this IApplicationBuilder builder)
+    public static IApplicationBuilder UseNoxAllElasticApm(this IApplicationBuilder builder)
     {
         var solution = builder.ApplicationServices.GetService<Solution.Solution>();
         if (solution == null) throw new NoxSolutionConfigurationException("Nox solution definition is not defined. If you want to use monitoring you have to provide a Nox yaml definition.");
@@ -20,5 +19,4 @@ public static class MiddlewareExtension
         builder.UseAllElasticApm(config);
         return builder;
     }
-    
 }

@@ -10,14 +10,18 @@ namespace Nox
 {
     public static class ApplicationBuilderBuilderExtensions
     {
-        public static void UseNox(this IApplicationBuilder builder)
+        public static INoxBuilder UseNox(this IApplicationBuilder builder)
         {
-#if DEBUG
-            builder.UseODataRouteDebug();
-#endif
+
             builder.UseMiddleware<NoxExceptionHanderMiddleware>();
 
             builder.UseRequestLocalization();
+
+            var noxBuilder = new NoxBuilder(builder);
+#if DEBUG
+            noxBuilder.UseODataRouteDebug();
+#endif
+            return noxBuilder;
         }
         
         private static IApplicationBuilder UseNoxLocalization(this IApplicationBuilder builder) 

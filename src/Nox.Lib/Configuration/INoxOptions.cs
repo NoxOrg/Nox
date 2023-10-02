@@ -1,12 +1,12 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using Serilog;
 
 namespace Nox.Configuration
 {
-    public interface INoxBuilder
+    public interface INoxOptions
     {
-
         /// <summary>
         /// Enable  Transactional Outbox for Messaging Integration Server
         /// Using the same DbContext to whare Domain Changes are saved
@@ -31,5 +31,16 @@ namespace Nox.Configuration
         /// <typeparam name="D"></typeparam>
         void WithDatabaseContexts<T, D>() where T : DbContext where D : DbContext;
 
+        /// <summary>
+        /// Disable default Nox Logging
+        /// </summary>
+        void WithoutNoxLogging();
+
+        /// <summary>
+        /// Get Nox Serilog Configuration to add custom configuration
+        /// This will enable default Nox Logging
+        /// </summary>
+        /// <param name="loggerConfiguration"></param>
+        void WithNoxLogging(Action<LoggerConfiguration> loggerConfiguration);
     }
 }

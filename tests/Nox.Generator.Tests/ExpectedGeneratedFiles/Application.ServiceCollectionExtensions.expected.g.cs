@@ -15,19 +15,23 @@ using TestWebApp.Presentation.Api.OData;
 
 internal static class ServiceCollectionExtensions
 {
+    /// <summary>
+    /// Use for testing without a WebApplicationBuilder
+    /// Do not use directly on production code
+    /// </summary>
     public static IServiceCollection AddNox(this IServiceCollection services)
     {
-        return services.AddNox(null, null);
+        return services.AddNox(null, null, null);
     }
 
-    public static IServiceCollection AddNox(this WebApplicationBuilder webApplicationBuilder, Action<INoxBuilder>? configureNox = null, Action<ODataModelBuilder>? configureNoxOdata = null)
+    public static IServiceCollection AddNox(this WebApplicationBuilder webApplicationBuilder, Action<INoxOptions>? configureNox = null, Action<ODataModelBuilder>? configureNoxOdata = null)
     {
-        return webApplicationBuilder.Services.AddNox(configureNox, configureNoxOdata);
+        return webApplicationBuilder.Services.AddNox(webApplicationBuilder, configureNox, configureNoxOdata);
     }
 
-    public static IServiceCollection AddNox(this IServiceCollection services, Action<INoxBuilder>? configureNox, Action<ODataModelBuilder>? configureNoxOdata)
+    public static IServiceCollection AddNox(this IServiceCollection services, WebApplicationBuilder? webApplicationBuilder, Action<INoxOptions>? configureNox, Action<ODataModelBuilder>? configureNoxOdata)
     {
-        services.AddNoxLib(configurator =>
+        services.AddNoxLib(webApplicationBuilder, configurator =>
         {
             configurator.WithDatabaseContexts<TestWebAppDbContext, DtoDbContext>();
             configurator.WithMessagingTransactionalOutbox<TestWebAppDbContext>();
