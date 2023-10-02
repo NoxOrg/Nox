@@ -39,6 +39,8 @@
 		<PackageReference Include="MediatR" Version="12.1.1" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Scrutor" Version="4.2.2" />
+		<PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
+		<PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
 		<PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.3" />
@@ -55,6 +57,7 @@
 		<ProjectReference Include="..\Nox.EntityFramework.Postgres\Nox.EntityFramework.Postgres.csproj" />
 		<ProjectReference Include="..\Nox.EntityFramework.Sqlite\Nox.EntityFramework.Sqlite.csproj" />
 		<ProjectReference Include="..\Nox.EntityFramework.SqlServer\Nox.EntityFramework.SqlServer.csproj" />
+		<ProjectReference Include="..\Nox.Monitoring.ElasticApm\Nox.Monitoring.ElasticApm.csproj" />
 		<ProjectReference Include="..\Nox.Secrets\Nox.Secrets.csproj" />
 		<ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
 		<ProjectReference Include="..\Nox.Abstractions\Nox.Abstractions.csproj" />

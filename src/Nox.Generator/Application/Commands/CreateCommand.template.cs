@@ -1,6 +1,12 @@
 ﻿{{- func fieldFactoryName
 	ret (string.downcase $0 + "Factory")
 end -}}
+{{- func relatedKeyName
+	ret ("relatedKey" + $0)
+end -}}
+{{- func keysQuery(keyNames)	
+	ret (keyNames | array.each @relatedKeyName | array.join ", ")
+end -}}
 ﻿// Generated
 
 #nullable enable
@@ -13,6 +19,8 @@ using Nox.Abstractions;
 {{- end}}
 using Nox.Application;
 using Nox.Application.Commands;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Factories;
 using Nox.Solution;
 
@@ -72,7 +80,29 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase: CommandBase<Cre
 
 	{{- for relationship in entity.Relationships }}
 		{{- if relationship.WithSingleEntity }}
-		if(request.EntityDto.{{relationship.Name}} is not null)
+		if(request.EntityDto.{{relationship.Name}}Id is not null)
+		{
+			{{- relatedEntity =  relationship.Related.Entity }}
+			{{- if (array.size relatedEntity.Keys) == 1 }}
+
+			{{- key = array.first relatedEntity.Keys }}
+			var relatedKey = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{relationship.Name}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>());
+			var relatedEntity = await _dbContext.{{relatedEntity.PluralName}}.FindAsync(relatedKey);
+			
+			{{- else }}
+
+			{{- for key in relatedEntity.Keys }}
+			var relatedKey{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}request.EntityDto.{{relationship.Name}}Id!.key{{key.Name}});
+			{{- end }}
+			var relatedEntity = await _dbContext.{{relatedEntity.PluralName}}.FindAsync({{relatedEntity.Keys | array.map "Name" | keysQuery}});
+			
+			{{- end }}
+			if(relatedEntity is not null)
+				entityToCreate.CreateRefTo{{relationship.Name}}(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("{{relationship.Name}}", request.EntityDto.{{relationship.Name}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>().ToString());
+		}
+		else if(request.EntityDto.{{relationship.Name}} is not null)
 		{
 			var relatedEntity = _{{fieldFactoryName relationship.Entity}}.CreateEntity(request.EntityDto.{{relationship.Name}});
 			entityToCreate.CreateRefTo{{relationship.Name}}(relatedEntity);
