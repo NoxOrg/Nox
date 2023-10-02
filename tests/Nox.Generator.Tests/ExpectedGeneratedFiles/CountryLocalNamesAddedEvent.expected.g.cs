@@ -20,7 +20,7 @@ public partial class CountryLocalNamesAddedEvent : IIntegrationEvent
     public IEnumerable<CountryLocalNameInfo> CountryLocalNameInfos { get; set; } = default!;
 }
 
-public class CountryLocalNameInfoDto
+public class CountryLocalNameInfo
 { 
     /// <summary>
     /// The identifier of the country. The Iso alpha 2 code.

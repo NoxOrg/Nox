@@ -1,6 +1,6 @@
 ﻿
 {{- if integrationEvent.ArrayTypeOptions -}}
-{{ isCollection = true -}}
+{{ isArray = true -}}
 {{ nestedClassName = integrationEvent.ArrayTypeOptions.Name -}}
 {{ attributes = integrationEvent.ArrayTypeOptions.ObjectTypeOptions.Attributes -}}
 {{- else if integrationEvent.CollectionTypeOptions -}}
@@ -46,12 +46,12 @@ public partial class {{className}} : IIntegrationEvent
 {{- end }}
 {{ end -}}
 {{ else }}
-    public {{if isArray}}{{className}}[]{{else}}IEnumerable<{{nestedClassName}}>{{end}} {{nestedClassName}}s { get; set; } = default!;
+    public {{if isArray}}{{nestedClassName}}[]{{else}}IEnumerable<{{nestedClassName}}>{{end}} {{nestedClassName}}s { get; set; } = default!;
 {{ end -}}
 }
 {{- if isArray || isCollection }}
 
-public class {{nestedClassName}}{{if !(nestedClassName | string.ends_with "Dto")}}Dto{{end}}
+public class {{nestedClassName}}
 {
 {{- for attribute in attributes -}}
 {{- if attribute.Description }} 

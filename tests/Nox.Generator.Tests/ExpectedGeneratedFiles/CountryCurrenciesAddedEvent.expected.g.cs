@@ -6,7 +6,7 @@ using Nox.Abstractions;
 using Nox.Application;
 using Nox.Types;
 
-using System.Collections.Generic;
+
 
 using SampleWebApp.Application.Dto;
 
@@ -17,10 +17,10 @@ namespace SampleWebApp.Application.IntegrationEvents;
 /// </summary>
 public partial class CountryCurrenciesAddedEvent : IIntegrationEvent
 {
-    public IEnumerable<CurrencyInfo> CurrencyInfos { get; set; } = default!;
+    public CurrencyInfo[] CurrencyInfos { get; set; } = default!;
 }
 
-public class CurrencyInfoDto
+public class CurrencyInfo
 { 
     /// <summary>
     /// The identifier of the country. The Iso alpha 2 code.
