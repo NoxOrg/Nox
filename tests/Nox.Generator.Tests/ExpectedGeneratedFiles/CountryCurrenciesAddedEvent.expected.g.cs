@@ -6,16 +6,21 @@ using Nox.Abstractions;
 using Nox.Application;
 using Nox.Types;
 
-
+using System.Collections.Generic;
 
 using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.IntegrationEvents;
 
 /// <summary>
-/// An application event raised when the name of a country changes.
+/// An integration event raised when multiple currencies are added.
 /// </summary>
-public partial class CountryNameChangedAppEvent : IIntegrationEvent
+public partial class CountryCurrenciesAddedEvent : IIntegrationEvent
+{
+    public IEnumerable<CurrencyInfo> CurrencyInfos { get; set; } = default!;
+}
+
+public class CurrencyInfoDto
 { 
     /// <summary>
     /// The identifier of the country. The Iso alpha 2 code.
@@ -23,7 +28,7 @@ public partial class CountryNameChangedAppEvent : IIntegrationEvent
     public System.String? CountryId { get; set; }
  
     /// <summary>
-    /// The new name of the country.
+    /// The identifier of the currency.
     /// </summary>
-    public System.String? CountryName { get; set; }
+    public System.String? CurrencyId { get; set; }
 }
