@@ -29,9 +29,8 @@ internal partial class CreateCustomerCommandHandler: CreateCustomerCommandHandle
 		IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> bookingfactory,
 		IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> transactionfactory,
 		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
-		IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,paymentdetailfactory, bookingfactory, transactionfactory, countryfactory, entityFactory, serviceProvider)
+		IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,paymentdetailfactory, bookingfactory, transactionfactory, countryfactory, entityFactory)
 	{
 	}
 }
@@ -53,8 +52,7 @@ internal abstract class CreateCustomerCommandHandlerBase: CommandBase<CreateCust
 		IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> bookingfactory,
 		IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> transactionfactory,
 		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
-		IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

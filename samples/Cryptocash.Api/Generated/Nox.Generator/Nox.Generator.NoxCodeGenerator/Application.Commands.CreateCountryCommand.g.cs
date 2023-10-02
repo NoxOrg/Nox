@@ -29,9 +29,8 @@ internal partial class CreateCountryCommandHandler: CreateCountryCommandHandlerB
 		IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> commissionfactory,
 		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
 		IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> customerfactory,
-		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,currencyfactory, commissionfactory, vendingmachinefactory, customerfactory, entityFactory, serviceProvider)
+		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,currencyfactory, commissionfactory, vendingmachinefactory, customerfactory, entityFactory)
 	{
 	}
 }
@@ -53,8 +52,7 @@ internal abstract class CreateCountryCommandHandlerBase: CommandBase<CreateCount
 		IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> commissionfactory,
 		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
 		IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> customerfactory,
-		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

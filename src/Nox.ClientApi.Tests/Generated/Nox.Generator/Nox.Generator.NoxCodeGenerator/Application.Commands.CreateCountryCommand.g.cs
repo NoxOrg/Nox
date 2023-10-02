@@ -26,9 +26,8 @@ internal partial class CreateCountryCommandHandler: CreateCountryCommandHandlerB
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> workplacefactory,
-		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,workplacefactory, entityFactory, serviceProvider)
+		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,workplacefactory, entityFactory)
 	{
 	}
 }
@@ -44,8 +43,7 @@ internal abstract class CreateCountryCommandHandlerBase: CommandBase<CreateCount
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> workplacefactory,
-		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

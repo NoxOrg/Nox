@@ -23,8 +23,7 @@ internal class PartialUpdateCommissionCommandHandler: PartialUpdateCommissionCom
 	public PartialUpdateCommissionCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,8 +35,7 @@ internal class PartialUpdateCommissionCommandHandlerBase: CommandBase<PartialUpd
 	public PartialUpdateCommissionCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
+		IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -47,7 +45,7 @@ internal class PartialUpdateCommissionCommandHandlerBase: CommandBase<PartialUpd
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Commission,Nox.Types.AutoNumber>("Id", request.keyId);
+		var keyId = Cryptocash.Domain.CommissionMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Commissions.FindAsync(keyId);
 		if (entity == null)

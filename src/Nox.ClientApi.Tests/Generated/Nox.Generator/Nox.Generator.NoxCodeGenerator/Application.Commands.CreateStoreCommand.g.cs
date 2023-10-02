@@ -27,9 +27,8 @@ internal partial class CreateStoreCommandHandler: CreateStoreCommandHandlerBase
 		NoxSolution noxSolution,
 		IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> storeownerfactory,
 		IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> storelicensefactory,
-		IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,storeownerfactory, storelicensefactory, entityFactory, serviceProvider)
+		IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,storeownerfactory, storelicensefactory, entityFactory)
 	{
 	}
 }
@@ -47,8 +46,7 @@ internal abstract class CreateStoreCommandHandlerBase: CommandBase<CreateStoreCo
 		NoxSolution noxSolution,
 		IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> storeownerfactory,
 		IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> storelicensefactory,
-		IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

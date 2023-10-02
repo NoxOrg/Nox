@@ -29,9 +29,8 @@ internal partial class CreateBookingCommandHandler: CreateBookingCommandHandlerB
 		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
 		IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> commissionfactory,
 		IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> transactionfactory,
-		IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,customerfactory, vendingmachinefactory, commissionfactory, transactionfactory, entityFactory, serviceProvider)
+		IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,customerfactory, vendingmachinefactory, commissionfactory, transactionfactory, entityFactory)
 	{
 	}
 }
@@ -53,8 +52,7 @@ internal abstract class CreateBookingCommandHandlerBase: CommandBase<CreateBooki
 		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
 		IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> commissionfactory,
 		IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> transactionfactory,
-		IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
