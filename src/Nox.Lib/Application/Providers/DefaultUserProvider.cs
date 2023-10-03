@@ -6,6 +6,8 @@ namespace Nox.Application.Providers;
 
 public class DefaultUserProvider : IUserProvider
 {
+    private const string UserNameHeader = "X-User-Name";
+    private const string DefaultUserName = "N/A";
     private readonly IHttpContextAccessor _httpContextAccessor;
 
     public DefaultUserProvider(IHttpContextAccessor httpContextAccessor) =>
@@ -17,8 +19,8 @@ public class DefaultUserProvider : IUserProvider
     /// <returns></returns>
     public string GetUser()
     {
-        var result = _httpContextAccessor.HttpContext?.Request.Headers["X-User-Name"].ToString();
-        result ??= string.Empty;
+        var result = _httpContextAccessor.HttpContext?.Request.Headers[UserNameHeader].ToString();
+        result ??= DefaultUserName;
         return result;
     }
 }

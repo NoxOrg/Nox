@@ -6,6 +6,8 @@ namespace Nox.Application.Providers;
 
 public class DefaultSystemProvider : ISystemProvider
 {
+    private const string SystemNameHeader = "X-System-Name";
+    private const string DefaultSystemName = "N/A";
     private readonly IHttpContextAccessor _httpContextAccessor;
 
     public DefaultSystemProvider(IHttpContextAccessor httpContextAccessor) =>
@@ -17,8 +19,8 @@ public class DefaultSystemProvider : ISystemProvider
     /// <returns></returns>
     public string GetSystem()
     {
-        var result = _httpContextAccessor.HttpContext?.Request.Headers["X-System-Name"].ToString();
-        result ??= string.Empty;
+        var result = _httpContextAccessor.HttpContext?.Request.Headers[SystemNameHeader].ToString();
+        result ??= DefaultSystemName;
         return result;
     }
 }
