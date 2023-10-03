@@ -36,8 +36,7 @@ internal abstract class GetTransactionByIdQueryHandlerBase:  QueryBase<IQueryabl
         var query = DataDbContext.Transactions
             .AsNoTracking()
             .Where(r =>
-                r.Id.Equals(request.keyId) &&
-                r.DeletedAtUtc == null);
+                r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));
     }
 }

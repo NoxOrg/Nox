@@ -34,7 +34,6 @@ internal abstract class GetCashStockOrdersQueryHandlerBase : QueryBase<IQueryabl
     public virtual Task<IQueryable<CashStockOrderDto>> Handle(GetCashStockOrdersQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<CashStockOrderDto>)DataDbContext.CashStockOrders
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }

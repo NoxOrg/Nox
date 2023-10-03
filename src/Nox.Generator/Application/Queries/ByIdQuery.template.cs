@@ -37,13 +37,8 @@ internal abstract class Get{{entity.Name}}ByIdQueryHandlerBase:  QueryBase<IQuer
             .AsNoTracking()
             .Where(r =>                  
             {{- for key in entity.Keys }}
-                r.{{key.Name}}.Equals(request.key{{key.Name}}) && 
+                r.{{key.Name}}.Equals(request.key{{key.Name}}){{if !for.last}} &&{{end}}
             {{- end -}}
-            {{- if (entity.Persistence?.IsAudited ?? true)}}
-                r.DeletedAtUtc == null
-            {{- else}}
-                true
-            {{end -}}
             );
         return Task.FromResult(OnResponse(query));
     }

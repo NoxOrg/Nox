@@ -37,9 +37,7 @@ internal abstract class GetCountryQualityOfLifeIndexByIdQueryHandlerBase:  Query
             .AsNoTracking()
             .Where(r =>
                 r.CountryId.Equals(request.keyCountryId) &&
-                r.Id.Equals(request.keyId) &&
-                true
-            );
+                r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));
     }
 }

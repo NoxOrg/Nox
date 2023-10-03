@@ -98,6 +98,7 @@ internal partial class CryptocashDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
        
+        ConfigureAuditable(modelBuilder);
 
         if (_noxSolution.Domain != null)
         {
@@ -122,6 +123,23 @@ internal partial class CryptocashDbContext : DbContext
             modelBuilder.ForEntitiesOfType<IEntityConcurrent>(
                 builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());
         }
+    }
+
+    private void ConfigureAuditable(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Booking>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Commission>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Country>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Currency>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Customer>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<PaymentDetail>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Transaction>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Employee>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<LandLord>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<MinimumCashStock>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<PaymentProvider>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<VendingMachine>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<CashStockOrder>().HasQueryFilter(p => p.DeletedAtUtc == null);
     }
 
     /// <inheritdoc/>
