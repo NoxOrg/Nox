@@ -61,5 +61,7 @@ public abstract class StoreOwnerCreateDtoBase : IEntityDto<StoreOwner>
     /// <summary>
     /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores
     /// </summary>
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual List<StoreCreateDto> Stores { get; set; } = new();
 }
