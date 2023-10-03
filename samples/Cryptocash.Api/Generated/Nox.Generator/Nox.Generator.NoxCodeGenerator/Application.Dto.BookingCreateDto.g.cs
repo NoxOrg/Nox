@@ -70,23 +70,31 @@ public abstract class BookingCreateDtoBase : IEntityDto<Booking>
     /// Booking for ExactlyOne Customers
     /// </summary>
     public System.Int64? BookingForCustomerId { get; set; } = default!;
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual CustomerCreateDto? BookingForCustomer { get; set; } = default!;
 
     /// <summary>
     /// Booking related to ExactlyOne VendingMachines
     /// </summary>
     public System.Guid? BookingRelatedVendingMachineId { get; set; } = default!;
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual VendingMachineCreateDto? BookingRelatedVendingMachine { get; set; } = default!;
 
     /// <summary>
     /// Booking fees for ExactlyOne Commissions
     /// </summary>
     public System.Int64? BookingFeesForCommissionId { get; set; } = default!;
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual CommissionCreateDto? BookingFeesForCommission { get; set; } = default!;
 
     /// <summary>
     /// Booking related to ExactlyOne Transactions
     /// </summary>
     public System.Int64? BookingRelatedTransactionId { get; set; } = default!;
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual TransactionCreateDto? BookingRelatedTransaction { get; set; } = default!;
 }

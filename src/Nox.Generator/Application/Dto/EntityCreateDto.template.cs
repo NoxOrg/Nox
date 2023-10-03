@@ -66,8 +66,14 @@ public abstract class {{className}}Base : IEntityDto<{{entity.Name}}>
     /// </summary>
     {{- if relationship.WithSingleEntity }}
     public {{relationship.ForeignKeyPrimitiveType}}? {{relationship.Name}}Id { get; set; } = default!;
+    {{#Simplify Avoid complexity by not allowing circular dependency between dtos
+    #User Can set a relationship on the creation phase using the id (entity already exists), for single relations}}
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual {{relationship.Entity}}CreateDto? {{relationship.Name}} { get; set; } = default!;
     {{- else }}
+    {{#Simplify Avoid complexity by not allowing circular dependency between dtos
+    #TODO Allow to set a list of Ids for a *ToMany relations}}
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual List<{{relationship.Entity}}CreateDto> {{relationship.Name}} { get; set; } = new();
     {{-end}}
 {{- end }}

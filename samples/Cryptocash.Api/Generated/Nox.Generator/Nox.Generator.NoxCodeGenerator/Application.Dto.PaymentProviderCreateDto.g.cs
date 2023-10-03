@@ -40,5 +40,7 @@ public abstract class PaymentProviderCreateDtoBase : IEntityDto<PaymentProvider>
     /// <summary>
     /// PaymentProvider related to ZeroOrMany PaymentDetails
     /// </summary>
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual List<PaymentDetailCreateDto> PaymentProviderRelatedPaymentDetails { get; set; } = new();
 }

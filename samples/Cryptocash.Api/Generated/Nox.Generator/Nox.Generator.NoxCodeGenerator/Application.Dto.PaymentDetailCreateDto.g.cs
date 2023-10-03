@@ -45,11 +45,15 @@ public abstract class PaymentDetailCreateDtoBase : IEntityDto<PaymentDetail>
     /// PaymentDetail used by ExactlyOne Customers
     /// </summary>
     public System.Int64? PaymentDetailsUsedByCustomerId { get; set; } = default!;
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual CustomerCreateDto? PaymentDetailsUsedByCustomer { get; set; } = default!;
 
     /// <summary>
     /// PaymentDetail related to ExactlyOne PaymentProviders
     /// </summary>
     public System.Int64? PaymentDetailsRelatedPaymentProviderId { get; set; } = default!;
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual PaymentProviderCreateDto? PaymentDetailsRelatedPaymentProvider { get; set; } = default!;
 }
