@@ -34,7 +34,6 @@ internal abstract class GetStoreOwnersQueryHandlerBase : QueryBase<IQueryable<St
     public virtual Task<IQueryable<StoreOwnerDto>> Handle(GetStoreOwnersQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<StoreOwnerDto>)DataDbContext.StoreOwners
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }

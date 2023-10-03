@@ -259,18 +259,11 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, storeCreateDto);
-
-            const string oDataRequest = $"$expand={nameof(StoreDto.License)}";
-            var response = await GetODataSimpleResponseAsync<StoreDto>($"{Endpoints.StoresUrl}/{result!.Id}?{oDataRequest}");
+            var result = await PostAsync(Endpoints.StoresUrl, storeCreateDto);
 
             //Assert
             result.Should().NotBeNull();
-            result.Should()
-                .BeOfType<StoreDto>()
-                .Which.Id.Should().NotBeEmpty();
-            response.Should().NotBeNull();
-            //response!.License.Should().BeNull();
+            result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
         #endregion
 

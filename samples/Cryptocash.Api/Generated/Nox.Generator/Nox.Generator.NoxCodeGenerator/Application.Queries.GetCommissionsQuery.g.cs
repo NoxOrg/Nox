@@ -34,7 +34,6 @@ internal abstract class GetCommissionsQueryHandlerBase : QueryBase<IQueryable<Co
     public virtual Task<IQueryable<CommissionDto>> Handle(GetCommissionsQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<CommissionDto>)DataDbContext.Commissions
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }

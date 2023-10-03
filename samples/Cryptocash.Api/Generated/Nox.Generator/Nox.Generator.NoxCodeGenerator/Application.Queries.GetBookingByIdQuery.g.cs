@@ -36,8 +36,7 @@ internal abstract class GetBookingByIdQueryHandlerBase:  QueryBase<IQueryable<Bo
         var query = DataDbContext.Bookings
             .AsNoTracking()
             .Where(r =>
-                r.Id.Equals(request.keyId) &&
-                r.DeletedAtUtc == null);
+                r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));
     }
 }

@@ -69,6 +69,8 @@ internal class DtoDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
+        ConfigureAuditable(modelBuilder);
+
         if (_noxSolution.Domain != null)
         {
             var codeGeneratorState =
@@ -94,5 +96,13 @@ internal class DtoDbContext : DbContext
                 }
             }
         }
+    }
+
+    private void ConfigureAuditable(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<CountryDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<StoreDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<StoreOwnerDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<StoreLicenseDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
     }
 }
