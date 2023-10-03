@@ -37,10 +37,10 @@ public class AutoNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
         Entity entity,
         bool isKey)
     {
-        // If an attribute/key explicitly set to "AutoNumber" then it should be auto-incremented.
-        // If it's a foreign key of entit id type or relationship it shouldn't be auto-incremented.
+        // If a normal attribute or key then it should be auto-incremented.
+        // Otherwise If it's a foreign key of entity id type or relationship it shouldn't be auto-incremented.
         var shouldAutoincrement =
-            entity.Keys.Any(x => x.Name.Equals(property.Name, StringComparison.OrdinalIgnoreCase) && x.Type == property.Type) ||
+            isKey ||
             entity.Attributes.Any(x => x.Name.Equals(property.Name, StringComparison.OrdinalIgnoreCase) && x.Type == property.Type);
 
         if (shouldAutoincrement)
