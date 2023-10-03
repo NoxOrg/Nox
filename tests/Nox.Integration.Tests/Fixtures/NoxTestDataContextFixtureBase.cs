@@ -16,7 +16,7 @@ public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
     private const string _solutionSetupFileName = @"Nox.Integration.Tests.DatabaseIntegrationTests.Design.test.solution.nox.yaml";
     private readonly IServiceProvider _serviceProvider;
     protected TestWebAppDbContext _dbContext = default!;
-    protected Mock<IPublisher> _publisherFixture;
+    protected readonly Mock<IPublisher> _publisherFixture;
 
     protected NoxTestDataContextFixtureBase()
     {
