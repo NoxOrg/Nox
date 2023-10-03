@@ -8,11 +8,11 @@ using Xunit;
 
 namespace Nox.Generator.Tests.Application;
 
-public class ApplicationEventTests : IClassFixture<GeneratorFixture>
+public class IntegrationEventTests : IClassFixture<GeneratorFixture>
 {
     private readonly GeneratorFixture _fixture;
 
-    public ApplicationEventTests(GeneratorFixture fixture)
+    public IntegrationEventTests(GeneratorFixture fixture)
     {
         _fixture = fixture;
     }
@@ -24,7 +24,7 @@ public class ApplicationEventTests : IClassFixture<GeneratorFixture>
         var additionalFiles = new List<AdditionalSourceText>
         {
             new AdditionalSourceText(File.ReadAllText($"./{path}generator.nox.yaml"), $"{path}/generator.nox.yaml"),
-            new AdditionalSourceText(File.ReadAllText($"./{path}app-event.solution.nox.yaml"), $"{path}/app-event.solution.nox.yaml")
+            new AdditionalSourceText(File.ReadAllText($"./{path}integration-events.solution.nox.yaml"), $"{path}/integration-events.solution.nox.yaml")
         };
 
         // trackIncrementalGeneratorSteps allows to report info about each step of the generator

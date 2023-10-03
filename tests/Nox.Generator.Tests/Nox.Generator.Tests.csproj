@@ -100,7 +100,7 @@
     <None Update="files\yaml\domain\domain-events.solution.nox.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="files\yaml\application\app-event.solution.nox.yaml">
+    <None Update="files\yaml\application\integration-events.solution.nox.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="files\yaml\domain\command.solution.nox.yaml">
