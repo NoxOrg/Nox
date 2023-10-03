@@ -40,5 +40,7 @@ public abstract class TestEntityExactlyOneToOneOrManyCreateDtoBase : IEntityDto<
     /// TestEntityExactlyOneToOneOrMany Test entity relationship to TestEntityOneOrManyToExactlyOne ExactlyOne TestEntityOneOrManyToExactlyOnes
     /// </summary>
     public System.String? TestEntityOneOrManyToExactlyOneId { get; set; } = default!;
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual TestEntityOneOrManyToExactlyOneCreateDto? TestEntityOneOrManyToExactlyOne { get; set; } = default!;
 }

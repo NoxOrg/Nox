@@ -29,6 +29,7 @@
 	</Target>
 
 	<ItemGroup>
+		<Compile Remove="Application\**" />
 		<Compile Remove="Generated\**" />
 		<Content Include="Generated\**" />
 	</ItemGroup>
@@ -40,11 +41,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AdditionalFiles Remove="Application\**" />
+	  <EmbeddedResource Remove="Application\**" />
+	  <None Remove="Application\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<AdditionalFiles Include="generator.nox.yaml" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Application\Commands\" />
 		<Folder Include="Generated\" />
 	</ItemGroup>
 

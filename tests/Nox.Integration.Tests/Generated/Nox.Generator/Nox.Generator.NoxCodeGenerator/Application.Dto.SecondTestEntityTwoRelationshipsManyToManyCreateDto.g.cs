@@ -39,10 +39,14 @@ public abstract class SecondTestEntityTwoRelationshipsManyToManyCreateDtoBase : 
     /// <summary>
     /// SecondTestEntityTwoRelationshipsManyToMany First relationship to the same entity on the other side ZeroOrMany TestEntityTwoRelationshipsManyToManies
     /// </summary>
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual List<TestEntityTwoRelationshipsManyToManyCreateDto> TestRelationshipOneOnOtherSide { get; set; } = new();
 
     /// <summary>
     /// SecondTestEntityTwoRelationshipsManyToMany Second relationship to the same entity on the other side ZeroOrMany TestEntityTwoRelationshipsManyToManies
     /// </summary>
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual List<TestEntityTwoRelationshipsManyToManyCreateDto> TestRelationshipTwoOnOtherSide { get; set; } = new();
 }

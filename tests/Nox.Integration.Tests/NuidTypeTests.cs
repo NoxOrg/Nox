@@ -14,7 +14,7 @@ public class NuidTypeTests : NoxIntegrationContainerTestBase<NoxTestSqliteFixtur
 
     public NuidTypeTests(NoxTestSqliteFixture fixture) : base(fixture)
     {
-        _dbContext = (TestWebAppDbContext) fixture.DataContext;
+        _dbContext = (TestWebAppDbContext)fixture.DataContext;
     }
 
     [Fact]

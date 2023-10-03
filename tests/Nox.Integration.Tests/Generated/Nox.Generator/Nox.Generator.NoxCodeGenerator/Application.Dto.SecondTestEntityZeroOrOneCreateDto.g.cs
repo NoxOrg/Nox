@@ -40,5 +40,7 @@ public abstract class SecondTestEntityZeroOrOneCreateDtoBase : IEntityDto<Second
     /// SecondTestEntityZeroOrOne Test entity relationship to TestEntity ZeroOrOne TestEntityZeroOrOnes
     /// </summary>
     public System.String? TestEntityZeroOrOneRelationshipId { get; set; } = default!;
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual TestEntityZeroOrOneCreateDto? TestEntityZeroOrOneRelationship { get; set; } = default!;
 }

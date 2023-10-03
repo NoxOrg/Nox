@@ -15,6 +15,29 @@ variables:
   DATABASE_PASSWORD: Developer*123
   DATABASE_PORT: "5432"
 
+infrastructure:
+  
+  persistence:
+
+    databaseServer: # tests will override this configuration
+      name: ClientApi
+      provider: sqlServer      
+      options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True
+      serverUri: localhost
+      user: sa  
+      password: Developer*123
+      # provider: sqLite      
+      # #options: "DataSource=:memory:"
+      # options: "Data Source=Client.db"
+      # serverUri: "localhost"
+      # user: "sa"  
+      # password: "pwd"
+      
+  messaging:
+    integrationEventServer:       
+      name: IntegrationBus
+      provider: inMemory      
+
 environments:
 
   - name: dev

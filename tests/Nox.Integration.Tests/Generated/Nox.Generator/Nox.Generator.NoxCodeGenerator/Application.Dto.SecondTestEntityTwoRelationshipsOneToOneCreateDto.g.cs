@@ -40,11 +40,15 @@ public abstract class SecondTestEntityTwoRelationshipsOneToOneCreateDtoBase : IE
     /// SecondTestEntityTwoRelationshipsOneToOne First relationship to the same entity on the other side ZeroOrOne TestEntityTwoRelationshipsOneToOnes
     /// </summary>
     public System.String? TestRelationshipOneOnOtherSideId { get; set; } = default!;
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual TestEntityTwoRelationshipsOneToOneCreateDto? TestRelationshipOneOnOtherSide { get; set; } = default!;
 
     /// <summary>
     /// SecondTestEntityTwoRelationshipsOneToOne Second relationship to the same entity on the other side ZeroOrOne TestEntityTwoRelationshipsOneToOnes
     /// </summary>
     public System.String? TestRelationshipTwoOnOtherSideId { get; set; } = default!;
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual TestEntityTwoRelationshipsOneToOneCreateDto? TestRelationshipTwoOnOtherSide { get; set; } = default!;
 }

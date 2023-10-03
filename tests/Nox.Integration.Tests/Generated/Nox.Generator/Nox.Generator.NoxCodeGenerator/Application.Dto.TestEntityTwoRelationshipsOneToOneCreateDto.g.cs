@@ -40,11 +40,15 @@ public abstract class TestEntityTwoRelationshipsOneToOneCreateDtoBase : IEntityD
     /// TestEntityTwoRelationshipsOneToOne First relationship to the same entity ExactlyOne SecondTestEntityTwoRelationshipsOneToOnes
     /// </summary>
     public System.String? TestRelationshipOneId { get; set; } = default!;
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual SecondTestEntityTwoRelationshipsOneToOneCreateDto? TestRelationshipOne { get; set; } = default!;
 
     /// <summary>
     /// TestEntityTwoRelationshipsOneToOne Second relationship to the same entity ExactlyOne SecondTestEntityTwoRelationshipsOneToOnes
     /// </summary>
     public System.String? TestRelationshipTwoId { get; set; } = default!;
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual SecondTestEntityTwoRelationshipsOneToOneCreateDto? TestRelationshipTwo { get; set; } = default!;
 }
