@@ -82,64 +82,39 @@ global using global::Microsoft.AspNetCore.Builder;";
 
     private static IEnumerable<MetadataReference> GetReferences()
     {
-        var executingPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-        var dllFiles = Directory.GetFiles(executingPath!, "*.dll");
-
+        
         var referencePaths = new HashSet<string>();
 
         var references = new List<MetadataReference>();
 
-        foreach (var dllFile in dllFiles)
-        {
-            if (referencePaths.Contains(Path.GetFileName(dllFile)))
-                continue;
-            if (!IsManagedAssembly(dllFile))
-            {
-                referencePaths.Add(Path.GetFileName(dllFile));
-                continue;
-            }
+        AddMetadataReferenceFromDlls(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), referencePaths, references);
 
-            referencePaths.Add(Path.GetFileName(dllFile));
-            references.Add(MetadataReference.CreateFromFile(dllFile));
-        }
+        AddMetadataReferenceFromDlls(Path.GetDirectoryName(typeof(IServiceCollection).Assembly.Location)!, referencePaths, references);
 
-        dllFiles = Directory.GetFiles(Path.GetDirectoryName(typeof(IServiceCollection).Assembly.Location)!, "*.dll");
-
-        foreach (var dllFile in dllFiles)
-        {
-            if (referencePaths.Contains(Path.GetFileName(dllFile)))
-                continue;
-            if (!IsManagedAssembly(dllFile))
-            {
-                referencePaths.Add(Path.GetFileName(dllFile));
-                continue;
-            }
-
-            referencePaths.Add(Path.GetFileName(dllFile));
-            references.Add(MetadataReference.CreateFromFile(dllFile));
-        }
-
-        dllFiles = Directory.GetFiles(Path.GetDirectoryName(typeof(JsonDocument).Assembly.Location)!, "*.dll");
-
-        foreach (var dllFile in dllFiles)
-        {
-            if (referencePaths.Contains(Path.GetFileName(dllFile)))
-                continue;
-            if (!IsManagedAssembly(dllFile))
-            {
-                referencePaths.Add(Path.GetFileName(dllFile));
-                continue;
-            }
-
-            referencePaths.Add(Path.GetFileName(dllFile));
-            references.Add(MetadataReference.CreateFromFile(dllFile));
-        }
-
+        AddMetadataReferenceFromDlls(Path.GetDirectoryName(typeof(JsonDocument).Assembly.Location)!, referencePaths, references);
 
         return references;
     }
 
+    private static void AddMetadataReferenceFromDlls(string executingPath, HashSet<string> referencePaths, List<MetadataReference> references)
+    {
+        var dllFiles = Directory.GetFiles(executingPath, "*.dll");
+        foreach (var dllFile in dllFiles)
+        {
+            if (referencePaths.Contains(Path.GetFileName(dllFile)))
+                continue;
+            if (!IsManagedAssembly(dllFile))
+            {
+                referencePaths.Add(Path.GetFileName(dllFile));
+                continue;
+            }
+
+            referencePaths.Add(Path.GetFileName(dllFile));
+            references.Add(MetadataReference.CreateFromFile(dllFile));
+        }
+    }
+
+    
     private static bool IsManagedAssembly(string fileName)
     {
         using Stream fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
