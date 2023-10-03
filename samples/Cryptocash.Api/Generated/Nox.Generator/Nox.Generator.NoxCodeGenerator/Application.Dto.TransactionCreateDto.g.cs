@@ -53,11 +53,15 @@ public abstract class TransactionCreateDtoBase : IEntityDto<Transaction>
     /// Transaction for ExactlyOne Customers
     /// </summary>
     public System.Int64? TransactionForCustomerId { get; set; } = default!;
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual CustomerCreateDto? TransactionForCustomer { get; set; } = default!;
 
     /// <summary>
     /// Transaction for ExactlyOne Bookings
     /// </summary>
     public System.Guid? TransactionForBookingId { get; set; } = default!;
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual BookingCreateDto? TransactionForBooking { get; set; } = default!;
 }
