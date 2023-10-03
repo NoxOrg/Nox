@@ -17,8 +17,8 @@ public class DefaultUserProvider : IUserProvider
     /// <returns></returns>
     public string GetUser()
     {
-        var result = _httpContextAccessor.HttpContext?.Request.Headers["X-User-Name"].ToString()!;
-        result = string.IsNullOrWhiteSpace(result) ? "N/A" : result;
+        var result = _httpContextAccessor.HttpContext?.Request.Headers["X-User-Name"].ToString();
+        result ??= string.Empty;
         return result;
     }
 }

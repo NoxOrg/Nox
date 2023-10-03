@@ -17,8 +17,8 @@ public class DefaultSystemProvider : ISystemProvider
     /// <returns></returns>
     public string GetSystem()
     {
-        var result = _httpContextAccessor.HttpContext?.Request.Headers["X-System-Name"].ToString()!;
-        result = string.IsNullOrWhiteSpace(result) ? "N/A" : result;
+        var result = _httpContextAccessor.HttpContext?.Request.Headers["X-System-Name"].ToString();
+        result ??= string.Empty;
         return result;
     }
 }
