@@ -65,6 +65,7 @@ public abstract class {{className}}Base : IEntityDto<{{entity.Name}}>
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
     {{- if relationship.WithSingleEntity }}
+    public {{relationship.ForeignKeyPrimitiveType}}? {{relationship.Name}}Id { get; set; } = default!;
     public virtual {{relationship.Entity}}CreateDto? {{relationship.Name}} { get; set; } = default!;
     {{- else }}
     public virtual List<{{relationship.Entity}}CreateDto> {{relationship.Name}} { get; set; } = new();

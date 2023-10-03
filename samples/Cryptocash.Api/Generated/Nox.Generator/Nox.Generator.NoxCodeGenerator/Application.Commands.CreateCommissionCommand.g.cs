@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Factories;
 using Nox.Solution;
 
@@ -60,7 +62,16 @@ internal abstract class CreateCommissionCommandHandlerBase: CommandBase<CreateCo
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.CommissionFeesForCountry is not null)
+		if(request.EntityDto.CommissionFeesForCountryId is not null)
+		{
+			var relatedKey = Cryptocash.Domain.CountryMetadata.CreateId(request.EntityDto.CommissionFeesForCountryId.NonNullValue<System.String>());
+			var relatedEntity = await _dbContext.Countries.FindAsync(relatedKey);
+			if(relatedEntity is not null)
+				entityToCreate.CreateRefToCommissionFeesForCountry(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("CommissionFeesForCountry", request.EntityDto.CommissionFeesForCountryId.NonNullValue<System.String>().ToString());
+		}
+		else if(request.EntityDto.CommissionFeesForCountry is not null)
 		{
 			var relatedEntity = _countryfactory.CreateEntity(request.EntityDto.CommissionFeesForCountry);
 			entityToCreate.CreateRefToCommissionFeesForCountry(relatedEntity);

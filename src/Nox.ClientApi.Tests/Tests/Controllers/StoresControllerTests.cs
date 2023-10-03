@@ -12,6 +12,7 @@ namespace ClientApi.Tests.Tests.Controllers
     public class StoresControllerTests : NoxWebApiTestBase
     {
         private const string EntityUrl = "api/stores";
+        private const string StoreLicenseUrl = "api/storelicenses";
 
         public StoresControllerTests(ITestOutputHelper testOutput,
             NoxTestContainerService containerService)
@@ -142,6 +143,135 @@ namespace ClientApi.Tests.Tests.Controllers
         }
 
         #endregion GET Expand Relation /api/{EntityPluralName}/{EntityKey} => api/stores/1?$expand=Ownership
+
+        #region POST Entity with RelationshipId /api/{EntityPluralName} => api/stores
+        [Fact]
+        public async Task Post_WithRelationshipId_CreatesRefToRelatedEntity()
+        {
+            // Arrange
+            var licenseName = _fixture.Create<string>();
+            var licenseCreateDto = new StoreLicenseCreateDto
+            {
+                Issuer = licenseName
+            };
+            var licensePostResponse = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(StoreLicenseUrl, licenseCreateDto);
+
+            var storeCreateDto = new StoreCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                Address = new StreetAddressDto(
+                    StreetNumber: null!,
+                    AddressLine1: "3000 Hillswood Business Park",
+                    AddressLine2: null!,
+                    Route: null!,
+                    Locality: null!,
+                    Neighborhood: null!,
+                    AdministrativeArea1: null!,
+                    AdministrativeArea2: null!,
+                    PostalCode: "KT16 0RS",
+                    CountryId: CountryCode.GB),
+                Location = new LatLongDto(51.3728033, -0.5389749),
+                LicenseId = licensePostResponse!.Id
+            };
+
+            // Act
+            var result = await PostAsync<StoreCreateDto, StoreDto>(EntityUrl, storeCreateDto);
+
+            const string oDataRequest = $"$expand={nameof(StoreDto.License)}";
+            var response = await GetODataSimpleResponseAsync<StoreDto>($"{EntityUrl}/{result!.Id}?{oDataRequest}");
+
+            //Assert
+            result.Should().NotBeNull();
+            result.Should()
+                .BeOfType<StoreDto>()
+                .Which.Id.Should().NotBeEmpty();
+            response.Should().NotBeNull();
+            response!.License.Should().NotBeNull();
+            response!.License!.Id.Should().Be(licensePostResponse!.Id);
+            response!.License!.Issuer.Should().Be(licenseName);
+        }
+        #endregion
+
+        #region POST Entity with Invalid RelationshipId /api/{EntityPluralName} => api/stores
+        [Fact]
+        public async Task Post_WithInvalidRelationshipId_ThrowsException()
+        {
+            // Arrange            
+            var storeCreateDto = new StoreCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                Address = new StreetAddressDto(
+                    StreetNumber: null!,
+                    AddressLine1: "3000 Hillswood Business Park",
+                    AddressLine2: null!,
+                    Route: null!,
+                    Locality: null!,
+                    Neighborhood: null!,
+                    AdministrativeArea1: null!,
+                    AdministrativeArea2: null!,
+                    PostalCode: "KT16 0RS",
+                    CountryId: CountryCode.GB),
+                Location = new LatLongDto(51.3728033, -0.5389749),
+                LicenseId = _fixture.Create<int>()
+            };
+
+            // Act
+            var result = await PostAsync(EntityUrl, storeCreateDto);
+
+            //Assert
+            result.Should().NotBeNull();
+            result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+        }
+        #endregion
+
+        #region POST Entity with Deleted RelationshipId /api/{EntityPluralName} => api/stores
+        [Fact]
+        public async Task Post_WithDeletedRelationshipId_ShouldNotCreateRefToRelatedEntity()
+        {
+            // Arrange
+            var licenseName = _fixture.Create<string>();
+            var licenseCreateDto = new StoreLicenseCreateDto
+            {
+                Issuer = licenseName
+            };
+            var licensePostResponse = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(StoreLicenseUrl, licenseCreateDto);
+
+            var headers = CreateEtagHeader(licensePostResponse?.Etag);
+            await DeleteAsync($"{StoreLicenseUrl}/{licensePostResponse!.Id}", headers);
+
+            var storeCreateDto = new StoreCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                Address = new StreetAddressDto(
+                    StreetNumber: null!,
+                    AddressLine1: "3000 Hillswood Business Park",
+                    AddressLine2: null!,
+                    Route: null!,
+                    Locality: null!,
+                    Neighborhood: null!,
+                    AdministrativeArea1: null!,
+                    AdministrativeArea2: null!,
+                    PostalCode: "KT16 0RS",
+                    CountryId: CountryCode.GB),
+                Location = new LatLongDto(51.3728033, -0.5389749),
+                LicenseId = licensePostResponse!.Id
+            };
+
+            // Act
+            var result = await PostAsync<StoreCreateDto, StoreDto>(EntityUrl, storeCreateDto);
+
+            const string oDataRequest = $"$expand={nameof(StoreDto.License)}";
+            var response = await GetODataSimpleResponseAsync<StoreDto>($"{EntityUrl}/{result!.Id}?{oDataRequest}");
+
+            //Assert
+            result.Should().NotBeNull();
+            result.Should()
+                .BeOfType<StoreDto>()
+                .Which.Id.Should().NotBeEmpty();
+            response.Should().NotBeNull();
+            //response!.License.Should().BeNull();
+        }
+        #endregion
 
         #endregion Relationship Examples
 

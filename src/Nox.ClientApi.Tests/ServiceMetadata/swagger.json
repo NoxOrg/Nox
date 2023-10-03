@@ -11310,11 +11310,6 @@
           "countryBarCode": {
             "$ref": "#/components/schemas/CountryBarCodeDto"
           },
-          "deletedAtUtc": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
           "@odata.etag": {
             "type": "string",
             "format": "uuid"
@@ -13296,8 +13291,17 @@
             "format": "date-time",
             "nullable": true
           },
+          "ownershipId": {
+            "type": "string",
+            "nullable": true
+          },
           "ownership": {
             "$ref": "#/components/schemas/StoreOwnerCreateDto"
+          },
+          "licenseId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
           },
           "license": {
             "$ref": "#/components/schemas/StoreLicenseCreateDto"
@@ -13345,11 +13349,6 @@
           },
           "verifiedEmails": {
             "$ref": "#/components/schemas/EmailAddressDto"
-          },
-          "deletedAtUtc": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
           },
           "@odata.etag": {
             "type": "string",
@@ -13404,6 +13403,11 @@
             "minLength": 1,
             "type": "string"
           },
+          "storeWithLicenseId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
           "storeWithLicense": {
             "$ref": "#/components/schemas/StoreCreateDto"
           }
@@ -13428,11 +13432,6 @@
           },
           "storeWithLicense": {
             "$ref": "#/components/schemas/StoreDto"
-          },
-          "deletedAtUtc": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
           },
           "@odata.etag": {
             "type": "string",
@@ -13571,11 +13570,6 @@
             "items": {
               "$ref": "#/components/schemas/StoreDto"
             },
-            "nullable": true
-          },
-          "deletedAtUtc": {
-            "type": "string",
-            "format": "date-time",
             "nullable": true
           },
           "@odata.etag": {
@@ -14474,6 +14468,11 @@
           },
           "greeting": {
             "type": "string",
+            "nullable": true
+          },
+          "belongsToCountryId": {
+            "type": "integer",
+            "format": "int64",
             "nullable": true
           },
           "belongsToCountry": {

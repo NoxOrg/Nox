@@ -2,8 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.CodeAnalysis;
+using Microsoft.AspNetCore.Builder;
 
 using MassTransit;
+using Serilog;
 
 using Nox.Secrets;
 using Nox.Secrets.Abstractions;
@@ -18,13 +20,26 @@ using Nox.Messaging.InMemoryBus;
 
 namespace Nox.Configuration
 {
-    internal sealed class NoxBuilder : INoxBuilder
+    internal sealed class NoxOptions : INoxOptions
     {
         private Assembly? _clientAssembly;
         private NoxSolution? _noxSolution;
         private Action<IBusRegistrationConfigurator, DatabaseServerProvider>? _configureMassTransitTransactionalOutbox;
         private Action<IServiceCollection>? _configureDatabaseContext;
+        private Action<LoggerConfiguration>? _loggerConfigurationAction;
 
+        private bool _withNoxLogging = true;
+
+        public void WithoutNoxLogging()
+        {
+            _withNoxLogging = false;
+            _loggerConfigurationAction = null;
+        }
+        public void  WithNoxLogging(Action<LoggerConfiguration> loggerConfiguration)
+        {
+            _loggerConfigurationAction = loggerConfiguration;
+            _withNoxLogging = true;
+        }
 
         public void WithDatabaseContexts<T, D>() where T : DbContext where D : DbContext
         {
@@ -91,7 +106,7 @@ namespace Nox.Configuration
             _clientAssembly = serviceAssembly;
         }
 
-        public void Configure(IServiceCollection services)
+        public void Configure(IServiceCollection services, WebApplicationBuilder? webApplicationBuilder)
         {
             var referencedAssemblies = _clientAssembly!.GetReferencedAssemblies();
 
@@ -112,9 +127,30 @@ namespace Nox.Configuration
                 .AddNoxProviders()
                 .AddNoxDtos();
 
-
             TryAddNoxMessaging(services, _noxSolution, noxAndEntryAssemblies);
             TryAddNoxDatabase(services, _noxSolution, noxAndEntryAssemblies);
+
+            TryAddLogging(webApplicationBuilder);
+        }
+
+        private bool TryAddLogging(WebApplicationBuilder? webApplicationBuilder)
+        {
+            if (webApplicationBuilder !=null && _withNoxLogging)
+            {
+                webApplicationBuilder.Host.UseSerilog((context, services, loggerConfig) =>
+                {
+                    loggerConfig
+                    .ReadFrom.Configuration(context.Configuration)
+                    .ReadFrom.Services(services)
+                    .Enrich.FromLogContext()
+                    .WriteTo.Debug()
+                    .WriteTo.Console();
+
+                    _loggerConfigurationAction?.Invoke(loggerConfig);
+                });
+                return true;
+            }
+            return false;
         }
 
         private bool TryAddNoxDatabase(IServiceCollection services, NoxSolution noxSolution, Assembly[] noxAssemblies)
@@ -192,5 +228,7 @@ namespace Nox.Configuration
                 })
                 .Build();
         }
+
+      
     }
 }

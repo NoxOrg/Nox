@@ -95,6 +95,7 @@ public abstract class TransactionDtoBase : EntityDtoBase, IEntityDto<Transaction
     //EF maps ForeignKey Automatically
     public System.Guid? TransactionForBookingId { get; set; } = default!;
     public virtual BookingDto? TransactionForBooking { get; set; } = null!;
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

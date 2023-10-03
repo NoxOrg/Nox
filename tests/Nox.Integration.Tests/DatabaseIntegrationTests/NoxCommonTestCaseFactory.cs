@@ -170,7 +170,7 @@ public class NoxCommonTestCaseFactory
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours),
             TimeTestField = Time.From(time.Ticks),
             CurrencyNumberTestField = CurrencyNumber.From(currencyNumber),
-            JsonTestField = Json.From(addressJsonPretty),
+            JsonTestField = Nox.Types.Json.From(addressJsonPretty),
             YearTestField = Year.From(year),
             BooleanTestField = Types.Boolean.From(boolean),
             EmailTestField = Email.From(email),

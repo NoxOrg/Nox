@@ -113,6 +113,7 @@ public abstract class CustomerDtoBase : EntityDtoBase, IEntityDto<Customer>
     //EF maps ForeignKey Automatically
     public System.String? CustomerBaseCountryId { get; set; } = default!;
     public virtual CountryDto? CustomerBaseCountry { get; set; } = null!;
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]
