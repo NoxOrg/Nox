@@ -23,7 +23,7 @@ public class NoxTestMsSqlContainerFixture : NoxTestContainerFixtureBase<MsSqlCon
         return new SqlServerDatabaseProvider(configurators);
     }
 
-    protected override DbContextOptions<TestWebAppDbContext> CreateDbOptions(string connectionString)
+    protected override DbContextOptions<TestWebAppDbContext> CreateDbOptions<TestWebAppDbContext>(string connectionString)
     {
         return new DbContextOptionsBuilder<TestWebAppDbContext>()
                 .UseSqlServer(connectionString)

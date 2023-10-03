@@ -3,14 +3,18 @@ using Nox.Integration.Tests.DatabaseIntegrationTests;
 using Nox.Integration.Tests.Fixtures;
 using Nox.Types;
 using TestWebApp.Domain;
+using TestWebApp.Infrastructure.Persistence;
 
 namespace Nox.Integration.Tests;
 
 [Collection("Sequential")]
 public class NuidTypeTests : NoxIntegrationContainerTestBase<NoxTestSqliteFixture>
 {
+    private readonly TestWebAppDbContext _dbContext;
+
     public NuidTypeTests(NoxTestSqliteFixture fixture) : base(fixture)
     {
+        _dbContext = GetDataContext<TestWebAppDbContext>();
     }
 
     [Fact]
@@ -24,10 +28,10 @@ public class NuidTypeTests : NoxIntegrationContainerTestBase<NoxTestSqliteFixtur
 
         entity.EnsureId();
 
-        DataContext.TestEntityWithNuids.Add(entity);
-        DataContext.SaveChanges();
+        _dbContext.TestEntityWithNuids.Add(entity);
+        _dbContext.SaveChanges();
 
-        var dbEntity = DataContext.TestEntityWithNuids.First(x => x.Name == Text.From(nameValue));
+        var dbEntity = _dbContext.TestEntityWithNuids.First(x => x.Name == Text.From(nameValue));
 
         entity.Should().Be(dbEntity);
         entity.Id.Should().Be(dbEntity.Id);
@@ -44,10 +48,10 @@ public class NuidTypeTests : NoxIntegrationContainerTestBase<NoxTestSqliteFixtur
 
         entity.EnsureId();
 
-        DataContext.TestEntityWithNuids.Add(entity);
-        DataContext.SaveChanges();
+        _dbContext.TestEntityWithNuids.Add(entity);
+        _dbContext.SaveChanges();
 
-        var dbEntity = DataContext.TestEntityWithNuids
+        var dbEntity = _dbContext.TestEntityWithNuids
             .AsEnumerable()
             .First(x => x.Id.Value == entity.Id.Value);
         dbEntity.Name = Text.From("Should not be changed");

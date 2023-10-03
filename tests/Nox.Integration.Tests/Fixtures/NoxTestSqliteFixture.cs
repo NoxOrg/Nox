@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Nox.EntityFramework.Sqlite;
 using Nox.Types.EntityFramework.Abstractions;
-using TestWebApp.Infrastructure.Persistence;
 
 namespace Nox.Integration.Tests.Fixtures;
 
@@ -10,7 +9,7 @@ public class NoxTestSqliteFixture : NoxTestDataContextFixtureBase
 {
     private const string _inMemoryConnectionString = $"DataSource=testdb;mode=memory;cache=shared";
 
-    protected override DbContextOptions<TestWebAppDbContext> CreateDbOptions()
+    protected override DbContextOptions<TestWebAppDbContext> CreateDbOptions<TestWebAppDbContext>()
     {
         var keepAliveConnection = new SqliteConnection(_inMemoryConnectionString);
 

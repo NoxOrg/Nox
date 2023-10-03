@@ -1,9 +1,7 @@
-﻿using System.Diagnostics;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Nox.EntityFramework.Postgres;
 using Nox.Types.EntityFramework.Abstractions;
 using Testcontainers.PostgreSql;
-using TestWebApp.Infrastructure.Persistence;
 
 namespace Nox.Integration.Tests.Fixtures;
 
@@ -26,7 +24,7 @@ public class NoxTestPostgreContainerFixture : NoxTestContainerFixtureBase<Postgr
         return new PostgresDatabaseProvider(configurators);
     }
 
-    protected override DbContextOptions<TestWebAppDbContext> CreateDbOptions(string connectionString)
+    protected override DbContextOptions<TestWebAppDbContext> CreateDbOptions<TestWebAppDbContext>(string connectionString)
     {
         return new DbContextOptionsBuilder<TestWebAppDbContext>()
                 .UseNpgsql(connectionString)

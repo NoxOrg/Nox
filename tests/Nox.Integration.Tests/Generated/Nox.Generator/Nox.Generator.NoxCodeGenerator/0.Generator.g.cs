@@ -3,6 +3,6 @@
 #nullable enable
 
 // Found files ->
-//  - generator.nox.yaml
 //  - test.solution.nox.yaml
+//  - generator.nox.yaml
 // SUCCESS.

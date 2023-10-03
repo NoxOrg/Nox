@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
 using Nox.Integration.Tests.Fixtures;
 
 namespace Nox.Integration.Tests.DatabaseIntegrationTests;
@@ -6,13 +6,19 @@ namespace Nox.Integration.Tests.DatabaseIntegrationTests;
 public abstract class NoxIntegrationContainerTestBase<TFixture> : IClassFixture<TFixture>
     where TFixture : class, INoxTestDataContextFixture
 {
+    private readonly DbContext _dbContext;
+
     protected NoxIntegrationContainerTestBase(TFixture fixture)
     {
-        DataContext = fixture.DataContext;
+        _dbContext = fixture.DataContext;
 
-        DataContext.Database.EnsureDeleted();
-        DataContext.Database.EnsureCreated();
+        _dbContext.Database.EnsureDeleted();
+        _dbContext.Database.EnsureCreated();
     }
 
-    protected TestWebAppDbContext DataContext { get; }
+    protected TDbContext GetDataContext<TDbContext>()
+        where TDbContext : DbContext
+    {
+        return (TDbContext)_dbContext;
+    }
 }

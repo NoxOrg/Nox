@@ -13,7 +13,7 @@ public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
 {
     private const string _solutionSetupFileName = @"Nox.Integration.Tests.DatabaseIntegrationTests.Design.test.solution.nox.yaml";
     private readonly IServiceProvider _serviceProvider;
-    protected TestWebAppDbContext _dbContext = default!;
+    protected DbContext _dbContext = default!;
 
     protected NoxTestDataContextFixtureBase()
     {
@@ -23,7 +23,7 @@ public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
         _serviceProvider = services.BuildServiceProvider();
     }
 
-    public TestWebAppDbContext DataContext
+    public DbContext DataContext
     {
         get
         {
@@ -45,7 +45,7 @@ public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
         var assemblyProvider = new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly());
         var databaseProvider = GetDatabaseProvider(_serviceProvider.GetServices<INoxTypeDatabaseConfigurator>());
 
-        var options = CreateDbOptions();
+        var options = CreateDbOptions<TestWebAppDbContext>();
 
         _dbContext = new TestWebAppDbContext(
                 options,
@@ -58,7 +58,8 @@ public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
 
     protected abstract INoxDatabaseProvider GetDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators);
 
-    protected abstract DbContextOptions<TestWebAppDbContext> CreateDbOptions();
+    protected abstract DbContextOptions<TDbContext> CreateDbOptions<TDbContext>()
+        where TDbContext : DbContext;
 
     private static Dictionary<string, Func<TextReader>> GetSolutionSetup()
     {
