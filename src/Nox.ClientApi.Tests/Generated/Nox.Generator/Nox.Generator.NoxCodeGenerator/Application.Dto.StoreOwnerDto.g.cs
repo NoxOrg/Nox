@@ -97,6 +97,7 @@ public abstract class StoreOwnerDtoBase : EntityDtoBase, IEntityDto<StoreOwner>
     /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores
     /// </summary>
     public virtual List<StoreDto> Stores { get; set; } = new();
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

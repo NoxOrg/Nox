@@ -66,6 +66,7 @@ public abstract class MinimumCashStockDtoBase : EntityDtoBase, IEntityDto<Minimu
     //EF maps ForeignKey Automatically
     public System.String? MinimumCashStockRelatedCurrencyId { get; set; } = default!;
     public virtual CurrencyDto? MinimumCashStockRelatedCurrency { get; set; } = null!;
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

@@ -169,6 +169,7 @@ public abstract class CurrencyDtoBase : EntityDtoBase, IEntityDto<Currency>
     /// Currency exchanged from OneOrMany ExchangeRates
     /// </summary>
     public virtual List<ExchangeRateDto> CurrencyExchangedFromRates { get; set; } = new();
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

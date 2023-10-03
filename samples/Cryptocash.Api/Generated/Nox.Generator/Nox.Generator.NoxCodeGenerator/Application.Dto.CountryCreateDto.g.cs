@@ -90,21 +90,29 @@ public abstract class CountryCreateDtoBase : IEntityDto<Country>
     /// Country used by ExactlyOne Currencies
     /// </summary>
     public System.String? CountryUsedByCurrencyId { get; set; } = default!;
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual CurrencyCreateDto? CountryUsedByCurrency { get; set; } = default!;
 
     /// <summary>
     /// Country used by OneOrMany Commissions
     /// </summary>
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual List<CommissionCreateDto> CountryUsedByCommissions { get; set; } = new();
 
     /// <summary>
     /// Country used by ZeroOrMany VendingMachines
     /// </summary>
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual List<VendingMachineCreateDto> CountryUsedByVendingMachines { get; set; } = new();
 
     /// <summary>
     /// Country used by ZeroOrMany Customers
     /// </summary>
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual List<CustomerCreateDto> CountryUsedByCustomers { get; set; } = new();
 
     /// <summary>

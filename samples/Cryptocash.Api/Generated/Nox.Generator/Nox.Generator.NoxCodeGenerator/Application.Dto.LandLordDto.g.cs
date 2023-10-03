@@ -69,6 +69,7 @@ public abstract class LandLordDtoBase : EntityDtoBase, IEntityDto<LandLord>
     /// LandLord leases an area to house ZeroOrMany VendingMachines
     /// </summary>
     public virtual List<VendingMachineDto> ContractedAreasForVendingMachines { get; set; } = new();
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

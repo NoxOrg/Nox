@@ -170,6 +170,7 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<Country>
     /// Country owned ZeroOrMany Holidays
     /// </summary>
     public virtual List<HolidayDto> CountryOwnedHolidays { get; set; } = new();
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]
