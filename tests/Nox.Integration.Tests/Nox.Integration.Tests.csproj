@@ -66,9 +66,11 @@
 		<PackageReference Include="FluentAssertions" Version="6.12.0" />
 		<PackageReference Include="JsonSchema.Net.Generation" Version="3.3.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.11" />
+
 		<PackageReference Include="Microsoft.Build.Locator" Version="1.6.10" />
-		<PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.7.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.7.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.7.0" />
+		
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
 		<PackageReference Include="Microsoft.OData.ModelBuilder" Version="1.0.9" />
