@@ -5,6 +5,8 @@
 using System.Reflection;
 using System.Diagnostics;
 
+using MediatR;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -32,9 +34,11 @@ public partial class TestWebAppDbContext : DbContext
     private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
     private readonly IUserProvider _userProvider;
     private readonly ISystemProvider _systemProvider;
+    private readonly IPublisher _publisher;
 
     public TestWebAppDbContext(
             DbContextOptions<TestWebAppDbContext> options,
+            IPublisher publisher,
             NoxSolution noxSolution,
             INoxDatabaseProvider databaseProvider,
             INoxClientAssemblyProvider clientAssemblyProvider, 
@@ -42,6 +46,7 @@ public partial class TestWebAppDbContext : DbContext
             ISystemProvider systemProvider
         ) : base(options)
         {
+            _publisher = publisher;
             _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
             _clientAssemblyProvider = clientAssemblyProvider;
@@ -49,83 +54,83 @@ public partial class TestWebAppDbContext : DbContext
             _systemProvider = systemProvider;
         }
 
-    public DbSet<TestEntityZeroOrOne> TestEntityZeroOrOnes { get; set; } = null!;
+    internal DbSet<TestEntityZeroOrOne> TestEntityZeroOrOnes { get; set; } = null!;
 
-    public DbSet<SecondTestEntityZeroOrOne> SecondTestEntityZeroOrOnes { get; set; } = null!;
+    internal DbSet<SecondTestEntityZeroOrOne> SecondTestEntityZeroOrOnes { get; set; } = null!;
 
-    public DbSet<TestEntityWithNuid> TestEntityWithNuids { get; set; } = null!;
+    internal DbSet<TestEntityWithNuid> TestEntityWithNuids { get; set; } = null!;
 
-    public DbSet<TestEntityOneOrMany> TestEntityOneOrManies { get; set; } = null!;
+    internal DbSet<TestEntityOneOrMany> TestEntityOneOrManies { get; set; } = null!;
 
-    public DbSet<SecondTestEntityOneOrMany> SecondTestEntityOneOrManies { get; set; } = null!;
+    internal DbSet<SecondTestEntityOneOrMany> SecondTestEntityOneOrManies { get; set; } = null!;
 
-    public DbSet<TestEntityZeroOrMany> TestEntityZeroOrManies { get; set; } = null!;
+    internal DbSet<TestEntityZeroOrMany> TestEntityZeroOrManies { get; set; } = null!;
 
-    public DbSet<SecondTestEntityZeroOrMany> SecondTestEntityZeroOrManies { get; set; } = null!;
+    internal DbSet<SecondTestEntityZeroOrMany> SecondTestEntityZeroOrManies { get; set; } = null!;
 
-    public DbSet<ThirdTestEntityOneOrMany> ThirdTestEntityOneOrManies { get; set; } = null!;
+    internal DbSet<ThirdTestEntityOneOrMany> ThirdTestEntityOneOrManies { get; set; } = null!;
 
-    public DbSet<ThirdTestEntityZeroOrMany> ThirdTestEntityZeroOrManies { get; set; } = null!;
+    internal DbSet<ThirdTestEntityZeroOrMany> ThirdTestEntityZeroOrManies { get; set; } = null!;
 
-    public DbSet<ThirdTestEntityExactlyOne> ThirdTestEntityExactlyOnes { get; set; } = null!;
+    internal DbSet<ThirdTestEntityExactlyOne> ThirdTestEntityExactlyOnes { get; set; } = null!;
 
-    public DbSet<ThirdTestEntityZeroOrOne> ThirdTestEntityZeroOrOnes { get; set; } = null!;
+    internal DbSet<ThirdTestEntityZeroOrOne> ThirdTestEntityZeroOrOnes { get; set; } = null!;
 
-    public DbSet<TestEntityExactlyOne> TestEntityExactlyOnes { get; set; } = null!;
+    internal DbSet<TestEntityExactlyOne> TestEntityExactlyOnes { get; set; } = null!;
 
-    public DbSet<SecondTestEntityExactlyOne> SecondTestEntityExactlyOnes { get; set; } = null!;
+    internal DbSet<SecondTestEntityExactlyOne> SecondTestEntityExactlyOnes { get; set; } = null!;
 
-    public DbSet<TestEntityZeroOrOneToZeroOrMany> TestEntityZeroOrOneToZeroOrManies { get; set; } = null!;
+    internal DbSet<TestEntityZeroOrOneToZeroOrMany> TestEntityZeroOrOneToZeroOrManies { get; set; } = null!;
 
-    public DbSet<TestEntityZeroOrManyToZeroOrOne> TestEntityZeroOrManyToZeroOrOnes { get; set; } = null!;
+    internal DbSet<TestEntityZeroOrManyToZeroOrOne> TestEntityZeroOrManyToZeroOrOnes { get; set; } = null!;
 
-    public DbSet<TestEntityExactlyOneToOneOrMany> TestEntityExactlyOneToOneOrManies { get; set; } = null!;
+    internal DbSet<TestEntityExactlyOneToOneOrMany> TestEntityExactlyOneToOneOrManies { get; set; } = null!;
 
-    public DbSet<TestEntityOneOrManyToExactlyOne> TestEntityOneOrManyToExactlyOnes { get; set; } = null!;
+    internal DbSet<TestEntityOneOrManyToExactlyOne> TestEntityOneOrManyToExactlyOnes { get; set; } = null!;
 
-    public DbSet<TestEntityExactlyOneToZeroOrMany> TestEntityExactlyOneToZeroOrManies { get; set; } = null!;
+    internal DbSet<TestEntityExactlyOneToZeroOrMany> TestEntityExactlyOneToZeroOrManies { get; set; } = null!;
 
-    public DbSet<TestEntityZeroOrManyToExactlyOne> TestEntityZeroOrManyToExactlyOnes { get; set; } = null!;
+    internal DbSet<TestEntityZeroOrManyToExactlyOne> TestEntityZeroOrManyToExactlyOnes { get; set; } = null!;
 
-    public DbSet<TestEntityOneOrManyToZeroOrMany> TestEntityOneOrManyToZeroOrManies { get; set; } = null!;
+    internal DbSet<TestEntityOneOrManyToZeroOrMany> TestEntityOneOrManyToZeroOrManies { get; set; } = null!;
 
-    public DbSet<TestEntityZeroOrManyToOneOrMany> TestEntityZeroOrManyToOneOrManies { get; set; } = null!;
+    internal DbSet<TestEntityZeroOrManyToOneOrMany> TestEntityZeroOrManyToOneOrManies { get; set; } = null!;
 
-    public DbSet<TestEntityZeroOrOneToOneOrMany> TestEntityZeroOrOneToOneOrManies { get; set; } = null!;
+    internal DbSet<TestEntityZeroOrOneToOneOrMany> TestEntityZeroOrOneToOneOrManies { get; set; } = null!;
 
-    public DbSet<TestEntityOneOrManyToZeroOrOne> TestEntityOneOrManyToZeroOrOnes { get; set; } = null!;
+    internal DbSet<TestEntityOneOrManyToZeroOrOne> TestEntityOneOrManyToZeroOrOnes { get; set; } = null!;
 
-    public DbSet<TestEntityZeroOrOneToExactlyOne> TestEntityZeroOrOneToExactlyOnes { get; set; } = null!;
+    internal DbSet<TestEntityZeroOrOneToExactlyOne> TestEntityZeroOrOneToExactlyOnes { get; set; } = null!;
 
-    public DbSet<TestEntityExactlyOneToZeroOrOne> TestEntityExactlyOneToZeroOrOnes { get; set; } = null!;
+    internal DbSet<TestEntityExactlyOneToZeroOrOne> TestEntityExactlyOneToZeroOrOnes { get; set; } = null!;
 
-    public DbSet<TestEntityOwnedRelationshipExactlyOne> TestEntityOwnedRelationshipExactlyOnes { get; set; } = null!;
-
-
-    public DbSet<TestEntityOwnedRelationshipZeroOrOne> TestEntityOwnedRelationshipZeroOrOnes { get; set; } = null!;
+    internal DbSet<TestEntityOwnedRelationshipExactlyOne> TestEntityOwnedRelationshipExactlyOnes { get; set; } = null!;
 
 
-    public DbSet<TestEntityOwnedRelationshipOneOrMany> TestEntityOwnedRelationshipOneOrManies { get; set; } = null!;
+    internal DbSet<TestEntityOwnedRelationshipZeroOrOne> TestEntityOwnedRelationshipZeroOrOnes { get; set; } = null!;
 
 
-    public DbSet<TestEntityOwnedRelationshipZeroOrMany> TestEntityOwnedRelationshipZeroOrManies { get; set; } = null!;
+    internal DbSet<TestEntityOwnedRelationshipOneOrMany> TestEntityOwnedRelationshipOneOrManies { get; set; } = null!;
 
 
-    public DbSet<TestEntityTwoRelationshipsOneToOne> TestEntityTwoRelationshipsOneToOnes { get; set; } = null!;
+    internal DbSet<TestEntityOwnedRelationshipZeroOrMany> TestEntityOwnedRelationshipZeroOrManies { get; set; } = null!;
 
-    public DbSet<SecondTestEntityTwoRelationshipsOneToOne> SecondTestEntityTwoRelationshipsOneToOnes { get; set; } = null!;
 
-    public DbSet<TestEntityTwoRelationshipsManyToMany> TestEntityTwoRelationshipsManyToManies { get; set; } = null!;
+    internal DbSet<TestEntityTwoRelationshipsOneToOne> TestEntityTwoRelationshipsOneToOnes { get; set; } = null!;
 
-    public DbSet<SecondTestEntityTwoRelationshipsManyToMany> SecondTestEntityTwoRelationshipsManyToManies { get; set; } = null!;
+    internal DbSet<SecondTestEntityTwoRelationshipsOneToOne> SecondTestEntityTwoRelationshipsOneToOnes { get; set; } = null!;
 
-    public DbSet<TestEntityTwoRelationshipsOneToMany> TestEntityTwoRelationshipsOneToManies { get; set; } = null!;
+    internal DbSet<TestEntityTwoRelationshipsManyToMany> TestEntityTwoRelationshipsManyToManies { get; set; } = null!;
 
-    public DbSet<SecondTestEntityTwoRelationshipsOneToMany> SecondTestEntityTwoRelationshipsOneToManies { get; set; } = null!;
+    internal DbSet<SecondTestEntityTwoRelationshipsManyToMany> SecondTestEntityTwoRelationshipsManyToManies { get; set; } = null!;
 
-    public DbSet<TestEntityForTypes> TestEntityForTypes { get; set; } = null!;
+    internal DbSet<TestEntityTwoRelationshipsOneToMany> TestEntityTwoRelationshipsOneToManies { get; set; } = null!;
 
-    public DbSet<TestEntityForUniqueConstraints> TestEntityForUniqueConstraints { get; set; } = null!;
+    internal DbSet<SecondTestEntityTwoRelationshipsOneToMany> SecondTestEntityTwoRelationshipsOneToManies { get; set; } = null!;
+
+    internal DbSet<TestEntityForTypes> TestEntityForTypes { get; set; } = null!;
+
+    internal DbSet<TestEntityForUniqueConstraints> TestEntityForUniqueConstraints { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -172,13 +177,62 @@ public partial class TestWebAppDbContext : DbContext
         try
         {
             HandleSystemFields();
+            await HandleDomainEvents();
             return await base.SaveChangesAsync(cancellationToken);
-
         }
         catch(DbUpdateConcurrencyException)
         {
             throw new Nox.Exceptions.ConcurrencyException($"Latest value of {nameof(IEntityConcurrent.Etag)} must be provided");
         }
+    }
+
+    private async Task HandleDomainEvents()
+    {
+        var entriesWithDomainEvents = GetEntriesWithDomainEvents();
+        RaiseDomainEventsFor(entriesWithDomainEvents); 
+        await DispatchEvents(entriesWithDomainEvents.SelectMany(e=>e.Entity.DomainEvents));
+        ClearDomainEvents(entriesWithDomainEvents.ToList());
+    }
+    public IEnumerable<EntityEntry<IEntityHaveDomainEvents>> GetEntriesWithDomainEvents()
+    {
+        return ChangeTracker.Entries<IEntityHaveDomainEvents>();
+    }
+
+    public void RaiseDomainEventsFor(IEnumerable<EntityEntry<IEntityHaveDomainEvents>> entriesWithDomainEvents)
+    {
+        foreach (var entry in entriesWithDomainEvents)
+        {
+            RaiseDomainEvent(entry);
+        }
+    }
+
+    private void RaiseDomainEvent(EntityEntry<IEntityHaveDomainEvents> entry)
+    {
+        switch (entry.State)
+        {
+            case EntityState.Added:
+                entry.Entity.RaiseCreateEvent();
+                break;
+
+            case EntityState.Modified:
+                entry.Entity.RaiseUpdateEvent();
+                break;
+
+            case EntityState.Deleted:
+                entry.Entity.RaiseDeleteEvent();
+                break;
+        }
+    }
+        
+    private async Task DispatchEvents(IEnumerable<IDomainEvent> selectMany)
+    {
+        var tasks = selectMany.Select(domainEvent => _publisher.Publish(domainEvent));
+        await Task.WhenAll(tasks);
+    }
+        
+    private void ClearDomainEvents(List<EntityEntry<IEntityHaveDomainEvents>> entriesWithDomainEvents)
+    {
+        entriesWithDomainEvents.ForEach(e=>e.Entity.ClearDomainEvents());
     }
 
     private void HandleSystemFields()

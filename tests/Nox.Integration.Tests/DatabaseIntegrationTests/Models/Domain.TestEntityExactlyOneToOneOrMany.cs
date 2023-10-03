@@ -5,32 +5,50 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
-public partial class TestEntityExactlyOneToOneOrMany:TestEntityExactlyOneToOneOrManyBase
-{
 
+internal partial class TestEntityExactlyOneToOneOrMany : TestEntityExactlyOneToOneOrManyBase, IEntityHaveDomainEvents
+{
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for TestEntityExactlyOneToOneOrMany created event.
 /// </summary>
-public record TestEntityExactlyOneToOneOrManyCreated(TestEntityExactlyOneToOneOrMany TestEntityExactlyOneToOneOrMany) : IDomainEvent;
+internal record TestEntityExactlyOneToOneOrManyCreated(TestEntityExactlyOneToOneOrMany TestEntityExactlyOneToOneOrMany) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityExactlyOneToOneOrMany updated event.
 /// </summary>
-public record TestEntityExactlyOneToOneOrManyUpdated(TestEntityExactlyOneToOneOrMany TestEntityExactlyOneToOneOrMany) : IDomainEvent;
+internal record TestEntityExactlyOneToOneOrManyUpdated(TestEntityExactlyOneToOneOrMany TestEntityExactlyOneToOneOrMany) : IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityExactlyOneToOneOrMany deleted event.
 /// </summary>
-public record TestEntityExactlyOneToOneOrManyDeleted(TestEntityExactlyOneToOneOrMany TestEntityExactlyOneToOneOrMany) : IDomainEvent;
+internal record TestEntityExactlyOneToOneOrManyDeleted(TestEntityExactlyOneToOneOrMany TestEntityExactlyOneToOneOrMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public abstract class TestEntityExactlyOneToOneOrManyBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class TestEntityExactlyOneToOneOrManyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -41,6 +59,33 @@ public abstract class TestEntityExactlyOneToOneOrManyBase : AuditableEntityBase,
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(TestEntityExactlyOneToOneOrMany testEntityExactlyOneToOneOrMany)
+	{
+		InternalDomainEvents.Add(new TestEntityExactlyOneToOneOrManyCreated(testEntityExactlyOneToOneOrMany));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(TestEntityExactlyOneToOneOrMany testEntityExactlyOneToOneOrMany)
+	{
+		InternalDomainEvents.Add(new TestEntityExactlyOneToOneOrManyUpdated(testEntityExactlyOneToOneOrMany));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(TestEntityExactlyOneToOneOrMany testEntityExactlyOneToOneOrMany)
+	{
+		InternalDomainEvents.Add(new TestEntityExactlyOneToOneOrManyDeleted(testEntityExactlyOneToOneOrMany));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// TestEntityExactlyOneToOneOrMany Test entity relationship to TestEntityOneOrManyToExactlyOne ExactlyOne TestEntityOneOrManyToExactlyOnes

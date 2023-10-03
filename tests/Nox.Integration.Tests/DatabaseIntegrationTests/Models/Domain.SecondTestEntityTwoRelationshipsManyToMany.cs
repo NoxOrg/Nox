@@ -5,32 +5,50 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
-public partial class SecondTestEntityTwoRelationshipsManyToMany:SecondTestEntityTwoRelationshipsManyToManyBase
-{
 
+internal partial class SecondTestEntityTwoRelationshipsManyToMany : SecondTestEntityTwoRelationshipsManyToManyBase, IEntityHaveDomainEvents
+{
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for SecondTestEntityTwoRelationshipsManyToMany created event.
 /// </summary>
-public record SecondTestEntityTwoRelationshipsManyToManyCreated(SecondTestEntityTwoRelationshipsManyToMany SecondTestEntityTwoRelationshipsManyToMany) : IDomainEvent;
+internal record SecondTestEntityTwoRelationshipsManyToManyCreated(SecondTestEntityTwoRelationshipsManyToMany SecondTestEntityTwoRelationshipsManyToMany) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for SecondTestEntityTwoRelationshipsManyToMany updated event.
 /// </summary>
-public record SecondTestEntityTwoRelationshipsManyToManyUpdated(SecondTestEntityTwoRelationshipsManyToMany SecondTestEntityTwoRelationshipsManyToMany) : IDomainEvent;
+internal record SecondTestEntityTwoRelationshipsManyToManyUpdated(SecondTestEntityTwoRelationshipsManyToMany SecondTestEntityTwoRelationshipsManyToMany) : IDomainEvent, INotification;
 /// <summary>
 /// Record for SecondTestEntityTwoRelationshipsManyToMany deleted event.
 /// </summary>
-public record SecondTestEntityTwoRelationshipsManyToManyDeleted(SecondTestEntityTwoRelationshipsManyToMany SecondTestEntityTwoRelationshipsManyToMany) : IDomainEvent;
+internal record SecondTestEntityTwoRelationshipsManyToManyDeleted(SecondTestEntityTwoRelationshipsManyToMany SecondTestEntityTwoRelationshipsManyToMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// .
 /// </summary>
-public abstract class SecondTestEntityTwoRelationshipsManyToManyBase : EntityBase, IEntityConcurrent
+internal abstract partial class SecondTestEntityTwoRelationshipsManyToManyBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -41,6 +59,33 @@ public abstract class SecondTestEntityTwoRelationshipsManyToManyBase : EntityBas
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField2 { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(SecondTestEntityTwoRelationshipsManyToMany secondTestEntityTwoRelationshipsManyToMany)
+	{
+		InternalDomainEvents.Add(new SecondTestEntityTwoRelationshipsManyToManyCreated(secondTestEntityTwoRelationshipsManyToMany));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(SecondTestEntityTwoRelationshipsManyToMany secondTestEntityTwoRelationshipsManyToMany)
+	{
+		InternalDomainEvents.Add(new SecondTestEntityTwoRelationshipsManyToManyUpdated(secondTestEntityTwoRelationshipsManyToMany));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(SecondTestEntityTwoRelationshipsManyToMany secondTestEntityTwoRelationshipsManyToMany)
+	{
+		InternalDomainEvents.Add(new SecondTestEntityTwoRelationshipsManyToManyDeleted(secondTestEntityTwoRelationshipsManyToMany));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// SecondTestEntityTwoRelationshipsManyToMany First relationship to the same entity on the other side ZeroOrMany TestEntityTwoRelationshipsManyToManies
