@@ -11310,11 +11310,6 @@
           "countryBarCode": {
             "$ref": "#/components/schemas/CountryBarCodeDto"
           },
-          "deletedAtUtc": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
           "@odata.etag": {
             "type": "string",
             "format": "uuid"
@@ -13355,11 +13350,6 @@
           "verifiedEmails": {
             "$ref": "#/components/schemas/EmailAddressDto"
           },
-          "deletedAtUtc": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
           "@odata.etag": {
             "type": "string",
             "format": "uuid"
@@ -13442,11 +13432,6 @@
           },
           "storeWithLicense": {
             "$ref": "#/components/schemas/StoreDto"
-          },
-          "deletedAtUtc": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
           },
           "@odata.etag": {
             "type": "string",
@@ -13585,11 +13570,6 @@
             "items": {
               "$ref": "#/components/schemas/StoreDto"
             },
-            "nullable": true
-          },
-          "deletedAtUtc": {
-            "type": "string",
-            "format": "date-time",
             "nullable": true
           },
           "@odata.etag": {

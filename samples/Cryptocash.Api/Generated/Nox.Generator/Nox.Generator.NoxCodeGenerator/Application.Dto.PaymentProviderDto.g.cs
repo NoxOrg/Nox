@@ -69,6 +69,7 @@ public abstract class PaymentProviderDtoBase : EntityDtoBase, IEntityDto<Payment
     /// PaymentProvider related to ZeroOrMany PaymentDetails
     /// </summary>
     public virtual List<PaymentDetailDto> PaymentProviderRelatedPaymentDetails { get; set; } = new();
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

@@ -61,6 +61,7 @@ public abstract class StoreLicenseDtoBase : EntityDtoBase, IEntityDto<StoreLicen
     //EF maps ForeignKey Automatically
     public System.Guid? StoreWithLicenseId { get; set; } = default!;
     public virtual StoreDto? StoreWithLicense { get; set; } = null!;
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

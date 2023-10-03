@@ -85,6 +85,7 @@ public abstract class CashStockOrderDtoBase : EntityDtoBase, IEntityDto<CashStoc
     /// CashStockOrder reviewed by ExactlyOne Employees
     /// </summary>
     public virtual EmployeeDto? CashStockOrderReviewedByEmployee { get; set; } = null!;
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]
