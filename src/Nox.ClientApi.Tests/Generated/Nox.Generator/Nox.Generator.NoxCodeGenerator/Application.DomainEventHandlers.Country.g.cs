@@ -2,6 +2,7 @@
 
 #nullable enable
 
+using System.Threading.Tasks;
 using MediatR;
 using Nox.Application;
 using Nox.Messaging;
@@ -11,30 +12,38 @@ using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.DomainEventHandlers;
 
-/// <summary>
-/// Domain event handler for Country created event.
-/// </summary>
-internal partial class CountryCreatedDomainEventHandler : INotificationHandler<CountryCreated>
+internal abstract class CountryDomainEventHandlerBase<TEvent> : INotificationHandler<TEvent>
+    where TEvent : INotification
 {
     private readonly IOutboxRepository _outboxRepository;
 
-    public CountryCreatedDomainEventHandler(IOutboxRepository outboxRepository)
+    protected CountryDomainEventHandlerBase(IOutboxRepository outboxRepository)
     {
         _outboxRepository = outboxRepository;
     }
 
-    public async Task Handle(CountryCreated domainEvent, CancellationToken cancellationToken)
+    public abstract Task Handle(TEvent domainEvent, CancellationToken cancellationToken);
+
+    protected async Task RaiseIntegrationEventAsync(IIntegrationEvent @event)
+        => await _outboxRepository.AddAsync(@event);
+}
+
+internal partial class CountryCreatedDomainEventHandler : CountryDomainEventHandlerBase<CountryCreated>
+{
+    public CountryCreatedDomainEventHandler(IOutboxRepository outboxRepository)
+        : base(outboxRepository)
     {
-        await RaiseCountryCreatedIntegrationEventAsync(domainEvent.Country);
+    }
+
+    public override async Task Handle(CountryCreated domainEvent, CancellationToken cancellationToken)
+    {      
+await RaiseCountryCreatedIntegrationEventAsync(domainEvent.Country);
     }
     
-    private async Task RaiseCountryCreatedIntegrationEventAsync(Country entity)
+    private static async Task RaiseCountryCreatedIntegrationEventAsync(Country entity)
     {
         var dto = entity.ToDto();
         var @event = new IntegrationEvents.CountryCreated(dto);
-        await RaiseIntegrationEvent(@event); 
-    }
-
-    protected async Task RaiseIntegrationEvent(IIntegrationEvent @event)
-        => await _outboxRepository.AddAsync(@event);
+        await RaiseIntegrationEventAsync(@event);
+    }}
 }

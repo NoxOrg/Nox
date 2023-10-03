@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cryptocash.Api.Migrations
 {
     [DbContext(typeof(CryptocashDbContext))]
-    [Migration("20230929083336_InitialCreate")]
+    [Migration("20231002213437_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -32,14 +32,10 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<long?>("BookingFeesForCommissionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
+                        .HasColumnType("bigint");
 
                     b.Property<long?>("BookingForCustomerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
+                        .HasColumnType("bigint");
 
                     b.Property<Guid?>("BookingRelatedVendingMachineId")
                         .IsUnicode(false)
@@ -582,9 +578,7 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<long?>("EmployeeReviewingCashStockOrderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
+                        .HasColumnType("bigint");
 
                     b.Property<Guid>("Etag")
                         .IsConcurrencyToken()
@@ -821,14 +815,10 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("nvarchar(63)");
 
                     b.Property<long?>("PaymentDetailsRelatedPaymentProviderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
+                        .HasColumnType("bigint");
 
                     b.Property<long?>("PaymentDetailsUsedByCustomerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -970,9 +960,7 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<long?>("TransactionForCustomerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
+                        .HasColumnType("bigint");
 
                     b.Property<string>("TransactionType")
                         .IsRequired()
@@ -1061,9 +1049,7 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("nvarchar(63)");
 
                     b.Property<long?>("VendingMachineContractedAreaLandLordId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
+                        .HasColumnType("bigint");
 
                     b.Property<string>("VendingMachineInstallationCountryId")
                         .HasMaxLength(2)

@@ -5,32 +5,50 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
-public partial class TestEntityOwnedRelationshipZeroOrMany:TestEntityOwnedRelationshipZeroOrManyBase
-{
 
+internal partial class TestEntityOwnedRelationshipZeroOrMany : TestEntityOwnedRelationshipZeroOrManyBase, IEntityHaveDomainEvents
+{
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for TestEntityOwnedRelationshipZeroOrMany created event.
 /// </summary>
-public record TestEntityOwnedRelationshipZeroOrManyCreated(TestEntityOwnedRelationshipZeroOrMany TestEntityOwnedRelationshipZeroOrMany) : IDomainEvent;
+internal record TestEntityOwnedRelationshipZeroOrManyCreated(TestEntityOwnedRelationshipZeroOrMany TestEntityOwnedRelationshipZeroOrMany) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityOwnedRelationshipZeroOrMany updated event.
 /// </summary>
-public record TestEntityOwnedRelationshipZeroOrManyUpdated(TestEntityOwnedRelationshipZeroOrMany TestEntityOwnedRelationshipZeroOrMany) : IDomainEvent;
+internal record TestEntityOwnedRelationshipZeroOrManyUpdated(TestEntityOwnedRelationshipZeroOrMany TestEntityOwnedRelationshipZeroOrMany) : IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityOwnedRelationshipZeroOrMany deleted event.
 /// </summary>
-public record TestEntityOwnedRelationshipZeroOrManyDeleted(TestEntityOwnedRelationshipZeroOrMany TestEntityOwnedRelationshipZeroOrMany) : IDomainEvent;
+internal record TestEntityOwnedRelationshipZeroOrManyDeleted(TestEntityOwnedRelationshipZeroOrMany TestEntityOwnedRelationshipZeroOrMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// .
 /// </summary>
-public abstract class TestEntityOwnedRelationshipZeroOrManyBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class TestEntityOwnedRelationshipZeroOrManyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -41,6 +59,33 @@ public abstract class TestEntityOwnedRelationshipZeroOrManyBase : AuditableEntit
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(TestEntityOwnedRelationshipZeroOrMany testEntityOwnedRelationshipZeroOrMany)
+	{
+		InternalDomainEvents.Add(new TestEntityOwnedRelationshipZeroOrManyCreated(testEntityOwnedRelationshipZeroOrMany));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(TestEntityOwnedRelationshipZeroOrMany testEntityOwnedRelationshipZeroOrMany)
+	{
+		InternalDomainEvents.Add(new TestEntityOwnedRelationshipZeroOrManyUpdated(testEntityOwnedRelationshipZeroOrMany));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(TestEntityOwnedRelationshipZeroOrMany testEntityOwnedRelationshipZeroOrMany)
+	{
+		InternalDomainEvents.Add(new TestEntityOwnedRelationshipZeroOrManyDeleted(testEntityOwnedRelationshipZeroOrMany));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// TestEntityOwnedRelationshipZeroOrMany Test entity relationship to SecondTestEntityOwnedRelationshipZeroOrMany ZeroOrMany SecondTestEntityOwnedRelationshipZeroOrManies

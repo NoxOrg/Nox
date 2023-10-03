@@ -110,6 +110,7 @@ public abstract class EmployeeDtoBase : EntityDtoBase, IEntityDto<Employee>
     /// Employee contacted by ZeroOrMany EmployeePhoneNumbers
     /// </summary>
     public virtual List<EmployeePhoneNumberDto> EmployeeContactPhoneNumbers { get; set; } = new();
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

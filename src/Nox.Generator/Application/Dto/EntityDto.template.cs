@@ -130,6 +130,7 @@ public abstract class {{className}}Base : EntityDtoBase, IEntityDto<{{entity.Nam
 {{- end }}
 
 {{- if !entity.IsOwnedEntity && entity.Persistence?.IsAudited == true}}
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 {{- end }}
 {{- if !entity.IsOwnedEntity }}

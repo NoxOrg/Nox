@@ -101,11 +101,15 @@ public abstract class CurrencyCreateDtoBase : IEntityDto<Currency>
     /// <summary>
     /// Currency used by OneOrMany Countries
     /// </summary>
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual List<CountryCreateDto> CurrencyUsedByCountry { get; set; } = new();
 
     /// <summary>
     /// Currency used by ZeroOrMany MinimumCashStocks
     /// </summary>
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual List<MinimumCashStockCreateDto> CurrencyUsedByMinimumCashStocks { get; set; } = new();
 
     /// <summary>

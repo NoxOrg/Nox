@@ -5,32 +5,50 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
-public partial class TestEntityZeroOrOneToZeroOrMany:TestEntityZeroOrOneToZeroOrManyBase
-{
 
+internal partial class TestEntityZeroOrOneToZeroOrMany : TestEntityZeroOrOneToZeroOrManyBase, IEntityHaveDomainEvents
+{
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for TestEntityZeroOrOneToZeroOrMany created event.
 /// </summary>
-public record TestEntityZeroOrOneToZeroOrManyCreated(TestEntityZeroOrOneToZeroOrMany TestEntityZeroOrOneToZeroOrMany) : IDomainEvent;
+internal record TestEntityZeroOrOneToZeroOrManyCreated(TestEntityZeroOrOneToZeroOrMany TestEntityZeroOrOneToZeroOrMany) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityZeroOrOneToZeroOrMany updated event.
 /// </summary>
-public record TestEntityZeroOrOneToZeroOrManyUpdated(TestEntityZeroOrOneToZeroOrMany TestEntityZeroOrOneToZeroOrMany) : IDomainEvent;
+internal record TestEntityZeroOrOneToZeroOrManyUpdated(TestEntityZeroOrOneToZeroOrMany TestEntityZeroOrOneToZeroOrMany) : IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityZeroOrOneToZeroOrMany deleted event.
 /// </summary>
-public record TestEntityZeroOrOneToZeroOrManyDeleted(TestEntityZeroOrOneToZeroOrMany TestEntityZeroOrOneToZeroOrMany) : IDomainEvent;
+internal record TestEntityZeroOrOneToZeroOrManyDeleted(TestEntityZeroOrOneToZeroOrMany TestEntityZeroOrOneToZeroOrMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public abstract class TestEntityZeroOrOneToZeroOrManyBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class TestEntityZeroOrOneToZeroOrManyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -41,6 +59,33 @@ public abstract class TestEntityZeroOrOneToZeroOrManyBase : AuditableEntityBase,
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(TestEntityZeroOrOneToZeroOrMany testEntityZeroOrOneToZeroOrMany)
+	{
+		InternalDomainEvents.Add(new TestEntityZeroOrOneToZeroOrManyCreated(testEntityZeroOrOneToZeroOrMany));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(TestEntityZeroOrOneToZeroOrMany testEntityZeroOrOneToZeroOrMany)
+	{
+		InternalDomainEvents.Add(new TestEntityZeroOrOneToZeroOrManyUpdated(testEntityZeroOrOneToZeroOrMany));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(TestEntityZeroOrOneToZeroOrMany testEntityZeroOrOneToZeroOrMany)
+	{
+		InternalDomainEvents.Add(new TestEntityZeroOrOneToZeroOrManyDeleted(testEntityZeroOrOneToZeroOrMany));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// TestEntityZeroOrOneToZeroOrMany Test entity relationship to TestEntityZeroOrManyToZeroOrOne ZeroOrOne TestEntityZeroOrManyToZeroOrOnes

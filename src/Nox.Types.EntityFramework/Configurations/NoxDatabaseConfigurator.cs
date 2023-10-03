@@ -250,6 +250,7 @@ namespace Nox.Types.EntityFramework.Configurations
                 foreignEntityKeyDefinition.Description = "-";
                 foreignEntityKeyDefinition.IsRequired = false;
                 foreignEntityKeyDefinition.IsReadonly = false;
+
                 databaseConfigurationForForeignKey.ConfigureEntityProperty(codeGeneratorState, builder, foreignEntityKeyDefinition, entity, false);
             }
         }

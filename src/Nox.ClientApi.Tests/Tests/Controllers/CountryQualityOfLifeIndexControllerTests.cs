@@ -21,7 +21,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region KEY AS ENTITYID
 
-        [Fact(Skip = "System.Net.Http.HttpRequestException : Response status code does not indicate success: 500 (Internal Server Error).")]
+        [Fact]
         public async Task Post_CountryQualityOfLifeIndex_Success()
         {
             // Arrange

@@ -137,6 +137,7 @@ public abstract class VendingMachineDtoBase : EntityDtoBase, IEntityDto<VendingM
     /// VendingMachine required ZeroOrMany MinimumCashStocks
     /// </summary>
     public virtual List<MinimumCashStockDto> VendingMachineRequiredMinimumCashStocks { get; set; } = new();
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

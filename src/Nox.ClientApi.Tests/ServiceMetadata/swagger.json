@@ -11038,13 +11038,6 @@
             "format": "int32",
             "nullable": true
           },
-          "physicalWorkplaces": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/WorkplaceCreateDto"
-            },
-            "nullable": true
-          },
           "countryShortNames": {
             "type": "array",
             "items": {
@@ -11119,11 +11112,6 @@
           },
           "countryBarCode": {
             "$ref": "#/components/schemas/CountryBarCodeDto"
-          },
-          "deletedAtUtc": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
           },
           "@odata.etag": {
             "type": "string",
@@ -12734,16 +12722,10 @@
             "type": "string",
             "nullable": true
           },
-          "ownership": {
-            "$ref": "#/components/schemas/StoreOwnerCreateDto"
-          },
           "licenseId": {
             "type": "integer",
             "format": "int64",
             "nullable": true
-          },
-          "license": {
-            "$ref": "#/components/schemas/StoreLicenseCreateDto"
           },
           "verifiedEmails": {
             "$ref": "#/components/schemas/EmailAddressCreateDto"
@@ -12788,11 +12770,6 @@
           },
           "verifiedEmails": {
             "$ref": "#/components/schemas/EmailAddressDto"
-          },
-          "deletedAtUtc": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
           },
           "@odata.etag": {
             "type": "string",
@@ -12851,9 +12828,6 @@
             "type": "string",
             "format": "uuid",
             "nullable": true
-          },
-          "storeWithLicense": {
-            "$ref": "#/components/schemas/StoreCreateDto"
           }
         },
         "additionalProperties": false
@@ -12876,11 +12850,6 @@
           },
           "storeWithLicense": {
             "$ref": "#/components/schemas/StoreDto"
-          },
-          "deletedAtUtc": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
           },
           "@odata.etag": {
             "type": "string",
@@ -12975,13 +12944,6 @@
           "notes": {
             "type": "string",
             "nullable": true
-          },
-          "stores": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/StoreCreateDto"
-            },
-            "nullable": true
           }
         },
         "additionalProperties": false
@@ -13019,11 +12981,6 @@
             "items": {
               "$ref": "#/components/schemas/StoreDto"
             },
-            "nullable": true
-          },
-          "deletedAtUtc": {
-            "type": "string",
-            "format": "date-time",
             "nullable": true
           },
           "@odata.etag": {
@@ -13928,9 +13885,6 @@
             "type": "integer",
             "format": "int64",
             "nullable": true
-          },
-          "belongsToCountry": {
-            "$ref": "#/components/schemas/CountryCreateDto"
           }
         },
         "additionalProperties": false

@@ -28,6 +28,7 @@
 	</Target>
 
 	<ItemGroup>
+		<Compile Remove="Application\Commands\**" />
 		<Compile Remove="Generated\**" />
 		<Content Include="Generated\**" />
 	</ItemGroup>
@@ -38,12 +39,18 @@
 		</AdditionalFiles>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <AdditionalFiles Remove="Application\Commands\**" />
+	  <Content Remove="Application\Commands\**" />
+	  <EmbeddedResource Remove="Application\Commands\**" />
+	  <None Remove="Application\Commands\**" />
+	</ItemGroup>
+
 	<ItemGroup>						
 		<AdditionalFiles Include="generator.nox.yaml" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Application\Commands\" />
 		<Folder Include="Generated\Nox.Generator\Nox.Generator.NoxCodeGenerator\" />
 	</ItemGroup>
 	<ItemGroup>

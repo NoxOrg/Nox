@@ -5,32 +5,50 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
-public partial class TestEntityForTypes:TestEntityForTypesBase
-{
 
+internal partial class TestEntityForTypes : TestEntityForTypesBase, IEntityHaveDomainEvents
+{
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for TestEntityForTypes created event.
 /// </summary>
-public record TestEntityForTypesCreated(TestEntityForTypes TestEntityForTypes) : IDomainEvent;
+internal record TestEntityForTypesCreated(TestEntityForTypes TestEntityForTypes) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityForTypes updated event.
 /// </summary>
-public record TestEntityForTypesUpdated(TestEntityForTypes TestEntityForTypes) : IDomainEvent;
+internal record TestEntityForTypesUpdated(TestEntityForTypes TestEntityForTypes) : IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityForTypes deleted event.
 /// </summary>
-public record TestEntityForTypesDeleted(TestEntityForTypes TestEntityForTypes) : IDomainEvent;
+internal record TestEntityForTypesDeleted(TestEntityForTypes TestEntityForTypes) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public abstract class TestEntityForTypesBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class TestEntityForTypesBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -315,6 +333,33 @@ public abstract class TestEntityForTypesBase : AuditableEntityBase, IEntityConcu
     ///  (Optional).
     /// </summary>
     public Nox.Types.Image? ImageTestField { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(TestEntityForTypes testEntityForTypes)
+	{
+		InternalDomainEvents.Add(new TestEntityForTypesCreated(testEntityForTypes));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(TestEntityForTypes testEntityForTypes)
+	{
+		InternalDomainEvents.Add(new TestEntityForTypesUpdated(testEntityForTypes));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(TestEntityForTypes testEntityForTypes)
+	{
+		InternalDomainEvents.Add(new TestEntityForTypesDeleted(testEntityForTypes));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// Entity tag used as concurrency token.

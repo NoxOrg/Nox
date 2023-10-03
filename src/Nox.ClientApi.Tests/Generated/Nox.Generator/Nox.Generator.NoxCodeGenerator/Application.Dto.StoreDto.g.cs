@@ -98,6 +98,7 @@ public abstract class StoreDtoBase : EntityDtoBase, IEntityDto<Store>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
     public virtual EmailAddressDto? VerifiedEmails { get; set; } = null!;
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

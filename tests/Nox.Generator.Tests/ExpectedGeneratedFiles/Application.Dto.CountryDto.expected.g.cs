@@ -170,6 +170,7 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<Country>
     /// The top level internet domains regitered to the country (comma-delimited) (Optional).
     /// </summary>
     public System.String? TopLevelDomains { get; set; }
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

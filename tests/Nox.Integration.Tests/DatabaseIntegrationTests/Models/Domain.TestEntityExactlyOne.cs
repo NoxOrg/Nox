@@ -5,32 +5,50 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
-public partial class TestEntityExactlyOne:TestEntityExactlyOneBase
-{
 
+internal partial class TestEntityExactlyOne : TestEntityExactlyOneBase, IEntityHaveDomainEvents
+{
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for TestEntityExactlyOne created event.
 /// </summary>
-public record TestEntityExactlyOneCreated(TestEntityExactlyOne TestEntityExactlyOne) : IDomainEvent;
+internal record TestEntityExactlyOneCreated(TestEntityExactlyOne TestEntityExactlyOne) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityExactlyOne updated event.
 /// </summary>
-public record TestEntityExactlyOneUpdated(TestEntityExactlyOne TestEntityExactlyOne) : IDomainEvent;
+internal record TestEntityExactlyOneUpdated(TestEntityExactlyOne TestEntityExactlyOne) : IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityExactlyOne deleted event.
 /// </summary>
-public record TestEntityExactlyOneDeleted(TestEntityExactlyOne TestEntityExactlyOne) : IDomainEvent;
+internal record TestEntityExactlyOneDeleted(TestEntityExactlyOne TestEntityExactlyOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public abstract class TestEntityExactlyOneBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class TestEntityExactlyOneBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -41,6 +59,33 @@ public abstract class TestEntityExactlyOneBase : AuditableEntityBase, IEntityCon
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(TestEntityExactlyOne testEntityExactlyOne)
+	{
+		InternalDomainEvents.Add(new TestEntityExactlyOneCreated(testEntityExactlyOne));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(TestEntityExactlyOne testEntityExactlyOne)
+	{
+		InternalDomainEvents.Add(new TestEntityExactlyOneUpdated(testEntityExactlyOne));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(TestEntityExactlyOne testEntityExactlyOne)
+	{
+		InternalDomainEvents.Add(new TestEntityExactlyOneDeleted(testEntityExactlyOne));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// TestEntityExactlyOne Test entity relationship to SecondTestEntityExactlyOneRelationship ExactlyOne SecondTestEntityExactlyOnes

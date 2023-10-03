@@ -5,32 +5,50 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
-public partial class ThirdTestEntityZeroOrOne:ThirdTestEntityZeroOrOneBase
-{
 
+internal partial class ThirdTestEntityZeroOrOne : ThirdTestEntityZeroOrOneBase, IEntityHaveDomainEvents
+{
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for ThirdTestEntityZeroOrOne created event.
 /// </summary>
-public record ThirdTestEntityZeroOrOneCreated(ThirdTestEntityZeroOrOne ThirdTestEntityZeroOrOne) : IDomainEvent;
+internal record ThirdTestEntityZeroOrOneCreated(ThirdTestEntityZeroOrOne ThirdTestEntityZeroOrOne) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for ThirdTestEntityZeroOrOne updated event.
 /// </summary>
-public record ThirdTestEntityZeroOrOneUpdated(ThirdTestEntityZeroOrOne ThirdTestEntityZeroOrOne) : IDomainEvent;
+internal record ThirdTestEntityZeroOrOneUpdated(ThirdTestEntityZeroOrOne ThirdTestEntityZeroOrOne) : IDomainEvent, INotification;
 /// <summary>
 /// Record for ThirdTestEntityZeroOrOne deleted event.
 /// </summary>
-public record ThirdTestEntityZeroOrOneDeleted(ThirdTestEntityZeroOrOne ThirdTestEntityZeroOrOne) : IDomainEvent;
+internal record ThirdTestEntityZeroOrOneDeleted(ThirdTestEntityZeroOrOne ThirdTestEntityZeroOrOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// .
 /// </summary>
-public abstract class ThirdTestEntityZeroOrOneBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class ThirdTestEntityZeroOrOneBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -41,6 +59,33 @@ public abstract class ThirdTestEntityZeroOrOneBase : AuditableEntityBase, IEntit
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField2 { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(ThirdTestEntityZeroOrOne thirdTestEntityZeroOrOne)
+	{
+		InternalDomainEvents.Add(new ThirdTestEntityZeroOrOneCreated(thirdTestEntityZeroOrOne));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(ThirdTestEntityZeroOrOne thirdTestEntityZeroOrOne)
+	{
+		InternalDomainEvents.Add(new ThirdTestEntityZeroOrOneUpdated(thirdTestEntityZeroOrOne));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(ThirdTestEntityZeroOrOne thirdTestEntityZeroOrOne)
+	{
+		InternalDomainEvents.Add(new ThirdTestEntityZeroOrOneDeleted(thirdTestEntityZeroOrOne));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// ThirdTestEntityZeroOrOne Test entity relationship to ThirdTestEntityExactlyOne ZeroOrOne ThirdTestEntityExactlyOnes

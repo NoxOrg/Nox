@@ -5,32 +5,50 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
-public partial class SecondTestEntityExactlyOne:SecondTestEntityExactlyOneBase
-{
 
+internal partial class SecondTestEntityExactlyOne : SecondTestEntityExactlyOneBase, IEntityHaveDomainEvents
+{
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for SecondTestEntityExactlyOne created event.
 /// </summary>
-public record SecondTestEntityExactlyOneCreated(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) : IDomainEvent;
+internal record SecondTestEntityExactlyOneCreated(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for SecondTestEntityExactlyOne updated event.
 /// </summary>
-public record SecondTestEntityExactlyOneUpdated(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) : IDomainEvent;
+internal record SecondTestEntityExactlyOneUpdated(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) : IDomainEvent, INotification;
 /// <summary>
 /// Record for SecondTestEntityExactlyOne deleted event.
 /// </summary>
-public record SecondTestEntityExactlyOneDeleted(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) : IDomainEvent;
+internal record SecondTestEntityExactlyOneDeleted(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// .
 /// </summary>
-public abstract class SecondTestEntityExactlyOneBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class SecondTestEntityExactlyOneBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -41,6 +59,33 @@ public abstract class SecondTestEntityExactlyOneBase : AuditableEntityBase, IEnt
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField2 { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(SecondTestEntityExactlyOne secondTestEntityExactlyOne)
+	{
+		InternalDomainEvents.Add(new SecondTestEntityExactlyOneCreated(secondTestEntityExactlyOne));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(SecondTestEntityExactlyOne secondTestEntityExactlyOne)
+	{
+		InternalDomainEvents.Add(new SecondTestEntityExactlyOneUpdated(secondTestEntityExactlyOne));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(SecondTestEntityExactlyOne secondTestEntityExactlyOne)
+	{
+		InternalDomainEvents.Add(new SecondTestEntityExactlyOneDeleted(secondTestEntityExactlyOne));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// SecondTestEntityExactlyOne Test entity relationship to TestEntityExactlyOneRelationship ExactlyOne TestEntityExactlyOnes
