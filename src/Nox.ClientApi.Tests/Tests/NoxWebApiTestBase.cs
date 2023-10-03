@@ -12,6 +12,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
 {
     protected readonly Fixture _fixture = new Fixture();
     private readonly NoxTestApplicationFactory _appFactory;
+    private readonly Dictionary<string, IEnumerable<string>> _defaultHeaders = new();
 
     /// <summary>
     /// TODO  enableMessagingTests is causing the GitHub CI to hang...
@@ -26,6 +27,8 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
     {
         _appFactory = containerService.GetTestApplicationFactory(testOutput, enableMessagingTests);
         _appFactory.ResetDataContext();
+        _defaultHeaders.Add("X-User-Name", new List<string> { "TestUser" });
+        _defaultHeaders.Add("X-System-Name", new List<string> { "TestSystem" });
     }
 
     protected ITestHarness MassTransitTestHarness => _appFactory.GetTestHarness();
@@ -35,7 +38,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
     /// </summary>
     public async Task<TResult?> GetODataCollectionResponseAsync<TResult>(string requestUrl)
     {
-        using var httpClient = _appFactory.CreateClient();
+        using var httpClient = CreateHttpClientWithDefaultHeaders();
 
         var result = await httpClient.GetAsync(requestUrl);
         result.EnsureSuccessStatusCode();
@@ -52,7 +55,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
     /// </summary>
     public async Task<TResult?> GetODataSimpleResponseAsync<TResult>(string requestUrl)
     {
-        using var httpClient = _appFactory.CreateClient();
+        using var httpClient = CreateHttpClientWithDefaultHeaders();
 
         var result = await httpClient.GetAsync(requestUrl);
 
@@ -70,7 +73,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
 
     public async Task<HttpResponseMessage> GetAsync(string requestUrl)
     {
-        using var httpClient = _appFactory.CreateClient();
+        using var httpClient = CreateHttpClientWithDefaultHeaders();
         var result = await httpClient.GetAsync(requestUrl);
 
         return result;
@@ -78,7 +81,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
 
     public async Task<HttpResponseMessage> PostAsync(string requestUrl)
     {
-        using var httpClient = _appFactory.CreateClient();
+        using var httpClient = CreateHttpClientWithDefaultHeaders();
 
         var result = await httpClient.PostAsync(requestUrl, null);
         result.EnsureSuccessStatusCode();
@@ -88,7 +91,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
 
     public async Task<HttpResponseMessage> PostAsync<TValue>(string requestUrl, TValue data)
     {
-        using var httpClient = _appFactory.CreateClient();
+        using var httpClient = CreateHttpClientWithDefaultHeaders();
 
         var result = await httpClient.PostAsJsonAsync(requestUrl, data);
 
@@ -97,7 +100,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
 
     public async Task<TResult?> PostAsync<TValue, TResult>(string requestUrl, TValue data, Dictionary<string, IEnumerable<string>> headers)
     {
-        using var httpClient = _appFactory.CreateClient();
+        using var httpClient = CreateHttpClientWithDefaultHeaders();
 
         AddHeaders(httpClient, headers ?? new());
 
@@ -119,7 +122,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
 
     public async Task<HttpResponseMessage?> PutAsync<TValue>(string requestUrl, TValue data, Dictionary<string, IEnumerable<string>> headers, bool throwOnError = true)
     {
-        using var httpClient = _appFactory.CreateClient();
+        using var httpClient = CreateHttpClientWithDefaultHeaders();
 
         AddHeaders(httpClient, headers);
 
@@ -138,7 +141,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
 
     public async Task<TResult?> PutAsync<TValue, TResult>(string requestUrl, TValue data, Dictionary<string, IEnumerable<string>> headers, bool throwOnError = true)
     {
-        using var httpClient = _appFactory.CreateClient();
+        using var httpClient = CreateHttpClientWithDefaultHeaders();
 
         AddHeaders(httpClient, headers ?? new());
 
@@ -165,7 +168,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
     public async Task<HttpResponseMessage?> PatchAsync<TValue>(string requestUrl, TValue delta, Dictionary<string, IEnumerable<string>> headers, bool throwOnError = true)
         where TValue : class
     {
-        using var httpClient = _appFactory.CreateClient();
+        using var httpClient = CreateHttpClientWithDefaultHeaders();
 
         AddHeaders(httpClient, headers ?? new());
 
@@ -186,7 +189,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
     public async Task<TResult?> PatchAsync<TValue, TResult>(string requestUrl, TValue delta, Dictionary<string, IEnumerable<string>> headers)
         where TValue : class
     {
-        using var httpClient = _appFactory.CreateClient();
+        using var httpClient = CreateHttpClientWithDefaultHeaders();
 
         AddHeaders(httpClient, headers ?? new());
 
@@ -214,7 +217,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
 
     public async Task<HttpResponseMessage?> DeleteAsync(string requestUrl, Dictionary<string, IEnumerable<string>> headers, bool throwOnError = true)
     {
-        using var httpClient = _appFactory.CreateClient();
+        using var httpClient = CreateHttpClientWithDefaultHeaders();
 
         AddHeaders(httpClient, headers ?? new());
 
@@ -237,6 +240,13 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
                 { "If-Match", new List<string> { $"\"{etag}\"" } }
         };
 
+    private HttpClient CreateHttpClientWithDefaultHeaders()
+    {
+        var httpClient = _appFactory.CreateClient();
+        AddHeaders(httpClient, _defaultHeaders);
+        return httpClient;
+    }
+   
     private static void AddHeaders(HttpClient httpClient, Dictionary<string, IEnumerable<string>> headers)
     {
         foreach (var header in headers)
@@ -244,6 +254,8 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
             httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
         }
     }
+    
+    
 
     private TResult? DeserializeResponse<TResult>(string response)
     {
