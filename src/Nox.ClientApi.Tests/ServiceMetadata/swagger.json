@@ -11228,13 +11228,6 @@
             "format": "int32",
             "nullable": true
           },
-          "physicalWorkplaces": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/WorkplaceCreateDto"
-            },
-            "nullable": true
-          },
           "countryShortNames": {
             "type": "array",
             "items": {
@@ -13295,16 +13288,10 @@
             "type": "string",
             "nullable": true
           },
-          "ownership": {
-            "$ref": "#/components/schemas/StoreOwnerCreateDto"
-          },
           "licenseId": {
             "type": "integer",
             "format": "int64",
             "nullable": true
-          },
-          "license": {
-            "$ref": "#/components/schemas/StoreLicenseCreateDto"
           },
           "verifiedEmails": {
             "$ref": "#/components/schemas/EmailAddressCreateDto"
@@ -13407,9 +13394,6 @@
             "type": "string",
             "format": "uuid",
             "nullable": true
-          },
-          "storeWithLicense": {
-            "$ref": "#/components/schemas/StoreCreateDto"
           }
         },
         "additionalProperties": false
@@ -13525,13 +13509,6 @@
           },
           "notes": {
             "type": "string",
-            "nullable": true
-          },
-          "stores": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/StoreCreateDto"
-            },
             "nullable": true
           }
         },
@@ -14474,9 +14451,6 @@
             "type": "integer",
             "format": "int64",
             "nullable": true
-          },
-          "belongsToCountry": {
-            "$ref": "#/components/schemas/CountryCreateDto"
           }
         },
         "additionalProperties": false

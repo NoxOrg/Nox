@@ -13,7 +13,7 @@ namespace ClientApi.Tests.Tests.Controllers
     [Collection("Sequential")]
     public class StoreOwnersControllerTests : NoxWebApiTestBase
     {
-        private const string StoreOwnersControllerName = "api/storeowners";
+        public const string StoreOwnersUrl = "api/storeowners";
 
         public StoreOwnersControllerTests(ITestOutputHelper testOutput,
             NoxTestContainerService containerService)
@@ -31,7 +31,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await PostAsync(StoreOwnersControllerName, createDto);
+            var result = await PostAsync(StoreOwnersUrl, createDto);
 
             //Assert
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -48,7 +48,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await PostAsync(StoreOwnersControllerName, createDto);
+            var result = await PostAsync(StoreOwnersUrl, createDto);
 
             // Assert
             // represent a nox type exception
@@ -66,7 +66,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await PostAsync(StoreOwnersControllerName, createDto);
+            var result = await PostAsync(StoreOwnersUrl, createDto);
 
             //Assert
             result.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -85,7 +85,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(StoreOwnersControllerName, createDto);
+            var result = await PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(StoreOwnersUrl, createDto);
 
             //Assert
             result.Should().NotBeNull();
@@ -118,7 +118,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(StoreOwnersControllerName, createDto);
+            var result = await PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(StoreOwnersUrl, createDto);
 
             //Assert
             result.Should().NotBeNull();
@@ -150,7 +150,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(StoreOwnersControllerName, createDto);
+            var result = await PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(StoreOwnersUrl, createDto);
 
             //Assert
             result.Should().NotBeNull();
@@ -180,7 +180,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await PostAsync(StoreOwnersControllerName, createDto);
+            var result = await PostAsync(StoreOwnersUrl, createDto);
 
             //Assert
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -208,7 +208,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await PostAsync(StoreOwnersControllerName, createDto);
+            var result = await PostAsync(StoreOwnersUrl, createDto);
 
             //Assert
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -236,7 +236,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await PostAsync(StoreOwnersControllerName, createDto);
+            var result = await PostAsync(StoreOwnersUrl, createDto);
 
             //Assert
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);

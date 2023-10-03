@@ -4,16 +4,13 @@ using AutoFixture;
 using Nox.Types;
 using System.Net;
 using Xunit.Abstractions;
+using ClientApi.Tests.Controllers;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
     [Collection("StoreDescriptionsControllerTests")]
     public class RatingProgramControllerTests : NoxWebApiTestBase
     {
-        private const string EntityPluralName = "ratingprograms";
-        private const string EntityUrl = $"api/{EntityPluralName}";
-        private const string StoresUrl = $"api/stores";
-
         public RatingProgramControllerTests(ITestOutputHelper testOutput, NoxTestContainerService containerService)
             : base(testOutput, containerService)
         {
@@ -42,7 +39,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 Location = new LatLongDto(51.3728033, -0.5389749),
             };
 
-            var storeResponse = await PostAsync<StoreCreateDto, StoreDto>(StoresUrl, storeDto);
+            var storeResponse = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, storeDto);
 
             var ratingDto = new RatingProgramCreateDto
             {
@@ -51,7 +48,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var ratingResponse = await PostAsync<RatingProgramCreateDto, RatingProgramDto>(EntityUrl, ratingDto);
+            var ratingResponse = await PostAsync<RatingProgramCreateDto, RatingProgramDto>(Endpoints.RatingProgramsUrl, ratingDto);
 
             //Assert
             ratingResponse.Should().NotBeNull();
@@ -70,7 +67,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await PostAsync(EntityUrl, ratingDto);
+            var result = await PostAsync(Endpoints.RatingProgramsUrl, ratingDto);
 
             //Assert
             result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
