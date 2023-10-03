@@ -22,8 +22,7 @@ internal partial class UpdateTestEntityOwnedRelationshipZeroOrOneCommandHandler:
 	public UpdateTestEntityOwnedRelationshipZeroOrOneCommandHandler(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<TestEntityOwnedRelationshipZeroOrOne, TestEntityOwnedRelationshipZeroOrOneCreateDto, TestEntityOwnedRelationshipZeroOrOneUpdateDto> entityFactory): base(dbContext, noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<TestEntityOwnedRelationshipZeroOrOne, TestEntityOwnedRelationshipZeroOrOneCreateDto, TestEntityOwnedRelationshipZeroOrOneUpdateDto> entityFactory): base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,8 +35,7 @@ internal abstract class UpdateTestEntityOwnedRelationshipZeroOrOneCommandHandler
 	public UpdateTestEntityOwnedRelationshipZeroOrOneCommandHandlerBase(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<TestEntityOwnedRelationshipZeroOrOne, TestEntityOwnedRelationshipZeroOrOneCreateDto, TestEntityOwnedRelationshipZeroOrOneUpdateDto> entityFactory): base(noxSolution, serviceProvider)
+		IEntityFactory<TestEntityOwnedRelationshipZeroOrOne, TestEntityOwnedRelationshipZeroOrOneCreateDto, TestEntityOwnedRelationshipZeroOrOneUpdateDto> entityFactory): base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -47,7 +45,7 @@ internal abstract class UpdateTestEntityOwnedRelationshipZeroOrOneCommandHandler
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<TestEntityOwnedRelationshipZeroOrOne,Nox.Types.Text>("Id", request.keyId);
+		var keyId = TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrOneMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityOwnedRelationshipZeroOrOnes.FindAsync(keyId);
 		if (entity == null)

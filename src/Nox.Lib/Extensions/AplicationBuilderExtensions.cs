@@ -5,19 +5,30 @@ using Microsoft.AspNetCore.OData;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Lib;
 using Nox.Solution;
+using Serilog;
 
 namespace Nox
 {
     public static class ApplicationBuilderBuilderExtensions
     {
-        public static void UseNox(this IApplicationBuilder builder)
+        /// <summary>
+        /// Add Nox to the application builder, with optional Serilog request logging
+        /// </summary>
+        public static INoxBuilder UseNox(this IApplicationBuilder builder,bool useSerilogRequestLogging = true)
         {
-#if DEBUG
-            builder.UseODataRouteDebug();
-#endif
+            // Enabling http requests logging 
+            if(useSerilogRequestLogging)
+                builder.UseSerilogRequestLogging();
+
             builder.UseMiddleware<NoxExceptionHanderMiddleware>();
 
             builder.UseRequestLocalization();
+
+            var noxBuilder = new NoxBuilder(builder);
+#if DEBUG
+            noxBuilder.UseODataRouteDebug();
+#endif
+            return noxBuilder;
         }
         
         private static IApplicationBuilder UseNoxLocalization(this IApplicationBuilder builder) 

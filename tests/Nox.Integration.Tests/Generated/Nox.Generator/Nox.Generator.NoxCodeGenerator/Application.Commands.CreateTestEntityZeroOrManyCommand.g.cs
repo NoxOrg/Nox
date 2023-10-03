@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Factories;
 using Nox.Solution;
 
@@ -26,9 +28,8 @@ internal partial class CreateTestEntityZeroOrManyCommandHandler: CreateTestEntit
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<SecondTestEntityZeroOrMany, SecondTestEntityZeroOrManyCreateDto, SecondTestEntityZeroOrManyUpdateDto> secondtestentityzeroormanyfactory,
-		IEntityFactory<TestEntityZeroOrMany, TestEntityZeroOrManyCreateDto, TestEntityZeroOrManyUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,secondtestentityzeroormanyfactory, entityFactory, serviceProvider)
+		IEntityFactory<TestEntityZeroOrMany, TestEntityZeroOrManyCreateDto, TestEntityZeroOrManyUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,secondtestentityzeroormanyfactory, entityFactory)
 	{
 	}
 }
@@ -44,8 +45,7 @@ internal abstract class CreateTestEntityZeroOrManyCommandHandlerBase: CommandBas
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<SecondTestEntityZeroOrMany, SecondTestEntityZeroOrManyCreateDto, SecondTestEntityZeroOrManyUpdateDto> secondtestentityzeroormanyfactory,
-		IEntityFactory<TestEntityZeroOrMany, TestEntityZeroOrManyCreateDto, TestEntityZeroOrManyUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<TestEntityZeroOrMany, TestEntityZeroOrManyCreateDto, TestEntityZeroOrManyUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

@@ -23,8 +23,7 @@ internal class PartialUpdateTestEntityZeroOrOneToOneOrManyCommandHandler: Partia
 	public PartialUpdateTestEntityZeroOrOneToOneOrManyCommandHandler(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<TestEntityZeroOrOneToOneOrMany, TestEntityZeroOrOneToOneOrManyCreateDto, TestEntityZeroOrOneToOneOrManyUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<TestEntityZeroOrOneToOneOrMany, TestEntityZeroOrOneToOneOrManyCreateDto, TestEntityZeroOrOneToOneOrManyUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,8 +35,7 @@ internal class PartialUpdateTestEntityZeroOrOneToOneOrManyCommandHandlerBase: Co
 	public PartialUpdateTestEntityZeroOrOneToOneOrManyCommandHandlerBase(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<TestEntityZeroOrOneToOneOrMany, TestEntityZeroOrOneToOneOrManyCreateDto, TestEntityZeroOrOneToOneOrManyUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
+		IEntityFactory<TestEntityZeroOrOneToOneOrMany, TestEntityZeroOrOneToOneOrManyCreateDto, TestEntityZeroOrOneToOneOrManyUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -47,7 +45,7 @@ internal class PartialUpdateTestEntityZeroOrOneToOneOrManyCommandHandlerBase: Co
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<TestEntityZeroOrOneToOneOrMany,Nox.Types.Text>("Id", request.keyId);
+		var keyId = TestWebApp.Domain.TestEntityZeroOrOneToOneOrManyMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityZeroOrOneToOneOrManies.FindAsync(keyId);
 		if (entity == null)

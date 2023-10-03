@@ -22,8 +22,7 @@ internal partial class UpdateTestEntityExactlyOneToZeroOrManyCommandHandler: Upd
 	public UpdateTestEntityExactlyOneToZeroOrManyCommandHandler(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<TestEntityExactlyOneToZeroOrMany, TestEntityExactlyOneToZeroOrManyCreateDto, TestEntityExactlyOneToZeroOrManyUpdateDto> entityFactory): base(dbContext, noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<TestEntityExactlyOneToZeroOrMany, TestEntityExactlyOneToZeroOrManyCreateDto, TestEntityExactlyOneToZeroOrManyUpdateDto> entityFactory): base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,8 +35,7 @@ internal abstract class UpdateTestEntityExactlyOneToZeroOrManyCommandHandlerBase
 	public UpdateTestEntityExactlyOneToZeroOrManyCommandHandlerBase(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<TestEntityExactlyOneToZeroOrMany, TestEntityExactlyOneToZeroOrManyCreateDto, TestEntityExactlyOneToZeroOrManyUpdateDto> entityFactory): base(noxSolution, serviceProvider)
+		IEntityFactory<TestEntityExactlyOneToZeroOrMany, TestEntityExactlyOneToZeroOrManyCreateDto, TestEntityExactlyOneToZeroOrManyUpdateDto> entityFactory): base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -47,7 +45,7 @@ internal abstract class UpdateTestEntityExactlyOneToZeroOrManyCommandHandlerBase
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<TestEntityExactlyOneToZeroOrMany,Nox.Types.Text>("Id", request.keyId);
+		var keyId = TestWebApp.Domain.TestEntityExactlyOneToZeroOrManyMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityExactlyOneToZeroOrManies.FindAsync(keyId);
 		if (entity == null)

@@ -28,10 +28,9 @@ internal partial class CreateRefBookingToBookingFeesForCommissionCommandHandler
 {
 	public CreateRefBookingToBookingFeesForCommissionCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Create)
+		: base(dbContext, noxSolution, RelationshipAction.Create)
 	{ }
 }
 
@@ -43,10 +42,9 @@ internal partial class DeleteRefBookingToBookingFeesForCommissionCommandHandler
 {
 	public DeleteRefBookingToBookingFeesForCommissionCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Delete)
+		: base(dbContext, noxSolution, RelationshipAction.Delete)
 	{ }
 }
 
@@ -58,10 +56,9 @@ internal partial class DeleteAllRefBookingToBookingFeesForCommissionCommandHandl
 {
 	public DeleteAllRefBookingToBookingFeesForCommissionCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
 	{ }
 }
 
@@ -77,9 +74,8 @@ internal abstract class RefBookingToBookingFeesForCommissionCommandHandlerBase<T
 	public RefBookingToBookingFeesForCommissionCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
 		RelationshipAction action)
-		: base(noxSolution, serviceProvider)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		Action = action;
@@ -89,7 +85,7 @@ internal abstract class RefBookingToBookingFeesForCommissionCommandHandlerBase<T
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Booking, Nox.Types.Guid>("Id", request.EntityKeyDto.keyId);
+		var keyId = Cryptocash.Domain.BookingMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.Bookings.FindAsync(keyId);
 		if (entity == null)
 		{
@@ -99,7 +95,7 @@ internal abstract class RefBookingToBookingFeesForCommissionCommandHandlerBase<T
 		Commission? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
-			var relatedKeyId = CreateNoxTypeForKey<Commission, Nox.Types.AutoNumber>("Id", request.RelatedEntityKeyDto.keyId);
+			var relatedKeyId = Cryptocash.Domain.CommissionMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
 			relatedEntity = await DbContext.Commissions.FindAsync(relatedKeyId);
 			if (relatedEntity == null)
 			{

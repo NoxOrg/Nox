@@ -23,8 +23,7 @@ internal class PartialUpdateTestEntityTwoRelationshipsOneToManyCommandHandler: P
 	public PartialUpdateTestEntityTwoRelationshipsOneToManyCommandHandler(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<TestEntityTwoRelationshipsOneToMany, TestEntityTwoRelationshipsOneToManyCreateDto, TestEntityTwoRelationshipsOneToManyUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<TestEntityTwoRelationshipsOneToMany, TestEntityTwoRelationshipsOneToManyCreateDto, TestEntityTwoRelationshipsOneToManyUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,8 +35,7 @@ internal class PartialUpdateTestEntityTwoRelationshipsOneToManyCommandHandlerBas
 	public PartialUpdateTestEntityTwoRelationshipsOneToManyCommandHandlerBase(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<TestEntityTwoRelationshipsOneToMany, TestEntityTwoRelationshipsOneToManyCreateDto, TestEntityTwoRelationshipsOneToManyUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
+		IEntityFactory<TestEntityTwoRelationshipsOneToMany, TestEntityTwoRelationshipsOneToManyCreateDto, TestEntityTwoRelationshipsOneToManyUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -47,7 +45,7 @@ internal class PartialUpdateTestEntityTwoRelationshipsOneToManyCommandHandlerBas
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<TestEntityTwoRelationshipsOneToMany,Nox.Types.Text>("Id", request.keyId);
+		var keyId = TestWebApp.Domain.TestEntityTwoRelationshipsOneToManyMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityTwoRelationshipsOneToManies.FindAsync(keyId);
 		if (entity == null)

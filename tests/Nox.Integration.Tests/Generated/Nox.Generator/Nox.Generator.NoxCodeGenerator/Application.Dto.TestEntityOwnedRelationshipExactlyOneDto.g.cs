@@ -59,6 +59,7 @@ public abstract class TestEntityOwnedRelationshipExactlyOneDtoBase : EntityDtoBa
     /// TestEntityOwnedRelationshipExactlyOne Test entity relationship to SecondTestEntityOwnedRelationshipExactlyOne ExactlyOne SecondTestEntityOwnedRelationshipExactlyOnes
     /// </summary>
     public virtual SecondTestEntityOwnedRelationshipExactlyOneDto SecondTestEntityOwnedRelationshipExactlyOne { get; set; } = null!;
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

@@ -22,8 +22,7 @@ internal partial class UpdateTestEntityExactlyOneCommandHandler: UpdateTestEntit
 	public UpdateTestEntityExactlyOneCommandHandler(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<TestEntityExactlyOne, TestEntityExactlyOneCreateDto, TestEntityExactlyOneUpdateDto> entityFactory): base(dbContext, noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<TestEntityExactlyOne, TestEntityExactlyOneCreateDto, TestEntityExactlyOneUpdateDto> entityFactory): base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,8 +35,7 @@ internal abstract class UpdateTestEntityExactlyOneCommandHandlerBase: CommandBas
 	public UpdateTestEntityExactlyOneCommandHandlerBase(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<TestEntityExactlyOne, TestEntityExactlyOneCreateDto, TestEntityExactlyOneUpdateDto> entityFactory): base(noxSolution, serviceProvider)
+		IEntityFactory<TestEntityExactlyOne, TestEntityExactlyOneCreateDto, TestEntityExactlyOneUpdateDto> entityFactory): base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -47,7 +45,7 @@ internal abstract class UpdateTestEntityExactlyOneCommandHandlerBase: CommandBas
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<TestEntityExactlyOne,Nox.Types.Text>("Id", request.keyId);
+		var keyId = TestWebApp.Domain.TestEntityExactlyOneMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityExactlyOnes.FindAsync(keyId);
 		if (entity == null)

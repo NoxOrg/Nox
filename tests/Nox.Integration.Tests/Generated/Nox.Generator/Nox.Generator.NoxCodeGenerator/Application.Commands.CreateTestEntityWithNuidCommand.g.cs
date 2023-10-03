@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Factories;
 using Nox.Solution;
 
@@ -25,9 +27,8 @@ internal partial class CreateTestEntityWithNuidCommandHandler: CreateTestEntityW
 	public CreateTestEntityWithNuidCommandHandler(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityWithNuid, TestEntityWithNuidCreateDto, TestEntityWithNuidUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,entityFactory, serviceProvider)
+		IEntityFactory<TestEntityWithNuid, TestEntityWithNuidCreateDto, TestEntityWithNuidUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,entityFactory)
 	{
 	}
 }
@@ -41,8 +42,7 @@ internal abstract class CreateTestEntityWithNuidCommandHandlerBase: CommandBase<
 	public CreateTestEntityWithNuidCommandHandlerBase(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityWithNuid, TestEntityWithNuidCreateDto, TestEntityWithNuidUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<TestEntityWithNuid, TestEntityWithNuidCreateDto, TestEntityWithNuidUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

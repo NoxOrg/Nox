@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Factories;
 using Nox.Solution;
 
@@ -26,9 +28,8 @@ internal partial class CreateEmployeeCommandHandler: CreateEmployeeCommandHandle
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> cashstockorderfactory,
-		IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,cashstockorderfactory, entityFactory, serviceProvider)
+		IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,cashstockorderfactory, entityFactory)
 	{
 	}
 }
@@ -44,8 +45,7 @@ internal abstract class CreateEmployeeCommandHandlerBase: CommandBase<CreateEmpl
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> cashstockorderfactory,
-		IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -58,7 +58,16 @@ internal abstract class CreateEmployeeCommandHandlerBase: CommandBase<CreateEmpl
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.EmployeeReviewingCashStockOrder is not null)
+		if(request.EntityDto.EmployeeReviewingCashStockOrderId is not null)
+		{
+			var relatedKey = Cryptocash.Domain.CashStockOrderMetadata.CreateId(request.EntityDto.EmployeeReviewingCashStockOrderId.NonNullValue<System.Int64>());
+			var relatedEntity = await _dbContext.CashStockOrders.FindAsync(relatedKey);
+			if(relatedEntity is not null)
+				entityToCreate.CreateRefToEmployeeReviewingCashStockOrder(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("EmployeeReviewingCashStockOrder", request.EntityDto.EmployeeReviewingCashStockOrderId.NonNullValue<System.Int64>().ToString());
+		}
+		else if(request.EntityDto.EmployeeReviewingCashStockOrder is not null)
 		{
 			var relatedEntity = _cashstockorderfactory.CreateEntity(request.EntityDto.EmployeeReviewingCashStockOrder);
 			entityToCreate.CreateRefToEmployeeReviewingCashStockOrder(relatedEntity);

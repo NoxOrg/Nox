@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
@@ -33,15 +35,15 @@ internal partial class SecondTestEntityOwnedRelationshipZeroOrMany : SecondTestE
 /// <summary>
 /// Record for SecondTestEntityOwnedRelationshipZeroOrMany created event.
 /// </summary>
-internal record SecondTestEntityOwnedRelationshipZeroOrManyCreated(SecondTestEntityOwnedRelationshipZeroOrMany SecondTestEntityOwnedRelationshipZeroOrMany) : IDomainEvent;
+internal record SecondTestEntityOwnedRelationshipZeroOrManyCreated(SecondTestEntityOwnedRelationshipZeroOrMany SecondTestEntityOwnedRelationshipZeroOrMany) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for SecondTestEntityOwnedRelationshipZeroOrMany updated event.
 /// </summary>
-internal record SecondTestEntityOwnedRelationshipZeroOrManyUpdated(SecondTestEntityOwnedRelationshipZeroOrMany SecondTestEntityOwnedRelationshipZeroOrMany) : IDomainEvent;
+internal record SecondTestEntityOwnedRelationshipZeroOrManyUpdated(SecondTestEntityOwnedRelationshipZeroOrMany SecondTestEntityOwnedRelationshipZeroOrMany) : IDomainEvent, INotification;
 /// <summary>
 /// Record for SecondTestEntityOwnedRelationshipZeroOrMany deleted event.
 /// </summary>
-internal record SecondTestEntityOwnedRelationshipZeroOrManyDeleted(SecondTestEntityOwnedRelationshipZeroOrMany SecondTestEntityOwnedRelationshipZeroOrMany) : IDomainEvent;
+internal record SecondTestEntityOwnedRelationshipZeroOrManyDeleted(SecondTestEntityOwnedRelationshipZeroOrMany SecondTestEntityOwnedRelationshipZeroOrMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// .

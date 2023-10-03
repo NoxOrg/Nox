@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
@@ -33,15 +35,15 @@ internal partial class TestEntityWithNuid : TestEntityWithNuidBase, IEntityHaveD
 /// <summary>
 /// Record for TestEntityWithNuid created event.
 /// </summary>
-internal record TestEntityWithNuidCreated(TestEntityWithNuid TestEntityWithNuid) : IDomainEvent;
+internal record TestEntityWithNuidCreated(TestEntityWithNuid TestEntityWithNuid) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityWithNuid updated event.
 /// </summary>
-internal record TestEntityWithNuidUpdated(TestEntityWithNuid TestEntityWithNuid) : IDomainEvent;
+internal record TestEntityWithNuidUpdated(TestEntityWithNuid TestEntityWithNuid) : IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityWithNuid deleted event.
 /// </summary>
-internal record TestEntityWithNuidDeleted(TestEntityWithNuid TestEntityWithNuid) : IDomainEvent;
+internal record TestEntityWithNuidDeleted(TestEntityWithNuid TestEntityWithNuid) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing nuid.

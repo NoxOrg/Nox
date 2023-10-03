@@ -19,8 +19,7 @@ internal class DeleteTestEntityExactlyOneByIdCommandHandler:DeleteTestEntityExac
 {
 	public DeleteTestEntityExactlyOneByIdCommandHandler(
 		TestWebAppDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+		NoxSolution noxSolution): base(dbContext, noxSolution)
 	{
 	}
 }
@@ -30,8 +29,7 @@ internal abstract class DeleteTestEntityExactlyOneByIdCommandHandlerBase: Comman
 
 	public DeleteTestEntityExactlyOneByIdCommandHandlerBase(
 		TestWebAppDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution): base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
@@ -40,7 +38,7 @@ internal abstract class DeleteTestEntityExactlyOneByIdCommandHandlerBase: Comman
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<TestEntityExactlyOne,Nox.Types.Text>("Id", request.keyId);
+		var keyId = TestWebApp.Domain.TestEntityExactlyOneMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityExactlyOnes.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted == true)

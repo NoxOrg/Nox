@@ -24,9 +24,8 @@ internal partial class CreateSecondTestEntityOwnedRelationshipExactlyOneForTestE
 	public CreateSecondTestEntityOwnedRelationshipExactlyOneForTestEntityOwnedRelationshipExactlyOneCommandHandler(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<SecondTestEntityOwnedRelationshipExactlyOne, SecondTestEntityOwnedRelationshipExactlyOneCreateDto, SecondTestEntityOwnedRelationshipExactlyOneUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution, entityFactory, serviceProvider)
+		IEntityFactory<SecondTestEntityOwnedRelationshipExactlyOne, SecondTestEntityOwnedRelationshipExactlyOneCreateDto, SecondTestEntityOwnedRelationshipExactlyOneUpdateDto> entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -38,8 +37,7 @@ internal abstract class CreateSecondTestEntityOwnedRelationshipExactlyOneForTest
 	public CreateSecondTestEntityOwnedRelationshipExactlyOneForTestEntityOwnedRelationshipExactlyOneCommandHandlerBase(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<SecondTestEntityOwnedRelationshipExactlyOne, SecondTestEntityOwnedRelationshipExactlyOneCreateDto, SecondTestEntityOwnedRelationshipExactlyOneUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<SecondTestEntityOwnedRelationshipExactlyOne, SecondTestEntityOwnedRelationshipExactlyOneCreateDto, SecondTestEntityOwnedRelationshipExactlyOneUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -48,7 +46,7 @@ internal abstract class CreateSecondTestEntityOwnedRelationshipExactlyOneForTest
 	public virtual  async Task<SecondTestEntityOwnedRelationshipExactlyOneKeyDto?> Handle(CreateSecondTestEntityOwnedRelationshipExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<TestEntityOwnedRelationshipExactlyOne,Nox.Types.Text>("Id", request.ParentKeyDto.keyId);
+		var keyId = TestWebApp.Domain.TestEntityOwnedRelationshipExactlyOneMetadata.CreateId(request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.TestEntityOwnedRelationshipExactlyOnes.FindAsync(keyId);
 		if (parentEntity == null)

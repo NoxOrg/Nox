@@ -19,8 +19,7 @@ internal class DeleteRatingProgramByIdCommandHandler:DeleteRatingProgramByIdComm
 {
 	public DeleteRatingProgramByIdCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+		NoxSolution noxSolution): base(dbContext, noxSolution)
 	{
 	}
 }
@@ -30,8 +29,7 @@ internal abstract class DeleteRatingProgramByIdCommandHandlerBase: CommandBase<D
 
 	public DeleteRatingProgramByIdCommandHandlerBase(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution): base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
@@ -40,8 +38,8 @@ internal abstract class DeleteRatingProgramByIdCommandHandlerBase: CommandBase<D
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyStoreId = CreateNoxTypeForKey<RatingProgram,Nox.Types.Guid>("StoreId", request.keyStoreId);
-		var keyId = CreateNoxTypeForKey<RatingProgram,Nox.Types.AutoNumber>("Id", request.keyId);
+		var keyStoreId = ClientApi.Domain.RatingProgramMetadata.CreateStoreId(request.keyStoreId);
+		var keyId = ClientApi.Domain.RatingProgramMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.RatingPrograms.FindAsync(keyStoreId, keyId);
 		if (entity == null)

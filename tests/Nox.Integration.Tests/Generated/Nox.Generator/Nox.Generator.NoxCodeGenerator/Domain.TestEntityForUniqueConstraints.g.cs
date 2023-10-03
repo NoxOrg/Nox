@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
@@ -33,15 +35,15 @@ internal partial class TestEntityForUniqueConstraints : TestEntityForUniqueConst
 /// <summary>
 /// Record for TestEntityForUniqueConstraints created event.
 /// </summary>
-internal record TestEntityForUniqueConstraintsCreated(TestEntityForUniqueConstraints TestEntityForUniqueConstraints) : IDomainEvent;
+internal record TestEntityForUniqueConstraintsCreated(TestEntityForUniqueConstraints TestEntityForUniqueConstraints) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityForUniqueConstraints updated event.
 /// </summary>
-internal record TestEntityForUniqueConstraintsUpdated(TestEntityForUniqueConstraints TestEntityForUniqueConstraints) : IDomainEvent;
+internal record TestEntityForUniqueConstraintsUpdated(TestEntityForUniqueConstraints TestEntityForUniqueConstraints) : IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityForUniqueConstraints deleted event.
 /// </summary>
-internal record TestEntityForUniqueConstraintsDeleted(TestEntityForUniqueConstraints TestEntityForUniqueConstraints) : IDomainEvent;
+internal record TestEntityForUniqueConstraintsDeleted(TestEntityForUniqueConstraints TestEntityForUniqueConstraints) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing constraints.

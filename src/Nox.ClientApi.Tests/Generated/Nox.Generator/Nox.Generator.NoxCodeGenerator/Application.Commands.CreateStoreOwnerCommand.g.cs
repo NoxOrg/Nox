@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Factories;
 using Nox.Solution;
 
@@ -26,9 +28,8 @@ internal partial class CreateStoreOwnerCommandHandler: CreateStoreOwnerCommandHa
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> storefactory,
-		IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,storefactory, entityFactory, serviceProvider)
+		IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,storefactory, entityFactory)
 	{
 	}
 }
@@ -44,8 +45,7 @@ internal abstract class CreateStoreOwnerCommandHandlerBase: CommandBase<CreateSt
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> storefactory,
-		IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

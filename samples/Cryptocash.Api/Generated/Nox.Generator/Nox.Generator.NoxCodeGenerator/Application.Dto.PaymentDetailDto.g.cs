@@ -85,6 +85,7 @@ public abstract class PaymentDetailDtoBase : EntityDtoBase, IEntityDto<PaymentDe
     //EF maps ForeignKey Automatically
     public System.Int64? PaymentDetailsRelatedPaymentProviderId { get; set; } = default!;
     public virtual PaymentProviderDto? PaymentDetailsRelatedPaymentProvider { get; set; } = null!;
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

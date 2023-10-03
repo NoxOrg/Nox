@@ -15,10 +15,4 @@ public abstract class NoxIntegrationContainerTestBase<TFixture> : IClassFixture<
         _dbContext.Database.EnsureDeleted();
         _dbContext.Database.EnsureCreated();
     }
-
-    protected TDbContext GetDataContext<TDbContext>()
-        where TDbContext : DbContext
-    {
-        return (TDbContext)_dbContext;
-    }
 }

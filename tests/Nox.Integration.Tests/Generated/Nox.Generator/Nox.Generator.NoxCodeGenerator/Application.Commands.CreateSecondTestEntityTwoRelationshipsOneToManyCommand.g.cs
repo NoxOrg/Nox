@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application;
 using Nox.Application.Commands;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Factories;
 using Nox.Solution;
 
@@ -25,9 +27,8 @@ internal partial class CreateSecondTestEntityTwoRelationshipsOneToManyCommandHan
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityTwoRelationshipsOneToMany, TestEntityTwoRelationshipsOneToManyCreateDto, TestEntityTwoRelationshipsOneToManyUpdateDto> testentitytworelationshipsonetomanyfactory,
-		IEntityFactory<SecondTestEntityTwoRelationshipsOneToMany, SecondTestEntityTwoRelationshipsOneToManyCreateDto, SecondTestEntityTwoRelationshipsOneToManyUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,testentitytworelationshipsonetomanyfactory, entityFactory, serviceProvider)
+		IEntityFactory<SecondTestEntityTwoRelationshipsOneToMany, SecondTestEntityTwoRelationshipsOneToManyCreateDto, SecondTestEntityTwoRelationshipsOneToManyUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,testentitytworelationshipsonetomanyfactory, entityFactory)
 	{
 	}
 }
@@ -43,8 +44,7 @@ internal abstract class CreateSecondTestEntityTwoRelationshipsOneToManyCommandHa
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityTwoRelationshipsOneToMany, TestEntityTwoRelationshipsOneToManyCreateDto, TestEntityTwoRelationshipsOneToManyUpdateDto> testentitytworelationshipsonetomanyfactory,
-		IEntityFactory<SecondTestEntityTwoRelationshipsOneToMany, SecondTestEntityTwoRelationshipsOneToManyCreateDto, SecondTestEntityTwoRelationshipsOneToManyUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<SecondTestEntityTwoRelationshipsOneToMany, SecondTestEntityTwoRelationshipsOneToManyCreateDto, SecondTestEntityTwoRelationshipsOneToManyUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -57,12 +57,30 @@ internal abstract class CreateSecondTestEntityTwoRelationshipsOneToManyCommandHa
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.TestRelationshipOneOnOtherSide is not null)
+		if(request.EntityDto.TestRelationshipOneOnOtherSideId is not null)
+		{
+			var relatedKey = TestWebApp.Domain.TestEntityTwoRelationshipsOneToManyMetadata.CreateId(request.EntityDto.TestRelationshipOneOnOtherSideId.NonNullValue<System.String>());
+			var relatedEntity = await _dbContext.TestEntityTwoRelationshipsOneToManies.FindAsync(relatedKey);
+			if(relatedEntity is not null)
+				entityToCreate.CreateRefToTestRelationshipOneOnOtherSide(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("TestRelationshipOneOnOtherSide", request.EntityDto.TestRelationshipOneOnOtherSideId.NonNullValue<System.String>().ToString());
+		}
+		else if(request.EntityDto.TestRelationshipOneOnOtherSide is not null)
 		{
 			var relatedEntity = _testentitytworelationshipsonetomanyfactory.CreateEntity(request.EntityDto.TestRelationshipOneOnOtherSide);
 			entityToCreate.CreateRefToTestRelationshipOneOnOtherSide(relatedEntity);
 		}
-		if(request.EntityDto.TestRelationshipTwoOnOtherSide is not null)
+		if(request.EntityDto.TestRelationshipTwoOnOtherSideId is not null)
+		{
+			var relatedKey = TestWebApp.Domain.TestEntityTwoRelationshipsOneToManyMetadata.CreateId(request.EntityDto.TestRelationshipTwoOnOtherSideId.NonNullValue<System.String>());
+			var relatedEntity = await _dbContext.TestEntityTwoRelationshipsOneToManies.FindAsync(relatedKey);
+			if(relatedEntity is not null)
+				entityToCreate.CreateRefToTestRelationshipTwoOnOtherSide(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("TestRelationshipTwoOnOtherSide", request.EntityDto.TestRelationshipTwoOnOtherSideId.NonNullValue<System.String>().ToString());
+		}
+		else if(request.EntityDto.TestRelationshipTwoOnOtherSide is not null)
 		{
 			var relatedEntity = _testentitytworelationshipsonetomanyfactory.CreateEntity(request.EntityDto.TestRelationshipTwoOnOtherSide);
 			entityToCreate.CreateRefToTestRelationshipTwoOnOtherSide(relatedEntity);

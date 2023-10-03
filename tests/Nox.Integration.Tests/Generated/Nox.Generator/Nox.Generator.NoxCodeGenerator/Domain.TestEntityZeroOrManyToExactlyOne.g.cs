@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
@@ -33,15 +35,15 @@ internal partial class TestEntityZeroOrManyToExactlyOne : TestEntityZeroOrManyTo
 /// <summary>
 /// Record for TestEntityZeroOrManyToExactlyOne created event.
 /// </summary>
-internal record TestEntityZeroOrManyToExactlyOneCreated(TestEntityZeroOrManyToExactlyOne TestEntityZeroOrManyToExactlyOne) : IDomainEvent;
+internal record TestEntityZeroOrManyToExactlyOneCreated(TestEntityZeroOrManyToExactlyOne TestEntityZeroOrManyToExactlyOne) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityZeroOrManyToExactlyOne updated event.
 /// </summary>
-internal record TestEntityZeroOrManyToExactlyOneUpdated(TestEntityZeroOrManyToExactlyOne TestEntityZeroOrManyToExactlyOne) : IDomainEvent;
+internal record TestEntityZeroOrManyToExactlyOneUpdated(TestEntityZeroOrManyToExactlyOne TestEntityZeroOrManyToExactlyOne) : IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityZeroOrManyToExactlyOne deleted event.
 /// </summary>
-internal record TestEntityZeroOrManyToExactlyOneDeleted(TestEntityZeroOrManyToExactlyOne TestEntityZeroOrManyToExactlyOne) : IDomainEvent;
+internal record TestEntityZeroOrManyToExactlyOneDeleted(TestEntityZeroOrManyToExactlyOne TestEntityZeroOrManyToExactlyOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// .

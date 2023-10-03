@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Factories;
 using Nox.Solution;
 
@@ -26,9 +28,8 @@ internal partial class CreateTestEntityZeroOrOneCommandHandler: CreateTestEntity
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<SecondTestEntityZeroOrOne, SecondTestEntityZeroOrOneCreateDto, SecondTestEntityZeroOrOneUpdateDto> secondtestentityzerooronefactory,
-		IEntityFactory<TestEntityZeroOrOne, TestEntityZeroOrOneCreateDto, TestEntityZeroOrOneUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,secondtestentityzerooronefactory, entityFactory, serviceProvider)
+		IEntityFactory<TestEntityZeroOrOne, TestEntityZeroOrOneCreateDto, TestEntityZeroOrOneUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,secondtestentityzerooronefactory, entityFactory)
 	{
 	}
 }
@@ -44,8 +45,7 @@ internal abstract class CreateTestEntityZeroOrOneCommandHandlerBase: CommandBase
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<SecondTestEntityZeroOrOne, SecondTestEntityZeroOrOneCreateDto, SecondTestEntityZeroOrOneUpdateDto> secondtestentityzerooronefactory,
-		IEntityFactory<TestEntityZeroOrOne, TestEntityZeroOrOneCreateDto, TestEntityZeroOrOneUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<TestEntityZeroOrOne, TestEntityZeroOrOneCreateDto, TestEntityZeroOrOneUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -58,7 +58,16 @@ internal abstract class CreateTestEntityZeroOrOneCommandHandlerBase: CommandBase
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.SecondTestEntityZeroOrOneRelationship is not null)
+		if(request.EntityDto.SecondTestEntityZeroOrOneRelationshipId is not null)
+		{
+			var relatedKey = TestWebApp.Domain.SecondTestEntityZeroOrOneMetadata.CreateId(request.EntityDto.SecondTestEntityZeroOrOneRelationshipId.NonNullValue<System.String>());
+			var relatedEntity = await _dbContext.SecondTestEntityZeroOrOnes.FindAsync(relatedKey);
+			if(relatedEntity is not null)
+				entityToCreate.CreateRefToSecondTestEntityZeroOrOneRelationship(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("SecondTestEntityZeroOrOneRelationship", request.EntityDto.SecondTestEntityZeroOrOneRelationshipId.NonNullValue<System.String>().ToString());
+		}
+		else if(request.EntityDto.SecondTestEntityZeroOrOneRelationship is not null)
 		{
 			var relatedEntity = _secondtestentityzerooronefactory.CreateEntity(request.EntityDto.SecondTestEntityZeroOrOneRelationship);
 			entityToCreate.CreateRefToSecondTestEntityZeroOrOneRelationship(relatedEntity);

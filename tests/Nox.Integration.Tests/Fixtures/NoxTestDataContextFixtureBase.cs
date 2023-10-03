@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Nox.Abstractions;
 using Nox.Application.Providers;
 using Nox.Configuration;
 using Nox.Solution;
@@ -11,14 +12,18 @@ namespace Nox.Integration.Tests.Fixtures;
 
 public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
 {
-    private const string _solutionSetupFileName = @"Nox.Integration.Tests.DatabaseIntegrationTests.Design.test.solution.nox.yaml";
+    private const string _solutionSetupFileName = @"Nox.Integration.Tests..nox.Design.test.solution.nox.yaml";
     private readonly IServiceProvider _serviceProvider;
     protected DbContext _dbContext = default!;
 
     protected NoxTestDataContextFixtureBase()
     {
         var services = new ServiceCollection();
-        services.AddNoxLib(configure => configure.SetClientAssembly(Assembly.GetExecutingAssembly()));
+        services.AddNoxLib(opts =>
+        {
+            opts.WithClientAssembly(Assembly.GetExecutingAssembly());
+            opts.WithDatabaseContexts<>();
+        });
 
         _serviceProvider = services.BuildServiceProvider();
     }
@@ -49,6 +54,7 @@ public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
 
         _dbContext = new TestWebAppDbContext(
                 options,
+                null!,
                 solution,
                 databaseProvider,
                 assemblyProvider,

@@ -81,15 +81,21 @@ public static class EntityRelationshipExtensions
 
     public static string GetPrimitiveForeignKeyType(this EntityRelationship relationship)
     {
-        // TODO: extend for multi key scenario.
-        var keyType = relationship.Related.Entity.Keys[0].Type;
-        var typeDefinition = new NoxSimpleTypeDefinition()
+        if (relationship.Related.Entity.Keys.Count <= 1)
         {
-            Name = $"{relationship.Related.Entity.Name}Id",
-            Type = keyType
-        };
-        var componentType = keyType.GetComponents(typeDefinition).FirstOrDefault().Value;
+            var keyType = relationship.Related.Entity.Keys[0].Type;
+            var typeDefinition = new NoxSimpleTypeDefinition()
+            {
+                Name = $"{relationship.Related.Entity.Name}Id",
+                Type = keyType
+            };
+            var componentType = keyType.GetComponents(typeDefinition).FirstOrDefault().Value;
 
-        return componentType.Name;
+            return $"System.{componentType.Name}";
+        }
+        else
+        {
+            return $"{relationship.Related.Entity.Name}KeyDto";
+        }
     }
 }

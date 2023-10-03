@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
@@ -33,15 +35,15 @@ internal partial class TestEntityOwnedRelationshipExactlyOne : TestEntityOwnedRe
 /// <summary>
 /// Record for TestEntityOwnedRelationshipExactlyOne created event.
 /// </summary>
-internal record TestEntityOwnedRelationshipExactlyOneCreated(TestEntityOwnedRelationshipExactlyOne TestEntityOwnedRelationshipExactlyOne) : IDomainEvent;
+internal record TestEntityOwnedRelationshipExactlyOneCreated(TestEntityOwnedRelationshipExactlyOne TestEntityOwnedRelationshipExactlyOne) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityOwnedRelationshipExactlyOne updated event.
 /// </summary>
-internal record TestEntityOwnedRelationshipExactlyOneUpdated(TestEntityOwnedRelationshipExactlyOne TestEntityOwnedRelationshipExactlyOne) : IDomainEvent;
+internal record TestEntityOwnedRelationshipExactlyOneUpdated(TestEntityOwnedRelationshipExactlyOne TestEntityOwnedRelationshipExactlyOne) : IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityOwnedRelationshipExactlyOne deleted event.
 /// </summary>
-internal record TestEntityOwnedRelationshipExactlyOneDeleted(TestEntityOwnedRelationshipExactlyOne TestEntityOwnedRelationshipExactlyOne) : IDomainEvent;
+internal record TestEntityOwnedRelationshipExactlyOneDeleted(TestEntityOwnedRelationshipExactlyOne TestEntityOwnedRelationshipExactlyOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// .

@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Factories;
 using Nox.Solution;
 
@@ -27,9 +29,8 @@ internal partial class CreateStoreCommandHandler: CreateStoreCommandHandlerBase
 		NoxSolution noxSolution,
 		IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> storeownerfactory,
 		IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> storelicensefactory,
-		IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,storeownerfactory, storelicensefactory, entityFactory, serviceProvider)
+		IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,storeownerfactory, storelicensefactory, entityFactory)
 	{
 	}
 }
@@ -47,8 +48,7 @@ internal abstract class CreateStoreCommandHandlerBase: CommandBase<CreateStoreCo
 		NoxSolution noxSolution,
 		IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> storeownerfactory,
 		IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> storelicensefactory,
-		IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -62,12 +62,30 @@ internal abstract class CreateStoreCommandHandlerBase: CommandBase<CreateStoreCo
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.Ownership is not null)
+		if(request.EntityDto.OwnershipId is not null)
+		{
+			var relatedKey = ClientApi.Domain.StoreOwnerMetadata.CreateId(request.EntityDto.OwnershipId.NonNullValue<System.String>());
+			var relatedEntity = await _dbContext.StoreOwners.FindAsync(relatedKey);
+			if(relatedEntity is not null)
+				entityToCreate.CreateRefToOwnership(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("Ownership", request.EntityDto.OwnershipId.NonNullValue<System.String>().ToString());
+		}
+		else if(request.EntityDto.Ownership is not null)
 		{
 			var relatedEntity = _storeownerfactory.CreateEntity(request.EntityDto.Ownership);
 			entityToCreate.CreateRefToOwnership(relatedEntity);
 		}
-		if(request.EntityDto.License is not null)
+		if(request.EntityDto.LicenseId is not null)
+		{
+			var relatedKey = ClientApi.Domain.StoreLicenseMetadata.CreateId(request.EntityDto.LicenseId.NonNullValue<System.Int64>());
+			var relatedEntity = await _dbContext.StoreLicenses.FindAsync(relatedKey);
+			if(relatedEntity is not null)
+				entityToCreate.CreateRefToLicense(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("License", request.EntityDto.LicenseId.NonNullValue<System.Int64>().ToString());
+		}
+		else if(request.EntityDto.License is not null)
 		{
 			var relatedEntity = _storelicensefactory.CreateEntity(request.EntityDto.License);
 			entityToCreate.CreateRefToLicense(relatedEntity);

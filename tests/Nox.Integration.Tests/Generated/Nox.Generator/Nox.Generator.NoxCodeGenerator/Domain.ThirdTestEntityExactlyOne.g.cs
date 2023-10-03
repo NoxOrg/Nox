@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
@@ -33,15 +35,15 @@ internal partial class ThirdTestEntityExactlyOne : ThirdTestEntityExactlyOneBase
 /// <summary>
 /// Record for ThirdTestEntityExactlyOne created event.
 /// </summary>
-internal record ThirdTestEntityExactlyOneCreated(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) : IDomainEvent;
+internal record ThirdTestEntityExactlyOneCreated(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for ThirdTestEntityExactlyOne updated event.
 /// </summary>
-internal record ThirdTestEntityExactlyOneUpdated(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) : IDomainEvent;
+internal record ThirdTestEntityExactlyOneUpdated(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) : IDomainEvent, INotification;
 /// <summary>
 /// Record for ThirdTestEntityExactlyOne deleted event.
 /// </summary>
-internal record ThirdTestEntityExactlyOneDeleted(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) : IDomainEvent;
+internal record ThirdTestEntityExactlyOneDeleted(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing database.

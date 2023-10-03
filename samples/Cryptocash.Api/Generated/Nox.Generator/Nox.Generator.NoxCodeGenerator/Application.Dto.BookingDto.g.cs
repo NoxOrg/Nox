@@ -133,6 +133,7 @@ public abstract class BookingDtoBase : EntityDtoBase, IEntityDto<Booking>
     /// Booking related to ExactlyOne Transactions
     /// </summary>
     public virtual TransactionDto? BookingRelatedTransaction { get; set; } = null!;
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

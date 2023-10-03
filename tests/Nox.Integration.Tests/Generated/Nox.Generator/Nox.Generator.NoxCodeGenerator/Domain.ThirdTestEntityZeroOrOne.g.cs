@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
@@ -33,15 +35,15 @@ internal partial class ThirdTestEntityZeroOrOne : ThirdTestEntityZeroOrOneBase, 
 /// <summary>
 /// Record for ThirdTestEntityZeroOrOne created event.
 /// </summary>
-internal record ThirdTestEntityZeroOrOneCreated(ThirdTestEntityZeroOrOne ThirdTestEntityZeroOrOne) : IDomainEvent;
+internal record ThirdTestEntityZeroOrOneCreated(ThirdTestEntityZeroOrOne ThirdTestEntityZeroOrOne) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for ThirdTestEntityZeroOrOne updated event.
 /// </summary>
-internal record ThirdTestEntityZeroOrOneUpdated(ThirdTestEntityZeroOrOne ThirdTestEntityZeroOrOne) : IDomainEvent;
+internal record ThirdTestEntityZeroOrOneUpdated(ThirdTestEntityZeroOrOne ThirdTestEntityZeroOrOne) : IDomainEvent, INotification;
 /// <summary>
 /// Record for ThirdTestEntityZeroOrOne deleted event.
 /// </summary>
-internal record ThirdTestEntityZeroOrOneDeleted(ThirdTestEntityZeroOrOne ThirdTestEntityZeroOrOne) : IDomainEvent;
+internal record ThirdTestEntityZeroOrOneDeleted(ThirdTestEntityZeroOrOne ThirdTestEntityZeroOrOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// .

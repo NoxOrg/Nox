@@ -20,9 +20,8 @@ internal partial class DeleteCountryBarCodeForCountryCommandHandler : DeleteCoun
 {
 	public DeleteCountryBarCodeForCountryCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution, serviceProvider)
+		NoxSolution noxSolution)
+		: base(dbContext, noxSolution)
 	{
 	}
 }
@@ -33,8 +32,7 @@ internal partial class DeleteCountryBarCodeForCountryCommandHandlerBase : Comman
 
 	public DeleteCountryBarCodeForCountryCommandHandlerBase(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution): base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
@@ -43,7 +41,7 @@ internal partial class DeleteCountryBarCodeForCountryCommandHandlerBase : Comman
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Country,Nox.Types.AutoNumber>("Id", request.ParentKeyDto.keyId);
+		var keyId = ClientApi.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await DbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
@@ -55,7 +53,7 @@ internal partial class DeleteCountryBarCodeForCountryCommandHandlerBase : Comman
 			return false;
 		}
 
-		parentEntity.CountryBarCode = null;
+		parentEntity.CountryBarCode = null!;
 
 		OnCompleted(request, entity);
 

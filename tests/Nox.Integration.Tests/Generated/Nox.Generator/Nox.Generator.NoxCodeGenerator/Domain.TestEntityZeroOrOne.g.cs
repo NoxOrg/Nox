@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
@@ -33,15 +35,15 @@ internal partial class TestEntityZeroOrOne : TestEntityZeroOrOneBase, IEntityHav
 /// <summary>
 /// Record for TestEntityZeroOrOne created event.
 /// </summary>
-internal record TestEntityZeroOrOneCreated(TestEntityZeroOrOne TestEntityZeroOrOne) : IDomainEvent;
+internal record TestEntityZeroOrOneCreated(TestEntityZeroOrOne TestEntityZeroOrOne) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityZeroOrOne updated event.
 /// </summary>
-internal record TestEntityZeroOrOneUpdated(TestEntityZeroOrOne TestEntityZeroOrOne) : IDomainEvent;
+internal record TestEntityZeroOrOneUpdated(TestEntityZeroOrOne TestEntityZeroOrOne) : IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityZeroOrOne deleted event.
 /// </summary>
-internal record TestEntityZeroOrOneDeleted(TestEntityZeroOrOne TestEntityZeroOrOne) : IDomainEvent;
+internal record TestEntityZeroOrOneDeleted(TestEntityZeroOrOne TestEntityZeroOrOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing database.

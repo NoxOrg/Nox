@@ -64,6 +64,7 @@ public abstract class TestEntityTwoRelationshipsManyToManyDtoBase : EntityDtoBas
     /// TestEntityTwoRelationshipsManyToMany Second relationship to the same entity OneOrMany SecondTestEntityTwoRelationshipsManyToManies
     /// </summary>
     public virtual List<SecondTestEntityTwoRelationshipsManyToManyDto> TestRelationshipTwo { get; set; } = new();
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

@@ -20,9 +20,8 @@ internal partial class DeleteEmailAddressForStoreCommandHandler : DeleteEmailAdd
 {
 	public DeleteEmailAddressForStoreCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution, serviceProvider)
+		NoxSolution noxSolution)
+		: base(dbContext, noxSolution)
 	{
 	}
 }
@@ -33,8 +32,7 @@ internal partial class DeleteEmailAddressForStoreCommandHandlerBase : CommandBas
 
 	public DeleteEmailAddressForStoreCommandHandlerBase(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution): base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
@@ -43,7 +41,7 @@ internal partial class DeleteEmailAddressForStoreCommandHandlerBase : CommandBas
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Store,Nox.Types.Guid>("Id", request.ParentKeyDto.keyId);
+		var keyId = ClientApi.Domain.StoreMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await DbContext.Stores.FindAsync(keyId);
 		if (parentEntity == null)
 		{
@@ -55,7 +53,7 @@ internal partial class DeleteEmailAddressForStoreCommandHandlerBase : CommandBas
 			return false;
 		}
 
-		parentEntity.VerifiedEmails = null;
+		parentEntity.VerifiedEmails = null!;
 
 		OnCompleted(request, entity);
 

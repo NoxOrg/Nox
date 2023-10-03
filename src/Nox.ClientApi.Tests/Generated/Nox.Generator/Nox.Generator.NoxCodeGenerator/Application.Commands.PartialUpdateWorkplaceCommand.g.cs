@@ -23,8 +23,7 @@ internal class PartialUpdateWorkplaceCommandHandler: PartialUpdateWorkplaceComma
 	public PartialUpdateWorkplaceCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,8 +35,7 @@ internal class PartialUpdateWorkplaceCommandHandlerBase: CommandBase<PartialUpda
 	public PartialUpdateWorkplaceCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
+		IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -47,7 +45,7 @@ internal class PartialUpdateWorkplaceCommandHandlerBase: CommandBase<PartialUpda
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Workplace,Nox.Types.Nuid>("Id", request.keyId);
+		var keyId = ClientApi.Domain.WorkplaceMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Workplaces.FindAsync(keyId);
 		if (entity == null)

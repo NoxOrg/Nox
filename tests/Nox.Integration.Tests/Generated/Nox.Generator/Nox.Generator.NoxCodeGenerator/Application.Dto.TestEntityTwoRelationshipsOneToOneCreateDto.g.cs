@@ -39,10 +39,12 @@ public abstract class TestEntityTwoRelationshipsOneToOneCreateDtoBase : IEntityD
     /// <summary>
     /// TestEntityTwoRelationshipsOneToOne First relationship to the same entity ExactlyOne SecondTestEntityTwoRelationshipsOneToOnes
     /// </summary>
+    public System.String? TestRelationshipOneId { get; set; } = default!;
     public virtual SecondTestEntityTwoRelationshipsOneToOneCreateDto? TestRelationshipOne { get; set; } = default!;
 
     /// <summary>
     /// TestEntityTwoRelationshipsOneToOne Second relationship to the same entity ExactlyOne SecondTestEntityTwoRelationshipsOneToOnes
     /// </summary>
+    public System.String? TestRelationshipTwoId { get; set; } = default!;
     public virtual SecondTestEntityTwoRelationshipsOneToOneCreateDto? TestRelationshipTwo { get; set; } = default!;
 }

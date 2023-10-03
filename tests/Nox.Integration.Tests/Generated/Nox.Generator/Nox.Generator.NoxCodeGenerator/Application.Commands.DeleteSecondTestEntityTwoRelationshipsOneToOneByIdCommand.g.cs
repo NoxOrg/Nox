@@ -19,8 +19,7 @@ internal class DeleteSecondTestEntityTwoRelationshipsOneToOneByIdCommandHandler:
 {
 	public DeleteSecondTestEntityTwoRelationshipsOneToOneByIdCommandHandler(
 		TestWebAppDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+		NoxSolution noxSolution): base(dbContext, noxSolution)
 	{
 	}
 }
@@ -30,8 +29,7 @@ internal abstract class DeleteSecondTestEntityTwoRelationshipsOneToOneByIdComman
 
 	public DeleteSecondTestEntityTwoRelationshipsOneToOneByIdCommandHandlerBase(
 		TestWebAppDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution): base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
@@ -40,7 +38,7 @@ internal abstract class DeleteSecondTestEntityTwoRelationshipsOneToOneByIdComman
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<SecondTestEntityTwoRelationshipsOneToOne,Nox.Types.Text>("Id", request.keyId);
+		var keyId = TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToOneMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.SecondTestEntityTwoRelationshipsOneToOnes.FindAsync(keyId);
 		if (entity == null)

@@ -19,8 +19,7 @@ internal class DeleteMinimumCashStockByIdCommandHandler:DeleteMinimumCashStockBy
 {
 	public DeleteMinimumCashStockByIdCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+		NoxSolution noxSolution): base(dbContext, noxSolution)
 	{
 	}
 }
@@ -30,8 +29,7 @@ internal abstract class DeleteMinimumCashStockByIdCommandHandlerBase: CommandBas
 
 	public DeleteMinimumCashStockByIdCommandHandlerBase(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution): base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
@@ -40,7 +38,7 @@ internal abstract class DeleteMinimumCashStockByIdCommandHandlerBase: CommandBas
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<MinimumCashStock,Nox.Types.AutoNumber>("Id", request.keyId);
+		var keyId = Cryptocash.Domain.MinimumCashStockMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.MinimumCashStocks.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted == true)

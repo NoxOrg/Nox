@@ -28,10 +28,9 @@ internal partial class CreateRefWorkplaceToBelongsToCountryCommandHandler
 {
 	public CreateRefWorkplaceToBelongsToCountryCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Create)
+		: base(dbContext, noxSolution, RelationshipAction.Create)
 	{ }
 }
 
@@ -43,10 +42,9 @@ internal partial class DeleteRefWorkplaceToBelongsToCountryCommandHandler
 {
 	public DeleteRefWorkplaceToBelongsToCountryCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Delete)
+		: base(dbContext, noxSolution, RelationshipAction.Delete)
 	{ }
 }
 
@@ -58,10 +56,9 @@ internal partial class DeleteAllRefWorkplaceToBelongsToCountryCommandHandler
 {
 	public DeleteAllRefWorkplaceToBelongsToCountryCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
 	{ }
 }
 
@@ -77,9 +74,8 @@ internal abstract class RefWorkplaceToBelongsToCountryCommandHandlerBase<TReques
 	public RefWorkplaceToBelongsToCountryCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
 		RelationshipAction action)
-		: base(noxSolution, serviceProvider)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		Action = action;
@@ -89,7 +85,7 @@ internal abstract class RefWorkplaceToBelongsToCountryCommandHandlerBase<TReques
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Workplace, Nox.Types.Nuid>("Id", request.EntityKeyDto.keyId);
+		var keyId = ClientApi.Domain.WorkplaceMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.Workplaces.FindAsync(keyId);
 		if (entity == null)
 		{
@@ -99,7 +95,7 @@ internal abstract class RefWorkplaceToBelongsToCountryCommandHandlerBase<TReques
 		Country? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
-			var relatedKeyId = CreateNoxTypeForKey<Country, Nox.Types.AutoNumber>("Id", request.RelatedEntityKeyDto.keyId);
+			var relatedKeyId = ClientApi.Domain.CountryMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
 			relatedEntity = await DbContext.Countries.FindAsync(relatedKeyId);
 			if (relatedEntity == null)
 			{

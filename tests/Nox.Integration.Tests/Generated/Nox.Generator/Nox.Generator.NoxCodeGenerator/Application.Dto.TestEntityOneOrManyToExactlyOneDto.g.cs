@@ -59,6 +59,7 @@ public abstract class TestEntityOneOrManyToExactlyOneDtoBase : EntityDtoBase, IE
     /// TestEntityOneOrManyToExactlyOne Test entity relationship to TestEntityExactlyOneToOneOrMany OneOrMany TestEntityExactlyOneToOneOrManies
     /// </summary>
     public virtual List<TestEntityExactlyOneToOneOrManyDto> TestEntityExactlyOneToOneOrMany { get; set; } = new();
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

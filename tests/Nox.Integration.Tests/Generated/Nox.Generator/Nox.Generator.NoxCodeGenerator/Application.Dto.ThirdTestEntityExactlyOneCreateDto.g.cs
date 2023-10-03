@@ -39,5 +39,6 @@ public abstract class ThirdTestEntityExactlyOneCreateDtoBase : IEntityDto<ThirdT
     /// <summary>
     /// ThirdTestEntityExactlyOne Test entity relationship to ThirdTestEntityZeroOrOne ExactlyOne ThirdTestEntityZeroOrOnes
     /// </summary>
+    public System.String? ThirdTestEntityZeroOrOneRelationshipId { get; set; } = default!;
     public virtual ThirdTestEntityZeroOrOneCreateDto? ThirdTestEntityZeroOrOneRelationship { get; set; } = default!;
 }

@@ -54,6 +54,7 @@ public abstract class TestEntityWithNuidDtoBase : EntityDtoBase, IEntityDto<Test
     ///  (Required).
     /// </summary>
     public System.String Name { get; set; } = default!;
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

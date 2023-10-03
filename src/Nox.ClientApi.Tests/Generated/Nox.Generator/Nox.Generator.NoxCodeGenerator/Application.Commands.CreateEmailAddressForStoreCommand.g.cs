@@ -24,9 +24,8 @@ internal partial class CreateEmailAddressForStoreCommandHandler: CreateEmailAddr
 	public CreateEmailAddressForStoreCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution, entityFactory, serviceProvider)
+		IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -38,8 +37,7 @@ internal abstract class CreateEmailAddressForStoreCommandHandlerBase: CommandBas
 	public CreateEmailAddressForStoreCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -48,7 +46,7 @@ internal abstract class CreateEmailAddressForStoreCommandHandlerBase: CommandBas
 	public virtual  async Task<EmailAddressKeyDto?> Handle(CreateEmailAddressForStoreCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Store,Nox.Types.Guid>("Id", request.ParentKeyDto.keyId);
+		var keyId = ClientApi.Domain.StoreMetadata.CreateId(request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.Stores.FindAsync(keyId);
 		if (parentEntity == null)

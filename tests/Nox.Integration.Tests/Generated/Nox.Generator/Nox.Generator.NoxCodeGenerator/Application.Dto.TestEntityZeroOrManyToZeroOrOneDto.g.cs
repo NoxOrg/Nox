@@ -59,6 +59,7 @@ public abstract class TestEntityZeroOrManyToZeroOrOneDtoBase : EntityDtoBase, IE
     /// TestEntityZeroOrManyToZeroOrOne Test entity relationship to TestEntityZeroOrOneToZeroOrMany ZeroOrMany TestEntityZeroOrOneToZeroOrManies
     /// </summary>
     public virtual List<TestEntityZeroOrOneToZeroOrManyDto> TestEntityZeroOrOneToZeroOrMany { get; set; } = new();
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

@@ -23,8 +23,7 @@ internal partial class PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHand
 	public PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(dbContext, noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,8 +35,7 @@ internal abstract class PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHan
 	public PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHandlerBase(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(noxSolution, serviceProvider)
+		IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -49,7 +47,7 @@ internal abstract class PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHan
 		OnExecuting(request);
 
 		{{- for key in parent.Keys }}
-		var key{{key.Name}} = CreateNoxTypeForKey<{{parent.Name}},Nox.Types.{{SingleTypeForKey key}}>("{{key.Name}}", request.ParentKeyDto.key{{key.Name}});
+		var key{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}});
 		{{- end }}
 
 		var parentEntity = await DbContext.{{parent.PluralName}}.FindAsync({{parentKeysFindQuery}});
@@ -62,7 +60,7 @@ internal abstract class PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHan
 		var entity = parentEntity.{{relationship.Name}};
 		{{ else }}
 		{{- for key in entity.Keys }}
-		var owned{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},Nox.Types.{{SingleTypeForKey key}}>("{{key.Name}}", request.EntityKeyDto.key{{key.Name}});
+		var owned{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(request.EntityKeyDto.key{{key.Name}});
 		{{- end }}
 		var entity = parentEntity.{{relationship.Name}}.SingleOrDefault(x => {{ownedKeysFindQuery}});
 		{{- end }}

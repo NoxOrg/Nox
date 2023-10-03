@@ -24,9 +24,8 @@ internal partial class CreateCountryBarCodeForCountryCommandHandler: CreateCount
 	public CreateCountryBarCodeForCountryCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution, entityFactory, serviceProvider)
+		IEntityFactory<CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto> entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -38,8 +37,7 @@ internal abstract class CreateCountryBarCodeForCountryCommandHandlerBase: Comman
 	public CreateCountryBarCodeForCountryCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -48,7 +46,7 @@ internal abstract class CreateCountryBarCodeForCountryCommandHandlerBase: Comman
 	public virtual  async Task<CountryBarCodeKeyDto?> Handle(CreateCountryBarCodeForCountryCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Country,Nox.Types.AutoNumber>("Id", request.ParentKeyDto.keyId);
+		var keyId = ClientApi.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)

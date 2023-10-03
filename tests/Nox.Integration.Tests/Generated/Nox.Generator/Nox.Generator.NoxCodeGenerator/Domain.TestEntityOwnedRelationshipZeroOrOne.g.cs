@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
@@ -33,15 +35,15 @@ internal partial class TestEntityOwnedRelationshipZeroOrOne : TestEntityOwnedRel
 /// <summary>
 /// Record for TestEntityOwnedRelationshipZeroOrOne created event.
 /// </summary>
-internal record TestEntityOwnedRelationshipZeroOrOneCreated(TestEntityOwnedRelationshipZeroOrOne TestEntityOwnedRelationshipZeroOrOne) : IDomainEvent;
+internal record TestEntityOwnedRelationshipZeroOrOneCreated(TestEntityOwnedRelationshipZeroOrOne TestEntityOwnedRelationshipZeroOrOne) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityOwnedRelationshipZeroOrOne updated event.
 /// </summary>
-internal record TestEntityOwnedRelationshipZeroOrOneUpdated(TestEntityOwnedRelationshipZeroOrOne TestEntityOwnedRelationshipZeroOrOne) : IDomainEvent;
+internal record TestEntityOwnedRelationshipZeroOrOneUpdated(TestEntityOwnedRelationshipZeroOrOne TestEntityOwnedRelationshipZeroOrOne) : IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityOwnedRelationshipZeroOrOne deleted event.
 /// </summary>
-internal record TestEntityOwnedRelationshipZeroOrOneDeleted(TestEntityOwnedRelationshipZeroOrOne TestEntityOwnedRelationshipZeroOrOne) : IDomainEvent;
+internal record TestEntityOwnedRelationshipZeroOrOneDeleted(TestEntityOwnedRelationshipZeroOrOne TestEntityOwnedRelationshipZeroOrOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// .

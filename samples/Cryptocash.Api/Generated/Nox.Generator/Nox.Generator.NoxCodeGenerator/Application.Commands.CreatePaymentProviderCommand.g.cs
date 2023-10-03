@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Factories;
 using Nox.Solution;
 
@@ -26,9 +28,8 @@ internal partial class CreatePaymentProviderCommandHandler: CreatePaymentProvide
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> paymentdetailfactory,
-		IEntityFactory<PaymentProvider, PaymentProviderCreateDto, PaymentProviderUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,paymentdetailfactory, entityFactory, serviceProvider)
+		IEntityFactory<PaymentProvider, PaymentProviderCreateDto, PaymentProviderUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,paymentdetailfactory, entityFactory)
 	{
 	}
 }
@@ -44,8 +45,7 @@ internal abstract class CreatePaymentProviderCommandHandlerBase: CommandBase<Cre
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> paymentdetailfactory,
-		IEntityFactory<PaymentProvider, PaymentProviderCreateDto, PaymentProviderUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<PaymentProvider, PaymentProviderCreateDto, PaymentProviderUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

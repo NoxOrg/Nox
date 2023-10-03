@@ -69,11 +69,13 @@ public abstract class VendingMachineCreateDtoBase : IEntityDto<VendingMachine>
     /// <summary>
     /// VendingMachine installed in ExactlyOne Countries
     /// </summary>
+    public System.String? VendingMachineInstallationCountryId { get; set; } = default!;
     public virtual CountryCreateDto? VendingMachineInstallationCountry { get; set; } = default!;
 
     /// <summary>
     /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
+    public System.Int64? VendingMachineContractedAreaLandLordId { get; set; } = default!;
     public virtual LandLordCreateDto? VendingMachineContractedAreaLandLord { get; set; } = default!;
 
     /// <summary>

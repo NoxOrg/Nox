@@ -70,6 +70,7 @@ public abstract class CommissionDtoBase : EntityDtoBase, IEntityDto<Commission>
     /// Commission fees for ZeroOrMany Bookings
     /// </summary>
     public virtual List<BookingDto> CommissionFeesForBooking { get; set; } = new();
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

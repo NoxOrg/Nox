@@ -93,7 +93,7 @@ public partial class BookingMetadata
         /// Factory for property 'CustomerId'
         /// </summary>
         public static Nox.Types.AutoNumber CreateCustomerId(System.Int64 value)
-            => Nox.Types.AutoNumber.From(value);
+            => Nox.Types.AutoNumber.FromDatabase(value);
         
     
         /// <summary>
@@ -107,7 +107,7 @@ public partial class BookingMetadata
         /// Factory for property 'CommissionId'
         /// </summary>
         public static Nox.Types.AutoNumber CreateCommissionId(System.Int64 value)
-            => Nox.Types.AutoNumber.From(value);
+            => Nox.Types.AutoNumber.FromDatabase(value);
         
 
         /// <summary>

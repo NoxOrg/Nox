@@ -20,9 +20,8 @@ internal partial class UpdateExchangeRateForCurrencyCommandHandler : UpdateExcha
 	public UpdateExchangeRateForCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
 		IEntityFactory<ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto> entityFactory)
-		: base(dbContext, noxSolution, serviceProvider, entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -35,8 +34,7 @@ internal partial class UpdateExchangeRateForCurrencyCommandHandlerBase : Command
 	public UpdateExchangeRateForCurrencyCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto> entityFactory): base(noxSolution, serviceProvider)
+		IEntityFactory<ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto> entityFactory): base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -46,13 +44,13 @@ internal partial class UpdateExchangeRateForCurrencyCommandHandlerBase : Command
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Currency,Nox.Types.CurrencyCode3>("Id", request.ParentKeyDto.keyId);
+		var keyId = Cryptocash.Domain.CurrencyMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await DbContext.Currencies.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return null;
 		}
-		var ownedId = CreateNoxTypeForKey<ExchangeRate,Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);
+		var ownedId = Cryptocash.Domain.ExchangeRateMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.CurrencyExchangedFromRates.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{

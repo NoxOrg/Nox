@@ -27,7 +27,7 @@ public partial class RatingProgramMetadata
         /// Factory for property 'Id'
         /// </summary>
         public static Nox.Types.AutoNumber CreateId(System.Int64 value)
-            => Nox.Types.AutoNumber.From(value);
+            => Nox.Types.AutoNumber.FromDatabase(value);
         
     
         /// <summary>

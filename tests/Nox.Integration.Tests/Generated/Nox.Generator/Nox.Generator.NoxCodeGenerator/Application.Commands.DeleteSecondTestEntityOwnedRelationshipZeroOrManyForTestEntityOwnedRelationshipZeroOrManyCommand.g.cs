@@ -19,9 +19,8 @@ internal partial class DeleteSecondTestEntityOwnedRelationshipZeroOrManyForTestE
 {
 	public DeleteSecondTestEntityOwnedRelationshipZeroOrManyForTestEntityOwnedRelationshipZeroOrManyCommandHandler(
 		TestWebAppDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution, serviceProvider)
+		NoxSolution noxSolution)
+		: base(dbContext, noxSolution)
 	{
 	}
 }
@@ -32,8 +31,7 @@ internal partial class DeleteSecondTestEntityOwnedRelationshipZeroOrManyForTestE
 
 	public DeleteSecondTestEntityOwnedRelationshipZeroOrManyForTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase(
 		TestWebAppDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution): base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
@@ -42,13 +40,13 @@ internal partial class DeleteSecondTestEntityOwnedRelationshipZeroOrManyForTestE
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<TestEntityOwnedRelationshipZeroOrMany,Nox.Types.Text>("Id", request.ParentKeyDto.keyId);
+		var keyId = TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await DbContext.TestEntityOwnedRelationshipZeroOrManies.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return false;
 		}
-		var ownedId = CreateNoxTypeForKey<SecondTestEntityOwnedRelationshipZeroOrMany,Nox.Types.Text>("Id", request.EntityKeyDto.keyId);
+		var ownedId = TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.SecondTestEntityOwnedRelationshipZeroOrMany.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{

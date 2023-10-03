@@ -438,7 +438,7 @@ public partial class TestEntityForTypesMetadata
         /// Factory for property 'AutoNumberTestField'
         /// </summary>
         public static Nox.Types.AutoNumber CreateAutoNumberTestField(System.Int64 value)
-            => Nox.Types.AutoNumber.From(value);
+            => Nox.Types.AutoNumber.FromDatabase(value);
         
     
         /// <summary>

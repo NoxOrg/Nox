@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
@@ -33,15 +35,15 @@ internal partial class SecondTestEntityTwoRelationshipsOneToOne : SecondTestEnti
 /// <summary>
 /// Record for SecondTestEntityTwoRelationshipsOneToOne created event.
 /// </summary>
-internal record SecondTestEntityTwoRelationshipsOneToOneCreated(SecondTestEntityTwoRelationshipsOneToOne SecondTestEntityTwoRelationshipsOneToOne) : IDomainEvent;
+internal record SecondTestEntityTwoRelationshipsOneToOneCreated(SecondTestEntityTwoRelationshipsOneToOne SecondTestEntityTwoRelationshipsOneToOne) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for SecondTestEntityTwoRelationshipsOneToOne updated event.
 /// </summary>
-internal record SecondTestEntityTwoRelationshipsOneToOneUpdated(SecondTestEntityTwoRelationshipsOneToOne SecondTestEntityTwoRelationshipsOneToOne) : IDomainEvent;
+internal record SecondTestEntityTwoRelationshipsOneToOneUpdated(SecondTestEntityTwoRelationshipsOneToOne SecondTestEntityTwoRelationshipsOneToOne) : IDomainEvent, INotification;
 /// <summary>
 /// Record for SecondTestEntityTwoRelationshipsOneToOne deleted event.
 /// </summary>
-internal record SecondTestEntityTwoRelationshipsOneToOneDeleted(SecondTestEntityTwoRelationshipsOneToOne SecondTestEntityTwoRelationshipsOneToOne) : IDomainEvent;
+internal record SecondTestEntityTwoRelationshipsOneToOneDeleted(SecondTestEntityTwoRelationshipsOneToOne SecondTestEntityTwoRelationshipsOneToOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// .

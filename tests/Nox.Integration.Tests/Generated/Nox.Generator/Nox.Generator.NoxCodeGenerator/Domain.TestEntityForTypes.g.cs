@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
@@ -33,15 +35,15 @@ internal partial class TestEntityForTypes : TestEntityForTypesBase, IEntityHaveD
 /// <summary>
 /// Record for TestEntityForTypes created event.
 /// </summary>
-internal record TestEntityForTypesCreated(TestEntityForTypes TestEntityForTypes) : IDomainEvent;
+internal record TestEntityForTypesCreated(TestEntityForTypes TestEntityForTypes) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityForTypes updated event.
 /// </summary>
-internal record TestEntityForTypesUpdated(TestEntityForTypes TestEntityForTypes) : IDomainEvent;
+internal record TestEntityForTypesUpdated(TestEntityForTypes TestEntityForTypes) : IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityForTypes deleted event.
 /// </summary>
-internal record TestEntityForTypesDeleted(TestEntityForTypes TestEntityForTypes) : IDomainEvent;
+internal record TestEntityForTypesDeleted(TestEntityForTypes TestEntityForTypes) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing database.

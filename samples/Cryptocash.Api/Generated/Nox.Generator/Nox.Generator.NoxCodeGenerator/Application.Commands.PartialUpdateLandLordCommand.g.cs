@@ -23,8 +23,7 @@ internal class PartialUpdateLandLordCommandHandler: PartialUpdateLandLordCommand
 	public PartialUpdateLandLordCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,8 +35,7 @@ internal class PartialUpdateLandLordCommandHandlerBase: CommandBase<PartialUpdat
 	public PartialUpdateLandLordCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
+		IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -47,7 +45,7 @@ internal class PartialUpdateLandLordCommandHandlerBase: CommandBase<PartialUpdat
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<LandLord,Nox.Types.AutoNumber>("Id", request.keyId);
+		var keyId = Cryptocash.Domain.LandLordMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.LandLords.FindAsync(keyId);
 		if (entity == null)

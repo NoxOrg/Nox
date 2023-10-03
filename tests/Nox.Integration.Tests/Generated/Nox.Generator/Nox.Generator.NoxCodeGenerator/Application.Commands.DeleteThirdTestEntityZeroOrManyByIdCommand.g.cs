@@ -19,8 +19,7 @@ internal class DeleteThirdTestEntityZeroOrManyByIdCommandHandler:DeleteThirdTest
 {
 	public DeleteThirdTestEntityZeroOrManyByIdCommandHandler(
 		TestWebAppDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+		NoxSolution noxSolution): base(dbContext, noxSolution)
 	{
 	}
 }
@@ -30,8 +29,7 @@ internal abstract class DeleteThirdTestEntityZeroOrManyByIdCommandHandlerBase: C
 
 	public DeleteThirdTestEntityZeroOrManyByIdCommandHandlerBase(
 		TestWebAppDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution): base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
@@ -40,7 +38,7 @@ internal abstract class DeleteThirdTestEntityZeroOrManyByIdCommandHandlerBase: C
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<ThirdTestEntityZeroOrMany,Nox.Types.Text>("Id", request.keyId);
+		var keyId = TestWebApp.Domain.ThirdTestEntityZeroOrManyMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.ThirdTestEntityZeroOrManies.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted == true)

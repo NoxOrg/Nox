@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Factories;
 using Nox.Solution;
 
@@ -27,9 +29,8 @@ internal partial class CreateCurrencyCommandHandler: CreateCurrencyCommandHandle
 		NoxSolution noxSolution,
 		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
 		IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> minimumcashstockfactory,
-		IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,countryfactory, minimumcashstockfactory, entityFactory, serviceProvider)
+		IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,countryfactory, minimumcashstockfactory, entityFactory)
 	{
 	}
 }
@@ -47,8 +48,7 @@ internal abstract class CreateCurrencyCommandHandlerBase: CommandBase<CreateCurr
 		NoxSolution noxSolution,
 		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
 		IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> minimumcashstockfactory,
-		IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

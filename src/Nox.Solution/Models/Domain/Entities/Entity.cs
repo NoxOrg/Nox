@@ -131,7 +131,7 @@ public class Entity : DefinitionBase
         return _keysByName!.ContainsKey(keyName);
     }
 
-      public IEnumerable<KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>> GetAllMembers()
+    public IEnumerable<KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>> GetAllMembers()
     {
         foreach (var key in Keys!)
         {

@@ -28,10 +28,9 @@ internal partial class CreateRef{{entity.Name}}To{{relationship.Name}}CommandHan
 {
 	public CreateRef{{entity.Name}}To{{relationship.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Create)
+		: base(dbContext, noxSolution, RelationshipAction.Create)
 	{ }
 }
 
@@ -43,10 +42,9 @@ internal partial class DeleteRef{{entity.Name}}To{{relationship.Name}}CommandHan
 {
 	public DeleteRef{{entity.Name}}To{{relationship.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Delete)
+		: base(dbContext, noxSolution, RelationshipAction.Delete)
 	{ }
 }
 
@@ -58,10 +56,9 @@ internal partial class DeleteAllRef{{entity.Name}}To{{relationship.Name}}Command
 {
 	public DeleteAllRef{{entity.Name}}To{{relationship.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
 	{ }
 }
 
@@ -77,9 +74,8 @@ internal abstract class Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerB
 	public Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBase(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
 		RelationshipAction action)
-		: base(noxSolution, serviceProvider)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		Action = action;
@@ -91,7 +87,7 @@ internal abstract class Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerB
 		OnExecuting(request);
 
 		{{- for key in entity.Keys }}
-		var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}}, Nox.Types.{{SingleTypeForKey key}}>("{{key.Name}}", request.EntityKeyDto.key{{key.Name}});
+		var key{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(request.EntityKeyDto.key{{key.Name}});
 		{{- end }}
 		var entity = await DbContext.{{entity.PluralName}}.FindAsync({{entityKeysFindQuery}});
 		if (entity == null)
@@ -103,7 +99,7 @@ internal abstract class Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerB
 		if(request.RelatedEntityKeyDto is not null)
 		{
 			{{- for key in relatedEntity.Keys }}
-			var relatedKey{{key.Name}} = CreateNoxTypeForKey<{{relatedEntity.Name}}, Nox.Types.{{SingleTypeForKey key}}>("{{key.Name}}", request.RelatedEntityKeyDto.key{{key.Name}});
+			var relatedKey{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(request.RelatedEntityKeyDto.key{{key.Name}});
 			{{- end }}
 			relatedEntity = await DbContext.{{relatedEntity.PluralName}}.FindAsync({{relatedEntityKeysFindQuery}});
 			if (relatedEntity == null)

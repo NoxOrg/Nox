@@ -61,6 +61,7 @@ public abstract class TestEntityZeroOrOneDtoBase : EntityDtoBase, IEntityDto<Tes
     //EF maps ForeignKey Automatically
     public System.String? SecondTestEntityZeroOrOneRelationshipId { get; set; } = default!;
     public virtual SecondTestEntityZeroOrOneDto? SecondTestEntityZeroOrOneRelationship { get; set; } = null!;
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

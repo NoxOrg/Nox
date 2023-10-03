@@ -19,8 +19,7 @@ internal class DeletePaymentProviderByIdCommandHandler:DeletePaymentProviderById
 {
 	public DeletePaymentProviderByIdCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+		NoxSolution noxSolution): base(dbContext, noxSolution)
 	{
 	}
 }
@@ -30,8 +29,7 @@ internal abstract class DeletePaymentProviderByIdCommandHandlerBase: CommandBase
 
 	public DeletePaymentProviderByIdCommandHandlerBase(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution): base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
@@ -40,7 +38,7 @@ internal abstract class DeletePaymentProviderByIdCommandHandlerBase: CommandBase
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<PaymentProvider,Nox.Types.AutoNumber>("Id", request.keyId);
+		var keyId = Cryptocash.Domain.PaymentProviderMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.PaymentProviders.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted == true)

@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
@@ -33,15 +35,15 @@ internal partial class TestEntityZeroOrManyToZeroOrOne : TestEntityZeroOrManyToZ
 /// <summary>
 /// Record for TestEntityZeroOrManyToZeroOrOne created event.
 /// </summary>
-internal record TestEntityZeroOrManyToZeroOrOneCreated(TestEntityZeroOrManyToZeroOrOne TestEntityZeroOrManyToZeroOrOne) : IDomainEvent;
+internal record TestEntityZeroOrManyToZeroOrOneCreated(TestEntityZeroOrManyToZeroOrOne TestEntityZeroOrManyToZeroOrOne) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityZeroOrManyToZeroOrOne updated event.
 /// </summary>
-internal record TestEntityZeroOrManyToZeroOrOneUpdated(TestEntityZeroOrManyToZeroOrOne TestEntityZeroOrManyToZeroOrOne) : IDomainEvent;
+internal record TestEntityZeroOrManyToZeroOrOneUpdated(TestEntityZeroOrManyToZeroOrOne TestEntityZeroOrManyToZeroOrOne) : IDomainEvent, INotification;
 /// <summary>
 /// Record for TestEntityZeroOrManyToZeroOrOne deleted event.
 /// </summary>
-internal record TestEntityZeroOrManyToZeroOrOneDeleted(TestEntityZeroOrManyToZeroOrOne TestEntityZeroOrManyToZeroOrOne) : IDomainEvent;
+internal record TestEntityZeroOrManyToZeroOrOneDeleted(TestEntityZeroOrManyToZeroOrOne TestEntityZeroOrManyToZeroOrOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// .

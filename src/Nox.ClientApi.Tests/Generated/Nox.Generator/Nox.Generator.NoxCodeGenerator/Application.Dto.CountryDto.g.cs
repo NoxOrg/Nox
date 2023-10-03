@@ -123,6 +123,7 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<Country>
     /// Country is also coded as ZeroOrOne CountryBarCodes
     /// </summary>
     public virtual CountryBarCodeDto? CountryBarCode { get; set; } = null!;
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

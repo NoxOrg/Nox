@@ -23,8 +23,7 @@ internal class PartialUpdateTestEntityForTypesCommandHandler: PartialUpdateTestE
 	public PartialUpdateTestEntityForTypesCommandHandler(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<TestEntityForTypes, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<TestEntityForTypes, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
 	}
 }
@@ -36,8 +35,7 @@ internal class PartialUpdateTestEntityForTypesCommandHandlerBase: CommandBase<Pa
 	public PartialUpdateTestEntityForTypesCommandHandlerBase(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<TestEntityForTypes, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
+		IEntityFactory<TestEntityForTypes, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -47,7 +45,7 @@ internal class PartialUpdateTestEntityForTypesCommandHandlerBase: CommandBase<Pa
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<TestEntityForTypes,Nox.Types.Text>("Id", request.keyId);
+		var keyId = TestWebApp.Domain.TestEntityForTypesMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityForTypes.FindAsync(keyId);
 		if (entity == null)

@@ -28,10 +28,9 @@ internal partial class CreateRefCashStockOrderToCashStockOrderReviewedByEmployee
 {
 	public CreateRefCashStockOrderToCashStockOrderReviewedByEmployeeCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Create)
+		: base(dbContext, noxSolution, RelationshipAction.Create)
 	{ }
 }
 
@@ -43,10 +42,9 @@ internal partial class DeleteRefCashStockOrderToCashStockOrderReviewedByEmployee
 {
 	public DeleteRefCashStockOrderToCashStockOrderReviewedByEmployeeCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Delete)
+		: base(dbContext, noxSolution, RelationshipAction.Delete)
 	{ }
 }
 
@@ -58,10 +56,9 @@ internal partial class DeleteAllRefCashStockOrderToCashStockOrderReviewedByEmplo
 {
 	public DeleteAllRefCashStockOrderToCashStockOrderReviewedByEmployeeCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
 	{ }
 }
 
@@ -77,9 +74,8 @@ internal abstract class RefCashStockOrderToCashStockOrderReviewedByEmployeeComma
 	public RefCashStockOrderToCashStockOrderReviewedByEmployeeCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
 		RelationshipAction action)
-		: base(noxSolution, serviceProvider)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		Action = action;
@@ -89,7 +85,7 @@ internal abstract class RefCashStockOrderToCashStockOrderReviewedByEmployeeComma
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<CashStockOrder, Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);
+		var keyId = Cryptocash.Domain.CashStockOrderMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.CashStockOrders.FindAsync(keyId);
 		if (entity == null)
 		{
@@ -99,7 +95,7 @@ internal abstract class RefCashStockOrderToCashStockOrderReviewedByEmployeeComma
 		Employee? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
-			var relatedKeyId = CreateNoxTypeForKey<Employee, Nox.Types.AutoNumber>("Id", request.RelatedEntityKeyDto.keyId);
+			var relatedKeyId = Cryptocash.Domain.EmployeeMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
 			relatedEntity = await DbContext.Employees.FindAsync(relatedKeyId);
 			if (relatedEntity == null)
 			{

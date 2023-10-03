@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application;
 using Nox.Application.Commands;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Factories;
 using Nox.Solution;
 
@@ -25,9 +27,8 @@ internal partial class CreateWorkplaceCommandHandler: CreateWorkplaceCommandHand
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
-		IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,countryfactory, entityFactory, serviceProvider)
+		IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,countryfactory, entityFactory)
 	{
 	}
 }
@@ -43,8 +44,7 @@ internal abstract class CreateWorkplaceCommandHandlerBase: CommandBase<CreateWor
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
-		IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -57,7 +57,16 @@ internal abstract class CreateWorkplaceCommandHandlerBase: CommandBase<CreateWor
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.BelongsToCountry is not null)
+		if(request.EntityDto.BelongsToCountryId is not null)
+		{
+			var relatedKey = ClientApi.Domain.CountryMetadata.CreateId(request.EntityDto.BelongsToCountryId.NonNullValue<System.Int64>());
+			var relatedEntity = await _dbContext.Countries.FindAsync(relatedKey);
+			if(relatedEntity is not null)
+				entityToCreate.CreateRefToBelongsToCountry(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("BelongsToCountry", request.EntityDto.BelongsToCountryId.NonNullValue<System.Int64>().ToString());
+		}
+		else if(request.EntityDto.BelongsToCountry is not null)
 		{
 			var relatedEntity = _countryfactory.CreateEntity(request.EntityDto.BelongsToCountry);
 			entityToCreate.CreateRefToBelongsToCountry(relatedEntity);

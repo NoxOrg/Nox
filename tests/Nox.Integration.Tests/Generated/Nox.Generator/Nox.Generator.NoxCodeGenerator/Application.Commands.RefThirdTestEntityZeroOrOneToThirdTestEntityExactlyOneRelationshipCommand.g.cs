@@ -28,10 +28,9 @@ internal partial class CreateRefThirdTestEntityZeroOrOneToThirdTestEntityExactly
 {
 	public CreateRefThirdTestEntityZeroOrOneToThirdTestEntityExactlyOneRelationshipCommandHandler(
 		TestWebAppDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Create)
+		: base(dbContext, noxSolution, RelationshipAction.Create)
 	{ }
 }
 
@@ -43,10 +42,9 @@ internal partial class DeleteRefThirdTestEntityZeroOrOneToThirdTestEntityExactly
 {
 	public DeleteRefThirdTestEntityZeroOrOneToThirdTestEntityExactlyOneRelationshipCommandHandler(
 		TestWebAppDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Delete)
+		: base(dbContext, noxSolution, RelationshipAction.Delete)
 	{ }
 }
 
@@ -58,10 +56,9 @@ internal partial class DeleteAllRefThirdTestEntityZeroOrOneToThirdTestEntityExac
 {
 	public DeleteAllRefThirdTestEntityZeroOrOneToThirdTestEntityExactlyOneRelationshipCommandHandler(
 		TestWebAppDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
 	{ }
 }
 
@@ -77,9 +74,8 @@ internal abstract class RefThirdTestEntityZeroOrOneToThirdTestEntityExactlyOneRe
 	public RefThirdTestEntityZeroOrOneToThirdTestEntityExactlyOneRelationshipCommandHandlerBase(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
 		RelationshipAction action)
-		: base(noxSolution, serviceProvider)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		Action = action;
@@ -89,7 +85,7 @@ internal abstract class RefThirdTestEntityZeroOrOneToThirdTestEntityExactlyOneRe
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<ThirdTestEntityZeroOrOne, Nox.Types.Text>("Id", request.EntityKeyDto.keyId);
+		var keyId = TestWebApp.Domain.ThirdTestEntityZeroOrOneMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.ThirdTestEntityZeroOrOnes.FindAsync(keyId);
 		if (entity == null)
 		{
@@ -99,7 +95,7 @@ internal abstract class RefThirdTestEntityZeroOrOneToThirdTestEntityExactlyOneRe
 		ThirdTestEntityExactlyOne? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
-			var relatedKeyId = CreateNoxTypeForKey<ThirdTestEntityExactlyOne, Nox.Types.Text>("Id", request.RelatedEntityKeyDto.keyId);
+			var relatedKeyId = TestWebApp.Domain.ThirdTestEntityExactlyOneMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
 			relatedEntity = await DbContext.ThirdTestEntityExactlyOnes.FindAsync(relatedKeyId);
 			if (relatedEntity == null)
 			{

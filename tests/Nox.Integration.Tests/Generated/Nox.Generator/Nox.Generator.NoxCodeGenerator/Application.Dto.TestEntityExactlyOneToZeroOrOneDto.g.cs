@@ -61,6 +61,7 @@ public abstract class TestEntityExactlyOneToZeroOrOneDtoBase : EntityDtoBase, IE
     //EF maps ForeignKey Automatically
     public System.String? TestEntityZeroOrOneToExactlyOneId { get; set; } = default!;
     public virtual TestEntityZeroOrOneToExactlyOneDto? TestEntityZeroOrOneToExactlyOne { get; set; } = null!;
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

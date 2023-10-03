@@ -5,6 +5,8 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Solution;
@@ -33,15 +35,15 @@ internal partial class SecondTestEntityExactlyOne : SecondTestEntityExactlyOneBa
 /// <summary>
 /// Record for SecondTestEntityExactlyOne created event.
 /// </summary>
-internal record SecondTestEntityExactlyOneCreated(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) : IDomainEvent;
+internal record SecondTestEntityExactlyOneCreated(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for SecondTestEntityExactlyOne updated event.
 /// </summary>
-internal record SecondTestEntityExactlyOneUpdated(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) : IDomainEvent;
+internal record SecondTestEntityExactlyOneUpdated(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) : IDomainEvent, INotification;
 /// <summary>
 /// Record for SecondTestEntityExactlyOne deleted event.
 /// </summary>
-internal record SecondTestEntityExactlyOneDeleted(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) : IDomainEvent;
+internal record SecondTestEntityExactlyOneDeleted(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// .

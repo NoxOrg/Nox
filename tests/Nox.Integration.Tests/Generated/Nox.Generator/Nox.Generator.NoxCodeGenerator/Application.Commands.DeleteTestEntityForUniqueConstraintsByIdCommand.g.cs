@@ -19,8 +19,7 @@ internal class DeleteTestEntityForUniqueConstraintsByIdCommandHandler:DeleteTest
 {
 	public DeleteTestEntityForUniqueConstraintsByIdCommandHandler(
 		TestWebAppDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+		NoxSolution noxSolution): base(dbContext, noxSolution)
 	{
 	}
 }
@@ -30,8 +29,7 @@ internal abstract class DeleteTestEntityForUniqueConstraintsByIdCommandHandlerBa
 
 	public DeleteTestEntityForUniqueConstraintsByIdCommandHandlerBase(
 		TestWebAppDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution): base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
@@ -40,7 +38,7 @@ internal abstract class DeleteTestEntityForUniqueConstraintsByIdCommandHandlerBa
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<TestEntityForUniqueConstraints,Nox.Types.Text>("Id", request.keyId);
+		var keyId = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityForUniqueConstraints.FindAsync(keyId);
 		if (entity == null)

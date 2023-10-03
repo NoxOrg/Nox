@@ -24,9 +24,8 @@ internal partial class CreateHolidayForCountryCommandHandler: CreateHolidayForCo
 	public CreateHolidayForCountryCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution, entityFactory, serviceProvider)
+		IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -38,8 +37,7 @@ internal abstract class CreateHolidayForCountryCommandHandlerBase: CommandBase<C
 	public CreateHolidayForCountryCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -48,7 +46,7 @@ internal abstract class CreateHolidayForCountryCommandHandlerBase: CommandBase<C
 	public virtual  async Task<HolidayKeyDto?> Handle(CreateHolidayForCountryCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Country,Nox.Types.CountryCode2>("Id", request.ParentKeyDto.keyId);
+		var keyId = Cryptocash.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
