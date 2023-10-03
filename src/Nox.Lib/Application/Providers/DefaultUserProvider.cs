@@ -10,10 +10,15 @@ public class DefaultUserProvider : IUserProvider
 
     public DefaultUserProvider(IHttpContextAccessor httpContextAccessor) =>
         _httpContextAccessor = httpContextAccessor;
-    
+
     /// <summary>
     /// Get the user name from the X-User-Name header
     /// </summary>
     /// <returns></returns>
-    public string GetUser() => (_httpContextAccessor.HttpContext?.Request.Headers["X-User-Name"] ?? "N/A")!;
+    public string GetUser()
+    {
+        var result = _httpContextAccessor.HttpContext?.Request.Headers["X-User-Name"].ToString()!;
+        result = string.IsNullOrWhiteSpace(result) ? "N/A" : result;
+        return result;
+    }
 }

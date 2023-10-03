@@ -10,10 +10,15 @@ public class DefaultSystemProvider : ISystemProvider
 
     public DefaultSystemProvider(IHttpContextAccessor httpContextAccessor) =>
         _httpContextAccessor = httpContextAccessor;
-    
+
     /// <summary>
     /// Get the system name from the X-System-Name header
     /// </summary>
     /// <returns></returns>
-    public string GetSystem() => (_httpContextAccessor.HttpContext?.Request.Headers["X-System-Name"] ?? "N/A")!;
+    public string GetSystem()
+    {
+        var result = _httpContextAccessor.HttpContext?.Request.Headers["X-System-Name"].ToString()!;
+        result = string.IsNullOrWhiteSpace(result) ? "N/A" : result;
+        return result;
+    }
 }
