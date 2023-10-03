@@ -60,6 +60,8 @@
     <Compile Remove="ExpectedGeneratedFiles\Application.Dto.CountryDto.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\Application.ServiceCollectionExtensions.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\Country.expected.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\CountryCurrenciesAddedEvent.expected.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\CountryLocalNamesAddedEvent.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\CountryNameChangedAppEvent.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\CountryNameUpdatedEvent.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\Dto.CountryCreateDto.expected.g.cs" />
@@ -98,7 +100,7 @@
     <None Update="files\yaml\domain\domain-events.solution.nox.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="files\yaml\application\app-event.solution.nox.yaml">
+    <None Update="files\yaml\application\integration-events.solution.nox.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="files\yaml\domain\command.solution.nox.yaml">
@@ -132,6 +134,12 @@
 
   <ItemGroup>
     <Compile Remove="files\Program.cs" />
+    <AdditionalFiles Include="ExpectedGeneratedFiles\CountryLocalNamesAddedEvent.expected.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\CountryCurrenciesAddedEvent.expected.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
     <AdditionalFiles Include="ExpectedGeneratedFiles\Dto.CountryCreateDto.expected.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>

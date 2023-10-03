@@ -1,15 +1,16 @@
 ﻿using ClientApi.Application.Dto;
+using ClientApi.Application.IntegrationEvents;
 using ClientApi.Domain;
 using MediatR;
 using Nox.Messaging;
 
-namespace ClientApi.Application.IntegrationEvents.Country;
+namespace ClientApi.Application.DomainEventHandlers;
 
-internal class CountryUpdatedEventHandler : INotificationHandler<CountryUpdated>
+internal class CountryUpdatedDomainEventHandler : INotificationHandler<CountryUpdated>
 {
     private readonly IOutboxRepository _outboxRepository;
 
-    public CountryUpdatedEventHandler(IOutboxRepository outboxRepository)
+    public CountryUpdatedDomainEventHandler(IOutboxRepository outboxRepository)
     {
         _outboxRepository = outboxRepository;
     }
@@ -24,13 +25,13 @@ internal class CountryUpdatedEventHandler : INotificationHandler<CountryUpdated>
         }
     }
 
-    private async Task RaiseIntegrationEventAsync(Domain.Country country)
+    private async Task RaiseIntegrationEventAsync(Country country)
     {
         var integrationEvent = CreateIntegrationEvent(country);
         await _outboxRepository.AddAsync(integrationEvent);
     }
 
-    private static CountryPopulationHigherThan100M CreateIntegrationEvent(Domain.Country? country)
+    private static CountryPopulationHigherThan100M CreateIntegrationEvent(Country? country)
         => new()
         {
             Name = country?.Name?.Value,
