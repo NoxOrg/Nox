@@ -36,8 +36,7 @@ internal abstract class GetPaymentDetailByIdQueryHandlerBase:  QueryBase<IQuerya
         var query = DataDbContext.PaymentDetails
             .AsNoTracking()
             .Where(r =>
-                r.Id.Equals(request.keyId) &&
-                r.DeletedAtUtc == null);
+                r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));
     }
 }

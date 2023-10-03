@@ -34,7 +34,6 @@ internal abstract class GetStoreLicensesQueryHandlerBase : QueryBase<IQueryable<
     public virtual Task<IQueryable<StoreLicenseDto>> Handle(GetStoreLicensesQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<StoreLicenseDto>)DataDbContext.StoreLicenses
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }

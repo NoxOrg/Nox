@@ -36,8 +36,7 @@ internal abstract class GetCountryByIdQueryHandlerBase:  QueryBase<IQueryable<Co
         var query = DataDbContext.Countries
             .AsNoTracking()
             .Where(r =>
-                r.Id.Equals(request.keyId) &&
-                r.DeletedAtUtc == null);
+                r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));
     }
 }
