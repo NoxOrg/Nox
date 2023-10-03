@@ -53,11 +53,13 @@ public abstract class StoreCreateDtoBase : IEntityDto<Store>
     /// <summary>
     /// Store Owner of the Store ZeroOrOne StoreOwners
     /// </summary>
+    public System.String? OwnershipId { get; set; } = default!;
     public virtual StoreOwnerCreateDto? Ownership { get; set; } = default!;
 
     /// <summary>
     /// Store License that this store uses ZeroOrOne StoreLicenses
     /// </summary>
+    public System.Int64? LicenseId { get; set; } = default!;
     public virtual StoreLicenseCreateDto? License { get; set; } = default!;
 
     /// <summary>

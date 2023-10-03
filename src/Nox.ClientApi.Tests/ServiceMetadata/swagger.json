@@ -13296,8 +13296,17 @@
             "format": "date-time",
             "nullable": true
           },
+          "ownershipId": {
+            "type": "string",
+            "nullable": true
+          },
           "ownership": {
             "$ref": "#/components/schemas/StoreOwnerCreateDto"
+          },
+          "licenseId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
           },
           "license": {
             "$ref": "#/components/schemas/StoreLicenseCreateDto"
@@ -13403,6 +13412,11 @@
           "issuer": {
             "minLength": 1,
             "type": "string"
+          },
+          "storeWithLicenseId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
           },
           "storeWithLicense": {
             "$ref": "#/components/schemas/StoreCreateDto"
@@ -14474,6 +14488,11 @@
           },
           "greeting": {
             "type": "string",
+            "nullable": true
+          },
+          "belongsToCountryId": {
+            "type": "integer",
+            "format": "int64",
             "nullable": true
           },
           "belongsToCountry": {

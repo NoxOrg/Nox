@@ -5,13 +5,20 @@ using Microsoft.AspNetCore.OData;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Lib;
 using Nox.Solution;
+using Serilog;
 
 namespace Nox
 {
     public static class ApplicationBuilderBuilderExtensions
     {
-        public static INoxBuilder UseNox(this IApplicationBuilder builder)
+        /// <summary>
+        /// Add Nox to the application builder, with optional Serilog request logging
+        /// </summary>
+        public static INoxBuilder UseNox(this IApplicationBuilder builder,bool useSerilogRequestLogging = true)
         {
+            // Enabling http requests logging 
+            if(useSerilogRequestLogging)
+                builder.UseSerilogRequestLogging();
 
             builder.UseMiddleware<NoxExceptionHanderMiddleware>();
 
