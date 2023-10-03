@@ -5,32 +5,50 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace TestWebApp.Domain;
-public partial class SecondTestEntityZeroOrMany:SecondTestEntityZeroOrManyBase
-{
 
+internal partial class SecondTestEntityZeroOrMany : SecondTestEntityZeroOrManyBase, IEntityHaveDomainEvents
+{
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for SecondTestEntityZeroOrMany created event.
 /// </summary>
-public record SecondTestEntityZeroOrManyCreated(SecondTestEntityZeroOrMany SecondTestEntityZeroOrMany) : IDomainEvent;
+internal record SecondTestEntityZeroOrManyCreated(SecondTestEntityZeroOrMany SecondTestEntityZeroOrMany) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for SecondTestEntityZeroOrMany updated event.
 /// </summary>
-public record SecondTestEntityZeroOrManyUpdated(SecondTestEntityZeroOrMany SecondTestEntityZeroOrMany) : IDomainEvent;
+internal record SecondTestEntityZeroOrManyUpdated(SecondTestEntityZeroOrMany SecondTestEntityZeroOrMany) : IDomainEvent, INotification;
 /// <summary>
 /// Record for SecondTestEntityZeroOrMany deleted event.
 /// </summary>
-public record SecondTestEntityZeroOrManyDeleted(SecondTestEntityZeroOrMany SecondTestEntityZeroOrMany) : IDomainEvent;
+internal record SecondTestEntityZeroOrManyDeleted(SecondTestEntityZeroOrMany SecondTestEntityZeroOrMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// .
 /// </summary>
-public abstract class SecondTestEntityZeroOrManyBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class SecondTestEntityZeroOrManyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -41,6 +59,33 @@ public abstract class SecondTestEntityZeroOrManyBase : AuditableEntityBase, IEnt
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField2 { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(SecondTestEntityZeroOrMany secondTestEntityZeroOrMany)
+	{
+		InternalDomainEvents.Add(new SecondTestEntityZeroOrManyCreated(secondTestEntityZeroOrMany));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(SecondTestEntityZeroOrMany secondTestEntityZeroOrMany)
+	{
+		InternalDomainEvents.Add(new SecondTestEntityZeroOrManyUpdated(secondTestEntityZeroOrMany));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(SecondTestEntityZeroOrMany secondTestEntityZeroOrMany)
+	{
+		InternalDomainEvents.Add(new SecondTestEntityZeroOrManyDeleted(secondTestEntityZeroOrMany));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// SecondTestEntityZeroOrMany Test entity relationship to TestEntityZeroOrMany ZeroOrMany TestEntityZeroOrManies

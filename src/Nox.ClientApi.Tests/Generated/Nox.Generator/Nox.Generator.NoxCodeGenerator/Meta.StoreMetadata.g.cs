@@ -28,11 +28,11 @@ public partial class StoreMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions NameTypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
@@ -69,11 +69,11 @@ public partial class StoreMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions StoreOwnerIdTypeOptions {get; private set;} = new ()
         {
-            MinLength = 3,
-            MaxLength = 3,
-            IsUnicode = false,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 3,
+            MaxLength = 3,
+            IsUnicode = false,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     

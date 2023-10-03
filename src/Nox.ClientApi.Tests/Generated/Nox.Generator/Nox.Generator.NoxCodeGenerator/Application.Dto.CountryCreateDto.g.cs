@@ -66,6 +66,8 @@ public abstract class CountryCreateDtoBase : IEntityDto<Country>
     /// <summary>
     /// Country Country workplaces ZeroOrMany Workplaces
     /// </summary>
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual List<WorkplaceCreateDto> PhysicalWorkplaces { get; set; } = new();
 
     /// <summary>

@@ -1,7 +1,11 @@
-﻿using System.Reflection;
+using System.Reflection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+
+using MediatR;
+using Moq;
+
 using Nox.Application.Providers;
 using Nox.Configuration;
 using Nox.Solution;
@@ -15,6 +19,7 @@ public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
     private const string _solutionSetupFileName = @"Nox.Integration.Tests.DatabaseIntegrationTests.Design.test.solution.nox.yaml";
     private readonly IServiceProvider _serviceProvider;
     protected TestWebAppDbContext _dbContext = default!;
+    protected readonly Mock<IPublisher> _publisherFixture;
 
     protected NoxTestDataContextFixtureBase()
     {
@@ -22,6 +27,7 @@ public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
         services.AddNoxLib(configure => configure.WithClientAssembly(Assembly.GetExecutingAssembly()));
 
         _serviceProvider = services.BuildServiceProvider();
+        _publisherFixture = new Mock<IPublisher>();
     }
 
     public TestWebAppDbContext DataContext
@@ -51,6 +57,7 @@ public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
         var httpContextAccessor = CreateCustomHttpContextAccessor();
         _dbContext = new TestWebAppDbContext(
                 options,
+                _publisherFixture.Object,
                 solution,
                 databaseProvider,
                 assemblyProvider,
