@@ -16,11 +16,11 @@ public class DefaultUserProvider : IUserProvider
     /// <summary>
     /// Get the user name from the X-User-Name header
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Returns the user name or N/A if not found</returns>
     public string GetUser()
     {
         var result = _httpContextAccessor.HttpContext?.Request.Headers[UserNameHeader].ToString();
-        result ??= DefaultUserName;
+        result = string.IsNullOrWhiteSpace(result) ? DefaultUserName : result;
         return result;
     }
 }

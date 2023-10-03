@@ -16,11 +16,11 @@ public class DefaultSystemProvider : ISystemProvider
     /// <summary>
     /// Get the system name from the X-System-Name header
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Returns the system name or N/A if not found</returns>
     public string GetSystem()
     {
         var result = _httpContextAccessor.HttpContext?.Request.Headers[SystemNameHeader].ToString();
-        result ??= DefaultSystemName;
+        result = string.IsNullOrWhiteSpace(result) ? DefaultSystemName : result;
         return result;
     }
 }
