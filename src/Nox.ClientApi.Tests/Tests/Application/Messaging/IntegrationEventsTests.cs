@@ -5,7 +5,6 @@ using Nox.Types;
 using Xunit.Abstractions;
 using ClientApi.Application.IntegrationEvents.StoreOwner;
 using ClientApi.Application.IntegrationEvents;
-using Nox.Application;
 
 namespace ClientApi.Tests.Application.Messaging
 {
@@ -46,7 +45,7 @@ namespace ClientApi.Tests.Application.Messaging
         }
 
         [Fact]
-        public async Task Post_Country_SendsCustomIntegrationEvent()
+        public async Task Post_Country_SendsIntegrationEvents()
         {
             // Arrange
             var createDto = new CountryCreateDto
@@ -61,11 +60,12 @@ namespace ClientApi.Tests.Application.Messaging
             //Assert
             result.Should().NotBeNull();
 
+            (await MassTransitTestHarness.Published.Any<Nox.Messaging.NoxMessageRecord<CountryCreated>>()).Should().BeTrue();
             (await MassTransitTestHarness.Published.Any<Nox.Messaging.NoxMessageRecord<CountryPopulationHigherThan100M>>()).Should().BeTrue();
         }
 
         [Fact]
-        public async Task Put_Country_SendsCustomIntegrationEvent()
+        public async Task Put_Country_SendsIntegrationEvents()
         {
             // Arrange
             var createDto = new CountryCreateDto
@@ -89,7 +89,32 @@ namespace ClientApi.Tests.Application.Messaging
             //Assert
             updateResult.Should().NotBeNull();
 
+            (await MassTransitTestHarness.Published.Any<Nox.Messaging.NoxMessageRecord<CountryCreated>>()).Should().BeTrue();
+            (await MassTransitTestHarness.Published.Any<Nox.Messaging.NoxMessageRecord<CountryUpdated>>()).Should().BeTrue();
             (await MassTransitTestHarness.Published.Any<Nox.Messaging.NoxMessageRecord<CountryPopulationHigherThan100M>>()).Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task Delete_Country_SendsIntegrationEvents()
+        {
+            // Arrange
+            var createDto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                Population = 99_999_999,
+            };
+
+            var createResult = await PostAsync<CountryCreateDto, CountryDto>(CountriesControllerName, createDto);
+
+            // Act
+            var headers = CreateEtagHeader(createResult?.Etag);
+            var deleteResult = await DeleteAsync($"{CountriesControllerName}/{createResult!.Id}", headers);
+
+            //Assert
+            deleteResult.Should().NotBeNull();
+
+            (await MassTransitTestHarness.Published.Any<Nox.Messaging.NoxMessageRecord<CountryCreated>>()).Should().BeTrue();
+            (await MassTransitTestHarness.Published.Any<Nox.Messaging.NoxMessageRecord<CountryDeleted>>()).Should().BeTrue();
         }
 
         #endregion Integration Events
