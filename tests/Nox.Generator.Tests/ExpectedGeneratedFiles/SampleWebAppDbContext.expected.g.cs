@@ -55,7 +55,7 @@ internal partial class SampleWebAppDbContext : DbContext
             _systemProvider = systemProvider;
         }
 
-    public DbSet<Country> Countries { get; set; } = null!;
+    public DbSet<SampleWebApp.Domain.Country> Countries { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -102,7 +102,7 @@ internal partial class SampleWebAppDbContext : DbContext
 
     private void ConfigureAuditable(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Country>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<SampleWebApp.Domain.Country>().HasQueryFilter(p => p.DeletedAtUtc == null);
     }
 
     /// <inheritdoc/>
