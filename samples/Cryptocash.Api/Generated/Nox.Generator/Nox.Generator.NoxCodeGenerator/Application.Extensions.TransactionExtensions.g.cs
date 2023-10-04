@@ -14,10 +14,10 @@ internal static class TransactionExtensions
     {
         var dto = new TransactionDto();
         SetIfNotNull(entity?.Id, () => dto.Id = entity!.Id.Value);
-        SetIfNotNull(entity?.TransactionType, () => dto.TransactionType = entity!.TransactionType!.Value);
-        SetIfNotNull(entity?.ProcessedOnDateTime, () => dto.ProcessedOnDateTime = entity!.ProcessedOnDateTime!.Value);
-        SetIfNotNull(entity?.Amount, () => dto.Amount = entity!.Amount!.ToDto());
-        SetIfNotNull(entity?.Reference, () => dto.Reference = entity!.Reference!.Value);
+        SetIfNotNull(entity?.TransactionType, () => dto.TransactionType =entity!.TransactionType!.Value);
+        SetIfNotNull(entity?.ProcessedOnDateTime, () => dto.ProcessedOnDateTime =entity!.ProcessedOnDateTime!.Value);
+        SetIfNotNull(entity?.Amount, () => dto.Amount =entity!.Amount!.ToDto());
+        SetIfNotNull(entity?.Reference, () => dto.Reference =entity!.Reference!.Value);
         SetIfNotNull(entity?.TransactionForCustomerId, () => dto.TransactionForCustomerId = entity!.TransactionForCustomerId!.Value);
         SetIfNotNull(entity?.TransactionForCustomer, () => dto.TransactionForCustomer = entity!.TransactionForCustomer!.ToDto());
         SetIfNotNull(entity?.TransactionForBookingId, () => dto.TransactionForBookingId = entity!.TransactionForBookingId!.Value);

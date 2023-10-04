@@ -14,10 +14,10 @@ internal static class CashStockOrderExtensions
     {
         var dto = new CashStockOrderDto();
         SetIfNotNull(entity?.Id, () => dto.Id = entity!.Id.Value);
-        SetIfNotNull(entity?.Amount, () => dto.Amount = entity!.Amount!.ToDto());
-        SetIfNotNull(entity?.RequestedDeliveryDate, () => dto.RequestedDeliveryDate = entity!.RequestedDeliveryDate!.Value.ToDateTime(new System.TimeOnly(0, 0, 0)));
-        SetIfNotNull(entity?.DeliveryDateTime, () => dto.DeliveryDateTime = entity!.DeliveryDateTime!.Value);
-        SetIfNotNull(entity?.Status, () => dto.Status = entity!.Status);
+        SetIfNotNull(entity?.Amount, () => dto.Amount =entity!.Amount!.ToDto());
+        SetIfNotNull(entity?.RequestedDeliveryDate, () => dto.RequestedDeliveryDate =entity!.RequestedDeliveryDate!.Value.ToDateTime(new System.TimeOnly(0, 0, 0)));
+        SetIfNotNull(entity?.DeliveryDateTime, () => dto.DeliveryDateTime =entity!.DeliveryDateTime!.Value);
+        SetIfNotNull(entity?.Status, () => dto.Status =entity!.Status!.ToString());
         SetIfNotNull(entity?.CashStockOrderForVendingMachineId, () => dto.CashStockOrderForVendingMachineId = entity!.CashStockOrderForVendingMachineId!.Value);
         SetIfNotNull(entity?.CashStockOrderForVendingMachine, () => dto.CashStockOrderForVendingMachine = entity!.CashStockOrderForVendingMachine!.ToDto());
         SetIfNotNull(entity?.CashStockOrderReviewedByEmployee, () => dto.CashStockOrderReviewedByEmployee = entity!.CashStockOrderReviewedByEmployee!.ToDto());

@@ -14,8 +14,8 @@ internal static class LandLordExtensions
     {
         var dto = new LandLordDto();
         SetIfNotNull(entity?.Id, () => dto.Id = entity!.Id.Value);
-        SetIfNotNull(entity?.Name, () => dto.Name = entity!.Name!.Value);
-        SetIfNotNull(entity?.Address, () => dto.Address = entity!.Address!.ToDto());
+        SetIfNotNull(entity?.Name, () => dto.Name =entity!.Name!.Value);
+        SetIfNotNull(entity?.Address, () => dto.Address =entity!.Address!.ToDto());
         SetIfNotNull(entity?.ContractedAreasForVendingMachines, () => dto.ContractedAreasForVendingMachines = entity!.ContractedAreasForVendingMachines.Select(e => e.ToDto()).ToList());
 
         return dto;

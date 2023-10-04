@@ -14,8 +14,8 @@ internal static class BankNoteExtensions
     {
         var dto = new BankNoteDto();
         SetIfNotNull(entity?.Id, () => dto.Id = entity!.Id.Value);
-        SetIfNotNull(entity?.CashNote, () => dto.CashNote = entity!.CashNote!.Value);
-        SetIfNotNull(entity?.Value, () => dto.Value = entity!.Value!.ToDto());
+        SetIfNotNull(entity?.CashNote, () => dto.CashNote =entity!.CashNote!.Value);
+        SetIfNotNull(entity?.Value, () => dto.Value =entity!.Value!.ToDto());
 
         return dto;
     }

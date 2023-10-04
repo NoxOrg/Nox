@@ -23,10 +23,12 @@ internal static class {{className}}
 {{- if !IsNoxTypeReadable attribute.Type -}}
     {{ continue; }}
 {{- end }}
-        SetIfNotNull(entity?.{{attribute.Name}}, () => dto.{{attribute.Name}} = entity!.{{attribute.Name}}
+        SetIfNotNull(entity?.{{attribute.Name}}, () => dto.{{attribute.Name}} = 
     {{- if IsNoxTypeSimpleType attribute.Type -}}
-        {{- if attribute.Type != "Formula" -}}!.Value{{- if attribute.Type == "Url" || attribute.Type == "Uri" -}}.ToString(){{end}}{{- if attribute.Type == "Date"}}.ToDateTime(new System.TimeOnly(0, 0, 0)){{end}}{{- end -}}
-    {{- else -}}!.ToDto(){{- end -}});
+        {{- if attribute.Type == "Time" -}}System.DateTime.Parse(entity!.{{attribute.Name}}!.Value.ToLongTimeString())
+        {{- else -}}{{- if attribute.Type == "Formula" -}}entity!.{{attribute.Name}}!.ToString()
+        {{- else -}}entity!.{{attribute.Name}}!.Value{{- if attribute.Type == "Url" || attribute.Type == "Uri" -}}.ToString(){{end}}{{- if attribute.Type == "Date"}}.ToDateTime(new System.TimeOnly(0, 0, 0)){{end}}{{- end -}}{{- end -}}
+    {{- else -}}entity!.{{attribute.Name}}!.ToDto(){{- end -}});
 {{- end }}
 {{- for relationship in entity.Relationships }}
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}

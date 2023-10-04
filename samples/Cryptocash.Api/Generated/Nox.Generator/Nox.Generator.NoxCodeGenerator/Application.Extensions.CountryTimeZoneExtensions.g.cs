@@ -14,7 +14,7 @@ internal static class CountryTimeZoneExtensions
     {
         var dto = new CountryTimeZoneDto();
         SetIfNotNull(entity?.Id, () => dto.Id = entity!.Id.Value);
-        SetIfNotNull(entity?.TimeZoneCode, () => dto.TimeZoneCode = entity!.TimeZoneCode!.Value);
+        SetIfNotNull(entity?.TimeZoneCode, () => dto.TimeZoneCode =entity!.TimeZoneCode!.Value);
 
         return dto;
     }

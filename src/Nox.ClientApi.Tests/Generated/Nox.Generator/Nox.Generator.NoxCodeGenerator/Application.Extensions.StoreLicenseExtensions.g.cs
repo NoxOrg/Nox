@@ -14,7 +14,7 @@ internal static class StoreLicenseExtensions
     {
         var dto = new StoreLicenseDto();
         SetIfNotNull(entity?.Id, () => dto.Id = entity!.Id.Value);
-        SetIfNotNull(entity?.Issuer, () => dto.Issuer = entity!.Issuer!.Value);
+        SetIfNotNull(entity?.Issuer, () => dto.Issuer =entity!.Issuer!.Value);
         SetIfNotNull(entity?.StoreWithLicenseId, () => dto.StoreWithLicenseId = entity!.StoreWithLicenseId!.Value);
         SetIfNotNull(entity?.StoreWithLicense, () => dto.StoreWithLicense = entity!.StoreWithLicense!.ToDto());
 

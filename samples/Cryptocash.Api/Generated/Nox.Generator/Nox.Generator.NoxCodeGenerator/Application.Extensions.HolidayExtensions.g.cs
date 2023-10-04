@@ -14,9 +14,9 @@ internal static class HolidayExtensions
     {
         var dto = new HolidayDto();
         SetIfNotNull(entity?.Id, () => dto.Id = entity!.Id.Value);
-        SetIfNotNull(entity?.Name, () => dto.Name = entity!.Name!.Value);
-        SetIfNotNull(entity?.Type, () => dto.Type = entity!.Type!.Value);
-        SetIfNotNull(entity?.Date, () => dto.Date = entity!.Date!.Value.ToDateTime(new System.TimeOnly(0, 0, 0)));
+        SetIfNotNull(entity?.Name, () => dto.Name =entity!.Name!.Value);
+        SetIfNotNull(entity?.Type, () => dto.Type =entity!.Type!.Value);
+        SetIfNotNull(entity?.Date, () => dto.Date =entity!.Date!.Value.ToDateTime(new System.TimeOnly(0, 0, 0)));
 
         return dto;
     }

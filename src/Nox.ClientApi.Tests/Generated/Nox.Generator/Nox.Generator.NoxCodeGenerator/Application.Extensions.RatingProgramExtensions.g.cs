@@ -15,7 +15,7 @@ internal static class RatingProgramExtensions
         var dto = new RatingProgramDto();
         SetIfNotNull(entity?.StoreId, () => dto.StoreId = entity!.StoreId.Value);
         SetIfNotNull(entity?.Id, () => dto.Id = entity!.Id.Value);
-        SetIfNotNull(entity?.Name, () => dto.Name = entity!.Name!.Value);
+        SetIfNotNull(entity?.Name, () => dto.Name =entity!.Name!.Value);
 
         return dto;
     }

@@ -15,7 +15,7 @@ internal static class CountryQualityOfLifeIndexExtensions
         var dto = new CountryQualityOfLifeIndexDto();
         SetIfNotNull(entity?.CountryId, () => dto.CountryId = entity!.CountryId.Value);
         SetIfNotNull(entity?.Id, () => dto.Id = entity!.Id.Value);
-        SetIfNotNull(entity?.IndexRating, () => dto.IndexRating = entity!.IndexRating!.Value);
+        SetIfNotNull(entity?.IndexRating, () => dto.IndexRating =entity!.IndexRating!.Value);
 
         return dto;
     }

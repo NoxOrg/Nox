@@ -14,9 +14,9 @@ internal static class WorkplaceExtensions
     {
         var dto = new WorkplaceDto();
         SetIfNotNull(entity?.Id, () => dto.Id = entity!.Id.Value);
-        SetIfNotNull(entity?.Name, () => dto.Name = entity!.Name!.Value);
-        SetIfNotNull(entity?.Description, () => dto.Description = entity!.Description!.Value);
-        SetIfNotNull(entity?.Greeting, () => dto.Greeting = entity!.Greeting);
+        SetIfNotNull(entity?.Name, () => dto.Name =entity!.Name!.Value);
+        SetIfNotNull(entity?.Description, () => dto.Description =entity!.Description!.Value);
+        SetIfNotNull(entity?.Greeting, () => dto.Greeting =entity!.Greeting!.ToString());
         SetIfNotNull(entity?.BelongsToCountryId, () => dto.BelongsToCountryId = entity!.BelongsToCountryId!.Value);
         SetIfNotNull(entity?.BelongsToCountry, () => dto.BelongsToCountry = entity!.BelongsToCountry!.ToDto());
 

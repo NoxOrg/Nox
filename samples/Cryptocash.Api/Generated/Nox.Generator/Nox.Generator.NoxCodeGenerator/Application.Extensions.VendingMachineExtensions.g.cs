@@ -14,13 +14,13 @@ internal static class VendingMachineExtensions
     {
         var dto = new VendingMachineDto();
         SetIfNotNull(entity?.Id, () => dto.Id = entity!.Id.Value);
-        SetIfNotNull(entity?.MacAddress, () => dto.MacAddress = entity!.MacAddress!.Value);
-        SetIfNotNull(entity?.PublicIp, () => dto.PublicIp = entity!.PublicIp!.Value);
-        SetIfNotNull(entity?.GeoLocation, () => dto.GeoLocation = entity!.GeoLocation!.ToDto());
-        SetIfNotNull(entity?.StreetAddress, () => dto.StreetAddress = entity!.StreetAddress!.ToDto());
-        SetIfNotNull(entity?.SerialNumber, () => dto.SerialNumber = entity!.SerialNumber!.Value);
-        SetIfNotNull(entity?.InstallationFootPrint, () => dto.InstallationFootPrint = entity!.InstallationFootPrint!.Value);
-        SetIfNotNull(entity?.RentPerSquareMetre, () => dto.RentPerSquareMetre = entity!.RentPerSquareMetre!.ToDto());
+        SetIfNotNull(entity?.MacAddress, () => dto.MacAddress =entity!.MacAddress!.Value);
+        SetIfNotNull(entity?.PublicIp, () => dto.PublicIp =entity!.PublicIp!.Value);
+        SetIfNotNull(entity?.GeoLocation, () => dto.GeoLocation =entity!.GeoLocation!.ToDto());
+        SetIfNotNull(entity?.StreetAddress, () => dto.StreetAddress =entity!.StreetAddress!.ToDto());
+        SetIfNotNull(entity?.SerialNumber, () => dto.SerialNumber =entity!.SerialNumber!.Value);
+        SetIfNotNull(entity?.InstallationFootPrint, () => dto.InstallationFootPrint =entity!.InstallationFootPrint!.Value);
+        SetIfNotNull(entity?.RentPerSquareMetre, () => dto.RentPerSquareMetre =entity!.RentPerSquareMetre!.ToDto());
         SetIfNotNull(entity?.VendingMachineInstallationCountryId, () => dto.VendingMachineInstallationCountryId = entity!.VendingMachineInstallationCountryId!.Value);
         SetIfNotNull(entity?.VendingMachineInstallationCountry, () => dto.VendingMachineInstallationCountry = entity!.VendingMachineInstallationCountry!.ToDto());
         SetIfNotNull(entity?.VendingMachineContractedAreaLandLordId, () => dto.VendingMachineContractedAreaLandLordId = entity!.VendingMachineContractedAreaLandLordId!.Value);

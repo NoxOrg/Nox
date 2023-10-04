@@ -13,8 +13,8 @@ internal static class CountryBarCodeExtensions
     public static CountryBarCodeDto ToDto(this CountryBarCode entity)
     {
         var dto = new CountryBarCodeDto();
-        SetIfNotNull(entity?.BarCodeName, () => dto.BarCodeName = entity!.BarCodeName!.Value);
-        SetIfNotNull(entity?.BarCodeNumber, () => dto.BarCodeNumber = entity!.BarCodeNumber!.Value);
+        SetIfNotNull(entity?.BarCodeName, () => dto.BarCodeName =entity!.BarCodeName!.Value);
+        SetIfNotNull(entity?.BarCodeNumber, () => dto.BarCodeNumber =entity!.BarCodeNumber!.Value);
 
         return dto;
     }

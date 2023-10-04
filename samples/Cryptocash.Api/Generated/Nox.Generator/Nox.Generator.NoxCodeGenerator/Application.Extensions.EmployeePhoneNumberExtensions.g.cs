@@ -14,8 +14,8 @@ internal static class EmployeePhoneNumberExtensions
     {
         var dto = new EmployeePhoneNumberDto();
         SetIfNotNull(entity?.Id, () => dto.Id = entity!.Id.Value);
-        SetIfNotNull(entity?.PhoneNumberType, () => dto.PhoneNumberType = entity!.PhoneNumberType!.Value);
-        SetIfNotNull(entity?.PhoneNumber, () => dto.PhoneNumber = entity!.PhoneNumber!.Value);
+        SetIfNotNull(entity?.PhoneNumberType, () => dto.PhoneNumberType =entity!.PhoneNumberType!.Value);
+        SetIfNotNull(entity?.PhoneNumber, () => dto.PhoneNumber =entity!.PhoneNumber!.Value);
 
         return dto;
     }

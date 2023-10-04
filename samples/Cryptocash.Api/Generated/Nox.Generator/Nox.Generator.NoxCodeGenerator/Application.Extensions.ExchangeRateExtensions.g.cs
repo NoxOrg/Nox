@@ -14,8 +14,8 @@ internal static class ExchangeRateExtensions
     {
         var dto = new ExchangeRateDto();
         SetIfNotNull(entity?.Id, () => dto.Id = entity!.Id.Value);
-        SetIfNotNull(entity?.EffectiveRate, () => dto.EffectiveRate = entity!.EffectiveRate!.Value);
-        SetIfNotNull(entity?.EffectiveAt, () => dto.EffectiveAt = entity!.EffectiveAt!.Value);
+        SetIfNotNull(entity?.EffectiveRate, () => dto.EffectiveRate =entity!.EffectiveRate!.Value);
+        SetIfNotNull(entity?.EffectiveAt, () => dto.EffectiveAt =entity!.EffectiveAt!.Value);
 
         return dto;
     }

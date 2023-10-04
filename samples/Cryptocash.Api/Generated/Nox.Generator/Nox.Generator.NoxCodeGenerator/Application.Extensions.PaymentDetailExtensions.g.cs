@@ -14,9 +14,9 @@ internal static class PaymentDetailExtensions
     {
         var dto = new PaymentDetailDto();
         SetIfNotNull(entity?.Id, () => dto.Id = entity!.Id.Value);
-        SetIfNotNull(entity?.PaymentAccountName, () => dto.PaymentAccountName = entity!.PaymentAccountName!.Value);
-        SetIfNotNull(entity?.PaymentAccountNumber, () => dto.PaymentAccountNumber = entity!.PaymentAccountNumber!.Value);
-        SetIfNotNull(entity?.PaymentAccountSortCode, () => dto.PaymentAccountSortCode = entity!.PaymentAccountSortCode!.Value);
+        SetIfNotNull(entity?.PaymentAccountName, () => dto.PaymentAccountName =entity!.PaymentAccountName!.Value);
+        SetIfNotNull(entity?.PaymentAccountNumber, () => dto.PaymentAccountNumber =entity!.PaymentAccountNumber!.Value);
+        SetIfNotNull(entity?.PaymentAccountSortCode, () => dto.PaymentAccountSortCode =entity!.PaymentAccountSortCode!.Value);
         SetIfNotNull(entity?.PaymentDetailsUsedByCustomerId, () => dto.PaymentDetailsUsedByCustomerId = entity!.PaymentDetailsUsedByCustomerId!.Value);
         SetIfNotNull(entity?.PaymentDetailsUsedByCustomer, () => dto.PaymentDetailsUsedByCustomer = entity!.PaymentDetailsUsedByCustomer!.ToDto());
         SetIfNotNull(entity?.PaymentDetailsRelatedPaymentProviderId, () => dto.PaymentDetailsRelatedPaymentProviderId = entity!.PaymentDetailsRelatedPaymentProviderId!.Value);
