@@ -2,7 +2,6 @@
 
 #nullable enable
 
-using System.Threading.Tasks;
 using MediatR;
 using Nox.Application;
 using Nox.Messaging;
@@ -12,38 +11,30 @@ using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.DomainEventHandlers;
 
-internal abstract class CountryDomainEventHandlerBase<TEvent> : INotificationHandler<TEvent>
-    where TEvent : INotification
+internal abstract class CountryCreatedDomainEventHandlerBase : INotificationHandler<CountryCreated>
 {
     private readonly IOutboxRepository _outboxRepository;
 
-    protected CountryDomainEventHandlerBase(IOutboxRepository outboxRepository)
+    protected CountryCreatedDomainEventHandlerBase(IOutboxRepository outboxRepository)
     {
         _outboxRepository = outboxRepository;
     }
 
-    public abstract Task Handle(TEvent domainEvent, CancellationToken cancellationToken);
+    public virtual async Task Handle(CountryCreated domainEvent, CancellationToken cancellationToken)
+    {
+        var dto = domainEvent.Country.ToDto();
+        var @event = new IntegrationEvents.CountryCreated(dto);
+        await RaiseIntegrationEventAsync(@event);
+    }
 
-    protected async Task RaiseIntegrationEventAsync(IIntegrationEvent @event)
+    protected async Task RaiseIntegrationEventAsync<TEvent>(TEvent @event) where TEvent : IIntegrationEvent
         => await _outboxRepository.AddAsync(@event);
 }
 
-internal partial class CountryCreatedDomainEventHandler : CountryDomainEventHandlerBase<CountryCreated>
+internal partial class CountryCreatedDomainEventHandler : CountryCreatedDomainEventHandlerBase
 {
     public CountryCreatedDomainEventHandler(IOutboxRepository outboxRepository)
         : base(outboxRepository)
     {
     }
-
-    public override async Task Handle(CountryCreated domainEvent, CancellationToken cancellationToken)
-    {      
-await RaiseCountryCreatedIntegrationEventAsync(domainEvent.Country);
-    }
-    
-    private static async Task RaiseCountryCreatedIntegrationEventAsync(Country entity)
-    {
-        var dto = entity.ToDto();
-        var @event = new IntegrationEvents.CountryCreated(dto);
-        await RaiseIntegrationEventAsync(@event);
-    }}
 }

@@ -5,6 +5,7 @@ using Nox.Types;
 using Xunit.Abstractions;
 using ClientApi.Application.IntegrationEvents.StoreOwner;
 using ClientApi.Application.IntegrationEvents;
+using Nox.Application;
 
 namespace ClientApi.Tests.Application.Messaging
 {
