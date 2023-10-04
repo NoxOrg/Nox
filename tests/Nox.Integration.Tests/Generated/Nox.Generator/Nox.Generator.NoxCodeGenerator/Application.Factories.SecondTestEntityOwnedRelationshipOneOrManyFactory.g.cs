@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using TestWebApp.Application.Dto;
 using TestWebApp.Domain;
-using SecondTestEntityOwnedRelationshipOneOrMany = TestWebApp.Domain.SecondTestEntityOwnedRelationshipOneOrMany;
+using SecondTestEntityOwnedRelationshipOneOrManyEntity = TestWebApp.Domain.SecondTestEntityOwnedRelationshipOneOrMany;
 
 namespace TestWebApp.Application.Factories;
 
-internal abstract class SecondTestEntityOwnedRelationshipOneOrManyFactoryBase : IEntityFactory<SecondTestEntityOwnedRelationshipOneOrMany, SecondTestEntityOwnedRelationshipOneOrManyCreateDto, SecondTestEntityOwnedRelationshipOneOrManyUpdateDto>
+internal abstract class SecondTestEntityOwnedRelationshipOneOrManyFactoryBase : IEntityFactory<SecondTestEntityOwnedRelationshipOneOrManyEntity, SecondTestEntityOwnedRelationshipOneOrManyCreateDto, SecondTestEntityOwnedRelationshipOneOrManyUpdateDto>
 {
 
     public SecondTestEntityOwnedRelationshipOneOrManyFactoryBase
@@ -32,17 +32,17 @@ internal abstract class SecondTestEntityOwnedRelationshipOneOrManyFactoryBase : 
     {
     }
 
-    public virtual SecondTestEntityOwnedRelationshipOneOrMany CreateEntity(SecondTestEntityOwnedRelationshipOneOrManyCreateDto createDto)
+    public virtual SecondTestEntityOwnedRelationshipOneOrManyEntity CreateEntity(SecondTestEntityOwnedRelationshipOneOrManyCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(SecondTestEntityOwnedRelationshipOneOrMany entity, SecondTestEntityOwnedRelationshipOneOrManyUpdateDto updateDto)
+    public virtual void UpdateEntity(SecondTestEntityOwnedRelationshipOneOrManyEntity entity, SecondTestEntityOwnedRelationshipOneOrManyUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(SecondTestEntityOwnedRelationshipOneOrMany entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(SecondTestEntityOwnedRelationshipOneOrManyEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -55,12 +55,12 @@ internal abstract class SecondTestEntityOwnedRelationshipOneOrManyFactoryBase : 
         return entity;
     }
 
-    private void UpdateEntityInternal(SecondTestEntityOwnedRelationshipOneOrMany entity, SecondTestEntityOwnedRelationshipOneOrManyUpdateDto updateDto)
+    private void UpdateEntityInternal(SecondTestEntityOwnedRelationshipOneOrManyEntity entity, SecondTestEntityOwnedRelationshipOneOrManyUpdateDto updateDto)
     {
         entity.TextTestField2 = TestWebApp.Domain.SecondTestEntityOwnedRelationshipOneOrManyMetadata.CreateTextTestField2(updateDto.TextTestField2.NonNullValue<System.String>());
     }
 
-    private void PartialUpdateEntityInternal(SecondTestEntityOwnedRelationshipOneOrMany entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(SecondTestEntityOwnedRelationshipOneOrManyEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("TextTestField2", out var TextTestField2UpdateValue))

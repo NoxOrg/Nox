@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using TestWebApp.Application.Dto;
 using TestWebApp.Domain;
-using TestEntityExactlyOneToZeroOrMany = TestWebApp.Domain.TestEntityExactlyOneToZeroOrMany;
+using TestEntityExactlyOneToZeroOrManyEntity = TestWebApp.Domain.TestEntityExactlyOneToZeroOrMany;
 
 namespace TestWebApp.Application.Factories;
 
-internal abstract class TestEntityExactlyOneToZeroOrManyFactoryBase : IEntityFactory<TestEntityExactlyOneToZeroOrMany, TestEntityExactlyOneToZeroOrManyCreateDto, TestEntityExactlyOneToZeroOrManyUpdateDto>
+internal abstract class TestEntityExactlyOneToZeroOrManyFactoryBase : IEntityFactory<TestEntityExactlyOneToZeroOrManyEntity, TestEntityExactlyOneToZeroOrManyCreateDto, TestEntityExactlyOneToZeroOrManyUpdateDto>
 {
 
     public TestEntityExactlyOneToZeroOrManyFactoryBase
@@ -32,17 +32,17 @@ internal abstract class TestEntityExactlyOneToZeroOrManyFactoryBase : IEntityFac
     {
     }
 
-    public virtual TestEntityExactlyOneToZeroOrMany CreateEntity(TestEntityExactlyOneToZeroOrManyCreateDto createDto)
+    public virtual TestEntityExactlyOneToZeroOrManyEntity CreateEntity(TestEntityExactlyOneToZeroOrManyCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(TestEntityExactlyOneToZeroOrMany entity, TestEntityExactlyOneToZeroOrManyUpdateDto updateDto)
+    public virtual void UpdateEntity(TestEntityExactlyOneToZeroOrManyEntity entity, TestEntityExactlyOneToZeroOrManyUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(TestEntityExactlyOneToZeroOrMany entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(TestEntityExactlyOneToZeroOrManyEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -55,12 +55,12 @@ internal abstract class TestEntityExactlyOneToZeroOrManyFactoryBase : IEntityFac
         return entity;
     }
 
-    private void UpdateEntityInternal(TestEntityExactlyOneToZeroOrMany entity, TestEntityExactlyOneToZeroOrManyUpdateDto updateDto)
+    private void UpdateEntityInternal(TestEntityExactlyOneToZeroOrManyEntity entity, TestEntityExactlyOneToZeroOrManyUpdateDto updateDto)
     {
         entity.TextTestField = TestWebApp.Domain.TestEntityExactlyOneToZeroOrManyMetadata.CreateTextTestField(updateDto.TextTestField.NonNullValue<System.String>());
     }
 
-    private void PartialUpdateEntityInternal(TestEntityExactlyOneToZeroOrMany entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(TestEntityExactlyOneToZeroOrManyEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("TextTestField", out var TextTestFieldUpdateValue))

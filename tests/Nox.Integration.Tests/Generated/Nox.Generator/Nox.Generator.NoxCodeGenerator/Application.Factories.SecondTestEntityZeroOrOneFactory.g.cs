@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using TestWebApp.Application.Dto;
 using TestWebApp.Domain;
-using SecondTestEntityZeroOrOne = TestWebApp.Domain.SecondTestEntityZeroOrOne;
+using SecondTestEntityZeroOrOneEntity = TestWebApp.Domain.SecondTestEntityZeroOrOne;
 
 namespace TestWebApp.Application.Factories;
 
-internal abstract class SecondTestEntityZeroOrOneFactoryBase : IEntityFactory<SecondTestEntityZeroOrOne, SecondTestEntityZeroOrOneCreateDto, SecondTestEntityZeroOrOneUpdateDto>
+internal abstract class SecondTestEntityZeroOrOneFactoryBase : IEntityFactory<SecondTestEntityZeroOrOneEntity, SecondTestEntityZeroOrOneCreateDto, SecondTestEntityZeroOrOneUpdateDto>
 {
 
     public SecondTestEntityZeroOrOneFactoryBase
@@ -32,17 +32,17 @@ internal abstract class SecondTestEntityZeroOrOneFactoryBase : IEntityFactory<Se
     {
     }
 
-    public virtual SecondTestEntityZeroOrOne CreateEntity(SecondTestEntityZeroOrOneCreateDto createDto)
+    public virtual SecondTestEntityZeroOrOneEntity CreateEntity(SecondTestEntityZeroOrOneCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(SecondTestEntityZeroOrOne entity, SecondTestEntityZeroOrOneUpdateDto updateDto)
+    public virtual void UpdateEntity(SecondTestEntityZeroOrOneEntity entity, SecondTestEntityZeroOrOneUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(SecondTestEntityZeroOrOne entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(SecondTestEntityZeroOrOneEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -55,12 +55,12 @@ internal abstract class SecondTestEntityZeroOrOneFactoryBase : IEntityFactory<Se
         return entity;
     }
 
-    private void UpdateEntityInternal(SecondTestEntityZeroOrOne entity, SecondTestEntityZeroOrOneUpdateDto updateDto)
+    private void UpdateEntityInternal(SecondTestEntityZeroOrOneEntity entity, SecondTestEntityZeroOrOneUpdateDto updateDto)
     {
         entity.TextTestField2 = TestWebApp.Domain.SecondTestEntityZeroOrOneMetadata.CreateTextTestField2(updateDto.TextTestField2.NonNullValue<System.String>());
     }
 
-    private void PartialUpdateEntityInternal(SecondTestEntityZeroOrOne entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(SecondTestEntityZeroOrOneEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("TextTestField2", out var TextTestField2UpdateValue))

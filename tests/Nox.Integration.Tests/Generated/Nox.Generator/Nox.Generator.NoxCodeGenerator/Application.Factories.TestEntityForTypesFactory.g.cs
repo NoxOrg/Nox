@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using TestWebApp.Application.Dto;
 using TestWebApp.Domain;
-using TestEntityForTypes = TestWebApp.Domain.TestEntityForTypes;
+using TestEntityForTypesEntity = TestWebApp.Domain.TestEntityForTypes;
 
 namespace TestWebApp.Application.Factories;
 
-internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntityForTypes, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto>
+internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntityForTypesEntity, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto>
 {
 
     public TestEntityForTypesFactoryBase
@@ -32,17 +32,17 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
     {
     }
 
-    public virtual TestEntityForTypes CreateEntity(TestEntityForTypesCreateDto createDto)
+    public virtual TestEntityForTypesEntity CreateEntity(TestEntityForTypesCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(TestEntityForTypes entity, TestEntityForTypesUpdateDto updateDto)
+    public virtual void UpdateEntity(TestEntityForTypesEntity entity, TestEntityForTypesUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(TestEntityForTypes entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(TestEntityForTypesEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -105,7 +105,7 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
         return entity;
     }
 
-    private void UpdateEntityInternal(TestEntityForTypes entity, TestEntityForTypesUpdateDto updateDto)
+    private void UpdateEntityInternal(TestEntityForTypesEntity entity, TestEntityForTypesUpdateDto updateDto)
     {
         entity.TextTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTextTestField(updateDto.TextTestField.NonNullValue<System.String>());
         entity.NumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateNumberTestField(updateDto.NumberTestField.NonNullValue<System.Int16>());
@@ -256,7 +256,7 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
         }
     }
 
-    private void PartialUpdateEntityInternal(TestEntityForTypes entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(TestEntityForTypesEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("TextTestField", out var TextTestFieldUpdateValue))

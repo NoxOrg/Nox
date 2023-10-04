@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using TestWebApp.Domain;
+using TestEntityExactlyOneToZeroOrManyEntity = TestWebApp.Domain.TestEntityExactlyOneToZeroOrMany;
 
 namespace TestWebApp.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class TestEntityExactlyOneToZeroOrManyDto : TestEntityExactlyOneT
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public abstract class TestEntityExactlyOneToZeroOrManyDtoBase : EntityDtoBase, IEntityDto<TestEntityExactlyOneToZeroOrMany>
+public abstract class TestEntityExactlyOneToZeroOrManyDtoBase : EntityDtoBase, IEntityDto<TestEntityExactlyOneToZeroOrManyEntity>
 {
 
     #region Validation

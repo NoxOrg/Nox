@@ -16,33 +16,33 @@ using Nox.Solution;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
-using TestEntityWithNuid = TestWebApp.Domain.TestEntityWithNuid;
+using TestEntityWithNuidEntity = TestWebApp.Domain.TestEntityWithNuid;
 
 namespace TestWebApp.Application.Commands;
 
 public record CreateTestEntityWithNuidCommand(TestEntityWithNuidCreateDto EntityDto) : IRequest<TestEntityWithNuidKeyDto>;
 
-internal partial class CreateTestEntityWithNuidCommandHandler: CreateTestEntityWithNuidCommandHandlerBase
+internal partial class CreateTestEntityWithNuidCommandHandler : CreateTestEntityWithNuidCommandHandlerBase
 {
 	public CreateTestEntityWithNuidCommandHandler(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityWithNuid, TestEntityWithNuidCreateDto, TestEntityWithNuidUpdateDto> entityFactory)
+		IEntityFactory<TestEntityWithNuidEntity, TestEntityWithNuidCreateDto, TestEntityWithNuidUpdateDto> entityFactory)
 		: base(dbContext, noxSolution,entityFactory)
 	{
 	}
 }
 
 
-internal abstract class CreateTestEntityWithNuidCommandHandlerBase: CommandBase<CreateTestEntityWithNuidCommand,TestEntityWithNuid>, IRequestHandler <CreateTestEntityWithNuidCommand, TestEntityWithNuidKeyDto>
+internal abstract class CreateTestEntityWithNuidCommandHandlerBase : CommandBase<CreateTestEntityWithNuidCommand,TestEntityWithNuidEntity>, IRequestHandler <CreateTestEntityWithNuidCommand, TestEntityWithNuidKeyDto>
 {
 	private readonly TestWebAppDbContext _dbContext;
-	private readonly IEntityFactory<TestEntityWithNuid, TestEntityWithNuidCreateDto, TestEntityWithNuidUpdateDto> _entityFactory;
+	private readonly IEntityFactory<TestEntityWithNuidEntity, TestEntityWithNuidCreateDto, TestEntityWithNuidUpdateDto> _entityFactory;
 
 	public CreateTestEntityWithNuidCommandHandlerBase(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityWithNuid, TestEntityWithNuidCreateDto, TestEntityWithNuidUpdateDto> entityFactory): base(noxSolution)
+		IEntityFactory<TestEntityWithNuidEntity, TestEntityWithNuidCreateDto, TestEntityWithNuidUpdateDto> entityFactory) : base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

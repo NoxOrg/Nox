@@ -9,27 +9,27 @@ using Nox.Solution;
 using Nox.Types;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
-using TestEntityOwnedRelationshipZeroOrMany = TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrMany;
+using TestEntityOwnedRelationshipZeroOrManyEntity = TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrMany;
 
 namespace TestWebApp.Application.Commands;
 
 public record DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHandler:DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHandlerBase
+internal class DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHandler : DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHandlerBase
 {
 	public DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHandler(
 		TestWebAppDbContext dbContext,
-		NoxSolution noxSolution): base(dbContext, noxSolution)
+		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
-internal abstract class DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHandlerBase: CommandBase<DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommand,TestEntityOwnedRelationshipZeroOrMany>, IRequestHandler<DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommand, bool>
+internal abstract class DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHandlerBase : CommandBase<DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommand, TestEntityOwnedRelationshipZeroOrManyEntity>, IRequestHandler<DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommand, bool>
 {
 	public TestWebAppDbContext DbContext { get; }
 
 	public DeleteTestEntityOwnedRelationshipZeroOrManyByIdCommandHandlerBase(
 		TestWebAppDbContext dbContext,
-		NoxSolution noxSolution): base(noxSolution)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}

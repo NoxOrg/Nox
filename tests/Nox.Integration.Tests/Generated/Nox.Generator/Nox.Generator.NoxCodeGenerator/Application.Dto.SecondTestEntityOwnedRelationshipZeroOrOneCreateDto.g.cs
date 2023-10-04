@@ -10,6 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
+using SecondTestEntityOwnedRelationshipZeroOrOneEntity = TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrOne;
 using TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
@@ -22,7 +23,7 @@ public partial class SecondTestEntityOwnedRelationshipZeroOrOneCreateDto : Secon
 /// <summary>
 /// .
 /// </summary>
-public abstract class SecondTestEntityOwnedRelationshipZeroOrOneCreateDtoBase : IEntityDto<SecondTestEntityOwnedRelationshipZeroOrOne>
+public abstract class SecondTestEntityOwnedRelationshipZeroOrOneCreateDtoBase : IEntityDto<SecondTestEntityOwnedRelationshipZeroOrOneEntity>
 {
     /// <summary>
     ///  (Required).

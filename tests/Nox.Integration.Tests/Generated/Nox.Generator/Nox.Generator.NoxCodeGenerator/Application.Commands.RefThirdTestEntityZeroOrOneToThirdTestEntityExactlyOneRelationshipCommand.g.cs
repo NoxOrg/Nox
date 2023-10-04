@@ -15,6 +15,7 @@ using Nox.Types;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using ThirdTestEntityZeroOrOneEntity = TestWebApp.Domain.ThirdTestEntityZeroOrOne;
 
 namespace TestWebApp.Application.Commands;
 
@@ -62,7 +63,7 @@ internal partial class DeleteAllRefThirdTestEntityZeroOrOneToThirdTestEntityExac
 	{ }
 }
 
-internal abstract class RefThirdTestEntityZeroOrOneToThirdTestEntityExactlyOneRelationshipCommandHandlerBase<TRequest> : CommandBase<TRequest, ThirdTestEntityZeroOrOne>,
+internal abstract class RefThirdTestEntityZeroOrOneToThirdTestEntityExactlyOneRelationshipCommandHandlerBase<TRequest> : CommandBase<TRequest, ThirdTestEntityZeroOrOneEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefThirdTestEntityZeroOrOneToThirdTestEntityExactlyOneRelationshipCommand
 {
 	public TestWebAppDbContext DbContext { get; }
@@ -92,7 +93,7 @@ internal abstract class RefThirdTestEntityZeroOrOneToThirdTestEntityExactlyOneRe
 			return false;
 		}
 
-		ThirdTestEntityExactlyOne? relatedEntity = null!;
+		TestWebApp.Domain.ThirdTestEntityExactlyOne? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
 			var relatedKeyId = TestWebApp.Domain.ThirdTestEntityExactlyOneMetadata.CreateId(request.RelatedEntityKeyDto.keyId);

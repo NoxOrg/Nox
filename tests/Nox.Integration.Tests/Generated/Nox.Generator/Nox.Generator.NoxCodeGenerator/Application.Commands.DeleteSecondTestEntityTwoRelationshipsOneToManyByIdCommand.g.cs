@@ -9,27 +9,27 @@ using Nox.Solution;
 using Nox.Types;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
-using SecondTestEntityTwoRelationshipsOneToMany = TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToMany;
+using SecondTestEntityTwoRelationshipsOneToManyEntity = TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToMany;
 
 namespace TestWebApp.Application.Commands;
 
 public record DeleteSecondTestEntityTwoRelationshipsOneToManyByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteSecondTestEntityTwoRelationshipsOneToManyByIdCommandHandler:DeleteSecondTestEntityTwoRelationshipsOneToManyByIdCommandHandlerBase
+internal class DeleteSecondTestEntityTwoRelationshipsOneToManyByIdCommandHandler : DeleteSecondTestEntityTwoRelationshipsOneToManyByIdCommandHandlerBase
 {
 	public DeleteSecondTestEntityTwoRelationshipsOneToManyByIdCommandHandler(
 		TestWebAppDbContext dbContext,
-		NoxSolution noxSolution): base(dbContext, noxSolution)
+		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
-internal abstract class DeleteSecondTestEntityTwoRelationshipsOneToManyByIdCommandHandlerBase: CommandBase<DeleteSecondTestEntityTwoRelationshipsOneToManyByIdCommand,SecondTestEntityTwoRelationshipsOneToMany>, IRequestHandler<DeleteSecondTestEntityTwoRelationshipsOneToManyByIdCommand, bool>
+internal abstract class DeleteSecondTestEntityTwoRelationshipsOneToManyByIdCommandHandlerBase : CommandBase<DeleteSecondTestEntityTwoRelationshipsOneToManyByIdCommand, SecondTestEntityTwoRelationshipsOneToManyEntity>, IRequestHandler<DeleteSecondTestEntityTwoRelationshipsOneToManyByIdCommand, bool>
 {
 	public TestWebAppDbContext DbContext { get; }
 
 	public DeleteSecondTestEntityTwoRelationshipsOneToManyByIdCommandHandlerBase(
 		TestWebAppDbContext dbContext,
-		NoxSolution noxSolution): base(noxSolution)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}

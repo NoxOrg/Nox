@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using TestWebApp.Domain;
 
+using TestEntityForUniqueConstraintsEntity = TestWebApp.Domain.TestEntityForUniqueConstraints;
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
 /// Entity created for testing constraints.
 /// </summary>
-public partial class TestEntityForUniqueConstraintsUpdateDto : IEntityDto<TestEntityForUniqueConstraints>
+public partial class TestEntityForUniqueConstraintsUpdateDto : IEntityDto<TestEntityForUniqueConstraintsEntity>
 {
     /// <summary>
     ///  (Required).
