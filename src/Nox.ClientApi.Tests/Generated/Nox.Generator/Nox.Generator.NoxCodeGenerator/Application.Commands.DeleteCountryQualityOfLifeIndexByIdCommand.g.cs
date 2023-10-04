@@ -9,13 +9,13 @@ using Nox.Solution;
 using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
-using CountryQualityOfLifeIndex = ClientApi.Domain.CountryQualityOfLifeIndex;
+using CountryQualityOfLifeIndexEntity = ClientApi.Domain.CountryQualityOfLifeIndex;
 
 namespace ClientApi.Application.Commands;
 
 public record DeleteCountryQualityOfLifeIndexByIdCommand(System.Int64 keyCountryId, System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteCountryQualityOfLifeIndexByIdCommandHandler:DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase
+internal class DeleteCountryQualityOfLifeIndexByIdCommandHandler : DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase
 {
 	public DeleteCountryQualityOfLifeIndexByIdCommandHandler(
 		ClientApiDbContext dbContext,
@@ -23,7 +23,7 @@ internal class DeleteCountryQualityOfLifeIndexByIdCommandHandler:DeleteCountryQu
 	{
 	}
 }
-internal abstract class DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase: CommandBase<DeleteCountryQualityOfLifeIndexByIdCommand,CountryQualityOfLifeIndex>, IRequestHandler<DeleteCountryQualityOfLifeIndexByIdCommand, bool>
+internal abstract class DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase : CommandBase<DeleteCountryQualityOfLifeIndexByIdCommand, CountryQualityOfLifeIndexEntity>, IRequestHandler<DeleteCountryQualityOfLifeIndexByIdCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 

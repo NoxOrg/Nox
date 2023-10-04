@@ -15,6 +15,7 @@ using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using CountryEntity = Cryptocash.Domain.Country;
 
 namespace Cryptocash.Application.Commands;
 
@@ -62,7 +63,7 @@ internal partial class DeleteAllRefCountryToCountryUsedByCommissionsCommandHandl
 	{ }
 }
 
-internal abstract class RefCountryToCountryUsedByCommissionsCommandHandlerBase<TRequest> : CommandBase<TRequest, Country>,
+internal abstract class RefCountryToCountryUsedByCommissionsCommandHandlerBase<TRequest> : CommandBase<TRequest, CountryEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCountryToCountryUsedByCommissionsCommand
 {
 	public CryptocashDbContext DbContext { get; }
@@ -92,7 +93,7 @@ internal abstract class RefCountryToCountryUsedByCommissionsCommandHandlerBase<T
 			return false;
 		}
 
-		Commission? relatedEntity = null!;
+		Cryptocash.Domain.Commission? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
 			var relatedKeyId = Cryptocash.Domain.CommissionMetadata.CreateId(request.RelatedEntityKeyDto.keyId);

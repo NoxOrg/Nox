@@ -19,33 +19,33 @@ using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
 using ClientApi.Domain;
-using Store = ClientApi.Domain.Store;
+using StoreEntity = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Factories;
 
-internal abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto, StoreUpdateDto>
+internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto>
 {
-    protected IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> EmailAddressFactory {get;}
+    protected IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> EmailAddressFactory {get;}
 
     public StoreFactoryBase
     (
-        IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> emailaddressfactory
+        IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> emailaddressfactory
         )
     {
         EmailAddressFactory = emailaddressfactory;
     }
 
-    public virtual Store CreateEntity(StoreCreateDto createDto)
+    public virtual StoreEntity CreateEntity(StoreCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(Store entity, StoreUpdateDto updateDto)
+    public virtual void UpdateEntity(StoreEntity entity, StoreUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(Store entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(StoreEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -65,7 +65,7 @@ internal abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto,
         return entity;
     }
 
-    private void UpdateEntityInternal(Store entity, StoreUpdateDto updateDto)
+    private void UpdateEntityInternal(StoreEntity entity, StoreUpdateDto updateDto)
     {
         entity.Name = ClientApi.Domain.StoreMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         entity.Address = ClientApi.Domain.StoreMetadata.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
@@ -75,7 +75,7 @@ internal abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto,
         }
     }
 
-    private void PartialUpdateEntityInternal(Store entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(StoreEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
@@ -126,7 +126,7 @@ internal partial class StoreFactory : StoreFactoryBase
 {
     public StoreFactory
     (
-        IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> emailaddressfactory
+        IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> emailaddressfactory
     ): base(emailaddressfactory)
     {}
 }

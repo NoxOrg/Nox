@@ -15,6 +15,7 @@ using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using VendingMachineEntity = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application.Commands;
 
@@ -62,7 +63,7 @@ internal partial class DeleteAllRefVendingMachineToVendingMachineContractedAreaL
 	{ }
 }
 
-internal abstract class RefVendingMachineToVendingMachineContractedAreaLandLordCommandHandlerBase<TRequest> : CommandBase<TRequest, VendingMachine>,
+internal abstract class RefVendingMachineToVendingMachineContractedAreaLandLordCommandHandlerBase<TRequest> : CommandBase<TRequest, VendingMachineEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefVendingMachineToVendingMachineContractedAreaLandLordCommand
 {
 	public CryptocashDbContext DbContext { get; }
@@ -92,7 +93,7 @@ internal abstract class RefVendingMachineToVendingMachineContractedAreaLandLordC
 			return false;
 		}
 
-		LandLord? relatedEntity = null!;
+		Cryptocash.Domain.LandLord? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
 			var relatedKeyId = Cryptocash.Domain.LandLordMetadata.CreateId(request.RelatedEntityKeyDto.keyId);

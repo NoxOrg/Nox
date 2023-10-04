@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
 using ClientApi.Domain;
-using CountryLocalName = ClientApi.Domain.CountryLocalName;
+using CountryLocalNameEntity = ClientApi.Domain.CountryLocalName;
 
 namespace ClientApi.Application.Factories;
 
-internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto>
+internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLocalNameEntity, CountryLocalNameCreateDto, CountryLocalNameUpdateDto>
 {
 
     public CountryLocalNameFactoryBase
@@ -32,17 +32,17 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
     {
     }
 
-    public virtual CountryLocalName CreateEntity(CountryLocalNameCreateDto createDto)
+    public virtual CountryLocalNameEntity CreateEntity(CountryLocalNameCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(CountryLocalName entity, CountryLocalNameUpdateDto updateDto)
+    public virtual void UpdateEntity(CountryLocalNameEntity entity, CountryLocalNameUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(CountryLocalName entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(CountryLocalNameEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -55,7 +55,7 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
         return entity;
     }
 
-    private void UpdateEntityInternal(CountryLocalName entity, CountryLocalNameUpdateDto updateDto)
+    private void UpdateEntityInternal(CountryLocalNameEntity entity, CountryLocalNameUpdateDto updateDto)
     {
         entity.Name = ClientApi.Domain.CountryLocalNameMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         if (updateDto.NativeName == null) { entity.NativeName = null; } else {
@@ -63,7 +63,7 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
         }
     }
 
-    private void PartialUpdateEntityInternal(CountryLocalName entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(CountryLocalNameEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))

@@ -55,21 +55,21 @@ internal partial class ClientApiDbContext : DbContext
             _systemProvider = systemProvider;
         }
 
-    public DbSet<Country> Countries { get; set; } = null!;
+    public DbSet<ClientApi.Domain.Country> Countries { get; set; } = null!;
 
 
 
-    public DbSet<RatingProgram> RatingPrograms { get; set; } = null!;
+    public DbSet<ClientApi.Domain.RatingProgram> RatingPrograms { get; set; } = null!;
 
-    public DbSet<CountryQualityOfLifeIndex> CountryQualityOfLifeIndices { get; set; } = null!;
+    public DbSet<ClientApi.Domain.CountryQualityOfLifeIndex> CountryQualityOfLifeIndices { get; set; } = null!;
 
-    public DbSet<Store> Stores { get; set; } = null!;
+    public DbSet<ClientApi.Domain.Store> Stores { get; set; } = null!;
 
-    public DbSet<Workplace> Workplaces { get; set; } = null!;
+    public DbSet<ClientApi.Domain.Workplace> Workplaces { get; set; } = null!;
 
-    public DbSet<StoreOwner> StoreOwners { get; set; } = null!;
+    public DbSet<ClientApi.Domain.StoreOwner> StoreOwners { get; set; } = null!;
 
-    public DbSet<StoreLicense> StoreLicenses { get; set; } = null!;
+    public DbSet<ClientApi.Domain.StoreLicense> StoreLicenses { get; set; } = null!;
 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -117,10 +117,10 @@ internal partial class ClientApiDbContext : DbContext
 
     private void ConfigureAuditable(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Country>().HasQueryFilter(p => p.DeletedAtUtc == null);
-        modelBuilder.Entity<Store>().HasQueryFilter(p => p.DeletedAtUtc == null);
-        modelBuilder.Entity<StoreOwner>().HasQueryFilter(p => p.DeletedAtUtc == null);
-        modelBuilder.Entity<StoreLicense>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<ClientApi.Domain.Country>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<ClientApi.Domain.Store>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<ClientApi.Domain.StoreOwner>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<ClientApi.Domain.StoreLicense>().HasQueryFilter(p => p.DeletedAtUtc == null);
     }
 
     /// <inheritdoc/>

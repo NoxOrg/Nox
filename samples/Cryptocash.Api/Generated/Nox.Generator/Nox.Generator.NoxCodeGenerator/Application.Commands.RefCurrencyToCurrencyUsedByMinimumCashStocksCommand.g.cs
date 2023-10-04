@@ -15,6 +15,7 @@ using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using CurrencyEntity = Cryptocash.Domain.Currency;
 
 namespace Cryptocash.Application.Commands;
 
@@ -62,7 +63,7 @@ internal partial class DeleteAllRefCurrencyToCurrencyUsedByMinimumCashStocksComm
 	{ }
 }
 
-internal abstract class RefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandlerBase<TRequest> : CommandBase<TRequest, Currency>,
+internal abstract class RefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandlerBase<TRequest> : CommandBase<TRequest, CurrencyEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCurrencyToCurrencyUsedByMinimumCashStocksCommand
 {
 	public CryptocashDbContext DbContext { get; }
@@ -92,7 +93,7 @@ internal abstract class RefCurrencyToCurrencyUsedByMinimumCashStocksCommandHandl
 			return false;
 		}
 
-		MinimumCashStock? relatedEntity = null!;
+		Cryptocash.Domain.MinimumCashStock? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
 			var relatedKeyId = Cryptocash.Domain.MinimumCashStockMetadata.CreateId(request.RelatedEntityKeyDto.keyId);

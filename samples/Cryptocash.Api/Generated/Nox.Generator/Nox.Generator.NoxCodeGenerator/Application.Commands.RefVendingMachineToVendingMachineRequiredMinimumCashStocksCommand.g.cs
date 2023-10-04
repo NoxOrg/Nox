@@ -15,6 +15,7 @@ using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using VendingMachineEntity = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application.Commands;
 
@@ -62,7 +63,7 @@ internal partial class DeleteAllRefVendingMachineToVendingMachineRequiredMinimum
 	{ }
 }
 
-internal abstract class RefVendingMachineToVendingMachineRequiredMinimumCashStocksCommandHandlerBase<TRequest> : CommandBase<TRequest, VendingMachine>,
+internal abstract class RefVendingMachineToVendingMachineRequiredMinimumCashStocksCommandHandlerBase<TRequest> : CommandBase<TRequest, VendingMachineEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefVendingMachineToVendingMachineRequiredMinimumCashStocksCommand
 {
 	public CryptocashDbContext DbContext { get; }
@@ -92,7 +93,7 @@ internal abstract class RefVendingMachineToVendingMachineRequiredMinimumCashStoc
 			return false;
 		}
 
-		MinimumCashStock? relatedEntity = null!;
+		Cryptocash.Domain.MinimumCashStock? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
 			var relatedKeyId = Cryptocash.Domain.MinimumCashStockMetadata.CreateId(request.RelatedEntityKeyDto.keyId);

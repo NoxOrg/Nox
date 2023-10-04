@@ -19,33 +19,33 @@ using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Domain;
-using Employee = Cryptocash.Domain.Employee;
+using EmployeeEntity = Cryptocash.Domain.Employee;
 
 namespace Cryptocash.Application.Factories;
 
-internal abstract class EmployeeFactoryBase : IEntityFactory<Employee, EmployeeCreateDto, EmployeeUpdateDto>
+internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto>
 {
-    protected IEntityFactory<EmployeePhoneNumber, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> EmployeePhoneNumberFactory {get;}
+    protected IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> EmployeePhoneNumberFactory {get;}
 
     public EmployeeFactoryBase
     (
-        IEntityFactory<EmployeePhoneNumber, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> employeephonenumberfactory
+        IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> employeephonenumberfactory
         )
     {
         EmployeePhoneNumberFactory = employeephonenumberfactory;
     }
 
-    public virtual Employee CreateEntity(EmployeeCreateDto createDto)
+    public virtual EmployeeEntity CreateEntity(EmployeeCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(Employee entity, EmployeeUpdateDto updateDto)
+    public virtual void UpdateEntity(EmployeeEntity entity, EmployeeUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(Employee entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(EmployeeEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -63,7 +63,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<Employee, EmployeeC
         return entity;
     }
 
-    private void UpdateEntityInternal(Employee entity, EmployeeUpdateDto updateDto)
+    private void UpdateEntityInternal(EmployeeEntity entity, EmployeeUpdateDto updateDto)
     {
         entity.FirstName = Cryptocash.Domain.EmployeeMetadata.CreateFirstName(updateDto.FirstName.NonNullValue<System.String>());
         entity.LastName = Cryptocash.Domain.EmployeeMetadata.CreateLastName(updateDto.LastName.NonNullValue<System.String>());
@@ -75,7 +75,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<Employee, EmployeeC
         }
     }
 
-    private void PartialUpdateEntityInternal(Employee entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(EmployeeEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("FirstName", out var FirstNameUpdateValue))
@@ -148,7 +148,7 @@ internal partial class EmployeeFactory : EmployeeFactoryBase
 {
     public EmployeeFactory
     (
-        IEntityFactory<EmployeePhoneNumber, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> employeephonenumberfactory
+        IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> employeephonenumberfactory
     ): base(employeephonenumberfactory)
     {}
 }

@@ -11,6 +11,7 @@ using Nox.Factories;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using BankNoteEntity = Cryptocash.Domain.BankNote;
 
 namespace Cryptocash.Application.Commands;
 public record DeleteBankNoteForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteKeyDto EntityKeyDto) : IRequest <bool>;
@@ -25,7 +26,7 @@ internal partial class DeleteBankNoteForCurrencyCommandHandler : DeleteBankNoteF
 	}
 }
 
-internal partial class DeleteBankNoteForCurrencyCommandHandlerBase : CommandBase<DeleteBankNoteForCurrencyCommand, BankNote>, IRequestHandler <DeleteBankNoteForCurrencyCommand, bool>
+internal partial class DeleteBankNoteForCurrencyCommandHandlerBase : CommandBase<DeleteBankNoteForCurrencyCommand, BankNoteEntity>, IRequestHandler <DeleteBankNoteForCurrencyCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 

@@ -9,13 +9,13 @@ using Nox.Solution;
 using Nox.Types;
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
-using {{entity.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
+using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
 public record Delete{{entity.Name }}ByIdCommand({{primaryKeys}}{{ if !entity.IsOwnedEntity }}, System.Guid? Etag{{end}}) : IRequest<bool>;
 
-internal class Delete{{entity.Name}}ByIdCommandHandler:Delete{{entity.Name}}ByIdCommandHandlerBase
+internal class Delete{{entity.Name}}ByIdCommandHandler : Delete{{entity.Name}}ByIdCommandHandlerBase
 {
 	public Delete{{entity.Name}}ByIdCommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
@@ -23,7 +23,7 @@ internal class Delete{{entity.Name}}ByIdCommandHandler:Delete{{entity.Name}}ById
 	{
 	}
 }
-internal abstract class Delete{{entity.Name}}ByIdCommandHandlerBase: CommandBase<Delete{{entity.Name}}ByIdCommand,{{entity.Name}}>, IRequestHandler<Delete{{entity.Name}}ByIdCommand, bool>
+internal abstract class Delete{{entity.Name}}ByIdCommandHandlerBase : CommandBase<Delete{{entity.Name}}ByIdCommand, {{entity.Name}}Entity>, IRequestHandler<Delete{{entity.Name}}ByIdCommand, bool>
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
 

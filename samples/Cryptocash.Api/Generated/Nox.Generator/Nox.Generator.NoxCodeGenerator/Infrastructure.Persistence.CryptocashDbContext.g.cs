@@ -54,36 +54,36 @@ internal partial class CryptocashDbContext : DbContext
             _systemProvider = systemProvider;
         }
 
-    public DbSet<Booking> Bookings { get; set; } = null!;
+    public DbSet<Cryptocash.Domain.Booking> Bookings { get; set; } = null!;
 
-    public DbSet<Commission> Commissions { get; set; } = null!;
+    public DbSet<Cryptocash.Domain.Commission> Commissions { get; set; } = null!;
 
-    public DbSet<Country> Countries { get; set; } = null!;
-
-
-
-    public DbSet<Currency> Currencies { get; set; } = null!;
-
-
-    public DbSet<Customer> Customers { get; set; } = null!;
-
-    public DbSet<PaymentDetail> PaymentDetails { get; set; } = null!;
-
-    public DbSet<Transaction> Transactions { get; set; } = null!;
-
-    public DbSet<Employee> Employees { get; set; } = null!;
+    public DbSet<Cryptocash.Domain.Country> Countries { get; set; } = null!;
 
 
 
-    public DbSet<LandLord> LandLords { get; set; } = null!;
+    public DbSet<Cryptocash.Domain.Currency> Currencies { get; set; } = null!;
 
-    public DbSet<MinimumCashStock> MinimumCashStocks { get; set; } = null!;
 
-    public DbSet<PaymentProvider> PaymentProviders { get; set; } = null!;
+    public DbSet<Cryptocash.Domain.Customer> Customers { get; set; } = null!;
 
-    public DbSet<VendingMachine> VendingMachines { get; set; } = null!;
+    public DbSet<Cryptocash.Domain.PaymentDetail> PaymentDetails { get; set; } = null!;
 
-    public DbSet<CashStockOrder> CashStockOrders { get; set; } = null!;
+    public DbSet<Cryptocash.Domain.Transaction> Transactions { get; set; } = null!;
+
+    public DbSet<Cryptocash.Domain.Employee> Employees { get; set; } = null!;
+
+
+
+    public DbSet<Cryptocash.Domain.LandLord> LandLords { get; set; } = null!;
+
+    public DbSet<Cryptocash.Domain.MinimumCashStock> MinimumCashStocks { get; set; } = null!;
+
+    public DbSet<Cryptocash.Domain.PaymentProvider> PaymentProviders { get; set; } = null!;
+
+    public DbSet<Cryptocash.Domain.VendingMachine> VendingMachines { get; set; } = null!;
+
+    public DbSet<Cryptocash.Domain.CashStockOrder> CashStockOrders { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -127,19 +127,19 @@ internal partial class CryptocashDbContext : DbContext
 
     private void ConfigureAuditable(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Booking>().HasQueryFilter(p => p.DeletedAtUtc == null);
-        modelBuilder.Entity<Commission>().HasQueryFilter(p => p.DeletedAtUtc == null);
-        modelBuilder.Entity<Country>().HasQueryFilter(p => p.DeletedAtUtc == null);
-        modelBuilder.Entity<Currency>().HasQueryFilter(p => p.DeletedAtUtc == null);
-        modelBuilder.Entity<Customer>().HasQueryFilter(p => p.DeletedAtUtc == null);
-        modelBuilder.Entity<PaymentDetail>().HasQueryFilter(p => p.DeletedAtUtc == null);
-        modelBuilder.Entity<Transaction>().HasQueryFilter(p => p.DeletedAtUtc == null);
-        modelBuilder.Entity<Employee>().HasQueryFilter(p => p.DeletedAtUtc == null);
-        modelBuilder.Entity<LandLord>().HasQueryFilter(p => p.DeletedAtUtc == null);
-        modelBuilder.Entity<MinimumCashStock>().HasQueryFilter(p => p.DeletedAtUtc == null);
-        modelBuilder.Entity<PaymentProvider>().HasQueryFilter(p => p.DeletedAtUtc == null);
-        modelBuilder.Entity<VendingMachine>().HasQueryFilter(p => p.DeletedAtUtc == null);
-        modelBuilder.Entity<CashStockOrder>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Cryptocash.Domain.Booking>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Cryptocash.Domain.Commission>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Cryptocash.Domain.Country>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Cryptocash.Domain.Currency>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Cryptocash.Domain.Customer>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Cryptocash.Domain.PaymentDetail>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Cryptocash.Domain.Transaction>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Cryptocash.Domain.Employee>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Cryptocash.Domain.LandLord>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Cryptocash.Domain.MinimumCashStock>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Cryptocash.Domain.PaymentProvider>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Cryptocash.Domain.VendingMachine>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Cryptocash.Domain.CashStockOrder>().HasQueryFilter(p => p.DeletedAtUtc == null);
     }
 
     /// <inheritdoc/>

@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Cryptocash.Domain;
 
+using VendingMachineEntity = Cryptocash.Domain.VendingMachine;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Vending machine definition and related data.
 /// </summary>
-public partial class VendingMachineUpdateDto : IEntityDto<VendingMachine>
+public partial class VendingMachineUpdateDto : IEntityDto<VendingMachineEntity>
 {
     /// <summary>
     /// Vending machine mac address (Required).

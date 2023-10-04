@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Cryptocash.Domain;
 
+using MinimumCashStockEntity = Cryptocash.Domain.MinimumCashStock;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Minimum cash stock required for vending machine.
 /// </summary>
-public partial class MinimumCashStockUpdateDto : IEntityDto<MinimumCashStock>
+public partial class MinimumCashStockUpdateDto : IEntityDto<MinimumCashStockEntity>
 {
     /// <summary>
     /// Cash stock amount (Required).

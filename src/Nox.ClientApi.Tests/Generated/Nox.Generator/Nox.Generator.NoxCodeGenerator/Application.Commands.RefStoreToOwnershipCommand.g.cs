@@ -15,6 +15,7 @@ using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using StoreEntity = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Commands;
 
@@ -62,7 +63,7 @@ internal partial class DeleteAllRefStoreToOwnershipCommandHandler
 	{ }
 }
 
-internal abstract class RefStoreToOwnershipCommandHandlerBase<TRequest> : CommandBase<TRequest, Store>,
+internal abstract class RefStoreToOwnershipCommandHandlerBase<TRequest> : CommandBase<TRequest, StoreEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefStoreToOwnershipCommand
 {
 	public ClientApiDbContext DbContext { get; }
@@ -92,7 +93,7 @@ internal abstract class RefStoreToOwnershipCommandHandlerBase<TRequest> : Comman
 			return false;
 		}
 
-		StoreOwner? relatedEntity = null!;
+		ClientApi.Domain.StoreOwner? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
 			var relatedKeyId = ClientApi.Domain.StoreOwnerMetadata.CreateId(request.RelatedEntityKeyDto.keyId);

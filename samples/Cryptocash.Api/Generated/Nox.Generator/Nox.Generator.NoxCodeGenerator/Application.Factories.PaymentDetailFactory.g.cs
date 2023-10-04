@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Domain;
-using PaymentDetail = Cryptocash.Domain.PaymentDetail;
+using PaymentDetailEntity = Cryptocash.Domain.PaymentDetail;
 
 namespace Cryptocash.Application.Factories;
 
-internal abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto>
+internal abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetailEntity, PaymentDetailCreateDto, PaymentDetailUpdateDto>
 {
 
     public PaymentDetailFactoryBase
@@ -32,17 +32,17 @@ internal abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetail,
     {
     }
 
-    public virtual PaymentDetail CreateEntity(PaymentDetailCreateDto createDto)
+    public virtual PaymentDetailEntity CreateEntity(PaymentDetailCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(PaymentDetail entity, PaymentDetailUpdateDto updateDto)
+    public virtual void UpdateEntity(PaymentDetailEntity entity, PaymentDetailUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(PaymentDetail entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(PaymentDetailEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -56,7 +56,7 @@ internal abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetail,
         return entity;
     }
 
-    private void UpdateEntityInternal(PaymentDetail entity, PaymentDetailUpdateDto updateDto)
+    private void UpdateEntityInternal(PaymentDetailEntity entity, PaymentDetailUpdateDto updateDto)
     {
         entity.PaymentAccountName = Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountName(updateDto.PaymentAccountName.NonNullValue<System.String>());
         entity.PaymentAccountNumber = Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountNumber(updateDto.PaymentAccountNumber.NonNullValue<System.String>());
@@ -65,7 +65,7 @@ internal abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetail,
         }
     }
 
-    private void PartialUpdateEntityInternal(PaymentDetail entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(PaymentDetailEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("PaymentAccountName", out var PaymentAccountNameUpdateValue))

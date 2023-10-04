@@ -11,6 +11,7 @@ using Nox.Factories;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using CountryTimeZoneEntity = Cryptocash.Domain.CountryTimeZone;
 
 namespace Cryptocash.Application.Commands;
 public record DeleteCountryTimeZoneForCountryCommand(CountryKeyDto ParentKeyDto, CountryTimeZoneKeyDto EntityKeyDto) : IRequest <bool>;
@@ -25,7 +26,7 @@ internal partial class DeleteCountryTimeZoneForCountryCommandHandler : DeleteCou
 	}
 }
 
-internal partial class DeleteCountryTimeZoneForCountryCommandHandlerBase : CommandBase<DeleteCountryTimeZoneForCountryCommand, CountryTimeZone>, IRequestHandler <DeleteCountryTimeZoneForCountryCommand, bool>
+internal partial class DeleteCountryTimeZoneForCountryCommandHandlerBase : CommandBase<DeleteCountryTimeZoneForCountryCommand, CountryTimeZoneEntity>, IRequestHandler <DeleteCountryTimeZoneForCountryCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 

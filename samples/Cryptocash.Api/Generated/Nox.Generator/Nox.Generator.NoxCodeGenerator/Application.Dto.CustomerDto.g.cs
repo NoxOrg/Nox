@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using Cryptocash.Domain;
+using CustomerEntity = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class CustomerDto : CustomerDtoBase
 /// <summary>
 /// Customer definition and related data.
 /// </summary>
-public abstract class CustomerDtoBase : EntityDtoBase, IEntityDto<Customer>
+public abstract class CustomerDtoBase : EntityDtoBase, IEntityDto<CustomerEntity>
 {
 
     #region Validation

@@ -15,6 +15,7 @@ using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using BookingEntity = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Commands;
 
@@ -62,7 +63,7 @@ internal partial class DeleteAllRefBookingToBookingRelatedVendingMachineCommandH
 	{ }
 }
 
-internal abstract class RefBookingToBookingRelatedVendingMachineCommandHandlerBase<TRequest> : CommandBase<TRequest, Booking>,
+internal abstract class RefBookingToBookingRelatedVendingMachineCommandHandlerBase<TRequest> : CommandBase<TRequest, BookingEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefBookingToBookingRelatedVendingMachineCommand
 {
 	public CryptocashDbContext DbContext { get; }
@@ -92,7 +93,7 @@ internal abstract class RefBookingToBookingRelatedVendingMachineCommandHandlerBa
 			return false;
 		}
 
-		VendingMachine? relatedEntity = null!;
+		Cryptocash.Domain.VendingMachine? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
 			var relatedKeyId = Cryptocash.Domain.VendingMachineMetadata.CreateId(request.RelatedEntityKeyDto.keyId);

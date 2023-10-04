@@ -11,6 +11,7 @@ using Nox.Factories;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using CountryLocalNameEntity = ClientApi.Domain.CountryLocalName;
 
 namespace ClientApi.Application.Commands;
 public record DeleteCountryLocalNameForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameKeyDto EntityKeyDto) : IRequest <bool>;
@@ -25,7 +26,7 @@ internal partial class DeleteCountryLocalNameForCountryCommandHandler : DeleteCo
 	}
 }
 
-internal partial class DeleteCountryLocalNameForCountryCommandHandlerBase : CommandBase<DeleteCountryLocalNameForCountryCommand, CountryLocalName>, IRequestHandler <DeleteCountryLocalNameForCountryCommand, bool>
+internal partial class DeleteCountryLocalNameForCountryCommandHandlerBase : CommandBase<DeleteCountryLocalNameForCountryCommand, CountryLocalNameEntity>, IRequestHandler <DeleteCountryLocalNameForCountryCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 

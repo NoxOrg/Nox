@@ -11,6 +11,7 @@ using Nox.Factories;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using EmployeePhoneNumberEntity = Cryptocash.Domain.EmployeePhoneNumber;
 
 namespace Cryptocash.Application.Commands;
 public record DeleteEmployeePhoneNumberForEmployeeCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberKeyDto EntityKeyDto) : IRequest <bool>;
@@ -25,7 +26,7 @@ internal partial class DeleteEmployeePhoneNumberForEmployeeCommandHandler : Dele
 	}
 }
 
-internal partial class DeleteEmployeePhoneNumberForEmployeeCommandHandlerBase : CommandBase<DeleteEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumber>, IRequestHandler <DeleteEmployeePhoneNumberForEmployeeCommand, bool>
+internal partial class DeleteEmployeePhoneNumberForEmployeeCommandHandlerBase : CommandBase<DeleteEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumberEntity>, IRequestHandler <DeleteEmployeePhoneNumberForEmployeeCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 

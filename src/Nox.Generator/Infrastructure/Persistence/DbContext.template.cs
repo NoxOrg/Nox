@@ -58,7 +58,7 @@ internal partial class {{className}} : DbContext
         }
 {{ for entity in solution.Domain.Entities -}}
 {{- if (!entity.IsOwnedEntity) }}
-    public DbSet<{{entity.Name}}> {{entity.PluralName}} { get; set; } = null!;
+    public DbSet<{{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}> {{entity.PluralName}} { get; set; } = null!;
 
 {{- end }}
 {{ end }}
@@ -112,7 +112,7 @@ internal partial class {{className}} : DbContext
     {
     {{- for entity in solution.Domain.Entities }}
     {{- if entity.Persistence?.IsAudited }}
-        modelBuilder.Entity<{{entity.Name}}>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<{{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}>().HasQueryFilter(p => p.DeletedAtUtc == null);
     {{- end }}
     {{- end }}
     }

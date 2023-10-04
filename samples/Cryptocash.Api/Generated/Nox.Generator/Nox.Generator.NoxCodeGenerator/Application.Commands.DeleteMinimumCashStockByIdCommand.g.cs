@@ -9,13 +9,13 @@ using Nox.Solution;
 using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
-using MinimumCashStock = Cryptocash.Domain.MinimumCashStock;
+using MinimumCashStockEntity = Cryptocash.Domain.MinimumCashStock;
 
 namespace Cryptocash.Application.Commands;
 
 public record DeleteMinimumCashStockByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteMinimumCashStockByIdCommandHandler:DeleteMinimumCashStockByIdCommandHandlerBase
+internal class DeleteMinimumCashStockByIdCommandHandler : DeleteMinimumCashStockByIdCommandHandlerBase
 {
 	public DeleteMinimumCashStockByIdCommandHandler(
 		CryptocashDbContext dbContext,
@@ -23,7 +23,7 @@ internal class DeleteMinimumCashStockByIdCommandHandler:DeleteMinimumCashStockBy
 	{
 	}
 }
-internal abstract class DeleteMinimumCashStockByIdCommandHandlerBase: CommandBase<DeleteMinimumCashStockByIdCommand,MinimumCashStock>, IRequestHandler<DeleteMinimumCashStockByIdCommand, bool>
+internal abstract class DeleteMinimumCashStockByIdCommandHandlerBase : CommandBase<DeleteMinimumCashStockByIdCommand, MinimumCashStockEntity>, IRequestHandler<DeleteMinimumCashStockByIdCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 

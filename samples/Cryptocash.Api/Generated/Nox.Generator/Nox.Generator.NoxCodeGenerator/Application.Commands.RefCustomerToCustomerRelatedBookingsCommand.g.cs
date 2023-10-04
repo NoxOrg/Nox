@@ -15,6 +15,7 @@ using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using CustomerEntity = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application.Commands;
 
@@ -62,7 +63,7 @@ internal partial class DeleteAllRefCustomerToCustomerRelatedBookingsCommandHandl
 	{ }
 }
 
-internal abstract class RefCustomerToCustomerRelatedBookingsCommandHandlerBase<TRequest> : CommandBase<TRequest, Customer>,
+internal abstract class RefCustomerToCustomerRelatedBookingsCommandHandlerBase<TRequest> : CommandBase<TRequest, CustomerEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCustomerToCustomerRelatedBookingsCommand
 {
 	public CryptocashDbContext DbContext { get; }
@@ -92,7 +93,7 @@ internal abstract class RefCustomerToCustomerRelatedBookingsCommandHandlerBase<T
 			return false;
 		}
 
-		Booking? relatedEntity = null!;
+		Cryptocash.Domain.Booking? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
 			var relatedKeyId = Cryptocash.Domain.BookingMetadata.CreateId(request.RelatedEntityKeyDto.keyId);

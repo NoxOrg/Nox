@@ -9,13 +9,13 @@ using Nox.Solution;
 using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
-using StoreOwner = ClientApi.Domain.StoreOwner;
+using StoreOwnerEntity = ClientApi.Domain.StoreOwner;
 
 namespace ClientApi.Application.Commands;
 
 public record DeleteStoreOwnerByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteStoreOwnerByIdCommandHandler:DeleteStoreOwnerByIdCommandHandlerBase
+internal class DeleteStoreOwnerByIdCommandHandler : DeleteStoreOwnerByIdCommandHandlerBase
 {
 	public DeleteStoreOwnerByIdCommandHandler(
 		ClientApiDbContext dbContext,
@@ -23,7 +23,7 @@ internal class DeleteStoreOwnerByIdCommandHandler:DeleteStoreOwnerByIdCommandHan
 	{
 	}
 }
-internal abstract class DeleteStoreOwnerByIdCommandHandlerBase: CommandBase<DeleteStoreOwnerByIdCommand,StoreOwner>, IRequestHandler<DeleteStoreOwnerByIdCommand, bool>
+internal abstract class DeleteStoreOwnerByIdCommandHandlerBase : CommandBase<DeleteStoreOwnerByIdCommand, StoreOwnerEntity>, IRequestHandler<DeleteStoreOwnerByIdCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 

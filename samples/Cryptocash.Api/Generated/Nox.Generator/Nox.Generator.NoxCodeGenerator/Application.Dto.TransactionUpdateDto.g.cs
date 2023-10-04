@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Cryptocash.Domain;
 
+using TransactionEntity = Cryptocash.Domain.Transaction;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Customer transaction log and related data.
 /// </summary>
-public partial class TransactionUpdateDto : IEntityDto<Transaction>
+public partial class TransactionUpdateDto : IEntityDto<TransactionEntity>
 {
     /// <summary>
     /// Transaction type (Required).

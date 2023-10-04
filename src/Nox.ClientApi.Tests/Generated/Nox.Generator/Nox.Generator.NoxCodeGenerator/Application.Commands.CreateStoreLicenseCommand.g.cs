@@ -16,36 +16,36 @@ using Nox.Solution;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
-using StoreLicense = ClientApi.Domain.StoreLicense;
+using StoreLicenseEntity = ClientApi.Domain.StoreLicense;
 
 namespace ClientApi.Application.Commands;
 
 public record CreateStoreLicenseCommand(StoreLicenseCreateDto EntityDto) : IRequest<StoreLicenseKeyDto>;
 
-internal partial class CreateStoreLicenseCommandHandler: CreateStoreLicenseCommandHandlerBase
+internal partial class CreateStoreLicenseCommandHandler : CreateStoreLicenseCommandHandlerBase
 {
 	public CreateStoreLicenseCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> storefactory,
-		IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory)
+		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> storefactory,
+		IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory)
 		: base(dbContext, noxSolution,storefactory, entityFactory)
 	{
 	}
 }
 
 
-internal abstract class CreateStoreLicenseCommandHandlerBase: CommandBase<CreateStoreLicenseCommand,StoreLicense>, IRequestHandler <CreateStoreLicenseCommand, StoreLicenseKeyDto>
+internal abstract class CreateStoreLicenseCommandHandlerBase : CommandBase<CreateStoreLicenseCommand,StoreLicenseEntity>, IRequestHandler <CreateStoreLicenseCommand, StoreLicenseKeyDto>
 {
 	private readonly ClientApiDbContext _dbContext;
-	private readonly IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> _entityFactory;
-	private readonly IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> _storefactory;
+	private readonly IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> _entityFactory;
+	private readonly IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> _storefactory;
 
 	public CreateStoreLicenseCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> storefactory,
-		IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory): base(noxSolution)
+		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> storefactory,
+		IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

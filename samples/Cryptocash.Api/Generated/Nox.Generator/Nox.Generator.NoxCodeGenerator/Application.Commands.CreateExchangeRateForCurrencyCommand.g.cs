@@ -14,30 +14,30 @@ using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
-using ExchangeRate = Cryptocash.Domain.ExchangeRate;
+using ExchangeRateEntity = Cryptocash.Domain.ExchangeRate;
 
 namespace Cryptocash.Application.Commands;
 public record CreateExchangeRateForCurrencyCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateCreateDto EntityDto, System.Guid? Etag) : IRequest <ExchangeRateKeyDto?>;
 
-internal partial class CreateExchangeRateForCurrencyCommandHandler: CreateExchangeRateForCurrencyCommandHandlerBase
+internal partial class CreateExchangeRateForCurrencyCommandHandler : CreateExchangeRateForCurrencyCommandHandlerBase
 {
 	public CreateExchangeRateForCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto> entityFactory)
+		IEntityFactory<ExchangeRateEntity, ExchangeRateCreateDto, ExchangeRateUpdateDto> entityFactory)
 		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
-internal abstract class CreateExchangeRateForCurrencyCommandHandlerBase: CommandBase<CreateExchangeRateForCurrencyCommand, ExchangeRate>, IRequestHandler<CreateExchangeRateForCurrencyCommand, ExchangeRateKeyDto?>
+internal abstract class CreateExchangeRateForCurrencyCommandHandlerBase : CommandBase<CreateExchangeRateForCurrencyCommand, ExchangeRateEntity>, IRequestHandler<CreateExchangeRateForCurrencyCommand, ExchangeRateKeyDto?>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto> _entityFactory;
+	private readonly IEntityFactory<ExchangeRateEntity, ExchangeRateCreateDto, ExchangeRateUpdateDto> _entityFactory;
 
 	public CreateExchangeRateForCurrencyCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto> entityFactory): base(noxSolution)
+		IEntityFactory<ExchangeRateEntity, ExchangeRateCreateDto, ExchangeRateUpdateDto> entityFactory): base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

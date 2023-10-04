@@ -10,6 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
+using CurrencyEntity = Cryptocash.Domain.Currency;
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -22,7 +23,7 @@ public partial class CurrencyCreateDto : CurrencyCreateDtoBase
 /// <summary>
 /// Currency and related data.
 /// </summary>
-public abstract class CurrencyCreateDtoBase : IEntityDto<Currency>
+public abstract class CurrencyCreateDtoBase : IEntityDto<CurrencyEntity>
 {
     /// <summary>
     /// Currency unique identifier (Required).

@@ -19,36 +19,36 @@ using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
 using ClientApi.Domain;
-using Country = ClientApi.Domain.Country;
+using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Factories;
 
-internal abstract class CountryFactoryBase : IEntityFactory<Country, CountryCreateDto, CountryUpdateDto>
+internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto>
 {
-    protected IEntityFactory<CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> CountryLocalNameFactory {get;}
-    protected IEntityFactory<CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto> CountryBarCodeFactory {get;}
+    protected IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> CountryLocalNameFactory {get;}
+    protected IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto> CountryBarCodeFactory {get;}
 
     public CountryFactoryBase
     (
-        IEntityFactory<CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> countrylocalnamefactory,
-        IEntityFactory<CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto> countrybarcodefactory
+        IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> countrylocalnamefactory,
+        IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto> countrybarcodefactory
         )
     {
         CountryLocalNameFactory = countrylocalnamefactory;
         CountryBarCodeFactory = countrybarcodefactory;
     }
 
-    public virtual Country CreateEntity(CountryCreateDto createDto)
+    public virtual CountryEntity CreateEntity(CountryCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(Country entity, CountryUpdateDto updateDto)
+    public virtual void UpdateEntity(CountryEntity entity, CountryUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(Country entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(CountryEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -72,7 +72,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<Country, CountryCrea
         return entity;
     }
 
-    private void UpdateEntityInternal(Country entity, CountryUpdateDto updateDto)
+    private void UpdateEntityInternal(CountryEntity entity, CountryUpdateDto updateDto)
     {
         entity.Name = ClientApi.Domain.CountryMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         if (updateDto.Population == null) { entity.Population = null; } else {
@@ -98,7 +98,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<Country, CountryCrea
         }
     }
 
-    private void PartialUpdateEntityInternal(Country entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(CountryEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
@@ -181,8 +181,8 @@ internal partial class CountryFactory : CountryFactoryBase
 {
     public CountryFactory
     (
-        IEntityFactory<CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> countrylocalnamefactory,
-        IEntityFactory<CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto> countrybarcodefactory
+        IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> countrylocalnamefactory,
+        IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto> countrybarcodefactory
     ): base(countrylocalnamefactory,countrybarcodefactory)
     {}
 }

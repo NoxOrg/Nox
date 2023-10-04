@@ -10,6 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
+using CountryEntity = ClientApi.Domain.Country;
 using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
@@ -22,7 +23,7 @@ public partial class CountryCreateDto : CountryCreateDtoBase
 /// <summary>
 /// Country Entity.
 /// </summary>
-public abstract class CountryCreateDtoBase : IEntityDto<Country>
+public abstract class CountryCreateDtoBase : IEntityDto<CountryEntity>
 {
     /// <summary>
     /// The Country Name (Required).

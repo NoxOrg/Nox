@@ -23,20 +23,20 @@ using Nox.Exceptions;
 
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 using {{codeGeneratorState.DomainNameSpace}};
-using {{entity.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
+using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Factories;
 
-internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto>
+internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto>
 {
     {{- for ownedEntity in ownedEntities #Factories Properties for owned entitites}}
-    protected IEntityFactory<{{ownedEntity}}, {{ownedEntity}}CreateDto, {{ownedEntity}}UpdateDto> {{ownedEntity}}Factory {get;}
+    protected IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{ownedEntity}}, {{ownedEntity}}CreateDto, {{ownedEntity}}UpdateDto> {{ownedEntity}}Factory {get;}
     {{- end }}
 
     public {{className}}Base
     (
         {{- for ownedEntity in ownedEntities #Factories Properties for owned entitites}}
-        IEntityFactory<{{ownedEntity}}, {{ownedEntity}}CreateDto, {{ownedEntity}}UpdateDto> {{fieldFactoryName ownedEntity}}{{if !for.last}},{{end}}
+        IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{ownedEntity}}, {{ownedEntity}}CreateDto, {{ownedEntity}}UpdateDto> {{fieldFactoryName ownedEntity}}{{if !for.last}},{{end}}
         {{- end }}
         )
     {
@@ -45,17 +45,17 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}, {{en
         {{- end }}
     }
 
-    public virtual {{entity.Name}} CreateEntity({{entity.Name}}CreateDto createDto)
+    public virtual {{entity.Name}}Entity CreateEntity({{entity.Name}}CreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity({{entity.Name}} entity, {{entity.Name}}UpdateDto updateDto)
+    public virtual void UpdateEntity({{entity.Name}}Entity entity, {{entity.Name}}UpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity({{entity.Name}} entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity({{entity.Name}}Entity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -107,7 +107,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}, {{en
         return entity;
     }
 
-    private void UpdateEntityInternal({{entity.Name}} entity, {{entity.Name}}UpdateDto updateDto)
+    private void UpdateEntityInternal({{entity.Name}}Entity entity, {{entity.Name}}UpdateDto updateDto)
     {
         {{- for attribute in entity.Attributes }}
             {{- if !IsNoxTypeReadable attribute.Type || attribute.Type == "Formula" -}}
@@ -135,7 +135,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}, {{en
 		{{- end }}
     }
 
-    private void PartialUpdateEntityInternal({{entity.Name}} entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal({{entity.Name}}Entity entity, Dictionary<string, dynamic> updatedProperties)
     {
         {{- for attribute in entity.Attributes }}
             {{- if !IsNoxTypeReadable attribute.Type || attribute.Type == "Formula" -}}
@@ -174,7 +174,7 @@ internal partial class {{className}} : {{className}}Base
     public {{className}}
     (
         {{- for ownedEntity in ownedEntities #Factories Properties for owned entitites}}
-        IEntityFactory<{{ownedEntity}}, {{ownedEntity}}CreateDto, {{ownedEntity}}UpdateDto> {{fieldFactoryName ownedEntity}}{{if !for.last}},{{end}}
+        IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{ownedEntity}}, {{ownedEntity}}CreateDto, {{ownedEntity}}UpdateDto> {{fieldFactoryName ownedEntity}}{{if !for.last}},{{end}}
         {{- end }}
     ): base({{ ownedEntities | array.each @fieldFactoryName | array.join "," }})
     {}

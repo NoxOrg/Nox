@@ -9,13 +9,13 @@ using Nox.Solution;
 using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
-using Customer = Cryptocash.Domain.Customer;
+using CustomerEntity = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application.Commands;
 
 public record DeleteCustomerByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteCustomerByIdCommandHandler:DeleteCustomerByIdCommandHandlerBase
+internal class DeleteCustomerByIdCommandHandler : DeleteCustomerByIdCommandHandlerBase
 {
 	public DeleteCustomerByIdCommandHandler(
 		CryptocashDbContext dbContext,
@@ -23,7 +23,7 @@ internal class DeleteCustomerByIdCommandHandler:DeleteCustomerByIdCommandHandler
 	{
 	}
 }
-internal abstract class DeleteCustomerByIdCommandHandlerBase: CommandBase<DeleteCustomerByIdCommand,Customer>, IRequestHandler<DeleteCustomerByIdCommand, bool>
+internal abstract class DeleteCustomerByIdCommandHandlerBase : CommandBase<DeleteCustomerByIdCommand, CustomerEntity>, IRequestHandler<DeleteCustomerByIdCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 

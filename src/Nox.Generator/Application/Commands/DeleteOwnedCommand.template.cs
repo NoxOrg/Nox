@@ -11,6 +11,7 @@ using Nox.Factories;
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
+using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 {{- if isSingleRelationship }}
@@ -29,7 +30,7 @@ internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandler : D
 	}
 }
 
-internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandlerBase : CommandBase<Delete{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}>, IRequestHandler <Delete{{entity.Name}}For{{parent.Name}}Command, bool>
+internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandlerBase : CommandBase<Delete{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}Entity>, IRequestHandler <Delete{{entity.Name}}For{{parent.Name}}Command, bool>
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
 
