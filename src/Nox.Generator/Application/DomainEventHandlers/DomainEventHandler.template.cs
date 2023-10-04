@@ -11,22 +11,20 @@ using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.DomainEventHandlers;
 
-{{ if entity.Persistence.Create.RaiseDomainEvents -}}
-
-internal abstract class {{entity.Name}}CreatedDomainEventHandlerBase : INotificationHandler<{{entity.Name}}Created>
+internal abstract class {{className}}Base : INotificationHandler<{{entity.Name}}{{crudOperation}}>
 {
     private readonly IOutboxRepository _outboxRepository;
 
-    protected {{entity.Name}}CreatedDomainEventHandlerBase(IOutboxRepository outboxRepository)
+    protected {{className}}Base(IOutboxRepository outboxRepository)
     {
         _outboxRepository = outboxRepository;
     }
 
-    public virtual async Task Handle({{entity.Name}}Created domainEvent, CancellationToken cancellationToken)
+    public virtual async Task Handle({{entity.Name}}{{crudOperation}} domainEvent, CancellationToken cancellationToken)
     {
 {{- if entity.Persistence.Create.RaiseIntegrationEvents }}
         var dto = domainEvent.{{entity.Name}}.ToDto();
-        var @event = new IntegrationEvents.{{entity.Name}}Created(dto);
+        var @event = new IntegrationEvents.{{entity.Name}}{{crudOperation}}(dto);
         await RaiseIntegrationEventAsync(@event);
 {{- else }}
         await Task.CompletedTask;
@@ -37,11 +35,10 @@ internal abstract class {{entity.Name}}CreatedDomainEventHandlerBase : INotifica
         => await _outboxRepository.AddAsync(@event);
 }
 
-internal partial class {{entity.Name}}CreatedDomainEventHandler : {{entity.Name}}CreatedDomainEventHandlerBase
+internal partial class {{className}} : {{className}}Base
 {
-    public {{entity.Name}}CreatedDomainEventHandler(IOutboxRepository outboxRepository)
+    public {{className}}(IOutboxRepository outboxRepository)
         : base(outboxRepository)
     {
     }
 }
-{{- end -}}

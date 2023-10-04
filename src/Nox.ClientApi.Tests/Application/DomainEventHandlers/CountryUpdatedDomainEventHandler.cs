@@ -1,33 +1,19 @@
-﻿using ClientApi.Application.Dto;
-using ClientApi.Domain;
-using MediatR;
-using Nox.Messaging;
+﻿using ClientApi.Domain;
+using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.DomainEventHandlers;
 
-internal class CountryUpdatedDomainEventHandler : INotificationHandler<CountryUpdated>
+internal partial class CountryUpdatedDomainEventHandler
 {
-    private readonly IOutboxRepository _outboxRepository;
-
-    public CountryUpdatedDomainEventHandler(IOutboxRepository outboxRepository)
+    public override async Task Handle(CountryUpdated domainEvent, CancellationToken cancellationToken)
     {
-        _outboxRepository = outboxRepository;
-    }
+        await base.Handle(domainEvent, cancellationToken);
 
-    public async Task Handle(CountryUpdated domainEvent, CancellationToken cancellationToken)
-    {
-        var country = domainEvent.Country;
-
-        if (country.Population?.Value > 100_000_000)
+        if (domainEvent.Country.Population?.Value > 100_000_000)
         {
-            await RaiseIntegrationEventAsync(country);
+            var @event = CreateIntegrationEvent(domainEvent.Country);
+            await RaiseIntegrationEventAsync(@event);
         }
-    }
-
-    private async Task RaiseIntegrationEventAsync(Country country)
-    {
-        var integrationEvent = CreateIntegrationEvent(country);
-        await _outboxRepository.AddAsync(integrationEvent);
     }
 
     private static IntegrationEvents.CountryPopulationHigherThan100M CreateIntegrationEvent(Country? country)
