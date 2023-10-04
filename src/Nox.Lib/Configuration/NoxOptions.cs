@@ -17,7 +17,6 @@ using Nox.EntityFramework.Sqlite;
 using Nox.EntityFramework.Postgres;
 using Nox.EntityFramework.SqlServer;
 using Nox.Messaging.InMemoryBus;
-using Microsoft.Extensions.Hosting;
 using Nox.OData;
 
 namespace Nox.Configuration;
