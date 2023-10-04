@@ -37,6 +37,8 @@ public class NoxTestApplicationFactory : WebApplicationFactory<StartupFixture>
         dbContext.Database.EnsureDeleted();
         dbContext.Database.EnsureCreated();
     }
+    
+    internal ClientApiDbContext GetDbContext() => Services.GetRequiredService<ClientApiDbContext>();
 
     protected override IWebHostBuilder? CreateWebHostBuilder()
     {
