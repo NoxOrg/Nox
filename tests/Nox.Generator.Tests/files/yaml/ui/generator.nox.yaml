@@ -10,7 +10,7 @@
 #  </ItemGroup>
 
 # Genrates domain models, events and related types
-domain: true
+domain: false
 
 # Generates application logic and events
 application: false
@@ -20,3 +20,6 @@ infrastructure: false
 
 # Generates APi's
 presentation: false
+
+# Generates UI
+ui: true
