@@ -2,7 +2,7 @@
 
 public abstract partial class AuditableEntityBase : IEntity, IEntityAuditCreated, IEntityAuditUpdated, IEntityAuditDeleted
 {
-    private static readonly string DefaultUser = Guid.Empty.ToString();
+    private static readonly string DefaultUser = "N/A";
     private static readonly string DefaultSystem = "N/A";
 
     protected AuditableEntityBase()

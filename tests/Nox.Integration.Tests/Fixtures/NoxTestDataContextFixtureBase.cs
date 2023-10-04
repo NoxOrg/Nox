@@ -1,12 +1,15 @@
-﻿using MediatR;
+using System.Reflection;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+
+using MediatR;
 using Moq;
+
 using Nox.Application.Providers;
 using Nox.Configuration;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
-using System.Reflection;
 using TestWebApp.Infrastructure.Persistence;
 
 namespace Nox.Integration.Tests.Fixtures;
@@ -51,14 +54,24 @@ public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
 
         var options = CreateDbOptions();
 
+        var httpContextAccessor = CreateCustomHttpContextAccessor();
         _dbContext = new TestWebAppDbContext(
                 options,
                 _publisherFixture.Object,
                 solution,
                 databaseProvider,
                 assemblyProvider,
-                new DefaultUserProvider(),
-                new DefaultSystemProvider());
+                new DefaultUserProvider(httpContextAccessor),
+                new DefaultSystemProvider(httpContextAccessor));
+    }
+
+    private static IHttpContextAccessor CreateCustomHttpContextAccessor()
+    {
+        IHttpContextAccessor httpContextAccessor = new HttpContextAccessor();
+        httpContextAccessor.HttpContext = new DefaultHttpContext();
+        httpContextAccessor.HttpContext.Request.Headers["X-User-Name"] = "TestUser";
+        httpContextAccessor.HttpContext.Request.Headers["X-System-Name"] = "TestSystem";
+        return httpContextAccessor;
     }
 
     protected abstract INoxDatabaseProvider GetDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators);
