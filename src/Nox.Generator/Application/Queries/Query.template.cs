@@ -33,8 +33,7 @@ internal abstract class Get{{entity.PluralName}}QueryHandlerBase : QueryBase<IQu
 
     public virtual Task<IQueryable<{{entity.Name}}Dto>> Handle(Get{{entity.PluralName}}Query request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<{{entity.Name}}Dto>)DataDbContext.{{entity.PluralName}}{{if (entity.Persistence?.IsAudited ?? true)}}
-            .Where(r => r.DeletedAtUtc == null){{end}}
+        var item = (IQueryable<{{entity.Name}}Dto>)DataDbContext.{{entity.PluralName}}
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }

@@ -34,7 +34,6 @@ internal abstract class GetCustomersQueryHandlerBase : QueryBase<IQueryable<Cust
     public virtual Task<IQueryable<CustomerDto>> Handle(GetCustomersQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<CustomerDto>)DataDbContext.Customers
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }

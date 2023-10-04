@@ -36,8 +36,7 @@ internal abstract class GetVendingMachineByIdQueryHandlerBase:  QueryBase<IQuery
         var query = DataDbContext.VendingMachines
             .AsNoTracking()
             .Where(r =>
-                r.Id.Equals(request.keyId) &&
-                r.DeletedAtUtc == null);
+                r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));
     }
 }

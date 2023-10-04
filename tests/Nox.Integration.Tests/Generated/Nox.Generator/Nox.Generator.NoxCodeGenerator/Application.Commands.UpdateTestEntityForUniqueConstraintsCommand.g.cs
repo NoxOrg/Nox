@@ -1,0 +1,70 @@
+﻿﻿// Generated
+
+#nullable enable
+
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Nox.Application.Commands;
+using Nox.Solution;
+using Nox.Types;
+using Nox.Factories;
+using TestWebApp.Infrastructure.Persistence;
+using TestWebApp.Domain;
+using TestWebApp.Application.Dto;
+using TestEntityForUniqueConstraints = TestWebApp.Domain.TestEntityForUniqueConstraints;
+
+namespace TestWebApp.Application.Commands;
+
+public record UpdateTestEntityForUniqueConstraintsCommand(System.String keyId, TestEntityForUniqueConstraintsUpdateDto EntityDto, System.Guid? Etag) : IRequest<TestEntityForUniqueConstraintsKeyDto?>;
+
+internal partial class UpdateTestEntityForUniqueConstraintsCommandHandler: UpdateTestEntityForUniqueConstraintsCommandHandlerBase
+{
+	public UpdateTestEntityForUniqueConstraintsCommandHandler(
+		TestWebAppDbContext dbContext,
+		NoxSolution noxSolution,
+		IEntityFactory<TestEntityForUniqueConstraints, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto> entityFactory): base(dbContext, noxSolution, entityFactory)
+	{
+	}
+}
+
+internal abstract class UpdateTestEntityForUniqueConstraintsCommandHandlerBase: CommandBase<UpdateTestEntityForUniqueConstraintsCommand, TestEntityForUniqueConstraints>, IRequestHandler<UpdateTestEntityForUniqueConstraintsCommand, TestEntityForUniqueConstraintsKeyDto?>
+{
+	public TestWebAppDbContext DbContext { get; }
+	private readonly IEntityFactory<TestEntityForUniqueConstraints, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto> _entityFactory;
+
+	public UpdateTestEntityForUniqueConstraintsCommandHandlerBase(
+		TestWebAppDbContext dbContext,
+		NoxSolution noxSolution,
+		IEntityFactory<TestEntityForUniqueConstraints, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto> entityFactory): base(noxSolution)
+	{
+		DbContext = dbContext;
+		_entityFactory = entityFactory;
+	}
+
+	public virtual async Task<TestEntityForUniqueConstraintsKeyDto?> Handle(UpdateTestEntityForUniqueConstraintsCommand request, CancellationToken cancellationToken)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
+		var keyId = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateId(request.keyId);
+
+		var entity = await DbContext.TestEntityForUniqueConstraints.FindAsync(keyId);
+		if (entity == null)
+		{
+			return null;
+		}
+
+		_entityFactory.UpdateEntity(entity, request.EntityDto);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+		OnCompleted(request, entity);
+
+		DbContext.Entry(entity).State = EntityState.Modified;
+		var result = await DbContext.SaveChangesAsync();
+		if (result < 1)
+		{
+			return null;
+		}
+
+		return new TestEntityForUniqueConstraintsKeyDto(entity.Id.Value);
+	}
+}

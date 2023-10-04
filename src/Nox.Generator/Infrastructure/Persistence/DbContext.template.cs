@@ -75,6 +75,7 @@ internal partial class {{className}} : DbContext
     {
         base.OnModelCreating(modelBuilder);
        
+        ConfigureAuditable(modelBuilder);
 
         if (_noxSolution.Domain != null)
         {
@@ -105,6 +106,15 @@ internal partial class {{className}} : DbContext
             modelBuilder.ForEntitiesOfType<IEntityConcurrent>(
                 builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());
         }
+    }
+
+    private void ConfigureAuditable(ModelBuilder modelBuilder)
+    {
+    {{- for entity in solution.Domain.Entities }}
+    {{- if entity.Persistence?.IsAudited }}
+        modelBuilder.Entity<{{entity.Name}}>().HasQueryFilter(p => p.DeletedAtUtc == null);
+    {{- end }}
+    {{- end }}
     }
 
     /// <inheritdoc/>

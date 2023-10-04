@@ -34,7 +34,6 @@ internal abstract class GetPaymentProvidersQueryHandlerBase : QueryBase<IQueryab
     public virtual Task<IQueryable<PaymentProviderDto>> Handle(GetPaymentProvidersQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<PaymentProviderDto>)DataDbContext.PaymentProviders
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }

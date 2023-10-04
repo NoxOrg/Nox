@@ -85,6 +85,7 @@ internal partial class ClientApiDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
        
+        ConfigureAuditable(modelBuilder);
 
         if (_noxSolution.Domain != null)
         {
@@ -112,6 +113,14 @@ internal partial class ClientApiDbContext : DbContext
             modelBuilder.ForEntitiesOfType<IEntityConcurrent>(
                 builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());
         }
+    }
+
+    private void ConfigureAuditable(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Country>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Store>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<StoreOwner>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<StoreLicense>().HasQueryFilter(p => p.DeletedAtUtc == null);
     }
 
     /// <inheritdoc/>

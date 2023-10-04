@@ -34,7 +34,6 @@ internal abstract class GetVendingMachinesQueryHandlerBase : QueryBase<IQueryabl
     public virtual Task<IQueryable<VendingMachineDto>> Handle(GetVendingMachinesQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<VendingMachineDto>)DataDbContext.VendingMachines
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }
