@@ -53,7 +53,7 @@ internal partial class DeleteCountryBarCodeForCountryCommandHandlerBase : Comman
 			return false;
 		}
 
-		parentEntity.CountryBarCode = null;
+		parentEntity.CountryBarCode = null!;
 
 		OnCompleted(request, entity);
 

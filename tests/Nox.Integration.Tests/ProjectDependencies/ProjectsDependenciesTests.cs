@@ -19,18 +19,17 @@ namespace Nox.Tests.ProjectDependencies
         {
             var projectDependencies = _fixture.ProjectDependencyGraph.GetProjectsThatThisProjectDirectlyDependsOn(_fixture.NoxTypesAbstractionsProject.Id);
             projectDependencies.Should().BeEmpty();
-            //_fixture.NoxTypesProject.ProjectReferences.Should().BeEmpty();
         }
+
         [Fact]
         public void Nox_Types_Abstractions_Cannot_Reference_ThirdParty_Packages()
         {
             using (new AssertionScope())
             {
-                
                 foreach (var metadataRef in _fixture.NoxTypesAbstractionsProject.MetadataReferences)
                 {
                     var properties = metadataRef.Properties;
-                    
+
                     if (properties.Kind == MetadataImageKind.Assembly)
                     {
                         var portableExecutableReference = ((PortableExecutableReference)metadataRef);
@@ -45,12 +44,12 @@ namespace Nox.Tests.ProjectDependencies
                     }
                 }
             }
-
         }
+
         [Fact]
         public void Nox_Solution_References_Nox_Types_Abstractions_Only()
         {
-            var projectDependenciesNoxSolutionNet7 = 
+            var projectDependenciesNoxSolutionNet7 =
                 _fixture.ProjectDependencyGraph.GetProjectsThatThisProjectDirectlyDependsOn(_fixture.NoxSolutionNet7.Id);
             var projectDependenciesNoxSolutionStd20 =
                 _fixture.ProjectDependencyGraph.GetProjectsThatThisProjectDirectlyDependsOn(_fixture.NoxSolutionNetStd20.Id);
@@ -75,8 +74,8 @@ namespace Nox.Tests.ProjectDependencies
             {
                 projectDependencies.Should().Contain(_fixture.NoxTypesAbstractionsProject.Id);
             }
-
         }
+
         [Fact]
         public void Nox_GeneratortProjectsThatDirectlyDependOnn_MustOnlyLib()
         {
@@ -89,7 +88,7 @@ namespace Nox.Tests.ProjectDependencies
                 foreach (var projectDependency in projectDependencies)
                 {
                     var dependent = _fixture.Solution.Projects.Single(project => project.Id.Id == projectDependency.Id);
-                    
+
                     if (!dependent.Name.Contains("Tests") && !dependent.Name.Contains("Nox.Lib"))
                     {
                         Assert.Fail($"Project {dependent.Name} cannot depend on Nox.Generators");
@@ -97,6 +96,7 @@ namespace Nox.Tests.ProjectDependencies
                 }
             }
         }
+
         [Fact]
         public void Nox_Abstraction_References_Nox_Types_And_Solution_Only()
         {
@@ -105,7 +105,7 @@ namespace Nox.Tests.ProjectDependencies
 
             projectDependencies.Should().HaveCount(2);
 
-            projectDependencies.SingleOrDefault(d=> d.Id == _fixture.NoxTypesProject.Id.Id).Should().NotBeNull();
+            projectDependencies.SingleOrDefault(d => d.Id == _fixture.NoxTypesProject.Id.Id).Should().NotBeNull();
             projectDependencies.SingleOrDefault(d => d.Id == _fixture.NoxSolutionNetStd20.Id.Id || d.Id == _fixture.NoxSolutionNet7.Id.Id).Should().NotBeNull();
         }
     }

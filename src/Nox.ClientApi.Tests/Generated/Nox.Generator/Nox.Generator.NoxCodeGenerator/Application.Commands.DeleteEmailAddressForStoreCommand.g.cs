@@ -53,7 +53,7 @@ internal partial class DeleteEmailAddressForStoreCommandHandlerBase : CommandBas
 			return false;
 		}
 
-		parentEntity.VerifiedEmails = null;
+		parentEntity.VerifiedEmails = null!;
 
 		OnCompleted(request, entity);
 

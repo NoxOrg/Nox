@@ -21,11 +21,11 @@ public partial class CountryBarCodeMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions BarCodeNameTypeOptions {get; private set;} = new ()
         {
-            MinLength = 1,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 1,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     

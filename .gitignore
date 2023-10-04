@@ -478,5 +478,3 @@ $RECYCLE.BIN/
 .vscode/settings.json
 
 src/.idea/.idea.Nox.Generator/.idea/
-
-tests/Nox.Generator.Tests/Generated/

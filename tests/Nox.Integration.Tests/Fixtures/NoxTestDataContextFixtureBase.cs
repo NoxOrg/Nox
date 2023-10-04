@@ -1,14 +1,6 @@
-using System.Reflection;
-using Microsoft.AspNetCore.Http;
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-
-using MediatR;
-using Moq;
-
-using Nox.Application.Providers;
-using Nox.Configuration;
-using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using TestWebApp.Infrastructure.Persistence;
 
@@ -16,21 +8,35 @@ namespace Nox.Integration.Tests.Fixtures;
 
 public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
 {
-    private const string _solutionSetupFileName = @"Nox.Integration.Tests.DatabaseIntegrationTests.Design.test.solution.nox.yaml";
+    protected DbContext _dbContext = default!;
     private readonly IServiceProvider _serviceProvider;
-    protected TestWebAppDbContext _dbContext = default!;
-    protected readonly Mock<IPublisher> _publisherFixture;
 
     protected NoxTestDataContextFixtureBase()
     {
         var services = new ServiceCollection();
-        services.AddNoxLib(configure => configure.WithClientAssembly(Assembly.GetExecutingAssembly()));
+
+        services.AddNox(
+               null,
+           (noxOptions) =>
+           {
+               noxOptions.WithoutMessagingTransactionalOutbox();
+           }, null);
+
+        var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(INoxDatabaseProvider));
+        if (descriptor != null)
+        {
+            services.Remove(descriptor);
+        }
+        services.AddSingleton(sp =>
+        {
+            var configurations = sp.GetServices<INoxTypeDatabaseConfigurator>();
+            return GetDatabaseProvider(configurations);
+        });
 
         _serviceProvider = services.BuildServiceProvider();
-        _publisherFixture = new Mock<IPublisher>();
     }
 
-    public TestWebAppDbContext DataContext
+    public DbContext DataContext
     {
         get
         {
@@ -38,58 +44,16 @@ public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
             {
                 RefreshDbContext();
             }
+
             return _dbContext!;
         }
     }
 
     public void RefreshDbContext()
     {
-        var solutionFileSetup = GetSolutionSetup();
-        var solution = new NoxSolutionBuilder()
-                        .UseYamlFilesAndContent(solutionFileSetup)
-                        .Build();
-
-        var assemblyProvider = new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly());
-        var databaseProvider = GetDatabaseProvider(_serviceProvider.GetServices<INoxTypeDatabaseConfigurator>());
-
-        var options = CreateDbOptions();
-
-        var httpContextAccessor = CreateCustomHttpContextAccessor();
-        _dbContext = new TestWebAppDbContext(
-                options,
-                _publisherFixture.Object,
-                solution,
-                databaseProvider,
-                assemblyProvider,
-                new DefaultUserProvider(httpContextAccessor),
-                new DefaultSystemProvider(httpContextAccessor));
-    }
-
-    private static IHttpContextAccessor CreateCustomHttpContextAccessor()
-    {
-        IHttpContextAccessor httpContextAccessor = new HttpContextAccessor();
-        httpContextAccessor.HttpContext = new DefaultHttpContext();
-        httpContextAccessor.HttpContext.Request.Headers["X-User-Name"] = "TestUser";
-        httpContextAccessor.HttpContext.Request.Headers["X-System-Name"] = "TestSystem";
-        return httpContextAccessor;
+        var scope = _serviceProvider.CreateScope();
+        _dbContext = scope.ServiceProvider.GetRequiredService<TestWebAppDbContext>();
     }
 
     protected abstract INoxDatabaseProvider GetDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators);
-
-    protected abstract DbContextOptions<TestWebAppDbContext> CreateDbOptions();
-
-    private static Dictionary<string, Func<TextReader>> GetSolutionSetup()
-    {
-        return new Dictionary<string, Func<TextReader>>
-        {
-            [_solutionSetupFileName] = () =>
-            {
-                var assembly = Assembly.GetExecutingAssembly();
-                using Stream stream = assembly.GetManifestResourceStream(_solutionSetupFileName)!;
-                using StreamReader reader = new(stream!);
-                string result = reader.ReadToEnd();
-                return new StringReader(result);
-            }
-        };
-    }
 }
