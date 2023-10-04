@@ -9,6 +9,13 @@
 		<IsTestProject>true</IsTestProject>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+		<CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
+		<AssemblyName>Nox.Integration.Tests</AssemblyName>
+		<RootNamespace>Nox.Integration.Tests</RootNamespace>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 	</PropertyGroup>
@@ -17,41 +24,58 @@
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<None Remove="DatabaseIntegrationTests\Design\test.solution.nox.yaml" />
-	</ItemGroup>
+	<Target Name="CleanSourceGeneratedFiles" BeforeTargets="BeforeBuild" DependsOnTargets="$(BeforeBuildDependsOn)">
+		<RemoveDir Directories="Generated" />
+	</Target>
 
 	<ItemGroup>
-		<EmbeddedResource Include="DatabaseIntegrationTests\Design\test.solution.nox.yaml">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</EmbeddedResource>
+		<Compile Remove="Application\**" />
+		<Compile Remove="Generated\**" />
+		<Content Include="Generated\**" />
 	</ItemGroup>
+
 	<ItemGroup>
 		<AdditionalFiles Include=".\.nox\design\**\*.yaml" LinkBase="Design">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</AdditionalFiles>
 	</ItemGroup>
+
+	<ItemGroup>
+	  <AdditionalFiles Remove="Application\**" />
+	  <EmbeddedResource Remove="Application\**" />
+	  <None Remove="Application\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<AdditionalFiles Include="generator.nox.yaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Generated\" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<PackageReference Include="AutoFixture.AutoMoq" Version="4.18.0" />
 		<PackageReference Include="AutoFixture.Xunit2" Version="4.18.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.11" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-		<PackageReference Include="Moq" Version="4.20.69" />
-		<PackageReference Include="Azure.Identity" Version="1.10.1" />
 		<PackageReference Include="FluentAssertions" Version="6.12.0" />
+		<PackageReference Include="JsonSchema.Net.Generation" Version="3.3.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.11" />
+
 		<PackageReference Include="Microsoft.Build.Locator" Version="1.6.10" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.7.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.7.0" />
-		<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.11" />
+		
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.11" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.11" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.11" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+		<PackageReference Include="Microsoft.OData.ModelBuilder" Version="1.0.9" />
+		<PackageReference Include="Moq" Version="4.20.69" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
+		<PackageReference Include="Npgsql" Version="7.0.6" />
 		<PackageReference Include="Testcontainers" Version="3.5.0" />
-		<PackageReference Include="Testcontainers.PostgreSql" Version="3.5.0" />
 		<PackageReference Include="Testcontainers.MsSql" Version="3.5.0" />
+		<PackageReference Include="Testcontainers.PostgreSql" Version="3.5.0" />
 		<PackageReference Include="xunit" Version="2.5.1" />
+		<PackageReference Include="Divergic.Logging.Xunit" Version="4.2.0" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="2.5.1">
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
@@ -60,15 +84,16 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.11" />
+		<PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.3" />
+		<PackageReference Include="Microsoft.OData.Core" Version="7.18.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\Nox.EntityFramework.Sqlite\Nox.EntityFramework.Sqlite.csproj" />
-		<ProjectReference Include="..\..\src\Nox.EntityFramework.SqlServer\Nox.EntityFramework.SqlServer.csproj" />
+		<ProjectReference Include="..\Nox.Lib.Tests\Nox.Lib.Tests.csproj" />
+		<ProjectReference Include="..\..\src\Nox.Abstractions\Nox.Abstractions.csproj" />
+		<ProjectReference Include="..\..\src\Nox.Docs\Nox.Docs.csproj" />
+		<ProjectReference Include="..\..\src\Nox.Generator\Nox.Generator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
 		<ProjectReference Include="..\..\src\Nox.Lib\Nox.Lib.csproj" />
-		<ProjectReference Include="..\..\src\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj" />
-		<ProjectReference Include="..\..\src\Nox.Types\Nox.Types.csproj" />
-		<ProjectReference Include="..\Nox.Generator.Tests\Nox.Generator.Tests.csproj" />
 	</ItemGroup>
-
 </Project>

@@ -62,7 +62,7 @@ internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandlerBase
 			return false;
 		}
 
-		parentEntity.{{relationship.Name}} = null;
+		parentEntity.{{relationship.Name}} = null!;
 
 		OnCompleted(request, entity);
 

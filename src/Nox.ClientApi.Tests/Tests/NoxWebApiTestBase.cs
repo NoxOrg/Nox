@@ -4,6 +4,7 @@ using FluentAssertions;
 using MassTransit.Testing;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 using Xunit.Abstractions;
 
 namespace ClientApi.Tests;
@@ -29,7 +30,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
     }
 
     protected ITestHarness MassTransitTestHarness => _appFactory.GetTestHarness();
-
+    
     /// <summary>
     ///  Get collection result from Odata End Point
     /// </summary>
@@ -255,5 +256,12 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
         var oDataResponse = DeserializeResponse<ODataSigleResponse>(content);
         oDataResponse.Should().NotBeNull();
         oDataResponse!.Context.Should().NotBeNullOrEmpty();
+    }
+
+    protected TResult? GetEntityByFilter<TResult>(Func<TResult, bool> filter) where TResult : class
+    {
+        var ctx = _appFactory.GetDbContext();
+        var entity = ctx.Set<TResult>().Where(filter).FirstOrDefault();
+        return entity;
     }
 }
