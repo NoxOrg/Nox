@@ -7,7 +7,7 @@ internal class GeneratorConfigValidator : AbstractValidator<GeneratorConfig>
 {
     public GeneratorConfigValidator()
     {
-        When(config => config.Ui != UiType.None, () =>
+        When(config => config.Ui, () =>
         {
             RuleFor(config => config.Domain)
                 .Equal(false)

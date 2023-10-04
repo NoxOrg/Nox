@@ -22,4 +22,4 @@ infrastructure: false
 presentation: false
 
 # Generates UI
-ui: BlazorServer
+ui: true

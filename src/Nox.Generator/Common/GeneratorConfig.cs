@@ -13,7 +13,7 @@ namespace Nox.Generator.Common
 
         public bool Presentation { get; set; } = true;
 
-        public UiType Ui { get; set; } = UiType.None;
+        public bool Ui { get; set; } = false;
 
         internal void Validate()
         {
