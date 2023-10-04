@@ -1,0 +1,12 @@
+﻿@using Cryptocash.Ui.Generated.Component;
+@inherits UiInputMacAddressBase
+
+<MudTextField Label="@Title"
+              Variant="Variant.Outlined"
+              FullWidth="true"
+              Clearable="true"
+              Required="true"
+              RequiredError="MacAddress is required"
+              MaxLength="19"
+              TextChanged="OnMacAddressChanged"
+              Value="MacAddress" />

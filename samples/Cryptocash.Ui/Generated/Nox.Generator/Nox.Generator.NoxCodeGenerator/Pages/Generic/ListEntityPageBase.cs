@@ -6,6 +6,10 @@ using Cryptocash.Ui.Generated.Data.Enum;
 using Microsoft.AspNetCore.Components.Web;
 using Cryptocash.Ui.Generated.Data.Generic;
 using MassTransit.Serialization.JsonConverters;
+using System.Security.Principal;
+using System.Text;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace Cryptocash.Ui.Generated.Pages.Generic
 {
@@ -13,7 +17,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
     /// PageBase Class to handle List Entity related pages note: T is used to reduce the amount of generator code required
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ListEntityPageBase<T> : ComponentBase
+    public class ListEntityPageBase<T, CreateT> : ComponentBase
     {
         #region Declarations
 
@@ -91,6 +95,31 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             FullWidth = true,
             ClassBackground = "custom-dialog"
         };
+
+        /// <summary>
+        /// Property AddEntityForm used to reference Add Antity Form in Ui
+        /// </summary>
+        public MudForm? AddEntityForm { get; set; }
+
+        /// <summary>
+        /// Property IsVisibleAddDialog to handle Add Entity dialog visibility
+        /// </summary>
+        public bool IsVisibleAddEntityDialog = false;
+
+        /// <summary>
+        /// Property CurrentAddEntity used as a temporary storage whilst adding entity to api
+        /// </summary>
+        public CreateT? CurrentAddEntity { get; set; } = default;
+
+        /// <summary>
+        /// Property AddEntityValidateSuccess used to ensure form passed dataannotation validation before proceeding
+        /// </summary>
+        public bool AddEntityValidateSuccess { get; set; } = false;
+
+        /// <summary>
+        /// Property IsAddEntityProcessing used to display loading status whilst Add request is processing
+        /// </summary>
+        public bool IsAddEntityProcessing { get; set; } = false;
 
         #endregion
 
@@ -172,6 +201,37 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         /// Method to send add entity data to Api
         /// </summary>
         /// <returns></returns>
+        private async Task CreateApiEntityData()
+        {
+            if (CurrentAddEntity != null)
+            {
+                //TODO Commented out for now - but need to discuss Validate pre Creation POST
+                //var CreateEntityValidate = CurrentAddEntity!.Validate();
+                //if (CreateEntityValidate == null && CreateEntityValidate.Count() > 0)
+                //{
+                //    var ErrorMessage = new StringBuilder().AppendLine("VendingMachineService.GetCreateEntityQuery: Validation Errors: ");
+
+                //    foreach (var item in CreateEntityValidate)
+                //    {
+                //        ErrorMessage.AppendLine(item.Key + ":" + item.Value);
+                //    }
+
+                //    throw new ArgumentException(ErrorMessage.ToString(), nameof(T));
+                //}
+
+                var jsonOptions = new JsonSerializerOptions();
+                jsonOptions.Converters.Add(new JsonStringEnumConverter());
+
+                CurrentApiUiService!.ApiCreateData = JsonSerializer.Serialize(CurrentAddEntity, jsonOptions);
+
+                await EntityDataService<T>.CreateAsyncEntityData(CurrentApiUiService);
+            }
+        }
+
+        /// <summary>
+        /// Method to send add entity data to Api
+        /// </summary>
+        /// <returns></returns>
         private async Task DeleteApiEntityData()
         {
             await EntityDataService<T>.DeleteAsyncEntityData(CurrentApiUiService);            
@@ -200,6 +260,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             CurrentApiUiService?.ResetAllSearchFilterList();
             CurrentApiUiService?.ResetOrderList();
             ResetViewList();
+            ResetAddEntity();
 
             if (CurrentEntityName == "VendingMachine") //TODO just VendingMachine for now
             {
@@ -501,6 +562,75 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             {
                 return CurrentApiUiService != null
                     && CurrentApiUiService.Paging != null;
+            }
+        }
+
+        #endregion
+
+        #region Add
+
+        /// <summary>
+        /// Method to Reset CurrentAddEntity to a new class of T ready to be populated by Add Item Dialog panel on Ui
+        /// </summary>
+        private void ResetAddEntity()
+        {
+            CurrentAddEntity = (CreateT?)Activator.CreateInstance(typeof(CreateT));
+        }
+
+        /// <summary>
+        /// Method to open Add Entity dialog
+        /// </summary>
+        public void AddEntityOpenDialog()
+        {
+            ResetAddEntity();
+            IsVisibleAddEntityDialog = true;
+        }
+
+        /// <summary>
+        /// Method to close Add Entity dialog
+        /// </summary>
+        public void AddEntityCloseDialog()
+        {
+            IsVisibleAddEntityDialog = false;
+        }
+
+        /// <summary>
+        /// Method to Create AddEntity and send to Api
+        /// </summary>
+        /// <returns>Task</returns>
+        public async Task AddEntitySubmit()
+        {
+            if (AddEntityForm != null)
+            {
+                await AddEntityForm.Validate();
+
+                if (AddEntityForm.IsValid)
+                {
+                    IsAddEntityProcessing = true;
+
+                    AddEntityValidateSuccess = true;
+
+                    var test = CurrentAddEntity;
+
+                    await CreateApiEntityData();
+
+                    CurrentApiUiService?.ResetAllSearchFilterList();
+                    CurrentApiUiService?.ResetOrderList();
+                    ResetViewList();
+                    ResetAddEntity();
+
+                    ShowSuccessSnackbar("Entity Added Successfully");
+
+                    PreviousAPiQuery = String.Empty;
+                    if (DataGridTable != null)
+                    {
+                        await DataGridTable!.ReloadServerData();
+                    }
+
+                    IsVisibleAddEntityDialog = false;
+
+                    IsAddEntityProcessing = false;
+                }
             }
         }
 

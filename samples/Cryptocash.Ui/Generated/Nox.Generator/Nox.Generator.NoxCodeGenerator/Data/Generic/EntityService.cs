@@ -1,3 +1,4 @@
+using Cryptocash.Ui.Generated.Data.Helper;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -24,6 +25,25 @@ namespace Cryptocash.Ui.Generated.Data.Generic
             EntityData<T>? Entities = JsonSerializer.Deserialize<EntityData<T>>(await ApiDataService.ReadAsyncApi(ApiUiService), jsonOptions);
 
             return Entities;
+        }
+
+        /// <summary>
+        /// Method used to create ApiEntity
+        /// </summary>
+        /// <param name="AddEntity"></param>
+        /// <param name="ApiUiService"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public static async Task CreateAsyncEntityData(ApiUiService? ApiUiService)
+        {
+            if (ApiUiService == null
+                || string.IsNullOrWhiteSpace(ApiUiService.Url)
+                || string.IsNullOrWhiteSpace(ApiUiService.ApiCreateData)
+                )
+            {
+                throw new ArgumentException("EntityDataService.CreateAsyncEntityData: Malformed Input", nameof(ApiUiService));
+            }
+            await ApiDataService.PostAsyncApi(ApiUiService);
         }
 
         /// <summary>

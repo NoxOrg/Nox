@@ -1,5 +1,7 @@
 using MassTransit;
 using System.Net.Http;
+using System.Text.Json.Nodes;
+using System.Text;
 
 namespace Cryptocash.Ui.Generated.Data.Generic
 {
@@ -19,7 +21,7 @@ namespace Cryptocash.Ui.Generated.Data.Generic
         {
             if (ApiUiService == null || string.IsNullOrWhiteSpace(ApiUiService.Url))
             {
-                throw new ArgumentException("ApiService.ReadApi: Malformed Input", nameof(ApiUiService));
+                throw new ArgumentException("ApiDataService.ReadAsyncApi: Malformed Input", nameof(ApiUiService));
             }
 
             var Client = new HttpClient();
@@ -35,7 +37,35 @@ namespace Cryptocash.Ui.Generated.Data.Generic
             else
             {
                 var ErrorResponseContent = await HttpResponseMessage.Content.ReadAsStringAsync();
-                throw new Exception($"ApiService.ReadApi: HttpResponseMessage Error: {HttpResponseMessage.StatusCode}: {ErrorResponseContent}");
+                throw new Exception($"ApiDataService.ReadAsyncApi: HttpResponseMessage Error: {HttpResponseMessage.StatusCode}: {ErrorResponseContent}");
+            }
+        }
+
+        /// <summary>
+        /// Service method to send Add Entity data to Api and create new Api Entity
+        /// </summary>
+        /// <param name="ApiUiService"></param>
+        /// <returns>Task</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="Exception"></exception>
+        public static async Task PostAsyncApi(ApiUiService? ApiUiService)
+        {
+            if (ApiUiService == null
+                || string.IsNullOrWhiteSpace(ApiUiService.Url)
+                || string.IsNullOrWhiteSpace(ApiUiService.ApiCreateData))
+            {
+                throw new ArgumentException("ApiDataService.PostAsyncApi: Malformed Input", nameof(ApiUiService));
+            }
+            var Client = new HttpClient();
+
+            var Content = new StringContent(ApiUiService.ApiCreateData.ToString(), Encoding.UTF8, "application/json");
+
+            var HttpResponseMessage = await Client.PostAsync(new Uri(ApiUiService.Url), Content);
+
+            if (!HttpResponseMessage.IsSuccessStatusCode)
+            {
+                var ErrorResponseContent = await HttpResponseMessage.Content.ReadAsStringAsync();
+                throw new Exception($"ApiDataService.PostAsyncApi: HttpResponseMessage Error: {HttpResponseMessage.StatusCode}: {ErrorResponseContent}");
             }
         }
 
@@ -51,12 +81,12 @@ namespace Cryptocash.Ui.Generated.Data.Generic
         {
             if (ApiUiService == null || string.IsNullOrWhiteSpace(ApiUiService.Url))
             {
-                throw new ArgumentException("ApiService.DeleteApi: Malformed Input", nameof(ApiUiService));
+                throw new ArgumentException("ApiDataService.DeleteAsyncApi: Malformed Input", nameof(ApiUiService));
             }
             
             if(ApiUiService.ApiDeleteEtag == null)
             {
-                throw new ArgumentException("ApiService.DeleteApi: Malformed Etag", nameof(ApiUiService));
+                throw new ArgumentException("ApiDataService.DeleteAsyncApi: Malformed Etag", nameof(ApiUiService));
             }
 
             var Client = new HttpClient();
@@ -73,7 +103,7 @@ namespace Cryptocash.Ui.Generated.Data.Generic
             if (!HttpResponseMessage.IsSuccessStatusCode)
             {
                 var ErrorResponseContent = await HttpResponseMessage.Content.ReadAsStringAsync();
-                throw new Exception($"ApiService.ReadApi: HttpResponseMessage Error: {HttpResponseMessage.StatusCode}: {ErrorResponseContent}");
+                throw new Exception($"ApiDataService.DeleteAsyncApi: HttpResponseMessage Error: {HttpResponseMessage.StatusCode}: {ErrorResponseContent}");
             }
         }
 

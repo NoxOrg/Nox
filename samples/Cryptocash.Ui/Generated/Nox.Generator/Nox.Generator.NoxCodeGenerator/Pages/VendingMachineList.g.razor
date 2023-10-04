@@ -2,15 +2,17 @@
 @using System.Dynamic
 @using System.Data
 @using Cryptocash.Application.Dto;
+@using Cryptocash.Ui.Generated.Component
 @using Cryptocash.Ui.Generated.Data.ApiSetting;
 @using Cryptocash.Ui.Generated.Data.Enum;
+@using Cryptocash.Ui.Generated.Nox_Generator.Nox_Generator_NoxCodeGenerator.Component
 @using Cryptocash.Ui.Generated.Pages.Generic
 @using MudBlazor
 @using global::Cryptocash.Ui.Generated.Data.Helper;
 
 @page "/VendingMachines"
 
-@inherits ListEntityPageBase<VendingMachineDto>
+@inherits ListEntityPageBase<VendingMachineDto, VendingMachineCreateDto>
 
 @if (!IsLoading)
 {
@@ -55,6 +57,68 @@
         </MudItem>
         <MudItem xs="12">
             <MudGrid Spacing="2" Style="margin-top:15px;">
+
+                @if (CurrentApiUiService != null  && CurrentAddEntity != null)
+                {
+                    <MudItem xs="12" Class="align-left justify-left">
+                        <MudButton OnClick="AddEntityOpenDialog"
+                                   Variant="Variant.Filled"
+                                   StartIcon="@Icons.Material.Filled.Add"
+                                   Color="Color.Info">ADD</MudButton>
+                    </MudItem>
+
+                    <MudDialog @bind-IsVisible="IsVisibleAddEntityDialog" Options="DialogOptions">
+                        <TitleContent>
+                            <MudText Typo="Typo.h6">ADD</MudText>
+                        </TitleContent>
+                        <DialogContent>
+                            <MudForm @ref="AddEntityForm" @bind-IsValid="@AddEntityValidateSuccess" Disabled="IsAddEntityProcessing">
+                                <MudGrid>
+                                    <MudItem xs="12">
+                                        <UiInputMacAddress_g @bind-MacAddress="CurrentAddEntity.MacAddress" Title="MacAddress" />
+                                    </MudItem>
+                                    <MudItem xs="12">
+                                        <UiInputIpAddress_g @bind-IpAddress="CurrentAddEntity.PublicIp" Title="PublicIp" />
+                                    </MudItem>
+                                    <MudItem xs="12">
+                                        <UiInputText_g @bind-Text="CurrentAddEntity.SerialNumber" Title="SerialNumber" />
+                                    </MudItem>
+                                </MudGrid>
+                            </MudForm>
+                        </DialogContent>
+                        <DialogActions>
+                            <table style="width:100%;">
+                                <tr>
+                                    <td style="text-align:left;padding:25px;width:50%;">
+                                        <MudButton OnClick="AddEntityCloseDialog"
+                                                   Variant="Variant.Outlined"
+                                                   Color="Color.Info"
+                                                   Disabled="@IsAddEntityProcessing"
+                                                   FullWidth="true">Cancel</MudButton>
+                                    </td>
+                                    <td style="text-align:right;padding:25px;width:50%;">
+                                        <MudButton OnClick="@(async () => await AddEntitySubmit())"
+                                                   Variant="Variant.Filled"
+                                                   Color="Color.Info"
+                                                   Disabled="@IsAddEntityProcessing"
+                                                   FullWidth="true">
+                                            @if (IsAddEntityProcessing)
+                                            {
+                                                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                                                <MudText Class="ms-2">PROCESSING</MudText>
+                                            }
+                                            else
+                                            {
+                                                <MudText>SUBMIT</MudText>
+                                            }
+                                        </MudButton>
+                                    </td>
+                                </tr>
+                            </table>
+                        </DialogActions>
+                    </MudDialog>
+                }
+
                 <MudItem xs="12">
                     @if (PagedData != null
                    && CurrentApiUiService != null)
@@ -142,17 +206,23 @@
 
                                 @if (CurrentApiUiService!.IsPropertyShowInSearch("SerialNumber"))
                                 {
-                                    <MudTd>@UtilityHelper.FormatOutput(typeof(VendingMachineDto).GetProperty("SerialNumber"), context)</MudTd>
+                                    <MudTd>
+                                        <UiDisplayText_g Text="@UtilityHelper.FormatOutput(typeof(VendingMachineDto).GetProperty("SerialNumber"), context)" />                                        
+                                    </MudTd>
                                 }
 
                                 @if (CurrentApiUiService!.IsPropertyShowInSearch("MacAddress"))
                                 {
-                                    <MudTd>@UtilityHelper.FormatOutput(typeof(VendingMachineDto).GetProperty("MacAddress"), context)</MudTd>
+                                    <MudTd>
+                                        <UiDisplayMacAddress_g MacAddress="@UtilityHelper.FormatOutput(typeof(VendingMachineDto).GetProperty("MacAddress"), context)" />                                        
+                                    </MudTd>
                                 }
 
                                 @if (CurrentApiUiService!.IsPropertyShowInSearch("PublicIp"))
                                 {
-                                    <MudTd>@UtilityHelper.FormatOutput(typeof(VendingMachineDto).GetProperty("PublicIp"), context)</MudTd>
+                                    <MudTd>
+                                        <UiDisplayIpAddress_g IpAddress="@UtilityHelper.FormatOutput(typeof(VendingMachineDto).GetProperty("PublicIp"), context)" />                                        
+                                    </MudTd>
                                 }
 
                             </RowTemplate>
