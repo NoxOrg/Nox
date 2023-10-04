@@ -34,7 +34,6 @@ internal abstract class GetSecondTestEntityExactlyOnesQueryHandlerBase : QueryBa
     public virtual Task<IQueryable<SecondTestEntityExactlyOneDto>> Handle(GetSecondTestEntityExactlyOnesQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<SecondTestEntityExactlyOneDto>)DataDbContext.SecondTestEntityExactlyOnes
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }

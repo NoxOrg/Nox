@@ -36,8 +36,7 @@ internal abstract class GetMinimumCashStockByIdQueryHandlerBase:  QueryBase<IQue
         var query = DataDbContext.MinimumCashStocks
             .AsNoTracking()
             .Where(r =>
-                r.Id.Equals(request.keyId) &&
-                r.DeletedAtUtc == null);
+                r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));
     }
 }

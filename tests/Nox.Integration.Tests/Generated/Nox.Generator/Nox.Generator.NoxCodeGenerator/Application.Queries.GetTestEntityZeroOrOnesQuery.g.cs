@@ -34,7 +34,6 @@ internal abstract class GetTestEntityZeroOrOnesQueryHandlerBase : QueryBase<IQue
     public virtual Task<IQueryable<TestEntityZeroOrOneDto>> Handle(GetTestEntityZeroOrOnesQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<TestEntityZeroOrOneDto>)DataDbContext.TestEntityZeroOrOnes
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }

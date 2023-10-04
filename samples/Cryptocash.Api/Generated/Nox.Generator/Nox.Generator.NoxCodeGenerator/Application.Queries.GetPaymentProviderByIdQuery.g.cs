@@ -36,8 +36,7 @@ internal abstract class GetPaymentProviderByIdQueryHandlerBase:  QueryBase<IQuer
         var query = DataDbContext.PaymentProviders
             .AsNoTracking()
             .Where(r =>
-                r.Id.Equals(request.keyId) &&
-                r.DeletedAtUtc == null);
+                r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));
     }
 }

@@ -70,6 +70,7 @@ internal partial class SampleWebAppDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
        
+        ConfigureAuditable(modelBuilder);
 
         if (_noxSolution.Domain != null)
         {
@@ -97,6 +98,11 @@ internal partial class SampleWebAppDbContext : DbContext
             modelBuilder.ForEntitiesOfType<IEntityConcurrent>(
                 builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());
         }
+    }
+
+    private void ConfigureAuditable(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Country>().HasQueryFilter(p => p.DeletedAtUtc == null);
     }
 
     /// <inheritdoc/>

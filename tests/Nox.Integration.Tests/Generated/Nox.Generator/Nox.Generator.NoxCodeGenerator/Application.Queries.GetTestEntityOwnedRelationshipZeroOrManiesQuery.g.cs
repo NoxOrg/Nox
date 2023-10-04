@@ -34,7 +34,6 @@ internal abstract class GetTestEntityOwnedRelationshipZeroOrManiesQueryHandlerBa
     public virtual Task<IQueryable<TestEntityOwnedRelationshipZeroOrManyDto>> Handle(GetTestEntityOwnedRelationshipZeroOrManiesQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<TestEntityOwnedRelationshipZeroOrManyDto>)DataDbContext.TestEntityOwnedRelationshipZeroOrManies
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }

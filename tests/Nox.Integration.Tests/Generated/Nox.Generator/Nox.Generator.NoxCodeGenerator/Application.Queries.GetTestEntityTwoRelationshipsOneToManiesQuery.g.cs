@@ -34,7 +34,6 @@ internal abstract class GetTestEntityTwoRelationshipsOneToManiesQueryHandlerBase
     public virtual Task<IQueryable<TestEntityTwoRelationshipsOneToManyDto>> Handle(GetTestEntityTwoRelationshipsOneToManiesQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<TestEntityTwoRelationshipsOneToManyDto>)DataDbContext.TestEntityTwoRelationshipsOneToManies
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }

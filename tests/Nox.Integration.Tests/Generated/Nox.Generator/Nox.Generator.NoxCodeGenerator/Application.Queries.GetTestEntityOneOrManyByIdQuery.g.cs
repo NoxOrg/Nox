@@ -36,8 +36,7 @@ internal abstract class GetTestEntityOneOrManyByIdQueryHandlerBase:  QueryBase<I
         var query = DataDbContext.TestEntityOneOrManies
             .AsNoTracking()
             .Where(r =>
-                r.Id.Equals(request.keyId) &&
-                r.DeletedAtUtc == null);
+                r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));
     }
 }

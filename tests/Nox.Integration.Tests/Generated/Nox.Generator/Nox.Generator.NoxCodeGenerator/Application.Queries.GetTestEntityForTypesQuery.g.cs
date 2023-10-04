@@ -34,7 +34,6 @@ internal abstract class GetTestEntityForTypesQueryHandlerBase : QueryBase<IQuery
     public virtual Task<IQueryable<TestEntityForTypesDto>> Handle(GetTestEntityForTypesQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<TestEntityForTypesDto>)DataDbContext.TestEntityForTypes
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }

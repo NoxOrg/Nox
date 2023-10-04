@@ -129,6 +129,8 @@ internal class DtoDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
+        ConfigureAuditable(modelBuilder);
+
         if (_noxSolution.Domain != null)
         {
             var codeGeneratorState =
@@ -154,5 +156,42 @@ internal class DtoDbContext : DbContext
                 }
             }
         }
+    }
+
+    private void ConfigureAuditable(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<TestEntityZeroOrOneDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<SecondTestEntityZeroOrOneDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityWithNuidDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityOneOrManyDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<SecondTestEntityOneOrManyDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityZeroOrManyDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<SecondTestEntityZeroOrManyDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<ThirdTestEntityOneOrManyDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<ThirdTestEntityZeroOrManyDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<ThirdTestEntityExactlyOneDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<ThirdTestEntityZeroOrOneDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityExactlyOneDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<SecondTestEntityExactlyOneDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityZeroOrOneToZeroOrManyDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityZeroOrManyToZeroOrOneDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityExactlyOneToOneOrManyDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityOneOrManyToExactlyOneDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityExactlyOneToZeroOrManyDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityZeroOrManyToExactlyOneDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityOneOrManyToZeroOrManyDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityZeroOrManyToOneOrManyDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityZeroOrOneToOneOrManyDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityOneOrManyToZeroOrOneDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityZeroOrOneToExactlyOneDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityExactlyOneToZeroOrOneDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityOwnedRelationshipExactlyOneDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityOwnedRelationshipZeroOrOneDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityOwnedRelationshipOneOrManyDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityOwnedRelationshipZeroOrManyDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityTwoRelationshipsOneToOneDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityTwoRelationshipsManyToManyDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityTwoRelationshipsOneToManyDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityForTypesDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
     }
 }

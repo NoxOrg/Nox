@@ -36,8 +36,7 @@ internal abstract class GetTestEntityZeroOrOneByIdQueryHandlerBase:  QueryBase<I
         var query = DataDbContext.TestEntityZeroOrOnes
             .AsNoTracking()
             .Where(r =>
-                r.Id.Equals(request.keyId) &&
-                r.DeletedAtUtc == null);
+                r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));
     }
 }

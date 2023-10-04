@@ -34,7 +34,6 @@ internal abstract class GetTestEntityWithNuidsQueryHandlerBase : QueryBase<IQuer
     public virtual Task<IQueryable<TestEntityWithNuidDto>> Handle(GetTestEntityWithNuidsQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<TestEntityWithNuidDto>)DataDbContext.TestEntityWithNuids
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }

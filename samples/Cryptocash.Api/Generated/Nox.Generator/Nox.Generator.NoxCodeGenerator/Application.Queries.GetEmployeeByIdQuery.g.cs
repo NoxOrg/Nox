@@ -36,8 +36,7 @@ internal abstract class GetEmployeeByIdQueryHandlerBase:  QueryBase<IQueryable<E
         var query = DataDbContext.Employees
             .AsNoTracking()
             .Where(r =>
-                r.Id.Equals(request.keyId) &&
-                r.DeletedAtUtc == null);
+                r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));
     }
 }

@@ -34,7 +34,6 @@ internal abstract class GetThirdTestEntityOneOrManiesQueryHandlerBase : QueryBas
     public virtual Task<IQueryable<ThirdTestEntityOneOrManyDto>> Handle(GetThirdTestEntityOneOrManiesQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<ThirdTestEntityOneOrManyDto>)DataDbContext.ThirdTestEntityOneOrManies
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }

@@ -36,8 +36,7 @@ internal abstract class GetTestEntityExactlyOneToZeroOrManyByIdQueryHandlerBase:
         var query = DataDbContext.TestEntityExactlyOneToZeroOrManies
             .AsNoTracking()
             .Where(r =>
-                r.Id.Equals(request.keyId) &&
-                r.DeletedAtUtc == null);
+                r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));
     }
 }

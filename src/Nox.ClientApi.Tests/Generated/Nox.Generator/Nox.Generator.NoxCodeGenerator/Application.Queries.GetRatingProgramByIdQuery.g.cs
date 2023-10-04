@@ -37,9 +37,7 @@ internal abstract class GetRatingProgramByIdQueryHandlerBase:  QueryBase<IQuerya
             .AsNoTracking()
             .Where(r =>
                 r.StoreId.Equals(request.keyStoreId) &&
-                r.Id.Equals(request.keyId) &&
-                true
-            );
+                r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));
     }
 }

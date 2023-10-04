@@ -34,7 +34,6 @@ internal abstract class GetBookingsQueryHandlerBase : QueryBase<IQueryable<Booki
     public virtual Task<IQueryable<BookingDto>> Handle(GetBookingsQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<BookingDto>)DataDbContext.Bookings
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }

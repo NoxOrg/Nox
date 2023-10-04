@@ -34,7 +34,6 @@ internal abstract class GetTestEntityExactlyOnesQueryHandlerBase : QueryBase<IQu
     public virtual Task<IQueryable<TestEntityExactlyOneDto>> Handle(GetTestEntityExactlyOnesQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<TestEntityExactlyOneDto>)DataDbContext.TestEntityExactlyOnes
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }

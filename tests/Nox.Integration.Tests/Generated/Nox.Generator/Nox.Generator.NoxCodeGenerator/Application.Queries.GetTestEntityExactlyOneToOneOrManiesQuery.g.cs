@@ -34,7 +34,6 @@ internal abstract class GetTestEntityExactlyOneToOneOrManiesQueryHandlerBase : Q
     public virtual Task<IQueryable<TestEntityExactlyOneToOneOrManyDto>> Handle(GetTestEntityExactlyOneToOneOrManiesQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<TestEntityExactlyOneToOneOrManyDto>)DataDbContext.TestEntityExactlyOneToOneOrManies
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }

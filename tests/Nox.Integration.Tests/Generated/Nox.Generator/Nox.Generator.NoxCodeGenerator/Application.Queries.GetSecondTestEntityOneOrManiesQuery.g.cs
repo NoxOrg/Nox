@@ -34,7 +34,6 @@ internal abstract class GetSecondTestEntityOneOrManiesQueryHandlerBase : QueryBa
     public virtual Task<IQueryable<SecondTestEntityOneOrManyDto>> Handle(GetSecondTestEntityOneOrManiesQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<SecondTestEntityOneOrManyDto>)DataDbContext.SecondTestEntityOneOrManies
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }

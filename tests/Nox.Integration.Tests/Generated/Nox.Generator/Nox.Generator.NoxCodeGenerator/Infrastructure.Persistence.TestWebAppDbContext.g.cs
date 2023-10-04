@@ -146,6 +146,7 @@ internal partial class TestWebAppDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
        
+        ConfigureAuditable(modelBuilder);
 
         if (_noxSolution.Domain != null)
         {
@@ -173,6 +174,43 @@ internal partial class TestWebAppDbContext : DbContext
             modelBuilder.ForEntitiesOfType<IEntityConcurrent>(
                 builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());
         }
+    }
+
+    private void ConfigureAuditable(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<TestEntityZeroOrOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<SecondTestEntityZeroOrOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityWithNuid>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityOneOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<SecondTestEntityOneOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityZeroOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<SecondTestEntityZeroOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<ThirdTestEntityOneOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<ThirdTestEntityZeroOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<ThirdTestEntityExactlyOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<ThirdTestEntityZeroOrOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityExactlyOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<SecondTestEntityExactlyOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityZeroOrOneToZeroOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityZeroOrManyToZeroOrOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityExactlyOneToOneOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityOneOrManyToExactlyOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityExactlyOneToZeroOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityZeroOrManyToExactlyOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityOneOrManyToZeroOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityZeroOrManyToOneOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityZeroOrOneToOneOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityOneOrManyToZeroOrOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityZeroOrOneToExactlyOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityExactlyOneToZeroOrOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityOwnedRelationshipExactlyOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityOwnedRelationshipZeroOrOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityOwnedRelationshipOneOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityOwnedRelationshipZeroOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityTwoRelationshipsOneToOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityTwoRelationshipsManyToMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityTwoRelationshipsOneToMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityForTypes>().HasQueryFilter(p => p.DeletedAtUtc == null);
     }
 
     /// <inheritdoc/>

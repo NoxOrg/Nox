@@ -36,9 +36,7 @@ internal abstract class GetSecondTestEntityTwoRelationshipsManyToManyByIdQueryHa
         var query = DataDbContext.SecondTestEntityTwoRelationshipsManyToManies
             .AsNoTracking()
             .Where(r =>
-                r.Id.Equals(request.keyId) &&
-                true
-            );
+                r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));
     }
 }

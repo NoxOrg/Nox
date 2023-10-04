@@ -34,7 +34,6 @@ internal abstract class GetTransactionsQueryHandlerBase : QueryBase<IQueryable<T
     public virtual Task<IQueryable<TransactionDto>> Handle(GetTransactionsQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<TransactionDto>)DataDbContext.Transactions
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }
