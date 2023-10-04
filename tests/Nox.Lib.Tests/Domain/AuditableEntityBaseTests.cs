@@ -8,7 +8,7 @@ namespace Nox.Lib.Tests.Domain
     {
         private class SampleEntity : AuditableEntityBase { }
 
-        private static readonly string DefaultUser = System.Guid.Empty.ToString();
+        private static readonly string DefaultUser = "N/A";
         private static readonly string DefaultSystem = "N/A";
 
         private static readonly System.DateTime CurrentDateTimeUtc = System.DateTime.UtcNow;

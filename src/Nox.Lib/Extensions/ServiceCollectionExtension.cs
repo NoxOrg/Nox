@@ -81,6 +81,12 @@ public static class ServiceCollectionExtension
                 cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
             });
     }
+    
+    internal static IServiceCollection AddNoxHttpDefaults(this IServiceCollection services)
+    {
+        services.AddHttpContextAccessor();
+        return services;
+    }
 
     internal static IServiceCollection AddNoxProviders(this IServiceCollection services)
     {
