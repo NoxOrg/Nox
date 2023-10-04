@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Cryptocash.Domain;
 
+using CurrencyEntity = Cryptocash.Domain.Currency;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Currency and related data.
 /// </summary>
-public partial class CurrencyUpdateDto : IEntityDto<Currency>
+public partial class CurrencyUpdateDto : IEntityDto<CurrencyEntity>
 {
     /// <summary>
     /// Currency's name (Required).

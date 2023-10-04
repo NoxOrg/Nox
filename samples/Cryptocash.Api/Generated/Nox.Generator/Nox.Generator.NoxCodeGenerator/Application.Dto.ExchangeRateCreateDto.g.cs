@@ -10,6 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
+using ExchangeRateEntity = Cryptocash.Domain.ExchangeRate;
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -22,7 +23,7 @@ public partial class ExchangeRateCreateDto : ExchangeRateCreateDtoBase
 /// <summary>
 /// Exchange rate and related data.
 /// </summary>
-public abstract class ExchangeRateCreateDtoBase : IEntityDto<ExchangeRate>
+public abstract class ExchangeRateCreateDtoBase : IEntityDto<ExchangeRateEntity>
 {
     /// <summary>
     /// Exchange rate conversion amount (Required).

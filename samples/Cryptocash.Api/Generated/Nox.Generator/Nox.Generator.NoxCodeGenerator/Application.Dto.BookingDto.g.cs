@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using Cryptocash.Domain;
+using BookingEntity = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class BookingDto : BookingDtoBase
 /// <summary>
 /// Exchange booking and related data.
 /// </summary>
-public abstract class BookingDtoBase : EntityDtoBase, IEntityDto<Booking>
+public abstract class BookingDtoBase : EntityDtoBase, IEntityDto<BookingEntity>
 {
 
     #region Validation

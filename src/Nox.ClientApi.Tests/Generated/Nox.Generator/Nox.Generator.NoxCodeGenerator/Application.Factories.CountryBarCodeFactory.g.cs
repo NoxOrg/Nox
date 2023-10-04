@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
 using ClientApi.Domain;
-using CountryBarCode = ClientApi.Domain.CountryBarCode;
+using CountryBarCodeEntity = ClientApi.Domain.CountryBarCode;
 
 namespace ClientApi.Application.Factories;
 
-internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto>
+internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCodeEntity, CountryBarCodeCreateDto, CountryBarCodeUpdateDto>
 {
 
     public CountryBarCodeFactoryBase
@@ -32,17 +32,17 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
     {
     }
 
-    public virtual CountryBarCode CreateEntity(CountryBarCodeCreateDto createDto)
+    public virtual CountryBarCodeEntity CreateEntity(CountryBarCodeCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(CountryBarCode entity, CountryBarCodeUpdateDto updateDto)
+    public virtual void UpdateEntity(CountryBarCodeEntity entity, CountryBarCodeUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(CountryBarCode entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(CountryBarCodeEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -55,7 +55,7 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
         return entity;
     }
 
-    private void UpdateEntityInternal(CountryBarCode entity, CountryBarCodeUpdateDto updateDto)
+    private void UpdateEntityInternal(CountryBarCodeEntity entity, CountryBarCodeUpdateDto updateDto)
     {
         entity.BarCodeName = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeName(updateDto.BarCodeName.NonNullValue<System.String>());
         if (updateDto.BarCodeNumber == null) { entity.BarCodeNumber = null; } else {
@@ -63,7 +63,7 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
         }
     }
 
-    private void PartialUpdateEntityInternal(CountryBarCode entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(CountryBarCodeEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("BarCodeName", out var BarCodeNameUpdateValue))

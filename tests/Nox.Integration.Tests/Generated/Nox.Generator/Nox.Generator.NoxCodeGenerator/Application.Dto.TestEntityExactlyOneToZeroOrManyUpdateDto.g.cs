@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using TestWebApp.Domain;
 
+using TestEntityExactlyOneToZeroOrManyEntity = TestWebApp.Domain.TestEntityExactlyOneToZeroOrMany;
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public partial class TestEntityExactlyOneToZeroOrManyUpdateDto : IEntityDto<TestEntityExactlyOneToZeroOrMany>
+public partial class TestEntityExactlyOneToZeroOrManyUpdateDto : IEntityDto<TestEntityExactlyOneToZeroOrManyEntity>
 {
     /// <summary>
     ///  (Required).

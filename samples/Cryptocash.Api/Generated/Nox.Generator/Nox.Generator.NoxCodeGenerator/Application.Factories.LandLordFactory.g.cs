@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Domain;
-using LandLord = Cryptocash.Domain.LandLord;
+using LandLordEntity = Cryptocash.Domain.LandLord;
 
 namespace Cryptocash.Application.Factories;
 
-internal abstract class LandLordFactoryBase : IEntityFactory<LandLord, LandLordCreateDto, LandLordUpdateDto>
+internal abstract class LandLordFactoryBase : IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto>
 {
 
     public LandLordFactoryBase
@@ -32,17 +32,17 @@ internal abstract class LandLordFactoryBase : IEntityFactory<LandLord, LandLordC
     {
     }
 
-    public virtual LandLord CreateEntity(LandLordCreateDto createDto)
+    public virtual LandLordEntity CreateEntity(LandLordCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(LandLord entity, LandLordUpdateDto updateDto)
+    public virtual void UpdateEntity(LandLordEntity entity, LandLordUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(LandLord entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(LandLordEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -55,13 +55,13 @@ internal abstract class LandLordFactoryBase : IEntityFactory<LandLord, LandLordC
         return entity;
     }
 
-    private void UpdateEntityInternal(LandLord entity, LandLordUpdateDto updateDto)
+    private void UpdateEntityInternal(LandLordEntity entity, LandLordUpdateDto updateDto)
     {
         entity.Name = Cryptocash.Domain.LandLordMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         entity.Address = Cryptocash.Domain.LandLordMetadata.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
     }
 
-    private void PartialUpdateEntityInternal(LandLord entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(LandLordEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))

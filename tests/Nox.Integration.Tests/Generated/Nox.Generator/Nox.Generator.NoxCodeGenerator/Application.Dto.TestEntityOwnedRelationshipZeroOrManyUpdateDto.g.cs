@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using TestWebApp.Domain;
 
+using TestEntityOwnedRelationshipZeroOrManyEntity = TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrMany;
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
 /// .
 /// </summary>
-public partial class TestEntityOwnedRelationshipZeroOrManyUpdateDto : IEntityDto<TestEntityOwnedRelationshipZeroOrMany>
+public partial class TestEntityOwnedRelationshipZeroOrManyUpdateDto : IEntityDto<TestEntityOwnedRelationshipZeroOrManyEntity>
 {
     /// <summary>
     ///  (Required).

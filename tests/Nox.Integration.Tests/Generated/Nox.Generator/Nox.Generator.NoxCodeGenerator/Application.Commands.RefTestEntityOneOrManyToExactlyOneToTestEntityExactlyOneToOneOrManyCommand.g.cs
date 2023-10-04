@@ -15,6 +15,7 @@ using Nox.Types;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
+using TestEntityOneOrManyToExactlyOneEntity = TestWebApp.Domain.TestEntityOneOrManyToExactlyOne;
 
 namespace TestWebApp.Application.Commands;
 
@@ -62,7 +63,7 @@ internal partial class DeleteAllRefTestEntityOneOrManyToExactlyOneToTestEntityEx
 	{ }
 }
 
-internal abstract class RefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManyCommandHandlerBase<TRequest> : CommandBase<TRequest, TestEntityOneOrManyToExactlyOne>,
+internal abstract class RefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManyCommandHandlerBase<TRequest> : CommandBase<TRequest, TestEntityOneOrManyToExactlyOneEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOneToOneOrManyCommand
 {
 	public TestWebAppDbContext DbContext { get; }
@@ -92,7 +93,7 @@ internal abstract class RefTestEntityOneOrManyToExactlyOneToTestEntityExactlyOne
 			return false;
 		}
 
-		TestEntityExactlyOneToOneOrMany? relatedEntity = null!;
+		TestWebApp.Domain.TestEntityExactlyOneToOneOrMany? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
 			var relatedKeyId = TestWebApp.Domain.TestEntityExactlyOneToOneOrManyMetadata.CreateId(request.RelatedEntityKeyDto.keyId);

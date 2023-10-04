@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
 using ClientApi.Domain;
-using Workplace = ClientApi.Domain.Workplace;
+using WorkplaceEntity = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Factories;
 
-internal abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto>
+internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto>
 {
 
     public WorkplaceFactoryBase
@@ -32,17 +32,17 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, Workpla
     {
     }
 
-    public virtual Workplace CreateEntity(WorkplaceCreateDto createDto)
+    public virtual WorkplaceEntity CreateEntity(WorkplaceCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(Workplace entity, WorkplaceUpdateDto updateDto)
+    public virtual void UpdateEntity(WorkplaceEntity entity, WorkplaceUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(Workplace entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(WorkplaceEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -56,7 +56,7 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, Workpla
         return entity;
     }
 
-    private void UpdateEntityInternal(Workplace entity, WorkplaceUpdateDto updateDto)
+    private void UpdateEntityInternal(WorkplaceEntity entity, WorkplaceUpdateDto updateDto)
     {
         entity.Name = ClientApi.Domain.WorkplaceMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         if (updateDto.Description == null) { entity.Description = null; } else {
@@ -65,7 +65,7 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, Workpla
 		entity.EnsureId();
     }
 
-    private void PartialUpdateEntityInternal(Workplace entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(WorkplaceEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))

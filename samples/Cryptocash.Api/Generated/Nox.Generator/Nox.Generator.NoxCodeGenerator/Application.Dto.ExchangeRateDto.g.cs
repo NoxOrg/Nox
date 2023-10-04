@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using Cryptocash.Domain;
+using ExchangeRateEntity = Cryptocash.Domain.ExchangeRate;
 
 namespace Cryptocash.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class ExchangeRateDto : ExchangeRateDtoBase
 /// <summary>
 /// Exchange rate and related data.
 /// </summary>
-public abstract class ExchangeRateDtoBase : EntityDtoBase, IEntityDto<ExchangeRate>
+public abstract class ExchangeRateDtoBase : EntityDtoBase, IEntityDto<ExchangeRateEntity>
 {
 
     #region Validation

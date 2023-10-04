@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Domain;
-using PaymentProvider = Cryptocash.Domain.PaymentProvider;
+using PaymentProviderEntity = Cryptocash.Domain.PaymentProvider;
 
 namespace Cryptocash.Application.Factories;
 
-internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvider, PaymentProviderCreateDto, PaymentProviderUpdateDto>
+internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProviderEntity, PaymentProviderCreateDto, PaymentProviderUpdateDto>
 {
 
     public PaymentProviderFactoryBase
@@ -32,17 +32,17 @@ internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvi
     {
     }
 
-    public virtual PaymentProvider CreateEntity(PaymentProviderCreateDto createDto)
+    public virtual PaymentProviderEntity CreateEntity(PaymentProviderCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(PaymentProvider entity, PaymentProviderUpdateDto updateDto)
+    public virtual void UpdateEntity(PaymentProviderEntity entity, PaymentProviderUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(PaymentProvider entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(PaymentProviderEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -55,13 +55,13 @@ internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvi
         return entity;
     }
 
-    private void UpdateEntityInternal(PaymentProvider entity, PaymentProviderUpdateDto updateDto)
+    private void UpdateEntityInternal(PaymentProviderEntity entity, PaymentProviderUpdateDto updateDto)
     {
         entity.PaymentProviderName = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderName(updateDto.PaymentProviderName.NonNullValue<System.String>());
         entity.PaymentProviderType = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderType(updateDto.PaymentProviderType.NonNullValue<System.String>());
     }
 
-    private void PartialUpdateEntityInternal(PaymentProvider entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(PaymentProviderEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("PaymentProviderName", out var PaymentProviderNameUpdateValue))

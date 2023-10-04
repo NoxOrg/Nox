@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Domain;
-using BankNote = Cryptocash.Domain.BankNote;
+using BankNoteEntity = Cryptocash.Domain.BankNote;
 
 namespace Cryptocash.Application.Factories;
 
-internal abstract class BankNoteFactoryBase : IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto>
+internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, BankNoteCreateDto, BankNoteUpdateDto>
 {
 
     public BankNoteFactoryBase
@@ -32,17 +32,17 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNote, BankNoteC
     {
     }
 
-    public virtual BankNote CreateEntity(BankNoteCreateDto createDto)
+    public virtual BankNoteEntity CreateEntity(BankNoteCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(BankNote entity, BankNoteUpdateDto updateDto)
+    public virtual void UpdateEntity(BankNoteEntity entity, BankNoteUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(BankNote entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(BankNoteEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -55,13 +55,13 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNote, BankNoteC
         return entity;
     }
 
-    private void UpdateEntityInternal(BankNote entity, BankNoteUpdateDto updateDto)
+    private void UpdateEntityInternal(BankNoteEntity entity, BankNoteUpdateDto updateDto)
     {
         entity.CashNote = Cryptocash.Domain.BankNoteMetadata.CreateCashNote(updateDto.CashNote.NonNullValue<System.String>());
         entity.Value = Cryptocash.Domain.BankNoteMetadata.CreateValue(updateDto.Value.NonNullValue<MoneyDto>());
     }
 
-    private void PartialUpdateEntityInternal(BankNote entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(BankNoteEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("CashNote", out var CashNoteUpdateValue))

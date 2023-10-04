@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Domain;
-using Commission = Cryptocash.Domain.Commission;
+using CommissionEntity = Cryptocash.Domain.Commission;
 
 namespace Cryptocash.Application.Factories;
 
-internal abstract class CommissionFactoryBase : IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto>
+internal abstract class CommissionFactoryBase : IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto>
 {
 
     public CommissionFactoryBase
@@ -32,17 +32,17 @@ internal abstract class CommissionFactoryBase : IEntityFactory<Commission, Commi
     {
     }
 
-    public virtual Commission CreateEntity(CommissionCreateDto createDto)
+    public virtual CommissionEntity CreateEntity(CommissionCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(Commission entity, CommissionUpdateDto updateDto)
+    public virtual void UpdateEntity(CommissionEntity entity, CommissionUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(Commission entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(CommissionEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -55,13 +55,13 @@ internal abstract class CommissionFactoryBase : IEntityFactory<Commission, Commi
         return entity;
     }
 
-    private void UpdateEntityInternal(Commission entity, CommissionUpdateDto updateDto)
+    private void UpdateEntityInternal(CommissionEntity entity, CommissionUpdateDto updateDto)
     {
         entity.Rate = Cryptocash.Domain.CommissionMetadata.CreateRate(updateDto.Rate.NonNullValue<System.Single>());
         entity.EffectiveAt = Cryptocash.Domain.CommissionMetadata.CreateEffectiveAt(updateDto.EffectiveAt.NonNullValue<System.DateTimeOffset>());
     }
 
-    private void PartialUpdateEntityInternal(Commission entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(CommissionEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("Rate", out var RateUpdateValue))

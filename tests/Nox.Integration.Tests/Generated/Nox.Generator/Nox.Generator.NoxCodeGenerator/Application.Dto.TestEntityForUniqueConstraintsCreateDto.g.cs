@@ -10,6 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
+using TestEntityForUniqueConstraintsEntity = TestWebApp.Domain.TestEntityForUniqueConstraints;
 using TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
@@ -22,7 +23,7 @@ public partial class TestEntityForUniqueConstraintsCreateDto : TestEntityForUniq
 /// <summary>
 /// Entity created for testing constraints.
 /// </summary>
-public abstract class TestEntityForUniqueConstraintsCreateDtoBase : IEntityDto<TestEntityForUniqueConstraints>
+public abstract class TestEntityForUniqueConstraintsCreateDtoBase : IEntityDto<TestEntityForUniqueConstraintsEntity>
 {
     /// <summary>
     ///  (Required).

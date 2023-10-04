@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Cryptocash.Domain;
 
+using EmployeeEntity = Cryptocash.Domain.Employee;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Employee definition and related data.
 /// </summary>
-public partial class EmployeeUpdateDto : IEntityDto<Employee>
+public partial class EmployeeUpdateDto : IEntityDto<EmployeeEntity>
 {
     /// <summary>
     /// Employee's first name (Required).

@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using TestWebApp.Domain;
+using ThirdTestEntityZeroOrOneEntity = TestWebApp.Domain.ThirdTestEntityZeroOrOne;
 
 namespace TestWebApp.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class ThirdTestEntityZeroOrOneDto : ThirdTestEntityZeroOrOneDtoBa
 /// <summary>
 /// .
 /// </summary>
-public abstract class ThirdTestEntityZeroOrOneDtoBase : EntityDtoBase, IEntityDto<ThirdTestEntityZeroOrOne>
+public abstract class ThirdTestEntityZeroOrOneDtoBase : EntityDtoBase, IEntityDto<ThirdTestEntityZeroOrOneEntity>
 {
 
     #region Validation

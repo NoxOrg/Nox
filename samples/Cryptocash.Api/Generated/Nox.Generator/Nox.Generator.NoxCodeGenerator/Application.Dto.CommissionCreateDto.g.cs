@@ -10,6 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
+using CommissionEntity = Cryptocash.Domain.Commission;
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -22,7 +23,7 @@ public partial class CommissionCreateDto : CommissionCreateDtoBase
 /// <summary>
 /// Exchange commission rate and amount.
 /// </summary>
-public abstract class CommissionCreateDtoBase : IEntityDto<Commission>
+public abstract class CommissionCreateDtoBase : IEntityDto<CommissionEntity>
 {
     /// <summary>
     /// Commission rate (Required).

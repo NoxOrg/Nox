@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
 using ClientApi.Domain;
-using RatingProgram = ClientApi.Domain.RatingProgram;
+using RatingProgramEntity = ClientApi.Domain.RatingProgram;
 
 namespace ClientApi.Application.Factories;
 
-internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgram, RatingProgramCreateDto, RatingProgramUpdateDto>
+internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto>
 {
 
     public RatingProgramFactoryBase
@@ -32,17 +32,17 @@ internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgram,
     {
     }
 
-    public virtual RatingProgram CreateEntity(RatingProgramCreateDto createDto)
+    public virtual RatingProgramEntity CreateEntity(RatingProgramCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(RatingProgram entity, RatingProgramUpdateDto updateDto)
+    public virtual void UpdateEntity(RatingProgramEntity entity, RatingProgramUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(RatingProgram entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(RatingProgramEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -55,14 +55,14 @@ internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgram,
         return entity;
     }
 
-    private void UpdateEntityInternal(RatingProgram entity, RatingProgramUpdateDto updateDto)
+    private void UpdateEntityInternal(RatingProgramEntity entity, RatingProgramUpdateDto updateDto)
     {
         if (updateDto.Name == null) { entity.Name = null; } else {
             entity.Name = ClientApi.Domain.RatingProgramMetadata.CreateName(updateDto.Name.ToValueFromNonNull<System.String>());
         }
     }
 
-    private void PartialUpdateEntityInternal(RatingProgram entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(RatingProgramEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))

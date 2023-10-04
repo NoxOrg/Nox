@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Domain;
-using Booking = Cryptocash.Domain.Booking;
+using BookingEntity = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Factories;
 
-internal abstract class BookingFactoryBase : IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto>
+internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto>
 {
 
     public BookingFactoryBase
@@ -32,17 +32,17 @@ internal abstract class BookingFactoryBase : IEntityFactory<Booking, BookingCrea
     {
     }
 
-    public virtual Booking CreateEntity(BookingCreateDto createDto)
+    public virtual BookingEntity CreateEntity(BookingCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(Booking entity, BookingUpdateDto updateDto)
+    public virtual void UpdateEntity(BookingEntity entity, BookingUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(Booking entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(BookingEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -61,7 +61,7 @@ internal abstract class BookingFactoryBase : IEntityFactory<Booking, BookingCrea
         return entity;
     }
 
-    private void UpdateEntityInternal(Booking entity, BookingUpdateDto updateDto)
+    private void UpdateEntityInternal(BookingEntity entity, BookingUpdateDto updateDto)
     {
         entity.AmountFrom = Cryptocash.Domain.BookingMetadata.CreateAmountFrom(updateDto.AmountFrom.NonNullValue<MoneyDto>());
         entity.AmountTo = Cryptocash.Domain.BookingMetadata.CreateAmountTo(updateDto.AmountTo.NonNullValue<MoneyDto>());
@@ -80,7 +80,7 @@ internal abstract class BookingFactoryBase : IEntityFactory<Booking, BookingCrea
         }
     }
 
-    private void PartialUpdateEntityInternal(Booking entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(BookingEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("AmountFrom", out var AmountFromUpdateValue))

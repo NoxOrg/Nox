@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Domain;
-using CountryTimeZone = Cryptocash.Domain.CountryTimeZone;
+using CountryTimeZoneEntity = Cryptocash.Domain.CountryTimeZone;
 
 namespace Cryptocash.Application.Factories;
 
-internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZone, CountryTimeZoneCreateDto, CountryTimeZoneUpdateDto>
+internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneCreateDto, CountryTimeZoneUpdateDto>
 {
 
     public CountryTimeZoneFactoryBase
@@ -32,17 +32,17 @@ internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZ
     {
     }
 
-    public virtual CountryTimeZone CreateEntity(CountryTimeZoneCreateDto createDto)
+    public virtual CountryTimeZoneEntity CreateEntity(CountryTimeZoneCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(CountryTimeZone entity, CountryTimeZoneUpdateDto updateDto)
+    public virtual void UpdateEntity(CountryTimeZoneEntity entity, CountryTimeZoneUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(CountryTimeZone entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(CountryTimeZoneEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -54,12 +54,12 @@ internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZ
         return entity;
     }
 
-    private void UpdateEntityInternal(CountryTimeZone entity, CountryTimeZoneUpdateDto updateDto)
+    private void UpdateEntityInternal(CountryTimeZoneEntity entity, CountryTimeZoneUpdateDto updateDto)
     {
         entity.TimeZoneCode = Cryptocash.Domain.CountryTimeZoneMetadata.CreateTimeZoneCode(updateDto.TimeZoneCode.NonNullValue<System.String>());
     }
 
-    private void PartialUpdateEntityInternal(CountryTimeZone entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(CountryTimeZoneEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("TimeZoneCode", out var TimeZoneCodeUpdateValue))

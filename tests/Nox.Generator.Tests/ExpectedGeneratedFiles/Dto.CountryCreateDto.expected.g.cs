@@ -10,6 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
+using CountryEntity = SampleWebApp.Domain.Country;
 using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
@@ -22,7 +23,7 @@ public partial class CountryCreateDto : CountryCreateDtoBase
 /// <summary>
 /// The list of countries.
 /// </summary>
-public abstract class CountryCreateDtoBase : IEntityDto<Country>
+public abstract class CountryCreateDtoBase : IEntityDto<CountryEntity>
 {
     /// <summary>
     ///  (Required).

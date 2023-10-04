@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using ClientApi.Domain;
+using StoreOwnerEntity = ClientApi.Domain.StoreOwner;
 
 namespace ClientApi.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class StoreOwnerDto : StoreOwnerDtoBase
 /// <summary>
 /// Store owners.
 /// </summary>
-public abstract class StoreOwnerDtoBase : EntityDtoBase, IEntityDto<StoreOwner>
+public abstract class StoreOwnerDtoBase : EntityDtoBase, IEntityDto<StoreOwnerEntity>
 {
 
     #region Validation

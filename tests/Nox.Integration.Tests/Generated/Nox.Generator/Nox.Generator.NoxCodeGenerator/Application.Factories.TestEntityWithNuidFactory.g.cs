@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using TestWebApp.Application.Dto;
 using TestWebApp.Domain;
-using TestEntityWithNuid = TestWebApp.Domain.TestEntityWithNuid;
+using TestEntityWithNuidEntity = TestWebApp.Domain.TestEntityWithNuid;
 
 namespace TestWebApp.Application.Factories;
 
-internal abstract class TestEntityWithNuidFactoryBase : IEntityFactory<TestEntityWithNuid, TestEntityWithNuidCreateDto, TestEntityWithNuidUpdateDto>
+internal abstract class TestEntityWithNuidFactoryBase : IEntityFactory<TestEntityWithNuidEntity, TestEntityWithNuidCreateDto, TestEntityWithNuidUpdateDto>
 {
 
     public TestEntityWithNuidFactoryBase
@@ -32,17 +32,17 @@ internal abstract class TestEntityWithNuidFactoryBase : IEntityFactory<TestEntit
     {
     }
 
-    public virtual TestEntityWithNuid CreateEntity(TestEntityWithNuidCreateDto createDto)
+    public virtual TestEntityWithNuidEntity CreateEntity(TestEntityWithNuidCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(TestEntityWithNuid entity, TestEntityWithNuidUpdateDto updateDto)
+    public virtual void UpdateEntity(TestEntityWithNuidEntity entity, TestEntityWithNuidUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(TestEntityWithNuid entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(TestEntityWithNuidEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -55,13 +55,13 @@ internal abstract class TestEntityWithNuidFactoryBase : IEntityFactory<TestEntit
         return entity;
     }
 
-    private void UpdateEntityInternal(TestEntityWithNuid entity, TestEntityWithNuidUpdateDto updateDto)
+    private void UpdateEntityInternal(TestEntityWithNuidEntity entity, TestEntityWithNuidUpdateDto updateDto)
     {
         entity.Name = TestWebApp.Domain.TestEntityWithNuidMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
 		entity.EnsureId();
     }
 
-    private void PartialUpdateEntityInternal(TestEntityWithNuid entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(TestEntityWithNuidEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))

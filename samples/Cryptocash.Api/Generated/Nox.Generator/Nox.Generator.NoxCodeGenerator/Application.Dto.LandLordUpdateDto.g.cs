@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Cryptocash.Domain;
 
+using LandLordEntity = Cryptocash.Domain.LandLord;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Landlord related data.
 /// </summary>
-public partial class LandLordUpdateDto : IEntityDto<LandLord>
+public partial class LandLordUpdateDto : IEntityDto<LandLordEntity>
 {
     /// <summary>
     /// Landlord name (Required).

@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using TestWebApp.Application.Dto;
 using TestWebApp.Domain;
-using TestEntityForUniqueConstraints = TestWebApp.Domain.TestEntityForUniqueConstraints;
+using TestEntityForUniqueConstraintsEntity = TestWebApp.Domain.TestEntityForUniqueConstraints;
 
 namespace TestWebApp.Application.Factories;
 
-internal abstract class TestEntityForUniqueConstraintsFactoryBase : IEntityFactory<TestEntityForUniqueConstraints, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto>
+internal abstract class TestEntityForUniqueConstraintsFactoryBase : IEntityFactory<TestEntityForUniqueConstraintsEntity, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto>
 {
 
     public TestEntityForUniqueConstraintsFactoryBase
@@ -32,17 +32,17 @@ internal abstract class TestEntityForUniqueConstraintsFactoryBase : IEntityFacto
     {
     }
 
-    public virtual TestEntityForUniqueConstraints CreateEntity(TestEntityForUniqueConstraintsCreateDto createDto)
+    public virtual TestEntityForUniqueConstraintsEntity CreateEntity(TestEntityForUniqueConstraintsCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(TestEntityForUniqueConstraints entity, TestEntityForUniqueConstraintsUpdateDto updateDto)
+    public virtual void UpdateEntity(TestEntityForUniqueConstraintsEntity entity, TestEntityForUniqueConstraintsUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(TestEntityForUniqueConstraints entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(TestEntityForUniqueConstraintsEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -59,7 +59,7 @@ internal abstract class TestEntityForUniqueConstraintsFactoryBase : IEntityFacto
         return entity;
     }
 
-    private void UpdateEntityInternal(TestEntityForUniqueConstraints entity, TestEntityForUniqueConstraintsUpdateDto updateDto)
+    private void UpdateEntityInternal(TestEntityForUniqueConstraintsEntity entity, TestEntityForUniqueConstraintsUpdateDto updateDto)
     {
         entity.TextField = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateTextField(updateDto.TextField.NonNullValue<System.String>());
         entity.NumberField = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateNumberField(updateDto.NumberField.NonNullValue<System.Int16>());
@@ -68,7 +68,7 @@ internal abstract class TestEntityForUniqueConstraintsFactoryBase : IEntityFacto
         entity.UniqueCurrencyCode = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateUniqueCurrencyCode(updateDto.UniqueCurrencyCode.NonNullValue<System.String>());
     }
 
-    private void PartialUpdateEntityInternal(TestEntityForUniqueConstraints entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(TestEntityForUniqueConstraintsEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("TextField", out var TextFieldUpdateValue))

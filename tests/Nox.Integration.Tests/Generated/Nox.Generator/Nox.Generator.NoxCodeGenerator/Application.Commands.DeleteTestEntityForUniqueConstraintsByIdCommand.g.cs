@@ -9,27 +9,27 @@ using Nox.Solution;
 using Nox.Types;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
-using TestEntityForUniqueConstraints = TestWebApp.Domain.TestEntityForUniqueConstraints;
+using TestEntityForUniqueConstraintsEntity = TestWebApp.Domain.TestEntityForUniqueConstraints;
 
 namespace TestWebApp.Application.Commands;
 
 public record DeleteTestEntityForUniqueConstraintsByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteTestEntityForUniqueConstraintsByIdCommandHandler:DeleteTestEntityForUniqueConstraintsByIdCommandHandlerBase
+internal class DeleteTestEntityForUniqueConstraintsByIdCommandHandler : DeleteTestEntityForUniqueConstraintsByIdCommandHandlerBase
 {
 	public DeleteTestEntityForUniqueConstraintsByIdCommandHandler(
 		TestWebAppDbContext dbContext,
-		NoxSolution noxSolution): base(dbContext, noxSolution)
+		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
-internal abstract class DeleteTestEntityForUniqueConstraintsByIdCommandHandlerBase: CommandBase<DeleteTestEntityForUniqueConstraintsByIdCommand,TestEntityForUniqueConstraints>, IRequestHandler<DeleteTestEntityForUniqueConstraintsByIdCommand, bool>
+internal abstract class DeleteTestEntityForUniqueConstraintsByIdCommandHandlerBase : CommandBase<DeleteTestEntityForUniqueConstraintsByIdCommand, TestEntityForUniqueConstraintsEntity>, IRequestHandler<DeleteTestEntityForUniqueConstraintsByIdCommand, bool>
 {
 	public TestWebAppDbContext DbContext { get; }
 
 	public DeleteTestEntityForUniqueConstraintsByIdCommandHandlerBase(
 		TestWebAppDbContext dbContext,
-		NoxSolution noxSolution): base(noxSolution)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}

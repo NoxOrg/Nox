@@ -11,31 +11,31 @@ using Nox.Factories;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
-using TestEntityForTypes = TestWebApp.Domain.TestEntityForTypes;
+using TestEntityForTypesEntity = TestWebApp.Domain.TestEntityForTypes;
 
 namespace TestWebApp.Application.Commands;
 
 public record UpdateTestEntityForTypesCommand(System.String keyId, TestEntityForTypesUpdateDto EntityDto, System.Guid? Etag) : IRequest<TestEntityForTypesKeyDto?>;
 
-internal partial class UpdateTestEntityForTypesCommandHandler: UpdateTestEntityForTypesCommandHandlerBase
+internal partial class UpdateTestEntityForTypesCommandHandler : UpdateTestEntityForTypesCommandHandlerBase
 {
 	public UpdateTestEntityForTypesCommandHandler(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityForTypes, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> entityFactory): base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<TestEntityForTypesEntity, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 
-internal abstract class UpdateTestEntityForTypesCommandHandlerBase: CommandBase<UpdateTestEntityForTypesCommand, TestEntityForTypes>, IRequestHandler<UpdateTestEntityForTypesCommand, TestEntityForTypesKeyDto?>
+internal abstract class UpdateTestEntityForTypesCommandHandlerBase : CommandBase<UpdateTestEntityForTypesCommand, TestEntityForTypesEntity>, IRequestHandler<UpdateTestEntityForTypesCommand, TestEntityForTypesKeyDto?>
 {
 	public TestWebAppDbContext DbContext { get; }
-	private readonly IEntityFactory<TestEntityForTypes, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> _entityFactory;
+	private readonly IEntityFactory<TestEntityForTypesEntity, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> _entityFactory;
 
 	public UpdateTestEntityForTypesCommandHandlerBase(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityForTypes, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> entityFactory): base(noxSolution)
+		IEntityFactory<TestEntityForTypesEntity, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;

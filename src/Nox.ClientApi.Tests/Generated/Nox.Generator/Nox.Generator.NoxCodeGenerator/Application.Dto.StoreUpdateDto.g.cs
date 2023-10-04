@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ClientApi.Domain;
 
+using StoreEntity = ClientApi.Domain.Store;
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Stores.
 /// </summary>
-public partial class StoreUpdateDto : IEntityDto<Store>
+public partial class StoreUpdateDto : IEntityDto<StoreEntity>
 {
     /// <summary>
     /// Store Name (Required).

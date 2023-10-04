@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Domain;
-using CashStockOrder = Cryptocash.Domain.CashStockOrder;
+using CashStockOrderEntity = Cryptocash.Domain.CashStockOrder;
 
 namespace Cryptocash.Application.Factories;
 
-internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto>
+internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrderEntity, CashStockOrderCreateDto, CashStockOrderUpdateDto>
 {
 
     public CashStockOrderFactoryBase
@@ -32,17 +32,17 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
     {
     }
 
-    public virtual CashStockOrder CreateEntity(CashStockOrderCreateDto createDto)
+    public virtual CashStockOrderEntity CreateEntity(CashStockOrderCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(CashStockOrder entity, CashStockOrderUpdateDto updateDto)
+    public virtual void UpdateEntity(CashStockOrderEntity entity, CashStockOrderUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(CashStockOrder entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(CashStockOrderEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -56,7 +56,7 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
         return entity;
     }
 
-    private void UpdateEntityInternal(CashStockOrder entity, CashStockOrderUpdateDto updateDto)
+    private void UpdateEntityInternal(CashStockOrderEntity entity, CashStockOrderUpdateDto updateDto)
     {
         entity.Amount = Cryptocash.Domain.CashStockOrderMetadata.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>());
         entity.RequestedDeliveryDate = Cryptocash.Domain.CashStockOrderMetadata.CreateRequestedDeliveryDate(updateDto.RequestedDeliveryDate.NonNullValue<System.DateTime>());
@@ -65,7 +65,7 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
         }
     }
 
-    private void PartialUpdateEntityInternal(CashStockOrder entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(CashStockOrderEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("Amount", out var AmountUpdateValue))

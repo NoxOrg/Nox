@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Cryptocash.Domain;
 
+using HolidayEntity = Cryptocash.Domain.Holiday;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Holiday related to country.
 /// </summary>
-public partial class HolidayUpdateDto : IEntityDto<Holiday>
+public partial class HolidayUpdateDto : IEntityDto<HolidayEntity>
 {
     /// <summary>
     /// Country holiday name (Required).

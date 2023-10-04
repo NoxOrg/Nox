@@ -15,6 +15,7 @@ using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using CommissionEntity = Cryptocash.Domain.Commission;
 
 namespace Cryptocash.Application.Commands;
 
@@ -62,7 +63,7 @@ internal partial class DeleteAllRefCommissionToCommissionFeesForBookingCommandHa
 	{ }
 }
 
-internal abstract class RefCommissionToCommissionFeesForBookingCommandHandlerBase<TRequest> : CommandBase<TRequest, Commission>,
+internal abstract class RefCommissionToCommissionFeesForBookingCommandHandlerBase<TRequest> : CommandBase<TRequest, CommissionEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCommissionToCommissionFeesForBookingCommand
 {
 	public CryptocashDbContext DbContext { get; }
@@ -92,7 +93,7 @@ internal abstract class RefCommissionToCommissionFeesForBookingCommandHandlerBas
 			return false;
 		}
 
-		Booking? relatedEntity = null!;
+		Cryptocash.Domain.Booking? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
 			var relatedKeyId = Cryptocash.Domain.BookingMetadata.CreateId(request.RelatedEntityKeyDto.keyId);

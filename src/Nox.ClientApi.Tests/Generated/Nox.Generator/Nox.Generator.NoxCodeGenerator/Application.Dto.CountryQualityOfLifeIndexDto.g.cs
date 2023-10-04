@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using ClientApi.Domain;
+using CountryQualityOfLifeIndexEntity = ClientApi.Domain.CountryQualityOfLifeIndex;
 
 namespace ClientApi.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class CountryQualityOfLifeIndexDto : CountryQualityOfLifeIndexDto
 /// <summary>
 /// Country Quality Of Life Index.
 /// </summary>
-public abstract class CountryQualityOfLifeIndexDtoBase : EntityDtoBase, IEntityDto<CountryQualityOfLifeIndex>
+public abstract class CountryQualityOfLifeIndexDtoBase : EntityDtoBase, IEntityDto<CountryQualityOfLifeIndexEntity>
 {
 
     #region Validation

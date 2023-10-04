@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using Cryptocash.Domain;
+using CountryTimeZoneEntity = Cryptocash.Domain.CountryTimeZone;
 
 namespace Cryptocash.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class CountryTimeZoneDto : CountryTimeZoneDtoBase
 /// <summary>
 /// Time zone related to country.
 /// </summary>
-public abstract class CountryTimeZoneDtoBase : EntityDtoBase, IEntityDto<CountryTimeZone>
+public abstract class CountryTimeZoneDtoBase : EntityDtoBase, IEntityDto<CountryTimeZoneEntity>
 {
 
     #region Validation

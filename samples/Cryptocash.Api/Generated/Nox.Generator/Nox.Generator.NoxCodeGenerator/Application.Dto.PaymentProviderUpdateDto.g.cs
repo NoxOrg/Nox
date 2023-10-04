@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Cryptocash.Domain;
 
+using PaymentProviderEntity = Cryptocash.Domain.PaymentProvider;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Payment provider related data.
 /// </summary>
-public partial class PaymentProviderUpdateDto : IEntityDto<PaymentProvider>
+public partial class PaymentProviderUpdateDto : IEntityDto<PaymentProviderEntity>
 {
     /// <summary>
     /// Payment provider name (Required).

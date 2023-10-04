@@ -16,36 +16,36 @@ using Nox.Solution;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
-using Country = ClientApi.Domain.Country;
+using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
 public record CreateCountryCommand(CountryCreateDto EntityDto) : IRequest<CountryKeyDto>;
 
-internal partial class CreateCountryCommandHandler: CreateCountryCommandHandlerBase
+internal partial class CreateCountryCommandHandler : CreateCountryCommandHandlerBase
 {
 	public CreateCountryCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> workplacefactory,
-		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> entityFactory)
+		IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> workplacefactory,
+		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory)
 		: base(dbContext, noxSolution,workplacefactory, entityFactory)
 	{
 	}
 }
 
 
-internal abstract class CreateCountryCommandHandlerBase: CommandBase<CreateCountryCommand,Country>, IRequestHandler <CreateCountryCommand, CountryKeyDto>
+internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCountryCommand,CountryEntity>, IRequestHandler <CreateCountryCommand, CountryKeyDto>
 {
 	private readonly ClientApiDbContext _dbContext;
-	private readonly IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> _entityFactory;
-	private readonly IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> _workplacefactory;
+	private readonly IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> _entityFactory;
+	private readonly IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> _workplacefactory;
 
 	public CreateCountryCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> workplacefactory,
-		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> entityFactory): base(noxSolution)
+		IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> workplacefactory,
+		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory) : base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
