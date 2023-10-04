@@ -54,83 +54,83 @@ public partial class TestWebAppDbContext : DbContext
             _systemProvider = systemProvider;
         }
 
-    internal DbSet<TestEntityZeroOrOne> TestEntityZeroOrOnes { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.TestEntityZeroOrOne> TestEntityZeroOrOnes { get; set; } = null!;
 
-    internal DbSet<SecondTestEntityZeroOrOne> SecondTestEntityZeroOrOnes { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.SecondTestEntityZeroOrOne> SecondTestEntityZeroOrOnes { get; set; } = null!;
 
-    internal DbSet<TestEntityWithNuid> TestEntityWithNuids { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.TestEntityWithNuid> TestEntityWithNuids { get; set; } = null!;
 
-    internal DbSet<TestEntityOneOrMany> TestEntityOneOrManies { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.TestEntityOneOrMany> TestEntityOneOrManies { get; set; } = null!;
 
-    internal DbSet<SecondTestEntityOneOrMany> SecondTestEntityOneOrManies { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.SecondTestEntityOneOrMany> SecondTestEntityOneOrManies { get; set; } = null!;
 
-    internal DbSet<TestEntityZeroOrMany> TestEntityZeroOrManies { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.TestEntityZeroOrMany> TestEntityZeroOrManies { get; set; } = null!;
 
-    internal DbSet<SecondTestEntityZeroOrMany> SecondTestEntityZeroOrManies { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.SecondTestEntityZeroOrMany> SecondTestEntityZeroOrManies { get; set; } = null!;
 
-    internal DbSet<ThirdTestEntityOneOrMany> ThirdTestEntityOneOrManies { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.ThirdTestEntityOneOrMany> ThirdTestEntityOneOrManies { get; set; } = null!;
 
-    internal DbSet<ThirdTestEntityZeroOrMany> ThirdTestEntityZeroOrManies { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.ThirdTestEntityZeroOrMany> ThirdTestEntityZeroOrManies { get; set; } = null!;
 
-    internal DbSet<ThirdTestEntityExactlyOne> ThirdTestEntityExactlyOnes { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.ThirdTestEntityExactlyOne> ThirdTestEntityExactlyOnes { get; set; } = null!;
 
-    internal DbSet<ThirdTestEntityZeroOrOne> ThirdTestEntityZeroOrOnes { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.ThirdTestEntityZeroOrOne> ThirdTestEntityZeroOrOnes { get; set; } = null!;
 
-    internal DbSet<TestEntityExactlyOne> TestEntityExactlyOnes { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.TestEntityExactlyOne> TestEntityExactlyOnes { get; set; } = null!;
 
-    internal DbSet<SecondTestEntityExactlyOne> SecondTestEntityExactlyOnes { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.SecondTestEntityExactlyOne> SecondTestEntityExactlyOnes { get; set; } = null!;
 
-    internal DbSet<TestEntityZeroOrOneToZeroOrMany> TestEntityZeroOrOneToZeroOrManies { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.TestEntityZeroOrOneToZeroOrMany> TestEntityZeroOrOneToZeroOrManies { get; set; } = null!;
 
-    internal DbSet<TestEntityZeroOrManyToZeroOrOne> TestEntityZeroOrManyToZeroOrOnes { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.TestEntityZeroOrManyToZeroOrOne> TestEntityZeroOrManyToZeroOrOnes { get; set; } = null!;
 
-    internal DbSet<TestEntityExactlyOneToOneOrMany> TestEntityExactlyOneToOneOrManies { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.TestEntityExactlyOneToOneOrMany> TestEntityExactlyOneToOneOrManies { get; set; } = null!;
 
-    internal DbSet<TestEntityOneOrManyToExactlyOne> TestEntityOneOrManyToExactlyOnes { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.TestEntityOneOrManyToExactlyOne> TestEntityOneOrManyToExactlyOnes { get; set; } = null!;
 
-    internal DbSet<TestEntityExactlyOneToZeroOrMany> TestEntityExactlyOneToZeroOrManies { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.TestEntityExactlyOneToZeroOrMany> TestEntityExactlyOneToZeroOrManies { get; set; } = null!;
 
-    internal DbSet<TestEntityZeroOrManyToExactlyOne> TestEntityZeroOrManyToExactlyOnes { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.TestEntityZeroOrManyToExactlyOne> TestEntityZeroOrManyToExactlyOnes { get; set; } = null!;
 
-    internal DbSet<TestEntityOneOrManyToZeroOrMany> TestEntityOneOrManyToZeroOrManies { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.TestEntityOneOrManyToZeroOrMany> TestEntityOneOrManyToZeroOrManies { get; set; } = null!;
 
-    internal DbSet<TestEntityZeroOrManyToOneOrMany> TestEntityZeroOrManyToOneOrManies { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.TestEntityZeroOrManyToOneOrMany> TestEntityZeroOrManyToOneOrManies { get; set; } = null!;
 
-    internal DbSet<TestEntityZeroOrOneToOneOrMany> TestEntityZeroOrOneToOneOrManies { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.TestEntityZeroOrOneToOneOrMany> TestEntityZeroOrOneToOneOrManies { get; set; } = null!;
 
-    internal DbSet<TestEntityOneOrManyToZeroOrOne> TestEntityOneOrManyToZeroOrOnes { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.TestEntityOneOrManyToZeroOrOne> TestEntityOneOrManyToZeroOrOnes { get; set; } = null!;
 
-    internal DbSet<TestEntityZeroOrOneToExactlyOne> TestEntityZeroOrOneToExactlyOnes { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.TestEntityZeroOrOneToExactlyOne> TestEntityZeroOrOneToExactlyOnes { get; set; } = null!;
 
-    internal DbSet<TestEntityExactlyOneToZeroOrOne> TestEntityExactlyOneToZeroOrOnes { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.TestEntityExactlyOneToZeroOrOne> TestEntityExactlyOneToZeroOrOnes { get; set; } = null!;
 
-    internal DbSet<TestEntityOwnedRelationshipExactlyOne> TestEntityOwnedRelationshipExactlyOnes { get; set; } = null!;
-
-
-    internal DbSet<TestEntityOwnedRelationshipZeroOrOne> TestEntityOwnedRelationshipZeroOrOnes { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.TestEntityOwnedRelationshipExactlyOne> TestEntityOwnedRelationshipExactlyOnes { get; set; } = null!;
 
 
-    internal DbSet<TestEntityOwnedRelationshipOneOrMany> TestEntityOwnedRelationshipOneOrManies { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrOne> TestEntityOwnedRelationshipZeroOrOnes { get; set; } = null!;
 
 
-    internal DbSet<TestEntityOwnedRelationshipZeroOrMany> TestEntityOwnedRelationshipZeroOrManies { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.TestEntityOwnedRelationshipOneOrMany> TestEntityOwnedRelationshipOneOrManies { get; set; } = null!;
 
 
-    internal DbSet<TestEntityTwoRelationshipsOneToOne> TestEntityTwoRelationshipsOneToOnes { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrMany> TestEntityOwnedRelationshipZeroOrManies { get; set; } = null!;
 
-    internal DbSet<SecondTestEntityTwoRelationshipsOneToOne> SecondTestEntityTwoRelationshipsOneToOnes { get; set; } = null!;
 
-    internal DbSet<TestEntityTwoRelationshipsManyToMany> TestEntityTwoRelationshipsManyToManies { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.TestEntityTwoRelationshipsOneToOne> TestEntityTwoRelationshipsOneToOnes { get; set; } = null!;
 
-    internal DbSet<SecondTestEntityTwoRelationshipsManyToMany> SecondTestEntityTwoRelationshipsManyToManies { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToOne> SecondTestEntityTwoRelationshipsOneToOnes { get; set; } = null!;
 
-    internal DbSet<TestEntityTwoRelationshipsOneToMany> TestEntityTwoRelationshipsOneToManies { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.TestEntityTwoRelationshipsManyToMany> TestEntityTwoRelationshipsManyToManies { get; set; } = null!;
 
-    internal DbSet<SecondTestEntityTwoRelationshipsOneToMany> SecondTestEntityTwoRelationshipsOneToManies { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.SecondTestEntityTwoRelationshipsManyToMany> SecondTestEntityTwoRelationshipsManyToManies { get; set; } = null!;
 
-    internal DbSet<TestEntityForTypes> TestEntityForTypes { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.TestEntityTwoRelationshipsOneToMany> TestEntityTwoRelationshipsOneToManies { get; set; } = null!;
 
-    internal DbSet<TestEntityForUniqueConstraints> TestEntityForUniqueConstraints { get; set; } = null!;
+    internal DbSet<TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToMany> SecondTestEntityTwoRelationshipsOneToManies { get; set; } = null!;
+
+    internal DbSet<TestWebApp.Domain.TestEntityForTypes> TestEntityForTypes { get; set; } = null!;
+
+    internal DbSet<TestWebApp.Domain.TestEntityForUniqueConstraints> TestEntityForUniqueConstraints { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -145,6 +145,7 @@ public partial class TestWebAppDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
        
+        ConfigureAuditable(modelBuilder);
 
         if (_noxSolution.Domain != null)
         {
@@ -169,6 +170,43 @@ public partial class TestWebAppDbContext : DbContext
             modelBuilder.ForEntitiesOfType<IEntityConcurrent>(
                 builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());
         }
+    }
+
+    private void ConfigureAuditable(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityZeroOrOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.SecondTestEntityZeroOrOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityWithNuid>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityOneOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.SecondTestEntityOneOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityZeroOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.SecondTestEntityZeroOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.ThirdTestEntityOneOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.ThirdTestEntityZeroOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.ThirdTestEntityExactlyOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.ThirdTestEntityZeroOrOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityExactlyOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.SecondTestEntityExactlyOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityZeroOrOneToZeroOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityZeroOrManyToZeroOrOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityExactlyOneToOneOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityOneOrManyToExactlyOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityExactlyOneToZeroOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityZeroOrManyToExactlyOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityOneOrManyToZeroOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityZeroOrManyToOneOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityZeroOrOneToOneOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityOneOrManyToZeroOrOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityZeroOrOneToExactlyOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityExactlyOneToZeroOrOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityOwnedRelationshipExactlyOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityOwnedRelationshipOneOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityTwoRelationshipsOneToOne>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityTwoRelationshipsManyToMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityTwoRelationshipsOneToMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityForTypes>().HasQueryFilter(p => p.DeletedAtUtc == null);
     }
 
     /// <inheritdoc/>
