@@ -32,7 +32,7 @@ internal partial class DeleteCountryTimeZoneForCountryCommandHandlerBase : Comma
 
 	public DeleteCountryTimeZoneForCountryCommandHandlerBase(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution): base(noxSolution)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}

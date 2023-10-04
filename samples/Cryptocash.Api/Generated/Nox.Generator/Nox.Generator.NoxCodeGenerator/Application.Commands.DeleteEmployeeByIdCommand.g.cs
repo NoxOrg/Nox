@@ -19,7 +19,7 @@ internal class DeleteEmployeeByIdCommandHandler : DeleteEmployeeByIdCommandHandl
 {
 	public DeleteEmployeeByIdCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution): base(dbContext, noxSolution)
+		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
@@ -29,7 +29,7 @@ internal abstract class DeleteEmployeeByIdCommandHandlerBase : CommandBase<Delet
 
 	public DeleteEmployeeByIdCommandHandlerBase(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution): base(noxSolution)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}

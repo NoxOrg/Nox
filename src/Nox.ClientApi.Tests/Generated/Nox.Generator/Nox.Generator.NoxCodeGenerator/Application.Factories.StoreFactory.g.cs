@@ -127,6 +127,6 @@ internal partial class StoreFactory : StoreFactoryBase
     public StoreFactory
     (
         IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> emailaddressfactory
-    ): base(emailaddressfactory)
+    ) : base(emailaddressfactory)
     {}
 }

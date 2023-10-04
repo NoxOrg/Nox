@@ -19,7 +19,7 @@ internal class Delete{{entity.Name}}ByIdCommandHandler : Delete{{entity.Name}}By
 {
 	public Delete{{entity.Name}}ByIdCommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
-		NoxSolution noxSolution): base(dbContext, noxSolution)
+		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
@@ -29,7 +29,7 @@ internal abstract class Delete{{entity.Name}}ByIdCommandHandlerBase : CommandBas
 
 	public Delete{{entity.Name}}ByIdCommandHandlerBase(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
-		NoxSolution noxSolution): base(noxSolution)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}

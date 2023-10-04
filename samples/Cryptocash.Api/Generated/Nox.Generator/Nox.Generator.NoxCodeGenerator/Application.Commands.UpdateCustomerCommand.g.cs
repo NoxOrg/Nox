@@ -22,7 +22,7 @@ internal partial class UpdateCustomerCommandHandler : UpdateCustomerCommandHandl
 	public UpdateCustomerCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<CustomerEntity, CustomerCreateDto, CustomerUpdateDto> entityFactory): base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<CustomerEntity, CustomerCreateDto, CustomerUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -35,7 +35,7 @@ internal abstract class UpdateCustomerCommandHandlerBase : CommandBase<UpdateCus
 	public UpdateCustomerCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<CustomerEntity, CustomerCreateDto, CustomerUpdateDto> entityFactory): base(noxSolution)
+		IEntityFactory<CustomerEntity, CustomerCreateDto, CustomerUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;

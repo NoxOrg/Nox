@@ -22,7 +22,7 @@ internal partial class UpdateCommissionCommandHandler : UpdateCommissionCommandH
 	public UpdateCommissionCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto> entityFactory): base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -35,7 +35,7 @@ internal abstract class UpdateCommissionCommandHandlerBase : CommandBase<UpdateC
 	public UpdateCommissionCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto> entityFactory): base(noxSolution)
+		IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;

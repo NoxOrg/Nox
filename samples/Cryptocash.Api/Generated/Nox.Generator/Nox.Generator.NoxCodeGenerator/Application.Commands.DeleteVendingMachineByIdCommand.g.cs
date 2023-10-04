@@ -19,7 +19,7 @@ internal class DeleteVendingMachineByIdCommandHandler : DeleteVendingMachineById
 {
 	public DeleteVendingMachineByIdCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution): base(dbContext, noxSolution)
+		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
@@ -29,7 +29,7 @@ internal abstract class DeleteVendingMachineByIdCommandHandlerBase : CommandBase
 
 	public DeleteVendingMachineByIdCommandHandlerBase(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution): base(noxSolution)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}

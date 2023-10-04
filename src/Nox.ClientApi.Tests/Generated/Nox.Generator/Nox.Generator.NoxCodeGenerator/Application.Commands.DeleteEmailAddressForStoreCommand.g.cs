@@ -33,7 +33,7 @@ internal partial class DeleteEmailAddressForStoreCommandHandlerBase : CommandBas
 
 	public DeleteEmailAddressForStoreCommandHandlerBase(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution): base(noxSolution)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}

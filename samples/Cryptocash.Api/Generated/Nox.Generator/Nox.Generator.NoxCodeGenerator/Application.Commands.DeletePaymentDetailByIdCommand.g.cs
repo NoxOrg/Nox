@@ -19,7 +19,7 @@ internal class DeletePaymentDetailByIdCommandHandler : DeletePaymentDetailByIdCo
 {
 	public DeletePaymentDetailByIdCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution): base(dbContext, noxSolution)
+		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
@@ -29,7 +29,7 @@ internal abstract class DeletePaymentDetailByIdCommandHandlerBase : CommandBase<
 
 	public DeletePaymentDetailByIdCommandHandlerBase(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution): base(noxSolution)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}

@@ -45,7 +45,7 @@ internal abstract class CreateLandLordCommandHandlerBase : CommandBase<CreateLan
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
-		IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto> entityFactory): base(noxSolution)
+		IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto> entityFactory) : base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

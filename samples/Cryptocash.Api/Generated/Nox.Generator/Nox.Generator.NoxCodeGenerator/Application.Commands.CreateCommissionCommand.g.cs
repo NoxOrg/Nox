@@ -48,7 +48,7 @@ internal abstract class CreateCommissionCommandHandlerBase : CommandBase<CreateC
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> countryfactory,
 		IEntityFactory<Cryptocash.Domain.Booking, BookingCreateDto, BookingUpdateDto> bookingfactory,
-		IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto> entityFactory): base(noxSolution)
+		IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto> entityFactory) : base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

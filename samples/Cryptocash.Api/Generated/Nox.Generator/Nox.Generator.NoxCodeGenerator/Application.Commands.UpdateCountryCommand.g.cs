@@ -22,7 +22,7 @@ internal partial class UpdateCountryCommandHandler : UpdateCountryCommandHandler
 	public UpdateCountryCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory): base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -35,7 +35,7 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 	public UpdateCountryCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory): base(noxSolution)
+		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;

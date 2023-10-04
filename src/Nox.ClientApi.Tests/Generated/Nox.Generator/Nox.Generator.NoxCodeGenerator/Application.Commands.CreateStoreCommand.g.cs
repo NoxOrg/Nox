@@ -48,7 +48,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> storeownerfactory,
 		IEntityFactory<ClientApi.Domain.StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> storelicensefactory,
-		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory): base(noxSolution)
+		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory) : base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

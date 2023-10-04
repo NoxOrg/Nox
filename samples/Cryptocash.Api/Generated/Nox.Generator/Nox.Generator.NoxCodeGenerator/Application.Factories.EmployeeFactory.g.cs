@@ -149,6 +149,6 @@ internal partial class EmployeeFactory : EmployeeFactoryBase
     public EmployeeFactory
     (
         IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> employeephonenumberfactory
-    ): base(employeephonenumberfactory)
+    ) : base(employeephonenumberfactory)
     {}
 }

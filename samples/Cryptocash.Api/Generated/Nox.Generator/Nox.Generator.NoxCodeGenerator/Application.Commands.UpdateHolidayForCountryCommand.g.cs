@@ -35,7 +35,7 @@ internal partial class UpdateHolidayForCountryCommandHandlerBase : CommandBase<U
 	public UpdateHolidayForCountryCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<HolidayEntity, HolidayCreateDto, HolidayUpdateDto> entityFactory): base(noxSolution)
+		IEntityFactory<HolidayEntity, HolidayCreateDto, HolidayUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;

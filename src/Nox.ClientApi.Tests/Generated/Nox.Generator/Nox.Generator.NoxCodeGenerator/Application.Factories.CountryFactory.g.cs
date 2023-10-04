@@ -183,6 +183,6 @@ internal partial class CountryFactory : CountryFactoryBase
     (
         IEntityFactory<ClientApi.Domain.CountryLocalName, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> countrylocalnamefactory,
         IEntityFactory<ClientApi.Domain.CountryBarCode, CountryBarCodeCreateDto, CountryBarCodeUpdateDto> countrybarcodefactory
-    ): base(countrylocalnamefactory,countrybarcodefactory)
+    ) : base(countrylocalnamefactory,countrybarcodefactory)
     {}
 }

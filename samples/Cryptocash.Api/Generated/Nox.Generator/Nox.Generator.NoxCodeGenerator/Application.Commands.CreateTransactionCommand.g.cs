@@ -48,7 +48,7 @@ internal abstract class CreateTransactionCommandHandlerBase : CommandBase<Create
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Customer, CustomerCreateDto, CustomerUpdateDto> customerfactory,
 		IEntityFactory<Cryptocash.Domain.Booking, BookingCreateDto, BookingUpdateDto> bookingfactory,
-		IEntityFactory<TransactionEntity, TransactionCreateDto, TransactionUpdateDto> entityFactory): base(noxSolution)
+		IEntityFactory<TransactionEntity, TransactionCreateDto, TransactionUpdateDto> entityFactory) : base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

@@ -32,7 +32,7 @@ internal partial class DeleteHolidayForCountryCommandHandlerBase : CommandBase<D
 
 	public DeleteHolidayForCountryCommandHandlerBase(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution): base(noxSolution)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}

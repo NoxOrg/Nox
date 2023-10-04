@@ -32,7 +32,7 @@ internal partial class DeleteCountryLocalNameForCountryCommandHandlerBase : Comm
 
 	public DeleteCountryLocalNameForCountryCommandHandlerBase(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution): base(noxSolution)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}

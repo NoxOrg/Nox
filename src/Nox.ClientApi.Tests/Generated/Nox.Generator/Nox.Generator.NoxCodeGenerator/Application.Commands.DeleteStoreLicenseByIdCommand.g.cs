@@ -19,7 +19,7 @@ internal class DeleteStoreLicenseByIdCommandHandler : DeleteStoreLicenseByIdComm
 {
 	public DeleteStoreLicenseByIdCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution): base(dbContext, noxSolution)
+		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
@@ -29,7 +29,7 @@ internal abstract class DeleteStoreLicenseByIdCommandHandlerBase : CommandBase<D
 
 	public DeleteStoreLicenseByIdCommandHandlerBase(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution): base(noxSolution)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}

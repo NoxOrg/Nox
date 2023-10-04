@@ -19,7 +19,7 @@ internal class DeleteRatingProgramByIdCommandHandler : DeleteRatingProgramByIdCo
 {
 	public DeleteRatingProgramByIdCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution): base(dbContext, noxSolution)
+		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
@@ -29,7 +29,7 @@ internal abstract class DeleteRatingProgramByIdCommandHandlerBase : CommandBase<
 
 	public DeleteRatingProgramByIdCommandHandlerBase(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution): base(noxSolution)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}

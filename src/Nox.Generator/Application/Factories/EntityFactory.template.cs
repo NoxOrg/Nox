@@ -176,7 +176,7 @@ internal partial class {{className}} : {{className}}Base
         {{- for ownedEntity in ownedEntities #Factories Properties for owned entitites}}
         IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{ownedEntity}}, {{ownedEntity}}CreateDto, {{ownedEntity}}UpdateDto> {{fieldFactoryName ownedEntity}}{{if !for.last}},{{end}}
         {{- end }}
-    ): base({{ ownedEntities | array.each @fieldFactoryName | array.join "," }})
+    ) : base({{ ownedEntities | array.each @fieldFactoryName | array.join "," }})
     {}
     {{- end }}
 }

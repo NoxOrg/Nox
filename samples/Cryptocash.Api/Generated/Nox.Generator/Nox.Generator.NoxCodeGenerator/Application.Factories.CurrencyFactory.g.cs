@@ -233,6 +233,6 @@ internal partial class CurrencyFactory : CurrencyFactoryBase
     (
         IEntityFactory<Cryptocash.Domain.BankNote, BankNoteCreateDto, BankNoteUpdateDto> banknotefactory,
         IEntityFactory<Cryptocash.Domain.ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto> exchangeratefactory
-    ): base(banknotefactory,exchangeratefactory)
+    ) : base(banknotefactory,exchangeratefactory)
     {}
 }

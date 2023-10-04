@@ -22,7 +22,7 @@ internal partial class UpdateBookingCommandHandler : UpdateBookingCommandHandler
 	public UpdateBookingCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> entityFactory): base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -35,7 +35,7 @@ internal abstract class UpdateBookingCommandHandlerBase : CommandBase<UpdateBook
 	public UpdateBookingCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> entityFactory): base(noxSolution)
+		IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;

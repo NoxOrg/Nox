@@ -19,7 +19,7 @@ internal class DeleteCurrencyByIdCommandHandler : DeleteCurrencyByIdCommandHandl
 {
 	public DeleteCurrencyByIdCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution): base(dbContext, noxSolution)
+		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
@@ -29,7 +29,7 @@ internal abstract class DeleteCurrencyByIdCommandHandlerBase : CommandBase<Delet
 
 	public DeleteCurrencyByIdCommandHandlerBase(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution): base(noxSolution)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}

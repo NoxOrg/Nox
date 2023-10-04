@@ -36,7 +36,7 @@ internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandlerBase
 
 	public Delete{{entity.Name}}For{{parent.Name}}CommandHandlerBase(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
-		NoxSolution noxSolution): base(noxSolution)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}

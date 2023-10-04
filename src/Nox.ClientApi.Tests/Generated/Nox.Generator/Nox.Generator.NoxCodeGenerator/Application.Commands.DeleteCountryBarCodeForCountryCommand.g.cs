@@ -33,7 +33,7 @@ internal partial class DeleteCountryBarCodeForCountryCommandHandlerBase : Comman
 
 	public DeleteCountryBarCodeForCountryCommandHandlerBase(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution): base(noxSolution)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}

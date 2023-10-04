@@ -32,7 +32,7 @@ internal partial class DeleteExchangeRateForCurrencyCommandHandlerBase : Command
 
 	public DeleteExchangeRateForCurrencyCommandHandlerBase(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution): base(noxSolution)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}

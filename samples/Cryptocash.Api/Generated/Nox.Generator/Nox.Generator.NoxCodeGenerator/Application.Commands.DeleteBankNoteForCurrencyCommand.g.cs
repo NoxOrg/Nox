@@ -32,7 +32,7 @@ internal partial class DeleteBankNoteForCurrencyCommandHandlerBase : CommandBase
 
 	public DeleteBankNoteForCurrencyCommandHandlerBase(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution): base(noxSolution)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}

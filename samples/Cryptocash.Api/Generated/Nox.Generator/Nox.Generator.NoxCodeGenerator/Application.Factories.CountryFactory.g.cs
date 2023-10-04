@@ -246,6 +246,6 @@ internal partial class CountryFactory : CountryFactoryBase
     (
         IEntityFactory<Cryptocash.Domain.CountryTimeZone, CountryTimeZoneCreateDto, CountryTimeZoneUpdateDto> countrytimezonefactory,
         IEntityFactory<Cryptocash.Domain.Holiday, HolidayCreateDto, HolidayUpdateDto> holidayfactory
-    ): base(countrytimezonefactory,holidayfactory)
+    ) : base(countrytimezonefactory,holidayfactory)
     {}
 }

@@ -37,7 +37,7 @@ internal abstract class CreateHolidayForCountryCommandHandlerBase : CommandBase<
 	public CreateHolidayForCountryCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<HolidayEntity, HolidayCreateDto, HolidayUpdateDto> entityFactory): base(noxSolution)
+		IEntityFactory<HolidayEntity, HolidayCreateDto, HolidayUpdateDto> entityFactory) : base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;

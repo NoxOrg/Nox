@@ -22,7 +22,7 @@ internal partial class UpdateStoreCommandHandler : UpdateStoreCommandHandlerBase
 	public UpdateStoreCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory): base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -35,7 +35,7 @@ internal abstract class UpdateStoreCommandHandlerBase : CommandBase<UpdateStoreC
 	public UpdateStoreCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory): base(noxSolution)
+		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;

@@ -32,7 +32,7 @@ internal partial class DeleteEmployeePhoneNumberForEmployeeCommandHandlerBase : 
 
 	public DeleteEmployeePhoneNumberForEmployeeCommandHandlerBase(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution): base(noxSolution)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
