@@ -28,7 +28,6 @@ internal static class CountryExtensions
         SetIfNotNull(entity?.OpenStreetMapsUrl, () => dto.OpenStreetMapsUrl =entity!.OpenStreetMapsUrl!.Value.ToString());
         SetIfNotNull(entity?.StartOfWeek, () => dto.StartOfWeek =entity!.StartOfWeek!.Value);
         SetIfNotNull(entity?.CountryUsedByCurrencyId, () => dto.CountryUsedByCurrencyId = entity!.CountryUsedByCurrencyId!.Value);
-        SetIfNotNull(entity?.CountryUsedByCurrency, () => dto.CountryUsedByCurrency = entity!.CountryUsedByCurrency!.ToDto());
         SetIfNotNull(entity?.CountryUsedByCommissions, () => dto.CountryUsedByCommissions = entity!.CountryUsedByCommissions.Select(e => e.ToDto()).ToList());
         SetIfNotNull(entity?.CountryUsedByVendingMachines, () => dto.CountryUsedByVendingMachines = entity!.CountryUsedByVendingMachines.Select(e => e.ToDto()).ToList());
         SetIfNotNull(entity?.CountryUsedByCustomers, () => dto.CountryUsedByCustomers = entity!.CountryUsedByCustomers.Select(e => e.ToDto()).ToList());

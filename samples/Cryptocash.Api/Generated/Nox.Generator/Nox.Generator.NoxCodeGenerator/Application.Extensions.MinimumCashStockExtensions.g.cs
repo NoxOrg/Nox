@@ -17,7 +17,6 @@ internal static class MinimumCashStockExtensions
         SetIfNotNull(entity?.Amount, () => dto.Amount =entity!.Amount!.ToDto());
         SetIfNotNull(entity?.MinimumCashStocksRequiredByVendingMachines, () => dto.MinimumCashStocksRequiredByVendingMachines = entity!.MinimumCashStocksRequiredByVendingMachines.Select(e => e.ToDto()).ToList());
         SetIfNotNull(entity?.MinimumCashStockRelatedCurrencyId, () => dto.MinimumCashStockRelatedCurrencyId = entity!.MinimumCashStockRelatedCurrencyId!.Value);
-        SetIfNotNull(entity?.MinimumCashStockRelatedCurrency, () => dto.MinimumCashStockRelatedCurrency = entity!.MinimumCashStockRelatedCurrency!.ToDto());
 
         return dto;
     }

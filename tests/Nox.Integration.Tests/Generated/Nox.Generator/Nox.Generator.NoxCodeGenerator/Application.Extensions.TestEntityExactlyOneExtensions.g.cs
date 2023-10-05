@@ -16,7 +16,6 @@ internal static class TestEntityExactlyOneExtensions
         SetIfNotNull(entity?.Id, () => dto.Id = entity!.Id.Value);
         SetIfNotNull(entity?.TextTestField, () => dto.TextTestField =entity!.TextTestField!.Value);
         SetIfNotNull(entity?.SecondTestEntityExactlyOneRelationshipId, () => dto.SecondTestEntityExactlyOneRelationshipId = entity!.SecondTestEntityExactlyOneRelationshipId!.Value);
-        SetIfNotNull(entity?.SecondTestEntityExactlyOneRelationship, () => dto.SecondTestEntityExactlyOneRelationship = entity!.SecondTestEntityExactlyOneRelationship!.ToDto());
 
         return dto;
     }

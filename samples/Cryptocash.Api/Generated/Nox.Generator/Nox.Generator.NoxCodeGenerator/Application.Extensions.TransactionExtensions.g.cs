@@ -19,9 +19,7 @@ internal static class TransactionExtensions
         SetIfNotNull(entity?.Amount, () => dto.Amount =entity!.Amount!.ToDto());
         SetIfNotNull(entity?.Reference, () => dto.Reference =entity!.Reference!.Value);
         SetIfNotNull(entity?.TransactionForCustomerId, () => dto.TransactionForCustomerId = entity!.TransactionForCustomerId!.Value);
-        SetIfNotNull(entity?.TransactionForCustomer, () => dto.TransactionForCustomer = entity!.TransactionForCustomer!.ToDto());
         SetIfNotNull(entity?.TransactionForBookingId, () => dto.TransactionForBookingId = entity!.TransactionForBookingId!.Value);
-        SetIfNotNull(entity?.TransactionForBooking, () => dto.TransactionForBooking = entity!.TransactionForBooking!.ToDto());
 
         return dto;
     }

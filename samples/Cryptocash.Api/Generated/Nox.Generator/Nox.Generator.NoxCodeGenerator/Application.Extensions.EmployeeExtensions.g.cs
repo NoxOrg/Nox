@@ -21,7 +21,6 @@ internal static class EmployeeExtensions
         SetIfNotNull(entity?.FirstWorkingDay, () => dto.FirstWorkingDay =entity!.FirstWorkingDay!.Value.ToDateTime(new System.TimeOnly(0, 0, 0)));
         SetIfNotNull(entity?.LastWorkingDay, () => dto.LastWorkingDay =entity!.LastWorkingDay!.Value.ToDateTime(new System.TimeOnly(0, 0, 0)));
         SetIfNotNull(entity?.EmployeeReviewingCashStockOrderId, () => dto.EmployeeReviewingCashStockOrderId = entity!.EmployeeReviewingCashStockOrderId!.Value);
-        SetIfNotNull(entity?.EmployeeReviewingCashStockOrder, () => dto.EmployeeReviewingCashStockOrder = entity!.EmployeeReviewingCashStockOrder!.ToDto());
         SetIfNotNull(entity?.EmployeeContactPhoneNumbers, () => dto.EmployeeContactPhoneNumbers = entity!.EmployeeContactPhoneNumbers.Select(e => e.ToDto()).ToList());
 
         return dto;

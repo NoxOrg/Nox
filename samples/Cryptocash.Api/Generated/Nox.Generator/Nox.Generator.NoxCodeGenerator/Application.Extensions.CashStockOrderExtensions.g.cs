@@ -19,8 +19,6 @@ internal static class CashStockOrderExtensions
         SetIfNotNull(entity?.DeliveryDateTime, () => dto.DeliveryDateTime =entity!.DeliveryDateTime!.Value);
         SetIfNotNull(entity?.Status, () => dto.Status =entity!.Status!.ToString());
         SetIfNotNull(entity?.CashStockOrderForVendingMachineId, () => dto.CashStockOrderForVendingMachineId = entity!.CashStockOrderForVendingMachineId!.Value);
-        SetIfNotNull(entity?.CashStockOrderForVendingMachine, () => dto.CashStockOrderForVendingMachine = entity!.CashStockOrderForVendingMachine!.ToDto());
-        SetIfNotNull(entity?.CashStockOrderReviewedByEmployee, () => dto.CashStockOrderReviewedByEmployee = entity!.CashStockOrderReviewedByEmployee!.ToDto());
 
         return dto;
     }

@@ -16,9 +16,7 @@ internal static class TestEntityTwoRelationshipsOneToOneExtensions
         SetIfNotNull(entity?.Id, () => dto.Id = entity!.Id.Value);
         SetIfNotNull(entity?.TextTestField, () => dto.TextTestField =entity!.TextTestField!.Value);
         SetIfNotNull(entity?.TestRelationshipOneId, () => dto.TestRelationshipOneId = entity!.TestRelationshipOneId!.Value);
-        SetIfNotNull(entity?.TestRelationshipOne, () => dto.TestRelationshipOne = entity!.TestRelationshipOne!.ToDto());
         SetIfNotNull(entity?.TestRelationshipTwoId, () => dto.TestRelationshipTwoId = entity!.TestRelationshipTwoId!.Value);
-        SetIfNotNull(entity?.TestRelationshipTwo, () => dto.TestRelationshipTwo = entity!.TestRelationshipTwo!.ToDto());
 
         return dto;
     }

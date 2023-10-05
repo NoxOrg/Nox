@@ -37,7 +37,6 @@ internal static class {{className}}
         {{- if relationship.ShouldGenerateForeignOnThisSide}}
         SetIfNotNull(entity?.{{relationship.Name}}Id, () => dto.{{relationship.Name}}Id = entity!.{{relationship.Name}}Id!.Value);
         {{- end}}
-        SetIfNotNull(entity?.{{relationship.Name}}, () => dto.{{relationship.Name}} = entity!.{{relationship.Name}}!.ToDto());
     {{-end}}
 {{- end }}
 {{- for relationship in entity.OwnedRelationships }}

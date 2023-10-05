@@ -23,7 +23,6 @@ internal static class CustomerExtensions
         SetIfNotNull(entity?.CustomerRelatedBookings, () => dto.CustomerRelatedBookings = entity!.CustomerRelatedBookings.Select(e => e.ToDto()).ToList());
         SetIfNotNull(entity?.CustomerRelatedTransactions, () => dto.CustomerRelatedTransactions = entity!.CustomerRelatedTransactions.Select(e => e.ToDto()).ToList());
         SetIfNotNull(entity?.CustomerBaseCountryId, () => dto.CustomerBaseCountryId = entity!.CustomerBaseCountryId!.Value);
-        SetIfNotNull(entity?.CustomerBaseCountry, () => dto.CustomerBaseCountry = entity!.CustomerBaseCountry!.ToDto());
 
         return dto;
     }

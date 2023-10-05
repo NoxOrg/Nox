@@ -22,9 +22,7 @@ internal static class VendingMachineExtensions
         SetIfNotNull(entity?.InstallationFootPrint, () => dto.InstallationFootPrint =entity!.InstallationFootPrint!.Value);
         SetIfNotNull(entity?.RentPerSquareMetre, () => dto.RentPerSquareMetre =entity!.RentPerSquareMetre!.ToDto());
         SetIfNotNull(entity?.VendingMachineInstallationCountryId, () => dto.VendingMachineInstallationCountryId = entity!.VendingMachineInstallationCountryId!.Value);
-        SetIfNotNull(entity?.VendingMachineInstallationCountry, () => dto.VendingMachineInstallationCountry = entity!.VendingMachineInstallationCountry!.ToDto());
         SetIfNotNull(entity?.VendingMachineContractedAreaLandLordId, () => dto.VendingMachineContractedAreaLandLordId = entity!.VendingMachineContractedAreaLandLordId!.Value);
-        SetIfNotNull(entity?.VendingMachineContractedAreaLandLord, () => dto.VendingMachineContractedAreaLandLord = entity!.VendingMachineContractedAreaLandLord!.ToDto());
         SetIfNotNull(entity?.VendingMachineRelatedBookings, () => dto.VendingMachineRelatedBookings = entity!.VendingMachineRelatedBookings.Select(e => e.ToDto()).ToList());
         SetIfNotNull(entity?.VendingMachineRelatedCashStockOrders, () => dto.VendingMachineRelatedCashStockOrders = entity!.VendingMachineRelatedCashStockOrders.Select(e => e.ToDto()).ToList());
         SetIfNotNull(entity?.VendingMachineRequiredMinimumCashStocks, () => dto.VendingMachineRequiredMinimumCashStocks = entity!.VendingMachineRequiredMinimumCashStocks.Select(e => e.ToDto()).ToList());

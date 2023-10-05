@@ -23,12 +23,8 @@ internal static class BookingExtensions
         SetIfNotNull(entity?.Status, () => dto.Status =entity!.Status!.ToString());
         SetIfNotNull(entity?.VatNumber, () => dto.VatNumber =entity!.VatNumber!.ToDto());
         SetIfNotNull(entity?.BookingForCustomerId, () => dto.BookingForCustomerId = entity!.BookingForCustomerId!.Value);
-        SetIfNotNull(entity?.BookingForCustomer, () => dto.BookingForCustomer = entity!.BookingForCustomer!.ToDto());
         SetIfNotNull(entity?.BookingRelatedVendingMachineId, () => dto.BookingRelatedVendingMachineId = entity!.BookingRelatedVendingMachineId!.Value);
-        SetIfNotNull(entity?.BookingRelatedVendingMachine, () => dto.BookingRelatedVendingMachine = entity!.BookingRelatedVendingMachine!.ToDto());
         SetIfNotNull(entity?.BookingFeesForCommissionId, () => dto.BookingFeesForCommissionId = entity!.BookingFeesForCommissionId!.Value);
-        SetIfNotNull(entity?.BookingFeesForCommission, () => dto.BookingFeesForCommission = entity!.BookingFeesForCommission!.ToDto());
-        SetIfNotNull(entity?.BookingRelatedTransaction, () => dto.BookingRelatedTransaction = entity!.BookingRelatedTransaction!.ToDto());
 
         return dto;
     }
