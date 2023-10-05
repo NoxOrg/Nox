@@ -22,7 +22,9 @@ internal abstract class WorkplaceDeletedDomainEventHandlerBase : INotificationHa
 
     public virtual async Task Handle(WorkplaceDeleted domainEvent, CancellationToken cancellationToken)
     {
-        await Task.CompletedTask;
+        var dto = domainEvent.Workplace.ToDto();
+        var @event = new IntegrationEvents.WorkplaceDeleted(dto);
+        await RaiseIntegrationEventAsync(@event);
     }
 
     protected async Task RaiseIntegrationEventAsync<TEvent>(TEvent @event) where TEvent : IIntegrationEvent

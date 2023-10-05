@@ -22,7 +22,7 @@ internal abstract class {{className}}Base : INotificationHandler<{{entity.Name}}
 
     public virtual async Task Handle({{entity.Name}}{{crudOperation}} domainEvent, CancellationToken cancellationToken)
     {
-{{- if entity.Persistence.Create.RaiseIntegrationEvents }}
+{{- if raiseIntegrationEvent }}
         var dto = domainEvent.{{entity.Name}}.ToDto();
         var @event = new IntegrationEvents.{{entity.Name}}{{crudOperation}}(dto);
         await RaiseIntegrationEventAsync(@event);

@@ -13,6 +13,7 @@ namespace ClientApi.Tests.Application.Messaging
     {
         private const string StoreOwnersControllerName = "api/storeowners";
         private const string CountriesControllerName = "api/countries";
+        private const string WorkplacesControllerName = "api/workplaces";
 
         public IntegrationEventsTests(
             ITestOutputHelper testOutput,
@@ -114,7 +115,28 @@ namespace ClientApi.Tests.Application.Messaging
             deleteResult.Should().NotBeNull();
 
             (await MassTransitTestHarness.Published.Any<Nox.Messaging.NoxMessageRecord<CountryCreated>>()).Should().BeTrue();
-            (await MassTransitTestHarness.Published.Any<Nox.Messaging.NoxMessageRecord<CountryDeleted>>()).Should().BeTrue();
+            (await MassTransitTestHarness.Published.Any<Nox.Messaging.NoxMessageRecord<CountryUpdated>>()).Should().BeTrue(); // Because we are changing the EntityState from Deleted to Modified for auditable entities and thus updated event is raised
+        }
+
+        [Fact]
+        public async Task Delete_Workplace_SendsIntegrationEvents()
+        {
+            // Arrange
+            var createDto = new WorkplaceCreateDto
+            {
+                Name = _fixture.Create<string>(),
+            };
+
+            var createResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(WorkplacesControllerName, createDto);
+
+            // Act
+            var headers = CreateEtagHeader(createResult?.Etag);
+            var deleteResult = await DeleteAsync($"{WorkplacesControllerName}/{createResult!.Id}", headers);
+
+            //Assert
+            deleteResult.Should().NotBeNull();
+
+            (await MassTransitTestHarness.Published.Any<Nox.Messaging.NoxMessageRecord<WorkplaceDeleted>>()).Should().BeTrue();
         }
 
         #endregion Integration Events

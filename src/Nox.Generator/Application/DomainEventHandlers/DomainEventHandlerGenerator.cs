@@ -17,7 +17,7 @@ internal class DomainEventHandlerGenerator : INoxCodeGenerator
         if (codeGeneratorState.Solution.Domain?.Entities is null)
             return;
 
-        foreach (var (crudOperation, entity) in GroupEntitiesWithDomainEventsByCrudOperation(codeGeneratorState.Solution.Domain.Entities))
+        foreach (var (crudOperation, raiseIntegrationEvent, entity) in GroupEntitiesWithDomainEventsByCrudOperation(codeGeneratorState.Solution.Domain.Entities))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -25,18 +25,19 @@ internal class DomainEventHandlerGenerator : INoxCodeGenerator
                 .WithClassName($"{entity.Name}{crudOperation}DomainEventHandler")
                 .WithFileNamePrefix($"Application.DomainEventHandlers")
                 .WithObject("crudOperation", crudOperation)
+                .WithObject("raiseIntegrationEvent", raiseIntegrationEvent)
                 .WithObject("entity", entity)
                 .GenerateSourceCodeFromResource("Application.DomainEventHandlers.DomainEventHandler");
         }
     }
 
-    private IEnumerable<(string CrudOperation, Entity entity)> GroupEntitiesWithDomainEventsByCrudOperation(IEnumerable<Entity> entities)
+    private IEnumerable<(string CrudOperation, bool RaiseIntegrationEvent, Entity entity)> GroupEntitiesWithDomainEventsByCrudOperation(IEnumerable<Entity> entities)
     {
         var entitiesWithDomainEvents = GetEntitiesThatHaveDomainEvents(entities);
 
-        return entitiesWithDomainEvents.Where(e => e.Persistence?.Create?.RaiseDomainEvents == true).Select(e => ("Created", e))
-            .Concat(entitiesWithDomainEvents.Where(e => e.Persistence?.Update?.RaiseDomainEvents == true).Select(e => ("Updated", e)))
-            .Concat(entitiesWithDomainEvents.Where(e => e.Persistence?.Delete?.RaiseDomainEvents == true).Select(e => ("Deleted", e)));
+        return entitiesWithDomainEvents.Where(e => e.Persistence?.Create?.RaiseDomainEvents == true).Select(e => ("Created", e.Persistence?.Create?.RaiseIntegrationEvents ?? false, e))
+            .Concat(entitiesWithDomainEvents.Where(e => e.Persistence?.Update?.RaiseDomainEvents == true).Select(e => ("Updated", e.Persistence?.Update?.RaiseIntegrationEvents ?? false, e)))
+            .Concat(entitiesWithDomainEvents.Where(e => e.Persistence?.Delete?.RaiseDomainEvents == true).Select(e => ("Deleted", e.Persistence?.Delete?.RaiseIntegrationEvents ?? false, e)));
     }
 
     private IEnumerable<Entity> GetEntitiesThatHaveDomainEvents(IEnumerable<Entity> entities)

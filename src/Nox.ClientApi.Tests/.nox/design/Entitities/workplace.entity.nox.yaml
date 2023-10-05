@@ -62,4 +62,4 @@ persistence:
         raiseEvents: domainEventsOnly
     delete:
         isEnabled: true
-        raiseEvents: domainEventsOnly
+        raiseEvents: domainAndIntegrationEvents
