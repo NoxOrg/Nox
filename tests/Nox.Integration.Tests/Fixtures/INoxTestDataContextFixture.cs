@@ -1,4 +1,4 @@
-﻿using TestWebApp.Infrastructure.Persistence;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Nox.Integration.Tests.Fixtures;
 
@@ -6,5 +6,5 @@ public interface INoxTestDataContextFixture
 {
     void RefreshDbContext();
 
-    TestWebAppDbContext DataContext { get; }
+    DbContext DataContext { get; }
 }

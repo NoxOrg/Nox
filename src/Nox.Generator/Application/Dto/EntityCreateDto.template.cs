@@ -10,6 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
+using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 using {{codeGeneratorState.DomainNameSpace}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto;
@@ -22,7 +23,7 @@ public partial class {{className}} : {{className}}Base
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public abstract class {{className}}Base : IEntityDto<{{entity.Name}}>
+public abstract class {{className}}Base : IEntityDto<{{entity.Name}}Entity>
 {
 {{- for key in entity.Keys }}
     {{- if key.Type == "Nuid" || key.Type == "AutoNumber" -}}

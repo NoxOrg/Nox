@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using {{codeGeneratorState.DomainNameSpace}};
 
+using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public partial class {{className}} : IEntityDto<{{entity.Name}}>
+public partial class {{className}} : IEntityDto<{{entity.Name}}Entity>
 {
 {{- for attribute in entity.Attributes }}
     {{- if componentsInfo[attribute.Name].IsUpdatable == false -}}

@@ -1,4 +1,5 @@
 using ClientApi.Application.Dto;
+using ClientApi.Tests.Controllers;
 using FluentAssertions;
 using Xunit.Abstractions;
 
@@ -6,7 +7,7 @@ namespace ClientApi.Tests.Application.DomainEventHandlers;
 
 public class StoreOwnerCreatedDomainEventHandlerTests: NoxWebApiTestBase
 {
-    private const string StoreOwnersControllerName = "api/storeowners";
+    
     public StoreOwnerCreatedDomainEventHandlerTests(ITestOutputHelper testOutput, NoxTestContainerService containerService, bool enableMessagingTests = false)  
         : base(testOutput, containerService, enableMessagingTests)
     {
@@ -24,8 +25,7 @@ public class StoreOwnerCreatedDomainEventHandlerTests: NoxWebApiTestBase
         };
 
         // Act
-        
-        var result = await PostAsync<StoreOwnerCreateDto,StoreOwnerDto> (StoreOwnersControllerName, createDto);
+        var result = await PostAsync<StoreOwnerCreateDto,StoreOwnerDto> (Endpoints.StoreOwnersUrl, createDto);
 
         //Assert
         result.Should().NotBeNull();
@@ -45,7 +45,7 @@ public class StoreOwnerCreatedDomainEventHandlerTests: NoxWebApiTestBase
         };
 
         // Act
-        var result = await PostAsync<StoreOwnerCreateDto,StoreOwnerDto> (StoreOwnersControllerName, createDto);
+        var result = await PostAsync<StoreOwnerCreateDto,StoreOwnerDto> (Endpoints.StoreOwnersUrl, createDto);
 
         //Assert
         result.Should().NotBeNull();

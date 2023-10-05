@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using SampleWebApp.Domain;
+using CountryEntity = SampleWebApp.Domain.Country;
 
 namespace SampleWebApp.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class CountryDto : CountryDtoBase
 /// <summary>
 /// The list of countries.
 /// </summary>
-public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<Country>
+public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<CountryEntity>
 {
 
     #region Validation

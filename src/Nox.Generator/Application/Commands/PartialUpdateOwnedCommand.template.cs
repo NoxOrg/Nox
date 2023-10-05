@@ -11,6 +11,7 @@ using Nox.Factories;
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
+using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 {{- if isSingleRelationship }}
@@ -23,19 +24,19 @@ internal partial class PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHand
 	public PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
-internal abstract class PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHandlerBase: CommandBase<PartialUpdate{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}>, IRequestHandler <PartialUpdate{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}KeyDto?>
+internal abstract class PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHandlerBase: CommandBase<PartialUpdate{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}Entity>, IRequestHandler <PartialUpdate{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}KeyDto?>
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
-	public IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> EntityFactory { get; }
+	public IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> EntityFactory { get; }
 
 	public PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHandlerBase(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
