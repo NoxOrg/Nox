@@ -24,13 +24,12 @@ namespace Nox.Configuration
     internal sealed class NoxOptions : INoxOptions
     {
         private Assembly? _clientAssembly;
-        private NoxSolution? _noxSolution;
         private Action<IBusRegistrationConfigurator, DatabaseServerProvider>? _configureMassTransitTransactionalOutbox;
         private Action<IServiceCollection>? _configureDatabaseContext;
         private Action<LoggerConfiguration>? _loggerConfigurationAction;
-        private Action<IServiceCollection>? _configureSwagger;
 
         private bool _withNoxLogging = true;
+        private bool _withSwagger = false;
 
         public INoxOptions WithoutNoxLogging()
         {
@@ -127,11 +126,7 @@ namespace Nox.Configuration
 
         public INoxOptions WithSwagger()
         {
-            _configureSwagger = services =>
-                services.AddSwaggerGen(opts =>
-                {
-                    opts.SchemaFilter<DeltaSchemaFilter>();
-                });
+            _withSwagger = true;
 
             return this;
         }
@@ -146,10 +141,10 @@ namespace Nox.Configuration
                 .Select(Assembly.Load)
                 .Union(new[] { _clientAssembly! }).ToArray();
 
-            _noxSolution = CreateSolution(services.BuildServiceProvider());
+            var noxSolution = CreateSolution(services.BuildServiceProvider());
 
             services
-                .AddSingleton(typeof(NoxSolution), _noxSolution)
+                .AddSingleton(typeof(NoxSolution), noxSolution)
                 .AddSingleton(typeof(INoxClientAssemblyProvider), serviceProvider => new NoxClientAssemblyProvider(_clientAssembly))
                 .AddNoxHttpDefaults()
                 .AddSecretsResolver()
@@ -158,14 +153,14 @@ namespace Nox.Configuration
                 .AddNoxProviders()
                 .AddNoxDtos();
 
-            TryAddNoxMessaging(services, _noxSolution, noxAndEntryAssemblies);
-            TryAddNoxDatabase(services, _noxSolution, noxAndEntryAssemblies);
+            AddNoxMessaging(services, noxSolution);
+            AddNoxDatabase(services, noxSolution, noxAndEntryAssemblies);
 
-            TryAddLogging(webApplicationBuilder);
-            TryAddSwagger(services);
+            AddLogging(webApplicationBuilder);
+            AddSwagger(services);
         }
 
-        private bool TryAddLogging(WebApplicationBuilder? webApplicationBuilder)
+        private void AddLogging(WebApplicationBuilder? webApplicationBuilder)
         {
             if (webApplicationBuilder != null && _withNoxLogging)
             {
@@ -180,12 +175,10 @@ namespace Nox.Configuration
 
                     _loggerConfigurationAction?.Invoke(loggerConfig);
                 });
-                return true;
             }
-            return false;
         }
 
-        private bool TryAddNoxDatabase(IServiceCollection services, NoxSolution noxSolution, Assembly[] noxAssemblies)
+        private void AddNoxDatabase(IServiceCollection services, NoxSolution noxSolution, Assembly[] noxAssemblies)
         {
             if (noxSolution.Infrastructure?.Persistence is { DatabaseServer: not null })
             {
@@ -210,17 +203,14 @@ namespace Nox.Configuration
 
                 // Add DbContexts
                 _configureDatabaseContext?.Invoke(services);
-
-                return true;
             }
-            return false;
         }
 
-        private bool TryAddNoxMessaging(IServiceCollection services, NoxSolution noxSolution, Assembly[] noxAssemblies)
+        private void AddNoxMessaging(IServiceCollection services, NoxSolution noxSolution)
         {
             if (noxSolution.Infrastructure?.Messaging?.IntegrationEventServer is null)
             {
-                return false;
+                return;
             }
 
             MessagingServer messagingConfig = noxSolution.Infrastructure!.Messaging!.IntegrationEventServer!;
@@ -240,18 +230,16 @@ namespace Nox.Configuration
 
                 _configureMassTransitTransactionalOutbox?.Invoke(x, noxSolution.Infrastructure.Persistence.DatabaseServer.Provider);
             });
-
-            return true;
         }
 
-        private bool TryAddSwagger(IServiceCollection services)
+        private void AddSwagger(IServiceCollection services)
         {
-            if (_configureSwagger != null)
+            if (!_withSwagger) return;
+
+            services.AddSwaggerGen(opts =>
             {
-                _configureSwagger(services);
-                return true;
-            }
-            return false;
+                opts.SchemaFilter<DeltaSchemaFilter>();
+            });
         }
 
         private static NoxSolution CreateSolution(IServiceProvider serviceProvider)
@@ -261,7 +249,7 @@ namespace Nox.Configuration
                 {
                     var secretsConfig = args.SecretsConfig;
                     var secretKeys = args.Variables;
-                    // TODO Create Nox Solution withou using the container
+                    // TODO Create Nox Solution without using the container
                     // This is configuration and is needed in service configuration
                     var resolver = serviceProvider.GetRequiredService<INoxSecretsResolver>();
                     resolver.Configure(secretsConfig!, Assembly.GetEntryAssembly());
