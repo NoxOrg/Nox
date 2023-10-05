@@ -1,0 +1,44 @@
+﻿// Generated
+
+#nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+using Nox.Abstractions;
+using Nox.Application.Dto;
+using Nox.Domain;
+using Nox.Extensions;
+using Nox.Types;
+
+using TestEntityOwnedRelationshipOneOrManyEntity = TestWebApp.Domain.TestEntityOwnedRelationshipOneOrMany;
+using TestWebApp.Domain;
+
+namespace TestWebApp.Application.Dto;
+
+public partial class TestEntityOwnedRelationshipOneOrManyCreateDto : TestEntityOwnedRelationshipOneOrManyCreateDtoBase
+{
+
+}
+
+/// <summary>
+/// .
+/// </summary>
+public abstract class TestEntityOwnedRelationshipOneOrManyCreateDtoBase : IEntityDto<TestEntityOwnedRelationshipOneOrManyEntity>
+{
+    /// <summary>
+    ///  (Required).
+    /// </summary>
+    [Required(ErrorMessage = "Id is required")]
+    public System.String Id { get; set; } = default!;
+    /// <summary>
+    ///  (Required).
+    /// </summary>
+    [Required(ErrorMessage = "TextTestField is required")]
+    
+    public virtual System.String TextTestField { get; set; } = default!;
+
+    /// <summary>
+    /// TestEntityOwnedRelationshipOneOrMany Test entity relationship to SecondTestEntityOwnedRelationshipOneOrMany OneOrMany SecondTestEntityOwnedRelationshipOneOrManies
+    /// </summary>
+    public virtual List<SecondTestEntityOwnedRelationshipOneOrManyCreateDto> SecondTestEntityOwnedRelationshipOneOrMany { get; set; } = new();
+}
