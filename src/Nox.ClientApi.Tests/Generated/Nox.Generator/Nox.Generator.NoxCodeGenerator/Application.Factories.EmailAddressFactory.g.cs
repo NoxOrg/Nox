@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
 using ClientApi.Domain;
-using EmailAddress = ClientApi.Domain.EmailAddress;
+using EmailAddressEntity = ClientApi.Domain.EmailAddress;
 
 namespace ClientApi.Application.Factories;
 
-internal abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto>
+internal abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddressEntity, EmailAddressCreateDto, EmailAddressUpdateDto>
 {
 
     public EmailAddressFactoryBase
@@ -32,17 +32,17 @@ internal abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddress, E
     {
     }
 
-    public virtual EmailAddress CreateEntity(EmailAddressCreateDto createDto)
+    public virtual EmailAddressEntity CreateEntity(EmailAddressCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(EmailAddress entity, EmailAddressUpdateDto updateDto)
+    public virtual void UpdateEntity(EmailAddressEntity entity, EmailAddressUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(EmailAddress entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(EmailAddressEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -55,7 +55,7 @@ internal abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddress, E
         return entity;
     }
 
-    private void UpdateEntityInternal(EmailAddress entity, EmailAddressUpdateDto updateDto)
+    private void UpdateEntityInternal(EmailAddressEntity entity, EmailAddressUpdateDto updateDto)
     {
         if (updateDto.Email == null) { entity.Email = null; } else {
             entity.Email = ClientApi.Domain.EmailAddressMetadata.CreateEmail(updateDto.Email.ToValueFromNonNull<System.String>());
@@ -65,7 +65,7 @@ internal abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddress, E
         }
     }
 
-    private void PartialUpdateEntityInternal(EmailAddress entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(EmailAddressEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("Email", out var EmailUpdateValue))

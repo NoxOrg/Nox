@@ -10,6 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
+using StoreLicenseEntity = ClientApi.Domain.StoreLicense;
 using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
@@ -22,7 +23,7 @@ public partial class StoreLicenseCreateDto : StoreLicenseCreateDtoBase
 /// <summary>
 /// Store license info.
 /// </summary>
-public abstract class StoreLicenseCreateDtoBase : IEntityDto<StoreLicense>
+public abstract class StoreLicenseCreateDtoBase : IEntityDto<StoreLicenseEntity>
 {
     /// <summary>
     /// License issuer (Required).

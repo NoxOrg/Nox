@@ -10,6 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
+using CustomerEntity = Cryptocash.Domain.Customer;
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -22,7 +23,7 @@ public partial class CustomerCreateDto : CustomerCreateDtoBase
 /// <summary>
 /// Customer definition and related data.
 /// </summary>
-public abstract class CustomerCreateDtoBase : IEntityDto<Customer>
+public abstract class CustomerCreateDtoBase : IEntityDto<CustomerEntity>
 {
     /// <summary>
     /// Customer's first name (Required).

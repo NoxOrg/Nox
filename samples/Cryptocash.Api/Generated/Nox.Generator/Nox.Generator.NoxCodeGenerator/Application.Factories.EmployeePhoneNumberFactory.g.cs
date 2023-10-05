@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Domain;
-using EmployeePhoneNumber = Cryptocash.Domain.EmployeePhoneNumber;
+using EmployeePhoneNumberEntity = Cryptocash.Domain.EmployeePhoneNumber;
 
 namespace Cryptocash.Application.Factories;
 
-internal abstract class EmployeePhoneNumberFactoryBase : IEntityFactory<EmployeePhoneNumber, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto>
+internal abstract class EmployeePhoneNumberFactoryBase : IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto>
 {
 
     public EmployeePhoneNumberFactoryBase
@@ -32,17 +32,17 @@ internal abstract class EmployeePhoneNumberFactoryBase : IEntityFactory<Employee
     {
     }
 
-    public virtual EmployeePhoneNumber CreateEntity(EmployeePhoneNumberCreateDto createDto)
+    public virtual EmployeePhoneNumberEntity CreateEntity(EmployeePhoneNumberCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(EmployeePhoneNumber entity, EmployeePhoneNumberUpdateDto updateDto)
+    public virtual void UpdateEntity(EmployeePhoneNumberEntity entity, EmployeePhoneNumberUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(EmployeePhoneNumber entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(EmployeePhoneNumberEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -55,13 +55,13 @@ internal abstract class EmployeePhoneNumberFactoryBase : IEntityFactory<Employee
         return entity;
     }
 
-    private void UpdateEntityInternal(EmployeePhoneNumber entity, EmployeePhoneNumberUpdateDto updateDto)
+    private void UpdateEntityInternal(EmployeePhoneNumberEntity entity, EmployeePhoneNumberUpdateDto updateDto)
     {
         entity.PhoneNumberType = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumberType(updateDto.PhoneNumberType.NonNullValue<System.String>());
         entity.PhoneNumber = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumber(updateDto.PhoneNumber.NonNullValue<System.String>());
     }
 
-    private void PartialUpdateEntityInternal(EmployeePhoneNumber entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(EmployeePhoneNumberEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("PhoneNumberType", out var PhoneNumberTypeUpdateValue))

@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using Cryptocash.Domain;
+using MinimumCashStockEntity = Cryptocash.Domain.MinimumCashStock;
 
 namespace Cryptocash.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class MinimumCashStockDto : MinimumCashStockDtoBase
 /// <summary>
 /// Minimum cash stock required for vending machine.
 /// </summary>
-public abstract class MinimumCashStockDtoBase : EntityDtoBase, IEntityDto<MinimumCashStock>
+public abstract class MinimumCashStockDtoBase : EntityDtoBase, IEntityDto<MinimumCashStockEntity>
 {
 
     #region Validation

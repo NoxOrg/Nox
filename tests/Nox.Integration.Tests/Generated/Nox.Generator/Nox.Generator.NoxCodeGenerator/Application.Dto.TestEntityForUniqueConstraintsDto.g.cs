@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using TestWebApp.Domain;
+using TestEntityForUniqueConstraintsEntity = TestWebApp.Domain.TestEntityForUniqueConstraints;
 
 namespace TestWebApp.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class TestEntityForUniqueConstraintsDto : TestEntityForUniqueCons
 /// <summary>
 /// Entity created for testing constraints.
 /// </summary>
-public abstract class TestEntityForUniqueConstraintsDtoBase : EntityDtoBase, IEntityDto<TestEntityForUniqueConstraints>
+public abstract class TestEntityForUniqueConstraintsDtoBase : EntityDtoBase, IEntityDto<TestEntityForUniqueConstraintsEntity>
 {
 
     #region Validation

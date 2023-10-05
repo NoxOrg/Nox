@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using TestWebApp.Domain;
+using TestEntityWithNuidEntity = TestWebApp.Domain.TestEntityWithNuid;
 
 namespace TestWebApp.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class TestEntityWithNuidDto : TestEntityWithNuidDtoBase
 /// <summary>
 /// Entity created for testing nuid.
 /// </summary>
-public abstract class TestEntityWithNuidDtoBase : EntityDtoBase, IEntityDto<TestEntityWithNuid>
+public abstract class TestEntityWithNuidDtoBase : EntityDtoBase, IEntityDto<TestEntityWithNuidEntity>
 {
 
     #region Validation

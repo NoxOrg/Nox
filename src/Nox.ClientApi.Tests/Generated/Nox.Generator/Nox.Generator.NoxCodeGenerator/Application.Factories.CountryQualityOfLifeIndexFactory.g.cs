@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
 using ClientApi.Domain;
-using CountryQualityOfLifeIndex = ClientApi.Domain.CountryQualityOfLifeIndex;
+using CountryQualityOfLifeIndexEntity = ClientApi.Domain.CountryQualityOfLifeIndex;
 
 namespace ClientApi.Application.Factories;
 
-internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<CountryQualityOfLifeIndex, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto>
+internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto>
 {
 
     public CountryQualityOfLifeIndexFactoryBase
@@ -32,17 +32,17 @@ internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<Co
     {
     }
 
-    public virtual CountryQualityOfLifeIndex CreateEntity(CountryQualityOfLifeIndexCreateDto createDto)
+    public virtual CountryQualityOfLifeIndexEntity CreateEntity(CountryQualityOfLifeIndexCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(CountryQualityOfLifeIndex entity, CountryQualityOfLifeIndexUpdateDto updateDto)
+    public virtual void UpdateEntity(CountryQualityOfLifeIndexEntity entity, CountryQualityOfLifeIndexUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(CountryQualityOfLifeIndex entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(CountryQualityOfLifeIndexEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -55,12 +55,12 @@ internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<Co
         return entity;
     }
 
-    private void UpdateEntityInternal(CountryQualityOfLifeIndex entity, CountryQualityOfLifeIndexUpdateDto updateDto)
+    private void UpdateEntityInternal(CountryQualityOfLifeIndexEntity entity, CountryQualityOfLifeIndexUpdateDto updateDto)
     {
         entity.IndexRating = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateIndexRating(updateDto.IndexRating.NonNullValue<System.Int32>());
     }
 
-    private void PartialUpdateEntityInternal(CountryQualityOfLifeIndex entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(CountryQualityOfLifeIndexEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("IndexRating", out var IndexRatingUpdateValue))

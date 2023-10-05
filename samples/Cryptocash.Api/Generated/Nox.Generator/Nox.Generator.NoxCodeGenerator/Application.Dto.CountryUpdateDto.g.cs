@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Cryptocash.Domain;
 
+using CountryEntity = Cryptocash.Domain.Country;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Country and related data.
 /// </summary>
-public partial class CountryUpdateDto : IEntityDto<Country>
+public partial class CountryUpdateDto : IEntityDto<CountryEntity>
 {
     /// <summary>
     /// Country's name (Required).

@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using TestWebApp.Application.Dto;
 using TestWebApp.Domain;
-using TestEntityZeroOrOne = TestWebApp.Domain.TestEntityZeroOrOne;
+using TestEntityZeroOrOneEntity = TestWebApp.Domain.TestEntityZeroOrOne;
 
 namespace TestWebApp.Application.Factories;
 
-internal abstract class TestEntityZeroOrOneFactoryBase : IEntityFactory<TestEntityZeroOrOne, TestEntityZeroOrOneCreateDto, TestEntityZeroOrOneUpdateDto>
+internal abstract class TestEntityZeroOrOneFactoryBase : IEntityFactory<TestEntityZeroOrOneEntity, TestEntityZeroOrOneCreateDto, TestEntityZeroOrOneUpdateDto>
 {
 
     public TestEntityZeroOrOneFactoryBase
@@ -32,17 +32,17 @@ internal abstract class TestEntityZeroOrOneFactoryBase : IEntityFactory<TestEnti
     {
     }
 
-    public virtual TestEntityZeroOrOne CreateEntity(TestEntityZeroOrOneCreateDto createDto)
+    public virtual TestEntityZeroOrOneEntity CreateEntity(TestEntityZeroOrOneCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(TestEntityZeroOrOne entity, TestEntityZeroOrOneUpdateDto updateDto)
+    public virtual void UpdateEntity(TestEntityZeroOrOneEntity entity, TestEntityZeroOrOneUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(TestEntityZeroOrOne entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(TestEntityZeroOrOneEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -55,12 +55,12 @@ internal abstract class TestEntityZeroOrOneFactoryBase : IEntityFactory<TestEnti
         return entity;
     }
 
-    private void UpdateEntityInternal(TestEntityZeroOrOne entity, TestEntityZeroOrOneUpdateDto updateDto)
+    private void UpdateEntityInternal(TestEntityZeroOrOneEntity entity, TestEntityZeroOrOneUpdateDto updateDto)
     {
         entity.TextTestField = TestWebApp.Domain.TestEntityZeroOrOneMetadata.CreateTextTestField(updateDto.TextTestField.NonNullValue<System.String>());
     }
 
-    private void PartialUpdateEntityInternal(TestEntityZeroOrOne entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(TestEntityZeroOrOneEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("TextTestField", out var TextTestFieldUpdateValue))

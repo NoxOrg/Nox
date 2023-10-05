@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using Cryptocash.Domain;
+using EmployeeEntity = Cryptocash.Domain.Employee;
 
 namespace Cryptocash.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class EmployeeDto : EmployeeDtoBase
 /// <summary>
 /// Employee definition and related data.
 /// </summary>
-public abstract class EmployeeDtoBase : EntityDtoBase, IEntityDto<Employee>
+public abstract class EmployeeDtoBase : EntityDtoBase, IEntityDto<EmployeeEntity>
 {
 
     #region Validation

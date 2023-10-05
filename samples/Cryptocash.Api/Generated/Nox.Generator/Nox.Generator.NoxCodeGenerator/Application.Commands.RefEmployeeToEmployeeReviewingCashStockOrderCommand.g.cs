@@ -15,6 +15,7 @@ using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using EmployeeEntity = Cryptocash.Domain.Employee;
 
 namespace Cryptocash.Application.Commands;
 
@@ -62,7 +63,7 @@ internal partial class DeleteAllRefEmployeeToEmployeeReviewingCashStockOrderComm
 	{ }
 }
 
-internal abstract class RefEmployeeToEmployeeReviewingCashStockOrderCommandHandlerBase<TRequest> : CommandBase<TRequest, Employee>,
+internal abstract class RefEmployeeToEmployeeReviewingCashStockOrderCommandHandlerBase<TRequest> : CommandBase<TRequest, EmployeeEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefEmployeeToEmployeeReviewingCashStockOrderCommand
 {
 	public CryptocashDbContext DbContext { get; }
@@ -92,7 +93,7 @@ internal abstract class RefEmployeeToEmployeeReviewingCashStockOrderCommandHandl
 			return false;
 		}
 
-		CashStockOrder? relatedEntity = null!;
+		Cryptocash.Domain.CashStockOrder? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
 			var relatedKeyId = Cryptocash.Domain.CashStockOrderMetadata.CreateId(request.RelatedEntityKeyDto.keyId);

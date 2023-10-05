@@ -15,6 +15,7 @@ using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using StoreEntity = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Commands;
 
@@ -62,7 +63,7 @@ internal partial class DeleteAllRefStoreToLicenseCommandHandler
 	{ }
 }
 
-internal abstract class RefStoreToLicenseCommandHandlerBase<TRequest> : CommandBase<TRequest, Store>,
+internal abstract class RefStoreToLicenseCommandHandlerBase<TRequest> : CommandBase<TRequest, StoreEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefStoreToLicenseCommand
 {
 	public ClientApiDbContext DbContext { get; }
@@ -92,7 +93,7 @@ internal abstract class RefStoreToLicenseCommandHandlerBase<TRequest> : CommandB
 			return false;
 		}
 
-		StoreLicense? relatedEntity = null!;
+		ClientApi.Domain.StoreLicense? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
 			var relatedKeyId = ClientApi.Domain.StoreLicenseMetadata.CreateId(request.RelatedEntityKeyDto.keyId);

@@ -9,27 +9,27 @@ using Nox.Solution;
 using Nox.Types;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
-using TestEntityZeroOrOneToExactlyOne = TestWebApp.Domain.TestEntityZeroOrOneToExactlyOne;
+using TestEntityZeroOrOneToExactlyOneEntity = TestWebApp.Domain.TestEntityZeroOrOneToExactlyOne;
 
 namespace TestWebApp.Application.Commands;
 
 public record DeleteTestEntityZeroOrOneToExactlyOneByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteTestEntityZeroOrOneToExactlyOneByIdCommandHandler:DeleteTestEntityZeroOrOneToExactlyOneByIdCommandHandlerBase
+internal class DeleteTestEntityZeroOrOneToExactlyOneByIdCommandHandler : DeleteTestEntityZeroOrOneToExactlyOneByIdCommandHandlerBase
 {
 	public DeleteTestEntityZeroOrOneToExactlyOneByIdCommandHandler(
 		TestWebAppDbContext dbContext,
-		NoxSolution noxSolution): base(dbContext, noxSolution)
+		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
-internal abstract class DeleteTestEntityZeroOrOneToExactlyOneByIdCommandHandlerBase: CommandBase<DeleteTestEntityZeroOrOneToExactlyOneByIdCommand,TestEntityZeroOrOneToExactlyOne>, IRequestHandler<DeleteTestEntityZeroOrOneToExactlyOneByIdCommand, bool>
+internal abstract class DeleteTestEntityZeroOrOneToExactlyOneByIdCommandHandlerBase : CommandBase<DeleteTestEntityZeroOrOneToExactlyOneByIdCommand, TestEntityZeroOrOneToExactlyOneEntity>, IRequestHandler<DeleteTestEntityZeroOrOneToExactlyOneByIdCommand, bool>
 {
 	public TestWebAppDbContext DbContext { get; }
 
 	public DeleteTestEntityZeroOrOneToExactlyOneByIdCommandHandlerBase(
 		TestWebAppDbContext dbContext,
-		NoxSolution noxSolution): base(noxSolution)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}

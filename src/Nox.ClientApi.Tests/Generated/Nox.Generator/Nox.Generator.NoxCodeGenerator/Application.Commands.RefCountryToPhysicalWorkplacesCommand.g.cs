@@ -15,6 +15,7 @@ using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
@@ -62,7 +63,7 @@ internal partial class DeleteAllRefCountryToPhysicalWorkplacesCommandHandler
 	{ }
 }
 
-internal abstract class RefCountryToPhysicalWorkplacesCommandHandlerBase<TRequest> : CommandBase<TRequest, Country>,
+internal abstract class RefCountryToPhysicalWorkplacesCommandHandlerBase<TRequest> : CommandBase<TRequest, CountryEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCountryToPhysicalWorkplacesCommand
 {
 	public ClientApiDbContext DbContext { get; }
@@ -92,7 +93,7 @@ internal abstract class RefCountryToPhysicalWorkplacesCommandHandlerBase<TReques
 			return false;
 		}
 
-		Workplace? relatedEntity = null!;
+		ClientApi.Domain.Workplace? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
 			var relatedKeyId = ClientApi.Domain.WorkplaceMetadata.CreateId(request.RelatedEntityKeyDto.keyId);

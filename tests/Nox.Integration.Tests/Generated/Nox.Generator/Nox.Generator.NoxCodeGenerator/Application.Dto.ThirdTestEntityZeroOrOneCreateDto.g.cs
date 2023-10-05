@@ -10,6 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
+using ThirdTestEntityZeroOrOneEntity = TestWebApp.Domain.ThirdTestEntityZeroOrOne;
 using TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
@@ -22,7 +23,7 @@ public partial class ThirdTestEntityZeroOrOneCreateDto : ThirdTestEntityZeroOrOn
 /// <summary>
 /// .
 /// </summary>
-public abstract class ThirdTestEntityZeroOrOneCreateDtoBase : IEntityDto<ThirdTestEntityZeroOrOne>
+public abstract class ThirdTestEntityZeroOrOneCreateDtoBase : IEntityDto<ThirdTestEntityZeroOrOneEntity>
 {
     /// <summary>
     ///  (Required).

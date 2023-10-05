@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ClientApi.Domain;
 
+using CountryEntity = ClientApi.Domain.Country;
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Country Entity.
 /// </summary>
-public partial class CountryUpdateDto : IEntityDto<Country>
+public partial class CountryUpdateDto : IEntityDto<CountryEntity>
 {
     /// <summary>
     /// The Country Name (Required).

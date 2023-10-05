@@ -10,6 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
+using TestEntityOneOrManyToExactlyOneEntity = TestWebApp.Domain.TestEntityOneOrManyToExactlyOne;
 using TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
@@ -22,7 +23,7 @@ public partial class TestEntityOneOrManyToExactlyOneCreateDto : TestEntityOneOrM
 /// <summary>
 /// .
 /// </summary>
-public abstract class TestEntityOneOrManyToExactlyOneCreateDtoBase : IEntityDto<TestEntityOneOrManyToExactlyOne>
+public abstract class TestEntityOneOrManyToExactlyOneCreateDtoBase : IEntityDto<TestEntityOneOrManyToExactlyOneEntity>
 {
     /// <summary>
     ///  (Required).

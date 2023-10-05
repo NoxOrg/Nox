@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using Cryptocash.Domain;
+using HolidayEntity = Cryptocash.Domain.Holiday;
 
 namespace Cryptocash.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class HolidayDto : HolidayDtoBase
 /// <summary>
 /// Holiday related to country.
 /// </summary>
-public abstract class HolidayDtoBase : EntityDtoBase, IEntityDto<Holiday>
+public abstract class HolidayDtoBase : EntityDtoBase, IEntityDto<HolidayEntity>
 {
 
     #region Validation

@@ -9,27 +9,27 @@ using Nox.Solution;
 using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
-using RatingProgram = ClientApi.Domain.RatingProgram;
+using RatingProgramEntity = ClientApi.Domain.RatingProgram;
 
 namespace ClientApi.Application.Commands;
 
 public record DeleteRatingProgramByIdCommand(System.Guid keyStoreId, System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteRatingProgramByIdCommandHandler:DeleteRatingProgramByIdCommandHandlerBase
+internal class DeleteRatingProgramByIdCommandHandler : DeleteRatingProgramByIdCommandHandlerBase
 {
 	public DeleteRatingProgramByIdCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution): base(dbContext, noxSolution)
+		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
-internal abstract class DeleteRatingProgramByIdCommandHandlerBase: CommandBase<DeleteRatingProgramByIdCommand,RatingProgram>, IRequestHandler<DeleteRatingProgramByIdCommand, bool>
+internal abstract class DeleteRatingProgramByIdCommandHandlerBase : CommandBase<DeleteRatingProgramByIdCommand, RatingProgramEntity>, IRequestHandler<DeleteRatingProgramByIdCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 
 	public DeleteRatingProgramByIdCommandHandlerBase(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution): base(noxSolution)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}

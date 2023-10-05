@@ -15,6 +15,7 @@ using Nox.Types;
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
+using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
@@ -62,7 +63,7 @@ internal partial class DeleteAllRef{{entity.Name}}To{{relationship.Name}}Command
 	{ }
 }
 
-internal abstract class Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBase<TRequest> : CommandBase<TRequest, {{entity.Name}}>,
+internal abstract class Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBase<TRequest> : CommandBase<TRequest, {{entity.Name}}Entity>,
 	IRequestHandler <TRequest, bool> where TRequest : Ref{{entity.Name}}To{{relationship.Name}}Command
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
@@ -95,7 +96,7 @@ internal abstract class Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerB
 			return false;
 		}
 
-		{{relatedEntity.Name}}? relatedEntity = null!;
+		{{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
 			{{- for key in relatedEntity.Keys }}

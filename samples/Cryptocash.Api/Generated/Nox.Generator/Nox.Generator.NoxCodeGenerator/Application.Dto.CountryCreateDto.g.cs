@@ -10,6 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
+using CountryEntity = Cryptocash.Domain.Country;
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -22,7 +23,7 @@ public partial class CountryCreateDto : CountryCreateDtoBase
 /// <summary>
 /// Country and related data.
 /// </summary>
-public abstract class CountryCreateDtoBase : IEntityDto<Country>
+public abstract class CountryCreateDtoBase : IEntityDto<CountryEntity>
 {
     /// <summary>
     /// Country unique identifier (Required).

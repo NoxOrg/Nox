@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using ClientApi.Domain;
+using StoreLicenseEntity = ClientApi.Domain.StoreLicense;
 
 namespace ClientApi.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class StoreLicenseDto : StoreLicenseDtoBase
 /// <summary>
 /// Store license info.
 /// </summary>
-public abstract class StoreLicenseDtoBase : EntityDtoBase, IEntityDto<StoreLicense>
+public abstract class StoreLicenseDtoBase : EntityDtoBase, IEntityDto<StoreLicenseEntity>
 {
 
     #region Validation

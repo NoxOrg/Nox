@@ -11,6 +11,7 @@ using Nox.Factories;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using HolidayEntity = Cryptocash.Domain.Holiday;
 
 namespace Cryptocash.Application.Commands;
 public record DeleteHolidayForCountryCommand(CountryKeyDto ParentKeyDto, HolidayKeyDto EntityKeyDto) : IRequest <bool>;
@@ -25,13 +26,13 @@ internal partial class DeleteHolidayForCountryCommandHandler : DeleteHolidayForC
 	}
 }
 
-internal partial class DeleteHolidayForCountryCommandHandlerBase : CommandBase<DeleteHolidayForCountryCommand, Holiday>, IRequestHandler <DeleteHolidayForCountryCommand, bool>
+internal partial class DeleteHolidayForCountryCommandHandlerBase : CommandBase<DeleteHolidayForCountryCommand, HolidayEntity>, IRequestHandler <DeleteHolidayForCountryCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public DeleteHolidayForCountryCommandHandlerBase(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution): base(noxSolution)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}

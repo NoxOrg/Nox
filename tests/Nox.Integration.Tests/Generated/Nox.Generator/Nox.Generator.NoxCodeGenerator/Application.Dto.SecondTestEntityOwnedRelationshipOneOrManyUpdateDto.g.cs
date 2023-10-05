@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using TestWebApp.Domain;
 
+using SecondTestEntityOwnedRelationshipOneOrManyEntity = TestWebApp.Domain.SecondTestEntityOwnedRelationshipOneOrMany;
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
 /// .
 /// </summary>
-public partial class SecondTestEntityOwnedRelationshipOneOrManyUpdateDto : IEntityDto<SecondTestEntityOwnedRelationshipOneOrMany>
+public partial class SecondTestEntityOwnedRelationshipOneOrManyUpdateDto : IEntityDto<SecondTestEntityOwnedRelationshipOneOrManyEntity>
 {
     /// <summary>
     ///  (Required).

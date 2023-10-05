@@ -19,36 +19,36 @@ using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Domain;
-using Currency = Cryptocash.Domain.Currency;
+using CurrencyEntity = Cryptocash.Domain.Currency;
 
 namespace Cryptocash.Application.Factories;
 
-internal abstract class CurrencyFactoryBase : IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto>
+internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, CurrencyCreateDto, CurrencyUpdateDto>
 {
-    protected IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto> BankNoteFactory {get;}
-    protected IEntityFactory<ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto> ExchangeRateFactory {get;}
+    protected IEntityFactory<Cryptocash.Domain.BankNote, BankNoteCreateDto, BankNoteUpdateDto> BankNoteFactory {get;}
+    protected IEntityFactory<Cryptocash.Domain.ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto> ExchangeRateFactory {get;}
 
     public CurrencyFactoryBase
     (
-        IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto> banknotefactory,
-        IEntityFactory<ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto> exchangeratefactory
+        IEntityFactory<Cryptocash.Domain.BankNote, BankNoteCreateDto, BankNoteUpdateDto> banknotefactory,
+        IEntityFactory<Cryptocash.Domain.ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto> exchangeratefactory
         )
     {
         BankNoteFactory = banknotefactory;
         ExchangeRateFactory = exchangeratefactory;
     }
 
-    public virtual Currency CreateEntity(CurrencyCreateDto createDto)
+    public virtual CurrencyEntity CreateEntity(CurrencyCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(Currency entity, CurrencyUpdateDto updateDto)
+    public virtual void UpdateEntity(CurrencyEntity entity, CurrencyUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(Currency entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(CurrencyEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -74,7 +74,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<Currency, CurrencyC
         return entity;
     }
 
-    private void UpdateEntityInternal(Currency entity, CurrencyUpdateDto updateDto)
+    private void UpdateEntityInternal(CurrencyEntity entity, CurrencyUpdateDto updateDto)
     {
         entity.Name = Cryptocash.Domain.CurrencyMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         entity.CurrencyIsoNumeric = Cryptocash.Domain.CurrencyMetadata.CreateCurrencyIsoNumeric(updateDto.CurrencyIsoNumeric.NonNullValue<System.Int16>());
@@ -94,7 +94,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<Currency, CurrencyC
         entity.MinorToMajorValue = Cryptocash.Domain.CurrencyMetadata.CreateMinorToMajorValue(updateDto.MinorToMajorValue.NonNullValue<MoneyDto>());
     }
 
-    private void PartialUpdateEntityInternal(Currency entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(CurrencyEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
@@ -231,8 +231,8 @@ internal partial class CurrencyFactory : CurrencyFactoryBase
 {
     public CurrencyFactory
     (
-        IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto> banknotefactory,
-        IEntityFactory<ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto> exchangeratefactory
-    ): base(banknotefactory,exchangeratefactory)
+        IEntityFactory<Cryptocash.Domain.BankNote, BankNoteCreateDto, BankNoteUpdateDto> banknotefactory,
+        IEntityFactory<Cryptocash.Domain.ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto> exchangeratefactory
+    ) : base(banknotefactory,exchangeratefactory)
     {}
 }

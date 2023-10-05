@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Cryptocash.Domain;
 
+using ExchangeRateEntity = Cryptocash.Domain.ExchangeRate;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Exchange rate and related data.
 /// </summary>
-public partial class ExchangeRateUpdateDto : IEntityDto<ExchangeRate>
+public partial class ExchangeRateUpdateDto : IEntityDto<ExchangeRateEntity>
 {
     /// <summary>
     /// Exchange rate conversion amount (Required).

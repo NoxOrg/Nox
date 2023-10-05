@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using TestWebApp.Domain;
 
+using SecondTestEntityZeroOrOneEntity = TestWebApp.Domain.SecondTestEntityZeroOrOne;
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
 /// .
 /// </summary>
-public partial class SecondTestEntityZeroOrOneUpdateDto : IEntityDto<SecondTestEntityZeroOrOne>
+public partial class SecondTestEntityZeroOrOneUpdateDto : IEntityDto<SecondTestEntityZeroOrOneEntity>
 {
     /// <summary>
     ///  (Required).

@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using TestWebApp.Domain;
+using SecondTestEntityOwnedRelationshipZeroOrManyEntity = TestWebApp.Domain.SecondTestEntityOwnedRelationshipZeroOrMany;
 
 namespace TestWebApp.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class SecondTestEntityOwnedRelationshipZeroOrManyDto : SecondTest
 /// <summary>
 /// .
 /// </summary>
-public abstract class SecondTestEntityOwnedRelationshipZeroOrManyDtoBase : EntityDtoBase, IEntityDto<SecondTestEntityOwnedRelationshipZeroOrMany>
+public abstract class SecondTestEntityOwnedRelationshipZeroOrManyDtoBase : EntityDtoBase, IEntityDto<SecondTestEntityOwnedRelationshipZeroOrManyEntity>
 {
 
     #region Validation

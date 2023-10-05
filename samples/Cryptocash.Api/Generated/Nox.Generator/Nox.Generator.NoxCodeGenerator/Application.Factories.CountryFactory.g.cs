@@ -19,36 +19,36 @@ using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Domain;
-using Country = Cryptocash.Domain.Country;
+using CountryEntity = Cryptocash.Domain.Country;
 
 namespace Cryptocash.Application.Factories;
 
-internal abstract class CountryFactoryBase : IEntityFactory<Country, CountryCreateDto, CountryUpdateDto>
+internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto>
 {
-    protected IEntityFactory<CountryTimeZone, CountryTimeZoneCreateDto, CountryTimeZoneUpdateDto> CountryTimeZoneFactory {get;}
-    protected IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> HolidayFactory {get;}
+    protected IEntityFactory<Cryptocash.Domain.CountryTimeZone, CountryTimeZoneCreateDto, CountryTimeZoneUpdateDto> CountryTimeZoneFactory {get;}
+    protected IEntityFactory<Cryptocash.Domain.Holiday, HolidayCreateDto, HolidayUpdateDto> HolidayFactory {get;}
 
     public CountryFactoryBase
     (
-        IEntityFactory<CountryTimeZone, CountryTimeZoneCreateDto, CountryTimeZoneUpdateDto> countrytimezonefactory,
-        IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> holidayfactory
+        IEntityFactory<Cryptocash.Domain.CountryTimeZone, CountryTimeZoneCreateDto, CountryTimeZoneUpdateDto> countrytimezonefactory,
+        IEntityFactory<Cryptocash.Domain.Holiday, HolidayCreateDto, HolidayUpdateDto> holidayfactory
         )
     {
         CountryTimeZoneFactory = countrytimezonefactory;
         HolidayFactory = holidayfactory;
     }
 
-    public virtual Country CreateEntity(CountryCreateDto createDto)
+    public virtual CountryEntity CreateEntity(CountryCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(Country entity, CountryUpdateDto updateDto)
+    public virtual void UpdateEntity(CountryEntity entity, CountryUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(Country entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(CountryEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -75,7 +75,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<Country, CountryCrea
         return entity;
     }
 
-    private void UpdateEntityInternal(Country entity, CountryUpdateDto updateDto)
+    private void UpdateEntityInternal(CountryEntity entity, CountryUpdateDto updateDto)
     {
         entity.Name = Cryptocash.Domain.CountryMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         if (updateDto.OfficialName == null) { entity.OfficialName = null; } else {
@@ -114,7 +114,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<Country, CountryCrea
         entity.StartOfWeek = Cryptocash.Domain.CountryMetadata.CreateStartOfWeek(updateDto.StartOfWeek.NonNullValue<System.UInt16>());
     }
 
-    private void PartialUpdateEntityInternal(Country entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(CountryEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
@@ -244,8 +244,8 @@ internal partial class CountryFactory : CountryFactoryBase
 {
     public CountryFactory
     (
-        IEntityFactory<CountryTimeZone, CountryTimeZoneCreateDto, CountryTimeZoneUpdateDto> countrytimezonefactory,
-        IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> holidayfactory
-    ): base(countrytimezonefactory,holidayfactory)
+        IEntityFactory<Cryptocash.Domain.CountryTimeZone, CountryTimeZoneCreateDto, CountryTimeZoneUpdateDto> countrytimezonefactory,
+        IEntityFactory<Cryptocash.Domain.Holiday, HolidayCreateDto, HolidayUpdateDto> holidayfactory
+    ) : base(countrytimezonefactory,holidayfactory)
     {}
 }

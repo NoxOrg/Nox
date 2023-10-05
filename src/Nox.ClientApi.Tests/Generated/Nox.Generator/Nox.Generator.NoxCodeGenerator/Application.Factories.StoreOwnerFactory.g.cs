@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
 using ClientApi.Domain;
-using StoreOwner = ClientApi.Domain.StoreOwner;
+using StoreOwnerEntity = ClientApi.Domain.StoreOwner;
 
 namespace ClientApi.Application.Factories;
 
-internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto>
+internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity, StoreOwnerCreateDto, StoreOwnerUpdateDto>
 {
 
     public StoreOwnerFactoryBase
@@ -32,17 +32,17 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwner, Store
     {
     }
 
-    public virtual StoreOwner CreateEntity(StoreOwnerCreateDto createDto)
+    public virtual StoreOwnerEntity CreateEntity(StoreOwnerCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(StoreOwner entity, StoreOwnerUpdateDto updateDto)
+    public virtual void UpdateEntity(StoreOwnerEntity entity, StoreOwnerUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(StoreOwner entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(StoreOwnerEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -60,7 +60,7 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwner, Store
         return entity;
     }
 
-    private void UpdateEntityInternal(StoreOwner entity, StoreOwnerUpdateDto updateDto)
+    private void UpdateEntityInternal(StoreOwnerEntity entity, StoreOwnerUpdateDto updateDto)
     {
         entity.Name = ClientApi.Domain.StoreOwnerMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         entity.TemporaryOwnerName = ClientApi.Domain.StoreOwnerMetadata.CreateTemporaryOwnerName(updateDto.TemporaryOwnerName.NonNullValue<System.String>());
@@ -78,7 +78,7 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwner, Store
         }
     }
 
-    private void PartialUpdateEntityInternal(StoreOwner entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(StoreOwnerEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))

@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using Cryptocash.Domain;
+using VendingMachineEntity = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class VendingMachineDto : VendingMachineDtoBase
 /// <summary>
 /// Vending machine definition and related data.
 /// </summary>
-public abstract class VendingMachineDtoBase : EntityDtoBase, IEntityDto<VendingMachine>
+public abstract class VendingMachineDtoBase : EntityDtoBase, IEntityDto<VendingMachineEntity>
 {
 
     #region Validation

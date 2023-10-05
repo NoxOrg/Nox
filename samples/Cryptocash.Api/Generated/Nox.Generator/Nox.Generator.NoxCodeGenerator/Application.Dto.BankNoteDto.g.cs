@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using Cryptocash.Domain;
+using BankNoteEntity = Cryptocash.Domain.BankNote;
 
 namespace Cryptocash.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class BankNoteDto : BankNoteDtoBase
 /// <summary>
 /// Currencies related frequent and rare bank notes.
 /// </summary>
-public abstract class BankNoteDtoBase : EntityDtoBase, IEntityDto<BankNote>
+public abstract class BankNoteDtoBase : EntityDtoBase, IEntityDto<BankNoteEntity>
 {
 
     #region Validation

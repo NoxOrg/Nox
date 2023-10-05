@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Domain;
-using Transaction = Cryptocash.Domain.Transaction;
+using TransactionEntity = Cryptocash.Domain.Transaction;
 
 namespace Cryptocash.Application.Factories;
 
-internal abstract class TransactionFactoryBase : IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto>
+internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntity, TransactionCreateDto, TransactionUpdateDto>
 {
 
     public TransactionFactoryBase
@@ -32,17 +32,17 @@ internal abstract class TransactionFactoryBase : IEntityFactory<Transaction, Tra
     {
     }
 
-    public virtual Transaction CreateEntity(TransactionCreateDto createDto)
+    public virtual TransactionEntity CreateEntity(TransactionCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(Transaction entity, TransactionUpdateDto updateDto)
+    public virtual void UpdateEntity(TransactionEntity entity, TransactionUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(Transaction entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(TransactionEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -57,7 +57,7 @@ internal abstract class TransactionFactoryBase : IEntityFactory<Transaction, Tra
         return entity;
     }
 
-    private void UpdateEntityInternal(Transaction entity, TransactionUpdateDto updateDto)
+    private void UpdateEntityInternal(TransactionEntity entity, TransactionUpdateDto updateDto)
     {
         entity.TransactionType = Cryptocash.Domain.TransactionMetadata.CreateTransactionType(updateDto.TransactionType.NonNullValue<System.String>());
         entity.ProcessedOnDateTime = Cryptocash.Domain.TransactionMetadata.CreateProcessedOnDateTime(updateDto.ProcessedOnDateTime.NonNullValue<System.DateTimeOffset>());
@@ -65,7 +65,7 @@ internal abstract class TransactionFactoryBase : IEntityFactory<Transaction, Tra
         entity.Reference = Cryptocash.Domain.TransactionMetadata.CreateReference(updateDto.Reference.NonNullValue<System.String>());
     }
 
-    private void PartialUpdateEntityInternal(Transaction entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(TransactionEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("TransactionType", out var TransactionTypeUpdateValue))

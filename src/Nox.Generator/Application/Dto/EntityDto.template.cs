@@ -17,6 +17,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using {{codeGeneratorState.DomainNameSpace}};
+using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
@@ -30,7 +31,7 @@ public partial class {{className}} : {{className}}Base
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public abstract class {{className}}Base : EntityDtoBase, IEntityDto<{{entity.Name}}>
+public abstract class {{className}}Base : EntityDtoBase, IEntityDto<{{entity.Name}}Entity>
 {
 
     #region Validation

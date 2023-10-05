@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using Cryptocash.Domain;
+using LandLordEntity = Cryptocash.Domain.LandLord;
 
 namespace Cryptocash.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class LandLordDto : LandLordDtoBase
 /// <summary>
 /// Landlord related data.
 /// </summary>
-public abstract class LandLordDtoBase : EntityDtoBase, IEntityDto<LandLord>
+public abstract class LandLordDtoBase : EntityDtoBase, IEntityDto<LandLordEntity>
 {
 
     #region Validation

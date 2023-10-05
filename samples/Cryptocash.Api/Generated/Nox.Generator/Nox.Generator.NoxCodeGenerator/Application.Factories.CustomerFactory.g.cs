@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Domain;
-using Customer = Cryptocash.Domain.Customer;
+using CustomerEntity = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application.Factories;
 
-internal abstract class CustomerFactoryBase : IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto>
+internal abstract class CustomerFactoryBase : IEntityFactory<CustomerEntity, CustomerCreateDto, CustomerUpdateDto>
 {
 
     public CustomerFactoryBase
@@ -32,17 +32,17 @@ internal abstract class CustomerFactoryBase : IEntityFactory<Customer, CustomerC
     {
     }
 
-    public virtual Customer CreateEntity(CustomerCreateDto createDto)
+    public virtual CustomerEntity CreateEntity(CustomerCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(Customer entity, CustomerUpdateDto updateDto)
+    public virtual void UpdateEntity(CustomerEntity entity, CustomerUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(Customer entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(CustomerEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -58,7 +58,7 @@ internal abstract class CustomerFactoryBase : IEntityFactory<Customer, CustomerC
         return entity;
     }
 
-    private void UpdateEntityInternal(Customer entity, CustomerUpdateDto updateDto)
+    private void UpdateEntityInternal(CustomerEntity entity, CustomerUpdateDto updateDto)
     {
         entity.FirstName = Cryptocash.Domain.CustomerMetadata.CreateFirstName(updateDto.FirstName.NonNullValue<System.String>());
         entity.LastName = Cryptocash.Domain.CustomerMetadata.CreateLastName(updateDto.LastName.NonNullValue<System.String>());
@@ -69,7 +69,7 @@ internal abstract class CustomerFactoryBase : IEntityFactory<Customer, CustomerC
         }
     }
 
-    private void PartialUpdateEntityInternal(Customer entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(CustomerEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("FirstName", out var FirstNameUpdateValue))

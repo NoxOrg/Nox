@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ClientApi.Domain;
 
+using RatingProgramEntity = ClientApi.Domain.RatingProgram;
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Rating program for store.
 /// </summary>
-public partial class RatingProgramUpdateDto : IEntityDto<RatingProgram>
+public partial class RatingProgramUpdateDto : IEntityDto<RatingProgramEntity>
 {
     /// <summary>
     /// Rating Program Name (Optional).

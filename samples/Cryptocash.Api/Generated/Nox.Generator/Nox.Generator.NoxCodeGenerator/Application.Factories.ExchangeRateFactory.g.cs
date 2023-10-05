@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Domain;
-using ExchangeRate = Cryptocash.Domain.ExchangeRate;
+using ExchangeRateEntity = Cryptocash.Domain.ExchangeRate;
 
 namespace Cryptocash.Application.Factories;
 
-internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto>
+internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEntity, ExchangeRateCreateDto, ExchangeRateUpdateDto>
 {
 
     public ExchangeRateFactoryBase
@@ -32,17 +32,17 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRate, E
     {
     }
 
-    public virtual ExchangeRate CreateEntity(ExchangeRateCreateDto createDto)
+    public virtual ExchangeRateEntity CreateEntity(ExchangeRateCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(ExchangeRate entity, ExchangeRateUpdateDto updateDto)
+    public virtual void UpdateEntity(ExchangeRateEntity entity, ExchangeRateUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(ExchangeRate entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(ExchangeRateEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -55,13 +55,13 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRate, E
         return entity;
     }
 
-    private void UpdateEntityInternal(ExchangeRate entity, ExchangeRateUpdateDto updateDto)
+    private void UpdateEntityInternal(ExchangeRateEntity entity, ExchangeRateUpdateDto updateDto)
     {
         entity.EffectiveRate = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveRate(updateDto.EffectiveRate.NonNullValue<System.Int32>());
         entity.EffectiveAt = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveAt(updateDto.EffectiveAt.NonNullValue<System.DateTimeOffset>());
     }
 
-    private void PartialUpdateEntityInternal(ExchangeRate entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(ExchangeRateEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("EffectiveRate", out var EffectiveRateUpdateValue))

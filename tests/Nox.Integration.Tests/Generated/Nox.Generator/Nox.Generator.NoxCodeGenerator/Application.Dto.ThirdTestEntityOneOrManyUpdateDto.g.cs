@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using TestWebApp.Domain;
 
+using ThirdTestEntityOneOrManyEntity = TestWebApp.Domain.ThirdTestEntityOneOrMany;
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public partial class ThirdTestEntityOneOrManyUpdateDto : IEntityDto<ThirdTestEntityOneOrMany>
+public partial class ThirdTestEntityOneOrManyUpdateDto : IEntityDto<ThirdTestEntityOneOrManyEntity>
 {
     /// <summary>
     ///  (Required).

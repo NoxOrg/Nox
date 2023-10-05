@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
 using ClientApi.Domain;
-using StoreLicense = ClientApi.Domain.StoreLicense;
+using StoreLicenseEntity = ClientApi.Domain.StoreLicense;
 
 namespace ClientApi.Application.Factories;
 
-internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto>
+internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto>
 {
 
     public StoreLicenseFactoryBase
@@ -32,17 +32,17 @@ internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicense, S
     {
     }
 
-    public virtual StoreLicense CreateEntity(StoreLicenseCreateDto createDto)
+    public virtual StoreLicenseEntity CreateEntity(StoreLicenseCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(StoreLicense entity, StoreLicenseUpdateDto updateDto)
+    public virtual void UpdateEntity(StoreLicenseEntity entity, StoreLicenseUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(StoreLicense entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(StoreLicenseEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -54,12 +54,12 @@ internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicense, S
         return entity;
     }
 
-    private void UpdateEntityInternal(StoreLicense entity, StoreLicenseUpdateDto updateDto)
+    private void UpdateEntityInternal(StoreLicenseEntity entity, StoreLicenseUpdateDto updateDto)
     {
         entity.Issuer = ClientApi.Domain.StoreLicenseMetadata.CreateIssuer(updateDto.Issuer.NonNullValue<System.String>());
     }
 
-    private void PartialUpdateEntityInternal(StoreLicense entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(StoreLicenseEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("Issuer", out var IssuerUpdateValue))

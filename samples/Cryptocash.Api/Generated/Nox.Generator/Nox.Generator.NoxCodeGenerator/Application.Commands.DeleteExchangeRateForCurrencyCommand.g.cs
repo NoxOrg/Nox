@@ -11,6 +11,7 @@ using Nox.Factories;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using ExchangeRateEntity = Cryptocash.Domain.ExchangeRate;
 
 namespace Cryptocash.Application.Commands;
 public record DeleteExchangeRateForCurrencyCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateKeyDto EntityKeyDto) : IRequest <bool>;
@@ -25,13 +26,13 @@ internal partial class DeleteExchangeRateForCurrencyCommandHandler : DeleteExcha
 	}
 }
 
-internal partial class DeleteExchangeRateForCurrencyCommandHandlerBase : CommandBase<DeleteExchangeRateForCurrencyCommand, ExchangeRate>, IRequestHandler <DeleteExchangeRateForCurrencyCommand, bool>
+internal partial class DeleteExchangeRateForCurrencyCommandHandlerBase : CommandBase<DeleteExchangeRateForCurrencyCommand, ExchangeRateEntity>, IRequestHandler <DeleteExchangeRateForCurrencyCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public DeleteExchangeRateForCurrencyCommandHandlerBase(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution): base(noxSolution)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}

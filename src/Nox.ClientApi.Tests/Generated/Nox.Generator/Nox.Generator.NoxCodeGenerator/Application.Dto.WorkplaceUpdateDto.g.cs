@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ClientApi.Domain;
 
+using WorkplaceEntity = ClientApi.Domain.Workplace;
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Workplace.
 /// </summary>
-public partial class WorkplaceUpdateDto : IEntityDto<Workplace>
+public partial class WorkplaceUpdateDto : IEntityDto<WorkplaceEntity>
 {
     /// <summary>
     /// Workplace Name (Required).

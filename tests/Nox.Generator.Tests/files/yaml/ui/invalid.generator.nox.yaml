@@ -1,0 +1,27 @@
+﻿#
+# generator.nox.yaml
+#
+# This file configures which layers of code the Nox generator will generate in this project.
+#
+# This is an example of invalid configurations as if UI is set to True all the other options should be set to False
+# 
+# Please mark this as a C# analyzer addition file by including the following in your .csproj
+#
+#  <ItemGroup>
+#    <AdditionalFiles Include="generator.nox.yaml" />
+#  </ItemGroup>
+
+# Genrates domain models, events and related types
+domain: true
+
+# Generates application logic and events
+application: true
+
+# Generates persistence, DbContext and model configuration and mapping
+infrastructure: true
+
+# Generates APi's
+presentation: true
+
+# Generates UI
+ui: true

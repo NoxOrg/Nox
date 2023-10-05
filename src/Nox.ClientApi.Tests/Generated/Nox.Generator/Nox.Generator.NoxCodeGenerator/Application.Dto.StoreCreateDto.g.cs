@@ -10,6 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
+using StoreEntity = ClientApi.Domain.Store;
 using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
@@ -22,7 +23,7 @@ public partial class StoreCreateDto : StoreCreateDtoBase
 /// <summary>
 /// Stores.
 /// </summary>
-public abstract class StoreCreateDtoBase : IEntityDto<Store>
+public abstract class StoreCreateDtoBase : IEntityDto<StoreEntity>
 {/// <summary>
     ///  (Optional).
     /// </summary>
