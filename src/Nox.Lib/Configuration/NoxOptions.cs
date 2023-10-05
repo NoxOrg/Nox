@@ -151,6 +151,7 @@ namespace Nox.Configuration
             services
                 .AddSingleton(typeof(NoxSolution), _noxSolution)
                 .AddSingleton(typeof(INoxClientAssemblyProvider), serviceProvider => new NoxClientAssemblyProvider(_clientAssembly))
+                .AddNoxHttpDefaults()
                 .AddSecretsResolver()
                 .AddNoxMediatR(_clientAssembly)
                 .AddNoxFactories(noxAndEntryAssemblies)
