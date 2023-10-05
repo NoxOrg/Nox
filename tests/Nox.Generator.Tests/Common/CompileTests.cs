@@ -3,6 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.Json;
+using System.Threading;
+using FluentAssertions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,39 +13,32 @@ using Xunit.Abstractions;
 
 namespace Nox.Generator.Tests.Common;
 
-public class CompileTests
+public class CompileTests : IClassFixture<GeneratorFixture>
 {
     private readonly ITestOutputHelper _testOutputHelper;
+    private readonly GeneratorFixture _generatorFixture;
 
-    public CompileTests(ITestOutputHelper testOutputHelper)
+    public CompileTests(ITestOutputHelper testOutputHelper, GeneratorFixture generatorFixture)
     {
         _testOutputHelper = testOutputHelper;
+        _generatorFixture = generatorFixture;
     }
 
     [Fact]
     public void Generated_Files_Should_Be_Compiled_Successfully()
     {
-        var fixture = new GeneratorFixture();
-
         var path = "files/yaml/design/";
-        var additionalFiles = new List<AdditionalSourceText>
+        var sources = new[]
         {
-            new(File.ReadAllText($"./{path}test.solution.nox.yaml"), $"{path}/test.solution.nox.yaml"),
+            $"./{path}test.solution.nox.yaml"
         };
 
-        GeneratorDriver driver = CSharpGeneratorDriver.Create(
-            generators: new[] { fixture.TestGenerator },
-            additionalTexts: additionalFiles,
-            driverOptions: new GeneratorDriverOptions(default, trackIncrementalGeneratorSteps: true));
-
-        driver = driver.RunGenerators(fixture.TestCompilation!);
-
-        var result = driver.GetRunResult().Results[0];
+        var result = _generatorFixture.GenerateSourceCodeFor(sources);
 
         var references = GetReferences().ToList();
         _testOutputHelper.WriteLine("References count: " + references.Count);
 
-        var compilation = CreateCompilation(result.GeneratedSources.Select(x => x.SourceText.ToString()), references);
+        var compilation = CreateCompilation(result.Sources, references);
 
         var diagnostics = compilation.GetDiagnostics().Where(x => x.Severity == DiagnosticSeverity.Error).ToList();
 
@@ -55,7 +50,9 @@ public class CompileTests
             _testOutputHelper.WriteLine(new string('*', 120));
         }
 
-        Assert.Empty(diagnostics);
+        diagnostics
+            .Should()
+            .BeEmpty();
     }
 
     private static CSharpCompilation CreateCompilation(IEnumerable<string> sources,
@@ -82,7 +79,6 @@ global using global::Microsoft.AspNetCore.Builder;";
 
     private static IEnumerable<MetadataReference> GetReferences()
     {
-        
         var referencePaths = new HashSet<string>();
 
         var references = new List<MetadataReference>();
@@ -114,7 +110,6 @@ global using global::Microsoft.AspNetCore.Builder;";
         }
     }
 
-    
     private static bool IsManagedAssembly(string fileName)
     {
         using Stream fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
