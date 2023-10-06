@@ -12,6 +12,7 @@ internal class GeneratorTestFlow : IGeneratorTestFlow
     public GeneratorTestFlow(GeneratorRunResult generatorRunResult)
     {
         _generatorRunResult = generatorRunResult;
+
         Sources = _generatorRunResult
             .GeneratedSources
             .Select(x => x.SourceText.ToString())

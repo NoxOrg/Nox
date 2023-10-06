@@ -11,20 +11,23 @@ public class GeneratorFixture
 {
     public IGeneratorTestFlow GenerateSourceCodeFor(IEnumerable<string> sourcePaths)
     {
-        var assets = CreateCompilationCompiler();
+        var (compilation, generator) = CreateCompilationCompiler();
 
-        var additionalSources = sourcePaths
-            .Select(path => new AdditionalSourceText(File.ReadAllText(path), path));
+        var additionalSources = new List<AdditionalSourceText>();
+        foreach (var sourcePath in sourcePaths)
+        {
+            additionalSources.Add(new AdditionalSourceText(File.ReadAllText(sourcePath), sourcePath));
+        }
 
         // trackIncrementalGeneratorSteps allows to report info about each step of the generator
         var driver = CSharpGeneratorDriver.Create(
-            generators: new[] { assets.generator },
+            generators: new[] { generator },
             additionalTexts: additionalSources,
             driverOptions: new GeneratorDriverOptions(default, trackIncrementalGeneratorSteps: true));
 
         // Run the generator
         var result = driver
-            .RunGenerators(assets.compilation)
+            .RunGenerators(compilation)
             .GetRunResult()
             .Results
             .Single();
@@ -34,8 +37,8 @@ public class GeneratorFixture
 
     private static (Compilation compilation, ISourceGenerator generator) CreateCompilationCompiler()
     {
-        var workspace = new AdhocWorkspace();
-        var project = workspace.CurrentSolution.AddProject("MyProject", "MyProject.dll", LanguageNames.CSharp);
+        using var workspace = new AdhocWorkspace();
+        var project = workspace.CurrentSolution.AddProject($"MyProject", "MyProject.dll", LanguageNames.CSharp);
 
         project = project.AddDocument("Program.cs", File.ReadAllText("./files/Program.cs")).Project;
 

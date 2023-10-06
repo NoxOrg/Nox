@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.Json;
-using System.Threading;
 using FluentAssertions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -32,11 +31,9 @@ public class CompileTests : IClassFixture<GeneratorFixture>
         {
             $"./{path}test.solution.nox.yaml"
         };
-
         var result = _generatorFixture.GenerateSourceCodeFor(sources);
-
-        var references = GetReferences().ToList();
-        _testOutputHelper.WriteLine("References count: " + references.Count);
+        var references = GetReferences();
+        _testOutputHelper.WriteLine($"References count: {references.Count()}");
 
         var compilation = CreateCompilation(result.Sources, references);
 
