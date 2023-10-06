@@ -9,29 +9,27 @@ using Nox.Solution;
 using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
-using Employee = Cryptocash.Domain.Employee;
+using EmployeeEntity = Cryptocash.Domain.Employee;
 
 namespace Cryptocash.Application.Commands;
 
 public record DeleteEmployeeByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteEmployeeByIdCommandHandler:DeleteEmployeeByIdCommandHandlerBase
+internal class DeleteEmployeeByIdCommandHandler : DeleteEmployeeByIdCommandHandlerBase
 {
 	public DeleteEmployeeByIdCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
-internal abstract class DeleteEmployeeByIdCommandHandlerBase: CommandBase<DeleteEmployeeByIdCommand,Employee>, IRequestHandler<DeleteEmployeeByIdCommand, bool>
+internal abstract class DeleteEmployeeByIdCommandHandlerBase : CommandBase<DeleteEmployeeByIdCommand, EmployeeEntity>, IRequestHandler<DeleteEmployeeByIdCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public DeleteEmployeeByIdCommandHandlerBase(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
@@ -40,7 +38,7 @@ internal abstract class DeleteEmployeeByIdCommandHandlerBase: CommandBase<Delete
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Employee,Nox.Types.AutoNumber>("Id", request.keyId);
+		var keyId = Cryptocash.Domain.EmployeeMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Employees.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted == true)

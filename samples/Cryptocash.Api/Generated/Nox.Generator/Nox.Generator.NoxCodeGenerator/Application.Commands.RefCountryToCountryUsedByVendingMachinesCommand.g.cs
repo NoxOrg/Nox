@@ -15,6 +15,7 @@ using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using CountryEntity = Cryptocash.Domain.Country;
 
 namespace Cryptocash.Application.Commands;
 
@@ -28,10 +29,9 @@ internal partial class CreateRefCountryToCountryUsedByVendingMachinesCommandHand
 {
 	public CreateRefCountryToCountryUsedByVendingMachinesCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Create)
+		: base(dbContext, noxSolution, RelationshipAction.Create)
 	{ }
 }
 
@@ -43,10 +43,9 @@ internal partial class DeleteRefCountryToCountryUsedByVendingMachinesCommandHand
 {
 	public DeleteRefCountryToCountryUsedByVendingMachinesCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Delete)
+		: base(dbContext, noxSolution, RelationshipAction.Delete)
 	{ }
 }
 
@@ -58,14 +57,13 @@ internal partial class DeleteAllRefCountryToCountryUsedByVendingMachinesCommandH
 {
 	public DeleteAllRefCountryToCountryUsedByVendingMachinesCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
 	{ }
 }
 
-internal abstract class RefCountryToCountryUsedByVendingMachinesCommandHandlerBase<TRequest> : CommandBase<TRequest, Country>,
+internal abstract class RefCountryToCountryUsedByVendingMachinesCommandHandlerBase<TRequest> : CommandBase<TRequest, CountryEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCountryToCountryUsedByVendingMachinesCommand
 {
 	public CryptocashDbContext DbContext { get; }
@@ -77,9 +75,8 @@ internal abstract class RefCountryToCountryUsedByVendingMachinesCommandHandlerBa
 	public RefCountryToCountryUsedByVendingMachinesCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
 		RelationshipAction action)
-		: base(noxSolution, serviceProvider)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		Action = action;
@@ -89,17 +86,17 @@ internal abstract class RefCountryToCountryUsedByVendingMachinesCommandHandlerBa
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Country, Nox.Types.CountryCode2>("Id", request.EntityKeyDto.keyId);
+		var keyId = Cryptocash.Domain.CountryMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.Countries.FindAsync(keyId);
 		if (entity == null)
 		{
 			return false;
 		}
 
-		VendingMachine? relatedEntity = null!;
+		Cryptocash.Domain.VendingMachine? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
-			var relatedKeyId = CreateNoxTypeForKey<VendingMachine, Nox.Types.Guid>("Id", request.RelatedEntityKeyDto.keyId);
+			var relatedKeyId = Cryptocash.Domain.VendingMachineMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
 			relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKeyId);
 			if (relatedEntity == null)
 			{

@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using Cryptocash.Domain;
+using CurrencyEntity = Cryptocash.Domain.Currency;
 
 namespace Cryptocash.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class CurrencyDto : CurrencyDtoBase
 /// <summary>
 /// Currency and related data.
 /// </summary>
-public abstract class CurrencyDtoBase : EntityDtoBase, IEntityDto<Currency>
+public abstract class CurrencyDtoBase : EntityDtoBase, IEntityDto<CurrencyEntity>
 {
 
     #region Validation
@@ -169,6 +170,7 @@ public abstract class CurrencyDtoBase : EntityDtoBase, IEntityDto<Currency>
     /// Currency exchanged from OneOrMany ExchangeRates
     /// </summary>
     public virtual List<ExchangeRateDto> CurrencyExchangedFromRates { get; set; } = new();
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

@@ -20,7 +20,7 @@ public class NoxCommonTestCaseFactory
         _dbContextFixture = dbContextFixture;
     }
 
-    private TestWebAppDbContext DataContext => _dbContextFixture.DataContext;
+    private TestWebAppDbContext DataContext => (TestWebAppDbContext)_dbContextFixture.DataContext;
 
     public void GenerateEntityCanSaveAndReadFieldsAllTypes(bool supportDateTimeOffset = true)
     {
@@ -170,7 +170,7 @@ public class NoxCommonTestCaseFactory
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours),
             TimeTestField = Time.From(time.Ticks),
             CurrencyNumberTestField = CurrencyNumber.From(currencyNumber),
-            JsonTestField = Json.From(addressJsonPretty),
+            JsonTestField = Types.Json.From(addressJsonPretty),
             YearTestField = Year.From(year),
             BooleanTestField = Types.Boolean.From(boolean),
             EmailTestField = Email.From(email),

@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ClientApi.Domain;
 
+using CountryBarCodeEntity = ClientApi.Domain.CountryBarCode;
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Bar code for country.
 /// </summary>
-public partial class CountryBarCodeUpdateDto : IEntityDto<CountryBarCode>
+public partial class CountryBarCodeUpdateDto : IEntityDto<CountryBarCodeEntity>
 {
     /// <summary>
     /// Bar code name (Required).

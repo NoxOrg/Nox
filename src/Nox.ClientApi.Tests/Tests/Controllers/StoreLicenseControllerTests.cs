@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using ClientApi.Application.Dto;
+using ClientApi.Tests.Controllers;
 using FluentAssertions;
 using Nox.Types;
 using Xunit.Abstractions;
@@ -9,7 +10,7 @@ namespace ClientApi.Tests.Tests.Controllers
     [Collection("Sequential")]
     public class StoreLicenseControllerTests : NoxWebApiTestBase
     {
-        private const string EntityUrl = "api/storelicenses";
+
 
         public StoreLicenseControllerTests(
             ITestOutputHelper testOutput,
@@ -49,12 +50,12 @@ namespace ClientApi.Tests.Tests.Controllers
             {
                 Issuer = issuer,
             };
-            var postResult = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(EntityUrl, createDto);
+            var postResult = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl, createDto);
 
-            await PostAsync($"{EntityUrl}/{postResult!.Id}/StoreWithLicense/{getStoreResult!.Id}/$ref");
+            await PostAsync($"{Endpoints.StoreLicensesUrl}/{postResult!.Id}/StoreWithLicense/{getStoreResult!.Id}/$ref");
 
             // Act
-            var response = await GetODataSimpleResponseAsync<StoreLicenseDto>($"{EntityUrl}/{postResult!.Id}");
+            var response = await GetODataSimpleResponseAsync<StoreLicenseDto>($"{Endpoints.StoreLicensesUrl}/{postResult!.Id}");
 
             //Assert
             response.Should().NotBeNull();
@@ -75,10 +76,10 @@ namespace ClientApi.Tests.Tests.Controllers
             {
                 Issuer = issuer,
             };
-            var postResult = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(EntityUrl, createDto);
+            var postResult = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl, createDto);
 
             // Act
-            var response = await GetODataSimpleResponseAsync<StoreLicenseDto>($"{EntityUrl}/{postResult!.Id}");
+            var response = await GetODataSimpleResponseAsync<StoreLicenseDto>($"{Endpoints.StoreLicensesUrl}/{postResult!.Id}");
 
             //Assert
             response.Should().NotBeNull();

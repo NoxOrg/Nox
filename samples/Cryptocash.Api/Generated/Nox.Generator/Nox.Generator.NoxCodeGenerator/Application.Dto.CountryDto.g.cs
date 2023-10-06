@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using Cryptocash.Domain;
+using CountryEntity = Cryptocash.Domain.Country;
 
 namespace Cryptocash.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class CountryDto : CountryDtoBase
 /// <summary>
 /// Country and related data.
 /// </summary>
-public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<Country>
+public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<CountryEntity>
 {
 
     #region Validation
@@ -170,6 +171,7 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<Country>
     /// Country owned ZeroOrMany Holidays
     /// </summary>
     public virtual List<HolidayDto> CountryOwnedHolidays { get; set; } = new();
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

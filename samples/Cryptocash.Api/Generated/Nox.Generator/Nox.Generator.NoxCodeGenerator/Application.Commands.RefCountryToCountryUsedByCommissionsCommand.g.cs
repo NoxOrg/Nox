@@ -15,6 +15,7 @@ using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using CountryEntity = Cryptocash.Domain.Country;
 
 namespace Cryptocash.Application.Commands;
 
@@ -28,10 +29,9 @@ internal partial class CreateRefCountryToCountryUsedByCommissionsCommandHandler
 {
 	public CreateRefCountryToCountryUsedByCommissionsCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Create)
+		: base(dbContext, noxSolution, RelationshipAction.Create)
 	{ }
 }
 
@@ -43,10 +43,9 @@ internal partial class DeleteRefCountryToCountryUsedByCommissionsCommandHandler
 {
 	public DeleteRefCountryToCountryUsedByCommissionsCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Delete)
+		: base(dbContext, noxSolution, RelationshipAction.Delete)
 	{ }
 }
 
@@ -58,14 +57,13 @@ internal partial class DeleteAllRefCountryToCountryUsedByCommissionsCommandHandl
 {
 	public DeleteAllRefCountryToCountryUsedByCommissionsCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
 	{ }
 }
 
-internal abstract class RefCountryToCountryUsedByCommissionsCommandHandlerBase<TRequest> : CommandBase<TRequest, Country>,
+internal abstract class RefCountryToCountryUsedByCommissionsCommandHandlerBase<TRequest> : CommandBase<TRequest, CountryEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCountryToCountryUsedByCommissionsCommand
 {
 	public CryptocashDbContext DbContext { get; }
@@ -77,9 +75,8 @@ internal abstract class RefCountryToCountryUsedByCommissionsCommandHandlerBase<T
 	public RefCountryToCountryUsedByCommissionsCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
 		RelationshipAction action)
-		: base(noxSolution, serviceProvider)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		Action = action;
@@ -89,17 +86,17 @@ internal abstract class RefCountryToCountryUsedByCommissionsCommandHandlerBase<T
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Country, Nox.Types.CountryCode2>("Id", request.EntityKeyDto.keyId);
+		var keyId = Cryptocash.Domain.CountryMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.Countries.FindAsync(keyId);
 		if (entity == null)
 		{
 			return false;
 		}
 
-		Commission? relatedEntity = null!;
+		Cryptocash.Domain.Commission? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
-			var relatedKeyId = CreateNoxTypeForKey<Commission, Nox.Types.AutoNumber>("Id", request.RelatedEntityKeyDto.keyId);
+			var relatedKeyId = Cryptocash.Domain.CommissionMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
 			relatedEntity = await DbContext.Commissions.FindAsync(relatedKeyId);
 			if (relatedEntity == null)
 			{

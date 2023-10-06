@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Domain;
-using MinimumCashStock = Cryptocash.Domain.MinimumCashStock;
+using MinimumCashStockEntity = Cryptocash.Domain.MinimumCashStock;
 
 namespace Cryptocash.Application.Factories;
 
-internal abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto>
+internal abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCashStockEntity, MinimumCashStockCreateDto, MinimumCashStockUpdateDto>
 {
 
     public MinimumCashStockFactoryBase
@@ -32,17 +32,17 @@ internal abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCash
     {
     }
 
-    public virtual MinimumCashStock CreateEntity(MinimumCashStockCreateDto createDto)
+    public virtual MinimumCashStockEntity CreateEntity(MinimumCashStockCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(MinimumCashStock entity, MinimumCashStockUpdateDto updateDto)
+    public virtual void UpdateEntity(MinimumCashStockEntity entity, MinimumCashStockUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(MinimumCashStock entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(MinimumCashStockEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -54,12 +54,12 @@ internal abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCash
         return entity;
     }
 
-    private void UpdateEntityInternal(MinimumCashStock entity, MinimumCashStockUpdateDto updateDto)
+    private void UpdateEntityInternal(MinimumCashStockEntity entity, MinimumCashStockUpdateDto updateDto)
     {
         entity.Amount = Cryptocash.Domain.MinimumCashStockMetadata.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>());
     }
 
-    private void PartialUpdateEntityInternal(MinimumCashStock entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(MinimumCashStockEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("Amount", out var AmountUpdateValue))

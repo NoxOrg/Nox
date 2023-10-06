@@ -9,29 +9,27 @@ using Nox.Solution;
 using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
-using VendingMachine = Cryptocash.Domain.VendingMachine;
+using VendingMachineEntity = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application.Commands;
 
 public record DeleteVendingMachineByIdCommand(System.Guid keyId, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteVendingMachineByIdCommandHandler:DeleteVendingMachineByIdCommandHandlerBase
+internal class DeleteVendingMachineByIdCommandHandler : DeleteVendingMachineByIdCommandHandlerBase
 {
 	public DeleteVendingMachineByIdCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
-internal abstract class DeleteVendingMachineByIdCommandHandlerBase: CommandBase<DeleteVendingMachineByIdCommand,VendingMachine>, IRequestHandler<DeleteVendingMachineByIdCommand, bool>
+internal abstract class DeleteVendingMachineByIdCommandHandlerBase : CommandBase<DeleteVendingMachineByIdCommand, VendingMachineEntity>, IRequestHandler<DeleteVendingMachineByIdCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public DeleteVendingMachineByIdCommandHandlerBase(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
@@ -40,7 +38,7 @@ internal abstract class DeleteVendingMachineByIdCommandHandlerBase: CommandBase<
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<VendingMachine,Nox.Types.Guid>("Id", request.keyId);
+		var keyId = Cryptocash.Domain.VendingMachineMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.VendingMachines.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted == true)

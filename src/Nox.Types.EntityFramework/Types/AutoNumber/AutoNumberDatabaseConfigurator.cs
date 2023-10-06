@@ -37,11 +37,27 @@ public class AutoNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
         Entity entity,
         bool isKey)
     {
-        builder
-            .Property(property.Name)
-            .IsRequired(property.IsRequired)
-            .HasConversion<AutoNumberConverter>()
-            .ValueGeneratedOnAdd();
+        // If a normal attribute or key then it should be auto-incremented.
+        // Otherwise If it's a foreign key of entity id type or relationship it shouldn't be auto-incremented.
+        var shouldAutoincrement =
+            isKey ||
+            entity.Attributes.Any(x => x.Name.Equals(property.Name, StringComparison.OrdinalIgnoreCase) && x.Type == property.Type);
+
+        if (shouldAutoincrement)
+        {
+            builder
+                .Property(property.Name)
+                .IsRequired(property.IsRequired)
+                .HasConversion<AutoNumberConverter>()
+                .ValueGeneratedOnAdd();
+        }
+        else
+        {
+            builder
+                .Property(property.Name)
+                .IsRequired(property.IsRequired)
+                .HasConversion<AutoNumberConverter>();
+        }
     }
 
     /// <summary>

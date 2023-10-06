@@ -57,6 +57,8 @@ internal class DtoDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
+        ConfigureAuditable(modelBuilder);
+
         if (_noxSolution.Domain != null)
         {
             var codeGeneratorState =
@@ -82,5 +84,14 @@ internal class DtoDbContext : DbContext
                 }
             }
         }
+    }
+
+    private void ConfigureAuditable(ModelBuilder modelBuilder)
+    {
+    {{- for entity in entities }}
+    {{- if entity.Persistence?.IsAudited }}
+        modelBuilder.Entity<{{entity.Name}}Dto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+    {{- end }}
+    {{- end }}
     }
 }

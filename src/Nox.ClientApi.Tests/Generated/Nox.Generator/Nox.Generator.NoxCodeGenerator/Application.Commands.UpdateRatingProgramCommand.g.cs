@@ -11,33 +11,31 @@ using Nox.Factories;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
-using RatingProgram = ClientApi.Domain.RatingProgram;
+using RatingProgramEntity = ClientApi.Domain.RatingProgram;
 
 namespace ClientApi.Application.Commands;
 
 public record UpdateRatingProgramCommand(System.Guid keyStoreId, System.Int64 keyId, RatingProgramUpdateDto EntityDto, System.Guid? Etag) : IRequest<RatingProgramKeyDto?>;
 
-internal partial class UpdateRatingProgramCommandHandler: UpdateRatingProgramCommandHandlerBase
+internal partial class UpdateRatingProgramCommandHandler : UpdateRatingProgramCommandHandlerBase
 {
 	public UpdateRatingProgramCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<RatingProgram, RatingProgramCreateDto, RatingProgramUpdateDto> entityFactory): base(dbContext, noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 
-internal abstract class UpdateRatingProgramCommandHandlerBase: CommandBase<UpdateRatingProgramCommand, RatingProgram>, IRequestHandler<UpdateRatingProgramCommand, RatingProgramKeyDto?>
+internal abstract class UpdateRatingProgramCommandHandlerBase : CommandBase<UpdateRatingProgramCommand, RatingProgramEntity>, IRequestHandler<UpdateRatingProgramCommand, RatingProgramKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
-	private readonly IEntityFactory<RatingProgram, RatingProgramCreateDto, RatingProgramUpdateDto> _entityFactory;
+	private readonly IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> _entityFactory;
 
 	public UpdateRatingProgramCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<RatingProgram, RatingProgramCreateDto, RatingProgramUpdateDto> entityFactory): base(noxSolution, serviceProvider)
+		IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -47,8 +45,8 @@ internal abstract class UpdateRatingProgramCommandHandlerBase: CommandBase<Updat
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyStoreId = CreateNoxTypeForKey<RatingProgram,Nox.Types.Guid>("StoreId", request.keyStoreId);
-		var keyId = CreateNoxTypeForKey<RatingProgram,Nox.Types.AutoNumber>("Id", request.keyId);
+		var keyStoreId = ClientApi.Domain.RatingProgramMetadata.CreateStoreId(request.keyStoreId);
+		var keyId = ClientApi.Domain.RatingProgramMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.RatingPrograms.FindAsync(keyStoreId, keyId);
 		if (entity == null)

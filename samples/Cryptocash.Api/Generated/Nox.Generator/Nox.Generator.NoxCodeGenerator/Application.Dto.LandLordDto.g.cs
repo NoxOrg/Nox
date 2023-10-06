@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using Cryptocash.Domain;
+using LandLordEntity = Cryptocash.Domain.LandLord;
 
 namespace Cryptocash.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class LandLordDto : LandLordDtoBase
 /// <summary>
 /// Landlord related data.
 /// </summary>
-public abstract class LandLordDtoBase : EntityDtoBase, IEntityDto<LandLord>
+public abstract class LandLordDtoBase : EntityDtoBase, IEntityDto<LandLordEntity>
 {
 
     #region Validation
@@ -69,6 +70,7 @@ public abstract class LandLordDtoBase : EntityDtoBase, IEntityDto<LandLord>
     /// LandLord leases an area to house ZeroOrMany VendingMachines
     /// </summary>
     public virtual List<VendingMachineDto> ContractedAreasForVendingMachines { get; set; } = new();
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

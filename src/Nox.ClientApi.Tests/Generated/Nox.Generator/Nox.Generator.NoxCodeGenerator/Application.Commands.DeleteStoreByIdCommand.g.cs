@@ -9,29 +9,27 @@ using Nox.Solution;
 using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
-using Store = ClientApi.Domain.Store;
+using StoreEntity = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Commands;
 
 public record DeleteStoreByIdCommand(System.Guid keyId, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteStoreByIdCommandHandler:DeleteStoreByIdCommandHandlerBase
+internal class DeleteStoreByIdCommandHandler : DeleteStoreByIdCommandHandlerBase
 {
 	public DeleteStoreByIdCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
-internal abstract class DeleteStoreByIdCommandHandlerBase: CommandBase<DeleteStoreByIdCommand,Store>, IRequestHandler<DeleteStoreByIdCommand, bool>
+internal abstract class DeleteStoreByIdCommandHandlerBase : CommandBase<DeleteStoreByIdCommand, StoreEntity>, IRequestHandler<DeleteStoreByIdCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 
 	public DeleteStoreByIdCommandHandlerBase(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
@@ -40,7 +38,7 @@ internal abstract class DeleteStoreByIdCommandHandlerBase: CommandBase<DeleteSto
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Store,Nox.Types.Guid>("Id", request.keyId);
+		var keyId = ClientApi.Domain.StoreMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Stores.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted == true)

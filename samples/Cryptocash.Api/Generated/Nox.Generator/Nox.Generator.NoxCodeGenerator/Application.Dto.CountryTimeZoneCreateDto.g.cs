@@ -10,6 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
+using CountryTimeZoneEntity = Cryptocash.Domain.CountryTimeZone;
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -22,7 +23,7 @@ public partial class CountryTimeZoneCreateDto : CountryTimeZoneCreateDtoBase
 /// <summary>
 /// Time zone related to country.
 /// </summary>
-public abstract class CountryTimeZoneCreateDtoBase : IEntityDto<CountryTimeZone>
+public abstract class CountryTimeZoneCreateDtoBase : IEntityDto<CountryTimeZoneEntity>
 {
     /// <summary>
     /// Country's related time zone code (Required).

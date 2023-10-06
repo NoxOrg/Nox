@@ -20,14 +20,14 @@ public partial class CountryQualityOfLifeIndexMetadata
         /// Factory for property 'CountryId'
         /// </summary>
         public static Nox.Types.AutoNumber CreateCountryId(System.Int64 value)
-            => Nox.Types.AutoNumber.From(value);
+            => Nox.Types.AutoNumber.FromDatabase(value);
         
     
         /// <summary>
         /// Factory for property 'Id'
         /// </summary>
         public static Nox.Types.AutoNumber CreateId(System.Int64 value)
-            => Nox.Types.AutoNumber.From(value);
+            => Nox.Types.AutoNumber.FromDatabase(value);
         
     
         /// <summary>

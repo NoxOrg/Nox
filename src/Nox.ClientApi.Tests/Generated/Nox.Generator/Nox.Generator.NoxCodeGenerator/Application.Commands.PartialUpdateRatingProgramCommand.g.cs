@@ -12,32 +12,30 @@ using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
-using RatingProgram = ClientApi.Domain.RatingProgram;
+using RatingProgramEntity = ClientApi.Domain.RatingProgram;
 
 namespace ClientApi.Application.Commands;
 
 public record PartialUpdateRatingProgramCommand(System.Guid keyStoreId, System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <RatingProgramKeyDto?>;
 
-internal class PartialUpdateRatingProgramCommandHandler: PartialUpdateRatingProgramCommandHandlerBase
+internal class PartialUpdateRatingProgramCommandHandler : PartialUpdateRatingProgramCommandHandlerBase
 {
 	public PartialUpdateRatingProgramCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<RatingProgram, RatingProgramCreateDto, RatingProgramUpdateDto> entityFactory) : base(dbContext,noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
 	}
 }
-internal class PartialUpdateRatingProgramCommandHandlerBase: CommandBase<PartialUpdateRatingProgramCommand, RatingProgram>, IRequestHandler<PartialUpdateRatingProgramCommand, RatingProgramKeyDto?>
+internal class PartialUpdateRatingProgramCommandHandlerBase : CommandBase<PartialUpdateRatingProgramCommand, RatingProgramEntity>, IRequestHandler<PartialUpdateRatingProgramCommand, RatingProgramKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
-	public IEntityFactory<RatingProgram, RatingProgramCreateDto, RatingProgramUpdateDto> EntityFactory { get; }
+	public IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateRatingProgramCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<RatingProgram, RatingProgramCreateDto, RatingProgramUpdateDto> entityFactory) : base(noxSolution, serviceProvider)
+		IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -47,8 +45,8 @@ internal class PartialUpdateRatingProgramCommandHandlerBase: CommandBase<Partial
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyStoreId = CreateNoxTypeForKey<RatingProgram,Nox.Types.Guid>("StoreId", request.keyStoreId);
-		var keyId = CreateNoxTypeForKey<RatingProgram,Nox.Types.AutoNumber>("Id", request.keyId);
+		var keyStoreId = ClientApi.Domain.RatingProgramMetadata.CreateStoreId(request.keyStoreId);
+		var keyId = ClientApi.Domain.RatingProgramMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.RatingPrograms.FindAsync(keyStoreId, keyId);
 		if (entity == null)

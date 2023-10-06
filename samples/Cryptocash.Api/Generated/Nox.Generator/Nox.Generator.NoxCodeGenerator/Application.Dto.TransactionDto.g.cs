@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using Cryptocash.Domain;
+using TransactionEntity = Cryptocash.Domain.Transaction;
 
 namespace Cryptocash.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class TransactionDto : TransactionDtoBase
 /// <summary>
 /// Customer transaction log and related data.
 /// </summary>
-public abstract class TransactionDtoBase : EntityDtoBase, IEntityDto<Transaction>
+public abstract class TransactionDtoBase : EntityDtoBase, IEntityDto<TransactionEntity>
 {
 
     #region Validation
@@ -95,6 +96,7 @@ public abstract class TransactionDtoBase : EntityDtoBase, IEntityDto<Transaction
     //EF maps ForeignKey Automatically
     public System.Guid? TransactionForBookingId { get; set; } = default!;
     public virtual BookingDto? TransactionForBooking { get; set; } = null!;
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

@@ -9,29 +9,27 @@ using Nox.Solution;
 using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
-using StoreLicense = ClientApi.Domain.StoreLicense;
+using StoreLicenseEntity = ClientApi.Domain.StoreLicense;
 
 namespace ClientApi.Application.Commands;
 
 public record DeleteStoreLicenseByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteStoreLicenseByIdCommandHandler:DeleteStoreLicenseByIdCommandHandlerBase
+internal class DeleteStoreLicenseByIdCommandHandler : DeleteStoreLicenseByIdCommandHandlerBase
 {
 	public DeleteStoreLicenseByIdCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
-internal abstract class DeleteStoreLicenseByIdCommandHandlerBase: CommandBase<DeleteStoreLicenseByIdCommand,StoreLicense>, IRequestHandler<DeleteStoreLicenseByIdCommand, bool>
+internal abstract class DeleteStoreLicenseByIdCommandHandlerBase : CommandBase<DeleteStoreLicenseByIdCommand, StoreLicenseEntity>, IRequestHandler<DeleteStoreLicenseByIdCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 
 	public DeleteStoreLicenseByIdCommandHandlerBase(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
@@ -40,7 +38,7 @@ internal abstract class DeleteStoreLicenseByIdCommandHandlerBase: CommandBase<De
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<StoreLicense,Nox.Types.AutoNumber>("Id", request.keyId);
+		var keyId = ClientApi.Domain.StoreLicenseMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.StoreLicenses.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted == true)

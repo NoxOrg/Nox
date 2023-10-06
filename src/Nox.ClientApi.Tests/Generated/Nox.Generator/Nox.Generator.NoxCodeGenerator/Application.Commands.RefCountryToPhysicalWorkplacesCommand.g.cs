@@ -15,6 +15,7 @@ using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
@@ -28,10 +29,9 @@ internal partial class CreateRefCountryToPhysicalWorkplacesCommandHandler
 {
 	public CreateRefCountryToPhysicalWorkplacesCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Create)
+		: base(dbContext, noxSolution, RelationshipAction.Create)
 	{ }
 }
 
@@ -43,10 +43,9 @@ internal partial class DeleteRefCountryToPhysicalWorkplacesCommandHandler
 {
 	public DeleteRefCountryToPhysicalWorkplacesCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Delete)
+		: base(dbContext, noxSolution, RelationshipAction.Delete)
 	{ }
 }
 
@@ -58,14 +57,13 @@ internal partial class DeleteAllRefCountryToPhysicalWorkplacesCommandHandler
 {
 	public DeleteAllRefCountryToPhysicalWorkplacesCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
 	{ }
 }
 
-internal abstract class RefCountryToPhysicalWorkplacesCommandHandlerBase<TRequest> : CommandBase<TRequest, Country>,
+internal abstract class RefCountryToPhysicalWorkplacesCommandHandlerBase<TRequest> : CommandBase<TRequest, CountryEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCountryToPhysicalWorkplacesCommand
 {
 	public ClientApiDbContext DbContext { get; }
@@ -77,9 +75,8 @@ internal abstract class RefCountryToPhysicalWorkplacesCommandHandlerBase<TReques
 	public RefCountryToPhysicalWorkplacesCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
 		RelationshipAction action)
-		: base(noxSolution, serviceProvider)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		Action = action;
@@ -89,17 +86,17 @@ internal abstract class RefCountryToPhysicalWorkplacesCommandHandlerBase<TReques
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Country, Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);
+		var keyId = ClientApi.Domain.CountryMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.Countries.FindAsync(keyId);
 		if (entity == null)
 		{
 			return false;
 		}
 
-		Workplace? relatedEntity = null!;
+		ClientApi.Domain.Workplace? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
-			var relatedKeyId = CreateNoxTypeForKey<Workplace, Nox.Types.Nuid>("Id", request.RelatedEntityKeyDto.keyId);
+			var relatedKeyId = ClientApi.Domain.WorkplaceMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
 			relatedEntity = await DbContext.Workplaces.FindAsync(relatedKeyId);
 			if (relatedEntity == null)
 			{

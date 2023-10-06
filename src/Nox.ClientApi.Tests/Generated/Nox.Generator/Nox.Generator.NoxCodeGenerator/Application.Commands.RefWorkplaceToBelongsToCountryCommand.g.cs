@@ -15,6 +15,7 @@ using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using WorkplaceEntity = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Commands;
 
@@ -28,10 +29,9 @@ internal partial class CreateRefWorkplaceToBelongsToCountryCommandHandler
 {
 	public CreateRefWorkplaceToBelongsToCountryCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Create)
+		: base(dbContext, noxSolution, RelationshipAction.Create)
 	{ }
 }
 
@@ -43,10 +43,9 @@ internal partial class DeleteRefWorkplaceToBelongsToCountryCommandHandler
 {
 	public DeleteRefWorkplaceToBelongsToCountryCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Delete)
+		: base(dbContext, noxSolution, RelationshipAction.Delete)
 	{ }
 }
 
@@ -58,14 +57,13 @@ internal partial class DeleteAllRefWorkplaceToBelongsToCountryCommandHandler
 {
 	public DeleteAllRefWorkplaceToBelongsToCountryCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
 	{ }
 }
 
-internal abstract class RefWorkplaceToBelongsToCountryCommandHandlerBase<TRequest> : CommandBase<TRequest, Workplace>,
+internal abstract class RefWorkplaceToBelongsToCountryCommandHandlerBase<TRequest> : CommandBase<TRequest, WorkplaceEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefWorkplaceToBelongsToCountryCommand
 {
 	public ClientApiDbContext DbContext { get; }
@@ -77,9 +75,8 @@ internal abstract class RefWorkplaceToBelongsToCountryCommandHandlerBase<TReques
 	public RefWorkplaceToBelongsToCountryCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
 		RelationshipAction action)
-		: base(noxSolution, serviceProvider)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		Action = action;
@@ -89,17 +86,17 @@ internal abstract class RefWorkplaceToBelongsToCountryCommandHandlerBase<TReques
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Workplace, Nox.Types.Nuid>("Id", request.EntityKeyDto.keyId);
+		var keyId = ClientApi.Domain.WorkplaceMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.Workplaces.FindAsync(keyId);
 		if (entity == null)
 		{
 			return false;
 		}
 
-		Country? relatedEntity = null!;
+		ClientApi.Domain.Country? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
-			var relatedKeyId = CreateNoxTypeForKey<Country, Nox.Types.AutoNumber>("Id", request.RelatedEntityKeyDto.keyId);
+			var relatedKeyId = ClientApi.Domain.CountryMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
 			relatedEntity = await DbContext.Countries.FindAsync(relatedKeyId);
 			if (relatedEntity == null)
 			{

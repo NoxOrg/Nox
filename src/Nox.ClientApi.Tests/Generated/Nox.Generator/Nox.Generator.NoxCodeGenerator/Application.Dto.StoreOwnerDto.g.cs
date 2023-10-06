@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using ClientApi.Domain;
+using StoreOwnerEntity = ClientApi.Domain.StoreOwner;
 
 namespace ClientApi.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class StoreOwnerDto : StoreOwnerDtoBase
 /// <summary>
 /// Store owners.
 /// </summary>
-public abstract class StoreOwnerDtoBase : EntityDtoBase, IEntityDto<StoreOwner>
+public abstract class StoreOwnerDtoBase : EntityDtoBase, IEntityDto<StoreOwnerEntity>
 {
 
     #region Validation
@@ -97,6 +98,7 @@ public abstract class StoreOwnerDtoBase : EntityDtoBase, IEntityDto<StoreOwner>
     /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores
     /// </summary>
     public virtual List<StoreDto> Stores { get; set; } = new();
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

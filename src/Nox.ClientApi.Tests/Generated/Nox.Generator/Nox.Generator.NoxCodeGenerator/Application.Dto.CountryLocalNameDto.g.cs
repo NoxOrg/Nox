@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using ClientApi.Domain;
+using CountryLocalNameEntity = ClientApi.Domain.CountryLocalName;
 
 namespace ClientApi.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class CountryLocalNameDto : CountryLocalNameDtoBase
 /// <summary>
 /// Local names for countries.
 /// </summary>
-public abstract class CountryLocalNameDtoBase : EntityDtoBase, IEntityDto<CountryLocalName>
+public abstract class CountryLocalNameDtoBase : EntityDtoBase, IEntityDto<CountryLocalNameEntity>
 {
 
     #region Validation

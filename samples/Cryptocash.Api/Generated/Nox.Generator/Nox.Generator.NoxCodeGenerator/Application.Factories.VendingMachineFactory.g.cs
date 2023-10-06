@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Domain;
-using VendingMachine = Cryptocash.Domain.VendingMachine;
+using VendingMachineEntity = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application.Factories;
 
-internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto>
+internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachineEntity, VendingMachineCreateDto, VendingMachineUpdateDto>
 {
 
     public VendingMachineFactoryBase
@@ -32,17 +32,17 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
     {
     }
 
-    public virtual VendingMachine CreateEntity(VendingMachineCreateDto createDto)
+    public virtual VendingMachineEntity CreateEntity(VendingMachineCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(VendingMachine entity, VendingMachineUpdateDto updateDto)
+    public virtual void UpdateEntity(VendingMachineEntity entity, VendingMachineUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(VendingMachine entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(VendingMachineEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -61,7 +61,7 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
         return entity;
     }
 
-    private void UpdateEntityInternal(VendingMachine entity, VendingMachineUpdateDto updateDto)
+    private void UpdateEntityInternal(VendingMachineEntity entity, VendingMachineUpdateDto updateDto)
     {
         entity.MacAddress = Cryptocash.Domain.VendingMachineMetadata.CreateMacAddress(updateDto.MacAddress.NonNullValue<System.String>());
         entity.PublicIp = Cryptocash.Domain.VendingMachineMetadata.CreatePublicIp(updateDto.PublicIp.NonNullValue<System.String>());
@@ -76,7 +76,7 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
         }
     }
 
-    private void PartialUpdateEntityInternal(VendingMachine entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(VendingMachineEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("MacAddress", out var MacAddressUpdateValue))

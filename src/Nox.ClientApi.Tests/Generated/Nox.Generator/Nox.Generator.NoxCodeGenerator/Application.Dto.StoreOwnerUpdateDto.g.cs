@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ClientApi.Domain;
 
+using StoreOwnerEntity = ClientApi.Domain.StoreOwner;
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Store owners.
 /// </summary>
-public partial class StoreOwnerUpdateDto : IEntityDto<StoreOwner>
+public partial class StoreOwnerUpdateDto : IEntityDto<StoreOwnerEntity>
 {
     /// <summary>
     /// Owner Name (Required).

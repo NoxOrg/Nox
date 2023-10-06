@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using ClientApi.Domain;
+using WorkplaceEntity = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class WorkplaceDto : WorkplaceDtoBase
 /// <summary>
 /// Workplace.
 /// </summary>
-public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<Workplace>
+public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<WorkplaceEntity>
 {
 
     #region Validation

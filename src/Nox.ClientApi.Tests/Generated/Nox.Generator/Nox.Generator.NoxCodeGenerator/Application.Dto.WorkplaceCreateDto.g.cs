@@ -10,6 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
+using WorkplaceEntity = ClientApi.Domain.Workplace;
 using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
@@ -22,7 +23,7 @@ public partial class WorkplaceCreateDto : WorkplaceCreateDtoBase
 /// <summary>
 /// Workplace.
 /// </summary>
-public abstract class WorkplaceCreateDtoBase : IEntityDto<Workplace>
+public abstract class WorkplaceCreateDtoBase : IEntityDto<WorkplaceEntity>
 {
     /// <summary>
     /// Workplace Name (Required).
@@ -42,5 +43,8 @@ public abstract class WorkplaceCreateDtoBase : IEntityDto<Workplace>
     /// <summary>
     /// Workplace Workplace country ZeroOrOne Countries
     /// </summary>
+    public System.Int64? BelongsToCountryId { get; set; } = default!;
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual CountryCreateDto? BelongsToCountry { get; set; } = default!;
 }

@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using ClientApi.Domain;
+using EmailAddressEntity = ClientApi.Domain.EmailAddress;
 
 namespace ClientApi.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class EmailAddressDto : EmailAddressDtoBase
 /// <summary>
 /// Verified Email Address.
 /// </summary>
-public abstract class EmailAddressDtoBase : EntityDtoBase, IEntityDto<EmailAddress>
+public abstract class EmailAddressDtoBase : EntityDtoBase, IEntityDto<EmailAddressEntity>
 {
 
     #region Validation

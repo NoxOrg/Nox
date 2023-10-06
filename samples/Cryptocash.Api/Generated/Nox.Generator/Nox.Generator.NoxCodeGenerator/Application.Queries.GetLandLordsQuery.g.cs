@@ -34,7 +34,6 @@ internal abstract class GetLandLordsQueryHandlerBase : QueryBase<IQueryable<Land
     public virtual Task<IQueryable<LandLordDto>> Handle(GetLandLordsQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<LandLordDto>)DataDbContext.LandLords
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }

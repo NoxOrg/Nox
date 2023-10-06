@@ -5,6 +5,8 @@
 using System.Reflection;
 using System.Diagnostics;
 
+using MediatR;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -32,9 +34,11 @@ internal partial class CryptocashDbContext : DbContext
     private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
     private readonly IUserProvider _userProvider;
     private readonly ISystemProvider _systemProvider;
+    private readonly IPublisher _publisher;
 
     public CryptocashDbContext(
             DbContextOptions<CryptocashDbContext> options,
+            IPublisher publisher,
             NoxSolution noxSolution,
             INoxDatabaseProvider databaseProvider,
             INoxClientAssemblyProvider clientAssemblyProvider, 
@@ -42,6 +46,7 @@ internal partial class CryptocashDbContext : DbContext
             ISystemProvider systemProvider
         ) : base(options)
         {
+            _publisher = publisher;
             _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
             _clientAssemblyProvider = clientAssemblyProvider;
@@ -49,36 +54,36 @@ internal partial class CryptocashDbContext : DbContext
             _systemProvider = systemProvider;
         }
 
-    public DbSet<Booking> Bookings { get; set; } = null!;
+    public DbSet<Cryptocash.Domain.Booking> Bookings { get; set; } = null!;
 
-    public DbSet<Commission> Commissions { get; set; } = null!;
+    public DbSet<Cryptocash.Domain.Commission> Commissions { get; set; } = null!;
 
-    public DbSet<Country> Countries { get; set; } = null!;
-
-
-
-    public DbSet<Currency> Currencies { get; set; } = null!;
-
-
-    public DbSet<Customer> Customers { get; set; } = null!;
-
-    public DbSet<PaymentDetail> PaymentDetails { get; set; } = null!;
-
-    public DbSet<Transaction> Transactions { get; set; } = null!;
-
-    public DbSet<Employee> Employees { get; set; } = null!;
+    public DbSet<Cryptocash.Domain.Country> Countries { get; set; } = null!;
 
 
 
-    public DbSet<LandLord> LandLords { get; set; } = null!;
+    public DbSet<Cryptocash.Domain.Currency> Currencies { get; set; } = null!;
 
-    public DbSet<MinimumCashStock> MinimumCashStocks { get; set; } = null!;
 
-    public DbSet<PaymentProvider> PaymentProviders { get; set; } = null!;
+    public DbSet<Cryptocash.Domain.Customer> Customers { get; set; } = null!;
 
-    public DbSet<VendingMachine> VendingMachines { get; set; } = null!;
+    public DbSet<Cryptocash.Domain.PaymentDetail> PaymentDetails { get; set; } = null!;
 
-    public DbSet<CashStockOrder> CashStockOrders { get; set; } = null!;
+    public DbSet<Cryptocash.Domain.Transaction> Transactions { get; set; } = null!;
+
+    public DbSet<Cryptocash.Domain.Employee> Employees { get; set; } = null!;
+
+
+
+    public DbSet<Cryptocash.Domain.LandLord> LandLords { get; set; } = null!;
+
+    public DbSet<Cryptocash.Domain.MinimumCashStock> MinimumCashStocks { get; set; } = null!;
+
+    public DbSet<Cryptocash.Domain.PaymentProvider> PaymentProviders { get; set; } = null!;
+
+    public DbSet<Cryptocash.Domain.VendingMachine> VendingMachines { get; set; } = null!;
+
+    public DbSet<Cryptocash.Domain.CashStockOrder> CashStockOrders { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -93,6 +98,7 @@ internal partial class CryptocashDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
        
+        ConfigureAuditable(modelBuilder);
 
         if (_noxSolution.Domain != null)
         {
@@ -119,19 +125,85 @@ internal partial class CryptocashDbContext : DbContext
         }
     }
 
+    private void ConfigureAuditable(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Cryptocash.Domain.Booking>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Cryptocash.Domain.Commission>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Cryptocash.Domain.Country>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Cryptocash.Domain.Currency>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Cryptocash.Domain.Customer>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Cryptocash.Domain.PaymentDetail>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Cryptocash.Domain.Transaction>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Cryptocash.Domain.Employee>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Cryptocash.Domain.LandLord>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Cryptocash.Domain.MinimumCashStock>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Cryptocash.Domain.PaymentProvider>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Cryptocash.Domain.VendingMachine>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<Cryptocash.Domain.CashStockOrder>().HasQueryFilter(p => p.DeletedAtUtc == null);
+    }
+
     /// <inheritdoc/>
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
         try
         {
             HandleSystemFields();
+            await HandleDomainEvents();
             return await base.SaveChangesAsync(cancellationToken);
-
         }
         catch(DbUpdateConcurrencyException)
         {
             throw new Nox.Exceptions.ConcurrencyException($"Latest value of {nameof(IEntityConcurrent.Etag)} must be provided");
         }
+    }
+
+    private async Task HandleDomainEvents()
+    {
+        var entriesWithDomainEvents = GetEntriesWithDomainEvents();
+        RaiseDomainEventsFor(entriesWithDomainEvents); 
+        await DispatchEvents(entriesWithDomainEvents.SelectMany(e=>e.Entity.DomainEvents));
+        ClearDomainEvents(entriesWithDomainEvents.ToList());
+    }
+    public IEnumerable<EntityEntry<IEntityHaveDomainEvents>> GetEntriesWithDomainEvents()
+    {
+        return ChangeTracker.Entries<IEntityHaveDomainEvents>();
+    }
+
+    public void RaiseDomainEventsFor(IEnumerable<EntityEntry<IEntityHaveDomainEvents>> entriesWithDomainEvents)
+    {
+        foreach (var entry in entriesWithDomainEvents)
+        {
+            RaiseDomainEvent(entry);
+        }
+    }
+
+    private void RaiseDomainEvent(EntityEntry<IEntityHaveDomainEvents> entry)
+    {
+        switch (entry.State)
+        {
+            case EntityState.Added:
+                entry.Entity.RaiseCreateEvent();
+                break;
+
+            case EntityState.Modified:
+                entry.Entity.RaiseUpdateEvent();
+                break;
+
+            case EntityState.Deleted:
+                entry.Entity.RaiseDeleteEvent();
+                break;
+        }
+    }
+        
+    private async Task DispatchEvents(IEnumerable<IDomainEvent> selectMany)
+    {
+        var tasks = selectMany.Select(domainEvent => _publisher.Publish(domainEvent));
+        await Task.WhenAll(tasks);
+    }
+        
+    private void ClearDomainEvents(List<EntityEntry<IEntityHaveDomainEvents>> entriesWithDomainEvents)
+    {
+        entriesWithDomainEvents.ForEach(e=>e.Entity.ClearDomainEvents());
     }
 
     private void HandleSystemFields()

@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using Cryptocash.Domain;
+using CustomerEntity = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class CustomerDto : CustomerDtoBase
 /// <summary>
 /// Customer definition and related data.
 /// </summary>
-public abstract class CustomerDtoBase : EntityDtoBase, IEntityDto<Customer>
+public abstract class CustomerDtoBase : EntityDtoBase, IEntityDto<CustomerEntity>
 {
 
     #region Validation
@@ -113,6 +114,7 @@ public abstract class CustomerDtoBase : EntityDtoBase, IEntityDto<Customer>
     //EF maps ForeignKey Automatically
     public System.String? CustomerBaseCountryId { get; set; } = default!;
     public virtual CountryDto? CustomerBaseCountry { get; set; } = null!;
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

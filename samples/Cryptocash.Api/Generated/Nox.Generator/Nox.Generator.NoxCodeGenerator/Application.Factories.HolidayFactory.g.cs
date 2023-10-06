@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Domain;
-using Holiday = Cryptocash.Domain.Holiday;
+using HolidayEntity = Cryptocash.Domain.Holiday;
 
 namespace Cryptocash.Application.Factories;
 
-internal abstract class HolidayFactoryBase : IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto>
+internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, HolidayCreateDto, HolidayUpdateDto>
 {
 
     public HolidayFactoryBase
@@ -32,17 +32,17 @@ internal abstract class HolidayFactoryBase : IEntityFactory<Holiday, HolidayCrea
     {
     }
 
-    public virtual Holiday CreateEntity(HolidayCreateDto createDto)
+    public virtual HolidayEntity CreateEntity(HolidayCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(Holiday entity, HolidayUpdateDto updateDto)
+    public virtual void UpdateEntity(HolidayEntity entity, HolidayUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(Holiday entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(HolidayEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }
@@ -56,14 +56,14 @@ internal abstract class HolidayFactoryBase : IEntityFactory<Holiday, HolidayCrea
         return entity;
     }
 
-    private void UpdateEntityInternal(Holiday entity, HolidayUpdateDto updateDto)
+    private void UpdateEntityInternal(HolidayEntity entity, HolidayUpdateDto updateDto)
     {
         entity.Name = Cryptocash.Domain.HolidayMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         entity.Type = Cryptocash.Domain.HolidayMetadata.CreateType(updateDto.Type.NonNullValue<System.String>());
         entity.Date = Cryptocash.Domain.HolidayMetadata.CreateDate(updateDto.Date.NonNullValue<System.DateTime>());
     }
 
-    private void PartialUpdateEntityInternal(Holiday entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(HolidayEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
         if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))

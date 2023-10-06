@@ -34,7 +34,6 @@ internal abstract class GetCountriesQueryHandlerBase : QueryBase<IQueryable<Coun
     public virtual Task<IQueryable<CountryDto>> Handle(GetCountriesQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<CountryDto>)DataDbContext.Countries
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }

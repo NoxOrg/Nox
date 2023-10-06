@@ -15,6 +15,7 @@ using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using StoreLicenseEntity = ClientApi.Domain.StoreLicense;
 
 namespace ClientApi.Application.Commands;
 
@@ -28,10 +29,9 @@ internal partial class CreateRefStoreLicenseToStoreWithLicenseCommandHandler
 {
 	public CreateRefStoreLicenseToStoreWithLicenseCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Create)
+		: base(dbContext, noxSolution, RelationshipAction.Create)
 	{ }
 }
 
@@ -43,10 +43,9 @@ internal partial class DeleteRefStoreLicenseToStoreWithLicenseCommandHandler
 {
 	public DeleteRefStoreLicenseToStoreWithLicenseCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Delete)
+		: base(dbContext, noxSolution, RelationshipAction.Delete)
 	{ }
 }
 
@@ -58,14 +57,13 @@ internal partial class DeleteAllRefStoreLicenseToStoreWithLicenseCommandHandler
 {
 	public DeleteAllRefStoreLicenseToStoreWithLicenseCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
 	{ }
 }
 
-internal abstract class RefStoreLicenseToStoreWithLicenseCommandHandlerBase<TRequest> : CommandBase<TRequest, StoreLicense>,
+internal abstract class RefStoreLicenseToStoreWithLicenseCommandHandlerBase<TRequest> : CommandBase<TRequest, StoreLicenseEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefStoreLicenseToStoreWithLicenseCommand
 {
 	public ClientApiDbContext DbContext { get; }
@@ -77,9 +75,8 @@ internal abstract class RefStoreLicenseToStoreWithLicenseCommandHandlerBase<TReq
 	public RefStoreLicenseToStoreWithLicenseCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
 		RelationshipAction action)
-		: base(noxSolution, serviceProvider)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		Action = action;
@@ -89,17 +86,17 @@ internal abstract class RefStoreLicenseToStoreWithLicenseCommandHandlerBase<TReq
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<StoreLicense, Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);
+		var keyId = ClientApi.Domain.StoreLicenseMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.StoreLicenses.FindAsync(keyId);
 		if (entity == null)
 		{
 			return false;
 		}
 
-		Store? relatedEntity = null!;
+		ClientApi.Domain.Store? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
-			var relatedKeyId = CreateNoxTypeForKey<Store, Nox.Types.Guid>("Id", request.RelatedEntityKeyDto.keyId);
+			var relatedKeyId = ClientApi.Domain.StoreMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
 			relatedEntity = await DbContext.Stores.FindAsync(relatedKeyId);
 			if (relatedEntity == null)
 			{

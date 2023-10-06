@@ -15,6 +15,7 @@ using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using StoreOwnerEntity = ClientApi.Domain.StoreOwner;
 
 namespace ClientApi.Application.Commands;
 
@@ -28,10 +29,9 @@ internal partial class CreateRefStoreOwnerToStoresCommandHandler
 {
 	public CreateRefStoreOwnerToStoresCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Create)
+		: base(dbContext, noxSolution, RelationshipAction.Create)
 	{ }
 }
 
@@ -43,10 +43,9 @@ internal partial class DeleteRefStoreOwnerToStoresCommandHandler
 {
 	public DeleteRefStoreOwnerToStoresCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Delete)
+		: base(dbContext, noxSolution, RelationshipAction.Delete)
 	{ }
 }
 
@@ -58,14 +57,13 @@ internal partial class DeleteAllRefStoreOwnerToStoresCommandHandler
 {
 	public DeleteAllRefStoreOwnerToStoresCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
 	{ }
 }
 
-internal abstract class RefStoreOwnerToStoresCommandHandlerBase<TRequest> : CommandBase<TRequest, StoreOwner>,
+internal abstract class RefStoreOwnerToStoresCommandHandlerBase<TRequest> : CommandBase<TRequest, StoreOwnerEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefStoreOwnerToStoresCommand
 {
 	public ClientApiDbContext DbContext { get; }
@@ -77,9 +75,8 @@ internal abstract class RefStoreOwnerToStoresCommandHandlerBase<TRequest> : Comm
 	public RefStoreOwnerToStoresCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
 		RelationshipAction action)
-		: base(noxSolution, serviceProvider)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		Action = action;
@@ -89,17 +86,17 @@ internal abstract class RefStoreOwnerToStoresCommandHandlerBase<TRequest> : Comm
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<StoreOwner, Nox.Types.Text>("Id", request.EntityKeyDto.keyId);
+		var keyId = ClientApi.Domain.StoreOwnerMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.StoreOwners.FindAsync(keyId);
 		if (entity == null)
 		{
 			return false;
 		}
 
-		Store? relatedEntity = null!;
+		ClientApi.Domain.Store? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
-			var relatedKeyId = CreateNoxTypeForKey<Store, Nox.Types.Guid>("Id", request.RelatedEntityKeyDto.keyId);
+			var relatedKeyId = ClientApi.Domain.StoreMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
 			relatedEntity = await DbContext.Stores.FindAsync(relatedKeyId);
 			if (relatedEntity == null)
 			{

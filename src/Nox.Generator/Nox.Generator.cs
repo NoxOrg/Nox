@@ -189,6 +189,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
                 .Build();
 
             config = deserializer.Deserialize<GeneratorConfig>(configContent);
+            config.Validate();
         }
         catch (YamlException e)
         {

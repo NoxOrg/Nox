@@ -10,6 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
+using LandLordEntity = Cryptocash.Domain.LandLord;
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -22,7 +23,7 @@ public partial class LandLordCreateDto : LandLordCreateDtoBase
 /// <summary>
 /// Landlord related data.
 /// </summary>
-public abstract class LandLordCreateDtoBase : IEntityDto<LandLord>
+public abstract class LandLordCreateDtoBase : IEntityDto<LandLordEntity>
 {
     /// <summary>
     /// Landlord name (Required).
@@ -40,5 +41,7 @@ public abstract class LandLordCreateDtoBase : IEntityDto<LandLord>
     /// <summary>
     /// LandLord leases an area to house ZeroOrMany VendingMachines
     /// </summary>
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual List<VendingMachineCreateDto> ContractedAreasForVendingMachines { get; set; } = new();
 }

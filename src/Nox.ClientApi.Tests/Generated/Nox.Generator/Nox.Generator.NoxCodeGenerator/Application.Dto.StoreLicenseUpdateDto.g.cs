@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ClientApi.Domain;
 
+using StoreLicenseEntity = ClientApi.Domain.StoreLicense;
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Store license info.
 /// </summary>
-public partial class StoreLicenseUpdateDto : IEntityDto<StoreLicense>
+public partial class StoreLicenseUpdateDto : IEntityDto<StoreLicenseEntity>
 {
     /// <summary>
     /// License issuer (Required).

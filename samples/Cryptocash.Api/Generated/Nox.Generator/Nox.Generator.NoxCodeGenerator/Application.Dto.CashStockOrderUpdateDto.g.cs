@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Cryptocash.Domain;
 
+using CashStockOrderEntity = Cryptocash.Domain.CashStockOrder;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-public partial class CashStockOrderUpdateDto : IEntityDto<CashStockOrder>
+public partial class CashStockOrderUpdateDto : IEntityDto<CashStockOrderEntity>
 {
     /// <summary>
     /// Order amount (Required).

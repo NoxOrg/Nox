@@ -14,32 +14,30 @@ using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
-using BankNote = Cryptocash.Domain.BankNote;
+using BankNoteEntity = Cryptocash.Domain.BankNote;
 
 namespace Cryptocash.Application.Commands;
 public record CreateBankNoteForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteCreateDto EntityDto, System.Guid? Etag) : IRequest <BankNoteKeyDto?>;
 
-internal partial class CreateBankNoteForCurrencyCommandHandler: CreateBankNoteForCurrencyCommandHandlerBase
+internal partial class CreateBankNoteForCurrencyCommandHandler : CreateBankNoteForCurrencyCommandHandlerBase
 {
 	public CreateBankNoteForCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution, entityFactory, serviceProvider)
+		IEntityFactory<BankNoteEntity, BankNoteCreateDto, BankNoteUpdateDto> entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
-internal abstract class CreateBankNoteForCurrencyCommandHandlerBase: CommandBase<CreateBankNoteForCurrencyCommand, BankNote>, IRequestHandler<CreateBankNoteForCurrencyCommand, BankNoteKeyDto?>
+internal abstract class CreateBankNoteForCurrencyCommandHandlerBase : CommandBase<CreateBankNoteForCurrencyCommand, BankNoteEntity>, IRequestHandler<CreateBankNoteForCurrencyCommand, BankNoteKeyDto?>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto> _entityFactory;
+	private readonly IEntityFactory<BankNoteEntity, BankNoteCreateDto, BankNoteUpdateDto> _entityFactory;
 
 	public CreateBankNoteForCurrencyCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<BankNote, BankNoteCreateDto, BankNoteUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<BankNoteEntity, BankNoteCreateDto, BankNoteUpdateDto> entityFactory) : base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -48,7 +46,7 @@ internal abstract class CreateBankNoteForCurrencyCommandHandlerBase: CommandBase
 	public virtual  async Task<BankNoteKeyDto?> Handle(CreateBankNoteForCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Currency,Nox.Types.CurrencyCode3>("Id", request.ParentKeyDto.keyId);
+		var keyId = Cryptocash.Domain.CurrencyMetadata.CreateId(request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.Currencies.FindAsync(keyId);
 		if (parentEntity == null)

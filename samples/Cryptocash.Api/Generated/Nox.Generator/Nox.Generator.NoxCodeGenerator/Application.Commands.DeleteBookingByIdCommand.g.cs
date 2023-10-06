@@ -9,29 +9,27 @@ using Nox.Solution;
 using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
-using Booking = Cryptocash.Domain.Booking;
+using BookingEntity = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Commands;
 
 public record DeleteBookingByIdCommand(System.Guid keyId, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeleteBookingByIdCommandHandler:DeleteBookingByIdCommandHandlerBase
+internal class DeleteBookingByIdCommandHandler : DeleteBookingByIdCommandHandlerBase
 {
 	public DeleteBookingByIdCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
-internal abstract class DeleteBookingByIdCommandHandlerBase: CommandBase<DeleteBookingByIdCommand,Booking>, IRequestHandler<DeleteBookingByIdCommand, bool>
+internal abstract class DeleteBookingByIdCommandHandlerBase : CommandBase<DeleteBookingByIdCommand, BookingEntity>, IRequestHandler<DeleteBookingByIdCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public DeleteBookingByIdCommandHandlerBase(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
@@ -40,7 +38,7 @@ internal abstract class DeleteBookingByIdCommandHandlerBase: CommandBase<DeleteB
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Booking,Nox.Types.Guid>("Id", request.keyId);
+		var keyId = Cryptocash.Domain.BookingMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Bookings.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted == true)

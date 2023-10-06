@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using ClientApi.Domain;
+using RatingProgramEntity = ClientApi.Domain.RatingProgram;
 
 namespace ClientApi.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class RatingProgramDto : RatingProgramDtoBase
 /// <summary>
 /// Rating program for store.
 /// </summary>
-public abstract class RatingProgramDtoBase : EntityDtoBase, IEntityDto<RatingProgram>
+public abstract class RatingProgramDtoBase : EntityDtoBase, IEntityDto<RatingProgramEntity>
 {
 
     #region Validation

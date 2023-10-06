@@ -11,33 +11,31 @@ using Nox.Factories;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
-using StoreLicense = ClientApi.Domain.StoreLicense;
+using StoreLicenseEntity = ClientApi.Domain.StoreLicense;
 
 namespace ClientApi.Application.Commands;
 
 public record UpdateStoreLicenseCommand(System.Int64 keyId, StoreLicenseUpdateDto EntityDto, System.Guid? Etag) : IRequest<StoreLicenseKeyDto?>;
 
-internal partial class UpdateStoreLicenseCommandHandler: UpdateStoreLicenseCommandHandlerBase
+internal partial class UpdateStoreLicenseCommandHandler : UpdateStoreLicenseCommandHandlerBase
 {
 	public UpdateStoreLicenseCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory): base(dbContext, noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 
-internal abstract class UpdateStoreLicenseCommandHandlerBase: CommandBase<UpdateStoreLicenseCommand, StoreLicense>, IRequestHandler<UpdateStoreLicenseCommand, StoreLicenseKeyDto?>
+internal abstract class UpdateStoreLicenseCommandHandlerBase : CommandBase<UpdateStoreLicenseCommand, StoreLicenseEntity>, IRequestHandler<UpdateStoreLicenseCommand, StoreLicenseKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
-	private readonly IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> _entityFactory;
+	private readonly IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> _entityFactory;
 
 	public UpdateStoreLicenseCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory): base(noxSolution, serviceProvider)
+		IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -47,7 +45,7 @@ internal abstract class UpdateStoreLicenseCommandHandlerBase: CommandBase<Update
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<StoreLicense,Nox.Types.AutoNumber>("Id", request.keyId);
+		var keyId = ClientApi.Domain.StoreLicenseMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.StoreLicenses.FindAsync(keyId);
 		if (entity == null)

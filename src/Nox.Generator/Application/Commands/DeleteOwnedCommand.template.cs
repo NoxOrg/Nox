@@ -11,6 +11,7 @@ using Nox.Factories;
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
+using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 {{- if isSingleRelationship }}
@@ -23,21 +24,19 @@ internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandler : D
 {
 	public Delete{{entity.Name}}For{{parent.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution, serviceProvider)
+		NoxSolution noxSolution)
+		: base(dbContext, noxSolution)
 	{
 	}
 }
 
-internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandlerBase : CommandBase<Delete{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}>, IRequestHandler <Delete{{entity.Name}}For{{parent.Name}}Command, bool>
+internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandlerBase : CommandBase<Delete{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}Entity>, IRequestHandler <Delete{{entity.Name}}For{{parent.Name}}Command, bool>
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
 
 	public Delete{{entity.Name}}For{{parent.Name}}CommandHandlerBase(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
@@ -48,7 +47,7 @@ internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandlerBase
 		OnExecuting(request);
 
 		{{- for key in parent.Keys }}
-		var key{{key.Name}} = CreateNoxTypeForKey<{{parent.Name}},Nox.Types.{{SingleTypeForKey key}}>("{{key.Name}}", request.ParentKeyDto.key{{key.Name}});
+		var key{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}});
 		{{- end }}
 		var parentEntity = await DbContext.{{parent.PluralName}}.FindAsync({{parentKeysFindQuery}});
 		if (parentEntity == null)
@@ -63,14 +62,14 @@ internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandlerBase
 			return false;
 		}
 
-		parentEntity.{{relationship.Name}} = null;
+		parentEntity.{{relationship.Name}} = null!;
 
 		OnCompleted(request, entity);
 
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		{{ else }}
 		{{- for key in entity.Keys }}
-		var owned{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},Nox.Types.{{SingleTypeForKey key}}>("{{key.Name}}", request.EntityKeyDto.key{{key.Name}});
+		var owned{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(request.EntityKeyDto.key{{key.Name}});
 		{{- end }}
 		var entity = parentEntity.{{relationship.Name}}.SingleOrDefault(x => {{ownedKeysFindQuery}});
 		if (entity == null)

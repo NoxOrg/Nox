@@ -10,6 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
+using CustomerEntity = Cryptocash.Domain.Customer;
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -22,7 +23,7 @@ public partial class CustomerCreateDto : CustomerCreateDtoBase
 /// <summary>
 /// Customer definition and related data.
 /// </summary>
-public abstract class CustomerCreateDtoBase : IEntityDto<Customer>
+public abstract class CustomerCreateDtoBase : IEntityDto<CustomerEntity>
 {
     /// <summary>
     /// Customer's first name (Required).
@@ -56,20 +57,29 @@ public abstract class CustomerCreateDtoBase : IEntityDto<Customer>
     /// <summary>
     /// Customer related to ZeroOrMany PaymentDetails
     /// </summary>
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual List<PaymentDetailCreateDto> CustomerRelatedPaymentDetails { get; set; } = new();
 
     /// <summary>
     /// Customer related to ZeroOrMany Bookings
     /// </summary>
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual List<BookingCreateDto> CustomerRelatedBookings { get; set; } = new();
 
     /// <summary>
     /// Customer related to ZeroOrMany Transactions
     /// </summary>
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual List<TransactionCreateDto> CustomerRelatedTransactions { get; set; } = new();
 
     /// <summary>
     /// Customer based in ExactlyOne Countries
     /// </summary>
+    public System.String? CustomerBaseCountryId { get; set; } = default!;
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual CountryCreateDto? CustomerBaseCountry { get; set; } = default!;
 }

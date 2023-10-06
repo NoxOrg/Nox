@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using Cryptocash.Domain;
+using CashStockOrderEntity = Cryptocash.Domain.CashStockOrder;
 
 namespace Cryptocash.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class CashStockOrderDto : CashStockOrderDtoBase
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-public abstract class CashStockOrderDtoBase : EntityDtoBase, IEntityDto<CashStockOrder>
+public abstract class CashStockOrderDtoBase : EntityDtoBase, IEntityDto<CashStockOrderEntity>
 {
 
     #region Validation
@@ -85,6 +86,7 @@ public abstract class CashStockOrderDtoBase : EntityDtoBase, IEntityDto<CashStoc
     /// CashStockOrder reviewed by ExactlyOne Employees
     /// </summary>
     public virtual EmployeeDto? CashStockOrderReviewedByEmployee { get; set; } = null!;
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

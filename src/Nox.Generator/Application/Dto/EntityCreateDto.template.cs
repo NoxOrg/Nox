@@ -10,6 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
+using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 using {{codeGeneratorState.DomainNameSpace}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto;
@@ -22,7 +23,7 @@ public partial class {{className}} : {{className}}Base
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public abstract class {{className}}Base : IEntityDto<{{entity.Name}}>
+public abstract class {{className}}Base : IEntityDto<{{entity.Name}}Entity>
 {
 {{- for key in entity.Keys }}
     {{- if key.Type == "Nuid" || key.Type == "AutoNumber" -}}
@@ -65,8 +66,15 @@ public abstract class {{className}}Base : IEntityDto<{{entity.Name}}>
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
     {{- if relationship.WithSingleEntity }}
+    public {{relationship.ForeignKeyPrimitiveType}}? {{relationship.Name}}Id { get; set; } = default!;
+    {{#Simplify Avoid complexity by not allowing circular dependency between dtos
+    #User Can set a relationship on the creation phase using the id (entity already exists), for single relations}}
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual {{relationship.Entity}}CreateDto? {{relationship.Name}} { get; set; } = default!;
     {{- else }}
+    {{#Simplify Avoid complexity by not allowing circular dependency between dtos
+    #TODO Allow to set a list of Ids for a *ToMany relations}}
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual List<{{relationship.Entity}}CreateDto> {{relationship.Name}} { get; set; } = new();
     {{-end}}
 {{- end }}

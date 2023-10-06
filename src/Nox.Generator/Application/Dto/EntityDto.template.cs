@@ -17,6 +17,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using {{codeGeneratorState.DomainNameSpace}};
+using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
@@ -30,7 +31,7 @@ public partial class {{className}} : {{className}}Base
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public abstract class {{className}}Base : EntityDtoBase, IEntityDto<{{entity.Name}}>
+public abstract class {{className}}Base : EntityDtoBase, IEntityDto<{{entity.Name}}Entity>
 {
 
     #region Validation
@@ -112,7 +113,7 @@ public abstract class {{className}}Base : EntityDtoBase, IEntityDto<{{entity.Nam
     {{- else}}
         {{- if relationship.ShouldGenerateForeignOnThisSide}}
     //EF maps ForeignKey Automatically
-    public System.{{relationship.ForeignKeyPrimitiveType}}? {{relationship.Name}}Id { get; set; } = default!;
+    public {{relationship.ForeignKeyPrimitiveType}}? {{relationship.Name}}Id { get; set; } = default!;
         {{- end}}
     public virtual {{relationship.Entity}}Dto? {{relationship.Name}} { get; set; } = null!;
     {{-end}}
@@ -130,6 +131,7 @@ public abstract class {{className}}Base : EntityDtoBase, IEntityDto<{{entity.Nam
 {{- end }}
 
 {{- if !entity.IsOwnedEntity && entity.Persistence?.IsAudited == true}}
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 {{- end }}
 {{- if !entity.IsOwnedEntity }}

@@ -20,9 +20,8 @@ internal partial class CreateStoreOwnerCommandHandler
         NoxSolution noxSolution,
         IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> storefactory,
         IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory,
-        IServiceProvider serviceProvider,
         IOutboxRepository outboxRepository)
-        : base(dbContext, noxSolution, storefactory, entityFactory, serviceProvider)
+        : base(dbContext, noxSolution, storefactory, entityFactory)
     {
         _outboxRepository = outboxRepository;
     }

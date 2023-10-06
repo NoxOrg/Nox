@@ -69,7 +69,7 @@ infrastructure:
       # password: "pwd"
       
   messaging:
-    integrationEventServer:      
+    integrationEventServer:       
       name: IntegrationBus
       provider: inMemory      
 
@@ -80,14 +80,14 @@ application:
           type: object
           objectTypeOptions:
             attributes:
-              - name: Code
-                type: countryCode2
-
               - name: Name
                 type: text
 
               - name: Population
                 type: number
+
+              - name: CountryDebt
+                type: money    
 
   dataTransferObjects:
     - name: TempDto

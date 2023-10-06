@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using Cryptocash.Domain;
+using PaymentProviderEntity = Cryptocash.Domain.PaymentProvider;
 
 namespace Cryptocash.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class PaymentProviderDto : PaymentProviderDtoBase
 /// <summary>
 /// Payment provider related data.
 /// </summary>
-public abstract class PaymentProviderDtoBase : EntityDtoBase, IEntityDto<PaymentProvider>
+public abstract class PaymentProviderDtoBase : EntityDtoBase, IEntityDto<PaymentProviderEntity>
 {
 
     #region Validation
@@ -69,6 +70,7 @@ public abstract class PaymentProviderDtoBase : EntityDtoBase, IEntityDto<Payment
     /// PaymentProvider related to ZeroOrMany PaymentDetails
     /// </summary>
     public virtual List<PaymentDetailDto> PaymentProviderRelatedPaymentDetails { get; set; } = new();
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

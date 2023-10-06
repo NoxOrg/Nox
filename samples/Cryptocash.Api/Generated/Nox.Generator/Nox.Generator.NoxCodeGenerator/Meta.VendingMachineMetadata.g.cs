@@ -96,14 +96,14 @@ public partial class VendingMachineMetadata
         /// Factory for property 'LandLordId'
         /// </summary>
         public static Nox.Types.AutoNumber CreateLandLordId(System.Int64 value)
-            => Nox.Types.AutoNumber.From(value);
+            => Nox.Types.AutoNumber.FromDatabase(value);
         
     
         /// <summary>
         /// Factory for property 'MinimumCashStockId'
         /// </summary>
         public static Nox.Types.AutoNumber CreateMinimumCashStockId(System.Int64 value)
-            => Nox.Types.AutoNumber.From(value);
+            => Nox.Types.AutoNumber.FromDatabase(value);
         
 
         /// <summary>

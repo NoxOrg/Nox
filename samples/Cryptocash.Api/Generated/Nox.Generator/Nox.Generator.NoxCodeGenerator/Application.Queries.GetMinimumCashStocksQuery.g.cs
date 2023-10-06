@@ -34,7 +34,6 @@ internal abstract class GetMinimumCashStocksQueryHandlerBase : QueryBase<IQuerya
     public virtual Task<IQueryable<MinimumCashStockDto>> Handle(GetMinimumCashStocksQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<MinimumCashStockDto>)DataDbContext.MinimumCashStocks
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }

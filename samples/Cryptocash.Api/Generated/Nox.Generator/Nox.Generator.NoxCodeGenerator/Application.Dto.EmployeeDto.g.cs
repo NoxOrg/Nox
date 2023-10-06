@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using Cryptocash.Domain;
+using EmployeeEntity = Cryptocash.Domain.Employee;
 
 namespace Cryptocash.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class EmployeeDto : EmployeeDtoBase
 /// <summary>
 /// Employee definition and related data.
 /// </summary>
-public abstract class EmployeeDtoBase : EntityDtoBase, IEntityDto<Employee>
+public abstract class EmployeeDtoBase : EntityDtoBase, IEntityDto<EmployeeEntity>
 {
 
     #region Validation
@@ -110,6 +111,7 @@ public abstract class EmployeeDtoBase : EntityDtoBase, IEntityDto<Employee>
     /// Employee contacted by ZeroOrMany EmployeePhoneNumbers
     /// </summary>
     public virtual List<EmployeePhoneNumberDto> EmployeeContactPhoneNumbers { get; set; } = new();
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

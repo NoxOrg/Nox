@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ClientApi.Domain;
 
+using EmailAddressEntity = ClientApi.Domain.EmailAddress;
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Verified Email Address.
 /// </summary>
-public partial class EmailAddressUpdateDto : IEntityDto<EmailAddress>
+public partial class EmailAddressUpdateDto : IEntityDto<EmailAddressEntity>
 {
     /// <summary>
     /// Email (Optional).

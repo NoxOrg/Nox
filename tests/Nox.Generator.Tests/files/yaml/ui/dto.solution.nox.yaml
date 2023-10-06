@@ -1,0 +1,16 @@
+﻿name: SampleWebApp
+
+description: Sample Nox solution yaml configuration
+
+application:
+  dataTransferObjects:
+    - name: CountryDto
+      description: Dto for country information
+      attributes:
+        - name: Id
+          description: The identity of the country, the Iso Alpha 2 code
+          type: text
+          textTypeOptions:
+            casing: lower
+            maxLength: 2
+            minLength: 2

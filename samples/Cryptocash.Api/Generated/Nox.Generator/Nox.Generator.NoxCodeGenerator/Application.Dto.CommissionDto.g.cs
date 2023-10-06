@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using Cryptocash.Domain;
+using CommissionEntity = Cryptocash.Domain.Commission;
 
 namespace Cryptocash.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class CommissionDto : CommissionDtoBase
 /// <summary>
 /// Exchange commission rate and amount.
 /// </summary>
-public abstract class CommissionDtoBase : EntityDtoBase, IEntityDto<Commission>
+public abstract class CommissionDtoBase : EntityDtoBase, IEntityDto<CommissionEntity>
 {
 
     #region Validation
@@ -70,6 +71,7 @@ public abstract class CommissionDtoBase : EntityDtoBase, IEntityDto<Commission>
     /// Commission fees for ZeroOrMany Bookings
     /// </summary>
     public virtual List<BookingDto> CommissionFeesForBooking { get; set; } = new();
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

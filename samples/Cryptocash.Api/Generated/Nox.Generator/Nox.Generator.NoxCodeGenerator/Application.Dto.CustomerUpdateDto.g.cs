@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Cryptocash.Domain;
 
+using CustomerEntity = Cryptocash.Domain.Customer;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Customer definition and related data.
 /// </summary>
-public partial class CustomerUpdateDto : IEntityDto<Customer>
+public partial class CustomerUpdateDto : IEntityDto<CustomerEntity>
 {
     /// <summary>
     /// Customer's first name (Required).

@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using ClientApi.Domain;
+using StoreEntity = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class StoreDto : StoreDtoBase
 /// <summary>
 /// Stores.
 /// </summary>
-public abstract class StoreDtoBase : EntityDtoBase, IEntityDto<Store>
+public abstract class StoreDtoBase : EntityDtoBase, IEntityDto<StoreEntity>
 {
 
     #region Validation
@@ -98,6 +99,7 @@ public abstract class StoreDtoBase : EntityDtoBase, IEntityDto<Store>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
     public virtual EmailAddressDto? VerifiedEmails { get; set; } = null!;
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

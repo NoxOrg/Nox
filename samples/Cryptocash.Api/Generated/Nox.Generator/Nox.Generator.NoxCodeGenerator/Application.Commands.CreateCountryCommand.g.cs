@@ -8,53 +8,53 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Factories;
 using Nox.Solution;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
-using Country = Cryptocash.Domain.Country;
+using CountryEntity = Cryptocash.Domain.Country;
 
 namespace Cryptocash.Application.Commands;
 
 public record CreateCountryCommand(CountryCreateDto EntityDto) : IRequest<CountryKeyDto>;
 
-internal partial class CreateCountryCommandHandler: CreateCountryCommandHandlerBase
+internal partial class CreateCountryCommandHandler : CreateCountryCommandHandlerBase
 {
 	public CreateCountryCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> currencyfactory,
-		IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> commissionfactory,
-		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
-		IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> customerfactory,
-		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,currencyfactory, commissionfactory, vendingmachinefactory, customerfactory, entityFactory, serviceProvider)
+		IEntityFactory<Cryptocash.Domain.Currency, CurrencyCreateDto, CurrencyUpdateDto> currencyfactory,
+		IEntityFactory<Cryptocash.Domain.Commission, CommissionCreateDto, CommissionUpdateDto> commissionfactory,
+		IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
+		IEntityFactory<Cryptocash.Domain.Customer, CustomerCreateDto, CustomerUpdateDto> customerfactory,
+		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,currencyfactory, commissionfactory, vendingmachinefactory, customerfactory, entityFactory)
 	{
 	}
 }
 
 
-internal abstract class CreateCountryCommandHandlerBase: CommandBase<CreateCountryCommand,Country>, IRequestHandler <CreateCountryCommand, CountryKeyDto>
+internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCountryCommand,CountryEntity>, IRequestHandler <CreateCountryCommand, CountryKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> _entityFactory;
-	private readonly IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> _currencyfactory;
-	private readonly IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> _commissionfactory;
-	private readonly IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> _vendingmachinefactory;
-	private readonly IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> _customerfactory;
+	private readonly IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> _entityFactory;
+	private readonly IEntityFactory<Cryptocash.Domain.Currency, CurrencyCreateDto, CurrencyUpdateDto> _currencyfactory;
+	private readonly IEntityFactory<Cryptocash.Domain.Commission, CommissionCreateDto, CommissionUpdateDto> _commissionfactory;
+	private readonly IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> _vendingmachinefactory;
+	private readonly IEntityFactory<Cryptocash.Domain.Customer, CustomerCreateDto, CustomerUpdateDto> _customerfactory;
 
 	public CreateCountryCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<Currency, CurrencyCreateDto, CurrencyUpdateDto> currencyfactory,
-		IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> commissionfactory,
-		IEntityFactory<VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
-		IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> customerfactory,
-		IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<Cryptocash.Domain.Currency, CurrencyCreateDto, CurrencyUpdateDto> currencyfactory,
+		IEntityFactory<Cryptocash.Domain.Commission, CommissionCreateDto, CommissionUpdateDto> commissionfactory,
+		IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> vendingmachinefactory,
+		IEntityFactory<Cryptocash.Domain.Customer, CustomerCreateDto, CustomerUpdateDto> customerfactory,
+		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory) : base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -70,7 +70,16 @@ internal abstract class CreateCountryCommandHandlerBase: CommandBase<CreateCount
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.CountryUsedByCurrency is not null)
+		if(request.EntityDto.CountryUsedByCurrencyId is not null)
+		{
+			var relatedKey = Cryptocash.Domain.CurrencyMetadata.CreateId(request.EntityDto.CountryUsedByCurrencyId.NonNullValue<System.String>());
+			var relatedEntity = await _dbContext.Currencies.FindAsync(relatedKey);
+			if(relatedEntity is not null)
+				entityToCreate.CreateRefToCountryUsedByCurrency(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("CountryUsedByCurrency", request.EntityDto.CountryUsedByCurrencyId.NonNullValue<System.String>().ToString());
+		}
+		else if(request.EntityDto.CountryUsedByCurrency is not null)
 		{
 			var relatedEntity = _currencyfactory.CreateEntity(request.EntityDto.CountryUsedByCurrency);
 			entityToCreate.CreateRefToCountryUsedByCurrency(relatedEntity);

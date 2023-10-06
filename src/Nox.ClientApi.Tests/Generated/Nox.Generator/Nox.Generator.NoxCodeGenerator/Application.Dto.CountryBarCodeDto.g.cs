@@ -14,6 +14,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using ClientApi.Domain;
+using CountryBarCodeEntity = ClientApi.Domain.CountryBarCode;
 
 namespace ClientApi.Application.Dto;
 
@@ -27,7 +28,7 @@ public partial class CountryBarCodeDto : CountryBarCodeDtoBase
 /// <summary>
 /// Bar code for country.
 /// </summary>
-public abstract class CountryBarCodeDtoBase : EntityDtoBase, IEntityDto<CountryBarCode>
+public abstract class CountryBarCodeDtoBase : EntityDtoBase, IEntityDto<CountryBarCodeEntity>
 {
 
     #region Validation

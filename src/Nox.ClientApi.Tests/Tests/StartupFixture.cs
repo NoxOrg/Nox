@@ -19,16 +19,17 @@ public class StartupFixture
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddNox(
-        (noxConfigurator) => 
+            null,
+        (noxOptions) => 
         {
             // No Transactional Outbox in tests
-            noxConfigurator.WithoutMessagingTransactionalOutbox();
+            noxOptions.WithoutMessagingTransactionalOutbox();
         },
-        (oDataModelBuilder) => 
+        (odataOptions) => 
         {
             //Example register a custom odata function
-            oDataModelBuilder.Function("countriesWithDebt").ReturnsCollectionFromEntitySet<CountryDto>("Countries");
-            oDataModelBuilder.ConfigureHouseDto();
+            odataOptions.Function("countriesWithDebt").ReturnsCollectionFromEntitySet<CountryDto>("Countries");
+            odataOptions.ConfigureHouseDto();
         })
         .AddEndpointsApiExplorer()
         .AddSwaggerGen();
@@ -39,7 +40,7 @@ public class StartupFixture
     {
         app.UseRouting();
 
-        app.UseNox();
+        app.UseNox(false);
 
         app.UseSwagger();
 

@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Cryptocash.Domain;
 
+using BookingEntity = Cryptocash.Domain.Booking;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Exchange booking and related data.
 /// </summary>
-public partial class BookingUpdateDto : IEntityDto<Booking>
+public partial class BookingUpdateDto : IEntityDto<BookingEntity>
 {
     /// <summary>
     /// Booking's amount exchanged from (Required).

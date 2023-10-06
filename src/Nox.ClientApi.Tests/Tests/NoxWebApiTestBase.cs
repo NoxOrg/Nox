@@ -1,41 +1,36 @@
 ﻿using AutoFixture;
-using AutoFixture.AutoMoq;
 using ClientApi.Tests.Tests.Models;
 using FluentAssertions;
 using MassTransit.Testing;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 using Xunit.Abstractions;
 
 namespace ClientApi.Tests;
 
 public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
 {
+    protected readonly Fixture _fixture = new Fixture();
     private readonly NoxTestApplicationFactory _appFactory;
-    protected readonly Fixture _fixture;
-    protected ITestHarness _massTransitTestHarness => _appFactory.Services.GetTestHarness();
 
     /// <summary>
     /// TODO  enableMessagingTests is causing the GitHub CI to hang...
     /// </summary>
-    /// <param name="testOutputHelper"></param>
+    /// <param name="testOutput"></param>
     /// <param name="containerService"></param>
     /// <param name="enableMessagingTests"></param>
-    protected NoxWebApiTestBase(ITestOutputHelper testOutputHelper, NoxTestContainerService containerService, bool enableMessagingTests = false)
+    protected NoxWebApiTestBase(
+        ITestOutputHelper testOutput,
+        NoxTestContainerService containerService,
+        bool enableMessagingTests = false)
     {
-        _fixture = new Fixture();
-        _fixture.Customize(new AutoMoqCustomization());
-        _fixture.Register(() =>
-            new NoxTestApplicationFactory(
-                containerService, 
-                testOutputHelper, 
-                NoxTestContainerService.DbProviderKind,
-                enableMessagingTests)
-        );
-
-        _appFactory = _fixture.Create<NoxTestApplicationFactory>();
+        _appFactory = containerService.GetTestApplicationFactory(testOutput, enableMessagingTests);
+        _appFactory.ResetDataContext();
     }
 
+    protected ITestHarness MassTransitTestHarness => _appFactory.GetTestHarness();
+    
     /// <summary>
     ///  Get collection result from Odata End Point
     /// </summary>
@@ -261,5 +256,12 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
         var oDataResponse = DeserializeResponse<ODataSigleResponse>(content);
         oDataResponse.Should().NotBeNull();
         oDataResponse!.Context.Should().NotBeNullOrEmpty();
+    }
+
+    protected TResult? GetEntityByFilter<TResult>(Func<TResult, bool> filter) where TResult : class
+    {
+        var ctx = _appFactory.GetDbContext();
+        var entity = ctx.Set<TResult>().Where(filter).FirstOrDefault();
+        return entity;
     }
 }

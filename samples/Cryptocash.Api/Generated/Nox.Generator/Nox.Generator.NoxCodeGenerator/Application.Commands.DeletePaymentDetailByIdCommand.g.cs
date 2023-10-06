@@ -9,29 +9,27 @@ using Nox.Solution;
 using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
-using PaymentDetail = Cryptocash.Domain.PaymentDetail;
+using PaymentDetailEntity = Cryptocash.Domain.PaymentDetail;
 
 namespace Cryptocash.Application.Commands;
 
 public record DeletePaymentDetailByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
-internal class DeletePaymentDetailByIdCommandHandler:DeletePaymentDetailByIdCommandHandlerBase
+internal class DeletePaymentDetailByIdCommandHandler : DeletePaymentDetailByIdCommandHandlerBase
 {
 	public DeletePaymentDetailByIdCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
-internal abstract class DeletePaymentDetailByIdCommandHandlerBase: CommandBase<DeletePaymentDetailByIdCommand,PaymentDetail>, IRequestHandler<DeletePaymentDetailByIdCommand, bool>
+internal abstract class DeletePaymentDetailByIdCommandHandlerBase : CommandBase<DeletePaymentDetailByIdCommand, PaymentDetailEntity>, IRequestHandler<DeletePaymentDetailByIdCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public DeletePaymentDetailByIdCommandHandlerBase(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
@@ -40,7 +38,7 @@ internal abstract class DeletePaymentDetailByIdCommandHandlerBase: CommandBase<D
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<PaymentDetail,Nox.Types.AutoNumber>("Id", request.keyId);
+		var keyId = Cryptocash.Domain.PaymentDetailMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.PaymentDetails.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted == true)
