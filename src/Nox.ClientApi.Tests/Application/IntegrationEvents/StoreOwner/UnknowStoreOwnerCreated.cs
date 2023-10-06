@@ -2,6 +2,6 @@
 
 namespace ClientApi.Application.IntegrationEvents.StoreOwner
 {
-    internal record CustomStoreOwnerCreated: IIntegrationEvent;
+    internal record UnknowStoreOwnerCreated(string StoreOwnerId): IIntegrationEvent;
     
 }

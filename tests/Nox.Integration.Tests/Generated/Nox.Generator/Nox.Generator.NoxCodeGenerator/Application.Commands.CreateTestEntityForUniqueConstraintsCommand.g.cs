@@ -54,7 +54,7 @@ internal abstract class CreateTestEntityForUniqueConstraintsCommandHandlerBase :
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.TestEntityForUniqueConstraints.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new TestEntityForUniqueConstraintsKeyDto(entityToCreate.Id.Value);

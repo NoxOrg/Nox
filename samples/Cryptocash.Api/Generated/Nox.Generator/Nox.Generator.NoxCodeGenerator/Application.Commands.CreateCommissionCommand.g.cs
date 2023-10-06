@@ -82,7 +82,7 @@ internal abstract class CreateCommissionCommandHandlerBase : CommandBase<CreateC
 			entityToCreate.CreateRefToCommissionFeesForBooking(relatedEntity);
 		}
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.Commissions.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new CommissionKeyDto(entityToCreate.Id.Value);

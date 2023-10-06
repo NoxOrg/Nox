@@ -71,7 +71,7 @@ internal abstract class Create{{entity.Name}}For{{parent.Name}}CommandHandlerBas
 		parentEntity.{{relationship.Name}}.Add(entity);
 		{{- end }}
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await _dbContext.SaveChangesAsync();

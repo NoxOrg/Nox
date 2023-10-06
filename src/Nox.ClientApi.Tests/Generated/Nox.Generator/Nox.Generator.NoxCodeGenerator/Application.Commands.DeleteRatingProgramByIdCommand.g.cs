@@ -49,7 +49,7 @@ internal abstract class DeleteRatingProgramByIdCommandHandlerBase : CommandBase<
 
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(request, entity);DbContext.RatingPrograms.Remove(entity);
+		await OnCompletedAsync(request, entity);DbContext.RatingPrograms.Remove(entity);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

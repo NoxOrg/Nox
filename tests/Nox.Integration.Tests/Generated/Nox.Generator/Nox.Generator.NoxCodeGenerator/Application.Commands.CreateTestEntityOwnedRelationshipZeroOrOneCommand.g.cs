@@ -55,7 +55,7 @@ internal abstract class CreateTestEntityOwnedRelationshipZeroOrOneCommandHandler
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.TestEntityOwnedRelationshipZeroOrOnes.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new TestEntityOwnedRelationshipZeroOrOneKeyDto(entityToCreate.Id.Value);

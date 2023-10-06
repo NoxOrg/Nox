@@ -91,7 +91,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 			entityToCreate.CreateRefToLicense(relatedEntity);
 		}
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.Stores.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new StoreKeyDto(entityToCreate.Id.Value);

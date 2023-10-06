@@ -117,7 +117,7 @@ internal abstract class RefStoreToLicenseCommandHandlerBase<TRequest> : CommandB
 				break;
 		}
 
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

@@ -69,7 +69,7 @@ internal abstract class CreateTestEntityTwoRelationshipsManyToManyCommandHandler
 			entityToCreate.CreateRefToTestRelationshipTwo(relatedEntity);
 		}
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.TestEntityTwoRelationshipsManyToManies.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new TestEntityTwoRelationshipsManyToManyKeyDto(entityToCreate.Id.Value);

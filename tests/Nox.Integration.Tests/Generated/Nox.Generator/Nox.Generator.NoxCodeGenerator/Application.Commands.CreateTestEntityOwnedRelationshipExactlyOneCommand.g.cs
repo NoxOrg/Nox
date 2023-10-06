@@ -55,7 +55,7 @@ internal abstract class CreateTestEntityOwnedRelationshipExactlyOneCommandHandle
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.TestEntityOwnedRelationshipExactlyOnes.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new TestEntityOwnedRelationshipExactlyOneKeyDto(entityToCreate.Id.Value);

@@ -25,14 +25,13 @@ internal partial class CreateStoreOwnerCommandHandler
     {
         _outboxRepository = outboxRepository;
     }
-
-    public override async Task<StoreOwnerKeyDto> Handle(CreateStoreOwnerCommand request, CancellationToken cancellationToken)
-    {
-        /* Fully Implement the handler if needed */
-
-        // Send a integration event to the outbox
-        await _outboxRepository!.AddAsync(new CustomStoreOwnerCreated());
-
-        return await base.Handle(request, cancellationToken);        
+   
+    protected override async Task OnCompletedAsync(CreateStoreOwnerCommand request, StoreOwner entity)
+    {        
+        if(entity.TemporaryOwnerName.Value == "unknow")
+        {
+            // Send a integration event to the outbox
+          await   _outboxRepository!.AddAsync(new UnknowStoreOwnerCreated(entity.Id.Value));
+        }
     }
 }

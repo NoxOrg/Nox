@@ -73,7 +73,7 @@ internal abstract class CreateTestEntityExactlyOneToOneOrManyCommandHandlerBase 
 			entityToCreate.CreateRefToTestEntityOneOrManyToExactlyOne(relatedEntity);
 		}
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.TestEntityExactlyOneToOneOrManies.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new TestEntityExactlyOneToOneOrManyKeyDto(entityToCreate.Id.Value);

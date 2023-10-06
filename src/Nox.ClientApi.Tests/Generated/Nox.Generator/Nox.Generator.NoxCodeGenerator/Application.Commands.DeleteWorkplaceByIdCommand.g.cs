@@ -48,7 +48,7 @@ internal abstract class DeleteWorkplaceByIdCommandHandlerBase : CommandBase<Dele
 
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(request, entity);DbContext.Workplaces.Remove(entity);
+		await OnCompletedAsync(request, entity);DbContext.Workplaces.Remove(entity);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

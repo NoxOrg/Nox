@@ -91,7 +91,7 @@ internal abstract class CreateCashStockOrderCommandHandlerBase : CommandBase<Cre
 			entityToCreate.CreateRefToCashStockOrderReviewedByEmployee(relatedEntity);
 		}
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.CashStockOrders.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new CashStockOrderKeyDto(entityToCreate.Id.Value);

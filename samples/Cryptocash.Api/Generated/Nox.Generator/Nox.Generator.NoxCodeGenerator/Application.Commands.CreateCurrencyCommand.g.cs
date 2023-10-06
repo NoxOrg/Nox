@@ -73,7 +73,7 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 			entityToCreate.CreateRefToCurrencyUsedByMinimumCashStocks(relatedEntity);
 		}
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.Currencies.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new CurrencyKeyDto(entityToCreate.Id.Value);

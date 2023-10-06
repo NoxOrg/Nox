@@ -86,7 +86,7 @@ internal abstract class CreateSecondTestEntityTwoRelationshipsOneToOneCommandHan
 			entityToCreate.CreateRefToTestRelationshipTwoOnOtherSide(relatedEntity);
 		}
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.SecondTestEntityTwoRelationshipsOneToOnes.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new SecondTestEntityTwoRelationshipsOneToOneKeyDto(entityToCreate.Id.Value);
