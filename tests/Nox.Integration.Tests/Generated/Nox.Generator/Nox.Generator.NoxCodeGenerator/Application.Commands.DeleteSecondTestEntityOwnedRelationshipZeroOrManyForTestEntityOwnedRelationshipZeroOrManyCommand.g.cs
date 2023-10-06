@@ -54,7 +54,7 @@ internal partial class DeleteSecondTestEntityOwnedRelationshipZeroOrManyForTestE
 			return false;
 		}
 		parentEntity.SecondTestEntityOwnedRelationshipZeroOrMany.Remove(entity);
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Deleted;
 

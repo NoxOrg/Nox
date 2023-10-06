@@ -49,7 +49,7 @@ internal abstract class DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase : 
 
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(request, entity);DbContext.CountryQualityOfLifeIndices.Remove(entity);
+		await OnCompletedAsync(request, entity);DbContext.CountryQualityOfLifeIndices.Remove(entity);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

@@ -54,7 +54,7 @@ internal abstract class Delete{{entity.Name}}ByIdCommandHandlerBase : CommandBas
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		{{- end }}
 
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 
 		{{- if (entity.Persistence?.IsAudited ?? true) }}
 		DbContext.Entry(entity).State = EntityState.Deleted;

@@ -54,7 +54,7 @@ internal abstract class CreateCountryQualityOfLifeIndexCommandHandlerBase : Comm
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.CountryQualityOfLifeIndices.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new CountryQualityOfLifeIndexKeyDto(entityToCreate.CountryId.Value, entityToCreate.Id.Value);

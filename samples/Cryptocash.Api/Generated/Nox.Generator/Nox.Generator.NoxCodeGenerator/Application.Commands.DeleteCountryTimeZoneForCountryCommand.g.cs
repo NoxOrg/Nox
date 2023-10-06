@@ -54,7 +54,7 @@ internal partial class DeleteCountryTimeZoneForCountryCommandHandlerBase : Comma
 			return false;
 		}
 		parentEntity.CountryOwnedTimeZones.Remove(entity);
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Deleted;
 

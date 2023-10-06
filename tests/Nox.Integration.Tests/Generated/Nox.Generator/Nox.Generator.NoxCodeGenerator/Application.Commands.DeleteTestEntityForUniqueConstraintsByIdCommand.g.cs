@@ -48,7 +48,7 @@ internal abstract class DeleteTestEntityForUniqueConstraintsByIdCommandHandlerBa
 
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(request, entity);DbContext.TestEntityForUniqueConstraints.Remove(entity);
+		await OnCompletedAsync(request, entity);DbContext.TestEntityForUniqueConstraints.Remove(entity);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

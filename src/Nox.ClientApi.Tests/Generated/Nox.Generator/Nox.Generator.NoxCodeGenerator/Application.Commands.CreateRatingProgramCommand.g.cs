@@ -54,7 +54,7 @@ internal abstract class CreateRatingProgramCommandHandlerBase : CommandBase<Crea
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.RatingPrograms.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new RatingProgramKeyDto(entityToCreate.StoreId.Value, entityToCreate.Id.Value);

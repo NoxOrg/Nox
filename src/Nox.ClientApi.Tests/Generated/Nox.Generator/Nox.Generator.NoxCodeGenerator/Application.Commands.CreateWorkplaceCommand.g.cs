@@ -72,7 +72,7 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 			entityToCreate.CreateRefToBelongsToCountry(relatedEntity);
 		}
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.Workplaces.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new WorkplaceKeyDto(entityToCreate.Id.Value);

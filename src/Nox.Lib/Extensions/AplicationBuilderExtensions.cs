@@ -1,7 +1,6 @@
 ﻿using System.Globalization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.OData;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Lib;
 using Nox.Solution;
@@ -14,10 +13,12 @@ namespace Nox
         /// <summary>
         /// Add Nox to the application builder, with optional Serilog request logging
         /// </summary>
-        public static INoxBuilder UseNox(this IApplicationBuilder builder,bool useSerilogRequestLogging = true)
+        public static INoxBuilder UseNox(this IApplicationBuilder builder,
+            bool useSerilogRequestLogging = true,
+            bool useSwagger = false)
         {
-            // Enabling http requests logging 
-            if(useSerilogRequestLogging)
+            // Enabling http requests logging
+            if (useSerilogRequestLogging)
                 builder.UseSerilogRequestLogging();
 
             builder.UseMiddleware<NoxExceptionHanderMiddleware>();
@@ -28,15 +29,22 @@ namespace Nox
 #if DEBUG
             noxBuilder.UseODataRouteDebug();
 #endif
+
+            if (useSwagger)
+            {
+                builder.UseSwagger();
+                builder.UseSwaggerUI();
+            }
+
             return noxBuilder;
         }
-        
-        private static IApplicationBuilder UseNoxLocalization(this IApplicationBuilder builder) 
+
+        private static IApplicationBuilder UseNoxLocalization(this IApplicationBuilder builder)
         {
             var solution = builder.ApplicationServices.GetRequiredService<NoxSolution>();
 
             var supportedCultures = solution?.Application?.Localization?.SupportedCultures
-                .Select(s => new CultureInfo(s)).ToList(); 
+                .Select(s => new CultureInfo(s)).ToList();
 
             if (supportedCultures is null) return builder;
 
@@ -44,7 +52,8 @@ namespace Nox
 
             if (defaultCulture is null) return builder;
 
-            builder.UseRequestLocalization(options => {
+            builder.UseRequestLocalization(options =>
+            {
                 options.DefaultRequestCulture = new RequestCulture(culture: defaultCulture, uiCulture: defaultCulture);
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;

@@ -17,46 +17,56 @@ using Nox.EntityFramework.Sqlite;
 using Nox.EntityFramework.Postgres;
 using Nox.EntityFramework.SqlServer;
 using Nox.Messaging.InMemoryBus;
+using Nox.OData;
 
 namespace Nox.Configuration
 {
     internal sealed class NoxOptions : INoxOptions
     {
         private Assembly? _clientAssembly;
-        private NoxSolution? _noxSolution;
         private Action<IBusRegistrationConfigurator, DatabaseServerProvider>? _configureMassTransitTransactionalOutbox;
         private Action<IServiceCollection>? _configureDatabaseContext;
         private Action<LoggerConfiguration>? _loggerConfigurationAction;
 
         private bool _withNoxLogging = true;
+        private bool _withSwagger = false;
 
-        public void WithoutNoxLogging()
+        public INoxOptions WithoutNoxLogging()
         {
             _withNoxLogging = false;
             _loggerConfigurationAction = null;
+
+            return this;
         }
-        public void  WithNoxLogging(Action<LoggerConfiguration> loggerConfiguration)
+
+        public INoxOptions WithNoxLogging(Action<LoggerConfiguration> loggerConfiguration)
         {
             _loggerConfigurationAction = loggerConfiguration;
             _withNoxLogging = true;
+
+            return this;
         }
 
-        public void WithDatabaseContexts<T, D>() where T : DbContext where D : DbContext
+        public INoxOptions WithDatabaseContexts<T, D>() where T : DbContext where D : DbContext
         {
             _configureDatabaseContext = (services) =>
             {
                 services.AddSingleton<DbContextOptions<T>>();
                 services.AddDbContext<T>();
                 services.AddDbContext<D>();
-
             };
+
+            return this;
         }
-        public void WithoutMessagingTransactionalOutbox()
+
+        public INoxOptions WithoutMessagingTransactionalOutbox()
         {
             _configureMassTransitTransactionalOutbox = null;
+
+            return this;
         }
-        
-        public void WithMessagingTransactionalOutbox<T>(bool disableDeliveryService = false) where T : DbContext
+
+        public INoxOptions WithMessagingTransactionalOutbox<T>(bool disableDeliveryService = false) where T : DbContext
         {
             _configureMassTransitTransactionalOutbox = (_serviceCollectionBusConfigurator, databaseProvider) =>
             {
@@ -67,24 +77,28 @@ namespace Nox.Configuration
                         case DatabaseServerProvider.MySql:
                             o.UseMySql();
                             break;
+
                         case DatabaseServerProvider.SqlServer:
                             o.UseSqlServer();
                             break;
+
                         case DatabaseServerProvider.Postgres:
                             o.UsePostgres();
                             break;
+
                         case DatabaseServerProvider.SqLite:
                             o.UseSqlite();
                             break;
+
                         default:
                             throw new NotImplementedException();
-                    };
+                    }
 
                     //We do not need to clean up the inbox, not being used
                     o.DisableInboxCleanupService();
 
                     //Disable message delivery
-                    if(disableDeliveryService)
+                    if (disableDeliveryService)
                     {
                         o.UseBusOutbox(c => c.DisableDeliveryService());
                     }
@@ -92,18 +106,29 @@ namespace Nox.Configuration
                     {
                         // enable the bus outbox
                         o.UseBusOutbox();
-                    }                    
+                    }
                 });
             };
+
+            return this;
         }
 
-        public void WithClientAssembly(Assembly serviceAssembly)
+        public INoxOptions WithClientAssembly(Assembly clientAssembly)
         {
-            if (serviceAssembly is null)
+            if (clientAssembly is null)
             {
-                throw new ArgumentNullException(nameof(serviceAssembly));
+                throw new ArgumentNullException(nameof(clientAssembly));
             }
-            _clientAssembly = serviceAssembly;
+            _clientAssembly = clientAssembly;
+
+            return this;
+        }
+
+        public INoxOptions WithSwagger()
+        {
+            _withSwagger = true;
+
+            return this;
         }
 
         public void Configure(IServiceCollection services, WebApplicationBuilder? webApplicationBuilder)
@@ -116,10 +141,10 @@ namespace Nox.Configuration
                 .Select(Assembly.Load)
                 .Union(new[] { _clientAssembly! }).ToArray();
 
-            _noxSolution = CreateSolution(services.BuildServiceProvider());
+            var noxSolution = CreateSolution(services.BuildServiceProvider());
 
             services
-                .AddSingleton(typeof(NoxSolution), _noxSolution)
+                .AddSingleton(typeof(NoxSolution), noxSolution)
                 .AddSingleton(typeof(INoxClientAssemblyProvider), serviceProvider => new NoxClientAssemblyProvider(_clientAssembly))
                 .AddNoxHttpDefaults()
                 .AddSecretsResolver()
@@ -128,15 +153,16 @@ namespace Nox.Configuration
                 .AddNoxProviders()
                 .AddNoxDtos();
 
-            TryAddNoxMessaging(services, _noxSolution, noxAndEntryAssemblies);
-            TryAddNoxDatabase(services, _noxSolution, noxAndEntryAssemblies);
+            AddNoxMessaging(services, noxSolution);
+            AddNoxDatabase(services, noxSolution, noxAndEntryAssemblies);
 
-            TryAddLogging(webApplicationBuilder);
+            AddLogging(webApplicationBuilder);
+            AddSwagger(services);
         }
 
-        private bool TryAddLogging(WebApplicationBuilder? webApplicationBuilder)
+        private void AddLogging(WebApplicationBuilder? webApplicationBuilder)
         {
-            if (webApplicationBuilder !=null && _withNoxLogging)
+            if (webApplicationBuilder != null && _withNoxLogging)
             {
                 webApplicationBuilder.Host.UseSerilog((context, services, loggerConfig) =>
                 {
@@ -149,16 +175,13 @@ namespace Nox.Configuration
 
                     _loggerConfigurationAction?.Invoke(loggerConfig);
                 });
-                return true;
             }
-            return false;
         }
 
-        private bool TryAddNoxDatabase(IServiceCollection services, NoxSolution noxSolution, Assembly[] noxAssemblies)
+        private void AddNoxDatabase(IServiceCollection services, NoxSolution noxSolution, Assembly[] noxAssemblies)
         {
             if (noxSolution.Infrastructure?.Persistence is { DatabaseServer: not null })
             {
-
                 services.Scan(scan => scan
                     .FromAssemblies(noxAssemblies)
                     .AddClasses(classes => classes.AssignableTo<INoxTypeDatabaseConfigurator>())
@@ -180,24 +203,21 @@ namespace Nox.Configuration
 
                 // Add DbContexts
                 _configureDatabaseContext?.Invoke(services);
-
-                return true;
             }
-            return false;
         }
-        private bool TryAddNoxMessaging(IServiceCollection services, NoxSolution noxSolution, Assembly[] noxAssemblies)
+
+        private void AddNoxMessaging(IServiceCollection services, NoxSolution noxSolution)
         {
             if (noxSolution.Infrastructure?.Messaging?.IntegrationEventServer is null)
             {
-                return false;
+                return;
             }
-                                 
+
             MessagingServer messagingConfig = noxSolution.Infrastructure!.Messaging!.IntegrationEventServer!;
 
             services.AddScoped<IOutboxRepository, OutboxRepository>();
             services.AddMassTransit(x =>
             {
-
                 IMessageBrokerProvider messageBrokerProvider = messagingConfig.Provider switch
                 {
                     MessageBrokerProvider.AzureServiceBus => new AzureServiceBusBrokerProvider(),
@@ -210,8 +230,16 @@ namespace Nox.Configuration
 
                 _configureMassTransitTransactionalOutbox?.Invoke(x, noxSolution.Infrastructure.Persistence.DatabaseServer.Provider);
             });
+        }
 
-            return true;
+        private void AddSwagger(IServiceCollection services)
+        {
+            if (!_withSwagger) return;
+
+            services.AddSwaggerGen(opts =>
+            {
+                opts.SchemaFilter<DeltaSchemaFilter>();
+            });
         }
 
         private static NoxSolution CreateSolution(IServiceProvider serviceProvider)
@@ -221,7 +249,7 @@ namespace Nox.Configuration
                 {
                     var secretsConfig = args.SecretsConfig;
                     var secretKeys = args.Variables;
-                    // TODO Create Nox Solution withou using the container
+                    // TODO Create Nox Solution without using the container
                     // This is configuration and is needed in service configuration
                     var resolver = serviceProvider.GetRequiredService<INoxSecretsResolver>();
                     resolver.Configure(secretsConfig!, Assembly.GetEntryAssembly());
@@ -229,7 +257,5 @@ namespace Nox.Configuration
                 })
                 .Build();
         }
-
-      
     }
 }

@@ -64,7 +64,7 @@ internal abstract class CreateStoreOwnerCommandHandlerBase : CommandBase<CreateS
 			entityToCreate.CreateRefToStores(relatedEntity);
 		}
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.StoreOwners.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new StoreOwnerKeyDto(entityToCreate.Id.Value);

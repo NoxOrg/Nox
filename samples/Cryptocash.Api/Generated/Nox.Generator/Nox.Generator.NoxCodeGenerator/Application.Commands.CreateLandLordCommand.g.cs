@@ -64,7 +64,7 @@ internal abstract class CreateLandLordCommandHandlerBase : CommandBase<CreateLan
 			entityToCreate.CreateRefToContractedAreasForVendingMachines(relatedEntity);
 		}
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.LandLords.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new LandLordKeyDto(entityToCreate.Id.Value);

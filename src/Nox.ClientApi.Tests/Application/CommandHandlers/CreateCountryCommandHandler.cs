@@ -20,9 +20,10 @@ internal partial class CreateCountryCommandHandler
     /// <summary>
     /// Example to Ensure or validate invariants for an entity
     /// </summary>
-    protected override void OnCompleted(CreateCountryCommand request,Country entity)
+    protected override Task OnCompletedAsync(CreateCountryCommand request,Country entity)
     {
         entity.Name = Nox.Types.Text.From(entity.Name.Value.Titleize());
+        return Task.CompletedTask;
     }
 }
 
