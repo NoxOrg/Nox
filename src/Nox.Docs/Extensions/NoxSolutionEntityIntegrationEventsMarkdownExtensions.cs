@@ -1,6 +1,8 @@
 ﻿using Nox.Docs.Models;
 using Nox.Solution;
 using Scriban;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Nox.Docs.Extensions;
 
@@ -19,9 +21,11 @@ public static class NoxSolutionEntityIntegrationEventsMarkdownExtensions
     {
         var model = new Dictionary<string, object>
         {
-            ["integrationEvents"] = ResolveAllIntegrationEvents(noxSolution)
-                .ToDictionary(e => e.Topic),
+            ["entities"] = ResolveEntities(noxSolution),
+            ["customIntegrationEvents"] = ResolveCustomIntegrationEvents(noxSolution),
         };
+
+        var modeljson = JsonSerializer.Serialize(model, new JsonSerializerOptions { ReferenceHandler = ReferenceHandler.Preserve });
 
         return new MarkdownFile
         {
@@ -30,50 +34,9 @@ public static class NoxSolutionEntityIntegrationEventsMarkdownExtensions
         };
     }
 
-    private static IEnumerable<IntegrationEventMarkdownEntry> ResolveAllIntegrationEvents(NoxSolution noxSolution)
-    {
-        var defaultIntegrationEvents = noxSolution.Domain?.Entities?
-            .Where(ShouldCreateMarkdown)
-            .Select(ToIntegrationEvent)
-            ?? Array.Empty<IntegrationEventMarkdownEntry>();
+    private static IEnumerable<Entity> ResolveEntities(NoxSolution noxSolution)
+        => noxSolution.Domain?.Entities?.Where(e => e.HasIntegrationEvents) ?? Array.Empty<Entity>();
 
-        var customIntegrationEvents = noxSolution.Application?.IntegrationEvents?
-            .Select(ToIntegrationEvent)
-            ?? Array.Empty<IntegrationEventMarkdownEntry>();
-
-        return defaultIntegrationEvents.Concat(customIntegrationEvents);
-    }
-
-    private static bool ShouldCreateMarkdown(Entity entity)
-        => entity.Persistence!.Create!.RaiseIntegrationEvents
-        || entity.Persistence!.Update!.RaiseIntegrationEvents
-        || entity.Persistence!.Delete!.RaiseIntegrationEvents;
-
-    private static IntegrationEventMarkdownEntry ToIntegrationEvent(Entity entity)
-    {
-        return new()
-        {
-            Topic = "Default",
-            Name = entity.Name,
-            Attributes = entity.Attributes
-        };
-    }
-
-    private static IntegrationEventMarkdownEntry ToIntegrationEvent(IntegrationEvent integrationEvent)
-    {
-        return new()
-        {
-            Topic = "Custom",
-            Name = integrationEvent.Name,
-            Attributes = integrationEvent.ObjectTypeOptions?.Attributes 
-                ?? Array.Empty<Types.NoxSimpleTypeDefinition>(),
-        };
-    }
-
-    class IntegrationEventMarkdownEntry
-    {
-        public string? Topic { get; init; }
-        public string? Name { get; init; }
-        public IEnumerable<Types.NoxSimpleTypeDefinition> Attributes { get; init; } = Array.Empty<Types.NoxSimpleTypeDefinition>();
-    }
+    private static IEnumerable<IntegrationEvent> ResolveCustomIntegrationEvents(NoxSolution noxSolution)
+        => noxSolution.Application?.IntegrationEvents ?? Array.Empty<IntegrationEvent>();
 }

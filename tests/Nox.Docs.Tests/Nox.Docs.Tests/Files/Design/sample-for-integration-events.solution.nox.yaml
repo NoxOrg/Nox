@@ -11,7 +11,7 @@ description: Nox solution yaml configuration for generating integration events m
 domain:
   entities:
     - name: Continent
-      description: The list of continents
+      description: A continent is a large landmass on Earth composed of distinct regions and countries.
 
       persistence:
         isAudited: false
@@ -51,7 +51,7 @@ domain:
           canNavigate: true
 
     - name: Country
-      description: The list of countries
+      description: A country is a distinct territorial body or political entity.
 
       persistence:
         isAudited: true
@@ -246,7 +246,7 @@ domain:
                 type: text
 
     - name: CountryLocalNames
-      description: The name of a country in other languages
+      description: The name(s) of a country in local language
 
       persistence:
         isAudited: false
@@ -294,15 +294,34 @@ application:
             type: money
             isRequired: true
 
-    - name: CountryPopulationOver100M
-      description: Country created or updated with population over 100M
-      type: object
-      objectTypeOptions:
-        attributes:
-          - name: Id
-            type: countryCode2
-            isRequired: true
+    - name: CountryLocalNamesAdded
+      description: Multiple country local names added
+      type: array
+      arrayTypeOptions:
+        name: CountryLocalNameInfo
+        type: object
+        objectTypeOptions:
+          attributes:
+            - name: Id
+              type: countryCode2
+              isRequired: true
 
-          - name: Population
-            type: number
-            isRequired: true
+            - name: Name
+              type: text
+              isRequired: true
+
+    - name: CountryCurrenciesAdded
+      description: Multiple country currencies added
+      type: array
+      arrayTypeOptions:
+        name: CountryCurrencyInfo
+        type: object
+        objectTypeOptions:
+          attributes:
+            - name: Id
+              type: countryCode2
+              isRequired: true
+
+            - name: CurrencyCode
+              type: currencyCode3
+              isRequired: true

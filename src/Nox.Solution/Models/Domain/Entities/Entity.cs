@@ -92,7 +92,13 @@ public class Entity : DefinitionBase
     public bool HasDomainEvents =>
         (Persistence is not null) && (Persistence!.Create.RaiseDomainEvents ||
         Persistence.Update.RaiseDomainEvents ||
-        Persistence.Delete.RaiseDomainEvents); 
+        Persistence.Delete.RaiseDomainEvents);
+
+    [YamlIgnore]
+    public bool HasIntegrationEvents =>
+        (Persistence is not null) && (Persistence!.Create.RaiseIntegrationEvents ||
+        Persistence.Update.RaiseIntegrationEvents ||
+        Persistence.Delete.RaiseIntegrationEvents);
 
     internal bool ApplyDefaults()
     {
