@@ -43,7 +43,7 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
         Assert.Single(allOutputs);
 
         var generatedSources = result.GeneratedSources;
-        Assert.Equal(66, generatedSources.Length);
+        Assert.Equal(58, generatedSources.Length);
         Assert.True(generatedSources.Any(s => s.HintName == "Application.ServiceCollectionExtensions.g.cs"), "ServiceCollectionExtensions.g.cs not generated");
 
         // Check base files

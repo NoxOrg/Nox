@@ -14,7 +14,7 @@ internal class DomainEventHandlerGenerator : INoxCodeGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Domain?.Entities is null)
+        if (codeGeneratorState.Solution.Infrastructure?.Messaging is null || codeGeneratorState.Solution.Domain?.Entities is null)
             return;
 
         foreach (var (crudOperation, raiseIntegrationEvent, entity) in GroupEntitiesWithDomainEventsByCrudOperation(codeGeneratorState.Solution.Domain.Entities))
