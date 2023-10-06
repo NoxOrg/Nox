@@ -7,20 +7,17 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.AddNox(opts => opts.WithSwagger());
+builder.AddNox();
 
 //builder.AddNox((noxOptions) => noxOptions.WithoutNoxLogging());
 
-//builder.AddNox((noxOptions) => noxOptions.WithNoxLogging((loggerConfiguration) => 
+//builder.AddNox((noxOptions) => noxOptions.WithNoxLogging((loggerConfiguration) =>
 //    loggerConfiguration.WriteTo.File("log.txt", rollingInterval: RollingInterval.Day))
 //);
 
-
 var app = builder.Build();
 
-var isDevelopment = app.Environment.IsDevelopment();
-
-app.UseNox(useSwagger: isDevelopment);
+app.UseNox();
 
 app.UseHttpsRedirection();
 
