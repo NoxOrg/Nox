@@ -35,6 +35,10 @@ public class NoxExceptionHanderMiddleware
         {
             await HandleConcurrencyExceptionAsync(httpContext, ex);
         }
+        catch (RelatedEntityNotFoundException ex)
+        {
+            await CommonHandleExceptionAsync(httpContext, ex, ex.Message, HttpStatusCode.BadRequest);
+        }
         catch (Exception ex)
         {
             await CommonHandleExceptionAsync(httpContext, ex, ex.Message);
