@@ -5,10 +5,12 @@ using Nox.Solution;
 using Scriban;
 using Scriban.Parsing;
 using Scriban.Runtime;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 
 namespace Nox.Generator.Common;
@@ -25,6 +27,7 @@ internal class TemplateCodeBuilder
     private string? _className;
     private string? _fileNamePrefix;
     private string? _fileNameSuffix;
+    private string? _fileExtension;
 
     private readonly Dictionary<string, object> _model;
 
@@ -76,6 +79,17 @@ internal class TemplateCodeBuilder
     }
 
     /// <summary>
+    /// Oprional extension to the generated file, otherwise .g.cs will be used
+    /// </summary>
+    /// <param name="fileExtension">Prefix to add to the file name. A dot will be added between the prefix and the class name</param>
+    /// <returns></returns>
+    public TemplateCodeBuilder WithFileExtension(string fileExtension)
+    {
+        _fileExtension = fileExtension;
+        return this;
+    }
+
+    /// <summary>
     /// Extend the default model with a extended property to the extendedModel
     /// </summary>
     public TemplateCodeBuilder WithObject(string name, object value)
@@ -108,7 +122,7 @@ internal class TemplateCodeBuilder
         var fileName = string.Join(".", 
             new[] { _fileNamePrefix, _className, _fileNameSuffix }.Where(x => !string.IsNullOrWhiteSpace(x)));
 
-        GenerateSourceCode(template, _model, $"{fileName}.g.cs");
+        GenerateSourceCode(template, _model, fileName);
              
         return this;
     }
@@ -136,10 +150,23 @@ internal class TemplateCodeBuilder
         NoxSolutionBridge.AddFunctions(context, _codeGeneratorState.Solution);
 
         var sourceText = strongTemplate.Render(context);
-        
-        _context.AddSource(sourceFileName,
-            SourceText.From(sourceText,
-            Encoding.UTF8));
+
+        if (string.IsNullOrEmpty(_fileExtension) || _fileExtension == "cs")
+        {
+            _context.AddSource($"{sourceFileName}.g.cs", SourceText.From(sourceText, Encoding.UTF8));
+        }
+        else
+        {
+#pragma warning disable RS1035 // Do not use APIs banned for analyzers
+            string outputFolder = "Generated.NonCs";
+            string absoluteFilePath = Path.Combine(Directory.GetCurrentDirectory(), outputFolder, $"{sourceFileName}.g.{_fileExtension}");
+            
+            FileInfo file = new FileInfo(absoluteFilePath);
+            file.Directory.Create(); // If the directory already exists, this method does nothing.
+            
+            File.WriteAllText(absoluteFilePath, sourceText, Encoding.UTF8);
+#pragma warning restore RS1035 // Do not use APIs banned for analyzers
+        }
     }
 
     
