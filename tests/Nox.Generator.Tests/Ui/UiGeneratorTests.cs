@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Xunit;
+﻿using Xunit;
 
 namespace Nox.Generator.Tests.Presentation;
 
@@ -20,60 +15,41 @@ public class UiGeneratorTests : IClassFixture<GeneratorFixture>
     public void Can_generate_ui_files()
     {
         var path = "files/yaml/ui/";
-        var additionalFiles = new List<AdditionalSourceText>
+        var sources = new[]
         {
-            new AdditionalSourceText(File.ReadAllText($"./{path}generator.nox.yaml"), $"{path}/generator.nox.yaml"),
-            new AdditionalSourceText(File.ReadAllText($"./{path}dto.solution.nox.yaml"), $"{path}/dto.solution.nox.yaml")
+            $"./{path}generator.nox.yaml",
+            $"./{path}dto.solution.nox.yaml"
         };
 
-        // trackIncrementalGeneratorSteps allows to report info about each step of the generator
-        GeneratorDriver driver = CSharpGeneratorDriver.Create(
-            generators: new[] { _fixture.TestGenerator },
-            additionalTexts: additionalFiles,
-            driverOptions: new GeneratorDriverOptions(default, trackIncrementalGeneratorSteps: true));
-
-        // Run the generator
-        driver = driver.RunGenerators(_fixture.TestCompilation!);
-
-        // Assert the driver doesn't recompute the output
-        var result = driver.GetRunResult().Results.Single();
-        var allOutputs = result.TrackedOutputSteps.SelectMany(outputStep => outputStep.Value).SelectMany(output => output.Outputs);
-        Assert.NotNull(allOutputs);
-        Assert.Single(allOutputs);
-
-        var generatedSources = result.GeneratedSources;
-        Assert.Equal(2, generatedSources.Length);
-        Assert.Contains("SUCCESS", generatedSources.First(s => s.HintName == "0.Generator.g.cs").SourceText.ToString());
+        _fixture
+            .GenerateSourceCodeFor(sources)
+            .AssertOutputResult()
+            .AssertFileExistence(2)
+            .AssertContent()
+            .SourceContains("0.Generator.g.cs", "SUCCESS");
     }
 
     [Fact]
     public void Can_validate_generator_with_ui()
     {
         var path = "files/yaml/ui/";
-        var additionalFiles = new List<AdditionalSourceText>
+
+        var sources = new[]
         {
-            new AdditionalSourceText(File.ReadAllText($"./{path}invalid.generator.nox.yaml"), $"{path}/invalid.generator.nox.yaml"),
-            new AdditionalSourceText(File.ReadAllText($"./{path}dto.solution.nox.yaml"), $"{path}/dto.solution.nox.yaml")
+            $"./{path}invalid.generator.nox.yaml",
+            $"./{path}dto.solution.nox.yaml"
         };
 
-        // trackIncrementalGeneratorSteps allows to report info about each step of the generator
-        GeneratorDriver driver = CSharpGeneratorDriver.Create(
-            generators: new[] { _fixture.TestGenerator },
-            additionalTexts: additionalFiles,
-            driverOptions: new GeneratorDriverOptions(default, trackIncrementalGeneratorSteps: true));
+        _fixture
+            .GenerateSourceCodeFor(sources)
+            .AssertOutputResult()
+            .AssertContent()
+            .SourceContains("0.Generator.g.cs", "Error");
 
-        // Run the generator
-        driver = driver.RunGenerators(_fixture.TestCompilation!);
-
-        // Assert the driver doesn't recompute the output
-        var result = driver.GetRunResult().Results.Single();
-        var allOutputs = result.TrackedOutputSteps.SelectMany(outputStep => outputStep.Value).SelectMany(output => output.Outputs);
-        Assert.NotNull(allOutputs);
-        Assert.Single(allOutputs);
-
-        var generatedSources = result.GeneratedSources;
-        Assert.Single(generatedSources);
-        Assert.Contains("Error", generatedSources.First(s => s.HintName == "0.Generator.g.cs").SourceText.ToString());
+        // This trick is necessary because broken configuration impacts on test Generated_Files_Should_Be_Compiled_Successfully
+        // Seems that driver.RunGenerators() does not release generated resources on time.
+        // Another fix is to set Thread.Sleep(2000) in test Generated_Files_Should_Be_Compiled_Successfully.
+        _fixture
+            .GenerateSourceCodeFor(new[] { $"./{path}generator.nox.yaml" });
     }
-
 }

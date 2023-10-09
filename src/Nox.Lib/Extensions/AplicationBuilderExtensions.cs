@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Nox.Lib;
 using Nox.Solution;
 using Serilog;
@@ -14,8 +15,7 @@ namespace Nox
         /// Add Nox to the application builder, with optional Serilog request logging
         /// </summary>
         public static INoxBuilder UseNox(this IApplicationBuilder builder,
-            bool useSerilogRequestLogging = true,
-            bool useSwagger = false)
+            bool useSerilogRequestLogging = true)
         {
             // Enabling http requests logging
             if (useSerilogRequestLogging)
@@ -30,7 +30,12 @@ namespace Nox
             noxBuilder.UseODataRouteDebug();
 #endif
 
-            if (useSwagger)
+            var hostingEnvironment = builder
+                .ApplicationServices
+                .GetRequiredService<IHostEnvironment>();
+
+            var isDevelopment = hostingEnvironment.IsDevelopment();
+            if (isDevelopment)
             {
                 builder.UseSwagger();
                 builder.UseSwaggerUI();
