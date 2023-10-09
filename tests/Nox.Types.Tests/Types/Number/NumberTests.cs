@@ -9,7 +9,7 @@ public class NumberTests
 
         var number = Number.From(testNumber);
 
-        Assert.Equal(testNumber, number.Value);
+        Assert.Equal<decimal>(testNumber, number.Value);
     }
 
     [Fact]
@@ -39,7 +39,7 @@ public class NumberTests
 
         var number = Number.From(testNumber, new NumberTypeOptions { DecimalDigits = 0 });
 
-        Assert.Equal(3, number.Value);
+        Assert.Equal<decimal>(3, number.Value);
     }
 
     [Fact]
@@ -49,7 +49,7 @@ public class NumberTests
 
         var number = Number.From(testNumber, new NumberTypeOptions { DecimalDigits = 0 });
 
-        Assert.Equal(4, number.Value);
+        Assert.Equal<decimal>(4, number.Value);
     }
 
     [Fact]
@@ -76,23 +76,23 @@ public class NumberTests
 
         short testShort = 3;
         number = Number.From(testShort);
-        Assert.Equal(testShort, number.Value);
+        Assert.Equal<short>(testShort, number.Value);
 
         int testInt32 = 3;
         number = Number.From(testInt32);
-        Assert.Equal(testInt32, number.Value);
+        Assert.Equal<int>(testInt32, number.Value);
 
         long testInt64 = 3;
         number = Number.From(testInt64);
-        Assert.Equal(testInt64, number.Value);
+        Assert.Equal<long>(testInt64, number.Value);
 
         double testDouble = 3.141592;
         number = Number.From(testDouble);
-        Assert.Equal(testDouble, (double)number.Value);
+        Assert.Equal<double>(testDouble, (double)number.Value);
 
         decimal testDecimal = 3.14m;
         number = Number.From(testDecimal);
-        Assert.Equal(testDecimal, number.Value);
+        Assert.Equal<decimal>(testDecimal, number.Value);
     }
 
     // NOTE: Created from 'long' but will fit in 'int' based on NumberTypeOptions.DefaultMaxValue and NumberTypeOptions.DefaultMinValue

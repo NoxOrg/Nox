@@ -4,7 +4,7 @@ using Nox.Solution;
 
 namespace Nox.Generator.Application;
 
-internal class IntegrationEventsGenerator : INoxCodeGenerator
+internal class CustomIntegrationEventGenerator : INoxCodeGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Application;
 
@@ -23,7 +23,7 @@ internal class IntegrationEventsGenerator : INoxCodeGenerator
                 .WithClassName(integrationEvent.Name)
                 .WithFileNamePrefix($"Application.IntegrationEvent")
                 .WithObject("integrationEvent", integrationEvent)
-                .GenerateSourceCodeFromResource("Application.IntegrationEvents.IntegrationEvent");
+                .GenerateSourceCodeFromResource("Application.IntegrationEvents.CustomIntegrationEvent");
         }
     }
 }

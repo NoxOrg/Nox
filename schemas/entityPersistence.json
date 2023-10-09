@@ -93,6 +93,16 @@
               "type": "null"
             }
           ]
+        },
+        "raiseIntegrationEvents": {    
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "additionalProperties": false
@@ -168,6 +178,16 @@
               "type": "null"
             }
           ]
+        },
+        "raiseIntegrationEvents": {    
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "additionalProperties": false
@@ -210,6 +230,16 @@
           ]
         },
         "raiseDomainEvents": {    
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "raiseIntegrationEvents": {    
           "oneOf": [
             {
               "type": "boolean"
