@@ -31,7 +31,7 @@ public class CommandTests : IClassFixture<GeneratorFixture>
         _fixture
             .GenerateSourceCodeFor(sources)
             .AssertOutputResult()
-            .AssertFileExistence(17, filesShouldExist)
+            .AssertFileExistence(16, filesShouldExist)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles/")
             .Check("UpdatePopulationStatisticsCommandHandlerBase.expected.g.cs", "UpdatePopulationStatisticsCommandHandlerBase.g.cs");
