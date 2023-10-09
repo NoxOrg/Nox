@@ -31,8 +31,14 @@ public static class NoxSolutionEntityIntegrationEventsMarkdownExtensions
         };
     }
 
-    private static IEnumerable<Entity> ResolveEntities(NoxSolution noxSolution)
-        => noxSolution.Domain?.Entities?.Where(e => e.HasIntegrationEvents) ?? Array.Empty<Entity>();
+    private static IEnumerable<object> ResolveEntities(NoxSolution noxSolution)
+    {
+        IEnumerable<object>? entities = noxSolution.Domain?.Entities
+            ?.Where(e => e.HasIntegrationEvents)
+            ?.Select(e => new { e.Name, e.Description, e.Persistence, e.HasIntegrationEvents, Members = e.GetAllMembers().Select(x => x.Value) });
+
+        return entities ?? Array.Empty<object>();
+    }
 
     private static IEnumerable<IntegrationEvent> ResolveCustomIntegrationEvents(NoxSolution noxSolution)
         => noxSolution.Application?.IntegrationEvents ?? Array.Empty<IntegrationEvent>();

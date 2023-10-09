@@ -1,4 +1,5 @@
-﻿﻿# Integration Events
+﻿﻿
+# Integration Events
 
 This document provides information about Integration Events. Integration Events are messages that capture various actions and changes within system. They follow the CloudEvent standard for interoperability.
 
@@ -107,27 +108,24 @@ Country|[Country](#Country-Attributes)|A country is a distinct territorial body 
 ### `Country Attributes`
 Member|Type|Description
 ------|----|-----------
-Name|Text|The country's common name
-FormalName|Text|The country's official name
-AlphaCode3|Text|The country's official ISO 4217 alpha-3 code
-AlphaCode2|Text|The country's official ISO 4217 alpha-2 code
-NumericCode|Number|The country's official ISO 4217 alpha-3 code
-DialingCodes|Text|The country's phone dialing codes (comma-delimited)
-Capital|Text|The capital city of the country
-Demonym|Text|Noun denoting the natives of the country
-AreaInSquareKilometres|Number|Country area in square kilometers
-GeoCoord|LatLong|The the position of the workplace's point on the surface of the Earth
-GeoRegion|Text|The region the country is in
-GeoSubRegion|Text|The sub-region the country is in
-GeoWorldRegion|Text|The world region the country is in
-Population|Number|The estimated population of the country
-TopLevelDomains|Text|The top level internet domains regitered to the country (comma-delimited)
-*(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
-
-
-
-
-
+Id|System.String|
+Name|System.String|The country's common name
+FormalName|System.String|The country's official name
+AlphaCode3|System.String|The country's official ISO 4217 alpha-3 code
+AlphaCode2|System.String|The country's official ISO 4217 alpha-2 code
+NumericCode|System.Int16|The country's official ISO 4217 alpha-3 code
+DialingCodes|System.String|The country's phone dialing codes (comma-delimited)
+Capital|System.String|The capital city of the country
+Demonym|System.String|Noun denoting the natives of the country
+AreaInSquareKilometres|System.Int32|Country area in square kilometers
+GeoCoord|LatLongDto|The the position of the workplace's point on the surface of the Earth
+GeoRegion|System.String|The region the country is in
+GeoSubRegion|System.String|The sub-region the country is in
+GeoWorldRegion|System.String|The world region the country is in
+Population|System.Int32|The estimated population of the country
+TopLevelDomains|System.String|The top level internet domains regitered to the country (comma-delimited)
+CountryLocalNamesId|System.String|
+ContinentId|System.Int64|
 
 ## Custom Integration Events
 
@@ -159,8 +157,8 @@ data|Json|Data Field Attributes
 **Data Field Attributes**
 Attribute|Type|Description
 ---------|----|-----------
-Id|CountryCode2|
-Debt|Money|
+Id|System.String|
+Debt|MoneyDto|
 
 
 
@@ -195,8 +193,8 @@ CountryLocalNameInfo|CountryLocalNameInfo|Multiple country local names added
 **CountryLocalNameInfo Attributes**
 Attribute|Type|Description
 ---------|----|-----------
-Id|CountryCode2|
-Name|Text|
+Id|System.String|
+Name|System.String|
 
 
 
@@ -231,5 +229,5 @@ CountryCurrencyInfo|CountryCurrencyInfo|Multiple country currencies added
 **CountryCurrencyInfo Attributes**
 Attribute|Type|Description
 ---------|----|-----------
-Id|CountryCode2|
-CurrencyCode|CurrencyCode3|
+Id|System.String|
+CurrencyCode|System.String|

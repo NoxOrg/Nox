@@ -1,4 +1,7 @@
-﻿using Scriban;
+﻿using Nox.Solution;
+using Nox.Types;
+using Nox.Types.Extensions;
+using Scriban;
 using Scriban.Parsing;
 using Scriban.Runtime;
 using System.Reflection;
@@ -46,6 +49,14 @@ public static class ScribanTemplateExtensions
     {
         var scriptObj = new ScriptObject();
         scriptObj.Import(model, renamer: member => member.Name, filter: null);
+
+        scriptObj.Import(
+            "SinglePrimitiveTypeForKey",
+            new Func<NoxSimpleTypeDefinition, string>(new NoxSolution().GetSinglePrimitiveTypeForKey));
+
+        scriptObj.Import(
+            "IsNoxTypeSimpleType",
+            new Func<NoxType, bool>(type => type.IsSimpleType()));
 
         return scriptObj;
     }

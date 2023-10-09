@@ -1,4 +1,7 @@
-﻿﻿# Integration Events
+﻿{{- func memberType(member)
+   ret IsNoxTypeSimpleType member.Type ? (SinglePrimitiveTypeForKey member) : (member.Type + "Dto")
+end -}}﻿
+# Integration Events
 
 This document provides information about Integration Events. Integration Events are messages that capture various actions and changes within system. They follow the CloudEvent standard for interoperability.
 
@@ -116,15 +119,12 @@ Attribute|Type|Description
 ### `{{entity.Name}} Attributes`
 Member|Type|Description
 ------|----|-----------
-{{ for member in entity.Attributes -}}
-{{member.Name}}|{{member.Type}}|{{member.Description}}
+{{ for member in entity.Members -}}
+{{member.Name}}|{{memberType member}}|{{member.Description}}
 {{ end -}}
-{{- if entity.Persistence.IsAudited -}}
-*(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
-{{ end }}
-{{ end }}
-{{ end }}
-{{ end }}
+{{ end -}}
+{{ end -}}
+{{ end -}}
 
 {{ if customIntegrationEvents | array.size > 0 }}
 ## Custom Integration Events
@@ -176,8 +176,8 @@ Attribute|Type|Description
 Attribute|Type|Description
 ---------|----|-----------
 {{ end -}}
-{{ for attribute in attributes -}}
-{{attribute.Name}}|{{attribute.Type}}|{{attribute.Description}}
+{{ for member in attributes -}}
+{{member.Name}}|{{memberType member}}|{{member.Description}}
 {{ end -}}
 {{ end -}}
 {{ end -}}

@@ -1,4 +1,5 @@
-﻿# Integration Events
+﻿
+# Integration Events
 
 This document provides information about Integration Events. Integration Events are messages that capture various actions and changes within system. They follow the CloudEvent standard for interoperability.
 
@@ -105,21 +106,17 @@ Country|[Country](#Country-Attributes)|Country Entity
 ### `Country Attributes`
 Member|Type|Description
 ------|----|-----------
-Name|Text|The Country Name
-Population|Number|Population
-CountryDebt|Money|The Money
-FirstLanguageCode|LanguageCode|First Official Language
-ShortDescription|Formula|The Formula
-CountryIsoNumeric|CountryNumber|Country's iso number id
-CountryIsoAlpha3|CountryCode3|Country's iso alpha3 id
-GoogleMapsUrl|Url|Country's map via google maps
-StartOfWeek|DayOfWeek|Country's start of week day
-*(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
-
-
-
-
-
+Id|System.Int64|The unique identifier
+Name|System.String|The Country Name
+Population|System.Int32|Population
+CountryDebt|MoneyDto|The Money
+FirstLanguageCode|System.String|First Official Language
+ShortDescription|System.String|The Formula
+CountryIsoNumeric|System.UInt16|Country's iso number id
+CountryIsoAlpha3|System.String|Country's iso alpha3 id
+GoogleMapsUrl|System.String|Country's map via google maps
+StartOfWeek|System.UInt16|Country's start of week day
+CountryLocalNameId|System.Int64|The unique identifier
 
 ## Custom Integration Events
 
@@ -151,6 +148,6 @@ data|Json|Data Field Attributes
 **Data Field Attributes**
 Attribute|Type|Description
 ---------|----|-----------
-Name|Text|
-Population|Number|
-CountryDebt|Money|
+Name|System.String|
+Population|System.Int32|
+CountryDebt|MoneyDto|
