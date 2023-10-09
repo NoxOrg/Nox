@@ -11,7 +11,7 @@ namespace ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
     public class StoresControllerTests : NoxWebApiTestBase
-    {       
+    {
         public StoresControllerTests(ITestOutputHelper testOutput,
             NoxTestContainerService containerService)
             : base(testOutput, containerService)
@@ -146,6 +146,7 @@ namespace ClientApi.Tests.Tests.Controllers
         #endregion GET Expand Relation /api/{EntityPluralName}/{EntityKey} => api/stores/1?$expand=Ownership
 
         #region POST Entity with RelationshipId /api/{EntityPluralName} => api/stores
+
         [Fact]
         public async Task Post_WithRelationshipId_CreatesRefToRelatedEntity()
         {
@@ -191,13 +192,15 @@ namespace ClientApi.Tests.Tests.Controllers
             response!.License!.Id.Should().Be(licensePostResponse!.Id);
             response!.License!.Issuer.Should().Be(licenseName);
         }
-        #endregion
+
+        #endregion POST Entity with RelationshipId /api/{EntityPluralName} => api/stores
 
         #region POST Entity with Invalid RelationshipId /api/{EntityPluralName} => api/stores
+
         [Fact]
         public async Task Post_WithInvalidRelationshipId_ThrowsException()
         {
-            // Arrange            
+            // Arrange
             var storeCreateDto = new StoreCreateDto
             {
                 Name = _fixture.Create<string>(),
@@ -221,11 +224,13 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             result.Should().NotBeNull();
-            result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+            result.Should().HaveStatusCode(HttpStatusCode.BadRequest);
         }
-        #endregion
+
+        #endregion POST Entity with Invalid RelationshipId /api/{EntityPluralName} => api/stores
 
         #region POST Entity with Deleted RelationshipId /api/{EntityPluralName} => api/stores
+
         [Fact]
         public async Task Post_WithDeletedRelationshipId_ShouldNotCreateRefToRelatedEntity()
         {
@@ -265,7 +270,8 @@ namespace ClientApi.Tests.Tests.Controllers
             result.Should().NotBeNull();
             result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
-        #endregion
+
+        #endregion POST Entity with Deleted RelationshipId /api/{EntityPluralName} => api/stores
 
         #endregion Relationship Examples
 
