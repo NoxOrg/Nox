@@ -32,35 +32,88 @@ This document provides information about Integration Events. Integration Events 
 **Description:**
 This event is triggered when a new {{entity.Name}} is created.
 
-**Attributes:**
+**Topic:** Default
+
+**Envelope Attributes**
+
+Attribute|Type|Example
+---------|----|-------
+specversion|SemanticVersion|1.0
+id|Guid|<Id>
+source||
+type||
+datacontenttype|ContentType|application/json
+dataschema||
+time|DateTimeUtc|<UtcNow>
+xtenantid|Text|<TenantId>
+xuserid|Text|<User>
+data|Json|
+
+**Data Field Attributes**
+
 Attribute|Type|Description
 ---------|----|-----------
-{{entity.Name}}|[{{entity.Name}}](#{{entity.Name}})|{{entity.Description}}
+{{entity.Name}}|[{{entity.Name}}](#{{entity.Name}}-Attributes)|{{entity.Description}}
 {{ end }}{{ if entity.Persistence.Update.RaiseIntegrationEvents }}
 ### `{{entity.Name}}Updated`
 
 **Description:**
 This event is triggered when an existing {{entity.Name}} is updated.
 
-**Attributes:**
+**Topic:** Default
+
+**Envelope Attributes**
+
+Attribute|Type|Example
+---------|----|-------
+specversion|SemanticVersion|1.0
+id|Guid|<Id>
+source||
+type||
+datacontenttype|ContentType|application/json
+dataschema||
+time|DateTimeUtc|<UtcNow>
+xtenantid|Text|<TenantId>
+xuserid|Text|<User>
+data|Json|
+
+**Data Field Attributes**
+
 Attribute|Type|Description
 ---------|----|-----------
-{{entity.Name}}|[{{entity.Name}}](#{{entity.Name}})|{{entity.Description}}
+{{entity.Name}}|[{{entity.Name}}](#{{entity.Name}}-Attributes)|{{entity.Description}}
 {{ end }}{{ if entity.Persistence.Delete.RaiseIntegrationEvents }}
 ### `{{entity.Name}}Deleted`
 
 **Description:**
 This event is triggered when an entity {{entity.Name}} is deleted.
 
-**Attributes:**
+**Topic:** Default
+
+**Envelope Attributes**
+
+Attribute|Type|Example
+---------|----|-------
+specversion|SemanticVersion|1.0
+id|Guid|<Id>
+source||
+type||
+datacontenttype|ContentType|application/json
+dataschema||
+time|DateTimeUtc|<UtcNow>
+xtenantid|Text|<TenantId>
+xuserid|Text|<User>
+data|Json|
+
+**Data Field Attributes**
 Attribute|Type|Description
 ---------|----|-----------
-{{entity.Name}}|[{{entity.Name}}](#{{entity.Name}})|{{entity.Description}}
+{{entity.Name}}|[{{entity.Name}}](#{{entity.Name}}-Attributes)|{{entity.Description}}
 {{ end }}
 
 {{ if entity.HasIntegrationEvents }}
-### {{entity.Name}}
-**Members (Keys, Attributes & Relationships):**
+
+### `{{entity.Name}} Attributes`
 Member|Type|Description
 ------|----|-----------
 {{ for member in entity.Attributes -}}
@@ -90,14 +143,37 @@ Member|Type|Description
 {{ attributes = integrationEvent.ObjectTypeOptions.Attributes -}}
 {{ end }}
 
+
+
 ### `{{integrationEvent.Name}}`
 
+**Description:**
+{{integrationEvent.Description}}
+
+**Topic:** Custom
+
+**Envelope Attributes**
+
+Attribute|Type|Example
+---------|----|-------
+specversion|SemanticVersion|1.0
+id|Guid|<Id>
+source||
+type||
+datacontenttype|ContentType|application/json
+dataschema||
+time|DateTimeUtc|<UtcNow>
+xtenantid|Text|<TenantId>
+xuserid|Text|<User>
+data|Json|
+
+**Data Field Attributes**
 Attribute|Type|Description
 ---------|----|-----------
 {{ if isArray || isCollection -}}
-{{nestedClassName}}|[{{nestedClassName}}](#{{nestedClassName}})|{{integrationEvent.Description}}
+{{nestedClassName}}|{{nestedClassName}}|{{integrationEvent.Description}}
 
-### {{nestedClassName}}
+**{{nestedClassName}} Attributes**
 Attribute|Type|Description
 ---------|----|-----------
 {{ end -}}

@@ -25,8 +25,6 @@ public static class NoxSolutionEntityIntegrationEventsMarkdownExtensions
             ["customIntegrationEvents"] = ResolveCustomIntegrationEvents(noxSolution),
         };
 
-        var modeljson = JsonSerializer.Serialize(model, new JsonSerializerOptions { ReferenceHandler = ReferenceHandler.Preserve });
-
         return new MarkdownFile
         {
             Name = $"./IntegrationEvents.md",
