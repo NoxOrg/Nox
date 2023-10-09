@@ -6,7 +6,11 @@ namespace Nox.Generator.Application;
 
 internal class ServiceCollectionExtensionsGenerator : INoxCodeGenerator
 {
-    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.None;
+    public NoxGeneratorKind GeneratorKind => 
+        NoxGeneratorKind.Application &
+        NoxGeneratorKind.Domain &
+        NoxGeneratorKind.Infrastructure &
+        NoxGeneratorKind.Presentation;
 
     public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
     {
