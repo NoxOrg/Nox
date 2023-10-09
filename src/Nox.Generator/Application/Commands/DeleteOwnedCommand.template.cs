@@ -64,7 +64,7 @@ internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandlerBase
 
 		parentEntity.{{relationship.Name}} = null!;
 
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		{{ else }}
@@ -77,7 +77,7 @@ internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandlerBase
 			return false;
 		}
 		parentEntity.{{relationship.Name}}.Remove(entity);
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Deleted;
 		{{- end }}

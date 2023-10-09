@@ -100,7 +100,7 @@ internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCus
 			entityToCreate.CreateRefToCustomerBaseCountry(relatedEntity);
 		}
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.Customers.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new CustomerKeyDto(entityToCreate.Id.Value);

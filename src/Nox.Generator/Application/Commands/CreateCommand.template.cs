@@ -116,7 +116,7 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 		{{-end}}
 	{{- end }}
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.{{entity.PluralName}}.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new {{entity.Name}}KeyDto({{primaryKeysQuery}});

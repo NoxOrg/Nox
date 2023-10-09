@@ -73,7 +73,7 @@ internal abstract class CreateTestEntityZeroOrOneCommandHandlerBase : CommandBas
 			entityToCreate.CreateRefToSecondTestEntityZeroOrOneRelationship(relatedEntity);
 		}
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.TestEntityZeroOrOnes.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new TestEntityZeroOrOneKeyDto(entityToCreate.Id.Value);

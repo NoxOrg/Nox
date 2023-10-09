@@ -73,7 +73,7 @@ internal abstract class CreateEmployeeCommandHandlerBase : CommandBase<CreateEmp
 			entityToCreate.CreateRefToEmployeeReviewingCashStockOrder(relatedEntity);
 		}
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.Employees.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new EmployeeKeyDto(entityToCreate.Id.Value);

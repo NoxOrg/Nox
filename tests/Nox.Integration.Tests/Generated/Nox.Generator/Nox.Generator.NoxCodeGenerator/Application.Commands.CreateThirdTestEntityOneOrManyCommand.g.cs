@@ -64,7 +64,7 @@ internal abstract class CreateThirdTestEntityOneOrManyCommandHandlerBase : Comma
 			entityToCreate.CreateRefToThirdTestEntityZeroOrManyRelationship(relatedEntity);
 		}
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.ThirdTestEntityOneOrManies.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new ThirdTestEntityOneOrManyKeyDto(entityToCreate.Id.Value);

@@ -54,7 +54,7 @@ internal partial class DeleteBankNoteForCurrencyCommandHandlerBase : CommandBase
 			return false;
 		}
 		parentEntity.CurrencyCommonBankNotes.Remove(entity);
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Deleted;
 

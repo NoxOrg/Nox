@@ -82,7 +82,7 @@ internal abstract class CreateMinimumCashStockCommandHandlerBase : CommandBase<C
 			entityToCreate.CreateRefToMinimumCashStockRelatedCurrency(relatedEntity);
 		}
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.MinimumCashStocks.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new MinimumCashStockKeyDto(entityToCreate.Id.Value);

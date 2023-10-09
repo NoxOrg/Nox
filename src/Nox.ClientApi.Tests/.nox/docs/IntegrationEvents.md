@@ -9,7 +9,10 @@ This document provides information about Integration Events. Integration Events 
     - [CountryCreated](#CountryCcreated)
     - [CountryUpdated](#CountryUpdated)
     - [CountryDeleted](#CountryDeleted)
-- [Custom Integration Events](#custom-integration-events)
+
+    - [WorkplaceDeleted](#WorkplaceDeleted)
+
+    - [StoreOwnerCreated](#StoreOwnerCcreated)- [Custom Integration Events](#custom-integration-events)
     - [CountryPopulationHigherThan100M](#CountryPopulationHigherThan100M)
 
 
@@ -117,6 +120,89 @@ CountryIsoAlpha3|System.String|Country's iso alpha3 id
 GoogleMapsUrl|System.String|Country's map via google maps
 StartOfWeek|System.UInt16|Country's start of week day
 CountryLocalNameId|System.Int64|The unique identifier
+
+
+### `WorkplaceDeleted`
+
+**Description:**
+This event is triggered when an entity Workplace is deleted.
+
+**Topic:** Workplace
+
+**Envelope Attributes**
+
+Attribute|Type|Example
+---------|----|-------
+specversion|SemanticVersion|1.0
+id|Guid|0d02bba1-dbf3-4ba4-93c1-2e416ec0c88d
+source|https://{ENVIRONMENT}.{Solution.PlatformId}.com/{Solution.Name}|https://ClientApi.com/ClientApi
+type|{Solution.PlatformId}.{Solution.Name}.{Trait}.v{Solution.Version}.{eventName}|ClientApi.ClientApi.Workplace.v1.0.WorkplaceDeleted
+datacontenttype|ContentType|application/json
+dataschema|https://{ENVIRONMENT}.{Solution.PlatformId}.com/schemas/{Solution.Name}/{Trait}/v{Solution.Version}/{eventName}.json|https://ClientApi.com/schemas/ClientApi/Workplace/v1.0/WorkplaceDeleted.json
+time|DateTimeUtc|2023-10-10T12:11:10.5312500Z
+xtenantid|Text|b22ee68e-327f-4550-a077-8fb8426071f5
+xuserid|Text|e945e9f9-b0ba-435d-bfe7-8966abeb8763
+data|Json|Data Field Attributes
+
+**Data Field Attributes**
+Attribute|Type|Description
+---------|----|-----------
+Workplace|[Workplace](#Workplace-Attributes)|Workplace
+
+
+
+
+### `Workplace Attributes`
+Member|Type|Description
+------|----|-----------
+Id|System.UInt32|Workplace unique identifier
+Name|System.String|Workplace Name
+Description|System.String|Workplace Description
+Greeting|System.String|The Formula
+CountryId|System.Int64|The unique identifier
+
+
+### `StoreOwnerCreated`
+
+**Description:**
+This event is triggered when a new StoreOwner is created.
+
+**Topic:** StoreOwner
+
+#### Envelope Attributes
+
+Attribute|Type|Example
+---------|----|-------
+specversion|SemanticVersion|1.0
+id|Guid|0d02bba1-dbf3-4ba4-93c1-2e416ec0c88d
+source|https://{ENVIRONMENT}.{Solution.PlatformId}.com/{Solution.Name}|https://ClientApi.com/ClientApi
+type|{Solution.PlatformId}.{Solution.Name}.{Trait}.v{Solution.Version}.{eventName}|ClientApi.ClientApi.StoreOwner.v1.0.StoreOwnerCreated
+datacontenttype|ContentType|application/json
+dataschema|https://{ENVIRONMENT}.{Solution.PlatformId}.com/schemas/{Solution.Name}/{Trait}/v{Solution.Version}/{eventName}.json|https://ClientApi.com/schemas/ClientApi/StoreOwner/v1.0/StoreOwnerCreated.json
+time|DateTimeUtc|2023-10-10T12:11:10.5312500Z
+xtenantid|Text|b22ee68e-327f-4550-a077-8fb8426071f5
+xuserid|Text|e945e9f9-b0ba-435d-bfe7-8966abeb8763
+data|Json|Data Field Attributes
+
+**Data Field Attributes**
+
+Attribute|Type|Description
+---------|----|-----------
+StoreOwner|[StoreOwner](#StoreOwner-Attributes)|Store owners
+
+
+
+
+### `StoreOwner Attributes`
+Member|Type|Description
+------|----|-----------
+Id|System.String|
+Name|System.String|Owner Name
+TemporaryOwnerName|System.String|Temporary Owner Name
+VatNumber|VatNumberDto|Vat Number
+StreetAddress|StreetAddressDto|Street Address
+LocalGreeting|TranslatedTextDto|Owner Greeting
+Notes|System.String|Notes
 
 ## Custom Integration Events
 

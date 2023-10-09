@@ -54,7 +54,7 @@ internal partial class DeleteHolidayForCountryCommandHandlerBase : CommandBase<D
 			return false;
 		}
 		parentEntity.CountryOwnedHolidays.Remove(entity);
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Deleted;
 

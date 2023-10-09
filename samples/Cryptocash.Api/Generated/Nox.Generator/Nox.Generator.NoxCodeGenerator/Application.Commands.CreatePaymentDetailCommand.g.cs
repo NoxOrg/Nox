@@ -91,7 +91,7 @@ internal abstract class CreatePaymentDetailCommandHandlerBase : CommandBase<Crea
 			entityToCreate.CreateRefToPaymentDetailsRelatedPaymentProvider(relatedEntity);
 		}
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.PaymentDetails.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new PaymentDetailKeyDto(entityToCreate.Id.Value);

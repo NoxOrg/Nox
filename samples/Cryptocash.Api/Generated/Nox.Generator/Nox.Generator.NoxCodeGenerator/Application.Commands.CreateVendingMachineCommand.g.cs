@@ -118,7 +118,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 			entityToCreate.CreateRefToVendingMachineRequiredMinimumCashStocks(relatedEntity);
 		}
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.VendingMachines.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new VendingMachineKeyDto(entityToCreate.Id.Value);

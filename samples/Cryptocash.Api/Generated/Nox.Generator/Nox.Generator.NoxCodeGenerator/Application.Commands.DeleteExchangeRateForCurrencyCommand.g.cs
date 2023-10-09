@@ -54,7 +54,7 @@ internal partial class DeleteExchangeRateForCurrencyCommandHandlerBase : Command
 			return false;
 		}
 		parentEntity.CurrencyExchangedFromRates.Remove(entity);
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Deleted;
 

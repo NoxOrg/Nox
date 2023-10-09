@@ -29,7 +29,7 @@ namespace Nox.Configuration
         private Action<LoggerConfiguration>? _loggerConfigurationAction;
 
         private bool _withNoxLogging = true;
-        private bool _withSwagger = false;
+        private bool _withSwagger = true;
 
         public INoxOptions WithoutNoxLogging()
         {
@@ -124,9 +124,9 @@ namespace Nox.Configuration
             return this;
         }
 
-        public INoxOptions WithSwagger()
+        public INoxOptions WithoutSwagger()
         {
-            _withSwagger = true;
+            _withSwagger = false;
 
             return this;
         }

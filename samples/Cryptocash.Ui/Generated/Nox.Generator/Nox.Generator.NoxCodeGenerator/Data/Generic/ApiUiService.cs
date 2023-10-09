@@ -201,21 +201,9 @@ namespace Cryptocash.Ui.Generated.Data.Generic
         }
 
         /// <summary>
-        /// Property ApiCreateQuery used to pass create Api Entity related query string params to Api
+        /// Property ApiCreateData used to store create Api Entity related params
         /// </summary>
-        public string ApiCreateQuery
-        {
-            get
-            {
-                return Url
-                    + ApiCreateQueryData;
-            }
-        }
-
-        /// <summary>
-        /// Property ApiCreateQueryData used to store create Api Entity related params
-        /// </summary>
-        public string? ApiCreateQueryData { get; set; }
+        public string? ApiCreateData { get; set; }
 
         /// <summary>
         /// Property ApiDeleteQuery used to pass delete Api Entity related query string params to Api

@@ -1,9 +1,5 @@
 // Generated
 
-using System.Collections.Generic;
-using System;
-
-using Cryptocash.Ui.Generated.Data.Generic;
 using Cryptocash.Ui.Generated.Data.ApiSetting;
 using Cryptocash.Ui.Generated.Data.Enum;
 
