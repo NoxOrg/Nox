@@ -263,7 +263,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
 	public virtual List<{{relationship.Entity}}> {{relationship.Name}} { get; private set; } = new();
 	{{- else}}
 	public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}} { get; private set; } = null!;
-
+	{{- end }}
     
 	/// <summary>
 	/// Creates a new {{relationship.Entity}} entity.
@@ -281,18 +281,18 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
     {
         {{- if relationship.WithSingleEntity }}
 
-        {{- if relationship.Relationship == "ExactlyOne" }}
+			{{- if relationship.Relationship == "ExactlyOne" }}
         throw new Exception($"The relationship cannot be deleted.");
-        {{- else }}
+			{{- else }}
         {{relationship.Name}} = null;
-        {{- end }}
+			{{- end }}
 
         {{- else}}
 
-        {{- if relationship.Relationship == "OneOrMany" }}
+			{{- if relationship.Relationship == "OneOrMany" }}
         if({{relationship.Name}}.Count() < 2)
             throw new Exception($"The relationship cannot be deleted.");
-        {{- end }}
+			{{- end }}
         {{relationship.Name}}.Remove(related{{relationship.Entity}});
 
         {{- end }}
@@ -302,28 +302,27 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
     {
         {{- if relationship.WithSingleEntity }}
 
-        {{- if relationship.Relationship == "ExactlyOne" }}
+			{{- if relationship.Relationship == "ExactlyOne" }}
         throw new Exception($"The relationship cannot be deleted.");
-        {{- else }}
-        {{- if relationship.ShouldGenerateForeignOnThisSide }}
+			{{- else }}
+				{{- if relationship.ShouldGenerateForeignOnThisSide }}
         {{relationship.Name}}Id = null;
-        {{- else }}
+				{{- else }}
         {{relationship.Name}} = null;
-        {{- end }}
-        {{- end }}
+				{{- end }}
+			{{- end }}
 
         {{- else}}
 
-        {{- if relationship.Relationship == "OneOrMany" }}
+			{{- if relationship.Relationship == "OneOrMany" }}
         if({{relationship.Name}}.Count() < 2)
             throw new Exception($"The relationship cannot be deleted.");
-        {{- end }}
+			{{- end }}
         {{relationship.Name}}.Clear();
 
         {{- end }}
     }
 {{-end}}
-{{- end }}
 
 {{ if !entity.IsOwnedEntity ~}}
     /// <summary>
