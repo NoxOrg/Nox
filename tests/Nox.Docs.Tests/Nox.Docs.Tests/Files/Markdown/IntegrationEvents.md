@@ -25,20 +25,20 @@ This event is triggered when a new Country is created.
 
 **Topic:** Default
 
-**Envelope Attributes**
+#### Envelope Attributes
 
 Attribute|Type|Example
 ---------|----|-------
 specversion|SemanticVersion|1.0
-id|Guid|<Id>
-source||
-type||
+id|Guid|0d02bba1-dbf3-4ba4-93c1-2e416ec0c88d
+source|https://{ENVIRONMENT}.{Nox.Solution.PlatformId}.com/{Nox.Solution.Name}|https://SampleForIntegrationEventsMarkdownGeneration.com/SampleForIntegrationEventsMarkdownGeneration
+type|{Nox.Solution.PlatformId}.{Nox.Solution.Name}.{Trait}.v{Nox.Solution.Version}.{eventName}|SampleForIntegrationEventsMarkdownGeneration.SampleForIntegrationEventsMarkdownGeneration..v1.0.CountryCreated
 datacontenttype|ContentType|application/json
-dataschema||
-time|DateTimeUtc|<UtcNow>
-xtenantid|Text|<TenantId>
-xuserid|Text|<User>
-data|Json|
+dataschema|https://{ENVIRONMENT}.{Nox.Solution.PlatformId}.com/schemas/{Nox.Solution.Name}/{Trait}/v{Nox.Solution.Version}/{eventName}.json|https://SampleForIntegrationEventsMarkdownGeneration.com/schemas/SampleForIntegrationEventsMarkdownGeneration//v1.0/CountryCreated.json
+time|DateTimeUtc|2023-10-10T12:11:10.5312500Z
+xtenantid|Text|b22ee68e-327f-4550-a077-8fb8426071f5
+xuserid|Text|e945e9f9-b0ba-435d-bfe7-8966abeb8763
+data|Json|Data Field Attributes
 
 **Data Field Attributes**
 
@@ -58,15 +58,15 @@ This event is triggered when an existing Country is updated.
 Attribute|Type|Example
 ---------|----|-------
 specversion|SemanticVersion|1.0
-id|Guid|<Id>
-source||
-type||
+id|Guid|0d02bba1-dbf3-4ba4-93c1-2e416ec0c88d
+source|https://{ENVIRONMENT}.{Nox.Solution.PlatformId}.com/{Nox.Solution.Name}|https://SampleForIntegrationEventsMarkdownGeneration.com/SampleForIntegrationEventsMarkdownGeneration
+type|{Nox.Solution.PlatformId}.{Nox.Solution.Name}.{Trait}.v{Nox.Solution.Version}.{eventName}|SampleForIntegrationEventsMarkdownGeneration.SampleForIntegrationEventsMarkdownGeneration..v1.0.CountryUpdated
 datacontenttype|ContentType|application/json
-dataschema||
-time|DateTimeUtc|<UtcNow>
-xtenantid|Text|<TenantId>
-xuserid|Text|<User>
-data|Json|
+dataschema|https://{ENVIRONMENT}.{Nox.Solution.PlatformId}.com/schemas/{Nox.Solution.Name}/{Trait}/v{Nox.Solution.Version}/{eventName}.json|https://SampleForIntegrationEventsMarkdownGeneration.com/schemas/SampleForIntegrationEventsMarkdownGeneration//v1.0/CountryUpdated.json
+time|DateTimeUtc|2023-10-10T12:11:10.5312500Z
+xtenantid|Text|b22ee68e-327f-4550-a077-8fb8426071f5
+xuserid|Text|e945e9f9-b0ba-435d-bfe7-8966abeb8763
+data|Json|Data Field Attributes
 
 **Data Field Attributes**
 
@@ -86,15 +86,15 @@ This event is triggered when an entity Country is deleted.
 Attribute|Type|Example
 ---------|----|-------
 specversion|SemanticVersion|1.0
-id|Guid|<Id>
-source||
-type||
+id|Guid|0d02bba1-dbf3-4ba4-93c1-2e416ec0c88d
+source|https://{ENVIRONMENT}.{Nox.Solution.PlatformId}.com/{Nox.Solution.Name}|https://SampleForIntegrationEventsMarkdownGeneration.com/SampleForIntegrationEventsMarkdownGeneration
+type|{Nox.Solution.PlatformId}.{Nox.Solution.Name}.{Trait}.v{Nox.Solution.Version}.{eventName}|SampleForIntegrationEventsMarkdownGeneration.SampleForIntegrationEventsMarkdownGeneration..v1.0.CountryDeleted
 datacontenttype|ContentType|application/json
-dataschema||
-time|DateTimeUtc|<UtcNow>
-xtenantid|Text|<TenantId>
-xuserid|Text|<User>
-data|Json|
+dataschema|https://{ENVIRONMENT}.{Nox.Solution.PlatformId}.com/schemas/{Nox.Solution.Name}/{Trait}/v{Nox.Solution.Version}/{eventName}.json|https://SampleForIntegrationEventsMarkdownGeneration.com/schemas/SampleForIntegrationEventsMarkdownGeneration//v1.0/CountryDeleted.json
+time|DateTimeUtc|2023-10-10T12:11:10.5312500Z
+xtenantid|Text|b22ee68e-327f-4550-a077-8fb8426071f5
+xuserid|Text|e945e9f9-b0ba-435d-bfe7-8966abeb8763
+data|Json|Data Field Attributes
 
 **Data Field Attributes**
 Attribute|Type|Description
@@ -147,15 +147,15 @@ Country created or updated with debt over 1B local currency
 Attribute|Type|Example
 ---------|----|-------
 specversion|SemanticVersion|1.0
-id|Guid|<Id>
-source||
-type||
+id|Guid|0d02bba1-dbf3-4ba4-93c1-2e416ec0c88d
+source|https://{ENVIRONMENT}.{Nox.Solution.PlatformId}.com/{Nox.Solution.Name}|https://SampleForIntegrationEventsMarkdownGeneration.com/SampleForIntegrationEventsMarkdownGeneration
+type|{Nox.Solution.PlatformId}.{Nox.Solution.Name}.{Trait}.v{Nox.Solution.Version}.{eventName}|SampleForIntegrationEventsMarkdownGeneration.SampleForIntegrationEventsMarkdownGeneration..v1.0.CountryDebtOver1B
 datacontenttype|ContentType|application/json
-dataschema||
-time|DateTimeUtc|<UtcNow>
-xtenantid|Text|<TenantId>
-xuserid|Text|<User>
-data|Json|
+dataschema|https://{ENVIRONMENT}.{Nox.Solution.PlatformId}.com/schemas/{Nox.Solution.Name}/{Trait}/v{Nox.Solution.Version}/{eventName}.json|https://SampleForIntegrationEventsMarkdownGeneration.com/schemas/SampleForIntegrationEventsMarkdownGeneration//v1.0/CountryDebtOver1B.json
+time|DateTimeUtc|2023-10-10T12:11:10.5312500Z
+xtenantid|Text|b22ee68e-327f-4550-a077-8fb8426071f5
+xuserid|Text|e945e9f9-b0ba-435d-bfe7-8966abeb8763
+data|Json|Data Field Attributes
 
 **Data Field Attributes**
 Attribute|Type|Description
@@ -178,15 +178,15 @@ Multiple country local names added
 Attribute|Type|Example
 ---------|----|-------
 specversion|SemanticVersion|1.0
-id|Guid|<Id>
-source||
-type||
+id|Guid|0d02bba1-dbf3-4ba4-93c1-2e416ec0c88d
+source|https://{ENVIRONMENT}.{Nox.Solution.PlatformId}.com/{Nox.Solution.Name}|https://SampleForIntegrationEventsMarkdownGeneration.com/SampleForIntegrationEventsMarkdownGeneration
+type|{Nox.Solution.PlatformId}.{Nox.Solution.Name}.{Trait}.v{Nox.Solution.Version}.{eventName}|SampleForIntegrationEventsMarkdownGeneration.SampleForIntegrationEventsMarkdownGeneration..v1.0.CountryLocalNamesAdded
 datacontenttype|ContentType|application/json
-dataschema||
-time|DateTimeUtc|<UtcNow>
-xtenantid|Text|<TenantId>
-xuserid|Text|<User>
-data|Json|
+dataschema|https://{ENVIRONMENT}.{Nox.Solution.PlatformId}.com/schemas/{Nox.Solution.Name}/{Trait}/v{Nox.Solution.Version}/{eventName}.json|https://SampleForIntegrationEventsMarkdownGeneration.com/schemas/SampleForIntegrationEventsMarkdownGeneration//v1.0/CountryLocalNamesAdded.json
+time|DateTimeUtc|2023-10-10T12:11:10.5312500Z
+xtenantid|Text|b22ee68e-327f-4550-a077-8fb8426071f5
+xuserid|Text|e945e9f9-b0ba-435d-bfe7-8966abeb8763
+data|Json|Data Field Attributes
 
 **Data Field Attributes**
 Attribute|Type|Description
@@ -214,15 +214,15 @@ Multiple country currencies added
 Attribute|Type|Example
 ---------|----|-------
 specversion|SemanticVersion|1.0
-id|Guid|<Id>
-source||
-type||
+id|Guid|0d02bba1-dbf3-4ba4-93c1-2e416ec0c88d
+source|https://{ENVIRONMENT}.{Nox.Solution.PlatformId}.com/{Nox.Solution.Name}|https://SampleForIntegrationEventsMarkdownGeneration.com/SampleForIntegrationEventsMarkdownGeneration
+type|{Nox.Solution.PlatformId}.{Nox.Solution.Name}.{Trait}.v{Nox.Solution.Version}.{eventName}|SampleForIntegrationEventsMarkdownGeneration.SampleForIntegrationEventsMarkdownGeneration..v1.0.CountryCurrenciesAdded
 datacontenttype|ContentType|application/json
-dataschema||
-time|DateTimeUtc|<UtcNow>
-xtenantid|Text|<TenantId>
-xuserid|Text|<User>
-data|Json|
+dataschema|https://{ENVIRONMENT}.{Nox.Solution.PlatformId}.com/schemas/{Nox.Solution.Name}/{Trait}/v{Nox.Solution.Version}/{eventName}.json|https://SampleForIntegrationEventsMarkdownGeneration.com/schemas/SampleForIntegrationEventsMarkdownGeneration//v1.0/CountryCurrenciesAdded.json
+time|DateTimeUtc|2023-10-10T12:11:10.5312500Z
+xtenantid|Text|b22ee68e-327f-4550-a077-8fb8426071f5
+xuserid|Text|e945e9f9-b0ba-435d-bfe7-8966abeb8763
+data|Json|Data Field Attributes
 
 **Data Field Attributes**
 Attribute|Type|Description

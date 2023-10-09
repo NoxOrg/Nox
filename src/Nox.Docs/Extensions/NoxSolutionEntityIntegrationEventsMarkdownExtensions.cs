@@ -1,8 +1,6 @@
 ﻿using Nox.Docs.Models;
 using Nox.Solution;
 using Scriban;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace Nox.Docs.Extensions;
 
@@ -21,6 +19,7 @@ public static class NoxSolutionEntityIntegrationEventsMarkdownExtensions
     {
         var model = new Dictionary<string, object>
         {
+            ["solution"] = new { noxSolution.Name, noxSolution.PlatformId, noxSolution.Version },
             ["entities"] = ResolveEntities(noxSolution),
             ["customIntegrationEvents"] = ResolveCustomIntegrationEvents(noxSolution),
         };
