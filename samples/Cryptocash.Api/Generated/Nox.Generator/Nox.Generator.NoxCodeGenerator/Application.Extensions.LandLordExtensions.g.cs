@@ -4,6 +4,8 @@
 using System;
 using System.Linq;
 
+using Nox.Extensions;
+
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -13,19 +15,11 @@ internal static class LandLordExtensions
     public static LandLordDto ToDto(this LandLord entity)
     {
         var dto = new LandLordDto();
-        SetIfNotNull(entity?.Id, () => dto.Id = entity!.Id.Value);
-        SetIfNotNull(entity?.Name, () => dto.Name =entity!.Name!.Value);
-        SetIfNotNull(entity?.Address, () => dto.Address =entity!.Address!.ToDto());
-        SetIfNotNull(entity?.ContractedAreasForVendingMachines, () => dto.ContractedAreasForVendingMachines = entity!.ContractedAreasForVendingMachines.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);
+        dto.SetIfNotNull(entity?.Name, (dto) => dto.Name =entity!.Name!.Value);
+        dto.SetIfNotNull(entity?.Address, (dto) => dto.Address =entity!.Address!.ToDto());
+        dto.SetIfNotNull(entity?.ContractedAreasForVendingMachines, (dto) => dto.ContractedAreasForVendingMachines = entity!.ContractedAreasForVendingMachines.Select(e => e.ToDto()).ToList());
 
         return dto;
-    }
-
-    private static void SetIfNotNull(object? value, Action setPropertyAction)
-    {
-        if (value is not null)
-        {
-            setPropertyAction();
-        }
     }
 }

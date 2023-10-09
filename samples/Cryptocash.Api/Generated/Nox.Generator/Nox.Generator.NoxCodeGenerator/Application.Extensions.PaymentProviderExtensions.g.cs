@@ -4,6 +4,8 @@
 using System;
 using System.Linq;
 
+using Nox.Extensions;
+
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -13,19 +15,11 @@ internal static class PaymentProviderExtensions
     public static PaymentProviderDto ToDto(this PaymentProvider entity)
     {
         var dto = new PaymentProviderDto();
-        SetIfNotNull(entity?.Id, () => dto.Id = entity!.Id.Value);
-        SetIfNotNull(entity?.PaymentProviderName, () => dto.PaymentProviderName =entity!.PaymentProviderName!.Value);
-        SetIfNotNull(entity?.PaymentProviderType, () => dto.PaymentProviderType =entity!.PaymentProviderType!.Value);
-        SetIfNotNull(entity?.PaymentProviderRelatedPaymentDetails, () => dto.PaymentProviderRelatedPaymentDetails = entity!.PaymentProviderRelatedPaymentDetails.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);
+        dto.SetIfNotNull(entity?.PaymentProviderName, (dto) => dto.PaymentProviderName =entity!.PaymentProviderName!.Value);
+        dto.SetIfNotNull(entity?.PaymentProviderType, (dto) => dto.PaymentProviderType =entity!.PaymentProviderType!.Value);
+        dto.SetIfNotNull(entity?.PaymentProviderRelatedPaymentDetails, (dto) => dto.PaymentProviderRelatedPaymentDetails = entity!.PaymentProviderRelatedPaymentDetails.Select(e => e.ToDto()).ToList());
 
         return dto;
-    }
-
-    private static void SetIfNotNull(object? value, Action setPropertyAction)
-    {
-        if (value is not null)
-        {
-            setPropertyAction();
-        }
     }
 }

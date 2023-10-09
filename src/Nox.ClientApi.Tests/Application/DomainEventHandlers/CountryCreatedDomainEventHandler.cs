@@ -12,7 +12,7 @@ internal partial class CountryCreatedDomainEventHandler
         if (domainEvent.Country.Population?.Value > 100_000_000)
         {
             var @event = CreateIntegrationEvent(domainEvent.Country);
-            await RaiseIntegrationEventAsync(@event);
+            await _outboxRepository.AddAsync(@event);
         }
     }
 

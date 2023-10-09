@@ -4,6 +4,8 @@
 using System;
 using System.Linq;
 
+using Nox.Extensions;
+
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -13,27 +15,19 @@ internal static class BookingExtensions
     public static BookingDto ToDto(this Booking entity)
     {
         var dto = new BookingDto();
-        SetIfNotNull(entity?.Id, () => dto.Id = entity!.Id.Value);
-        SetIfNotNull(entity?.AmountFrom, () => dto.AmountFrom =entity!.AmountFrom!.ToDto());
-        SetIfNotNull(entity?.AmountTo, () => dto.AmountTo =entity!.AmountTo!.ToDto());
-        SetIfNotNull(entity?.RequestedPickUpDate, () => dto.RequestedPickUpDate =entity!.RequestedPickUpDate!.ToDto());
-        SetIfNotNull(entity?.PickedUpDateTime, () => dto.PickedUpDateTime =entity!.PickedUpDateTime!.ToDto());
-        SetIfNotNull(entity?.ExpiryDateTime, () => dto.ExpiryDateTime =entity!.ExpiryDateTime!.Value);
-        SetIfNotNull(entity?.CancelledDateTime, () => dto.CancelledDateTime =entity!.CancelledDateTime!.Value);
-        SetIfNotNull(entity?.Status, () => dto.Status =entity!.Status!.ToString());
-        SetIfNotNull(entity?.VatNumber, () => dto.VatNumber =entity!.VatNumber!.ToDto());
-        SetIfNotNull(entity?.BookingForCustomerId, () => dto.BookingForCustomerId = entity!.BookingForCustomerId!.Value);
-        SetIfNotNull(entity?.BookingRelatedVendingMachineId, () => dto.BookingRelatedVendingMachineId = entity!.BookingRelatedVendingMachineId!.Value);
-        SetIfNotNull(entity?.BookingFeesForCommissionId, () => dto.BookingFeesForCommissionId = entity!.BookingFeesForCommissionId!.Value);
+        dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);
+        dto.SetIfNotNull(entity?.AmountFrom, (dto) => dto.AmountFrom =entity!.AmountFrom!.ToDto());
+        dto.SetIfNotNull(entity?.AmountTo, (dto) => dto.AmountTo =entity!.AmountTo!.ToDto());
+        dto.SetIfNotNull(entity?.RequestedPickUpDate, (dto) => dto.RequestedPickUpDate =entity!.RequestedPickUpDate!.ToDto());
+        dto.SetIfNotNull(entity?.PickedUpDateTime, (dto) => dto.PickedUpDateTime =entity!.PickedUpDateTime!.ToDto());
+        dto.SetIfNotNull(entity?.ExpiryDateTime, (dto) => dto.ExpiryDateTime =entity!.ExpiryDateTime!.Value);
+        dto.SetIfNotNull(entity?.CancelledDateTime, (dto) => dto.CancelledDateTime =entity!.CancelledDateTime!.Value);
+        dto.SetIfNotNull(entity?.Status, (dto) => dto.Status =entity!.Status!.ToString());
+        dto.SetIfNotNull(entity?.VatNumber, (dto) => dto.VatNumber =entity!.VatNumber!.ToDto());
+        dto.SetIfNotNull(entity?.BookingForCustomerId, (dto) => dto.BookingForCustomerId = entity!.BookingForCustomerId!.Value);
+        dto.SetIfNotNull(entity?.BookingRelatedVendingMachineId, (dto) => dto.BookingRelatedVendingMachineId = entity!.BookingRelatedVendingMachineId!.Value);
+        dto.SetIfNotNull(entity?.BookingFeesForCommissionId, (dto) => dto.BookingFeesForCommissionId = entity!.BookingFeesForCommissionId!.Value);
 
         return dto;
-    }
-
-    private static void SetIfNotNull(object? value, Action setPropertyAction)
-    {
-        if (value is not null)
-        {
-            setPropertyAction();
-        }
     }
 }

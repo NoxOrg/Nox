@@ -17,21 +17,23 @@ internal class DomainEventHandlerGenerator : INoxCodeGenerator
         if (codeGeneratorState.Solution.Infrastructure?.Messaging is null || codeGeneratorState.Solution.Domain?.Entities is null)
             return;
 
-        foreach (var (crudOperation, raiseIntegrationEvent, entity) in GroupEntitiesWithDomainEventsByCrudOperation(codeGeneratorState.Solution.Domain.Entities))
+        foreach (var (operation, raiseIntegrationEvent, entity) in GroupEntitiesWithDomainEventsByCrudOperation(codeGeneratorState.Solution.Domain.Entities))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            new TemplateCodeBuilder(context, codeGeneratorState)
-                .WithClassName($"{entity.Name}{crudOperation}DomainEventHandler")
-                .WithFileNamePrefix($"Application.DomainEventHandlers")
-                .WithObject("crudOperation", crudOperation)
-                .WithObject("raiseIntegrationEvent", raiseIntegrationEvent)
-                .WithObject("entity", entity)
-                .GenerateSourceCodeFromResource("Application.DomainEventHandlers.DomainEventHandler");
+            if (raiseIntegrationEvent)
+            {
+                new TemplateCodeBuilder(context, codeGeneratorState)
+                    .WithClassName($"{entity.Name}{operation}DomainEventHandler")
+                    .WithFileNamePrefix($"Application.DomainEventHandlers")
+                    .WithObject("operation", operation)
+                    .WithObject("entity", entity)
+                    .GenerateSourceCodeFromResource("Application.DomainEventHandlers.DomainEventHandler");
+            }
         }
     }
 
-    private IEnumerable<(string CrudOperation, bool RaiseIntegrationEvent, Entity entity)> GroupEntitiesWithDomainEventsByCrudOperation(IEnumerable<Entity> entities)
+    private IEnumerable<(string Operation, bool RaiseIntegrationEvent, Entity entity)> GroupEntitiesWithDomainEventsByCrudOperation(IEnumerable<Entity> entities)
     {
         var entitiesWithDomainEvents = GetEntitiesThatHaveDomainEvents(entities);
 

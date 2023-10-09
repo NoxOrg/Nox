@@ -4,6 +4,8 @@
 using System;
 using System.Linq;
 
+using Nox.Extensions;
+
 using TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
@@ -13,19 +15,11 @@ internal static class TestEntityTwoRelationshipsOneToOneExtensions
     public static TestEntityTwoRelationshipsOneToOneDto ToDto(this TestEntityTwoRelationshipsOneToOne entity)
     {
         var dto = new TestEntityTwoRelationshipsOneToOneDto();
-        SetIfNotNull(entity?.Id, () => dto.Id = entity!.Id.Value);
-        SetIfNotNull(entity?.TextTestField, () => dto.TextTestField =entity!.TextTestField!.Value);
-        SetIfNotNull(entity?.TestRelationshipOneId, () => dto.TestRelationshipOneId = entity!.TestRelationshipOneId!.Value);
-        SetIfNotNull(entity?.TestRelationshipTwoId, () => dto.TestRelationshipTwoId = entity!.TestRelationshipTwoId!.Value);
+        dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);
+        dto.SetIfNotNull(entity?.TextTestField, (dto) => dto.TextTestField =entity!.TextTestField!.Value);
+        dto.SetIfNotNull(entity?.TestRelationshipOneId, (dto) => dto.TestRelationshipOneId = entity!.TestRelationshipOneId!.Value);
+        dto.SetIfNotNull(entity?.TestRelationshipTwoId, (dto) => dto.TestRelationshipTwoId = entity!.TestRelationshipTwoId!.Value);
 
         return dto;
-    }
-
-    private static void SetIfNotNull(object? value, Action setPropertyAction)
-    {
-        if (value is not null)
-        {
-            setPropertyAction();
-        }
     }
 }

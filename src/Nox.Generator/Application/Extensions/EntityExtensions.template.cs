@@ -7,6 +7,8 @@ end -}}
 using System;
 using System.Linq;
 
+using Nox.Extensions;
+
 using {{codeGeneratorState.DomainNameSpace}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
@@ -17,13 +19,13 @@ internal static class {{className}}
     {
         var dto = new {{entity.Name}}Dto();
 {{- for key in entity.Keys }}
-        SetIfNotNull(entity?.{{key.Name}}, () => dto.{{key.Name}} = entity!.{{key.Name}}.Value);
+        dto.SetIfNotNull(entity?.{{key.Name}}, (dto) => dto.{{key.Name}} = entity!.{{key.Name}}.Value);
 {{- end }}
 {{- for attribute in entity.Attributes }}
 {{- if !IsNoxTypeReadable attribute.Type -}}
     {{ continue; }}
 {{- end }}
-        SetIfNotNull(entity?.{{attribute.Name}}, () => dto.{{attribute.Name}} = 
+        dto.SetIfNotNull(entity?.{{attribute.Name}}, (dto) => dto.{{attribute.Name}} = 
     {{- if IsNoxTypeSimpleType attribute.Type -}}
         {{- if attribute.Type == "Time" -}}System.DateTime.Parse(entity!.{{attribute.Name}}!.Value.ToLongTimeString())
         {{- else -}}{{- if attribute.Type == "Formula" -}}entity!.{{attribute.Name}}!.ToString()
@@ -32,29 +34,21 @@ internal static class {{className}}
 {{- end }}
 {{- for relationship in entity.Relationships }}
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-        SetIfNotNull(entity?.{{relationship.Name}}, () => dto.{{relationship.Name}} = entity!.{{relationship.Name}}.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.{{relationship.Name}}, (dto) => dto.{{relationship.Name}} = entity!.{{relationship.Name}}.Select(e => e.ToDto()).ToList());
     {{- else}}
         {{- if relationship.ShouldGenerateForeignOnThisSide}}
-        SetIfNotNull(entity?.{{relationship.Name}}Id, () => dto.{{relationship.Name}}Id = entity!.{{relationship.Name}}Id!.Value);
+        dto.SetIfNotNull(entity?.{{relationship.Name}}Id, (dto) => dto.{{relationship.Name}}Id = entity!.{{relationship.Name}}Id!.Value);
         {{- end}}
     {{-end}}
 {{- end }}
 {{- for relationship in entity.OwnedRelationships }}
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-        SetIfNotNull(entity?.{{relationship.Name}}, () => dto.{{relationship.Name}} = entity!.{{relationship.Name}}.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.{{relationship.Name}}, (dto) => dto.{{relationship.Name}} = entity!.{{relationship.Name}}.Select(e => e.ToDto()).ToList());
     {{- else}}
-        SetIfNotNull(entity?.{{relationship.Name}}, () => dto.{{relationship.Name}} = entity!.{{relationship.Name}}!.ToDto());
+        dto.SetIfNotNull(entity?.{{relationship.Name}}, (dto) => dto.{{relationship.Name}} = entity!.{{relationship.Name}}!.ToDto());
     {{-end}}
 {{- end }}
 
         return dto;
-    }
-
-    private static void SetIfNotNull(object? value, Action setPropertyAction)
-    {
-        if (value is not null)
-        {
-            setPropertyAction();
-        }
     }
 }

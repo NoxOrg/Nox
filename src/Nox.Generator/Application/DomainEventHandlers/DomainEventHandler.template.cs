@@ -11,28 +11,21 @@ using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.DomainEventHandlers;
 
-internal abstract class {{className}}Base : INotificationHandler<{{entity.Name}}{{crudOperation}}>
+internal abstract class {{className}}Base : INotificationHandler<{{entity.Name}}{{operation}}>
 {
-    private readonly IOutboxRepository _outboxRepository;
+    protected readonly IOutboxRepository _outboxRepository;
 
     protected {{className}}Base(IOutboxRepository outboxRepository)
     {
         _outboxRepository = outboxRepository;
     }
 
-    public virtual async Task Handle({{entity.Name}}{{crudOperation}} domainEvent, CancellationToken cancellationToken)
+    public virtual async Task Handle({{entity.Name}}{{operation}} domainEvent, CancellationToken cancellationToken)
     {
-{{- if raiseIntegrationEvent }}
         var dto = domainEvent.{{entity.Name}}.ToDto();
-        var @event = new IntegrationEvents.{{entity.Name}}{{crudOperation}}(dto);
-        await RaiseIntegrationEventAsync(@event);
-{{- else }}
-        await Task.CompletedTask;
-{{- end }}
+        var @event = new {{codeGeneratorState.ApplicationNameSpace}}.IntegrationEvents.{{entity.Name}}{{operation}}(dto);
+        await _outboxRepository.AddAsync(@event);
     }
-
-    protected async Task RaiseIntegrationEventAsync<TEvent>(TEvent @event) where TEvent : IIntegrationEvent
-        => await _outboxRepository.AddAsync(@event);
 }
 
 internal partial class {{className}} : {{className}}Base

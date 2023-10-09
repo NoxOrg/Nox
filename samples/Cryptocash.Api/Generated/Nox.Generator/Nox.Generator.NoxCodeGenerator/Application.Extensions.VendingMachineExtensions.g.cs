@@ -4,6 +4,8 @@
 using System;
 using System.Linq;
 
+using Nox.Extensions;
+
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -13,28 +15,20 @@ internal static class VendingMachineExtensions
     public static VendingMachineDto ToDto(this VendingMachine entity)
     {
         var dto = new VendingMachineDto();
-        SetIfNotNull(entity?.Id, () => dto.Id = entity!.Id.Value);
-        SetIfNotNull(entity?.MacAddress, () => dto.MacAddress =entity!.MacAddress!.Value);
-        SetIfNotNull(entity?.PublicIp, () => dto.PublicIp =entity!.PublicIp!.Value);
-        SetIfNotNull(entity?.GeoLocation, () => dto.GeoLocation =entity!.GeoLocation!.ToDto());
-        SetIfNotNull(entity?.StreetAddress, () => dto.StreetAddress =entity!.StreetAddress!.ToDto());
-        SetIfNotNull(entity?.SerialNumber, () => dto.SerialNumber =entity!.SerialNumber!.Value);
-        SetIfNotNull(entity?.InstallationFootPrint, () => dto.InstallationFootPrint =entity!.InstallationFootPrint!.Value);
-        SetIfNotNull(entity?.RentPerSquareMetre, () => dto.RentPerSquareMetre =entity!.RentPerSquareMetre!.ToDto());
-        SetIfNotNull(entity?.VendingMachineInstallationCountryId, () => dto.VendingMachineInstallationCountryId = entity!.VendingMachineInstallationCountryId!.Value);
-        SetIfNotNull(entity?.VendingMachineContractedAreaLandLordId, () => dto.VendingMachineContractedAreaLandLordId = entity!.VendingMachineContractedAreaLandLordId!.Value);
-        SetIfNotNull(entity?.VendingMachineRelatedBookings, () => dto.VendingMachineRelatedBookings = entity!.VendingMachineRelatedBookings.Select(e => e.ToDto()).ToList());
-        SetIfNotNull(entity?.VendingMachineRelatedCashStockOrders, () => dto.VendingMachineRelatedCashStockOrders = entity!.VendingMachineRelatedCashStockOrders.Select(e => e.ToDto()).ToList());
-        SetIfNotNull(entity?.VendingMachineRequiredMinimumCashStocks, () => dto.VendingMachineRequiredMinimumCashStocks = entity!.VendingMachineRequiredMinimumCashStocks.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);
+        dto.SetIfNotNull(entity?.MacAddress, (dto) => dto.MacAddress =entity!.MacAddress!.Value);
+        dto.SetIfNotNull(entity?.PublicIp, (dto) => dto.PublicIp =entity!.PublicIp!.Value);
+        dto.SetIfNotNull(entity?.GeoLocation, (dto) => dto.GeoLocation =entity!.GeoLocation!.ToDto());
+        dto.SetIfNotNull(entity?.StreetAddress, (dto) => dto.StreetAddress =entity!.StreetAddress!.ToDto());
+        dto.SetIfNotNull(entity?.SerialNumber, (dto) => dto.SerialNumber =entity!.SerialNumber!.Value);
+        dto.SetIfNotNull(entity?.InstallationFootPrint, (dto) => dto.InstallationFootPrint =entity!.InstallationFootPrint!.Value);
+        dto.SetIfNotNull(entity?.RentPerSquareMetre, (dto) => dto.RentPerSquareMetre =entity!.RentPerSquareMetre!.ToDto());
+        dto.SetIfNotNull(entity?.VendingMachineInstallationCountryId, (dto) => dto.VendingMachineInstallationCountryId = entity!.VendingMachineInstallationCountryId!.Value);
+        dto.SetIfNotNull(entity?.VendingMachineContractedAreaLandLordId, (dto) => dto.VendingMachineContractedAreaLandLordId = entity!.VendingMachineContractedAreaLandLordId!.Value);
+        dto.SetIfNotNull(entity?.VendingMachineRelatedBookings, (dto) => dto.VendingMachineRelatedBookings = entity!.VendingMachineRelatedBookings.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.VendingMachineRelatedCashStockOrders, (dto) => dto.VendingMachineRelatedCashStockOrders = entity!.VendingMachineRelatedCashStockOrders.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.VendingMachineRequiredMinimumCashStocks, (dto) => dto.VendingMachineRequiredMinimumCashStocks = entity!.VendingMachineRequiredMinimumCashStocks.Select(e => e.ToDto()).ToList());
 
         return dto;
-    }
-
-    private static void SetIfNotNull(object? value, Action setPropertyAction)
-    {
-        if (value is not null)
-        {
-            setPropertyAction();
-        }
     }
 }
