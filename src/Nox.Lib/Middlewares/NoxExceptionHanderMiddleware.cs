@@ -22,7 +22,6 @@ public class NoxExceptionHanderMiddleware
 
     public async Task InvokeAsync(HttpContext httpContext)
     {
-        var requestPath = httpContext.Request?.Path;
         try
         {
             await _next(httpContext);
@@ -31,7 +30,7 @@ public class NoxExceptionHanderMiddleware
         {
             await HandleTypeValidationExceptionAsync(httpContext, ex);
         }
-        catch(ConcurrencyException ex)
+        catch (ConcurrencyException ex)
         {
             await HandleConcurrencyExceptionAsync(httpContext, ex);
         }
