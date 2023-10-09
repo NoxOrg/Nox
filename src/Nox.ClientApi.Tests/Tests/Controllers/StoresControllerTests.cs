@@ -268,7 +268,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             result.Should().NotBeNull();
-            result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+            result.Should().HaveStatusCode(HttpStatusCode.BadRequest);
         }
 
         #endregion POST Entity with Deleted RelationshipId /api/{EntityPluralName} => api/stores
