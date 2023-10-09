@@ -65,11 +65,7 @@ internal abstract class Create{{entity.Name}}For{{parent.Name}}CommandHandlerBas
 		{{- end }}
 		{{- end }}
 
-		{{- if isSingleRelationship }}
-		parentEntity.{{relationship.Name}} = entity;
-		{{- else }}
-		parentEntity.{{relationship.Name}}.Add(entity);
-		{{- end }}
+		parentEntity.CreateRefTo{{relationship.Name}}(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 

@@ -177,7 +177,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
 		InternalDomainEvents.Clear();
 	}
 {{- end}}
-{{- ######################################### Relationships###################################################### -}}
+{{- ######################################### Relationships ###################################################### -}}
 {{- for relationship in entity.Relationships }}
 
     /// <summary>
@@ -251,16 +251,78 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
         {{- end }}
     }
 {{- end }}
+
+{{- ######################################### Owned Relationships ###################################################### -}}
+
 {{- for relationship in entity.OwnedRelationships #TODO how to reuse as partial template?}}
 
-    /// <summary>
-    /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
-    /// </summary>
-    {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-    public virtual List<{{relationship.Entity}}> {{relationship.Name}} { get; set; } = new();
-    {{- else}}
-     public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}} { get; set; } = null!;
-    {{-end}}
+	/// <summary>
+	/// {{entity.Name}} {{relationship.Description}} (Owned....) {{relationship.Relationship}} {{relationship.EntityPlural}}
+	/// </summary>
+	{{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
+	public virtual List<{{relationship.Entity}}> {{relationship.Name}} { get; private set; } = new();
+	{{- else}}
+	public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}} { get; private set; } = null!;
+
+    
+	/// <summary>
+	/// Creates a new {{relationship.Entity}} entity.
+	/// </summary>
+    public virtual void CreateRefTo{{relationship.Name}}({{relationship.Entity}} related{{relationship.Entity}})
+    {
+        {{- if relationship.WithSingleEntity }}
+        {{relationship.Name}} = related{{relationship.Entity}};
+        {{- else}}
+        {{relationship.Name}}.Add(related{{relationship.Entity}});
+        {{- end }}
+    }
+    //bbbbbbbbbbbbbbbbbbbb
+    public virtual void DeleteRefTo{{relationship.Name}}({{relationship.Entity}} related{{relationship.Entity}})
+    {
+        {{- if relationship.WithSingleEntity }}
+
+        {{- if relationship.Relationship == "ExactlyOne" }}
+        throw new Exception($"The relationship cannot be deleted.");
+        {{- else }}
+        {{relationship.Name}} = null;
+        {{- end }}
+
+        {{- else}}
+
+        {{- if relationship.Relationship == "OneOrMany" }}
+        if({{relationship.Name}}.Count() < 2)
+            throw new Exception($"The relationship cannot be deleted.");
+        {{- end }}
+        {{relationship.Name}}.Remove(related{{relationship.Entity}});
+
+        {{- end }}
+    }
+
+    public virtual void DeleteAllRefTo{{relationship.Name}}()
+    {
+        {{- if relationship.WithSingleEntity }}
+
+        {{- if relationship.Relationship == "ExactlyOne" }}
+        throw new Exception($"The relationship cannot be deleted.");
+        {{- else }}
+        {{- if relationship.ShouldGenerateForeignOnThisSide }}
+        {{relationship.Name}}Id = null;
+        {{- else }}
+        {{relationship.Name}} = null;
+        {{- end }}
+        {{- end }}
+
+        {{- else}}
+
+        {{- if relationship.Relationship == "OneOrMany" }}
+        if({{relationship.Name}}.Count() < 2)
+            throw new Exception($"The relationship cannot be deleted.");
+        {{- end }}
+        {{relationship.Name}}.Clear();
+
+        {{- end }}
+    }
+{{-end}}
 {{- end }}
 
 {{ if !entity.IsOwnedEntity ~}}
