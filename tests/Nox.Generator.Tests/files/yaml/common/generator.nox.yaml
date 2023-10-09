@@ -13,7 +13,7 @@
 domain: false
 
 # Generates application logic and events
-application: false
+application: true
 
 # Generates persistence, DbContext and model configuration and mapping
 infrastructure: false
