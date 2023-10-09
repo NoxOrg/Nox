@@ -35,7 +35,7 @@ This document provides information about Integration Events. Integration Events 
 **Description:**
 This event is triggered when a new {{entity.Name}} is created.
 
-**Topic:** Default
+**Topic:** {{entity.Name}}
 
 #### Envelope Attributes
 
@@ -63,7 +63,7 @@ Attribute|Type|Description
 **Description:**
 This event is triggered when an existing {{entity.Name}} is updated.
 
-**Topic:** Default
+**Topic:** {{entity.Name}}
 
 **Envelope Attributes**
 
@@ -91,7 +91,7 @@ Attribute|Type|Description
 **Description:**
 This event is triggered when an entity {{entity.Name}} is deleted.
 
-**Topic:** Default
+**Topic:** {{entity.Name}}
 
 **Envelope Attributes**
 
@@ -149,7 +149,7 @@ Member|Type|Description
 **Description:**
 {{integrationEvent.Description}}
 
-**Topic:** Custom
+**Topic:** TBD - when Trait is implemented
 
 **Envelope Attributes**
 
@@ -160,7 +160,7 @@ id|Guid|0d02bba1-dbf3-4ba4-93c1-2e416ec0c88d
 source|https://{ENVIRONMENT}.{Solution.PlatformId}.com/{Solution.Name}|https://{{if environment != null}}{{environment}}.{{ end }}{{solution.PlatformId}}.com/{{solution.Name}}
 type|{Solution.PlatformId}.{Solution.Name}.{Trait}.v{Solution.Version}.{eventName}|{{solution.PlatformId}}.{{solution.Name}}.{{Trait}}.v{{solution.Version}}.{{integrationEvent.Name}}
 datacontenttype|ContentType|application/json
-dataschema|https://{ENVIRONMENT}.{Solution.PlatformId}.com/schemas/{Solution.Name}/{Trait}/v{Solution.Version}/{eventName}.json|https://{{if environment != null}}{{environment}}.{{ end }}{{solution.PlatformId}}.com/schemas/{{solution.Name}}/{{Trait}}/v{{solution.Version}}/{{integrationEvent.Name}}.json
+dataschema|https://{ENVIRONMENT}.{Solution.PlatformId}.com/schemas/{Solution.Name}/{Trait}/v{Solution.Version}/{eventName}.json|https://{{if environment != null}}{{environment}}.{{ end }}{{solution.PlatformId}}.com/schemas/{{solution.Name}}/TBD/v{{solution.Version}}/{{integrationEvent.Name}}.json
 time|DateTimeUtc|2023-10-10T12:11:10.5312500Z
 xtenantid|Text|b22ee68e-327f-4550-a077-8fb8426071f5
 xuserid|Text|e945e9f9-b0ba-435d-bfe7-8966abeb8763
@@ -170,7 +170,7 @@ data|Json|Data Field Attributes
 Attribute|Type|Description
 ---------|----|-----------
 {{ if isArray || isCollection -}}
-{{nestedClassName}}|{{nestedClassName}}|{{integrationEvent.Description}}
+{{nestedClassName}}|{{if isCollection }}IEnumerable\<{{nestedClassName}}>{{ else }}{{nestedClassName}}[]{{ end }}|{{integrationEvent.Description}}
 
 **{{nestedClassName}} Attributes**
 Attribute|Type|Description

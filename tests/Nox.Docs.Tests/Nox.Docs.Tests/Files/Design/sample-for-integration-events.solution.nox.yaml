@@ -312,8 +312,8 @@ application:
 
     - name: CountryCurrenciesAdded
       description: Multiple country currencies added
-      type: array
-      arrayTypeOptions:
+      type: collection
+      collectionTypeOptions:
         name: CountryCurrencyInfo
         type: object
         objectTypeOptions:

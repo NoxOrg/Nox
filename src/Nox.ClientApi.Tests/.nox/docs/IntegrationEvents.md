@@ -22,7 +22,7 @@ This document provides information about Integration Events. Integration Events 
 **Description:**
 This event is triggered when a new Country is created.
 
-**Topic:** Default
+**Topic:** Country
 
 #### Envelope Attributes
 
@@ -50,7 +50,7 @@ Country|[Country](#Country-Attributes)|Country Entity
 **Description:**
 This event is triggered when an existing Country is updated.
 
-**Topic:** Default
+**Topic:** Country
 
 **Envelope Attributes**
 
@@ -78,7 +78,7 @@ Country|[Country](#Country-Attributes)|Country Entity
 **Description:**
 This event is triggered when an entity Country is deleted.
 
-**Topic:** Default
+**Topic:** Country
 
 **Envelope Attributes**
 
@@ -128,7 +128,7 @@ CountryLocalNameId|System.Int64|The unique identifier
 **Description:**
 Country Population Updated with Population Higher then 100M
 
-**Topic:** Custom
+**Topic:** TBD - when Trait is implemented
 
 **Envelope Attributes**
 
@@ -139,7 +139,7 @@ id|Guid|0d02bba1-dbf3-4ba4-93c1-2e416ec0c88d
 source|https://{ENVIRONMENT}.{Solution.PlatformId}.com/{Solution.Name}|https://ClientApi.com/ClientApi
 type|{Solution.PlatformId}.{Solution.Name}.{Trait}.v{Solution.Version}.{eventName}|ClientApi.ClientApi..v1.0.CountryPopulationHigherThan100M
 datacontenttype|ContentType|application/json
-dataschema|https://{ENVIRONMENT}.{Solution.PlatformId}.com/schemas/{Solution.Name}/{Trait}/v{Solution.Version}/{eventName}.json|https://ClientApi.com/schemas/ClientApi//v1.0/CountryPopulationHigherThan100M.json
+dataschema|https://{ENVIRONMENT}.{Solution.PlatformId}.com/schemas/{Solution.Name}/{Trait}/v{Solution.Version}/{eventName}.json|https://ClientApi.com/schemas/ClientApi/TBD/v1.0/CountryPopulationHigherThan100M.json
 time|DateTimeUtc|2023-10-10T12:11:10.5312500Z
 xtenantid|Text|b22ee68e-327f-4550-a077-8fb8426071f5
 xuserid|Text|e945e9f9-b0ba-435d-bfe7-8966abeb8763

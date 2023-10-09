@@ -24,7 +24,7 @@ This document provides information about Integration Events. Integration Events 
 **Description:**
 This event is triggered when a new Country is created.
 
-**Topic:** Default
+**Topic:** Country
 
 #### Envelope Attributes
 
@@ -52,7 +52,7 @@ Country|[Country](#Country-Attributes)|A country is a distinct territorial body 
 **Description:**
 This event is triggered when an existing Country is updated.
 
-**Topic:** Default
+**Topic:** Country
 
 **Envelope Attributes**
 
@@ -80,7 +80,7 @@ Country|[Country](#Country-Attributes)|A country is a distinct territorial body 
 **Description:**
 This event is triggered when an entity Country is deleted.
 
-**Topic:** Default
+**Topic:** Country
 
 **Envelope Attributes**
 
@@ -137,7 +137,7 @@ ContinentId|System.Int64|
 **Description:**
 Country created or updated with debt over 1B local currency
 
-**Topic:** Custom
+**Topic:** TBD - when Trait is implemented
 
 **Envelope Attributes**
 
@@ -148,7 +148,7 @@ id|Guid|0d02bba1-dbf3-4ba4-93c1-2e416ec0c88d
 source|https://{ENVIRONMENT}.{Solution.PlatformId}.com/{Solution.Name}|https://SampleForIntegrationEventsMarkdownGeneration.com/SampleForIntegrationEventsMarkdownGeneration
 type|{Solution.PlatformId}.{Solution.Name}.{Trait}.v{Solution.Version}.{eventName}|SampleForIntegrationEventsMarkdownGeneration.SampleForIntegrationEventsMarkdownGeneration..v1.0.CountryDebtOver1B
 datacontenttype|ContentType|application/json
-dataschema|https://{ENVIRONMENT}.{Solution.PlatformId}.com/schemas/{Solution.Name}/{Trait}/v{Solution.Version}/{eventName}.json|https://SampleForIntegrationEventsMarkdownGeneration.com/schemas/SampleForIntegrationEventsMarkdownGeneration//v1.0/CountryDebtOver1B.json
+dataschema|https://{ENVIRONMENT}.{Solution.PlatformId}.com/schemas/{Solution.Name}/{Trait}/v{Solution.Version}/{eventName}.json|https://SampleForIntegrationEventsMarkdownGeneration.com/schemas/SampleForIntegrationEventsMarkdownGeneration/TBD/v1.0/CountryDebtOver1B.json
 time|DateTimeUtc|2023-10-10T12:11:10.5312500Z
 xtenantid|Text|b22ee68e-327f-4550-a077-8fb8426071f5
 xuserid|Text|e945e9f9-b0ba-435d-bfe7-8966abeb8763
@@ -168,7 +168,7 @@ Debt|MoneyDto|
 **Description:**
 Multiple country local names added
 
-**Topic:** Custom
+**Topic:** TBD - when Trait is implemented
 
 **Envelope Attributes**
 
@@ -179,7 +179,7 @@ id|Guid|0d02bba1-dbf3-4ba4-93c1-2e416ec0c88d
 source|https://{ENVIRONMENT}.{Solution.PlatformId}.com/{Solution.Name}|https://SampleForIntegrationEventsMarkdownGeneration.com/SampleForIntegrationEventsMarkdownGeneration
 type|{Solution.PlatformId}.{Solution.Name}.{Trait}.v{Solution.Version}.{eventName}|SampleForIntegrationEventsMarkdownGeneration.SampleForIntegrationEventsMarkdownGeneration..v1.0.CountryLocalNamesAdded
 datacontenttype|ContentType|application/json
-dataschema|https://{ENVIRONMENT}.{Solution.PlatformId}.com/schemas/{Solution.Name}/{Trait}/v{Solution.Version}/{eventName}.json|https://SampleForIntegrationEventsMarkdownGeneration.com/schemas/SampleForIntegrationEventsMarkdownGeneration//v1.0/CountryLocalNamesAdded.json
+dataschema|https://{ENVIRONMENT}.{Solution.PlatformId}.com/schemas/{Solution.Name}/{Trait}/v{Solution.Version}/{eventName}.json|https://SampleForIntegrationEventsMarkdownGeneration.com/schemas/SampleForIntegrationEventsMarkdownGeneration/TBD/v1.0/CountryLocalNamesAdded.json
 time|DateTimeUtc|2023-10-10T12:11:10.5312500Z
 xtenantid|Text|b22ee68e-327f-4550-a077-8fb8426071f5
 xuserid|Text|e945e9f9-b0ba-435d-bfe7-8966abeb8763
@@ -188,7 +188,7 @@ data|Json|Data Field Attributes
 **Data Field Attributes**
 Attribute|Type|Description
 ---------|----|-----------
-CountryLocalNameInfo|CountryLocalNameInfo|Multiple country local names added
+CountryLocalNameInfo|CountryLocalNameInfo[]|Multiple country local names added
 
 **CountryLocalNameInfo Attributes**
 Attribute|Type|Description
@@ -204,7 +204,7 @@ Name|System.String|
 **Description:**
 Multiple country currencies added
 
-**Topic:** Custom
+**Topic:** TBD - when Trait is implemented
 
 **Envelope Attributes**
 
@@ -215,7 +215,7 @@ id|Guid|0d02bba1-dbf3-4ba4-93c1-2e416ec0c88d
 source|https://{ENVIRONMENT}.{Solution.PlatformId}.com/{Solution.Name}|https://SampleForIntegrationEventsMarkdownGeneration.com/SampleForIntegrationEventsMarkdownGeneration
 type|{Solution.PlatformId}.{Solution.Name}.{Trait}.v{Solution.Version}.{eventName}|SampleForIntegrationEventsMarkdownGeneration.SampleForIntegrationEventsMarkdownGeneration..v1.0.CountryCurrenciesAdded
 datacontenttype|ContentType|application/json
-dataschema|https://{ENVIRONMENT}.{Solution.PlatformId}.com/schemas/{Solution.Name}/{Trait}/v{Solution.Version}/{eventName}.json|https://SampleForIntegrationEventsMarkdownGeneration.com/schemas/SampleForIntegrationEventsMarkdownGeneration//v1.0/CountryCurrenciesAdded.json
+dataschema|https://{ENVIRONMENT}.{Solution.PlatformId}.com/schemas/{Solution.Name}/{Trait}/v{Solution.Version}/{eventName}.json|https://SampleForIntegrationEventsMarkdownGeneration.com/schemas/SampleForIntegrationEventsMarkdownGeneration/TBD/v1.0/CountryCurrenciesAdded.json
 time|DateTimeUtc|2023-10-10T12:11:10.5312500Z
 xtenantid|Text|b22ee68e-327f-4550-a077-8fb8426071f5
 xuserid|Text|e945e9f9-b0ba-435d-bfe7-8966abeb8763
@@ -224,7 +224,7 @@ data|Json|Data Field Attributes
 **Data Field Attributes**
 Attribute|Type|Description
 ---------|----|-----------
-CountryCurrencyInfo|CountryCurrencyInfo|Multiple country currencies added
+CountryCurrencyInfo|IEnumerable\<CountryCurrencyInfo>|Multiple country currencies added
 
 **CountryCurrencyInfo Attributes**
 Attribute|Type|Description
