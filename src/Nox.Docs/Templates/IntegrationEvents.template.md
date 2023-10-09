@@ -43,10 +43,10 @@ Attribute|Type|Example
 ---------|----|-------
 specversion|SemanticVersion|1.0
 id|Guid|0d02bba1-dbf3-4ba4-93c1-2e416ec0c88d
-source|https://{ENVIRONMENT}.{Nox.Solution.PlatformId}.com/{Nox.Solution.Name}|https://{{if environment != null}}{{environment}}.{{ end }}{{solution.PlatformId}}.com/{{solution.Name}}
-type|{Nox.Solution.PlatformId}.{Nox.Solution.Name}.{Trait}.v{Nox.Solution.Version}.{eventName}|{{solution.PlatformId}}.{{solution.Name}}.{{entity.Name}}.v{{solution.Version}}.{{entity.Name}}Created
+source|https://{ENVIRONMENT}.{Solution.PlatformId}.com/{Solution.Name}|https://{{if environment != null}}{{environment}}.{{ end }}{{solution.PlatformId}}.com/{{solution.Name}}
+type|{Solution.PlatformId}.{Solution.Name}.{Trait}.v{Solution.Version}.{eventName}|{{solution.PlatformId}}.{{solution.Name}}.{{entity.Name}}.v{{solution.Version}}.{{entity.Name}}Created
 datacontenttype|ContentType|application/json
-dataschema|https://{ENVIRONMENT}.{Nox.Solution.PlatformId}.com/schemas/{Nox.Solution.Name}/{Trait}/v{Nox.Solution.Version}/{eventName}.json|https://{{if environment != null}}{{environment}}.{{ end }}{{solution.PlatformId}}.com/schemas/{{solution.Name}}/{{entity.Name}}/v{{solution.Version}}/{{entity.Name}}Created.json
+dataschema|https://{ENVIRONMENT}.{Solution.PlatformId}.com/schemas/{Solution.Name}/{Trait}/v{Solution.Version}/{eventName}.json|https://{{if environment != null}}{{environment}}.{{ end }}{{solution.PlatformId}}.com/schemas/{{solution.Name}}/{{entity.Name}}/v{{solution.Version}}/{{entity.Name}}Created.json
 time|DateTimeUtc|2023-10-10T12:11:10.5312500Z
 xtenantid|Text|b22ee68e-327f-4550-a077-8fb8426071f5
 xuserid|Text|e945e9f9-b0ba-435d-bfe7-8966abeb8763
@@ -71,10 +71,10 @@ Attribute|Type|Example
 ---------|----|-------
 specversion|SemanticVersion|1.0
 id|Guid|0d02bba1-dbf3-4ba4-93c1-2e416ec0c88d
-source|https://{ENVIRONMENT}.{Nox.Solution.PlatformId}.com/{Nox.Solution.Name}|https://{{if environment != null}}{{environment}}.{{ end }}{{solution.PlatformId}}.com/{{solution.Name}}
-type|{Nox.Solution.PlatformId}.{Nox.Solution.Name}.{Trait}.v{Nox.Solution.Version}.{eventName}|{{solution.PlatformId}}.{{solution.Name}}.{{entity.Name}}.v{{solution.Version}}.{{entity.Name}}Updated
+source|https://{ENVIRONMENT}.{Solution.PlatformId}.com/{Solution.Name}|https://{{if environment != null}}{{environment}}.{{ end }}{{solution.PlatformId}}.com/{{solution.Name}}
+type|{Solution.PlatformId}.{Solution.Name}.{Trait}.v{Solution.Version}.{eventName}|{{solution.PlatformId}}.{{solution.Name}}.{{entity.Name}}.v{{solution.Version}}.{{entity.Name}}Updated
 datacontenttype|ContentType|application/json
-dataschema|https://{ENVIRONMENT}.{Nox.Solution.PlatformId}.com/schemas/{Nox.Solution.Name}/{Trait}/v{Nox.Solution.Version}/{eventName}.json|https://{{if environment != null}}{{environment}}.{{ end }}{{solution.PlatformId}}.com/schemas/{{solution.Name}}/{{entity.Name}}/v{{solution.Version}}/{{entity.Name}}Updated.json
+dataschema|https://{ENVIRONMENT}.{Solution.PlatformId}.com/schemas/{Solution.Name}/{Trait}/v{Solution.Version}/{eventName}.json|https://{{if environment != null}}{{environment}}.{{ end }}{{solution.PlatformId}}.com/schemas/{{solution.Name}}/{{entity.Name}}/v{{solution.Version}}/{{entity.Name}}Updated.json
 time|DateTimeUtc|2023-10-10T12:11:10.5312500Z
 xtenantid|Text|b22ee68e-327f-4550-a077-8fb8426071f5
 xuserid|Text|e945e9f9-b0ba-435d-bfe7-8966abeb8763
@@ -99,10 +99,10 @@ Attribute|Type|Example
 ---------|----|-------
 specversion|SemanticVersion|1.0
 id|Guid|0d02bba1-dbf3-4ba4-93c1-2e416ec0c88d
-source|https://{ENVIRONMENT}.{Nox.Solution.PlatformId}.com/{Nox.Solution.Name}|https://{{if environment != null}}{{environment}}.{{ end }}{{solution.PlatformId}}.com/{{solution.Name}}
-type|{Nox.Solution.PlatformId}.{Nox.Solution.Name}.{Trait}.v{Nox.Solution.Version}.{eventName}|{{solution.PlatformId}}.{{solution.Name}}.{{entity.Name}}.v{{solution.Version}}.{{entity.Name}}Deleted
+source|https://{ENVIRONMENT}.{Solution.PlatformId}.com/{Solution.Name}|https://{{if environment != null}}{{environment}}.{{ end }}{{solution.PlatformId}}.com/{{solution.Name}}
+type|{Solution.PlatformId}.{Solution.Name}.{Trait}.v{Solution.Version}.{eventName}|{{solution.PlatformId}}.{{solution.Name}}.{{entity.Name}}.v{{solution.Version}}.{{entity.Name}}Deleted
 datacontenttype|ContentType|application/json
-dataschema|https://{ENVIRONMENT}.{Nox.Solution.PlatformId}.com/schemas/{Nox.Solution.Name}/{Trait}/v{Nox.Solution.Version}/{eventName}.json|https://{{if environment != null}}{{environment}}.{{ end }}{{solution.PlatformId}}.com/schemas/{{solution.Name}}/{{entity.Name}}/v{{solution.Version}}/{{entity.Name}}Deleted.json
+dataschema|https://{ENVIRONMENT}.{Solution.PlatformId}.com/schemas/{Solution.Name}/{Trait}/v{Solution.Version}/{eventName}.json|https://{{if environment != null}}{{environment}}.{{ end }}{{solution.PlatformId}}.com/schemas/{{solution.Name}}/{{entity.Name}}/v{{solution.Version}}/{{entity.Name}}Deleted.json
 time|DateTimeUtc|2023-10-10T12:11:10.5312500Z
 xtenantid|Text|b22ee68e-327f-4550-a077-8fb8426071f5
 xuserid|Text|e945e9f9-b0ba-435d-bfe7-8966abeb8763
@@ -157,10 +157,10 @@ Attribute|Type|Example
 ---------|----|-------
 specversion|SemanticVersion|1.0
 id|Guid|0d02bba1-dbf3-4ba4-93c1-2e416ec0c88d
-source|https://{ENVIRONMENT}.{Nox.Solution.PlatformId}.com/{Nox.Solution.Name}|https://{{if environment != null}}{{environment}}.{{ end }}{{solution.PlatformId}}.com/{{solution.Name}}
-type|{Nox.Solution.PlatformId}.{Nox.Solution.Name}.{Trait}.v{Nox.Solution.Version}.{eventName}|{{solution.PlatformId}}.{{solution.Name}}.{{Trait}}.v{{solution.Version}}.{{integrationEvent.Name}}
+source|https://{ENVIRONMENT}.{Solution.PlatformId}.com/{Solution.Name}|https://{{if environment != null}}{{environment}}.{{ end }}{{solution.PlatformId}}.com/{{solution.Name}}
+type|{Solution.PlatformId}.{Solution.Name}.{Trait}.v{Solution.Version}.{eventName}|{{solution.PlatformId}}.{{solution.Name}}.{{Trait}}.v{{solution.Version}}.{{integrationEvent.Name}}
 datacontenttype|ContentType|application/json
-dataschema|https://{ENVIRONMENT}.{Nox.Solution.PlatformId}.com/schemas/{Nox.Solution.Name}/{Trait}/v{Nox.Solution.Version}/{eventName}.json|https://{{if environment != null}}{{environment}}.{{ end }}{{solution.PlatformId}}.com/schemas/{{solution.Name}}/{{Trait}}/v{{solution.Version}}/{{integrationEvent.Name}}.json
+dataschema|https://{ENVIRONMENT}.{Solution.PlatformId}.com/schemas/{Solution.Name}/{Trait}/v{Solution.Version}/{eventName}.json|https://{{if environment != null}}{{environment}}.{{ end }}{{solution.PlatformId}}.com/schemas/{{solution.Name}}/{{Trait}}/v{{solution.Version}}/{{integrationEvent.Name}}.json
 time|DateTimeUtc|2023-10-10T12:11:10.5312500Z
 xtenantid|Text|b22ee68e-327f-4550-a077-8fb8426071f5
 xuserid|Text|e945e9f9-b0ba-435d-bfe7-8966abeb8763
