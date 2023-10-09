@@ -33,6 +33,7 @@ namespace ClientApi.Tests.Application.Messaging
             {
                 Id = "002",
                 Name = _fixture.Create<string>(),
+                TemporaryOwnerName = "unknow",
                 VatNumber = new VatNumberDto(expectedVatNumber, CountryCode.PT)
             };
 
@@ -42,7 +43,7 @@ namespace ClientApi.Tests.Application.Messaging
             //Assert
             result.Should().NotBeNull();
 
-            (await MassTransitTestHarness.Published.Any<Nox.Messaging.NoxMessageRecord<CustomStoreOwnerCreated>>()).Should().BeTrue();
+            (await MassTransitTestHarness.Published.Any<Nox.Messaging.NoxMessageRecord<UnknowStoreOwnerCreated>>()).Should().BeTrue();
         }
 
         [Fact]

@@ -100,7 +100,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 			entityToCreate.CreateRefToCountryUsedByCustomers(relatedEntity);
 		}
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.Countries.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new CountryKeyDto(entityToCreate.Id.Value);

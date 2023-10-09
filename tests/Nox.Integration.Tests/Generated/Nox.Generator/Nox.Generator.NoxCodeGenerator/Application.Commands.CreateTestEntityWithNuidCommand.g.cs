@@ -55,7 +55,7 @@ internal abstract class CreateTestEntityWithNuidCommandHandlerBase : CommandBase
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.TestEntityWithNuids.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new TestEntityWithNuidKeyDto(entityToCreate.Id.Value);

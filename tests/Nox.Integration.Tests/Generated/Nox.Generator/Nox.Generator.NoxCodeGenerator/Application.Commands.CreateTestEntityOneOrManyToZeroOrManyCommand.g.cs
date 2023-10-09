@@ -64,7 +64,7 @@ internal abstract class CreateTestEntityOneOrManyToZeroOrManyCommandHandlerBase 
 			entityToCreate.CreateRefToTestEntityZeroOrManyToOneOrMany(relatedEntity);
 		}
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.TestEntityOneOrManyToZeroOrManies.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new TestEntityOneOrManyToZeroOrManyKeyDto(entityToCreate.Id.Value);

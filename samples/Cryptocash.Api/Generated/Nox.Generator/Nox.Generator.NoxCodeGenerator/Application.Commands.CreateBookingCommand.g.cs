@@ -127,7 +127,7 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 			entityToCreate.CreateRefToBookingRelatedTransaction(relatedEntity);
 		}
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.Bookings.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new BookingKeyDto(entityToCreate.Id.Value);
