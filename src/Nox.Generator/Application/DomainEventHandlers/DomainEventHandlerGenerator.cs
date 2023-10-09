@@ -17,7 +17,7 @@ internal class DomainEventHandlerGenerator : INoxCodeGenerator
         if (codeGeneratorState.Solution.Infrastructure?.Messaging is null || codeGeneratorState.Solution.Domain?.Entities is null)
             return;
 
-        foreach (var (operation, raiseIntegrationEvent, entity) in GroupEntitiesWithDomainEventsByCrudOperation(codeGeneratorState.Solution.Domain.Entities))
+        foreach (var (operation, raiseIntegrationEvent, entity) in GroupEntitiesWithDomainEventsByOperation(codeGeneratorState.Solution.Domain.Entities))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -33,7 +33,7 @@ internal class DomainEventHandlerGenerator : INoxCodeGenerator
         }
     }
 
-    private IEnumerable<(string Operation, bool RaiseIntegrationEvent, Entity entity)> GroupEntitiesWithDomainEventsByCrudOperation(IEnumerable<Entity> entities)
+    private IEnumerable<(string Operation, bool RaiseIntegrationEvent, Entity entity)> GroupEntitiesWithDomainEventsByOperation(IEnumerable<Entity> entities)
     {
         var entitiesWithDomainEvents = GetEntitiesThatHaveDomainEvents(entities);
 

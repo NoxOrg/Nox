@@ -10891,22 +10891,14 @@
       "CountryBarCodeDtoDelta": {
         "type": "object",
         "properties": {
-          "kind": {
-            "$ref": "#/components/schemas/DeltaItemKind"
+          "barCodeName": {
+            "type": "string",
+            "nullable": true
           },
-          "structuredType": {
-            "$ref": "#/components/schemas/Type"
-          },
-          "expectedClrType": {
-            "$ref": "#/components/schemas/Type"
-          },
-          "updatableProperties": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true,
-            "readOnly": true
+          "barCodeNumber": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -11313,22 +11305,68 @@
       "CountryDtoDelta": {
         "type": "object",
         "properties": {
-          "kind": {
-            "$ref": "#/components/schemas/DeltaItemKind"
+          "id": {
+            "type": "integer",
+            "format": "int64"
           },
-          "structuredType": {
-            "$ref": "#/components/schemas/Type"
+          "name": {
+            "type": "string",
+            "nullable": true
           },
-          "expectedClrType": {
-            "$ref": "#/components/schemas/Type"
+          "population": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           },
-          "updatableProperties": {
+          "countryDebt": {
+            "$ref": "#/components/schemas/MoneyDto"
+          },
+          "firstLanguageCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "shortDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "countryIsoNumeric": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "countryIsoAlpha3": {
+            "type": "string",
+            "nullable": true
+          },
+          "googleMapsUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "startOfWeek": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "physicalWorkplaces": {
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/WorkplaceDto"
             },
-            "nullable": true,
-            "readOnly": true
+            "nullable": true
+          },
+          "countryShortNames": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CountryLocalNameDto"
+            },
+            "nullable": true
+          },
+          "countryBarCode": {
+            "$ref": "#/components/schemas/CountryBarCodeDto"
+          },
+          "@odata.etag": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -11384,22 +11422,17 @@
       "CountryLocalNameDtoDelta": {
         "type": "object",
         "properties": {
-          "kind": {
-            "$ref": "#/components/schemas/DeltaItemKind"
+          "id": {
+            "type": "integer",
+            "format": "int64"
           },
-          "structuredType": {
-            "$ref": "#/components/schemas/Type"
+          "name": {
+            "type": "string",
+            "nullable": true
           },
-          "expectedClrType": {
-            "$ref": "#/components/schemas/Type"
-          },
-          "updatableProperties": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true,
-            "readOnly": true
+          "nativeName": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -11464,22 +11497,21 @@
       "CountryQualityOfLifeIndexDtoDelta": {
         "type": "object",
         "properties": {
-          "kind": {
-            "$ref": "#/components/schemas/DeltaItemKind"
+          "countryId": {
+            "type": "integer",
+            "format": "int64"
           },
-          "structuredType": {
-            "$ref": "#/components/schemas/Type"
+          "id": {
+            "type": "integer",
+            "format": "int64"
           },
-          "expectedClrType": {
-            "$ref": "#/components/schemas/Type"
+          "indexRating": {
+            "type": "integer",
+            "format": "int32"
           },
-          "updatableProperties": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true,
-            "readOnly": true
+          "@odata.etag": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -11916,22 +11948,13 @@
       "EmailAddressDtoDelta": {
         "type": "object",
         "properties": {
-          "kind": {
-            "$ref": "#/components/schemas/DeltaItemKind"
+          "email": {
+            "type": "string",
+            "nullable": true
           },
-          "structuredType": {
-            "$ref": "#/components/schemas/Type"
-          },
-          "expectedClrType": {
-            "$ref": "#/components/schemas/Type"
-          },
-          "updatableProperties": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true,
-            "readOnly": true
+          "isVerified": {
+            "type": "boolean",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -13177,22 +13200,21 @@
       "RatingProgramDtoDelta": {
         "type": "object",
         "properties": {
-          "kind": {
-            "$ref": "#/components/schemas/DeltaItemKind"
+          "storeId": {
+            "type": "string",
+            "format": "uuid"
           },
-          "structuredType": {
-            "$ref": "#/components/schemas/Type"
+          "id": {
+            "type": "integer",
+            "format": "int64"
           },
-          "expectedClrType": {
-            "$ref": "#/components/schemas/Type"
+          "name": {
+            "type": "string",
+            "nullable": true
           },
-          "updatableProperties": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true,
-            "readOnly": true
+          "@odata.etag": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -13347,22 +13369,41 @@
       "StoreDtoDelta": {
         "type": "object",
         "properties": {
-          "kind": {
-            "$ref": "#/components/schemas/DeltaItemKind"
+          "id": {
+            "type": "string",
+            "format": "uuid"
           },
-          "structuredType": {
-            "$ref": "#/components/schemas/Type"
+          "name": {
+            "type": "string",
+            "nullable": true
           },
-          "expectedClrType": {
-            "$ref": "#/components/schemas/Type"
+          "address": {
+            "$ref": "#/components/schemas/StreetAddressDto"
           },
-          "updatableProperties": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true,
-            "readOnly": true
+          "location": {
+            "$ref": "#/components/schemas/LatLongDto"
+          },
+          "openingDay": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "ownershipId": {
+            "type": "string",
+            "nullable": true
+          },
+          "ownership": {
+            "$ref": "#/components/schemas/StoreOwnerDto"
+          },
+          "license": {
+            "$ref": "#/components/schemas/StoreLicenseDto"
+          },
+          "verifiedEmails": {
+            "$ref": "#/components/schemas/EmailAddressDto"
+          },
+          "@odata.etag": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -13427,22 +13468,25 @@
       "StoreLicenseDtoDelta": {
         "type": "object",
         "properties": {
-          "kind": {
-            "$ref": "#/components/schemas/DeltaItemKind"
+          "id": {
+            "type": "integer",
+            "format": "int64"
           },
-          "structuredType": {
-            "$ref": "#/components/schemas/Type"
+          "issuer": {
+            "type": "string",
+            "nullable": true
           },
-          "expectedClrType": {
-            "$ref": "#/components/schemas/Type"
+          "storeWithLicenseId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
           },
-          "updatableProperties": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true,
-            "readOnly": true
+          "storeWithLicense": {
+            "$ref": "#/components/schemas/StoreDto"
+          },
+          "@odata.etag": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -13559,22 +13603,41 @@
       "StoreOwnerDtoDelta": {
         "type": "object",
         "properties": {
-          "kind": {
-            "$ref": "#/components/schemas/DeltaItemKind"
+          "id": {
+            "type": "string",
+            "nullable": true
           },
-          "structuredType": {
-            "$ref": "#/components/schemas/Type"
+          "name": {
+            "type": "string",
+            "nullable": true
           },
-          "expectedClrType": {
-            "$ref": "#/components/schemas/Type"
+          "temporaryOwnerName": {
+            "type": "string",
+            "nullable": true
           },
-          "updatableProperties": {
+          "vatNumber": {
+            "$ref": "#/components/schemas/VatNumberDto"
+          },
+          "streetAddress": {
+            "$ref": "#/components/schemas/StreetAddressDto"
+          },
+          "localGreeting": {
+            "$ref": "#/components/schemas/TranslatedTextDto"
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          },
+          "stores": {
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/StoreDto"
             },
-            "nullable": true,
-            "readOnly": true
+            "nullable": true
+          },
+          "@odata.etag": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -14492,22 +14555,33 @@
       "WorkplaceDtoDelta": {
         "type": "object",
         "properties": {
-          "kind": {
-            "$ref": "#/components/schemas/DeltaItemKind"
+          "id": {
+            "type": "integer",
+            "format": "int32"
           },
-          "structuredType": {
-            "$ref": "#/components/schemas/Type"
+          "name": {
+            "type": "string",
+            "nullable": true
           },
-          "expectedClrType": {
-            "$ref": "#/components/schemas/Type"
+          "description": {
+            "type": "string",
+            "nullable": true
           },
-          "updatableProperties": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true,
-            "readOnly": true
+          "greeting": {
+            "type": "string",
+            "nullable": true
+          },
+          "belongsToCountryId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "belongsToCountry": {
+            "$ref": "#/components/schemas/CountryDto"
+          },
+          "@odata.etag": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false

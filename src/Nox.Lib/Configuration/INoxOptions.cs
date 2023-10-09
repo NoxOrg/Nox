@@ -44,8 +44,8 @@ public interface INoxOptions
     INoxOptions WithNoxLogging(Action<LoggerConfiguration> loggerConfiguration);
 
     /// <summary>
-    /// Add Swagger to access to the OpenAPI Specification.
+    /// Disable Swagger which is enabled by default.
     /// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     /// </summary>
-    INoxOptions WithSwagger();
+    INoxOptions WithoutSwagger();
 }
