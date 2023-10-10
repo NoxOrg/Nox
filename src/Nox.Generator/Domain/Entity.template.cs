@@ -254,18 +254,24 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
 
 {{- ######################################### Owned Relationships ###################################################### -}}
 
-{{- for relationship in entity.OwnedRelationships #TODO how to reuse as partial template?}}
+{{- for relationship in entity.OwnedRelationships }}
 
 	/// <summary>
-	/// {{entity.Name}} {{relationship.Description}} (Owned....) {{relationship.Relationship}} {{relationship.EntityPlural}}
+	/// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} owned {{relationship.EntityPlural}}
 	/// </summary>
 	{{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
 	public virtual List<{{relationship.Entity}}> {{relationship.Name}} { get; private set; } = new();
 	{{- else}}
-	public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}} { get; private set; } = null!;
-	
+	public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}} { get; private set; }{{if relationship.Relationship == "ExactlyOne"}} = null!;{{end}}
+    {{- if relationship.ShouldGenerateForeignOnThisSide && (relationship.Related.Entity.Keys | array.size) > 0 }}
 
-   {{- end }}
+    /// <summary>
+    /// Foreign key for relationship {{relationship.Relationship}} to owned entity {{relationship.Entity}}
+    /// </summary>
+    public Nox.Types.{{relationship.Related.Entity.Keys[0].Type}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}}Id { get; set; } = null!;
+    {{- end}}
+
+    {{- end }}
     
 	/// <summary>
 	/// Creates a new {{relationship.Entity}} entity.
@@ -279,6 +285,9 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
         {{- end }}
     }
     
+    /// <summary>
+    /// Deletes owned {{relationship.Entity}} entity.
+    /// </summary>
     public virtual void DeleteRefTo{{relationship.Name}}({{relationship.Entity}} related{{relationship.Entity}})
     {
         {{- if relationship.WithSingleEntity }}
@@ -299,7 +308,10 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
 
         {{- end }}
     }
-
+    
+    /// <summary>
+    /// Deletes all owned {{relationship.Entity}} entities.
+    /// </summary>
     public virtual void DeleteAllRefTo{{relationship.Name}}()
     {
         {{- if relationship.WithSingleEntity }}
@@ -307,7 +319,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
 			{{- if relationship.Relationship == "ExactlyOne" }}
         throw new Exception($"The relationship cannot be deleted.");
 			{{- else }}
-				{{- if relationship.ShouldGenerateForeignOnThisSide }}
+				{{- if relationship.ShouldGenerateForeignOnThisSide && (relationship.Related.Entity.Keys | array.size) > 0 }}
         {{relationship.Name}}Id = null;
 				{{- else }}
         {{relationship.Name}} = null;

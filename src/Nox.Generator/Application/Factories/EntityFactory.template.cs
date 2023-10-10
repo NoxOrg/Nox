@@ -96,11 +96,11 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
 
         {{- for relationship in entity.OwnedRelationships }}
             {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-        entity.{{relationship.Name}} = createDto.{{relationship.Name}}.Select(dto => {{relationship.Entity}}Factory.CreateEntity(dto)).ToList();
+        createDto.{{relationship.Name}}.ForEach(dto => entity.CreateRefTo{{relationship.Name}}({{relationship.Entity}}Factory.CreateEntity(dto)));
             {{- else}}
         if (createDto.{{relationship.Name}} is not null)
         {
-            entity.{{relationship.Name}} = {{relationship.Entity}}Factory.CreateEntity(createDto.{{relationship.Name}});
+            entity.CreateRefTo{{relationship.Name}}({{relationship.Entity}}Factory.CreateEntity(createDto.{{relationship.Name}}));
         }
             {{-end}}
         {{- end }}
