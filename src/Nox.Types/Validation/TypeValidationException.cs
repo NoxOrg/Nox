@@ -23,7 +23,7 @@ public class TypeValidationException : Exception, INoxHttpException
     {
     }
 
-    public override string Message => string.Join("\n", Errors.Select(x => $"PropertyName: {x.Variable}. Error: {x.ErrorMessage}"));
+    public override string Message => $"{base.Message} {string.Join("\n", Errors.Select(x => $"PropertyName: {x.Variable}. Error: {x.ErrorMessage}"))}";
 
     public HttpStatusCode StatusCode { get; } = HttpStatusCode.BadRequest;
 }
