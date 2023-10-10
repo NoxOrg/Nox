@@ -23,11 +23,11 @@ internal class NavigationMenuRazor : INoxCodeGenerator
 
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        new TemplateCodeBuilder(context, codeGeneratorState)
+        new TemplateCodeBuilderFile(codeGeneratorState)
+            .WithFileExtension("razor")
             .WithClassName($"NavigationMenu")
             .WithFileNamePrefix($"Ui.Components")
             .WithObject("entities", entities)
-            .WithFileExtension("razor")
             .GenerateSourceCodeFromResource(templateName);
     }
 }
