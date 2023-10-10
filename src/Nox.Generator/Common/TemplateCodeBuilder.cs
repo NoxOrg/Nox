@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Nox.Generator.Common;
 
-internal class TemplateCodeBuilder : TemplateCodeBuilderBase
+internal class TemplateCodeBuilder : TemplateBuilderBase
 {    
     private readonly SourceProductionContext _context;
 

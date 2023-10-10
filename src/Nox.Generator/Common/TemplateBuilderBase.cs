@@ -11,7 +11,7 @@ using System.Reflection;
 
 namespace Nox.Generator.Common;
 
-internal abstract class TemplateCodeBuilderBase
+internal abstract class TemplateBuilderBase
 {
     private static readonly Assembly Assembly = Assembly.GetExecutingAssembly();
 
@@ -23,7 +23,7 @@ internal abstract class TemplateCodeBuilderBase
     private string? _fileNamePrefix;
     private string? _fileNameSuffix;
 
-    public TemplateCodeBuilderBase(NoxSolutionCodeGeneratorState codeGeneratorState)
+    public TemplateBuilderBase(NoxSolutionCodeGeneratorState codeGeneratorState)
     {
         _codeGeneratorState = codeGeneratorState;
 
@@ -40,7 +40,7 @@ internal abstract class TemplateCodeBuilderBase
     /// </summary>
     /// <param name="className">the name of the class to be generated</param>
     /// <returns></returns>
-    public TemplateCodeBuilderBase WithClassName(string className) 
+    public TemplateBuilderBase WithClassName(string className) 
     { 
         _className = className;
         return this;
@@ -52,7 +52,7 @@ internal abstract class TemplateCodeBuilderBase
     /// </summary>
     /// <param name="fileNamePrefix">Prefix to add to the file name. A dot will be added between the prefix and the class name</param>
     /// <returns></returns>
-    public TemplateCodeBuilderBase WithFileNamePrefix(string fileNamePrefix)
+    public TemplateBuilderBase WithFileNamePrefix(string fileNamePrefix)
     {
         _fileNamePrefix = fileNamePrefix;
         return this;
@@ -63,7 +63,7 @@ internal abstract class TemplateCodeBuilderBase
     /// </summary>
     /// <param name="fileNameSuffix">Prefix to add to the file name. A dot will be added between the prefix and the class name</param>
     /// <returns></returns>
-    public TemplateCodeBuilderBase WithFileNameSuffix(string fileNameSuffix)
+    public TemplateBuilderBase WithFileNameSuffix(string fileNameSuffix)
     {
         _fileNameSuffix = fileNameSuffix;
         return this;
@@ -72,7 +72,7 @@ internal abstract class TemplateCodeBuilderBase
     /// <summary>
     /// Extend the default model with a extended property to the extendedModel
     /// </summary>
-    public TemplateCodeBuilderBase WithObject(string name, object value)
+    public TemplateBuilderBase WithObject(string name, object value)
     {
         _model[name] = value;
         return this;
@@ -83,7 +83,7 @@ internal abstract class TemplateCodeBuilderBase
     /// </summary>
     /// <param name="templateFileName">the file relative namespace without template.cs. <example>Infrastructure.Persistence.DbContextGenerator.DbContext</example></param>
     /// <returns></returns>
-    public TemplateCodeBuilderBase GenerateSourceCodeFromResource(string templateFileName)
+    public TemplateBuilderBase GenerateSourceCodeFromResource(string templateFileName)
     {
         var resourceName = $"Nox.Generator.{templateFileName}.template.cs";
 

@@ -4,22 +4,25 @@ using System.Text;
 
 namespace Nox.Generator.Common;
 
-internal class TemplateCodeBuilderFile : TemplateCodeBuilderBase
+/// <summary>
+/// Template for file generation out of the Code Generators. Creating a file in the local project.
+/// </summary>
+internal class TemplateFileBuilder : TemplateBuilderBase
 {
     private const string _outputFolder = "Nox.Generated";
 
     private string? _fileExtension;
 
-    public TemplateCodeBuilderFile(NoxSolutionCodeGeneratorState codeGeneratorState)
+    public TemplateFileBuilder(NoxSolutionCodeGeneratorState codeGeneratorState)
         : base (codeGeneratorState)
     { }
 
     /// <summary>
-    /// Oprional extension to the generated file, otherwise .g.cs will be used
+    /// Optional extension to the generated file, otherwise .g.cs will be used
     /// </summary>
     /// <param name="fileExtension">Prefix to add to the file name. A dot will be added between the prefix and the class name</param>
     /// <returns></returns>
-    public TemplateCodeBuilderFile WithFileExtension(string fileExtension)
+    public TemplateFileBuilder WithFileExtension(string fileExtension)
     {
         _fileExtension = fileExtension;
         return this;
