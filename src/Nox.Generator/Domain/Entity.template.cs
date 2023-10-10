@@ -263,7 +263,9 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
 	public virtual List<{{relationship.Entity}}> {{relationship.Name}} { get; private set; } = new();
 	{{- else}}
 	public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}} { get; private set; } = null!;
-	{{- end }}
+	
+
+   {{- end }}
     
 	/// <summary>
 	/// Creates a new {{relationship.Entity}} entity.
@@ -276,7 +278,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
         {{relationship.Name}}.Add(related{{relationship.Entity}});
         {{- end }}
     }
-    //bbbbbbbbbbbbbbbbbbbb
+    
     public virtual void DeleteRefTo{{relationship.Name}}({{relationship.Entity}} related{{relationship.Entity}})
     {
         {{- if relationship.WithSingleEntity }}
