@@ -378,7 +378,7 @@ namespace ClientApi.Tests.Tests.Controllers
             //Assert
             responseMessage
                 .Should()
-                .HaveStatusCode(HttpStatusCode.Conflict);
+                .HaveStatusCode(HttpStatusCode.PreconditionRequired);
 
             content.Should()
                 .Contain("ETag is empty. ETag should be provided via the If-Match HTTP Header.");
@@ -393,10 +393,10 @@ namespace ClientApi.Tests.Tests.Controllers
 
             responseMessage
                 .Should()
-                .HaveStatusCode(HttpStatusCode.Conflict);
+                .HaveStatusCode(HttpStatusCode.PreconditionFailed);
 
             content.Should()
-                .Contain("ETag has incorrect format.");
+                .Contain("ETag is not well-formed.");
         }
     }
 }

@@ -12,7 +12,6 @@ namespace ClientApi.Tests.Tests.Controllers
     [Collection("CountriesControllerTests")]
     public class CountriesControllerTests : NoxWebApiTestBase
     {
-
         public CountriesControllerTests(ITestOutputHelper testOutputHelper, NoxTestContainerService containerService)
             : base(testOutputHelper, containerService)
         {
@@ -536,7 +535,7 @@ namespace ClientApi.Tests.Tests.Controllers
             // Arrange
             var dto = new CountryCreateDto
             {
-                Name = _fixture.Create<string>(),                
+                Name = _fixture.Create<string>(),
             };
             var physicalWorkplaces = new List<WorkplaceCreateDto>()
                 {
@@ -553,7 +552,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 var createRefResponse = await PostAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/PhysicalWorkplaces/{workplaceResponse!.Id}/$ref");
             }
 
-            // Act            
+            // Act
             var getRefResponse = await GetODataCollectionResponseAsync<IEnumerable<ODataReferenceResponse>>($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/physicalworkplaces/$ref");
 
             //Assert
@@ -574,7 +573,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region POST Entity With Related Entities /api/{EntityPluralName} => api/countries
 
-        [Fact(Skip= "We are not allowing to related entity or entities on post, avoid circular dependency on dto and edge cases")]
+        [Fact(Skip = "We are not allowing to related entity or entities on post, avoid circular dependency on dto and edge cases")]
         public async Task Post_WithManyRelatedEntities_Success()
         {
             // Arrange
@@ -923,7 +922,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var queryResult = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{result!.Id}");
 
             //Assert
-            updateResult!.StatusCode.Should().Be(HttpStatusCode.Conflict);
+            updateResult!.Should().HaveStatusCode(HttpStatusCode.PreconditionRequired);
             queryResult!.Population.Should().Be(expectedNumber);
         }
 
@@ -1054,8 +1053,8 @@ namespace ClientApi.Tests.Tests.Controllers
             var queryResult = await GetAsync($"{Endpoints.CountriesUrl}/{result!.Id}");
 
             // Assert
-            deleteResult!.StatusCode.Should().Be(HttpStatusCode.Conflict);
-            queryResult.StatusCode.Should().Be(HttpStatusCode.OK);
+            deleteResult!.Should().HaveStatusCode(HttpStatusCode.PreconditionRequired);
+            queryResult.Should().BeSuccessful();
         }
 
         [Fact]
@@ -1085,7 +1084,7 @@ namespace ClientApi.Tests.Tests.Controllers
             // Assert
             var queryResult = await GetAsync($"{Endpoints.CountriesUrl}/{result!.Id}/CountryLocalNames/{country!.CountryShortNames[0].Id}");
 
-            queryResult.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            queryResult.Should().HaveStatusCode(HttpStatusCode.NotFound);
         }
 
         #endregion TESTS

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Nox.Exceptions;
+using System.Net;
 using System.Net.Http.Headers;
 
 namespace Nox.Extensions;
@@ -12,7 +13,7 @@ public static class HttpRequestExtensions
 
         if (string.IsNullOrEmpty(ifMatchValue))
         {
-            throw new ConcurrencyException("ETag is empty. ETag should be provided via the If-Match HTTP Header.");
+            throw new ConcurrencyException("ETag is empty. ETag should be provided via the If-Match HTTP Header.", HttpStatusCode.PreconditionRequired);
         }
 
         if (EntityTagHeaderValue.TryParse(ifMatchValue, out var encodedEtag))
@@ -24,6 +25,6 @@ public static class HttpRequestExtensions
             }
         }
 
-        throw new ConcurrencyException("ETag has incorrect format.");
+        throw new ConcurrencyException("ETag is not well-formed.", HttpStatusCode.PreconditionFailed);
     }
 }

@@ -14,7 +14,9 @@ public class NoxExceptionHanderMiddleware
     private readonly RequestDelegate _next;
     private readonly ILogger<NoxExceptionHanderMiddleware> _logger;
 
-    public NoxExceptionHanderMiddleware(RequestDelegate next, ILogger<NoxExceptionHanderMiddleware> logger)
+    public NoxExceptionHanderMiddleware(
+        RequestDelegate next,
+        ILogger<NoxExceptionHanderMiddleware> logger)
     {
         _next = next;
         _logger = logger;
@@ -26,17 +28,16 @@ public class NoxExceptionHanderMiddleware
         {
             await _next(httpContext);
         }
-        catch (TypeValidationException ex)
-        {
-            await HandleTypeValidationExceptionAsync(httpContext, ex);
-        }
-        catch (ConcurrencyException ex)
-        {
-            await HandleConcurrencyExceptionAsync(httpContext, ex);
-        }
         catch (Exception ex)
         {
-            await CommonHandleExceptionAsync(httpContext, ex, ex.Message);
+            var handler = ex switch
+            {
+                ConcurrencyException e => CommonHandleExceptionAsync(httpContext, e, e.Message, e.HttpStatusCode),
+                TypeValidationException e => HandleTypeValidationExceptionAsync(httpContext, e),
+                _ => CommonHandleExceptionAsync(httpContext, ex, ex.Message)
+            };
+
+            await handler;
         }
     }
 
@@ -44,11 +45,6 @@ public class NoxExceptionHanderMiddleware
     {
         var message = string.Join("\n", exception.Errors.Select(x => $"PropertyName: {x.Variable}. Error: {x.ErrorMessage}"));
         await CommonHandleExceptionAsync(context, exception, message, HttpStatusCode.BadRequest);
-    }
-
-    private async Task HandleConcurrencyExceptionAsync(HttpContext context, ConcurrencyException exception)
-    {
-        await CommonHandleExceptionAsync(context, exception, exception.Message, HttpStatusCode.Conflict);
     }
 
     private async Task CommonHandleExceptionAsync(HttpContext context,
