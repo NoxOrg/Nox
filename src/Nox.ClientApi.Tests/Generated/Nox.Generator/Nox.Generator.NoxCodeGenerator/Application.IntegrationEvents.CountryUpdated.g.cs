@@ -13,5 +13,5 @@ namespace ClientApi.Application.IntegrationEvents;
 /// <summary>
 /// CountryUpdated integration event.
 /// </summary>
-[IntegrationEventType("Updated", nameof(Country))]
+[IntegrationEventType("updated", nameof(Country))]
 internal record CountryUpdated(CountryDto Country) :  IIntegrationEvent;

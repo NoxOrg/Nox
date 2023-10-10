@@ -173,8 +173,8 @@ namespace ClientApi.Tests.Application.Messaging
 
             var messageObject = MassTransitTestHarness.Published.Select(x => true).AsEnumerable().First().MessageObject;
             ((NoxMessageRecord<CountryCreated>)messageObject).source!.OriginalString.Should().Be("https://Nox-Tests.com/ClientApi");
-            ((NoxMessageRecord<CountryCreated>)messageObject).type.Should().Be("Nox-Tests.ClientApi.Country.v1.0.Created");
-            ((NoxMessageRecord<CountryCreated>)messageObject).dataschema!.OriginalString.Should().Be("https://Nox-Tests.com/schemas/ClientApi/Country/v1.0/Created.json");
+            ((NoxMessageRecord<CountryCreated>)messageObject).type.Should().Be("Nox-Tests.ClientApi.Country.v1.0.created");
+            ((NoxMessageRecord<CountryCreated>)messageObject).dataschema!.OriginalString.Should().Be("https://Nox-Tests.com/schemas/ClientApi/Country/v1.0/created.json");
         }
 
         #endregion Integration Events

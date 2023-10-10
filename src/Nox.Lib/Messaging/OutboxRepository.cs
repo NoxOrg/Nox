@@ -1,6 +1,7 @@
 ﻿using CloudNative.CloudEvents;
 using MassTransit;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
@@ -35,7 +36,7 @@ namespace Nox.Messaging
         {
             _logger.LogInformation($"Publish message {typeof(T)} to {_bus.GetType()}");
 
-            var prefix = _webHostEnvironment.EnvironmentName == "Production" ?
+            var prefix = _webHostEnvironment.EnvironmentName == Environments.Production ?
                 string.Empty :
                 $"{_webHostEnvironment.EnvironmentName.ToLower()}.";
 

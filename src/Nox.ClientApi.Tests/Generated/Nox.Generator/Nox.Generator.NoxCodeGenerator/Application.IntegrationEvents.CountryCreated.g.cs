@@ -13,5 +13,5 @@ namespace ClientApi.Application.IntegrationEvents;
 /// <summary>
 /// CountryCreated integration event.
 /// </summary>
-[IntegrationEventType("Created", nameof(Country))]
+[IntegrationEventType("created", nameof(Country))]
 internal record CountryCreated(CountryDto Country) :  IIntegrationEvent;
