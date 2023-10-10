@@ -16,34 +16,34 @@ namespace TestWebApp.Domain;
 
 internal partial class SecondTestEntityOwnedRelationshipExactlyOne : SecondTestEntityOwnedRelationshipExactlyOneBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for SecondTestEntityOwnedRelationshipExactlyOne created event.
-/// </summary>
-internal record SecondTestEntityOwnedRelationshipExactlyOneCreated(SecondTestEntityOwnedRelationshipExactlyOne SecondTestEntityOwnedRelationshipExactlyOne) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for SecondTestEntityOwnedRelationshipExactlyOne updated event.
-/// </summary>
-internal record SecondTestEntityOwnedRelationshipExactlyOneUpdated(SecondTestEntityOwnedRelationshipExactlyOne SecondTestEntityOwnedRelationshipExactlyOne) : IDomainEvent, INotification;
-/// <summary>
-/// Record for SecondTestEntityOwnedRelationshipExactlyOne deleted event.
-/// </summary>
-internal record SecondTestEntityOwnedRelationshipExactlyOneDeleted(SecondTestEntityOwnedRelationshipExactlyOne SecondTestEntityOwnedRelationshipExactlyOne) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for SecondTestEntityOwnedRelationshipExactlyOne created event.
+    /// </summary>
+    internal record SecondTestEntityOwnedRelationshipExactlyOneCreated(SecondTestEntityOwnedRelationshipExactlyOne SecondTestEntityOwnedRelationshipExactlyOne) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for SecondTestEntityOwnedRelationshipExactlyOne updated event.
+    /// </summary>
+    internal record SecondTestEntityOwnedRelationshipExactlyOneUpdated(SecondTestEntityOwnedRelationshipExactlyOne SecondTestEntityOwnedRelationshipExactlyOne) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for SecondTestEntityOwnedRelationshipExactlyOne deleted event.
+    /// </summary>
+    internal record SecondTestEntityOwnedRelationshipExactlyOneDeleted(SecondTestEntityOwnedRelationshipExactlyOne SecondTestEntityOwnedRelationshipExactlyOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// .

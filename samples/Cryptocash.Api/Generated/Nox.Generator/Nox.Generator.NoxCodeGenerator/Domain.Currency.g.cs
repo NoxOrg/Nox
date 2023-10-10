@@ -16,34 +16,34 @@ namespace Cryptocash.Domain;
 
 internal partial class Currency : CurrencyBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for Currency created event.
-/// </summary>
-internal record CurrencyCreated(Currency Currency) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for Currency updated event.
-/// </summary>
-internal record CurrencyUpdated(Currency Currency) : IDomainEvent, INotification;
-/// <summary>
-/// Record for Currency deleted event.
-/// </summary>
-internal record CurrencyDeleted(Currency Currency) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Currency created event.
+    /// </summary>
+    internal record CurrencyCreated(Currency Currency) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Currency updated event.
+    /// </summary>
+    internal record CurrencyUpdated(Currency Currency) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Currency deleted event.
+    /// </summary>
+    internal record CurrencyDeleted(Currency Currency) : IDomainEvent, INotification;
 
 /// <summary>
 /// Currency and related data.
@@ -189,12 +189,64 @@ internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcu
     /// <summary>
     /// Currency commonly used ZeroOrMany BankNotes
     /// </summary>
-    public virtual List<BankNote> CurrencyCommonBankNotes { get; set; } = new();
+    public virtual List<BankNote> CurrencyCommonBankNotes { get; private set; } = new();
+    
+    /// <summary>
+    /// Creates a new BankNote entity.
+    /// </summary>
+    public virtual void CreateRefToCurrencyCommonBankNotes(BankNote relatedBankNote)
+    {
+        CurrencyCommonBankNotes.Add(relatedBankNote);
+    }
+    
+    /// <summary>
+    /// Deletes owned BankNote entity.
+    /// </summary>
+    public virtual void DeleteRefToCurrencyCommonBankNotes(BankNote relatedBankNote)
+    {
+        CurrencyCommonBankNotes.Remove(relatedBankNote);
+    }
+    
+    /// <summary>
+    /// Deletes all owned BankNote entities.
+    /// </summary>
+    public virtual void DeleteAllRefToCurrencyCommonBankNotes()
+    {
+        CurrencyCommonBankNotes.Clear();
+    }
 
     /// <summary>
     /// Currency exchanged from OneOrMany ExchangeRates
     /// </summary>
-    public virtual List<ExchangeRate> CurrencyExchangedFromRates { get; set; } = new();
+    public virtual List<ExchangeRate> CurrencyExchangedFromRates { get; private set; } = new();
+    
+    /// <summary>
+    /// Creates a new ExchangeRate entity.
+    /// </summary>
+    public virtual void CreateRefToCurrencyExchangedFromRates(ExchangeRate relatedExchangeRate)
+    {
+        CurrencyExchangedFromRates.Add(relatedExchangeRate);
+    }
+    
+    /// <summary>
+    /// Deletes owned ExchangeRate entity.
+    /// </summary>
+    public virtual void DeleteRefToCurrencyExchangedFromRates(ExchangeRate relatedExchangeRate)
+    {
+        if(CurrencyExchangedFromRates.Count() < 2)
+            throw new Exception($"The relationship cannot be deleted.");
+        CurrencyExchangedFromRates.Remove(relatedExchangeRate);
+    }
+    
+    /// <summary>
+    /// Deletes all owned ExchangeRate entities.
+    /// </summary>
+    public virtual void DeleteAllRefToCurrencyExchangedFromRates()
+    {
+        if(CurrencyExchangedFromRates.Count() < 2)
+            throw new Exception($"The relationship cannot be deleted.");
+        CurrencyExchangedFromRates.Clear();
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

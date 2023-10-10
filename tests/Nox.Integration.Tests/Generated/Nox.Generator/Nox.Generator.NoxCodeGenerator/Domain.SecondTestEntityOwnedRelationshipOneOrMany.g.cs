@@ -16,34 +16,34 @@ namespace TestWebApp.Domain;
 
 internal partial class SecondTestEntityOwnedRelationshipOneOrMany : SecondTestEntityOwnedRelationshipOneOrManyBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for SecondTestEntityOwnedRelationshipOneOrMany created event.
-/// </summary>
-internal record SecondTestEntityOwnedRelationshipOneOrManyCreated(SecondTestEntityOwnedRelationshipOneOrMany SecondTestEntityOwnedRelationshipOneOrMany) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for SecondTestEntityOwnedRelationshipOneOrMany updated event.
-/// </summary>
-internal record SecondTestEntityOwnedRelationshipOneOrManyUpdated(SecondTestEntityOwnedRelationshipOneOrMany SecondTestEntityOwnedRelationshipOneOrMany) : IDomainEvent, INotification;
-/// <summary>
-/// Record for SecondTestEntityOwnedRelationshipOneOrMany deleted event.
-/// </summary>
-internal record SecondTestEntityOwnedRelationshipOneOrManyDeleted(SecondTestEntityOwnedRelationshipOneOrMany SecondTestEntityOwnedRelationshipOneOrMany) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for SecondTestEntityOwnedRelationshipOneOrMany created event.
+    /// </summary>
+    internal record SecondTestEntityOwnedRelationshipOneOrManyCreated(SecondTestEntityOwnedRelationshipOneOrMany SecondTestEntityOwnedRelationshipOneOrMany) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for SecondTestEntityOwnedRelationshipOneOrMany updated event.
+    /// </summary>
+    internal record SecondTestEntityOwnedRelationshipOneOrManyUpdated(SecondTestEntityOwnedRelationshipOneOrMany SecondTestEntityOwnedRelationshipOneOrMany) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for SecondTestEntityOwnedRelationshipOneOrMany deleted event.
+    /// </summary>
+    internal record SecondTestEntityOwnedRelationshipOneOrManyDeleted(SecondTestEntityOwnedRelationshipOneOrMany SecondTestEntityOwnedRelationshipOneOrMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// .

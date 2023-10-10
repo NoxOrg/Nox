@@ -16,34 +16,34 @@ namespace Cryptocash.Domain;
 
 internal partial class MinimumCashStock : MinimumCashStockBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for MinimumCashStock created event.
-/// </summary>
-internal record MinimumCashStockCreated(MinimumCashStock MinimumCashStock) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for MinimumCashStock updated event.
-/// </summary>
-internal record MinimumCashStockUpdated(MinimumCashStock MinimumCashStock) : IDomainEvent, INotification;
-/// <summary>
-/// Record for MinimumCashStock deleted event.
-/// </summary>
-internal record MinimumCashStockDeleted(MinimumCashStock MinimumCashStock) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for MinimumCashStock created event.
+    /// </summary>
+    internal record MinimumCashStockCreated(MinimumCashStock MinimumCashStock) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for MinimumCashStock updated event.
+    /// </summary>
+    internal record MinimumCashStockUpdated(MinimumCashStock MinimumCashStock) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for MinimumCashStock deleted event.
+    /// </summary>
+    internal record MinimumCashStockDeleted(MinimumCashStock MinimumCashStock) : IDomainEvent, INotification;
 
 /// <summary>
 /// Minimum cash stock required for vending machine.

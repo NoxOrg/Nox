@@ -16,34 +16,34 @@ namespace ClientApi.Domain;
 
 internal partial class StoreOwner : StoreOwnerBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for StoreOwner created event.
-/// </summary>
-internal record StoreOwnerCreated(StoreOwner StoreOwner) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for StoreOwner updated event.
-/// </summary>
-internal record StoreOwnerUpdated(StoreOwner StoreOwner) : IDomainEvent, INotification;
-/// <summary>
-/// Record for StoreOwner deleted event.
-/// </summary>
-internal record StoreOwnerDeleted(StoreOwner StoreOwner) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for StoreOwner created event.
+    /// </summary>
+    internal record StoreOwnerCreated(StoreOwner StoreOwner) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for StoreOwner updated event.
+    /// </summary>
+    internal record StoreOwnerUpdated(StoreOwner StoreOwner) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for StoreOwner deleted event.
+    /// </summary>
+    internal record StoreOwnerDeleted(StoreOwner StoreOwner) : IDomainEvent, INotification;
 
 /// <summary>
 /// Store owners.

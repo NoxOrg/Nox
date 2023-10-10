@@ -16,34 +16,34 @@ namespace TestWebApp.Domain;
 
 internal partial class TestEntityOwnedRelationshipExactlyOne : TestEntityOwnedRelationshipExactlyOneBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for TestEntityOwnedRelationshipExactlyOne created event.
-/// </summary>
-internal record TestEntityOwnedRelationshipExactlyOneCreated(TestEntityOwnedRelationshipExactlyOne TestEntityOwnedRelationshipExactlyOne) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for TestEntityOwnedRelationshipExactlyOne updated event.
-/// </summary>
-internal record TestEntityOwnedRelationshipExactlyOneUpdated(TestEntityOwnedRelationshipExactlyOne TestEntityOwnedRelationshipExactlyOne) : IDomainEvent, INotification;
-/// <summary>
-/// Record for TestEntityOwnedRelationshipExactlyOne deleted event.
-/// </summary>
-internal record TestEntityOwnedRelationshipExactlyOneDeleted(TestEntityOwnedRelationshipExactlyOne TestEntityOwnedRelationshipExactlyOne) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityOwnedRelationshipExactlyOne created event.
+    /// </summary>
+    internal record TestEntityOwnedRelationshipExactlyOneCreated(TestEntityOwnedRelationshipExactlyOne TestEntityOwnedRelationshipExactlyOne) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityOwnedRelationshipExactlyOne updated event.
+    /// </summary>
+    internal record TestEntityOwnedRelationshipExactlyOneUpdated(TestEntityOwnedRelationshipExactlyOne TestEntityOwnedRelationshipExactlyOne) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityOwnedRelationshipExactlyOne deleted event.
+    /// </summary>
+    internal record TestEntityOwnedRelationshipExactlyOneDeleted(TestEntityOwnedRelationshipExactlyOne TestEntityOwnedRelationshipExactlyOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// .
@@ -90,7 +90,31 @@ internal abstract partial class TestEntityOwnedRelationshipExactlyOneBase : Audi
     /// <summary>
     /// TestEntityOwnedRelationshipExactlyOne Test entity relationship to SecondTestEntityOwnedRelationshipExactlyOne ExactlyOne SecondTestEntityOwnedRelationshipExactlyOnes
     /// </summary>
-     public virtual SecondTestEntityOwnedRelationshipExactlyOne SecondTestEntityOwnedRelationshipExactlyOne { get; set; } = null!;
+    public virtual SecondTestEntityOwnedRelationshipExactlyOne SecondTestEntityOwnedRelationshipExactlyOne { get; private set; } = null!;
+    
+    /// <summary>
+    /// Creates a new SecondTestEntityOwnedRelationshipExactlyOne entity.
+    /// </summary>
+    public virtual void CreateRefToSecondTestEntityOwnedRelationshipExactlyOne(SecondTestEntityOwnedRelationshipExactlyOne relatedSecondTestEntityOwnedRelationshipExactlyOne)
+    {
+        SecondTestEntityOwnedRelationshipExactlyOne = relatedSecondTestEntityOwnedRelationshipExactlyOne;
+    }
+    
+    /// <summary>
+    /// Deletes owned SecondTestEntityOwnedRelationshipExactlyOne entity.
+    /// </summary>
+    public virtual void DeleteRefToSecondTestEntityOwnedRelationshipExactlyOne(SecondTestEntityOwnedRelationshipExactlyOne relatedSecondTestEntityOwnedRelationshipExactlyOne)
+    {
+        throw new Exception($"The relationship cannot be deleted.");
+    }
+    
+    /// <summary>
+    /// Deletes all owned SecondTestEntityOwnedRelationshipExactlyOne entities.
+    /// </summary>
+    public virtual void DeleteAllRefToSecondTestEntityOwnedRelationshipExactlyOne()
+    {
+        throw new Exception($"The relationship cannot be deleted.");
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

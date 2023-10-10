@@ -16,34 +16,34 @@ namespace Cryptocash.Domain;
 
 internal partial class Holiday : HolidayBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for Holiday created event.
-/// </summary>
-internal record HolidayCreated(Holiday Holiday) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for Holiday updated event.
-/// </summary>
-internal record HolidayUpdated(Holiday Holiday) : IDomainEvent, INotification;
-/// <summary>
-/// Record for Holiday deleted event.
-/// </summary>
-internal record HolidayDeleted(Holiday Holiday) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Holiday created event.
+    /// </summary>
+    internal record HolidayCreated(Holiday Holiday) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Holiday updated event.
+    /// </summary>
+    internal record HolidayUpdated(Holiday Holiday) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Holiday deleted event.
+    /// </summary>
+    internal record HolidayDeleted(Holiday Holiday) : IDomainEvent, INotification;
 
 /// <summary>
 /// Holiday related to country.

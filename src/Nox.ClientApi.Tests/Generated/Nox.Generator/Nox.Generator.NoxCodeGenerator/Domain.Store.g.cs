@@ -16,34 +16,34 @@ namespace ClientApi.Domain;
 
 internal partial class Store : StoreBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for Store created event.
-/// </summary>
-internal record StoreCreated(Store Store) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for Store updated event.
-/// </summary>
-internal record StoreUpdated(Store Store) : IDomainEvent, INotification;
-/// <summary>
-/// Record for Store deleted event.
-/// </summary>
-internal record StoreDeleted(Store Store) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Store created event.
+    /// </summary>
+    internal record StoreCreated(Store Store) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Store updated event.
+    /// </summary>
+    internal record StoreUpdated(Store Store) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Store deleted event.
+    /// </summary>
+    internal record StoreDeleted(Store Store) : IDomainEvent, INotification;
 
 /// <summary>
 /// Stores.
@@ -166,7 +166,31 @@ internal abstract partial class StoreBase : AuditableEntityBase, IEntityConcurre
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
-     public virtual EmailAddress? VerifiedEmails { get; set; } = null!;
+    public virtual EmailAddress? VerifiedEmails { get; private set; }
+    
+    /// <summary>
+    /// Creates a new EmailAddress entity.
+    /// </summary>
+    public virtual void CreateRefToVerifiedEmails(EmailAddress relatedEmailAddress)
+    {
+        VerifiedEmails = relatedEmailAddress;
+    }
+    
+    /// <summary>
+    /// Deletes owned EmailAddress entity.
+    /// </summary>
+    public virtual void DeleteRefToVerifiedEmails(EmailAddress relatedEmailAddress)
+    {
+        VerifiedEmails = null;
+    }
+    
+    /// <summary>
+    /// Deletes all owned EmailAddress entities.
+    /// </summary>
+    public virtual void DeleteAllRefToVerifiedEmails()
+    {
+        VerifiedEmails = null;
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

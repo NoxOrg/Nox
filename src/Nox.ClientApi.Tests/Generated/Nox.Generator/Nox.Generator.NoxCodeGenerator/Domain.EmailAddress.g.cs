@@ -16,34 +16,34 @@ namespace ClientApi.Domain;
 
 internal partial class EmailAddress : EmailAddressBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for EmailAddress created event.
-/// </summary>
-internal record EmailAddressCreated(EmailAddress EmailAddress) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for EmailAddress updated event.
-/// </summary>
-internal record EmailAddressUpdated(EmailAddress EmailAddress) : IDomainEvent, INotification;
-/// <summary>
-/// Record for EmailAddress deleted event.
-/// </summary>
-internal record EmailAddressDeleted(EmailAddress EmailAddress) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for EmailAddress created event.
+    /// </summary>
+    internal record EmailAddressCreated(EmailAddress EmailAddress) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for EmailAddress updated event.
+    /// </summary>
+    internal record EmailAddressUpdated(EmailAddress EmailAddress) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for EmailAddress deleted event.
+    /// </summary>
+    internal record EmailAddressDeleted(EmailAddress EmailAddress) : IDomainEvent, INotification;
 
 /// <summary>
 /// Verified Email Address.

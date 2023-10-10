@@ -16,34 +16,34 @@ namespace Cryptocash.Domain;
 
 internal partial class Transaction : TransactionBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for Transaction created event.
-/// </summary>
-internal record TransactionCreated(Transaction Transaction) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for Transaction updated event.
-/// </summary>
-internal record TransactionUpdated(Transaction Transaction) : IDomainEvent, INotification;
-/// <summary>
-/// Record for Transaction deleted event.
-/// </summary>
-internal record TransactionDeleted(Transaction Transaction) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Transaction created event.
+    /// </summary>
+    internal record TransactionCreated(Transaction Transaction) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Transaction updated event.
+    /// </summary>
+    internal record TransactionUpdated(Transaction Transaction) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Transaction deleted event.
+    /// </summary>
+    internal record TransactionDeleted(Transaction Transaction) : IDomainEvent, INotification;
 
 /// <summary>
 /// Customer transaction log and related data.

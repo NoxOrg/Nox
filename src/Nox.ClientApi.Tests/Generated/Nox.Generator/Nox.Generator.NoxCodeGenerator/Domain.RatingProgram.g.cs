@@ -16,34 +16,34 @@ namespace ClientApi.Domain;
 
 internal partial class RatingProgram : RatingProgramBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for RatingProgram created event.
-/// </summary>
-internal record RatingProgramCreated(RatingProgram RatingProgram) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for RatingProgram updated event.
-/// </summary>
-internal record RatingProgramUpdated(RatingProgram RatingProgram) : IDomainEvent, INotification;
-/// <summary>
-/// Record for RatingProgram deleted event.
-/// </summary>
-internal record RatingProgramDeleted(RatingProgram RatingProgram) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for RatingProgram created event.
+    /// </summary>
+    internal record RatingProgramCreated(RatingProgram RatingProgram) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for RatingProgram updated event.
+    /// </summary>
+    internal record RatingProgramUpdated(RatingProgram RatingProgram) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for RatingProgram deleted event.
+    /// </summary>
+    internal record RatingProgramDeleted(RatingProgram RatingProgram) : IDomainEvent, INotification;
 
 /// <summary>
 /// Rating program for store.

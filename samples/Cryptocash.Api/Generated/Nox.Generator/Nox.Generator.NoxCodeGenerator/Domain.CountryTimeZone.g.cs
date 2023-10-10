@@ -16,34 +16,34 @@ namespace Cryptocash.Domain;
 
 internal partial class CountryTimeZone : CountryTimeZoneBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for CountryTimeZone created event.
-/// </summary>
-internal record CountryTimeZoneCreated(CountryTimeZone CountryTimeZone) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for CountryTimeZone updated event.
-/// </summary>
-internal record CountryTimeZoneUpdated(CountryTimeZone CountryTimeZone) : IDomainEvent, INotification;
-/// <summary>
-/// Record for CountryTimeZone deleted event.
-/// </summary>
-internal record CountryTimeZoneDeleted(CountryTimeZone CountryTimeZone) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for CountryTimeZone created event.
+    /// </summary>
+    internal record CountryTimeZoneCreated(CountryTimeZone CountryTimeZone) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for CountryTimeZone updated event.
+    /// </summary>
+    internal record CountryTimeZoneUpdated(CountryTimeZone CountryTimeZone) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for CountryTimeZone deleted event.
+    /// </summary>
+    internal record CountryTimeZoneDeleted(CountryTimeZone CountryTimeZone) : IDomainEvent, INotification;
 
 /// <summary>
 /// Time zone related to country.

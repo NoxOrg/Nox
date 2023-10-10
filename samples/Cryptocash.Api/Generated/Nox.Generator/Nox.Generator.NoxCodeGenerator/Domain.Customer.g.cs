@@ -16,34 +16,34 @@ namespace Cryptocash.Domain;
 
 internal partial class Customer : CustomerBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for Customer created event.
-/// </summary>
-internal record CustomerCreated(Customer Customer) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for Customer updated event.
-/// </summary>
-internal record CustomerUpdated(Customer Customer) : IDomainEvent, INotification;
-/// <summary>
-/// Record for Customer deleted event.
-/// </summary>
-internal record CustomerDeleted(Customer Customer) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Customer created event.
+    /// </summary>
+    internal record CustomerCreated(Customer Customer) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Customer updated event.
+    /// </summary>
+    internal record CustomerUpdated(Customer Customer) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Customer deleted event.
+    /// </summary>
+    internal record CustomerDeleted(Customer Customer) : IDomainEvent, INotification;
 
 /// <summary>
 /// Customer definition and related data.

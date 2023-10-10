@@ -16,34 +16,34 @@ namespace Cryptocash.Domain;
 
 internal partial class Employee : EmployeeBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for Employee created event.
-/// </summary>
-internal record EmployeeCreated(Employee Employee) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for Employee updated event.
-/// </summary>
-internal record EmployeeUpdated(Employee Employee) : IDomainEvent, INotification;
-/// <summary>
-/// Record for Employee deleted event.
-/// </summary>
-internal record EmployeeDeleted(Employee Employee) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Employee created event.
+    /// </summary>
+    internal record EmployeeCreated(Employee Employee) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Employee updated event.
+    /// </summary>
+    internal record EmployeeUpdated(Employee Employee) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Employee deleted event.
+    /// </summary>
+    internal record EmployeeDeleted(Employee Employee) : IDomainEvent, INotification;
 
 /// <summary>
 /// Employee definition and related data.
@@ -140,7 +140,31 @@ internal abstract partial class EmployeeBase : AuditableEntityBase, IEntityConcu
     /// <summary>
     /// Employee contacted by ZeroOrMany EmployeePhoneNumbers
     /// </summary>
-    public virtual List<EmployeePhoneNumber> EmployeeContactPhoneNumbers { get; set; } = new();
+    public virtual List<EmployeePhoneNumber> EmployeeContactPhoneNumbers { get; private set; } = new();
+    
+    /// <summary>
+    /// Creates a new EmployeePhoneNumber entity.
+    /// </summary>
+    public virtual void CreateRefToEmployeeContactPhoneNumbers(EmployeePhoneNumber relatedEmployeePhoneNumber)
+    {
+        EmployeeContactPhoneNumbers.Add(relatedEmployeePhoneNumber);
+    }
+    
+    /// <summary>
+    /// Deletes owned EmployeePhoneNumber entity.
+    /// </summary>
+    public virtual void DeleteRefToEmployeeContactPhoneNumbers(EmployeePhoneNumber relatedEmployeePhoneNumber)
+    {
+        EmployeeContactPhoneNumbers.Remove(relatedEmployeePhoneNumber);
+    }
+    
+    /// <summary>
+    /// Deletes all owned EmployeePhoneNumber entities.
+    /// </summary>
+    public virtual void DeleteAllRefToEmployeeContactPhoneNumbers()
+    {
+        EmployeeContactPhoneNumbers.Clear();
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

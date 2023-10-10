@@ -16,34 +16,34 @@ namespace Cryptocash.Domain;
 
 internal partial class CashStockOrder : CashStockOrderBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for CashStockOrder created event.
-/// </summary>
-internal record CashStockOrderCreated(CashStockOrder CashStockOrder) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for CashStockOrder updated event.
-/// </summary>
-internal record CashStockOrderUpdated(CashStockOrder CashStockOrder) : IDomainEvent, INotification;
-/// <summary>
-/// Record for CashStockOrder deleted event.
-/// </summary>
-internal record CashStockOrderDeleted(CashStockOrder CashStockOrder) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for CashStockOrder created event.
+    /// </summary>
+    internal record CashStockOrderCreated(CashStockOrder CashStockOrder) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for CashStockOrder updated event.
+    /// </summary>
+    internal record CashStockOrderUpdated(CashStockOrder CashStockOrder) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for CashStockOrder deleted event.
+    /// </summary>
+    internal record CashStockOrderDeleted(CashStockOrder CashStockOrder) : IDomainEvent, INotification;
 
 /// <summary>
 /// Vending machine cash stock order and related data.

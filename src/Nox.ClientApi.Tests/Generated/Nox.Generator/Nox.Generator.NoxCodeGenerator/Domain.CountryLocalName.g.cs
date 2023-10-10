@@ -16,34 +16,34 @@ namespace ClientApi.Domain;
 
 internal partial class CountryLocalName : CountryLocalNameBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for CountryLocalName created event.
-/// </summary>
-internal record CountryLocalNameCreated(CountryLocalName CountryLocalName) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for CountryLocalName updated event.
-/// </summary>
-internal record CountryLocalNameUpdated(CountryLocalName CountryLocalName) : IDomainEvent, INotification;
-/// <summary>
-/// Record for CountryLocalName deleted event.
-/// </summary>
-internal record CountryLocalNameDeleted(CountryLocalName CountryLocalName) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for CountryLocalName created event.
+    /// </summary>
+    internal record CountryLocalNameCreated(CountryLocalName CountryLocalName) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for CountryLocalName updated event.
+    /// </summary>
+    internal record CountryLocalNameUpdated(CountryLocalName CountryLocalName) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for CountryLocalName deleted event.
+    /// </summary>
+    internal record CountryLocalNameDeleted(CountryLocalName CountryLocalName) : IDomainEvent, INotification;
 
 /// <summary>
 /// Local names for countries.

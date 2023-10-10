@@ -16,34 +16,34 @@ namespace Cryptocash.Domain;
 
 internal partial class ExchangeRate : ExchangeRateBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for ExchangeRate created event.
-/// </summary>
-internal record ExchangeRateCreated(ExchangeRate ExchangeRate) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for ExchangeRate updated event.
-/// </summary>
-internal record ExchangeRateUpdated(ExchangeRate ExchangeRate) : IDomainEvent, INotification;
-/// <summary>
-/// Record for ExchangeRate deleted event.
-/// </summary>
-internal record ExchangeRateDeleted(ExchangeRate ExchangeRate) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for ExchangeRate created event.
+    /// </summary>
+    internal record ExchangeRateCreated(ExchangeRate ExchangeRate) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for ExchangeRate updated event.
+    /// </summary>
+    internal record ExchangeRateUpdated(ExchangeRate ExchangeRate) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for ExchangeRate deleted event.
+    /// </summary>
+    internal record ExchangeRateDeleted(ExchangeRate ExchangeRate) : IDomainEvent, INotification;
 
 /// <summary>
 /// Exchange rate and related data.

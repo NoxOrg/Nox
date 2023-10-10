@@ -16,34 +16,34 @@ namespace TestWebApp.Domain;
 
 internal partial class ThirdTestEntityExactlyOne : ThirdTestEntityExactlyOneBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for ThirdTestEntityExactlyOne created event.
-/// </summary>
-internal record ThirdTestEntityExactlyOneCreated(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for ThirdTestEntityExactlyOne updated event.
-/// </summary>
-internal record ThirdTestEntityExactlyOneUpdated(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) : IDomainEvent, INotification;
-/// <summary>
-/// Record for ThirdTestEntityExactlyOne deleted event.
-/// </summary>
-internal record ThirdTestEntityExactlyOneDeleted(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for ThirdTestEntityExactlyOne created event.
+    /// </summary>
+    internal record ThirdTestEntityExactlyOneCreated(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for ThirdTestEntityExactlyOne updated event.
+    /// </summary>
+    internal record ThirdTestEntityExactlyOneUpdated(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for ThirdTestEntityExactlyOne deleted event.
+    /// </summary>
+    internal record ThirdTestEntityExactlyOneDeleted(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing database.

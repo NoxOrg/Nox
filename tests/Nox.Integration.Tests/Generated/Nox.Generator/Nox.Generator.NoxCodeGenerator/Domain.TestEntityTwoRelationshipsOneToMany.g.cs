@@ -16,34 +16,34 @@ namespace TestWebApp.Domain;
 
 internal partial class TestEntityTwoRelationshipsOneToMany : TestEntityTwoRelationshipsOneToManyBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for TestEntityTwoRelationshipsOneToMany created event.
-/// </summary>
-internal record TestEntityTwoRelationshipsOneToManyCreated(TestEntityTwoRelationshipsOneToMany TestEntityTwoRelationshipsOneToMany) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for TestEntityTwoRelationshipsOneToMany updated event.
-/// </summary>
-internal record TestEntityTwoRelationshipsOneToManyUpdated(TestEntityTwoRelationshipsOneToMany TestEntityTwoRelationshipsOneToMany) : IDomainEvent, INotification;
-/// <summary>
-/// Record for TestEntityTwoRelationshipsOneToMany deleted event.
-/// </summary>
-internal record TestEntityTwoRelationshipsOneToManyDeleted(TestEntityTwoRelationshipsOneToMany TestEntityTwoRelationshipsOneToMany) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityTwoRelationshipsOneToMany created event.
+    /// </summary>
+    internal record TestEntityTwoRelationshipsOneToManyCreated(TestEntityTwoRelationshipsOneToMany TestEntityTwoRelationshipsOneToMany) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityTwoRelationshipsOneToMany updated event.
+    /// </summary>
+    internal record TestEntityTwoRelationshipsOneToManyUpdated(TestEntityTwoRelationshipsOneToMany TestEntityTwoRelationshipsOneToMany) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityTwoRelationshipsOneToMany deleted event.
+    /// </summary>
+    internal record TestEntityTwoRelationshipsOneToManyDeleted(TestEntityTwoRelationshipsOneToMany TestEntityTwoRelationshipsOneToMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// .

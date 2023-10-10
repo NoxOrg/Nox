@@ -55,7 +55,7 @@ internal abstract class CreateSecondTestEntityOwnedRelationshipExactlyOneForTest
 		}
 
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
-		parentEntity.SecondTestEntityOwnedRelationshipExactlyOne = entity;
+		parentEntity.CreateRefToSecondTestEntityOwnedRelationshipExactlyOne(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 

@@ -16,34 +16,34 @@ namespace TestWebApp.Domain;
 
 internal partial class SecondTestEntityZeroOrMany : SecondTestEntityZeroOrManyBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for SecondTestEntityZeroOrMany created event.
-/// </summary>
-internal record SecondTestEntityZeroOrManyCreated(SecondTestEntityZeroOrMany SecondTestEntityZeroOrMany) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for SecondTestEntityZeroOrMany updated event.
-/// </summary>
-internal record SecondTestEntityZeroOrManyUpdated(SecondTestEntityZeroOrMany SecondTestEntityZeroOrMany) : IDomainEvent, INotification;
-/// <summary>
-/// Record for SecondTestEntityZeroOrMany deleted event.
-/// </summary>
-internal record SecondTestEntityZeroOrManyDeleted(SecondTestEntityZeroOrMany SecondTestEntityZeroOrMany) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for SecondTestEntityZeroOrMany created event.
+    /// </summary>
+    internal record SecondTestEntityZeroOrManyCreated(SecondTestEntityZeroOrMany SecondTestEntityZeroOrMany) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for SecondTestEntityZeroOrMany updated event.
+    /// </summary>
+    internal record SecondTestEntityZeroOrManyUpdated(SecondTestEntityZeroOrMany SecondTestEntityZeroOrMany) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for SecondTestEntityZeroOrMany deleted event.
+    /// </summary>
+    internal record SecondTestEntityZeroOrManyDeleted(SecondTestEntityZeroOrMany SecondTestEntityZeroOrMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// .

@@ -16,34 +16,34 @@ namespace ClientApi.Domain;
 
 internal partial class CountryBarCode : CountryBarCodeBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for CountryBarCode created event.
-/// </summary>
-internal record CountryBarCodeCreated(CountryBarCode CountryBarCode) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for CountryBarCode updated event.
-/// </summary>
-internal record CountryBarCodeUpdated(CountryBarCode CountryBarCode) : IDomainEvent, INotification;
-/// <summary>
-/// Record for CountryBarCode deleted event.
-/// </summary>
-internal record CountryBarCodeDeleted(CountryBarCode CountryBarCode) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for CountryBarCode created event.
+    /// </summary>
+    internal record CountryBarCodeCreated(CountryBarCode CountryBarCode) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for CountryBarCode updated event.
+    /// </summary>
+    internal record CountryBarCodeUpdated(CountryBarCode CountryBarCode) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for CountryBarCode deleted event.
+    /// </summary>
+    internal record CountryBarCodeDeleted(CountryBarCode CountryBarCode) : IDomainEvent, INotification;
 
 /// <summary>
 /// Bar code for country.

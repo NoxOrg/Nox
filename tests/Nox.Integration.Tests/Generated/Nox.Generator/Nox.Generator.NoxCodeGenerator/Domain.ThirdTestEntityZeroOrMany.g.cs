@@ -16,34 +16,34 @@ namespace TestWebApp.Domain;
 
 internal partial class ThirdTestEntityZeroOrMany : ThirdTestEntityZeroOrManyBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for ThirdTestEntityZeroOrMany created event.
-/// </summary>
-internal record ThirdTestEntityZeroOrManyCreated(ThirdTestEntityZeroOrMany ThirdTestEntityZeroOrMany) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for ThirdTestEntityZeroOrMany updated event.
-/// </summary>
-internal record ThirdTestEntityZeroOrManyUpdated(ThirdTestEntityZeroOrMany ThirdTestEntityZeroOrMany) : IDomainEvent, INotification;
-/// <summary>
-/// Record for ThirdTestEntityZeroOrMany deleted event.
-/// </summary>
-internal record ThirdTestEntityZeroOrManyDeleted(ThirdTestEntityZeroOrMany ThirdTestEntityZeroOrMany) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for ThirdTestEntityZeroOrMany created event.
+    /// </summary>
+    internal record ThirdTestEntityZeroOrManyCreated(ThirdTestEntityZeroOrMany ThirdTestEntityZeroOrMany) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for ThirdTestEntityZeroOrMany updated event.
+    /// </summary>
+    internal record ThirdTestEntityZeroOrManyUpdated(ThirdTestEntityZeroOrMany ThirdTestEntityZeroOrMany) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for ThirdTestEntityZeroOrMany deleted event.
+    /// </summary>
+    internal record ThirdTestEntityZeroOrManyDeleted(ThirdTestEntityZeroOrMany ThirdTestEntityZeroOrMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// .

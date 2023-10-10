@@ -16,34 +16,34 @@ namespace TestWebApp.Domain;
 
 internal partial class TestEntityExactlyOneToZeroOrOne : TestEntityExactlyOneToZeroOrOneBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for TestEntityExactlyOneToZeroOrOne created event.
-/// </summary>
-internal record TestEntityExactlyOneToZeroOrOneCreated(TestEntityExactlyOneToZeroOrOne TestEntityExactlyOneToZeroOrOne) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for TestEntityExactlyOneToZeroOrOne updated event.
-/// </summary>
-internal record TestEntityExactlyOneToZeroOrOneUpdated(TestEntityExactlyOneToZeroOrOne TestEntityExactlyOneToZeroOrOne) : IDomainEvent, INotification;
-/// <summary>
-/// Record for TestEntityExactlyOneToZeroOrOne deleted event.
-/// </summary>
-internal record TestEntityExactlyOneToZeroOrOneDeleted(TestEntityExactlyOneToZeroOrOne TestEntityExactlyOneToZeroOrOne) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityExactlyOneToZeroOrOne created event.
+    /// </summary>
+    internal record TestEntityExactlyOneToZeroOrOneCreated(TestEntityExactlyOneToZeroOrOne TestEntityExactlyOneToZeroOrOne) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityExactlyOneToZeroOrOne updated event.
+    /// </summary>
+    internal record TestEntityExactlyOneToZeroOrOneUpdated(TestEntityExactlyOneToZeroOrOne TestEntityExactlyOneToZeroOrOne) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityExactlyOneToZeroOrOne deleted event.
+    /// </summary>
+    internal record TestEntityExactlyOneToZeroOrOneDeleted(TestEntityExactlyOneToZeroOrOne TestEntityExactlyOneToZeroOrOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// .

@@ -16,34 +16,34 @@ namespace TestWebApp.Domain;
 
 internal partial class TestEntityForTypes : TestEntityForTypesBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for TestEntityForTypes created event.
-/// </summary>
-internal record TestEntityForTypesCreated(TestEntityForTypes TestEntityForTypes) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for TestEntityForTypes updated event.
-/// </summary>
-internal record TestEntityForTypesUpdated(TestEntityForTypes TestEntityForTypes) : IDomainEvent, INotification;
-/// <summary>
-/// Record for TestEntityForTypes deleted event.
-/// </summary>
-internal record TestEntityForTypesDeleted(TestEntityForTypes TestEntityForTypes) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityForTypes created event.
+    /// </summary>
+    internal record TestEntityForTypesCreated(TestEntityForTypes TestEntityForTypes) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityForTypes updated event.
+    /// </summary>
+    internal record TestEntityForTypesUpdated(TestEntityForTypes TestEntityForTypes) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityForTypes deleted event.
+    /// </summary>
+    internal record TestEntityForTypesDeleted(TestEntityForTypes TestEntityForTypes) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing database.

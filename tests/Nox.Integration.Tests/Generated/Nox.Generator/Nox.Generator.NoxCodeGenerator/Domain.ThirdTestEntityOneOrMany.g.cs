@@ -16,34 +16,34 @@ namespace TestWebApp.Domain;
 
 internal partial class ThirdTestEntityOneOrMany : ThirdTestEntityOneOrManyBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for ThirdTestEntityOneOrMany created event.
-/// </summary>
-internal record ThirdTestEntityOneOrManyCreated(ThirdTestEntityOneOrMany ThirdTestEntityOneOrMany) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for ThirdTestEntityOneOrMany updated event.
-/// </summary>
-internal record ThirdTestEntityOneOrManyUpdated(ThirdTestEntityOneOrMany ThirdTestEntityOneOrMany) : IDomainEvent, INotification;
-/// <summary>
-/// Record for ThirdTestEntityOneOrMany deleted event.
-/// </summary>
-internal record ThirdTestEntityOneOrManyDeleted(ThirdTestEntityOneOrMany ThirdTestEntityOneOrMany) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for ThirdTestEntityOneOrMany created event.
+    /// </summary>
+    internal record ThirdTestEntityOneOrManyCreated(ThirdTestEntityOneOrMany ThirdTestEntityOneOrMany) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for ThirdTestEntityOneOrMany updated event.
+    /// </summary>
+    internal record ThirdTestEntityOneOrManyUpdated(ThirdTestEntityOneOrMany ThirdTestEntityOneOrMany) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for ThirdTestEntityOneOrMany deleted event.
+    /// </summary>
+    internal record ThirdTestEntityOneOrManyDeleted(ThirdTestEntityOneOrMany ThirdTestEntityOneOrMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing database.

@@ -16,34 +16,34 @@ namespace TestWebApp.Domain;
 
 internal partial class SecondTestEntityTwoRelationshipsManyToMany : SecondTestEntityTwoRelationshipsManyToManyBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for SecondTestEntityTwoRelationshipsManyToMany created event.
-/// </summary>
-internal record SecondTestEntityTwoRelationshipsManyToManyCreated(SecondTestEntityTwoRelationshipsManyToMany SecondTestEntityTwoRelationshipsManyToMany) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for SecondTestEntityTwoRelationshipsManyToMany updated event.
-/// </summary>
-internal record SecondTestEntityTwoRelationshipsManyToManyUpdated(SecondTestEntityTwoRelationshipsManyToMany SecondTestEntityTwoRelationshipsManyToMany) : IDomainEvent, INotification;
-/// <summary>
-/// Record for SecondTestEntityTwoRelationshipsManyToMany deleted event.
-/// </summary>
-internal record SecondTestEntityTwoRelationshipsManyToManyDeleted(SecondTestEntityTwoRelationshipsManyToMany SecondTestEntityTwoRelationshipsManyToMany) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for SecondTestEntityTwoRelationshipsManyToMany created event.
+    /// </summary>
+    internal record SecondTestEntityTwoRelationshipsManyToManyCreated(SecondTestEntityTwoRelationshipsManyToMany SecondTestEntityTwoRelationshipsManyToMany) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for SecondTestEntityTwoRelationshipsManyToMany updated event.
+    /// </summary>
+    internal record SecondTestEntityTwoRelationshipsManyToManyUpdated(SecondTestEntityTwoRelationshipsManyToMany SecondTestEntityTwoRelationshipsManyToMany) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for SecondTestEntityTwoRelationshipsManyToMany deleted event.
+    /// </summary>
+    internal record SecondTestEntityTwoRelationshipsManyToManyDeleted(SecondTestEntityTwoRelationshipsManyToMany SecondTestEntityTwoRelationshipsManyToMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// .

@@ -16,34 +16,34 @@ namespace TestWebApp.Domain;
 
 internal partial class TestEntityOwnedRelationshipZeroOrOne : TestEntityOwnedRelationshipZeroOrOneBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for TestEntityOwnedRelationshipZeroOrOne created event.
-/// </summary>
-internal record TestEntityOwnedRelationshipZeroOrOneCreated(TestEntityOwnedRelationshipZeroOrOne TestEntityOwnedRelationshipZeroOrOne) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for TestEntityOwnedRelationshipZeroOrOne updated event.
-/// </summary>
-internal record TestEntityOwnedRelationshipZeroOrOneUpdated(TestEntityOwnedRelationshipZeroOrOne TestEntityOwnedRelationshipZeroOrOne) : IDomainEvent, INotification;
-/// <summary>
-/// Record for TestEntityOwnedRelationshipZeroOrOne deleted event.
-/// </summary>
-internal record TestEntityOwnedRelationshipZeroOrOneDeleted(TestEntityOwnedRelationshipZeroOrOne TestEntityOwnedRelationshipZeroOrOne) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityOwnedRelationshipZeroOrOne created event.
+    /// </summary>
+    internal record TestEntityOwnedRelationshipZeroOrOneCreated(TestEntityOwnedRelationshipZeroOrOne TestEntityOwnedRelationshipZeroOrOne) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityOwnedRelationshipZeroOrOne updated event.
+    /// </summary>
+    internal record TestEntityOwnedRelationshipZeroOrOneUpdated(TestEntityOwnedRelationshipZeroOrOne TestEntityOwnedRelationshipZeroOrOne) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityOwnedRelationshipZeroOrOne deleted event.
+    /// </summary>
+    internal record TestEntityOwnedRelationshipZeroOrOneDeleted(TestEntityOwnedRelationshipZeroOrOne TestEntityOwnedRelationshipZeroOrOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// .
@@ -90,7 +90,31 @@ internal abstract partial class TestEntityOwnedRelationshipZeroOrOneBase : Audit
     /// <summary>
     /// TestEntityOwnedRelationshipZeroOrOne Test entity relationship to SecondTestEntityOwnedRelationshipZeroOrOne ZeroOrOne SecondTestEntityOwnedRelationshipZeroOrOnes
     /// </summary>
-     public virtual SecondTestEntityOwnedRelationshipZeroOrOne? SecondTestEntityOwnedRelationshipZeroOrOne { get; set; } = null!;
+    public virtual SecondTestEntityOwnedRelationshipZeroOrOne? SecondTestEntityOwnedRelationshipZeroOrOne { get; private set; }
+    
+    /// <summary>
+    /// Creates a new SecondTestEntityOwnedRelationshipZeroOrOne entity.
+    /// </summary>
+    public virtual void CreateRefToSecondTestEntityOwnedRelationshipZeroOrOne(SecondTestEntityOwnedRelationshipZeroOrOne relatedSecondTestEntityOwnedRelationshipZeroOrOne)
+    {
+        SecondTestEntityOwnedRelationshipZeroOrOne = relatedSecondTestEntityOwnedRelationshipZeroOrOne;
+    }
+    
+    /// <summary>
+    /// Deletes owned SecondTestEntityOwnedRelationshipZeroOrOne entity.
+    /// </summary>
+    public virtual void DeleteRefToSecondTestEntityOwnedRelationshipZeroOrOne(SecondTestEntityOwnedRelationshipZeroOrOne relatedSecondTestEntityOwnedRelationshipZeroOrOne)
+    {
+        SecondTestEntityOwnedRelationshipZeroOrOne = null;
+    }
+    
+    /// <summary>
+    /// Deletes all owned SecondTestEntityOwnedRelationshipZeroOrOne entities.
+    /// </summary>
+    public virtual void DeleteAllRefToSecondTestEntityOwnedRelationshipZeroOrOne()
+    {
+        SecondTestEntityOwnedRelationshipZeroOrOne = null;
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

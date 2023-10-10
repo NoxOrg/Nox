@@ -16,34 +16,34 @@ namespace Cryptocash.Domain;
 
 internal partial class LandLord : LandLordBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for LandLord created event.
-/// </summary>
-internal record LandLordCreated(LandLord LandLord) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for LandLord updated event.
-/// </summary>
-internal record LandLordUpdated(LandLord LandLord) : IDomainEvent, INotification;
-/// <summary>
-/// Record for LandLord deleted event.
-/// </summary>
-internal record LandLordDeleted(LandLord LandLord) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for LandLord created event.
+    /// </summary>
+    internal record LandLordCreated(LandLord LandLord) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for LandLord updated event.
+    /// </summary>
+    internal record LandLordUpdated(LandLord LandLord) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for LandLord deleted event.
+    /// </summary>
+    internal record LandLordDeleted(LandLord LandLord) : IDomainEvent, INotification;
 
 /// <summary>
 /// Landlord related data.

@@ -16,34 +16,34 @@ namespace ClientApi.Domain;
 
 internal partial class Workplace : WorkplaceBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for Workplace created event.
-/// </summary>
-internal record WorkplaceCreated(Workplace Workplace) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for Workplace updated event.
-/// </summary>
-internal record WorkplaceUpdated(Workplace Workplace) : IDomainEvent, INotification;
-/// <summary>
-/// Record for Workplace deleted event.
-/// </summary>
-internal record WorkplaceDeleted(Workplace Workplace) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Workplace created event.
+    /// </summary>
+    internal record WorkplaceCreated(Workplace Workplace) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Workplace updated event.
+    /// </summary>
+    internal record WorkplaceUpdated(Workplace Workplace) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Workplace deleted event.
+    /// </summary>
+    internal record WorkplaceDeleted(Workplace Workplace) : IDomainEvent, INotification;
 
 /// <summary>
 /// Workplace.

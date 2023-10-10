@@ -55,7 +55,7 @@ internal abstract class CreateEmployeePhoneNumberForEmployeeCommandHandlerBase :
 		}
 
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
-		parentEntity.EmployeeContactPhoneNumbers.Add(entity);
+		parentEntity.CreateRefToEmployeeContactPhoneNumbers(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 

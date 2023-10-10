@@ -16,34 +16,34 @@ namespace Cryptocash.Domain;
 
 internal partial class Country : CountryBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for Country created event.
-/// </summary>
-internal record CountryCreated(Country Country) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for Country updated event.
-/// </summary>
-internal record CountryUpdated(Country Country) : IDomainEvent, INotification;
-/// <summary>
-/// Record for Country deleted event.
-/// </summary>
-internal record CountryDeleted(Country Country) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Country created event.
+    /// </summary>
+    internal record CountryCreated(Country Country) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Country updated event.
+    /// </summary>
+    internal record CountryUpdated(Country Country) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Country deleted event.
+    /// </summary>
+    internal record CountryDeleted(Country Country) : IDomainEvent, INotification;
 
 /// <summary>
 /// Country and related data.
@@ -239,12 +239,64 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     /// <summary>
     /// Country owned OneOrMany CountryTimeZones
     /// </summary>
-    public virtual List<CountryTimeZone> CountryOwnedTimeZones { get; set; } = new();
+    public virtual List<CountryTimeZone> CountryOwnedTimeZones { get; private set; } = new();
+    
+    /// <summary>
+    /// Creates a new CountryTimeZone entity.
+    /// </summary>
+    public virtual void CreateRefToCountryOwnedTimeZones(CountryTimeZone relatedCountryTimeZone)
+    {
+        CountryOwnedTimeZones.Add(relatedCountryTimeZone);
+    }
+    
+    /// <summary>
+    /// Deletes owned CountryTimeZone entity.
+    /// </summary>
+    public virtual void DeleteRefToCountryOwnedTimeZones(CountryTimeZone relatedCountryTimeZone)
+    {
+        if(CountryOwnedTimeZones.Count() < 2)
+            throw new Exception($"The relationship cannot be deleted.");
+        CountryOwnedTimeZones.Remove(relatedCountryTimeZone);
+    }
+    
+    /// <summary>
+    /// Deletes all owned CountryTimeZone entities.
+    /// </summary>
+    public virtual void DeleteAllRefToCountryOwnedTimeZones()
+    {
+        if(CountryOwnedTimeZones.Count() < 2)
+            throw new Exception($"The relationship cannot be deleted.");
+        CountryOwnedTimeZones.Clear();
+    }
 
     /// <summary>
     /// Country owned ZeroOrMany Holidays
     /// </summary>
-    public virtual List<Holiday> CountryOwnedHolidays { get; set; } = new();
+    public virtual List<Holiday> CountryOwnedHolidays { get; private set; } = new();
+    
+    /// <summary>
+    /// Creates a new Holiday entity.
+    /// </summary>
+    public virtual void CreateRefToCountryOwnedHolidays(Holiday relatedHoliday)
+    {
+        CountryOwnedHolidays.Add(relatedHoliday);
+    }
+    
+    /// <summary>
+    /// Deletes owned Holiday entity.
+    /// </summary>
+    public virtual void DeleteRefToCountryOwnedHolidays(Holiday relatedHoliday)
+    {
+        CountryOwnedHolidays.Remove(relatedHoliday);
+    }
+    
+    /// <summary>
+    /// Deletes all owned Holiday entities.
+    /// </summary>
+    public virtual void DeleteAllRefToCountryOwnedHolidays()
+    {
+        CountryOwnedHolidays.Clear();
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

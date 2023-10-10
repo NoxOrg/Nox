@@ -16,34 +16,34 @@ namespace TestWebApp.Domain;
 
 internal partial class TestEntityOwnedRelationshipOneOrMany : TestEntityOwnedRelationshipOneOrManyBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for TestEntityOwnedRelationshipOneOrMany created event.
-/// </summary>
-internal record TestEntityOwnedRelationshipOneOrManyCreated(TestEntityOwnedRelationshipOneOrMany TestEntityOwnedRelationshipOneOrMany) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for TestEntityOwnedRelationshipOneOrMany updated event.
-/// </summary>
-internal record TestEntityOwnedRelationshipOneOrManyUpdated(TestEntityOwnedRelationshipOneOrMany TestEntityOwnedRelationshipOneOrMany) : IDomainEvent, INotification;
-/// <summary>
-/// Record for TestEntityOwnedRelationshipOneOrMany deleted event.
-/// </summary>
-internal record TestEntityOwnedRelationshipOneOrManyDeleted(TestEntityOwnedRelationshipOneOrMany TestEntityOwnedRelationshipOneOrMany) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityOwnedRelationshipOneOrMany created event.
+    /// </summary>
+    internal record TestEntityOwnedRelationshipOneOrManyCreated(TestEntityOwnedRelationshipOneOrMany TestEntityOwnedRelationshipOneOrMany) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityOwnedRelationshipOneOrMany updated event.
+    /// </summary>
+    internal record TestEntityOwnedRelationshipOneOrManyUpdated(TestEntityOwnedRelationshipOneOrMany TestEntityOwnedRelationshipOneOrMany) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityOwnedRelationshipOneOrMany deleted event.
+    /// </summary>
+    internal record TestEntityOwnedRelationshipOneOrManyDeleted(TestEntityOwnedRelationshipOneOrMany TestEntityOwnedRelationshipOneOrMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// .
@@ -90,7 +90,35 @@ internal abstract partial class TestEntityOwnedRelationshipOneOrManyBase : Audit
     /// <summary>
     /// TestEntityOwnedRelationshipOneOrMany Test entity relationship to SecondTestEntityOwnedRelationshipOneOrMany OneOrMany SecondTestEntityOwnedRelationshipOneOrManies
     /// </summary>
-    public virtual List<SecondTestEntityOwnedRelationshipOneOrMany> SecondTestEntityOwnedRelationshipOneOrMany { get; set; } = new();
+    public virtual List<SecondTestEntityOwnedRelationshipOneOrMany> SecondTestEntityOwnedRelationshipOneOrMany { get; private set; } = new();
+    
+    /// <summary>
+    /// Creates a new SecondTestEntityOwnedRelationshipOneOrMany entity.
+    /// </summary>
+    public virtual void CreateRefToSecondTestEntityOwnedRelationshipOneOrMany(SecondTestEntityOwnedRelationshipOneOrMany relatedSecondTestEntityOwnedRelationshipOneOrMany)
+    {
+        SecondTestEntityOwnedRelationshipOneOrMany.Add(relatedSecondTestEntityOwnedRelationshipOneOrMany);
+    }
+    
+    /// <summary>
+    /// Deletes owned SecondTestEntityOwnedRelationshipOneOrMany entity.
+    /// </summary>
+    public virtual void DeleteRefToSecondTestEntityOwnedRelationshipOneOrMany(SecondTestEntityOwnedRelationshipOneOrMany relatedSecondTestEntityOwnedRelationshipOneOrMany)
+    {
+        if(SecondTestEntityOwnedRelationshipOneOrMany.Count() < 2)
+            throw new Exception($"The relationship cannot be deleted.");
+        SecondTestEntityOwnedRelationshipOneOrMany.Remove(relatedSecondTestEntityOwnedRelationshipOneOrMany);
+    }
+    
+    /// <summary>
+    /// Deletes all owned SecondTestEntityOwnedRelationshipOneOrMany entities.
+    /// </summary>
+    public virtual void DeleteAllRefToSecondTestEntityOwnedRelationshipOneOrMany()
+    {
+        if(SecondTestEntityOwnedRelationshipOneOrMany.Count() < 2)
+            throw new Exception($"The relationship cannot be deleted.");
+        SecondTestEntityOwnedRelationshipOneOrMany.Clear();
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

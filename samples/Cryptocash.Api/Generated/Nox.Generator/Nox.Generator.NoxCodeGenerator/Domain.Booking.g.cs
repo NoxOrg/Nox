@@ -16,34 +16,34 @@ namespace Cryptocash.Domain;
 
 internal partial class Booking : BookingBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for Booking created event.
-/// </summary>
-internal record BookingCreated(Booking Booking) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for Booking updated event.
-/// </summary>
-internal record BookingUpdated(Booking Booking) : IDomainEvent, INotification;
-/// <summary>
-/// Record for Booking deleted event.
-/// </summary>
-internal record BookingDeleted(Booking Booking) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Booking created event.
+    /// </summary>
+    internal record BookingCreated(Booking Booking) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Booking updated event.
+    /// </summary>
+    internal record BookingUpdated(Booking Booking) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Booking deleted event.
+    /// </summary>
+    internal record BookingDeleted(Booking Booking) : IDomainEvent, INotification;
 
 /// <summary>
 /// Exchange booking and related data.

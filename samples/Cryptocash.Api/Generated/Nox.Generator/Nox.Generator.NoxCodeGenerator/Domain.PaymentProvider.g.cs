@@ -16,34 +16,34 @@ namespace Cryptocash.Domain;
 
 internal partial class PaymentProvider : PaymentProviderBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for PaymentProvider created event.
-/// </summary>
-internal record PaymentProviderCreated(PaymentProvider PaymentProvider) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for PaymentProvider updated event.
-/// </summary>
-internal record PaymentProviderUpdated(PaymentProvider PaymentProvider) : IDomainEvent, INotification;
-/// <summary>
-/// Record for PaymentProvider deleted event.
-/// </summary>
-internal record PaymentProviderDeleted(PaymentProvider PaymentProvider) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for PaymentProvider created event.
+    /// </summary>
+    internal record PaymentProviderCreated(PaymentProvider PaymentProvider) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for PaymentProvider updated event.
+    /// </summary>
+    internal record PaymentProviderUpdated(PaymentProvider PaymentProvider) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for PaymentProvider deleted event.
+    /// </summary>
+    internal record PaymentProviderDeleted(PaymentProvider PaymentProvider) : IDomainEvent, INotification;
 
 /// <summary>
 /// Payment provider related data.

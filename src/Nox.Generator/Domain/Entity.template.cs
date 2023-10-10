@@ -28,21 +28,21 @@ namespace {{codeGeneratorState.DomainNameSpace}};
 internal partial class {{className}} : {{className}}Base{{if entity.HasDomainEvents}}, IEntityHaveDomainEvents{{end}}
 {
 {{- if entity.HasDomainEvents}}
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 {{- end}}
 }
 
@@ -143,39 +143,39 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
 {{-if entity.HasDomainEvents}}
 
 	{{- pascalEntityName = entity.Name | pascalCaseToCamelCase }}
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent({{entity.Name}} {{pascalEntityName}})
-	{
+    protected virtual void InternalRaiseCreateEvent({{entity.Name}} {{pascalEntityName}})
+    {
 	{{- if entity.Persistence.Create.RaiseEvents }}
-		InternalDomainEvents.Add(new {{entity.Name}}Created({{pascalEntityName}}));     
+        InternalDomainEvents.Add(new {{entity.Name}}Created({{pascalEntityName}}));     
 	{{- end }}
-	}
+    }
 	
-	protected virtual void InternalRaiseUpdateEvent({{entity.Name}} {{pascalEntityName}})
-	{
+    protected virtual void InternalRaiseUpdateEvent({{entity.Name}} {{pascalEntityName}})
+    {
 	{{- if entity.Persistence.Update.RaiseEvents }}
-		InternalDomainEvents.Add(new {{entity.Name}}Updated({{pascalEntityName}}));
+        InternalDomainEvents.Add(new {{entity.Name}}Updated({{pascalEntityName}}));
     {{- end }}
-	}
+    }
 	
-	protected virtual void InternalRaiseDeleteEvent({{entity.Name}} {{pascalEntityName}})
-	{
+    protected virtual void InternalRaiseDeleteEvent({{entity.Name}} {{pascalEntityName}})
+    {
 	{{- if entity.Persistence.Delete.RaiseEvents }}
-		InternalDomainEvents.Add(new {{entity.Name}}Deleted({{pascalEntityName}})); 
+        InternalDomainEvents.Add(new {{entity.Name}}Deleted({{pascalEntityName}})); 
 	{{- end }}
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 {{- end}}
 {{- ######################################### Relationships ###################################################### -}}
 {{- for relationship in entity.Relationships }}
@@ -256,26 +256,26 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
 
 {{- for relationship in entity.OwnedRelationships }}
 
-	/// <summary>
-	/// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} owned {{relationship.EntityPlural}}
-	/// </summary>
-	{{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-	public virtual List<{{relationship.Entity}}> {{relationship.Name}} { get; private set; } = new();
+    /// <summary>
+    /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
+    /// </summary>
+    {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
+    public virtual List<{{relationship.Entity}}> {{relationship.Name}} { get; private set; } = new();
 	{{- else}}
-	public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}} { get; private set; }{{if relationship.Relationship == "ExactlyOne"}} = null!;{{end}}
+    public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}} { get; private set; }{{if relationship.Relationship == "ExactlyOne"}} = null!;{{end}}
     {{- if relationship.ShouldGenerateForeignOnThisSide && (relationship.Related.Entity.Keys | array.size) > 0 }}
 
     /// <summary>
-    /// Foreign key for relationship {{relationship.Relationship}} to owned entity {{relationship.Entity}}
+    /// Foreign key for relationship {{relationship.Relationship}} to entity {{relationship.Entity}}
     /// </summary>
     public Nox.Types.{{relationship.Related.Entity.Keys[0].Type}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}}Id { get; set; } = null!;
     {{- end}}
 
     {{- end }}
     
-	/// <summary>
-	/// Creates a new {{relationship.Entity}} entity.
-	/// </summary>
+    /// <summary>
+    /// Creates a new {{relationship.Entity}} entity.
+    /// </summary>
     public virtual void CreateRefTo{{relationship.Name}}({{relationship.Entity}} related{{relationship.Entity}})
     {
         {{- if relationship.WithSingleEntity }}

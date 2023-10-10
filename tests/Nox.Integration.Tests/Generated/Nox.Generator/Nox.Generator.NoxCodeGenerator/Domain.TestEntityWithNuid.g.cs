@@ -16,34 +16,34 @@ namespace TestWebApp.Domain;
 
 internal partial class TestEntityWithNuid : TestEntityWithNuidBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for TestEntityWithNuid created event.
-/// </summary>
-internal record TestEntityWithNuidCreated(TestEntityWithNuid TestEntityWithNuid) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for TestEntityWithNuid updated event.
-/// </summary>
-internal record TestEntityWithNuidUpdated(TestEntityWithNuid TestEntityWithNuid) : IDomainEvent, INotification;
-/// <summary>
-/// Record for TestEntityWithNuid deleted event.
-/// </summary>
-internal record TestEntityWithNuidDeleted(TestEntityWithNuid TestEntityWithNuid) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityWithNuid created event.
+    /// </summary>
+    internal record TestEntityWithNuidCreated(TestEntityWithNuid TestEntityWithNuid) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityWithNuid updated event.
+    /// </summary>
+    internal record TestEntityWithNuidUpdated(TestEntityWithNuid TestEntityWithNuid) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityWithNuid deleted event.
+    /// </summary>
+    internal record TestEntityWithNuidDeleted(TestEntityWithNuid TestEntityWithNuid) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing nuid.

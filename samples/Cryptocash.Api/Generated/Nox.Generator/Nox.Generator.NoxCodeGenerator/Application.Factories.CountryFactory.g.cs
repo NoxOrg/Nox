@@ -70,8 +70,8 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         if (createDto.GoogleMapsUrl is not null)entity.GoogleMapsUrl = Cryptocash.Domain.CountryMetadata.CreateGoogleMapsUrl(createDto.GoogleMapsUrl.NonNullValue<System.String>());
         if (createDto.OpenStreetMapsUrl is not null)entity.OpenStreetMapsUrl = Cryptocash.Domain.CountryMetadata.CreateOpenStreetMapsUrl(createDto.OpenStreetMapsUrl.NonNullValue<System.String>());
         entity.StartOfWeek = Cryptocash.Domain.CountryMetadata.CreateStartOfWeek(createDto.StartOfWeek);
-        entity.CountryOwnedTimeZones = createDto.CountryOwnedTimeZones.Select(dto => CountryTimeZoneFactory.CreateEntity(dto)).ToList();
-        entity.CountryOwnedHolidays = createDto.CountryOwnedHolidays.Select(dto => HolidayFactory.CreateEntity(dto)).ToList();
+        createDto.CountryOwnedTimeZones.ForEach(dto => entity.CreateRefToCountryOwnedTimeZones(CountryTimeZoneFactory.CreateEntity(dto)));
+        createDto.CountryOwnedHolidays.ForEach(dto => entity.CreateRefToCountryOwnedHolidays(HolidayFactory.CreateEntity(dto)));
         return entity;
     }
 

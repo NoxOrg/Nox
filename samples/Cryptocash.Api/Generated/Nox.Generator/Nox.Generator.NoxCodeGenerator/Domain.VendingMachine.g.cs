@@ -16,34 +16,34 @@ namespace Cryptocash.Domain;
 
 internal partial class VendingMachine : VendingMachineBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for VendingMachine created event.
-/// </summary>
-internal record VendingMachineCreated(VendingMachine VendingMachine) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for VendingMachine updated event.
-/// </summary>
-internal record VendingMachineUpdated(VendingMachine VendingMachine) : IDomainEvent, INotification;
-/// <summary>
-/// Record for VendingMachine deleted event.
-/// </summary>
-internal record VendingMachineDeleted(VendingMachine VendingMachine) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for VendingMachine created event.
+    /// </summary>
+    internal record VendingMachineCreated(VendingMachine VendingMachine) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for VendingMachine updated event.
+    /// </summary>
+    internal record VendingMachineUpdated(VendingMachine VendingMachine) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for VendingMachine deleted event.
+    /// </summary>
+    internal record VendingMachineDeleted(VendingMachine VendingMachine) : IDomainEvent, INotification;
 
 /// <summary>
 /// Vending machine definition and related data.

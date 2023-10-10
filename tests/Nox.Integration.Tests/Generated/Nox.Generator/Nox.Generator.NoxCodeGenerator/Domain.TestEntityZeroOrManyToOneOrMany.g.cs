@@ -16,34 +16,34 @@ namespace TestWebApp.Domain;
 
 internal partial class TestEntityZeroOrManyToOneOrMany : TestEntityZeroOrManyToOneOrManyBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for TestEntityZeroOrManyToOneOrMany created event.
-/// </summary>
-internal record TestEntityZeroOrManyToOneOrManyCreated(TestEntityZeroOrManyToOneOrMany TestEntityZeroOrManyToOneOrMany) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for TestEntityZeroOrManyToOneOrMany updated event.
-/// </summary>
-internal record TestEntityZeroOrManyToOneOrManyUpdated(TestEntityZeroOrManyToOneOrMany TestEntityZeroOrManyToOneOrMany) : IDomainEvent, INotification;
-/// <summary>
-/// Record for TestEntityZeroOrManyToOneOrMany deleted event.
-/// </summary>
-internal record TestEntityZeroOrManyToOneOrManyDeleted(TestEntityZeroOrManyToOneOrMany TestEntityZeroOrManyToOneOrMany) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityZeroOrManyToOneOrMany created event.
+    /// </summary>
+    internal record TestEntityZeroOrManyToOneOrManyCreated(TestEntityZeroOrManyToOneOrMany TestEntityZeroOrManyToOneOrMany) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityZeroOrManyToOneOrMany updated event.
+    /// </summary>
+    internal record TestEntityZeroOrManyToOneOrManyUpdated(TestEntityZeroOrManyToOneOrMany TestEntityZeroOrManyToOneOrMany) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityZeroOrManyToOneOrMany deleted event.
+    /// </summary>
+    internal record TestEntityZeroOrManyToOneOrManyDeleted(TestEntityZeroOrManyToOneOrMany TestEntityZeroOrManyToOneOrMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// .

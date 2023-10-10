@@ -16,34 +16,34 @@ namespace TestWebApp.Domain;
 
 internal partial class TestEntityExactlyOneToOneOrMany : TestEntityExactlyOneToOneOrManyBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for TestEntityExactlyOneToOneOrMany created event.
-/// </summary>
-internal record TestEntityExactlyOneToOneOrManyCreated(TestEntityExactlyOneToOneOrMany TestEntityExactlyOneToOneOrMany) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for TestEntityExactlyOneToOneOrMany updated event.
-/// </summary>
-internal record TestEntityExactlyOneToOneOrManyUpdated(TestEntityExactlyOneToOneOrMany TestEntityExactlyOneToOneOrMany) : IDomainEvent, INotification;
-/// <summary>
-/// Record for TestEntityExactlyOneToOneOrMany deleted event.
-/// </summary>
-internal record TestEntityExactlyOneToOneOrManyDeleted(TestEntityExactlyOneToOneOrMany TestEntityExactlyOneToOneOrMany) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityExactlyOneToOneOrMany created event.
+    /// </summary>
+    internal record TestEntityExactlyOneToOneOrManyCreated(TestEntityExactlyOneToOneOrMany TestEntityExactlyOneToOneOrMany) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityExactlyOneToOneOrMany updated event.
+    /// </summary>
+    internal record TestEntityExactlyOneToOneOrManyUpdated(TestEntityExactlyOneToOneOrMany TestEntityExactlyOneToOneOrMany) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityExactlyOneToOneOrMany deleted event.
+    /// </summary>
+    internal record TestEntityExactlyOneToOneOrManyDeleted(TestEntityExactlyOneToOneOrMany TestEntityExactlyOneToOneOrMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing database.

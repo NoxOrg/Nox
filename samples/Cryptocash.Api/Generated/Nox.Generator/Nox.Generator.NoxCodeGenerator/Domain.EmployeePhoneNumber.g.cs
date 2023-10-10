@@ -16,34 +16,34 @@ namespace Cryptocash.Domain;
 
 internal partial class EmployeePhoneNumber : EmployeePhoneNumberBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for EmployeePhoneNumber created event.
-/// </summary>
-internal record EmployeePhoneNumberCreated(EmployeePhoneNumber EmployeePhoneNumber) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for EmployeePhoneNumber updated event.
-/// </summary>
-internal record EmployeePhoneNumberUpdated(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent, INotification;
-/// <summary>
-/// Record for EmployeePhoneNumber deleted event.
-/// </summary>
-internal record EmployeePhoneNumberDeleted(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for EmployeePhoneNumber created event.
+    /// </summary>
+    internal record EmployeePhoneNumberCreated(EmployeePhoneNumber EmployeePhoneNumber) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for EmployeePhoneNumber updated event.
+    /// </summary>
+    internal record EmployeePhoneNumberUpdated(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for EmployeePhoneNumber deleted event.
+    /// </summary>
+    internal record EmployeePhoneNumberDeleted(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent, INotification;
 
 /// <summary>
 /// Employee phone number and related data.

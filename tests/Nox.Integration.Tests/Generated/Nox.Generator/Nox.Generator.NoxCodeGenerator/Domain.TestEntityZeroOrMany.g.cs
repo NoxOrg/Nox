@@ -16,34 +16,34 @@ namespace TestWebApp.Domain;
 
 internal partial class TestEntityZeroOrMany : TestEntityZeroOrManyBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for TestEntityZeroOrMany created event.
-/// </summary>
-internal record TestEntityZeroOrManyCreated(TestEntityZeroOrMany TestEntityZeroOrMany) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for TestEntityZeroOrMany updated event.
-/// </summary>
-internal record TestEntityZeroOrManyUpdated(TestEntityZeroOrMany TestEntityZeroOrMany) : IDomainEvent, INotification;
-/// <summary>
-/// Record for TestEntityZeroOrMany deleted event.
-/// </summary>
-internal record TestEntityZeroOrManyDeleted(TestEntityZeroOrMany TestEntityZeroOrMany) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityZeroOrMany created event.
+    /// </summary>
+    internal record TestEntityZeroOrManyCreated(TestEntityZeroOrMany TestEntityZeroOrMany) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityZeroOrMany updated event.
+    /// </summary>
+    internal record TestEntityZeroOrManyUpdated(TestEntityZeroOrMany TestEntityZeroOrMany) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityZeroOrMany deleted event.
+    /// </summary>
+    internal record TestEntityZeroOrManyDeleted(TestEntityZeroOrMany TestEntityZeroOrMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing database.

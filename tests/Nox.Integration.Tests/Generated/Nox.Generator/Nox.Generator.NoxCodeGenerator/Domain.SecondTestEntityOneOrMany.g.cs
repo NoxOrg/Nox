@@ -16,34 +16,34 @@ namespace TestWebApp.Domain;
 
 internal partial class SecondTestEntityOneOrMany : SecondTestEntityOneOrManyBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for SecondTestEntityOneOrMany created event.
-/// </summary>
-internal record SecondTestEntityOneOrManyCreated(SecondTestEntityOneOrMany SecondTestEntityOneOrMany) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for SecondTestEntityOneOrMany updated event.
-/// </summary>
-internal record SecondTestEntityOneOrManyUpdated(SecondTestEntityOneOrMany SecondTestEntityOneOrMany) : IDomainEvent, INotification;
-/// <summary>
-/// Record for SecondTestEntityOneOrMany deleted event.
-/// </summary>
-internal record SecondTestEntityOneOrManyDeleted(SecondTestEntityOneOrMany SecondTestEntityOneOrMany) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for SecondTestEntityOneOrMany created event.
+    /// </summary>
+    internal record SecondTestEntityOneOrManyCreated(SecondTestEntityOneOrMany SecondTestEntityOneOrMany) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for SecondTestEntityOneOrMany updated event.
+    /// </summary>
+    internal record SecondTestEntityOneOrManyUpdated(SecondTestEntityOneOrMany SecondTestEntityOneOrMany) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for SecondTestEntityOneOrMany deleted event.
+    /// </summary>
+    internal record SecondTestEntityOneOrManyDeleted(SecondTestEntityOneOrMany SecondTestEntityOneOrMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// .

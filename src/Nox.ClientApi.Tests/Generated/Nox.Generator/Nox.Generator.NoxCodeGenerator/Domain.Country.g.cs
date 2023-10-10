@@ -16,34 +16,34 @@ namespace ClientApi.Domain;
 
 internal partial class Country : CountryBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for Country created event.
-/// </summary>
-internal record CountryCreated(Country Country) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for Country updated event.
-/// </summary>
-internal record CountryUpdated(Country Country) : IDomainEvent, INotification;
-/// <summary>
-/// Record for Country deleted event.
-/// </summary>
-internal record CountryDeleted(Country Country) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Country created event.
+    /// </summary>
+    internal record CountryCreated(Country Country) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Country updated event.
+    /// </summary>
+    internal record CountryUpdated(Country Country) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for Country deleted event.
+    /// </summary>
+    internal record CountryDeleted(Country Country) : IDomainEvent, INotification;
 
 /// <summary>
 /// Country Entity.
@@ -154,12 +154,60 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
-    public virtual List<CountryLocalName> CountryShortNames { get; set; } = new();
+    public virtual List<CountryLocalName> CountryShortNames { get; private set; } = new();
+    
+    /// <summary>
+    /// Creates a new CountryLocalName entity.
+    /// </summary>
+    public virtual void CreateRefToCountryShortNames(CountryLocalName relatedCountryLocalName)
+    {
+        CountryShortNames.Add(relatedCountryLocalName);
+    }
+    
+    /// <summary>
+    /// Deletes owned CountryLocalName entity.
+    /// </summary>
+    public virtual void DeleteRefToCountryShortNames(CountryLocalName relatedCountryLocalName)
+    {
+        CountryShortNames.Remove(relatedCountryLocalName);
+    }
+    
+    /// <summary>
+    /// Deletes all owned CountryLocalName entities.
+    /// </summary>
+    public virtual void DeleteAllRefToCountryShortNames()
+    {
+        CountryShortNames.Clear();
+    }
 
     /// <summary>
     /// Country is also coded as ZeroOrOne CountryBarCodes
     /// </summary>
-     public virtual CountryBarCode? CountryBarCode { get; set; } = null!;
+    public virtual CountryBarCode? CountryBarCode { get; private set; }
+    
+    /// <summary>
+    /// Creates a new CountryBarCode entity.
+    /// </summary>
+    public virtual void CreateRefToCountryBarCode(CountryBarCode relatedCountryBarCode)
+    {
+        CountryBarCode = relatedCountryBarCode;
+    }
+    
+    /// <summary>
+    /// Deletes owned CountryBarCode entity.
+    /// </summary>
+    public virtual void DeleteRefToCountryBarCode(CountryBarCode relatedCountryBarCode)
+    {
+        CountryBarCode = null;
+    }
+    
+    /// <summary>
+    /// Deletes all owned CountryBarCode entities.
+    /// </summary>
+    public virtual void DeleteAllRefToCountryBarCode()
+    {
+        CountryBarCode = null;
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

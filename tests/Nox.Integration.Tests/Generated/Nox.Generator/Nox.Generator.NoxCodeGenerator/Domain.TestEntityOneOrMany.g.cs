@@ -16,34 +16,34 @@ namespace TestWebApp.Domain;
 
 internal partial class TestEntityOneOrMany : TestEntityOneOrManyBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for TestEntityOneOrMany created event.
-/// </summary>
-internal record TestEntityOneOrManyCreated(TestEntityOneOrMany TestEntityOneOrMany) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for TestEntityOneOrMany updated event.
-/// </summary>
-internal record TestEntityOneOrManyUpdated(TestEntityOneOrMany TestEntityOneOrMany) : IDomainEvent, INotification;
-/// <summary>
-/// Record for TestEntityOneOrMany deleted event.
-/// </summary>
-internal record TestEntityOneOrManyDeleted(TestEntityOneOrMany TestEntityOneOrMany) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityOneOrMany created event.
+    /// </summary>
+    internal record TestEntityOneOrManyCreated(TestEntityOneOrMany TestEntityOneOrMany) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityOneOrMany updated event.
+    /// </summary>
+    internal record TestEntityOneOrManyUpdated(TestEntityOneOrMany TestEntityOneOrMany) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for TestEntityOneOrMany deleted event.
+    /// </summary>
+    internal record TestEntityOneOrManyDeleted(TestEntityOneOrMany TestEntityOneOrMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing database.

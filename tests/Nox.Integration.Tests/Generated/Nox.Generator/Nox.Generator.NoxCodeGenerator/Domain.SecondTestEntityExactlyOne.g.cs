@@ -16,34 +16,34 @@ namespace TestWebApp.Domain;
 
 internal partial class SecondTestEntityExactlyOne : SecondTestEntityExactlyOneBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for SecondTestEntityExactlyOne created event.
-/// </summary>
-internal record SecondTestEntityExactlyOneCreated(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for SecondTestEntityExactlyOne updated event.
-/// </summary>
-internal record SecondTestEntityExactlyOneUpdated(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) : IDomainEvent, INotification;
-/// <summary>
-/// Record for SecondTestEntityExactlyOne deleted event.
-/// </summary>
-internal record SecondTestEntityExactlyOneDeleted(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for SecondTestEntityExactlyOne created event.
+    /// </summary>
+    internal record SecondTestEntityExactlyOneCreated(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for SecondTestEntityExactlyOne updated event.
+    /// </summary>
+    internal record SecondTestEntityExactlyOneUpdated(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for SecondTestEntityExactlyOne deleted event.
+    /// </summary>
+    internal record SecondTestEntityExactlyOneDeleted(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// .

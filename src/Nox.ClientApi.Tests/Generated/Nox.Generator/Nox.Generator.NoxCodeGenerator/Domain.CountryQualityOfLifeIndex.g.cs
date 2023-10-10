@@ -16,34 +16,34 @@ namespace ClientApi.Domain;
 
 internal partial class CountryQualityOfLifeIndex : CountryQualityOfLifeIndexBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
-/// <summary>
-/// Record for CountryQualityOfLifeIndex created event.
-/// </summary>
-internal record CountryQualityOfLifeIndexCreated(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) :  IDomainEvent, INotification;
-/// <summary>
-/// Record for CountryQualityOfLifeIndex updated event.
-/// </summary>
-internal record CountryQualityOfLifeIndexUpdated(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) : IDomainEvent, INotification;
-/// <summary>
-/// Record for CountryQualityOfLifeIndex deleted event.
-/// </summary>
-internal record CountryQualityOfLifeIndexDeleted(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for CountryQualityOfLifeIndex created event.
+    /// </summary>
+    internal record CountryQualityOfLifeIndexCreated(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) :  IDomainEvent, INotification;
+    /// <summary>
+    /// Record for CountryQualityOfLifeIndex updated event.
+    /// </summary>
+    internal record CountryQualityOfLifeIndexUpdated(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) : IDomainEvent, INotification;
+    /// <summary>
+    /// Record for CountryQualityOfLifeIndex deleted event.
+    /// </summary>
+    internal record CountryQualityOfLifeIndexDeleted(CountryQualityOfLifeIndex CountryQualityOfLifeIndex) : IDomainEvent, INotification;
 
 /// <summary>
 /// Country Quality Of Life Index.

@@ -54,7 +54,7 @@ internal partial class DeleteEmailAddressForStoreCommandHandlerBase : CommandBas
 			return false;
 		}
 
-		parentEntity.VerifiedEmails = null!;
+		parentEntity.DeleteRefToVerifiedEmails(entity);
 
 		await OnCompletedAsync(request, entity);
 
