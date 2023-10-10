@@ -2,12 +2,12 @@
 
 namespace Cryptocash.Ui.Generated.Component
 {
-    public class UiDisplayMacAddressBase : ComponentBase
+    public class UiViewIpAddressBase : ComponentBase
     {
         #region Declarations
 
         [Parameter]
-        public string MacAddress { get; set; }  
+        public string IpAddress { get; set; }  
 
         #endregion
     }

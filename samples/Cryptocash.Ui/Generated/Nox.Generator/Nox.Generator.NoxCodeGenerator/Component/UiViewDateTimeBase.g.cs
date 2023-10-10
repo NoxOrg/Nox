@@ -2,12 +2,12 @@
 
 namespace Cryptocash.Ui.Generated.Component
 {
-    public class UiDisplayTextBase : ComponentBase
+    public class UiViewDateTimeBase : ComponentBase
     {
         #region Declarations
 
         [Parameter]
-        public string Text { get; set; }  
+        public DateTime DateTime { get; set; }  
 
         #endregion
     }

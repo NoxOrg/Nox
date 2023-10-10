@@ -1,12 +1,12 @@
 ﻿@using Cryptocash.Ui.Generated.Component;
-@inherits UiInputIpAddressBase
+@inherits UiEditMoneyBase
 
-<MudTextField Label="@Title"
+<MudNumericField Label="@Title"
               Variant="Variant.Outlined"
               FullWidth="true"
               Clearable="true"
-              Required="true"
+              Required="false"
               RequiredError="@ErrorRequiredMessage"              
               MaxLength="63"
-              TextChanged="OnIpAddressChanged"
-              Value="IpAddress" />
+              TextChanged="OnMoneyChanged"
+              Value="Amount" />

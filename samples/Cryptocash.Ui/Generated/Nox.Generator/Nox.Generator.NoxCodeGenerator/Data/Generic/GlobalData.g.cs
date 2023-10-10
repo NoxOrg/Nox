@@ -2,6 +2,8 @@ namespace Cryptocash.Ui.Generated.Data.Generic
 {
     using System;
 
+    #nullable enable
+
     /// <summary>
     /// Class to handle Global Data across app parent and child components
     /// </summary>
