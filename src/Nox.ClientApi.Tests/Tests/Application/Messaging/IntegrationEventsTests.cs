@@ -1,12 +1,12 @@
-﻿using FluentAssertions;
+﻿using AutoFixture;
 using ClientApi.Application.Dto;
-using AutoFixture;
-using Nox.Types;
-using Xunit.Abstractions;
-using ClientApi.Application.IntegrationEvents.StoreOwner;
 using ClientApi.Application.IntegrationEvents;
+using ClientApi.Application.IntegrationEvents.StoreOwner;
+using FluentAssertions;
 using MassTransit.Testing;
 using Nox.Messaging;
+using Nox.Types;
+using Xunit.Abstractions;
 
 namespace ClientApi.Tests.Application.Messaging
 {
