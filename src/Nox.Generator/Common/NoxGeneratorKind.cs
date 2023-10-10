@@ -6,5 +6,6 @@ internal enum NoxGeneratorKind
     Domain,
     Infrastructure,
     Presentation,
-    Application
+    Application,
+    Ui
 }

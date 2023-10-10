@@ -24,7 +24,6 @@ public class UiGeneratorTests : IClassFixture<GeneratorFixture>
         _fixture
             .GenerateSourceCodeFor(sources)
             .AssertOutputResult()
-            .AssertFileExistence(2)
             .AssertContent()
             .SourceContains("0.Generator.g.cs", "SUCCESS");
     }

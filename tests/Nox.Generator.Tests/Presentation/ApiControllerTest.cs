@@ -36,7 +36,7 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
         var contentCheckerFlow = _fixture
             .GenerateSourceCodeFor(sources)
             .AssertOutputResult()
-            .AssertFileExistence(54, filesShouldExist)
+            .AssertFileExistence(58, filesShouldExist)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles");
 
