@@ -1,8 +1,11 @@
-﻿namespace Nox.Exceptions;
+﻿using System.Net;
+using Nox.Types;
 
-public class RelatedEntityNotFoundException : Exception
+namespace Nox.Exceptions;
+
+public class RelatedEntityNotFoundException : Exception, INoxHttpException
 {
-    public RelatedEntityNotFoundException(string relatedEntityName, string relatedEntityId) 
+    public RelatedEntityNotFoundException(string relatedEntityName, string relatedEntityId)
         : this($"{relatedEntityName} with Id {relatedEntityId} was not found")
     {
     }
@@ -16,4 +19,6 @@ public class RelatedEntityNotFoundException : Exception
         : base(message, inner)
     {
     }
+
+    public HttpStatusCode StatusCode { get; } = HttpStatusCode.BadRequest;
 }

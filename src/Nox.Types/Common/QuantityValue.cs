@@ -125,8 +125,8 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
 
     #region To Numeric types
 
-    /// <summary>Explicit cast from <see cref="QuantityValue"/> to <see cref="double"/>.</summary>
-    public static explicit operator double(QuantityValue number)
+    /// <summary>Implicit cast from <see cref="QuantityValue"/> to <see cref="double"/>.</summary>
+    public static implicit operator double(QuantityValue number)
         => number.Type switch
         {
             UnderlyingDataType.Decimal => (double)number._decimalValue,
@@ -134,8 +134,8 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
             _ => throw new NotImplementedException()
         };
 
-    /// <summary>Explicit cast from <see cref="QuantityValue"/> to <see cref="decimal"/>.</summary>
-    public static explicit operator decimal(QuantityValue number)
+    /// <summary>Implicit cast from <see cref="QuantityValue"/> to <see cref="decimal"/>.</summary>
+    public static implicit operator decimal(QuantityValue number)
         => number.Type switch
         {
             UnderlyingDataType.Decimal => number._decimalValue,
@@ -143,8 +143,8 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
             _ => throw new NotImplementedException()
         };
 
-    /// <summary>Explicit cast from <see cref="QuantityValue"/> to <see cref="long"/>.</summary>
-    public static explicit operator long(QuantityValue number)
+    /// <summary>Implicit cast from <see cref="QuantityValue"/> to <see cref="long"/>.</summary>
+    public static implicit operator long(QuantityValue number)
         => number.Type switch
         {
             UnderlyingDataType.Decimal => (long)number._decimalValue,
@@ -152,8 +152,8 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
             _ => throw new NotImplementedException()
         };
 
-    /// <summary>Explicit cast from <see cref="QuantityValue"/> to <see cref="int"/>.</summary>
-    public static explicit operator int(QuantityValue number)
+    /// <summary>Implicit cast from <see cref="QuantityValue"/> to <see cref="int"/>.</summary>
+    public static implicit operator int(QuantityValue number)
         => number.Type switch
         {
             UnderlyingDataType.Decimal => (int)number._decimalValue,
@@ -161,8 +161,8 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
             _ => throw new NotImplementedException()
         };
 
-    /// <summary>Explicit cast from <see cref="QuantityValue"/> to <see cref="short"/>.</summary>
-    public static explicit operator short(QuantityValue number)
+    /// <summary>Implicit cast from <see cref="QuantityValue"/> to <see cref="short"/>.</summary>
+    public static implicit operator short(QuantityValue number)
         => number.Type switch
         {
             UnderlyingDataType.Decimal => (short)number._decimalValue,
@@ -170,8 +170,8 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
             _ => throw new NotImplementedException()
         };
 
-    /// <summary>Explicit cast from <see cref="QuantityValue"/> to <see cref="byte"/>.</summary>
-    public static explicit operator byte(QuantityValue number)
+    /// <summary>Implicit cast from <see cref="QuantityValue"/> to <see cref="byte"/>.</summary>
+    public static implicit operator byte(QuantityValue number)
         => number.Type switch
         {
             UnderlyingDataType.Decimal => (byte)number._decimalValue,

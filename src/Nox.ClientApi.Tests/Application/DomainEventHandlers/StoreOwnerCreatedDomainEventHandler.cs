@@ -4,9 +4,9 @@ using Nox.Types;
 
 namespace ClientApi.Application.DomainEventHandlers;
 
-internal class StoreOwnerCreatedDomainEventHandler: INotificationHandler<StoreOwnerCreated>
+internal partial class StoreOwnerCreatedDomainEventHandler
 {
-    public Task Handle(StoreOwnerCreated notification, CancellationToken cancellationToken)
+    public override Task Handle(StoreOwnerCreated notification, CancellationToken cancellationToken)
     {
        if(string.IsNullOrWhiteSpace(notification.StoreOwner.Notes?.Value))
        {

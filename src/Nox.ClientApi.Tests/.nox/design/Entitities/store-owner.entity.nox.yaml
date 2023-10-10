@@ -61,3 +61,9 @@ relationships:
       description: Set of stores that this owner owns
       relationship: zeroOrMany
       entity: Store
+
+persistence: 
+    isAudited: true
+    create:
+      isEnabled: true
+      raiseEvents: domainAndIntegrationEvents

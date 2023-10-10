@@ -101,12 +101,12 @@ persistence:
     isAudited: true    
     create:
         isEnabled: true
-        raiseEvents: domainEventsOnly
+        raiseEvents: domainAndIntegrationEvents
     read:
         isEnabled: true
     update:
         isEnabled: true
-        raiseEvents: domainEventsOnly
+        raiseEvents: domainAndIntegrationEvents
     delete:
         isEnabled: true
-        raiseEvents: domainEventsOnly
+        raiseEvents: domainAndIntegrationEvents

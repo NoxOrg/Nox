@@ -44,6 +44,9 @@ public class EntityCreateSettings
 
     [YamlIgnore]
     public bool RaiseDomainEvents => RaiseEvents == RaiseEventsType.DomainEventsOnly || RaiseEvents == RaiseEventsType.DomainAndIntegrationEvents;
+
+    [YamlIgnore]
+    public bool RaiseIntegrationEvents => RaiseEvents == RaiseEventsType.DomainAndIntegrationEvents;
 }
 
 [Title("Specifies persistence behaviour related to reading the entity.")]
@@ -64,6 +67,9 @@ public class EntityUpdateSettings
 
     [YamlIgnore]
     public bool RaiseDomainEvents => RaiseEvents == RaiseEventsType.DomainEventsOnly || RaiseEvents == RaiseEventsType.DomainAndIntegrationEvents;
+
+    [YamlIgnore]
+    public bool RaiseIntegrationEvents => RaiseEvents == RaiseEventsType.DomainAndIntegrationEvents;
 }
 
 [Title("Specifies persistence behaviour related to deleting the entity.")]
@@ -76,4 +82,7 @@ public class EntityDeleteSettings
 
     [YamlIgnore]
     public bool RaiseDomainEvents => RaiseEvents == RaiseEventsType.DomainEventsOnly || RaiseEvents == RaiseEventsType.DomainAndIntegrationEvents;
+
+    [YamlIgnore]
+    public bool RaiseIntegrationEvents => RaiseEvents == RaiseEventsType.DomainAndIntegrationEvents;
 }
