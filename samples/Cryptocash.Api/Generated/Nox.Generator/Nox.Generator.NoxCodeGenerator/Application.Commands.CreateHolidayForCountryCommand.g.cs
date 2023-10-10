@@ -14,32 +14,30 @@ using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
-using Holiday = Cryptocash.Domain.Holiday;
+using HolidayEntity = Cryptocash.Domain.Holiday;
 
 namespace Cryptocash.Application.Commands;
 public record CreateHolidayForCountryCommand(CountryKeyDto ParentKeyDto, HolidayCreateDto EntityDto, System.Guid? Etag) : IRequest <HolidayKeyDto?>;
 
-public partial class CreateHolidayForCountryCommandHandler: CreateHolidayForCountryCommandHandlerBase
+internal partial class CreateHolidayForCountryCommandHandler : CreateHolidayForCountryCommandHandlerBase
 {
 	public CreateHolidayForCountryCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution, entityFactory, serviceProvider)
+		IEntityFactory<HolidayEntity, HolidayCreateDto, HolidayUpdateDto> entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
-public abstract class CreateHolidayForCountryCommandHandlerBase: CommandBase<CreateHolidayForCountryCommand, Holiday>, IRequestHandler<CreateHolidayForCountryCommand, HolidayKeyDto?>
+internal abstract class CreateHolidayForCountryCommandHandlerBase : CommandBase<CreateHolidayForCountryCommand, HolidayEntity>, IRequestHandler<CreateHolidayForCountryCommand, HolidayKeyDto?>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> _entityFactory;
+	private readonly IEntityFactory<HolidayEntity, HolidayCreateDto, HolidayUpdateDto> _entityFactory;
 
 	public CreateHolidayForCountryCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<HolidayEntity, HolidayCreateDto, HolidayUpdateDto> entityFactory) : base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -48,7 +46,7 @@ public abstract class CreateHolidayForCountryCommandHandlerBase: CommandBase<Cre
 	public virtual  async Task<HolidayKeyDto?> Handle(CreateHolidayForCountryCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Country,Nox.Types.CountryCode2>("Id", request.ParentKeyDto.keyId);
+		var keyId = Cryptocash.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
@@ -59,7 +57,7 @@ public abstract class CreateHolidayForCountryCommandHandlerBase: CommandBase<Cre
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
 		parentEntity.CountryOwnedHolidays.Add(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await _dbContext.SaveChangesAsync();

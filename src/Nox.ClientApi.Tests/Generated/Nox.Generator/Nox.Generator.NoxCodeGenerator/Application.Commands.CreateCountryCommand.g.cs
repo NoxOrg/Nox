@@ -8,48 +8,48 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Factories;
 using Nox.Solution;
 
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
-using Country = ClientApi.Domain.Country;
+using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
 public record CreateCountryCommand(CountryCreateDto EntityDto) : IRequest<CountryKeyDto>;
 
-public partial class CreateCountryCommandHandler: CreateCountryCommandHandlerBase
+internal partial class CreateCountryCommandHandler : CreateCountryCommandHandlerBase
 {
 	public CreateCountryCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> workplacefactory,
-        IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,workplacefactory, entityFactory, serviceProvider)
+		IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> workplacefactory,
+		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,workplacefactory, entityFactory)
 	{
 	}
 }
 
 
-public abstract class CreateCountryCommandHandlerBase: CommandBase<CreateCountryCommand,Country>, IRequestHandler <CreateCountryCommand, CountryKeyDto>
+internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCountryCommand,CountryEntity>, IRequestHandler <CreateCountryCommand, CountryKeyDto>
 {
 	private readonly ClientApiDbContext _dbContext;
-	private readonly IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> _entityFactory;
-    private readonly IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> _workplacefactory;
+	private readonly IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> _entityFactory;
+	private readonly IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> _workplacefactory;
 
 	public CreateCountryCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> workplacefactory,
-        IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> workplacefactory,
+		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory) : base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
-        _workplacefactory = workplacefactory;
+		_workplacefactory = workplacefactory;
 	}
 
 	public virtual async Task<CountryKeyDto> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
@@ -64,7 +64,7 @@ public abstract class CreateCountryCommandHandlerBase: CommandBase<CreateCountry
 			entityToCreate.CreateRefToPhysicalWorkplaces(relatedEntity);
 		}
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.Countries.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new CountryKeyDto(entityToCreate.Id.Value);

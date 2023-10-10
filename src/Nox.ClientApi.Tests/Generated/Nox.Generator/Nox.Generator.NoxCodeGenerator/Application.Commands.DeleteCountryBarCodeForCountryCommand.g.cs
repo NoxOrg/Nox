@@ -11,28 +11,38 @@ using Nox.Factories;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using CountryBarCodeEntity = ClientApi.Domain.CountryBarCode;
 
 namespace ClientApi.Application.Commands;
 public record DeleteCountryBarCodeForCountryCommand(CountryKeyDto ParentKeyDto) : IRequest <bool>;
 
 
-public partial class DeleteCountryBarCodeForCountryCommandHandler: CommandBase<DeleteCountryBarCodeForCountryCommand, CountryBarCode>, IRequestHandler <DeleteCountryBarCodeForCountryCommand, bool>
+internal partial class DeleteCountryBarCodeForCountryCommandHandler : DeleteCountryBarCodeForCountryCommandHandlerBase
+{
+	public DeleteCountryBarCodeForCountryCommandHandler(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution)
+		: base(dbContext, noxSolution)
+	{
+	}
+}
+
+internal partial class DeleteCountryBarCodeForCountryCommandHandlerBase : CommandBase<DeleteCountryBarCodeForCountryCommand, CountryBarCodeEntity>, IRequestHandler <DeleteCountryBarCodeForCountryCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 
-	public DeleteCountryBarCodeForCountryCommandHandler(
+	public DeleteCountryBarCodeForCountryCommandHandlerBase(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeleteCountryBarCodeForCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteCountryBarCodeForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Country,Nox.Types.AutoNumber>("Id", request.ParentKeyDto.keyId);
+		var keyId = ClientApi.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await DbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
@@ -44,13 +54,13 @@ public partial class DeleteCountryBarCodeForCountryCommandHandler: CommandBase<D
 			return false;
 		}
 
-		parentEntity.CountryBarCode = null;
+		parentEntity.CountryBarCode = null!;
 
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		
-	
+
 		var result = await DbContext.SaveChangesAsync(cancellationToken);
 		if (result < 1)
 		{

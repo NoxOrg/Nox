@@ -12,52 +12,50 @@ using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
-using Country = ClientApi.Domain.Country;
+using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
 public record PartialUpdateCountryCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CountryKeyDto?>;
 
-public class PartialUpdateCountryCommandHandler: PartialUpdateCountryCommandHandlerBase
+internal class PartialUpdateCountryCommandHandler : PartialUpdateCountryCommandHandlerBase
 {
 	public PartialUpdateCountryCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityMapper<Country> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
 	}
 }
-public class PartialUpdateCountryCommandHandlerBase: CommandBase<PartialUpdateCountryCommand, Country>, IRequestHandler<PartialUpdateCountryCommand, CountryKeyDto?>
+internal class PartialUpdateCountryCommandHandlerBase : CommandBase<PartialUpdateCountryCommand, CountryEntity>, IRequestHandler<PartialUpdateCountryCommand, CountryKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
-	public IEntityMapper<Country> EntityMapper { get; }
+	public IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateCountryCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityMapper<Country> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<CountryKeyDto?> Handle(PartialUpdateCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Country,Nox.Types.AutoNumber>("Id", request.keyId);
+		var keyId = ClientApi.Domain.CountryMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Countries.FindAsync(keyId);
 		if (entity == null)
 		{
 			return null;
 		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Country>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

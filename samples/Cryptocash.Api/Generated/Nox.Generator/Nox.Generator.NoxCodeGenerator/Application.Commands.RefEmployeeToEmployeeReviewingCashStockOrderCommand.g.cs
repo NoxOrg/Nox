@@ -15,6 +15,7 @@ using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using EmployeeEntity = Cryptocash.Domain.Employee;
 
 namespace Cryptocash.Application.Commands;
 
@@ -23,63 +24,59 @@ public abstract record RefEmployeeToEmployeeReviewingCashStockOrderCommand(Emplo
 public record CreateRefEmployeeToEmployeeReviewingCashStockOrderCommand(EmployeeKeyDto EntityKeyDto, CashStockOrderKeyDto RelatedEntityKeyDto)
 	: RefEmployeeToEmployeeReviewingCashStockOrderCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefEmployeeToEmployeeReviewingCashStockOrderCommandHandler
+internal partial class CreateRefEmployeeToEmployeeReviewingCashStockOrderCommandHandler
 	: RefEmployeeToEmployeeReviewingCashStockOrderCommandHandlerBase<CreateRefEmployeeToEmployeeReviewingCashStockOrderCommand>
 {
 	public CreateRefEmployeeToEmployeeReviewingCashStockOrderCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Create)
+		: base(dbContext, noxSolution, RelationshipAction.Create)
 	{ }
 }
 
 public record DeleteRefEmployeeToEmployeeReviewingCashStockOrderCommand(EmployeeKeyDto EntityKeyDto, CashStockOrderKeyDto RelatedEntityKeyDto)
 	: RefEmployeeToEmployeeReviewingCashStockOrderCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefEmployeeToEmployeeReviewingCashStockOrderCommandHandler
+internal partial class DeleteRefEmployeeToEmployeeReviewingCashStockOrderCommandHandler
 	: RefEmployeeToEmployeeReviewingCashStockOrderCommandHandlerBase<DeleteRefEmployeeToEmployeeReviewingCashStockOrderCommand>
 {
 	public DeleteRefEmployeeToEmployeeReviewingCashStockOrderCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Delete)
+		: base(dbContext, noxSolution, RelationshipAction.Delete)
 	{ }
 }
 
 public record DeleteAllRefEmployeeToEmployeeReviewingCashStockOrderCommand(EmployeeKeyDto EntityKeyDto)
 	: RefEmployeeToEmployeeReviewingCashStockOrderCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefEmployeeToEmployeeReviewingCashStockOrderCommandHandler
+internal partial class DeleteAllRefEmployeeToEmployeeReviewingCashStockOrderCommandHandler
 	: RefEmployeeToEmployeeReviewingCashStockOrderCommandHandlerBase<DeleteAllRefEmployeeToEmployeeReviewingCashStockOrderCommand>
 {
 	public DeleteAllRefEmployeeToEmployeeReviewingCashStockOrderCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
 	{ }
 }
 
-public abstract class RefEmployeeToEmployeeReviewingCashStockOrderCommandHandlerBase<TRequest>: CommandBase<TRequest, Employee>, 
+internal abstract class RefEmployeeToEmployeeReviewingCashStockOrderCommandHandlerBase<TRequest> : CommandBase<TRequest, EmployeeEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefEmployeeToEmployeeReviewingCashStockOrderCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefEmployeeToEmployeeReviewingCashStockOrderCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
 		RelationshipAction action)
-		: base(noxSolution, serviceProvider)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		Action = action;
@@ -89,38 +86,38 @@ public abstract class RefEmployeeToEmployeeReviewingCashStockOrderCommandHandler
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Employee, Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);
+		var keyId = Cryptocash.Domain.EmployeeMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.Employees.FindAsync(keyId);
 		if (entity == null)
 		{
 			return false;
 		}
 
-		CashStockOrder? relatedEntity = null!;
+		Cryptocash.Domain.CashStockOrder? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
-			var relatedKeyId = CreateNoxTypeForKey<CashStockOrder, Nox.Types.AutoNumber>("Id", request.RelatedEntityKeyDto.keyId);
+			var relatedKeyId = Cryptocash.Domain.CashStockOrderMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
 			relatedEntity = await DbContext.CashStockOrders.FindAsync(relatedKeyId);
 			if (relatedEntity == null)
 			{
 				return false;
 			}
 		}
-		
-		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToEmployeeReviewingCashStockOrder(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToEmployeeReviewingCashStockOrder(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
-                entity.DeleteAllRefToEmployeeReviewingCashStockOrder();
-                break;
-        }
 
-		OnCompleted(request, entity);
+		switch (Action)
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToEmployeeReviewingCashStockOrder(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToEmployeeReviewingCashStockOrder(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
+				entity.DeleteAllRefToEmployeeReviewingCashStockOrder();
+				break;
+		}
+
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

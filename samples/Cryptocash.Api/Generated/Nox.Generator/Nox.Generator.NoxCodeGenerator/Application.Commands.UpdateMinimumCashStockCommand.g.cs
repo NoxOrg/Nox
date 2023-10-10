@@ -11,33 +11,31 @@ using Nox.Factories;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
-using MinimumCashStock = Cryptocash.Domain.MinimumCashStock;
+using MinimumCashStockEntity = Cryptocash.Domain.MinimumCashStock;
 
 namespace Cryptocash.Application.Commands;
 
 public record UpdateMinimumCashStockCommand(System.Int64 keyId, MinimumCashStockUpdateDto EntityDto, System.Guid? Etag) : IRequest<MinimumCashStockKeyDto?>;
 
-public partial class UpdateMinimumCashStockCommandHandler: UpdateMinimumCashStockCommandHandlerBase
+internal partial class UpdateMinimumCashStockCommandHandler : UpdateMinimumCashStockCommandHandlerBase
 {
 	public UpdateMinimumCashStockCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> entityFactory): base(dbContext, noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<MinimumCashStockEntity, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 
-public abstract class UpdateMinimumCashStockCommandHandlerBase: CommandBase<UpdateMinimumCashStockCommand, MinimumCashStock>, IRequestHandler<UpdateMinimumCashStockCommand, MinimumCashStockKeyDto?>
+internal abstract class UpdateMinimumCashStockCommandHandlerBase : CommandBase<UpdateMinimumCashStockCommand, MinimumCashStockEntity>, IRequestHandler<UpdateMinimumCashStockCommand, MinimumCashStockKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	private readonly IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> _entityFactory;
+	private readonly IEntityFactory<MinimumCashStockEntity, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> _entityFactory;
 
 	public UpdateMinimumCashStockCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> entityFactory): base(noxSolution, serviceProvider)
+		IEntityFactory<MinimumCashStockEntity, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -47,7 +45,7 @@ public abstract class UpdateMinimumCashStockCommandHandlerBase: CommandBase<Upda
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<MinimumCashStock,Nox.Types.AutoNumber>("Id", request.keyId);
+		var keyId = Cryptocash.Domain.MinimumCashStockMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.MinimumCashStocks.FindAsync(keyId);
 		if (entity == null)
@@ -58,7 +56,7 @@ public abstract class UpdateMinimumCashStockCommandHandlerBase: CommandBase<Upda
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

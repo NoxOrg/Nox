@@ -3,25 +3,61 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using ClientApi.Domain;
+using StoreOwnerEntity = ClientApi.Domain.StoreOwner;
 
 namespace ClientApi.Application.Dto;
 
 public record StoreOwnerKeyDto(System.String keyId);
 
+public partial class StoreOwnerDto : StoreOwnerDtoBase
+{
+
+}
+
 /// <summary>
 /// Store owners.
 /// </summary>
-public partial class StoreOwnerDto
+public abstract class StoreOwnerDtoBase : EntityDtoBase, IEntityDto<StoreOwnerEntity>
 {
+
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+    
+        if (this.Name is not null)
+            ExecuteActionAndCollectValidationExceptions("Name", () => ClientApi.Domain.StoreOwnerMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+        else
+            result.Add("Name", new [] { "Name is Required." });
+    
+        if (this.TemporaryOwnerName is not null)
+            ExecuteActionAndCollectValidationExceptions("TemporaryOwnerName", () => ClientApi.Domain.StoreOwnerMetadata.CreateTemporaryOwnerName(this.TemporaryOwnerName.NonNullValue<System.String>()), result);
+        else
+            result.Add("TemporaryOwnerName", new [] { "TemporaryOwnerName is Required." });
+    
+        if (this.VatNumber is not null)
+            ExecuteActionAndCollectValidationExceptions("VatNumber", () => ClientApi.Domain.StoreOwnerMetadata.CreateVatNumber(this.VatNumber.NonNullValue<VatNumberDto>()), result);
+        if (this.StreetAddress is not null)
+            ExecuteActionAndCollectValidationExceptions("StreetAddress", () => ClientApi.Domain.StoreOwnerMetadata.CreateStreetAddress(this.StreetAddress.NonNullValue<StreetAddressDto>()), result);
+        if (this.LocalGreeting is not null)
+            ExecuteActionAndCollectValidationExceptions("LocalGreeting", () => ClientApi.Domain.StoreOwnerMetadata.CreateLocalGreeting(this.LocalGreeting.NonNullValue<TranslatedTextDto>()), result);
+        if (this.Notes is not null)
+            ExecuteActionAndCollectValidationExceptions("Notes", () => ClientApi.Domain.StoreOwnerMetadata.CreateNotes(this.Notes.NonNullValue<System.String>()), result);
+
+        return result;
+    }
+    #endregion
 
     /// <summary>
     ///  (Required).
@@ -62,6 +98,7 @@ public partial class StoreOwnerDto
     /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores
     /// </summary>
     public virtual List<StoreDto> Stores { get; set; } = new();
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

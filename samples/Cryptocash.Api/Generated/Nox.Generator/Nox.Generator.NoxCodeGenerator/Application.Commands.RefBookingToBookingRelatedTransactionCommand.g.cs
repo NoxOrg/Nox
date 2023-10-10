@@ -15,6 +15,7 @@ using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using BookingEntity = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Commands;
 
@@ -23,63 +24,59 @@ public abstract record RefBookingToBookingRelatedTransactionCommand(BookingKeyDt
 public record CreateRefBookingToBookingRelatedTransactionCommand(BookingKeyDto EntityKeyDto, TransactionKeyDto RelatedEntityKeyDto)
 	: RefBookingToBookingRelatedTransactionCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefBookingToBookingRelatedTransactionCommandHandler
+internal partial class CreateRefBookingToBookingRelatedTransactionCommandHandler
 	: RefBookingToBookingRelatedTransactionCommandHandlerBase<CreateRefBookingToBookingRelatedTransactionCommand>
 {
 	public CreateRefBookingToBookingRelatedTransactionCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Create)
+		: base(dbContext, noxSolution, RelationshipAction.Create)
 	{ }
 }
 
 public record DeleteRefBookingToBookingRelatedTransactionCommand(BookingKeyDto EntityKeyDto, TransactionKeyDto RelatedEntityKeyDto)
 	: RefBookingToBookingRelatedTransactionCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefBookingToBookingRelatedTransactionCommandHandler
+internal partial class DeleteRefBookingToBookingRelatedTransactionCommandHandler
 	: RefBookingToBookingRelatedTransactionCommandHandlerBase<DeleteRefBookingToBookingRelatedTransactionCommand>
 {
 	public DeleteRefBookingToBookingRelatedTransactionCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Delete)
+		: base(dbContext, noxSolution, RelationshipAction.Delete)
 	{ }
 }
 
 public record DeleteAllRefBookingToBookingRelatedTransactionCommand(BookingKeyDto EntityKeyDto)
 	: RefBookingToBookingRelatedTransactionCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefBookingToBookingRelatedTransactionCommandHandler
+internal partial class DeleteAllRefBookingToBookingRelatedTransactionCommandHandler
 	: RefBookingToBookingRelatedTransactionCommandHandlerBase<DeleteAllRefBookingToBookingRelatedTransactionCommand>
 {
 	public DeleteAllRefBookingToBookingRelatedTransactionCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
 	{ }
 }
 
-public abstract class RefBookingToBookingRelatedTransactionCommandHandlerBase<TRequest>: CommandBase<TRequest, Booking>, 
+internal abstract class RefBookingToBookingRelatedTransactionCommandHandlerBase<TRequest> : CommandBase<TRequest, BookingEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefBookingToBookingRelatedTransactionCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefBookingToBookingRelatedTransactionCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
 		RelationshipAction action)
-		: base(noxSolution, serviceProvider)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		Action = action;
@@ -89,38 +86,38 @@ public abstract class RefBookingToBookingRelatedTransactionCommandHandlerBase<TR
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Booking, Nox.Types.Guid>("Id", request.EntityKeyDto.keyId);
+		var keyId = Cryptocash.Domain.BookingMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.Bookings.FindAsync(keyId);
 		if (entity == null)
 		{
 			return false;
 		}
 
-		Transaction? relatedEntity = null!;
+		Cryptocash.Domain.Transaction? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
-			var relatedKeyId = CreateNoxTypeForKey<Transaction, Nox.Types.AutoNumber>("Id", request.RelatedEntityKeyDto.keyId);
+			var relatedKeyId = Cryptocash.Domain.TransactionMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
 			relatedEntity = await DbContext.Transactions.FindAsync(relatedKeyId);
 			if (relatedEntity == null)
 			{
 				return false;
 			}
 		}
-		
-		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToBookingRelatedTransaction(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToBookingRelatedTransaction(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
-                entity.DeleteAllRefToBookingRelatedTransaction();
-                break;
-        }
 
-		OnCompleted(request, entity);
+		switch (Action)
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToBookingRelatedTransaction(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToBookingRelatedTransaction(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
+				entity.DeleteAllRefToBookingRelatedTransaction();
+				break;
+		}
+
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

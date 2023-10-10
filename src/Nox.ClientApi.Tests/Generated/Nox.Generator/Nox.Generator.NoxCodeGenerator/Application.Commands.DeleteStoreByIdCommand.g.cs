@@ -9,29 +9,27 @@ using Nox.Solution;
 using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
-using Store = ClientApi.Domain.Store;
+using StoreEntity = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Commands;
 
 public record DeleteStoreByIdCommand(System.Guid keyId, System.Guid? Etag) : IRequest<bool>;
 
-public class DeleteStoreByIdCommandHandler:DeleteStoreByIdCommandHandlerBase
+internal class DeleteStoreByIdCommandHandler : DeleteStoreByIdCommandHandlerBase
 {
 	public DeleteStoreByIdCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
-public abstract class DeleteStoreByIdCommandHandlerBase: CommandBase<DeleteStoreByIdCommand,Store>, IRequestHandler<DeleteStoreByIdCommand, bool>
+internal abstract class DeleteStoreByIdCommandHandlerBase : CommandBase<DeleteStoreByIdCommand, StoreEntity>, IRequestHandler<DeleteStoreByIdCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 
 	public DeleteStoreByIdCommandHandlerBase(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
@@ -40,17 +38,17 @@ public abstract class DeleteStoreByIdCommandHandlerBase: CommandBase<DeleteStore
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Store,Nox.Types.Guid>("Id", request.keyId);
+		var keyId = ClientApi.Domain.StoreMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Stores.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted.Value == true)
+		if (entity == null || entity.IsDeleted == true)
 		{
 			return false;
 		}
 
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;

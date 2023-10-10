@@ -36,8 +36,8 @@ public class LocalizationTests
     {
         // Optionally Override culture
 
-        if(culture is not null) 
-        { 
+        if (culture is not null)
+        {
             CultureInfo.CurrentCulture = new CultureInfo(culture); // http request or message header
         }
 
@@ -45,11 +45,14 @@ public class LocalizationTests
 
         var builder = WebApplication.CreateBuilder();
 
-        builder.Services.AddNoxLib(Assembly.GetExecutingAssembly());
+        builder.Services.AddNoxLib(configure =>
+        {
+            configure.WithClientAssembly(Assembly.GetExecutingAssembly());
+        });
 
         builder.Services.AddNoxLocalization();
 
-        builder.Services.AddDbContext<TestDbContext>( options =>
+        builder.Services.AddDbContext<TestDbContext>(options =>
         {
             options.UseSqlite("Data Source=localization.db");
         });

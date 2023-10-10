@@ -11,33 +11,31 @@ using Nox.Factories;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
-using Transaction = Cryptocash.Domain.Transaction;
+using TransactionEntity = Cryptocash.Domain.Transaction;
 
 namespace Cryptocash.Application.Commands;
 
 public record UpdateTransactionCommand(System.Int64 keyId, TransactionUpdateDto EntityDto, System.Guid? Etag) : IRequest<TransactionKeyDto?>;
 
-public partial class UpdateTransactionCommandHandler: UpdateTransactionCommandHandlerBase
+internal partial class UpdateTransactionCommandHandler : UpdateTransactionCommandHandlerBase
 {
 	public UpdateTransactionCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> entityFactory): base(dbContext, noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<TransactionEntity, TransactionCreateDto, TransactionUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 
-public abstract class UpdateTransactionCommandHandlerBase: CommandBase<UpdateTransactionCommand, Transaction>, IRequestHandler<UpdateTransactionCommand, TransactionKeyDto?>
+internal abstract class UpdateTransactionCommandHandlerBase : CommandBase<UpdateTransactionCommand, TransactionEntity>, IRequestHandler<UpdateTransactionCommand, TransactionKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	private readonly IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> _entityFactory;
+	private readonly IEntityFactory<TransactionEntity, TransactionCreateDto, TransactionUpdateDto> _entityFactory;
 
 	public UpdateTransactionCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> entityFactory): base(noxSolution, serviceProvider)
+		IEntityFactory<TransactionEntity, TransactionCreateDto, TransactionUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -47,7 +45,7 @@ public abstract class UpdateTransactionCommandHandlerBase: CommandBase<UpdateTra
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Transaction,Nox.Types.AutoNumber>("Id", request.keyId);
+		var keyId = Cryptocash.Domain.TransactionMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Transactions.FindAsync(keyId);
 		if (entity == null)
@@ -58,7 +56,7 @@ public abstract class UpdateTransactionCommandHandlerBase: CommandBase<UpdateTra
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

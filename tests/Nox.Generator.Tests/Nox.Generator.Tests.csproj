@@ -16,6 +16,16 @@
   <ItemGroup>
     <PackageReference Include="Basic.Reference.Assemblies.Net70" Version="1.4.5" />
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Azure.Identity" Version="1.10.2" />
+    <PackageReference Include="Microsoft.Build.Locator" Version="1.6.10" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.3" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -40,22 +50,38 @@
     <ProjectReference Include="..\..\src\Nox.Generator\Nox.Generator.csproj" />
     <ProjectReference Include="..\..\src\Nox.Solution\Nox.Solution.csproj" />
     <ProjectReference Include="..\..\src\Nox.Types\Nox.Types.csproj" />
+    <ProjectReference Include="..\..\src\Nox.EntityFramework.Sqlite\Nox.EntityFramework.Sqlite.csproj" />
+    <ProjectReference Include="..\..\src\Nox.EntityFramework.SqlServer\Nox.EntityFramework.SqlServer.csproj" />
+    <ProjectReference Include="..\..\src\Nox.Lib\Nox.Lib.csproj" />
+    <ProjectReference Include="..\..\src\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="ExpectedGeneratedFiles\Application.Dto.CountryDto.expected.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Application.ServiceCollectionExtensions.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\Country.expected.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\CountryCurrenciesAddedEvent.expected.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\CountryLocalNamesAddedEvent.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\CountryNameChangedAppEvent.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\CountryNameUpdatedEvent.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\Dto.CountryCreateDto.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\DtoDynamic.CountryDto.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\GetCountriesByContinentQueryBase.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\NoxServiceCollectionExtension.expected.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CompoundKeysEntitiesController.CustomCommands.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CompoundKeysEntitiesController.CustomQueries.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CompoundKeysEntitiesController.Entity.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CompoundKeysEntitiesController.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CompoundKeysEntitiesController.OwnedRelationships.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CompoundKeysEntitiesController.Relationships.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CountriesController.CustomCommands.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CountriesController.CustomQueries.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CountriesController.Entity.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CountriesController.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CountriesController.OwnedRelationships.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CountriesController.Relationships.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\SampleWebAppDbContext.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\UpdatePopulationStatisticsCommandHandlerBase.expected.g.cs" />
-    <Compile Remove="ExpectedGeneratedFiles\NoxWebApplicationExtensions.expected.g.cs" />
     <Compile Remove="Files\TestExecutable\Program.cs" />
   </ItemGroup>
 
@@ -74,7 +100,7 @@
     <None Update="files\yaml\domain\domain-events.solution.nox.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="files\yaml\application\app-event.solution.nox.yaml">
+    <None Update="files\yaml\application\integration-events.solution.nox.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="files\yaml\domain\command.solution.nox.yaml">
@@ -98,6 +124,15 @@
     <None Update="files\yaml\common\generator.nox.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="files\yaml\ui\dto.solution.nox.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="files\yaml\ui\invalid.generator.nox.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="files\yaml\ui\generator.nox.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -108,6 +143,12 @@
 
   <ItemGroup>
     <Compile Remove="files\Program.cs" />
+    <AdditionalFiles Include="ExpectedGeneratedFiles\CountryLocalNamesAddedEvent.expected.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\CountryCurrenciesAddedEvent.expected.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
     <AdditionalFiles Include="ExpectedGeneratedFiles\Dto.CountryCreateDto.expected.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
@@ -115,6 +156,36 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
     <AdditionalFiles Include="ExpectedGeneratedFiles\Country.expected.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Presentation.Api.OData.CompoundKeysEntitiesController.OwnedRelationships.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Presentation.Api.OData.CompoundKeysEntitiesController.Relationships.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Presentation.Api.OData.CompoundKeysEntitiesController.Entity.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Presentation.Api.OData.CompoundKeysEntitiesController.CustomQueries.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Presentation.Api.OData.CompoundKeysEntitiesController.CustomCommands.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Presentation.Api.OData.CountriesController.OwnedRelationships.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Presentation.Api.OData.CountriesController.Relationships.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Presentation.Api.OData.CountriesController.CustomCommands.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Presentation.Api.OData.CountriesController.CustomQueries.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Presentation.Api.OData.CountriesController.Entity.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
     <AdditionalFiles Include="ExpectedGeneratedFiles\UpdatePopulationStatisticsCommandHandlerBase.expected.g.cs">
@@ -148,9 +219,21 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Compile Remove="ExpectedGeneratedFiles\NoxWebApplicationExtensions.g.cs" />
-    <AdditionalFiles Include="ExpectedGeneratedFiles\NoxWebApplicationExtensions.expected.g.cs">
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Application.ServiceCollectionExtensions.expected.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="files\yaml\design\test.solution.nox.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+
+
+  <ItemGroup>
+    <Folder Include="Generated\" />
   </ItemGroup>
 
 </Project>

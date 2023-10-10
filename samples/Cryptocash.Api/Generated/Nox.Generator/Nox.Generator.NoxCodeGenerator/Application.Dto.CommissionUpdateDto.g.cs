@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Cryptocash.Domain;
 
+using CommissionEntity = Cryptocash.Domain.Commission;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Exchange commission rate and amount.
 /// </summary>
-public partial class CommissionUpdateDto : IEntityDto<Commission>
+public partial class CommissionUpdateDto : IEntityDto<CommissionEntity>
 {
     /// <summary>
     /// Commission rate (Required).

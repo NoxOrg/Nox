@@ -5,32 +5,50 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-public partial class Store:StoreBase
-{
 
+internal partial class Store : StoreBase, IEntityHaveDomainEvents
+{
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for Store created event.
 /// </summary>
-public record StoreCreated(Store Store) : IDomainEvent;
+internal record StoreCreated(Store Store) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for Store updated event.
 /// </summary>
-public record StoreUpdated(Store Store) : IDomainEvent;
+internal record StoreUpdated(Store Store) : IDomainEvent, INotification;
 /// <summary>
 /// Record for Store deleted event.
 /// </summary>
-public record StoreDeleted(Store Store) : IDomainEvent;
+internal record StoreDeleted(Store Store) : IDomainEvent, INotification;
 
 /// <summary>
 /// Stores.
 /// </summary>
-public abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class StoreBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -72,11 +90,38 @@ public abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
     /// Opening day (Optional).
     /// </summary>
     public Nox.Types.DateTime? OpeningDay { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(Store store)
+	{
+		InternalDomainEvents.Add(new StoreCreated(store));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(Store store)
+	{
+		InternalDomainEvents.Add(new StoreUpdated(store));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(Store store)
+	{
+		InternalDomainEvents.Add(new StoreDeleted(store));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// Store Owner of the Store ZeroOrOne StoreOwners
     /// </summary>
-    public virtual StoreOwner? Ownership { get; set; } = null!;
+    public virtual StoreOwner? Ownership { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ZeroOrOne to entity StoreOwner
@@ -96,6 +141,26 @@ public abstract class StoreBase : AuditableEntityBase, IEntityConcurrent
     public virtual void DeleteAllRefToOwnership()
     {
         OwnershipId = null;
+    }
+
+    /// <summary>
+    /// Store License that this store uses ZeroOrOne StoreLicenses
+    /// </summary>
+    public virtual StoreLicense? License { get; private set; } = null!;
+
+    public virtual void CreateRefToLicense(StoreLicense relatedStoreLicense)
+    {
+        License = relatedStoreLicense;
+    }
+
+    public virtual void DeleteRefToLicense(StoreLicense relatedStoreLicense)
+    {
+        License = null;
+    }
+
+    public virtual void DeleteAllRefToLicense()
+    {
+        License = null;
     }
 
     /// <summary>

@@ -25,16 +25,11 @@ namespace Cryptocash.Presentation.Api.OData;
 
 public partial class VendingMachinesController : VendingMachinesControllerBase
 {
-    public VendingMachinesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    public VendingMachinesController(IMediator mediator):base(mediator)
     {}
 }
-public abstract class VendingMachinesControllerBase : ODataController
+public abstract partial class VendingMachinesControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -42,11 +37,9 @@ public abstract class VendingMachinesControllerBase : ODataController
     protected readonly IMediator _mediator;
     
     public VendingMachinesControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
     }
     

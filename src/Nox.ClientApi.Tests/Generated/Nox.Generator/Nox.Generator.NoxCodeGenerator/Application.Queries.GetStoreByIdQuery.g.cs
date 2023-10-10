@@ -14,7 +14,7 @@ namespace ClientApi.Application.Queries;
 
 public record GetStoreByIdQuery(System.Guid keyId) : IRequest <IQueryable<StoreDto>>;
 
-public partial class GetStoreByIdQueryHandler:GetStoreByIdQueryHandlerBase
+internal partial class GetStoreByIdQueryHandler:GetStoreByIdQueryHandlerBase
 {
     public  GetStoreByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
@@ -22,7 +22,7 @@ public partial class GetStoreByIdQueryHandler:GetStoreByIdQueryHandlerBase
     }
 }
 
-public abstract class GetStoreByIdQueryHandlerBase:  QueryBase<IQueryable<StoreDto>>, IRequestHandler<GetStoreByIdQuery, IQueryable<StoreDto>>
+internal abstract class GetStoreByIdQueryHandlerBase:  QueryBase<IQueryable<StoreDto>>, IRequestHandler<GetStoreByIdQuery, IQueryable<StoreDto>>
 {
     public  GetStoreByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {
@@ -36,8 +36,7 @@ public abstract class GetStoreByIdQueryHandlerBase:  QueryBase<IQueryable<StoreD
         var query = DataDbContext.Stores
             .AsNoTracking()
             .Where(r =>
-                r.Id.Equals(request.keyId) &&
-                r.DeletedAtUtc == null);
+                r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));
     }
 }

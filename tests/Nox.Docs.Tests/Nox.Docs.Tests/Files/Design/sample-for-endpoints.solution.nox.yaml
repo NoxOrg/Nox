@@ -5,6 +5,7 @@
 #
 
 name: SampleForEntityEndpointMarkdownGeneration
+
 description: Nox solution yaml configuration for generating entity endpoints markdown
 
 domain:
@@ -18,15 +19,15 @@ domain:
         schema: dbo
         create:
           isEnabled: false
-          raiseEvents: false
+          raiseEvents: never
         read:
           isEnabled: false
         update:
           isEnabled: false
-          raiseEvents: false
+          raiseEvents: never
         delete:
           isEnabled: false
-          raiseEvents: false
+          raiseEvents: never
 
       keys:
         - name: Id
@@ -42,15 +43,15 @@ domain:
         schema: dbo
         create:
           isEnabled: false
-          raiseEvents: false
+          raiseEvents: never
         read:
           isEnabled: true
         update:
           isEnabled: false
-          raiseEvents: false
+          raiseEvents: never
         delete:
           isEnabled: false
-          raiseEvents: false
+          raiseEvents: never
 
       keys:
         - name: Id
@@ -67,7 +68,7 @@ domain:
           isRequired: true
 
       relationships:
-        - name: ContinentHasCountries 
+        - name: CountriesOnContinent 
           description: has
           relationship: oneOrMany
           entity: Country
@@ -82,15 +83,15 @@ domain:
         schema: dbo
         create:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
         read:
           isEnabled: true
         update:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
         delete:
-          isEnabled: false
-          raiseEvents: true
+          isEnabled: true
+          raiseEvents: domainEventsOnly
 
       keys:
         - name: Id
@@ -107,10 +108,16 @@ domain:
           isRequired: true
 
       relationships:
-        - name: CountryIsOnOneOrManyContinents
+        - name: Continents
           description: is on
           relationship: oneOrMany
           entity: Continent
+          canNavigate: true
+
+        - name: Inhabitants
+          description: is inhabited by
+          relationship: oneOrMany
+          entity: People
           canNavigate: true
 
       ownedRelationships:
@@ -176,15 +183,15 @@ domain:
         schema: dbo
         create:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
         read:
           isEnabled: true
         update:
           isEnabled: false
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
         delete:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
 
       keys:
         - name: Id
@@ -199,3 +206,43 @@ domain:
             minLength: 4
             maxLength: 63
           isRequired: true
+
+    - name: People
+      description: The people who inhabit countries
+
+      persistence:
+        isAudited: false
+        tableName: People
+        schema: dbo
+        create:
+          isEnabled: true
+          raiseEvents: domainEventsOnly
+        read:
+          isEnabled: true
+        update:
+          isEnabled: true
+          raiseEvents: domainEventsOnly
+        delete:
+          isEnabled: false
+          raiseEvents: domainEventsOnly
+
+      keys:
+        - name: Id
+          type: guid
+          isRequired: true
+
+      attributes:
+        - name: Name
+          description: The people's name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+        - name: CountriesInhabitedByPeople
+          description: inhabit
+          relationship: oneOrMany
+          entity: Country
+          canNavigate: true

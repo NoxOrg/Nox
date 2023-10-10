@@ -11,31 +11,42 @@ using Nox.Factories;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using EmailAddressEntity = ClientApi.Domain.EmailAddress;
 
 namespace ClientApi.Application.Commands;
 public record UpdateEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto, EmailAddressUpdateDto EntityDto, System.Guid? Etag) : IRequest <EmailAddressKeyDto?>;
 
 
-public partial class UpdateEmailAddressForStoreCommandHandler: CommandBase<UpdateEmailAddressForStoreCommand, EmailAddress>, IRequestHandler <UpdateEmailAddressForStoreCommand, EmailAddressKeyDto?>
+internal partial class UpdateEmailAddressForStoreCommandHandler : UpdateEmailAddressForStoreCommandHandlerBase
 {
-	public ClientApiDbContext DbContext { get; }
-	private readonly IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> _entityFactory;
-
 	public UpdateEmailAddressForStoreCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> entityFactory): base(noxSolution, serviceProvider)
+		IEntityFactory<EmailAddressEntity, EmailAddressCreateDto, EmailAddressUpdateDto> entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
+	{
+	}
+}
+
+internal partial class UpdateEmailAddressForStoreCommandHandlerBase : CommandBase<UpdateEmailAddressForStoreCommand, EmailAddressEntity>, IRequestHandler <UpdateEmailAddressForStoreCommand, EmailAddressKeyDto?>
+{
+	public ClientApiDbContext DbContext { get; }
+	private readonly IEntityFactory<EmailAddressEntity, EmailAddressCreateDto, EmailAddressUpdateDto> _entityFactory;
+
+	public UpdateEmailAddressForStoreCommandHandlerBase(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+		IEntityFactory<EmailAddressEntity, EmailAddressCreateDto, EmailAddressUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
 	}
 
-	public async Task<EmailAddressKeyDto?> Handle(UpdateEmailAddressForStoreCommand request, CancellationToken cancellationToken)
+	public virtual async Task<EmailAddressKeyDto?> Handle(UpdateEmailAddressForStoreCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Store,Nox.Types.Guid>("Id", request.ParentKeyDto.keyId);
+		var keyId = ClientApi.Domain.StoreMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await DbContext.Stores.FindAsync(keyId);
 		if (parentEntity == null)
 		{
@@ -50,7 +61,7 @@ public partial class UpdateEmailAddressForStoreCommandHandler: CommandBase<Updat
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

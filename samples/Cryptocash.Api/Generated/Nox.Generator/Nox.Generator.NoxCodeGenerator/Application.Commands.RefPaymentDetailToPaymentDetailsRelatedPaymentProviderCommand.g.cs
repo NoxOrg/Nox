@@ -15,6 +15,7 @@ using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using PaymentDetailEntity = Cryptocash.Domain.PaymentDetail;
 
 namespace Cryptocash.Application.Commands;
 
@@ -23,63 +24,59 @@ public abstract record RefPaymentDetailToPaymentDetailsRelatedPaymentProviderCom
 public record CreateRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommand(PaymentDetailKeyDto EntityKeyDto, PaymentProviderKeyDto RelatedEntityKeyDto)
 	: RefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommandHandler
+internal partial class CreateRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommandHandler
 	: RefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommandHandlerBase<CreateRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommand>
 {
 	public CreateRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Create)
+		: base(dbContext, noxSolution, RelationshipAction.Create)
 	{ }
 }
 
 public record DeleteRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommand(PaymentDetailKeyDto EntityKeyDto, PaymentProviderKeyDto RelatedEntityKeyDto)
 	: RefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommandHandler
+internal partial class DeleteRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommandHandler
 	: RefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommandHandlerBase<DeleteRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommand>
 {
 	public DeleteRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Delete)
+		: base(dbContext, noxSolution, RelationshipAction.Delete)
 	{ }
 }
 
 public record DeleteAllRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommand(PaymentDetailKeyDto EntityKeyDto)
 	: RefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommandHandler
+internal partial class DeleteAllRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommandHandler
 	: RefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommandHandlerBase<DeleteAllRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommand>
 {
 	public DeleteAllRefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
 	{ }
 }
 
-public abstract class RefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommandHandlerBase<TRequest>: CommandBase<TRequest, PaymentDetail>, 
+internal abstract class RefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommandHandlerBase<TRequest> : CommandBase<TRequest, PaymentDetailEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefPaymentDetailToPaymentDetailsRelatedPaymentProviderCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
 		RelationshipAction action)
-		: base(noxSolution, serviceProvider)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		Action = action;
@@ -89,38 +86,38 @@ public abstract class RefPaymentDetailToPaymentDetailsRelatedPaymentProviderComm
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<PaymentDetail, Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);
+		var keyId = Cryptocash.Domain.PaymentDetailMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.PaymentDetails.FindAsync(keyId);
 		if (entity == null)
 		{
 			return false;
 		}
 
-		PaymentProvider? relatedEntity = null!;
+		Cryptocash.Domain.PaymentProvider? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
-			var relatedKeyId = CreateNoxTypeForKey<PaymentProvider, Nox.Types.AutoNumber>("Id", request.RelatedEntityKeyDto.keyId);
+			var relatedKeyId = Cryptocash.Domain.PaymentProviderMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
 			relatedEntity = await DbContext.PaymentProviders.FindAsync(relatedKeyId);
 			if (relatedEntity == null)
 			{
 				return false;
 			}
 		}
-		
-		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToPaymentDetailsRelatedPaymentProvider(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToPaymentDetailsRelatedPaymentProvider(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
-                entity.DeleteAllRefToPaymentDetailsRelatedPaymentProvider();
-                break;
-        }
 
-		OnCompleted(request, entity);
+		switch (Action)
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToPaymentDetailsRelatedPaymentProvider(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToPaymentDetailsRelatedPaymentProvider(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
+				entity.DeleteAllRefToPaymentDetailsRelatedPaymentProvider();
+				break;
+		}
+
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

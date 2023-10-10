@@ -14,32 +14,30 @@ using Nox.Types;
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
-using {{entity.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
+using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
-public record Create{{entity.Name }}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}CreateDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
+public record Create{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}CreateDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
 
-public partial class Create{{entity.Name}}For{{parent.Name}}CommandHandler: Create{{entity.Name}}For{{parent.Name}}CommandHandlerBase
+internal partial class Create{{entity.Name}}For{{parent.Name}}CommandHandler : Create{{entity.Name}}For{{parent.Name}}CommandHandlerBase
 {
 	public Create{{entity.Name}}For{{parent.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution, entityFactory, serviceProvider)
+		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
-public abstract class Create{{entity.Name}}For{{parent.Name}}CommandHandlerBase: CommandBase<Create{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}>, IRequestHandler<Create{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}KeyDto?>
+internal abstract class Create{{entity.Name}}For{{parent.Name}}CommandHandlerBase : CommandBase<Create{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}Entity>, IRequestHandler<Create{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}KeyDto?>
 {
 	private readonly {{codeGeneratorState.Solution.Name}}DbContext _dbContext;
-	private readonly IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> _entityFactory;
+	private readonly IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> _entityFactory;
 
 	public Create{{entity.Name}}For{{parent.Name}}CommandHandlerBase(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<{{entity.Name}}, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -50,7 +48,7 @@ public abstract class Create{{entity.Name}}For{{parent.Name}}CommandHandlerBase:
 		OnExecuting(request);
 
 		{{- for key in parent.Keys }}
-		var key{{key.Name}} = CreateNoxTypeForKey<{{parent.Name}},Nox.Types.{{SingleTypeForKey key}}>("{{key.Name}}", request.ParentKeyDto.key{{key.Name}});
+		var key{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}});
 		{{- end }}
 
 		var parentEntity = await _dbContext.{{parent.PluralName}}.FindAsync({{parentKeysFindQuery}});
@@ -73,7 +71,7 @@ public abstract class Create{{entity.Name}}For{{parent.Name}}CommandHandlerBase:
 		parentEntity.{{relationship.Name}}.Add(entity);
 		{{- end }}
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await _dbContext.SaveChangesAsync();

@@ -12,52 +12,50 @@ using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
-using CashStockOrder = Cryptocash.Domain.CashStockOrder;
+using CashStockOrderEntity = Cryptocash.Domain.CashStockOrder;
 
 namespace Cryptocash.Application.Commands;
 
 public record PartialUpdateCashStockOrderCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CashStockOrderKeyDto?>;
 
-public class PartialUpdateCashStockOrderCommandHandler: PartialUpdateCashStockOrderCommandHandlerBase
+internal class PartialUpdateCashStockOrderCommandHandler : PartialUpdateCashStockOrderCommandHandlerBase
 {
 	public PartialUpdateCashStockOrderCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityMapper<CashStockOrder> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<CashStockOrderEntity, CashStockOrderCreateDto, CashStockOrderUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
 	}
 }
-public class PartialUpdateCashStockOrderCommandHandlerBase: CommandBase<PartialUpdateCashStockOrderCommand, CashStockOrder>, IRequestHandler<PartialUpdateCashStockOrderCommand, CashStockOrderKeyDto?>
+internal class PartialUpdateCashStockOrderCommandHandlerBase : CommandBase<PartialUpdateCashStockOrderCommand, CashStockOrderEntity>, IRequestHandler<PartialUpdateCashStockOrderCommand, CashStockOrderKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<CashStockOrder> EntityMapper { get; }
+	public IEntityFactory<CashStockOrderEntity, CashStockOrderCreateDto, CashStockOrderUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateCashStockOrderCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityMapper<CashStockOrder> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<CashStockOrderEntity, CashStockOrderCreateDto, CashStockOrderUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<CashStockOrderKeyDto?> Handle(PartialUpdateCashStockOrderCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<CashStockOrder,Nox.Types.AutoNumber>("Id", request.keyId);
+		var keyId = Cryptocash.Domain.CashStockOrderMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.CashStockOrders.FindAsync(keyId);
 		if (entity == null)
 		{
 			return null;
 		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<CashStockOrder>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

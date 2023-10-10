@@ -6,12 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
 using Microsoft.AspNetCore.OData.Formatter.Serialization;
+using Microsoft.Extensions.DependencyInjection;
 using Nox.Lib;
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 namespace {{codeGeneratorState.ODataNameSpace}};
 
-public static class ODataServiceCollectionExtensions
+internal static class ODataServiceCollectionExtensions
 {
     public static void AddNoxOdata(this IServiceCollection services)
     {

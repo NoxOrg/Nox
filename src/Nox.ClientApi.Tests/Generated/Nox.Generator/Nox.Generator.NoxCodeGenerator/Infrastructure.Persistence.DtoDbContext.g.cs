@@ -5,11 +5,13 @@ using Microsoft.EntityFrameworkCore;
 using Nox;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Configuration;
+
 using ClientApi.Application.Dto;
 
 namespace ClientApi.Infrastructure.Persistence;
 
-public class DtoDbContext : DbContext
+internal class DtoDbContext : DbContext
 {
     /// <summary>
     /// The Nox solution configuration.
@@ -41,11 +43,17 @@ public class DtoDbContext : DbContext
     
         public DbSet<CountryDto> Countries { get; set; } = null!;
         
+        public DbSet<RatingProgramDto> RatingPrograms { get; set; } = null!;
+        
+        public DbSet<CountryQualityOfLifeIndexDto> CountryQualityOfLifeIndices { get; set; } = null!;
+        
         public DbSet<StoreDto> Stores { get; set; } = null!;
         
         public DbSet<WorkplaceDto> Workplaces { get; set; } = null!;
         
         public DbSet<StoreOwnerDto> StoreOwners { get; set; } = null!;
+        
+        public DbSet<StoreLicenseDto> StoreLicenses { get; set; } = null!;
         
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -60,6 +68,8 @@ public class DtoDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        ConfigureAuditable(modelBuilder);
 
         if (_noxSolution.Domain != null)
         {
@@ -86,5 +96,13 @@ public class DtoDbContext : DbContext
                 }
             }
         }
+    }
+
+    private void ConfigureAuditable(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<CountryDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<StoreDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<StoreOwnerDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<StoreLicenseDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
     }
 }

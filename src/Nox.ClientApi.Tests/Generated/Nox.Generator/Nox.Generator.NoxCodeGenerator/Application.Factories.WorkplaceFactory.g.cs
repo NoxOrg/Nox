@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
 using ClientApi.Domain;
-using Workplace = ClientApi.Domain.Workplace;
+using WorkplaceEntity = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, WorkplaceCreateDto, WorkplaceUpdateDto>
+internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto>
 {
 
     public WorkplaceFactoryBase
@@ -32,37 +32,65 @@ public abstract class WorkplaceFactoryBase : IEntityFactory<Workplace, Workplace
     {
     }
 
-    public virtual Workplace CreateEntity(WorkplaceCreateDto createDto)
+    public virtual WorkplaceEntity CreateEntity(WorkplaceCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(Workplace entity, WorkplaceUpdateDto updateDto)
+    public virtual void UpdateEntity(WorkplaceEntity entity, WorkplaceUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
+    }
+
+    public virtual void PartialUpdateEntity(WorkplaceEntity entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
     }
 
     private ClientApi.Domain.Workplace ToEntity(WorkplaceCreateDto createDto)
     {
         var entity = new ClientApi.Domain.Workplace();
-        entity.Name = ClientApi.Domain.Workplace.CreateName(createDto.Name);
-        if (createDto.Description is not null)entity.Description = ClientApi.Domain.Workplace.CreateDescription(createDto.Description.NonNullValue<System.String>());
+        entity.Name = ClientApi.Domain.WorkplaceMetadata.CreateName(createDto.Name);
+        if (createDto.Description is not null)entity.Description = ClientApi.Domain.WorkplaceMetadata.CreateDescription(createDto.Description.NonNullValue<System.String>());
 		entity.EnsureId();
-        //entity.Country = Country?.ToEntity();
         return entity;
     }
 
-    private void UpdateEntityInternal(Workplace entity, WorkplaceUpdateDto updateDto)
+    private void UpdateEntityInternal(WorkplaceEntity entity, WorkplaceUpdateDto updateDto)
     {
-        entity.Name = ClientApi.Domain.Workplace.CreateName(updateDto.Name.NonNullValue<System.String>());
+        entity.Name = ClientApi.Domain.WorkplaceMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         if (updateDto.Description == null) { entity.Description = null; } else {
-            entity.Description = ClientApi.Domain.Workplace.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>());
+            entity.Description = ClientApi.Domain.WorkplaceMetadata.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>());
         }
 		entity.EnsureId();
-        //entity.Country = Country?.ToEntity();
+    }
+
+    private void PartialUpdateEntityInternal(WorkplaceEntity entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
+        {
+            if (NameUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Name' can't be null");
+            }
+            {
+                entity.Name = ClientApi.Domain.WorkplaceMetadata.CreateName(NameUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Description", out var DescriptionUpdateValue))
+        {
+            if (DescriptionUpdateValue == null) { entity.Description = null; }
+            else
+            {
+                entity.Description = ClientApi.Domain.WorkplaceMetadata.CreateDescription(DescriptionUpdateValue);
+            }
+        }
+		entity.EnsureId();
     }
 }
 
-public partial class WorkplaceFactory : WorkplaceFactoryBase
+internal partial class WorkplaceFactory : WorkplaceFactoryBase
 {
 }

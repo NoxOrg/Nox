@@ -79,15 +79,15 @@ domain:
         schema: dbo
         create:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
         read:
           isEnabled: true
         update:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
         delete:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
 
       ownedRelationships:
 
@@ -398,17 +398,7 @@ infrastructure:
       serverUri: SampleEvt.iwgplc.com
       provider: eventStoreDb
       user: EvtUser
-      password: EvtPassword
-
-  messaging:
-
-    integrationEventServer:
-      name: IntegrationBus
-      provider: rabbitMq
-      serverUri: rabbitmq://localhost
-      port: 5672
-      user: guest
-      password: guest
+      password: EvtPassword  
 
   endpoints:
 

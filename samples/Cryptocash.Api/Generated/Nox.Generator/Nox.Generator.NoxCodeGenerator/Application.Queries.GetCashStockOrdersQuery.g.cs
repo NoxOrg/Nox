@@ -14,7 +14,7 @@ namespace Cryptocash.Application.Queries;
 
 public record GetCashStockOrdersQuery() : IRequest<IQueryable<CashStockOrderDto>>;
 
-public partial class GetCashStockOrdersQueryHandler: GetCashStockOrdersQueryHandlerBase
+internal partial class GetCashStockOrdersQueryHandler: GetCashStockOrdersQueryHandlerBase
 {
     public GetCashStockOrdersQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
@@ -22,7 +22,7 @@ public partial class GetCashStockOrdersQueryHandler: GetCashStockOrdersQueryHand
     }
 }
 
-public abstract class GetCashStockOrdersQueryHandlerBase : QueryBase<IQueryable<CashStockOrderDto>>, IRequestHandler<GetCashStockOrdersQuery, IQueryable<CashStockOrderDto>>
+internal abstract class GetCashStockOrdersQueryHandlerBase : QueryBase<IQueryable<CashStockOrderDto>>, IRequestHandler<GetCashStockOrdersQuery, IQueryable<CashStockOrderDto>>
 {
     public  GetCashStockOrdersQueryHandlerBase(DtoDbContext dataDbContext)
     {
@@ -34,7 +34,6 @@ public abstract class GetCashStockOrdersQueryHandlerBase : QueryBase<IQueryable<
     public virtual Task<IQueryable<CashStockOrderDto>> Handle(GetCashStockOrdersQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<CashStockOrderDto>)DataDbContext.CashStockOrders
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }

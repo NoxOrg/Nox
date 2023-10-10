@@ -17,8 +17,11 @@ public partial class StoreOwnersController
 
         //For Example get from the Header
         //Request.Headers.TryGetValue(HeaderKeyName, out StringValues headerValue);
-        storeOwner.TemporaryOwnerName = "MJ";
-
+        if (string.IsNullOrEmpty(storeOwner.TemporaryOwnerName))
+        {
+            storeOwner.TemporaryOwnerName = "MJ";
+        }
+        
         return await base.Post(storeOwner);
     }
 }

@@ -11,33 +11,31 @@ using Nox.Factories;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
-using Commission = Cryptocash.Domain.Commission;
+using CommissionEntity = Cryptocash.Domain.Commission;
 
 namespace Cryptocash.Application.Commands;
 
 public record UpdateCommissionCommand(System.Int64 keyId, CommissionUpdateDto EntityDto, System.Guid? Etag) : IRequest<CommissionKeyDto?>;
 
-public partial class UpdateCommissionCommandHandler: UpdateCommissionCommandHandlerBase
+internal partial class UpdateCommissionCommandHandler : UpdateCommissionCommandHandlerBase
 {
 	public UpdateCommissionCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> entityFactory): base(dbContext, noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 
-public abstract class UpdateCommissionCommandHandlerBase: CommandBase<UpdateCommissionCommand, Commission>, IRequestHandler<UpdateCommissionCommand, CommissionKeyDto?>
+internal abstract class UpdateCommissionCommandHandlerBase : CommandBase<UpdateCommissionCommand, CommissionEntity>, IRequestHandler<UpdateCommissionCommand, CommissionKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	private readonly IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> _entityFactory;
+	private readonly IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto> _entityFactory;
 
 	public UpdateCommissionCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto> entityFactory): base(noxSolution, serviceProvider)
+		IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -47,7 +45,7 @@ public abstract class UpdateCommissionCommandHandlerBase: CommandBase<UpdateComm
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Commission,Nox.Types.AutoNumber>("Id", request.keyId);
+		var keyId = Cryptocash.Domain.CommissionMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Commissions.FindAsync(keyId);
 		if (entity == null)
@@ -58,7 +56,7 @@ public abstract class UpdateCommissionCommandHandlerBase: CommandBase<UpdateComm
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

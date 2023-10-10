@@ -14,7 +14,7 @@ namespace Cryptocash.Application.Queries;
 
 public record GetCashStockOrderByIdQuery(System.Int64 keyId) : IRequest <IQueryable<CashStockOrderDto>>;
 
-public partial class GetCashStockOrderByIdQueryHandler:GetCashStockOrderByIdQueryHandlerBase
+internal partial class GetCashStockOrderByIdQueryHandler:GetCashStockOrderByIdQueryHandlerBase
 {
     public  GetCashStockOrderByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
@@ -22,7 +22,7 @@ public partial class GetCashStockOrderByIdQueryHandler:GetCashStockOrderByIdQuer
     }
 }
 
-public abstract class GetCashStockOrderByIdQueryHandlerBase:  QueryBase<IQueryable<CashStockOrderDto>>, IRequestHandler<GetCashStockOrderByIdQuery, IQueryable<CashStockOrderDto>>
+internal abstract class GetCashStockOrderByIdQueryHandlerBase:  QueryBase<IQueryable<CashStockOrderDto>>, IRequestHandler<GetCashStockOrderByIdQuery, IQueryable<CashStockOrderDto>>
 {
     public  GetCashStockOrderByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {
@@ -36,8 +36,7 @@ public abstract class GetCashStockOrderByIdQueryHandlerBase:  QueryBase<IQueryab
         var query = DataDbContext.CashStockOrders
             .AsNoTracking()
             .Where(r =>
-                r.Id.Equals(request.keyId) &&
-                r.DeletedAtUtc == null);
+                r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));
     }
 }

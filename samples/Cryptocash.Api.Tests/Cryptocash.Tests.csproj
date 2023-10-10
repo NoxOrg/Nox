@@ -31,6 +31,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Nox.Docs\Nox.Docs.csproj" />
     <ProjectReference Include="..\..\src\Nox.Solution\Nox.Solution.csproj" />
+    <ProjectReference Include="..\Cryptocash.Api\Cryptocash.Api.csproj" />
   </ItemGroup>
 
   <ItemGroup>

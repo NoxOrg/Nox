@@ -9,23 +9,12 @@ namespace Nox.Application.Commands;
 /// <summary>
 /// Base Implementation for aNox Command
 /// </summary>
-public abstract class CommandBase<TRequest, TEntity>: INoxCommand where TEntity: IEntity  
+public abstract class CommandBase<TRequest, TEntity>: INoxCommand where TEntity : IEntity
 {
     protected NoxSolution NoxSolution { get; }
-    protected IServiceProvider ServiceProvider { get; }
-    public CommandBase(NoxSolution noxSolution, IServiceProvider serviceProvider)
+    protected CommandBase(NoxSolution noxSolution)
     {
         NoxSolution = noxSolution;
-        ServiceProvider = serviceProvider;
-    }
-
-    protected N? CreateNoxTypeForKey<E, N>(string keyName, dynamic? value) where N : Types.INoxType
-    {
-        var entityDefinition = GetEntityDefinition<E>();
-        var key = entityDefinition.Keys!.Single(entity => entity.Name == keyName);
-
-        var typeFactory = ServiceProvider.GetService<INoxTypeFactory<N>>();
-        return typeFactory!.CreateNoxType(key, value);
     }
 
     protected Entity GetEntityDefinition<E>()
@@ -38,10 +27,7 @@ public abstract class CommandBase<TRequest, TEntity>: INoxCommand where TEntity:
     /// </summary>
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
-    protected virtual void OnExecuting(TRequest request)
-    {
-        
-    }
+    protected virtual void OnExecuting(TRequest request) { }
 
     /// <summary>
     /// Command handler completed
@@ -49,9 +35,6 @@ public abstract class CommandBase<TRequest, TEntity>: INoxCommand where TEntity:
     /// </summary>
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
-    protected virtual void OnCompleted(TRequest request, TEntity entity)
-    {
-        
-    }
+    protected virtual Task OnCompletedAsync(TRequest request, TEntity entity) { return Task.CompletedTask; }
 }
 

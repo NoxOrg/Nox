@@ -14,7 +14,7 @@ namespace Cryptocash.Application.Queries;
 
 public record GetPaymentDetailsQuery() : IRequest<IQueryable<PaymentDetailDto>>;
 
-public partial class GetPaymentDetailsQueryHandler: GetPaymentDetailsQueryHandlerBase
+internal partial class GetPaymentDetailsQueryHandler: GetPaymentDetailsQueryHandlerBase
 {
     public GetPaymentDetailsQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
@@ -22,7 +22,7 @@ public partial class GetPaymentDetailsQueryHandler: GetPaymentDetailsQueryHandle
     }
 }
 
-public abstract class GetPaymentDetailsQueryHandlerBase : QueryBase<IQueryable<PaymentDetailDto>>, IRequestHandler<GetPaymentDetailsQuery, IQueryable<PaymentDetailDto>>
+internal abstract class GetPaymentDetailsQueryHandlerBase : QueryBase<IQueryable<PaymentDetailDto>>, IRequestHandler<GetPaymentDetailsQuery, IQueryable<PaymentDetailDto>>
 {
     public  GetPaymentDetailsQueryHandlerBase(DtoDbContext dataDbContext)
     {
@@ -34,7 +34,6 @@ public abstract class GetPaymentDetailsQueryHandlerBase : QueryBase<IQueryable<P
     public virtual Task<IQueryable<PaymentDetailDto>> Handle(GetPaymentDetailsQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<PaymentDetailDto>)DataDbContext.PaymentDetails
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }

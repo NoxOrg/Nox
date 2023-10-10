@@ -5,11 +5,13 @@ using Microsoft.EntityFrameworkCore;
 using Nox;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Configuration;
+
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Infrastructure.Persistence;
 
-public class DtoDbContext : DbContext
+internal class DtoDbContext : DbContext
 {
     /// <summary>
     /// The Nox solution configuration.
@@ -79,6 +81,8 @@ public class DtoDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
+        ConfigureAuditable(modelBuilder);
+
         if (_noxSolution.Domain != null)
         {
             var codeGeneratorState =
@@ -104,5 +108,22 @@ public class DtoDbContext : DbContext
                 }
             }
         }
+    }
+
+    private void ConfigureAuditable(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<BookingDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<CommissionDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<CountryDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<CurrencyDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<CustomerDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<PaymentDetailDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<TransactionDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<EmployeeDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<LandLordDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<MinimumCashStockDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<PaymentProviderDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<VendingMachineDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<CashStockOrderDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
     }
 }

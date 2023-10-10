@@ -1,51 +1,83 @@
 // Generated
+{{func pascalCaseToCamelCase(pascal)
+		$result = ""	
+	if pascal != ""
+		$first = pascal | string.slice1 0
+		$first = $first | string.downcase
+		$rest = pascal | string.slice 1
+		$result = $first + $rest 
+	end
+		
+	ret $result	
 
+end}}
 #nullable enable
 
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace {{codeGeneratorState.DomainNameSpace}};
-public partial class {{className}}:{{className}}Base
-{
 
+internal partial class {{className}} : {{className}}Base{{if entity.HasDomainEvents}}, IEntityHaveDomainEvents{{end}}
+{
+{{- if entity.HasDomainEvents}}
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
+{{- end}}
 }
-{{- if entity.Persistence.Create.RaiseEvents }}
+
+{{- if entity.Persistence.Create.RaiseDomainEvents }}
 /// <summary>
 /// Record for {{entity.Name}} created event.
 /// </summary>
-public record {{entity.Name}}Created({{entity.Name}} {{entity.Name}}) : IDomainEvent;
+internal record {{entity.Name}}Created({{entity.Name}} {{entity.Name}}) :  IDomainEvent, INotification;
 {{- end}}
 
-{{- if entity.Persistence.Update.RaiseEvents }}
+{{- if entity.Persistence.Update.RaiseDomainEvents }}
 /// <summary>
 /// Record for {{entity.Name}} updated event.
 /// </summary>
-public record {{entity.Name}}Updated({{entity.Name}} {{entity.Name}}) : IDomainEvent;
+internal record {{entity.Name}}Updated({{entity.Name}} {{entity.Name}}) : IDomainEvent, INotification;
 {{- end}}
 
-{{- if entity.Persistence.Delete.RaiseEvents }}
+{{- if entity.Persistence.Delete.RaiseDomainEvents }}
 /// <summary>
 /// Record for {{entity.Name}} deleted event.
 /// </summary>
-public record {{entity.Name}}Deleted({{entity.Name}} {{entity.Name}}) : IDomainEvent;
+internal record {{entity.Name}}Deleted({{entity.Name}} {{entity.Name}}) : IDomainEvent, INotification;
 {{- end}}
 
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase, IEntityConcurrent{{else}}EntityBase, IEntityConcurrent{{end}}{{else}} : EntityBase, IOwnedEntity{{end}}
+internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase, IEntityConcurrent{{else}}EntityBase, IEntityConcurrent{{end}}{{else}} : EntityBase, IOwnedEntity{{end}}
 {
 {{- for key in entity.Keys }}
     /// <summary>
     /// {{key.Description}} (Required).
     /// </summary>
     {{ if key.Type == "EntityId" -}}
-    public {{SingleKeyTypeForEntity key.EntityIdTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
+    public Nox.Types.{{SingleKeyTypeForEntity key.EntityIdTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
     {{- # Navigation Property }}
 
     public virtual {{key.EntityIdTypeOptions.Entity}} {{key.EntityIdTypeOptions.Entity}} { get; set; } = null!;
@@ -108,6 +140,43 @@ public abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if ent
     public Nox.Types.{{attribute.Type}}{{if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } = null!;
     {{- end}}
 {{- end }}
+{{-if entity.HasDomainEvents}}
+
+	{{- pascalEntityName = entity.Name | pascalCaseToCamelCase }}
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent({{entity.Name}} {{pascalEntityName}})
+	{
+	{{- if entity.Persistence.Create.RaiseEvents }}
+		InternalDomainEvents.Add(new {{entity.Name}}Created({{pascalEntityName}}));     
+	{{- end }}
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent({{entity.Name}} {{pascalEntityName}})
+	{
+	{{- if entity.Persistence.Update.RaiseEvents }}
+		InternalDomainEvents.Add(new {{entity.Name}}Updated({{pascalEntityName}}));
+    {{- end }}
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent({{entity.Name}} {{pascalEntityName}})
+	{
+	{{- if entity.Persistence.Delete.RaiseEvents }}
+		InternalDomainEvents.Add(new {{entity.Name}}Deleted({{pascalEntityName}})); 
+	{{- end }}
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
+{{- end}}
 {{- ######################################### Relationships###################################################### -}}
 {{- for relationship in entity.Relationships }}
 
@@ -115,9 +184,9 @@ public abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if ent
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-    public virtual List<{{relationship.Entity}}> {{relationship.Name}} { get; set; } = new();
+    public virtual List<{{relationship.Entity}}> {{relationship.Name}} { get; private set; } = new();
     {{- else}}
-    public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}} { get; set; } = null!;
+    public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}} { get; private set; } = null!;
     {{- if relationship.ShouldGenerateForeignOnThisSide}}
 
     /// <summary>
@@ -162,16 +231,20 @@ public abstract class {{className}}Base{{ if !entity.IsOwnedEntity }} : {{if ent
         {{- if relationship.WithSingleEntity }}
 
         {{- if relationship.Relationship == "ExactlyOne" }}
-        throw new Exception($"The relatioship cannot be deleted."); 
+        throw new Exception($"The relationship cannot be deleted.");
         {{- else }}
+        {{- if relationship.ShouldGenerateForeignOnThisSide }}
         {{relationship.Name}}Id = null;
+        {{- else }}
+        {{relationship.Name}} = null;
+        {{- end }}
         {{- end }}
 
         {{- else}}
 
         {{- if relationship.Relationship == "OneOrMany" }}
         if({{relationship.Name}}.Count() < 2)
-            throw new Exception($"The relatioship cannot be deleted.");             
+            throw new Exception($"The relationship cannot be deleted.");
         {{- end }}
         {{relationship.Name}}.Clear();
 

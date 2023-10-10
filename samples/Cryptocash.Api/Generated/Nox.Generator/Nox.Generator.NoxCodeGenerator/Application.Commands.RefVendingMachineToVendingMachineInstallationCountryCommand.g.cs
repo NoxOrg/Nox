@@ -15,6 +15,7 @@ using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using VendingMachineEntity = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application.Commands;
 
@@ -23,63 +24,59 @@ public abstract record RefVendingMachineToVendingMachineInstallationCountryComma
 public record CreateRefVendingMachineToVendingMachineInstallationCountryCommand(VendingMachineKeyDto EntityKeyDto, CountryKeyDto RelatedEntityKeyDto)
 	: RefVendingMachineToVendingMachineInstallationCountryCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefVendingMachineToVendingMachineInstallationCountryCommandHandler
+internal partial class CreateRefVendingMachineToVendingMachineInstallationCountryCommandHandler
 	: RefVendingMachineToVendingMachineInstallationCountryCommandHandlerBase<CreateRefVendingMachineToVendingMachineInstallationCountryCommand>
 {
 	public CreateRefVendingMachineToVendingMachineInstallationCountryCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Create)
+		: base(dbContext, noxSolution, RelationshipAction.Create)
 	{ }
 }
 
 public record DeleteRefVendingMachineToVendingMachineInstallationCountryCommand(VendingMachineKeyDto EntityKeyDto, CountryKeyDto RelatedEntityKeyDto)
 	: RefVendingMachineToVendingMachineInstallationCountryCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefVendingMachineToVendingMachineInstallationCountryCommandHandler
+internal partial class DeleteRefVendingMachineToVendingMachineInstallationCountryCommandHandler
 	: RefVendingMachineToVendingMachineInstallationCountryCommandHandlerBase<DeleteRefVendingMachineToVendingMachineInstallationCountryCommand>
 {
 	public DeleteRefVendingMachineToVendingMachineInstallationCountryCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Delete)
+		: base(dbContext, noxSolution, RelationshipAction.Delete)
 	{ }
 }
 
 public record DeleteAllRefVendingMachineToVendingMachineInstallationCountryCommand(VendingMachineKeyDto EntityKeyDto)
 	: RefVendingMachineToVendingMachineInstallationCountryCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefVendingMachineToVendingMachineInstallationCountryCommandHandler
+internal partial class DeleteAllRefVendingMachineToVendingMachineInstallationCountryCommandHandler
 	: RefVendingMachineToVendingMachineInstallationCountryCommandHandlerBase<DeleteAllRefVendingMachineToVendingMachineInstallationCountryCommand>
 {
 	public DeleteAllRefVendingMachineToVendingMachineInstallationCountryCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
 	{ }
 }
 
-public abstract class RefVendingMachineToVendingMachineInstallationCountryCommandHandlerBase<TRequest>: CommandBase<TRequest, VendingMachine>, 
+internal abstract class RefVendingMachineToVendingMachineInstallationCountryCommandHandlerBase<TRequest> : CommandBase<TRequest, VendingMachineEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefVendingMachineToVendingMachineInstallationCountryCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefVendingMachineToVendingMachineInstallationCountryCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
 		RelationshipAction action)
-		: base(noxSolution, serviceProvider)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		Action = action;
@@ -89,38 +86,38 @@ public abstract class RefVendingMachineToVendingMachineInstallationCountryComman
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<VendingMachine, Nox.Types.Guid>("Id", request.EntityKeyDto.keyId);
+		var keyId = Cryptocash.Domain.VendingMachineMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.VendingMachines.FindAsync(keyId);
 		if (entity == null)
 		{
 			return false;
 		}
 
-		Country? relatedEntity = null!;
+		Cryptocash.Domain.Country? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
-			var relatedKeyId = CreateNoxTypeForKey<Country, Nox.Types.CountryCode2>("Id", request.RelatedEntityKeyDto.keyId);
+			var relatedKeyId = Cryptocash.Domain.CountryMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
 			relatedEntity = await DbContext.Countries.FindAsync(relatedKeyId);
 			if (relatedEntity == null)
 			{
 				return false;
 			}
 		}
-		
-		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToVendingMachineInstallationCountry(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToVendingMachineInstallationCountry(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
-                entity.DeleteAllRefToVendingMachineInstallationCountry();
-                break;
-        }
 
-		OnCompleted(request, entity);
+		switch (Action)
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToVendingMachineInstallationCountry(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToVendingMachineInstallationCountry(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
+				entity.DeleteAllRefToVendingMachineInstallationCountry();
+				break;
+		}
+
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

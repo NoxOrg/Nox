@@ -3,25 +3,72 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using Cryptocash.Domain;
+using VendingMachineEntity = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application.Dto;
 
 public record VendingMachineKeyDto(System.Guid keyId);
 
+public partial class VendingMachineDto : VendingMachineDtoBase
+{
+
+}
+
 /// <summary>
 /// Vending machine definition and related data.
 /// </summary>
-public partial class VendingMachineDto
+public abstract class VendingMachineDtoBase : EntityDtoBase, IEntityDto<VendingMachineEntity>
 {
+
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+    
+        if (this.MacAddress is not null)
+            ExecuteActionAndCollectValidationExceptions("MacAddress", () => Cryptocash.Domain.VendingMachineMetadata.CreateMacAddress(this.MacAddress.NonNullValue<System.String>()), result);
+        else
+            result.Add("MacAddress", new [] { "MacAddress is Required." });
+    
+        if (this.PublicIp is not null)
+            ExecuteActionAndCollectValidationExceptions("PublicIp", () => Cryptocash.Domain.VendingMachineMetadata.CreatePublicIp(this.PublicIp.NonNullValue<System.String>()), result);
+        else
+            result.Add("PublicIp", new [] { "PublicIp is Required." });
+    
+        if (this.GeoLocation is not null)
+            ExecuteActionAndCollectValidationExceptions("GeoLocation", () => Cryptocash.Domain.VendingMachineMetadata.CreateGeoLocation(this.GeoLocation.NonNullValue<LatLongDto>()), result);
+        else
+            result.Add("GeoLocation", new [] { "GeoLocation is Required." });
+    
+        if (this.StreetAddress is not null)
+            ExecuteActionAndCollectValidationExceptions("StreetAddress", () => Cryptocash.Domain.VendingMachineMetadata.CreateStreetAddress(this.StreetAddress.NonNullValue<StreetAddressDto>()), result);
+        else
+            result.Add("StreetAddress", new [] { "StreetAddress is Required." });
+    
+        if (this.SerialNumber is not null)
+            ExecuteActionAndCollectValidationExceptions("SerialNumber", () => Cryptocash.Domain.VendingMachineMetadata.CreateSerialNumber(this.SerialNumber.NonNullValue<System.String>()), result);
+        else
+            result.Add("SerialNumber", new [] { "SerialNumber is Required." });
+    
+        if (this.InstallationFootPrint is not null)
+            ExecuteActionAndCollectValidationExceptions("InstallationFootPrint", () => Cryptocash.Domain.VendingMachineMetadata.CreateInstallationFootPrint(this.InstallationFootPrint.NonNullValue<System.Decimal>()), result);
+        if (this.RentPerSquareMetre is not null)
+            ExecuteActionAndCollectValidationExceptions("RentPerSquareMetre", () => Cryptocash.Domain.VendingMachineMetadata.CreateRentPerSquareMetre(this.RentPerSquareMetre.NonNullValue<MoneyDto>()), result);
+
+        return result;
+    }
+    #endregion
 
     /// <summary>
     /// Vending machine unique identifier (Required).
@@ -67,15 +114,15 @@ public partial class VendingMachineDto
     /// VendingMachine installed in ExactlyOne Countries
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.String VendingMachineInstallationCountryId { get; set; } = default!;
-    public virtual CountryDto VendingMachineInstallationCountry { get; set; } = null!;
+    public System.String? VendingMachineInstallationCountryId { get; set; } = default!;
+    public virtual CountryDto? VendingMachineInstallationCountry { get; set; } = null!;
 
     /// <summary>
     /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Int64 VendingMachineContractedAreaLandLordId { get; set; } = default!;
-    public virtual LandLordDto VendingMachineContractedAreaLandLord { get; set; } = null!;
+    public System.Int64? VendingMachineContractedAreaLandLordId { get; set; } = default!;
+    public virtual LandLordDto? VendingMachineContractedAreaLandLord { get; set; } = null!;
 
     /// <summary>
     /// VendingMachine related to ZeroOrMany Bookings
@@ -91,6 +138,7 @@ public partial class VendingMachineDto
     /// VendingMachine required ZeroOrMany MinimumCashStocks
     /// </summary>
     public virtual List<MinimumCashStockDto> VendingMachineRequiredMinimumCashStocks { get; set; } = new();
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

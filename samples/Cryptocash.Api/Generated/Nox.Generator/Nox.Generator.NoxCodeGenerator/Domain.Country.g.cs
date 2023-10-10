@@ -5,32 +5,50 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-public partial class Country:CountryBase
-{
 
+internal partial class Country : CountryBase, IEntityHaveDomainEvents
+{
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for Country created event.
 /// </summary>
-public record CountryCreated(Country Country) : IDomainEvent;
+internal record CountryCreated(Country Country) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for Country updated event.
 /// </summary>
-public record CountryUpdated(Country Country) : IDomainEvent;
+internal record CountryUpdated(Country Country) : IDomainEvent, INotification;
 /// <summary>
 /// Record for Country deleted event.
 /// </summary>
-public record CountryDeleted(Country Country) : IDomainEvent;
+internal record CountryDeleted(Country Country) : IDomainEvent, INotification;
 
 /// <summary>
 /// Country and related data.
 /// </summary>
-public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Country unique identifier (Required).
@@ -101,11 +119,38 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// Country's start of week day (Required).
     /// </summary>
     public Nox.Types.DayOfWeek StartOfWeek { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(Country country)
+	{
+		InternalDomainEvents.Add(new CountryCreated(country));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(Country country)
+	{
+		InternalDomainEvents.Add(new CountryUpdated(country));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(Country country)
+	{
+		InternalDomainEvents.Add(new CountryDeleted(country));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// Country used by ExactlyOne Currencies
     /// </summary>
-    public virtual Currency CountryUsedByCurrency { get; set; } = null!;
+    public virtual Currency CountryUsedByCurrency { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Currency
@@ -124,13 +169,13 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteAllRefToCountryUsedByCurrency()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>
     /// Country used by OneOrMany Commissions
     /// </summary>
-    public virtual List<Commission> CountryUsedByCommissions { get; set; } = new();
+    public virtual List<Commission> CountryUsedByCommissions { get; private set; } = new();
 
     public virtual void CreateRefToCountryUsedByCommissions(Commission relatedCommission)
     {
@@ -147,14 +192,14 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     public virtual void DeleteAllRefToCountryUsedByCommissions()
     {
         if(CountryUsedByCommissions.Count() < 2)
-            throw new Exception($"The relatioship cannot be deleted.");
+            throw new Exception($"The relationship cannot be deleted.");
         CountryUsedByCommissions.Clear();
     }
 
     /// <summary>
     /// Country used by ZeroOrMany VendingMachines
     /// </summary>
-    public virtual List<VendingMachine> CountryUsedByVendingMachines { get; set; } = new();
+    public virtual List<VendingMachine> CountryUsedByVendingMachines { get; private set; } = new();
 
     public virtual void CreateRefToCountryUsedByVendingMachines(VendingMachine relatedVendingMachine)
     {
@@ -174,7 +219,7 @@ public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Country used by ZeroOrMany Customers
     /// </summary>
-    public virtual List<Customer> CountryUsedByCustomers { get; set; } = new();
+    public virtual List<Customer> CountryUsedByCustomers { get; private set; } = new();
 
     public virtual void CreateRefToCountryUsedByCustomers(Customer relatedCustomer)
     {

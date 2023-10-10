@@ -14,7 +14,7 @@ namespace Cryptocash.Application.Queries;
 
 public record GetEmployeeByIdQuery(System.Int64 keyId) : IRequest <IQueryable<EmployeeDto>>;
 
-public partial class GetEmployeeByIdQueryHandler:GetEmployeeByIdQueryHandlerBase
+internal partial class GetEmployeeByIdQueryHandler:GetEmployeeByIdQueryHandlerBase
 {
     public  GetEmployeeByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
@@ -22,7 +22,7 @@ public partial class GetEmployeeByIdQueryHandler:GetEmployeeByIdQueryHandlerBase
     }
 }
 
-public abstract class GetEmployeeByIdQueryHandlerBase:  QueryBase<IQueryable<EmployeeDto>>, IRequestHandler<GetEmployeeByIdQuery, IQueryable<EmployeeDto>>
+internal abstract class GetEmployeeByIdQueryHandlerBase:  QueryBase<IQueryable<EmployeeDto>>, IRequestHandler<GetEmployeeByIdQuery, IQueryable<EmployeeDto>>
 {
     public  GetEmployeeByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {
@@ -36,8 +36,7 @@ public abstract class GetEmployeeByIdQueryHandlerBase:  QueryBase<IQueryable<Emp
         var query = DataDbContext.Employees
             .AsNoTracking()
             .Where(r =>
-                r.Id.Equals(request.keyId) &&
-                r.DeletedAtUtc == null);
+                r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));
     }
 }

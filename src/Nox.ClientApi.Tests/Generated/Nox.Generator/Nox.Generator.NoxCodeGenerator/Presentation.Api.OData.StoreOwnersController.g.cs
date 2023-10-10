@@ -25,16 +25,11 @@ namespace ClientApi.Presentation.Api.OData;
 
 public partial class StoreOwnersController : StoreOwnersControllerBase
 {
-    public StoreOwnersController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    public StoreOwnersController(IMediator mediator):base(mediator)
     {}
 }
-public abstract class StoreOwnersControllerBase : ODataController
+public abstract partial class StoreOwnersControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -42,11 +37,9 @@ public abstract class StoreOwnersControllerBase : ODataController
     protected readonly IMediator _mediator;
     
     public StoreOwnersControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
     }
     

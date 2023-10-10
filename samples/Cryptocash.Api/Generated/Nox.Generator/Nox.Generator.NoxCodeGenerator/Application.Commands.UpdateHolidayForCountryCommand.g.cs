@@ -11,36 +11,47 @@ using Nox.Factories;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using HolidayEntity = Cryptocash.Domain.Holiday;
 
 namespace Cryptocash.Application.Commands;
 public record UpdateHolidayForCountryCommand(CountryKeyDto ParentKeyDto, HolidayKeyDto EntityKeyDto, HolidayUpdateDto EntityDto, System.Guid? Etag) : IRequest <HolidayKeyDto?>;
 
-public partial class UpdateHolidayForCountryCommandHandler: CommandBase<UpdateHolidayForCountryCommand, Holiday>, IRequestHandler <UpdateHolidayForCountryCommand, HolidayKeyDto?>
+internal partial class UpdateHolidayForCountryCommandHandler : UpdateHolidayForCountryCommandHandlerBase
 {
-	public CryptocashDbContext DbContext { get; }
-	private readonly IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> _entityFactory;
-
 	public UpdateHolidayForCountryCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<Holiday, HolidayCreateDto, HolidayUpdateDto> entityFactory): base(noxSolution, serviceProvider)
+		IEntityFactory<HolidayEntity, HolidayCreateDto, HolidayUpdateDto> entityFactory)
+		: base(dbContext, noxSolution, entityFactory)
+	{
+	}
+}
+
+internal partial class UpdateHolidayForCountryCommandHandlerBase : CommandBase<UpdateHolidayForCountryCommand, HolidayEntity>, IRequestHandler <UpdateHolidayForCountryCommand, HolidayKeyDto?>
+{
+	public CryptocashDbContext DbContext { get; }
+	private readonly IEntityFactory<HolidayEntity, HolidayCreateDto, HolidayUpdateDto> _entityFactory;
+
+	public UpdateHolidayForCountryCommandHandlerBase(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
+		IEntityFactory<HolidayEntity, HolidayCreateDto, HolidayUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
 	}
 
-	public async Task<HolidayKeyDto?> Handle(UpdateHolidayForCountryCommand request, CancellationToken cancellationToken)
+	public virtual async Task<HolidayKeyDto?> Handle(UpdateHolidayForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Country,Nox.Types.CountryCode2>("Id", request.ParentKeyDto.keyId);
+		var keyId = Cryptocash.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await DbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return null;
 		}
-		var ownedId = CreateNoxTypeForKey<Holiday,Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);
+		var ownedId = Cryptocash.Domain.HolidayMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.CountryOwnedHolidays.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
@@ -49,7 +60,7 @@ public partial class UpdateHolidayForCountryCommandHandler: CommandBase<UpdateHo
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

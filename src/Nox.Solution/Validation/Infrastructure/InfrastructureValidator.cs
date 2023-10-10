@@ -44,11 +44,6 @@ namespace Nox.Solution.Validation
                     if (infra.Persistence.EventSourceServer != null) servers.Add(infra.Persistence.EventSourceServer);    
                 }
 
-                if (infra.Messaging != null)
-                {
-                    if (infra.Messaging.IntegrationEventServer != null) servers.Add(infra.Messaging.IntegrationEventServer);
-                }
-
                 if (infra.Endpoints != null)
                 {
                     if (infra.Endpoints.ApiServer != null) servers.Add(infra.Endpoints.ApiServer);

@@ -80,15 +80,15 @@ domain:
         schema: dbo
         create:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
         read:
           isEnabled: true
         update:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
         delete:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
 
       relationships:
 
@@ -455,11 +455,7 @@ infrastructure:
 
     integrationEventServer:
       name: IntegrationBus
-      provider: rabbitMq
-      serverUri: rabbitmq://localhost
-      port: 5672
-      user: guest
-      password: guest
+      provider: inMemory
 
   endpoints:
     

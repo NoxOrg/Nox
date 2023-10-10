@@ -9,7 +9,7 @@
 #    <AdditionalFiles Include="generator.nox.yaml" />
 #  </ItemGroup>
 
-# Genrates momain models, events and related types
+# Genrates domain models, events and related types
 domain: true
 
 # Generates application logic and events
@@ -18,5 +18,5 @@ application: false
 # Generates persistence, DbContext and model configuration and mapping
 infrastructure: true
 
-# Generates APi's and UI's
+# Generates APi's
 presentation: false

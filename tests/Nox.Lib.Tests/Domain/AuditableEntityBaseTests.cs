@@ -8,8 +8,8 @@ namespace Nox.Lib.Tests.Domain
     {
         private class SampleEntity : AuditableEntityBase { }
 
-        private static readonly User DefaultUser = User.From(System.Guid.Empty.ToString());
-        private static readonly Text DefaultSystem = Text.From("N/A");
+        private static readonly string DefaultUser = "N/A";
+        private static readonly string DefaultSystem = "N/A";
 
         private static readonly System.DateTime CurrentDateTimeUtc = System.DateTime.UtcNow;
         private static readonly TimeSpan DefaultDateTimePrecision = TimeSpan.FromSeconds(15);
@@ -19,7 +19,7 @@ namespace Nox.Lib.Tests.Domain
         {
             var entity = new SampleEntity();
 
-            entity.CreatedAtUtc.Value.Should().BeCloseTo(CurrentDateTimeUtc, DefaultDateTimePrecision);
+            entity.CreatedAtUtc.Should().BeCloseTo(CurrentDateTimeUtc, DefaultDateTimePrecision);
             entity.CreatedBy.Should().BeEquivalentTo(DefaultUser);
             entity.CreatedVia.Should().BeEquivalentTo(DefaultSystem);
 
@@ -37,11 +37,11 @@ namespace Nox.Lib.Tests.Domain
         {
             var entity = new SampleEntity();
 
-            var user = User.From("someone@example.com");
-            var system = Text.From("some system");
+            var user = "someone@example.com";
+            var system = "some system";
             entity.Created(user, system);
 
-            entity.CreatedAtUtc.Value.Should().BeCloseTo(CurrentDateTimeUtc, DefaultDateTimePrecision);
+            entity.CreatedAtUtc.Should().BeCloseTo(CurrentDateTimeUtc, DefaultDateTimePrecision);
             entity.CreatedBy.Should().BeEquivalentTo(user);
             entity.CreatedVia.Should().BeEquivalentTo(system);
 
@@ -59,11 +59,11 @@ namespace Nox.Lib.Tests.Domain
         {
             var entity = new SampleEntity();
 
-            var user = User.From("someone@example.com");
-            var system = Text.From("some system");
+            var user = "someone@example.com";
+            var system = "some system";
             entity.Updated(user, system);
 
-            entity.CreatedAtUtc.Value.Should().BeCloseTo(CurrentDateTimeUtc, DefaultDateTimePrecision);
+            entity.CreatedAtUtc.Should().BeCloseTo(CurrentDateTimeUtc, DefaultDateTimePrecision);
             entity.CreatedBy.Should().BeEquivalentTo(DefaultUser);
             entity.CreatedVia.Should().BeEquivalentTo(DefaultSystem);
 
@@ -81,11 +81,11 @@ namespace Nox.Lib.Tests.Domain
         {
             var entity = new SampleEntity();
 
-            var user = User.From("someone@example.com");
-            var system = Text.From("some system");
+            var user = "someone@example.com";
+            var system = "some system";
             entity.Deleted(user, system);
 
-            entity.CreatedAtUtc.Value.Should().BeCloseTo(CurrentDateTimeUtc, DefaultDateTimePrecision);
+            entity.CreatedAtUtc.Should().BeCloseTo(CurrentDateTimeUtc, DefaultDateTimePrecision);
             entity.CreatedBy.Should().BeEquivalentTo(DefaultUser);
             entity.CreatedVia.Should().BeEquivalentTo(DefaultSystem);
 

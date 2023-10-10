@@ -14,7 +14,7 @@ namespace Cryptocash.Application.Queries;
 
 public record GetVendingMachinesQuery() : IRequest<IQueryable<VendingMachineDto>>;
 
-public partial class GetVendingMachinesQueryHandler: GetVendingMachinesQueryHandlerBase
+internal partial class GetVendingMachinesQueryHandler: GetVendingMachinesQueryHandlerBase
 {
     public GetVendingMachinesQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
@@ -22,7 +22,7 @@ public partial class GetVendingMachinesQueryHandler: GetVendingMachinesQueryHand
     }
 }
 
-public abstract class GetVendingMachinesQueryHandlerBase : QueryBase<IQueryable<VendingMachineDto>>, IRequestHandler<GetVendingMachinesQuery, IQueryable<VendingMachineDto>>
+internal abstract class GetVendingMachinesQueryHandlerBase : QueryBase<IQueryable<VendingMachineDto>>, IRequestHandler<GetVendingMachinesQuery, IQueryable<VendingMachineDto>>
 {
     public  GetVendingMachinesQueryHandlerBase(DtoDbContext dataDbContext)
     {
@@ -34,7 +34,6 @@ public abstract class GetVendingMachinesQueryHandlerBase : QueryBase<IQueryable<
     public virtual Task<IQueryable<VendingMachineDto>> Handle(GetVendingMachinesQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<VendingMachineDto>)DataDbContext.VendingMachines
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }

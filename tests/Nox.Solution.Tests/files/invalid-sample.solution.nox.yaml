@@ -76,15 +76,15 @@ domain:
         tableName: Country
         create:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
         read:
           isEnabled: true
         update:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
         delete:
           isEnabled: true
-          raiseEvents: true
+          raiseEvents: domainEventsOnly
 
       relationships:
 
@@ -398,16 +398,6 @@ infrastructure:
       provider: eventStoreDb
       user: EvtUser
       password: EvtPassword
-
-  messaging:
-
-    integrationEventServer:
-      name: IntegrationBus
-      provider: rabbitMq
-      serverUri: rabbitmq://localhost
-      port: 5672
-      user: guest
-      password: guest
 
   endpoints:
     

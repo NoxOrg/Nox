@@ -25,18 +25,26 @@
         "description": {    
           "title": "The description of the ETL target.",
           "description": "A phrase describing the ETL target.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
           ]
         },
         "targetType": {    
           "const": "database"
         },
         "databaseOptions": {    
-          "type": [
-            "object",
-            "null"
+          "oneOf": [
+            {
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
           ],
           "required": [
             "storedProcedure"
@@ -76,18 +84,26 @@
         "description": {    
           "title": "The description of the ETL target.",
           "description": "A phrase describing the ETL target.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
           ]
         },
         "targetType": {    
           "const": "file"
         },
         "fileOptions": {    
-          "type": [
-            "object",
-            "null"
+          "oneOf": [
+            {
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
           ],
           "required": [
             "filename"
@@ -127,45 +143,65 @@
         "description": {    
           "title": "The description of the ETL target.",
           "description": "A phrase describing the ETL target.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
           ]
         },
         "targetType": {    
           "const": "webApi"
         },
         "webApiOptions": {    
-          "type": [
-            "object",
-            "null"
+          "oneOf": [
+            {
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
           ],
           "properties": {
             "route": {    
-              "type": [
-                "string",
-                "null"
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
               ]
             },
             "requestFormat": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "json",
-                "xml"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "json",
+                    "xml"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
               ]
             },
             "httpVerb": {    
-              "type": [
-                "string",
-                "null"
-              ],
-              "enum": [
-                "patch",
-                "post",
-                "put"
+              "oneOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "patch",
+                    "post",
+                    "put"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
               ]
             }
           },
@@ -197,18 +233,26 @@
         "description": {    
           "title": "The description of the ETL target.",
           "description": "A phrase describing the ETL target.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
           ]
         },
         "targetType": {    
           "const": "messageQueue"
         },
         "messageQueueOptions": {    
-          "type": [
-            "object",
-            "null"
+          "oneOf": [
+            {
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
           ],
           "required": [
             "targetName"
@@ -248,18 +292,26 @@
         "description": {    
           "title": "The description of the ETL target.",
           "description": "A phrase describing the ETL target.",
-          "type": [
-            "string",
-            "null"
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
           ]
         },
         "targetType": {    
           "const": "entity"
         },
         "entityOptions": {    
-          "type": [
-            "object",
-            "null"
+          "oneOf": [
+            {
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
           ],
           "required": [
             "entity"

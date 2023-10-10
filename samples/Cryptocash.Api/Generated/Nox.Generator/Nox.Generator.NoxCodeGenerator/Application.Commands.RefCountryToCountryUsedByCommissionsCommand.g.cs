@@ -15,6 +15,7 @@ using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using CountryEntity = Cryptocash.Domain.Country;
 
 namespace Cryptocash.Application.Commands;
 
@@ -23,63 +24,59 @@ public abstract record RefCountryToCountryUsedByCommissionsCommand(CountryKeyDto
 public record CreateRefCountryToCountryUsedByCommissionsCommand(CountryKeyDto EntityKeyDto, CommissionKeyDto RelatedEntityKeyDto)
 	: RefCountryToCountryUsedByCommissionsCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefCountryToCountryUsedByCommissionsCommandHandler
+internal partial class CreateRefCountryToCountryUsedByCommissionsCommandHandler
 	: RefCountryToCountryUsedByCommissionsCommandHandlerBase<CreateRefCountryToCountryUsedByCommissionsCommand>
 {
 	public CreateRefCountryToCountryUsedByCommissionsCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Create)
+		: base(dbContext, noxSolution, RelationshipAction.Create)
 	{ }
 }
 
 public record DeleteRefCountryToCountryUsedByCommissionsCommand(CountryKeyDto EntityKeyDto, CommissionKeyDto RelatedEntityKeyDto)
 	: RefCountryToCountryUsedByCommissionsCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefCountryToCountryUsedByCommissionsCommandHandler
+internal partial class DeleteRefCountryToCountryUsedByCommissionsCommandHandler
 	: RefCountryToCountryUsedByCommissionsCommandHandlerBase<DeleteRefCountryToCountryUsedByCommissionsCommand>
 {
 	public DeleteRefCountryToCountryUsedByCommissionsCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Delete)
+		: base(dbContext, noxSolution, RelationshipAction.Delete)
 	{ }
 }
 
 public record DeleteAllRefCountryToCountryUsedByCommissionsCommand(CountryKeyDto EntityKeyDto)
 	: RefCountryToCountryUsedByCommissionsCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefCountryToCountryUsedByCommissionsCommandHandler
+internal partial class DeleteAllRefCountryToCountryUsedByCommissionsCommandHandler
 	: RefCountryToCountryUsedByCommissionsCommandHandlerBase<DeleteAllRefCountryToCountryUsedByCommissionsCommand>
 {
 	public DeleteAllRefCountryToCountryUsedByCommissionsCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
 	{ }
 }
 
-public abstract class RefCountryToCountryUsedByCommissionsCommandHandlerBase<TRequest>: CommandBase<TRequest, Country>, 
+internal abstract class RefCountryToCountryUsedByCommissionsCommandHandlerBase<TRequest> : CommandBase<TRequest, CountryEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCountryToCountryUsedByCommissionsCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefCountryToCountryUsedByCommissionsCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
 		RelationshipAction action)
-		: base(noxSolution, serviceProvider)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		Action = action;
@@ -89,39 +86,39 @@ public abstract class RefCountryToCountryUsedByCommissionsCommandHandlerBase<TRe
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Country, Nox.Types.CountryCode2>("Id", request.EntityKeyDto.keyId);
+		var keyId = Cryptocash.Domain.CountryMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.Countries.FindAsync(keyId);
 		if (entity == null)
 		{
 			return false;
 		}
 
-		Commission? relatedEntity = null!;
+		Cryptocash.Domain.Commission? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
-			var relatedKeyId = CreateNoxTypeForKey<Commission, Nox.Types.AutoNumber>("Id", request.RelatedEntityKeyDto.keyId);
+			var relatedKeyId = Cryptocash.Domain.CommissionMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
 			relatedEntity = await DbContext.Commissions.FindAsync(relatedKeyId);
 			if (relatedEntity == null)
 			{
 				return false;
 			}
 		}
-		
-		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToCountryUsedByCommissions(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToCountryUsedByCommissions(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
-				await DbContext.Entry(entity).Collection(x => x.CountryUsedByCommissions).LoadAsync();
-                entity.DeleteAllRefToCountryUsedByCommissions();
-                break;
-        }
 
-		OnCompleted(request, entity);
+		switch (Action)
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToCountryUsedByCommissions(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToCountryUsedByCommissions(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
+				await DbContext.Entry(entity).Collection(x => x.CountryUsedByCommissions).LoadAsync();
+				entity.DeleteAllRefToCountryUsedByCommissions();
+				break;
+		}
+
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

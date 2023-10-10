@@ -8,60 +8,60 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Application.Commands;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Factories;
 using Nox.Solution;
 
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
-using Customer = Cryptocash.Domain.Customer;
+using CustomerEntity = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application.Commands;
 
 public record CreateCustomerCommand(CustomerCreateDto EntityDto) : IRequest<CustomerKeyDto>;
 
-public partial class CreateCustomerCommandHandler: CreateCustomerCommandHandlerBase
+internal partial class CreateCustomerCommandHandler : CreateCustomerCommandHandlerBase
 {
 	public CreateCustomerCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> paymentdetailfactory,
-        IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> bookingfactory,
-        IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> transactionfactory,
-        IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
-        IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> entityFactory,
-		IServiceProvider serviceProvider)
-		: base(dbContext, noxSolution,paymentdetailfactory, bookingfactory, transactionfactory, countryfactory, entityFactory, serviceProvider)
+		IEntityFactory<Cryptocash.Domain.PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> paymentdetailfactory,
+		IEntityFactory<Cryptocash.Domain.Booking, BookingCreateDto, BookingUpdateDto> bookingfactory,
+		IEntityFactory<Cryptocash.Domain.Transaction, TransactionCreateDto, TransactionUpdateDto> transactionfactory,
+		IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> countryfactory,
+		IEntityFactory<CustomerEntity, CustomerCreateDto, CustomerUpdateDto> entityFactory)
+		: base(dbContext, noxSolution,paymentdetailfactory, bookingfactory, transactionfactory, countryfactory, entityFactory)
 	{
 	}
 }
 
 
-public abstract class CreateCustomerCommandHandlerBase: CommandBase<CreateCustomerCommand,Customer>, IRequestHandler <CreateCustomerCommand, CustomerKeyDto>
+internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCustomerCommand,CustomerEntity>, IRequestHandler <CreateCustomerCommand, CustomerKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> _entityFactory;
-    private readonly IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> _paymentdetailfactory;
-    private readonly IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> _bookingfactory;
-    private readonly IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> _transactionfactory;
-    private readonly IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> _countryfactory;
+	private readonly IEntityFactory<CustomerEntity, CustomerCreateDto, CustomerUpdateDto> _entityFactory;
+	private readonly IEntityFactory<Cryptocash.Domain.PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> _paymentdetailfactory;
+	private readonly IEntityFactory<Cryptocash.Domain.Booking, BookingCreateDto, BookingUpdateDto> _bookingfactory;
+	private readonly IEntityFactory<Cryptocash.Domain.Transaction, TransactionCreateDto, TransactionUpdateDto> _transactionfactory;
+	private readonly IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> _countryfactory;
 
 	public CreateCustomerCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> paymentdetailfactory,
-        IEntityFactory<Booking, BookingCreateDto, BookingUpdateDto> bookingfactory,
-        IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto> transactionfactory,
-        IEntityFactory<Country, CountryCreateDto, CountryUpdateDto> countryfactory,
-        IEntityFactory<Customer, CustomerCreateDto, CustomerUpdateDto> entityFactory,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<Cryptocash.Domain.PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> paymentdetailfactory,
+		IEntityFactory<Cryptocash.Domain.Booking, BookingCreateDto, BookingUpdateDto> bookingfactory,
+		IEntityFactory<Cryptocash.Domain.Transaction, TransactionCreateDto, TransactionUpdateDto> transactionfactory,
+		IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> countryfactory,
+		IEntityFactory<CustomerEntity, CustomerCreateDto, CustomerUpdateDto> entityFactory) : base(noxSolution)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;
-        _paymentdetailfactory = paymentdetailfactory;
-        _bookingfactory = bookingfactory;
-        _transactionfactory = transactionfactory;
-        _countryfactory = countryfactory;
+		_paymentdetailfactory = paymentdetailfactory;
+		_bookingfactory = bookingfactory;
+		_transactionfactory = transactionfactory;
+		_countryfactory = countryfactory;
 	}
 
 	public virtual async Task<CustomerKeyDto> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
@@ -85,13 +85,22 @@ public abstract class CreateCustomerCommandHandlerBase: CommandBase<CreateCustom
 			var relatedEntity = _transactionfactory.CreateEntity(relatedCreateDto);
 			entityToCreate.CreateRefToCustomerRelatedTransactions(relatedEntity);
 		}
-		if(request.EntityDto.CustomerBaseCountry is not null)
+		if(request.EntityDto.CustomerBaseCountryId is not null)
+		{
+			var relatedKey = Cryptocash.Domain.CountryMetadata.CreateId(request.EntityDto.CustomerBaseCountryId.NonNullValue<System.String>());
+			var relatedEntity = await _dbContext.Countries.FindAsync(relatedKey);
+			if(relatedEntity is not null)
+				entityToCreate.CreateRefToCustomerBaseCountry(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("CustomerBaseCountry", request.EntityDto.CustomerBaseCountryId.NonNullValue<System.String>().ToString());
+		}
+		else if(request.EntityDto.CustomerBaseCountry is not null)
 		{
 			var relatedEntity = _countryfactory.CreateEntity(request.EntityDto.CustomerBaseCountry);
 			entityToCreate.CreateRefToCustomerBaseCountry(relatedEntity);
 		}
 
-		OnCompleted(request, entityToCreate);
+		await OnCompletedAsync(request, entityToCreate);
 		_dbContext.Customers.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new CustomerKeyDto(entityToCreate.Id.Value);

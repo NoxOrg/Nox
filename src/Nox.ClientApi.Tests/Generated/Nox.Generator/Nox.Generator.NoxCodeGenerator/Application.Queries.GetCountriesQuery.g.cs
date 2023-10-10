@@ -14,7 +14,7 @@ namespace ClientApi.Application.Queries;
 
 public record GetCountriesQuery() : IRequest<IQueryable<CountryDto>>;
 
-public partial class GetCountriesQueryHandler: GetCountriesQueryHandlerBase
+internal partial class GetCountriesQueryHandler: GetCountriesQueryHandlerBase
 {
     public GetCountriesQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
@@ -22,7 +22,7 @@ public partial class GetCountriesQueryHandler: GetCountriesQueryHandlerBase
     }
 }
 
-public abstract class GetCountriesQueryHandlerBase : QueryBase<IQueryable<CountryDto>>, IRequestHandler<GetCountriesQuery, IQueryable<CountryDto>>
+internal abstract class GetCountriesQueryHandlerBase : QueryBase<IQueryable<CountryDto>>, IRequestHandler<GetCountriesQuery, IQueryable<CountryDto>>
 {
     public  GetCountriesQueryHandlerBase(DtoDbContext dataDbContext)
     {
@@ -34,7 +34,6 @@ public abstract class GetCountriesQueryHandlerBase : QueryBase<IQueryable<Countr
     public virtual Task<IQueryable<CountryDto>> Handle(GetCountriesQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<CountryDto>)DataDbContext.Countries
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }

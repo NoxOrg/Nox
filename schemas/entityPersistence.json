@@ -2,53 +2,106 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Specifies information on storing and retrieving the entity.",
   "description": "Provides hints to the database engine and API as to how this entity should be managed in the persistence store.",
-  "type": [
-    "object",
-    "null"
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
   ],
   "properties": {
     "isAudited": {    
       "title": "Whether all changes to this entity is tracked for  auditing.",
       "description": "Indicates to the storage engine that all changes to this entity must be tracked over time. Usually used to time-travel, track or audit an entity's state changes.",
-      "type": [
-        "boolean",
-        "null"
+      "oneOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
       ]
     },
     "tableName": {    
       "title": "Table name in the database to which this entity refers to.",
       "description": "Indicates to the storage engine which table in the database these entity persistence settings apply to.",
-      "type": [
-        "string",
-        "null"
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
       ]
     },
     "schema": {    
       "title": "Schema name in the database to which the Table Name applies to.",
       "description": "Indicates to the storage engine which schema in the database the entity TableName persistence settings apply to.",
-      "type": [
-        "string",
-        "null"
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
       ]
     },
     "create": {    
       "title": "Specifies persistence behaviour related to creating the entity.",
       "description": "Provides behaviour related to the action of creating an entity, e.g. is the action enabled and whether events are raised when the action is triggered.",
-      "type": [
-        "object",
-        "null"
+      "oneOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
       ],
       "properties": {
         "isEnabled": {    
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
           ]
         },
         "raiseEvents": {    
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "domainAndIntegrationEvents",
+                "domainEventsOnly",
+                "never"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "raiseDomainEvents": {    
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "raiseIntegrationEvents": {    
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
           ]
         }
       },
@@ -57,15 +110,23 @@
     "read": {    
       "title": "Specifies persistence behaviour related to reading the entity.",
       "description": "Provides behaviour related to the action of reading an entity, e.g. is the action enabled and whether events are raised when the action is triggered.",
-      "type": [
-        "object",
-        "null"
+      "oneOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
       ],
       "properties": {
         "isEnabled": {    
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
           ]
         }
       },
@@ -74,21 +135,58 @@
     "update": {    
       "title": "Specifies persistence behaviour related to updating the entity.",
       "description": "Provides behaviour related to the action of updating an entity, e.g. is the action enabled and whether events are raised when the action is triggered.",
-      "type": [
-        "object",
-        "null"
+      "oneOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
       ],
       "properties": {
         "isEnabled": {    
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
           ]
         },
         "raiseEvents": {    
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "domainAndIntegrationEvents",
+                "domainEventsOnly",
+                "never"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "raiseDomainEvents": {    
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "raiseIntegrationEvents": {    
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
           ]
         }
       },
@@ -97,21 +195,58 @@
     "delete": {    
       "title": "Specifies persistence behaviour related to deleting the entity.",
       "description": "Provides behaviour related to the action of deleting an entity, e.g. is the action enabled, whether events are raised when the action is triggered and soft deletes are used.",
-      "type": [
-        "object",
-        "null"
+      "oneOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
       ],
       "properties": {
         "isEnabled": {    
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
           ]
         },
         "raiseEvents": {    
-          "type": [
-            "boolean",
-            "null"
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "domainAndIntegrationEvents",
+                "domainEventsOnly",
+                "never"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "raiseDomainEvents": {    
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "raiseIntegrationEvents": {    
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
           ]
         }
       },

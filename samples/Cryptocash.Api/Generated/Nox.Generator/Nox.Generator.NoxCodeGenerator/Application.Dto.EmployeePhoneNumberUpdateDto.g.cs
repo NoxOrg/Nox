@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Cryptocash.Domain;
 
+using EmployeePhoneNumberEntity = Cryptocash.Domain.EmployeePhoneNumber;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Employee phone number and related data.
 /// </summary>
-public partial class EmployeePhoneNumberUpdateDto : IEntityDto<EmployeePhoneNumber>
+public partial class EmployeePhoneNumberUpdateDto : IEntityDto<EmployeePhoneNumberEntity>
 {
     /// <summary>
     /// Employee's phone number type (Required).

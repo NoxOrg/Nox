@@ -9,29 +9,27 @@ using Nox.Solution;
 using Nox.Types;
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
-using {{entity.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
+using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
 public record Delete{{entity.Name }}ByIdCommand({{primaryKeys}}{{ if !entity.IsOwnedEntity }}, System.Guid? Etag{{end}}) : IRequest<bool>;
 
-public class Delete{{entity.Name}}ByIdCommandHandler:Delete{{entity.Name}}ByIdCommandHandlerBase
+internal class Delete{{entity.Name}}ByIdCommandHandler : Delete{{entity.Name}}ByIdCommandHandlerBase
 {
 	public Delete{{entity.Name}}ByIdCommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
-public abstract class Delete{{entity.Name}}ByIdCommandHandlerBase: CommandBase<Delete{{entity.Name}}ByIdCommand,{{entity.Name}}>, IRequestHandler<Delete{{entity.Name}}ByIdCommand, bool>
+internal abstract class Delete{{entity.Name}}ByIdCommandHandlerBase : CommandBase<Delete{{entity.Name}}ByIdCommand, {{entity.Name}}Entity>, IRequestHandler<Delete{{entity.Name}}ByIdCommand, bool>
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
 
 	public Delete{{entity.Name}}ByIdCommandHandlerBase(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
@@ -43,11 +41,11 @@ public abstract class Delete{{entity.Name}}ByIdCommandHandlerBase: CommandBase<D
 
 		{{- for key in entity.Keys }}
 		{{- keyType = SingleTypeForKey key }}
-		var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},Nox.Types.{{keyType}}>("{{key.Name}}", request.key{{key.Name}});
+		var key{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(request.key{{key.Name}});
 		{{- end }}
 
 		var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysQuery}});
-		if (entity == null{{if (entity.Persistence?.IsAudited ?? true)}} || entity.IsDeleted.Value == true{{end}})
+		if (entity == null{{if (entity.Persistence?.IsAudited ?? true)}} || entity.IsDeleted == true{{end}})
 		{
 			return false;
 		}
@@ -56,8 +54,8 @@ public abstract class Delete{{entity.Name}}ByIdCommandHandlerBase: CommandBase<D
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		{{- end }}
 
-		OnCompleted(request, entity);
-		
+		await OnCompletedAsync(request, entity);
+
 		{{- if (entity.Persistence?.IsAudited ?? true) }}
 		DbContext.Entry(entity).State = EntityState.Deleted;
 		{{-else-}}

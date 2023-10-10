@@ -11,28 +11,38 @@ using Nox.Factories;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using EmailAddressEntity = ClientApi.Domain.EmailAddress;
 
 namespace ClientApi.Application.Commands;
 public record DeleteEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto) : IRequest <bool>;
 
 
-public partial class DeleteEmailAddressForStoreCommandHandler: CommandBase<DeleteEmailAddressForStoreCommand, EmailAddress>, IRequestHandler <DeleteEmailAddressForStoreCommand, bool>
+internal partial class DeleteEmailAddressForStoreCommandHandler : DeleteEmailAddressForStoreCommandHandlerBase
+{
+	public DeleteEmailAddressForStoreCommandHandler(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution)
+		: base(dbContext, noxSolution)
+	{
+	}
+}
+
+internal partial class DeleteEmailAddressForStoreCommandHandlerBase : CommandBase<DeleteEmailAddressForStoreCommand, EmailAddressEntity>, IRequestHandler <DeleteEmailAddressForStoreCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 
-	public DeleteEmailAddressForStoreCommandHandler(
+	public DeleteEmailAddressForStoreCommandHandlerBase(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeleteEmailAddressForStoreCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteEmailAddressForStoreCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Store,Nox.Types.Guid>("Id", request.ParentKeyDto.keyId);
+		var keyId = ClientApi.Domain.StoreMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await DbContext.Stores.FindAsync(keyId);
 		if (parentEntity == null)
 		{
@@ -44,13 +54,13 @@ public partial class DeleteEmailAddressForStoreCommandHandler: CommandBase<Delet
 			return false;
 		}
 
-		parentEntity.VerifiedEmails = null;
+		parentEntity.VerifiedEmails = null!;
 
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		
-	
+
 		var result = await DbContext.SaveChangesAsync(cancellationToken);
 		if (result < 1)
 		{

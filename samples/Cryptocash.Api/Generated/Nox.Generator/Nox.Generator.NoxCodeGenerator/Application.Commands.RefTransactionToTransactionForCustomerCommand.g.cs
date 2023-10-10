@@ -15,6 +15,7 @@ using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using TransactionEntity = Cryptocash.Domain.Transaction;
 
 namespace Cryptocash.Application.Commands;
 
@@ -23,63 +24,59 @@ public abstract record RefTransactionToTransactionForCustomerCommand(Transaction
 public record CreateRefTransactionToTransactionForCustomerCommand(TransactionKeyDto EntityKeyDto, CustomerKeyDto RelatedEntityKeyDto)
 	: RefTransactionToTransactionForCustomerCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class CreateRefTransactionToTransactionForCustomerCommandHandler
+internal partial class CreateRefTransactionToTransactionForCustomerCommandHandler
 	: RefTransactionToTransactionForCustomerCommandHandlerBase<CreateRefTransactionToTransactionForCustomerCommand>
 {
 	public CreateRefTransactionToTransactionForCustomerCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Create)
+		: base(dbContext, noxSolution, RelationshipAction.Create)
 	{ }
 }
 
 public record DeleteRefTransactionToTransactionForCustomerCommand(TransactionKeyDto EntityKeyDto, CustomerKeyDto RelatedEntityKeyDto)
 	: RefTransactionToTransactionForCustomerCommand(EntityKeyDto, RelatedEntityKeyDto);
 
-public partial class DeleteRefTransactionToTransactionForCustomerCommandHandler
+internal partial class DeleteRefTransactionToTransactionForCustomerCommandHandler
 	: RefTransactionToTransactionForCustomerCommandHandlerBase<DeleteRefTransactionToTransactionForCustomerCommand>
 {
 	public DeleteRefTransactionToTransactionForCustomerCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.Delete)
+		: base(dbContext, noxSolution, RelationshipAction.Delete)
 	{ }
 }
 
 public record DeleteAllRefTransactionToTransactionForCustomerCommand(TransactionKeyDto EntityKeyDto)
 	: RefTransactionToTransactionForCustomerCommand(EntityKeyDto, null);
 
-public partial class DeleteAllRefTransactionToTransactionForCustomerCommandHandler
+internal partial class DeleteAllRefTransactionToTransactionForCustomerCommandHandler
 	: RefTransactionToTransactionForCustomerCommandHandlerBase<DeleteAllRefTransactionToTransactionForCustomerCommand>
 {
 	public DeleteAllRefTransactionToTransactionForCustomerCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider
+		NoxSolution noxSolution
 		)
-		: base(dbContext, noxSolution, serviceProvider, RelationshipAction.DeleteAll)
+		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
 	{ }
 }
 
-public abstract class RefTransactionToTransactionForCustomerCommandHandlerBase<TRequest>: CommandBase<TRequest, Transaction>, 
+internal abstract class RefTransactionToTransactionForCustomerCommandHandlerBase<TRequest> : CommandBase<TRequest, TransactionEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefTransactionToTransactionForCustomerCommand
 {
 	public CryptocashDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
-    public enum RelationshipAction { Create, Delete, DeleteAll };
+	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefTransactionToTransactionForCustomerCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
 		RelationshipAction action)
-		: base(noxSolution, serviceProvider)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		Action = action;
@@ -89,38 +86,38 @@ public abstract class RefTransactionToTransactionForCustomerCommandHandlerBase<T
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Transaction, Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);
+		var keyId = Cryptocash.Domain.TransactionMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.Transactions.FindAsync(keyId);
 		if (entity == null)
 		{
 			return false;
 		}
 
-		Customer? relatedEntity = null!;
+		Cryptocash.Domain.Customer? relatedEntity = null!;
 		if(request.RelatedEntityKeyDto is not null)
 		{
-			var relatedKeyId = CreateNoxTypeForKey<Customer, Nox.Types.AutoNumber>("Id", request.RelatedEntityKeyDto.keyId);
+			var relatedKeyId = Cryptocash.Domain.CustomerMetadata.CreateId(request.RelatedEntityKeyDto.keyId);
 			relatedEntity = await DbContext.Customers.FindAsync(relatedKeyId);
 			if (relatedEntity == null)
 			{
 				return false;
 			}
 		}
-		
-		switch (Action)
-        {
-            case RelationshipAction.Create:
-                entity.CreateRefToTransactionForCustomer(relatedEntity);
-                break;
-            case RelationshipAction.Delete:
-                entity.DeleteRefToTransactionForCustomer(relatedEntity);
-                break;
-            case RelationshipAction.DeleteAll:
-                entity.DeleteAllRefToTransactionForCustomer();
-                break;
-        }
 
-		OnCompleted(request, entity);
+		switch (Action)
+		{
+			case RelationshipAction.Create:
+				entity.CreateRefToTransactionForCustomer(relatedEntity);
+				break;
+			case RelationshipAction.Delete:
+				entity.DeleteRefToTransactionForCustomer(relatedEntity);
+				break;
+			case RelationshipAction.DeleteAll:
+				entity.DeleteAllRefToTransactionForCustomer();
+				break;
+		}
+
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

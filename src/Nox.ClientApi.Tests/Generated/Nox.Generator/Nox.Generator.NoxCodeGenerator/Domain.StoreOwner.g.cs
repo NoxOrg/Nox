@@ -5,32 +5,50 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-public partial class StoreOwner:StoreOwnerBase
-{
 
+internal partial class StoreOwner : StoreOwnerBase, IEntityHaveDomainEvents
+{
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for StoreOwner created event.
 /// </summary>
-public record StoreOwnerCreated(StoreOwner StoreOwner) : IDomainEvent;
+internal record StoreOwnerCreated(StoreOwner StoreOwner) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for StoreOwner updated event.
 /// </summary>
-public record StoreOwnerUpdated(StoreOwner StoreOwner) : IDomainEvent;
+internal record StoreOwnerUpdated(StoreOwner StoreOwner) : IDomainEvent, INotification;
 /// <summary>
 /// Record for StoreOwner deleted event.
 /// </summary>
-public record StoreOwnerDeleted(StoreOwner StoreOwner) : IDomainEvent;
+internal record StoreOwnerDeleted(StoreOwner StoreOwner) : IDomainEvent, INotification;
 
 /// <summary>
 /// Store owners.
 /// </summary>
-public abstract class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -66,11 +84,38 @@ public abstract class StoreOwnerBase : AuditableEntityBase, IEntityConcurrent
     /// Notes (Optional).
     /// </summary>
     public Nox.Types.Text? Notes { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(StoreOwner storeOwner)
+	{
+		InternalDomainEvents.Add(new StoreOwnerCreated(storeOwner));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(StoreOwner storeOwner)
+	{
+		InternalDomainEvents.Add(new StoreOwnerUpdated(storeOwner));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(StoreOwner storeOwner)
+	{
+		InternalDomainEvents.Add(new StoreOwnerDeleted(storeOwner));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores
     /// </summary>
-    public virtual List<Store> Stores { get; set; } = new();
+    public virtual List<Store> Stores { get; private set; } = new();
 
     public virtual void CreateRefToStores(Store relatedStore)
     {

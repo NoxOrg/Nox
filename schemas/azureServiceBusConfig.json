@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Azure Service Bus server configuration.",
+  "description": "Configuration to create a valida Azure Service Bus Connection, for example: sb://your-servicebus-name.servicebus.windows.net/;SharedAccessKeyName=YourKeyName;SharedAccessKey=YourKey;",
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
+  ],
+  "required": [
+    "endpoint",
+    "sharedAccessKey",
+    "sharedAccessKeyName"
+  ],
+  "properties": {
+    "endpoint": {    
+      "title": "The endpoint to be used for connecting to the Service Bus namespace.",
+      "description": "Example sb://your-servicebus-name.servicebus.windows.net/",
+      "type": "string"
+    },
+    "sharedAccessKey": {    
+      "title": "The actual security key associated with the shared access key name used to establish secure communication.",
+      "type": "string"
+    },
+    "sharedAccessKeyName": {    
+      "title": "The name of the shared access key that provides security credentials for authentication.",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

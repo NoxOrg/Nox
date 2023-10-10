@@ -67,26 +67,37 @@ public class Entity : DefinitionBase
     [Description("Define one or more event(s) that may be raised when state change occurs on this entity.")]
     [AdditionalProperties(false)]
     public IReadOnlyList<DomainEvent>? Events { get; internal set; }
-    
+
     [Title("Keys for this entity.")]
     [Description("Define one or more keys for this entity.")]
-    public IReadOnlyList<NoxSimpleTypeDefinition> Keys { get; internal set; } = Array.Empty<NoxSimpleTypeDefinition>(); 
+    public IReadOnlyList<NoxSimpleTypeDefinition> Keys { get; internal set; } = Array.Empty<NoxSimpleTypeDefinition>();
 
     [Title("Attributes that describe this entity.")]
     [Description("Define one or more attribute(s) that describes the composition of this domain entity.")]
     [AdditionalProperties(false)]
-    public virtual IReadOnlyList<NoxSimpleTypeDefinition>? Attributes { get; internal set; }
-    
+    public virtual IReadOnlyList<NoxSimpleTypeDefinition> Attributes { get; internal set; } = Array.Empty<NoxSimpleTypeDefinition>();
+
     [Title("Unique constraints for this entity.")]
     [Description("Define one or more unique constraints for this entity.")]
     [AdditionalProperties(false)]
-    public IReadOnlyList<UniqueAttributeConstraint>? UniqueAttributeConstraints { get; internal set; } = Array.Empty<UniqueAttributeConstraint>();
+    public IReadOnlyList<UniqueAttributeConstraint> UniqueAttributeConstraints { get; internal set; } = Array.Empty<UniqueAttributeConstraint>();
 
     [YamlIgnore]
     public bool IsOwnedEntity { get; internal set; }
 
     [YamlIgnore]
     public Entity? OwnerEntity { get; internal set; }
+
+    [YamlIgnore]
+    public bool HasDomainEvents =>
+        (Persistence is not null) &&
+        (Persistence!.Create.RaiseDomainEvents || Persistence.Update.RaiseDomainEvents || Persistence.Delete.RaiseDomainEvents);
+
+    [YamlIgnore]
+    public bool HasIntegrationEvents =>
+        (Persistence is not null) &&
+        (Persistence.Create.RaiseIntegrationEvents || Persistence.Update.RaiseIntegrationEvents || Persistence.Delete.RaiseIntegrationEvents);
+
 
     internal bool ApplyDefaults()
     {
@@ -125,7 +136,7 @@ public class Entity : DefinitionBase
         return _keysByName!.ContainsKey(keyName);
     }
 
-      public IEnumerable<KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>> GetAllMembers()
+    public IEnumerable<KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>> GetAllMembers()
     {
         foreach (var key in Keys!)
         {
@@ -190,7 +201,7 @@ public class Entity : DefinitionBase
             }
         }
     }
-    
+
     private readonly object _lockEnsureByKeyObject = new object();
     private void EnsureKeyByName()
     {

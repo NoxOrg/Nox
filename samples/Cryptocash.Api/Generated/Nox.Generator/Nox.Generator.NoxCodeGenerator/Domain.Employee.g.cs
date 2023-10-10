@@ -5,32 +5,50 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-public partial class Employee:EmployeeBase
-{
 
+internal partial class Employee : EmployeeBase, IEntityHaveDomainEvents
+{
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for Employee created event.
 /// </summary>
-public record EmployeeCreated(Employee Employee) : IDomainEvent;
+internal record EmployeeCreated(Employee Employee) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for Employee updated event.
 /// </summary>
-public record EmployeeUpdated(Employee Employee) : IDomainEvent;
+internal record EmployeeUpdated(Employee Employee) : IDomainEvent, INotification;
 /// <summary>
 /// Record for Employee deleted event.
 /// </summary>
-public record EmployeeDeleted(Employee Employee) : IDomainEvent;
+internal record EmployeeDeleted(Employee Employee) : IDomainEvent, INotification;
 
 /// <summary>
 /// Employee definition and related data.
 /// </summary>
-public abstract class EmployeeBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class EmployeeBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Employee's unique identifier (Required).
@@ -66,11 +84,38 @@ public abstract class EmployeeBase : AuditableEntityBase, IEntityConcurrent
     /// Employee's last working day (Optional).
     /// </summary>
     public Nox.Types.Date? LastWorkingDay { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(Employee employee)
+	{
+		InternalDomainEvents.Add(new EmployeeCreated(employee));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(Employee employee)
+	{
+		InternalDomainEvents.Add(new EmployeeUpdated(employee));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(Employee employee)
+	{
+		InternalDomainEvents.Add(new EmployeeDeleted(employee));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// Employee reviewing ExactlyOne CashStockOrders
     /// </summary>
-    public virtual CashStockOrder EmployeeReviewingCashStockOrder { get; set; } = null!;
+    public virtual CashStockOrder EmployeeReviewingCashStockOrder { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity CashStockOrder
@@ -89,7 +134,7 @@ public abstract class EmployeeBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteAllRefToEmployeeReviewingCashStockOrder()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>

@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ClientApi.Domain;
 
+using CountryLocalNameEntity = ClientApi.Domain.CountryLocalName;
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Local names for countries.
 /// </summary>
-public partial class CountryLocalNameUpdateDto : IEntityDto<CountryLocalName>
+public partial class CountryLocalNameUpdateDto : IEntityDto<CountryLocalNameEntity>
 {
     /// <summary>
     /// Local name (Required).

@@ -10,6 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
+using PaymentProviderEntity = Cryptocash.Domain.PaymentProvider;
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -22,7 +23,7 @@ public partial class PaymentProviderCreateDto : PaymentProviderCreateDtoBase
 /// <summary>
 /// Payment provider related data.
 /// </summary>
-public abstract class PaymentProviderCreateDtoBase : IEntityDto<PaymentProvider>
+public abstract class PaymentProviderCreateDtoBase : IEntityDto<PaymentProviderEntity>
 {
     /// <summary>
     /// Payment provider name (Required).
@@ -40,5 +41,7 @@ public abstract class PaymentProviderCreateDtoBase : IEntityDto<PaymentProvider>
     /// <summary>
     /// PaymentProvider related to ZeroOrMany PaymentDetails
     /// </summary>
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual List<PaymentDetailCreateDto> PaymentProviderRelatedPaymentDetails { get; set; } = new();
 }

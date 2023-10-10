@@ -3,21 +3,23 @@ using Nox.Solution;
 
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Configurations;
+using Nox.Types.EntityFramework.Enums;
 
 namespace Nox.EntityFramework.Sqlite;
 
-public sealed class SqliteDatabaseProvider : NoxDatabaseConfigurator, INoxDatabaseProvider
+public class SqliteDatabaseProvider : NoxDatabaseConfigurator, INoxDatabaseProvider
 {
-    public string ConnectionString { get; } = string.Empty;
+    public string ConnectionString { get; protected set; } = string.Empty;
+    public NoxDataStoreTypeFlags StoreTypes { get; private set; }
 
-    public SqliteDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators) 
+    public SqliteDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators)
         : base(configurators, typeof(ISqliteNoxTypeDatabaseConfigurator))
     {
-
     }
-    public DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)
-    {        
-        return optionsBuilder            
+
+    public virtual DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)
+    {
+        return optionsBuilder
             .UseSqlite(dbServer.Options,
                 opts => { opts.MigrationsHistoryTable("MigrationsHistory", "migrations"); });
     }
@@ -30,5 +32,15 @@ public sealed class SqliteDatabaseProvider : NoxDatabaseConfigurator, INoxDataba
     public string ToTableNameForSqlRaw(string table, string schema)
     {
         throw new NotImplementedException();
+    }
+
+    public void SetStoreTypeFlag(NoxDataStoreTypeFlags storeType)
+    {
+        StoreTypes |= storeType;
+    }
+
+    public void UnSetStoreTypeFlag(NoxDataStoreTypeFlags storeTypeFlag)
+    {
+        StoreTypes &= storeTypeFlag;
     }
 }

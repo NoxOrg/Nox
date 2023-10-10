@@ -11,43 +11,53 @@ using Nox.Factories;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using ExchangeRateEntity = Cryptocash.Domain.ExchangeRate;
 
 namespace Cryptocash.Application.Commands;
 public record DeleteExchangeRateForCurrencyCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateKeyDto EntityKeyDto) : IRequest <bool>;
 
-public partial class DeleteExchangeRateForCurrencyCommandHandler: CommandBase<DeleteExchangeRateForCurrencyCommand, ExchangeRate>, IRequestHandler <DeleteExchangeRateForCurrencyCommand, bool>
+internal partial class DeleteExchangeRateForCurrencyCommandHandler : DeleteExchangeRateForCurrencyCommandHandlerBase
+{
+	public DeleteExchangeRateForCurrencyCommandHandler(
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution)
+		: base(dbContext, noxSolution)
+	{
+	}
+}
+
+internal partial class DeleteExchangeRateForCurrencyCommandHandlerBase : CommandBase<DeleteExchangeRateForCurrencyCommand, ExchangeRateEntity>, IRequestHandler <DeleteExchangeRateForCurrencyCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public DeleteExchangeRateForCurrencyCommandHandler(
+	public DeleteExchangeRateForCurrencyCommandHandlerBase(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeleteExchangeRateForCurrencyCommand request, CancellationToken cancellationToken)
+	public virtual async Task<bool> Handle(DeleteExchangeRateForCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Currency,Nox.Types.CurrencyCode3>("Id", request.ParentKeyDto.keyId);
+		var keyId = Cryptocash.Domain.CurrencyMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await DbContext.Currencies.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return false;
 		}
-		var ownedId = CreateNoxTypeForKey<ExchangeRate,Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);
+		var ownedId = Cryptocash.Domain.ExchangeRateMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = parentEntity.CurrencyExchangedFromRates.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
 			return false;
 		}
 		parentEntity.CurrencyExchangedFromRates.Remove(entity);
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Deleted;
-	
+
 		var result = await DbContext.SaveChangesAsync(cancellationToken);
 		if (result < 1)
 		{

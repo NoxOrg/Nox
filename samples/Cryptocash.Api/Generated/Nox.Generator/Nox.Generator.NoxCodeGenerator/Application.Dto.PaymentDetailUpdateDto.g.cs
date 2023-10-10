@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Cryptocash.Domain;
 
+using PaymentDetailEntity = Cryptocash.Domain.PaymentDetail;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Customer payment account related data.
 /// </summary>
-public partial class PaymentDetailUpdateDto : IEntityDto<PaymentDetail>
+public partial class PaymentDetailUpdateDto : IEntityDto<PaymentDetailEntity>
 {
     /// <summary>
     /// Payment account name (Required).

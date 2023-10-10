@@ -26,6 +26,7 @@ public class NoxSolutionCodeGeneratorState
     
     public string ODataNameSpace => $"{RootNameSpace}.Presentation.Api.OData";
     public string Events => $"{RootNameSpace}.Application.Events";
+    public string UiNameSpace => $"{RootNameSpace}.Ui";
 
     public string GetEntityTypeFullName(string entityName) => $"{DomainNameSpace}.{entityName}";
 

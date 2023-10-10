@@ -11,57 +11,56 @@ using Nox.Factories;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using CountryLocalNameEntity = ClientApi.Domain.CountryLocalName;
 
 namespace ClientApi.Application.Commands;
 public record PartialUpdateCountryLocalNameForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto?>;
-public partial class PartialUpdateCountryLocalNameForCountryCommandHandler: PartialUpdateCountryLocalNameForCountryCommandHandlerBase
+internal partial class PartialUpdateCountryLocalNameForCountryCommandHandler: PartialUpdateCountryLocalNameForCountryCommandHandlerBase
 {
 	public PartialUpdateCountryLocalNameForCountryCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityMapper<CountryLocalName> entityMapper): base(dbContext, noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<CountryLocalNameEntity, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
-public abstract class PartialUpdateCountryLocalNameForCountryCommandHandlerBase: CommandBase<PartialUpdateCountryLocalNameForCountryCommand, CountryLocalName>, IRequestHandler <PartialUpdateCountryLocalNameForCountryCommand, CountryLocalNameKeyDto?>
+internal abstract class PartialUpdateCountryLocalNameForCountryCommandHandlerBase: CommandBase<PartialUpdateCountryLocalNameForCountryCommand, CountryLocalNameEntity>, IRequestHandler <PartialUpdateCountryLocalNameForCountryCommand, CountryLocalNameKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
-	public IEntityMapper<CountryLocalName> EntityMapper { get; }
+	public IEntityFactory<CountryLocalNameEntity, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateCountryLocalNameForCountryCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityMapper<CountryLocalName> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<CountryLocalNameEntity, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<CountryLocalNameKeyDto?> Handle(PartialUpdateCountryLocalNameForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Country,Nox.Types.AutoNumber>("Id", request.ParentKeyDto.keyId);
+		var keyId = ClientApi.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
 
 		var parentEntity = await DbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return null;
 		}
-		var ownedId = CreateNoxTypeForKey<CountryLocalName,Nox.Types.AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.CountryShortNames.SingleOrDefault(x => x.Id == ownedId);	
+		var ownedId = ClientApi.Domain.CountryLocalNameMetadata.CreateId(request.EntityKeyDto.keyId);
+		var entity = parentEntity.CountryShortNames.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
 			return null;
 		}
 
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<CountryLocalName>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(request, entity);
-	
+		await OnCompletedAsync(request, entity);
+
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)

@@ -619,6 +619,15 @@ namespace Nox.Solution {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to AzureServiceBusConfig is required when the MessageBrokerProvider is  AzureServiceBus..
+        /// </summary>
+        internal static string IntegrationEventsServerAzureServiceBusConfigRequired {
+            get {
+                return ResourceManager.GetString("IntegrationEventsServerAzureServiceBusConfigRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to apply defaults for infrastructure, messaging, integrationEventServer..
         /// </summary>
         internal static string IntegrationEventsServerDefaultsFalse {
@@ -1065,6 +1074,33 @@ namespace Nox.Solution {
         internal static string SolutionNameEmpty {
             get {
                 return ResourceManager.GetString("SolutionNameEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Solution Platform Id is missing. Platform Id must be specified for the solution..
+        /// </summary>
+        internal static string SolutionPlatformIdEmpty {
+            get {
+                return ResourceManager.GetString("SolutionPlatformIdEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Solution version is missing. Version must be specified for the solution..
+        /// </summary>
+        internal static string SolutionVersionEmpty {
+            get {
+                return ResourceManager.GetString("SolutionVersionEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Solution Version doesn&apos;t satisfy pattern..
+        /// </summary>
+        internal static string SolutionVersionPattern {
+            get {
+                return ResourceManager.GetString("SolutionVersionPattern", resourceCulture);
             }
         }
         

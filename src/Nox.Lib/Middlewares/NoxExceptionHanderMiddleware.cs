@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -26,7 +25,6 @@ public class NoxExceptionHanderMiddleware
         var requestPath = httpContext.Request?.Path;
         try
         {
-            _logger.LogInformation("Begin request: {requestPath}", requestPath);
             await _next(httpContext);
         }
         catch (TypeValidationException ex)
@@ -37,13 +35,13 @@ public class NoxExceptionHanderMiddleware
         {
             await HandleConcurrencyExceptionAsync(httpContext, ex);
         }
+        catch (RelatedEntityNotFoundException ex)
+        {
+            await CommonHandleExceptionAsync(httpContext, ex, ex.Message, HttpStatusCode.BadRequest);
+        }
         catch (Exception ex)
         {
             await CommonHandleExceptionAsync(httpContext, ex, ex.Message);
-        }
-        finally
-        {
-            _logger.LogInformation("End request: {requestPath}", requestPath);
         }
     }
 
@@ -63,7 +61,7 @@ public class NoxExceptionHanderMiddleware
         string errorMessage,
         HttpStatusCode statusCode = HttpStatusCode.InternalServerError)
     {
-        var message = $"Error occured during request: {context.Request?.Path}.Error: {errorMessage}";
+        var message = $"Error occurred during request: {context.Request?.Path}.Error: {errorMessage}";
         _logger.LogError(exception, message);
 
         if (!context.Response.HasStarted)

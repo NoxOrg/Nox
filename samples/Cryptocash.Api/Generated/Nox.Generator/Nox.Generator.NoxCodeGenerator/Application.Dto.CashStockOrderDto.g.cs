@@ -3,25 +3,52 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using Cryptocash.Domain;
+using CashStockOrderEntity = Cryptocash.Domain.CashStockOrder;
 
 namespace Cryptocash.Application.Dto;
 
 public record CashStockOrderKeyDto(System.Int64 keyId);
 
+public partial class CashStockOrderDto : CashStockOrderDtoBase
+{
+
+}
+
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-public partial class CashStockOrderDto
+public abstract class CashStockOrderDtoBase : EntityDtoBase, IEntityDto<CashStockOrderEntity>
 {
+
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+    
+        if (this.Amount is not null)
+            ExecuteActionAndCollectValidationExceptions("Amount", () => Cryptocash.Domain.CashStockOrderMetadata.CreateAmount(this.Amount.NonNullValue<MoneyDto>()), result);
+        else
+            result.Add("Amount", new [] { "Amount is Required." });
+    
+        ExecuteActionAndCollectValidationExceptions("RequestedDeliveryDate", () => Cryptocash.Domain.CashStockOrderMetadata.CreateRequestedDeliveryDate(this.RequestedDeliveryDate), result);
+    
+        if (this.DeliveryDateTime is not null)
+            ExecuteActionAndCollectValidationExceptions("DeliveryDateTime", () => Cryptocash.Domain.CashStockOrderMetadata.CreateDeliveryDateTime(this.DeliveryDateTime.NonNullValue<System.DateTimeOffset>()), result); 
+
+        return result;
+    }
+    #endregion
 
     /// <summary>
     /// Vending machine's order unique identifier (Required).
@@ -52,13 +79,14 @@ public partial class CashStockOrderDto
     /// CashStockOrder for ExactlyOne VendingMachines
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Guid CashStockOrderForVendingMachineId { get; set; } = default!;
-    public virtual VendingMachineDto CashStockOrderForVendingMachine { get; set; } = null!;
+    public System.Guid? CashStockOrderForVendingMachineId { get; set; } = default!;
+    public virtual VendingMachineDto? CashStockOrderForVendingMachine { get; set; } = null!;
 
     /// <summary>
     /// CashStockOrder reviewed by ExactlyOne Employees
     /// </summary>
-    public virtual EmployeeDto CashStockOrderReviewedByEmployee { get; set; } = null!;
+    public virtual EmployeeDto? CashStockOrderReviewedByEmployee { get; set; } = null!;
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

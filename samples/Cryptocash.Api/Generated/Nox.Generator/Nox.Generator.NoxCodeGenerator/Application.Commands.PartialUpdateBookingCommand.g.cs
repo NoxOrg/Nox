@@ -12,52 +12,50 @@ using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
-using Booking = Cryptocash.Domain.Booking;
+using BookingEntity = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Commands;
 
 public record PartialUpdateBookingCommand(System.Guid keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <BookingKeyDto?>;
 
-public class PartialUpdateBookingCommandHandler: PartialUpdateBookingCommandHandlerBase
+internal class PartialUpdateBookingCommandHandler : PartialUpdateBookingCommandHandlerBase
 {
 	public PartialUpdateBookingCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityMapper<Booking> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
 	}
 }
-public class PartialUpdateBookingCommandHandlerBase: CommandBase<PartialUpdateBookingCommand, Booking>, IRequestHandler<PartialUpdateBookingCommand, BookingKeyDto?>
+internal class PartialUpdateBookingCommandHandlerBase : CommandBase<PartialUpdateBookingCommand, BookingEntity>, IRequestHandler<PartialUpdateBookingCommand, BookingKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<Booking> EntityMapper { get; }
+	public IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateBookingCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityMapper<Booking> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<BookingKeyDto?> Handle(PartialUpdateBookingCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Booking,Nox.Types.Guid>("Id", request.keyId);
+		var keyId = Cryptocash.Domain.BookingMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Bookings.FindAsync(keyId);
 		if (entity == null)
 		{
 			return null;
 		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Booking>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

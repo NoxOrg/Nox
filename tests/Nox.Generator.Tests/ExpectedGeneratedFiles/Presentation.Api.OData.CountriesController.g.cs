@@ -25,16 +25,11 @@ namespace SampleWebApp.Presentation.Api.OData;
 
 public partial class CountriesController : CountriesControllerBase
 {
-    public CountriesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+    public CountriesController(IMediator mediator):base(mediator)
     {}
 }
-public abstract class CountriesControllerBase : ODataController
+public abstract partial class CountriesControllerBase : ODataController
 {
-    
-    /// <summary>
-    /// The OData DbContext for CRUD operations.
-    /// </summary>
-    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -47,12 +42,10 @@ public abstract class CountriesControllerBase : ODataController
     protected readonly GetCountriesByContinentQueryBase _getCountriesByContinent;
     
     public CountriesControllerBase(
-        DtoDbContext databaseContext,
         IMediator mediator,
         GetCountriesByContinentQueryBase getCountriesByContinent
     )
     {
-        _databaseContext = databaseContext;
         _mediator = mediator;
         _getCountriesByContinent = getCountriesByContinent;
     }

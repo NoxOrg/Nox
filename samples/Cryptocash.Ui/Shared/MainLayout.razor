@@ -1,11 +1,13 @@
-﻿@using Cryptocash.Ui.Generated.Component
-@using Cryptocash.Ui.Generated.Data;
+﻿@using Cryptocash.Ui.Generated.Data;
+@using Cryptocash.Ui.Generated.Nox_Generator.Nox_Generator_NoxCodeGenerator.Component;
 
 @inherits MainLayoutBase
 
 <PageTitle>@GlobalData?.CurrentDomainEntity</PageTitle>
 
 <MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
 
 <MudDrawerContainer Class="mud-height-full">
     <MudDrawer @bind-Open="@DrawerOpen" Fixed="true" Variant="@DrawerVariant.Mini" Color="Color.Dark" Style="position:fixed;">

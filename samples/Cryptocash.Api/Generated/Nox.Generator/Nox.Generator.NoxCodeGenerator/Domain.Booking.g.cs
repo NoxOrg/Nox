@@ -5,32 +5,50 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-public partial class Booking:BookingBase
-{
 
+internal partial class Booking : BookingBase, IEntityHaveDomainEvents
+{
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for Booking created event.
 /// </summary>
-public record BookingCreated(Booking Booking) : IDomainEvent;
+internal record BookingCreated(Booking Booking) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for Booking updated event.
 /// </summary>
-public record BookingUpdated(Booking Booking) : IDomainEvent;
+internal record BookingUpdated(Booking Booking) : IDomainEvent, INotification;
 /// <summary>
 /// Record for Booking deleted event.
 /// </summary>
-public record BookingDeleted(Booking Booking) : IDomainEvent;
+internal record BookingDeleted(Booking Booking) : IDomainEvent, INotification;
 
 /// <summary>
 /// Exchange booking and related data.
 /// </summary>
-public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class BookingBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Booking unique identifier (Required).
@@ -96,11 +114,38 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
     /// Booking's related vat number (Optional).
     /// </summary>
     public Nox.Types.VatNumber? VatNumber { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(Booking booking)
+	{
+		InternalDomainEvents.Add(new BookingCreated(booking));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(Booking booking)
+	{
+		InternalDomainEvents.Add(new BookingUpdated(booking));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(Booking booking)
+	{
+		InternalDomainEvents.Add(new BookingDeleted(booking));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// Booking for ExactlyOne Customers
     /// </summary>
-    public virtual Customer BookingForCustomer { get; set; } = null!;
+    public virtual Customer BookingForCustomer { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Customer
@@ -119,13 +164,13 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteAllRefToBookingForCustomer()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>
     /// Booking related to ExactlyOne VendingMachines
     /// </summary>
-    public virtual VendingMachine BookingRelatedVendingMachine { get; set; } = null!;
+    public virtual VendingMachine BookingRelatedVendingMachine { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity VendingMachine
@@ -144,13 +189,13 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteAllRefToBookingRelatedVendingMachine()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>
     /// Booking fees for ExactlyOne Commissions
     /// </summary>
-    public virtual Commission BookingFeesForCommission { get; set; } = null!;
+    public virtual Commission BookingFeesForCommission { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Commission
@@ -169,13 +214,13 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteAllRefToBookingFeesForCommission()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>
     /// Booking related to ExactlyOne Transactions
     /// </summary>
-    public virtual Transaction BookingRelatedTransaction { get; set; } = null!;
+    public virtual Transaction BookingRelatedTransaction { get; private set; } = null!;
 
     public virtual void CreateRefToBookingRelatedTransaction(Transaction relatedTransaction)
     {
@@ -189,7 +234,7 @@ public abstract class BookingBase : AuditableEntityBase, IEntityConcurrent
 
     public virtual void DeleteAllRefToBookingRelatedTransaction()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>

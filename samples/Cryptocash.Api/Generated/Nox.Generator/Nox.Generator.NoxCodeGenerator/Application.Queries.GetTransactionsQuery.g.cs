@@ -14,7 +14,7 @@ namespace Cryptocash.Application.Queries;
 
 public record GetTransactionsQuery() : IRequest<IQueryable<TransactionDto>>;
 
-public partial class GetTransactionsQueryHandler: GetTransactionsQueryHandlerBase
+internal partial class GetTransactionsQueryHandler: GetTransactionsQueryHandlerBase
 {
     public GetTransactionsQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
@@ -22,7 +22,7 @@ public partial class GetTransactionsQueryHandler: GetTransactionsQueryHandlerBas
     }
 }
 
-public abstract class GetTransactionsQueryHandlerBase : QueryBase<IQueryable<TransactionDto>>, IRequestHandler<GetTransactionsQuery, IQueryable<TransactionDto>>
+internal abstract class GetTransactionsQueryHandlerBase : QueryBase<IQueryable<TransactionDto>>, IRequestHandler<GetTransactionsQuery, IQueryable<TransactionDto>>
 {
     public  GetTransactionsQueryHandlerBase(DtoDbContext dataDbContext)
     {
@@ -34,7 +34,6 @@ public abstract class GetTransactionsQueryHandlerBase : QueryBase<IQueryable<Tra
     public virtual Task<IQueryable<TransactionDto>> Handle(GetTransactionsQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<TransactionDto>)DataDbContext.Transactions
-            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
     }

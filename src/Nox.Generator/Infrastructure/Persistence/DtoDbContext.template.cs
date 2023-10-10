@@ -5,11 +5,13 @@ using Microsoft.EntityFrameworkCore;
 using Nox;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Configuration;
+
 using {{codeGeneratorState.RootNameSpace}}.Application.Dto;
 
 namespace {{codeGeneratorState.RootNameSpace}}.Infrastructure.Persistence;
 
-public class DtoDbContext : DbContext
+internal class DtoDbContext : DbContext
 {
     /// <summary>
     /// The Nox solution configuration.
@@ -55,6 +57,8 @@ public class DtoDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
+        ConfigureAuditable(modelBuilder);
+
         if (_noxSolution.Domain != null)
         {
             var codeGeneratorState =
@@ -80,5 +84,14 @@ public class DtoDbContext : DbContext
                 }
             }
         }
+    }
+
+    private void ConfigureAuditable(ModelBuilder modelBuilder)
+    {
+    {{- for entity in entities }}
+    {{- if entity.Persistence?.IsAudited }}
+        modelBuilder.Entity<{{entity.Name}}Dto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+    {{- end }}
+    {{- end }}
     }
 }

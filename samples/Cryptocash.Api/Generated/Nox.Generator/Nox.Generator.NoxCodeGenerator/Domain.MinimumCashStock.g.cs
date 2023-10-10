@@ -5,32 +5,50 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-public partial class MinimumCashStock:MinimumCashStockBase
-{
 
+internal partial class MinimumCashStock : MinimumCashStockBase, IEntityHaveDomainEvents
+{
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for MinimumCashStock created event.
 /// </summary>
-public record MinimumCashStockCreated(MinimumCashStock MinimumCashStock) : IDomainEvent;
+internal record MinimumCashStockCreated(MinimumCashStock MinimumCashStock) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for MinimumCashStock updated event.
 /// </summary>
-public record MinimumCashStockUpdated(MinimumCashStock MinimumCashStock) : IDomainEvent;
+internal record MinimumCashStockUpdated(MinimumCashStock MinimumCashStock) : IDomainEvent, INotification;
 /// <summary>
 /// Record for MinimumCashStock deleted event.
 /// </summary>
-public record MinimumCashStockDeleted(MinimumCashStock MinimumCashStock) : IDomainEvent;
+internal record MinimumCashStockDeleted(MinimumCashStock MinimumCashStock) : IDomainEvent, INotification;
 
 /// <summary>
 /// Minimum cash stock required for vending machine.
 /// </summary>
-public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class MinimumCashStockBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Vending machine cash stock unique identifier (Required).
@@ -41,11 +59,38 @@ public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurr
     /// Cash stock amount (Required).
     /// </summary>
     public Nox.Types.Money Amount { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(MinimumCashStock minimumCashStock)
+	{
+		InternalDomainEvents.Add(new MinimumCashStockCreated(minimumCashStock));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(MinimumCashStock minimumCashStock)
+	{
+		InternalDomainEvents.Add(new MinimumCashStockUpdated(minimumCashStock));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(MinimumCashStock minimumCashStock)
+	{
+		InternalDomainEvents.Add(new MinimumCashStockDeleted(minimumCashStock));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// MinimumCashStock required by ZeroOrMany VendingMachines
     /// </summary>
-    public virtual List<VendingMachine> MinimumCashStocksRequiredByVendingMachines { get; set; } = new();
+    public virtual List<VendingMachine> MinimumCashStocksRequiredByVendingMachines { get; private set; } = new();
 
     public virtual void CreateRefToMinimumCashStocksRequiredByVendingMachines(VendingMachine relatedVendingMachine)
     {
@@ -65,7 +110,7 @@ public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurr
     /// <summary>
     /// MinimumCashStock related to ExactlyOne Currencies
     /// </summary>
-    public virtual Currency MinimumCashStockRelatedCurrency { get; set; } = null!;
+    public virtual Currency MinimumCashStockRelatedCurrency { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Currency
@@ -84,7 +129,7 @@ public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurr
 
     public virtual void DeleteAllRefToMinimumCashStockRelatedCurrency()
     {
-        throw new Exception($"The relatioship cannot be deleted.");
+        throw new Exception($"The relationship cannot be deleted.");
     }
 
     /// <summary>

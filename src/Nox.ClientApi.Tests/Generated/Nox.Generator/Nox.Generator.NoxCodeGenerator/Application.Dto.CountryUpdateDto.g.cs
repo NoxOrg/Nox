@@ -9,12 +9,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ClientApi.Domain;
 
+using CountryEntity = ClientApi.Domain.Country;
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Country Entity.
 /// </summary>
-public partial class CountryUpdateDto : IEntityDto<Country>
+public partial class CountryUpdateDto : IEntityDto<CountryEntity>
 {
     /// <summary>
     /// The Country Name (Required).
@@ -34,6 +35,22 @@ public partial class CountryUpdateDto : IEntityDto<Country>
     /// First Official Language (Optional).
     /// </summary>
     public System.String? FirstLanguageCode { get; set; }
+    /// <summary>
+    /// Country's iso number id (Optional).
+    /// </summary>
+    public System.UInt16? CountryIsoNumeric { get; set; }
+    /// <summary>
+    /// Country's iso alpha3 id (Optional).
+    /// </summary>
+    public System.String? CountryIsoAlpha3 { get; set; }
+    /// <summary>
+    /// Country's map via google maps (Optional).
+    /// </summary>
+    public System.String? GoogleMapsUrl { get; set; }
+    /// <summary>
+    /// Country's start of week day (Optional).
+    /// </summary>
+    public System.UInt16? StartOfWeek { get; set; }
     /// <summary>
     /// Country is also coded as ZeroOrOne CountryBarCodes
     /// </summary>

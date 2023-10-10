@@ -11,33 +11,31 @@ using Nox.Factories;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
-using PaymentDetail = Cryptocash.Domain.PaymentDetail;
+using PaymentDetailEntity = Cryptocash.Domain.PaymentDetail;
 
 namespace Cryptocash.Application.Commands;
 
 public record UpdatePaymentDetailCommand(System.Int64 keyId, PaymentDetailUpdateDto EntityDto, System.Guid? Etag) : IRequest<PaymentDetailKeyDto?>;
 
-public partial class UpdatePaymentDetailCommandHandler: UpdatePaymentDetailCommandHandlerBase
+internal partial class UpdatePaymentDetailCommandHandler : UpdatePaymentDetailCommandHandlerBase
 {
 	public UpdatePaymentDetailCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> entityFactory): base(dbContext, noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<PaymentDetailEntity, PaymentDetailCreateDto, PaymentDetailUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 
-public abstract class UpdatePaymentDetailCommandHandlerBase: CommandBase<UpdatePaymentDetailCommand, PaymentDetail>, IRequestHandler<UpdatePaymentDetailCommand, PaymentDetailKeyDto?>
+internal abstract class UpdatePaymentDetailCommandHandlerBase : CommandBase<UpdatePaymentDetailCommand, PaymentDetailEntity>, IRequestHandler<UpdatePaymentDetailCommand, PaymentDetailKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	private readonly IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> _entityFactory;
+	private readonly IEntityFactory<PaymentDetailEntity, PaymentDetailCreateDto, PaymentDetailUpdateDto> _entityFactory;
 
 	public UpdatePaymentDetailCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> entityFactory): base(noxSolution, serviceProvider)
+		IEntityFactory<PaymentDetailEntity, PaymentDetailCreateDto, PaymentDetailUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -47,7 +45,7 @@ public abstract class UpdatePaymentDetailCommandHandlerBase: CommandBase<UpdateP
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<PaymentDetail,Nox.Types.AutoNumber>("Id", request.keyId);
+		var keyId = Cryptocash.Domain.PaymentDetailMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.PaymentDetails.FindAsync(keyId);
 		if (entity == null)
@@ -58,7 +56,7 @@ public abstract class UpdatePaymentDetailCommandHandlerBase: CommandBase<UpdateP
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

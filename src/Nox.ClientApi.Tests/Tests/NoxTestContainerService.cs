@@ -1,24 +1,36 @@
-﻿using DotNet.Testcontainers.Builders;
-using DotNet.Testcontainers.Containers;
+﻿using DotNet.Testcontainers.Containers;
 using Nox;
 using Nox.Types.EntityFramework.Abstractions;
 using Testcontainers.MsSql;
 using Testcontainers.PostgreSql;
+using Xunit.Abstractions;
 
 namespace ClientApi.Tests;
 
 public class NoxTestContainerService : IAsyncLifetime
 {
     //To change DatabaseProvider just replace DbProviderKind.
-    private readonly DatabaseServerProvider DbProviderKind = DatabaseServerProvider.SqlServer;
+    public static readonly DatabaseServerProvider DbProviderKind = DatabaseServerProvider.SqlServer;
 
-    private DockerContainer? _dockerContainer;
     private Func<string> _connectionStringGetter = () => string.Empty;
-    
+    private DockerContainer? _dockerContainer;
+
+    private NoxTestApplicationFactory _applicationFactory = null!;
+
+    public NoxTestApplicationFactory GetTestApplicationFactory(ITestOutputHelper testOutput, bool enableMessagingTests)
+    {
+        if (_applicationFactory == null)
+        {
+            _applicationFactory = new NoxTestApplicationFactory
+                (testOutput, this, enableMessagingTests);
+        }
+        return _applicationFactory;
+    }
+
     public INoxDatabaseProvider GetDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurations)
     {
-        var connectionString = _connectionStringGetter();
-        if(DbProviderKind == DatabaseServerProvider.SqlServer)
+        string connectionString = _connectionStringGetter();
+        if (DbProviderKind == DatabaseServerProvider.SqlServer)
         {
             connectionString = connectionString.Replace("master", "clientapi");
         }
@@ -30,7 +42,7 @@ public class NoxTestContainerService : IAsyncLifetime
         };
     }
 
-    public Task InitializeAsync()
+    public async Task InitializeAsync()
     {
         switch (DbProviderKind)
         {
@@ -48,9 +60,10 @@ public class NoxTestContainerService : IAsyncLifetime
                 _dockerContainer = postgreContainer;
 
                 break;
+
             case DatabaseServerProvider.SqlServer:
-                var sqlContainer = new MsSqlBuilder()                
-                .WithAutoRemove(true)                
+                var sqlContainer = new MsSqlBuilder()
+                .WithAutoRemove(true)
                 .WithCleanUp(true)
                 .Build();
 
@@ -58,11 +71,12 @@ public class NoxTestContainerService : IAsyncLifetime
                 _dockerContainer = sqlContainer;
 
                 break;
+
             default:
                 throw new NotImplementedException($"{DbProviderKind} is not supported");
         }
 
-        return _dockerContainer.StartAsync();
+        await _dockerContainer.StartAsync();
     }
 
     public Task DisposeAsync()

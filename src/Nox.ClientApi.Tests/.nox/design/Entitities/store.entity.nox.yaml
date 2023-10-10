@@ -53,6 +53,11 @@ relationships:
       relationship: zeroOrOne
       entity: StoreOwner
 
+    - name: License
+      description: License that this store uses
+      relationship: zeroOrOne
+      entity: StoreLicense
+
 ownedRelationships:
 
   - name: VerifiedEmails
@@ -64,12 +69,12 @@ persistence:
     isAudited: true
     create:
         isEnabled: true
-        raiseEvents: true
+        raiseEvents: domainEventsOnly
     read:
         isEnabled: true
     update:
         isEnabled: true
-        raiseEvents: true
+        raiseEvents: domainEventsOnly
     delete:
         isEnabled: true
-        raiseEvents: true
+        raiseEvents: domainEventsOnly

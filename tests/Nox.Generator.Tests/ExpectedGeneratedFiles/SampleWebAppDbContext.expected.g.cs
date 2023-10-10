@@ -1,9 +1,11 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
 using System.Reflection;
 using System.Diagnostics;
+
+using MediatR;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -19,21 +21,25 @@ using Nox.Types;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Solution;
+using Nox.Configuration;
+
 
 using SampleWebApp.Domain;
 
 namespace SampleWebApp.Infrastructure.Persistence;
 
-public partial class SampleWebAppDbContext : DbContext
+internal partial class SampleWebAppDbContext : DbContext
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
     private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
     private readonly IUserProvider _userProvider;
     private readonly ISystemProvider _systemProvider;
+    private readonly IPublisher _publisher;
 
     public SampleWebAppDbContext(
             DbContextOptions<SampleWebAppDbContext> options,
+            IPublisher publisher,
             NoxSolution noxSolution,
             INoxDatabaseProvider databaseProvider,
             INoxClientAssemblyProvider clientAssemblyProvider, 
@@ -41,6 +47,7 @@ public partial class SampleWebAppDbContext : DbContext
             ISystemProvider systemProvider
         ) : base(options)
         {
+            _publisher = publisher;
             _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
             _clientAssemblyProvider = clientAssemblyProvider;
@@ -48,7 +55,7 @@ public partial class SampleWebAppDbContext : DbContext
             _systemProvider = systemProvider;
         }
 
-    public DbSet<Country> Countries { get; set; } = null!;
+    public DbSet<SampleWebApp.Domain.Country> Countries { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -63,6 +70,7 @@ public partial class SampleWebAppDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
        
+        ConfigureAuditable(modelBuilder);
 
         if (_noxSolution.Domain != null)
         {
@@ -92,19 +100,73 @@ public partial class SampleWebAppDbContext : DbContext
         }
     }
 
+    private void ConfigureAuditable(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<SampleWebApp.Domain.Country>().HasQueryFilter(p => p.DeletedAtUtc == null);
+    }
+
     /// <inheritdoc/>
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
         try
         {
             HandleSystemFields();
+            await HandleDomainEvents();
             return await base.SaveChangesAsync(cancellationToken);
-
         }
         catch(DbUpdateConcurrencyException)
         {
             throw new Nox.Exceptions.ConcurrencyException($"Latest value of {nameof(IEntityConcurrent.Etag)} must be provided");
         }
+    }
+
+    private async Task HandleDomainEvents()
+    {
+        var entriesWithDomainEvents = GetEntriesWithDomainEvents();
+        RaiseDomainEventsFor(entriesWithDomainEvents); 
+        await DispatchEvents(entriesWithDomainEvents.SelectMany(e=>e.Entity.DomainEvents));
+        ClearDomainEvents(entriesWithDomainEvents.ToList());
+    }
+    public IEnumerable<EntityEntry<IEntityHaveDomainEvents>> GetEntriesWithDomainEvents()
+    {
+        return ChangeTracker.Entries<IEntityHaveDomainEvents>();
+    }
+
+    public void RaiseDomainEventsFor(IEnumerable<EntityEntry<IEntityHaveDomainEvents>> entriesWithDomainEvents)
+    {
+        foreach (var entry in entriesWithDomainEvents)
+        {
+            RaiseDomainEvent(entry);
+        }
+    }
+
+    private void RaiseDomainEvent(EntityEntry<IEntityHaveDomainEvents> entry)
+    {
+        switch (entry.State)
+        {
+            case EntityState.Added:
+                entry.Entity.RaiseCreateEvent();
+                break;
+
+            case EntityState.Modified:
+                entry.Entity.RaiseUpdateEvent();
+                break;
+
+            case EntityState.Deleted:
+                entry.Entity.RaiseDeleteEvent();
+                break;
+        }
+    }
+        
+    private async Task DispatchEvents(IEnumerable<IDomainEvent> selectMany)
+    {
+        var tasks = selectMany.Select(domainEvent => _publisher.Publish(domainEvent));
+        await Task.WhenAll(tasks);
+    }
+        
+    private void ClearDomainEvents(List<EntityEntry<IEntityHaveDomainEvents>> entriesWithDomainEvents)
+    {
+        entriesWithDomainEvents.ForEach(e=>e.Entity.ClearDomainEvents());
     }
 
     private void HandleSystemFields()

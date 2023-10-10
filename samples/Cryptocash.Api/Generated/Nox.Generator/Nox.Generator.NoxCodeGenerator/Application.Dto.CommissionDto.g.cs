@@ -3,25 +3,47 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using Cryptocash.Domain;
+using CommissionEntity = Cryptocash.Domain.Commission;
 
 namespace Cryptocash.Application.Dto;
 
 public record CommissionKeyDto(System.Int64 keyId);
 
+public partial class CommissionDto : CommissionDtoBase
+{
+
+}
+
 /// <summary>
 /// Exchange commission rate and amount.
 /// </summary>
-public partial class CommissionDto
+public abstract class CommissionDtoBase : EntityDtoBase, IEntityDto<CommissionEntity>
 {
+
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+    
+        ExecuteActionAndCollectValidationExceptions("Rate", () => Cryptocash.Domain.CommissionMetadata.CreateRate(this.Rate), result);
+    
+        ExecuteActionAndCollectValidationExceptions("EffectiveAt", () => Cryptocash.Domain.CommissionMetadata.CreateEffectiveAt(this.EffectiveAt), result);
+    
+
+        return result;
+    }
+    #endregion
 
     /// <summary>
     /// Commission unique identifier (Required).
@@ -49,6 +71,7 @@ public partial class CommissionDto
     /// Commission fees for ZeroOrMany Bookings
     /// </summary>
     public virtual List<BookingDto> CommissionFeesForBooking { get; set; } = new();
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

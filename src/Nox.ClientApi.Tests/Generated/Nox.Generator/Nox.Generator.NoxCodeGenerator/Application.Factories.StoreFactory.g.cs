@@ -19,41 +19,45 @@ using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
 using ClientApi.Domain;
-using Store = ClientApi.Domain.Store;
+using StoreEntity = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto, StoreUpdateDto>
+internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto>
 {
-    protected IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> EmailAddressFactory {get;}
+    protected IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> EmailAddressFactory {get;}
 
     public StoreFactoryBase
     (
-        IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> emailaddressfactory
+        IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> emailaddressfactory
         )
     {
         EmailAddressFactory = emailaddressfactory;
     }
 
-    public virtual Store CreateEntity(StoreCreateDto createDto)
+    public virtual StoreEntity CreateEntity(StoreCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(Store entity, StoreUpdateDto updateDto)
+    public virtual void UpdateEntity(StoreEntity entity, StoreUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
+    }
+
+    public virtual void PartialUpdateEntity(StoreEntity entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
     }
 
     private ClientApi.Domain.Store ToEntity(StoreCreateDto createDto)
     {
         var entity = new ClientApi.Domain.Store();
-        entity.Name = ClientApi.Domain.Store.CreateName(createDto.Name);
-        entity.Address = ClientApi.Domain.Store.CreateAddress(createDto.Address);
-        entity.Location = ClientApi.Domain.Store.CreateLocation(createDto.Location);
-        if (createDto.OpeningDay is not null)entity.OpeningDay = ClientApi.Domain.Store.CreateOpeningDay(createDto.OpeningDay.NonNullValue<System.DateTimeOffset>());
+        entity.Name = ClientApi.Domain.StoreMetadata.CreateName(createDto.Name);
+        entity.Address = ClientApi.Domain.StoreMetadata.CreateAddress(createDto.Address);
+        entity.Location = ClientApi.Domain.StoreMetadata.CreateLocation(createDto.Location);
+        if (createDto.OpeningDay is not null)entity.OpeningDay = ClientApi.Domain.StoreMetadata.CreateOpeningDay(createDto.OpeningDay.NonNullValue<System.DateTimeOffset>());
         entity.EnsureId(createDto.Id);
-        //entity.StoreOwner = StoreOwner?.ToEntity();
         if (createDto.VerifiedEmails is not null)
         {
             entity.VerifiedEmails = EmailAddressFactory.CreateEntity(createDto.VerifiedEmails);
@@ -61,23 +65,68 @@ public abstract class StoreFactoryBase : IEntityFactory<Store, StoreCreateDto, S
         return entity;
     }
 
-    private void UpdateEntityInternal(Store entity, StoreUpdateDto updateDto)
+    private void UpdateEntityInternal(StoreEntity entity, StoreUpdateDto updateDto)
     {
-        entity.Name = ClientApi.Domain.Store.CreateName(updateDto.Name.NonNullValue<System.String>());
-        entity.Address = ClientApi.Domain.Store.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
-        entity.Location = ClientApi.Domain.Store.CreateLocation(updateDto.Location.NonNullValue<LatLongDto>());
+        entity.Name = ClientApi.Domain.StoreMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
+        entity.Address = ClientApi.Domain.StoreMetadata.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
+        entity.Location = ClientApi.Domain.StoreMetadata.CreateLocation(updateDto.Location.NonNullValue<LatLongDto>());
         if (updateDto.OpeningDay == null) { entity.OpeningDay = null; } else {
-            entity.OpeningDay = ClientApi.Domain.Store.CreateOpeningDay(updateDto.OpeningDay.ToValueFromNonNull<System.DateTimeOffset>());
+            entity.OpeningDay = ClientApi.Domain.StoreMetadata.CreateOpeningDay(updateDto.OpeningDay.ToValueFromNonNull<System.DateTimeOffset>());
         }
-        //entity.StoreOwner = StoreOwner?.ToEntity();
+    }
+
+    private void PartialUpdateEntityInternal(StoreEntity entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
+        {
+            if (NameUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Name' can't be null");
+            }
+            {
+                entity.Name = ClientApi.Domain.StoreMetadata.CreateName(NameUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Address", out var AddressUpdateValue))
+        {
+            if (AddressUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Address' can't be null");
+            }
+            {
+                entity.Address = ClientApi.Domain.StoreMetadata.CreateAddress(AddressUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Location", out var LocationUpdateValue))
+        {
+            if (LocationUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Location' can't be null");
+            }
+            {
+                entity.Location = ClientApi.Domain.StoreMetadata.CreateLocation(LocationUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("OpeningDay", out var OpeningDayUpdateValue))
+        {
+            if (OpeningDayUpdateValue == null) { entity.OpeningDay = null; }
+            else
+            {
+                entity.OpeningDay = ClientApi.Domain.StoreMetadata.CreateOpeningDay(OpeningDayUpdateValue);
+            }
+        }
     }
 }
 
-public partial class StoreFactory : StoreFactoryBase
+internal partial class StoreFactory : StoreFactoryBase
 {
     public StoreFactory
     (
-        IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> emailaddressfactory
-    ): base(emailaddressfactory)
+        IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> emailaddressfactory
+    ) : base(emailaddressfactory)
     {}
 }

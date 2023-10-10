@@ -12,6 +12,10 @@
                 <Property Name="CountryDebt" Type="ClientApi.Application.Dto.MoneyDto" />
                 <Property Name="FirstLanguageCode" Type="Edm.String" />
                 <Property Name="ShortDescription" Type="Edm.String" />
+                <Property Name="CountryIsoNumeric" Type="Edm.Int32" />
+                <Property Name="CountryIsoAlpha3" Type="Edm.String" />
+                <Property Name="GoogleMapsUrl" Type="Edm.String" />
+                <Property Name="StartOfWeek" Type="Edm.Int32" />
                 <NavigationProperty Name="CountryShortNames" Type="Collection(ClientApi.Application.Dto.CountryLocalNameDto)" ContainsTarget="true" />
                 <NavigationProperty Name="CountryBarCode" Type="ClientApi.Application.Dto.CountryBarCodeDto" ContainsTarget="true" />
                 <NavigationProperty Name="PhysicalWorkplaces" Type="Collection(ClientApi.Application.Dto.WorkplaceDto)" ContainsTarget="true" />
@@ -21,12 +25,32 @@
                     <PropertyRef Name="Id" />
                 </Key>
                 <Property Name="Id" Type="Edm.Int64" Nullable="false" />
-                <Property Name="Name" Type="Edm.String" Nullable="false" />
+                <Property Name="Name" Type="Edm.String" />
                 <Property Name="NativeName" Type="Edm.String" />
             </EntityType>
             <EntityType Name="CountryBarCodeDto">
-                <Property Name="BarCodeName" Type="Edm.String" Nullable="false" />
+                <Property Name="BarCodeName" Type="Edm.String" />
                 <Property Name="BarCodeNumber" Type="Edm.Int32" />
+            </EntityType>
+            <EntityType Name="RatingProgramDto">
+                <Key>
+                    <PropertyRef Name="Id" />
+                    <PropertyRef Name="StoreId" />
+                </Key>
+                <Property Name="StoreId" Type="Edm.Guid" Nullable="false" />
+                <Property Name="Id" Type="Edm.Int64" Nullable="false" />
+                <Property Name="Name" Type="Edm.String" />
+                <Property Name="Etag" Type="Edm.Guid" Nullable="false" />
+            </EntityType>
+            <EntityType Name="CountryQualityOfLifeIndexDto">
+                <Key>
+                    <PropertyRef Name="CountryId" />
+                    <PropertyRef Name="Id" />
+                </Key>
+                <Property Name="CountryId" Type="Edm.Int64" Nullable="false" />
+                <Property Name="Id" Type="Edm.Int64" Nullable="false" />
+                <Property Name="IndexRating" Type="Edm.Int32" Nullable="false" />
+                <Property Name="Etag" Type="Edm.Guid" Nullable="false" />
             </EntityType>
             <EntityType Name="StoreDto">
                 <Key>
@@ -40,6 +64,7 @@
                 <Property Name="OwnershipId" Type="Edm.String" />
                 <NavigationProperty Name="VerifiedEmails" Type="ClientApi.Application.Dto.EmailAddressDto" ContainsTarget="true" />
                 <NavigationProperty Name="Ownership" Type="ClientApi.Application.Dto.StoreOwnerDto" ContainsTarget="true" />
+                <NavigationProperty Name="License" Type="ClientApi.Application.Dto.StoreLicenseDto" ContainsTarget="true" />
             </EntityType>
             <EntityType Name="WorkplaceDto">
                 <Key>
@@ -58,13 +83,22 @@
                     <PropertyRef Name="Id" />
                 </Key>
                 <Property Name="Id" Type="Edm.String" Nullable="false" />
-                <Property Name="Name" Type="Edm.String" Nullable="false" />
-                <Property Name="TemporaryOwnerName" Type="Edm.String" Nullable="false" />
+                <Property Name="Name" Type="Edm.String" />
+                <Property Name="TemporaryOwnerName" Type="Edm.String" />
                 <Property Name="VatNumber" Type="ClientApi.Application.Dto.VatNumberDto" />
                 <Property Name="StreetAddress" Type="ClientApi.Application.Dto.StreetAddressDto" />
                 <Property Name="LocalGreeting" Type="ClientApi.Application.Dto.TranslatedTextDto" />
                 <Property Name="Notes" Type="Edm.String" />
                 <NavigationProperty Name="Stores" Type="Collection(ClientApi.Application.Dto.StoreDto)" ContainsTarget="true" />
+            </EntityType>
+            <EntityType Name="StoreLicenseDto">
+                <Key>
+                    <PropertyRef Name="Id" />
+                </Key>
+                <Property Name="Id" Type="Edm.Int64" Nullable="false" />
+                <Property Name="Issuer" Type="Edm.String" />
+                <Property Name="StoreWithLicenseId" Type="Edm.Guid" />
+                <NavigationProperty Name="StoreWithLicense" Type="ClientApi.Application.Dto.StoreDto" Nullable="false" ContainsTarget="true" />
             </EntityType>
             <EntityType Name="EmailAddressDto">
                 <Property Name="Email" Type="Edm.String" />
@@ -550,9 +584,12 @@
             <EntityContainer Name="Container">
                 <EntitySet Name="Countries" EntityType="ClientApi.Application.Dto.CountryDto" />
                 <EntitySet Name="CountryLocalNames" EntityType="ClientApi.Application.Dto.CountryLocalNameDto" />
+                <EntitySet Name="RatingPrograms" EntityType="ClientApi.Application.Dto.RatingProgramDto" />
+                <EntitySet Name="CountryQualityOfLifeIndices" EntityType="ClientApi.Application.Dto.CountryQualityOfLifeIndexDto" />
                 <EntitySet Name="Stores" EntityType="ClientApi.Application.Dto.StoreDto" />
                 <EntitySet Name="Workplaces" EntityType="ClientApi.Application.Dto.WorkplaceDto" />
                 <EntitySet Name="StoreOwners" EntityType="ClientApi.Application.Dto.StoreOwnerDto" />
+                <EntitySet Name="StoreLicenses" EntityType="ClientApi.Application.Dto.StoreLicenseDto" />
                 <EntitySet Name="Houses" EntityType="ClientApi.Tests.Application.Dto.HouseDto" />
                 <FunctionImport Name="countriesWithDebt" Function="Default.countriesWithDebt" EntitySet="Countries" IncludeInServiceDocument="true" />
             </EntityContainer>

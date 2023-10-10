@@ -12,52 +12,50 @@ using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
-using StoreOwner = ClientApi.Domain.StoreOwner;
+using StoreOwnerEntity = ClientApi.Domain.StoreOwner;
 
 namespace ClientApi.Application.Commands;
 
 public record PartialUpdateStoreOwnerCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <StoreOwnerKeyDto?>;
 
-public class PartialUpdateStoreOwnerCommandHandler: PartialUpdateStoreOwnerCommandHandlerBase
+internal class PartialUpdateStoreOwnerCommandHandler : PartialUpdateStoreOwnerCommandHandlerBase
 {
 	public PartialUpdateStoreOwnerCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityMapper<StoreOwner> entityMapper): base(dbContext,noxSolution, serviceProvider, entityMapper)
+		IEntityFactory<StoreOwnerEntity, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
 	}
 }
-public class PartialUpdateStoreOwnerCommandHandlerBase: CommandBase<PartialUpdateStoreOwnerCommand, StoreOwner>, IRequestHandler<PartialUpdateStoreOwnerCommand, StoreOwnerKeyDto?>
+internal class PartialUpdateStoreOwnerCommandHandlerBase : CommandBase<PartialUpdateStoreOwnerCommand, StoreOwnerEntity>, IRequestHandler<PartialUpdateStoreOwnerCommand, StoreOwnerKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
-	public IEntityMapper<StoreOwner> EntityMapper { get; }
+	public IEntityFactory<StoreOwnerEntity, StoreOwnerCreateDto, StoreOwnerUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateStoreOwnerCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityMapper<StoreOwner> entityMapper): base(noxSolution, serviceProvider)
+		IEntityFactory<StoreOwnerEntity, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<StoreOwnerKeyDto?> Handle(PartialUpdateStoreOwnerCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<StoreOwner,Nox.Types.Text>("Id", request.keyId);
+		var keyId = ClientApi.Domain.StoreOwnerMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.StoreOwners.FindAsync(keyId);
 		if (entity == null)
 		{
 			return null;
 		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<StoreOwner>(), request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

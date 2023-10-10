@@ -124,22 +124,20 @@ internal class EntityControllerGenerator : INoxCodeGenerator
 
             code.AppendLine(@$"public partial class {controllerName} : {controllerName}Base
 {{
-    public {controllerName}(IMediator mediator, {dbContextName} databaseContext):base(databaseContext, mediator)
+    public {controllerName}(IMediator mediator):base(mediator)
     {{}}
 }}");
 
-            code.AppendLine($"public abstract class {controllerName}Base : ODataController");
+            code.AppendLine($"public abstract partial class {controllerName}Base : ODataController");
 
             // Class
             code.StartBlock();
 
-            // db context
-            AddField(code, dbContextName, "databaseContext", "The OData DbContext for CRUD operations");
+            // db context            
             AddField(code, "IMediator", "mediator", "The Mediator");
 
             var constructorParameters = new Dictionary<string, string>
                 {
-                    { dbContextName, "databaseContext" },
                     { "IMediator", "mediator" }
                 };
 
@@ -162,27 +160,23 @@ internal class EntityControllerGenerator : INoxCodeGenerator
 
             code.AppendLine();
 
-            if (entity.Persistence is null ||
-                entity.Persistence.Read.IsEnabled)
+            if (CanRead(entity))
             {
                 GenerateGet(entity, code, codeGeneratorState.Solution);
             }
 
-            if (entity.Persistence is null ||
-                entity.Persistence.Create.IsEnabled)
+            if (CanCreate(entity))
             {
                 GeneratePost(entity, code);
             }
 
-            if (entity.Persistence is null ||
-                entity.Persistence.Update.IsEnabled)
+            if (CanUpdate(entity))
             {
                 GeneratePut(entity, code, codeGeneratorState.Solution);
                 GeneratePatch(entity, entityName, code, codeGeneratorState.Solution);
             }
 
-            if (entity.Persistence is null ||
-                entity.Persistence.Delete.IsEnabled)
+            if (CanDelete(entity))
             {
                 GenerateDelete(entity, entityName, code, codeGeneratorState.Solution);
             }
@@ -366,11 +360,6 @@ internal class EntityControllerGenerator : INoxCodeGenerator
 
     private static void GenerateOwnedRelationships(NoxSolution solution, CodeBuilder code, Entity entity)
     {
-        static bool CanRead(Entity entity) => entity.Persistence?.Read?.IsEnabled ?? true;
-        static bool CanCreate(Entity entity) => entity.Persistence?.Create?.IsEnabled ?? true;
-        static bool CanUpdate(Entity entity) => entity.Persistence?.Update?.IsEnabled ?? true;
-        static bool CanDelete(Entity entity) => entity.Persistence?.Delete?.IsEnabled ?? true;
-
         if (entity.OwnedRelationships?.Any() == true)
         {
             code.AppendLine();
@@ -743,22 +732,22 @@ internal class EntityControllerGenerator : INoxCodeGenerator
 
     private static void GenerateRelationships(NoxSolution solution, CodeBuilder code, Entity entity)
     {
-        if (entity.Relationships != null && entity.Relationships.Any())
+        if (entity.Relationships?.Any() == true)
         {
             code.AppendLine();
             code.AppendLine($"#region Relationships");
             code.AppendLine();
             foreach (var relationship in entity.Relationships)
             {
-                if (entity.Persistence?.Create?.IsEnabled ?? true)
+                if (CanCreate(entity))
                 {
                     GenerateCreateRefTo(entity, relationship, code, solution);
                 }
-                if (entity.Persistence?.Read?.IsEnabled ?? true)
+                if (CanRead(entity))
                 {
                     GenerateGetRefTo(entity, relationship, code, solution);
                 }
-                if (entity.Persistence?.Delete?.IsEnabled ?? true)
+                if (CanDelete(entity))
                 {
                     GenerateDeleteRefTo(entity, relationship, code, solution);
                     GenerateDeleteAllRefTo(entity, relationship, code, solution);
@@ -823,7 +812,6 @@ internal class EntityControllerGenerator : INoxCodeGenerator
 
     private static void GenerateDeleteAllRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
     {
-        var relatedEntity = relationship.Related.Entity;
         code.AppendLine($"public async Task<ActionResult> DeleteRefTo{relationship.Name}({PrimaryKeysFromRoute(entity, solution)})");
 
         code.StartBlock();
@@ -914,4 +902,12 @@ internal class EntityControllerGenerator : INoxCodeGenerator
 
         return "";
     }
+
+    private static bool CanRead(Entity entity) => entity.Persistence?.Read?.IsEnabled ?? true;
+
+    private static bool CanCreate(Entity entity) => entity.Persistence?.Create?.IsEnabled ?? true;
+
+    private static bool CanUpdate(Entity entity) => entity.Persistence?.Update?.IsEnabled ?? true;
+
+    private static bool CanDelete(Entity entity) => entity.Persistence?.Delete?.IsEnabled ?? true;
 }

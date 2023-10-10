@@ -14,7 +14,7 @@ namespace ClientApi.Application.Queries;
 
 public record GetStoreOwnerByIdQuery(System.String keyId) : IRequest <IQueryable<StoreOwnerDto>>;
 
-public partial class GetStoreOwnerByIdQueryHandler:GetStoreOwnerByIdQueryHandlerBase
+internal partial class GetStoreOwnerByIdQueryHandler:GetStoreOwnerByIdQueryHandlerBase
 {
     public  GetStoreOwnerByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
@@ -22,7 +22,7 @@ public partial class GetStoreOwnerByIdQueryHandler:GetStoreOwnerByIdQueryHandler
     }
 }
 
-public abstract class GetStoreOwnerByIdQueryHandlerBase:  QueryBase<IQueryable<StoreOwnerDto>>, IRequestHandler<GetStoreOwnerByIdQuery, IQueryable<StoreOwnerDto>>
+internal abstract class GetStoreOwnerByIdQueryHandlerBase:  QueryBase<IQueryable<StoreOwnerDto>>, IRequestHandler<GetStoreOwnerByIdQuery, IQueryable<StoreOwnerDto>>
 {
     public  GetStoreOwnerByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {
@@ -36,8 +36,7 @@ public abstract class GetStoreOwnerByIdQueryHandlerBase:  QueryBase<IQueryable<S
         var query = DataDbContext.StoreOwners
             .AsNoTracking()
             .Where(r =>
-                r.Id.Equals(request.keyId) &&
-                r.DeletedAtUtc == null);
+                r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));
     }
 }

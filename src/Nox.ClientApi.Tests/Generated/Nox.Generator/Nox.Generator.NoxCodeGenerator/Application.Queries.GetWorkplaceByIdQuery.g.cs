@@ -14,7 +14,7 @@ namespace ClientApi.Application.Queries;
 
 public record GetWorkplaceByIdQuery(System.UInt32 keyId) : IRequest <IQueryable<WorkplaceDto>>;
 
-public partial class GetWorkplaceByIdQueryHandler:GetWorkplaceByIdQueryHandlerBase
+internal partial class GetWorkplaceByIdQueryHandler:GetWorkplaceByIdQueryHandlerBase
 {
     public  GetWorkplaceByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
@@ -22,7 +22,7 @@ public partial class GetWorkplaceByIdQueryHandler:GetWorkplaceByIdQueryHandlerBa
     }
 }
 
-public abstract class GetWorkplaceByIdQueryHandlerBase:  QueryBase<IQueryable<WorkplaceDto>>, IRequestHandler<GetWorkplaceByIdQuery, IQueryable<WorkplaceDto>>
+internal abstract class GetWorkplaceByIdQueryHandlerBase:  QueryBase<IQueryable<WorkplaceDto>>, IRequestHandler<GetWorkplaceByIdQuery, IQueryable<WorkplaceDto>>
 {
     public  GetWorkplaceByIdQueryHandlerBase(DtoDbContext dataDbContext)
     {
@@ -36,9 +36,7 @@ public abstract class GetWorkplaceByIdQueryHandlerBase:  QueryBase<IQueryable<Wo
         var query = DataDbContext.Workplaces
             .AsNoTracking()
             .Where(r =>
-                r.Id.Equals(request.keyId) &&
-                true
-            );
+                r.Id.Equals(request.keyId));
         return Task.FromResult(OnResponse(query));
     }
 }

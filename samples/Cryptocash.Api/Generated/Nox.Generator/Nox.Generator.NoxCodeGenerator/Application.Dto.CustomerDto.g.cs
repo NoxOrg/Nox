@@ -3,25 +3,65 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using MediatR;
 
+using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
 using Cryptocash.Domain;
+using CustomerEntity = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application.Dto;
 
 public record CustomerKeyDto(System.Int64 keyId);
 
+public partial class CustomerDto : CustomerDtoBase
+{
+
+}
+
 /// <summary>
 /// Customer definition and related data.
 /// </summary>
-public partial class CustomerDto
+public abstract class CustomerDtoBase : EntityDtoBase, IEntityDto<CustomerEntity>
 {
+
+    #region Validation
+    public virtual IReadOnlyDictionary<string, IEnumerable<string>> Validate()
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+    
+        if (this.FirstName is not null)
+            ExecuteActionAndCollectValidationExceptions("FirstName", () => Cryptocash.Domain.CustomerMetadata.CreateFirstName(this.FirstName.NonNullValue<System.String>()), result);
+        else
+            result.Add("FirstName", new [] { "FirstName is Required." });
+    
+        if (this.LastName is not null)
+            ExecuteActionAndCollectValidationExceptions("LastName", () => Cryptocash.Domain.CustomerMetadata.CreateLastName(this.LastName.NonNullValue<System.String>()), result);
+        else
+            result.Add("LastName", new [] { "LastName is Required." });
+    
+        if (this.EmailAddress is not null)
+            ExecuteActionAndCollectValidationExceptions("EmailAddress", () => Cryptocash.Domain.CustomerMetadata.CreateEmailAddress(this.EmailAddress.NonNullValue<System.String>()), result);
+        else
+            result.Add("EmailAddress", new [] { "EmailAddress is Required." });
+    
+        if (this.Address is not null)
+            ExecuteActionAndCollectValidationExceptions("Address", () => Cryptocash.Domain.CustomerMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
+        else
+            result.Add("Address", new [] { "Address is Required." });
+    
+        if (this.MobileNumber is not null)
+            ExecuteActionAndCollectValidationExceptions("MobileNumber", () => Cryptocash.Domain.CustomerMetadata.CreateMobileNumber(this.MobileNumber.NonNullValue<System.String>()), result);
+
+        return result;
+    }
+    #endregion
 
     /// <summary>
     /// Customer's unique identifier (Required).
@@ -72,8 +112,9 @@ public partial class CustomerDto
     /// Customer based in ExactlyOne Countries
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.String CustomerBaseCountryId { get; set; } = default!;
-    public virtual CountryDto CustomerBaseCountry { get; set; } = null!;
+    public System.String? CustomerBaseCountryId { get; set; } = default!;
+    public virtual CountryDto? CustomerBaseCountry { get; set; } = null!;
+    [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]

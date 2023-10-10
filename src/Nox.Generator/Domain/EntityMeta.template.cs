@@ -4,6 +4,7 @@
 
 using Nox.Types;
 using Nox.Domain;
+using Nox.Solution;
 using System;
 using System.Collections.Generic;
 
@@ -37,7 +38,19 @@ public partial class {{className}}
     /// Factory for property '{{entityMetaData.Name}}'
     /// </summary>
     public static Nox.Types.{{entityMetaData.Type}} Create{{entityMetaData.Name}}({{entityMetaData.InParams}})
-        => Nox.Types.{{entityMetaData.Type}}.From(value);
+        => Nox.Types.{{entityMetaData.Type}}.{{ if entityMetaData.Type == "AutoNumber" }}FromDatabase{{ else }}From{{ end }}(value);
     {{ end }}
 {{- end }}
+
+    {{- for attribute in entity.Attributes }}
+
+        /// <summary>
+        /// User Interface for property '{{attribute.Name}}'
+        /// </summary>
+        public static TypeUserInterface? {{attribute.Name}}UiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("{{entity.Name}}")
+                .GetAttributeByName("{{attribute.Name}}")?
+                .UserInterface;
+    {{- end }}
 }

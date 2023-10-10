@@ -9,29 +9,27 @@ using Nox.Solution;
 using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
-using StoreOwner = ClientApi.Domain.StoreOwner;
+using StoreOwnerEntity = ClientApi.Domain.StoreOwner;
 
 namespace ClientApi.Application.Commands;
 
 public record DeleteStoreOwnerByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
 
-public class DeleteStoreOwnerByIdCommandHandler:DeleteStoreOwnerByIdCommandHandlerBase
+internal class DeleteStoreOwnerByIdCommandHandler : DeleteStoreOwnerByIdCommandHandlerBase
 {
 	public DeleteStoreOwnerByIdCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(dbContext, noxSolution, serviceProvider)
+		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
-public abstract class DeleteStoreOwnerByIdCommandHandlerBase: CommandBase<DeleteStoreOwnerByIdCommand,StoreOwner>, IRequestHandler<DeleteStoreOwnerByIdCommand, bool>
+internal abstract class DeleteStoreOwnerByIdCommandHandlerBase : CommandBase<DeleteStoreOwnerByIdCommand, StoreOwnerEntity>, IRequestHandler<DeleteStoreOwnerByIdCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 
 	public DeleteStoreOwnerByIdCommandHandlerBase(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;
 	}
@@ -40,17 +38,17 @@ public abstract class DeleteStoreOwnerByIdCommandHandlerBase: CommandBase<Delete
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<StoreOwner,Nox.Types.Text>("Id", request.keyId);
+		var keyId = ClientApi.Domain.StoreOwnerMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.StoreOwners.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted.Value == true)
+		if (entity == null || entity.IsDeleted == true)
 		{
 			return false;
 		}
 
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;

@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Domain;
-using Commission = Cryptocash.Domain.Commission;
+using CommissionEntity = Cryptocash.Domain.Commission;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class CommissionFactoryBase : IEntityFactory<Commission, CommissionCreateDto, CommissionUpdateDto>
+internal abstract class CommissionFactoryBase : IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto>
 {
 
     public CommissionFactoryBase
@@ -32,35 +32,62 @@ public abstract class CommissionFactoryBase : IEntityFactory<Commission, Commiss
     {
     }
 
-    public virtual Commission CreateEntity(CommissionCreateDto createDto)
+    public virtual CommissionEntity CreateEntity(CommissionCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(Commission entity, CommissionUpdateDto updateDto)
+    public virtual void UpdateEntity(CommissionEntity entity, CommissionUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
+    }
+
+    public virtual void PartialUpdateEntity(CommissionEntity entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
     }
 
     private Cryptocash.Domain.Commission ToEntity(CommissionCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Commission();
-        entity.Rate = Cryptocash.Domain.Commission.CreateRate(createDto.Rate);
-        entity.EffectiveAt = Cryptocash.Domain.Commission.CreateEffectiveAt(createDto.EffectiveAt);
-        //entity.Country = Country?.ToEntity();
-        //entity.Bookings = Bookings.Select(dto => dto.ToEntity()).ToList();
+        entity.Rate = Cryptocash.Domain.CommissionMetadata.CreateRate(createDto.Rate);
+        entity.EffectiveAt = Cryptocash.Domain.CommissionMetadata.CreateEffectiveAt(createDto.EffectiveAt);
         return entity;
     }
 
-    private void UpdateEntityInternal(Commission entity, CommissionUpdateDto updateDto)
+    private void UpdateEntityInternal(CommissionEntity entity, CommissionUpdateDto updateDto)
     {
-        entity.Rate = Cryptocash.Domain.Commission.CreateRate(updateDto.Rate.NonNullValue<System.Single>());
-        entity.EffectiveAt = Cryptocash.Domain.Commission.CreateEffectiveAt(updateDto.EffectiveAt.NonNullValue<System.DateTimeOffset>());
-        //entity.Country = Country?.ToEntity();
-        //entity.Bookings = Bookings.Select(dto => dto.ToEntity()).ToList();
+        entity.Rate = Cryptocash.Domain.CommissionMetadata.CreateRate(updateDto.Rate.NonNullValue<System.Single>());
+        entity.EffectiveAt = Cryptocash.Domain.CommissionMetadata.CreateEffectiveAt(updateDto.EffectiveAt.NonNullValue<System.DateTimeOffset>());
+    }
+
+    private void PartialUpdateEntityInternal(CommissionEntity entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("Rate", out var RateUpdateValue))
+        {
+            if (RateUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Rate' can't be null");
+            }
+            {
+                entity.Rate = Cryptocash.Domain.CommissionMetadata.CreateRate(RateUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("EffectiveAt", out var EffectiveAtUpdateValue))
+        {
+            if (EffectiveAtUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'EffectiveAt' can't be null");
+            }
+            {
+                entity.EffectiveAt = Cryptocash.Domain.CommissionMetadata.CreateEffectiveAt(EffectiveAtUpdateValue);
+            }
+        }
     }
 }
 
-public partial class CommissionFactory : CommissionFactoryBase
+internal partial class CommissionFactory : CommissionFactoryBase
 {
 }

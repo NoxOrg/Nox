@@ -10,6 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
+using TransactionEntity = Cryptocash.Domain.Transaction;
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -22,7 +23,7 @@ public partial class TransactionCreateDto : TransactionCreateDtoBase
 /// <summary>
 /// Customer transaction log and related data.
 /// </summary>
-public abstract class TransactionCreateDtoBase : IEntityDto<Transaction>
+public abstract class TransactionCreateDtoBase : IEntityDto<TransactionEntity>
 {
     /// <summary>
     /// Transaction type (Required).
@@ -52,10 +53,16 @@ public abstract class TransactionCreateDtoBase : IEntityDto<Transaction>
     /// <summary>
     /// Transaction for ExactlyOne Customers
     /// </summary>
+    public System.Int64? TransactionForCustomerId { get; set; } = default!;
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual CustomerCreateDto? TransactionForCustomer { get; set; } = default!;
 
     /// <summary>
     /// Transaction for ExactlyOne Bookings
     /// </summary>
+    public System.Guid? TransactionForBookingId { get; set; } = default!;
+    
+    [System.Text.Json.Serialization.JsonIgnore] 
     public virtual BookingCreateDto? TransactionForBooking { get; set; } = default!;
 }

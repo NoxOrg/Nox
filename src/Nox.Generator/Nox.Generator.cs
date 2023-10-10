@@ -61,7 +61,8 @@ public class NoxCodeGenerator : IIncrementalGenerator
                     (NoxGeneratorKind.Domain,config.Domain),
                     (NoxGeneratorKind.Infrastructure,config.Infrastructure),
                     (NoxGeneratorKind.Presentation,config.Presentation),
-                    (NoxGeneratorKind.Application,config.Application)
+                    (NoxGeneratorKind.Application,config.Application),
+                    (NoxGeneratorKind.Ui,config.Ui)
                 }
                 .Where(x => x.Item2)
                 .Select(x => x.Item1)
@@ -189,6 +190,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
                 .Build();
 
             config = deserializer.Deserialize<GeneratorConfig>(configContent);
+            config.Validate();
         }
         catch (YamlException e)
         {

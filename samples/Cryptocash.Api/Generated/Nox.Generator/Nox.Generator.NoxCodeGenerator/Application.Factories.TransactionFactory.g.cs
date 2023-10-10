@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Domain;
-using Transaction = Cryptocash.Domain.Transaction;
+using TransactionEntity = Cryptocash.Domain.Transaction;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class TransactionFactoryBase : IEntityFactory<Transaction, TransactionCreateDto, TransactionUpdateDto>
+internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntity, TransactionCreateDto, TransactionUpdateDto>
 {
 
     public TransactionFactoryBase
@@ -32,39 +32,88 @@ public abstract class TransactionFactoryBase : IEntityFactory<Transaction, Trans
     {
     }
 
-    public virtual Transaction CreateEntity(TransactionCreateDto createDto)
+    public virtual TransactionEntity CreateEntity(TransactionCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(Transaction entity, TransactionUpdateDto updateDto)
+    public virtual void UpdateEntity(TransactionEntity entity, TransactionUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
+    }
+
+    public virtual void PartialUpdateEntity(TransactionEntity entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
     }
 
     private Cryptocash.Domain.Transaction ToEntity(TransactionCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Transaction();
-        entity.TransactionType = Cryptocash.Domain.Transaction.CreateTransactionType(createDto.TransactionType);
-        entity.ProcessedOnDateTime = Cryptocash.Domain.Transaction.CreateProcessedOnDateTime(createDto.ProcessedOnDateTime);
-        entity.Amount = Cryptocash.Domain.Transaction.CreateAmount(createDto.Amount);
-        entity.Reference = Cryptocash.Domain.Transaction.CreateReference(createDto.Reference);
-        //entity.Customer = Customer.ToEntity();
-        //entity.Booking = Booking.ToEntity();
+        entity.TransactionType = Cryptocash.Domain.TransactionMetadata.CreateTransactionType(createDto.TransactionType);
+        entity.ProcessedOnDateTime = Cryptocash.Domain.TransactionMetadata.CreateProcessedOnDateTime(createDto.ProcessedOnDateTime);
+        entity.Amount = Cryptocash.Domain.TransactionMetadata.CreateAmount(createDto.Amount);
+        entity.Reference = Cryptocash.Domain.TransactionMetadata.CreateReference(createDto.Reference);
         return entity;
     }
 
-    private void UpdateEntityInternal(Transaction entity, TransactionUpdateDto updateDto)
+    private void UpdateEntityInternal(TransactionEntity entity, TransactionUpdateDto updateDto)
     {
-        entity.TransactionType = Cryptocash.Domain.Transaction.CreateTransactionType(updateDto.TransactionType.NonNullValue<System.String>());
-        entity.ProcessedOnDateTime = Cryptocash.Domain.Transaction.CreateProcessedOnDateTime(updateDto.ProcessedOnDateTime.NonNullValue<System.DateTimeOffset>());
-        entity.Amount = Cryptocash.Domain.Transaction.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>());
-        entity.Reference = Cryptocash.Domain.Transaction.CreateReference(updateDto.Reference.NonNullValue<System.String>());
-        //entity.Customer = Customer.ToEntity();
-        //entity.Booking = Booking.ToEntity();
+        entity.TransactionType = Cryptocash.Domain.TransactionMetadata.CreateTransactionType(updateDto.TransactionType.NonNullValue<System.String>());
+        entity.ProcessedOnDateTime = Cryptocash.Domain.TransactionMetadata.CreateProcessedOnDateTime(updateDto.ProcessedOnDateTime.NonNullValue<System.DateTimeOffset>());
+        entity.Amount = Cryptocash.Domain.TransactionMetadata.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>());
+        entity.Reference = Cryptocash.Domain.TransactionMetadata.CreateReference(updateDto.Reference.NonNullValue<System.String>());
+    }
+
+    private void PartialUpdateEntityInternal(TransactionEntity entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("TransactionType", out var TransactionTypeUpdateValue))
+        {
+            if (TransactionTypeUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'TransactionType' can't be null");
+            }
+            {
+                entity.TransactionType = Cryptocash.Domain.TransactionMetadata.CreateTransactionType(TransactionTypeUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("ProcessedOnDateTime", out var ProcessedOnDateTimeUpdateValue))
+        {
+            if (ProcessedOnDateTimeUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'ProcessedOnDateTime' can't be null");
+            }
+            {
+                entity.ProcessedOnDateTime = Cryptocash.Domain.TransactionMetadata.CreateProcessedOnDateTime(ProcessedOnDateTimeUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Amount", out var AmountUpdateValue))
+        {
+            if (AmountUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Amount' can't be null");
+            }
+            {
+                entity.Amount = Cryptocash.Domain.TransactionMetadata.CreateAmount(AmountUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Reference", out var ReferenceUpdateValue))
+        {
+            if (ReferenceUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Reference' can't be null");
+            }
+            {
+                entity.Reference = Cryptocash.Domain.TransactionMetadata.CreateReference(ReferenceUpdateValue);
+            }
+        }
     }
 }
 
-public partial class TransactionFactory : TransactionFactoryBase
+internal partial class TransactionFactory : TransactionFactoryBase
 {
 }

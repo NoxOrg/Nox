@@ -5,32 +5,50 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-public partial class Currency:CurrencyBase
-{
 
+internal partial class Currency : CurrencyBase, IEntityHaveDomainEvents
+{
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for Currency created event.
 /// </summary>
-public record CurrencyCreated(Currency Currency) : IDomainEvent;
+internal record CurrencyCreated(Currency Currency) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for Currency updated event.
 /// </summary>
-public record CurrencyUpdated(Currency Currency) : IDomainEvent;
+internal record CurrencyUpdated(Currency Currency) : IDomainEvent, INotification;
 /// <summary>
 /// Record for Currency deleted event.
 /// </summary>
-public record CurrencyDeleted(Currency Currency) : IDomainEvent;
+internal record CurrencyDeleted(Currency Currency) : IDomainEvent, INotification;
 
 /// <summary>
 /// Currency and related data.
 /// </summary>
-public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
+internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Currency unique identifier (Required).
@@ -96,11 +114,38 @@ public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
     /// Currency's minor value when converted to major (Required).
     /// </summary>
     public Nox.Types.Money MinorToMajorValue { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(Currency currency)
+	{
+		InternalDomainEvents.Add(new CurrencyCreated(currency));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(Currency currency)
+	{
+		InternalDomainEvents.Add(new CurrencyUpdated(currency));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(Currency currency)
+	{
+		InternalDomainEvents.Add(new CurrencyDeleted(currency));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
     /// <summary>
     /// Currency used by OneOrMany Countries
     /// </summary>
-    public virtual List<Country> CurrencyUsedByCountry { get; set; } = new();
+    public virtual List<Country> CurrencyUsedByCountry { get; private set; } = new();
 
     public virtual void CreateRefToCurrencyUsedByCountry(Country relatedCountry)
     {
@@ -117,14 +162,14 @@ public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
     public virtual void DeleteAllRefToCurrencyUsedByCountry()
     {
         if(CurrencyUsedByCountry.Count() < 2)
-            throw new Exception($"The relatioship cannot be deleted.");
+            throw new Exception($"The relationship cannot be deleted.");
         CurrencyUsedByCountry.Clear();
     }
 
     /// <summary>
     /// Currency used by ZeroOrMany MinimumCashStocks
     /// </summary>
-    public virtual List<MinimumCashStock> CurrencyUsedByMinimumCashStocks { get; set; } = new();
+    public virtual List<MinimumCashStock> CurrencyUsedByMinimumCashStocks { get; private set; } = new();
 
     public virtual void CreateRefToCurrencyUsedByMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
     {

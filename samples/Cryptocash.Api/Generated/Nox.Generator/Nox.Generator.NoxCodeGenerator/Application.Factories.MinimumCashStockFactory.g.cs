@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using Cryptocash.Application.Dto;
 using Cryptocash.Domain;
-using MinimumCashStock = Cryptocash.Domain.MinimumCashStock;
+using MinimumCashStockEntity = Cryptocash.Domain.MinimumCashStock;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto>
+internal abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCashStockEntity, MinimumCashStockCreateDto, MinimumCashStockUpdateDto>
 {
 
     public MinimumCashStockFactoryBase
@@ -32,33 +32,49 @@ public abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCashSt
     {
     }
 
-    public virtual MinimumCashStock CreateEntity(MinimumCashStockCreateDto createDto)
+    public virtual MinimumCashStockEntity CreateEntity(MinimumCashStockCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(MinimumCashStock entity, MinimumCashStockUpdateDto updateDto)
+    public virtual void UpdateEntity(MinimumCashStockEntity entity, MinimumCashStockUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
+    }
+
+    public virtual void PartialUpdateEntity(MinimumCashStockEntity entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
     }
 
     private Cryptocash.Domain.MinimumCashStock ToEntity(MinimumCashStockCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.MinimumCashStock();
-        entity.Amount = Cryptocash.Domain.MinimumCashStock.CreateAmount(createDto.Amount);
-        //entity.VendingMachines = VendingMachines.Select(dto => dto.ToEntity()).ToList();
-        //entity.Currency = Currency.ToEntity();
+        entity.Amount = Cryptocash.Domain.MinimumCashStockMetadata.CreateAmount(createDto.Amount);
         return entity;
     }
 
-    private void UpdateEntityInternal(MinimumCashStock entity, MinimumCashStockUpdateDto updateDto)
+    private void UpdateEntityInternal(MinimumCashStockEntity entity, MinimumCashStockUpdateDto updateDto)
     {
-        entity.Amount = Cryptocash.Domain.MinimumCashStock.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>());
-        //entity.VendingMachines = VendingMachines.Select(dto => dto.ToEntity()).ToList();
-        //entity.Currency = Currency.ToEntity();
+        entity.Amount = Cryptocash.Domain.MinimumCashStockMetadata.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>());
+    }
+
+    private void PartialUpdateEntityInternal(MinimumCashStockEntity entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("Amount", out var AmountUpdateValue))
+        {
+            if (AmountUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'Amount' can't be null");
+            }
+            {
+                entity.Amount = Cryptocash.Domain.MinimumCashStockMetadata.CreateAmount(AmountUpdateValue);
+            }
+        }
     }
 }
 
-public partial class MinimumCashStockFactory : MinimumCashStockFactoryBase
+internal partial class MinimumCashStockFactory : MinimumCashStockFactoryBase
 {
 }

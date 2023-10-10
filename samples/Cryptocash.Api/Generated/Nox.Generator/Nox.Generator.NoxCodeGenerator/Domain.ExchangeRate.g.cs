@@ -5,32 +5,50 @@
 using System;
 using System.Collections.Generic;
 
+using MediatR;
+
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Cryptocash.Domain;
-public partial class ExchangeRate:ExchangeRateBase
-{
 
+internal partial class ExchangeRate : ExchangeRateBase, IEntityHaveDomainEvents
+{
+	///<inheritdoc/>
+	public void RaiseCreateEvent()
+	{
+		InternalRaiseCreateEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseDeleteEvent()
+	{
+		InternalRaiseDeleteEvent(this);
+	}
+	///<inheritdoc/>
+	public void RaiseUpdateEvent()
+	{
+		InternalRaiseUpdateEvent(this);
+	}
 }
 /// <summary>
 /// Record for ExchangeRate created event.
 /// </summary>
-public record ExchangeRateCreated(ExchangeRate ExchangeRate) : IDomainEvent;
+internal record ExchangeRateCreated(ExchangeRate ExchangeRate) :  IDomainEvent, INotification;
 /// <summary>
 /// Record for ExchangeRate updated event.
 /// </summary>
-public record ExchangeRateUpdated(ExchangeRate ExchangeRate) : IDomainEvent;
+internal record ExchangeRateUpdated(ExchangeRate ExchangeRate) : IDomainEvent, INotification;
 /// <summary>
 /// Record for ExchangeRate deleted event.
 /// </summary>
-public record ExchangeRateDeleted(ExchangeRate ExchangeRate) : IDomainEvent;
+internal record ExchangeRateDeleted(ExchangeRate ExchangeRate) : IDomainEvent, INotification;
 
 /// <summary>
 /// Exchange rate and related data.
 /// </summary>
-public abstract class ExchangeRateBase : EntityBase, IOwnedEntity
+internal abstract partial class ExchangeRateBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// Exchange rate unique identifier (Required).
@@ -46,5 +64,32 @@ public abstract class ExchangeRateBase : EntityBase, IOwnedEntity
     /// Exchange rate conversion amount (Required).
     /// </summary>
     public Nox.Types.DateTime EffectiveAt { get; set; } = null!;
+	/// <summary>
+	/// Domain events raised by this entity.
+	/// </summary>
+	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+
+	protected virtual void InternalRaiseCreateEvent(ExchangeRate exchangeRate)
+	{
+		InternalDomainEvents.Add(new ExchangeRateCreated(exchangeRate));
+	}
+	
+	protected virtual void InternalRaiseUpdateEvent(ExchangeRate exchangeRate)
+	{
+		InternalDomainEvents.Add(new ExchangeRateUpdated(exchangeRate));
+	}
+	
+	protected virtual void InternalRaiseDeleteEvent(ExchangeRate exchangeRate)
+	{
+		InternalDomainEvents.Add(new ExchangeRateDeleted(exchangeRate));
+	}
+	/// <summary>
+	/// Clears all domain events associated with the entity.
+	/// </summary>
+    public virtual void ClearDomainEvents()
+	{
+		InternalDomainEvents.Clear();
+	}
 
 }

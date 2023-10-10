@@ -19,11 +19,11 @@ using Nox.Exceptions;
 
 using ClientApi.Application.Dto;
 using ClientApi.Domain;
-using EmailAddress = ClientApi.Domain.EmailAddress;
+using EmailAddressEntity = ClientApi.Domain.EmailAddress;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto>
+internal abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddressEntity, EmailAddressCreateDto, EmailAddressUpdateDto>
 {
 
     public EmailAddressFactoryBase
@@ -32,35 +32,62 @@ public abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddress, Ema
     {
     }
 
-    public virtual EmailAddress CreateEntity(EmailAddressCreateDto createDto)
+    public virtual EmailAddressEntity CreateEntity(EmailAddressCreateDto createDto)
     {
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(EmailAddress entity, EmailAddressUpdateDto updateDto)
+    public virtual void UpdateEntity(EmailAddressEntity entity, EmailAddressUpdateDto updateDto)
     {
         UpdateEntityInternal(entity, updateDto);
+    }
+
+    public virtual void PartialUpdateEntity(EmailAddressEntity entity, Dictionary<string, dynamic> updatedProperties)
+    {
+        PartialUpdateEntityInternal(entity, updatedProperties);
     }
 
     private ClientApi.Domain.EmailAddress ToEntity(EmailAddressCreateDto createDto)
     {
         var entity = new ClientApi.Domain.EmailAddress();
-        if (createDto.Email is not null)entity.Email = ClientApi.Domain.EmailAddress.CreateEmail(createDto.Email.NonNullValue<System.String>());
-        if (createDto.IsVerified is not null)entity.IsVerified = ClientApi.Domain.EmailAddress.CreateIsVerified(createDto.IsVerified.NonNullValue<System.Boolean>());
+        if (createDto.Email is not null)entity.Email = ClientApi.Domain.EmailAddressMetadata.CreateEmail(createDto.Email.NonNullValue<System.String>());
+        if (createDto.IsVerified is not null)entity.IsVerified = ClientApi.Domain.EmailAddressMetadata.CreateIsVerified(createDto.IsVerified.NonNullValue<System.Boolean>());
         return entity;
     }
 
-    private void UpdateEntityInternal(EmailAddress entity, EmailAddressUpdateDto updateDto)
+    private void UpdateEntityInternal(EmailAddressEntity entity, EmailAddressUpdateDto updateDto)
     {
         if (updateDto.Email == null) { entity.Email = null; } else {
-            entity.Email = ClientApi.Domain.EmailAddress.CreateEmail(updateDto.Email.ToValueFromNonNull<System.String>());
+            entity.Email = ClientApi.Domain.EmailAddressMetadata.CreateEmail(updateDto.Email.ToValueFromNonNull<System.String>());
         }
         if (updateDto.IsVerified == null) { entity.IsVerified = null; } else {
-            entity.IsVerified = ClientApi.Domain.EmailAddress.CreateIsVerified(updateDto.IsVerified.ToValueFromNonNull<System.Boolean>());
+            entity.IsVerified = ClientApi.Domain.EmailAddressMetadata.CreateIsVerified(updateDto.IsVerified.ToValueFromNonNull<System.Boolean>());
+        }
+    }
+
+    private void PartialUpdateEntityInternal(EmailAddressEntity entity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("Email", out var EmailUpdateValue))
+        {
+            if (EmailUpdateValue == null) { entity.Email = null; }
+            else
+            {
+                entity.Email = ClientApi.Domain.EmailAddressMetadata.CreateEmail(EmailUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("IsVerified", out var IsVerifiedUpdateValue))
+        {
+            if (IsVerifiedUpdateValue == null) { entity.IsVerified = null; }
+            else
+            {
+                entity.IsVerified = ClientApi.Domain.EmailAddressMetadata.CreateIsVerified(IsVerifiedUpdateValue);
+            }
         }
     }
 }
 
-public partial class EmailAddressFactory : EmailAddressFactoryBase
+internal partial class EmailAddressFactory : EmailAddressFactoryBase
 {
 }

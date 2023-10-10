@@ -11,33 +11,31 @@ using Nox.Factories;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
-using Store = ClientApi.Domain.Store;
+using StoreEntity = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Commands;
 
 public record UpdateStoreCommand(System.Guid keyId, StoreUpdateDto EntityDto, System.Guid? Etag) : IRequest<StoreKeyDto?>;
 
-public partial class UpdateStoreCommandHandler: UpdateStoreCommandHandlerBase
+internal partial class UpdateStoreCommandHandler : UpdateStoreCommandHandlerBase
 {
 	public UpdateStoreCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> entityFactory): base(dbContext, noxSolution, serviceProvider, entityFactory)
+		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
 
-public abstract class UpdateStoreCommandHandlerBase: CommandBase<UpdateStoreCommand, Store>, IRequestHandler<UpdateStoreCommand, StoreKeyDto?>
+internal abstract class UpdateStoreCommandHandlerBase : CommandBase<UpdateStoreCommand, StoreEntity>, IRequestHandler<UpdateStoreCommand, StoreKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
-	private readonly IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> _entityFactory;
+	private readonly IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> _entityFactory;
 
 	public UpdateStoreCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> entityFactory): base(noxSolution, serviceProvider)
+		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory) : base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -47,7 +45,7 @@ public abstract class UpdateStoreCommandHandlerBase: CommandBase<UpdateStoreComm
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Store,Nox.Types.Guid>("Id", request.keyId);
+		var keyId = ClientApi.Domain.StoreMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Stores.FindAsync(keyId);
 		if (entity == null)
@@ -58,7 +56,7 @@ public abstract class UpdateStoreCommandHandlerBase: CommandBase<UpdateStoreComm
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(request, entity);
+		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
