@@ -34,7 +34,7 @@ public partial class {{className}} : IIntegrationEvent
 {
 {{- if isObject -}}
 {{- for attribute in attributes -}}
-{{- if attribute.Description }} 
+{{- if attribute.Description }}
     /// <summary>
     /// {{attribute.Description}}{{if !(attribute.Description | string.ends_with ".")}}.{{end}}
     /// </summary>
@@ -54,7 +54,7 @@ public partial class {{className}} : IIntegrationEvent
 public class {{nestedClassName}}
 {
 {{- for attribute in attributes -}}
-{{- if attribute.Description }} 
+{{- if attribute.Description }}
     /// <summary>
     /// {{attribute.Description}}{{if !(attribute.Description | string.ends_with ".")}}.{{end}}
     /// </summary>
