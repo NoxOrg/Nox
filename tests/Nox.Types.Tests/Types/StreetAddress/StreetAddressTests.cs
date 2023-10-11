@@ -51,7 +51,7 @@ public class StreetAddressTests
         });
 
         action.Should().Throw<TypeValidationException>()
-            .WithMessage("The Nox type validation failed with 1 error(s).")
+            .WithMessage($"The Nox type validation failed with 1 error(s). PropertyName: PostalCode. Error: PostalCode '123456' for country with ID '{countryCode}' is invalid.")
             .And.Errors.Should().BeEquivalentTo(new[]
             {
                 new ValidationFailure("PostalCode", $"PostalCode '123456' for country with ID '{countryCode}' is invalid.")
@@ -92,7 +92,6 @@ public class StreetAddressTests
         });
 
         action.Should().Throw<TypeValidationException>()
-            .WithMessage("The Nox type validation failed with 7 error(s).")
             .And.Errors.Should().BeEquivalentTo(new[]
             {
                 new ValidationFailure("StreetNumber", "Could not create a Nox StreetAddress type with a StreetNumber with length greater than max allowed length of 32."),
@@ -120,7 +119,7 @@ public class StreetAddressTests
         });
 
         action.Should().Throw<TypeValidationException>()
-            .WithMessage("The Nox type validation failed with 1 error(s).")
+            .WithMessage("The Nox type validation failed with 1 error(s). PropertyName: AddressLine1. Error: Could not create a Nox StreetAddress type with an empty AddressLine1.")
             .And.Errors.Should().BeEquivalentTo(new[]
             {
                 new ValidationFailure("AddressLine1", "Could not create a Nox StreetAddress type with an empty AddressLine1.")
@@ -142,7 +141,8 @@ public class StreetAddressTests
         });
 
         action.Should().Throw<TypeValidationException>()
-            .WithMessage("The Nox type validation failed with 2 error(s).")
+            .WithMessage(@"The Nox type validation failed with 2 error(s). PropertyName: PostalCode. Error: PostalCode '' for country with ID 'GB' is invalid.
+PropertyName: PostalCode. Error: Could not create a Nox StreetAddress type with an empty PostalCode.")
             .And.Errors.Should().BeEquivalentTo(new[]
             {
                 new ValidationFailure("PostalCode", "Could not create a Nox StreetAddress type with an empty PostalCode."),
@@ -165,7 +165,7 @@ public class StreetAddressTests
         });
 
         action.Should().Throw<TypeValidationException>()
-            .WithMessage("The Nox type validation failed with 1 error(s).")
+            .WithMessage("The Nox type validation failed with 1 error(s). PropertyName: CountryId. Error: Country with ID '0' is invalid.")
             .And.Errors.Should().BeEquivalentTo(new[]
             {
                 new ValidationFailure("CountryId", "Country with ID '0' is invalid.")

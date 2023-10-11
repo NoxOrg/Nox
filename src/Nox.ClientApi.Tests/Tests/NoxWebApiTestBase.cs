@@ -30,7 +30,7 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
     }
 
     protected ITestHarness MassTransitTestHarness => _appFactory.GetTestHarness();
-    
+
     /// <summary>
     ///  Get collection result from Odata End Point
     /// </summary>

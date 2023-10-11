@@ -1,10 +1,7 @@
 ﻿using System.Net;
 using System.Text.Json;
-
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-
-using Nox.Exceptions;
 using Nox.Types;
 
 namespace Nox.Lib;
@@ -14,7 +11,9 @@ public class NoxExceptionHanderMiddleware
     private readonly RequestDelegate _next;
     private readonly ILogger<NoxExceptionHanderMiddleware> _logger;
 
-    public NoxExceptionHanderMiddleware(RequestDelegate next, ILogger<NoxExceptionHanderMiddleware> logger)
+    public NoxExceptionHanderMiddleware(
+        RequestDelegate next,
+        ILogger<NoxExceptionHanderMiddleware> logger)
     {
         _next = next;
         _logger = logger;
@@ -22,46 +21,26 @@ public class NoxExceptionHanderMiddleware
 
     public async Task InvokeAsync(HttpContext httpContext)
     {
-        var requestPath = httpContext.Request?.Path;
         try
         {
             await _next(httpContext);
         }
-        catch (TypeValidationException ex)
+        catch (Exception ex) when (ex is INoxHttpException httpException)
         {
-            await HandleTypeValidationExceptionAsync(httpContext, ex);
-        }
-        catch(ConcurrencyException ex)
-        {
-            await HandleConcurrencyExceptionAsync(httpContext, ex);
-        }
-        catch (RelatedEntityNotFoundException ex)
-        {
-            await CommonHandleExceptionAsync(httpContext, ex, ex.Message, HttpStatusCode.BadRequest);
+            await CommonHandleExceptionAsync(httpContext, ex, httpException.StatusCode);
         }
         catch (Exception ex)
         {
-            await CommonHandleExceptionAsync(httpContext, ex, ex.Message);
+            await CommonHandleExceptionAsync(httpContext, ex, HttpStatusCode.InternalServerError);
         }
-    }
-
-    private async Task HandleTypeValidationExceptionAsync(HttpContext context, TypeValidationException exception)
-    {
-        var message = string.Join("\n", exception.Errors.Select(x => $"PropertyName: {x.Variable}. Error: {x.ErrorMessage}"));
-        await CommonHandleExceptionAsync(context, exception, message, HttpStatusCode.BadRequest);
-    }
-
-    private async Task HandleConcurrencyExceptionAsync(HttpContext context, ConcurrencyException exception)
-    {
-        await CommonHandleExceptionAsync(context, exception, exception.Message, HttpStatusCode.Conflict);
     }
 
     private async Task CommonHandleExceptionAsync(HttpContext context,
         Exception exception,
-        string errorMessage,
-        HttpStatusCode statusCode = HttpStatusCode.InternalServerError)
+        HttpStatusCode statusCode)
     {
-        var message = $"Error occurred during request: {context.Request?.Path}.Error: {errorMessage}";
+        var message = $"Error occurred during request: {context.Request?.Path}.Error: {exception.Message}";
+
         _logger.LogError(exception, message);
 
         if (!context.Response.HasStarted)
