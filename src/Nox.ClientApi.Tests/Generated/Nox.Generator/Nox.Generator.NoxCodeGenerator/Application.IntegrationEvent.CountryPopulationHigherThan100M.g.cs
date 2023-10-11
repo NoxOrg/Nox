@@ -15,7 +15,7 @@ namespace ClientApi.Application.IntegrationEvents;
 /// <summary>
 /// Country Population Updated with Population Higher then 100M.
 /// </summary>
-[IntegrationEventType("CountryPopulationHigherThan100M", "country")]
+[IntegrationEventType("countryPopulationHigherThan100M", "country")]
 public partial class CountryPopulationHigherThan100M : IIntegrationEvent
 {
     public System.String? Name { get; set; }

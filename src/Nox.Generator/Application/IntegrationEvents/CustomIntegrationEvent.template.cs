@@ -41,7 +41,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.IntegrationEvents;
 /// {{integrationEvent.Description}}{{if !(integrationEvent.Description | string.ends_with ".")}}.{{end}}
 /// </summary>
 {{ end -}}
-[IntegrationEventType("{{integrationEvent.Name}}", "{{integrationEvent.Trait | pascalCaseToCamelCase}}")]
+[IntegrationEventType("{{integrationEvent.Name | pascalCaseToCamelCase}}", "{{integrationEvent.Trait | pascalCaseToCamelCase}}")]
 public partial class {{className}} : IIntegrationEvent
 {
 {{- if isObject -}}

@@ -14,11 +14,6 @@ public class IntegrationEventValidator: AbstractValidator<IntegrationEvent>
             .NotEmpty()
             .WithMessage(m => string.Format(ValidationResources.ApplicationEventTypeEmpty, m.Name));
 
-        // TODO: should be added or attribute is enough?
-        //RuleFor(c => c.Trait)
-        //    .NotEmpty()
-        //    .WithMessage(m => string.Format(ValidationResources.ApplicationEventNameEmpty));
-
         RuleFor(c => c.ObjectTypeOptions!)
             .SetValidator(v => new ObjectTypeOptionsValidator($"application event '{v.Name}'", "Application events"));
     }
