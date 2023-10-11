@@ -11,7 +11,7 @@ namespace Nox.Solution;
 
 internal class YamlReferenceResolver
 {
-    private readonly Regex _referenceRegex = new(@"^\s*[^#]\s*[-]*\s*\$ref\s*:\s*(?<fileref>[\w:\.\/\\]+\b[\w\-\.\/]+)\s*", RegexOptions.Compiled | RegexOptions.IgnoreCase, TimeSpan.FromSeconds(5));
+    private readonly Regex _referenceRegex = new(@"^\s*[^#]\s*[-]*\s*(?<refkey>\$ref)\s*:\s*(?<refvalue>[\w:\.\/\\]+\b[\w\-\.\/]+)\s*", RegexOptions.Compiled | RegexOptions.IgnoreCase, TimeSpan.FromSeconds(5));
 
     private readonly Regex _variableRegex = new Regex(@"\$\{\{\s*(?<type>[\w\.\-_:]+)\.(?<variable>[\w\.\-_:]+)\s*\}\}", RegexOptions.Compiled, TimeSpan.FromMilliseconds(10000));
 
@@ -72,14 +72,14 @@ internal class YamlReferenceResolver
                 continue;
             }
 
-            var includePath = Path.GetFileName(match.Groups["fileref"].Value); // strip path from $ref
+            var includePath = Path.GetFileName(match.Groups["refvalue"].Value); // strip path from $ref
 
             if (!_filesAndContent.ContainsKey(includePath))
             {
                 throw new NoxYamlException($"Referenced yaml file does not exist for reference: {includePath} (in '{sourceName}' line {lineNumber}).");
             }
 
-            var pos = sourceLine.IndexOf("$ref"); 
+            var pos = match.Groups["refkey"].Index; 
 
             var includeLine = sourceLine.Substring(0, pos);
             
