@@ -1,9 +1,15 @@
-﻿namespace Nox.Exceptions;
+﻿using System.Net;
+using Nox.Types;
 
-public class ConcurrencyException : Exception
+namespace Nox.Exceptions;
+
+public class ConcurrencyException : Exception, INoxHttpException
 {
-    public ConcurrencyException(string message)
+    public ConcurrencyException(string message, HttpStatusCode statusCode)
         : base(message)
     {
+        StatusCode = statusCode;
     }
+
+    public HttpStatusCode StatusCode { get; }
 }

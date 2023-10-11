@@ -98,7 +98,6 @@ public class Entity : DefinitionBase
         (Persistence is not null) &&
         (Persistence.Create.RaiseIntegrationEvents || Persistence.Update.RaiseIntegrationEvents || Persistence.Delete.RaiseIntegrationEvents);
 
-
     internal bool ApplyDefaults()
     {
         if (string.IsNullOrWhiteSpace(PluralName))
