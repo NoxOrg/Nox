@@ -32,18 +32,18 @@ internal partial class TestEntityForUniqueConstraints : TestEntityForUniqueConst
         InternalRaiseUpdateEvent(this);
     }
 }
-    /// <summary>
-    /// Record for TestEntityForUniqueConstraints created event.
-    /// </summary>
-    internal record TestEntityForUniqueConstraintsCreated(TestEntityForUniqueConstraints TestEntityForUniqueConstraints) :  IDomainEvent, INotification;
-    /// <summary>
-    /// Record for TestEntityForUniqueConstraints updated event.
-    /// </summary>
-    internal record TestEntityForUniqueConstraintsUpdated(TestEntityForUniqueConstraints TestEntityForUniqueConstraints) : IDomainEvent, INotification;
-    /// <summary>
-    /// Record for TestEntityForUniqueConstraints deleted event.
-    /// </summary>
-    internal record TestEntityForUniqueConstraintsDeleted(TestEntityForUniqueConstraints TestEntityForUniqueConstraints) : IDomainEvent, INotification;
+/// <summary>
+/// Record for TestEntityForUniqueConstraints created event.
+/// </summary>
+internal record TestEntityForUniqueConstraintsCreated(TestEntityForUniqueConstraints TestEntityForUniqueConstraints) :  IDomainEvent, INotification;
+/// <summary>
+/// Record for TestEntityForUniqueConstraints updated event.
+/// </summary>
+internal record TestEntityForUniqueConstraintsUpdated(TestEntityForUniqueConstraints TestEntityForUniqueConstraints) : IDomainEvent, INotification;
+/// <summary>
+/// Record for TestEntityForUniqueConstraints deleted event.
+/// </summary>
+internal record TestEntityForUniqueConstraintsDeleted(TestEntityForUniqueConstraints TestEntityForUniqueConstraints) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing constraints.
@@ -79,33 +79,33 @@ internal abstract partial class TestEntityForUniqueConstraintsBase : EntityBase,
     ///  (Required).
     /// </summary>
     public Nox.Types.CurrencyCode3 UniqueCurrencyCode { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(TestEntityForUniqueConstraints testEntityForUniqueConstraints)
-	{
-		InternalDomainEvents.Add(new TestEntityForUniqueConstraintsCreated(testEntityForUniqueConstraints));
-	}
+    protected virtual void InternalRaiseCreateEvent(TestEntityForUniqueConstraints testEntityForUniqueConstraints)
+    {
+        InternalDomainEvents.Add(new TestEntityForUniqueConstraintsCreated(testEntityForUniqueConstraints));
+    }
 	
-	protected virtual void InternalRaiseUpdateEvent(TestEntityForUniqueConstraints testEntityForUniqueConstraints)
-	{
-		InternalDomainEvents.Add(new TestEntityForUniqueConstraintsUpdated(testEntityForUniqueConstraints));
-	}
+    protected virtual void InternalRaiseUpdateEvent(TestEntityForUniqueConstraints testEntityForUniqueConstraints)
+    {
+        InternalDomainEvents.Add(new TestEntityForUniqueConstraintsUpdated(testEntityForUniqueConstraints));
+    }
 	
-	protected virtual void InternalRaiseDeleteEvent(TestEntityForUniqueConstraints testEntityForUniqueConstraints)
-	{
-		InternalDomainEvents.Add(new TestEntityForUniqueConstraintsDeleted(testEntityForUniqueConstraints));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    protected virtual void InternalRaiseDeleteEvent(TestEntityForUniqueConstraints testEntityForUniqueConstraints)
+    {
+        InternalDomainEvents.Add(new TestEntityForUniqueConstraintsDeleted(testEntityForUniqueConstraints));
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

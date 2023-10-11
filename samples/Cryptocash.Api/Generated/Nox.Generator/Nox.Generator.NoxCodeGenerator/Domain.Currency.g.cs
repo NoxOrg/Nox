@@ -32,18 +32,18 @@ internal partial class Currency : CurrencyBase, IEntityHaveDomainEvents
         InternalRaiseUpdateEvent(this);
     }
 }
-    /// <summary>
-    /// Record for Currency created event.
-    /// </summary>
-    internal record CurrencyCreated(Currency Currency) :  IDomainEvent, INotification;
-    /// <summary>
-    /// Record for Currency updated event.
-    /// </summary>
-    internal record CurrencyUpdated(Currency Currency) : IDomainEvent, INotification;
-    /// <summary>
-    /// Record for Currency deleted event.
-    /// </summary>
-    internal record CurrencyDeleted(Currency Currency) : IDomainEvent, INotification;
+/// <summary>
+/// Record for Currency created event.
+/// </summary>
+internal record CurrencyCreated(Currency Currency) :  IDomainEvent, INotification;
+/// <summary>
+/// Record for Currency updated event.
+/// </summary>
+internal record CurrencyUpdated(Currency Currency) : IDomainEvent, INotification;
+/// <summary>
+/// Record for Currency deleted event.
+/// </summary>
+internal record CurrencyDeleted(Currency Currency) : IDomainEvent, INotification;
 
 /// <summary>
 /// Currency and related data.
@@ -114,33 +114,33 @@ internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcu
     /// Currency's minor value when converted to major (Required).
     /// </summary>
     public Nox.Types.Money MinorToMajorValue { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(Currency currency)
-	{
-		InternalDomainEvents.Add(new CurrencyCreated(currency));
-	}
+    protected virtual void InternalRaiseCreateEvent(Currency currency)
+    {
+        InternalDomainEvents.Add(new CurrencyCreated(currency));
+    }
 	
-	protected virtual void InternalRaiseUpdateEvent(Currency currency)
-	{
-		InternalDomainEvents.Add(new CurrencyUpdated(currency));
-	}
+    protected virtual void InternalRaiseUpdateEvent(Currency currency)
+    {
+        InternalDomainEvents.Add(new CurrencyUpdated(currency));
+    }
 	
-	protected virtual void InternalRaiseDeleteEvent(Currency currency)
-	{
-		InternalDomainEvents.Add(new CurrencyDeleted(currency));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    protected virtual void InternalRaiseDeleteEvent(Currency currency)
+    {
+        InternalDomainEvents.Add(new CurrencyDeleted(currency));
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// Currency used by OneOrMany Countries

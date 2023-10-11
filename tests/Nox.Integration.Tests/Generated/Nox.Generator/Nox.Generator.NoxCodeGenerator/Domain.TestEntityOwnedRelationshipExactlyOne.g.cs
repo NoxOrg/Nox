@@ -32,18 +32,18 @@ internal partial class TestEntityOwnedRelationshipExactlyOne : TestEntityOwnedRe
         InternalRaiseUpdateEvent(this);
     }
 }
-    /// <summary>
-    /// Record for TestEntityOwnedRelationshipExactlyOne created event.
-    /// </summary>
-    internal record TestEntityOwnedRelationshipExactlyOneCreated(TestEntityOwnedRelationshipExactlyOne TestEntityOwnedRelationshipExactlyOne) :  IDomainEvent, INotification;
-    /// <summary>
-    /// Record for TestEntityOwnedRelationshipExactlyOne updated event.
-    /// </summary>
-    internal record TestEntityOwnedRelationshipExactlyOneUpdated(TestEntityOwnedRelationshipExactlyOne TestEntityOwnedRelationshipExactlyOne) : IDomainEvent, INotification;
-    /// <summary>
-    /// Record for TestEntityOwnedRelationshipExactlyOne deleted event.
-    /// </summary>
-    internal record TestEntityOwnedRelationshipExactlyOneDeleted(TestEntityOwnedRelationshipExactlyOne TestEntityOwnedRelationshipExactlyOne) : IDomainEvent, INotification;
+/// <summary>
+/// Record for TestEntityOwnedRelationshipExactlyOne created event.
+/// </summary>
+internal record TestEntityOwnedRelationshipExactlyOneCreated(TestEntityOwnedRelationshipExactlyOne TestEntityOwnedRelationshipExactlyOne) :  IDomainEvent, INotification;
+/// <summary>
+/// Record for TestEntityOwnedRelationshipExactlyOne updated event.
+/// </summary>
+internal record TestEntityOwnedRelationshipExactlyOneUpdated(TestEntityOwnedRelationshipExactlyOne TestEntityOwnedRelationshipExactlyOne) : IDomainEvent, INotification;
+/// <summary>
+/// Record for TestEntityOwnedRelationshipExactlyOne deleted event.
+/// </summary>
+internal record TestEntityOwnedRelationshipExactlyOneDeleted(TestEntityOwnedRelationshipExactlyOne TestEntityOwnedRelationshipExactlyOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// .
@@ -59,33 +59,33 @@ internal abstract partial class TestEntityOwnedRelationshipExactlyOneBase : Audi
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(TestEntityOwnedRelationshipExactlyOne testEntityOwnedRelationshipExactlyOne)
-	{
-		InternalDomainEvents.Add(new TestEntityOwnedRelationshipExactlyOneCreated(testEntityOwnedRelationshipExactlyOne));
-	}
+    protected virtual void InternalRaiseCreateEvent(TestEntityOwnedRelationshipExactlyOne testEntityOwnedRelationshipExactlyOne)
+    {
+        InternalDomainEvents.Add(new TestEntityOwnedRelationshipExactlyOneCreated(testEntityOwnedRelationshipExactlyOne));
+    }
 	
-	protected virtual void InternalRaiseUpdateEvent(TestEntityOwnedRelationshipExactlyOne testEntityOwnedRelationshipExactlyOne)
-	{
-		InternalDomainEvents.Add(new TestEntityOwnedRelationshipExactlyOneUpdated(testEntityOwnedRelationshipExactlyOne));
-	}
+    protected virtual void InternalRaiseUpdateEvent(TestEntityOwnedRelationshipExactlyOne testEntityOwnedRelationshipExactlyOne)
+    {
+        InternalDomainEvents.Add(new TestEntityOwnedRelationshipExactlyOneUpdated(testEntityOwnedRelationshipExactlyOne));
+    }
 	
-	protected virtual void InternalRaiseDeleteEvent(TestEntityOwnedRelationshipExactlyOne testEntityOwnedRelationshipExactlyOne)
-	{
-		InternalDomainEvents.Add(new TestEntityOwnedRelationshipExactlyOneDeleted(testEntityOwnedRelationshipExactlyOne));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    protected virtual void InternalRaiseDeleteEvent(TestEntityOwnedRelationshipExactlyOne testEntityOwnedRelationshipExactlyOne)
+    {
+        InternalDomainEvents.Add(new TestEntityOwnedRelationshipExactlyOneDeleted(testEntityOwnedRelationshipExactlyOne));
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// TestEntityOwnedRelationshipExactlyOne Test entity relationship to SecondTestEntityOwnedRelationshipExactlyOne ExactlyOne SecondTestEntityOwnedRelationshipExactlyOnes

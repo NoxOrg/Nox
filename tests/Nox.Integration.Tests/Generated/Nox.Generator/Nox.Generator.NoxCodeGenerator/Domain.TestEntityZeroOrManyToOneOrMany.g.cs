@@ -32,18 +32,18 @@ internal partial class TestEntityZeroOrManyToOneOrMany : TestEntityZeroOrManyToO
         InternalRaiseUpdateEvent(this);
     }
 }
-    /// <summary>
-    /// Record for TestEntityZeroOrManyToOneOrMany created event.
-    /// </summary>
-    internal record TestEntityZeroOrManyToOneOrManyCreated(TestEntityZeroOrManyToOneOrMany TestEntityZeroOrManyToOneOrMany) :  IDomainEvent, INotification;
-    /// <summary>
-    /// Record for TestEntityZeroOrManyToOneOrMany updated event.
-    /// </summary>
-    internal record TestEntityZeroOrManyToOneOrManyUpdated(TestEntityZeroOrManyToOneOrMany TestEntityZeroOrManyToOneOrMany) : IDomainEvent, INotification;
-    /// <summary>
-    /// Record for TestEntityZeroOrManyToOneOrMany deleted event.
-    /// </summary>
-    internal record TestEntityZeroOrManyToOneOrManyDeleted(TestEntityZeroOrManyToOneOrMany TestEntityZeroOrManyToOneOrMany) : IDomainEvent, INotification;
+/// <summary>
+/// Record for TestEntityZeroOrManyToOneOrMany created event.
+/// </summary>
+internal record TestEntityZeroOrManyToOneOrManyCreated(TestEntityZeroOrManyToOneOrMany TestEntityZeroOrManyToOneOrMany) :  IDomainEvent, INotification;
+/// <summary>
+/// Record for TestEntityZeroOrManyToOneOrMany updated event.
+/// </summary>
+internal record TestEntityZeroOrManyToOneOrManyUpdated(TestEntityZeroOrManyToOneOrMany TestEntityZeroOrManyToOneOrMany) : IDomainEvent, INotification;
+/// <summary>
+/// Record for TestEntityZeroOrManyToOneOrMany deleted event.
+/// </summary>
+internal record TestEntityZeroOrManyToOneOrManyDeleted(TestEntityZeroOrManyToOneOrMany TestEntityZeroOrManyToOneOrMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// .
@@ -59,33 +59,33 @@ internal abstract partial class TestEntityZeroOrManyToOneOrManyBase : AuditableE
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField2 { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(TestEntityZeroOrManyToOneOrMany testEntityZeroOrManyToOneOrMany)
-	{
-		InternalDomainEvents.Add(new TestEntityZeroOrManyToOneOrManyCreated(testEntityZeroOrManyToOneOrMany));
-	}
+    protected virtual void InternalRaiseCreateEvent(TestEntityZeroOrManyToOneOrMany testEntityZeroOrManyToOneOrMany)
+    {
+        InternalDomainEvents.Add(new TestEntityZeroOrManyToOneOrManyCreated(testEntityZeroOrManyToOneOrMany));
+    }
 	
-	protected virtual void InternalRaiseUpdateEvent(TestEntityZeroOrManyToOneOrMany testEntityZeroOrManyToOneOrMany)
-	{
-		InternalDomainEvents.Add(new TestEntityZeroOrManyToOneOrManyUpdated(testEntityZeroOrManyToOneOrMany));
-	}
+    protected virtual void InternalRaiseUpdateEvent(TestEntityZeroOrManyToOneOrMany testEntityZeroOrManyToOneOrMany)
+    {
+        InternalDomainEvents.Add(new TestEntityZeroOrManyToOneOrManyUpdated(testEntityZeroOrManyToOneOrMany));
+    }
 	
-	protected virtual void InternalRaiseDeleteEvent(TestEntityZeroOrManyToOneOrMany testEntityZeroOrManyToOneOrMany)
-	{
-		InternalDomainEvents.Add(new TestEntityZeroOrManyToOneOrManyDeleted(testEntityZeroOrManyToOneOrMany));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    protected virtual void InternalRaiseDeleteEvent(TestEntityZeroOrManyToOneOrMany testEntityZeroOrManyToOneOrMany)
+    {
+        InternalDomainEvents.Add(new TestEntityZeroOrManyToOneOrManyDeleted(testEntityZeroOrManyToOneOrMany));
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// TestEntityZeroOrManyToOneOrMany Test entity relationship to TestEntityOneOrManyToZeroOrMany ZeroOrMany TestEntityOneOrManyToZeroOrManies

@@ -32,18 +32,18 @@ internal partial class CountryLocalName : CountryLocalNameBase, IEntityHaveDomai
         InternalRaiseUpdateEvent(this);
     }
 }
-    /// <summary>
-    /// Record for CountryLocalName created event.
-    /// </summary>
-    internal record CountryLocalNameCreated(CountryLocalName CountryLocalName) :  IDomainEvent, INotification;
-    /// <summary>
-    /// Record for CountryLocalName updated event.
-    /// </summary>
-    internal record CountryLocalNameUpdated(CountryLocalName CountryLocalName) : IDomainEvent, INotification;
-    /// <summary>
-    /// Record for CountryLocalName deleted event.
-    /// </summary>
-    internal record CountryLocalNameDeleted(CountryLocalName CountryLocalName) : IDomainEvent, INotification;
+/// <summary>
+/// Record for CountryLocalName created event.
+/// </summary>
+internal record CountryLocalNameCreated(CountryLocalName CountryLocalName) :  IDomainEvent, INotification;
+/// <summary>
+/// Record for CountryLocalName updated event.
+/// </summary>
+internal record CountryLocalNameUpdated(CountryLocalName CountryLocalName) : IDomainEvent, INotification;
+/// <summary>
+/// Record for CountryLocalName deleted event.
+/// </summary>
+internal record CountryLocalNameDeleted(CountryLocalName CountryLocalName) : IDomainEvent, INotification;
 
 /// <summary>
 /// Local names for countries.
@@ -64,32 +64,32 @@ internal abstract partial class CountryLocalNameBase : EntityBase, IOwnedEntity
     /// Local name in native tongue (Optional).
     /// </summary>
     public Nox.Types.Text? NativeName { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(CountryLocalName countryLocalName)
-	{
-		InternalDomainEvents.Add(new CountryLocalNameCreated(countryLocalName));
-	}
+    protected virtual void InternalRaiseCreateEvent(CountryLocalName countryLocalName)
+    {
+        InternalDomainEvents.Add(new CountryLocalNameCreated(countryLocalName));
+    }
 	
-	protected virtual void InternalRaiseUpdateEvent(CountryLocalName countryLocalName)
-	{
-		InternalDomainEvents.Add(new CountryLocalNameUpdated(countryLocalName));
-	}
+    protected virtual void InternalRaiseUpdateEvent(CountryLocalName countryLocalName)
+    {
+        InternalDomainEvents.Add(new CountryLocalNameUpdated(countryLocalName));
+    }
 	
-	protected virtual void InternalRaiseDeleteEvent(CountryLocalName countryLocalName)
-	{
-		InternalDomainEvents.Add(new CountryLocalNameDeleted(countryLocalName));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    protected virtual void InternalRaiseDeleteEvent(CountryLocalName countryLocalName)
+    {
+        InternalDomainEvents.Add(new CountryLocalNameDeleted(countryLocalName));
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
 }

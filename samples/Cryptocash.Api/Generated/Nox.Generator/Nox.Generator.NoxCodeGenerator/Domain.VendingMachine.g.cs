@@ -32,18 +32,18 @@ internal partial class VendingMachine : VendingMachineBase, IEntityHaveDomainEve
         InternalRaiseUpdateEvent(this);
     }
 }
-    /// <summary>
-    /// Record for VendingMachine created event.
-    /// </summary>
-    internal record VendingMachineCreated(VendingMachine VendingMachine) :  IDomainEvent, INotification;
-    /// <summary>
-    /// Record for VendingMachine updated event.
-    /// </summary>
-    internal record VendingMachineUpdated(VendingMachine VendingMachine) : IDomainEvent, INotification;
-    /// <summary>
-    /// Record for VendingMachine deleted event.
-    /// </summary>
-    internal record VendingMachineDeleted(VendingMachine VendingMachine) : IDomainEvent, INotification;
+/// <summary>
+/// Record for VendingMachine created event.
+/// </summary>
+internal record VendingMachineCreated(VendingMachine VendingMachine) :  IDomainEvent, INotification;
+/// <summary>
+/// Record for VendingMachine updated event.
+/// </summary>
+internal record VendingMachineUpdated(VendingMachine VendingMachine) : IDomainEvent, INotification;
+/// <summary>
+/// Record for VendingMachine deleted event.
+/// </summary>
+internal record VendingMachineDeleted(VendingMachine VendingMachine) : IDomainEvent, INotification;
 
 /// <summary>
 /// Vending machine definition and related data.
@@ -105,33 +105,33 @@ internal abstract partial class VendingMachineBase : AuditableEntityBase, IEntit
     /// Landlord rent amount based on area of the vending machine installation (Optional).
     /// </summary>
     public Nox.Types.Money? RentPerSquareMetre { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(VendingMachine vendingMachine)
-	{
-		InternalDomainEvents.Add(new VendingMachineCreated(vendingMachine));
-	}
+    protected virtual void InternalRaiseCreateEvent(VendingMachine vendingMachine)
+    {
+        InternalDomainEvents.Add(new VendingMachineCreated(vendingMachine));
+    }
 	
-	protected virtual void InternalRaiseUpdateEvent(VendingMachine vendingMachine)
-	{
-		InternalDomainEvents.Add(new VendingMachineUpdated(vendingMachine));
-	}
+    protected virtual void InternalRaiseUpdateEvent(VendingMachine vendingMachine)
+    {
+        InternalDomainEvents.Add(new VendingMachineUpdated(vendingMachine));
+    }
 	
-	protected virtual void InternalRaiseDeleteEvent(VendingMachine vendingMachine)
-	{
-		InternalDomainEvents.Add(new VendingMachineDeleted(vendingMachine));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    protected virtual void InternalRaiseDeleteEvent(VendingMachine vendingMachine)
+    {
+        InternalDomainEvents.Add(new VendingMachineDeleted(vendingMachine));
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// VendingMachine installed in ExactlyOne Countries

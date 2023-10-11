@@ -32,18 +32,18 @@ internal partial class StoreLicense : StoreLicenseBase, IEntityHaveDomainEvents
         InternalRaiseUpdateEvent(this);
     }
 }
-    /// <summary>
-    /// Record for StoreLicense created event.
-    /// </summary>
-    internal record StoreLicenseCreated(StoreLicense StoreLicense) :  IDomainEvent, INotification;
-    /// <summary>
-    /// Record for StoreLicense updated event.
-    /// </summary>
-    internal record StoreLicenseUpdated(StoreLicense StoreLicense) : IDomainEvent, INotification;
-    /// <summary>
-    /// Record for StoreLicense deleted event.
-    /// </summary>
-    internal record StoreLicenseDeleted(StoreLicense StoreLicense) : IDomainEvent, INotification;
+/// <summary>
+/// Record for StoreLicense created event.
+/// </summary>
+internal record StoreLicenseCreated(StoreLicense StoreLicense) :  IDomainEvent, INotification;
+/// <summary>
+/// Record for StoreLicense updated event.
+/// </summary>
+internal record StoreLicenseUpdated(StoreLicense StoreLicense) : IDomainEvent, INotification;
+/// <summary>
+/// Record for StoreLicense deleted event.
+/// </summary>
+internal record StoreLicenseDeleted(StoreLicense StoreLicense) : IDomainEvent, INotification;
 
 /// <summary>
 /// Store license info.
@@ -59,33 +59,33 @@ internal abstract partial class StoreLicenseBase : AuditableEntityBase, IEntityC
     /// License issuer (Required).
     /// </summary>
     public Nox.Types.Text Issuer { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(StoreLicense storeLicense)
-	{
-		InternalDomainEvents.Add(new StoreLicenseCreated(storeLicense));
-	}
+    protected virtual void InternalRaiseCreateEvent(StoreLicense storeLicense)
+    {
+        InternalDomainEvents.Add(new StoreLicenseCreated(storeLicense));
+    }
 	
-	protected virtual void InternalRaiseUpdateEvent(StoreLicense storeLicense)
-	{
-		InternalDomainEvents.Add(new StoreLicenseUpdated(storeLicense));
-	}
+    protected virtual void InternalRaiseUpdateEvent(StoreLicense storeLicense)
+    {
+        InternalDomainEvents.Add(new StoreLicenseUpdated(storeLicense));
+    }
 	
-	protected virtual void InternalRaiseDeleteEvent(StoreLicense storeLicense)
-	{
-		InternalDomainEvents.Add(new StoreLicenseDeleted(storeLicense));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    protected virtual void InternalRaiseDeleteEvent(StoreLicense storeLicense)
+    {
+        InternalDomainEvents.Add(new StoreLicenseDeleted(storeLicense));
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// StoreLicense Store that this license related to ExactlyOne Stores

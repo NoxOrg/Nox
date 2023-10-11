@@ -32,18 +32,18 @@ internal partial class TestEntityOneOrMany : TestEntityOneOrManyBase, IEntityHav
         InternalRaiseUpdateEvent(this);
     }
 }
-    /// <summary>
-    /// Record for TestEntityOneOrMany created event.
-    /// </summary>
-    internal record TestEntityOneOrManyCreated(TestEntityOneOrMany TestEntityOneOrMany) :  IDomainEvent, INotification;
-    /// <summary>
-    /// Record for TestEntityOneOrMany updated event.
-    /// </summary>
-    internal record TestEntityOneOrManyUpdated(TestEntityOneOrMany TestEntityOneOrMany) : IDomainEvent, INotification;
-    /// <summary>
-    /// Record for TestEntityOneOrMany deleted event.
-    /// </summary>
-    internal record TestEntityOneOrManyDeleted(TestEntityOneOrMany TestEntityOneOrMany) : IDomainEvent, INotification;
+/// <summary>
+/// Record for TestEntityOneOrMany created event.
+/// </summary>
+internal record TestEntityOneOrManyCreated(TestEntityOneOrMany TestEntityOneOrMany) :  IDomainEvent, INotification;
+/// <summary>
+/// Record for TestEntityOneOrMany updated event.
+/// </summary>
+internal record TestEntityOneOrManyUpdated(TestEntityOneOrMany TestEntityOneOrMany) : IDomainEvent, INotification;
+/// <summary>
+/// Record for TestEntityOneOrMany deleted event.
+/// </summary>
+internal record TestEntityOneOrManyDeleted(TestEntityOneOrMany TestEntityOneOrMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing database.
@@ -59,33 +59,33 @@ internal abstract partial class TestEntityOneOrManyBase : AuditableEntityBase, I
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(TestEntityOneOrMany testEntityOneOrMany)
-	{
-		InternalDomainEvents.Add(new TestEntityOneOrManyCreated(testEntityOneOrMany));
-	}
+    protected virtual void InternalRaiseCreateEvent(TestEntityOneOrMany testEntityOneOrMany)
+    {
+        InternalDomainEvents.Add(new TestEntityOneOrManyCreated(testEntityOneOrMany));
+    }
 	
-	protected virtual void InternalRaiseUpdateEvent(TestEntityOneOrMany testEntityOneOrMany)
-	{
-		InternalDomainEvents.Add(new TestEntityOneOrManyUpdated(testEntityOneOrMany));
-	}
+    protected virtual void InternalRaiseUpdateEvent(TestEntityOneOrMany testEntityOneOrMany)
+    {
+        InternalDomainEvents.Add(new TestEntityOneOrManyUpdated(testEntityOneOrMany));
+    }
 	
-	protected virtual void InternalRaiseDeleteEvent(TestEntityOneOrMany testEntityOneOrMany)
-	{
-		InternalDomainEvents.Add(new TestEntityOneOrManyDeleted(testEntityOneOrMany));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    protected virtual void InternalRaiseDeleteEvent(TestEntityOneOrMany testEntityOneOrMany)
+    {
+        InternalDomainEvents.Add(new TestEntityOneOrManyDeleted(testEntityOneOrMany));
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// TestEntityOneOrMany Test entity relationship to SecondTestEntityOneOrMany OneOrMany SecondTestEntityOneOrManies

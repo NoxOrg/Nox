@@ -32,18 +32,18 @@ internal partial class Commission : CommissionBase, IEntityHaveDomainEvents
         InternalRaiseUpdateEvent(this);
     }
 }
-    /// <summary>
-    /// Record for Commission created event.
-    /// </summary>
-    internal record CommissionCreated(Commission Commission) :  IDomainEvent, INotification;
-    /// <summary>
-    /// Record for Commission updated event.
-    /// </summary>
-    internal record CommissionUpdated(Commission Commission) : IDomainEvent, INotification;
-    /// <summary>
-    /// Record for Commission deleted event.
-    /// </summary>
-    internal record CommissionDeleted(Commission Commission) : IDomainEvent, INotification;
+/// <summary>
+/// Record for Commission created event.
+/// </summary>
+internal record CommissionCreated(Commission Commission) :  IDomainEvent, INotification;
+/// <summary>
+/// Record for Commission updated event.
+/// </summary>
+internal record CommissionUpdated(Commission Commission) : IDomainEvent, INotification;
+/// <summary>
+/// Record for Commission deleted event.
+/// </summary>
+internal record CommissionDeleted(Commission Commission) : IDomainEvent, INotification;
 
 /// <summary>
 /// Exchange commission rate and amount.
@@ -64,33 +64,33 @@ internal abstract partial class CommissionBase : AuditableEntityBase, IEntityCon
     /// Exchange rate conversion amount (Required).
     /// </summary>
     public Nox.Types.DateTime EffectiveAt { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(Commission commission)
-	{
-		InternalDomainEvents.Add(new CommissionCreated(commission));
-	}
+    protected virtual void InternalRaiseCreateEvent(Commission commission)
+    {
+        InternalDomainEvents.Add(new CommissionCreated(commission));
+    }
 	
-	protected virtual void InternalRaiseUpdateEvent(Commission commission)
-	{
-		InternalDomainEvents.Add(new CommissionUpdated(commission));
-	}
+    protected virtual void InternalRaiseUpdateEvent(Commission commission)
+    {
+        InternalDomainEvents.Add(new CommissionUpdated(commission));
+    }
 	
-	protected virtual void InternalRaiseDeleteEvent(Commission commission)
-	{
-		InternalDomainEvents.Add(new CommissionDeleted(commission));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    protected virtual void InternalRaiseDeleteEvent(Commission commission)
+    {
+        InternalDomainEvents.Add(new CommissionDeleted(commission));
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// Commission fees for ZeroOrOne Countries

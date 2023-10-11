@@ -32,18 +32,18 @@ internal partial class Booking : BookingBase, IEntityHaveDomainEvents
         InternalRaiseUpdateEvent(this);
     }
 }
-    /// <summary>
-    /// Record for Booking created event.
-    /// </summary>
-    internal record BookingCreated(Booking Booking) :  IDomainEvent, INotification;
-    /// <summary>
-    /// Record for Booking updated event.
-    /// </summary>
-    internal record BookingUpdated(Booking Booking) : IDomainEvent, INotification;
-    /// <summary>
-    /// Record for Booking deleted event.
-    /// </summary>
-    internal record BookingDeleted(Booking Booking) : IDomainEvent, INotification;
+/// <summary>
+/// Record for Booking created event.
+/// </summary>
+internal record BookingCreated(Booking Booking) :  IDomainEvent, INotification;
+/// <summary>
+/// Record for Booking updated event.
+/// </summary>
+internal record BookingUpdated(Booking Booking) : IDomainEvent, INotification;
+/// <summary>
+/// Record for Booking deleted event.
+/// </summary>
+internal record BookingDeleted(Booking Booking) : IDomainEvent, INotification;
 
 /// <summary>
 /// Exchange booking and related data.
@@ -114,33 +114,33 @@ internal abstract partial class BookingBase : AuditableEntityBase, IEntityConcur
     /// Booking's related vat number (Optional).
     /// </summary>
     public Nox.Types.VatNumber? VatNumber { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(Booking booking)
-	{
-		InternalDomainEvents.Add(new BookingCreated(booking));
-	}
+    protected virtual void InternalRaiseCreateEvent(Booking booking)
+    {
+        InternalDomainEvents.Add(new BookingCreated(booking));
+    }
 	
-	protected virtual void InternalRaiseUpdateEvent(Booking booking)
-	{
-		InternalDomainEvents.Add(new BookingUpdated(booking));
-	}
+    protected virtual void InternalRaiseUpdateEvent(Booking booking)
+    {
+        InternalDomainEvents.Add(new BookingUpdated(booking));
+    }
 	
-	protected virtual void InternalRaiseDeleteEvent(Booking booking)
-	{
-		InternalDomainEvents.Add(new BookingDeleted(booking));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    protected virtual void InternalRaiseDeleteEvent(Booking booking)
+    {
+        InternalDomainEvents.Add(new BookingDeleted(booking));
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// Booking for ExactlyOne Customers

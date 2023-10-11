@@ -32,18 +32,18 @@ internal partial class TestEntityExactlyOneToZeroOrMany : TestEntityExactlyOneTo
         InternalRaiseUpdateEvent(this);
     }
 }
-    /// <summary>
-    /// Record for TestEntityExactlyOneToZeroOrMany created event.
-    /// </summary>
-    internal record TestEntityExactlyOneToZeroOrManyCreated(TestEntityExactlyOneToZeroOrMany TestEntityExactlyOneToZeroOrMany) :  IDomainEvent, INotification;
-    /// <summary>
-    /// Record for TestEntityExactlyOneToZeroOrMany updated event.
-    /// </summary>
-    internal record TestEntityExactlyOneToZeroOrManyUpdated(TestEntityExactlyOneToZeroOrMany TestEntityExactlyOneToZeroOrMany) : IDomainEvent, INotification;
-    /// <summary>
-    /// Record for TestEntityExactlyOneToZeroOrMany deleted event.
-    /// </summary>
-    internal record TestEntityExactlyOneToZeroOrManyDeleted(TestEntityExactlyOneToZeroOrMany TestEntityExactlyOneToZeroOrMany) : IDomainEvent, INotification;
+/// <summary>
+/// Record for TestEntityExactlyOneToZeroOrMany created event.
+/// </summary>
+internal record TestEntityExactlyOneToZeroOrManyCreated(TestEntityExactlyOneToZeroOrMany TestEntityExactlyOneToZeroOrMany) :  IDomainEvent, INotification;
+/// <summary>
+/// Record for TestEntityExactlyOneToZeroOrMany updated event.
+/// </summary>
+internal record TestEntityExactlyOneToZeroOrManyUpdated(TestEntityExactlyOneToZeroOrMany TestEntityExactlyOneToZeroOrMany) : IDomainEvent, INotification;
+/// <summary>
+/// Record for TestEntityExactlyOneToZeroOrMany deleted event.
+/// </summary>
+internal record TestEntityExactlyOneToZeroOrManyDeleted(TestEntityExactlyOneToZeroOrMany TestEntityExactlyOneToZeroOrMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing database.
@@ -59,33 +59,33 @@ internal abstract partial class TestEntityExactlyOneToZeroOrManyBase : Auditable
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(TestEntityExactlyOneToZeroOrMany testEntityExactlyOneToZeroOrMany)
-	{
-		InternalDomainEvents.Add(new TestEntityExactlyOneToZeroOrManyCreated(testEntityExactlyOneToZeroOrMany));
-	}
+    protected virtual void InternalRaiseCreateEvent(TestEntityExactlyOneToZeroOrMany testEntityExactlyOneToZeroOrMany)
+    {
+        InternalDomainEvents.Add(new TestEntityExactlyOneToZeroOrManyCreated(testEntityExactlyOneToZeroOrMany));
+    }
 	
-	protected virtual void InternalRaiseUpdateEvent(TestEntityExactlyOneToZeroOrMany testEntityExactlyOneToZeroOrMany)
-	{
-		InternalDomainEvents.Add(new TestEntityExactlyOneToZeroOrManyUpdated(testEntityExactlyOneToZeroOrMany));
-	}
+    protected virtual void InternalRaiseUpdateEvent(TestEntityExactlyOneToZeroOrMany testEntityExactlyOneToZeroOrMany)
+    {
+        InternalDomainEvents.Add(new TestEntityExactlyOneToZeroOrManyUpdated(testEntityExactlyOneToZeroOrMany));
+    }
 	
-	protected virtual void InternalRaiseDeleteEvent(TestEntityExactlyOneToZeroOrMany testEntityExactlyOneToZeroOrMany)
-	{
-		InternalDomainEvents.Add(new TestEntityExactlyOneToZeroOrManyDeleted(testEntityExactlyOneToZeroOrMany));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    protected virtual void InternalRaiseDeleteEvent(TestEntityExactlyOneToZeroOrMany testEntityExactlyOneToZeroOrMany)
+    {
+        InternalDomainEvents.Add(new TestEntityExactlyOneToZeroOrManyDeleted(testEntityExactlyOneToZeroOrMany));
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// TestEntityExactlyOneToZeroOrMany Test entity relationship to TestEntityZeroOrManyToExactlyOne ExactlyOne TestEntityZeroOrManyToExactlyOnes

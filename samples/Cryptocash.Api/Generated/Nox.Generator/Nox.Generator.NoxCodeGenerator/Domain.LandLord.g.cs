@@ -32,18 +32,18 @@ internal partial class LandLord : LandLordBase, IEntityHaveDomainEvents
         InternalRaiseUpdateEvent(this);
     }
 }
-    /// <summary>
-    /// Record for LandLord created event.
-    /// </summary>
-    internal record LandLordCreated(LandLord LandLord) :  IDomainEvent, INotification;
-    /// <summary>
-    /// Record for LandLord updated event.
-    /// </summary>
-    internal record LandLordUpdated(LandLord LandLord) : IDomainEvent, INotification;
-    /// <summary>
-    /// Record for LandLord deleted event.
-    /// </summary>
-    internal record LandLordDeleted(LandLord LandLord) : IDomainEvent, INotification;
+/// <summary>
+/// Record for LandLord created event.
+/// </summary>
+internal record LandLordCreated(LandLord LandLord) :  IDomainEvent, INotification;
+/// <summary>
+/// Record for LandLord updated event.
+/// </summary>
+internal record LandLordUpdated(LandLord LandLord) : IDomainEvent, INotification;
+/// <summary>
+/// Record for LandLord deleted event.
+/// </summary>
+internal record LandLordDeleted(LandLord LandLord) : IDomainEvent, INotification;
 
 /// <summary>
 /// Landlord related data.
@@ -64,33 +64,33 @@ internal abstract partial class LandLordBase : AuditableEntityBase, IEntityConcu
     /// Landlord's street address (Required).
     /// </summary>
     public Nox.Types.StreetAddress Address { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(LandLord landLord)
-	{
-		InternalDomainEvents.Add(new LandLordCreated(landLord));
-	}
+    protected virtual void InternalRaiseCreateEvent(LandLord landLord)
+    {
+        InternalDomainEvents.Add(new LandLordCreated(landLord));
+    }
 	
-	protected virtual void InternalRaiseUpdateEvent(LandLord landLord)
-	{
-		InternalDomainEvents.Add(new LandLordUpdated(landLord));
-	}
+    protected virtual void InternalRaiseUpdateEvent(LandLord landLord)
+    {
+        InternalDomainEvents.Add(new LandLordUpdated(landLord));
+    }
 	
-	protected virtual void InternalRaiseDeleteEvent(LandLord landLord)
-	{
-		InternalDomainEvents.Add(new LandLordDeleted(landLord));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    protected virtual void InternalRaiseDeleteEvent(LandLord landLord)
+    {
+        InternalDomainEvents.Add(new LandLordDeleted(landLord));
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// LandLord leases an area to house ZeroOrMany VendingMachines

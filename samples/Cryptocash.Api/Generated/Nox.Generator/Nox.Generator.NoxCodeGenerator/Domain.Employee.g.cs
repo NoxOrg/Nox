@@ -32,18 +32,18 @@ internal partial class Employee : EmployeeBase, IEntityHaveDomainEvents
         InternalRaiseUpdateEvent(this);
     }
 }
-    /// <summary>
-    /// Record for Employee created event.
-    /// </summary>
-    internal record EmployeeCreated(Employee Employee) :  IDomainEvent, INotification;
-    /// <summary>
-    /// Record for Employee updated event.
-    /// </summary>
-    internal record EmployeeUpdated(Employee Employee) : IDomainEvent, INotification;
-    /// <summary>
-    /// Record for Employee deleted event.
-    /// </summary>
-    internal record EmployeeDeleted(Employee Employee) : IDomainEvent, INotification;
+/// <summary>
+/// Record for Employee created event.
+/// </summary>
+internal record EmployeeCreated(Employee Employee) :  IDomainEvent, INotification;
+/// <summary>
+/// Record for Employee updated event.
+/// </summary>
+internal record EmployeeUpdated(Employee Employee) : IDomainEvent, INotification;
+/// <summary>
+/// Record for Employee deleted event.
+/// </summary>
+internal record EmployeeDeleted(Employee Employee) : IDomainEvent, INotification;
 
 /// <summary>
 /// Employee definition and related data.
@@ -84,33 +84,33 @@ internal abstract partial class EmployeeBase : AuditableEntityBase, IEntityConcu
     /// Employee's last working day (Optional).
     /// </summary>
     public Nox.Types.Date? LastWorkingDay { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(Employee employee)
-	{
-		InternalDomainEvents.Add(new EmployeeCreated(employee));
-	}
+    protected virtual void InternalRaiseCreateEvent(Employee employee)
+    {
+        InternalDomainEvents.Add(new EmployeeCreated(employee));
+    }
 	
-	protected virtual void InternalRaiseUpdateEvent(Employee employee)
-	{
-		InternalDomainEvents.Add(new EmployeeUpdated(employee));
-	}
+    protected virtual void InternalRaiseUpdateEvent(Employee employee)
+    {
+        InternalDomainEvents.Add(new EmployeeUpdated(employee));
+    }
 	
-	protected virtual void InternalRaiseDeleteEvent(Employee employee)
-	{
-		InternalDomainEvents.Add(new EmployeeDeleted(employee));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    protected virtual void InternalRaiseDeleteEvent(Employee employee)
+    {
+        InternalDomainEvents.Add(new EmployeeDeleted(employee));
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// Employee reviewing ExactlyOne CashStockOrders

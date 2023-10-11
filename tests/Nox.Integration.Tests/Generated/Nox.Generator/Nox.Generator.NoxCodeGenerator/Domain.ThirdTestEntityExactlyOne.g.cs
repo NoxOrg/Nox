@@ -32,18 +32,18 @@ internal partial class ThirdTestEntityExactlyOne : ThirdTestEntityExactlyOneBase
         InternalRaiseUpdateEvent(this);
     }
 }
-    /// <summary>
-    /// Record for ThirdTestEntityExactlyOne created event.
-    /// </summary>
-    internal record ThirdTestEntityExactlyOneCreated(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) :  IDomainEvent, INotification;
-    /// <summary>
-    /// Record for ThirdTestEntityExactlyOne updated event.
-    /// </summary>
-    internal record ThirdTestEntityExactlyOneUpdated(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) : IDomainEvent, INotification;
-    /// <summary>
-    /// Record for ThirdTestEntityExactlyOne deleted event.
-    /// </summary>
-    internal record ThirdTestEntityExactlyOneDeleted(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) : IDomainEvent, INotification;
+/// <summary>
+/// Record for ThirdTestEntityExactlyOne created event.
+/// </summary>
+internal record ThirdTestEntityExactlyOneCreated(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) :  IDomainEvent, INotification;
+/// <summary>
+/// Record for ThirdTestEntityExactlyOne updated event.
+/// </summary>
+internal record ThirdTestEntityExactlyOneUpdated(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) : IDomainEvent, INotification;
+/// <summary>
+/// Record for ThirdTestEntityExactlyOne deleted event.
+/// </summary>
+internal record ThirdTestEntityExactlyOneDeleted(ThirdTestEntityExactlyOne ThirdTestEntityExactlyOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// Entity created for testing database.
@@ -59,33 +59,33 @@ internal abstract partial class ThirdTestEntityExactlyOneBase : AuditableEntityB
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(ThirdTestEntityExactlyOne thirdTestEntityExactlyOne)
-	{
-		InternalDomainEvents.Add(new ThirdTestEntityExactlyOneCreated(thirdTestEntityExactlyOne));
-	}
+    protected virtual void InternalRaiseCreateEvent(ThirdTestEntityExactlyOne thirdTestEntityExactlyOne)
+    {
+        InternalDomainEvents.Add(new ThirdTestEntityExactlyOneCreated(thirdTestEntityExactlyOne));
+    }
 	
-	protected virtual void InternalRaiseUpdateEvent(ThirdTestEntityExactlyOne thirdTestEntityExactlyOne)
-	{
-		InternalDomainEvents.Add(new ThirdTestEntityExactlyOneUpdated(thirdTestEntityExactlyOne));
-	}
+    protected virtual void InternalRaiseUpdateEvent(ThirdTestEntityExactlyOne thirdTestEntityExactlyOne)
+    {
+        InternalDomainEvents.Add(new ThirdTestEntityExactlyOneUpdated(thirdTestEntityExactlyOne));
+    }
 	
-	protected virtual void InternalRaiseDeleteEvent(ThirdTestEntityExactlyOne thirdTestEntityExactlyOne)
-	{
-		InternalDomainEvents.Add(new ThirdTestEntityExactlyOneDeleted(thirdTestEntityExactlyOne));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    protected virtual void InternalRaiseDeleteEvent(ThirdTestEntityExactlyOne thirdTestEntityExactlyOne)
+    {
+        InternalDomainEvents.Add(new ThirdTestEntityExactlyOneDeleted(thirdTestEntityExactlyOne));
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// ThirdTestEntityExactlyOne Test entity relationship to ThirdTestEntityZeroOrOne ExactlyOne ThirdTestEntityZeroOrOnes

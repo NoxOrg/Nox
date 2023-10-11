@@ -32,18 +32,18 @@ internal partial class TestEntityTwoRelationshipsOneToMany : TestEntityTwoRelati
         InternalRaiseUpdateEvent(this);
     }
 }
-    /// <summary>
-    /// Record for TestEntityTwoRelationshipsOneToMany created event.
-    /// </summary>
-    internal record TestEntityTwoRelationshipsOneToManyCreated(TestEntityTwoRelationshipsOneToMany TestEntityTwoRelationshipsOneToMany) :  IDomainEvent, INotification;
-    /// <summary>
-    /// Record for TestEntityTwoRelationshipsOneToMany updated event.
-    /// </summary>
-    internal record TestEntityTwoRelationshipsOneToManyUpdated(TestEntityTwoRelationshipsOneToMany TestEntityTwoRelationshipsOneToMany) : IDomainEvent, INotification;
-    /// <summary>
-    /// Record for TestEntityTwoRelationshipsOneToMany deleted event.
-    /// </summary>
-    internal record TestEntityTwoRelationshipsOneToManyDeleted(TestEntityTwoRelationshipsOneToMany TestEntityTwoRelationshipsOneToMany) : IDomainEvent, INotification;
+/// <summary>
+/// Record for TestEntityTwoRelationshipsOneToMany created event.
+/// </summary>
+internal record TestEntityTwoRelationshipsOneToManyCreated(TestEntityTwoRelationshipsOneToMany TestEntityTwoRelationshipsOneToMany) :  IDomainEvent, INotification;
+/// <summary>
+/// Record for TestEntityTwoRelationshipsOneToMany updated event.
+/// </summary>
+internal record TestEntityTwoRelationshipsOneToManyUpdated(TestEntityTwoRelationshipsOneToMany TestEntityTwoRelationshipsOneToMany) : IDomainEvent, INotification;
+/// <summary>
+/// Record for TestEntityTwoRelationshipsOneToMany deleted event.
+/// </summary>
+internal record TestEntityTwoRelationshipsOneToManyDeleted(TestEntityTwoRelationshipsOneToMany TestEntityTwoRelationshipsOneToMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// .
@@ -59,33 +59,33 @@ internal abstract partial class TestEntityTwoRelationshipsOneToManyBase : Audita
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(TestEntityTwoRelationshipsOneToMany testEntityTwoRelationshipsOneToMany)
-	{
-		InternalDomainEvents.Add(new TestEntityTwoRelationshipsOneToManyCreated(testEntityTwoRelationshipsOneToMany));
-	}
+    protected virtual void InternalRaiseCreateEvent(TestEntityTwoRelationshipsOneToMany testEntityTwoRelationshipsOneToMany)
+    {
+        InternalDomainEvents.Add(new TestEntityTwoRelationshipsOneToManyCreated(testEntityTwoRelationshipsOneToMany));
+    }
 	
-	protected virtual void InternalRaiseUpdateEvent(TestEntityTwoRelationshipsOneToMany testEntityTwoRelationshipsOneToMany)
-	{
-		InternalDomainEvents.Add(new TestEntityTwoRelationshipsOneToManyUpdated(testEntityTwoRelationshipsOneToMany));
-	}
+    protected virtual void InternalRaiseUpdateEvent(TestEntityTwoRelationshipsOneToMany testEntityTwoRelationshipsOneToMany)
+    {
+        InternalDomainEvents.Add(new TestEntityTwoRelationshipsOneToManyUpdated(testEntityTwoRelationshipsOneToMany));
+    }
 	
-	protected virtual void InternalRaiseDeleteEvent(TestEntityTwoRelationshipsOneToMany testEntityTwoRelationshipsOneToMany)
-	{
-		InternalDomainEvents.Add(new TestEntityTwoRelationshipsOneToManyDeleted(testEntityTwoRelationshipsOneToMany));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    protected virtual void InternalRaiseDeleteEvent(TestEntityTwoRelationshipsOneToMany testEntityTwoRelationshipsOneToMany)
+    {
+        InternalDomainEvents.Add(new TestEntityTwoRelationshipsOneToManyDeleted(testEntityTwoRelationshipsOneToMany));
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// TestEntityTwoRelationshipsOneToMany First relationship to the same entity ZeroOrMany SecondTestEntityTwoRelationshipsOneToManies

@@ -32,18 +32,18 @@ internal partial class Holiday : HolidayBase, IEntityHaveDomainEvents
         InternalRaiseUpdateEvent(this);
     }
 }
-    /// <summary>
-    /// Record for Holiday created event.
-    /// </summary>
-    internal record HolidayCreated(Holiday Holiday) :  IDomainEvent, INotification;
-    /// <summary>
-    /// Record for Holiday updated event.
-    /// </summary>
-    internal record HolidayUpdated(Holiday Holiday) : IDomainEvent, INotification;
-    /// <summary>
-    /// Record for Holiday deleted event.
-    /// </summary>
-    internal record HolidayDeleted(Holiday Holiday) : IDomainEvent, INotification;
+/// <summary>
+/// Record for Holiday created event.
+/// </summary>
+internal record HolidayCreated(Holiday Holiday) :  IDomainEvent, INotification;
+/// <summary>
+/// Record for Holiday updated event.
+/// </summary>
+internal record HolidayUpdated(Holiday Holiday) : IDomainEvent, INotification;
+/// <summary>
+/// Record for Holiday deleted event.
+/// </summary>
+internal record HolidayDeleted(Holiday Holiday) : IDomainEvent, INotification;
 
 /// <summary>
 /// Holiday related to country.
@@ -69,32 +69,32 @@ internal abstract partial class HolidayBase : EntityBase, IOwnedEntity
     /// Country holiday date (Required).
     /// </summary>
     public Nox.Types.Date Date { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(Holiday holiday)
-	{
-		InternalDomainEvents.Add(new HolidayCreated(holiday));
-	}
+    protected virtual void InternalRaiseCreateEvent(Holiday holiday)
+    {
+        InternalDomainEvents.Add(new HolidayCreated(holiday));
+    }
 	
-	protected virtual void InternalRaiseUpdateEvent(Holiday holiday)
-	{
-		InternalDomainEvents.Add(new HolidayUpdated(holiday));
-	}
+    protected virtual void InternalRaiseUpdateEvent(Holiday holiday)
+    {
+        InternalDomainEvents.Add(new HolidayUpdated(holiday));
+    }
 	
-	protected virtual void InternalRaiseDeleteEvent(Holiday holiday)
-	{
-		InternalDomainEvents.Add(new HolidayDeleted(holiday));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    protected virtual void InternalRaiseDeleteEvent(Holiday holiday)
+    {
+        InternalDomainEvents.Add(new HolidayDeleted(holiday));
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
 }

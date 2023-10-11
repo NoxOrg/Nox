@@ -32,18 +32,18 @@ internal partial class SecondTestEntityOwnedRelationshipOneOrMany : SecondTestEn
         InternalRaiseUpdateEvent(this);
     }
 }
-    /// <summary>
-    /// Record for SecondTestEntityOwnedRelationshipOneOrMany created event.
-    /// </summary>
-    internal record SecondTestEntityOwnedRelationshipOneOrManyCreated(SecondTestEntityOwnedRelationshipOneOrMany SecondTestEntityOwnedRelationshipOneOrMany) :  IDomainEvent, INotification;
-    /// <summary>
-    /// Record for SecondTestEntityOwnedRelationshipOneOrMany updated event.
-    /// </summary>
-    internal record SecondTestEntityOwnedRelationshipOneOrManyUpdated(SecondTestEntityOwnedRelationshipOneOrMany SecondTestEntityOwnedRelationshipOneOrMany) : IDomainEvent, INotification;
-    /// <summary>
-    /// Record for SecondTestEntityOwnedRelationshipOneOrMany deleted event.
-    /// </summary>
-    internal record SecondTestEntityOwnedRelationshipOneOrManyDeleted(SecondTestEntityOwnedRelationshipOneOrMany SecondTestEntityOwnedRelationshipOneOrMany) : IDomainEvent, INotification;
+/// <summary>
+/// Record for SecondTestEntityOwnedRelationshipOneOrMany created event.
+/// </summary>
+internal record SecondTestEntityOwnedRelationshipOneOrManyCreated(SecondTestEntityOwnedRelationshipOneOrMany SecondTestEntityOwnedRelationshipOneOrMany) :  IDomainEvent, INotification;
+/// <summary>
+/// Record for SecondTestEntityOwnedRelationshipOneOrMany updated event.
+/// </summary>
+internal record SecondTestEntityOwnedRelationshipOneOrManyUpdated(SecondTestEntityOwnedRelationshipOneOrMany SecondTestEntityOwnedRelationshipOneOrMany) : IDomainEvent, INotification;
+/// <summary>
+/// Record for SecondTestEntityOwnedRelationshipOneOrMany deleted event.
+/// </summary>
+internal record SecondTestEntityOwnedRelationshipOneOrManyDeleted(SecondTestEntityOwnedRelationshipOneOrMany SecondTestEntityOwnedRelationshipOneOrMany) : IDomainEvent, INotification;
 
 /// <summary>
 /// .
@@ -59,32 +59,32 @@ internal abstract partial class SecondTestEntityOwnedRelationshipOneOrManyBase :
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField2 { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(SecondTestEntityOwnedRelationshipOneOrMany secondTestEntityOwnedRelationshipOneOrMany)
-	{
-		InternalDomainEvents.Add(new SecondTestEntityOwnedRelationshipOneOrManyCreated(secondTestEntityOwnedRelationshipOneOrMany));
-	}
+    protected virtual void InternalRaiseCreateEvent(SecondTestEntityOwnedRelationshipOneOrMany secondTestEntityOwnedRelationshipOneOrMany)
+    {
+        InternalDomainEvents.Add(new SecondTestEntityOwnedRelationshipOneOrManyCreated(secondTestEntityOwnedRelationshipOneOrMany));
+    }
 	
-	protected virtual void InternalRaiseUpdateEvent(SecondTestEntityOwnedRelationshipOneOrMany secondTestEntityOwnedRelationshipOneOrMany)
-	{
-		InternalDomainEvents.Add(new SecondTestEntityOwnedRelationshipOneOrManyUpdated(secondTestEntityOwnedRelationshipOneOrMany));
-	}
+    protected virtual void InternalRaiseUpdateEvent(SecondTestEntityOwnedRelationshipOneOrMany secondTestEntityOwnedRelationshipOneOrMany)
+    {
+        InternalDomainEvents.Add(new SecondTestEntityOwnedRelationshipOneOrManyUpdated(secondTestEntityOwnedRelationshipOneOrMany));
+    }
 	
-	protected virtual void InternalRaiseDeleteEvent(SecondTestEntityOwnedRelationshipOneOrMany secondTestEntityOwnedRelationshipOneOrMany)
-	{
-		InternalDomainEvents.Add(new SecondTestEntityOwnedRelationshipOneOrManyDeleted(secondTestEntityOwnedRelationshipOneOrMany));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    protected virtual void InternalRaiseDeleteEvent(SecondTestEntityOwnedRelationshipOneOrMany secondTestEntityOwnedRelationshipOneOrMany)
+    {
+        InternalDomainEvents.Add(new SecondTestEntityOwnedRelationshipOneOrManyDeleted(secondTestEntityOwnedRelationshipOneOrMany));
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
 }

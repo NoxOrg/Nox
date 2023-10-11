@@ -32,18 +32,18 @@ internal partial class PaymentDetail : PaymentDetailBase, IEntityHaveDomainEvent
         InternalRaiseUpdateEvent(this);
     }
 }
-    /// <summary>
-    /// Record for PaymentDetail created event.
-    /// </summary>
-    internal record PaymentDetailCreated(PaymentDetail PaymentDetail) :  IDomainEvent, INotification;
-    /// <summary>
-    /// Record for PaymentDetail updated event.
-    /// </summary>
-    internal record PaymentDetailUpdated(PaymentDetail PaymentDetail) : IDomainEvent, INotification;
-    /// <summary>
-    /// Record for PaymentDetail deleted event.
-    /// </summary>
-    internal record PaymentDetailDeleted(PaymentDetail PaymentDetail) : IDomainEvent, INotification;
+/// <summary>
+/// Record for PaymentDetail created event.
+/// </summary>
+internal record PaymentDetailCreated(PaymentDetail PaymentDetail) :  IDomainEvent, INotification;
+/// <summary>
+/// Record for PaymentDetail updated event.
+/// </summary>
+internal record PaymentDetailUpdated(PaymentDetail PaymentDetail) : IDomainEvent, INotification;
+/// <summary>
+/// Record for PaymentDetail deleted event.
+/// </summary>
+internal record PaymentDetailDeleted(PaymentDetail PaymentDetail) : IDomainEvent, INotification;
 
 /// <summary>
 /// Customer payment account related data.
@@ -69,33 +69,33 @@ internal abstract partial class PaymentDetailBase : AuditableEntityBase, IEntity
     /// Payment account sort code (Optional).
     /// </summary>
     public Nox.Types.Text? PaymentAccountSortCode { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(PaymentDetail paymentDetail)
-	{
-		InternalDomainEvents.Add(new PaymentDetailCreated(paymentDetail));
-	}
+    protected virtual void InternalRaiseCreateEvent(PaymentDetail paymentDetail)
+    {
+        InternalDomainEvents.Add(new PaymentDetailCreated(paymentDetail));
+    }
 	
-	protected virtual void InternalRaiseUpdateEvent(PaymentDetail paymentDetail)
-	{
-		InternalDomainEvents.Add(new PaymentDetailUpdated(paymentDetail));
-	}
+    protected virtual void InternalRaiseUpdateEvent(PaymentDetail paymentDetail)
+    {
+        InternalDomainEvents.Add(new PaymentDetailUpdated(paymentDetail));
+    }
 	
-	protected virtual void InternalRaiseDeleteEvent(PaymentDetail paymentDetail)
-	{
-		InternalDomainEvents.Add(new PaymentDetailDeleted(paymentDetail));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    protected virtual void InternalRaiseDeleteEvent(PaymentDetail paymentDetail)
+    {
+        InternalDomainEvents.Add(new PaymentDetailDeleted(paymentDetail));
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// PaymentDetail used by ExactlyOne Customers

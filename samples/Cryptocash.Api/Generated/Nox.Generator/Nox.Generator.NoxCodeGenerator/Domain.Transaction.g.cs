@@ -32,18 +32,18 @@ internal partial class Transaction : TransactionBase, IEntityHaveDomainEvents
         InternalRaiseUpdateEvent(this);
     }
 }
-    /// <summary>
-    /// Record for Transaction created event.
-    /// </summary>
-    internal record TransactionCreated(Transaction Transaction) :  IDomainEvent, INotification;
-    /// <summary>
-    /// Record for Transaction updated event.
-    /// </summary>
-    internal record TransactionUpdated(Transaction Transaction) : IDomainEvent, INotification;
-    /// <summary>
-    /// Record for Transaction deleted event.
-    /// </summary>
-    internal record TransactionDeleted(Transaction Transaction) : IDomainEvent, INotification;
+/// <summary>
+/// Record for Transaction created event.
+/// </summary>
+internal record TransactionCreated(Transaction Transaction) :  IDomainEvent, INotification;
+/// <summary>
+/// Record for Transaction updated event.
+/// </summary>
+internal record TransactionUpdated(Transaction Transaction) : IDomainEvent, INotification;
+/// <summary>
+/// Record for Transaction deleted event.
+/// </summary>
+internal record TransactionDeleted(Transaction Transaction) : IDomainEvent, INotification;
 
 /// <summary>
 /// Customer transaction log and related data.
@@ -74,33 +74,33 @@ internal abstract partial class TransactionBase : AuditableEntityBase, IEntityCo
     /// Transaction external reference (Required).
     /// </summary>
     public Nox.Types.Text Reference { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(Transaction transaction)
-	{
-		InternalDomainEvents.Add(new TransactionCreated(transaction));
-	}
+    protected virtual void InternalRaiseCreateEvent(Transaction transaction)
+    {
+        InternalDomainEvents.Add(new TransactionCreated(transaction));
+    }
 	
-	protected virtual void InternalRaiseUpdateEvent(Transaction transaction)
-	{
-		InternalDomainEvents.Add(new TransactionUpdated(transaction));
-	}
+    protected virtual void InternalRaiseUpdateEvent(Transaction transaction)
+    {
+        InternalDomainEvents.Add(new TransactionUpdated(transaction));
+    }
 	
-	protected virtual void InternalRaiseDeleteEvent(Transaction transaction)
-	{
-		InternalDomainEvents.Add(new TransactionDeleted(transaction));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    protected virtual void InternalRaiseDeleteEvent(Transaction transaction)
+    {
+        InternalDomainEvents.Add(new TransactionDeleted(transaction));
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// Transaction for ExactlyOne Customers

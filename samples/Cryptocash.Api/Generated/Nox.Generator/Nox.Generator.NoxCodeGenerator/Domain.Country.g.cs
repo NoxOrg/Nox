@@ -32,18 +32,18 @@ internal partial class Country : CountryBase, IEntityHaveDomainEvents
         InternalRaiseUpdateEvent(this);
     }
 }
-    /// <summary>
-    /// Record for Country created event.
-    /// </summary>
-    internal record CountryCreated(Country Country) :  IDomainEvent, INotification;
-    /// <summary>
-    /// Record for Country updated event.
-    /// </summary>
-    internal record CountryUpdated(Country Country) : IDomainEvent, INotification;
-    /// <summary>
-    /// Record for Country deleted event.
-    /// </summary>
-    internal record CountryDeleted(Country Country) : IDomainEvent, INotification;
+/// <summary>
+/// Record for Country created event.
+/// </summary>
+internal record CountryCreated(Country Country) :  IDomainEvent, INotification;
+/// <summary>
+/// Record for Country updated event.
+/// </summary>
+internal record CountryUpdated(Country Country) : IDomainEvent, INotification;
+/// <summary>
+/// Record for Country deleted event.
+/// </summary>
+internal record CountryDeleted(Country Country) : IDomainEvent, INotification;
 
 /// <summary>
 /// Country and related data.
@@ -119,33 +119,33 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     /// Country's start of week day (Required).
     /// </summary>
     public Nox.Types.DayOfWeek StartOfWeek { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(Country country)
-	{
-		InternalDomainEvents.Add(new CountryCreated(country));
-	}
+    protected virtual void InternalRaiseCreateEvent(Country country)
+    {
+        InternalDomainEvents.Add(new CountryCreated(country));
+    }
 	
-	protected virtual void InternalRaiseUpdateEvent(Country country)
-	{
-		InternalDomainEvents.Add(new CountryUpdated(country));
-	}
+    protected virtual void InternalRaiseUpdateEvent(Country country)
+    {
+        InternalDomainEvents.Add(new CountryUpdated(country));
+    }
 	
-	protected virtual void InternalRaiseDeleteEvent(Country country)
-	{
-		InternalDomainEvents.Add(new CountryDeleted(country));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    protected virtual void InternalRaiseDeleteEvent(Country country)
+    {
+        InternalDomainEvents.Add(new CountryDeleted(country));
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// Country used by ExactlyOne Currencies

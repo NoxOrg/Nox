@@ -32,18 +32,18 @@ internal partial class EmployeePhoneNumber : EmployeePhoneNumberBase, IEntityHav
         InternalRaiseUpdateEvent(this);
     }
 }
-    /// <summary>
-    /// Record for EmployeePhoneNumber created event.
-    /// </summary>
-    internal record EmployeePhoneNumberCreated(EmployeePhoneNumber EmployeePhoneNumber) :  IDomainEvent, INotification;
-    /// <summary>
-    /// Record for EmployeePhoneNumber updated event.
-    /// </summary>
-    internal record EmployeePhoneNumberUpdated(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent, INotification;
-    /// <summary>
-    /// Record for EmployeePhoneNumber deleted event.
-    /// </summary>
-    internal record EmployeePhoneNumberDeleted(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent, INotification;
+/// <summary>
+/// Record for EmployeePhoneNumber created event.
+/// </summary>
+internal record EmployeePhoneNumberCreated(EmployeePhoneNumber EmployeePhoneNumber) :  IDomainEvent, INotification;
+/// <summary>
+/// Record for EmployeePhoneNumber updated event.
+/// </summary>
+internal record EmployeePhoneNumberUpdated(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent, INotification;
+/// <summary>
+/// Record for EmployeePhoneNumber deleted event.
+/// </summary>
+internal record EmployeePhoneNumberDeleted(EmployeePhoneNumber EmployeePhoneNumber) : IDomainEvent, INotification;
 
 /// <summary>
 /// Employee phone number and related data.
@@ -64,32 +64,32 @@ internal abstract partial class EmployeePhoneNumberBase : EntityBase, IOwnedEnti
     /// Employee's phone number (Required).
     /// </summary>
     public Nox.Types.PhoneNumber PhoneNumber { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(EmployeePhoneNumber employeePhoneNumber)
-	{
-		InternalDomainEvents.Add(new EmployeePhoneNumberCreated(employeePhoneNumber));
-	}
+    protected virtual void InternalRaiseCreateEvent(EmployeePhoneNumber employeePhoneNumber)
+    {
+        InternalDomainEvents.Add(new EmployeePhoneNumberCreated(employeePhoneNumber));
+    }
 	
-	protected virtual void InternalRaiseUpdateEvent(EmployeePhoneNumber employeePhoneNumber)
-	{
-		InternalDomainEvents.Add(new EmployeePhoneNumberUpdated(employeePhoneNumber));
-	}
+    protected virtual void InternalRaiseUpdateEvent(EmployeePhoneNumber employeePhoneNumber)
+    {
+        InternalDomainEvents.Add(new EmployeePhoneNumberUpdated(employeePhoneNumber));
+    }
 	
-	protected virtual void InternalRaiseDeleteEvent(EmployeePhoneNumber employeePhoneNumber)
-	{
-		InternalDomainEvents.Add(new EmployeePhoneNumberDeleted(employeePhoneNumber));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    protected virtual void InternalRaiseDeleteEvent(EmployeePhoneNumber employeePhoneNumber)
+    {
+        InternalDomainEvents.Add(new EmployeePhoneNumberDeleted(employeePhoneNumber));
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
 }

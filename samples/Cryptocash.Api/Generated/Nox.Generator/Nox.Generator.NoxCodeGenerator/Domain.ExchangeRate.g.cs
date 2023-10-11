@@ -32,18 +32,18 @@ internal partial class ExchangeRate : ExchangeRateBase, IEntityHaveDomainEvents
         InternalRaiseUpdateEvent(this);
     }
 }
-    /// <summary>
-    /// Record for ExchangeRate created event.
-    /// </summary>
-    internal record ExchangeRateCreated(ExchangeRate ExchangeRate) :  IDomainEvent, INotification;
-    /// <summary>
-    /// Record for ExchangeRate updated event.
-    /// </summary>
-    internal record ExchangeRateUpdated(ExchangeRate ExchangeRate) : IDomainEvent, INotification;
-    /// <summary>
-    /// Record for ExchangeRate deleted event.
-    /// </summary>
-    internal record ExchangeRateDeleted(ExchangeRate ExchangeRate) : IDomainEvent, INotification;
+/// <summary>
+/// Record for ExchangeRate created event.
+/// </summary>
+internal record ExchangeRateCreated(ExchangeRate ExchangeRate) :  IDomainEvent, INotification;
+/// <summary>
+/// Record for ExchangeRate updated event.
+/// </summary>
+internal record ExchangeRateUpdated(ExchangeRate ExchangeRate) : IDomainEvent, INotification;
+/// <summary>
+/// Record for ExchangeRate deleted event.
+/// </summary>
+internal record ExchangeRateDeleted(ExchangeRate ExchangeRate) : IDomainEvent, INotification;
 
 /// <summary>
 /// Exchange rate and related data.
@@ -64,32 +64,32 @@ internal abstract partial class ExchangeRateBase : EntityBase, IOwnedEntity
     /// Exchange rate conversion amount (Required).
     /// </summary>
     public Nox.Types.DateTime EffectiveAt { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(ExchangeRate exchangeRate)
-	{
-		InternalDomainEvents.Add(new ExchangeRateCreated(exchangeRate));
-	}
+    protected virtual void InternalRaiseCreateEvent(ExchangeRate exchangeRate)
+    {
+        InternalDomainEvents.Add(new ExchangeRateCreated(exchangeRate));
+    }
 	
-	protected virtual void InternalRaiseUpdateEvent(ExchangeRate exchangeRate)
-	{
-		InternalDomainEvents.Add(new ExchangeRateUpdated(exchangeRate));
-	}
+    protected virtual void InternalRaiseUpdateEvent(ExchangeRate exchangeRate)
+    {
+        InternalDomainEvents.Add(new ExchangeRateUpdated(exchangeRate));
+    }
 	
-	protected virtual void InternalRaiseDeleteEvent(ExchangeRate exchangeRate)
-	{
-		InternalDomainEvents.Add(new ExchangeRateDeleted(exchangeRate));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    protected virtual void InternalRaiseDeleteEvent(ExchangeRate exchangeRate)
+    {
+        InternalDomainEvents.Add(new ExchangeRateDeleted(exchangeRate));
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
 }

@@ -32,18 +32,18 @@ internal partial class MinimumCashStock : MinimumCashStockBase, IEntityHaveDomai
         InternalRaiseUpdateEvent(this);
     }
 }
-    /// <summary>
-    /// Record for MinimumCashStock created event.
-    /// </summary>
-    internal record MinimumCashStockCreated(MinimumCashStock MinimumCashStock) :  IDomainEvent, INotification;
-    /// <summary>
-    /// Record for MinimumCashStock updated event.
-    /// </summary>
-    internal record MinimumCashStockUpdated(MinimumCashStock MinimumCashStock) : IDomainEvent, INotification;
-    /// <summary>
-    /// Record for MinimumCashStock deleted event.
-    /// </summary>
-    internal record MinimumCashStockDeleted(MinimumCashStock MinimumCashStock) : IDomainEvent, INotification;
+/// <summary>
+/// Record for MinimumCashStock created event.
+/// </summary>
+internal record MinimumCashStockCreated(MinimumCashStock MinimumCashStock) :  IDomainEvent, INotification;
+/// <summary>
+/// Record for MinimumCashStock updated event.
+/// </summary>
+internal record MinimumCashStockUpdated(MinimumCashStock MinimumCashStock) : IDomainEvent, INotification;
+/// <summary>
+/// Record for MinimumCashStock deleted event.
+/// </summary>
+internal record MinimumCashStockDeleted(MinimumCashStock MinimumCashStock) : IDomainEvent, INotification;
 
 /// <summary>
 /// Minimum cash stock required for vending machine.
@@ -59,33 +59,33 @@ internal abstract partial class MinimumCashStockBase : AuditableEntityBase, IEnt
     /// Cash stock amount (Required).
     /// </summary>
     public Nox.Types.Money Amount { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(MinimumCashStock minimumCashStock)
-	{
-		InternalDomainEvents.Add(new MinimumCashStockCreated(minimumCashStock));
-	}
+    protected virtual void InternalRaiseCreateEvent(MinimumCashStock minimumCashStock)
+    {
+        InternalDomainEvents.Add(new MinimumCashStockCreated(minimumCashStock));
+    }
 	
-	protected virtual void InternalRaiseUpdateEvent(MinimumCashStock minimumCashStock)
-	{
-		InternalDomainEvents.Add(new MinimumCashStockUpdated(minimumCashStock));
-	}
+    protected virtual void InternalRaiseUpdateEvent(MinimumCashStock minimumCashStock)
+    {
+        InternalDomainEvents.Add(new MinimumCashStockUpdated(minimumCashStock));
+    }
 	
-	protected virtual void InternalRaiseDeleteEvent(MinimumCashStock minimumCashStock)
-	{
-		InternalDomainEvents.Add(new MinimumCashStockDeleted(minimumCashStock));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    protected virtual void InternalRaiseDeleteEvent(MinimumCashStock minimumCashStock)
+    {
+        InternalDomainEvents.Add(new MinimumCashStockDeleted(minimumCashStock));
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// MinimumCashStock required by ZeroOrMany VendingMachines

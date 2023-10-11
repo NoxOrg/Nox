@@ -32,18 +32,18 @@ internal partial class SecondTestEntityZeroOrOne : SecondTestEntityZeroOrOneBase
         InternalRaiseUpdateEvent(this);
     }
 }
-    /// <summary>
-    /// Record for SecondTestEntityZeroOrOne created event.
-    /// </summary>
-    internal record SecondTestEntityZeroOrOneCreated(SecondTestEntityZeroOrOne SecondTestEntityZeroOrOne) :  IDomainEvent, INotification;
-    /// <summary>
-    /// Record for SecondTestEntityZeroOrOne updated event.
-    /// </summary>
-    internal record SecondTestEntityZeroOrOneUpdated(SecondTestEntityZeroOrOne SecondTestEntityZeroOrOne) : IDomainEvent, INotification;
-    /// <summary>
-    /// Record for SecondTestEntityZeroOrOne deleted event.
-    /// </summary>
-    internal record SecondTestEntityZeroOrOneDeleted(SecondTestEntityZeroOrOne SecondTestEntityZeroOrOne) : IDomainEvent, INotification;
+/// <summary>
+/// Record for SecondTestEntityZeroOrOne created event.
+/// </summary>
+internal record SecondTestEntityZeroOrOneCreated(SecondTestEntityZeroOrOne SecondTestEntityZeroOrOne) :  IDomainEvent, INotification;
+/// <summary>
+/// Record for SecondTestEntityZeroOrOne updated event.
+/// </summary>
+internal record SecondTestEntityZeroOrOneUpdated(SecondTestEntityZeroOrOne SecondTestEntityZeroOrOne) : IDomainEvent, INotification;
+/// <summary>
+/// Record for SecondTestEntityZeroOrOne deleted event.
+/// </summary>
+internal record SecondTestEntityZeroOrOneDeleted(SecondTestEntityZeroOrOne SecondTestEntityZeroOrOne) : IDomainEvent, INotification;
 
 /// <summary>
 /// .
@@ -59,33 +59,33 @@ internal abstract partial class SecondTestEntityZeroOrOneBase : AuditableEntityB
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField2 { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-	protected virtual void InternalRaiseCreateEvent(SecondTestEntityZeroOrOne secondTestEntityZeroOrOne)
-	{
-		InternalDomainEvents.Add(new SecondTestEntityZeroOrOneCreated(secondTestEntityZeroOrOne));
-	}
+    protected virtual void InternalRaiseCreateEvent(SecondTestEntityZeroOrOne secondTestEntityZeroOrOne)
+    {
+        InternalDomainEvents.Add(new SecondTestEntityZeroOrOneCreated(secondTestEntityZeroOrOne));
+    }
 	
-	protected virtual void InternalRaiseUpdateEvent(SecondTestEntityZeroOrOne secondTestEntityZeroOrOne)
-	{
-		InternalDomainEvents.Add(new SecondTestEntityZeroOrOneUpdated(secondTestEntityZeroOrOne));
-	}
+    protected virtual void InternalRaiseUpdateEvent(SecondTestEntityZeroOrOne secondTestEntityZeroOrOne)
+    {
+        InternalDomainEvents.Add(new SecondTestEntityZeroOrOneUpdated(secondTestEntityZeroOrOne));
+    }
 	
-	protected virtual void InternalRaiseDeleteEvent(SecondTestEntityZeroOrOne secondTestEntityZeroOrOne)
-	{
-		InternalDomainEvents.Add(new SecondTestEntityZeroOrOneDeleted(secondTestEntityZeroOrOne));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    protected virtual void InternalRaiseDeleteEvent(SecondTestEntityZeroOrOne secondTestEntityZeroOrOne)
+    {
+        InternalDomainEvents.Add(new SecondTestEntityZeroOrOneDeleted(secondTestEntityZeroOrOne));
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// SecondTestEntityZeroOrOne Test entity relationship to TestEntity ZeroOrOne TestEntityZeroOrOnes
