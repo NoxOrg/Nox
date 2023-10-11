@@ -82,12 +82,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Secrets.Abstractions", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Lib.Tests", "..\tests\Nox.Lib.Tests\Nox.Lib.Tests.csproj", "{AF35AF6F-8678-4CEB-90C6-5713DE84E977}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Localization", "Localization", "{6730457C-4A23-46A7-9A4C-E1F5B02ADF8F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Localization", "Nox.Localization\Nox.Localization.csproj", "{81AE7FD9-B84B-495D-9637-EAB7AE496445}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Localization.Tests", "..\tests\Nox.Localization.Tests\Nox.Localization.Tests.csproj", "{6201A401-BF1D-46CC-8388-972BDF162605}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Integration.Tests", "..\tests\Nox.Integration.Tests\Nox.Integration.Tests.csproj", "{C52A585F-D77C-45A6-9105-18CC4D9A7EED}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0Samples", "0Samples", "{BDF97718-FAAD-4A1B-BA61-BFF0A7B78827}"
@@ -102,16 +96,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.ClientApi.Tests", "Nox.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nox.ETLBox", "Nox.ETLBox", "{C8AFC303-211E-4C5C-BC25-F71665628A6E}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.Csv.dll = ..\..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.Csv.dll
-		..\..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.dll = ..\..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.dll
-		..\..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.Excel.dll = ..\..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.Excel.dll
-		..\..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.Json.dll = ..\..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.Json.dll
-		..\..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.MySql.dll = ..\..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.MySql.dll
-		..\..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.Parquet.dll = ..\..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.Parquet.dll
-		..\..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.Postgres.dll = ..\..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.Postgres.dll
-		..\..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.SQLite.dll = ..\..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.SQLite.dll
-		..\..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.SqlServer.dll = ..\..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.SqlServer.dll
-		..\..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.Xml.dll = ..\..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.Xml.dll
+		..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.Csv.dll = ..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.Csv.dll
+		..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.dll = ..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.dll
+		..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.Excel.dll = ..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.Excel.dll
+		..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.Json.dll = ..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.Json.dll
+		..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.MySql.dll = ..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.MySql.dll
+		..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.Parquet.dll = ..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.Parquet.dll
+		..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.Postgres.dll = ..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.Postgres.dll
+		..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.SQLite.dll = ..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.SQLite.dll
+		..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.SqlServer.dll = ..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.SqlServer.dll
+		..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.Xml.dll = ..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.Xml.dll
 	EndProjectSection
 EndProject
 Global
@@ -212,14 +206,6 @@ Global
 		{AF35AF6F-8678-4CEB-90C6-5713DE84E977}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF35AF6F-8678-4CEB-90C6-5713DE84E977}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF35AF6F-8678-4CEB-90C6-5713DE84E977}.Release|Any CPU.Build.0 = Release|Any CPU
-		{81AE7FD9-B84B-495D-9637-EAB7AE496445}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{81AE7FD9-B84B-495D-9637-EAB7AE496445}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{81AE7FD9-B84B-495D-9637-EAB7AE496445}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{81AE7FD9-B84B-495D-9637-EAB7AE496445}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6201A401-BF1D-46CC-8388-972BDF162605}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6201A401-BF1D-46CC-8388-972BDF162605}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6201A401-BF1D-46CC-8388-972BDF162605}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6201A401-BF1D-46CC-8388-972BDF162605}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C52A585F-D77C-45A6-9105-18CC4D9A7EED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C52A585F-D77C-45A6-9105-18CC4D9A7EED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C52A585F-D77C-45A6-9105-18CC4D9A7EED}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -269,8 +255,6 @@ Global
 		{15E06324-A80A-4CC5-A1DA-524A7FE847C4} = {110C16ED-A11D-4B5A-ABB2-0E0F4692C77A}
 		{EFD695A2-1BC9-447C-98E4-E601AD8BF934} = {2B151195-53F6-45CD-84D5-F1E18CDFF1B0}
 		{AF35AF6F-8678-4CEB-90C6-5713DE84E977} = {672E561C-44EA-43EE-8C9D-9E70D8DFB80F}
-		{81AE7FD9-B84B-495D-9637-EAB7AE496445} = {6730457C-4A23-46A7-9A4C-E1F5B02ADF8F}
-		{6201A401-BF1D-46CC-8388-972BDF162605} = {6730457C-4A23-46A7-9A4C-E1F5B02ADF8F}
 		{8B23A857-9E38-4B44-9A4A-61551E347199} = {BDF97718-FAAD-4A1B-BA61-BFF0A7B78827}
 		{9502ACC9-EFFA-40BB-9528-BF86E979C435} = {BDF97718-FAAD-4A1B-BA61-BFF0A7B78827}
 		{3F8C7B7D-34A5-4E2D-8CA2-1D50DA91E31A} = {BDF97718-FAAD-4A1B-BA61-BFF0A7B78827}
