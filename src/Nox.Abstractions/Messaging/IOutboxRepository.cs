@@ -4,5 +4,5 @@ namespace Nox.Messaging;
 
 public interface IOutboxRepository
 {
-    Task AddAsync<T>(T message) where T : IIntegrationEvent;
+    Task AddAsync<T>(T integrationEvent) where T : IIntegrationEvent;
 }

@@ -213,7 +213,7 @@ namespace Nox.Configuration
                 return;
             }
 
-            MessagingServer messagingConfig = noxSolution.Infrastructure!.Messaging!.IntegrationEventServer!;
+            var messagingConfig = noxSolution.Infrastructure!.Messaging!.IntegrationEventServer!;
 
             services.AddScoped<IOutboxRepository, OutboxRepository>();
             services.AddMassTransit(x =>

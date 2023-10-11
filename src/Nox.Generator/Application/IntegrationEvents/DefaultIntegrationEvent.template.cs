@@ -1,15 +1,22 @@
 ﻿// Generated
-
+{{func toLower(text)
+	if text == ""
+        ret ""
+    end
+    ret text | string.downcase
+end}}
 #nullable enable
 
 using Nox.Abstractions;
 using Nox.Application;
+using Nox.Messaging;
 
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.IntegrationEvents;
 
 /// <summary>
-/// {{entity.Name}}{{crudOperation}} integration event.
+/// {{entity.Name}}{{operation}} integration event.
 /// </summary>
-internal record {{entity.Name}}{{crudOperation}}({{entity.Name}}Dto {{entity.Name}}) :  IIntegrationEvent;
+[IntegrationEventType("{{operation | toLower}}", nameof({{entity.Name}}))]
+internal record {{entity.Name}}{{operation}}({{entity.Name}}Dto {{entity.Name}}) :  IIntegrationEvent;

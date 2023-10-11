@@ -16,12 +16,12 @@ namespace SampleWebApp.Application.IntegrationEvents;
 /// An application event raised when the name of a country changes.
 /// </summary>
 public partial class CountryNameChangedAppEvent : IIntegrationEvent
-{ 
+{
     /// <summary>
     /// The identifier of the country. The Iso alpha 2 code.
     /// </summary>
     public System.String? CountryId { get; set; }
- 
+
     /// <summary>
     /// The new name of the country.
     /// </summary>
