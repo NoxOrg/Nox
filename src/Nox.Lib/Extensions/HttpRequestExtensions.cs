@@ -1,21 +1,30 @@
 ﻿using Microsoft.AspNetCore.Http;
-
+using Nox.Exceptions;
+using System.Net;
 using System.Net.Http.Headers;
 
 namespace Nox.Extensions;
 
 public static class HttpRequestExtensions
 {
-    public static System.Guid? GetDecodedEtagHeader(this HttpRequest request)
+    public static Guid GetDecodedEtagHeader(this HttpRequest request)
     {
         var ifMatchValue = request.Headers.IfMatch.FirstOrDefault();
-        string? rawEtag = ifMatchValue;
+
+        if (string.IsNullOrEmpty(ifMatchValue))
+        {
+            throw new ConcurrencyException("ETag is empty. ETag should be provided via the If-Match HTTP Header.", HttpStatusCode.PreconditionRequired);
+        }
 
         if (EntityTagHeaderValue.TryParse(ifMatchValue, out var encodedEtag))
         {
-            rawEtag = encodedEtag.Tag.Trim('\"');
+            var rawEtag = encodedEtag.Tag.Trim('\"');
+            if (Guid.TryParse(rawEtag, out var etag))
+            {
+                return etag;
+            }
         }
 
-        return System.Guid.TryParse(rawEtag, out var etag) ? etag : null;
+        throw new ConcurrencyException("ETag is not well-formed.", HttpStatusCode.PreconditionFailed);
     }
 }

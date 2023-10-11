@@ -4,6 +4,7 @@
 
 using System.Reflection;
 using System.Diagnostics;
+using System.Net;
 
 using MediatR;
 
@@ -153,7 +154,7 @@ internal partial class CryptocashDbContext : DbContext
         }
         catch(DbUpdateConcurrencyException)
         {
-            throw new Nox.Exceptions.ConcurrencyException($"Latest value of {nameof(IEntityConcurrent.Etag)} must be provided");
+            throw new Nox.Exceptions.ConcurrencyException($"Latest value of {nameof(IEntityConcurrent.Etag)} must be provided", HttpStatusCode.Conflict);
         }
     }
 

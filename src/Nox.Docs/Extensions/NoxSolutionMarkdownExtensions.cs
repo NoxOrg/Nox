@@ -28,6 +28,7 @@ public static class NoxSolutionMarkdownExtensions
         var mermaidText = noxSolution.ToMermaidErd(ErdDetail.Summary);
         var entityEndpoints = noxSolution.ToMarkdownEntityEndpoints();
         var entityDomainEvents = noxSolution.ToMarkdownEntityDomainEvents();
+        var integrationEvents = noxSolution.ToMarkdownIntegrationEvents();
 
         var docs = $"""
         # {noxSolution.Name}
@@ -44,6 +45,9 @@ public static class NoxSolutionMarkdownExtensions
         {mermaidText}
         ```
 
+        ## Integration Events
+        [IntegrationEvents]({integrationEvents.Name})
+
         ## Definitions for Domain Entities
 
         {DomainDecription(noxSolution, entityEndpoints!, entityDomainEvents!)}
@@ -54,7 +58,7 @@ public static class NoxSolutionMarkdownExtensions
         {
             Name = "README.md",
             Content = docs,
-            ReferencedFiles = entityEndpoints.Concat(entityDomainEvents).Select(x => (MarkdownFile)x),
+            ReferencedFiles = entityEndpoints.Concat(entityDomainEvents).Select(x => (MarkdownFile)x).Concat(new[] { integrationEvents }),
         };
     }
 

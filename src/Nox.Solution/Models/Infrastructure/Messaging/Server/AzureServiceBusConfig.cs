@@ -1,17 +1,10 @@
-﻿using FluentValidation;
-using Humanizer;
-using Microsoft.CodeAnalysis;
-using Nox.Types.Schema;
-using System.IO;
-using System.Net;
-using System.Xml.Linq;
-using YamlDotNet.Core.Tokens;
+﻿using Nox.Types.Schema;
 
 namespace Nox.Solution
 {
     [GenerateJsonSchema()]
     [Title("Azure Service Bus server configuration.")]
-    [Description("Configuration to create a valida Azure Service Bus Connection, for example: sb://your-servicebus-name.servicebus.windows.net/;SharedAccessKeyName=YourKeyName;SharedAccessKey=YourKey;")]
+    [Description("Configuration to create a valid Azure Service Bus Connection, for example: sb://your-servicebus-name.servicebus.windows.net/;SharedAccessKeyName=YourKeyName;SharedAccessKey=YourKey;")]
     [AdditionalProperties(false)]
     public class AzureServiceBusConfig
     {
