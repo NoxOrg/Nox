@@ -12,7 +12,7 @@ internal class EntityCreateDtoGenerator : INoxCodeGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
 
-    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
+    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config, string outputPath)
     {
         NoxSolution solution = codeGeneratorState.Solution;
         context.CancellationToken.ThrowIfCancellationRequested();

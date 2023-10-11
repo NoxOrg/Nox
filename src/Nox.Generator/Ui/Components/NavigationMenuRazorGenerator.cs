@@ -9,7 +9,7 @@ internal class NavigationMenuRazor : INoxCodeGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Ui;
 
-    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
+    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config, string outputPath)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -23,7 +23,7 @@ internal class NavigationMenuRazor : INoxCodeGenerator
 
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        new TemplateCodeBuilderFile(codeGeneratorState)
+        new TemplateCodeBuilderFile(codeGeneratorState, outputPath)
             .WithFileExtension("razor")
             .WithClassName($"NavigationMenu")
             .WithFileNamePrefix($"Ui.Components")

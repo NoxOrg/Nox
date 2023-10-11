@@ -10,7 +10,7 @@ internal class DtoDbContextGenerator : INoxCodeGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Infrastructure;
 
-    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
+    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config, string outputPath)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 

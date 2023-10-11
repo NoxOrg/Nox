@@ -14,7 +14,7 @@ internal class EntityControllerOwnedRelationshipsGenerator : INoxCodeGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Presentation;
 
-    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
+    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config, string outputPath)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
