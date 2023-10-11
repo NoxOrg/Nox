@@ -7,6 +7,7 @@ application:
     - name: CountryNameChangedAppEvent
       description: An application event raised when the name of a country changes
       type: object
+      trait: Country
       objectTypeOptions:
         attributes:
           - name: CountryId
