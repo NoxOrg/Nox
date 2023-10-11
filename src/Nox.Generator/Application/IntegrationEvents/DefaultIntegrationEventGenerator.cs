@@ -17,14 +17,14 @@ internal class DefaultIntegrationEventGenerator : INoxCodeGenerator
         if (codeGeneratorState.Solution.Domain?.Entities is null)
             return;
 
-        foreach (var (crudOperation, entity) in GroupEntitiesWithIntegrationEventsByCrudOperation(codeGeneratorState.Solution.Domain.Entities))
+        foreach (var (operation, entity) in GroupEntitiesWithIntegrationEventsByCrudOperation(codeGeneratorState.Solution.Domain.Entities))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
             new TemplateCodeBuilder(context, codeGeneratorState)
-                .WithClassName($"{entity.Name}{crudOperation}")
+                .WithClassName($"{entity.Name}{operation}")
                 .WithFileNamePrefix($"Application.IntegrationEvents")
-                .WithObject("crudOperation", crudOperation)
+                .WithObject("operation", operation)
                 .WithObject("entity", entity)
                 .GenerateSourceCodeFromResource("Application.IntegrationEvents.DefaultIntegrationEvent");
         }

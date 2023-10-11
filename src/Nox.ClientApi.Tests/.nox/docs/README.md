@@ -39,6 +39,9 @@ erDiagram
 
 ```
 
+## Integration Events
+[IntegrationEvents](./IntegrationEvents.md)
+
 ## Definitions for Domain Entities
 
 ### Country
