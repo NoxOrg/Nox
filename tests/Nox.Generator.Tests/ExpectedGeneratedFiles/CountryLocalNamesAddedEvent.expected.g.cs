@@ -15,7 +15,7 @@ namespace SampleWebApp.Application.IntegrationEvents;
 /// <summary>
 /// An integration event raised when new local names are added to a country.
 /// </summary>
-[IntegrationEventType("CountryLocalNamesAddedEvent", "country")]
+[IntegrationEventType("countryLocalNamesAddedEvent", "country")]
 public partial class CountryLocalNamesAddedEvent : IIntegrationEvent
 {
     public IEnumerable<CountryLocalNameInfo> CountryLocalNameInfos { get; set; } = default!;

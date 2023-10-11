@@ -6,14 +6,12 @@
 
 using Nox.Abstractions;
 using Nox.Types;
-using Nox.Messaging;
 
 namespace SampleWebApp.Domain;
 
 /// <summary>
 /// Raised when the name of a country is changes.
 /// </summary>
-[IntegrationEventType("CountryNameUpdatedEvent", "country")]
 public partial class CountryNameUpdatedEvent : INoxDomainEvent
 {
     

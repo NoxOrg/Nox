@@ -15,7 +15,7 @@ namespace SampleWebApp.Application.IntegrationEvents;
 /// <summary>
 /// An integration event raised when multiple currencies are added.
 /// </summary>
-[IntegrationEventType("CountryCurrenciesAddedEvent", "country")]
+[IntegrationEventType("countryCurrenciesAddedEvent", "country")]
 public partial class CountryCurrenciesAddedEvent : IIntegrationEvent
 {
     public CurrencyInfo[] CurrencyInfos { get; set; } = default!;

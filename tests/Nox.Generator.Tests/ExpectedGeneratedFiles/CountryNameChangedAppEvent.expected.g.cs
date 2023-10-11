@@ -15,7 +15,7 @@ namespace SampleWebApp.Application.IntegrationEvents;
 /// <summary>
 /// An application event raised when the name of a country changes.
 /// </summary>
-[IntegrationEventType("CountryNameChangedAppEvent", "country")]
+[IntegrationEventType("countryNameChangedAppEvent", "country")]
 public partial class CountryNameChangedAppEvent : IIntegrationEvent
 {
     /// <summary>
