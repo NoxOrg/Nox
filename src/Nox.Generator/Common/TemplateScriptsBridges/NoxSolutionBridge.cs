@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+
 using Nox.Solution;
 using Nox.Types;
 using Nox.Types.Extensions;
@@ -44,8 +46,15 @@ internal static class NoxSolutionBridge
             bool>(type => Type.GetType(type)?.IsValueType ?? false));
 
         var scriptObject9 = new ScriptObject();
-            scriptObject9.Import("ToLowerFirstCharAndAddUnderscore", new Func<string, string>(
-                input => input.ToLowerFirstCharAndAddUnderscore()));
+        scriptObject9.Import("ToLowerFirstChar", new Func<string, string>(
+            input => input.ToLowerFirstChar()));
+
+        var scriptObject10 = new ScriptObject();
+        scriptObject10.Import("GetPrimaryKeys", PrimaryKeysQuery);
+
+        var scriptObject11 = new ScriptObject();
+        scriptObject11.Import("GetPrimaryKeysRoute", new Func<Entity, string>(
+            input => PrimaryKeysFromRoute(input, noxSolution)));
 
         context.PushGlobal(scriptObject1);
         context.PushGlobal(scriptObject2);
@@ -56,5 +65,38 @@ internal static class NoxSolutionBridge
         context.PushGlobal(scriptObject7);
         context.PushGlobal(scriptObject8);
         context.PushGlobal(scriptObject9);
+        context.PushGlobal(scriptObject10);
+        context.PushGlobal(scriptObject11);
+    }
+
+    private static string PrimaryKeysQuery(Entity entity, string prefix = "key", bool withKeyName = false)
+    {
+        if (entity?.Keys?.Count() > 1)
+        {
+            return string.Join(", ", entity.Keys.Select(k => $"{prefix}{k.Name}"));
+        }
+        else if (entity?.Keys is not null)
+        {
+            return withKeyName ? $"{prefix}{entity.Keys[0].Name}" : prefix;
+        }
+
+        return string.Empty;
+    }
+
+    private static string PrimaryKeysFromRoute(Entity entity, NoxSolution solution)
+    {
+        if (entity?.Keys?.Count() > 1)
+        {
+            return string.Join(", ", entity.Keys.Select(k => $"[FromRoute] {solution.GetSinglePrimitiveTypeForKey(k)} key{k.Name}"))
+                .Trim();
+        }
+            
+        else if (entity?.Keys is not null)
+        {
+            return $"[FromRoute] {solution.GetSinglePrimitiveTypeForKey(entity.Keys[0])} key"
+                .Trim();
+        }
+
+        return string.Empty;
     }
 }

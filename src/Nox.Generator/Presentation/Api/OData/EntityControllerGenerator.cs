@@ -25,48 +25,6 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             return;
         }
 
-        const string templateName = @"Presentation.Api.OData.EntityController";
-
-        foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
-        {
-            context.CancellationToken.ThrowIfCancellationRequested();
-
-            if (codeGeneratorState.Solution.Domain.Entities.Any(e => e.OwnedRelationships != null && e.OwnedRelationships.Any(r => r.Entity.Equals(entity.Name))))
-            {
-                continue;
-            }
-
-            //var entityName = entity.Name;
-            //var pluralName = entity.PluralName;
-            //var variableName = entity.Name.ToLower();
-            //var dbContextName = $"DtoDbContext";
-            //var controllerName = $"{pluralName}Controller";
-            //var keyName = entity.Keys.FirstOrDefault().Name;
-            //// TODO: fix composite key
-            ////var keyType = entityName + "Id";
-            ////var keyUnderlyingType = entity.Keys?.FirstOrDefault()?.Type;
-            //// TODO Evaluate how to generate a Named ID Type
-            ////if (!keyUnderlyingType.HasValue)
-            ////{
-            ////    parsingLogic = $"var parsedKey = {keyType}.From(key);";
-            ////}
-
-            new TemplateCodeBuilder(context, codeGeneratorState)
-                .WithClassName($"{entity.PluralName}Controller")
-                .WithFileNamePrefix("Presentation.Api.OData")
-                .WithObject("entity", entity)
-                .GenerateSourceCodeFromResource(templateName);
-        }
-    }
-    public void Generate_OLD(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
-    {
-        context.CancellationToken.ThrowIfCancellationRequested();
-
-        if (codeGeneratorState.Solution.Domain is null)
-        {
-            return;
-        }
-
         foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
@@ -122,30 +80,15 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             code.AppendLine($"namespace {codeGeneratorState.ODataNameSpace};");
             code.AppendLine();
 
-            code.AppendLine(@$"public partial class {controllerName} : {controllerName}Base
-{{
-    public {controllerName}(IMediator mediator):base(mediator)
-    {{}}
-}}");
-
             code.AppendLine($"public abstract partial class {controllerName}Base : ODataController");
 
             // Class
             code.StartBlock();
 
-            // db context            
-            AddField(code, "IMediator", "mediator", "The Mediator");
-
-            var constructorParameters = new Dictionary<string, string>
-                {
-                    { "IMediator", "mediator" }
-                };
-
             foreach (var query in queries)
             {
                 var queryType = $"{query.Name}QueryBase";
                 AddField(code, queryType, query.Name, query.Description);
-                constructorParameters.Add(queryType, query.Name);
             }
             // TODO Rethink Custom Commands and Queris
             //foreach (var command in commands)
@@ -154,32 +97,6 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             //    AddField(code, commandType, command.Name, command.Description);
             //    constructorParameters.Add(commandType, command.Name);
             //}
-
-            // Add constructor
-            AddConstructor(code, $"{controllerName}Base", constructorParameters);
-
-            code.AppendLine();
-
-            if (CanRead(entity))
-            {
-                GenerateGet(entity, code, codeGeneratorState.Solution);
-            }
-
-            if (CanCreate(entity))
-            {
-                GeneratePost(entity, code);
-            }
-
-            if (CanUpdate(entity))
-            {
-                GeneratePut(entity, code, codeGeneratorState.Solution);
-                GeneratePatch(entity, entityName, code, codeGeneratorState.Solution);
-            }
-
-            if (CanDelete(entity))
-            {
-                GenerateDelete(entity, entityName, code, codeGeneratorState.Solution);
-            }
 
             GenerateOwnedRelationships(codeGeneratorState.Solution, code, entity);
             GenerateRelationships(codeGeneratorState.Solution, code, entity);
@@ -217,145 +134,6 @@ internal class EntityControllerGenerator : INoxCodeGenerator
 
             code.GenerateSourceCode();
         }
-    }
-
-    private static void GenerateDelete(Entity entity, string entityName, CodeBuilder code, NoxSolution solution)
-    {
-        // Method Delete
-        code.AppendLine($"public virtual async Task<ActionResult> Delete({PrimaryKeysFromRoute(entity, solution)})");
-
-        // Method content
-        code.StartBlock();
-        if (!entity.IsOwnedEntity)
-        {
-            code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
-            code.AppendLine($"var result = await _mediator.Send(new Delete{entityName}ByIdCommand({PrimaryKeysQuery(entity)}, etag));");
-        }
-        else
-        {
-            code.AppendLine($"var result = await _mediator.Send(new Delete{entityName}ByIdCommand({PrimaryKeysQuery(entity)}));");
-        }
-
-        code.AppendLine();
-        code.AppendLine($"if (!result)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
-        code.AppendLine();
-        code.AppendLine($"return NoContent();");
-
-        // End method
-        code.EndBlock();
-    }
-
-    private static void GeneratePut(Entity entity, CodeBuilder code, NoxSolution solution)
-    {
-        // Method Put
-        code.AppendLine($"public virtual async Task<ActionResult<{entity.Name}Dto>> Put({PrimaryKeysFromRoute(entity, solution)}, [FromBody] {entity.Name}UpdateDto {entity.Name.ToLowerFirstChar()})");
-
-        // Method content
-        code.StartBlock();
-        code.AppendLine($"if (!ModelState.IsValid)");
-        code.StartBlock();
-        code.AppendLine($"return BadRequest(ModelState);");
-        code.EndBlock();
-        code.AppendLine();
-
-        if (!entity.IsOwnedEntity)
-        {
-            code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
-            code.AppendLine($"var updated = await _mediator.Send(new Update{entity.Name}Command({PrimaryKeysQuery(entity)}, {entity.Name.ToLowerFirstChar()}, etag));");
-        }
-        else
-        {
-            code.AppendLine($"var updated = await _mediator.Send(new Update{entity.Name}Command({PrimaryKeysQuery(entity)}, {entity.Name.ToLowerFirstChar()}));");
-        }
-
-        code.AppendLine();
-
-        code.AppendLine($"if (updated is null)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
-        code.AppendLine();
-        code.AppendLine($"var item = (await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity, "updated.key", true)}))).SingleOrDefault();");
-        code.AppendLine();
-
-        code.AppendLine($"return Ok(item);");
-
-        // End method
-        code.EndBlock();
-        code.AppendLine();
-    }
-
-    private static void GeneratePatch(Entity entity, string entityName, CodeBuilder code, NoxSolution solution)
-    {
-        // Method Patch
-        code.AppendLine($"public virtual async Task<ActionResult<{entity.Name}Dto>> Patch({PrimaryKeysFromRoute(entity, solution)}, [FromBody] Delta<{entityName}Dto> {entity.Name.ToLowerFirstChar()})");
-
-        // Method content
-        code.StartBlock();
-        code.AppendLine($"if (!ModelState.IsValid)");
-        code.StartBlock();
-        code.AppendLine($"return BadRequest(ModelState);");
-        code.EndBlock();
-        code.AppendLine();
-        code.AppendLine(@$"var updateProperties = new Dictionary<string, dynamic>();
-        
-        foreach (var propertyName in {entity.Name.ToLowerFirstChar()}.GetChangedPropertyNames())
-        {{
-            if({entity.Name.ToLowerFirstChar()}.TryGetPropertyValue(propertyName, out dynamic value))
-            {{
-                updateProperties[propertyName] = value;                
-            }}           
-        }}");
-        code.AppendLine();
-
-        if (!entity.IsOwnedEntity)
-        {
-            code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
-            code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command({PrimaryKeysQuery(entity)}, updateProperties, etag));");
-        }
-        else
-        {
-            code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command({PrimaryKeysQuery(entity)}, updateProperties));");
-        }
-
-        code.AppendLine();
-
-        code.AppendLine($"if (updated is null)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
-        code.AppendLine($"var item = (await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity, "updated.key", true)}))).SingleOrDefault();");
-        code.AppendLine($"return Ok(item);");
-
-        // End method
-        code.EndBlock();
-        code.AppendLine();
-    }
-
-    private static void GeneratePost(Entity entity, CodeBuilder code)
-    {
-        // Method Post
-        code.AppendLine($"public virtual async Task<ActionResult<{entity.Name}Dto>> Post([FromBody]{entity.Name}CreateDto {entity.Name.ToLowerFirstChar()})");
-
-        // Method content
-        code.StartBlock();
-        code.AppendLine($"if (!ModelState.IsValid)");
-        code.StartBlock();
-        code.AppendLine($"return BadRequest(ModelState);");
-        code.EndBlock();
-        code.AppendLine($"var createdKey = await _mediator.Send(new Create{entity.Name}Command({entity.Name.ToLowerFirstChar()}));");
-        code.AppendLine();
-        code.AppendLine($"var item = (await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity, "createdKey.key", true)}))).SingleOrDefault();");
-        code.AppendLine();
-        
-        code.AppendLine($"return Created(item);");
-
-        // End method
-        code.EndBlock();
-        code.AppendLine();
     }
 
     private static void GenerateOwnedRelationships(NoxSolution solution, CodeBuilder code, Entity entity)
@@ -690,42 +468,6 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine();
         code.AppendLine($"return NoContent();");
 
-        code.EndBlock();
-        code.AppendLine();
-    }
-
-    private static void GenerateGet(Entity entity, CodeBuilder code, NoxSolution solution)
-    {
-        // Method Get
-        code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"public virtual async Task<ActionResult<IQueryable<{entity.Name}Dto>>> Get()");
-
-        // Method content
-        code.StartBlock();
-        code.AppendLine($"var result = await _mediator.Send(new Get{entity.PluralName}Query());");
-        code.AppendLine($"return Ok(result);");
-
-        // End method
-        code.EndBlock();
-        code.AppendLine();
-
-        if (entity.Keys is null)
-        {
-            Debug.WriteLine($"Key(s) should be defined for Get by id query, Entity - {entity.Name}...");
-            return;
-        }
-
-        // We do not support Compound types as primary keys, this is validated on the schema
-        // Method Get
-        code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"public async Task<SingleResult<{entity.Name}Dto>> Get({PrimaryKeysFromRoute(entity, solution)})");
-
-        // Method content
-        code.StartBlock();
-        code.AppendLine($"var query = await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity)}));");
-        code.AppendLine($"return SingleResult.Create(query);");
-
-        // End method
         code.EndBlock();
         code.AppendLine();
     }

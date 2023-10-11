@@ -86,14 +86,6 @@ domain:
             minLength: 2
             maxLength: 2
 
-        - name: Smthing
-          isRequired: true
-          type: text
-          textTypeOptions:
-            isUnicode: false
-            minLength: 2
-            maxLength: 2
-
       attributes:
 
         - name: Name
