@@ -13,7 +13,7 @@ application:
           - name: CountryId
             type: countryCode2
             description: The identifier of the country. The Iso alpha 2 code
-            
+
           - name: CountryName
             description: The new name of the country
             type: text
@@ -21,6 +21,7 @@ application:
     - name: CountryLocalNamesAddedEvent
       description: An integration event raised when new local names are added to a country
       type: collection
+      trait: Country
       collectionTypeOptions:
         name: CountryLocalNameInfo
         type: object
@@ -29,14 +30,15 @@ application:
             - name: CountryId
               type: countryCode2
               description: The identifier of the country. The Iso alpha 2 code
-            
+
             - name: CountryLocalName
               type: text
               description: The new name of the country
-            
+
     - name: CountryCurrenciesAddedEvent
       description: An integration event raised when multiple currencies are added
       type: array
+      trait: Country
       arrayTypeOptions:
         name: CurrencyInfo
         type: object
@@ -49,4 +51,3 @@ application:
             - name: CurrencyId
               type: currencyCode3
               description: The identifier of the currency.
-           

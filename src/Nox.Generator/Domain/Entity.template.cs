@@ -1,14 +1,14 @@
 // Generated
 {{func pascalCaseToCamelCase(pascal)
-		$result = ""	
+		$result = ""
 	if pascal != ""
 		$first = pascal | string.slice1 0
 		$first = $first | string.downcase
 		$rest = pascal | string.slice 1
-		$result = $first + $rest 
+		$result = $first + $rest
 	end
-		
-	ret $result	
+
+	ret $result
 
 end}}
 #nullable enable
