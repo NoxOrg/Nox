@@ -56,6 +56,10 @@ internal static class NoxSolutionBridge
         scriptObject11.Import("GetPrimaryKeysRoute", new Func<Entity, string>(
             input => PrimaryKeysFromRoute(input, noxSolution)));
 
+        var scriptObject12 = new ScriptObject();
+        scriptObject12.Import("EnsureEndsWith", new Func<string, string, string>(
+            (input, suffix) => input.EnsureEndsWith(suffix)));
+
         context.PushGlobal(scriptObject1);
         context.PushGlobal(scriptObject2);
         context.PushGlobal(scriptObject3);
@@ -67,6 +71,7 @@ internal static class NoxSolutionBridge
         context.PushGlobal(scriptObject9);
         context.PushGlobal(scriptObject10);
         context.PushGlobal(scriptObject11);
+        context.PushGlobal(scriptObject12);
     }
 
     private static string PrimaryKeysQuery(Entity entity, string prefix = "key", bool withKeyName = false)

@@ -26,11 +26,6 @@ namespace SampleWebApp.Presentation.Api.OData;
 public abstract partial class CountriesControllerBase : ODataController
 {
     
-    /// <summary>
-    /// Returns a list of countries for a given continent.
-    /// </summary>
-    protected readonly GetCountriesByContinentQueryBase _getCountriesByContinent;
-    
     #region Owned Relationships
     
     [EnableQuery]
@@ -114,14 +109,4 @@ public abstract partial class CountriesControllerBase : ODataController
     
     #endregion
     
-    
-    /// <summary>
-    /// Returns a list of countries for a given continent.
-    /// </summary>
-    [HttpGet("GetCountriesByContinent")]
-    public async Task<IResult> GetCountriesByContinentAsync(Text continentName)
-    {
-        var result = await _getCountriesByContinent.ExecuteAsync(continentName);
-        return Results.Ok(result);
-    }
 }

@@ -49,7 +49,6 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             //    parsingLogic = $"var parsedKey = {keyType}.From(key);";
             //}
 
-            IReadOnlyCollection<DomainQuery> queries = entity.Queries ?? new List<DomainQuery>();
             //IReadOnlyCollection<DomainCommand> commands = entity.Commands ?? new List<DomainCommand>();
 
             var code = new CodeBuilder($"Presentation.Api.OData.{pluralName}Controller.g.cs", context);
@@ -84,12 +83,6 @@ internal class EntityControllerGenerator : INoxCodeGenerator
 
             // Class
             code.StartBlock();
-
-            foreach (var query in queries)
-            {
-                var queryType = $"{query.Name}QueryBase";
-                AddField(code, queryType, query.Name, query.Description);
-            }
             // TODO Rethink Custom Commands and Queris
             //foreach (var command in commands)
             //{
@@ -100,19 +93,6 @@ internal class EntityControllerGenerator : INoxCodeGenerator
 
             GenerateOwnedRelationships(codeGeneratorState.Solution, code, entity);
             GenerateRelationships(codeGeneratorState.Solution, code, entity);
-
-            // Generate GET request mapping for Queries
-            foreach (var query in queries)
-            {
-                GenerateDocs(code, query.Description);
-                code.AppendLine($"[HttpGet(\"{query.Name}\")]");
-                code.AppendLine($"public async Task<IResult> {query.Name}Async({GetParametersString(query.RequestInput)})");
-                code.StartBlock();
-                code.AppendLine($"var result = await {query.Name.ToLowerFirstCharAndAddUnderscore()}.ExecuteAsync({GetParametersExecuteString(query.RequestInput)});");
-                // TODO: Extend to NotFound and other codes
-                code.AppendLine(@"return Results.Ok(result);");
-                code.EndBlock();
-            }
 
             // TODO Rethink Custom Commands and Queries
             // Generate POST request mapping for Command Handlers
