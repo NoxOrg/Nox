@@ -18,6 +18,10 @@
 		<EmbeddedResource Include="**\**\*.template.md" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Include="..\Nox.Generator\Common\TemplateScriptsBridges\NoxSolutionBridge.cs" Link="NoxSolutionBridge.cs" />
+	</ItemGroup>
+
 
 	<ItemGroup>
 		<PackageReference Include="Scriban" Version="5.9.0" />

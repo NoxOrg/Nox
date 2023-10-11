@@ -1,4 +1,5 @@
-﻿using Nox.Solution;
+﻿using Nox.Generator.Common.TemplateScriptsBridges;
+using Nox.Solution;
 using Nox.Types;
 using Nox.Types.Extensions;
 using Scriban;
@@ -42,6 +43,9 @@ public static class ScribanTemplateExtensions
         context.MemberFilter = null;
         context.PushGlobal(CreateScriptObject(model));
 
+        // Add custom functions
+        NoxSolutionBridge.AddFunctions(context, new NoxSolution());
+
         return context;
     }
 
@@ -49,14 +53,6 @@ public static class ScribanTemplateExtensions
     {
         var scriptObj = new ScriptObject();
         scriptObj.Import(model, renamer: member => member.Name, filter: null);
-
-        scriptObj.Import(
-            "SinglePrimitiveTypeForKey",
-            new Func<NoxSimpleTypeDefinition, string>(new NoxSolution().GetSinglePrimitiveTypeForKey));
-
-        scriptObj.Import(
-            "IsNoxTypeSimpleType",
-            new Func<NoxType, bool>(type => type.IsSimpleType()));
 
         return scriptObj;
     }
