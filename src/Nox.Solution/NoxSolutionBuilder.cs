@@ -145,18 +145,16 @@ namespace Nox.Solution
 
         private NoxSolution ResolveAndLoadConfiguration()
         {
-            var yamlResolver = new YamlReferenceResolver(_yamlFilesAndContent!, _rootFileAndContentKey!);
+            var yamlRefResolver = new YamlReferenceResolver(_yamlFilesAndContent!, _rootFileAndContentKey!);
 
-            var yaml = yamlResolver.ResolveReferences();
-
-            var noxSolutionBasicsOnly = NoxSolutionBasicsOnlySerializer.Deserialize(yaml);
+            var noxSolutionBasicsOnly = NoxSolutionBasicsOnlySerializer.Deserialize(yamlRefResolver.ToYamlString());
 
             var secretsConfig = noxSolutionBasicsOnly.Infrastructure?.Security?.Secrets;
 
             var variables = new Dictionary<string, string?>();
 
             // Resolve Secrets
-            var secretVariables = yamlResolver.GetVariables("secrets");
+            var secretVariables = yamlRefResolver.GetVariables("secrets");
 
             if (secretVariables.Any())
             {
@@ -175,7 +173,7 @@ namespace Nox.Solution
             }
 
             // Resolve variables
-            var envVariables = yamlResolver.GetVariables("env");
+            var envVariables = yamlRefResolver.GetVariables("env");
             
             if (envVariables.Any())
             {
@@ -185,14 +183,15 @@ namespace Nox.Solution
             }
 
             // Replace Variables
-            yaml = yamlResolver.ResolveVariables(variables);
+            yamlRefResolver.ResolveVariables(variables);
 
             // Validate and deserialize
-            var config = NoxSchemaValidator.Deserialize<NoxSolution>(yaml);
+            var config = NoxSchemaValidator.Deserialize<NoxSolution>(yamlRefResolver);
 
             ComputeIsOwnedEntityForAllEntities(config);
 
             config.RootYamlFile = _yamlFilePath;
+            config.RawYamlContent = yamlRefResolver.ToYamlString();
 
             return config;
         }

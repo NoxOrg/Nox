@@ -5,55 +5,52 @@ using Nox.Solution.Exceptions;
 using System.IO;
 using System.Text;
 using System.Linq;
+using YamlDotNet.Serialization;
 
 namespace Nox.Solution;
 
 internal class YamlReferenceResolver
 {
-    private readonly Regex _referenceRegex = new(@"\$ref\S*:\s*(?<fileref>[\w:\.\/\\]+\b[\w\-\.\/]+)\s*", RegexOptions.Compiled | RegexOptions.IgnoreCase, TimeSpan.FromSeconds(5));
+    private readonly Regex _referenceRegex = new(@"^\s*[^#]\s*[-]*\s*\$ref\s*:\s*(?<fileref>[\w:\.\/\\]+\b[\w\-\.\/]+)\s*", RegexOptions.Compiled | RegexOptions.IgnoreCase, TimeSpan.FromSeconds(5));
 
     private readonly Regex _variableRegex = new Regex(@"\$\{\{\s*(?<type>[\w\.\-_:]+)\.(?<variable>[\w\.\-_:]+)\s*\}\}", RegexOptions.Compiled, TimeSpan.FromMilliseconds(10000));
 
     private readonly string _rootKey;
 
-    private IDictionary<string, Func<TextReader>> _filesAndContent;
+    private readonly IDictionary<string, Func<TextReader>> _filesAndContent;
 
-    public YamlResolverResult? Result { get; private set; }
+    private readonly IList<YamlLineInfo> _content;
+
+    private readonly IList<YamlVariableInfo> _variables;
+
+    private readonly StringBuilder _contentAsStringBuilder;
+
 
     public YamlReferenceResolver(IDictionary<string, Func<TextReader>> filesAndContent, string rootKey)
     {
-        if (!filesAndContent.TryGetValue(rootKey, out var _))
-        {
-            throw new NoxYamlException($"The key [{rootKey}] was not found in the file and content dictionary.");
-        }
-
         _filesAndContent = filesAndContent;
 
         _rootKey = rootKey;
+
+        _content = new List<YamlLineInfo>();
+
+        ReadYamlStreamRecursive(_rootKey, string.Empty);
+
+        _contentAsStringBuilder = ToStringBuilder();
+
+        _variables = ExtractVariablesIfExist();
     }
 
-    public string ResolveReferences()
+    public string ToYamlString() => _contentAsStringBuilder.ToString();
+
+
+    private void ReadYamlStreamRecursive(string sourceName, string padding)
     {
-        if (Result is not null) return Result.RefResolvedYaml;
-
-        using var sourceLines = _filesAndContent[_rootKey].Invoke();
-
-        var outputLines = ResolveReferencesInternal(sourceLines, _rootKey, true);
-
-        var resolvedYaml = outputLines.ToString();
-
-        var variables = ExtractVariablesIfExist(resolvedYaml);
-
-        Result = new YamlResolverResult(resolvedYaml, variables);
-
-        return resolvedYaml;
-    }
-
-    private StringBuilder ResolveReferencesInternal(TextReader sourceLines, string sourceName, bool firstPass = false)
-    {
-        var outputLines = new StringBuilder();
-
-        var containsRef = false;
+        if (!_filesAndContent.ContainsKey(sourceName))
+        {
+            throw new NoxYamlException($"Referenced yaml content does not exist in the dictionry for key '{sourceName}'");
+        }
+        using var sourceLines = _filesAndContent[sourceName].Invoke();
 
         var lineNumber = 0;
 
@@ -65,102 +62,59 @@ internal class YamlReferenceResolver
 
             lineNumber++;
 
-            if (sourceLine.TrimStart().StartsWith("#") || string.IsNullOrWhiteSpace(sourceLine))
-            {
-                continue;
-            }
-
-            containsRef = containsRef || sourceLine.Contains("$ref:");
+            sourceLine = $"{padding}{sourceLine}";
 
             var match = _referenceRegex.Match(sourceLine);
 
             if (!match.Success)
             {
-                // AS: removed the source line number references, not yet used and it breaks multiline strings.
-                // Will probably be better to track these in a list behind the content.
-                if (false && firstPass)
-                {
-                    outputLines.Append(sourceLine).AppendLine($"   ##$ -> {sourceName},{lineNumber}");
-                }
-                else
-                {
-                    outputLines.AppendLine(sourceLine);
-                }
+                _content.Add(new YamlLineInfo(sourceName, lineNumber, sourceLine));
                 continue;
             }
 
-            var padding = new string(' ', match.Index);
-            var prefixPadding = string.Empty;
-            var prefix = sourceLine.Substring(0, match.Index);
+            var includePath = Path.GetFileName(match.Groups["fileref"].Value); // strip path from $ref
 
-            if (prefix.Contains("-")) prefixPadding = new string(' ', prefix.IndexOf('-'));
-
-            var childPath = Path.GetFileName(match.Groups["fileref"].Value); // strip path from $ref
-
-            if (!_filesAndContent.ContainsKey(childPath))
+            if (!_filesAndContent.ContainsKey(includePath))
             {
-                throw new NoxYamlException($"Referenced yaml file does not exist for reference: {childPath}");
+                throw new NoxYamlException($"Referenced yaml file does not exist for reference: {includePath} (in '{sourceName}' line {lineNumber}).");
             }
 
-            using var childContent = _filesAndContent[childPath].Invoke();
+            var pos = sourceLine.IndexOf("$ref"); 
 
-            bool isFirstLine = true;
+            var includeLine = sourceLine.Substring(0, pos);
+            
+            _content.Add(new YamlLineInfo(sourceName, lineNumber, includeLine, comment: sourceLine));
 
-            var childLineNumber = 0;
+            var includePadding = new string(' ', pos);
 
-            while (true)
-            {
-                var childLine = childContent.ReadLine();
-
-                if (childLine == null) break;
-
-                childLineNumber++;
-
-                if (childLine.TrimStart().StartsWith("#") || string.IsNullOrWhiteSpace(childLine))
-                {
-                    continue;
-                }
-
-                containsRef = containsRef || childLine.Contains("$ref:");
-
-                string output;
-
-                if (isFirstLine)
-                {
-                    output = $"{prefix}{childLine}".Replace("- -", "-");
-
-                    isFirstLine = false;
-                }
-                else if (childLine.StartsWith("-"))
-                {
-                    output = $"{prefixPadding}{childLine}";
-                }
-                else
-                {
-                    output = $"{padding}{childLine}";
-                }
-
-                // AS: removed the source line number references, not yet used and it breaks multiline strings.
-                // Will probably be better to track these in a list behind the content
-
-                // outputLines.Append(output).AppendLine($"   ##$ -> {childPath},{childLineNumber}");
-
-                outputLines.AppendLine(output);
-            }
+            ReadYamlStreamRecursive(includePath, includePadding);
         }
 
-        if (containsRef)
-        {
-            using var sr = new StringReader(outputLines.ToString());
-            outputLines = ResolveReferencesInternal(sr, sourceName);
-        }
-
-        return outputLines;
     }
 
-    private List<YamlVariableInfo> ExtractVariablesIfExist(string yaml)
+
+
+    private StringBuilder ToStringBuilder()
     {
-        var variableMatches = _variableRegex.Matches(yaml);
+        var sb = new StringBuilder();
+        foreach (var i in _content)
+        {
+            if (i.Comment is null)
+            {
+                sb.AppendLine(i.Text);
+            }
+            else
+            {
+                sb.AppendLine(i.Text + "   #" + i.Comment);
+            }
+        }
+        return sb;
+    }
+
+
+    private List<YamlVariableInfo> ExtractVariablesIfExist()
+    {
+        var variableMatches = _variableRegex.Matches(this.ToYamlString());
 
         var variables = new List<YamlVariableInfo>();
 
@@ -179,14 +133,15 @@ internal class YamlReferenceResolver
 
     public IReadOnlyList<string> GetVariables(string type)
     {
-        if (Result is null) throw new NoxSolutionConfigurationException("Yaml is unresolved. Call 'ResolveReferences()' method first.");
-
-        return Result.Variables(type);
+        return _variables
+         .Where(i => i.Type == type)
+         .Select(i => i.Name)
+         .Distinct()
+         .ToList();
     }
 
-    public string ResolveVariables(IDictionary<string, string?> variables)
+    public void ResolveVariables(IDictionary<string, string?> variables)
     {
-        if (Result is null) throw new NoxSolutionConfigurationException("Yaml is unresolved. Call 'ResolveReferences()' method first.");
 
         // replace all variables conaining variable refs
         foreach (var variable in variables)
@@ -209,6 +164,28 @@ internal class YamlReferenceResolver
             }
         }
 
-        return Result.ReplaceVariables(variables);
+        ReplaceVariables(variables);
+    }
+
+    private void ReplaceVariables(IDictionary<string, string?> variableValues)
+    {
+        if (!variableValues.Any()) return;
+
+        var serializer = new SerializerBuilder().Build();
+
+        var sb = _contentAsStringBuilder;
+
+        foreach (var info in _variables.Select(i => i).Reverse())
+        {
+            var variableValue = variableValues[info.Name];
+
+            if (variableValue is null)
+            {
+                throw new NoxSolutionConfigurationException($"Variable [{info.Type}.{info.Name}] was not found or resolved.");
+            }
+
+            sb.Remove(info.Index, info.Length);
+            sb.Insert(info.Index, serializer.Serialize(variableValue));
+        }
     }
 }
