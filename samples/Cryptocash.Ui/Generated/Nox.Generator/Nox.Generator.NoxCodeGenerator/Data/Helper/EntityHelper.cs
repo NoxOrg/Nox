@@ -1,6 +1,6 @@
 using Cryptocash.Application.Dto;
 using Cryptocash.Ui.Generated.Data.Generic;
-using Cryptocash.Ui.Generated.Data.Generic.VendingMachineService;
+using Cryptocash.Ui.Generated.Data.Generic.Service;
 
 namespace Cryptocash.Ui.Generated.Data.Helper
 {

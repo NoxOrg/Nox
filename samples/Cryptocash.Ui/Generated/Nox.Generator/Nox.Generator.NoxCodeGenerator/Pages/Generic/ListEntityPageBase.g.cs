@@ -10,6 +10,8 @@ using System.Security.Principal;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using Cryptocash.Ui.Generated.Data.Generic.Service;
+using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Ui.Generated.Pages.Generic
 {
@@ -19,6 +21,8 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
     /// <typeparam name="T"></typeparam>
     public class ListEntityPageBase<T, CreateT> : ComponentBase
     {
+        #nullable enable
+
         #region Declarations
 
         /// <summary>
@@ -88,12 +92,24 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         public string SearchMainValue { get; set; } = string.Empty;
 
         /// <summary>
-        /// Property DialogOptions to define dialog css and keyboard options
+        /// Property AddDialogOptions to define dialog css and keyboard options
         /// </summary>
-        public DialogOptions DialogOptions = new()
+        public DialogOptions AddDialogOptions = new()
         {
             FullWidth = true,
-            ClassBackground = "custom-dialog"
+            ClassBackground = "custom-dialog",
+            DisableBackdropClick = true,
+            MaxWidth = MaxWidth.ExtraLarge
+        };
+
+        /// <summary>
+        /// Property AddDialogOptions to define dialog css and keyboard options
+        /// </summary>
+        public DialogOptions DeleteDialogOptions = new()
+        {
+            FullWidth = true,
+            ClassBackground = "custom-dialog",
+            DisableBackdropClick = true
         };
 
         /// <summary>
@@ -120,6 +136,16 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         /// Property IsAddEntityProcessing used to display loading status whilst Add request is processing
         /// </summary>
         public bool IsAddEntityProcessing { get; set; } = false;
+
+        /// <summary>
+        /// Property CountryEntityData used to store Country list data in preparation for seletion
+        /// </summary>
+        public EntityData<CountryDto>? CountryEntityData { get; set; }
+
+        /// <summary>
+        /// Property LandLordEntityData used to store LandLord list data in preparation for seletion
+        /// </summary>
+        public EntityData<LandLordDto>? LandLordEntityData { get; set; }
 
         #endregion
 
@@ -261,6 +287,8 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             CurrentApiUiService?.ResetOrderList();
             ResetViewList();
             ResetAddEntity();
+            await GetAllCountries();
+            await GetAllLandLords();
 
             if (CurrentEntityName == "VendingMachine") //TODO just VendingMachine for now
             {
@@ -610,7 +638,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
 
                     AddEntityValidateSuccess = true;
 
-                    var test = CurrentAddEntity;
+                    var test = CurrentAddEntity; //TODO remove later
 
                     await CreateApiEntityData();
 
@@ -736,6 +764,34 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
                     config.ShowTransitionDuration = 500;
                     config.SnackbarVariant = Variant.Filled;
                 });
+        }
+
+        #endregion
+
+        #region Selection List Data
+
+        /// <summary>
+        /// Method to get all Countries in preparation to populate selection lists
+        /// </summary>
+        /// <returns></returns>
+        protected async Task GetAllCountries()
+        {
+            ApiUiService CountryApiService = new CountryService().IntialiseApiUiService();
+            CountryEntityData = await EntityDataService<CountryDto>.GetAsyncRecursivePagedEntityData(CountryApiService);
+
+            return;
+        }
+
+        /// <summary>
+        /// Method to get all LandLords in preparation to populate selection lists
+        /// </summary>
+        /// <returns></returns>
+        protected async Task GetAllLandLords()
+        {
+            ApiUiService LandLordApiService = new LandLordService().IntialiseApiUiService();
+            LandLordEntityData = await EntityDataService<LandLordDto>.GetAsyncRecursivePagedEntityData(LandLordApiService);
+
+            return;
         }
 
         #endregion

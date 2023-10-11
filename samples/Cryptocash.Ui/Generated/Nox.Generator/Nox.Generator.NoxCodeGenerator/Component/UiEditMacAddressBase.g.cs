@@ -2,7 +2,7 @@
 
 namespace Cryptocash.Ui.Generated.Component
 {
-    public class UiInputMacAddressBase : ComponentBase
+    public class UiEditMacAddressBase : ComponentBase
     {
         #region Declarations
 

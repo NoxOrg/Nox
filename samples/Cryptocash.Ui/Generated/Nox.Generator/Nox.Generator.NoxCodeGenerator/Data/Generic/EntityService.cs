@@ -28,6 +28,69 @@ namespace Cryptocash.Ui.Generated.Data.Generic
         }
 
         /// <summary>
+        /// Method used to Get All Api results using recursive paged calls to Api
+        /// </summary>
+        /// <param name="ApiUiService"></param>
+        /// <returns>Task<EntityData?></returns>
+        public static async Task<EntityData<T>?> GetAsyncRecursivePagedEntityData(ApiUiService? ApiUiService)
+        {
+            if (ApiUiService == null || string.IsNullOrWhiteSpace(ApiUiService.Url) || ApiUiService.Paging == null)
+            {
+                throw new ArgumentException("EntityDataService.GetAsyncRecursivePagedEntityData: Malformed Input", nameof(ApiUiService));
+            }
+
+            EntityData<T>? rtnEntities = null;
+
+            var jsonOptions = new JsonSerializerOptions();
+            jsonOptions.Converters.Add(new JsonStringEnumConverter());
+
+            bool Fresh = true;
+            int CurrentPageNumber = 0;
+            int CurrentTotal = 0;
+            int OverallTotal = 0;
+
+            while (Fresh || OverallTotal > CurrentTotal)
+            {
+                ApiUiService!.Paging!.CurrentPage = CurrentPageNumber;
+
+                EntityData<T>? currentEntities = JsonSerializer.Deserialize<EntityData<T>>(await ApiDataService.ReadAsyncApi(ApiUiService), jsonOptions);
+
+                if (Fresh && currentEntities != null)
+                {
+                    OverallTotal = currentEntities.EntityTotal;
+                    rtnEntities = new()
+                    {
+                        EntityTotal = OverallTotal,
+                        EntityList = new()
+                    };
+                }
+
+                if (currentEntities != null && currentEntities.EntityList != null)
+                {
+                    CurrentTotal = currentEntities.EntityList.Count;
+                    if (rtnEntities != null && CurrentTotal > 0)
+                    {
+                        rtnEntities.EntityList!.AddRange(currentEntities.EntityList);
+                    }
+                }
+                else
+                {
+                    CurrentTotal = 0;
+                }                
+
+                if (CurrentTotal == 0)
+                {
+                    break;
+                }
+
+                CurrentPageNumber += 1;
+                Fresh = false;
+            }
+
+            return rtnEntities;
+        }
+
+        /// <summary>
         /// Method used to create ApiEntity
         /// </summary>
         /// <param name="AddEntity"></param>
