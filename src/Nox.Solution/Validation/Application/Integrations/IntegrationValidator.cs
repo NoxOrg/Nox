@@ -24,9 +24,6 @@ namespace Nox.Solution.Validation
                 .NotEmpty()
                 .WithMessage(m => string.Format(ValidationResources.IntegrationSourceMissing, m.Name))
                 .SetValidator(v => new IntegrationSourceValidator(v.Name, dataConnections, v.Source!.DataConnectionName));
-            
-            RuleFor(p => p!.Schedule!)
-                .SetValidator(p => new IntegrationScheduleValidator(p.Name));
 
             RuleFor(vc => vc.TransformationType)
                 .NotNull()
