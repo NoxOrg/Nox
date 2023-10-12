@@ -19,7 +19,7 @@ public class SqliteIntegrationTests
         _noxCommonTestCases = new NoxCommonTestCaseFactory(_fixture);
     }
 
-    [Fact(Skip = "NOT NULL constraint failed: TestEntityForTypes.AutoNumberTestField")]
+    [Fact]
     public void GeneratedEntity_Sqlite_CanSaveAndReadFields_AllTypes()
     {
         _noxCommonTestCases.GenerateEntityCanSaveAndReadFieldsAllTypes();

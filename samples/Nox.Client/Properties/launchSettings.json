@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "CryptoCash.Domain": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:57448;http://localhost:57449"
+    }
+  }
+}

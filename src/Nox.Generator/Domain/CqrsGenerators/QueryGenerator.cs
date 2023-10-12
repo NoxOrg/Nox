@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
+using Nox.Generator.Application.Commands;
 using Nox.Generator.Common;
 using Nox.Solution;
 
@@ -9,17 +10,11 @@ using static Nox.Generator.Common.NamingConstants;
 
 namespace Nox.Generator.Domain.CqrsGenerators;
 
-internal class QueryGenerator : INoxCodeGenerator
+internal class QueryGenerator : ApplicationGeneratorBase
 {
-    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
-
-    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
+    protected override void DoGenerate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, IEnumerable<Entity> entities)
     {
-        context.CancellationToken.ThrowIfCancellationRequested();
-
-        if (codeGeneratorState.Solution.Domain == null) return;
-
-        foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
+        foreach (var entity in entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
             if (entity.Queries == null || !entity.Queries.Any()) continue;
