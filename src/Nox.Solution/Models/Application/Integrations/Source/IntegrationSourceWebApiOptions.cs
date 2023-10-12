@@ -13,9 +13,9 @@ public class IntegrationSourceWebApiOptions
     [Description("The path component for the request URI, e.g. '/myPath' in http://localhost:8081/myPath?myParameter=123.")]
     public string Route { get; set; } = string.Empty;
 
-    [Title("The Http response format.")]
+    [Title("The Http exchange format.")]
     [Description("The format of the Http response data payload, eg. Json, XML.")]
-    public IntegrationWebApiRequestResponseFormat ResponseFormat { get; set; } = IntegrationWebApiRequestResponseFormat.Json;
+    public IntegrationWebApiRequestResponseFormat ExchangeFormat { get; set; } = IntegrationWebApiRequestResponseFormat.Json;
 
     [Title("The Http request verb.")]
     [Description("The relevant verb detailing the Http request type, i.e. GET, POST, etc.")]

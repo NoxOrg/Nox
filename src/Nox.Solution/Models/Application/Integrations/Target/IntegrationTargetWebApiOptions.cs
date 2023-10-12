@@ -9,8 +9,16 @@ namespace Nox.Solution;
 [AdditionalProperties(false)]
 public class IntegrationTargetWebApiOptions
 {
+    [Title("The path component for the request URI.")]
+    [Description("The path component for the request URI, e.g. '/myPath' in http://localhost:8081/myPath?myParameter=123.")]
     public string Route { get; set; } = string.Empty;
-    public IntegrationWebApiRequestResponseFormat RequestFormat { get; set; } = IntegrationWebApiRequestResponseFormat.Json;
+    
+    [Title("The Http exchange format.")]
+    [Description("The format of the Http request and response data payload, eg. Json, XML.")]
+    public IntegrationWebApiRequestResponseFormat ExchangeFormat { get; set; } = IntegrationWebApiRequestResponseFormat.Json;
+    
+    [Title("The Http request verb.")]
+    [Description("The relevant verb detailing the Http request type, i.e. POST, PUT, PATCH, etc.")]
     public IntegrationTargetHttpVerb HttpVerb { get; set; } = IntegrationTargetHttpVerb.Post;
     
     [Required]
