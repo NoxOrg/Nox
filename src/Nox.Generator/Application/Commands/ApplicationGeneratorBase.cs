@@ -13,7 +13,7 @@ internal abstract class ApplicationGeneratorBase : INoxCodeGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Application is null || codeGeneratorState.Solution.Domain is null)
+        if (codeGeneratorState.Solution.Domain is null)
         {
             return;
         }

@@ -14,15 +14,10 @@ internal class QueryGenerator : ApplicationGeneratorBase
 {
     protected override void DoGenerate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, IEnumerable<Entity> entities)
     {
-        foreach (var entity in entities)
+        foreach (var qry in entities.Where(x=>x.Queries!=null).SelectMany(x=>x.Queries))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
-            if (entity.Queries == null || !entity.Queries.Any()) continue;
-            foreach (var qry in entity.Queries)
-            {
-                context.CancellationToken.ThrowIfCancellationRequested();
-                GenerateQuery(context, codeGeneratorState, qry);
-            }
+            GenerateQuery(context, codeGeneratorState, qry);
         }
     }
 
