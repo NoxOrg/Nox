@@ -23,7 +23,7 @@ public class IntegrationTarget
     [Description("Specify the type of target. Options include entity, database, file, webAPI and message queue.")]
     public IntegrationAdapterType TargetAdapterType { get; internal set; } = default;
 
-    [Title("The name of the ETL target data connection. Contains no spaces.")]
+    [Title("The name of the integration target data connection. Contains no spaces.")]
     [Description("The name should be a commonly used singular noun and be unique within a solution.")]
     [Pattern(@"^[^\s]*$")]
     [Required]

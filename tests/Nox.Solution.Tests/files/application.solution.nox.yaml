@@ -23,49 +23,87 @@ application:
             minLength: 2
 
   integrations:
-    - name: SampleEtl
-      description: a Sample Etl
+    - name: JsonToEntityIntegration
+      description: a Sample integration that sources data from json files and persist to a Nox Entity
+      
+      schedule:
+        start: every day at 2am
+        retry:
+          limit: 5
+          delaySeconds: 5
+          doubleDelayLimit: 10
+        runOnStartup: true
+      
       source:
         name: CountryJsonSource
         description: Sources Country data from a json file
         dataConnectionName: CountryJsonData
-        sourceType: file
+        sourceAdapterType: file
         fileOptions: 
           filename: country-seed-data.json
-        schedule:
-          start: every day at 2am
-          retry:
-            limit: 5
-            delaySeconds: 5
-            doubleDelayLimit: 10
-          runOnStartup: true
+          recordAttributes:
+            - name: Id
+              description: The ISO Alpha 2 code of the country
+              type: text
+              textTypeOptions:
+                casing: lower
+                maxLength: 2
+                minLength: 2
+              
+            - name: CountryName
+              description: The globally accepted name of the country
+              type: text
+              textTypeOptions:
+                minLength: 2
+                maxLength: 50
+        
         watermark:
           dateColumns:
             - "CreateDate"
             - "EditDate"
           sequentialKeyColumn: CountryId
-      transform:
-        mappings:
-          - sourceColumn: IsoAlpha2Code
-            targetAttribute: Id
-            converter: upperCase
-          - sourceColumn: CountryName
-            targetAttribute: Name
-          - sourceColumn: CountryFullName
-            targetAttribute: FormalName
-        lookups:
-          - sourceColumn: RegionId
-            match:
-              table: GeoRegions
-              lookupColumn: Id
-              returnColumn: Name
-            targetAttribute: GeoRegion
+      
+      transformationType: defaultTransform
+      
       target:
         name: Country
-        targetType: entity
-        dataConnectionName: NoxEntityStore
+        targetAdapterType: entity
         entityOptions:
             entity: Country 
+            
+    - name: SqlToSqlIntegration
+      description: a Sample integration that sources data from Sql Server and persists to a Nox Entity
+
+      schedule:
+        start: every day at 2am
+        retry:
+          limit: 5
+          delaySeconds: 5
+          doubleDelayLimit: 10
+        runOnStartup: true
+
+      source:
+        name: BusinessSystemSource
+        description: Sources Country data from a Sql Server database
+        dataConnectionName: BusinessSystemDatabase
+        sourceAdapterType: database
+        databaseOptions:
+          query: SELECT * FROM dbo.Countries
+          minimumExpectedRecords: 10
+
+        watermark:
+          dateColumns:
+            - "CreateDate"
+            - "EditDate"
+          sequentialKeyColumn: CountryId
+
+      transformationType: customTransform
+
+      target:
+        name: Country
+        targetAdapterType: entity
+        entityOptions:
+          entity: Country
 
 infrastructure: 
   persistence: 
@@ -87,9 +125,12 @@ infrastructure:
       
   dependencies:
     dataConnections:
-      - name: Nox
-        provider: sqlServer
-        serverUri: Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;
       - name: CountryJsonData
         provider: jsonFile
         serverUri: file://foo/bar
+      - name: BusinessSystemDatabase
+        provider: sqlServer
+        serverUri: localhost
+        username: sa
+        password: Developer*123
+        
