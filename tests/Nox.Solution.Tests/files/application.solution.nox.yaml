@@ -72,7 +72,7 @@ application:
             entity: Country 
             
     - name: SqlToSqlIntegration
-      description: a Sample integration that sources data from Sql Server and persists to a Nox Entity
+      description: a Sample integration that sources data from Sql Server and persists to a Nox Table
 
       schedule:
         start: every day at 2am
@@ -100,8 +100,8 @@ application:
       transformationType: customTransform
 
       target:
-        name: Country
-        targetAdapterType: entity
+        name: CountryTarget
+        targetAdapterType: database
         entityOptions:
           entity: Country
 

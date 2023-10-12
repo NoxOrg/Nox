@@ -38,7 +38,8 @@ Disallowed property ["schedule"] on instance [name: NoxReferenceCountryData,desc
 Disallowed property ["sourceType"] on instance [name: NoxReferenceCountryData,description: Curated...] of type [Nox.Solution.IntegrationSource].
 Disallowed property ["webApiOptions"] on instance [name: NoxReferenceCountryData,description: Curated...] of type [Nox.Solution.IntegrationSource].
 Missing property ["targetAdapterType"] on instance [name: CountryEntities,description: The country ent...] of type [Nox.Solution.IntegrationTarget] is required.
-Disallowed property ["targetType"] on instance [name: CountryEntities,description: The country ent...] of type [Nox.Solution.IntegrationTarget].   at Nox.Solution.Schema.NoxSchemaValidator.Deserialize[T](YamlReferenceResolver yamlRefResolver)
+Disallowed property ["targetType"] on instance [name: CountryEntities,description: The country ent...] of type [Nox.Solution.IntegrationTarget].
+Disallowed property ["entityOptions"] on instance [name: CountryEntities,description: The country ent...] of type [Nox.Solution.IntegrationTarget].   at Nox.Solution.Schema.NoxSchemaValidator.Deserialize[T](YamlReferenceResolver yamlRefResolver)
    at Nox.Solution.NoxSolutionBuilder.ResolveAndLoadConfiguration()
    at Nox.Solution.NoxSolutionBuilder.Build()
    at Nox.Generator.NoxCodeGenerator.TryGetNoxSolution(ImmutableArray`1 noxYamls, NoxSolution& solution)
