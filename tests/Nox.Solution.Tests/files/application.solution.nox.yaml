@@ -131,6 +131,6 @@ infrastructure:
       - name: BusinessSystemDatabase
         provider: sqlServer
         serverUri: localhost
-        username: sa
+        user: sa
         password: Developer*123
         
