@@ -137,7 +137,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
     private set { }
 }
     {{- else -}}
-    public Nox.Types.{{attribute.Type}}{{if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } = null!;
+    public Nox.Types.{{attribute.Type}}{{if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } = {{ if attribute.Default }}Nox.Types.{{attribute.Type}}.From("{{attribute.Default}}"){{else}}null!{{end}};
     {{- end}}
 {{- end }}
 {{-if entity.HasDomainEvents}}

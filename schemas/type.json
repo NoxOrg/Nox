@@ -147,6 +147,25 @@
               "type": "null"
             }
           ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "additionalProperties": false
@@ -253,6 +272,25 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
             },
             {
               "type": "null"
@@ -571,6 +609,25 @@
               "type": "null"
             }
           ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "additionalProperties": false
@@ -657,6 +714,25 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
             },
             {
               "type": "null"
@@ -760,6 +836,25 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
             },
             {
               "type": "null"
@@ -876,6 +971,25 @@
               "type": "null"
             }
           ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "additionalProperties": false
@@ -987,6 +1101,25 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
             },
             {
               "type": "null"
@@ -1113,6 +1246,25 @@
               "type": "null"
             }
           ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "additionalProperties": false
@@ -1219,6 +1371,25 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
             },
             {
               "type": "null"
@@ -1363,6 +1534,25 @@
               "type": "null"
             }
           ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "additionalProperties": false
@@ -1463,6 +1653,25 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
             },
             {
               "type": "null"
@@ -1574,6 +1783,25 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
             },
             {
               "type": "null"
@@ -1691,6 +1919,25 @@
               "type": "null"
             }
           ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "additionalProperties": false
@@ -1787,6 +2034,25 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
             },
             {
               "type": "null"
@@ -1901,6 +2167,25 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
             },
             {
               "type": "null"
@@ -2035,6 +2320,25 @@
               "type": "null"
             }
           ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "additionalProperties": false
@@ -2144,6 +2448,25 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
             },
             {
               "type": "null"
@@ -2275,6 +2598,25 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
             },
             {
               "type": "null"
@@ -2669,6 +3011,25 @@
               "type": "null"
             }
           ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "additionalProperties": false
@@ -2774,6 +3135,25 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
             },
             {
               "type": "null"
@@ -3121,6 +3501,25 @@
               "type": "null"
             }
           ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "additionalProperties": false
@@ -3217,6 +3616,25 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
             },
             {
               "type": "null"
@@ -3333,6 +3751,25 @@
               "type": "null"
             }
           ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "additionalProperties": false
@@ -3437,6 +3874,25 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
             },
             {
               "type": "null"
@@ -3571,6 +4027,25 @@
               "type": "null"
             }
           ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "additionalProperties": false
@@ -3695,6 +4170,25 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
             },
             {
               "type": "null"
@@ -3829,6 +4323,25 @@
               "type": "null"
             }
           ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "additionalProperties": false
@@ -3958,6 +4471,25 @@
               "type": "null"
             }
           ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "additionalProperties": false
@@ -4054,6 +4586,25 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
             },
             {
               "type": "null"
@@ -4156,6 +4707,25 @@
           "oneOf": [
             {
               "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "default": {    
+          "title": "The default value for the type.",
+          "description": "Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.",
+          "oneOf": [
+            {
+              "type": [
+                "string",
+                "number",
+                "integer",
+                "object",
+                "array",
+                "boolean"
+              ]
             },
             {
               "type": "null"

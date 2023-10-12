@@ -126,6 +126,10 @@ public class NoxSimpleTypeDefinition
     [Description("Indicates whether this attribute is readonly. Defaults to false.")]
     public bool IsReadonly { get; internal set; } = false;
 
+    [Title("The default value for the type.")]
+    [Description("Specifies the default value for the type. Ensure you specify a default yhat is compatible with the type definition.")]
+    public object? Default { get; internal set; }
+
     public NoxSimpleTypeDefinition ShallowCopy()
     {
         return (NoxSimpleTypeDefinition)MemberwiseClone();

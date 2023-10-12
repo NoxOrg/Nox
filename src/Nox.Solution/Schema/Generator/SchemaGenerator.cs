@@ -127,7 +127,7 @@ internal class SchemaGenerator
                 jb.Indent();
                 jb.AppendLine("{");
                 jb.Indent();
-                jb.AppendProperty("type", schemaProperty.Type);
+                AppendType(jb, schemaProperty.Type);
                 if (schemaProperty.Format is not null)
                     jb.AppendProperty("format", schemaProperty.Format);
         
@@ -167,7 +167,8 @@ internal class SchemaGenerator
             }
             else
             {
-                jb.AppendProperty("type", schemaProperty.Type);
+                AppendType(jb, schemaProperty.Type);
+
                 if (schemaProperty.Format is not null)
                     jb.AppendProperty("format", schemaProperty.Format);
         
@@ -248,6 +249,18 @@ internal class SchemaGenerator
             return jb.Build();
         }
 
+    }
+
+    private static void AppendType(JsonBuilder jb, string type)
+    {
+        if (type.Contains(","))
+        {
+            jb.AppendProperty("type", type.Split(','));
+        }
+        else
+        {
+            jb.AppendProperty("type", type);
+        }
     }
 
     /// <summary>

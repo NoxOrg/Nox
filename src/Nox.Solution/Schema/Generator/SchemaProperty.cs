@@ -6,6 +6,7 @@ using YamlDotNet.Serialization;
 using Nox.Solution.Extensions;
 using Nox.Types.Schema;
 using System.Collections.Concurrent;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Nox.Solution.Schema;
 
@@ -336,7 +337,9 @@ internal class SchemaProperty
         else if (type.IsDictionary())       return "object";
         
         else if (type.IsEnumerable())       return "array";
-        
+
+        else if (type == typeof(object))    return "string,number,integer,boolean";
+
         return "object";
     }
 

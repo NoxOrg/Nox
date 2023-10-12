@@ -214,6 +214,7 @@ domain:
             minValue: 4
             maxValue: 894
           isRequired: true
+          default: true
 
         - name: DialingCodes
           description: The country's phone dialing codes (comma-delimited)
@@ -221,6 +222,7 @@ domain:
           textTypeOptions:
             isUnicode: false
             maxLength: 31
+          default: "+41"
 
         - name: Capital
           description: The capital city of the country
