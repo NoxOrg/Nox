@@ -15,15 +15,22 @@ public class NoxTestApplicationFactory : WebApplicationFactory<StartupFixture>
     private readonly ITestOutputHelper _testOutput;
     private readonly NoxTestContainerService _containerService;
     private readonly bool _enableMessaging;
+    private readonly string HostingEnvironmentOverride = Environments.Production;
 
     public NoxTestApplicationFactory(
         ITestOutputHelper testOutput,
         NoxTestContainerService containerService,
-        bool enableMessaging)
+        bool enableMessaging,
+        string? hostingEnvironmentOverride = null)
     {
         _testOutput = testOutput;
         _containerService = containerService;
         _enableMessaging = enableMessaging;
+
+        if (hostingEnvironmentOverride != null)
+        {
+            HostingEnvironmentOverride = hostingEnvironmentOverride;
+        }
     }
 
     public ITestHarness GetTestHarness()
@@ -43,6 +50,7 @@ public class NoxTestApplicationFactory : WebApplicationFactory<StartupFixture>
     protected override IWebHostBuilder? CreateWebHostBuilder()
     {
         var host = WebHost.CreateDefaultBuilder(null!)
+            .UseEnvironment(HostingEnvironmentOverride)
             .UseStartup<StartupFixture>()
             // this extension makes it sure that our lambda will run after the Startup.ConfigureServices()
             // method has been executed.
