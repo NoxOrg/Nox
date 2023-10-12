@@ -204,9 +204,9 @@ public class SolutionDeserializationTests
         Assert.Equal(2u, noxConfig.Application.DataTransferObjects[0].Attributes[0].TextTypeOptions!.MinLength);
         
         Assert.NotNull(noxConfig.Application.Integrations);
-        Assert.Single(noxConfig.Application.Integrations);
-        Assert.Equal("SampleEtl", noxConfig.Application.Integrations[0].Name);
-        Assert.Equal("a Sample Etl", noxConfig.Application.Integrations[0].Description);
+        Assert.Equal(2, noxConfig.Application.Integrations.Count);
+        Assert.Equal("JsonToEntityIntegration", noxConfig.Application.Integrations[0].Name);
+        Assert.Equal("a Sample integration that sources data from json files and persist to a Nox Entity", noxConfig.Application.Integrations[0].Description);
         Assert.NotNull(noxConfig.Application.Integrations[0].Source);
         Assert.Equal("CountryJsonSource", noxConfig.Application.Integrations[0].Source!.Name);
         Assert.Equal("Sources Country data from a json file", noxConfig.Application.Integrations[0].Source!.Description);

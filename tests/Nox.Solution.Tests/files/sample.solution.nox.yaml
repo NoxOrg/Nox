@@ -417,6 +417,7 @@ application:
       
       target:
         name: Country
+        dataConnectionName: SqlServerData
         targetAdapterType: entity
         entityOptions:
           entity: Country
@@ -545,6 +546,12 @@ infrastructure:
       #provider: mySql
 
     dataConnections:
+      - name: SqlServerData
+        provider: sqlServer
+        serverUri: localhost
+        user: sa
+        password: Developer*123
+        
       - name: CountryJsonData
         provider: jsonFile
         serverUri: file:///C:/my-data-files

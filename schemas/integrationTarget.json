@@ -61,7 +61,7 @@
           "additionalProperties": false
         },
         "dataConnectionName": {    
-          "title": "The name of the ETL target data connection. Contains no spaces.",
+          "title": "The name of the integration target data connection. Contains no spaces.",
           "description": "The name should be a commonly used singular noun and be unique within a solution.",
           "type": "string",
           "pattern": "^[^\\s]*$",
@@ -144,7 +144,7 @@
           "additionalProperties": false
         },
         "dataConnectionName": {    
-          "title": "The name of the ETL target data connection. Contains no spaces.",
+          "title": "The name of the integration target data connection. Contains no spaces.",
           "description": "The name should be a commonly used singular noun and be unique within a solution.",
           "type": "string",
           "pattern": "^[^\\s]*$",
@@ -294,7 +294,7 @@
           "additionalProperties": false
         },
         "dataConnectionName": {    
-          "title": "The name of the ETL target data connection. Contains no spaces.",
+          "title": "The name of the integration target data connection. Contains no spaces.",
           "description": "The name should be a commonly used singular noun and be unique within a solution.",
           "type": "string",
           "pattern": "^[^\\s]*$",
@@ -377,7 +377,7 @@
           "additionalProperties": false
         },
         "dataConnectionName": {    
-          "title": "The name of the ETL target data connection. Contains no spaces.",
+          "title": "The name of the integration target data connection. Contains no spaces.",
           "description": "The name should be a commonly used singular noun and be unique within a solution.",
           "type": "string",
           "pattern": "^[^\\s]*$",
@@ -438,7 +438,49 @@
           "additionalProperties": false
         },
         "dataConnectionName": {    
-          "title": "The name of the ETL target data connection. Contains no spaces.",
+          "title": "The name of the integration target data connection. Contains no spaces.",
+          "description": "The name should be a commonly used singular noun and be unique within a solution.",
+          "type": "string",
+          "pattern": "^[^\\s]*$",
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "name",
+        "targetAdapterType",
+        "dataConnectionName"
+      ],
+      "properties": {
+        "name": {    
+          "title": "The name of the ETL target. Contains no spaces.",
+          "description": "The name of the ETL target. It should be a commonly used singular noun and be unique within a solution.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "description": {    
+          "title": "The description of the ETL target.",
+          "description": "A phrase describing the ETL target.",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "targetAdapterType": {    
+          "type": "string",
+          "enum": [
+            "pipeline"
+          ]
+        },
+        "dataConnectionName": {    
+          "title": "The name of the integration target data connection. Contains no spaces.",
           "description": "The name should be a commonly used singular noun and be unique within a solution.",
           "type": "string",
           "pattern": "^[^\\s]*$",

@@ -67,9 +67,8 @@ application:
       
       target:
         name: Country
+        dataConnectionName: BusinessSystemDatabase
         targetAdapterType: entity
-        entityOptions:
-            entity: Country 
             
     - name: SqlToSqlIntegration
       description: a Sample integration that sources data from Sql Server and persists to a Nox Table
@@ -101,9 +100,11 @@ application:
 
       target:
         name: CountryTarget
+        dataConnectionName: BusinessSystemDatabase
         targetAdapterType: database
-        entityOptions:
-          entity: Country
+        databaseOptions:
+          storedProcedure: up_Update_Country
+          
 
 infrastructure: 
   persistence: 
