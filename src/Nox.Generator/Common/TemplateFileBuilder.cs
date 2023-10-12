@@ -16,10 +16,10 @@ internal class TemplateFileBuilder : TemplateBuilderBase
 
     private string _outputPath;
 
-    public TemplateFileBuilder(NoxSolutionCodeGeneratorState codeGeneratorState, string outputPath)
+    public TemplateFileBuilder(NoxSolutionCodeGeneratorState codeGeneratorState, string? outputPath)
         : base (codeGeneratorState)
     {
-        _outputPath = outputPath;
+        _outputPath = outputPath ?? "";
     }
 
     /// <summary>

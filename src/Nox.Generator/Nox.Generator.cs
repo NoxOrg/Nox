@@ -75,7 +75,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
                     .Select(x => (INoxCodeGenerator)Activator.CreateInstance(x))
                     .ToArray();
 
-                var projectRoot = GetProjectRootDirectory(noxYamls) ?? "";
+                var projectRoot = GetProjectRootDirectory(noxYamls);
 
                 foreach (var flow in generatorFlows)
                 {
@@ -210,8 +210,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
 
     private static string? GetProjectRootDirectory(ImmutableArray<(string Path, SourceText? Source)> noxYamls)
     {
-        var generatorName = "\\generator.nox.yaml";
-        var generatorPath = noxYamls.FirstOrDefault(x => x.Path.EndsWith(generatorName)).Path;
-        return generatorPath?.Remove(generatorPath.Length - generatorName.Length);
+        var generatorPath = noxYamls.FirstOrDefault(x => x.Path.EndsWith("generator.nox.yaml")).Path;
+        return Path.GetDirectoryName(generatorPath);
     }
 }
