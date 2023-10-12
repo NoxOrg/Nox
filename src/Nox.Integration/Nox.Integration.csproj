@@ -29,9 +29,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Content Include="..\..\docs\images\nox.png">
-        <Link>nox.png</Link>
-      </Content>
+        <None Include="../../docs/images/nox.png" Pack="true" PackagePath="" />
     </ItemGroup>
 
     <ItemGroup>
