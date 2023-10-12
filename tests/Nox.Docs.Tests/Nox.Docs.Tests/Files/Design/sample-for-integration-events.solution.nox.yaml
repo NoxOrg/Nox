@@ -284,7 +284,6 @@ application:
     - name: CountryDebtOver1B
       description: Country created or updated with debt over 1B local currency
       type: object
-      trait: Country
       objectTypeOptions:
         attributes:
           - name: Id
@@ -298,7 +297,6 @@ application:
     - name: CountryLocalNamesAdded
       description: Multiple country local names added
       type: array
-      trait: Country
       arrayTypeOptions:
         name: CountryLocalNameInfo
         type: object
@@ -315,7 +313,6 @@ application:
     - name: CountryCurrenciesAdded
       description: Multiple country currencies added
       type: collection
-      trait: Country
       collectionTypeOptions:
         name: CountryCurrencyInfo
         type: object
