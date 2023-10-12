@@ -1,20 +1,21 @@
 using MassTransit;
+using Nox.Infrastructure.Messaging;
 using Nox.Solution;
 
-namespace Nox.Messaging.InMemoryBus;
+namespace Nox.Infrastructure.Messaging.InMemoryBus;
 
-public class InMemoryBrokerProvider: IMessageBrokerProvider
+public class InMemoryBrokerProvider : IMessageBrokerProvider
 {
     public MessageBrokerProvider Provider => MessageBrokerProvider.InMemory;
 
     public IBusRegistrationConfigurator ConfigureMassTransit(MessagingServer messagingServerConfig, IBusRegistrationConfigurator configuration)
-    {        
+    {
         configuration.UsingInMemory((context, cfg) =>
         {
             cfg.ConfigureEndpoints(context);
-            
-            cfg.UseRawJsonSerializer();            
-        });        
+
+            cfg.UseRawJsonSerializer();
+        });
         return configuration;
     }
 }

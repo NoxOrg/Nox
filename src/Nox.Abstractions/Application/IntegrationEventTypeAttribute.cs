@@ -1,4 +1,4 @@
-﻿namespace Nox.Messaging;
+﻿namespace Nox.Application;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
 public class IntegrationEventTypeAttribute : Attribute

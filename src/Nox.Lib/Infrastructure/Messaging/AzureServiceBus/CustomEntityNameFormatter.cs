@@ -1,6 +1,6 @@
 ﻿using MassTransit;
 
-namespace Nox.Messaging.AzureServiceBus
+namespace Nox.Infrastructure.Messaging.AzureServiceBus
 {
     internal class CustomEntityNameFormatter : IEntityNameFormatter
     {

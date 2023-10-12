@@ -1,18 +1,9 @@
-﻿using Castle.Core.Resource;
-
-using Microsoft.AspNetCore.OData.Formatter;
+﻿using Microsoft.AspNetCore.OData.Formatter;
 using Microsoft.AspNetCore.OData.Formatter.Serialization;
 using Microsoft.OData;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Nox.Lib;
-public class EtagResourceSerializer : ODataResourceSerializer
+internal class EtagResourceSerializer : ODataResourceSerializer
 {
     public EtagResourceSerializer(IODataSerializerProvider serializerProvider)
         : base(serializerProvider)

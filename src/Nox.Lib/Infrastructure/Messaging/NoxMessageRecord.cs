@@ -1,6 +1,6 @@
 ﻿using Nox.Application;
 
-namespace Nox.Messaging
+namespace Nox.Infrastructure.Messaging
 {
     /// <summary>
     /// Default Nox implementation for the cloud event envelop with an <see cref="IIntegrationEvent"/> as the payload."/>
