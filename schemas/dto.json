@@ -9,16 +9,24 @@
     }
   ],
   "required": [
+    "trait",
     "name",
     "type"
   ],
   "anyOf": [
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -116,10 +124,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -5342,10 +5357,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -10568,10 +10590,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -10703,10 +10732,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -10813,10 +10849,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -11125,10 +11168,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -11215,10 +11265,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -11317,10 +11374,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -11427,10 +11491,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -11542,10 +11613,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -11662,10 +11740,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -11772,10 +11857,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -11910,10 +12002,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -12014,10 +12113,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -12124,10 +12230,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -12235,10 +12348,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -12335,10 +12455,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -12448,10 +12575,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -12576,10 +12710,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -12689,10 +12830,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -12819,10 +12967,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -13207,10 +13362,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -13316,10 +13478,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -13657,10 +13826,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -13757,10 +13933,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -13867,10 +14050,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -13975,10 +14165,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -14103,10 +14300,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -14231,10 +14435,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -14359,10 +14570,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -14487,10 +14705,17 @@
     },
     {
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
@@ -14588,10 +14813,17 @@
     {
       "type": "object",
       "required": [
+        "trait",
         "name",
         "type"
       ],
       "properties": {
+        "trait": {    
+          "title": "The trait of the event. Contains no spaces.",
+          "description": "Assign a trait to the event that defines it's scope. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
         "name": {    
           "title": "The name of the attribute. Contains no spaces.",
           "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",

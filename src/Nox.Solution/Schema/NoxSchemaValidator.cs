@@ -5,6 +5,7 @@ using Nox.Solution.Exceptions;
 using YamlDotNet.Core;
 using System.Linq;
 using System;
+using System.IO;
 
 namespace Nox.Solution.Schema;
 
@@ -13,14 +14,34 @@ namespace Nox.Solution.Schema;
 /// </summary>
 internal static class NoxSchemaValidator
 {
+
     /// <summary>
     /// Deserialize a yaml string to a type and validates it against its annotated schema.
     /// </summary>
     /// <typeparam name="T">Any type corresponds to yaml content.</typeparam>
-    /// <param name="yaml">Yaml file string content.</param>
+    /// <param name="yaml">Yaml string content.</param>
     /// <returns>Deserialized instance of type T.</returns>
     /// <exception cref="NoxSolutionConfigurationException">Errors containing all validation deserialization errors.</exception>
     public static T Deserialize<T>(string yaml)
+    {
+        var yamlContentProvider = new Dictionary<string, Func<TextReader>>
+        {
+            { "yaml_string", () => new StringReader(yaml) }
+        };
+
+        var yamlRefResolver = new YamlReferenceResolver(yamlContentProvider, "yaml_string");
+
+        return Deserialize<T>(yamlRefResolver);
+    }
+
+    /// <summary>
+    /// Deserialize a yaml ref resolver to a type and validates it against its annotated schema.
+    /// </summary>
+    /// <typeparam name="T">Any type corresponds to yaml content.</typeparam>
+    /// <param name="yamlRefResolver">A yaml reference resolver object.</param>
+    /// <returns>Deserialized instance of type T.</returns>
+    /// <exception cref="NoxSolutionConfigurationException">Errors containing all validation deserialization errors.</exception>
+    public static T Deserialize<T>(YamlReferenceResolver yamlRefResolver)
     {
         var deserializer = new DeserializerBuilder()
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
@@ -31,6 +52,8 @@ internal static class NoxSchemaValidator
 
         try
         {
+            var yaml = yamlRefResolver.ToYamlString();
+
             // Validate the schema first
             var yamlObjectInstance = deserializer.Deserialize<IDictionary<string,object>>(yaml);
 

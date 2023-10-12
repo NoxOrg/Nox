@@ -70,8 +70,8 @@ public partial class BookingMetadata
         /// </summary>
         public static Nox.Types.FormulaTypeOptions StatusTypeOptions {get; private set;} = new ()
         {
-            Expression = "CancelledDateTime != null ? \"cancelled\" : (PickedUpDateTime != null ? \"picked-up\" : (ExpiryDateTime != null ? \"expired\" : \"booked\"))",
-            Returns = Nox.Types.FormulaReturnType.@string,
+            Expression = "CancelledDateTime != null ? \"cancelled\" : (PickedUpDateTime != null ? \"picked-up\" : (ExpiryDateTime != null ? \"expired\" : \"booked\"))",
+            Returns = Nox.Types.FormulaReturnType.@string,
         };
     
     

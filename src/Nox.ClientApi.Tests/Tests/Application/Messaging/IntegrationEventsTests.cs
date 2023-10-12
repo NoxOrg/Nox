@@ -20,9 +20,7 @@ namespace ClientApi.Tests.Application.Messaging
         public IntegrationEventsTests(
             ITestOutputHelper testOutput,
             NoxTestContainerService containerService)
-           : base(testOutput, containerService, true)
-        {
-        }
+           : base(testOutput, containerService, true) { }
 
         #region Integration Events
 

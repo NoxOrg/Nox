@@ -138,12 +138,17 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         public bool IsAddEntityProcessing { get; set; } = false;
 
         /// <summary>
-        /// Property CountryEntityData used to store Country list data in preparation for seletion
+        /// Property CountryEntityData used to store Country list data in preparation for selection
         /// </summary>
         public EntityData<CountryDto>? CountryEntityData { get; set; }
 
         /// <summary>
-        /// Property LandLordEntityData used to store LandLord list data in preparation for seletion
+        /// Property CurrencyEntityData used to store Currency list data in preparation for selection
+        /// </summary>
+        public EntityData<CurrencyDto>? CurrencyEntityData { get; set; }
+
+        /// <summary>
+        /// Property LandLordEntityData used to store LandLord list data in preparation for selection
         /// </summary>
         public EntityData<LandLordDto>? LandLordEntityData { get; set; }
 
@@ -288,6 +293,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             ResetViewList();
             ResetAddEntity();
             await GetAllCountries();
+            await GetAllCurrencies();
             await GetAllLandLords();
 
             if (CurrentEntityName == "VendingMachine") //TODO just VendingMachine for now
@@ -778,6 +784,18 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         {
             ApiUiService CountryApiService = new CountryService().IntialiseApiUiService();
             CountryEntityData = await EntityDataService<CountryDto>.GetAsyncRecursivePagedEntityData(CountryApiService);
+
+            return;
+        }
+
+        /// <summary>
+        /// Method to get all Currencies in preparation to populate selection lists
+        /// </summary>
+        /// <returns></returns>
+        protected async Task GetAllCurrencies()
+        {
+            ApiUiService CurrencyApiService = new CurrencyService().IntialiseApiUiService();
+            CurrencyEntityData = await EntityDataService<CurrencyDto>.GetAsyncRecursivePagedEntityData(CurrencyApiService);
 
             return;
         }
