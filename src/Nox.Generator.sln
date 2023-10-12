@@ -114,6 +114,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nox.ETLBox", "Nox.ETLBox", 
 		..\..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.Xml.dll = ..\..\..\..\Temp\Nox.Generator-feature-etl_loader\src\Nox.Etlbox\ETLBox.Xml.dll
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{516DAB05-F69C-4007-88A2-E1816A4257B7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Adapters", "Adapters", "{3358817F-173D-4676-B502-38F677ECF565}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Integration.Adapter.SqlServer", "Nox.Integration.Adapter.SqlServer\Nox.Integration.Adapter.SqlServer.csproj", "{52ADE035-C949-4A92-81E2-C2628814EE07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Integration.Abstractions", "Nox.Integration.Abstractions\Nox.Integration.Abstractions.csproj", "{8B992D12-3324-4FE9-8C55-990EE2F60590}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -240,6 +248,14 @@ Global
 		{32312EDB-D27D-4BD7-98B6-D158766C2CDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32312EDB-D27D-4BD7-98B6-D158766C2CDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32312EDB-D27D-4BD7-98B6-D158766C2CDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52ADE035-C949-4A92-81E2-C2628814EE07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52ADE035-C949-4A92-81E2-C2628814EE07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52ADE035-C949-4A92-81E2-C2628814EE07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52ADE035-C949-4A92-81E2-C2628814EE07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B992D12-3324-4FE9-8C55-990EE2F60590}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B992D12-3324-4FE9-8C55-990EE2F60590}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B992D12-3324-4FE9-8C55-990EE2F60590}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B992D12-3324-4FE9-8C55-990EE2F60590}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -275,6 +291,9 @@ Global
 		{9502ACC9-EFFA-40BB-9528-BF86E979C435} = {BDF97718-FAAD-4A1B-BA61-BFF0A7B78827}
 		{3F8C7B7D-34A5-4E2D-8CA2-1D50DA91E31A} = {BDF97718-FAAD-4A1B-BA61-BFF0A7B78827}
 		{C8AFC303-211E-4C5C-BC25-F71665628A6E} = {820129FF-6448-42E2-8792-ABE1A8CBF722}
+		{3358817F-173D-4676-B502-38F677ECF565} = {516DAB05-F69C-4007-88A2-E1816A4257B7}
+		{52ADE035-C949-4A92-81E2-C2628814EE07} = {3358817F-173D-4676-B502-38F677ECF565}
+		{8B992D12-3324-4FE9-8C55-990EE2F60590} = {516DAB05-F69C-4007-88A2-E1816A4257B7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E72B357-9E1E-43B5-9868-8D2B74CB2AF0}

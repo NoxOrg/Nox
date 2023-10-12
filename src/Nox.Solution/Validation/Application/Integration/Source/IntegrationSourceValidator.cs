@@ -31,25 +31,25 @@ namespace Nox.Solution.Validation
                 .NotNull()
                 .WithMessage(source => string.Format(ValidationResources.IntegrationSourceDatabaseOptionsEmpty, source!.Name, integrationName))
                 .SetValidator(source => new IntegrationSourceDatabaseOptionsValidator(integrationName))
-                .When(source => source?.SourceType == IntegrationType.Database);
+                .When(source => source?.SourceAdapterType == IntegrationAdapterType.Database);
 
             RuleFor(source => source!.FileOptions)
                 .NotNull()
                 .WithMessage(source => string.Format(ValidationResources.IntegrationSourceFileOptionsEmpty, source!.Name, integrationName))
                 .SetValidator(source => new IntegrationSourceFileOptionsValidator(integrationName))
-                .When(source => source?.SourceType == IntegrationType.File);
+                .When(source => source?.SourceAdapterType == IntegrationAdapterType.File);
             
             RuleFor(source => source!.MessageQueueOptions)
                 .NotNull()
                 .WithMessage(source => string.Format(ValidationResources.IntegrationSourceMsgQueueOptionsEmpty, source!.Name, integrationName))
                 .SetValidator(source => new IntegrationSourceMessageQueueOptionsValidator(integrationName))
-                .When(source => source?.SourceType == IntegrationType.MessageQueue);
+                .When(source => source?.SourceAdapterType == IntegrationAdapterType.MessageQueue);
 
             RuleFor(source => source!.WebApiOptions)
                 .NotNull()
                 .WithMessage(source => string.Format(ValidationResources.IntegrationSourceHttpOptionsEmpty, source!.Name, integrationName))
                 .SetValidator(source => new IntegrationSourceHttpOptionsValidator(integrationName))
-                .When(source => source?.SourceType == IntegrationType.WebApi);
+                .When(source => source?.SourceAdapterType == IntegrationAdapterType.WebApi);
         }
 
         private bool HaveValidDataConnection(string dataConnectionName)

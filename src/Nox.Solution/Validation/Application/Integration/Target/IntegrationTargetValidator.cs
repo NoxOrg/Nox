@@ -16,9 +16,9 @@ namespace Nox.Solution.Validation
                 .NotEmpty()
                 .WithMessage(m => string.Format(ValidationResources.IntegrationTargetNameEmpty, integrationName));
 
-            RuleFor(p => p.TargetType)
+            RuleFor(p => p.TargetAdapterType)
                 .IsInEnum()
-                .WithMessage(p => string.Format(ValidationResources.IntegrationTargetTypeEmpty, p.Name, integrationName, IntegrationType.Entity.ToNameList()));
+                .WithMessage(p => string.Format(ValidationResources.IntegrationTargetTypeEmpty, p.Name, integrationName, IntegrationAdapterType.Entity.ToNameList()));
             
             RuleFor(p => p.DataConnectionName)
                 .Must(HaveValidDataConnection)
