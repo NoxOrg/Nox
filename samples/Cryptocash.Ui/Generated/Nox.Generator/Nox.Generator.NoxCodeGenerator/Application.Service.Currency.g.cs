@@ -16,7 +16,27 @@ public class CurrencyService : IEntityService
     /// </summary>
     public ApiUiService IntialiseApiUiService()
     {
-        throw new NotImplementedException();
+        ApiUiService rtnApiUiService = new();
+
+        rtnApiUiService.Url = "https://localhost:44310/api/Currencies";
+
+        rtnApiUiService.OrderList = new List<SortOrder> {
+            new SortOrder()
+            {
+                PropertyName = "Name",
+                DefaultOrderDirection = SortOrderDirection.Ascending,
+                CanSort = true
+            }
+        };
+
+        rtnApiUiService.Paging = new Paging()
+        {
+            CurrentPage = 0,
+            CurrentPageSize = 100,
+            EntityTotal = 0
+        };
+
+        return rtnApiUiService;
     }
 
     public static CurrencyCreateDto ConvertCurrencyIntoCreateDto(CurrencyDto currentDto)

@@ -132,7 +132,22 @@
                                         </MudItem>
                                     </MudItem>
                                     <MudItem xs="4">
-                                        
+                                        <MudCard Outlined="true">
+                                            <MudCardHeader>
+                                                <CardHeaderContent>
+                                                    <MudText Typo="Typo.h6">MinimumCashStocks</MudText>
+                                                </CardHeaderContent>
+                                            </MudCardHeader>
+                                            <MudCardContent>
+                                                <UiEditEntityCreateMinimumCashStock_g @bind-MinimumCashStockList="CurrentAddEntity.VendingMachineRequiredMinimumCashStocks"
+                                                                                      TitleCurrency="CurrencyCode"
+                                                                                      TitleAmount="Amount"
+                                                                                      CurrencySelectionList="CurrencyEntityData?.EntityList" />
+                                                <UiEditEntityListMinimumCashStock_g @bind-MinimumCashStockList="CurrentAddEntity.VendingMachineRequiredMinimumCashStocks"
+                                                                                    TitleCurrency="CurrencyCode"
+                                                                                    TitleAmount="Amount" />
+                                            </MudCardContent>
+                                        </MudCard>
                                     </MudItem> 
                                 </MudGrid>
                             </MudForm>
