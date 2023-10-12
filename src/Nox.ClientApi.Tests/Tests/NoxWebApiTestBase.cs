@@ -4,6 +4,7 @@ using FluentAssertions;
 using MassTransit.Testing;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 using Xunit.Abstractions;
 
 namespace ClientApi.Tests;
@@ -22,10 +23,9 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
     protected NoxWebApiTestBase(
         ITestOutputHelper testOutput,
         NoxTestContainerService containerService,
-        bool enableMessagingTests = false,
-        string? hostingEnvironmentOverride = null)
+        bool enableMessagingTests = false)
     {
-        _appFactory = containerService.GetTestApplicationFactory(testOutput, enableMessagingTests, hostingEnvironmentOverride);
+        _appFactory = containerService.GetTestApplicationFactory(testOutput, enableMessagingTests);
         _appFactory.ResetDataContext();
     }
 

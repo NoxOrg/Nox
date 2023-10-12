@@ -21,13 +21,13 @@ public class NoxTestContainerService : IAsyncLifetime
 
     private NoxTestApplicationFactory _applicationFactory = null!;
 
-    public NoxTestApplicationFactory GetTestApplicationFactory(ITestOutputHelper testOutput, bool enableMessagingTests, string? hostingEnvironmentOverride = null)
+    public NoxTestApplicationFactory GetTestApplicationFactory(ITestOutputHelper testOutput, bool enableMessagingTests)
     {
         if (_applicationFactory == null)
         {
-            _applicationFactory = new NoxTestApplicationFactory(testOutput, this, enableMessagingTests, hostingEnvironmentOverride);
+            _applicationFactory = new NoxTestApplicationFactory
+                (testOutput, this, enableMessagingTests);
         }
-
         return _applicationFactory;
     }
 
