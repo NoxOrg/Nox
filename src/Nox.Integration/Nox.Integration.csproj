@@ -35,5 +35,9 @@
     <ItemGroup>
       <Folder Include="Adapters\" />
     </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="ETLBox" Version="3.0.2" />
+    </ItemGroup>
     
 </Project>
