@@ -65,19 +65,19 @@ internal abstract partial class StoreLicenseBase : AuditableEntityBase, IEntityC
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(StoreLicense storeLicense)
-    {
-        InternalDomainEvents.Add(new StoreLicenseCreated(storeLicense));
+	protected virtual void InternalRaiseCreateEvent(StoreLicense storeLicense)
+	{
+		InternalDomainEvents.Add(new StoreLicenseCreated(storeLicense));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(StoreLicense storeLicense)
-    {
-        InternalDomainEvents.Add(new StoreLicenseUpdated(storeLicense));
+	protected virtual void InternalRaiseUpdateEvent(StoreLicense storeLicense)
+	{
+		InternalDomainEvents.Add(new StoreLicenseUpdated(storeLicense));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(StoreLicense storeLicense)
-    {
-        InternalDomainEvents.Add(new StoreLicenseDeleted(storeLicense));
+	protected virtual void InternalRaiseDeleteEvent(StoreLicense storeLicense)
+	{
+		InternalDomainEvents.Add(new StoreLicenseDeleted(storeLicense));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

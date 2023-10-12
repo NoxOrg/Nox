@@ -95,19 +95,19 @@ internal abstract partial class WorkplaceBase : EntityBase, IEntityConcurrent
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(Workplace workplace)
-    {
-        InternalDomainEvents.Add(new WorkplaceCreated(workplace));
+	protected virtual void InternalRaiseCreateEvent(Workplace workplace)
+	{
+		InternalDomainEvents.Add(new WorkplaceCreated(workplace));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(Workplace workplace)
-    {
-        InternalDomainEvents.Add(new WorkplaceUpdated(workplace));
+	protected virtual void InternalRaiseUpdateEvent(Workplace workplace)
+	{
+		InternalDomainEvents.Add(new WorkplaceUpdated(workplace));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(Workplace workplace)
-    {
-        InternalDomainEvents.Add(new WorkplaceDeleted(workplace));
+	protected virtual void InternalRaiseDeleteEvent(Workplace workplace)
+	{
+		InternalDomainEvents.Add(new WorkplaceDeleted(workplace));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

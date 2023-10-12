@@ -70,19 +70,19 @@ internal abstract partial class CommissionBase : AuditableEntityBase, IEntityCon
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(Commission commission)
-    {
-        InternalDomainEvents.Add(new CommissionCreated(commission));
+	protected virtual void InternalRaiseCreateEvent(Commission commission)
+	{
+		InternalDomainEvents.Add(new CommissionCreated(commission));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(Commission commission)
-    {
-        InternalDomainEvents.Add(new CommissionUpdated(commission));
+	protected virtual void InternalRaiseUpdateEvent(Commission commission)
+	{
+		InternalDomainEvents.Add(new CommissionUpdated(commission));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(Commission commission)
-    {
-        InternalDomainEvents.Add(new CommissionDeleted(commission));
+	protected virtual void InternalRaiseDeleteEvent(Commission commission)
+	{
+		InternalDomainEvents.Add(new CommissionDeleted(commission));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

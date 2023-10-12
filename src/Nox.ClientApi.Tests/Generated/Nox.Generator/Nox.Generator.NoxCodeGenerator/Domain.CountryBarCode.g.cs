@@ -66,19 +66,19 @@ internal abstract partial class CountryBarCodeBase : EntityBase, IOwnedEntity
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(CountryBarCode countryBarCode)
-    {
-        InternalDomainEvents.Add(new CountryBarCodeCreated(countryBarCode));
+	protected virtual void InternalRaiseCreateEvent(CountryBarCode countryBarCode)
+	{
+		InternalDomainEvents.Add(new CountryBarCodeCreated(countryBarCode));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(CountryBarCode countryBarCode)
-    {
-        InternalDomainEvents.Add(new CountryBarCodeUpdated(countryBarCode));
+	protected virtual void InternalRaiseUpdateEvent(CountryBarCode countryBarCode)
+	{
+		InternalDomainEvents.Add(new CountryBarCodeUpdated(countryBarCode));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(CountryBarCode countryBarCode)
-    {
-        InternalDomainEvents.Add(new CountryBarCodeDeleted(countryBarCode));
+	protected virtual void InternalRaiseDeleteEvent(CountryBarCode countryBarCode)
+	{
+		InternalDomainEvents.Add(new CountryBarCodeDeleted(countryBarCode));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

@@ -65,19 +65,19 @@ internal abstract partial class TestEntityOwnedRelationshipZeroOrOneBase : Audit
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(TestEntityOwnedRelationshipZeroOrOne testEntityOwnedRelationshipZeroOrOne)
-    {
-        InternalDomainEvents.Add(new TestEntityOwnedRelationshipZeroOrOneCreated(testEntityOwnedRelationshipZeroOrOne));
+	protected virtual void InternalRaiseCreateEvent(TestEntityOwnedRelationshipZeroOrOne testEntityOwnedRelationshipZeroOrOne)
+	{
+		InternalDomainEvents.Add(new TestEntityOwnedRelationshipZeroOrOneCreated(testEntityOwnedRelationshipZeroOrOne));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(TestEntityOwnedRelationshipZeroOrOne testEntityOwnedRelationshipZeroOrOne)
-    {
-        InternalDomainEvents.Add(new TestEntityOwnedRelationshipZeroOrOneUpdated(testEntityOwnedRelationshipZeroOrOne));
+	protected virtual void InternalRaiseUpdateEvent(TestEntityOwnedRelationshipZeroOrOne testEntityOwnedRelationshipZeroOrOne)
+	{
+		InternalDomainEvents.Add(new TestEntityOwnedRelationshipZeroOrOneUpdated(testEntityOwnedRelationshipZeroOrOne));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(TestEntityOwnedRelationshipZeroOrOne testEntityOwnedRelationshipZeroOrOne)
-    {
-        InternalDomainEvents.Add(new TestEntityOwnedRelationshipZeroOrOneDeleted(testEntityOwnedRelationshipZeroOrOne));
+	protected virtual void InternalRaiseDeleteEvent(TestEntityOwnedRelationshipZeroOrOne testEntityOwnedRelationshipZeroOrOne)
+	{
+		InternalDomainEvents.Add(new TestEntityOwnedRelationshipZeroOrOneDeleted(testEntityOwnedRelationshipZeroOrOne));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

@@ -65,19 +65,19 @@ internal abstract partial class CountryTimeZoneBase : EntityBase, IOwnedEntity
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(CountryTimeZone countryTimeZone)
-    {
-        InternalDomainEvents.Add(new CountryTimeZoneCreated(countryTimeZone));
+	protected virtual void InternalRaiseCreateEvent(CountryTimeZone countryTimeZone)
+	{
+		InternalDomainEvents.Add(new CountryTimeZoneCreated(countryTimeZone));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(CountryTimeZone countryTimeZone)
-    {
-        InternalDomainEvents.Add(new CountryTimeZoneUpdated(countryTimeZone));
+	protected virtual void InternalRaiseUpdateEvent(CountryTimeZone countryTimeZone)
+	{
+		InternalDomainEvents.Add(new CountryTimeZoneUpdated(countryTimeZone));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(CountryTimeZone countryTimeZone)
-    {
-        InternalDomainEvents.Add(new CountryTimeZoneDeleted(countryTimeZone));
+	protected virtual void InternalRaiseDeleteEvent(CountryTimeZone countryTimeZone)
+	{
+		InternalDomainEvents.Add(new CountryTimeZoneDeleted(countryTimeZone));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

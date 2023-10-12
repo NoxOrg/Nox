@@ -84,19 +84,19 @@ internal abstract partial class CashStockOrderBase : AuditableEntityBase, IEntit
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(CashStockOrder cashStockOrder)
-    {
-        InternalDomainEvents.Add(new CashStockOrderCreated(cashStockOrder));
+	protected virtual void InternalRaiseCreateEvent(CashStockOrder cashStockOrder)
+	{
+		InternalDomainEvents.Add(new CashStockOrderCreated(cashStockOrder));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(CashStockOrder cashStockOrder)
-    {
-        InternalDomainEvents.Add(new CashStockOrderUpdated(cashStockOrder));
+	protected virtual void InternalRaiseUpdateEvent(CashStockOrder cashStockOrder)
+	{
+		InternalDomainEvents.Add(new CashStockOrderUpdated(cashStockOrder));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(CashStockOrder cashStockOrder)
-    {
-        InternalDomainEvents.Add(new CashStockOrderDeleted(cashStockOrder));
+	protected virtual void InternalRaiseDeleteEvent(CashStockOrder cashStockOrder)
+	{
+		InternalDomainEvents.Add(new CashStockOrderDeleted(cashStockOrder));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

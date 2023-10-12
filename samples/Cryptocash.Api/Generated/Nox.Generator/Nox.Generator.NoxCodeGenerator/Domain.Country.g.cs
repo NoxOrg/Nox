@@ -125,19 +125,19 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(Country country)
-    {
-        InternalDomainEvents.Add(new CountryCreated(country));
+	protected virtual void InternalRaiseCreateEvent(Country country)
+	{
+		InternalDomainEvents.Add(new CountryCreated(country));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(Country country)
-    {
-        InternalDomainEvents.Add(new CountryUpdated(country));
+	protected virtual void InternalRaiseUpdateEvent(Country country)
+	{
+		InternalDomainEvents.Add(new CountryUpdated(country));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(Country country)
-    {
-        InternalDomainEvents.Add(new CountryDeleted(country));
+	protected virtual void InternalRaiseDeleteEvent(Country country)
+	{
+		InternalDomainEvents.Add(new CountryDeleted(country));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

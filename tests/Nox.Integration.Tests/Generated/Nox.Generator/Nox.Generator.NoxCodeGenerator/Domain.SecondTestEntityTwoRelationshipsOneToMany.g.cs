@@ -65,19 +65,19 @@ internal abstract partial class SecondTestEntityTwoRelationshipsOneToManyBase : 
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(SecondTestEntityTwoRelationshipsOneToMany secondTestEntityTwoRelationshipsOneToMany)
-    {
-        InternalDomainEvents.Add(new SecondTestEntityTwoRelationshipsOneToManyCreated(secondTestEntityTwoRelationshipsOneToMany));
+	protected virtual void InternalRaiseCreateEvent(SecondTestEntityTwoRelationshipsOneToMany secondTestEntityTwoRelationshipsOneToMany)
+	{
+		InternalDomainEvents.Add(new SecondTestEntityTwoRelationshipsOneToManyCreated(secondTestEntityTwoRelationshipsOneToMany));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(SecondTestEntityTwoRelationshipsOneToMany secondTestEntityTwoRelationshipsOneToMany)
-    {
-        InternalDomainEvents.Add(new SecondTestEntityTwoRelationshipsOneToManyUpdated(secondTestEntityTwoRelationshipsOneToMany));
+	protected virtual void InternalRaiseUpdateEvent(SecondTestEntityTwoRelationshipsOneToMany secondTestEntityTwoRelationshipsOneToMany)
+	{
+		InternalDomainEvents.Add(new SecondTestEntityTwoRelationshipsOneToManyUpdated(secondTestEntityTwoRelationshipsOneToMany));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(SecondTestEntityTwoRelationshipsOneToMany secondTestEntityTwoRelationshipsOneToMany)
-    {
-        InternalDomainEvents.Add(new SecondTestEntityTwoRelationshipsOneToManyDeleted(secondTestEntityTwoRelationshipsOneToMany));
+	protected virtual void InternalRaiseDeleteEvent(SecondTestEntityTwoRelationshipsOneToMany secondTestEntityTwoRelationshipsOneToMany)
+	{
+		InternalDomainEvents.Add(new SecondTestEntityTwoRelationshipsOneToManyDeleted(secondTestEntityTwoRelationshipsOneToMany));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

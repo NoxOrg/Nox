@@ -70,19 +70,19 @@ internal abstract partial class EmployeePhoneNumberBase : EntityBase, IOwnedEnti
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(EmployeePhoneNumber employeePhoneNumber)
-    {
-        InternalDomainEvents.Add(new EmployeePhoneNumberCreated(employeePhoneNumber));
+	protected virtual void InternalRaiseCreateEvent(EmployeePhoneNumber employeePhoneNumber)
+	{
+		InternalDomainEvents.Add(new EmployeePhoneNumberCreated(employeePhoneNumber));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(EmployeePhoneNumber employeePhoneNumber)
-    {
-        InternalDomainEvents.Add(new EmployeePhoneNumberUpdated(employeePhoneNumber));
+	protected virtual void InternalRaiseUpdateEvent(EmployeePhoneNumber employeePhoneNumber)
+	{
+		InternalDomainEvents.Add(new EmployeePhoneNumberUpdated(employeePhoneNumber));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(EmployeePhoneNumber employeePhoneNumber)
-    {
-        InternalDomainEvents.Add(new EmployeePhoneNumberDeleted(employeePhoneNumber));
+	protected virtual void InternalRaiseDeleteEvent(EmployeePhoneNumber employeePhoneNumber)
+	{
+		InternalDomainEvents.Add(new EmployeePhoneNumberDeleted(employeePhoneNumber));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

@@ -70,19 +70,19 @@ internal abstract partial class CountryLocalNameBase : EntityBase, IOwnedEntity
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(CountryLocalName countryLocalName)
-    {
-        InternalDomainEvents.Add(new CountryLocalNameCreated(countryLocalName));
+	protected virtual void InternalRaiseCreateEvent(CountryLocalName countryLocalName)
+	{
+		InternalDomainEvents.Add(new CountryLocalNameCreated(countryLocalName));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(CountryLocalName countryLocalName)
-    {
-        InternalDomainEvents.Add(new CountryLocalNameUpdated(countryLocalName));
+	protected virtual void InternalRaiseUpdateEvent(CountryLocalName countryLocalName)
+	{
+		InternalDomainEvents.Add(new CountryLocalNameUpdated(countryLocalName));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(CountryLocalName countryLocalName)
-    {
-        InternalDomainEvents.Add(new CountryLocalNameDeleted(countryLocalName));
+	protected virtual void InternalRaiseDeleteEvent(CountryLocalName countryLocalName)
+	{
+		InternalDomainEvents.Add(new CountryLocalNameDeleted(countryLocalName));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

@@ -65,19 +65,19 @@ internal abstract partial class ThirdTestEntityZeroOrManyBase : AuditableEntityB
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(ThirdTestEntityZeroOrMany thirdTestEntityZeroOrMany)
-    {
-        InternalDomainEvents.Add(new ThirdTestEntityZeroOrManyCreated(thirdTestEntityZeroOrMany));
+	protected virtual void InternalRaiseCreateEvent(ThirdTestEntityZeroOrMany thirdTestEntityZeroOrMany)
+	{
+		InternalDomainEvents.Add(new ThirdTestEntityZeroOrManyCreated(thirdTestEntityZeroOrMany));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(ThirdTestEntityZeroOrMany thirdTestEntityZeroOrMany)
-    {
-        InternalDomainEvents.Add(new ThirdTestEntityZeroOrManyUpdated(thirdTestEntityZeroOrMany));
+	protected virtual void InternalRaiseUpdateEvent(ThirdTestEntityZeroOrMany thirdTestEntityZeroOrMany)
+	{
+		InternalDomainEvents.Add(new ThirdTestEntityZeroOrManyUpdated(thirdTestEntityZeroOrMany));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(ThirdTestEntityZeroOrMany thirdTestEntityZeroOrMany)
-    {
-        InternalDomainEvents.Add(new ThirdTestEntityZeroOrManyDeleted(thirdTestEntityZeroOrMany));
+	protected virtual void InternalRaiseDeleteEvent(ThirdTestEntityZeroOrMany thirdTestEntityZeroOrMany)
+	{
+		InternalDomainEvents.Add(new ThirdTestEntityZeroOrManyDeleted(thirdTestEntityZeroOrMany));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

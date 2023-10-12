@@ -66,19 +66,19 @@ internal abstract partial class EmailAddressBase : EntityBase, IOwnedEntity
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(EmailAddress emailAddress)
-    {
-        InternalDomainEvents.Add(new EmailAddressCreated(emailAddress));
+	protected virtual void InternalRaiseCreateEvent(EmailAddress emailAddress)
+	{
+		InternalDomainEvents.Add(new EmailAddressCreated(emailAddress));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(EmailAddress emailAddress)
-    {
-        InternalDomainEvents.Add(new EmailAddressUpdated(emailAddress));
+	protected virtual void InternalRaiseUpdateEvent(EmailAddress emailAddress)
+	{
+		InternalDomainEvents.Add(new EmailAddressUpdated(emailAddress));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(EmailAddress emailAddress)
-    {
-        InternalDomainEvents.Add(new EmailAddressDeleted(emailAddress));
+	protected virtual void InternalRaiseDeleteEvent(EmailAddress emailAddress)
+	{
+		InternalDomainEvents.Add(new EmailAddressDeleted(emailAddress));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

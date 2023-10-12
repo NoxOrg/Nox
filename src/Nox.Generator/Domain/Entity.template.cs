@@ -263,14 +263,6 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
     public virtual List<{{relationship.Entity}}> {{relationship.Name}} { get; private set; } = new();
 	{{- else}}
     public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}} { get; private set; }{{if relationship.Relationship == "ExactlyOne"}} = null!;{{end}}
-    {{- if relationship.ShouldGenerateForeignOnThisSide && (relationship.Related.Entity.Keys | array.size) > 0 }}
-
-    /// <summary>
-    /// Foreign key for relationship {{relationship.Relationship}} to entity {{relationship.Entity}}
-    /// </summary>
-    public Nox.Types.{{relationship.Related.Entity.Keys[0].Type}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}}Id { get; set; } = null!;
-    {{- end}}
-
     {{- end }}
     
     /// <summary>
@@ -319,11 +311,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
 			{{- if relationship.Relationship == "ExactlyOne" }}
         throw new Exception($"The relationship cannot be deleted.");
 			{{- else }}
-				{{- if relationship.ShouldGenerateForeignOnThisSide && (relationship.Related.Entity.Keys | array.size) > 0 }}
-        {{relationship.Name}}Id = null;
-				{{- else }}
         {{relationship.Name}} = null;
-				{{- end }}
 			{{- end }}
 
         {{- else}}

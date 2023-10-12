@@ -65,19 +65,19 @@ internal abstract partial class SecondTestEntityOneOrManyBase : AuditableEntityB
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(SecondTestEntityOneOrMany secondTestEntityOneOrMany)
-    {
-        InternalDomainEvents.Add(new SecondTestEntityOneOrManyCreated(secondTestEntityOneOrMany));
+	protected virtual void InternalRaiseCreateEvent(SecondTestEntityOneOrMany secondTestEntityOneOrMany)
+	{
+		InternalDomainEvents.Add(new SecondTestEntityOneOrManyCreated(secondTestEntityOneOrMany));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(SecondTestEntityOneOrMany secondTestEntityOneOrMany)
-    {
-        InternalDomainEvents.Add(new SecondTestEntityOneOrManyUpdated(secondTestEntityOneOrMany));
+	protected virtual void InternalRaiseUpdateEvent(SecondTestEntityOneOrMany secondTestEntityOneOrMany)
+	{
+		InternalDomainEvents.Add(new SecondTestEntityOneOrManyUpdated(secondTestEntityOneOrMany));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(SecondTestEntityOneOrMany secondTestEntityOneOrMany)
-    {
-        InternalDomainEvents.Add(new SecondTestEntityOneOrManyDeleted(secondTestEntityOneOrMany));
+	protected virtual void InternalRaiseDeleteEvent(SecondTestEntityOneOrMany secondTestEntityOneOrMany)
+	{
+		InternalDomainEvents.Add(new SecondTestEntityOneOrManyDeleted(secondTestEntityOneOrMany));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

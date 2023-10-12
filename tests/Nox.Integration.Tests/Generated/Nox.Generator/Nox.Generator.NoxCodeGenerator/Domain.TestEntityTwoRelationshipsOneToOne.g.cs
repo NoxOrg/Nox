@@ -65,19 +65,19 @@ internal abstract partial class TestEntityTwoRelationshipsOneToOneBase : Auditab
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(TestEntityTwoRelationshipsOneToOne testEntityTwoRelationshipsOneToOne)
-    {
-        InternalDomainEvents.Add(new TestEntityTwoRelationshipsOneToOneCreated(testEntityTwoRelationshipsOneToOne));
+	protected virtual void InternalRaiseCreateEvent(TestEntityTwoRelationshipsOneToOne testEntityTwoRelationshipsOneToOne)
+	{
+		InternalDomainEvents.Add(new TestEntityTwoRelationshipsOneToOneCreated(testEntityTwoRelationshipsOneToOne));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(TestEntityTwoRelationshipsOneToOne testEntityTwoRelationshipsOneToOne)
-    {
-        InternalDomainEvents.Add(new TestEntityTwoRelationshipsOneToOneUpdated(testEntityTwoRelationshipsOneToOne));
+	protected virtual void InternalRaiseUpdateEvent(TestEntityTwoRelationshipsOneToOne testEntityTwoRelationshipsOneToOne)
+	{
+		InternalDomainEvents.Add(new TestEntityTwoRelationshipsOneToOneUpdated(testEntityTwoRelationshipsOneToOne));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(TestEntityTwoRelationshipsOneToOne testEntityTwoRelationshipsOneToOne)
-    {
-        InternalDomainEvents.Add(new TestEntityTwoRelationshipsOneToOneDeleted(testEntityTwoRelationshipsOneToOne));
+	protected virtual void InternalRaiseDeleteEvent(TestEntityTwoRelationshipsOneToOne testEntityTwoRelationshipsOneToOne)
+	{
+		InternalDomainEvents.Add(new TestEntityTwoRelationshipsOneToOneDeleted(testEntityTwoRelationshipsOneToOne));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

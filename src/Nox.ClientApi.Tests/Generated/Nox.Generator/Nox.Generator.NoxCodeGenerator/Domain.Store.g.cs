@@ -96,19 +96,19 @@ internal abstract partial class StoreBase : AuditableEntityBase, IEntityConcurre
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(Store store)
-    {
-        InternalDomainEvents.Add(new StoreCreated(store));
+	protected virtual void InternalRaiseCreateEvent(Store store)
+	{
+		InternalDomainEvents.Add(new StoreCreated(store));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(Store store)
-    {
-        InternalDomainEvents.Add(new StoreUpdated(store));
+	protected virtual void InternalRaiseUpdateEvent(Store store)
+	{
+		InternalDomainEvents.Add(new StoreUpdated(store));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(Store store)
-    {
-        InternalDomainEvents.Add(new StoreDeleted(store));
+	protected virtual void InternalRaiseDeleteEvent(Store store)
+	{
+		InternalDomainEvents.Add(new StoreDeleted(store));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

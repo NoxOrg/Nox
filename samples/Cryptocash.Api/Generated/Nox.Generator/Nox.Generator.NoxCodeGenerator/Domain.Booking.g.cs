@@ -120,19 +120,19 @@ internal abstract partial class BookingBase : AuditableEntityBase, IEntityConcur
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(Booking booking)
-    {
-        InternalDomainEvents.Add(new BookingCreated(booking));
+	protected virtual void InternalRaiseCreateEvent(Booking booking)
+	{
+		InternalDomainEvents.Add(new BookingCreated(booking));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(Booking booking)
-    {
-        InternalDomainEvents.Add(new BookingUpdated(booking));
+	protected virtual void InternalRaiseUpdateEvent(Booking booking)
+	{
+		InternalDomainEvents.Add(new BookingUpdated(booking));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(Booking booking)
-    {
-        InternalDomainEvents.Add(new BookingDeleted(booking));
+	protected virtual void InternalRaiseDeleteEvent(Booking booking)
+	{
+		InternalDomainEvents.Add(new BookingDeleted(booking));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

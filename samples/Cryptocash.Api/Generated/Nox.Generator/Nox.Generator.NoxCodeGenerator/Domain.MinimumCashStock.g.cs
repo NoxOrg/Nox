@@ -65,19 +65,19 @@ internal abstract partial class MinimumCashStockBase : AuditableEntityBase, IEnt
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(MinimumCashStock minimumCashStock)
-    {
-        InternalDomainEvents.Add(new MinimumCashStockCreated(minimumCashStock));
+	protected virtual void InternalRaiseCreateEvent(MinimumCashStock minimumCashStock)
+	{
+		InternalDomainEvents.Add(new MinimumCashStockCreated(minimumCashStock));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(MinimumCashStock minimumCashStock)
-    {
-        InternalDomainEvents.Add(new MinimumCashStockUpdated(minimumCashStock));
+	protected virtual void InternalRaiseUpdateEvent(MinimumCashStock minimumCashStock)
+	{
+		InternalDomainEvents.Add(new MinimumCashStockUpdated(minimumCashStock));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(MinimumCashStock minimumCashStock)
-    {
-        InternalDomainEvents.Add(new MinimumCashStockDeleted(minimumCashStock));
+	protected virtual void InternalRaiseDeleteEvent(MinimumCashStock minimumCashStock)
+	{
+		InternalDomainEvents.Add(new MinimumCashStockDeleted(minimumCashStock));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

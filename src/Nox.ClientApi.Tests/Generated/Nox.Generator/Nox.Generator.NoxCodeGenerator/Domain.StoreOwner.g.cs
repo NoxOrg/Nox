@@ -90,19 +90,19 @@ internal abstract partial class StoreOwnerBase : AuditableEntityBase, IEntityCon
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(StoreOwner storeOwner)
-    {
-        InternalDomainEvents.Add(new StoreOwnerCreated(storeOwner));
+	protected virtual void InternalRaiseCreateEvent(StoreOwner storeOwner)
+	{
+		InternalDomainEvents.Add(new StoreOwnerCreated(storeOwner));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(StoreOwner storeOwner)
-    {
-        InternalDomainEvents.Add(new StoreOwnerUpdated(storeOwner));
+	protected virtual void InternalRaiseUpdateEvent(StoreOwner storeOwner)
+	{
+		InternalDomainEvents.Add(new StoreOwnerUpdated(storeOwner));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(StoreOwner storeOwner)
-    {
-        InternalDomainEvents.Add(new StoreOwnerDeleted(storeOwner));
+	protected virtual void InternalRaiseDeleteEvent(StoreOwner storeOwner)
+	{
+		InternalDomainEvents.Add(new StoreOwnerDeleted(storeOwner));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

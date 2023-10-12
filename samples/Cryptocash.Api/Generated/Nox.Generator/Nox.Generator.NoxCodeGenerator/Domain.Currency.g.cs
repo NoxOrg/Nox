@@ -120,19 +120,19 @@ internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcu
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(Currency currency)
-    {
-        InternalDomainEvents.Add(new CurrencyCreated(currency));
+	protected virtual void InternalRaiseCreateEvent(Currency currency)
+	{
+		InternalDomainEvents.Add(new CurrencyCreated(currency));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(Currency currency)
-    {
-        InternalDomainEvents.Add(new CurrencyUpdated(currency));
+	protected virtual void InternalRaiseUpdateEvent(Currency currency)
+	{
+		InternalDomainEvents.Add(new CurrencyUpdated(currency));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(Currency currency)
-    {
-        InternalDomainEvents.Add(new CurrencyDeleted(currency));
+	protected virtual void InternalRaiseDeleteEvent(Currency currency)
+	{
+		InternalDomainEvents.Add(new CurrencyDeleted(currency));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

@@ -71,19 +71,19 @@ internal abstract partial class CountryQualityOfLifeIndexBase : EntityBase, IEnt
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(CountryQualityOfLifeIndex countryQualityOfLifeIndex)
-    {
-        InternalDomainEvents.Add(new CountryQualityOfLifeIndexCreated(countryQualityOfLifeIndex));
+	protected virtual void InternalRaiseCreateEvent(CountryQualityOfLifeIndex countryQualityOfLifeIndex)
+	{
+		InternalDomainEvents.Add(new CountryQualityOfLifeIndexCreated(countryQualityOfLifeIndex));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(CountryQualityOfLifeIndex countryQualityOfLifeIndex)
-    {
-        InternalDomainEvents.Add(new CountryQualityOfLifeIndexUpdated(countryQualityOfLifeIndex));
+	protected virtual void InternalRaiseUpdateEvent(CountryQualityOfLifeIndex countryQualityOfLifeIndex)
+	{
+		InternalDomainEvents.Add(new CountryQualityOfLifeIndexUpdated(countryQualityOfLifeIndex));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(CountryQualityOfLifeIndex countryQualityOfLifeIndex)
-    {
-        InternalDomainEvents.Add(new CountryQualityOfLifeIndexDeleted(countryQualityOfLifeIndex));
+	protected virtual void InternalRaiseDeleteEvent(CountryQualityOfLifeIndex countryQualityOfLifeIndex)
+	{
+		InternalDomainEvents.Add(new CountryQualityOfLifeIndexDeleted(countryQualityOfLifeIndex));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

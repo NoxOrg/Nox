@@ -70,19 +70,19 @@ internal abstract partial class ExchangeRateBase : EntityBase, IOwnedEntity
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(ExchangeRate exchangeRate)
-    {
-        InternalDomainEvents.Add(new ExchangeRateCreated(exchangeRate));
+	protected virtual void InternalRaiseCreateEvent(ExchangeRate exchangeRate)
+	{
+		InternalDomainEvents.Add(new ExchangeRateCreated(exchangeRate));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(ExchangeRate exchangeRate)
-    {
-        InternalDomainEvents.Add(new ExchangeRateUpdated(exchangeRate));
+	protected virtual void InternalRaiseUpdateEvent(ExchangeRate exchangeRate)
+	{
+		InternalDomainEvents.Add(new ExchangeRateUpdated(exchangeRate));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(ExchangeRate exchangeRate)
-    {
-        InternalDomainEvents.Add(new ExchangeRateDeleted(exchangeRate));
+	protected virtual void InternalRaiseDeleteEvent(ExchangeRate exchangeRate)
+	{
+		InternalDomainEvents.Add(new ExchangeRateDeleted(exchangeRate));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

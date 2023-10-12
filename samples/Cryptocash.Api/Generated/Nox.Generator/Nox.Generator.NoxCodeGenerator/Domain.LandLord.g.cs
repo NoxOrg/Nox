@@ -70,19 +70,19 @@ internal abstract partial class LandLordBase : AuditableEntityBase, IEntityConcu
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(LandLord landLord)
-    {
-        InternalDomainEvents.Add(new LandLordCreated(landLord));
+	protected virtual void InternalRaiseCreateEvent(LandLord landLord)
+	{
+		InternalDomainEvents.Add(new LandLordCreated(landLord));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(LandLord landLord)
-    {
-        InternalDomainEvents.Add(new LandLordUpdated(landLord));
+	protected virtual void InternalRaiseUpdateEvent(LandLord landLord)
+	{
+		InternalDomainEvents.Add(new LandLordUpdated(landLord));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(LandLord landLord)
-    {
-        InternalDomainEvents.Add(new LandLordDeleted(landLord));
+	protected virtual void InternalRaiseDeleteEvent(LandLord landLord)
+	{
+		InternalDomainEvents.Add(new LandLordDeleted(landLord));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

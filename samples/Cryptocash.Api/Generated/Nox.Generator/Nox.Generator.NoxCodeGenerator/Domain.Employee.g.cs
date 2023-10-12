@@ -90,19 +90,19 @@ internal abstract partial class EmployeeBase : AuditableEntityBase, IEntityConcu
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(Employee employee)
-    {
-        InternalDomainEvents.Add(new EmployeeCreated(employee));
+	protected virtual void InternalRaiseCreateEvent(Employee employee)
+	{
+		InternalDomainEvents.Add(new EmployeeCreated(employee));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(Employee employee)
-    {
-        InternalDomainEvents.Add(new EmployeeUpdated(employee));
+	protected virtual void InternalRaiseUpdateEvent(Employee employee)
+	{
+		InternalDomainEvents.Add(new EmployeeUpdated(employee));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(Employee employee)
-    {
-        InternalDomainEvents.Add(new EmployeeDeleted(employee));
+	protected virtual void InternalRaiseDeleteEvent(Employee employee)
+	{
+		InternalDomainEvents.Add(new EmployeeDeleted(employee));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

@@ -65,19 +65,19 @@ internal abstract partial class TestEntityExactlyOneToZeroOrManyBase : Auditable
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(TestEntityExactlyOneToZeroOrMany testEntityExactlyOneToZeroOrMany)
-    {
-        InternalDomainEvents.Add(new TestEntityExactlyOneToZeroOrManyCreated(testEntityExactlyOneToZeroOrMany));
+	protected virtual void InternalRaiseCreateEvent(TestEntityExactlyOneToZeroOrMany testEntityExactlyOneToZeroOrMany)
+	{
+		InternalDomainEvents.Add(new TestEntityExactlyOneToZeroOrManyCreated(testEntityExactlyOneToZeroOrMany));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(TestEntityExactlyOneToZeroOrMany testEntityExactlyOneToZeroOrMany)
-    {
-        InternalDomainEvents.Add(new TestEntityExactlyOneToZeroOrManyUpdated(testEntityExactlyOneToZeroOrMany));
+	protected virtual void InternalRaiseUpdateEvent(TestEntityExactlyOneToZeroOrMany testEntityExactlyOneToZeroOrMany)
+	{
+		InternalDomainEvents.Add(new TestEntityExactlyOneToZeroOrManyUpdated(testEntityExactlyOneToZeroOrMany));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(TestEntityExactlyOneToZeroOrMany testEntityExactlyOneToZeroOrMany)
-    {
-        InternalDomainEvents.Add(new TestEntityExactlyOneToZeroOrManyDeleted(testEntityExactlyOneToZeroOrMany));
+	protected virtual void InternalRaiseDeleteEvent(TestEntityExactlyOneToZeroOrMany testEntityExactlyOneToZeroOrMany)
+	{
+		InternalDomainEvents.Add(new TestEntityExactlyOneToZeroOrManyDeleted(testEntityExactlyOneToZeroOrMany));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

@@ -70,19 +70,19 @@ internal abstract partial class BankNoteBase : EntityBase, IOwnedEntity
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(BankNote bankNote)
-    {
-        InternalDomainEvents.Add(new BankNoteCreated(bankNote));
+	protected virtual void InternalRaiseCreateEvent(BankNote bankNote)
+	{
+		InternalDomainEvents.Add(new BankNoteCreated(bankNote));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(BankNote bankNote)
-    {
-        InternalDomainEvents.Add(new BankNoteUpdated(bankNote));
+	protected virtual void InternalRaiseUpdateEvent(BankNote bankNote)
+	{
+		InternalDomainEvents.Add(new BankNoteUpdated(bankNote));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(BankNote bankNote)
-    {
-        InternalDomainEvents.Add(new BankNoteDeleted(bankNote));
+	protected virtual void InternalRaiseDeleteEvent(BankNote bankNote)
+	{
+		InternalDomainEvents.Add(new BankNoteDeleted(bankNote));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

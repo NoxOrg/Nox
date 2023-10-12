@@ -85,19 +85,19 @@ internal abstract partial class TestEntityForUniqueConstraintsBase : EntityBase,
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(TestEntityForUniqueConstraints testEntityForUniqueConstraints)
-    {
-        InternalDomainEvents.Add(new TestEntityForUniqueConstraintsCreated(testEntityForUniqueConstraints));
+	protected virtual void InternalRaiseCreateEvent(TestEntityForUniqueConstraints testEntityForUniqueConstraints)
+	{
+		InternalDomainEvents.Add(new TestEntityForUniqueConstraintsCreated(testEntityForUniqueConstraints));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(TestEntityForUniqueConstraints testEntityForUniqueConstraints)
-    {
-        InternalDomainEvents.Add(new TestEntityForUniqueConstraintsUpdated(testEntityForUniqueConstraints));
+	protected virtual void InternalRaiseUpdateEvent(TestEntityForUniqueConstraints testEntityForUniqueConstraints)
+	{
+		InternalDomainEvents.Add(new TestEntityForUniqueConstraintsUpdated(testEntityForUniqueConstraints));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(TestEntityForUniqueConstraints testEntityForUniqueConstraints)
-    {
-        InternalDomainEvents.Add(new TestEntityForUniqueConstraintsDeleted(testEntityForUniqueConstraints));
+	protected virtual void InternalRaiseDeleteEvent(TestEntityForUniqueConstraints testEntityForUniqueConstraints)
+	{
+		InternalDomainEvents.Add(new TestEntityForUniqueConstraintsDeleted(testEntityForUniqueConstraints));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

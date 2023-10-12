@@ -80,19 +80,19 @@ internal abstract partial class TransactionBase : AuditableEntityBase, IEntityCo
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(Transaction transaction)
-    {
-        InternalDomainEvents.Add(new TransactionCreated(transaction));
+	protected virtual void InternalRaiseCreateEvent(Transaction transaction)
+	{
+		InternalDomainEvents.Add(new TransactionCreated(transaction));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(Transaction transaction)
-    {
-        InternalDomainEvents.Add(new TransactionUpdated(transaction));
+	protected virtual void InternalRaiseUpdateEvent(Transaction transaction)
+	{
+		InternalDomainEvents.Add(new TransactionUpdated(transaction));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(Transaction transaction)
-    {
-        InternalDomainEvents.Add(new TransactionDeleted(transaction));
+	protected virtual void InternalRaiseDeleteEvent(Transaction transaction)
+	{
+		InternalDomainEvents.Add(new TransactionDeleted(transaction));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

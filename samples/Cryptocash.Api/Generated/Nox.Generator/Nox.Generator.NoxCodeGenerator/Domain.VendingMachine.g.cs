@@ -111,19 +111,19 @@ internal abstract partial class VendingMachineBase : AuditableEntityBase, IEntit
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(VendingMachine vendingMachine)
-    {
-        InternalDomainEvents.Add(new VendingMachineCreated(vendingMachine));
+	protected virtual void InternalRaiseCreateEvent(VendingMachine vendingMachine)
+	{
+		InternalDomainEvents.Add(new VendingMachineCreated(vendingMachine));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(VendingMachine vendingMachine)
-    {
-        InternalDomainEvents.Add(new VendingMachineUpdated(vendingMachine));
+	protected virtual void InternalRaiseUpdateEvent(VendingMachine vendingMachine)
+	{
+		InternalDomainEvents.Add(new VendingMachineUpdated(vendingMachine));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(VendingMachine vendingMachine)
-    {
-        InternalDomainEvents.Add(new VendingMachineDeleted(vendingMachine));
+	protected virtual void InternalRaiseDeleteEvent(VendingMachine vendingMachine)
+	{
+		InternalDomainEvents.Add(new VendingMachineDeleted(vendingMachine));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

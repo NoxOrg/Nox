@@ -65,19 +65,19 @@ internal abstract partial class TestEntityZeroOrManyBase : AuditableEntityBase, 
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(TestEntityZeroOrMany testEntityZeroOrMany)
-    {
-        InternalDomainEvents.Add(new TestEntityZeroOrManyCreated(testEntityZeroOrMany));
+	protected virtual void InternalRaiseCreateEvent(TestEntityZeroOrMany testEntityZeroOrMany)
+	{
+		InternalDomainEvents.Add(new TestEntityZeroOrManyCreated(testEntityZeroOrMany));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(TestEntityZeroOrMany testEntityZeroOrMany)
-    {
-        InternalDomainEvents.Add(new TestEntityZeroOrManyUpdated(testEntityZeroOrMany));
+	protected virtual void InternalRaiseUpdateEvent(TestEntityZeroOrMany testEntityZeroOrMany)
+	{
+		InternalDomainEvents.Add(new TestEntityZeroOrManyUpdated(testEntityZeroOrMany));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(TestEntityZeroOrMany testEntityZeroOrMany)
-    {
-        InternalDomainEvents.Add(new TestEntityZeroOrManyDeleted(testEntityZeroOrMany));
+	protected virtual void InternalRaiseDeleteEvent(TestEntityZeroOrMany testEntityZeroOrMany)
+	{
+		InternalDomainEvents.Add(new TestEntityZeroOrManyDeleted(testEntityZeroOrMany));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

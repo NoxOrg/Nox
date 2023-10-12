@@ -339,19 +339,19 @@ internal abstract partial class TestEntityForTypesBase : AuditableEntityBase, IE
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(TestEntityForTypes testEntityForTypes)
-    {
-        InternalDomainEvents.Add(new TestEntityForTypesCreated(testEntityForTypes));
+	protected virtual void InternalRaiseCreateEvent(TestEntityForTypes testEntityForTypes)
+	{
+		InternalDomainEvents.Add(new TestEntityForTypesCreated(testEntityForTypes));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(TestEntityForTypes testEntityForTypes)
-    {
-        InternalDomainEvents.Add(new TestEntityForTypesUpdated(testEntityForTypes));
+	protected virtual void InternalRaiseUpdateEvent(TestEntityForTypes testEntityForTypes)
+	{
+		InternalDomainEvents.Add(new TestEntityForTypesUpdated(testEntityForTypes));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(TestEntityForTypes testEntityForTypes)
-    {
-        InternalDomainEvents.Add(new TestEntityForTypesDeleted(testEntityForTypes));
+	protected virtual void InternalRaiseDeleteEvent(TestEntityForTypes testEntityForTypes)
+	{
+		InternalDomainEvents.Add(new TestEntityForTypesDeleted(testEntityForTypes));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

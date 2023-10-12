@@ -71,19 +71,19 @@ internal abstract partial class RatingProgramBase : EntityBase, IEntityConcurren
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(RatingProgram ratingProgram)
-    {
-        InternalDomainEvents.Add(new RatingProgramCreated(ratingProgram));
+	protected virtual void InternalRaiseCreateEvent(RatingProgram ratingProgram)
+	{
+		InternalDomainEvents.Add(new RatingProgramCreated(ratingProgram));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(RatingProgram ratingProgram)
-    {
-        InternalDomainEvents.Add(new RatingProgramUpdated(ratingProgram));
+	protected virtual void InternalRaiseUpdateEvent(RatingProgram ratingProgram)
+	{
+		InternalDomainEvents.Add(new RatingProgramUpdated(ratingProgram));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(RatingProgram ratingProgram)
-    {
-        InternalDomainEvents.Add(new RatingProgramDeleted(ratingProgram));
+	protected virtual void InternalRaiseDeleteEvent(RatingProgram ratingProgram)
+	{
+		InternalDomainEvents.Add(new RatingProgramDeleted(ratingProgram));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

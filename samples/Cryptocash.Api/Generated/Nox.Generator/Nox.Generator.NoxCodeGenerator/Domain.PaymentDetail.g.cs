@@ -75,19 +75,19 @@ internal abstract partial class PaymentDetailBase : AuditableEntityBase, IEntity
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(PaymentDetail paymentDetail)
-    {
-        InternalDomainEvents.Add(new PaymentDetailCreated(paymentDetail));
+	protected virtual void InternalRaiseCreateEvent(PaymentDetail paymentDetail)
+	{
+		InternalDomainEvents.Add(new PaymentDetailCreated(paymentDetail));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(PaymentDetail paymentDetail)
-    {
-        InternalDomainEvents.Add(new PaymentDetailUpdated(paymentDetail));
+	protected virtual void InternalRaiseUpdateEvent(PaymentDetail paymentDetail)
+	{
+		InternalDomainEvents.Add(new PaymentDetailUpdated(paymentDetail));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(PaymentDetail paymentDetail)
-    {
-        InternalDomainEvents.Add(new PaymentDetailDeleted(paymentDetail));
+	protected virtual void InternalRaiseDeleteEvent(PaymentDetail paymentDetail)
+	{
+		InternalDomainEvents.Add(new PaymentDetailDeleted(paymentDetail));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

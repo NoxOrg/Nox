@@ -61,19 +61,19 @@ internal abstract partial class SecondTestEntityOwnedRelationshipExactlyOneBase 
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(SecondTestEntityOwnedRelationshipExactlyOne secondTestEntityOwnedRelationshipExactlyOne)
-    {
-        InternalDomainEvents.Add(new SecondTestEntityOwnedRelationshipExactlyOneCreated(secondTestEntityOwnedRelationshipExactlyOne));
+	protected virtual void InternalRaiseCreateEvent(SecondTestEntityOwnedRelationshipExactlyOne secondTestEntityOwnedRelationshipExactlyOne)
+	{
+		InternalDomainEvents.Add(new SecondTestEntityOwnedRelationshipExactlyOneCreated(secondTestEntityOwnedRelationshipExactlyOne));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(SecondTestEntityOwnedRelationshipExactlyOne secondTestEntityOwnedRelationshipExactlyOne)
-    {
-        InternalDomainEvents.Add(new SecondTestEntityOwnedRelationshipExactlyOneUpdated(secondTestEntityOwnedRelationshipExactlyOne));
+	protected virtual void InternalRaiseUpdateEvent(SecondTestEntityOwnedRelationshipExactlyOne secondTestEntityOwnedRelationshipExactlyOne)
+	{
+		InternalDomainEvents.Add(new SecondTestEntityOwnedRelationshipExactlyOneUpdated(secondTestEntityOwnedRelationshipExactlyOne));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(SecondTestEntityOwnedRelationshipExactlyOne secondTestEntityOwnedRelationshipExactlyOne)
-    {
-        InternalDomainEvents.Add(new SecondTestEntityOwnedRelationshipExactlyOneDeleted(secondTestEntityOwnedRelationshipExactlyOne));
+	protected virtual void InternalRaiseDeleteEvent(SecondTestEntityOwnedRelationshipExactlyOne secondTestEntityOwnedRelationshipExactlyOne)
+	{
+		InternalDomainEvents.Add(new SecondTestEntityOwnedRelationshipExactlyOneDeleted(secondTestEntityOwnedRelationshipExactlyOne));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.

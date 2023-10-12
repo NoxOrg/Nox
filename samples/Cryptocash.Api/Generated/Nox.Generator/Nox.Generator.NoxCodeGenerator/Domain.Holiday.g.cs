@@ -75,19 +75,19 @@ internal abstract partial class HolidayBase : EntityBase, IOwnedEntity
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent(Holiday holiday)
-    {
-        InternalDomainEvents.Add(new HolidayCreated(holiday));
+	protected virtual void InternalRaiseCreateEvent(Holiday holiday)
+	{
+		InternalDomainEvents.Add(new HolidayCreated(holiday));
     }
 	
-    protected virtual void InternalRaiseUpdateEvent(Holiday holiday)
-    {
-        InternalDomainEvents.Add(new HolidayUpdated(holiday));
+	protected virtual void InternalRaiseUpdateEvent(Holiday holiday)
+	{
+		InternalDomainEvents.Add(new HolidayUpdated(holiday));
     }
 	
-    protected virtual void InternalRaiseDeleteEvent(Holiday holiday)
-    {
-        InternalDomainEvents.Add(new HolidayDeleted(holiday));
+	protected virtual void InternalRaiseDeleteEvent(Holiday holiday)
+	{
+		InternalDomainEvents.Add(new HolidayDeleted(holiday));
     }
     /// <summary>
     /// Clears all domain events associated with the entity.
