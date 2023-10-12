@@ -119,12 +119,12 @@ internal abstract partial class TransactionBase : AuditableEntityBase, IEntityCo
 
     public virtual void DeleteRefToTransactionForCustomer(Customer relatedCustomer)
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToTransactionForCustomer()
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     /// <summary>
@@ -144,12 +144,12 @@ internal abstract partial class TransactionBase : AuditableEntityBase, IEntityCo
 
     public virtual void DeleteRefToTransactionForBooking(Booking relatedBooking)
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToTransactionForBooking()
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     /// <summary>

@@ -123,12 +123,12 @@ internal abstract partial class CashStockOrderBase : AuditableEntityBase, IEntit
 
     public virtual void DeleteRefToCashStockOrderForVendingMachine(VendingMachine relatedVendingMachine)
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToCashStockOrderForVendingMachine()
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     /// <summary>
@@ -143,12 +143,12 @@ internal abstract partial class CashStockOrderBase : AuditableEntityBase, IEntit
 
     public virtual void DeleteRefToCashStockOrderReviewedByEmployee(Employee relatedEmployee)
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToCashStockOrderReviewedByEmployee()
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     /// <summary>

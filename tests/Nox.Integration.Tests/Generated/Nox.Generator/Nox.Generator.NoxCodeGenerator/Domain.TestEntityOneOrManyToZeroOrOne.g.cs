@@ -100,14 +100,14 @@ internal abstract partial class TestEntityOneOrManyToZeroOrOneBase : AuditableEn
     public virtual void DeleteRefToTestEntityZeroOrOneToOneOrMany(TestEntityZeroOrOneToOneOrMany relatedTestEntityZeroOrOneToOneOrMany)
     {
         if(TestEntityZeroOrOneToOneOrMany.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         TestEntityZeroOrOneToOneOrMany.Remove(relatedTestEntityZeroOrOneToOneOrMany);
     }
 
     public virtual void DeleteAllRefToTestEntityZeroOrOneToOneOrMany()
     {
         if(TestEntityZeroOrOneToOneOrMany.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         TestEntityZeroOrOneToOneOrMany.Clear();
     }
 

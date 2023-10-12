@@ -155,14 +155,14 @@ internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcu
     public virtual void DeleteRefToCurrencyUsedByCountry(Country relatedCountry)
     {
         if(CurrencyUsedByCountry.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         CurrencyUsedByCountry.Remove(relatedCountry);
     }
 
     public virtual void DeleteAllRefToCurrencyUsedByCountry()
     {
         if(CurrencyUsedByCountry.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         CurrencyUsedByCountry.Clear();
     }
 
@@ -234,7 +234,7 @@ internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcu
     public virtual void DeleteRefToCurrencyExchangedFromRates(ExchangeRate relatedExchangeRate)
     {
         if(CurrencyExchangedFromRates.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         CurrencyExchangedFromRates.Remove(relatedExchangeRate);
     }
     
@@ -244,7 +244,7 @@ internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcu
     public virtual void DeleteAllRefToCurrencyExchangedFromRates()
     {
         if(CurrencyExchangedFromRates.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         CurrencyExchangedFromRates.Clear();
     }
 

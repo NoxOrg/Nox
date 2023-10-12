@@ -210,7 +210,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
         {{- if relationship.WithSingleEntity }}
 
         {{- if relationship.Relationship == "ExactlyOne" }}
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         {{- else }}
         {{relationship.Name}} = null;
         {{- end }}
@@ -219,7 +219,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
 
         {{- if relationship.Relationship == "OneOrMany" }}
         if({{relationship.Name}}.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         {{- end }}
         {{relationship.Name}}.Remove(related{{relationship.Entity}});
 
@@ -231,7 +231,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
         {{- if relationship.WithSingleEntity }}
 
         {{- if relationship.Relationship == "ExactlyOne" }}
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         {{- else }}
         {{- if relationship.ShouldGenerateForeignOnThisSide }}
         {{relationship.Name}}Id = null;
@@ -244,7 +244,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
 
         {{- if relationship.Relationship == "OneOrMany" }}
         if({{relationship.Name}}.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         {{- end }}
         {{relationship.Name}}.Clear();
 
@@ -285,7 +285,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
         {{- if relationship.WithSingleEntity }}
 
 			{{- if relationship.Relationship == "ExactlyOne" }}
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
 			{{- else }}
         {{relationship.Name}} = null;
 			{{- end }}
@@ -294,7 +294,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
 
 			{{- if relationship.Relationship == "OneOrMany" }}
         if({{relationship.Name}}.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
 			{{- end }}
         {{relationship.Name}}.Remove(related{{relationship.Entity}});
 
@@ -309,7 +309,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
         {{- if relationship.WithSingleEntity }}
 
 			{{- if relationship.Relationship == "ExactlyOne" }}
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
 			{{- else }}
         {{relationship.Name}} = null;
 			{{- end }}
@@ -318,7 +318,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
 
 			{{- if relationship.Relationship == "OneOrMany" }}
         if({{relationship.Name}}.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
 			{{- end }}
         {{relationship.Name}}.Clear();
 

@@ -164,12 +164,12 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
 
     public virtual void DeleteRefToCountryUsedByCurrency(Currency relatedCurrency)
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToCountryUsedByCurrency()
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     /// <summary>
@@ -185,14 +185,14 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     public virtual void DeleteRefToCountryUsedByCommissions(Commission relatedCommission)
     {
         if(CountryUsedByCommissions.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         CountryUsedByCommissions.Remove(relatedCommission);
     }
 
     public virtual void DeleteAllRefToCountryUsedByCommissions()
     {
         if(CountryUsedByCommissions.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         CountryUsedByCommissions.Clear();
     }
 
@@ -255,7 +255,7 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     public virtual void DeleteRefToCountryOwnedTimeZones(CountryTimeZone relatedCountryTimeZone)
     {
         if(CountryOwnedTimeZones.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         CountryOwnedTimeZones.Remove(relatedCountryTimeZone);
     }
     
@@ -265,7 +265,7 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     public virtual void DeleteAllRefToCountryOwnedTimeZones()
     {
         if(CountryOwnedTimeZones.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         CountryOwnedTimeZones.Clear();
     }
 

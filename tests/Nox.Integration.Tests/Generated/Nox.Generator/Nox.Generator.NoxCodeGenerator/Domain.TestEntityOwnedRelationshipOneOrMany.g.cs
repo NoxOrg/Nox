@@ -106,7 +106,7 @@ internal abstract partial class TestEntityOwnedRelationshipOneOrManyBase : Audit
     public virtual void DeleteRefToSecondTestEntityOwnedRelationshipOneOrMany(SecondTestEntityOwnedRelationshipOneOrMany relatedSecondTestEntityOwnedRelationshipOneOrMany)
     {
         if(SecondTestEntityOwnedRelationshipOneOrMany.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         SecondTestEntityOwnedRelationshipOneOrMany.Remove(relatedSecondTestEntityOwnedRelationshipOneOrMany);
     }
     
@@ -116,7 +116,7 @@ internal abstract partial class TestEntityOwnedRelationshipOneOrManyBase : Audit
     public virtual void DeleteAllRefToSecondTestEntityOwnedRelationshipOneOrMany()
     {
         if(SecondTestEntityOwnedRelationshipOneOrMany.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         SecondTestEntityOwnedRelationshipOneOrMany.Clear();
     }
 

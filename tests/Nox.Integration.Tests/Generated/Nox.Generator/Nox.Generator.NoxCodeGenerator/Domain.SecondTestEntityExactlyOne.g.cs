@@ -99,12 +99,12 @@ internal abstract partial class SecondTestEntityExactlyOneBase : AuditableEntity
 
     public virtual void DeleteRefToTestEntityExactlyOneRelationship(TestEntityExactlyOne relatedTestEntityExactlyOne)
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToTestEntityExactlyOneRelationship()
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     /// <summary>

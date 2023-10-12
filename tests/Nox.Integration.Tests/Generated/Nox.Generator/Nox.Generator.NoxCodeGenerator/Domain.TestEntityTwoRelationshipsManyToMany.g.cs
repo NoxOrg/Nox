@@ -100,14 +100,14 @@ internal abstract partial class TestEntityTwoRelationshipsManyToManyBase : Audit
     public virtual void DeleteRefToTestRelationshipOne(SecondTestEntityTwoRelationshipsManyToMany relatedSecondTestEntityTwoRelationshipsManyToMany)
     {
         if(TestRelationshipOne.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         TestRelationshipOne.Remove(relatedSecondTestEntityTwoRelationshipsManyToMany);
     }
 
     public virtual void DeleteAllRefToTestRelationshipOne()
     {
         if(TestRelationshipOne.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         TestRelationshipOne.Clear();
     }
 
@@ -124,14 +124,14 @@ internal abstract partial class TestEntityTwoRelationshipsManyToManyBase : Audit
     public virtual void DeleteRefToTestRelationshipTwo(SecondTestEntityTwoRelationshipsManyToMany relatedSecondTestEntityTwoRelationshipsManyToMany)
     {
         if(TestRelationshipTwo.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         TestRelationshipTwo.Remove(relatedSecondTestEntityTwoRelationshipsManyToMany);
     }
 
     public virtual void DeleteAllRefToTestRelationshipTwo()
     {
         if(TestRelationshipTwo.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         TestRelationshipTwo.Clear();
     }
 

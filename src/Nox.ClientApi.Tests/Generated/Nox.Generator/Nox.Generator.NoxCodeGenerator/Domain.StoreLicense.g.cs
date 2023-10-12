@@ -104,12 +104,12 @@ internal abstract partial class StoreLicenseBase : AuditableEntityBase, IEntityC
 
     public virtual void DeleteRefToStoreWithLicense(Store relatedStore)
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToStoreWithLicense()
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     /// <summary>

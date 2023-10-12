@@ -129,12 +129,12 @@ internal abstract partial class EmployeeBase : AuditableEntityBase, IEntityConcu
 
     public virtual void DeleteRefToEmployeeReviewingCashStockOrder(CashStockOrder relatedCashStockOrder)
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToEmployeeReviewingCashStockOrder()
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     /// <summary>

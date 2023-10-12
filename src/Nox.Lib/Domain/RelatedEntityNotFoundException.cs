@@ -20,5 +20,5 @@ public class RelatedEntityNotFoundException : Exception, INoxHttpException
     {
     }
 
-    public HttpStatusCode StatusCode { get; } = HttpStatusCode.BadRequest;
+    public HttpStatusCode StatusCode => HttpStatusCode.BadRequest;
 }

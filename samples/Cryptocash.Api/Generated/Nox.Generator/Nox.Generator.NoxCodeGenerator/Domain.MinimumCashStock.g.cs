@@ -124,12 +124,12 @@ internal abstract partial class MinimumCashStockBase : AuditableEntityBase, IEnt
 
     public virtual void DeleteRefToMinimumCashStockRelatedCurrency(Currency relatedCurrency)
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToMinimumCashStockRelatedCurrency()
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     /// <summary>

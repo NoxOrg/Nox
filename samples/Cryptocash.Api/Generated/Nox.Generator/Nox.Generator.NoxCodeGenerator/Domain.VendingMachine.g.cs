@@ -150,12 +150,12 @@ internal abstract partial class VendingMachineBase : AuditableEntityBase, IEntit
 
     public virtual void DeleteRefToVendingMachineInstallationCountry(Country relatedCountry)
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToVendingMachineInstallationCountry()
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     /// <summary>
@@ -175,12 +175,12 @@ internal abstract partial class VendingMachineBase : AuditableEntityBase, IEntit
 
     public virtual void DeleteRefToVendingMachineContractedAreaLandLord(LandLord relatedLandLord)
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToVendingMachineContractedAreaLandLord()
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     /// <summary>

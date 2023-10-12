@@ -184,12 +184,12 @@ internal abstract partial class CustomerBase : AuditableEntityBase, IEntityConcu
 
     public virtual void DeleteRefToCustomerBaseCountry(Country relatedCountry)
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToCustomerBaseCountry()
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     /// <summary>

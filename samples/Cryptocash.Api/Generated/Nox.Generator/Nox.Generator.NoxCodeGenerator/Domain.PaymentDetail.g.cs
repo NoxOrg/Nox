@@ -114,12 +114,12 @@ internal abstract partial class PaymentDetailBase : AuditableEntityBase, IEntity
 
     public virtual void DeleteRefToPaymentDetailsUsedByCustomer(Customer relatedCustomer)
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToPaymentDetailsUsedByCustomer()
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     /// <summary>
@@ -139,12 +139,12 @@ internal abstract partial class PaymentDetailBase : AuditableEntityBase, IEntity
 
     public virtual void DeleteRefToPaymentDetailsRelatedPaymentProvider(PaymentProvider relatedPaymentProvider)
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToPaymentDetailsRelatedPaymentProvider()
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     /// <summary>
