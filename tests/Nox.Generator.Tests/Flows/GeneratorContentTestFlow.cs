@@ -20,14 +20,14 @@ internal class GeneratorContentTestFlow : IGeneratorContentTestFlow
         string actualFileName)
     {
         var generatedSources = _generatorRunResult.GeneratedSources;
-        var actualFileContent = generatedSources.FirstOrDefault(s => s.HintName == actualFileName).SourceText?.ToString();
+        var actualFileContent = generatedSources.FirstOrDefault(s => s.HintName.Replace("/", ".") == actualFileName).SourceText?.ToString();
         var filePath = Path.Combine(_expectedFilesFolder, expectedFileName);
 
         var expectedFileContent = File.ReadAllText(filePath);
 
         generatedSources
             .Should()
-            .Contain(s => s.HintName == actualFileName, $"{actualFileName} not generated");
+            .Contain(s => s.HintName.Replace("/", ".") == actualFileName, $"{actualFileName} not generated");
 
         actualFileContent
             .Should()
