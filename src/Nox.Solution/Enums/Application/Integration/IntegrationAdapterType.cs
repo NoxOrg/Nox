@@ -1,7 +1,8 @@
 namespace Nox;
 
-public enum IntegrationType
+public enum IntegrationAdapterType
 {
+    Pipeline,
     Database,
     Entity,
     File,
