@@ -1,0 +1,92 @@
+﻿@using Cryptocash.Ui.Generated.Component;
+@using Application.Dto;
+@inherits UiEditStreetAddressBase
+
+<MudGrid>
+    <MudItem xs="6">
+        <MudTextField Label="@TitleStreetNumber"
+                        Variant="Variant.Outlined"
+                        Clearable="true"
+                        TextChanged="OnStreetNumberChanged"
+                        Value="CurrentStreetNumber" />
+    </MudItem>
+    <MudItem xs="6">
+        <MudTextField Label="@TitleAddressLine1"
+                        Variant="Variant.Outlined"
+                        Clearable="true"
+                        Required="true"
+                        RequiredError="@ErrorRequiredMessage(TitleAddressLine1)"
+                        TextChanged="OnAddressLine1Changed"
+                        Value="CurrentAddressLine1" />
+    </MudItem>
+    <MudItem xs="6">
+        <MudTextField Label="@TitleAddressLine2"
+                        Variant="Variant.Outlined"
+                        Clearable="true"
+                        TextChanged="OnAddressLine2Changed"
+                        Value="CurrentAddressLine2" />
+    </MudItem>
+    <MudItem xs="6">
+        <MudTextField Label="@TitleRoute"
+                        Variant="Variant.Outlined"
+                        Clearable="true"
+                        TextChanged="OnRouteChanged"
+                        Value="CurrentRoute" />
+    </MudItem>
+    <MudItem xs="6">
+        <MudTextField Label="@TitleLocality"
+                        Variant="Variant.Outlined"
+                        Clearable="true"
+                        TextChanged="OnLocalityChanged"
+                        Value="CurrentLocality" />
+    </MudItem>
+    <MudItem xs="6">
+        <MudTextField Label="@TitleNeighborhood"
+                        Variant="Variant.Outlined"
+                        Clearable="true"
+                        TextChanged="OnNeighborhoodChanged"
+                        Value="CurrentNeighborhood" />
+    </MudItem>
+    <MudItem xs="6">
+        <MudTextField Label="@TitleAdministrativeArea1"
+                        Variant="Variant.Outlined"
+                        Clearable="true"
+                        TextChanged="OnAdministrativeArea1Changed"
+                        Value="CurrentAdministrativeArea1" />
+    </MudItem>
+    <MudItem xs="6">
+        <MudTextField Label="@TitleAdministrativeArea2"
+                        Variant="Variant.Outlined"
+                        Clearable="true"
+                        TextChanged="OnAdministrativeArea2Changed"
+                        Value="CurrentAdministrativeArea2" />
+    </MudItem>
+    <MudItem xs="6">
+        <MudTextField Label="@TitlePostalCode"
+                        Variant="Variant.Outlined"
+                        Clearable="true"
+                        Required="true"
+                        RequiredError="@ErrorRequiredMessage(TitlePostalCode)"
+                        TextChanged="OnPostalCodeChanged"
+                        Value="CurrentPostalCode" />
+    </MudItem>
+
+    @if (CountrySelectionList != null && CountrySelectionList.Count > 0)
+    {
+        <MudItem xs="6">
+            <MudSelect Label="@TitleCountryId"
+                       Variant="Variant.Outlined"
+                       Clearable="true"
+                       Required="true"
+                       RequiredError="@ErrorRequiredMessage(TitleCountryId)"
+                       TextChanged="OnCountryIdChanged"
+                       Value="CurrentCountryIdStr">
+                @foreach (CountryDto item in CountrySelectionList)
+                {
+                    <MudSelectItem Value="@item.Id">@item.Name</MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+    }
+   
+</MudGrid>

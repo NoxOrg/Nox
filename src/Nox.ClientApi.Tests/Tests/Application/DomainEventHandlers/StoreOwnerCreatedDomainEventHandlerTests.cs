@@ -51,6 +51,4 @@ public class StoreOwnerCreatedDomainEventHandlerTests: NoxWebApiTestBase
         result.Should().NotBeNull();
         result!.Notes.Should().Be(expectedNote);
     }
-
-    
 }

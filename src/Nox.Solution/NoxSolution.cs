@@ -5,12 +5,17 @@ using Nox.Types.Extensions;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using YamlDotNet.Serialization;
 
 namespace Nox.Solution;
 
 public class NoxSolution : Solution
 {
+    [YamlIgnore]
     public string? RootYamlFile { get; internal set; }
+
+    [YamlIgnore]
+    public string? RawYamlContent { get; internal set; }
 
     // The dictionary value contains the parent entity
     private ConcurrentDictionary<string, Entity> _ownedEntities = null!;

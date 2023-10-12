@@ -12,13 +12,24 @@
 {{ attributes = integrationEvent.ObjectTypeOptions.Attributes -}}
 {{- end -}}
 // Generated
+{{func pascalCaseToCamelCase(pascal)
+		$result = ""
+	if pascal != ""
+		$first = pascal | string.slice1 0
+		$first = $first | string.downcase
+		$rest = pascal | string.slice 1
+		$result = $first + $rest
+	end
 
+	ret $result
+
+end}}
 #nullable enable
 
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Types;
-
+using Nox.Messaging;
 {{ if isCollection -}}using System.Collections.Generic;{{ end}}
 
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
@@ -30,11 +41,12 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.IntegrationEvents;
 /// {{integrationEvent.Description}}{{if !(integrationEvent.Description | string.ends_with ".")}}.{{end}}
 /// </summary>
 {{ end -}}
+[IntegrationEventType("{{integrationEvent.Name | pascalCaseToCamelCase}}", "{{integrationEvent.Trait | pascalCaseToCamelCase}}")]
 public partial class {{className}} : IIntegrationEvent
 {
 {{- if isObject -}}
 {{- for attribute in attributes -}}
-{{- if attribute.Description }} 
+{{- if attribute.Description }}
     /// <summary>
     /// {{attribute.Description}}{{if !(attribute.Description | string.ends_with ".")}}.{{end}}
     /// </summary>
@@ -54,7 +66,7 @@ public partial class {{className}} : IIntegrationEvent
 public class {{nestedClassName}}
 {
 {{- for attribute in attributes -}}
-{{- if attribute.Description }} 
+{{- if attribute.Description }}
     /// <summary>
     /// {{attribute.Description}}{{if !(attribute.Description | string.ends_with ".")}}.{{end}}
     /// </summary>

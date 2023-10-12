@@ -1,0 +1,25 @@
+﻿@using Cryptocash.Ui.Generated.Component;
+@inherits UiEditLatLongBase
+
+<MudGrid Style="margin-bottom:13px;">
+    <MudItem xs="6">
+        <MudNumericField Label="@TitleLatitude"
+                         Variant="Variant.Outlined"
+                         Clearable="true"
+                         Required="true"
+                         RequiredError="@ErrorRequiredMessage(TitleLatitude)"
+                         TextChanged="OnLatitudeChanged"
+                         Value="CurrentLatitude" />
+    </MudItem>
+    <MudItem xs="6">
+        <MudNumericField Label="@TitleLongitude"
+                         Variant="Variant.Outlined"
+                         Clearable="true"
+                         Required="true"
+                         RequiredError="@ErrorRequiredMessage(TitleLongitude)"
+                         TextChanged="OnLongitudeChanged"
+                         Value="CurrentLongitude" />
+    </MudItem>
+</MudGrid>
+
+

@@ -1,14 +1,14 @@
 // Generated
 {{func pascalCaseToCamelCase(pascal)
-		$result = ""	
+		$result = ""
 	if pascal != ""
 		$first = pascal | string.slice1 0
 		$first = $first | string.downcase
 		$rest = pascal | string.slice 1
-		$result = $first + $rest 
+		$result = $first + $rest
 	end
-		
-	ret $result	
+
+	ret $result
 
 end}}
 #nullable enable
@@ -149,24 +149,24 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
     public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
     protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
-    protected virtual void InternalRaiseCreateEvent({{entity.Name}} {{pascalEntityName}})
-    {
-	{{- if entity.Persistence.Create.RaiseEvents }}
-        InternalDomainEvents.Add(new {{entity.Name}}Created({{pascalEntityName}}));     
+	protected virtual void InternalRaiseCreateEvent({{entity.Name}} {{pascalEntityName}})
+	{
+	{{- if entity.Persistence.Create.RaiseDomainEvents }}
+		InternalDomainEvents.Add(new {{entity.Name}}Created({{pascalEntityName}}));     
 	{{- end }}
     }
 	
-    protected virtual void InternalRaiseUpdateEvent({{entity.Name}} {{pascalEntityName}})
-    {
-	{{- if entity.Persistence.Update.RaiseEvents }}
-        InternalDomainEvents.Add(new {{entity.Name}}Updated({{pascalEntityName}}));
+	protected virtual void InternalRaiseUpdateEvent({{entity.Name}} {{pascalEntityName}})
+	{
+	{{- if entity.Persistence.Update.RaiseDomainEvents }}
+		InternalDomainEvents.Add(new {{entity.Name}}Updated({{pascalEntityName}}));
     {{- end }}
     }
 	
-    protected virtual void InternalRaiseDeleteEvent({{entity.Name}} {{pascalEntityName}})
-    {
-	{{- if entity.Persistence.Delete.RaiseEvents }}
-        InternalDomainEvents.Add(new {{entity.Name}}Deleted({{pascalEntityName}})); 
+	protected virtual void InternalRaiseDeleteEvent({{entity.Name}} {{pascalEntityName}})
+	{
+	{{- if entity.Persistence.Delete.RaiseDomainEvents }}
+		InternalDomainEvents.Add(new {{entity.Name}}Deleted({{pascalEntityName}})); 
 	{{- end }}
     }
     /// <summary>

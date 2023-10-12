@@ -1,0 +1,330 @@
+#
+# sample-for-integration-events.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/solution.json
+#
+
+name: SampleForIntegrationEventsMarkdownGeneration
+
+description: Nox solution yaml configuration for generating integration events markdown
+
+domain:
+  entities:
+    - name: Continent
+      description: A continent is a large landmass on Earth composed of distinct regions and countries.
+
+      persistence:
+        isAudited: false
+        tableName: Continent
+        schema: dbo
+        create:
+          isEnabled: true
+          raiseEvents: domainEventsOnly
+        read:
+          isEnabled: true
+        update:
+          isEnabled: true
+          raiseEvents: domainEventsOnly
+        delete:
+          isEnabled: false
+          raiseEvents: never
+
+      keys:
+        - name: Id
+          type: autoNumber
+          isRequired: true
+
+      attributes:
+        - name: Name
+          description: The continent's common name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+        - name: ContinentHasCountries 
+          description: has
+          relationship: oneOrMany
+          entity: Country
+          canNavigate: true
+
+    - name: Country
+      description: A country is a distinct territorial body or political entity.
+
+      persistence:
+        isAudited: true
+        tableName: Country
+        schema: dbo
+        create:
+          isEnabled: true
+          raiseEvents: domainAndIntegrationEvents
+        read:
+          isEnabled: true
+        update:
+          isEnabled: true
+          raiseEvents: domainAndIntegrationEvents
+        delete:
+          isEnabled: true
+          raiseEvents: domainAndIntegrationEvents
+
+      keys:
+        - name: Id
+          type: countryCode2
+          isRequired: true
+
+      attributes:
+        - name: Name
+          description: The country's common name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+        - name: FormalName
+          description: The country's official name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+        - name: AlphaCode3
+          description: The country's official ISO 4217 alpha-3 code
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 3
+            maxLength: 3
+          isRequired: true
+
+        - name: AlphaCode2
+          description: The country's official ISO 4217 alpha-2 code
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+          isRequired: true
+
+        - name: NumericCode
+          description: The country's official ISO 4217 alpha-3 code
+          type: number
+          numberTypeOptions:
+            minValue: 4
+            maxValue: 894
+          isRequired: true
+
+        - name: DialingCodes
+          description: The country's phone dialing codes (comma-delimited)
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            maxLength: 31
+
+        - name: Capital
+          description: The capital city of the country
+          type: text
+          textTypeOptions:
+            maxLength: 63
+
+        - name: Demonym
+          description: Noun denoting the natives of the country
+          type: text
+          textTypeOptions:
+            maxLength: 63
+
+        - name: AreaInSquareKilometres
+          description: Country area in square kilometers
+          type: number
+          numberTypeOptions:
+            minValue: 0
+            maxValue: 20000000 # 20,000,000 > Russia
+          isRequired: true
+
+        - name: GeoCoord
+          description: The the position of the workplace's point on the surface of the Earth
+          type: latLong
+
+        - name: GeoRegion
+          description: The region the country is in
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            maxLength: 8
+          isRequired: true
+
+        - name: GeoSubRegion
+          description: The sub-region the country is in
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            maxLength: 32
+          isRequired: true
+
+        - name: GeoWorldRegion
+          description: The world region the country is in
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            maxLength: 4
+          isRequired: true
+
+        - name: Population
+          description: The estimated population of the country
+          type: number
+          numberTypeOptions:
+            minValue: 0
+
+        - name: TopLevelDomains
+          description: The top level internet domains regitered to the country (comma-delimited)
+          type: text
+          textTypeOptions:
+            maxLength: 31
+
+      relationships:
+        - name: CountryIsOnOneOrManyContinents
+          description: is on
+          relationship: oneOrMany
+          entity: Continent
+          canNavigate: true
+
+      ownedRelationships:
+        - name: CountryLocalNames
+          description: is also know as
+          relationship: oneOrMany
+          entity: CountryLocalNames
+
+      queries:
+        - name: GetCountriesByContinent
+          description: Returns a list of countries for a given continent
+
+          requestInput:
+            - name: continentName
+              description: Africa, Europe, Asia, Australia, North America, or South America
+              type: text
+              textTypeOptions:
+                isUnicode: false
+
+          responseOutput:
+            name: countriesByContinentDto
+            type: collection
+            collectionTypeOptions:
+              name: countryInfo
+              type: object
+              objectTypeOptions:
+                attributes:
+                  - name: CountryId
+                    description: The country's Id
+                    type: countryCode2
+
+                  - name: CountryName
+                    description: The country name
+                    type: text
+
+      commands:
+        - name: UpdatePopulationStatistics
+          description: Instructs the service to collect updated population statistics
+          type: object
+          objectTypeOptions:
+            attributes:
+              - name: CountryCode
+                type: countryCode2
+          emitEvents: [CountryNameUpdatedDomainEvent]
+
+      events:
+        - name: CountryNameUpdatedDomainEvent
+          type: object
+          objectTypeOptions:
+            attributes:
+              - name: CountryId
+                type: countryCode2
+
+              - name: CountryName
+                type: text
+
+    - name: CountryLocalNames
+      description: The name(s) of a country in local language
+
+      persistence:
+        isAudited: false
+        tableName: CountryLocalNames
+        schema: dbo
+        create:
+          isEnabled: true
+          raiseEvents: never
+        read:
+          isEnabled: true
+        update:
+          isEnabled: true
+          raiseEvents: never
+        delete:
+          isEnabled: false
+          raiseEvents: never
+
+
+      keys:
+        - name: Id
+          type: countryCode2
+          isRequired: true
+
+      attributes:
+        - name: Name
+          description: The country's local name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+application:
+  integrationEvents:
+    - name: CountryDebtOver1B
+      description: Country created or updated with debt over 1B local currency
+      type: object
+      trait: Country
+      objectTypeOptions:
+        attributes:
+          - name: Id
+            type: countryCode2
+            isRequired: true
+
+          - name: Debt
+            type: money
+            isRequired: true
+
+    - name: CountryLocalNamesAdded
+      description: Multiple country local names added
+      type: array
+      trait: Country
+      arrayTypeOptions:
+        name: CountryLocalNameInfo
+        type: object
+        objectTypeOptions:
+          attributes:
+            - name: Id
+              type: countryCode2
+              isRequired: true
+
+            - name: Name
+              type: text
+              isRequired: true
+
+    - name: CountryCurrenciesAdded
+      description: Multiple country currencies added
+      type: collection
+      trait: Country
+      collectionTypeOptions:
+        name: CountryCurrencyInfo
+        type: object
+        objectTypeOptions:
+          attributes:
+            - name: Id
+              type: countryCode2
+              isRequired: true
+
+            - name: CurrencyCode
+              type: currencyCode3
+              isRequired: true

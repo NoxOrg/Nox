@@ -4,7 +4,8 @@
 A sample solution for the imaginary Crypocash business.
 
 ## Overview
-**Crypocash** is a multi-national foreign exchange operator.  Customers can safely and securely exchange currency and/or crypto-currency for cash at a network  of more than a thousand vending machines in all major city-centre and airport locations. This platform manages the operations of the company, including  registration and setup of new customers, allowing customers to book and pay for cash pick-up at an cash vending machine/ATM, managing physical stock levels at the ATM's and the managing the pricing and fees associated with cash transacting.
+**Crypocash** is a multi-national foreign exchange operator. 
+Customers can safely and securely exchange currency and/or crypto-currency for cash at a network  of more than a thousand vending machines in all major city-centre and airport locations. This platform manages the operations of the company, including  registration and setup of new customers, allowing customers to book and pay for cash pick-up at an cash vending machine/ATM, managing physical stock levels at the ATM's and the managing the pricing and fees associated with cash transacting.
 
 
 ## High-Level Domain Model
@@ -70,6 +71,9 @@ erDiagram
     }
 
 ```
+
+## Integration Events
+[IntegrationEvents](./IntegrationEvents.md)
 
 ## Definitions for Domain Entities
 

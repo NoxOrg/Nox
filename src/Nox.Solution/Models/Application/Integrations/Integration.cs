@@ -17,11 +17,15 @@ public class Integration
     [Title("A phrase describing the objective of the ETL data integration.")]
     [Description("A phrase describing the high-level objective of the ETL. A reference to data source and format is especially useful.")]
     public string? Description { get; set; }
+    
+    [Required]
+    public IntegrationSchedule? Schedule { get; internal set; }
 
     [Required]
     public IntegrationSource Source { get; internal set; } = null!;
 
-    public IntegrationTransform? Transform { get; internal set; }
+    [Required]
+    public IntegrationTransformType TransformationType { get; internal set; } = IntegrationTransformType.DefaultTransform;
 
     [Required]
     public IntegrationTarget Target { get; internal set; } = null!;

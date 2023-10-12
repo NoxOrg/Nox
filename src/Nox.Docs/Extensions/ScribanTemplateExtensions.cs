@@ -1,4 +1,8 @@
-﻿using Scriban;
+﻿using Nox.Generator.Common.TemplateScriptsBridges;
+using Nox.Solution;
+using Nox.Types;
+using Nox.Types.Extensions;
+using Scriban;
 using Scriban.Parsing;
 using Scriban.Runtime;
 using System.Reflection;
@@ -38,6 +42,9 @@ public static class ScribanTemplateExtensions
         context.MemberRenamer = member => member.Name;
         context.MemberFilter = null;
         context.PushGlobal(CreateScriptObject(model));
+
+        // Add custom functions
+        NoxSolutionBridge.AddFunctions(context, new NoxSolution());
 
         return context;
     }
