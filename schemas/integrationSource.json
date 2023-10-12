@@ -5,26 +5,24 @@
   "type": "object",
   "required": [
     "name",
-    "sourceType",
-    "dataConnectionName"
+    "sourceAdapterType"
   ],
   "anyOf": [
     {
       "required": [
         "name",
-        "sourceType",
-        "dataConnectionName"
+        "sourceAdapterType"
       ],
       "properties": {
         "name": {    
-          "title": "The name of the ETL source. Contains no spaces.",
+          "title": "The name of the Integration source. Contains no spaces.",
           "description": "The name should be a commonly used singular noun and be unique within a solution.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
         "description": {    
-          "title": "A description of the ETL source.",
-          "description": "A phrase describing the source component of the ETL. Think about describing the what/where of this data source.",
+          "title": "A description of the Integration source.",
+          "description": "A phrase describing the source component of the Integration. Think about describing the what/where of this data source.",
           "oneOf": [
             {
               "type": "string"
@@ -34,92 +32,12 @@
             }
           ]
         },
-        "schedule": {    
-          "title": "Scheduling of the ETL source.",
-          "description": "Specify when and how frequently the ETL source is checked for updates, as well as the retry policy in case of failure. Includes a switch to indicate whether update is triggered at application startup.",
-          "oneOf": [
-            {
-              "type": "object"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "required": [
-            "start"
-          ],
-          "properties": {
-            "start": {    
-              "title": "Start time to check the ETL source for updates.",
-              "description": "Specify the start time to check the ETL source for updates. This is a 'speak-friendly' phrase that comprises the trigger time as well as the frequency. Translated into a cron expression.",
-              "type": "string"
-            },
-            "retry": {    
-              "title": "Retry policy applying to the ETL source updates.",
-              "description": "This outlines the retry configuration in the case of ETL engine being unable to connect to the ETL data source. Includes limit and delay before retry.",
-              "oneOf": [
-                {
-                  "type": "object"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "properties": {
-                "limit": {    
-                  "oneOf": [
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "delaySeconds": {    
-                  "oneOf": [
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "doubleDelayLimit": {    
-                  "oneOf": [
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                }
-              },
-              "additionalProperties": false
-            },
-            "runOnStartup": {    
-              "title": "Check the ETL source for updates at appliation startup.",
-              "description": "Specify here whether the ETL source is checked for updates when the application starts.",
-              "oneOf": [
-                {
-                  "type": "boolean"
-                },
-                {
-                  "type": "null"
-                }
-              ]
-            }
-          },
-          "additionalProperties": false
-        },
-        "sourceType": {    
+        "sourceAdapterType": {    
           "const": "database"
         },
         "databaseOptions": {    
-          "title": "Definition namespace for a database ETL source.",
-          "description": "This section specified attributes related to an ETL source of type Database. Attributes include the database query as well as minimumexpected records.",
+          "title": "Definition namespace for a database integration source.",
+          "description": "This section specified attributes related to an integration source of type Database. Attributes include the database query as well as minimum expected records.",
           "oneOf": [
             {
               "type": "object"
@@ -139,7 +57,7 @@
             },
             "minimumExpectedRecords": {    
               "title": "The minimum expected record count.",
-              "description": "The minimum expected record count as a result of this data ingestion.",
+              "description": "This integration will not run, as per scheduled, unless a minimum number of records in the source have changed.",
               "oneOf": [
                 {
                   "type": "integer"
@@ -153,15 +71,22 @@
           "additionalProperties": false
         },
         "dataConnectionName": {    
-          "title": "The name of the integration source. Contains no spaces.",
-          "description": "The name of the data connection for this integration source. This must refer to an existing data connection in infrastructure, dependencies, dataConnections.",
-          "type": "string",
-          "pattern": "^[^\\s]*$",
+          "title": "The name of the data connection. Contains no spaces.",
+          "description": "The name of the data connection for this integration source. This must refer to an existing data connection in infrastructure, dependencies, dataConnections. Data Connection is required when the source is not a Nox Entity",
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[^\\s]*$"
+            },
+            {
+              "type": "null"
+            }
+          ],
           "additionalProperties": false
         },
         "watermark": {    
-          "title": "Definition namespace for watermark columns on the ETL source data.",
-          "description": "This section lists the column(s) on the source data used to compare to the target data to indicate whether the source data has been updated.",
+          "title": "Definition namespace for watermark columns on the integration source data.",
+          "description": "This section lists the column(s) on the source data used to indicate whether a record in the source data has changed.",
           "oneOf": [
             {
               "type": "object"
@@ -214,19 +139,18 @@
     {
       "required": [
         "name",
-        "sourceType",
-        "dataConnectionName"
+        "sourceAdapterType"
       ],
       "properties": {
         "name": {    
-          "title": "The name of the ETL source. Contains no spaces.",
+          "title": "The name of the Integration source. Contains no spaces.",
           "description": "The name should be a commonly used singular noun and be unique within a solution.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
         "description": {    
-          "title": "A description of the ETL source.",
-          "description": "A phrase describing the source component of the ETL. Think about describing the what/where of this data source.",
+          "title": "A description of the Integration source.",
+          "description": "A phrase describing the source component of the Integration. Think about describing the what/where of this data source.",
           "oneOf": [
             {
               "type": "string"
@@ -236,92 +160,12 @@
             }
           ]
         },
-        "schedule": {    
-          "title": "Scheduling of the ETL source.",
-          "description": "Specify when and how frequently the ETL source is checked for updates, as well as the retry policy in case of failure. Includes a switch to indicate whether update is triggered at application startup.",
-          "oneOf": [
-            {
-              "type": "object"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "required": [
-            "start"
-          ],
-          "properties": {
-            "start": {    
-              "title": "Start time to check the ETL source for updates.",
-              "description": "Specify the start time to check the ETL source for updates. This is a 'speak-friendly' phrase that comprises the trigger time as well as the frequency. Translated into a cron expression.",
-              "type": "string"
-            },
-            "retry": {    
-              "title": "Retry policy applying to the ETL source updates.",
-              "description": "This outlines the retry configuration in the case of ETL engine being unable to connect to the ETL data source. Includes limit and delay before retry.",
-              "oneOf": [
-                {
-                  "type": "object"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "properties": {
-                "limit": {    
-                  "oneOf": [
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "delaySeconds": {    
-                  "oneOf": [
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "doubleDelayLimit": {    
-                  "oneOf": [
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                }
-              },
-              "additionalProperties": false
-            },
-            "runOnStartup": {    
-              "title": "Check the ETL source for updates at appliation startup.",
-              "description": "Specify here whether the ETL source is checked for updates when the application starts.",
-              "oneOf": [
-                {
-                  "type": "boolean"
-                },
-                {
-                  "type": "null"
-                }
-              ]
-            }
-          },
-          "additionalProperties": false
-        },
-        "sourceType": {    
+        "sourceAdapterType": {    
           "const": "file"
         },
         "fileOptions": {    
-          "title": "Definition namespace for a file type ETL source.",
-          "description": "This section specified attributes related to an ETL source of type File. Attributes include the database query as well as minimumexpected records.",
+          "title": "Definition namespace for a file type integration source.",
+          "description": "This section specified attributes related to an integration source of type File. Attributes include the name and attributes of the file to ingest.",
           "oneOf": [
             {
               "type": "object"
@@ -331,27 +175,56 @@
             }
           ],
           "required": [
-            "filename"
+            "filename",
+            "recordAttributes"
           ],
           "properties": {
             "filename": {    
               "title": "The file name.",
               "description": "The name of the file that will be ingested.",
               "type": "string"
+            },
+            "recordAttributes": {    
+              "title": "The attributes of the source file record.",
+              "description": "One or more attributes describing the composition of the source file record.",
+              "type": "array",
+              "items":   {
+                "anyOf": [
+                  { "$ref": "type.json" },
+                  {
+                    "additionalProperties": false, 
+                    "properties": {
+                      "$ref": {
+                        "type": "string",
+                        "format": "uri",
+                        "pattern": "^[^\\s]*$"
+                      }
+                    }
+                  }
+                ]
+              },
+              "additionalProperties": false
             }
           },
           "additionalProperties": false
         },
         "dataConnectionName": {    
-          "title": "The name of the integration source. Contains no spaces.",
-          "description": "The name of the data connection for this integration source. This must refer to an existing data connection in infrastructure, dependencies, dataConnections.",
-          "type": "string",
-          "pattern": "^[^\\s]*$",
+          "title": "The name of the data connection. Contains no spaces.",
+          "description": "The name of the data connection for this integration source. This must refer to an existing data connection in infrastructure, dependencies, dataConnections. Data Connection is required when the source is not a Nox Entity",
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[^\\s]*$"
+            },
+            {
+              "type": "null"
+            }
+          ],
           "additionalProperties": false
         },
         "watermark": {    
-          "title": "Definition namespace for watermark columns on the ETL source data.",
-          "description": "This section lists the column(s) on the source data used to compare to the target data to indicate whether the source data has been updated.",
+          "title": "Definition namespace for watermark columns on the integration source data.",
+          "description": "This section lists the column(s) on the source data used to indicate whether a record in the source data has changed.",
           "oneOf": [
             {
               "type": "object"
@@ -404,19 +277,18 @@
     {
       "required": [
         "name",
-        "sourceType",
-        "dataConnectionName"
+        "sourceAdapterType"
       ],
       "properties": {
         "name": {    
-          "title": "The name of the ETL source. Contains no spaces.",
+          "title": "The name of the Integration source. Contains no spaces.",
           "description": "The name should be a commonly used singular noun and be unique within a solution.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
         "description": {    
-          "title": "A description of the ETL source.",
-          "description": "A phrase describing the source component of the ETL. Think about describing the what/where of this data source.",
+          "title": "A description of the Integration source.",
+          "description": "A phrase describing the source component of the Integration. Think about describing the what/where of this data source.",
           "oneOf": [
             {
               "type": "string"
@@ -426,92 +298,12 @@
             }
           ]
         },
-        "schedule": {    
-          "title": "Scheduling of the ETL source.",
-          "description": "Specify when and how frequently the ETL source is checked for updates, as well as the retry policy in case of failure. Includes a switch to indicate whether update is triggered at application startup.",
-          "oneOf": [
-            {
-              "type": "object"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "required": [
-            "start"
-          ],
-          "properties": {
-            "start": {    
-              "title": "Start time to check the ETL source for updates.",
-              "description": "Specify the start time to check the ETL source for updates. This is a 'speak-friendly' phrase that comprises the trigger time as well as the frequency. Translated into a cron expression.",
-              "type": "string"
-            },
-            "retry": {    
-              "title": "Retry policy applying to the ETL source updates.",
-              "description": "This outlines the retry configuration in the case of ETL engine being unable to connect to the ETL data source. Includes limit and delay before retry.",
-              "oneOf": [
-                {
-                  "type": "object"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "properties": {
-                "limit": {    
-                  "oneOf": [
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "delaySeconds": {    
-                  "oneOf": [
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "doubleDelayLimit": {    
-                  "oneOf": [
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                }
-              },
-              "additionalProperties": false
-            },
-            "runOnStartup": {    
-              "title": "Check the ETL source for updates at appliation startup.",
-              "description": "Specify here whether the ETL source is checked for updates when the application starts.",
-              "oneOf": [
-                {
-                  "type": "boolean"
-                },
-                {
-                  "type": "null"
-                }
-              ]
-            }
-          },
-          "additionalProperties": false
-        },
-        "sourceType": {    
+        "sourceAdapterType": {    
           "const": "messageQueue"
         },
         "messageQueueOptions": {    
-          "title": "Definition namespace for a Message Queue ETL source.",
-          "description": "This section specified attributes related to an ETL source of type Message Queue. Attributes include the route, format and verb.",
+          "title": "Definition namespace for a Message Queue integration source.",
+          "description": "This section specified attributes related to an integration source of type Message Queue. Attributes include the name of the source queue or topic.",
           "oneOf": [
             {
               "type": "object"
@@ -521,27 +313,56 @@
             }
           ],
           "required": [
-            "sourceName"
+            "sourceName",
+            "messageAttributes"
           ],
           "properties": {
             "sourceName": {    
               "title": "The source name.",
               "description": "The name of the queue or topic subscription from which messages will be consumed.",
               "type": "string"
+            },
+            "messageAttributes": {    
+              "title": "The attributes of the source message.",
+              "description": "One or more attributes describing the composition of the source message.",
+              "type": "array",
+              "items":   {
+                "anyOf": [
+                  { "$ref": "type.json" },
+                  {
+                    "additionalProperties": false, 
+                    "properties": {
+                      "$ref": {
+                        "type": "string",
+                        "format": "uri",
+                        "pattern": "^[^\\s]*$"
+                      }
+                    }
+                  }
+                ]
+              },
+              "additionalProperties": false
             }
           },
           "additionalProperties": false
         },
         "dataConnectionName": {    
-          "title": "The name of the integration source. Contains no spaces.",
-          "description": "The name of the data connection for this integration source. This must refer to an existing data connection in infrastructure, dependencies, dataConnections.",
-          "type": "string",
-          "pattern": "^[^\\s]*$",
+          "title": "The name of the data connection. Contains no spaces.",
+          "description": "The name of the data connection for this integration source. This must refer to an existing data connection in infrastructure, dependencies, dataConnections. Data Connection is required when the source is not a Nox Entity",
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[^\\s]*$"
+            },
+            {
+              "type": "null"
+            }
+          ],
           "additionalProperties": false
         },
         "watermark": {    
-          "title": "Definition namespace for watermark columns on the ETL source data.",
-          "description": "This section lists the column(s) on the source data used to compare to the target data to indicate whether the source data has been updated.",
+          "title": "Definition namespace for watermark columns on the integration source data.",
+          "description": "This section lists the column(s) on the source data used to indicate whether a record in the source data has changed.",
           "oneOf": [
             {
               "type": "object"
@@ -594,19 +415,18 @@
     {
       "required": [
         "name",
-        "sourceType",
-        "dataConnectionName"
+        "sourceAdapterType"
       ],
       "properties": {
         "name": {    
-          "title": "The name of the ETL source. Contains no spaces.",
+          "title": "The name of the Integration source. Contains no spaces.",
           "description": "The name should be a commonly used singular noun and be unique within a solution.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
         "description": {    
-          "title": "A description of the ETL source.",
-          "description": "A phrase describing the source component of the ETL. Think about describing the what/where of this data source.",
+          "title": "A description of the Integration source.",
+          "description": "A phrase describing the source component of the Integration. Think about describing the what/where of this data source.",
           "oneOf": [
             {
               "type": "string"
@@ -616,9 +436,12 @@
             }
           ]
         },
-        "schedule": {    
-          "title": "Scheduling of the ETL source.",
-          "description": "Specify when and how frequently the ETL source is checked for updates, as well as the retry policy in case of failure. Includes a switch to indicate whether update is triggered at application startup.",
+        "sourceAdapterType": {    
+          "const": "webApi"
+        },
+        "webApiOptions": {    
+          "title": "Definition namespace for a web API integration source.",
+          "description": "This section specified attributes related to an integration source of type web API. Attributes include the route, response format and http verb.",
           "oneOf": [
             {
               "type": "object"
@@ -628,87 +451,7 @@
             }
           ],
           "required": [
-            "start"
-          ],
-          "properties": {
-            "start": {    
-              "title": "Start time to check the ETL source for updates.",
-              "description": "Specify the start time to check the ETL source for updates. This is a 'speak-friendly' phrase that comprises the trigger time as well as the frequency. Translated into a cron expression.",
-              "type": "string"
-            },
-            "retry": {    
-              "title": "Retry policy applying to the ETL source updates.",
-              "description": "This outlines the retry configuration in the case of ETL engine being unable to connect to the ETL data source. Includes limit and delay before retry.",
-              "oneOf": [
-                {
-                  "type": "object"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "properties": {
-                "limit": {    
-                  "oneOf": [
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "delaySeconds": {    
-                  "oneOf": [
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "doubleDelayLimit": {    
-                  "oneOf": [
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                }
-              },
-              "additionalProperties": false
-            },
-            "runOnStartup": {    
-              "title": "Check the ETL source for updates at appliation startup.",
-              "description": "Specify here whether the ETL source is checked for updates when the application starts.",
-              "oneOf": [
-                {
-                  "type": "boolean"
-                },
-                {
-                  "type": "null"
-                }
-              ]
-            }
-          },
-          "additionalProperties": false
-        },
-        "sourceType": {    
-          "const": "webApi"
-        },
-        "webApiOptions": {    
-          "title": "Definition namespace for a web API ETL source.",
-          "description": "This section specified attributes related to an ETL source of type web API. Attributes include the route, response format and http verb.",
-          "oneOf": [
-            {
-              "type": "object"
-            },
-            {
-              "type": "null"
-            }
+            "responseAttributes"
           ],
           "properties": {
             "route": {    
@@ -723,9 +466,9 @@
                 }
               ]
             },
-            "responseFormat": {    
-              "title": "The Http response format.",
-              "description": "The format of the Http response data papyload, eg. Json, XML.",
+            "exchangeFormat": {    
+              "title": "The Http exchange format.",
+              "description": "The format of the Http response data payload, eg. Json, XML.",
               "oneOf": [
                 {
                   "type": "string",
@@ -754,20 +497,48 @@
                   "type": "null"
                 }
               ]
+            },
+            "responseAttributes": {    
+              "title": "The attributes of the source response.",
+              "description": "One or more attributes describing the composition of the source response message.",
+              "type": "array",
+              "items":   {
+                "anyOf": [
+                  { "$ref": "type.json" },
+                  {
+                    "additionalProperties": false, 
+                    "properties": {
+                      "$ref": {
+                        "type": "string",
+                        "format": "uri",
+                        "pattern": "^[^\\s]*$"
+                      }
+                    }
+                  }
+                ]
+              },
+              "additionalProperties": false
             }
           },
           "additionalProperties": false
         },
         "dataConnectionName": {    
-          "title": "The name of the integration source. Contains no spaces.",
-          "description": "The name of the data connection for this integration source. This must refer to an existing data connection in infrastructure, dependencies, dataConnections.",
-          "type": "string",
-          "pattern": "^[^\\s]*$",
+          "title": "The name of the data connection. Contains no spaces.",
+          "description": "The name of the data connection for this integration source. This must refer to an existing data connection in infrastructure, dependencies, dataConnections. Data Connection is required when the source is not a Nox Entity",
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[^\\s]*$"
+            },
+            {
+              "type": "null"
+            }
+          ],
           "additionalProperties": false
         },
         "watermark": {    
-          "title": "Definition namespace for watermark columns on the ETL source data.",
-          "description": "This section lists the column(s) on the source data used to compare to the target data to indicate whether the source data has been updated.",
+          "title": "Definition namespace for watermark columns on the integration source data.",
+          "description": "This section lists the column(s) on the source data used to indicate whether a record in the source data has changed.",
           "oneOf": [
             {
               "type": "object"
@@ -818,22 +589,20 @@
       "additionalProperties": false
     },
     {
-      "type": "object",
       "required": [
         "name",
-        "sourceType",
-        "dataConnectionName"
+        "sourceAdapterType"
       ],
       "properties": {
         "name": {    
-          "title": "The name of the ETL source. Contains no spaces.",
+          "title": "The name of the Integration source. Contains no spaces.",
           "description": "The name should be a commonly used singular noun and be unique within a solution.",
           "type": "string",
           "pattern": "^[^\\s]*$"
         },
         "description": {    
-          "title": "A description of the ETL source.",
-          "description": "A phrase describing the source component of the ETL. Think about describing the what/where of this data source.",
+          "title": "A description of the Integration source.",
+          "description": "A phrase describing the source component of the Integration. Think about describing the what/where of this data source.",
           "oneOf": [
             {
               "type": "string"
@@ -843,9 +612,12 @@
             }
           ]
         },
-        "schedule": {    
-          "title": "Scheduling of the ETL source.",
-          "description": "Specify when and how frequently the ETL source is checked for updates, as well as the retry policy in case of failure. Includes a switch to indicate whether update is triggered at application startup.",
+        "sourceAdapterType": {    
+          "const": "entity"
+        },
+        "entityOptions": {    
+          "title": "Definition namespace for an entity integration target.",
+          "description": "This section specified attributes related to an integration target of type Entity. Attributes include the entity name.",
           "oneOf": [
             {
               "type": "object"
@@ -855,90 +627,34 @@
             }
           ],
           "required": [
-            "start"
+            "entity"
           ],
           "properties": {
-            "start": {    
-              "title": "Start time to check the ETL source for updates.",
-              "description": "Specify the start time to check the ETL source for updates. This is a 'speak-friendly' phrase that comprises the trigger time as well as the frequency. Translated into a cron expression.",
+            "entity": {    
+              "title": "The entity name.",
+              "description": "The name of the entity to which data will be synchronized.",
               "type": "string"
-            },
-            "retry": {    
-              "title": "Retry policy applying to the ETL source updates.",
-              "description": "This outlines the retry configuration in the case of ETL engine being unable to connect to the ETL data source. Includes limit and delay before retry.",
-              "oneOf": [
-                {
-                  "type": "object"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "properties": {
-                "limit": {    
-                  "oneOf": [
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "delaySeconds": {    
-                  "oneOf": [
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "doubleDelayLimit": {    
-                  "oneOf": [
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                }
-              },
-              "additionalProperties": false
-            },
-            "runOnStartup": {    
-              "title": "Check the ETL source for updates at appliation startup.",
-              "description": "Specify here whether the ETL source is checked for updates when the application starts.",
-              "oneOf": [
-                {
-                  "type": "boolean"
-                },
-                {
-                  "type": "null"
-                }
-              ]
             }
           },
           "additionalProperties": false
         },
-        "sourceType": {    
-          "type": "string",
-          "enum": [
-            "entity"
-          ]
-        },
         "dataConnectionName": {    
-          "title": "The name of the integration source. Contains no spaces.",
-          "description": "The name of the data connection for this integration source. This must refer to an existing data connection in infrastructure, dependencies, dataConnections.",
-          "type": "string",
-          "pattern": "^[^\\s]*$",
+          "title": "The name of the data connection. Contains no spaces.",
+          "description": "The name of the data connection for this integration source. This must refer to an existing data connection in infrastructure, dependencies, dataConnections. Data Connection is required when the source is not a Nox Entity",
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[^\\s]*$"
+            },
+            {
+              "type": "null"
+            }
+          ],
           "additionalProperties": false
         },
         "watermark": {    
-          "title": "Definition namespace for watermark columns on the ETL source data.",
-          "description": "This section lists the column(s) on the source data used to compare to the target data to indicate whether the source data has been updated.",
+          "title": "Definition namespace for watermark columns on the integration source data.",
+          "description": "This section lists the column(s) on the source data used to indicate whether a record in the source data has changed.",
           "oneOf": [
             {
               "type": "object"

@@ -1,18 +1,18 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Definition namespace for attributes describing the target component of an ETL integration.",
-  "description": "This section details ETL target attributes like name, description and type among other.",
+  "title": "Definition namespace for attributes describing the target component of an integration integration.",
+  "description": "This section details integration target attributes like name, description and type among other.",
   "type": "object",
   "required": [
     "name",
-    "targetType",
+    "targetAdapterType",
     "dataConnectionName"
   ],
   "anyOf": [
     {
       "required": [
         "name",
-        "targetType",
+        "targetAdapterType",
         "dataConnectionName"
       ],
       "properties": {
@@ -34,10 +34,12 @@
             }
           ]
         },
-        "targetType": {    
+        "targetAdapterType": {    
           "const": "database"
         },
         "databaseOptions": {    
+          "title": "Definition namespace for a database integration target.",
+          "description": "This section specified attributes related to an integration target of type Database. Attributes include the stored procedure that will be executed.",
           "oneOf": [
             {
               "type": "object"
@@ -71,7 +73,7 @@
     {
       "required": [
         "name",
-        "targetType",
+        "targetAdapterType",
         "dataConnectionName"
       ],
       "properties": {
@@ -93,10 +95,12 @@
             }
           ]
         },
-        "targetType": {    
+        "targetAdapterType": {    
           "const": "file"
         },
         "fileOptions": {    
+          "title": "Definition namespace for a file type integration target.",
+          "description": "This section specified attributes related to an integration target of type File. Attributes include the name of the file to create.",
           "oneOf": [
             {
               "type": "object"
@@ -106,13 +110,35 @@
             }
           ],
           "required": [
-            "filename"
+            "filename",
+            "recordAttributes"
           ],
           "properties": {
             "filename": {    
               "title": "The file name.",
               "description": "The name of the file that will be created.",
               "type": "string"
+            },
+            "recordAttributes": {    
+              "title": "The attributes of the target file record.",
+              "description": "One or more attributes describing the composition of the target file record.",
+              "type": "array",
+              "items":   {
+                "anyOf": [
+                  { "$ref": "type.json" },
+                  {
+                    "additionalProperties": false, 
+                    "properties": {
+                      "$ref": {
+                        "type": "string",
+                        "format": "uri",
+                        "pattern": "^[^\\s]*$"
+                      }
+                    }
+                  }
+                ]
+              },
+              "additionalProperties": false
             }
           },
           "additionalProperties": false
@@ -130,7 +156,7 @@
     {
       "required": [
         "name",
-        "targetType",
+        "targetAdapterType",
         "dataConnectionName"
       ],
       "properties": {
@@ -152,10 +178,12 @@
             }
           ]
         },
-        "targetType": {    
+        "targetAdapterType": {    
           "const": "webApi"
         },
         "webApiOptions": {    
+          "title": "Definition namespace for a web API integration target.",
+          "description": "This section specified attributes related to an integration target of type web API. Attributes include the route, request format and http verb.",
           "oneOf": [
             {
               "type": "object"
@@ -164,8 +192,13 @@
               "type": "null"
             }
           ],
+          "required": [
+            "requestAttributes"
+          ],
           "properties": {
             "route": {    
+              "title": "The path component for the request URI.",
+              "description": "The path component for the request URI, e.g. '/myPath' in http://localhost:8081/myPath?myParameter=123.",
               "oneOf": [
                 {
                   "type": "string"
@@ -175,7 +208,9 @@
                 }
               ]
             },
-            "requestFormat": {    
+            "exchangeFormat": {    
+              "title": "The Http exchange format.",
+              "description": "The format of the Http request and response data payload, eg. Json, XML.",
               "oneOf": [
                 {
                   "type": "string",
@@ -190,6 +225,8 @@
               ]
             },
             "httpVerb": {    
+              "title": "The Http request verb.",
+              "description": "The relevant verb detailing the Http request type, i.e. POST, PUT, PATCH, etc.",
               "oneOf": [
                 {
                   "type": "string",
@@ -203,6 +240,55 @@
                   "type": "null"
                 }
               ]
+            },
+            "requestAttributes": {    
+              "title": "The attributes of the target request.",
+              "description": "One or more attributes describing the composition of the target request message.",
+              "type": "array",
+              "items":   {
+                "anyOf": [
+                  { "$ref": "type.json" },
+                  {
+                    "additionalProperties": false, 
+                    "properties": {
+                      "$ref": {
+                        "type": "string",
+                        "format": "uri",
+                        "pattern": "^[^\\s]*$"
+                      }
+                    }
+                  }
+                ]
+              },
+              "additionalProperties": false
+            },
+            "responseAttributes": {    
+              "title": "The attributes of the target response.",
+              "description": "One or more attributes describing the composition of the target response message, if any.",
+              "oneOf": [
+                {
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "items":   {
+                "anyOf": [
+                  { "$ref": "type.json" },
+                  {
+                    "additionalProperties": false, 
+                    "properties": {
+                      "$ref": {
+                        "type": "string",
+                        "format": "uri",
+                        "pattern": "^[^\\s]*$"
+                      }
+                    }
+                  }
+                ]
+              },
+              "additionalProperties": false
             }
           },
           "additionalProperties": false
@@ -220,7 +306,7 @@
     {
       "required": [
         "name",
-        "targetType",
+        "targetAdapterType",
         "dataConnectionName"
       ],
       "properties": {
@@ -242,10 +328,12 @@
             }
           ]
         },
-        "targetType": {    
+        "targetAdapterType": {    
           "const": "messageQueue"
         },
         "messageQueueOptions": {    
+          "title": "Definition namespace for a Message Queue integration target.",
+          "description": "This section specified attributes related to an integration target of type Message Queue. Attributes include the name of the target queue or topic.",
           "oneOf": [
             {
               "type": "object"
@@ -255,13 +343,35 @@
             }
           ],
           "required": [
-            "targetName"
+            "targetName",
+            "messageAttributes"
           ],
           "properties": {
             "targetName": {    
               "title": "The target name.",
               "description": "The name of the queue, topic or subscription to which messages will be sent.",
               "type": "string"
+            },
+            "messageAttributes": {    
+              "title": "The attributes of the target message.",
+              "description": "One or more attributes describing the composition of the target message.",
+              "type": "array",
+              "items":   {
+                "anyOf": [
+                  { "$ref": "type.json" },
+                  {
+                    "additionalProperties": false, 
+                    "properties": {
+                      "$ref": {
+                        "type": "string",
+                        "format": "uri",
+                        "pattern": "^[^\\s]*$"
+                      }
+                    }
+                  }
+                ]
+              },
+              "additionalProperties": false
             }
           },
           "additionalProperties": false
@@ -279,7 +389,7 @@
     {
       "required": [
         "name",
-        "targetType",
+        "targetAdapterType",
         "dataConnectionName"
       ],
       "properties": {
@@ -301,10 +411,12 @@
             }
           ]
         },
-        "targetType": {    
+        "targetAdapterType": {    
           "const": "entity"
         },
         "entityOptions": {    
+          "title": "Definition namespace for an entity integration target.",
+          "description": "This section specified attributes related to an integration target of type Entity. Attributes include the entity name.",
           "oneOf": [
             {
               "type": "object"
@@ -319,7 +431,7 @@
           "properties": {
             "entity": {    
               "title": "The entity name.",
-              "description": "The name of the entity that will be synchronized.",
+              "description": "The name of the entity to which data will be synchronized.",
               "type": "string"
             }
           },
