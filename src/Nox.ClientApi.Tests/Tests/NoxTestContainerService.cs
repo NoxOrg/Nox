@@ -9,8 +9,12 @@ namespace ClientApi.Tests;
 
 public class NoxTestContainerService : IAsyncLifetime
 {
+#if DEBUG
     //To change DatabaseProvider just replace DbProviderKind.
+    public static readonly DatabaseServerProvider DbProviderKind = DatabaseServerProvider.Postgres;
+#else
     public static readonly DatabaseServerProvider DbProviderKind = DatabaseServerProvider.SqlServer;
+#endif
 
     private Func<string> _connectionStringGetter = () => string.Empty;
     private DockerContainer? _dockerContainer;
