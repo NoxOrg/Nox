@@ -23,9 +23,9 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
         ITestOutputHelper testOutput,
         NoxTestContainerService containerService,
         bool enableMessagingTests = false,
-        string? hostingEnvironmentOverride = null)
+        string? environment = null)
     {
-        _appFactory = containerService.GetTestApplicationFactory(testOutput, enableMessagingTests, hostingEnvironmentOverride);
+        _appFactory = containerService.GetTestApplicationFactory(testOutput, enableMessagingTests, environment);
         _appFactory.ResetDataContext();
     }
 
