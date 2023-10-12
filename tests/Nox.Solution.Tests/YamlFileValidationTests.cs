@@ -46,9 +46,10 @@ public class YamlFileValidationTests
     [Fact]
     public void Deserialize_WithNoxYamlSerializer_ThrowsException()
     {
-        var yaml = File.ReadAllText("./files/invalid-sample.solution.nox.yaml");
+        var filePath = "./files/invalid-sample.solution.nox.yaml";
+        var yaml = File.ReadAllText(filePath);
 
-        var exception = Assert.Throws<NoxSolutionConfigurationException>(() => NoxSchemaValidator.Deserialize<NoxSolution>(yaml));
+        var exception = Assert.Throws<NoxSolutionConfigurationException>(() => NoxSchemaValidator.Deserialize<NoxSolution>(yaml, filePath));
 
         var errors = exception.Message.Split('\n');
         var errorCount = errors.Length;
