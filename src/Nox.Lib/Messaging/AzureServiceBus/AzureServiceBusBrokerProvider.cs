@@ -3,9 +3,15 @@ using Nox.Solution;
 
 namespace Nox.Messaging.AzureServiceBus;
 
-public class AzureServiceBusBrokerProvider: IMessageBrokerProvider
+public class AzureServiceBusBrokerProvider : IMessageBrokerProvider
 {
     public MessageBrokerProvider Provider => MessageBrokerProvider.AzureServiceBus;
+    public readonly NoxSolution _noxSolution;
+
+    public AzureServiceBusBrokerProvider(NoxSolution noxSolution)
+    {
+        _noxSolution = noxSolution;
+    }
 
     public IBusRegistrationConfigurator ConfigureMassTransit(MessagingServer messagingServerConfig, 
         IBusRegistrationConfigurator configuration)
@@ -22,8 +28,7 @@ public class AzureServiceBusBrokerProvider: IMessageBrokerProvider
             
             cfg.UseRawJsonSerializer();
                         
-            // TODO Define rules for Topics names
-            cfg.MessageTopology.SetEntityNameFormatter(new CustomEntityNameFormatter());
+            cfg.MessageTopology.SetEntityNameFormatter(new CustomEntityNameFormatter(_noxSolution));
         });        
         return configuration;
     }
