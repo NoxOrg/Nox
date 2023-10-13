@@ -1413,7 +1413,7 @@
                 "type": {    
                   "const": "enumeration"
                 },
-                "enumTypeOptions": {    
+                "enumerationTypeOptions": {    
                   "title": "Options for the enum value type.",
                   "description": "Options to control the behaviour of the Enum nox type.",
                   "oneOf": [
@@ -6813,7 +6813,7 @@
                 "type": {    
                   "const": "enumeration"
                 },
-                "enumTypeOptions": {    
+                "enumerationTypeOptions": {    
                   "title": "Options for the enum value type.",
                   "description": "Options to control the behaviour of the Enum nox type.",
                   "oneOf": [
@@ -11921,7 +11921,7 @@
         "type": {    
           "const": "enumeration"
         },
-        "enumTypeOptions": {    
+        "enumerationTypeOptions": {    
           "title": "Options for the enum value type.",
           "description": "Options to control the behaviour of the Enum nox type.",
           "oneOf": [
