@@ -55,7 +55,7 @@ internal abstract class TestEntityOwnedRelationshipZeroOrManyFactoryBase : IEnti
         var entity = new TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrMany();
         entity.Id = TestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(createDto.Id);
         entity.TextTestField = TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateTextTestField(createDto.TextTestField);
-        entity.SecondTestEntityOwnedRelationshipZeroOrMany = createDto.SecondTestEntityOwnedRelationshipZeroOrMany.Select(dto => SecondTestEntityOwnedRelationshipZeroOrManyFactory.CreateEntity(dto)).ToList();
+        createDto.SecondTestEntityOwnedRelationshipZeroOrMany.ForEach(dto => entity.CreateRefToSecondTestEntityOwnedRelationshipZeroOrMany(SecondTestEntityOwnedRelationshipZeroOrManyFactory.CreateEntity(dto)));
         return entity;
     }
 

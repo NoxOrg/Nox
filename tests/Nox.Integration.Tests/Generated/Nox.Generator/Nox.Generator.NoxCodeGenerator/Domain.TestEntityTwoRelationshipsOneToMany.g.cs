@@ -16,21 +16,21 @@ namespace TestWebApp.Domain;
 
 internal partial class TestEntityTwoRelationshipsOneToMany : TestEntityTwoRelationshipsOneToManyBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
 /// <summary>
 /// Record for TestEntityTwoRelationshipsOneToMany created event.
@@ -59,33 +59,33 @@ internal abstract partial class TestEntityTwoRelationshipsOneToManyBase : Audita
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
 	protected virtual void InternalRaiseCreateEvent(TestEntityTwoRelationshipsOneToMany testEntityTwoRelationshipsOneToMany)
 	{
 		InternalDomainEvents.Add(new TestEntityTwoRelationshipsOneToManyCreated(testEntityTwoRelationshipsOneToMany));
-	}
+    }
 	
 	protected virtual void InternalRaiseUpdateEvent(TestEntityTwoRelationshipsOneToMany testEntityTwoRelationshipsOneToMany)
 	{
 		InternalDomainEvents.Add(new TestEntityTwoRelationshipsOneToManyUpdated(testEntityTwoRelationshipsOneToMany));
-	}
+    }
 	
 	protected virtual void InternalRaiseDeleteEvent(TestEntityTwoRelationshipsOneToMany testEntityTwoRelationshipsOneToMany)
 	{
 		InternalDomainEvents.Add(new TestEntityTwoRelationshipsOneToManyDeleted(testEntityTwoRelationshipsOneToMany));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// TestEntityTwoRelationshipsOneToMany First relationship to the same entity ZeroOrMany SecondTestEntityTwoRelationshipsOneToManies

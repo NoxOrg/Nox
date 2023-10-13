@@ -16,21 +16,21 @@ namespace TestWebApp.Domain;
 
 internal partial class TestEntityZeroOrManyToZeroOrOne : TestEntityZeroOrManyToZeroOrOneBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
 /// <summary>
 /// Record for TestEntityZeroOrManyToZeroOrOne created event.
@@ -59,33 +59,33 @@ internal abstract partial class TestEntityZeroOrManyToZeroOrOneBase : AuditableE
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField2 { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
 	protected virtual void InternalRaiseCreateEvent(TestEntityZeroOrManyToZeroOrOne testEntityZeroOrManyToZeroOrOne)
 	{
 		InternalDomainEvents.Add(new TestEntityZeroOrManyToZeroOrOneCreated(testEntityZeroOrManyToZeroOrOne));
-	}
+    }
 	
 	protected virtual void InternalRaiseUpdateEvent(TestEntityZeroOrManyToZeroOrOne testEntityZeroOrManyToZeroOrOne)
 	{
 		InternalDomainEvents.Add(new TestEntityZeroOrManyToZeroOrOneUpdated(testEntityZeroOrManyToZeroOrOne));
-	}
+    }
 	
 	protected virtual void InternalRaiseDeleteEvent(TestEntityZeroOrManyToZeroOrOne testEntityZeroOrManyToZeroOrOne)
 	{
 		InternalDomainEvents.Add(new TestEntityZeroOrManyToZeroOrOneDeleted(testEntityZeroOrManyToZeroOrOne));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// TestEntityZeroOrManyToZeroOrOne Test entity relationship to TestEntityZeroOrOneToZeroOrMany ZeroOrMany TestEntityZeroOrOneToZeroOrManies

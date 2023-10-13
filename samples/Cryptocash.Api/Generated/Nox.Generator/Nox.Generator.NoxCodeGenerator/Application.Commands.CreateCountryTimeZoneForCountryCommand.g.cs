@@ -55,7 +55,7 @@ internal abstract class CreateCountryTimeZoneForCountryCommandHandlerBase : Comm
 		}
 
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
-		parentEntity.CountryOwnedTimeZones.Add(entity);
+		parentEntity.CreateRefToCountryOwnedTimeZones(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 

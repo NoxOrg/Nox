@@ -16,21 +16,21 @@ namespace ClientApi.Domain;
 
 internal partial class StoreOwner : StoreOwnerBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
 /// <summary>
 /// Record for StoreOwner created event.
@@ -84,33 +84,33 @@ internal abstract partial class StoreOwnerBase : AuditableEntityBase, IEntityCon
     /// Notes (Optional).
     /// </summary>
     public Nox.Types.Text? Notes { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
 	protected virtual void InternalRaiseCreateEvent(StoreOwner storeOwner)
 	{
 		InternalDomainEvents.Add(new StoreOwnerCreated(storeOwner));
-	}
+    }
 	
 	protected virtual void InternalRaiseUpdateEvent(StoreOwner storeOwner)
 	{
 		InternalDomainEvents.Add(new StoreOwnerUpdated(storeOwner));
-	}
+    }
 	
 	protected virtual void InternalRaiseDeleteEvent(StoreOwner storeOwner)
 	{
 		InternalDomainEvents.Add(new StoreOwnerDeleted(storeOwner));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores

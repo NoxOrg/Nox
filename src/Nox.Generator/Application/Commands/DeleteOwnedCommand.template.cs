@@ -62,7 +62,7 @@ internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandlerBase
 			return false;
 		}
 
-		parentEntity.{{relationship.Name}} = null!;
+		parentEntity.DeleteRefTo{{relationship.Name}}(entity);
 
 		await OnCompletedAsync(request, entity);
 

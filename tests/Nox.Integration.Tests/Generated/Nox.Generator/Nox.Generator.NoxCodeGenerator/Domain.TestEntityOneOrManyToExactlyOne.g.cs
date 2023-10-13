@@ -16,21 +16,21 @@ namespace TestWebApp.Domain;
 
 internal partial class TestEntityOneOrManyToExactlyOne : TestEntityOneOrManyToExactlyOneBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
 /// <summary>
 /// Record for TestEntityOneOrManyToExactlyOne created event.
@@ -59,33 +59,33 @@ internal abstract partial class TestEntityOneOrManyToExactlyOneBase : AuditableE
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField2 { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
 	protected virtual void InternalRaiseCreateEvent(TestEntityOneOrManyToExactlyOne testEntityOneOrManyToExactlyOne)
 	{
 		InternalDomainEvents.Add(new TestEntityOneOrManyToExactlyOneCreated(testEntityOneOrManyToExactlyOne));
-	}
+    }
 	
 	protected virtual void InternalRaiseUpdateEvent(TestEntityOneOrManyToExactlyOne testEntityOneOrManyToExactlyOne)
 	{
 		InternalDomainEvents.Add(new TestEntityOneOrManyToExactlyOneUpdated(testEntityOneOrManyToExactlyOne));
-	}
+    }
 	
 	protected virtual void InternalRaiseDeleteEvent(TestEntityOneOrManyToExactlyOne testEntityOneOrManyToExactlyOne)
 	{
 		InternalDomainEvents.Add(new TestEntityOneOrManyToExactlyOneDeleted(testEntityOneOrManyToExactlyOne));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// TestEntityOneOrManyToExactlyOne Test entity relationship to TestEntityExactlyOneToOneOrMany OneOrMany TestEntityExactlyOneToOneOrManies
@@ -100,14 +100,14 @@ internal abstract partial class TestEntityOneOrManyToExactlyOneBase : AuditableE
     public virtual void DeleteRefToTestEntityExactlyOneToOneOrMany(TestEntityExactlyOneToOneOrMany relatedTestEntityExactlyOneToOneOrMany)
     {
         if(TestEntityExactlyOneToOneOrMany.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         TestEntityExactlyOneToOneOrMany.Remove(relatedTestEntityExactlyOneToOneOrMany);
     }
 
     public virtual void DeleteAllRefToTestEntityExactlyOneToOneOrMany()
     {
         if(TestEntityExactlyOneToOneOrMany.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         TestEntityExactlyOneToOneOrMany.Clear();
     }
 

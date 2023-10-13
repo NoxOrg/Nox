@@ -57,7 +57,7 @@ internal abstract class TestEntityOwnedRelationshipExactlyOneFactoryBase : IEnti
         entity.TextTestField = TestWebApp.Domain.TestEntityOwnedRelationshipExactlyOneMetadata.CreateTextTestField(createDto.TextTestField);
         if (createDto.SecondTestEntityOwnedRelationshipExactlyOne is not null)
         {
-            entity.SecondTestEntityOwnedRelationshipExactlyOne = SecondTestEntityOwnedRelationshipExactlyOneFactory.CreateEntity(createDto.SecondTestEntityOwnedRelationshipExactlyOne);
+            entity.CreateRefToSecondTestEntityOwnedRelationshipExactlyOne(SecondTestEntityOwnedRelationshipExactlyOneFactory.CreateEntity(createDto.SecondTestEntityOwnedRelationshipExactlyOne));
         }
         return entity;
     }

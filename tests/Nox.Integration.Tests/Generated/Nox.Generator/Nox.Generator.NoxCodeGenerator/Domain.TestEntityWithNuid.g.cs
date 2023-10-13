@@ -16,21 +16,21 @@ namespace TestWebApp.Domain;
 
 internal partial class TestEntityWithNuid : TestEntityWithNuidBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
 /// <summary>
 /// Record for TestEntityWithNuid created event.
@@ -75,33 +75,33 @@ internal abstract partial class TestEntityWithNuidBase : AuditableEntityBase, IE
     ///  (Required).
     /// </summary>
     public Nox.Types.Text Name { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
 	protected virtual void InternalRaiseCreateEvent(TestEntityWithNuid testEntityWithNuid)
 	{
 		InternalDomainEvents.Add(new TestEntityWithNuidCreated(testEntityWithNuid));
-	}
+    }
 	
 	protected virtual void InternalRaiseUpdateEvent(TestEntityWithNuid testEntityWithNuid)
 	{
 		InternalDomainEvents.Add(new TestEntityWithNuidUpdated(testEntityWithNuid));
-	}
+    }
 	
 	protected virtual void InternalRaiseDeleteEvent(TestEntityWithNuid testEntityWithNuid)
 	{
 		InternalDomainEvents.Add(new TestEntityWithNuidDeleted(testEntityWithNuid));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

@@ -55,7 +55,7 @@ internal abstract class CreateCountryLocalNameForCountryCommandHandlerBase : Com
 		}
 
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
-		parentEntity.CountryShortNames.Add(entity);
+		parentEntity.CreateRefToCountryShortNames(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 

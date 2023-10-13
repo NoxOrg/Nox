@@ -16,21 +16,21 @@ namespace Cryptocash.Domain;
 
 internal partial class MinimumCashStock : MinimumCashStockBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
 /// <summary>
 /// Record for MinimumCashStock created event.
@@ -59,33 +59,33 @@ internal abstract partial class MinimumCashStockBase : AuditableEntityBase, IEnt
     /// Cash stock amount (Required).
     /// </summary>
     public Nox.Types.Money Amount { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
 	protected virtual void InternalRaiseCreateEvent(MinimumCashStock minimumCashStock)
 	{
 		InternalDomainEvents.Add(new MinimumCashStockCreated(minimumCashStock));
-	}
+    }
 	
 	protected virtual void InternalRaiseUpdateEvent(MinimumCashStock minimumCashStock)
 	{
 		InternalDomainEvents.Add(new MinimumCashStockUpdated(minimumCashStock));
-	}
+    }
 	
 	protected virtual void InternalRaiseDeleteEvent(MinimumCashStock minimumCashStock)
 	{
 		InternalDomainEvents.Add(new MinimumCashStockDeleted(minimumCashStock));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// MinimumCashStock required by ZeroOrMany VendingMachines
@@ -124,12 +124,12 @@ internal abstract partial class MinimumCashStockBase : AuditableEntityBase, IEnt
 
     public virtual void DeleteRefToMinimumCashStockRelatedCurrency(Currency relatedCurrency)
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToMinimumCashStockRelatedCurrency()
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     /// <summary>
