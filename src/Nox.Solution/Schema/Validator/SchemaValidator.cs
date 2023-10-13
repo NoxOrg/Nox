@@ -30,7 +30,8 @@ internal class SchemaValidator
             var instance = ToShortString(objectInstance);
             var fileInfo = ToFileInfoString(lineInfo);
 
-            _errors.Add($"Missing property [\"{required}\"] on instance [{instance}] of type [{schemaProperty.ActualType}] is required. {fileInfo}");
+            // _errors.Add($"Missing property [\"{required}\"] on instance [{instance}] of type [{schemaProperty.ActualType}] is required. {fileInfo}");
+            _errors.Add($"Missing property [\"{required}\"] is required. {fileInfo}");
         }
 
         // Check for disallowed additionalProperties
@@ -49,7 +50,8 @@ internal class SchemaValidator
                 var instance = ToShortString(objectInstance);
                 var fileInfo = ToFileInfoString(prop.Value.LineInfo);
 
-                _errors.Add($"Disallowed property [\"{prop.Key}\"] on instance [{instance}] of type [{schemaProperty.ActualType}]. {fileInfo}");
+                // _errors.Add($"Disallowed property [\"{prop.Key}\"] on instance [{instance}] of type [{schemaProperty.ActualType}]. {fileInfo}");
+                _errors.Add($"Disallowed property [\"{prop.Key}\"]. {fileInfo}");
             }
         }
 
@@ -98,7 +100,8 @@ internal class SchemaValidator
                         var instance = ToShortString(objectInstance);
                         var fileInfo = ToFileInfoString(val.LineInfo);
 
-                        _errors.Add($"Invalid value [\"{strVal}\"] for property [{property.Name}] on instance [{instance}] of type [{schemaProperty.ActualType}]. {fileInfo}");
+                        // _errors.Add($"Invalid value [\"{strVal}\"] for property [{property.Name}] on instance [{instance}] of type [{schemaProperty.ActualType}]. {fileInfo}");
+                        _errors.Add($"Invalid value [\"{strVal}\"] for property [{property.Name}]. {fileInfo}");
                     }
                 }
             }
