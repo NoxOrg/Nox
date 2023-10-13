@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Nox.Solution;
+using Nox.Types.Schema;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +11,7 @@ namespace Nox.Solution.Schema;
 
 internal static class YamlWithLineInfo
 {
-    internal static Dictionary<string, (object? Value,YamlLineInfo LineInfo)> Parse(string yamlContent, YamlReferenceResolver yamlRefResolver)
+    internal static Dictionary<string, (object? Value, YamlLineInfo LineInfo)> Parse(string yamlContent, YamlReferenceResolver yamlRefResolver)
     {
         var input = new StringReader(yamlContent);
         var parser = new YamlDotNet.Core.Parser(input);
@@ -41,15 +42,15 @@ internal static class YamlWithLineInfo
             // Determine the type of the value and parse accordingly
             if (parser.Current is Scalar valueEvent)
             {
-                var value = string.IsNullOrEmpty(valueEvent.Value) ? null : valueEvent.Value;
+                var value = GetYamlValue(valueEvent);
 
-                result[keyEvent.Value] = new (value, yamlRefResolver.GetLineInfo(keyEvent.Start.Line));
+                result[keyEvent.Value] = new(value, yamlRefResolver.GetLineInfo(keyEvent.Start.Line));
             }
             else if (parser.Current is MappingStart)
             {
                 var nestedMapping = ParseMapping(parser, yamlRefResolver);
-             
-                result[keyEvent.Value] = new (nestedMapping, yamlRefResolver.GetLineInfo(keyEvent.Start.Line));
+
+                result[keyEvent.Value] = new(nestedMapping, yamlRefResolver.GetLineInfo(keyEvent.Start.Line));
 
             }
             else if (parser.Current is SequenceStart)
@@ -62,9 +63,9 @@ internal static class YamlWithLineInfo
                 {
                     while (parser.Current is not SequenceEnd)
                     {
-                        if (parser.Current is Scalar element) 
+                        if (parser.Current is Scalar element)
                             objList.Add(element.Value);
-                        
+
                         parser.MoveNext();
                     }
 
@@ -77,7 +78,7 @@ internal static class YamlWithLineInfo
                         parser.MoveNext();
                     }
                 }
-                result[keyEvent.Value] = new( objList.ToArray(), yamlRefResolver.GetLineInfo(keyEvent.Start.Line));
+                result[keyEvent.Value] = new(objList.ToArray(), yamlRefResolver.GetLineInfo(keyEvent.Start.Line));
             }
             else
             {
@@ -89,4 +90,28 @@ internal static class YamlWithLineInfo
 
         return result;
     }
+
+    private static object? GetYamlValue(Scalar scalar)
+    {
+        if (string.IsNullOrEmpty(scalar.Value)) return null;
+
+        switch (scalar.Style)
+        {
+            case ScalarStyle.Plain:
+                // For plain scalars, you may want to further analyze the value
+                if (bool.TryParse(scalar.Value, out bool boolValue)) return boolValue;
+                if (int.TryParse(scalar.Value, out int intValue)) return intValue;
+                if (decimal.TryParse(scalar.Value, out decimal decValue)) return decValue; // can be float or integer in YAML/JSON context
+                return scalar.Value; // default for plain scalars
+
+            case ScalarStyle.SingleQuoted:
+            case ScalarStyle.DoubleQuoted:
+                return scalar.Value;
+
+            // ... handle other styles if necessary
+            default:
+                return null;
+        }
+    }
+
 }
