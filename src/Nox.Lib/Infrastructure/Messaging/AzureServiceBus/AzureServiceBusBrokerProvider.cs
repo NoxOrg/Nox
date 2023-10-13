@@ -28,7 +28,7 @@ public class AzureServiceBusBrokerProvider : IMessageBrokerProvider
 
             cfg.UseRawJsonSerializer();
                         
-            cfg.MessageTopology.SetEntityNameFormatter(new CustomEntityNameFormatter(_noxSolution));
+            cfg.MessageTopology.SetEntityNameFormatter(new CustomEntityNameFormatter(_noxSolution.PlatformId, _noxSolution.Name));
         });        
         return configuration;
     }
