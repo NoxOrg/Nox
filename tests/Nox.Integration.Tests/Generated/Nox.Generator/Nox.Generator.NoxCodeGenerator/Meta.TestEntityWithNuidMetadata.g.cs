@@ -21,11 +21,11 @@ public partial class TestEntityWithNuidMetadata
         /// </summary>
         public static Nox.Types.NuidTypeOptions IdTypeOptions {get; private set;} = new ()
         {
-            Separator = ".",
-            PropertyNames = new System.String[]
-            {
-                "Name",
-            },
+            Separator = ".",
+            PropertyNames = new System.String[]
+            {
+                "Name",
+            },
         };
     
     
@@ -41,11 +41,11 @@ public partial class TestEntityWithNuidMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions NameTypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
