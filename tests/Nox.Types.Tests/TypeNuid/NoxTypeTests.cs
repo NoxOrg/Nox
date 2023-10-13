@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using FluentAssertions.Execution;
 
-namespace Nox.Types.Tests.Enum
+namespace Nox.Types.Tests.NuidCheck
 {
     public class NoxTypeTests
     {
@@ -15,7 +15,9 @@ namespace Nox.Types.Tests.Enum
                 foreach (var noxType in System.Enum.GetValues<NoxType>())
                 {
                     var id = Utilities.Identifier.Nuid.ToInt32(string.Format(noxTypeFormatNuid, noxType.ToString()));
+
                     ((uint)noxType).Should().Be(ToUInt32(id));
+                    
                     //Console.WriteLine($"{noxType} = {ToUInt32(id)},");
                 }
             }

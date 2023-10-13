@@ -22,7 +22,7 @@ public class Volume : ValueObject<QuantityValue, Volume>
         private init
         {
             _unit = value;
-            _volumeUnit = Enumeration.ParseFromName<VolumeUnit>(_unit.ToString());
+            _volumeUnit = SmartEnumeration.ParseFromName<VolumeUnit>(_unit.ToString());
         }
     }
 

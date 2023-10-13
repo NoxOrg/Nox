@@ -17,7 +17,7 @@ internal sealed class HaversineDistanceCalculator : IDistanceCalculator
 
     private static DistanceConversion GetConversionFor(DistanceTypeUnit unit)
     {
-        var distanceUnit = Enumeration.ParseFromName<DistanceUnit>(unit.ToString());
+        var distanceUnit = SmartEnumeration.ParseFromName<DistanceUnit>(unit.ToString());
         var conversion = new DistanceConversion(DistanceUnit.Kilometer, distanceUnit);
         return conversion;
     }

@@ -19,7 +19,7 @@ public class Length : ValueObject<QuantityValue, Length>
     public LengthTypeUnit Unit
     {
         get => _unit;
-        private init { _unit = value; _lengthUnit = Enumeration.ParseFromName<LengthUnit>(_unit.ToString()); }
+        private init { _unit = value; _lengthUnit = SmartEnumeration.ParseFromName<LengthUnit>(_unit.ToString()); }
     }
 
 
