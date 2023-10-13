@@ -1,5 +1,8 @@
-﻿using System.Collections;
+﻿using Nox.Solution.Extensions;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace Nox.Solution.Schema;
@@ -27,10 +30,8 @@ internal class SchemaValidator
 
             var lineInfo = val.LineInfo ?? objectInstance.Values.FirstOrDefault().LineInfo;
 
-            var instance = ToShortString(objectInstance);
             var fileInfo = ToFileInfoString(lineInfo);
 
-            // _errors.Add($"Missing property [\"{required}\"] on instance [{instance}] of type [{schemaProperty.ActualType}] is required. {fileInfo}");
             _errors.Add($"Missing property [\"{required}\"] is required. {fileInfo}");
         }
 
@@ -47,10 +48,8 @@ internal class SchemaValidator
                 if (allowedProperties.Contains(prop.Key))
                     continue;
 
-                var instance = ToShortString(objectInstance);
                 var fileInfo = ToFileInfoString(prop.Value.LineInfo);
 
-                // _errors.Add($"Disallowed property [\"{prop.Key}\"] on instance [{instance}] of type [{schemaProperty.ActualType}]. {fileInfo}");
                 _errors.Add($"Disallowed property [\"{prop.Key}\"]. {fileInfo}");
             }
         }
@@ -73,9 +72,59 @@ internal class SchemaValidator
                 continue;
             }
 
+            // Check values to allowed schema types
+
+            // compiler check - can't be null for required fields at this point and all other fields will allow null
+            if (obj.Value is null || property.Type is null)
+            {
+                continue;
+            }
+
+            var objType = obj.Value.GetType();
+            var fileInfo = ToFileInfoString(obj.LineInfo);
+
+            if (objType.IsIntegerType())
+            {
+                if (!property.Type.Contains("integer") && !property.Type.Contains("number"))
+                    _errors.Add($"Invalid integer value [\"{obj.Value}\"] for property [{property.Name}] is not of type [{property.Type}]. {fileInfo}");
+            }
+
+            else if (objType.IsNumericType()) 
+            {
+                if (!property.Type.Contains("number"))
+                    _errors.Add($"Invalid number value [\"{obj.Value}\"] for property [{property.Name}] is not of type [{property.Type}]. {fileInfo}");
+            }
+
+            else if (obj.Value is string)
+            {
+                if (!property.Type.Contains("string"))
+                    _errors.Add($"Invalid string value [\"{obj.Value}\"] for property [{property.Name}] is not of type [{property.Type}]. {fileInfo}");
+            }
+
+            else if (obj.Value is bool)
+            {
+                if (!property.Type.Contains("boolean"))
+                    _errors.Add($"Invalid bool value [\"{obj.Value}\"] for property [{property.Name}] is not of type [{property.Type}]. {fileInfo}");
+            }
+
+            else if (objType.IsArray)
+            {
+                if (!property.Type.Contains("array"))
+                    _errors.Add($"Invalid array value [\"{obj.Value}\"] for property [{property.Name}] is not of type [{property.Type}]. {fileInfo}");
+            }
+
+            else if (objType.IsDictionary())
+            {
+                if (!property.Type.Contains("object"))
+                    _errors.Add($"Invalid object value [\"{obj.Value}\"] for property [{property.Name}] is not of type [{property.Type}]. {fileInfo}");
+            }
+
+
+            // end type checks
+
             if (property.Type == "object")
             {
-                var obj2 = (Dictionary<string, (object? Value, YamlLineInfo LineInfo)>)obj.Value!;
+                var obj2 = (Dictionary<string, (object? Value, YamlLineInfo LineInfo)>)obj.Value;
                 Validate(obj2, property);
             }
             else if (property.Type == "array"
@@ -93,32 +142,16 @@ internal class SchemaValidator
             // Check for valid enumerators
             else if (property.Enum is not null && property.Name is not null)
             {
-                if (objectInstance.TryGetValue(property.Name, out var val) && val.Value is string strVal)
+                if (obj.Value is string strVal)
                 {
                     if (!property.Enum.Contains(strVal))
                     {
-                        var instance = ToShortString(objectInstance);
-                        var fileInfo = ToFileInfoString(val.LineInfo);
-
-                        // _errors.Add($"Invalid value [\"{strVal}\"] for property [{property.Name}] on instance [{instance}] of type [{schemaProperty.ActualType}]. {fileInfo}");
                         _errors.Add($"Invalid value [\"{strVal}\"] for property [{property.Name}]. {fileInfo}");
                     }
                 }
             }
 
         }
-    }
-
-    private static string ToShortString(Dictionary<string, (object? Value, YamlLineInfo LineInfo)> instance)
-    {
-        var instanceValues = instance.Where(kv => kv.Value.Value is not null)
-            .Where(kv => kv.Value.Value is string)
-            .Select(kv => $"{kv.Key}: {kv.Value.Value}")
-            .ToArray();
-
-        var asString = string.Join(",", instanceValues);
-
-        return asString.Length < 51 ? asString : asString.Substring(0, 50) + "...";
     }
 
     private static string ToFileInfoString(YamlLineInfo? lineInfo)

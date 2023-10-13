@@ -43,7 +43,7 @@ team:
 
   - name: Anton Du Plessis
     userName: anton.duplessis@iwgplc.com
-    roles: [projectManager]
+    roles: projectManager
 
   - name: Morne Van Zyl
     userName: morne.vanzyl@iwgplc.com

@@ -56,10 +56,10 @@ internal static class NoxSchemaValidator
         {
             var yaml = yamlRefResolver.ToYamlString();
 
+            // Create object instance with line and file info
             var yamlObjectInstance = YamlWithLineInfo.Parse(yaml, yamlRefResolver);
 
             // Validate the schema first
-            // var yamlObjectInstance = deserializer.Deserialize<IDictionary<string,object>>(yaml);
 
             // Read type's schema info
             var rootSchemaProperty = new SchemaGenerator().GetSchemaInfo(typeof(T));

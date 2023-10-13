@@ -143,7 +143,7 @@ attributes:
     description: Noun denoting the natives of the country
     type: text
     textTypeOptions:
-      maxLength: 63
+      maxLength: SixtyThree
 
   - name: AreaInSquareKilometres
     description: Country area in square kilometers
