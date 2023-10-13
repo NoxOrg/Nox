@@ -785,8 +785,8 @@ domain:
             entity: SecondTestEntityOwnedRelationshipExactlyOne
 
     - name: SecondTestEntityOwnedRelationshipExactlyOne
-   
-      persistence: 
+
+      persistence:
         isAudited: false
 
       attributes:
@@ -825,8 +825,8 @@ domain:
             entity: SecondTestEntityOwnedRelationshipZeroOrOne
 
     - name: SecondTestEntityOwnedRelationshipZeroOrOne
-   
-      persistence: 
+
+      persistence:
         isAudited: false
 
       attributes:
@@ -865,8 +865,8 @@ domain:
             entity: SecondTestEntityOwnedRelationshipOneOrMany
 
     - name: SecondTestEntityOwnedRelationshipOneOrMany
-   
-      persistence: 
+
+      persistence:
         isAudited: false
 
       keys:
@@ -915,8 +915,8 @@ domain:
             entity: SecondTestEntityOwnedRelationshipZeroOrMany
 
     - name: SecondTestEntityOwnedRelationshipZeroOrMany
-   
-      persistence: 
+
+      persistence:
         isAudited: false
 
       keys:
@@ -970,8 +970,8 @@ domain:
             entity: SecondTestEntityTwoRelationshipsOneToOne
 
     - name: SecondTestEntityTwoRelationshipsOneToOne
-   
-      persistence: 
+
+      persistence:
         isAudited: false
 
       keys:
@@ -1036,8 +1036,8 @@ domain:
             entity: SecondTestEntityTwoRelationshipsManyToMany
 
     - name: SecondTestEntityTwoRelationshipsManyToMany
-   
-      persistence: 
+
+      persistence:
         isAudited: false
 
       keys:
@@ -1103,8 +1103,8 @@ domain:
             entity: SecondTestEntityTwoRelationshipsOneToMany
 
     - name: SecondTestEntityTwoRelationshipsOneToMany
-   
-      persistence: 
+
+      persistence:
         isAudited: false
 
       keys:
@@ -1139,7 +1139,7 @@ domain:
 
     - name: TestEntityForTypes
       description: Entity created for testing database
-      
+
       userInterface:
         icon: world
 

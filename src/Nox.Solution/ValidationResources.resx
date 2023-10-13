@@ -528,4 +528,10 @@
   <data name="IntegrationTransformationTypeEmpty" xml:space="preserve">
     <value>Integration TransformationType missing. an Integration Transformation Type must be specified for each integration.</value>
   </data>
+  <data name="EntityCompoundKeyTextFieldsCantBeLocalized" xml:space="preserve">
+    <value>The entity '{0}' can't have localized text attributes because it has a compound key. Localized text attributes are only supported for entities with single keys.</value>
+  </data>
+  <data name="EntityOwnedTextFieldsCantBeLocalized" xml:space="preserve">
+    <value>The entity '{0}' can't have localized text attributes because it is owned entity. Localized text attributes are only supported for non-owned entities.</value>
+  </data>
 </root>
