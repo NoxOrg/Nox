@@ -14,6 +14,7 @@ namespace Nox.Generator.Tests.Common;
 
 public class CompileTests : IClassFixture<GeneratorFixture>
 {
+    public readonly string BasePath = "../../../Generated/";
     private readonly ITestOutputHelper _testOutputHelper;
     private readonly GeneratorFixture _generatorFixture;
 
@@ -32,8 +33,8 @@ public class CompileTests : IClassFixture<GeneratorFixture>
             $"./{path}test.solution.nox.yaml"
         };
         var result = _generatorFixture.GenerateSourceCodeFor(sources);
-        var references = GetReferences();
-        _testOutputHelper.WriteLine($"References count: {references.Count()}");
+        var references = GetReferences().ToList();
+        _testOutputHelper.WriteLine($"References count: {references.Count}");
 
         var compilation = CreateCompilation(result.Sources, references);
 
@@ -46,16 +47,20 @@ public class CompileTests : IClassFixture<GeneratorFixture>
             _testOutputHelper.WriteLine(diagnostic.Location.SourceTree?.ToString() ?? "No source tree");
             _testOutputHelper.WriteLine(new string('*', 120));
         }
+        
+        if(diagnostics.Count > 0)
+            GenerateAllFiles(result.Sources);
 
         diagnostics
             .Should()
             .BeEmpty();
+        
     }
 
-    private static CSharpCompilation CreateCompilation(IEnumerable<string> sources,
+    private static CSharpCompilation CreateCompilation(IDictionary<string,string> sources,
         IEnumerable<MetadataReference> references)
     {
-        var globalUsingFile =
+        var globalUsingFileContent =
             @"global using global::System;
 global using global::System.Collections.Generic;
 global using global::System.IO;
@@ -64,12 +69,13 @@ global using global::System.Net.Http;
 global using global::System.Threading;
 global using global::System.Threading.Tasks;
 global using global::Microsoft.AspNetCore.Builder;";
+        var globalUsingFile = "0.GlobalUsing.g.cs";
 
-        sources = sources.Prepend(globalUsingFile);
+        sources.Add(globalUsingFile, globalUsingFileContent);
         return CSharpCompilation.Create(
             assemblyName: "compilation",
             syntaxTrees: sources.Select(source =>
-                CSharpSyntaxTree.ParseText(source, new CSharpParseOptions(LanguageVersion.Preview))),
+                CSharpSyntaxTree.ParseText(source.Value, new CSharpParseOptions(LanguageVersion.Preview))),
             references: references,
             options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
     }
@@ -167,5 +173,19 @@ global using global::Microsoft.AspNetCore.Builder;";
         }
 
         return true;
+    }
+
+    private  void GenerateAllFiles(IDictionary<string,string> sources)
+    {
+        if (!Directory.Exists(BasePath))
+        {
+            Directory.CreateDirectory(BasePath);
+        } 
+        foreach (var source in sources)
+        {
+            var path = Path.Combine(BasePath, source.Key);
+
+            File.WriteAllText(path, source.Value);
+        }
     }
 }

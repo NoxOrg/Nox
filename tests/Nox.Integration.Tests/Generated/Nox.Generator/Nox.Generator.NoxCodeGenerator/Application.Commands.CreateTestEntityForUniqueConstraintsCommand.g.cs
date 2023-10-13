@@ -9,7 +9,7 @@ using Nox.Application;
 using Nox.Application.Commands;
 using Nox.Exceptions;
 using Nox.Extensions;
-using Nox.Factories;
+using Nox.Application.Factories;
 using Nox.Solution;
 
 using TestWebApp.Infrastructure.Persistence;

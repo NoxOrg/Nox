@@ -16,21 +16,21 @@ namespace TestWebApp.Domain;
 
 internal partial class TestEntityZeroOrMany : TestEntityZeroOrManyBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
 /// <summary>
 /// Record for TestEntityZeroOrMany created event.
@@ -59,33 +59,33 @@ internal abstract partial class TestEntityZeroOrManyBase : AuditableEntityBase, 
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
 	protected virtual void InternalRaiseCreateEvent(TestEntityZeroOrMany testEntityZeroOrMany)
 	{
 		InternalDomainEvents.Add(new TestEntityZeroOrManyCreated(testEntityZeroOrMany));
-	}
+    }
 	
 	protected virtual void InternalRaiseUpdateEvent(TestEntityZeroOrMany testEntityZeroOrMany)
 	{
 		InternalDomainEvents.Add(new TestEntityZeroOrManyUpdated(testEntityZeroOrMany));
-	}
+    }
 	
 	protected virtual void InternalRaiseDeleteEvent(TestEntityZeroOrMany testEntityZeroOrMany)
 	{
 		InternalDomainEvents.Add(new TestEntityZeroOrManyDeleted(testEntityZeroOrMany));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// TestEntityZeroOrMany Test entity relationship to SecondTestEntityZeroOrMany ZeroOrMany SecondTestEntityZeroOrManies

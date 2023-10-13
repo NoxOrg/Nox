@@ -1,0 +1,8 @@
+﻿# yaml-language-server: $schema=../../../schemas/versionControl.json
+#
+# has a missing ''host'' entry to be picked up by schema validator
+
+provider: azureDevops
+folders:
+  sourceCode: /src
+  containers: /docker

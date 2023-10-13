@@ -5,7 +5,7 @@
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Types;
-using Nox.Messaging;
+using Nox.Infrastructure.Messaging;
 using System.Collections.Generic;
 
 using SampleWebApp.Application.Dto;

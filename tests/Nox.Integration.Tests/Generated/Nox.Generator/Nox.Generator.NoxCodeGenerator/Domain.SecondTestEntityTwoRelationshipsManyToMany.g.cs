@@ -16,21 +16,21 @@ namespace TestWebApp.Domain;
 
 internal partial class SecondTestEntityTwoRelationshipsManyToMany : SecondTestEntityTwoRelationshipsManyToManyBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
 /// <summary>
 /// Record for SecondTestEntityTwoRelationshipsManyToMany created event.
@@ -59,33 +59,33 @@ internal abstract partial class SecondTestEntityTwoRelationshipsManyToManyBase :
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField2 { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
 	protected virtual void InternalRaiseCreateEvent(SecondTestEntityTwoRelationshipsManyToMany secondTestEntityTwoRelationshipsManyToMany)
 	{
 		InternalDomainEvents.Add(new SecondTestEntityTwoRelationshipsManyToManyCreated(secondTestEntityTwoRelationshipsManyToMany));
-	}
+    }
 	
 	protected virtual void InternalRaiseUpdateEvent(SecondTestEntityTwoRelationshipsManyToMany secondTestEntityTwoRelationshipsManyToMany)
 	{
 		InternalDomainEvents.Add(new SecondTestEntityTwoRelationshipsManyToManyUpdated(secondTestEntityTwoRelationshipsManyToMany));
-	}
+    }
 	
 	protected virtual void InternalRaiseDeleteEvent(SecondTestEntityTwoRelationshipsManyToMany secondTestEntityTwoRelationshipsManyToMany)
 	{
 		InternalDomainEvents.Add(new SecondTestEntityTwoRelationshipsManyToManyDeleted(secondTestEntityTwoRelationshipsManyToMany));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// SecondTestEntityTwoRelationshipsManyToMany First relationship to the same entity on the other side ZeroOrMany TestEntityTwoRelationshipsManyToManies

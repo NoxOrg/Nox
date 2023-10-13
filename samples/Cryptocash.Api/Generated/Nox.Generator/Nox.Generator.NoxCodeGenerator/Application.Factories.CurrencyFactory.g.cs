@@ -11,7 +11,7 @@ using MediatR;
 using Nox.Abstractions;
 using Nox.Solution;
 using Nox.Domain;
-using Nox.Factories;
+using Nox.Application.Factories;
 using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
@@ -69,8 +69,8 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
         entity.MinorName = Cryptocash.Domain.CurrencyMetadata.CreateMinorName(createDto.MinorName);
         entity.MinorSymbol = Cryptocash.Domain.CurrencyMetadata.CreateMinorSymbol(createDto.MinorSymbol);
         entity.MinorToMajorValue = Cryptocash.Domain.CurrencyMetadata.CreateMinorToMajorValue(createDto.MinorToMajorValue);
-        entity.CurrencyCommonBankNotes = createDto.CurrencyCommonBankNotes.Select(dto => BankNoteFactory.CreateEntity(dto)).ToList();
-        entity.CurrencyExchangedFromRates = createDto.CurrencyExchangedFromRates.Select(dto => ExchangeRateFactory.CreateEntity(dto)).ToList();
+        createDto.CurrencyCommonBankNotes.ForEach(dto => entity.CreateRefToCurrencyCommonBankNotes(BankNoteFactory.CreateEntity(dto)));
+        createDto.CurrencyExchangedFromRates.ForEach(dto => entity.CreateRefToCurrencyExchangedFromRates(ExchangeRateFactory.CreateEntity(dto)));
         return entity;
     }
 

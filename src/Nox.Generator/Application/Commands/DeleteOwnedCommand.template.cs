@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
-using Nox.Factories;
+using Nox.Application.Factories;
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
@@ -62,7 +62,7 @@ internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandlerBase
 			return false;
 		}
 
-		parentEntity.{{relationship.Name}} = null!;
+		parentEntity.DeleteRefTo{{relationship.Name}}(entity);
 
 		await OnCompletedAsync(request, entity);
 

@@ -756,7 +756,7 @@ public class NoxCommonTestCaseFactory
             TextTestField2 = Text.From(textId2),
         };
 
-        newItem.SecondTestEntityOwnedRelationshipExactlyOne = newItem2;
+        newItem.CreateRefToSecondTestEntityOwnedRelationshipExactlyOne(newItem2);
         DataContext.TestEntityOwnedRelationshipExactlyOnes.Add(newItem);
         DataContext.SaveChanges();
 
@@ -786,7 +786,7 @@ public class NoxCommonTestCaseFactory
             TextTestField2 = Text.From(textId2),
         };
 
-        newItem.SecondTestEntityOwnedRelationshipZeroOrOne = newItem2;
+        newItem.CreateRefToSecondTestEntityOwnedRelationshipZeroOrOne(newItem2);
         DataContext.TestEntityOwnedRelationshipZeroOrOnes.Add(newItem);
         DataContext.SaveChanges();
 

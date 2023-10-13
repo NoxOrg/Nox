@@ -11,7 +11,7 @@ using MediatR;
 using Nox.Abstractions;
 using Nox.Solution;
 using Nox.Domain;
-using Nox.Factories;
+using Nox.Application.Factories;
 using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
@@ -57,7 +57,7 @@ internal abstract class TestEntityOwnedRelationshipExactlyOneFactoryBase : IEnti
         entity.TextTestField = TestWebApp.Domain.TestEntityOwnedRelationshipExactlyOneMetadata.CreateTextTestField(createDto.TextTestField);
         if (createDto.SecondTestEntityOwnedRelationshipExactlyOne is not null)
         {
-            entity.SecondTestEntityOwnedRelationshipExactlyOne = SecondTestEntityOwnedRelationshipExactlyOneFactory.CreateEntity(createDto.SecondTestEntityOwnedRelationshipExactlyOne);
+            entity.CreateRefToSecondTestEntityOwnedRelationshipExactlyOne(SecondTestEntityOwnedRelationshipExactlyOneFactory.CreateEntity(createDto.SecondTestEntityOwnedRelationshipExactlyOne));
         }
         return entity;
     }

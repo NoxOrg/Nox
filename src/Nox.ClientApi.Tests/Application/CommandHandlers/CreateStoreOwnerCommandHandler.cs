@@ -1,10 +1,10 @@
 ﻿
 using ClientApi.Application.Dto;
-using Nox.Factories;
-using Nox.Messaging;
 using Nox.Solution;
 using ClientApi.Domain;
 using ClientApi.Application.IntegrationEvents.StoreOwner;
+using Nox.Infrastructure.Messaging;
+using Nox.Application.Factories;
 
 namespace ClientApi.Application.Commands;
 

@@ -11,7 +11,7 @@ using MediatR;
 using Nox.Abstractions;
 using Nox.Solution;
 using Nox.Domain;
-using Nox.Factories;
+using Nox.Application.Factories;
 using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
@@ -60,7 +60,7 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
         entity.EnsureId(createDto.Id);
         if (createDto.VerifiedEmails is not null)
         {
-            entity.VerifiedEmails = EmailAddressFactory.CreateEntity(createDto.VerifiedEmails);
+            entity.CreateRefToVerifiedEmails(EmailAddressFactory.CreateEntity(createDto.VerifiedEmails));
         }
         return entity;
     }

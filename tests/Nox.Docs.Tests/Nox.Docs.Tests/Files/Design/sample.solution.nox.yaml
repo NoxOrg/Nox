@@ -366,49 +366,54 @@ application:
             minLength: 2
 
   integrations:
-    - name: SampleEtl
-      description: a Sample Etl
+    - name: JsonToEntityIntegration
+      description: a Sample integration that sources data from json files and persist to a Nox Entity
+
+      schedule:
+        start: every day at 2am
+        retry:
+          limit: 5
+          delaySeconds: 5
+          doubleDelayLimit: 10
+        runOnStartup: true
+
       source:
         name: CountryJsonSource
         description: Sources Country data from a json file
         dataConnectionName: CountryJsonData
-        sourceType: file
-        fileOptions: 
+        sourceAdapterType: file
+        fileOptions:
           filename: country-seed-data.json
-        schedule:
-          start: every day at 2am
-          retry:
-            limit: 5
-            delaySeconds: 5
-            doubleDelayLimit: 10
-          runOnStartup: true
+          recordAttributes:
+            - name: Id
+              description: The ISO Alpha 2 code of the country
+              type: text
+              textTypeOptions:
+                casing: lower
+                maxLength: 2
+                minLength: 2
+
+            - name: CountryName
+              description: The globally accepted name of the country
+              type: text
+              textTypeOptions:
+                minLength: 2
+                maxLength: 50
+
         watermark:
           dateColumns:
             - "CreateDate"
             - "EditDate"
           sequentialKeyColumn: CountryId
-      transform:
-        mappings:
-          - sourceColumn: IsoAlpha2Code
-            targetAttribute: Id
-            converter: upperCase
-          - sourceColumn: CountryName
-            targetAttribute: Name
-          - sourceColumn: CountryFullName
-            targetAttribute: FormalName
-        lookups:
-          - sourceColumn: RegionId
-            match:
-              table: GeoRegions
-              lookupColumn: Id
-              returnColumn: Name
-            targetAttribute: GeoRegion
+
+      transformationType: defaultTransform
+
       target:
         name: Country
-        dataConnectionName: SampleCurrencyDb
-        targetType: entity
+        dataConnectionName: SqlServerData
+        targetAdapterType: entity
         entityOptions:
-            entity: Country 
+          entity: Country
 
 infrastructure:
   
@@ -506,6 +511,12 @@ infrastructure:
 #      port: 443
 
     dataConnections:
+      - name: SqlServerData
+        provider: sqlServer
+        serverUri: localhost
+        user: sa
+        password: Developer*123
+
       - name: CountryJsonData
         provider: jsonFile
         serverUri: file:///C:/my-data-files

@@ -16,21 +16,21 @@ namespace Cryptocash.Domain;
 
 internal partial class CashStockOrder : CashStockOrderBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
 /// <summary>
 /// Record for CashStockOrder created event.
@@ -78,33 +78,33 @@ internal abstract partial class CashStockOrderBase : AuditableEntityBase, IEntit
         get { return DeliveryDateTime != null ? "delivered" : "ordered"; }
         private set { }
     }
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
 	protected virtual void InternalRaiseCreateEvent(CashStockOrder cashStockOrder)
 	{
 		InternalDomainEvents.Add(new CashStockOrderCreated(cashStockOrder));
-	}
+    }
 	
 	protected virtual void InternalRaiseUpdateEvent(CashStockOrder cashStockOrder)
 	{
 		InternalDomainEvents.Add(new CashStockOrderUpdated(cashStockOrder));
-	}
+    }
 	
 	protected virtual void InternalRaiseDeleteEvent(CashStockOrder cashStockOrder)
 	{
 		InternalDomainEvents.Add(new CashStockOrderDeleted(cashStockOrder));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// CashStockOrder for ExactlyOne VendingMachines
@@ -123,12 +123,12 @@ internal abstract partial class CashStockOrderBase : AuditableEntityBase, IEntit
 
     public virtual void DeleteRefToCashStockOrderForVendingMachine(VendingMachine relatedVendingMachine)
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToCashStockOrderForVendingMachine()
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     /// <summary>
@@ -143,12 +143,12 @@ internal abstract partial class CashStockOrderBase : AuditableEntityBase, IEntit
 
     public virtual void DeleteRefToCashStockOrderReviewedByEmployee(Employee relatedEmployee)
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToCashStockOrderReviewedByEmployee()
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     /// <summary>

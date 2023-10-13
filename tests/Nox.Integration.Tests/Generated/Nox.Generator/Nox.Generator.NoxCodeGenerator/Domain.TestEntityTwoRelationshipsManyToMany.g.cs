@@ -16,21 +16,21 @@ namespace TestWebApp.Domain;
 
 internal partial class TestEntityTwoRelationshipsManyToMany : TestEntityTwoRelationshipsManyToManyBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
 /// <summary>
 /// Record for TestEntityTwoRelationshipsManyToMany created event.
@@ -59,33 +59,33 @@ internal abstract partial class TestEntityTwoRelationshipsManyToManyBase : Audit
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
 	protected virtual void InternalRaiseCreateEvent(TestEntityTwoRelationshipsManyToMany testEntityTwoRelationshipsManyToMany)
 	{
 		InternalDomainEvents.Add(new TestEntityTwoRelationshipsManyToManyCreated(testEntityTwoRelationshipsManyToMany));
-	}
+    }
 	
 	protected virtual void InternalRaiseUpdateEvent(TestEntityTwoRelationshipsManyToMany testEntityTwoRelationshipsManyToMany)
 	{
 		InternalDomainEvents.Add(new TestEntityTwoRelationshipsManyToManyUpdated(testEntityTwoRelationshipsManyToMany));
-	}
+    }
 	
 	protected virtual void InternalRaiseDeleteEvent(TestEntityTwoRelationshipsManyToMany testEntityTwoRelationshipsManyToMany)
 	{
 		InternalDomainEvents.Add(new TestEntityTwoRelationshipsManyToManyDeleted(testEntityTwoRelationshipsManyToMany));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// TestEntityTwoRelationshipsManyToMany First relationship to the same entity OneOrMany SecondTestEntityTwoRelationshipsManyToManies
@@ -100,14 +100,14 @@ internal abstract partial class TestEntityTwoRelationshipsManyToManyBase : Audit
     public virtual void DeleteRefToTestRelationshipOne(SecondTestEntityTwoRelationshipsManyToMany relatedSecondTestEntityTwoRelationshipsManyToMany)
     {
         if(TestRelationshipOne.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         TestRelationshipOne.Remove(relatedSecondTestEntityTwoRelationshipsManyToMany);
     }
 
     public virtual void DeleteAllRefToTestRelationshipOne()
     {
         if(TestRelationshipOne.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         TestRelationshipOne.Clear();
     }
 
@@ -124,14 +124,14 @@ internal abstract partial class TestEntityTwoRelationshipsManyToManyBase : Audit
     public virtual void DeleteRefToTestRelationshipTwo(SecondTestEntityTwoRelationshipsManyToMany relatedSecondTestEntityTwoRelationshipsManyToMany)
     {
         if(TestRelationshipTwo.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         TestRelationshipTwo.Remove(relatedSecondTestEntityTwoRelationshipsManyToMany);
     }
 
     public virtual void DeleteAllRefToTestRelationshipTwo()
     {
         if(TestRelationshipTwo.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         TestRelationshipTwo.Clear();
     }
 

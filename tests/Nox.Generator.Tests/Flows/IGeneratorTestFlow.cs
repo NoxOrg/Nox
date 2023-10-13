@@ -10,5 +10,5 @@ public interface IGeneratorTestFlow
 
     IGeneratorContentTestFlow AssertContent();
 
-    IEnumerable<string> Sources { get; }
+    IDictionary<string,string> Sources { get; }
 }

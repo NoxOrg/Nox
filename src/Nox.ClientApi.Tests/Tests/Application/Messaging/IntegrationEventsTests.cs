@@ -4,7 +4,7 @@ using ClientApi.Application.IntegrationEvents;
 using ClientApi.Application.IntegrationEvents.StoreOwner;
 using FluentAssertions;
 using MassTransit.Testing;
-using Nox.Messaging;
+using Nox.Infrastructure.Messaging;
 using Nox.Types;
 using Xunit.Abstractions;
 

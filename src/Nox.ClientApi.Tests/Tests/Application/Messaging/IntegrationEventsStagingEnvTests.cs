@@ -3,7 +3,7 @@ using ClientApi.Application.Dto;
 using ClientApi.Application.IntegrationEvents;
 using FluentAssertions;
 using MassTransit.Testing;
-using Nox.Messaging;
+using Nox.Infrastructure.Messaging;
 using Xunit.Abstractions;
 
 namespace ClientApi.Tests.Application.Messaging

@@ -16,21 +16,21 @@ namespace TestWebApp.Domain;
 
 internal partial class SecondTestEntityOwnedRelationshipZeroOrOne : SecondTestEntityOwnedRelationshipZeroOrOneBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
 /// <summary>
 /// Record for SecondTestEntityOwnedRelationshipZeroOrOne created event.
@@ -55,32 +55,32 @@ internal abstract partial class SecondTestEntityOwnedRelationshipZeroOrOneBase :
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField2 { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
 	protected virtual void InternalRaiseCreateEvent(SecondTestEntityOwnedRelationshipZeroOrOne secondTestEntityOwnedRelationshipZeroOrOne)
 	{
 		InternalDomainEvents.Add(new SecondTestEntityOwnedRelationshipZeroOrOneCreated(secondTestEntityOwnedRelationshipZeroOrOne));
-	}
+    }
 	
 	protected virtual void InternalRaiseUpdateEvent(SecondTestEntityOwnedRelationshipZeroOrOne secondTestEntityOwnedRelationshipZeroOrOne)
 	{
 		InternalDomainEvents.Add(new SecondTestEntityOwnedRelationshipZeroOrOneUpdated(secondTestEntityOwnedRelationshipZeroOrOne));
-	}
+    }
 	
 	protected virtual void InternalRaiseDeleteEvent(SecondTestEntityOwnedRelationshipZeroOrOne secondTestEntityOwnedRelationshipZeroOrOne)
 	{
 		InternalDomainEvents.Add(new SecondTestEntityOwnedRelationshipZeroOrOneDeleted(secondTestEntityOwnedRelationshipZeroOrOne));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
 }

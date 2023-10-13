@@ -11,7 +11,7 @@ using MediatR;
 using Nox.Abstractions;
 using Nox.Solution;
 using Nox.Domain;
-using Nox.Factories;
+using Nox.Application.Factories;
 using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
@@ -59,7 +59,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
         entity.Address = Cryptocash.Domain.EmployeeMetadata.CreateAddress(createDto.Address);
         entity.FirstWorkingDay = Cryptocash.Domain.EmployeeMetadata.CreateFirstWorkingDay(createDto.FirstWorkingDay);
         if (createDto.LastWorkingDay is not null)entity.LastWorkingDay = Cryptocash.Domain.EmployeeMetadata.CreateLastWorkingDay(createDto.LastWorkingDay.NonNullValue<System.DateTime>());
-        entity.EmployeeContactPhoneNumbers = createDto.EmployeeContactPhoneNumbers.Select(dto => EmployeePhoneNumberFactory.CreateEntity(dto)).ToList();
+        createDto.EmployeeContactPhoneNumbers.ForEach(dto => entity.CreateRefToEmployeeContactPhoneNumbers(EmployeePhoneNumberFactory.CreateEntity(dto)));
         return entity;
     }
 
