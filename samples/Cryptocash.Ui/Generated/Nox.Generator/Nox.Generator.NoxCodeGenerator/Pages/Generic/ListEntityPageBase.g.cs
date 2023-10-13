@@ -812,6 +812,18 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             return;
         }
 
+        protected CurrencyDto? GetCurrencyById(string? CurrencyId)
+        {
+            if (!String.IsNullOrWhiteSpace(CurrencyId)
+                && CurrencyEntityData != null
+                && CurrencyEntityData.EntityList != null)
+            {
+                return CurrencyEntityData.EntityList.FirstOrDefault(Currency => String.Equals(Currency.Id, CurrencyId, StringComparison.CurrentCultureIgnoreCase));
+            }
+
+            return null;
+        }
+
         #endregion
     }
 }

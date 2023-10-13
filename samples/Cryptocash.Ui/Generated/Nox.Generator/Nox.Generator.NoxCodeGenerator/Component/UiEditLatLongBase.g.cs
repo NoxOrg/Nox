@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Cryptocash.Application.Dto;
 using Cryptocash.Ui.Generated.Data.Generic;
+using MudBlazor;
 
 namespace Cryptocash.Ui.Generated.Component
 {
@@ -23,6 +24,9 @@ namespace Cryptocash.Ui.Generated.Component
 
         [Parameter]
         public EventCallback<LatLongDto> LatLongChanged { get; set; }
+
+        [Parameter]
+        public string Format { get; set; } = "#.########";
 
         #endregion
 
