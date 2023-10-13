@@ -2,6 +2,9 @@ using Nox.Types.Schema;
 
 namespace Nox.Solution;
 
+[Title("Definition namespace for a database integration target.")]
+[Description("This section specified attributes related to an integration target of type Database. Attributes include the stored procedure that will be executed.")]
+[AdditionalProperties(false)]
 public class IntegrationTargetDatabaseOptions
 {
     [Required]

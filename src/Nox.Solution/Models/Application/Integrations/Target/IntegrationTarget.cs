@@ -3,8 +3,8 @@ using Nox.Types.Schema;
 namespace Nox.Solution;
 
 [GenerateJsonSchema]
-[Title("Definition namespace for attributes describing the target component of an ETL integration.")]
-[Description("This section details ETL target attributes like name, description and type among other.")]
+[Title("Definition namespace for attributes describing the target component of an integration integration.")]
+[Description("This section details integration target attributes like name, description and type among other.")]
 [AdditionalProperties(false)]
 public class IntegrationTarget
 {
@@ -21,9 +21,9 @@ public class IntegrationTarget
     [Required]
     [Title("The type of target.")]
     [Description("Specify the type of target. Options include entity, database, file, webAPI and message queue.")]
-    public IntegrationType TargetType { get; internal set; } = default;
+    public IntegrationAdapterType TargetAdapterType { get; internal set; } = default;
 
-    [Title("The name of the ETL target data connection. Contains no spaces.")]
+    [Title("The name of the integration target data connection. Contains no spaces.")]
     [Description("The name should be a commonly used singular noun and be unique within a solution.")]
     [Pattern(@"^[^\s]*$")]
     [Required]
@@ -31,22 +31,22 @@ public class IntegrationTarget
     public string DataConnectionName { get; internal set; } = null!;
 
     [AdditionalProperties(false)]
-    [IfEquals(nameof(TargetType),IntegrationType.Database)]
+    [IfEquals(nameof(TargetAdapterType),IntegrationAdapterType.Database)]
     public IntegrationTargetDatabaseOptions? DatabaseOptions { get; set; }
 
     [AdditionalProperties(false)]
-    [IfEquals(nameof(TargetType),IntegrationType.File)]
+    [IfEquals(nameof(TargetAdapterType),IntegrationAdapterType.File)]
     public IntegrationTargetFileOptions? FileOptions { get; set; }
 
     [AdditionalProperties(false)]
-    [IfEquals(nameof(TargetType), IntegrationType.WebApi)]
+    [IfEquals(nameof(TargetAdapterType), IntegrationAdapterType.WebApi)]
     public IntegrationTargetWebApiOptions? WebApiOptions { get; set; }
 
     [AdditionalProperties(false)]
-    [IfEquals(nameof(TargetType), IntegrationType.MessageQueue)]
+    [IfEquals(nameof(TargetAdapterType), IntegrationAdapterType.MessageQueue)]
     public IntegrationTargetMessageQueueOptions? MessageQueueOptions { get; set; }
 
     [AdditionalProperties(false)]
-    [IfEquals(nameof(TargetType), IntegrationType.Entity)]
+    [IfEquals(nameof(TargetAdapterType), IntegrationAdapterType.Entity)]
     public IntegrationTargetEntityOptions? EntityOptions { get; set; }
 }

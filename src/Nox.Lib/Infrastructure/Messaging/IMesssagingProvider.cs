@@ -2,7 +2,7 @@
 using MassTransit;
 using Nox.Solution;
 
-namespace Nox.Messaging
+namespace Nox.Infrastructure.Messaging
 {
     internal interface IMessageBrokerProvider
     {

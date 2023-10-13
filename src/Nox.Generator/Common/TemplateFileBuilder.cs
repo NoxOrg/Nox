@@ -1,4 +1,5 @@
 ﻿using Nox.Solution;
+using System;
 using System.IO;
 using System.Text;
 
@@ -13,9 +14,13 @@ internal class TemplateFileBuilder : TemplateBuilderBase
 
     private string? _fileExtension;
 
-    public TemplateFileBuilder(NoxSolutionCodeGeneratorState codeGeneratorState)
+    private string _outputPath;
+
+    public TemplateFileBuilder(NoxSolutionCodeGeneratorState codeGeneratorState, string? outputPath)
         : base (codeGeneratorState)
-    { }
+    {
+        _outputPath = outputPath ?? "";
+    }
 
     /// <summary>
     /// Optional extension to the generated file, otherwise .g.cs will be used
@@ -32,7 +37,7 @@ internal class TemplateFileBuilder : TemplateBuilderBase
     {
 #pragma warning disable RS1035 // Do not use APIs banned for analyzers
 
-        string absoluteFilePath = Path.Combine(Directory.GetCurrentDirectory(), _outputFolder, $"{fileName}.g.{_fileExtension}");
+        string absoluteFilePath = Path.Combine(_outputPath, _outputFolder, $"{fileName}.g.{_fileExtension}");
 
         FileInfo file = new FileInfo(absoluteFilePath);
         file.Directory.Create(); // If the directory already exists, this method does nothing.
