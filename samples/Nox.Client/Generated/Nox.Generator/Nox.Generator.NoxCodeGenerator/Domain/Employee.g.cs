@@ -16,21 +16,21 @@ namespace Cryptocash.Domain;
 
 internal partial class Employee : EmployeeBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
 /// <summary>
 /// Record for Employee created event.
@@ -84,33 +84,33 @@ internal abstract partial class EmployeeBase : AuditableEntityBase, IEntityConcu
     /// Employee's last working day (Optional).
     /// </summary>
     public Nox.Types.Date? LastWorkingDay { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
 	protected virtual void InternalRaiseCreateEvent(Employee employee)
 	{
 		InternalDomainEvents.Add(new EmployeeCreated(employee));
-	}
+    }
 	
 	protected virtual void InternalRaiseUpdateEvent(Employee employee)
 	{
 		InternalDomainEvents.Add(new EmployeeUpdated(employee));
-	}
+    }
 	
 	protected virtual void InternalRaiseDeleteEvent(Employee employee)
 	{
 		InternalDomainEvents.Add(new EmployeeDeleted(employee));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// Employee reviewing ExactlyOne CashStockOrders
@@ -129,18 +129,42 @@ internal abstract partial class EmployeeBase : AuditableEntityBase, IEntityConcu
 
     public virtual void DeleteRefToEmployeeReviewingCashStockOrder(CashStockOrder relatedCashStockOrder)
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToEmployeeReviewingCashStockOrder()
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     /// <summary>
     /// Employee contacted by ZeroOrMany EmployeePhoneNumbers
     /// </summary>
-    public virtual List<EmployeePhoneNumber> EmployeeContactPhoneNumbers { get; set; } = new();
+    public virtual List<EmployeePhoneNumber> EmployeeContactPhoneNumbers { get; private set; } = new();
+    
+    /// <summary>
+    /// Creates a new EmployeePhoneNumber entity.
+    /// </summary>
+    public virtual void CreateRefToEmployeeContactPhoneNumbers(EmployeePhoneNumber relatedEmployeePhoneNumber)
+    {
+        EmployeeContactPhoneNumbers.Add(relatedEmployeePhoneNumber);
+    }
+    
+    /// <summary>
+    /// Deletes owned EmployeePhoneNumber entity.
+    /// </summary>
+    public virtual void DeleteRefToEmployeeContactPhoneNumbers(EmployeePhoneNumber relatedEmployeePhoneNumber)
+    {
+        EmployeeContactPhoneNumbers.Remove(relatedEmployeePhoneNumber);
+    }
+    
+    /// <summary>
+    /// Deletes all owned EmployeePhoneNumber entities.
+    /// </summary>
+    public virtual void DeleteAllRefToEmployeeContactPhoneNumbers()
+    {
+        EmployeeContactPhoneNumbers.Clear();
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

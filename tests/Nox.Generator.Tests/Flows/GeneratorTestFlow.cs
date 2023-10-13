@@ -15,11 +15,11 @@ internal class GeneratorTestFlow : IGeneratorTestFlow
 
         Sources = _generatorRunResult
             .GeneratedSources
-            .Select(x => x.SourceText.ToString())
-            .ToArray();
+            .Select(x => new { key = x.HintName, value = x.SourceText.ToString()})
+            .ToDictionary(x => x.key, x => x.value);
     }
 
-    public IEnumerable<string> Sources { get; }
+    public IDictionary<string,string> Sources { get; }
 
     public IGeneratorTestFlow AssertFileExistence(int expectedFileCount, params string[] fileNames)
     {

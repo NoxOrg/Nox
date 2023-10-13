@@ -31,7 +31,7 @@ public partial class PaymentDetailMetadata
             MinLength = 4,
             MaxLength = 63,
             IsUnicode = true,
-            IsLocalized = true,
+            IsLocalized = false,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
@@ -51,7 +51,7 @@ public partial class PaymentDetailMetadata
             MinLength = 4,
             MaxLength = 63,
             IsUnicode = true,
-            IsLocalized = true,
+            IsLocalized = false,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
@@ -71,7 +71,7 @@ public partial class PaymentDetailMetadata
             MinLength = 4,
             MaxLength = 63,
             IsUnicode = true,
-            IsLocalized = true,
+            IsLocalized = false,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
     

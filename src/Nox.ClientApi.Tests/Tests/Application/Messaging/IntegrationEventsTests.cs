@@ -1,10 +1,12 @@
-﻿using FluentAssertions;
+﻿using AutoFixture;
 using ClientApi.Application.Dto;
-using AutoFixture;
+using ClientApi.Application.IntegrationEvents;
+using ClientApi.Application.IntegrationEvents.StoreOwner;
+using FluentAssertions;
+using MassTransit.Testing;
+using Nox.Infrastructure.Messaging;
 using Nox.Types;
 using Xunit.Abstractions;
-using ClientApi.Application.IntegrationEvents.StoreOwner;
-using ClientApi.Application.IntegrationEvents;
 
 namespace ClientApi.Tests.Application.Messaging
 {
@@ -17,10 +19,8 @@ namespace ClientApi.Tests.Application.Messaging
 
         public IntegrationEventsTests(
             ITestOutputHelper testOutput,
-           NoxTestContainerService containerService)
-           : base(testOutput, containerService, true)
-        {
-        }
+            NoxTestContainerService containerService)
+           : base(testOutput, containerService, true) { }
 
         #region Integration Events
 
@@ -43,7 +43,7 @@ namespace ClientApi.Tests.Application.Messaging
             //Assert
             result.Should().NotBeNull();
 
-            (await MassTransitTestHarness.Published.Any<Nox.Messaging.NoxMessageRecord<UnknowStoreOwnerCreated>>()).Should().BeTrue();
+            (await MassTransitTestHarness.Published.Any<NoxMessageRecord<UnknowStoreOwnerCreated>>()).Should().BeTrue();
         }
 
         [Fact]
@@ -62,8 +62,8 @@ namespace ClientApi.Tests.Application.Messaging
             //Assert
             result.Should().NotBeNull();
 
-            (await MassTransitTestHarness.Published.Any<Nox.Messaging.NoxMessageRecord<CountryCreated>>()).Should().BeTrue();
-            (await MassTransitTestHarness.Published.Any<Nox.Messaging.NoxMessageRecord<CountryPopulationHigherThan100M>>()).Should().BeTrue();
+            (await MassTransitTestHarness.Published.Any<NoxMessageRecord<CountryCreated>>()).Should().BeTrue();
+            (await MassTransitTestHarness.Published.Any<NoxMessageRecord<CountryPopulationHigherThan100M>>()).Should().BeTrue();
         }
 
         [Fact]
@@ -91,9 +91,9 @@ namespace ClientApi.Tests.Application.Messaging
             //Assert
             updateResult.Should().NotBeNull();
 
-            (await MassTransitTestHarness.Published.Any<Nox.Messaging.NoxMessageRecord<CountryCreated>>()).Should().BeTrue();
-            (await MassTransitTestHarness.Published.Any<Nox.Messaging.NoxMessageRecord<CountryUpdated>>()).Should().BeTrue();
-            (await MassTransitTestHarness.Published.Any<Nox.Messaging.NoxMessageRecord<CountryPopulationHigherThan100M>>()).Should().BeTrue();
+            (await MassTransitTestHarness.Published.Any<NoxMessageRecord<CountryCreated>>()).Should().BeTrue();
+            (await MassTransitTestHarness.Published.Any<NoxMessageRecord<CountryUpdated>>()).Should().BeTrue();
+            (await MassTransitTestHarness.Published.Any<NoxMessageRecord<CountryPopulationHigherThan100M>>()).Should().BeTrue();
         }
 
         [Fact]
@@ -115,8 +115,10 @@ namespace ClientApi.Tests.Application.Messaging
             //Assert
             deleteResult.Should().NotBeNull();
 
-            (await MassTransitTestHarness.Published.Any<Nox.Messaging.NoxMessageRecord<CountryCreated>>()).Should().BeTrue();
-            (await MassTransitTestHarness.Published.Any<Nox.Messaging.NoxMessageRecord<CountryUpdated>>()).Should().BeTrue(); // Because we are changing the EntityState from Deleted to Modified for auditable entities and thus updated event is raised
+            // TODO: extend with event count so no additional events are sent, right now failing due to events from other test cases
+            //MassTransitTestHarness.Published.Count().Should().Be(2);
+            (await MassTransitTestHarness.Published.Any<NoxMessageRecord<CountryCreated>>()).Should().BeTrue();
+            (await MassTransitTestHarness.Published.Any<NoxMessageRecord<CountryUpdated>>()).Should().BeTrue(); // Because we are changing the EntityState from Deleted to Modified for auditable entities and thus updated event is raised
         }
 
         [Fact]
@@ -137,7 +139,40 @@ namespace ClientApi.Tests.Application.Messaging
             //Assert
             deleteResult.Should().NotBeNull();
 
-            (await MassTransitTestHarness.Published.Any<Nox.Messaging.NoxMessageRecord<WorkplaceDeleted>>()).Should().BeTrue();
+            // TODO: extend with event count so no additional events are sent, right now failing due to events from other test cases
+            //MassTransitTestHarness.Published.Count().Should().Be(1);
+            (await MassTransitTestHarness.Published.Any<NoxMessageRecord<WorkplaceDeleted>>()).Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task Put_Country_SetsMessageValuesProperly()
+        {
+            // Arrange
+            var createDto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                Population = 99_999_999,
+            };
+
+            var createResult = await PostAsync<CountryCreateDto, CountryDto>(CountriesControllerName, createDto);
+
+            var updateDto = new CountryUpdateDto
+            {
+                Name = createDto.Name,
+                Population = 100_000_001,
+            };
+
+            // Act
+            var headers = CreateEtagHeader(createResult?.Etag);
+            var updateResult = await PutAsync<CountryUpdateDto, CountryDto>($"{CountriesControllerName}/{createResult!.Id}", updateDto, headers);
+
+            //Assert
+            updateResult.Should().NotBeNull();
+
+            var messageObject = MassTransitTestHarness.Published.Select(x => true).AsEnumerable().First().MessageObject;
+            ((NoxMessageRecord<CountryCreated>)messageObject).source!.OriginalString.Should().Be("https://Nox-Tests.com/ClientApi");
+            ((NoxMessageRecord<CountryCreated>)messageObject).type.Should().Be("Nox-Tests.ClientApi.Country.v1.0.created");
+            ((NoxMessageRecord<CountryCreated>)messageObject).dataschema!.OriginalString.Should().Be("https://Nox-Tests.com/schemas/ClientApi/Country/v1.0/created.json");
         }
 
         #endregion Integration Events

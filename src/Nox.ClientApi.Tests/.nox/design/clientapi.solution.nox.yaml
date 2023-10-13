@@ -7,6 +7,7 @@
 #
 
 name: ClientApi
+platformId: Nox-Tests
 
 description: Project for Nox System Testing
 
@@ -15,23 +16,23 @@ domain:
   entities:
 
     - $ref: ./Entities/country.entity.nox.yaml
-  
+
     - $ref: ./Entities/countrylocalname.entity.nox.yaml
-  
+
     - $ref: ./Entities/countrybarcode.entity.nox.yaml
-  
+
     - $ref: ./Entities/ratingprogram.entity.nox.yaml
-  
+
     - $ref: ./Entities/countryqualityoflifeindex.entity.nox.yaml
-  
+
     - $ref: ./Entities/store.entity.nox.yaml
-  
+
     - $ref: ./Entities/workplace.entity.nox.yaml
-  
+
     - $ref: ./Entities/store-owner.entity.nox.yaml
-  
+
     - $ref: ./Entities/store-license.entity.nox.yaml
-  
+
     - name: EmailAddress #owned by store
       description: Verified Email Address
 
@@ -46,38 +47,39 @@ domain:
           description: Verified
           type: boolean
           isRequired: false
-  
-      persistence: 
+
+      persistence:
         isAudited: false #owned entity => need to suport one to one relations
 
 infrastructure:
-  
+
   persistence:
 
     databaseServer: # tests will override this configuration
       name: ClientApi
-      provider: sqlServer      
+      provider: sqlServer
       options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True
       serverUri: localhost
-      user: sa  
+      user: sa
       password: Developer*123
-      # provider: sqLite      
+      # provider: sqLite
       # #options: "DataSource=:memory:"
       # options: "Data Source=Client.db"
       # serverUri: "localhost"
-      # user: "sa"  
+      # user: "sa"
       # password: "pwd"
-      
-  messaging:
-    integrationEventServer:       
-      name: IntegrationBus
-      provider: inMemory      
 
-application:  
+  messaging:
+    integrationEventServer:
+      name: IntegrationBus
+      provider: inMemory
+
+application:
   integrationEvents:
         - name: CountryPopulationHigherThan100M
           description: Country Population Updated with Population Higher then 100M
           type: object
+          trait: Country
           objectTypeOptions:
             attributes:
               - name: Name
@@ -87,7 +89,7 @@ application:
                 type: number
 
               - name: CountryDebt
-                type: money    
+                type: money
 
   dataTransferObjects:
     - name: TempDto

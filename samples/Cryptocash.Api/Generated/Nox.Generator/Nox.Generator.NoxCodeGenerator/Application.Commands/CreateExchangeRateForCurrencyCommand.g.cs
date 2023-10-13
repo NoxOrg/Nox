@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application;
 using Nox.Application.Commands;
-using Nox.Factories;
+using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
 
@@ -55,7 +55,7 @@ internal abstract class CreateExchangeRateForCurrencyCommandHandlerBase : Comman
 		}
 
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
-		parentEntity.CurrencyExchangedFromRates.Add(entity);
+		parentEntity.CreateRefToCurrencyExchangedFromRates(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 

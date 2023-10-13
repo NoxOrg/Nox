@@ -146,9 +146,9 @@ internal partial class ClientApiDbContext : DbContext
         await DispatchEvents(entriesWithDomainEvents.SelectMany(e=>e.Entity.DomainEvents));
         ClearDomainEvents(entriesWithDomainEvents.ToList());
     }
-    public IEnumerable<EntityEntry<IEntityHaveDomainEvents>> GetEntriesWithDomainEvents()
+    public EntityEntry<IEntityHaveDomainEvents>[] GetEntriesWithDomainEvents()
     {
-        return ChangeTracker.Entries<IEntityHaveDomainEvents>();
+        return ChangeTracker.Entries<IEntityHaveDomainEvents>().ToArray();
     }
 
     public void RaiseDomainEventsFor(IEnumerable<EntityEntry<IEntityHaveDomainEvents>> entriesWithDomainEvents)

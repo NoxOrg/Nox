@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Nox.Generator.Application.Commands;
 
-internal class DeleteOwnedCommandGenerator : ApplicationGeneratorBase
+internal class DeleteOwnedCommandGenerator : ApplicationEntityDependentGeneratorBase
 {
     protected override void DoGenerate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, IEnumerable<Entity> entities)
     {

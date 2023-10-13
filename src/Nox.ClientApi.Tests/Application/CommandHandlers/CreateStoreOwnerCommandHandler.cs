@@ -1,17 +1,17 @@
 ﻿
 using ClientApi.Application.Dto;
-using Nox.Factories;
-using Nox.Messaging;
 using Nox.Solution;
 using ClientApi.Domain;
 using ClientApi.Application.IntegrationEvents.StoreOwner;
+using Nox.Infrastructure.Messaging;
+using Nox.Application.Factories;
 
 namespace ClientApi.Application.Commands;
 
 /// <summary>
 /// Example of fully override and implement a default command handler
 /// </summary>
-internal partial class CreateStoreOwnerCommandHandler 
+internal partial class CreateStoreOwnerCommandHandler
 {
     private IOutboxRepository? _outboxRepository;
 
@@ -25,13 +25,13 @@ internal partial class CreateStoreOwnerCommandHandler
     {
         _outboxRepository = outboxRepository;
     }
-   
+
     protected override async Task OnCompletedAsync(CreateStoreOwnerCommand request, StoreOwner entity)
-    {        
-        if(entity.TemporaryOwnerName.Value == "unknow")
+    {
+        if (entity.TemporaryOwnerName.Value == "unknow")
         {
             // Send a integration event to the outbox
-          await   _outboxRepository!.AddAsync(new UnknowStoreOwnerCreated(entity.Id.Value));
+          await _outboxRepository!.AddAsync(new UnknowStoreOwnerCreated(entity.Id.Value));
         }
     }
 }

@@ -16,21 +16,21 @@ namespace TestWebApp.Domain;
 
 internal partial class ThirdTestEntityZeroOrOne : ThirdTestEntityZeroOrOneBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
 /// <summary>
 /// Record for ThirdTestEntityZeroOrOne created event.
@@ -59,33 +59,33 @@ internal abstract partial class ThirdTestEntityZeroOrOneBase : AuditableEntityBa
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField2 { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
 	protected virtual void InternalRaiseCreateEvent(ThirdTestEntityZeroOrOne thirdTestEntityZeroOrOne)
 	{
 		InternalDomainEvents.Add(new ThirdTestEntityZeroOrOneCreated(thirdTestEntityZeroOrOne));
-	}
+    }
 	
 	protected virtual void InternalRaiseUpdateEvent(ThirdTestEntityZeroOrOne thirdTestEntityZeroOrOne)
 	{
 		InternalDomainEvents.Add(new ThirdTestEntityZeroOrOneUpdated(thirdTestEntityZeroOrOne));
-	}
+    }
 	
 	protected virtual void InternalRaiseDeleteEvent(ThirdTestEntityZeroOrOne thirdTestEntityZeroOrOne)
 	{
 		InternalDomainEvents.Add(new ThirdTestEntityZeroOrOneDeleted(thirdTestEntityZeroOrOne));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// ThirdTestEntityZeroOrOne Test entity relationship to ThirdTestEntityExactlyOne ZeroOrOne ThirdTestEntityExactlyOnes

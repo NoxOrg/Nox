@@ -51,4 +51,4 @@ attributes:
       showOnUpdateForm: true
 
 persistence:
-    isAudited: false    
+    isAudited: false

@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Nox.Generator.Application.Commands;
 
-internal class UpdateOwnedCommandGenerator : ApplicationGeneratorBase
+internal class UpdateOwnedCommandGenerator : ApplicationEntityDependentGeneratorBase
 {
     protected override void DoGenerate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, IEnumerable<Entity> entities)
     {

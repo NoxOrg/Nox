@@ -6,7 +6,7 @@ using Nox.Solution;
 
 namespace Nox.Generator.Application.Queries;
 
-internal class QueryGenerator : ApplicationGeneratorBase
+internal class QueryGenerator : ApplicationEntityDependentGeneratorBase
 {
     protected override void DoGenerate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, IEnumerable<Entity> entities)
     {

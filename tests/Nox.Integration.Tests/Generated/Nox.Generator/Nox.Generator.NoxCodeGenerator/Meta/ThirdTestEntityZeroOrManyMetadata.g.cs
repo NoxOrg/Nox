@@ -24,7 +24,7 @@ public partial class ThirdTestEntityZeroOrManyMetadata
             MinLength = 2,
             MaxLength = 2,
             IsUnicode = false,
-            IsLocalized = true,
+            IsLocalized = false,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
@@ -44,7 +44,7 @@ public partial class ThirdTestEntityZeroOrManyMetadata
             MinLength = 4,
             MaxLength = 63,
             IsUnicode = true,
-            IsLocalized = true,
+            IsLocalized = false,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
@@ -64,7 +64,7 @@ public partial class ThirdTestEntityZeroOrManyMetadata
             MinLength = 2,
             MaxLength = 2,
             IsUnicode = false,
-            IsLocalized = true,
+            IsLocalized = false,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
     

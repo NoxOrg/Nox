@@ -16,21 +16,21 @@ namespace ClientApi.Domain;
 
 internal partial class CountryQualityOfLifeIndex : CountryQualityOfLifeIndexBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
 /// <summary>
 /// Record for CountryQualityOfLifeIndex created event.
@@ -65,33 +65,33 @@ internal abstract partial class CountryQualityOfLifeIndexBase : EntityBase, IEnt
     /// Rating Index (Required).
     /// </summary>
     public Nox.Types.Number IndexRating { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
 	protected virtual void InternalRaiseCreateEvent(CountryQualityOfLifeIndex countryQualityOfLifeIndex)
 	{
 		InternalDomainEvents.Add(new CountryQualityOfLifeIndexCreated(countryQualityOfLifeIndex));
-	}
+    }
 	
 	protected virtual void InternalRaiseUpdateEvent(CountryQualityOfLifeIndex countryQualityOfLifeIndex)
 	{
 		InternalDomainEvents.Add(new CountryQualityOfLifeIndexUpdated(countryQualityOfLifeIndex));
-	}
+    }
 	
 	protected virtual void InternalRaiseDeleteEvent(CountryQualityOfLifeIndex countryQualityOfLifeIndex)
 	{
 		InternalDomainEvents.Add(new CountryQualityOfLifeIndexDeleted(countryQualityOfLifeIndex));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

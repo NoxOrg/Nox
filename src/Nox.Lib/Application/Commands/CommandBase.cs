@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-using Nox.Domain;
-using Nox.Factories;
+﻿using Nox.Domain;
 using Nox.Solution;
 
 namespace Nox.Application.Commands;

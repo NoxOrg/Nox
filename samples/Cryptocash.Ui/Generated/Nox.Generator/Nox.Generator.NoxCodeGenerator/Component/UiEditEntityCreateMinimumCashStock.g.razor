@@ -1,0 +1,38 @@
+﻿@using Cryptocash.Ui.Generated.Component;
+@using Application.Dto;
+@inherits UiEditEntityCreateMinimumCashStockBase
+
+<MudForm @ref="AddMinimumCashStockEntityForm" @bind-IsValid="@AddMinimumCashStockValidateSuccess">
+    <MudGrid Style="margin-bottom:13px;">
+        <MudItem xs="5">
+            <MudSelect Label="@TitleCurrency"
+                       Variant="Variant.Outlined"
+                       FullWidth="true"
+                       Clearable="true"
+                       TextChanged="OnCurrencyIdChanged"
+                       Value="@CurrentCurrencyIdStr">
+                @foreach (CurrencyDto item in CurrencySelectionList)
+                {
+                    <MudSelectItem Value="@item.Id.ToString()">@item.Name</MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+        <MudItem xs="5">
+            <MudNumericField Label="@TitleAmount"
+                             Variant="Variant.Outlined"
+                             FullWidth="true"
+                             Clearable="true"
+                             MaxLength="63"
+                             TextChanged="OnAmountChanged"
+                             Value="Amount" />
+        </MudItem>
+        <MudItem xs="2">
+            <MudButton OnClick="@(async () => await AddItem())"
+                       Variant="Variant.Filled"
+                       Color="Color.Info"
+                       Style="margin-top:15px;">
+                    <MudText>ADD</MudText>
+            </MudButton>
+        </MudItem>
+    </MudGrid>
+</MudForm>

@@ -12,4 +12,8 @@ dependencies:
 
   $ref: ./dependencies/cryptocash.dependencies.nox.yaml
 
+messaging:
+    
+  $ref: ./messaging/cryptocash.messaging.nox.yaml
+
   

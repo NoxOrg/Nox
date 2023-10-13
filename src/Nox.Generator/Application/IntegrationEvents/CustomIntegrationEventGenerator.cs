@@ -8,11 +8,11 @@ internal class CustomIntegrationEventGenerator : INoxCodeGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Application;
 
-    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
+    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config, string? projectRootPath)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Application?.IntegrationEvents is null) 
+        if (codeGeneratorState.Solution.Application?.IntegrationEvents is null)
             return;
 
         foreach (var integrationEvent in codeGeneratorState.Solution.Application.IntegrationEvents)

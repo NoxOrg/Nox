@@ -1,0 +1,20 @@
+﻿@using Cryptocash.Ui.Generated.Component;
+@using Application.Dto;
+@inherits UiEditEntitySelectLandLordBase
+
+@if (LandLordSelectionList != null && LandLordSelectionList.Count > 0)
+{
+    <MudSelect Label="@Title"
+               Variant="Variant.Outlined"
+               FullWidth="true"
+               Clearable="true"
+               Required="true"
+               RequiredError="@ErrorRequiredMessage(Title)"
+               TextChanged="OnLandLordIdChanged"
+               Value="@CurrentLandLordIdStr">
+        @foreach (LandLordDto item in LandLordSelectionList)
+        {
+            <MudSelectItem Value="@item.Id.ToString()">@item.Name</MudSelectItem>
+        }
+    </MudSelect>
+}

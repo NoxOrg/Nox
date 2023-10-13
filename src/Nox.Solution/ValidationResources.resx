@@ -268,10 +268,10 @@
     <value>The source for integration '{0}' does not have a name specified. All integration sources must have a name specified.</value>
   </data>
   <data name="IntegrationSourceDataConnectionEmpty" xml:space="preserve">
-    <value>The source '{0}' on integration '{2}' does not have a data connection specified. All integration sources must have a data connection specified in the Infrastructure section of your yaml definition..</value>
+    <value>The source '{0}' on integration '{2}' does not have a data connection specified. If the source type is not Entity, your integration source must have a data connection specified in the Infrastructure section of your yaml definition.</value>
   </data>
   <data name="IntegrationScheduleStartEmpty" xml:space="preserve">
-    <value>The source '{0}' for integration '{1}' does not have a start specified for its schedule. All scheduled integrations must have a start defined.</value>
+    <value>Integration '{1}' does not have a start specified for its schedule. All scheduled integrations must have a start defined.</value>
   </data>
   <data name="IntegrationSourceDataConnectionMissing" xml:space="preserve">
     <value>The data connection '{1}' in source '{0}' for integration '{2}' is not defined. All data connections must be defined in the Infrastructure section of your yaml definition.</value>
@@ -281,6 +281,9 @@
   </data>
   <data name="IntegrationTargetTypeEmpty" xml:space="preserve">
     <value>The target '{0}' of integration '{1}' does not have a valid target type specified. Valid target types are one of {2}.</value>
+  </data>
+  <data name="IntegrationTargetDataConnectionEmpty" xml:space="preserve">
+    <value>The target '{0}' for integration '{1}' does not have a data connection specified. If the target type is not Entity, your integration target must have a data connection specified in the Infrastructure section of your yaml definition.</value>
   </data>
   <data name="IntegrationTargetDataConnectionMissing" xml:space="preserve">
     <value>The target '{0}' for integration '{1}' refers to a data connection '{2}' that is not defined. All data connections must be defined in the Infrastructure section of your yaml definition.</value>
@@ -381,8 +384,14 @@
   <data name="IntegrationSourceDatabaseOptionsEmpty" xml:space="preserve">
     <value>The source for integration {0} does not specify database options. When an integration sources data from a database, database options must be specified.</value>
   </data>
+  <data name="IntegrationTargetDatabaseOptionsEmpty" xml:space="preserve">
+    <value>The target for integration {0} does not specify database options. When an integration targets data to a database, database options must be specified.</value>
+  </data>
   <data name="IntegrationSourceDatabaseOptionsQueryEmpty" xml:space="preserve">
     <value>The query in the database options of the source for integration {0} has not been specified. Database sources must have a query specified.</value>
+  </data>
+  <data name="IntegrationTargetDatabaseOptionsStoredProcEmpty" xml:space="preserve">
+    <value>The stored procedure in the database options of the target for integration {0} has not been specified. Database targets must have a stored procedure specified.</value>
   </data>
   <data name="IntegrationSourceDatabaseOptionsMinExptectedRecordsInvalid" xml:space="preserve">
     <value>The database options for the source of integration {0} has an invalid MinimumExpectedRecords setting. MinimumExpectedRecords must be equal to or greater than 1.</value>
@@ -390,14 +399,44 @@
   <data name="IntegrationSourceFileOptionsEmpty" xml:space="preserve">
     <value>The source for integration {0} does not specify file options. When an integration sources data from a file, file options must be specified.</value>
   </data>
+  <data name="IntegrationTargetFileOptionsEmpty" xml:space="preserve">
+    <value>The target for integration {0} does not specify file options. When an integration targets data to a file, file options must be specified.</value>
+  </data>
   <data name="IntegrationSourceMsgQueueOptionsEmpty" xml:space="preserve">
     <value>The source for integration {0} does not specify message queue options. When an integration sources data from a message queue, message queue options must be specified.</value>
+  </data>
+  <data name="IntegrationTargetMsgQueueOptionsEmpty" xml:space="preserve">
+    <value>The target for integration {0} does not specify message queue options. When an integration targets data to a message queue, message queue options must be specified.</value>
   </data>
   <data name="IntegrationSourceHttpOptionsEmpty" xml:space="preserve">
     <value>The source for integration {0} does not specify Http options. When an integration sources data from an http endpoint, http options must be specified.</value>
   </data>
+  <data name="IntegrationTargetHttpOptionsEmpty" xml:space="preserve">
+    <value>The target for integration {0} does not specify Http options. When an integration targets data to an http endpoint, http options must be specified.</value>
+  </data>
   <data name="IntegrationSourceFileOptionsFilenameEmpty" xml:space="preserve">
     <value>The filename in the file options of the source for integration {0} has not been specified. File sources must have a filename specified.</value>
+  </data>
+  <data name="IntegrationTargetFileAttributesEmpty" xml:space="preserve">
+    <value>The RecordAttributes for the target of integration '{0}' do not have any attributes defined. All File Targets must have at least one attribute.</value>
+  </data>
+  <data name="IntegrationSourceFileAttributesEmpty" xml:space="preserve">
+    <value>The RecordAttributes for the source of integration '{0}' do not have any attributes defined. All File sources must have at least one attribute.</value>
+  </data>
+  <data name="IntegrationTargetMessageAttributesEmpty" xml:space="preserve">
+    <value>The MessageAttributes for the target of integration '{0}' do not have any attributes defined. All Message Targets must have at least one attribute.</value>
+  </data>
+  <data name="IntegrationSourceMessageAttributesEmpty" xml:space="preserve">
+    <value>The MessageAttributes for the source of integration '{0}' do not have any attributes defined. All Message sources must have at least one attribute.</value>
+  </data>
+  <data name="IntegrationTargetHttpRequestAttributesEmpty" xml:space="preserve">
+    <value>The RequestAttributes for the target of integration '{0}' do not have any attributes defined. All Http Targets must have at least one request attribute.</value>
+  </data>
+  <data name="IntegrationSourceHttpResponseAttributesEmpty" xml:space="preserve">
+    <value>The ResponseAttributes for the target of integration '{0}' do not have any attributes defined. All Http sources must have at least one request attribute.</value>
+  </data>
+  <data name="IntegrationTargetFileOptionsFilenameEmpty" xml:space="preserve">
+    <value>The filename in the file options of the target for integration {0} has not been specified. File targets must have a filename specified.</value>
   </data>
   <data name="IntegrationSourceFileOptionsMinExptectedRecordsInvalid" xml:space="preserve">
     <value>The file options for the source of integration {0} has an invalid MinimumExpectedRecords setting. MinimumExpectedRecords must be equal to or greater than 1.</value>
@@ -485,5 +524,14 @@
   </data>
   <data name="SolutionVersionPattern" xml:space="preserve">
     <value>Solution Version doesn't satisfy pattern.</value>
+  </data>
+  <data name="IntegrationTransformationTypeEmpty" xml:space="preserve">
+    <value>Integration TransformationType missing. an Integration Transformation Type must be specified for each integration.</value>
+  </data>
+  <data name="EntityCompoundKeyTextFieldsCantBeLocalized" xml:space="preserve">
+    <value>The entity '{0}' can't have localized text attributes because it has a compound key. Localized text attributes are only supported for entities with single keys.</value>
+  </data>
+  <data name="EntityOwnedTextFieldsCantBeLocalized" xml:space="preserve">
+    <value>The entity '{0}' can't have localized text attributes because it is owned entity. Localized text attributes are only supported for non-owned entities.</value>
   </data>
 </root>

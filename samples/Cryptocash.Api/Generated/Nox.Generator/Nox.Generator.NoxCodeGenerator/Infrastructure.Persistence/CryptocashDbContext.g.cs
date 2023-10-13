@@ -11,6 +11,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using MassTransit;
 
 using Nox;
 using Nox.Abstractions;
@@ -103,7 +104,10 @@ internal partial class CryptocashDbContext : DbContext
 
         if (_noxSolution.Domain != null)
         {
-            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);                            
+            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
+            modelBuilder.AddInboxStateEntity();
+            modelBuilder.AddOutboxMessageEntity();
+            modelBuilder.AddOutboxStateEntity();                            
             foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
             {
                 Console.WriteLine($"CryptocashDbContext Configure database for Entity {entity.Name}");
@@ -165,9 +169,9 @@ internal partial class CryptocashDbContext : DbContext
         await DispatchEvents(entriesWithDomainEvents.SelectMany(e=>e.Entity.DomainEvents));
         ClearDomainEvents(entriesWithDomainEvents.ToList());
     }
-    public IEnumerable<EntityEntry<IEntityHaveDomainEvents>> GetEntriesWithDomainEvents()
+    public EntityEntry<IEntityHaveDomainEvents>[] GetEntriesWithDomainEvents()
     {
-        return ChangeTracker.Entries<IEntityHaveDomainEvents>();
+        return ChangeTracker.Entries<IEntityHaveDomainEvents>().ToArray();
     }
 
     public void RaiseDomainEventsFor(IEnumerable<EntityEntry<IEntityHaveDomainEvents>> entriesWithDomainEvents)

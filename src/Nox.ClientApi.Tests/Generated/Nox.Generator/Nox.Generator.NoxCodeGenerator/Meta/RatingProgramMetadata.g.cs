@@ -38,7 +38,7 @@ public partial class RatingProgramMetadata
             MinLength = 2,
             MaxLength = 256,
             IsUnicode = true,
-            IsLocalized = true,
+            IsLocalized = false,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
     

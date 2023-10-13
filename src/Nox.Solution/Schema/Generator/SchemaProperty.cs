@@ -425,7 +425,7 @@ internal class SchemaProperty
     /// </summary>
     /// <param name="instance">The instance to match the AnyOf subschema and return applicable properties.</param>
     /// <returns>An enumerator of <see cref="SchemaProperty"/></returns>
-    public IEnumerable<SchemaProperty> GetChildSchemaProperties(IDictionary<string,object> instance)
+    public IEnumerable<SchemaProperty> GetChildSchemaProperties(IDictionary<string, (object? Value, YamlLineInfo LineInfo)> instance)
     {
         if (Properties is not null)
         {
@@ -461,7 +461,7 @@ internal class SchemaProperty
                 {
                    if (instance.TryGetValue(constProp.Name, out var value))
                    {
-                        if (value.Equals(constStr))
+                        if (value.Value!.Equals(constStr))
                         {
                             yield return property;
                             found = true;

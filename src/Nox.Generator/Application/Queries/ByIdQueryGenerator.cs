@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Nox.Generator.Application.Queries;
 
-internal class ByIdQueryGenerator : ApplicationGeneratorBase
+internal class ByIdQueryGenerator : ApplicationEntityDependentGeneratorBase
 {
     protected override void DoGenerate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, IEnumerable<Entity> entities)
     {

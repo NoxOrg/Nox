@@ -9,21 +9,25 @@ namespace ClientApi.Tests;
 
 public class NoxTestContainerService : IAsyncLifetime
 {
+#if DEBUG
     //To change DatabaseProvider just replace DbProviderKind.
+    public static readonly DatabaseServerProvider DbProviderKind = DatabaseServerProvider.Postgres;
+#else
     public static readonly DatabaseServerProvider DbProviderKind = DatabaseServerProvider.SqlServer;
+#endif
 
     private Func<string> _connectionStringGetter = () => string.Empty;
     private DockerContainer? _dockerContainer;
 
     private NoxTestApplicationFactory _applicationFactory = null!;
 
-    public NoxTestApplicationFactory GetTestApplicationFactory(ITestOutputHelper testOutput, bool enableMessagingTests)
+    public NoxTestApplicationFactory GetTestApplicationFactory(ITestOutputHelper testOutput, bool enableMessagingTests, string? environment = null)
     {
         if (_applicationFactory == null)
         {
-            _applicationFactory = new NoxTestApplicationFactory
-                (testOutput, this, enableMessagingTests);
+            _applicationFactory = new NoxTestApplicationFactory(testOutput, this, enableMessagingTests, environment);
         }
+
         return _applicationFactory;
     }
 

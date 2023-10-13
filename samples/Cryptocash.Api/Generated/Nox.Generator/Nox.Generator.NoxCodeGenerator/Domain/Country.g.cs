@@ -16,21 +16,21 @@ namespace Cryptocash.Domain;
 
 internal partial class Country : CountryBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
 /// <summary>
 /// Record for Country created event.
@@ -119,33 +119,33 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     /// Country's start of week day (Required).
     /// </summary>
     public Nox.Types.DayOfWeek StartOfWeek { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
 	protected virtual void InternalRaiseCreateEvent(Country country)
 	{
 		InternalDomainEvents.Add(new CountryCreated(country));
-	}
+    }
 	
 	protected virtual void InternalRaiseUpdateEvent(Country country)
 	{
 		InternalDomainEvents.Add(new CountryUpdated(country));
-	}
+    }
 	
 	protected virtual void InternalRaiseDeleteEvent(Country country)
 	{
 		InternalDomainEvents.Add(new CountryDeleted(country));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// Country used by ExactlyOne Currencies
@@ -164,12 +164,12 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
 
     public virtual void DeleteRefToCountryUsedByCurrency(Currency relatedCurrency)
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToCountryUsedByCurrency()
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     /// <summary>
@@ -185,14 +185,14 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     public virtual void DeleteRefToCountryUsedByCommissions(Commission relatedCommission)
     {
         if(CountryUsedByCommissions.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         CountryUsedByCommissions.Remove(relatedCommission);
     }
 
     public virtual void DeleteAllRefToCountryUsedByCommissions()
     {
         if(CountryUsedByCommissions.Count() < 2)
-            throw new Exception($"The relationship cannot be deleted.");
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         CountryUsedByCommissions.Clear();
     }
 
@@ -239,12 +239,64 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     /// <summary>
     /// Country owned OneOrMany CountryTimeZones
     /// </summary>
-    public virtual List<CountryTimeZone> CountryOwnedTimeZones { get; set; } = new();
+    public virtual List<CountryTimeZone> CountryOwnedTimeZones { get; private set; } = new();
+    
+    /// <summary>
+    /// Creates a new CountryTimeZone entity.
+    /// </summary>
+    public virtual void CreateRefToCountryOwnedTimeZones(CountryTimeZone relatedCountryTimeZone)
+    {
+        CountryOwnedTimeZones.Add(relatedCountryTimeZone);
+    }
+    
+    /// <summary>
+    /// Deletes owned CountryTimeZone entity.
+    /// </summary>
+    public virtual void DeleteRefToCountryOwnedTimeZones(CountryTimeZone relatedCountryTimeZone)
+    {
+        if(CountryOwnedTimeZones.Count() < 2)
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
+        CountryOwnedTimeZones.Remove(relatedCountryTimeZone);
+    }
+    
+    /// <summary>
+    /// Deletes all owned CountryTimeZone entities.
+    /// </summary>
+    public virtual void DeleteAllRefToCountryOwnedTimeZones()
+    {
+        if(CountryOwnedTimeZones.Count() < 2)
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
+        CountryOwnedTimeZones.Clear();
+    }
 
     /// <summary>
     /// Country owned ZeroOrMany Holidays
     /// </summary>
-    public virtual List<Holiday> CountryOwnedHolidays { get; set; } = new();
+    public virtual List<Holiday> CountryOwnedHolidays { get; private set; } = new();
+    
+    /// <summary>
+    /// Creates a new Holiday entity.
+    /// </summary>
+    public virtual void CreateRefToCountryOwnedHolidays(Holiday relatedHoliday)
+    {
+        CountryOwnedHolidays.Add(relatedHoliday);
+    }
+    
+    /// <summary>
+    /// Deletes owned Holiday entity.
+    /// </summary>
+    public virtual void DeleteRefToCountryOwnedHolidays(Holiday relatedHoliday)
+    {
+        CountryOwnedHolidays.Remove(relatedHoliday);
+    }
+    
+    /// <summary>
+    /// Deletes all owned Holiday entities.
+    /// </summary>
+    public virtual void DeleteAllRefToCountryOwnedHolidays()
+    {
+        CountryOwnedHolidays.Clear();
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.
