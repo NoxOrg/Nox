@@ -105,12 +105,21 @@ internal class YamlReferenceResolver
             }
             else
             {
-                sb.AppendLine(i.Text + "   #" + i.Comment);
+                sb.AppendLine(i.Text + "###" + i.Comment);
             }
         }
         return sb;
     }
 
+    internal YamlLineInfo GetLineInfo(int lineNumber)
+    {
+        if(lineNumber < 1 || lineNumber > _content.Count)
+        {
+            return new YamlLineInfo("unknown", -1, "unknown", "lineNumber is out of range");
+        }
+
+        return _content[lineNumber-1];
+    }
 
     private List<YamlVariableInfo> ExtractVariablesIfExist()
     {
@@ -184,8 +193,10 @@ internal class YamlReferenceResolver
                 throw new NoxSolutionConfigurationException($"Variable [{info.Type}.{info.Name}] was not found or resolved.");
             }
 
+            var serializedValue = serializer.Serialize(variableValue).TrimEnd(); // remove trailing \r\n that gets added by serializer
+
             sb.Remove(info.Index, info.Length);
-            sb.Insert(info.Index, serializer.Serialize(variableValue));
+            sb.Insert(info.Index, serializedValue);
         }
     }
 }

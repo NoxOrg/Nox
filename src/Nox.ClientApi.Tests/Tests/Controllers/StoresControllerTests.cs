@@ -89,7 +89,9 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             response!.Should().HaveCount(1);
-            response!.ElementAt(0).OpeningDay.Should().Be(expectedDate);
+            
+            response!.ElementAt(0).OpeningDay.Should().BeCloseTo(expectedDate, TimeSpan.FromSeconds(1), 
+                "Database doesn't store milliseconds in same resolution as .NET");
         }
 
         #endregion GET Entities (Properly deserializes opening day field) /api/{EntityPluralName} => api/stores

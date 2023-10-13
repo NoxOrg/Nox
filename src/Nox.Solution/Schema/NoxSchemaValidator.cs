@@ -22,14 +22,16 @@ internal static class NoxSchemaValidator
     /// <param name="yaml">Yaml string content.</param>
     /// <returns>Deserialized instance of type T.</returns>
     /// <exception cref="NoxSolutionConfigurationException">Errors containing all validation deserialization errors.</exception>
-    public static T Deserialize<T>(string yaml)
+    public static T Deserialize<T>(string yaml, string? fileName = null)
     {
+        fileName ??= "YAML";
+
         var yamlContentProvider = new Dictionary<string, Func<TextReader>>
         {
-            { "yaml_string", () => new StringReader(yaml) }
+            { fileName, () => new StringReader(yaml) }
         };
 
-        var yamlRefResolver = new YamlReferenceResolver(yamlContentProvider, "yaml_string");
+        var yamlRefResolver = new YamlReferenceResolver(yamlContentProvider, fileName);
 
         return Deserialize<T>(yamlRefResolver);
     }
@@ -54,8 +56,10 @@ internal static class NoxSchemaValidator
         {
             var yaml = yamlRefResolver.ToYamlString();
 
+            // Create object instance with line and file info
+            var yamlObjectInstance = YamlWithLineInfo.Parse(yaml, yamlRefResolver);
+
             // Validate the schema first
-            var yamlObjectInstance = deserializer.Deserialize<IDictionary<string,object>>(yaml);
 
             // Read type's schema info
             var rootSchemaProperty = new SchemaGenerator().GetSchemaInfo(typeof(T));
