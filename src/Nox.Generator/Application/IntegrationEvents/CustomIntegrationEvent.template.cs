@@ -29,7 +29,7 @@ end}}
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Types;
-using Nox.Messaging;
+using Nox.Infrastructure.Messaging;
 {{ if isCollection -}}using System.Collections.Generic;{{ end}}
 
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;

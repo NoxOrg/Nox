@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application;
 using Nox.Application.Commands;
-using Nox.Factories;
+using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
 

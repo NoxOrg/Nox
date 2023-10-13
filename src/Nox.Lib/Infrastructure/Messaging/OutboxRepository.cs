@@ -5,11 +5,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
-using Nox.Infrastructure.Messaging;
 using Nox.Solution;
 using System.Reflection;
 
-namespace Nox.Messaging
+namespace Nox.Infrastructure.Messaging
 {
     internal class OutboxRepository : IOutboxRepository
     {

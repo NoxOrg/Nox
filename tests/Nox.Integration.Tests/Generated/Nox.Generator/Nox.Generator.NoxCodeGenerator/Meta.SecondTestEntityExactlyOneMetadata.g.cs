@@ -21,11 +21,11 @@ public partial class SecondTestEntityExactlyOneMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions IdTypeOptions {get; private set;} = new ()
         {
-            MinLength = 2,
-            MaxLength = 2,
-            IsUnicode = false,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 2,
+            MaxLength = 2,
+            IsUnicode = false,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
@@ -41,11 +41,11 @@ public partial class SecondTestEntityExactlyOneMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions TextTestField2TypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     

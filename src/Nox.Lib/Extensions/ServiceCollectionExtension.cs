@@ -2,7 +2,6 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Abstractions;
 using Nox.Application.Providers;
-using Nox.Factories;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Configurations;
 using Nox.Configuration;
@@ -10,6 +9,7 @@ using FluentValidation;
 using MediatR;
 using Nox.Application.Behaviors;
 using Microsoft.AspNetCore.Builder;
+using Nox.Application.Factories;
 
 namespace Nox;
 

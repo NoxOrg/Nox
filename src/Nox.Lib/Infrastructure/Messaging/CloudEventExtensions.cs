@@ -1,8 +1,7 @@
 ﻿using CloudNative.CloudEvents;
 using Nox.Application;
-using Nox.Infrastructure.Messaging;
 
-namespace Nox.Messaging
+namespace Nox.Infrastructure.Messaging
 {
     internal static class CloudEventExtensions
     {

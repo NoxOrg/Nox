@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
-namespace Nox.Abstractions.Localization;
+namespace Nox.Configuration;
 
 public class LocalizationOptionsBuilder
 {
