@@ -24,7 +24,7 @@ public partial class SecondTestEntityOwnedRelationshipOneOrManyMetadata
             MinLength = 2,
             MaxLength = 2,
             IsUnicode = false,
-            IsLocalized = true,
+            IsLocalized = false,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
     

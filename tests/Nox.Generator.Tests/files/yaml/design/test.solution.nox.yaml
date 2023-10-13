@@ -773,7 +773,6 @@ domain:
           textTypeOptions:
             minLength: 4
             maxLength: 63
-            isLocalized: false
           isRequired: true
 
     - name: TestEntityOwnedRelationshipZeroOrOne
@@ -814,7 +813,6 @@ domain:
           textTypeOptions:
             minLength: 4
             maxLength: 63
-            isLocalized: false
           isRequired: true
 
     - name: TestEntityOwnedRelationshipOneOrMany
@@ -865,7 +863,6 @@ domain:
           textTypeOptions:
             minLength: 4
             maxLength: 63
-            isLocalized: false
           isRequired: true
 
     - name: TestEntityOwnedRelationshipZeroOrMany
@@ -916,7 +913,6 @@ domain:
           textTypeOptions:
             minLength: 4
             maxLength: 63
-            isLocalized: false
           isRequired: true
 
     - name: TestEntityTwoRelationshipsOneToOne

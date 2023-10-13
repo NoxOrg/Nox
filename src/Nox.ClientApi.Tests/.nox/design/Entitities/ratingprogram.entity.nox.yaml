@@ -28,7 +28,6 @@ attributes:
     textTypeOptions:
       minLength: 2
       maxLength: 256
-      isLocalized: false
     isRequired: false
 
 persistence:

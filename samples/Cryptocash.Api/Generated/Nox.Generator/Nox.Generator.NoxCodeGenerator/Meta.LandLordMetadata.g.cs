@@ -31,7 +31,7 @@ public partial class LandLordMetadata
             MinLength = 4,
             MaxLength = 63,
             IsUnicode = true,
-            IsLocalized = true,
+            IsLocalized = false,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
