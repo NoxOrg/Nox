@@ -55,7 +55,7 @@ internal abstract class CreateEmailAddressForStoreCommandHandlerBase : CommandBa
 		}
 
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
-		parentEntity.VerifiedEmails = entity;
+		parentEntity.CreateRefToVerifiedEmails(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 

@@ -54,7 +54,7 @@ internal partial class DeleteSecondTestEntityOwnedRelationshipExactlyOneForTestE
 			return false;
 		}
 
-		parentEntity.SecondTestEntityOwnedRelationshipExactlyOne = null!;
+		parentEntity.DeleteRefToSecondTestEntityOwnedRelationshipExactlyOne(entity);
 
 		await OnCompletedAsync(request, entity);
 

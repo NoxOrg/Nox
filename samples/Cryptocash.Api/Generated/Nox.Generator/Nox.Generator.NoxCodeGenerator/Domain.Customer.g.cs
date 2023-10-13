@@ -16,21 +16,21 @@ namespace Cryptocash.Domain;
 
 internal partial class Customer : CustomerBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
 /// <summary>
 /// Record for Customer created event.
@@ -79,33 +79,33 @@ internal abstract partial class CustomerBase : AuditableEntityBase, IEntityConcu
     /// Customer's mobile number (Optional).
     /// </summary>
     public Nox.Types.PhoneNumber? MobileNumber { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
 	protected virtual void InternalRaiseCreateEvent(Customer customer)
 	{
 		InternalDomainEvents.Add(new CustomerCreated(customer));
-	}
+    }
 	
 	protected virtual void InternalRaiseUpdateEvent(Customer customer)
 	{
 		InternalDomainEvents.Add(new CustomerUpdated(customer));
-	}
+    }
 	
 	protected virtual void InternalRaiseDeleteEvent(Customer customer)
 	{
 		InternalDomainEvents.Add(new CustomerDeleted(customer));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// Customer related to ZeroOrMany PaymentDetails
@@ -184,12 +184,12 @@ internal abstract partial class CustomerBase : AuditableEntityBase, IEntityConcu
 
     public virtual void DeleteRefToCustomerBaseCountry(Country relatedCountry)
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToCustomerBaseCountry()
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     /// <summary>

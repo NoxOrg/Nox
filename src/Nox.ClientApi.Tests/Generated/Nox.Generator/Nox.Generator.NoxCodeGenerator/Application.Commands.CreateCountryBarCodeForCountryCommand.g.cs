@@ -55,7 +55,7 @@ internal abstract class CreateCountryBarCodeForCountryCommandHandlerBase : Comma
 		}
 
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
-		parentEntity.CountryBarCode = entity;
+		parentEntity.CreateRefToCountryBarCode(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 

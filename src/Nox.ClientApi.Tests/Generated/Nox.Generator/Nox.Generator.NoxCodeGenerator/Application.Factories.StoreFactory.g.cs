@@ -60,7 +60,7 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
         entity.EnsureId(createDto.Id);
         if (createDto.VerifiedEmails is not null)
         {
-            entity.VerifiedEmails = EmailAddressFactory.CreateEntity(createDto.VerifiedEmails);
+            entity.CreateRefToVerifiedEmails(EmailAddressFactory.CreateEntity(createDto.VerifiedEmails));
         }
         return entity;
     }
