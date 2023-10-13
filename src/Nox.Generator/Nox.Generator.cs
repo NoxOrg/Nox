@@ -75,11 +75,13 @@ public class NoxCodeGenerator : IIncrementalGenerator
                     .Select(x => (INoxCodeGenerator)Activator.CreateInstance(x))
                     .ToArray();
 
+                var projectRoot = GetProjectRootDirectory(noxYamls);
+
                 foreach (var flow in generatorFlows)
                 {
                     foreach (var flowInstance in generatorInstances.Where(x => x.GeneratorKind == flow))
                     {
-                        flowInstance.Generate(context, codeGeneratorState, config);
+                        flowInstance.Generate(context, codeGeneratorState, config, projectRoot);
                     }
                 }
             }
@@ -204,5 +206,11 @@ public class NoxCodeGenerator : IIncrementalGenerator
         }
 
         return true;
+    }
+
+    private static string? GetProjectRootDirectory(ImmutableArray<(string Path, SourceText? Source)> noxYamls)
+    {
+        var generatorPath = noxYamls.FirstOrDefault(x => x.Path.EndsWith("generator.nox.yaml")).Path;
+        return Path.GetDirectoryName(generatorPath);
     }
 }
