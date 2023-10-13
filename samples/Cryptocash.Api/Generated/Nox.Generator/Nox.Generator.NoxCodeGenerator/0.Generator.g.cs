@@ -28,6 +28,7 @@
 //  - cryptocash.infrastructure.nox.yaml
 //  - cryptocash.dependencies.nox.yaml
 //  - NoxReferenceData.dataConnection.nox.yaml
+//  - cryptocash.messaging.nox.yaml
 //  - cryptocash.persistence.nox.yaml
 //  - generator.nox.yaml
 // SUCCESS.
