@@ -31,7 +31,11 @@ public partial class CurrencyMetadata
             MinLength = 4,
             MaxLength = 63,
             IsUnicode = true,
+<<<<<<< HEAD
             IsLocalized = false,
+=======
+            IsLocalized = true,
+>>>>>>> main
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
@@ -58,7 +62,11 @@ public partial class CurrencyMetadata
             MinLength = 4,
             MaxLength = 63,
             IsUnicode = true,
+<<<<<<< HEAD
             IsLocalized = false,
+=======
+            IsLocalized = true,
+>>>>>>> main
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
@@ -78,7 +86,11 @@ public partial class CurrencyMetadata
             MinLength = 4,
             MaxLength = 63,
             IsUnicode = true,
+<<<<<<< HEAD
             IsLocalized = false,
+=======
+            IsLocalized = true,
+>>>>>>> main
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
@@ -98,7 +110,11 @@ public partial class CurrencyMetadata
             MinLength = 4,
             MaxLength = 63,
             IsUnicode = true,
+<<<<<<< HEAD
             IsLocalized = false,
+=======
+            IsLocalized = true,
+>>>>>>> main
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
@@ -132,7 +148,11 @@ public partial class CurrencyMetadata
             MinLength = 4,
             MaxLength = 63,
             IsUnicode = true,
+<<<<<<< HEAD
             IsLocalized = false,
+=======
+            IsLocalized = true,
+>>>>>>> main
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
@@ -152,7 +172,11 @@ public partial class CurrencyMetadata
             MinLength = 4,
             MaxLength = 63,
             IsUnicode = true,
+<<<<<<< HEAD
             IsLocalized = false,
+=======
+            IsLocalized = true,
+>>>>>>> main
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
@@ -172,7 +196,11 @@ public partial class CurrencyMetadata
             MinLength = 4,
             MaxLength = 63,
             IsUnicode = true,
+<<<<<<< HEAD
             IsLocalized = false,
+=======
+            IsLocalized = true,
+>>>>>>> main
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
@@ -192,7 +220,11 @@ public partial class CurrencyMetadata
             MinLength = 4,
             MaxLength = 63,
             IsUnicode = true,
+<<<<<<< HEAD
             IsLocalized = false,
+=======
+            IsLocalized = true,
+>>>>>>> main
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
     

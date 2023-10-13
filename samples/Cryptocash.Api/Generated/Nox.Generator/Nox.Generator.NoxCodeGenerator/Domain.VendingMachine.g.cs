@@ -16,21 +16,21 @@ namespace Cryptocash.Domain;
 
 internal partial class VendingMachine : VendingMachineBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
 /// <summary>
 /// Record for VendingMachine created event.
@@ -105,33 +105,33 @@ internal abstract partial class VendingMachineBase : AuditableEntityBase, IEntit
     /// Landlord rent amount based on area of the vending machine installation (Optional).
     /// </summary>
     public Nox.Types.Money? RentPerSquareMetre { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
 	protected virtual void InternalRaiseCreateEvent(VendingMachine vendingMachine)
 	{
 		InternalDomainEvents.Add(new VendingMachineCreated(vendingMachine));
-	}
+    }
 	
 	protected virtual void InternalRaiseUpdateEvent(VendingMachine vendingMachine)
 	{
 		InternalDomainEvents.Add(new VendingMachineUpdated(vendingMachine));
-	}
+    }
 	
 	protected virtual void InternalRaiseDeleteEvent(VendingMachine vendingMachine)
 	{
 		InternalDomainEvents.Add(new VendingMachineDeleted(vendingMachine));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// VendingMachine installed in ExactlyOne Countries
@@ -150,12 +150,12 @@ internal abstract partial class VendingMachineBase : AuditableEntityBase, IEntit
 
     public virtual void DeleteRefToVendingMachineInstallationCountry(Country relatedCountry)
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToVendingMachineInstallationCountry()
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     /// <summary>
@@ -175,12 +175,12 @@ internal abstract partial class VendingMachineBase : AuditableEntityBase, IEntit
 
     public virtual void DeleteRefToVendingMachineContractedAreaLandLord(LandLord relatedLandLord)
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     public virtual void DeleteAllRefToVendingMachineContractedAreaLandLord()
     {
-        throw new Exception($"The relationship cannot be deleted.");
+        throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
     /// <summary>

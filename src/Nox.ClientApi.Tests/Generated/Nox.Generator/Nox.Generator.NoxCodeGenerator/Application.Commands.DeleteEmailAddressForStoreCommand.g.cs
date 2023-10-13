@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
-using Nox.Factories;
+using Nox.Application.Factories;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
@@ -54,7 +54,7 @@ internal partial class DeleteEmailAddressForStoreCommandHandlerBase : CommandBas
 			return false;
 		}
 
-		parentEntity.VerifiedEmails = null!;
+		parentEntity.DeleteRefToVerifiedEmails(entity);
 
 		await OnCompletedAsync(request, entity);
 

@@ -4,7 +4,7 @@
 
 using Nox.Abstractions;
 using Nox.Application;
-using Nox.Messaging;
+using Nox.Infrastructure.Messaging;
 
 using ClientApi.Application.Dto;
 

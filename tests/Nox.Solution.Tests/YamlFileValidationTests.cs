@@ -46,18 +46,27 @@ public class YamlFileValidationTests
     [Fact]
     public void Deserialize_WithNoxYamlSerializer_ThrowsException()
     {
-        var yaml = File.ReadAllText("./files/invalid-sample.solution.nox.yaml");
+        var files = new Dictionary<string, Func<TextReader>>()
+        {
+            { "invalid-sample.solution.nox.yaml", () => new StreamReader("./files/invalid-sample.solution.nox.yaml") },
+            { "invalid-sample.versionControl.nox.yaml", () => new StreamReader("./files/invalid-sample.versionControl.nox.yaml") },
+            { "invalid-sample-Country.entity.nox.yaml", () => new StreamReader("./files/invalid-sample-Country.entity.nox.yaml") },
+        };
 
-        var exception = Assert.Throws<NoxSolutionConfigurationException>(() => NoxSchemaValidator.Deserialize<NoxSolution>(yaml));
+
+        var resolvedFiles = new YamlReferenceResolver(files, "invalid-sample.solution.nox.yaml");
+
+        var exception = Assert.Throws<NoxSolutionConfigurationException>(() => NoxSchemaValidator.Deserialize<NoxSolution>(resolvedFiles));
 
         var errors = exception.Message.Split('\n');
+
         var errorCount = errors.Length;
 
         Assert.Contains("[\"relationship\"]", exception.Message);
         Assert.Contains("[\"name\"]", exception.Message);
         Assert.Contains("[\"serverUri\"]", exception.Message);
         Assert.Contains("dataConnection", exception.Message);
-        Assert.Equal(30, errorCount);
+        Assert.Equal(33, errorCount);
     }
 
     

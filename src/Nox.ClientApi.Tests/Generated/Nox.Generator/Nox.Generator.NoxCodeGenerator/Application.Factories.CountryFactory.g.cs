@@ -11,7 +11,7 @@ using MediatR;
 using Nox.Abstractions;
 using Nox.Solution;
 using Nox.Domain;
-using Nox.Factories;
+using Nox.Application.Factories;
 using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
@@ -64,10 +64,10 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         if (createDto.CountryIsoAlpha3 is not null)entity.CountryIsoAlpha3 = ClientApi.Domain.CountryMetadata.CreateCountryIsoAlpha3(createDto.CountryIsoAlpha3.NonNullValue<System.String>());
         if (createDto.GoogleMapsUrl is not null)entity.GoogleMapsUrl = ClientApi.Domain.CountryMetadata.CreateGoogleMapsUrl(createDto.GoogleMapsUrl.NonNullValue<System.String>());
         if (createDto.StartOfWeek is not null)entity.StartOfWeek = ClientApi.Domain.CountryMetadata.CreateStartOfWeek(createDto.StartOfWeek.NonNullValue<System.UInt16>());
-        entity.CountryShortNames = createDto.CountryShortNames.Select(dto => CountryLocalNameFactory.CreateEntity(dto)).ToList();
+        createDto.CountryShortNames.ForEach(dto => entity.CreateRefToCountryShortNames(CountryLocalNameFactory.CreateEntity(dto)));
         if (createDto.CountryBarCode is not null)
         {
-            entity.CountryBarCode = CountryBarCodeFactory.CreateEntity(createDto.CountryBarCode);
+            entity.CreateRefToCountryBarCode(CountryBarCodeFactory.CreateEntity(createDto.CountryBarCode));
         }
         return entity;
     }

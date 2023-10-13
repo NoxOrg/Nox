@@ -1,7 +1,7 @@
 ﻿using Nox.Application.Dto;
 using Nox.Domain;
 
-namespace Nox.Factories
+namespace Nox.Application.Factories
 {
     /// <summary>
     /// Factory for Entities

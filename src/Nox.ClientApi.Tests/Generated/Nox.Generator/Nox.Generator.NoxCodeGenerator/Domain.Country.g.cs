@@ -16,21 +16,21 @@ namespace ClientApi.Domain;
 
 internal partial class Country : CountryBase, IEntityHaveDomainEvents
 {
-	///<inheritdoc/>
-	public void RaiseCreateEvent()
-	{
-		InternalRaiseCreateEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseDeleteEvent()
-	{
-		InternalRaiseDeleteEvent(this);
-	}
-	///<inheritdoc/>
-	public void RaiseUpdateEvent()
-	{
-		InternalRaiseUpdateEvent(this);
-	}
+    ///<inheritdoc/>
+    public void RaiseCreateEvent()
+    {
+        InternalRaiseCreateEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseDeleteEvent()
+    {
+        InternalRaiseDeleteEvent(this);
+    }
+    ///<inheritdoc/>
+    public void RaiseUpdateEvent()
+    {
+        InternalRaiseUpdateEvent(this);
+    }
 }
 /// <summary>
 /// Record for Country created event.
@@ -103,33 +103,33 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     /// Country's start of week day (Optional).
     /// </summary>
     public Nox.Types.DayOfWeek? StartOfWeek { get; set; } = null!;
-	/// <summary>
-	/// Domain events raised by this entity.
-	/// </summary>
-	public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
-	protected readonly List<IDomainEvent> InternalDomainEvents = new();
+    /// <summary>
+    /// Domain events raised by this entity.
+    /// </summary>
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => InternalDomainEvents;
+    protected readonly List<IDomainEvent> InternalDomainEvents = new();
 
 	protected virtual void InternalRaiseCreateEvent(Country country)
 	{
 		InternalDomainEvents.Add(new CountryCreated(country));
-	}
+    }
 	
 	protected virtual void InternalRaiseUpdateEvent(Country country)
 	{
 		InternalDomainEvents.Add(new CountryUpdated(country));
-	}
+    }
 	
 	protected virtual void InternalRaiseDeleteEvent(Country country)
 	{
 		InternalDomainEvents.Add(new CountryDeleted(country));
-	}
-	/// <summary>
-	/// Clears all domain events associated with the entity.
-	/// </summary>
+    }
+    /// <summary>
+    /// Clears all domain events associated with the entity.
+    /// </summary>
     public virtual void ClearDomainEvents()
-	{
-		InternalDomainEvents.Clear();
-	}
+    {
+        InternalDomainEvents.Clear();
+    }
 
     /// <summary>
     /// Country Country workplaces ZeroOrMany Workplaces
@@ -154,12 +154,60 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
-    public virtual List<CountryLocalName> CountryShortNames { get; set; } = new();
+    public virtual List<CountryLocalName> CountryShortNames { get; private set; } = new();
+    
+    /// <summary>
+    /// Creates a new CountryLocalName entity.
+    /// </summary>
+    public virtual void CreateRefToCountryShortNames(CountryLocalName relatedCountryLocalName)
+    {
+        CountryShortNames.Add(relatedCountryLocalName);
+    }
+    
+    /// <summary>
+    /// Deletes owned CountryLocalName entity.
+    /// </summary>
+    public virtual void DeleteRefToCountryShortNames(CountryLocalName relatedCountryLocalName)
+    {
+        CountryShortNames.Remove(relatedCountryLocalName);
+    }
+    
+    /// <summary>
+    /// Deletes all owned CountryLocalName entities.
+    /// </summary>
+    public virtual void DeleteAllRefToCountryShortNames()
+    {
+        CountryShortNames.Clear();
+    }
 
     /// <summary>
     /// Country is also coded as ZeroOrOne CountryBarCodes
     /// </summary>
-     public virtual CountryBarCode? CountryBarCode { get; set; } = null!;
+    public virtual CountryBarCode? CountryBarCode { get; private set; }
+    
+    /// <summary>
+    /// Creates a new CountryBarCode entity.
+    /// </summary>
+    public virtual void CreateRefToCountryBarCode(CountryBarCode relatedCountryBarCode)
+    {
+        CountryBarCode = relatedCountryBarCode;
+    }
+    
+    /// <summary>
+    /// Deletes owned CountryBarCode entity.
+    /// </summary>
+    public virtual void DeleteRefToCountryBarCode(CountryBarCode relatedCountryBarCode)
+    {
+        CountryBarCode = null;
+    }
+    
+    /// <summary>
+    /// Deletes all owned CountryBarCode entities.
+    /// </summary>
+    public virtual void DeleteAllRefToCountryBarCode()
+    {
+        CountryBarCode = null;
+    }
 
     /// <summary>
     /// Entity tag used as concurrency token.

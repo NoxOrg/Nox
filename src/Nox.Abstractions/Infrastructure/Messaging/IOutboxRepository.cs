@@ -1,6 +1,6 @@
 using Nox.Application;
 
-namespace Nox.Messaging;
+namespace Nox.Infrastructure.Messaging;
 
 public interface IOutboxRepository
 {
