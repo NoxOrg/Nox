@@ -50,13 +50,11 @@ namespace Nox.Infrastructure.Messaging
                     var eventName = integrationEventAttribute?.EventName;
                     if (string.IsNullOrWhiteSpace(trait))
                     {
-                        // TODO: test for null event scenario
                         throw new EventNameIsEmptyException($"Provided {nameof(integrationEventAttribute.Trait)} in {nameof(IntegrationEventTypeAttribute)} for event {integrationEvent.GetType()} can't be null or empty.");
                     }
 
                     if (string.IsNullOrWhiteSpace(eventName))
                     {
-                        // TODO: test for null event scenario
                         throw new EventTraitIsEmptyException($"Provided {nameof(integrationEventAttribute.EventName)} in {nameof(IntegrationEventTypeAttribute)} for event {integrationEvent.GetType()} can't be null or empty.");
                     }
 
