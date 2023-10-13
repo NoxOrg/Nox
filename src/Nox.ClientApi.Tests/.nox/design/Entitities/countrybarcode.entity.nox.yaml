@@ -16,6 +16,7 @@ attributes:
     textTypeOptions:
       minLength: 1
       maxLength: 63
+      isLocalized: false
     isRequired: true
 
   - name: BarCodeNumber

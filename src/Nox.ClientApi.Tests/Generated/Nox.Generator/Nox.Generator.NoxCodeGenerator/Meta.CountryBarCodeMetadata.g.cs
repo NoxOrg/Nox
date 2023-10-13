@@ -24,7 +24,7 @@ public partial class CountryBarCodeMetadata
             MinLength = 1,
             MaxLength = 63,
             IsUnicode = true,
-            IsLocalized = true,
+            IsLocalized = false,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
     

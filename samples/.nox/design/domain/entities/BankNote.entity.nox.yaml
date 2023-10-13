@@ -29,6 +29,7 @@ attributes:
     textTypeOptions:
       minLength: 4
       maxLength: 63
+      isLocalized: false
     isRequired: true
     userInterface:
       showInSearchResults: optionalAndOnByDefault
