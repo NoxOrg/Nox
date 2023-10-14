@@ -1,5 +1,4 @@
 ﻿using AutoFixture.Xunit2;
-using Nox.Lib.Tests.FixtureConfig;
 
 namespace ClientApi.Tests.Tests.FixtureConfig;
 
