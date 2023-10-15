@@ -35,7 +35,7 @@ internal class GeneratorTestFlow : IGeneratorTestFlow
             _generatorRunResult
             .GeneratedSources
             .Should()
-            .Contain(x => x.HintName == fileName, $"{fileName} not generated");
+            .Contain(x => x.HintName.Replace("/", ".") == fileName, $"{fileName} not generated");
         }
 
         return this;

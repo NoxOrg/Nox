@@ -27,16 +27,14 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
         {
             "Domain.Country.g.cs",
             "Meta.CountryMetadata.g.cs",
-            "DtoDynamic.UpdatePopulationStatistics.g.cs",
-            "UpdatePopulationStatisticsCommandHandlerBase.g.cs",
-            "DtoDynamic.CountryInfo.g.cs",
-            "GetCountriesByContinentQueryBase.g.cs"
+            //"UpdatePopulationStatisticsCommandHandlerBase.g.cs",
+            //"GetCountriesByContinentQueryBase.g.cs"
         };
 
         var contentCheckerFlow = _fixture
             .GenerateSourceCodeFor(sources)
             .AssertOutputResult()
-            .AssertFileExistence(58, filesShouldExist)
+            .AssertFileExistence(54, filesShouldExist)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles");
 

@@ -1,25 +1,18 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System.Collections.Generic;
+using Microsoft.CodeAnalysis;
+using Nox.Generator.Application.Commands;
 using Nox.Generator.Common;
 using Nox.Solution;
 
 namespace Nox.Generator.Application.Queries;
 
-internal class QueryGenerator : INoxCodeGenerator
+internal class QueryGenerator : ApplicationEntityDependentGeneratorBase
 {
-    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
-
-    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config, string? projectRootPath)
+    protected override void DoGenerate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, IEnumerable<Entity> entities)
     {
-        context.CancellationToken.ThrowIfCancellationRequested();
-
-        if (codeGeneratorState.Solution.Domain is null)
-        {
-            return;
-        }
-
         var templateName = @"Application.Queries.Query";
 
-        foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
+        foreach (var entity in entities)
         {
             if (entity.IsOwnedEntity)
                 continue;

@@ -55,7 +55,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
             {
                 var codeGeneratorState = new NoxSolutionCodeGeneratorState(solution, Assembly.GetEntryAssembly()!);
 
-                var generatorFlows = new[]
+                var generatorFlows = new (NoxGeneratorKind GeneratorKind, bool IsEnabled)[]
                 {
                     (NoxGeneratorKind.None,true),
                     (NoxGeneratorKind.Domain,config.Domain),
@@ -64,14 +64,14 @@ public class NoxCodeGenerator : IIncrementalGenerator
                     (NoxGeneratorKind.Application,config.Application),
                     (NoxGeneratorKind.Ui,config.Ui)
                 }
-                .Where(x => x.Item2)
-                .Select(x => x.Item1)
+                .Where(x => x.IsEnabled)
+                .Select(x => x.GeneratorKind)
                 .ToArray();
 
                 var generatorInstances = Assembly
                     .GetExecutingAssembly()
                     .GetTypes()
-                    .Where(x => x.IsClass && typeof(INoxCodeGenerator).IsAssignableFrom(x))
+                    .Where(x => x.IsClass && !x.IsAbstract && typeof(INoxCodeGenerator).IsAssignableFrom(x))
                     .Select(x => (INoxCodeGenerator)Activator.CreateInstance(x))
                     .ToArray();
 
