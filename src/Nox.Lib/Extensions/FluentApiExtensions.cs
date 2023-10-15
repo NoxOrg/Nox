@@ -9,4 +9,10 @@ public static class FluentApiExtensions
             setPropertyAction(obj);
         }
     }
+    public static IEnumerable<T> ForEach<T>(this IEnumerable<T> array, Action<T> act)
+    {
+        foreach (var i in array)
+            act(i);
+        return array;
+    }
 }
