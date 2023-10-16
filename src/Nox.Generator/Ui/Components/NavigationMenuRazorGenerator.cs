@@ -5,14 +5,12 @@ using System.Linq;
 
 namespace Nox.Generator.Application.Commands;
 
-internal class NavigationMenuRazor : INoxCodeGenerator
+internal class NavigationMenuRazor : INoxFileGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Ui;
 
-    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config, string? projectRootPath)
+    public void Generate(NoxSolutionCodeGeneratorState codeGeneratorState, string? projectRootPath)
     {
-        context.CancellationToken.ThrowIfCancellationRequested();
-
         if (codeGeneratorState.Solution.Domain is null)
         {
             return;
@@ -20,8 +18,6 @@ internal class NavigationMenuRazor : INoxCodeGenerator
 
         var templateName = @"Ui.Components.NavigationMenuRazor";
         var entities = codeGeneratorState.Solution.Domain.Entities.Where(x => !x.IsOwnedEntity);
-
-        context.CancellationToken.ThrowIfCancellationRequested();
 
         new TemplateFileBuilder(codeGeneratorState, projectRootPath)
             .WithFileExtension("razor")

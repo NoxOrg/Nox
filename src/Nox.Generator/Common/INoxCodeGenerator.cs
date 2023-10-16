@@ -9,6 +9,5 @@ internal interface INoxCodeGenerator
 
     void Generate(SourceProductionContext context,
         NoxSolutionCodeGeneratorState codeGeneratorState,
-        GeneratorConfig config,
-        string? projectRootPath);
+        GeneratorConfig config);
 }

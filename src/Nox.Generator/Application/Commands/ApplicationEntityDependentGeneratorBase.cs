@@ -11,8 +11,7 @@ internal abstract class ApplicationEntityDependentGeneratorBase : INoxCodeGenera
 
     public void Generate(SourceProductionContext context,
         NoxSolutionCodeGeneratorState codeGeneratorState,
-        GeneratorConfig config,
-        string? projectRootPath)
+        GeneratorConfig config)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
