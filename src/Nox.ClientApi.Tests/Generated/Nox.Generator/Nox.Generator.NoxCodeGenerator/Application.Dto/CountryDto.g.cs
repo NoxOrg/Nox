@@ -55,6 +55,8 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<CountryEntity>
             ExecuteActionAndCollectValidationExceptions("GoogleMapsUrl", () => ClientApi.Domain.CountryMetadata.CreateGoogleMapsUrl(this.GoogleMapsUrl.NonNullValue<System.String>()), result);
         if (this.StartOfWeek is not null)
             ExecuteActionAndCollectValidationExceptions("StartOfWeek", () => ClientApi.Domain.CountryMetadata.CreateStartOfWeek(this.StartOfWeek.NonNullValue<System.UInt16>()), result);
+        if (this.Continent is not null)
+            ExecuteActionAndCollectValidationExceptions("Continent", () => ClientApi.Domain.CountryMetadata.CreateContinent(this.Continent.NonNullValue<System.Int32>()), result);
 
         return result;
     }
@@ -109,6 +111,11 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<CountryEntity>
     /// Country's start of week day (Optional).
     /// </summary>
     public System.UInt16? StartOfWeek { get; set; }
+
+    /// <summary>
+    /// Country Continent (Optional).
+    /// </summary>
+    public System.Int32? Continent { get; set; }
 
     /// <summary>
     /// Country Country workplaces ZeroOrMany Workplaces

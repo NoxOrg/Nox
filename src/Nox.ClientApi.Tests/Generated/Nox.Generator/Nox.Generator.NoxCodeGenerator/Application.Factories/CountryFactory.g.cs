@@ -64,6 +64,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         if (createDto.CountryIsoAlpha3 is not null)entity.CountryIsoAlpha3 = ClientApi.Domain.CountryMetadata.CreateCountryIsoAlpha3(createDto.CountryIsoAlpha3.NonNullValue<System.String>());
         if (createDto.GoogleMapsUrl is not null)entity.GoogleMapsUrl = ClientApi.Domain.CountryMetadata.CreateGoogleMapsUrl(createDto.GoogleMapsUrl.NonNullValue<System.String>());
         if (createDto.StartOfWeek is not null)entity.StartOfWeek = ClientApi.Domain.CountryMetadata.CreateStartOfWeek(createDto.StartOfWeek.NonNullValue<System.UInt16>());
+        if (createDto.Continent is not null)entity.Continent = ClientApi.Domain.CountryMetadata.CreateContinent(createDto.Continent.NonNullValue<System.Int32>());
         createDto.CountryShortNames.ForEach(dto => entity.CreateRefToCountryShortNames(CountryLocalNameFactory.CreateEntity(dto)));
         if (createDto.CountryBarCode is not null)
         {
@@ -95,6 +96,9 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         }
         if (updateDto.StartOfWeek == null) { entity.StartOfWeek = null; } else {
             entity.StartOfWeek = ClientApi.Domain.CountryMetadata.CreateStartOfWeek(updateDto.StartOfWeek.ToValueFromNonNull<System.UInt16>());
+        }
+        if (updateDto.Continent == null) { entity.Continent = null; } else {
+            entity.Continent = ClientApi.Domain.CountryMetadata.CreateContinent(updateDto.Continent.ToValueFromNonNull<System.Int32>());
         }
     }
 
@@ -172,6 +176,15 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             else
             {
                 entity.StartOfWeek = ClientApi.Domain.CountryMetadata.CreateStartOfWeek(StartOfWeekUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Continent", out var ContinentUpdateValue))
+        {
+            if (ContinentUpdateValue == null) { entity.Continent = null; }
+            else
+            {
+                entity.Continent = ClientApi.Domain.CountryMetadata.CreateContinent(ContinentUpdateValue);
             }
         }
     }

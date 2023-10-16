@@ -63,6 +63,10 @@ public abstract class CountryCreateDtoBase : IEntityDto<CountryEntity>
     /// Country's start of week day (Optional).
     /// </summary>
     public virtual System.UInt16? StartOfWeek { get; set; }
+    /// <summary>
+    /// Country Continent (Optional).
+    /// </summary>
+    public virtual System.Int32? Continent { get; set; }
 
     /// <summary>
     /// Country Country workplaces ZeroOrMany Workplaces

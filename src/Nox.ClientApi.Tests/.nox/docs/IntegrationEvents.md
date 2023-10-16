@@ -119,6 +119,7 @@ CountryIsoNumeric|System.UInt16|Country's iso number id
 CountryIsoAlpha3|System.String|Country's iso alpha3 id
 GoogleMapsUrl|System.String|Country's map via google maps
 StartOfWeek|System.UInt16|Country's start of week day
+Continent|System.Int32|Store Status
 CountryLocalNameId|System.Int64|The unique identifier
 
 

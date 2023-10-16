@@ -78,6 +78,19 @@ attributes:
     type: dayOfWeek     
     isRequired: false
 
+  - name: Continent
+    description: Country Continent
+    type: enumeration
+    enumerationTypeOptions:
+      values: 
+        - { id: 1, description: Europe} 
+        - { id: 2, description: Asia}
+        - { id: 3, description: Africa} 
+        - { id: 4, description: America} 
+        - { id: 5, description: Oceania} 
+      isLocalized: true
+    isRequired: false
+
 ownedRelationships:
 
   - name: CountryShortNames
