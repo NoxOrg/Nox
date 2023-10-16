@@ -66,7 +66,7 @@ CountryIsoNumeric|CountryNumber|Country's iso number id.|
 CountryIsoAlpha3|CountryCode3|Country's iso alpha3 id.|
 GoogleMapsUrl|Url|Country's map via google maps.|
 StartOfWeek|DayOfWeek|Country's start of week day.|
-Continent|Enumeration|Store Status.|Values: System.Collections.Generic.List`1[Nox.Types.EnumerationValues]
+Continent|Enumeration|Country Continent.|Values: System.Collections.Generic.List`1[Nox.Types.EnumerationValues]
 CountryLocalNameId|AutoNumber|The unique identifier.|Required, Owned Entity
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
