@@ -54,9 +54,9 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     }
 
     [EnableQuery]
-    public async Task<SingleResult<{{entity.Name}}Dto>> Get({{ GetPrimaryKeysRoute entity }})
+    public async Task<SingleResult<{{entity.Name}}Dto>> Get({{ primaryKeysRoute }})
     {
-        var result = await _mediator.Send(new Get{{ entity.Name }}ByIdQuery({{ GetPrimaryKeys entity }}));
+        var result = await _mediator.Send(new Get{{ entity.Name }}ByIdQuery({{ primaryKeysQuery }}));
         return SingleResult.Create(result);
     }
     {{- end }}
@@ -70,13 +70,13 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
 
         var createdKey = await _mediator.Send(new Create{{entity.Name}}Command({{ToLowerFirstChar entity.Name}}));
 
-        var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ GetPrimaryKeys entity "createdKey.key" true }}))).SingleOrDefault();
+        var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ createdKeyPrimaryKeysQuery }}))).SingleOrDefault();
 
         return Created(item);
     }
     {{- end}}
     {{~ if entity.Persistence == null || entity.Persistence.Update.IsEnabled }}
-    public virtual async Task<ActionResult<{{entity.Name}}Dto>> Put({{ GetPrimaryKeysRoute entity }}, [FromBody] {{entity.Name}}UpdateDto {{ToLowerFirstChar entity.Name}})
+    public virtual async Task<ActionResult<{{entity.Name}}Dto>> Put({{ primaryKeysRoute }}, [FromBody] {{entity.Name}}UpdateDto {{ToLowerFirstChar entity.Name}})
     {
         if (!ModelState.IsValid)
         {
@@ -84,9 +84,9 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
         }
         {{~ if !entity.IsOwnedEntity }}
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new Update{{ entity.Name }}Command({{ GetPrimaryKeys entity }}, {{ToLowerFirstChar entity.Name}}, etag));
+        var updatedKey = await _mediator.Send(new Update{{ entity.Name }}Command({{ primaryKeysQuery }}, {{ToLowerFirstChar entity.Name}}, etag));
         {{- else }}
-        var updatedKey = await _mediator.Send(new Update{{ entity.Name }}Command({{ GetPrimaryKeys entity }}, {{ToLowerFirstChar entity.Name}}));
+        var updatedKey = await _mediator.Send(new Update{{ entity.Name }}Command({{ primaryKeysQuery }}, {{ToLowerFirstChar entity.Name}}));
         {{- end}}
 
         if (updatedKey is null)
@@ -94,12 +94,12 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
             return NotFound();
         }
 
-        var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ GetPrimaryKeys entity "updatedKey.key" true }}))).SingleOrDefault();
+        var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ updatedKeyPrimaryKeysQuery }}))).SingleOrDefault();
 
         return Ok(item);
     }
 
-    public virtual async Task<ActionResult<{{entity.Name}}Dto>> Patch({{ GetPrimaryKeysRoute entity }}, [FromBody] Delta<{{entity.Name}}Dto> {{ToLowerFirstChar entity.Name}})
+    public virtual async Task<ActionResult<{{entity.Name}}Dto>> Patch({{ primaryKeysRoute }}, [FromBody] Delta<{{entity.Name}}Dto> {{ToLowerFirstChar entity.Name}})
     {
         if (!ModelState.IsValid)
         {
@@ -117,9 +117,9 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
         }
         {{~ if !entity.IsOwnedEntity }}
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new PartialUpdate{{ entity.Name }}Command({{ GetPrimaryKeys entity }}, updatedProperties, etag));
+        var updatedKey = await _mediator.Send(new PartialUpdate{{ entity.Name }}Command({{ primaryKeysQuery }}, updatedProperties, etag));
         {{- else }}
-        var updatedKey = await _mediator.Send(new PartialUpdate{{ entity.Name }}Command({{ GetPrimaryKeys entity }}, updatedProperties));
+        var updatedKey = await _mediator.Send(new PartialUpdate{{ entity.Name }}Command({{ primaryKeysQuery }}, updatedProperties));
         {{- end}}
 
         if (updatedKey is null)
@@ -127,19 +127,19 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
             return NotFound();
         }
 
-        var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ GetPrimaryKeys entity "updatedKey.key" true }}))).SingleOrDefault();
+        var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ updatedKeyPrimaryKeysQuery }}))).SingleOrDefault();
 
         return Ok(item);
     }
     {{- end}}
     {{~ if entity.Persistence == null || entity.Persistence.Delete.IsEnabled }}
-    public virtual async Task<ActionResult> Delete({{ GetPrimaryKeysRoute entity }})
+    public virtual async Task<ActionResult> Delete({{ primaryKeysRoute }})
     {
         {{- if !entity.IsOwnedEntity }}
         var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new Delete{{entity.Name}}ByIdCommand({{ GetPrimaryKeys entity }}, etag));
+        var result = await _mediator.Send(new Delete{{entity.Name}}ByIdCommand({{ primaryKeysQuery }}, etag));
         {{- else }}
-        var result = await _mediator.Send(new Delete{{entity.Name}}ByIdCommand({{ GetPrimaryKeys entity }}));
+        var result = await _mediator.Send(new Delete{{entity.Name}}ByIdCommand({{ primaryKeysQuery }}));
         {{- end }}
 
         if (!result)
