@@ -11,7 +11,7 @@ public class EnumerationTypeOptions : INoxTypeOptions
 {
     [Title("The optional default values for this Enum.")]
     [Description("The default evalues of this Enum. These values will automatically be created and available in the domain.")]
-    public IReadOnlyList<EnumerationValues>? Values { get; set; } 
+    public IReadOnlyList<EnumerationValues> Values { get; set; } = System.Array.Empty<EnumerationValues>();
 
     [Title("Whether the description of the Enum will be localizable.")]
     [Description("Whether the description of the Enum will be localizable for the supported solution cultures")]

@@ -26,6 +26,10 @@ public sealed class Enumeration : ValueObject<int, Enumeration>
     /// <exception cref="ValidationException">If the enum value is invalid.</exception>
     public static Enumeration From(int value, EnumerationTypeOptions options)
     {
+        if(options == null)
+        {
+            throw new ArgumentNullException(nameof(options));
+        }
         var newObject = new Enumeration
         {
             Value = value,
@@ -51,8 +55,11 @@ public sealed class Enumeration : ValueObject<int, Enumeration>
     /// <exception cref="ValidationException">If the enum value is invalid.</exception>
     public static Enumeration From(string stringValue, EnumerationTypeOptions options)
     {
-
-        var value = options.Values?.FirstOrDefault(o => o.Description.Equals(stringValue, StringComparison.InvariantCultureIgnoreCase))?.Id;  
+        if (options == null)
+        {
+            throw new ArgumentNullException(nameof(options));
+        }
+        var value = options.Values.FirstOrDefault(o => o.Description.Equals(stringValue, StringComparison.InvariantCultureIgnoreCase))?.Id;  
 
         if (value is null)
         {
@@ -74,7 +81,7 @@ public sealed class Enumeration : ValueObject<int, Enumeration>
     {
         var result = base.Validate();
 
-        if (_typeOptions?.Values?.FirstOrDefault(o => o.Id == Value) == null)
+        if (_typeOptions.Values.FirstOrDefault(o => o.Id == Value) == null)
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"No enumerator exists with an Id of '{Value}'"));
         }
@@ -84,12 +91,12 @@ public sealed class Enumeration : ValueObject<int, Enumeration>
 
     public override string ToString()
     {
-        return _typeOptions?.Values?.FirstOrDefault(o => o.Id == Value)?.Description ?? string.Empty;
+        return _typeOptions.Values.FirstOrDefault(o => o.Id == Value)?.Description ?? string.Empty;
     }
 
     public IDictionary<int,string>? GetValues()
     {
-        return _typeOptions?.Values?.ToDictionary( o => o.Id, o => o.Description );
+        return _typeOptions.Values.ToDictionary( o => o.Id, o => o.Description );
     }
 
 }
