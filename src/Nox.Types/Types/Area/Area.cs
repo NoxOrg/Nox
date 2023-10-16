@@ -19,7 +19,7 @@ public class Area : ValueObject<QuantityValue, Area>
     public AreaTypeUnit Unit
     {
         get => _unit;
-        private init { _unit = value; _areaUnit = Enumeration.ParseFromName<AreaUnit>(_unit.ToString()); }
+        private init { _unit = value; _areaUnit = SmartEnumeration.ParseFromName<AreaUnit>(_unit.ToString()); }
     }
 
 

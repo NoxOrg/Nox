@@ -89,15 +89,15 @@ public class Temperature : ValueObject<QuantityValue, Temperature>
     {
         var result = Value.Validate();
 
-        if (!Enumeration.TryParseFromName<TemperatureUnit>(_temperatureTypeOptions.PersistAs.ToString(), out var defaultUnit))
+        if (!SmartEnumeration.TryParseFromName<TemperatureUnit>(_temperatureTypeOptions.PersistAs.ToString(), out var defaultUnit))
         {
-            result.Errors.Add(new ValidationFailure(nameof(TemperatureTypeOptions), $"Temperature does not support to be persisted {_temperatureTypeOptions.PersistAs}!"));
+            result.Errors.Add(new ValidationFailure(nameof(Types.TemperatureTypeOptions), $"Temperature does not support to be persisted {_temperatureTypeOptions.PersistAs}!"));
             return result;
         }
 
-        if (!Enumeration.TryParseFromName<TemperatureUnit>(_temperatureTypeOptions.Units.ToString(), out defaultUnit))
+        if (!SmartEnumeration.TryParseFromName<TemperatureUnit>(_temperatureTypeOptions.Units.ToString(), out defaultUnit))
         {
-            result.Errors.Add(new ValidationFailure(nameof(TemperatureTypeOptions), $"Temperature does not support {_temperatureTypeOptions.Units}!"));
+            result.Errors.Add(new ValidationFailure(nameof(Types.TemperatureTypeOptions), $"Temperature does not support {_temperatureTypeOptions.Units}!"));
             return result;
         }
 
@@ -121,7 +121,7 @@ public class Temperature : ValueObject<QuantityValue, Temperature>
     public QuantityValue ToFahrenheit() => _temperatureFahrenheit ??= GetMeasurementIn(TemperatureUnit.Fahrenheit);
 
     public override string ToString()
-        => $"{Value.ToString($"0.{new string('#', QuantityValueDecimalPrecision)}", CultureInfo.InvariantCulture)} {Enumeration.ParseFromName<TemperatureUnit>(Unit.ToString()).Symbol}";
+        => $"{Value.ToString($"0.{new string('#', QuantityValueDecimalPrecision)}", CultureInfo.InvariantCulture)} {Common.SmartEnumeration.ParseFromName<TemperatureUnit>(Unit.ToString()).Symbol}";
 
     /// <summary>
     /// Returns a string representation of the <see cref="Temperature"/> with unit using the specified <see cref="IFormatProvider"/>.
@@ -129,7 +129,7 @@ public class Temperature : ValueObject<QuantityValue, Temperature>
     /// <param name="formatProvider">The format provider for the measurement value.</param>
     /// <returns>A string representation of the <see cref="Temperature"/> object with the value formatted using the specified <see cref="IFormatProvider"/>.</returns>
     public string ToString(IFormatProvider formatProvider)
-        => $"{Value.ToString(formatProvider)} {Enumeration.ParseFromName<TemperatureUnit>(Unit.ToString()).Symbol}";
+        => $"{Value.ToString(formatProvider)} {SmartEnumeration.ParseFromName<TemperatureUnit>(Unit.ToString()).Symbol}";
 
     protected override IEnumerable<KeyValuePair<string, object>> GetEqualityComponents()
     {
@@ -138,7 +138,7 @@ public class Temperature : ValueObject<QuantityValue, Temperature>
 
     protected QuantityValue GetMeasurementIn(TemperatureUnit targetUnit)
     {
-        var conversion = ResolveUnitConversion(Enumeration.ParseFromName<TemperatureUnit>(Unit.ToString()), targetUnit);
+        var conversion = ResolveUnitConversion(SmartEnumeration.ParseFromName<TemperatureUnit>(Unit.ToString()), targetUnit);
         return conversion.Calculate(Value).Round(QuantityValueDecimalPrecision);
     }
 

@@ -20,7 +20,7 @@ public class Weight : ValueObject<QuantityValue, Weight>
     public WeightTypeUnit Unit
     {
         get => _unit;
-        private init { _unit = value; _weightUnit = Enumeration.ParseFromName<WeightUnit>(_unit.ToString()); }
+        private init { _unit = value; _weightUnit = SmartEnumeration.ParseFromName<WeightUnit>(_unit.ToString()); }
     }
 
     /// <summary>
