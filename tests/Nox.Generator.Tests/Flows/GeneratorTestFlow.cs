@@ -28,7 +28,7 @@ internal class GeneratorTestFlow : IGeneratorTestFlow
             .Should()
             .HaveCount(expectedFileCount)
             .And
-            .Contain(x => x.HintName == "0.Generator.g.cs", "Generator not generated");
+            .Contain(x => x.HintName == "Generator.g.cs", "Generator not generated");
 
         foreach (var fileName in fileNames)
         {
