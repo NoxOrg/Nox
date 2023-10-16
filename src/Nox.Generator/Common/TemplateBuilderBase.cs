@@ -23,7 +23,7 @@ internal abstract class TemplateBuilderBase
     private string? _fileNamePrefix;
     private string? _fileNameSuffix;
 
-    public TemplateBuilderBase(NoxSolutionCodeGeneratorState codeGeneratorState)
+    protected TemplateBuilderBase(NoxSolutionCodeGeneratorState codeGeneratorState)
     {
         _codeGeneratorState = codeGeneratorState;
 
@@ -99,10 +99,10 @@ internal abstract class TemplateBuilderBase
             template = reader.ReadToEnd();
         }
 
-        var fileName = string.Join(".", 
+        var fileName = string.Join("/", 
             new[] { _fileNamePrefix, _className, _fileNameSuffix }.Where(x => !string.IsNullOrWhiteSpace(x)));
 
-        var sourceCode = GenerateSourceCode(template, _model, fileName);
+        var sourceCode = GenerateSourceCode(template, _model);
 
         SaveSourceCode(fileName, sourceCode);
 
@@ -123,7 +123,7 @@ internal abstract class TemplateBuilderBase
         return templateNameParts[templateNameParts.Length - 1];
     }
 
-    private string GenerateSourceCode(string template, object model, string sourceFileName)
+    private string GenerateSourceCode(string template, object model)
     {
         var strongTemplate = Template.Parse(template);
 

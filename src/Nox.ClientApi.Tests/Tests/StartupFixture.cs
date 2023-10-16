@@ -3,6 +3,7 @@
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Application.Dto;
 using ClientApi.Tests.Application.Dto;
+using Microsoft.AspNetCore.Hosting;
 
 namespace ClientApi.Tests;
 
@@ -17,22 +18,21 @@ public class StartupFixture
 
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
-    {
+    {        
         services.AddNox(
             null,
-        (noxOptions) => 
+        (noxOptions) =>
         {
             // No Transactional Outbox in tests
             noxOptions.WithoutMessagingTransactionalOutbox();
         },
-        (odataOptions) => 
+        (odataOptions) =>
         {
             //Example register a custom odata function
             odataOptions.Function("countriesWithDebt").ReturnsCollectionFromEntitySet<CountryDto>("Countries");
             odataOptions.ConfigureHouseDto();
         })
-        .AddEndpointsApiExplorer()
-        .AddSwaggerGen();
+        .AddEndpointsApiExplorer();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,8 +41,6 @@ public class StartupFixture
         app.UseRouting();
 
         app.UseNox(false);
-
-        app.UseSwagger();
 
         // Ensure a new / clean db for each test
         var clientApiDbContext = app.ApplicationServices.GetRequiredService<ClientApiDbContext>();

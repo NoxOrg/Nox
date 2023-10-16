@@ -15,11 +15,11 @@ internal class GeneratorTestFlow : IGeneratorTestFlow
 
         Sources = _generatorRunResult
             .GeneratedSources
-            .Select(x => x.SourceText.ToString())
-            .ToArray();
+            .Select(x => new { key = x.HintName, value = x.SourceText.ToString()})
+            .ToDictionary(x => x.key, x => x.value);
     }
 
-    public IEnumerable<string> Sources { get; }
+    public IDictionary<string,string> Sources { get; }
 
     public IGeneratorTestFlow AssertFileExistence(int expectedFileCount, params string[] fileNames)
     {
@@ -28,14 +28,14 @@ internal class GeneratorTestFlow : IGeneratorTestFlow
             .Should()
             .HaveCount(expectedFileCount)
             .And
-            .Contain(x => x.HintName == "0.Generator.g.cs", "Generator not generated");
+            .Contain(x => x.HintName == "Generator.g.cs", "Generator not generated");
 
         foreach (var fileName in fileNames)
         {
             _generatorRunResult
             .GeneratedSources
             .Should()
-            .Contain(x => x.HintName == fileName, $"{fileName} not generated");
+            .Contain(x => x.HintName.Replace("/", ".") == fileName, $"{fileName} not generated");
         }
 
         return this;

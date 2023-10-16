@@ -83,7 +83,8 @@ namespace Nox.Solution.Validation
             When(e => e.IsOwnedEntity, () =>
             {
                 RuleFor(e => e)
-                    .SetValidator(new OwnedEntityValidator(entities));
+                    .SetValidator(new OwnedEntityValidator(entities))
+                    .SetValidator(new EntityLocalizationValidator(ValidationResources.EntityOwnedTextFieldsCantBeLocalized));
             })
             .Otherwise(() =>
             {
@@ -91,6 +92,12 @@ namespace Nox.Solution.Validation
                 RuleFor(e => e.Keys)
                     .NotEmpty()
                     .WithMessage(e => string.Format(ValidationResources.EntityKeysRequired, e.Name));
+
+                When(e => e.Keys.Count > 1, () =>
+                {
+                    RuleFor(e => e)
+                        .SetValidator(new EntityLocalizationValidator(ValidationResources.EntityCompoundKeyTextFieldsCantBeLocalized));
+                });
             });
         }
     }

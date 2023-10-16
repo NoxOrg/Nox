@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application;
 using Nox.Application.Commands;
-using Nox.Factories;
+using Nox.Application.Factories;
 using Nox.Solution;
 using Nox.Types;
 
@@ -64,12 +64,7 @@ internal abstract class Create{{entity.Name}}For{{parent.Name}}CommandHandlerBas
 		entityToCreate.Ensure{{key.Name}}();
 		{{- end }}
 		{{- end }}
-
-		{{- if isSingleRelationship }}
-		parentEntity.{{relationship.Name}} = entity;
-		{{- else }}
-		parentEntity.{{relationship.Name}}.Add(entity);
-		{{- end }}
+		parentEntity.CreateRefTo{{relationship.Name}}(entity);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 

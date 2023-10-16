@@ -40,7 +40,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
 
     private void GenerateSource(SourceProductionContext context, ImmutableArray<(string Path, SourceText? Source)> noxYamls)
     {
-        var _debug = new CodeBuilder($"0.Generator.g.cs", context);
+        var _debug = new CodeBuilder($"Generator.g.cs", context);
         _errors.Clear();
 
         _debug.AppendLine("// Found files ->");
@@ -55,7 +55,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
             {
                 var codeGeneratorState = new NoxSolutionCodeGeneratorState(solution, Assembly.GetEntryAssembly()!);
 
-                var generatorFlows = new[]
+                var generatorFlows = new (NoxGeneratorKind GeneratorKind, bool IsEnabled)[]
                 {
                     (NoxGeneratorKind.None,true),
                     (NoxGeneratorKind.Domain,config.Domain),
@@ -64,22 +64,24 @@ public class NoxCodeGenerator : IIncrementalGenerator
                     (NoxGeneratorKind.Application,config.Application),
                     (NoxGeneratorKind.Ui,config.Ui)
                 }
-                .Where(x => x.Item2)
-                .Select(x => x.Item1)
+                .Where(x => x.IsEnabled)
+                .Select(x => x.GeneratorKind)
                 .ToArray();
 
                 var generatorInstances = Assembly
                     .GetExecutingAssembly()
                     .GetTypes()
-                    .Where(x => x.IsClass && typeof(INoxCodeGenerator).IsAssignableFrom(x))
+                    .Where(x => x.IsClass && !x.IsAbstract && typeof(INoxCodeGenerator).IsAssignableFrom(x))
                     .Select(x => (INoxCodeGenerator)Activator.CreateInstance(x))
                     .ToArray();
+
+                var projectRoot = GetProjectRootDirectory(noxYamls);
 
                 foreach (var flow in generatorFlows)
                 {
                     foreach (var flowInstance in generatorInstances.Where(x => x.GeneratorKind == flow))
                     {
-                        flowInstance.Generate(context, codeGeneratorState, config);
+                        flowInstance.Generate(context, codeGeneratorState, config, projectRoot);
                     }
                 }
             }
@@ -204,5 +206,11 @@ public class NoxCodeGenerator : IIncrementalGenerator
         }
 
         return true;
+    }
+
+    private static string? GetProjectRootDirectory(ImmutableArray<(string Path, SourceText? Source)> noxYamls)
+    {
+        var generatorPath = noxYamls.FirstOrDefault(x => x.Path.EndsWith("generator.nox.yaml")).Path;
+        return Path.GetDirectoryName(generatorPath);
     }
 }

@@ -23,7 +23,7 @@ attributes:
     textTypeOptions:
       minLength: 4
       maxLength: 63
-    isRequired: true   
+    isRequired: true
 
   - name: NativeName
     description: Local name in native tongue
@@ -31,10 +31,10 @@ attributes:
     textTypeOptions:
       minLength: 4
       maxLength: 63
-    isRequired: false   
+    isRequired: false
 
 persistence:
-    isAudited: false    
+    isAudited: false
     create:
         isEnabled: true
         raiseEvents: domainEventsOnly

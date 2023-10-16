@@ -1,4 +1,8 @@
-﻿namespace Nox.Solution.Tests;
+﻿using FluentAssertions;
+using FluentValidation;
+
+namespace Nox.Solution.Tests;
+
 
 public class RefDeserializationTests
 {
@@ -9,7 +13,14 @@ public class RefDeserializationTests
         var noxConfig = new NoxSolutionBuilder()
             .UseYamlFile("./files/ref/ref.solution.nox.yaml")
             .Build();
-        Assert.NotNull(noxConfig);
 
+
+        noxConfig.Should().NotBeNull();
+        noxConfig.VersionControl.Should().NotBeNull();
+        noxConfig.Domain.Should().NotBeNull();
+
+        noxConfig.Name.Should().Be("SampleService");
+        noxConfig.Domain!.Entities.Count.Should().Be(4);
+        noxConfig.VersionControl!.Provider.Should().Be(VersionControlProvider.AzureDevops);
     }
 }

@@ -349,6 +349,15 @@ namespace Nox.Solution {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The entity &apos;{0}&apos; can&apos;t have localized text attributes because it has a compound key. Localized text attributes are only supported for entities with single keys..
+        /// </summary>
+        internal static string EntityCompoundKeyTextFieldsCantBeLocalized {
+            get {
+                return ResourceManager.GetString("EntityCompoundKeyTextFieldsCantBeLocalized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to apply defaults for entity &apos;{0}&apos;..
         /// </summary>
         internal static string EntityDefaultsFalse {
@@ -489,6 +498,15 @@ namespace Nox.Solution {
         internal static string EntityOwnedRelationshipRelationshipEmpty {
             get {
                 return ResourceManager.GetString("EntityOwnedRelationshipRelationshipEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The entity &apos;{0}&apos; can&apos;t have localized text attributes because it is owned entity. Localized text attributes are only supported for non-owned entities..
+        /// </summary>
+        internal static string EntityOwnedTextFieldsCantBeLocalized {
+            get {
+                return ResourceManager.GetString("EntityOwnedTextFieldsCantBeLocalized", resourceCulture);
             }
         }
         
@@ -727,7 +745,7 @@ namespace Nox.Solution {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The source &apos;{0}&apos; for integration &apos;{1}&apos; does not have a start specified for its schedule. All scheduled integrations must have a start defined..
+        ///   Looks up a localized string similar to Integration &apos;{1}&apos; does not have a start specified for its schedule. All scheduled integrations must have a start defined..
         /// </summary>
         internal static string IntegrationScheduleStartEmpty {
             get {
@@ -763,7 +781,7 @@ namespace Nox.Solution {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The source &apos;{0}&apos; on integration &apos;{2}&apos; does not have a data connection specified. All integration sources must have a data connection specified in the Infrastructure section of your yaml definition...
+        ///   Looks up a localized string similar to The source &apos;{0}&apos; on integration &apos;{2}&apos; does not have a data connection specified. If the source type is not Entity, your integration source must have a data connection specified in the Infrastructure section of your yaml definition..
         /// </summary>
         internal static string IntegrationSourceDataConnectionEmpty {
             get {
@@ -777,6 +795,15 @@ namespace Nox.Solution {
         internal static string IntegrationSourceDataConnectionMissing {
             get {
                 return ResourceManager.GetString("IntegrationSourceDataConnectionMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The RecordAttributes for the source of integration &apos;{0}&apos; do not have any attributes defined. All File sources must have at least one attribute..
+        /// </summary>
+        internal static string IntegrationSourceFileAttributesEmpty {
+            get {
+                return ResourceManager.GetString("IntegrationSourceFileAttributesEmpty", resourceCulture);
             }
         }
         
@@ -844,6 +871,24 @@ namespace Nox.Solution {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The ResponseAttributes for the target of integration &apos;{0}&apos; do not have any attributes defined. All Http sources must have at least one request attribute..
+        /// </summary>
+        internal static string IntegrationSourceHttpResponseAttributesEmpty {
+            get {
+                return ResourceManager.GetString("IntegrationSourceHttpResponseAttributesEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The MessageAttributes for the source of integration &apos;{0}&apos; do not have any attributes defined. All Message sources must have at least one attribute..
+        /// </summary>
+        internal static string IntegrationSourceMessageAttributesEmpty {
+            get {
+                return ResourceManager.GetString("IntegrationSourceMessageAttributesEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The integration &apos;{0}&apos; does not have a source specified. All integrations must have a source and target specified..
         /// </summary>
         internal static string IntegrationSourceMissing {
@@ -880,6 +925,33 @@ namespace Nox.Solution {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The target for integration {0} does not specify database options. When an integration targets data to a database, database options must be specified..
+        /// </summary>
+        internal static string IntegrationTargetDatabaseOptionsEmpty {
+            get {
+                return ResourceManager.GetString("IntegrationTargetDatabaseOptionsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The stored procedure in the database options of the target for integration {0} has not been specified. Database targets must have a stored procedure specified..
+        /// </summary>
+        internal static string IntegrationTargetDatabaseOptionsStoredProcEmpty {
+            get {
+                return ResourceManager.GetString("IntegrationTargetDatabaseOptionsStoredProcEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The target &apos;{0}&apos; for integration &apos;{1}&apos; does not have a data connection specified. If the target type is not Entity, your integration target must have a data connection specified in the Infrastructure section of your yaml definition..
+        /// </summary>
+        internal static string IntegrationTargetDataConnectionEmpty {
+            get {
+                return ResourceManager.GetString("IntegrationTargetDataConnectionEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The target &apos;{0}&apos; for integration &apos;{1}&apos; refers to a data connection &apos;{2}&apos; that is not defined. All data connections must be defined in the Infrastructure section of your yaml definition..
         /// </summary>
         internal static string IntegrationTargetDataConnectionMissing {
@@ -889,11 +961,74 @@ namespace Nox.Solution {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The RecordAttributes for the target of integration &apos;{0}&apos; do not have any attributes defined. All File Targets must have at least one attribute..
+        /// </summary>
+        internal static string IntegrationTargetFileAttributesEmpty {
+            get {
+                return ResourceManager.GetString("IntegrationTargetFileAttributesEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The target for integration {0} does not specify file options. When an integration targets data to a file, file options must be specified..
+        /// </summary>
+        internal static string IntegrationTargetFileOptionsEmpty {
+            get {
+                return ResourceManager.GetString("IntegrationTargetFileOptionsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The filename in the file options of the target for integration {0} has not been specified. File targets must have a filename specified..
+        /// </summary>
+        internal static string IntegrationTargetFileOptionsFilenameEmpty {
+            get {
+                return ResourceManager.GetString("IntegrationTargetFileOptionsFilenameEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The target for integration {0} does not specify Http options. When an integration targets data to an http endpoint, http options must be specified..
+        /// </summary>
+        internal static string IntegrationTargetHttpOptionsEmpty {
+            get {
+                return ResourceManager.GetString("IntegrationTargetHttpOptionsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The RequestAttributes for the target of integration &apos;{0}&apos; do not have any attributes defined. All Http Targets must have at least one request attribute..
+        /// </summary>
+        internal static string IntegrationTargetHttpRequestAttributesEmpty {
+            get {
+                return ResourceManager.GetString("IntegrationTargetHttpRequestAttributesEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The MessageAttributes for the target of integration &apos;{0}&apos; do not have any attributes defined. All Message Targets must have at least one attribute..
+        /// </summary>
+        internal static string IntegrationTargetMessageAttributesEmpty {
+            get {
+                return ResourceManager.GetString("IntegrationTargetMessageAttributesEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The integration &apos;{0}&apos; does not have a target specified. All integrations must have a source and target specified..
         /// </summary>
         internal static string IntegrationTargetMissing {
             get {
                 return ResourceManager.GetString("IntegrationTargetMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The target for integration {0} does not specify message queue options. When an integration targets data to a message queue, message queue options must be specified..
+        /// </summary>
+        internal static string IntegrationTargetMsgQueueOptionsEmpty {
+            get {
+                return ResourceManager.GetString("IntegrationTargetMsgQueueOptionsEmpty", resourceCulture);
             }
         }
         
@@ -912,6 +1047,15 @@ namespace Nox.Solution {
         internal static string IntegrationTargetTypeEmpty {
             get {
                 return ResourceManager.GetString("IntegrationTargetTypeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Integration TransformationType missing. an Integration Transformation Type must be specified for each integration..
+        /// </summary>
+        internal static string IntegrationTransformationTypeEmpty {
+            get {
+                return ResourceManager.GetString("IntegrationTransformationTypeEmpty", resourceCulture);
             }
         }
         

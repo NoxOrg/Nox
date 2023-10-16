@@ -2,20 +2,14 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Abstractions;
 using Nox.Application.Providers;
-using Nox.Factories;
-using Nox.Messaging;
-using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Configurations;
-using Microsoft.EntityFrameworkCore;
-using MassTransit;
-using Nox.Messaging.AzureServiceBus;
 using Nox.Configuration;
 using FluentValidation;
 using MediatR;
 using Nox.Application.Behaviors;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.OData.ModelBuilder;
+using Nox.Application.Factories;
 
 namespace Nox;
 

@@ -1,0 +1,9 @@
+﻿#
+# cryptocash.persistence.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/messaging.json
+#
+
+integrationEventServer:       
+ name: IntegrationBus
+ provider: inMemory

@@ -14,10 +14,10 @@ keys:
     isRequired: true
     entityIdTypeOptions:
      entity: Store
-   
+
   - name: Id
     isRequired: true
-    description: The unique identifier 
+    description: The unique identifier
     type: autoNumber
 
 attributes:

@@ -16,7 +16,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Presentation;
 
-    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
+    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config, string? projectRootPath)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -52,7 +52,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             IReadOnlyCollection<DomainQuery> queries = entity.Queries ?? new List<DomainQuery>();
             //IReadOnlyCollection<DomainCommand> commands = entity.Commands ?? new List<DomainCommand>();
 
-            var code = new CodeBuilder($"Presentation.Api.OData.{pluralName}Controller.g.cs", context);
+            var code = new CodeBuilder($"Presentation.Api.OData/{pluralName}Controller.g.cs", context);
 
             // Namespace
             code.AppendLine($"using Microsoft.AspNetCore.Mvc;");

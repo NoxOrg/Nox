@@ -4,7 +4,7 @@
 
 using MediatR;
 using Nox.Application;
-using Nox.Messaging;
+using Nox.Infrastructure.Messaging;
 
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;

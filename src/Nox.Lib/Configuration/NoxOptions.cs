@@ -10,14 +10,14 @@ using Serilog;
 using Nox.Secrets;
 using Nox.Secrets.Abstractions;
 using Nox.Solution;
-using Nox.Messaging.AzureServiceBus;
-using Nox.Messaging;
+using Nox.Infrastructure.Messaging;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.EntityFramework.Sqlite;
 using Nox.EntityFramework.Postgres;
 using Nox.EntityFramework.SqlServer;
-using Nox.Messaging.InMemoryBus;
 using Nox.OData;
+using Nox.Infrastructure.Messaging.InMemoryBus;
+using Nox.Infrastructure.Messaging.AzureServiceBus;
 
 namespace Nox.Configuration
 {

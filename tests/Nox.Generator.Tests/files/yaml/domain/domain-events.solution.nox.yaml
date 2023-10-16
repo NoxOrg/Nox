@@ -18,7 +18,7 @@ domain:
         schema: dbo
         create:
           isEnabled: true
-          raiseEvents: domainEventsOnly
+          raiseEvents: domainAndIntegrationEvents
         read:
           isEnabled: true
         update:
@@ -26,7 +26,7 @@ domain:
           raiseEvents: domainEventsOnly
         delete:
           isEnabled: true
-          raiseEvents: domainEventsOnly
+          raiseEvents: never
 
       events:
         - name: CountryNameUpdatedEvent
