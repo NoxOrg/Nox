@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Nox.Extensions;
 using Nox.Types;
+using System.Collections.Concurrent;
 
 namespace Nox.Application.Behaviors
 {
@@ -23,12 +24,18 @@ namespace Nox.Application.Behaviors
 
             _logger.LogInformation("Validating {CommandType}", typeName);
 
-            var failures = _validators
-                .Select(v => v.Validate(request))
-                .SelectMany(result => result.Errors)
-                .Where(error => error != null)
-                .Select(x => new ValidationFailure($"{typeName}.{x.PropertyName}", x.ErrorMessage))
-                .ToList();
+            var failuresQuery = _validators
+                .ToAsyncEnumerable()
+                .SelectAwait(async v => await v.ValidateAsync(request, cancellationToken));
+
+            var failures = new ConcurrentBag<ValidationFailure>();
+            await foreach (var failure in failuresQuery)
+            {
+                failure
+                    .Errors
+                    .Select(x => new ValidationFailure($"{typeName}.{x.PropertyName}", x.ErrorMessage))
+                    .ForEach(x => failures.Add(x));
+            }
 
             if (failures.Any())
             {

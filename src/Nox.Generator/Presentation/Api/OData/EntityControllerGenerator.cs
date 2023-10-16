@@ -52,7 +52,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             IReadOnlyCollection<DomainQuery> queries = entity.Queries ?? new List<DomainQuery>();
             //IReadOnlyCollection<DomainCommand> commands = entity.Commands ?? new List<DomainCommand>();
 
-            var code = new CodeBuilder($"Presentation.Api.OData.{pluralName}Controller.g.cs", context);
+            var code = new CodeBuilder($"Presentation.Api.OData/{pluralName}Controller.g.cs", context);
 
             // Namespace
             code.AppendLine($"using Microsoft.AspNetCore.Mvc;");

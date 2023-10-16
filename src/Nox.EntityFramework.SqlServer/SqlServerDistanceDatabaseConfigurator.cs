@@ -12,8 +12,8 @@ public class SqlServerDistanceDatabaseConfigurator : DistanceDatabaseConfigurato
     public override string? GetColumnType(DistanceTypeOptions typeOptions)
     {
         var conversion = new DistanceConversion(
-            Enumeration.ParseFromName<DistanceUnit>(typeOptions.Units.ToString()),
-            Enumeration.ParseFromName<DistanceUnit>(typeOptions.PersistAs.ToString()));
+            SmartEnumeration.ParseFromName<DistanceUnit>(typeOptions.Units.ToString()),
+            SmartEnumeration.ParseFromName<DistanceUnit>(typeOptions.PersistAs.ToString()));
 
         var maxPersistedValue = conversion.Calculate(typeOptions.MaxValue).Round(Distance.QuantityValueDecimalPrecision);
         var maxNumberOfIntegerDigits = Math.Truncate((decimal)maxPersistedValue).ToString(CultureInfo.InvariantCulture).Length;

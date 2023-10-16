@@ -1,26 +1,18 @@
 ﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Nox.Generator.Application.Commands;
 
-internal class UpdateCommandGenerator : INoxCodeGenerator
+internal class UpdateCommandGenerator : ApplicationEntityDependentGeneratorBase
 {
-    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
-
-    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config, string? projectRootPath)
+    protected override void DoGenerate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, IEnumerable<Entity> entities)
     {
-        context.CancellationToken.ThrowIfCancellationRequested();
-
-        if (codeGeneratorState.Solution.Domain is null)
-        {
-            return;
-        }
-
         var templateName = @"Application.Commands.UpdateCommand";
 
-        foreach (var entity in codeGeneratorState.Solution.Domain.Entities.Where(x => !x.IsOwnedEntity))
+        foreach (var entity in entities.Where(x => !x.IsOwnedEntity))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 

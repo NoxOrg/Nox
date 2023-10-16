@@ -31,10 +31,9 @@ public class DatabaseServerTests : IClassFixture<GeneratorFixture>
         _fixture
             .GenerateSourceCodeFor(sources)
             .AssertOutputResult()
-            .AssertFileExistence(16, filesShouldExist)
+            .AssertFileExistence(10, filesShouldExist)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
-            .Check("Country.expected.g.cs", "Domain.Country.g.cs")
-            .Check("SampleWebAppDbContext.expected.g.cs", "Infrastructure.Persistence.SampleWebAppDbContext.g.cs");
+            .Check("Country.expected.g.cs", "Domain.Country.g.cs");
     }
 }

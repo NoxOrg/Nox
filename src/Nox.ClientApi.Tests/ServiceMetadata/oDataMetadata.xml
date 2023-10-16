@@ -16,6 +16,7 @@
                 <Property Name="CountryIsoAlpha3" Type="Edm.String" />
                 <Property Name="GoogleMapsUrl" Type="Edm.String" />
                 <Property Name="StartOfWeek" Type="Edm.Int32" />
+                <Property Name="Continent" Type="Edm.Int32" />
                 <NavigationProperty Name="CountryShortNames" Type="Collection(ClientApi.Application.Dto.CountryLocalNameDto)" ContainsTarget="true" />
                 <NavigationProperty Name="CountryBarCode" Type="ClientApi.Application.Dto.CountryBarCodeDto" ContainsTarget="true" />
                 <NavigationProperty Name="PhysicalWorkplaces" Type="Collection(ClientApi.Application.Dto.WorkplaceDto)" ContainsTarget="true" />

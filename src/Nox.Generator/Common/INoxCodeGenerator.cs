@@ -7,5 +7,8 @@ internal interface INoxCodeGenerator
 {
     NoxGeneratorKind GeneratorKind { get; }
 
-    void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config, string? projectRootPath);
+    void Generate(SourceProductionContext context,
+        NoxSolutionCodeGeneratorState codeGeneratorState,
+        GeneratorConfig config,
+        string? projectRootPath);
 }

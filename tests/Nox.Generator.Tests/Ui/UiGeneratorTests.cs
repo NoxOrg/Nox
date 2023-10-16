@@ -25,7 +25,7 @@ public class UiGeneratorTests : IClassFixture<GeneratorFixture>
             .GenerateSourceCodeFor(sources)
             .AssertOutputResult()
             .AssertContent()
-            .SourceContains("0.Generator.g.cs", "SUCCESS");
+            .SourceContains("Generator.g.cs", "SUCCESS");
     }
 
     [Fact]
@@ -43,7 +43,7 @@ public class UiGeneratorTests : IClassFixture<GeneratorFixture>
             .GenerateSourceCodeFor(sources)
             .AssertOutputResult()
             .AssertContent()
-            .SourceContains("0.Generator.g.cs", "Error");
+            .SourceContains("Generator.g.cs", "Error");
 
         // This trick is necessary because broken configuration impacts on test Generated_Files_Should_Be_Compiled_Successfully
         // Seems that driver.RunGenerators() does not release generated resources on time.

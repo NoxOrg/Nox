@@ -24,7 +24,6 @@ public class QueryTests : IClassFixture<GeneratorFixture>
 
         var filesShouldExist = new[]
         {
-            "GetCountriesByContinentQueryBase.g.cs",
             "Application.Dto.CountryDto.g.cs",
             "Application.Dto.CountryCreateDto.g.cs"
         };
@@ -32,10 +31,9 @@ public class QueryTests : IClassFixture<GeneratorFixture>
         _fixture
             .GenerateSourceCodeFor(sources)
             .AssertOutputResult()
-            .AssertFileExistence(16, filesShouldExist)
+            .AssertFileExistence(8, filesShouldExist)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
-            .Check("GetCountriesByContinentQueryBase.expected.g.cs", "GetCountriesByContinentQueryBase.g.cs")
             .Check("Dto.CountryCreateDto.expected.g.cs", "Application.Dto.CountryCreateDto.g.cs");
     }
 }

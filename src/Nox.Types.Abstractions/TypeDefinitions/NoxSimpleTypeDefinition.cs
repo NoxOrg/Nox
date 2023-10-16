@@ -27,80 +27,86 @@ public class NoxSimpleTypeDefinition
 
     #region TypeOptions
 
-    [IfEquals(nameof(Type), NoxType.Text)]
-    public TextTypeOptions? TextTypeOptions { get; set; }
-
-    [IfEquals(nameof(Type), NoxType.Number)]
-    public NumberTypeOptions? NumberTypeOptions { get; set; }
-
-    [IfEquals(nameof(Type), NoxType.Money)]
-    public MoneyTypeOptions? MoneyTypeOptions { get; set; }
-
-    [IfEquals(nameof(Type), NoxType.EntityId)]
-    public EntityIdTypeOptions? EntityIdTypeOptions { get; set; }
+    [IfEquals(nameof(Type), NoxType.Area)]
+    public AreaTypeOptions? AreaTypeOptions { get; set; }
 
     [IfEquals(nameof(Type), NoxType.Date)]
     public DateTypeOptions? DateTypeOptions { get; set; }
 
-    [IfEquals(nameof(Type), NoxType.Percentage)]
-    public PercentageTypeOptions? PercentageTypeOptions { get; set; }
-
-    [IfEquals(nameof(Type), NoxType.TranslatedText)]
-    public TranslatedTextTypeOptions? TranslatedTextTypeOptions { get; set; }
-
-    [IfEquals(nameof(Type), NoxType.Nuid)]
-    public NuidTypeOptions? NuidTypeOptions { get; set; }
-
-    [IfEquals(nameof(Type), NoxType.Year)]
-    public YearTypeOptions? YearTypeOptions { get; set; }
+    [IfEquals(nameof(Type), NoxType.DateTime)]
+    public DateTimeTypeOptions? DateTimeTypeOptions { get; set; }
 
     [IfEquals(nameof(Type), NoxType.DateTimeDuration)]
     public DateTimeDurationTypeOptions? DateTimeDurationTypeOptions { get; set; }
 
-    [IfEquals(nameof(Type), NoxType.HashedText)]
-    public HashedTextTypeOptions? HashedTextTypeOptions { get; set; }
+    [IfEquals(nameof(Type), NoxType.DateTimeRange)]
+    public DateTimeRangeTypeOptions? DateTimeRangeTypeOptions { get; set; }
 
-    [IfEquals(nameof(Type), NoxType.DateTime)]
-    public DateTimeTypeOptions? DateTimeTypeOptions { get; set; }
-    
-    [IfEquals(nameof(Type), NoxType.Image)]
-    public ImageTypeOptions? ImageTypeOptions { get; set; }
-
-    [IfEquals(nameof(Type), NoxType.Time)]
-    public TimeTypeOptions? TimeTypeOptions { get; set; }
-
-    [IfEquals(nameof(Type), NoxType.File)]
-    public FileTypeOptions? FileTypeOptions { get; set; }
-
-	[IfEquals(nameof(Type), NoxType.Area)]
-    public AreaTypeOptions? AreaTypeOptions { get; set; }
+    [IfEquals(nameof(Type), NoxType.Distance)]
+    public DistanceTypeOptions? DistanceTypeOptions { get; set; }
 
     [IfEquals(nameof(Type), NoxType.EncryptedText)]
     public EncryptedTextTypeOptions? EncryptedTextTypeOptions { get; set; }
 
-    [IfEquals(nameof(Type), NoxType.User)]
-    public UserTypeOptions? UserTypeOptions { get; set; }
+    [IfEquals(nameof(Type), NoxType.EntityId)]
+    public EntityIdTypeOptions? EntityIdTypeOptions { get; set; }
 
-    [IfEquals(nameof(Type), NoxType.Password)]
-    public PasswordTypeOptions? PasswordTypeOptions { get; set; }
+    [IfEquals(nameof(Type), NoxType.Enumeration)]
+    public EnumerationTypeOptions? EnumerationTypeOptions { get; set; }
+
+    [IfEquals(nameof(Type), NoxType.File)]
+    public FileTypeOptions? FileTypeOptions { get; set; }
 
     [IfEquals(nameof(Type), NoxType.Formula)]
     public FormulaTypeOptions? FormulaTypeOptions { get; set; }
 
-    [IfEquals(nameof(Type), NoxType.VatNumber)]
-    public VatNumberTypeOptions? VatNumberTypeOptions { get; set; }
+    [IfEquals(nameof(Type), NoxType.HashedText)]
+    public HashedTextTypeOptions? HashedTextTypeOptions { get; set; }
+
+    [IfEquals(nameof(Type), NoxType.Image)]
+    public ImageTypeOptions? ImageTypeOptions { get; set; }
 
     [IfEquals(nameof(Type), NoxType.Json)]
     public JsonTypeOptions? JsonTypeOptions { get; set; }
 
+    [IfEquals(nameof(Type), NoxType.Length)]
+    public LengthTypeOptions? LengthTypeOptions { get; set; }
+
     [IfEquals(nameof(Type), NoxType.Markdown)]
     public MarkdownTypeOptions? MarkdownTypeOptions { get; set; }
+
+    [IfEquals(nameof(Type), NoxType.Money)]
+    public MoneyTypeOptions? MoneyTypeOptions { get; set; }
+
+    [IfEquals(nameof(Type), NoxType.Nuid)]
+    public NuidTypeOptions? NuidTypeOptions { get; set; }
+
+    [IfEquals(nameof(Type), NoxType.Number)]
+    public NumberTypeOptions? NumberTypeOptions { get; set; }
+
+    [IfEquals(nameof(Type), NoxType.Password)]
+    public PasswordTypeOptions? PasswordTypeOptions { get; set; }
+
+    [IfEquals(nameof(Type), NoxType.Percentage)]
+    public PercentageTypeOptions? PercentageTypeOptions { get; set; }
 
     [IfEquals(nameof(Type), NoxType.Temperature)]
     public TemperatureTypeOptions? TemperatureTypeOptions { get; set; }
 
-    [IfEquals(nameof(Type), NoxType.Length)]
-    public LengthTypeOptions? LengthTypeOptions { get; set; }
+    [IfEquals(nameof(Type), NoxType.Text)]
+    public TextTypeOptions? TextTypeOptions { get; set; }
+
+    [IfEquals(nameof(Type), NoxType.Time)]
+    public TimeTypeOptions? TimeTypeOptions { get; set; }
+
+    [IfEquals(nameof(Type), NoxType.TranslatedText)]
+    public TranslatedTextTypeOptions? TranslatedTextTypeOptions { get; set; }
+
+    [IfEquals(nameof(Type), NoxType.User)]
+    public UserTypeOptions? UserTypeOptions { get; set; }
+
+    [IfEquals(nameof(Type), NoxType.VatNumber)]
+    public VatNumberTypeOptions? VatNumberTypeOptions { get; set; }
 
     [IfEquals(nameof(Type), NoxType.Volume)]
     public VolumeTypeOptions? VolumeTypeOptions { get; set; }
@@ -108,11 +114,8 @@ public class NoxSimpleTypeDefinition
     [IfEquals(nameof(Type), NoxType.Weight)]
     public WeightTypeOptions? WeightTypeOptions { get; set; }
 
-    [IfEquals(nameof(Type), NoxType.Distance)]
-    public DistanceTypeOptions? DistanceTypeOptions { get; set; }
-
-    [IfEquals(nameof(Type), NoxType.DateTimeRange)]
-    public DateTimeRangeTypeOptions? DateTimeRangeTypeOptions { get; set; }
+    [IfEquals(nameof(Type), NoxType.Year)]
+    public YearTypeOptions? YearTypeOptions { get; set; }
 
     #endregion TypeOptions
 

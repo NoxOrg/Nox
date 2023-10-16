@@ -1,25 +1,17 @@
 ﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
-using Nox.Solution.Extensions;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Nox.Generator.Application.Commands;
 
-internal class RefToCommandGenerator : INoxCodeGenerator
+internal class RefToCommandGenerator : ApplicationEntityDependentGeneratorBase
 {
-    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
-    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config, string? projectRootPath)
+    protected override void DoGenerate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, IEnumerable<Entity> entities)
     {
-        context.CancellationToken.ThrowIfCancellationRequested();
-
-        if (codeGeneratorState.Solution.Domain is null)
-        {
-            return;
-        }
-
         var templateName = @"Application.Commands.RefToCommand";
-        foreach (var entity in codeGeneratorState.Solution.Domain.Entities.Where(x => !x.IsOwnedEntity))
+        foreach (var entity in entities.Where(x => !x.IsOwnedEntity))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -29,7 +21,7 @@ internal class RefToCommandGenerator : INoxCodeGenerator
             foreach (var relationship in entity.Relationships)
             {
                 var entityKeysFindQuery = string.Join(", ", entity.Keys.Select(k => $"key{k.Name}"));
-                var relatedEntityKeysFindQuery = string.Join(", ", 
+                var relatedEntityKeysFindQuery = string.Join(", ",
                     relationship.Related.Entity.Keys.Select(k => $"relatedKey{k.Name}"));
 
                 new TemplateCodeBuilder(context, codeGeneratorState)
@@ -42,6 +34,5 @@ internal class RefToCommandGenerator : INoxCodeGenerator
                     .GenerateSourceCodeFromResource(templateName);
             }
         }
-
     }
 }
