@@ -1,6 +1,6 @@
 ﻿namespace Nox.Types.Common;
 
-public abstract class MeasurementUnit : Enumeration
+public abstract class MeasurementUnit : SmartEnumeration
 {
     public string Symbol { get; }
 

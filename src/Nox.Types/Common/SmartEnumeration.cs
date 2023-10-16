@@ -8,7 +8,7 @@ namespace Nox.Types.Common;
 /// <summary>
 /// Enumeration base class.
 /// </summary>
-public abstract class Enumeration : IComparable
+public abstract class SmartEnumeration : IComparable
 {
     /// <summary>
     /// Gets the ID of the enumeration.
@@ -22,11 +22,11 @@ public abstract class Enumeration : IComparable
 
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Enumeration"/> class with the specified ID, name, and value.
+    /// Initializes a new instance of the <see cref="SmartEnumeration"/> class with the specified ID, name, and value.
     /// </summary>
     /// <param name="id">The ID of the enumeration.</param>
     /// <param name="name">The name of the enumeration.</param>
-    protected Enumeration(int id, string name)
+    protected SmartEnumeration(int id, string name)
     {
         Id = id;
         Name = name;
@@ -38,7 +38,7 @@ public abstract class Enumeration : IComparable
     /// <param name="obj">The object to compare with.</param>
     /// <returns>A value indicating the relative order of the objects being compared.</returns>
     public int CompareTo(object? obj)
-        => Id.CompareTo(((Enumeration)obj!).Id);
+        => Id.CompareTo(((SmartEnumeration)obj!).Id);
 
     /// <summary>
     /// Determines whether the current enumeration is equal to another object.
@@ -47,7 +47,7 @@ public abstract class Enumeration : IComparable
     /// <returns>True if the objects are equal; otherwise, false.</returns>
     public override bool Equals(object? obj)
     {
-        if (obj is not Enumeration otherValue)
+        if (obj is not SmartEnumeration otherValue)
         {
             return false;
         }
@@ -76,7 +76,7 @@ public abstract class Enumeration : IComparable
     /// <param name="a">The first enumeration to compare.</param>
     /// <param name="b">The second enumeration to compare.</param>
     /// <returns>True if the enumerations are equal; otherwise, false.</returns>
-    public static bool operator ==(Enumeration? a, Enumeration? b)
+    public static bool operator ==(SmartEnumeration? a, SmartEnumeration? b)
     {
         if (a is null && b is null)
             return true;
@@ -93,7 +93,7 @@ public abstract class Enumeration : IComparable
     /// <param name="a">The first enumeration to compare.</param>
     /// <param name="b">The second enumeration to compare.</param>
     /// <returns>True if the enumerations are not equal; otherwise, false.</returns>
-    public static bool operator !=(Enumeration? a, Enumeration? b)
+    public static bool operator !=(SmartEnumeration? a, SmartEnumeration? b)
     {
         return !(a == b);
     }
@@ -103,7 +103,7 @@ public abstract class Enumeration : IComparable
     /// </summary>
     /// <typeparam name="T">The type of the enumeration.</typeparam>
     /// <returns>An IEnumerable of the specified enumeration type containing all instances.</returns>
-    public static IEnumerable<T> GetAll<T>() where T : Enumeration
+    public static IEnumerable<T> GetAll<T>() where T : SmartEnumeration
         => typeof(T).GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
             .Select(f => f.GetValue(null))
             .Cast<T>();
@@ -115,7 +115,7 @@ public abstract class Enumeration : IComparable
     /// <param name="name">The name of the enumeration value.</param>
     /// <param name="enumeration">The retrieved enumeration value.</param>
     /// <returns>true if the enumeration is defined.</returns>
-    public static bool TryParseFromName<T>(string name, out T enumeration) where T : Enumeration
+    public static bool TryParseFromName<T>(string name, out T enumeration) where T : SmartEnumeration
     {
         enumeration = GetAll<T>().FirstOrDefault(e => e.Name.Equals(name, StringComparison.OrdinalIgnoreCase))!;
         return enumeration is not null;
@@ -128,7 +128,7 @@ public abstract class Enumeration : IComparable
     /// <param name="name">The name of the enumeration value.</param>
     /// <returns>An instance of the specified enumeration type with the given name.</returns>
     /// <exception cref="InvalidOperationException">Thrown if the name does not match any enumeration value.</exception>
-    public static T ParseFromName<T>(string name) where T : Enumeration
+    public static T ParseFromName<T>(string name) where T : SmartEnumeration
     {
         if (TryParseFromName<T>(name, out T enumeration))
             return enumeration;
@@ -143,7 +143,7 @@ public abstract class Enumeration : IComparable
     /// <param name="id">The id of the enumeration value.</param>
     /// <param name="enumeration">The retrieved enumeration value.</param>
     /// <returns>true if the enumeration is defined.</returns>
-    public static bool TryParseFromId<T>(int id, out T enumeration) where T : Enumeration
+    public static bool TryParseFromId<T>(int id, out T enumeration) where T : SmartEnumeration
     {
         enumeration = GetAll<T>().FirstOrDefault(e => e.Id.Equals(id))!;
         return enumeration is not null;
@@ -156,7 +156,7 @@ public abstract class Enumeration : IComparable
     /// <param name="id">The ID of the enumeration value.</param>
     /// <returns>An instance of the specified enumeration type with the given ID.</returns>
     /// <exception cref="InvalidOperationException">Thrown if the ID does not match any enumeration value.</exception>
-    public static T ParseFromId<T>(int id) where T : Enumeration
+    public static T ParseFromId<T>(int id) where T : SmartEnumeration
     {
         if (TryParseFromId(id, out T enumeration))
             return enumeration;

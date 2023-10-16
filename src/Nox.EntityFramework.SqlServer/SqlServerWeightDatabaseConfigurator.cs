@@ -13,8 +13,8 @@ public class SqlServerWeightDatabaseConfigurator : WeightDatabaseConfigurator, I
     public override string? GetColumnType(WeightTypeOptions typeOptions)
     {
         var conversion = new WeightConversion(
-            Enumeration.ParseFromName<WeightUnit>(typeOptions.Units.ToString()),
-            Enumeration.ParseFromName<WeightUnit>(typeOptions.PersistAs.ToString()));
+            SmartEnumeration.ParseFromName<WeightUnit>(typeOptions.Units.ToString()),
+            SmartEnumeration.ParseFromName<WeightUnit>(typeOptions.PersistAs.ToString()));
 
         var maxPersistedValue = conversion.Calculate(typeOptions.MaxValue).Round(Weight.QuantityValueDecimalPrecision);
         var maxNumberOfIntegerDigits = Math.Truncate((decimal)maxPersistedValue).ToString(CultureInfo.InvariantCulture).Length;

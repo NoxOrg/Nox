@@ -13,8 +13,8 @@ public class SqlServerVolumeDatabaseConfigurator : VolumeDatabaseConfigurator, I
     public override string? GetColumnType(VolumeTypeOptions typeOptions)
     {
         var conversion = new VolumeConversion(
-            Enumeration.ParseFromName<VolumeUnit>(typeOptions.Unit.ToString()),
-            Enumeration.ParseFromName<VolumeUnit>(typeOptions.PersistAs.ToString()));
+            SmartEnumeration.ParseFromName<VolumeUnit>(typeOptions.Unit.ToString()),
+            SmartEnumeration.ParseFromName<VolumeUnit>(typeOptions.PersistAs.ToString()));
 
         var maxPersistedValue = conversion.Calculate(typeOptions.MaxValue).Round(Volume.QuantityValueDecimalPrecision);
         var maxNumberOfIntegerDigits = Math.Truncate((double)maxPersistedValue).ToString(CultureInfo.InvariantCulture).Length;

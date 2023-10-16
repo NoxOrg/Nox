@@ -18,7 +18,7 @@ public class Distance : ValueObject<QuantityValue, Distance>
     public DistanceTypeUnit Unit
     {
         get => _unit;
-        private init { _unit = value; _distanceUnit = Enumeration.ParseFromName<DistanceUnit>(_unit.ToString()); }
+        private init { _unit = value; _distanceUnit = SmartEnumeration.ParseFromName<DistanceUnit>(_unit.ToString()); }
     }
 
     /// <summary>
