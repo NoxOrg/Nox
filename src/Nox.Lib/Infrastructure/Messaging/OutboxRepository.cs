@@ -5,7 +5,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
-using Nox.Exceptions;
 using Nox.Solution;
 using System.Reflection;
 
@@ -50,12 +49,12 @@ namespace Nox.Infrastructure.Messaging
                     var eventName = integrationEventAttribute?.EventName;
                     if (string.IsNullOrWhiteSpace(trait))
                     {
-                        throw new EventNameIsEmptyException($"Provided {nameof(integrationEventAttribute.Trait)} in {nameof(IntegrationEventTypeAttribute)} for event {integrationEvent.GetType()} can't be null or empty.");
+                        throw new EventTraitIsNotFoundException($"Provided {nameof(integrationEventAttribute.Trait)} in {nameof(IntegrationEventTypeAttribute)} for event {integrationEvent.GetType()} can't be null or empty.");
                     }
 
                     if (string.IsNullOrWhiteSpace(eventName))
                     {
-                        throw new EventTraitIsEmptyException($"Provided {nameof(integrationEventAttribute.EventName)} in {nameof(IntegrationEventTypeAttribute)} for event {integrationEvent.GetType()} can't be null or empty.");
+                        throw new EventNameIsNotFoundException($"Provided {nameof(integrationEventAttribute.EventName)} in {nameof(IntegrationEventTypeAttribute)} for event {integrationEvent.GetType()} can't be null or empty.");
                     }
 
                     var cloudEvent = new CloudEvent(CloudEventsSpecVersion.V1_0)

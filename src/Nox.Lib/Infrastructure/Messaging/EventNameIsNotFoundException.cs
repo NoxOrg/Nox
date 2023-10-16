@@ -4,14 +4,14 @@
     /// <summary>
     ///  Nox configuration is invalid
     /// </summary>
-    public class UnknownMessageTypeException : Exception
+    public class EventNameIsNotFoundException : Exception
     {
-        public UnknownMessageTypeException(string message)
+        public EventNameIsNotFoundException(string message)
             : base(message)
         {
         }
 
-        public UnknownMessageTypeException(string message, Exception inner)
+        public EventNameIsNotFoundException(string message, Exception inner)
             : base(message, inner)
         {
         }

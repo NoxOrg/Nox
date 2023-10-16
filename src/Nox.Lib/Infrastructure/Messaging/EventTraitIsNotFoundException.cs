@@ -4,14 +4,14 @@
     /// <summary>
     ///  Nox configuration is invalid
     /// </summary>
-    public class UnknownMessageTypeException : Exception
+    public class EventTraitIsNotFoundException : Exception
     {
-        public UnknownMessageTypeException(string message)
+        public EventTraitIsNotFoundException(string message)
             : base(message)
         {
         }
 
-        public UnknownMessageTypeException(string message, Exception inner)
+        public EventTraitIsNotFoundException(string message, Exception inner)
             : base(message, inner)
         {
         }
