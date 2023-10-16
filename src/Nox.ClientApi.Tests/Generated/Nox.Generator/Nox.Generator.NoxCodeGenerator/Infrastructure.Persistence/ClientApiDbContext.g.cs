@@ -40,14 +40,14 @@ internal partial class ClientApiDbContext : Nox.Infrastructure.Persistence.Entit
             IPublisher publisher,
             NoxSolution noxSolution,
             INoxDatabaseProvider databaseProvider,
-            INoxClientAssemblyProvider clientAssemblyProvider, 
+            INoxClientAssemblyProvider clientAssemblyProvider,
             IUserProvider userProvider,
             ISystemProvider systemProvider
         ) : base(publisher, userProvider, systemProvider, options)
-        {            
+        {
             _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
-            _clientAssemblyProvider = clientAssemblyProvider;            
+            _clientAssemblyProvider = clientAssemblyProvider;
         }
 
     public DbSet<ClientApi.Domain.Country> Countries { get; set; } = null!;
@@ -72,14 +72,14 @@ internal partial class ClientApiDbContext : Nox.Infrastructure.Persistence.Entit
         base.OnConfiguring(optionsBuilder);
         if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })
         {
-            _dbProvider.ConfigureDbContext(optionsBuilder, "ClientApi", _noxSolution.Infrastructure!.Persistence.DatabaseServer); 
+            _dbProvider.ConfigureDbContext(optionsBuilder, "ClientApi", _noxSolution.Infrastructure!.Persistence.DatabaseServer);
         }
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-       
+
         ConfigureAuditable(modelBuilder);
 
         if (_noxSolution.Domain != null)
@@ -87,7 +87,7 @@ internal partial class ClientApiDbContext : Nox.Infrastructure.Persistence.Entit
             var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
             modelBuilder.AddInboxStateEntity();
             modelBuilder.AddOutboxMessageEntity();
-            modelBuilder.AddOutboxStateEntity();                            
+            modelBuilder.AddOutboxStateEntity();
             foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
             {
                 Console.WriteLine($"ClientApiDbContext Configure database for Entity {entity.Name}");
@@ -116,5 +116,5 @@ internal partial class ClientApiDbContext : Nox.Infrastructure.Persistence.Entit
         modelBuilder.Entity<ClientApi.Domain.Store>().HasQueryFilter(p => p.DeletedAtUtc == null);
         modelBuilder.Entity<ClientApi.Domain.StoreOwner>().HasQueryFilter(p => p.DeletedAtUtc == null);
         modelBuilder.Entity<ClientApi.Domain.StoreLicense>().HasQueryFilter(p => p.DeletedAtUtc == null);
-    }    
+    }
 }
