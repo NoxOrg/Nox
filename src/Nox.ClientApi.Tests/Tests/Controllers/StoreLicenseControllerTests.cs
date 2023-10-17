@@ -14,7 +14,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
         public StoreLicenseControllerTests(
             ITestOutputHelper testOutput,
-            NoxTestContainerService containerService)
+            TestDatabaseContainerService containerService)
             : base(testOutput, containerService)
         {
         }

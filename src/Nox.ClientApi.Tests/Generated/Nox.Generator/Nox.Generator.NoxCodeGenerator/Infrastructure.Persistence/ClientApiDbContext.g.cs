@@ -67,6 +67,10 @@ internal partial class ClientApiDbContext : Nox.Infrastructure.Persistence.Entit
     public DbSet<ClientApi.Domain.StoreLicense> StoreLicenses { get; set; } = null!;
 
 
+    public DbSet<ClientApi.Domain.CountryContinent> CountriesContinents { get; set; } = null!;
+    public DbSet<ClientApi.Domain.CountryContinentLocalized> CountriesContinentsLocalized { get; set; } = null!;
+    public DbSet<ClientApi.Domain.StoreStatus> StoresStatuses { get; set; } = null!;
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
@@ -82,32 +86,35 @@ internal partial class ClientApiDbContext : Nox.Infrastructure.Persistence.Entit
 
         ConfigureAuditable(modelBuilder);
 
-        if (_noxSolution.Domain != null)
+
+        var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
+        modelBuilder.AddInboxStateEntity();
+        modelBuilder.AddOutboxMessageEntity();
+        modelBuilder.AddOutboxStateEntity();
+        foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
         {
-            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
-            modelBuilder.AddInboxStateEntity();
-            modelBuilder.AddOutboxMessageEntity();
-            modelBuilder.AddOutboxStateEntity();
-            foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
+            Console.WriteLine($"ClientApiDbContext Configure database for Entity {entity.Name}");
+
+            // Ignore owned entities configuration as they are configured inside entity constructor
+            if (entity.IsOwnedEntity)
             {
-                Console.WriteLine($"ClientApiDbContext Configure database for Entity {entity.Name}");
-
-                // Ignore owned entities configuration as they are configured inside entity constructor
-                if (entity.IsOwnedEntity)
-                {
-                    continue;
-                }
-
-                var type = codeGeneratorState.GetEntityType(entity.Name);
-                if (type != null)
-                {
-                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
-                }
+                continue;
             }
 
-            modelBuilder.ForEntitiesOfType<IEntityConcurrent>(
-                builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());
+            var type = codeGeneratorState.GetEntityType(entity.Name);
+            if (type != null)
+            {
+                ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+            }
         }
+
+        modelBuilder.ForEntitiesOfType<IEntityConcurrent>(
+            builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());
+            ConfigureEnumeration(modelBuilder.Entity("ClientApi.Domain.CountryContinent"));
+            var enumLocalizedType = codeGeneratorState.GetType("ClientApi.Domain.CountryContinentLocalized")!;
+            var enumType = codeGeneratorState.GetType("ClientApi.Domain.CountryContinent")!;
+        ConfigureEnumerationLocalized(modelBuilder.Entity(enumLocalizedType), enumType, enumLocalizedType);
+            ConfigureEnumeration(modelBuilder.Entity("ClientApi.Domain.StoreStatus"));
     }
 
     private void ConfigureAuditable(ModelBuilder modelBuilder)

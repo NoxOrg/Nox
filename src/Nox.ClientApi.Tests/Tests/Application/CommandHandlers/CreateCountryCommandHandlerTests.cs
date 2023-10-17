@@ -11,7 +11,7 @@ public class CreateCountryCommandHandlerTests : NoxWebApiTestBase
 
     public CreateCountryCommandHandlerTests(
         ITestOutputHelper testOutputHelper,
-        NoxTestContainerService containerService) : base(testOutputHelper, containerService)
+        TestDatabaseContainerService containerService) : base(testOutputHelper, containerService)
     {
     }
 

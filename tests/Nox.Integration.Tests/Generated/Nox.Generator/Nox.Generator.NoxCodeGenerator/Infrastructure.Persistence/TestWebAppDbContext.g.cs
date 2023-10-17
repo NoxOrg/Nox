@@ -128,6 +128,7 @@ internal partial class TestWebAppDbContext : Nox.Infrastructure.Persistence.Enti
 
     public DbSet<TestWebApp.Domain.TestEntityForUniqueConstraints> TestEntityForUniqueConstraints { get; set; } = null!;
 
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
@@ -143,32 +144,30 @@ internal partial class TestWebAppDbContext : Nox.Infrastructure.Persistence.Enti
 
         ConfigureAuditable(modelBuilder);
 
-        if (_noxSolution.Domain != null)
+
+        var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
+        modelBuilder.AddInboxStateEntity();
+        modelBuilder.AddOutboxMessageEntity();
+        modelBuilder.AddOutboxStateEntity();
+        foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
         {
-            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
-            modelBuilder.AddInboxStateEntity();
-            modelBuilder.AddOutboxMessageEntity();
-            modelBuilder.AddOutboxStateEntity();
-            foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
+            Console.WriteLine($"TestWebAppDbContext Configure database for Entity {entity.Name}");
+
+            // Ignore owned entities configuration as they are configured inside entity constructor
+            if (entity.IsOwnedEntity)
             {
-                Console.WriteLine($"TestWebAppDbContext Configure database for Entity {entity.Name}");
-
-                // Ignore owned entities configuration as they are configured inside entity constructor
-                if (entity.IsOwnedEntity)
-                {
-                    continue;
-                }
-
-                var type = codeGeneratorState.GetEntityType(entity.Name);
-                if (type != null)
-                {
-                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
-                }
+                continue;
             }
 
-            modelBuilder.ForEntitiesOfType<IEntityConcurrent>(
-                builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());
+            var type = codeGeneratorState.GetEntityType(entity.Name);
+            if (type != null)
+            {
+                ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+            }
         }
+
+        modelBuilder.ForEntitiesOfType<IEntityConcurrent>(
+            builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());
     }
 
     private void ConfigureAuditable(ModelBuilder modelBuilder)

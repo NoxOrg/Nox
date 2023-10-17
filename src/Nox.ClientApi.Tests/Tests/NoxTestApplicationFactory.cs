@@ -13,18 +13,18 @@ namespace ClientApi.Tests;
 public class NoxTestApplicationFactory : WebApplicationFactory<StartupFixture>
 {
     private readonly ITestOutputHelper _testOutput;
-    private readonly NoxTestContainerService _containerService;
+    private readonly ITestDatabaseService _databaseService;
     private readonly bool _enableMessaging;
     private readonly string Environment = Environments.Production;
 
     public NoxTestApplicationFactory(
         ITestOutputHelper testOutput,
-        NoxTestContainerService containerService,
+        ITestDatabaseService databaseService,
         bool enableMessaging,
         string? environment = null)
     {
         _testOutput = testOutput;
-        _containerService = containerService;
+        _databaseService = databaseService;
         _enableMessaging = enableMessaging;
 
         if (environment != null)
@@ -44,7 +44,7 @@ public class NoxTestApplicationFactory : WebApplicationFactory<StartupFixture>
         dbContext.Database.EnsureDeleted();
         dbContext.Database.EnsureCreated();
     }
-    
+
     internal ClientApiDbContext GetDbContext() => Services.GetRequiredService<ClientApiDbContext>();
 
     protected override IWebHostBuilder? CreateWebHostBuilder()
@@ -65,7 +65,7 @@ public class NoxTestApplicationFactory : WebApplicationFactory<StartupFixture>
                 services.AddSingleton(sp =>
                 {
                     var configurations = sp.GetServices<INoxTypeDatabaseConfigurator>();
-                    return _containerService.GetDatabaseProvider(configurations);
+                    return _databaseService.GetDatabaseProvider(configurations);
                 });
 
                 if (_enableMessaging)

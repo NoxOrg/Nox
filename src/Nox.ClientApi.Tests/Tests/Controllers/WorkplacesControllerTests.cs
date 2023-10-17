@@ -12,7 +12,7 @@ namespace ClientApi.Tests.Tests.Controllers
     public class WorkplacesControllerTests : NoxWebApiTestBase
     {
         public WorkplacesControllerTests(ITestOutputHelper testOutput,
-            NoxTestContainerService containerService)
+            TestDatabaseContainerService containerService)
             : base(testOutput, containerService)
         {
         }

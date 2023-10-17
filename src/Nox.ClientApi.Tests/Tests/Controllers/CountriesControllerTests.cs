@@ -12,7 +12,7 @@ namespace ClientApi.Tests.Tests.Controllers
     [Collection("CountriesControllerTests")]
     public class CountriesControllerTests : NoxWebApiTestBase
     {
-        public CountriesControllerTests(ITestOutputHelper testOutputHelper, NoxTestContainerService containerService)
+        public CountriesControllerTests(ITestOutputHelper testOutputHelper, TestDatabaseContainerService containerService)
             : base(testOutputHelper, containerService)
         {
         }

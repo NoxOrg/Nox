@@ -1,5 +1,4 @@
 ﻿using Microsoft.CodeAnalysis;
-using Nox.Generator.Common.TemplateScriptsBridges;
 using Nox.Solution;
 using Scriban;
 using Scriban.Parsing;
@@ -137,7 +136,7 @@ internal abstract class TemplateBuilderBase
         context.PushGlobal(scriptModelObject);
 
         // Add Delegate functions to instance objects
-        NoxSolutionBridge.AddFunctions(context, _codeGeneratorState.Solution);
+        ScribanScriptsExtensions.AddFunctions(context, _codeGeneratorState.Solution);
 
         return strongTemplate.Render(context);
     }    

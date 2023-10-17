@@ -9,7 +9,7 @@ namespace ClientApi.Tests.Domain.Meta
     public class CountryMetadataTests : NoxWebApiTestBase
     {
         public CountryMetadataTests(ITestOutputHelper testOutput,
-            NoxTestContainerService containerService)
+            TestDatabaseContainerService containerService)
             : base(testOutput, containerService)
         {
         }

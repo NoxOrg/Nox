@@ -11,7 +11,7 @@ namespace ClientApi.Tests.Tests.Controllers
     [Collection("StoreDescriptionsControllerTests")]
     public class RatingProgramControllerTests : NoxWebApiTestBase
     {
-        public RatingProgramControllerTests(ITestOutputHelper testOutput, NoxTestContainerService containerService)
+        public RatingProgramControllerTests(ITestOutputHelper testOutput, TestDatabaseContainerService containerService)
             : base(testOutput, containerService)
         {
         }

@@ -14,7 +14,7 @@ namespace ClientApi.Tests.Tests.Controllers
         private const string EntityUrl = $"api/{EntityPluralName}";
         private const string CountriesUrl = $"api/countries";
 
-        public CountryQualityOfLifeIndexControllerTests(ITestOutputHelper testOutput, NoxTestContainerService containerService)
+        public CountryQualityOfLifeIndexControllerTests(ITestOutputHelper testOutput, TestDatabaseContainerService containerService)
             : base(testOutput, containerService)
         {
         }

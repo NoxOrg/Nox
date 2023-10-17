@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Linq;
 
+using Humanizer;
+
 using Nox.Solution;
 using Nox.Types;
 using Nox.Types.Extensions;
 using Scriban;
 using Scriban.Runtime;
 
-namespace Nox.Generator.Common.TemplateScriptsBridges;
+namespace Nox.Generator.Common;
 
-internal static class NoxSolutionBridge
+internal static class ScribanScriptsExtensions
 {
     public static void AddFunctions(TemplateContext context, NoxSolution noxSolution)
     {
@@ -46,8 +48,13 @@ internal static class NoxSolutionBridge
             bool>(type => Type.GetType(type)?.IsValueType ?? false));
 
         var scriptObject9 = new ScriptObject();
-        scriptObject9.Import("ToLowerFirstChar", new Func<string, string>(
+        scriptObject9.Import("Pluralize", new Func<string,
+            string>(name => name.Pluralize()));
+            
+		var scriptObject10 = new ScriptObject();
+        scriptObject10.Import("ToLowerFirstChar", new Func<string, string>(
             input => input.ToLowerFirstChar()));
+
 
         context.PushGlobal(scriptObject1);
         context.PushGlobal(scriptObject2);
@@ -58,5 +65,6 @@ internal static class NoxSolutionBridge
         context.PushGlobal(scriptObject7);
         context.PushGlobal(scriptObject8);
         context.PushGlobal(scriptObject9);
+        context.PushGlobal(scriptObject10);
     }
 }
