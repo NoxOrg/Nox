@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+
 using Nox.Solution;
 using Nox.Types;
 using Nox.Types.Extensions;
@@ -43,6 +45,10 @@ internal static class NoxSolutionBridge
         scriptObject8.Import("IsValueType", new Func<string,
             bool>(type => Type.GetType(type)?.IsValueType ?? false));
 
+        var scriptObject9 = new ScriptObject();
+        scriptObject9.Import("ToLowerFirstChar", new Func<string, string>(
+            input => input.ToLowerFirstChar()));
+
         context.PushGlobal(scriptObject1);
         context.PushGlobal(scriptObject2);
         context.PushGlobal(scriptObject3);
@@ -51,5 +57,6 @@ internal static class NoxSolutionBridge
         context.PushGlobal(scriptObject6);
         context.PushGlobal(scriptObject7);
         context.PushGlobal(scriptObject8);
+        context.PushGlobal(scriptObject9);
     }
 }
