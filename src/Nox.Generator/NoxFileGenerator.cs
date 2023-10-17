@@ -9,15 +9,17 @@ using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Serialization;
 using Nox.Solution;
 using System.Reflection;
+using Nox.Generator.Application.Commands;
 
 namespace Nox.Generator;
 
+[System.Diagnostics.CodeAnalysis.SuppressMessage("MicrosoftCodeAnalysisCorrectness", "RS1035:Do not use APIs banned for analyzers", Justification = "<Pending>")]
 public class NoxFileGenerator
 {
     private readonly List<string> _errors = new();
-    private readonly Dictionary<string, Func<TextReader>> _noxYamls = new();
+    private readonly IEnumerable<string> _noxYamls = Array.Empty<string>();
 
-    public NoxFileGenerator(Dictionary<string, Func<TextReader>> noxYamls)
+    public NoxFileGenerator(IEnumerable<string> noxYamls)
     {
 #if DEBUG
         if (!Debugger.IsAttached)
@@ -25,7 +27,6 @@ public class NoxFileGenerator
             //Debugger.Launch();
         }
 #endif
-
         _noxYamls = noxYamls;
     }
 
@@ -50,12 +51,17 @@ public class NoxFileGenerator
                 .Select(x => x.GeneratorKind)
                 .ToArray();
 
-                var generatorInstances = Assembly
-                    .GetExecutingAssembly()
-                    .GetTypes()
-                    .Where(x => x.IsClass && !x.IsAbstract && typeof(INoxFileGenerator).IsAssignableFrom(x))
-                    .Select(x => (INoxFileGenerator)Activator.CreateInstance(x))
-                    .ToArray();
+                //var generatorInstances = Assembly
+                //    .GetExecutingAssembly()
+                //    .GetTypes()
+                //    .Where(x => x.IsClass && !x.IsAbstract && typeof(INoxFileGenerator).IsAssignableFrom(x))
+                //    .Select(x => (INoxFileGenerator)Activator.CreateInstance(x))
+                //    .ToArray();
+
+                var generatorInstances = new List<INoxFileGenerator> 
+                { 
+                    new NavigationMenuRazorGenerator() 
+                };
 
                 var projectRoot = GetProjectRootDirectory();
 
@@ -79,7 +85,7 @@ public class NoxFileGenerator
         config = null!;
 
         var configFilesAndContent = _noxYamls
-            .Where(p => p.Key.EndsWithIgnoreCase("generator.nox.yaml"));
+            .Where(p => p.EndsWithIgnoreCase("generator.nox.yaml"));
 
         if (!configFilesAndContent.Any())
         {
@@ -93,11 +99,11 @@ public class NoxFileGenerator
             return false;
         }
 
-        var configContent = configFilesAndContent.First().Value.ToString();
+        var configContent = File.ReadAllText(configFilesAndContent.First());
 
         if (configContent is null)
         {
-            _errors.Add($"Error loading config file contents from {configFilesAndContent.First().Key}.");
+            _errors.Add($"Error loading config file contents from {configFilesAndContent.First()}.");
             return false;
         }
 
@@ -129,7 +135,7 @@ public class NoxFileGenerator
         solution = null!;
 
         var solutionFilePaths = _noxYamls
-            .Where(p => p.Key.EndsWithIgnoreCase(".solution.nox.yaml"));
+            .Where(p => p.EndsWithIgnoreCase(".solution.nox.yaml"));
 
         if (!solutionFilePaths.Any())
         {
@@ -145,8 +151,13 @@ public class NoxFileGenerator
 
         try
         {
+            var yamlsFilesAndContent = _noxYamls.ToDictionary(
+                item => item,
+                item => new Func<TextReader>(() => new StringReader(File.ReadAllText(item)))
+            );
+
             solution = new NoxSolutionBuilder()
-                .UseYamlFilesAndContent(_noxYamls)
+                .UseYamlFilesAndContent(yamlsFilesAndContent)
                 .Build();
         }
         catch (YamlException e)
@@ -165,7 +176,7 @@ public class NoxFileGenerator
 
     private string? GetProjectRootDirectory()
     {
-        var generatorPath = _noxYamls.FirstOrDefault(x => x.Key.EndsWith("generator.nox.yaml")).Key;
+        var generatorPath = _noxYamls.FirstOrDefault(x => x.EndsWith("generator.nox.yaml"));
         return Path.GetDirectoryName(generatorPath);
     }
 }

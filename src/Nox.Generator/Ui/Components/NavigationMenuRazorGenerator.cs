@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Nox.Generator.Application.Commands;
 
-internal class NavigationMenuRazor : INoxFileGenerator
+internal class NavigationMenuRazorGenerator : INoxFileGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Ui;
 
