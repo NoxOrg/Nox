@@ -2,6 +2,7 @@
 using ClientApi.Application.Dto;
 using ClientApi.Application.IntegrationEvents;
 using ClientApi.Application.IntegrationEvents.StoreOwner;
+using ClientApi.Tests.Controllers;
 using FluentAssertions;
 using MassTransit.Testing;
 using Nox.Infrastructure.Messaging;
@@ -124,10 +125,18 @@ namespace ClientApi.Tests.Application.Messaging
         [Fact]
         public async Task Delete_Workplace_SendsIntegrationEvents()
         {
-            // Arrange
+            // Arrange            
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>()
+            };
+                        
+            var countryId = (await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto))!.Id;
+            
             var createDto = new WorkplaceCreateDto
             {
                 Name = _fixture.Create<string>(),
+                BelongsToCountryId = countryId,
             };
 
             var createResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(WorkplacesControllerName, createDto);

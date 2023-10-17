@@ -153,10 +153,12 @@ namespace ClientApi.Tests.Tests.Controllers
         public async Task Post_WithRelationshipId_CreatesRefToRelatedEntity()
         {
             // Arrange
+            var store1 = await CreateStore();
             var licenseName = _fixture.Create<string>();
             var licenseCreateDto = new StoreLicenseCreateDto
             {
-                Issuer = licenseName
+                Issuer = licenseName,
+                StoreWithLicenseId = store1!.Id
             };
             var licensePostResponse = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl, licenseCreateDto);
 
@@ -236,38 +238,40 @@ namespace ClientApi.Tests.Tests.Controllers
         [Fact]
         public async Task Post_WithDeletedRelationshipId_ShouldNotCreateRefToRelatedEntity()
         {
-            // Arrange
+            // Arrange Create a Licence and Delete it
+            var store1 = await CreateStore();
             var licenseName = _fixture.Create<string>();
             var licenseCreateDto = new StoreLicenseCreateDto
             {
-                Issuer = licenseName
+                Issuer = licenseName,
+                StoreWithLicenseId = store1!.Id
             };
             var licensePostResponse = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl, licenseCreateDto);
 
             var headers = CreateEtagHeader(licensePostResponse?.Etag);
             await DeleteAsync($"{Endpoints.StoreLicensesUrl}/{licensePostResponse!.Id}", headers);
 
-            var storeCreateDto = new StoreCreateDto
+            var createDto = new StoreCreateDto
             {
                 Name = _fixture.Create<string>(),
                 Address = new StreetAddressDto(
-                    StreetNumber: null!,
-                    AddressLine1: "3000 Hillswood Business Park",
-                    AddressLine2: null!,
-                    Route: null!,
-                    Locality: null!,
-                    Neighborhood: null!,
-                    AdministrativeArea1: null!,
-                    AdministrativeArea2: null!,
-                    PostalCode: "KT16 0RS",
-                    CountryId: CountryCode.GB),
+                   StreetNumber: null!,
+                   AddressLine1: "3000 Hillswood Business Park",
+                   AddressLine2: null!,
+                   Route: null!,
+                   Locality: null!,
+                   Neighborhood: null!,
+                   AdministrativeArea1: null!,
+                   AdministrativeArea2: null!,
+                   PostalCode: "KT16 0RS",
+                   CountryId: CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
                 LicenseId = licensePostResponse!.Id
             };
 
             // Act
-            var result = await PostAsync(Endpoints.StoresUrl, storeCreateDto);
-
+            var result = await PostAsync(Endpoints.StoresUrl, createDto);
+            
             //Assert
             result.Should().NotBeNull();
             result.Should().HaveStatusCode(HttpStatusCode.BadRequest);
@@ -281,25 +285,8 @@ namespace ClientApi.Tests.Tests.Controllers
         public async Task Post_ReturnsId()
         {
             // Arrange
-            var createDto = new StoreCreateDto
-            {
-                Name = _fixture.Create<string>(),
-                Address = new StreetAddressDto(
-                    StreetNumber: null!,
-                    AddressLine1: "3000 Hillswood Business Park",
-                    AddressLine2: null!,
-                    Route: null!,
-                    Locality: null!,
-                    Neighborhood: null!,
-                    AdministrativeArea1: null!,
-                    AdministrativeArea2: null!,
-                    PostalCode: "KT16 0RS",
-                    CountryId: CountryCode.GB),
-                Location = new LatLongDto(51.3728033, -0.5389749),
-            };
-
-            // Act
-            var result = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, createDto);
+            // Acty
+            StoreDto? result = await CreateStore();
 
             //Assert
             result.Should().NotBeNull();
@@ -307,6 +294,8 @@ namespace ClientApi.Tests.Tests.Controllers
                 .BeOfType<StoreDto>()
                 .Which.Id.Should().NotBeEmpty();
         }
+
+       
 
         [Fact]
         public async Task Deleted_ShouldPerformSoftDelete()
@@ -344,6 +333,29 @@ namespace ClientApi.Tests.Tests.Controllers
             var queryResult = await GetAsync($"{Endpoints.StoresUrl}/{result!.Id}");
 
             queryResult.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        private async Task<StoreDto?> CreateStore()
+        {
+            var createDto = new StoreCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                Address = new StreetAddressDto(
+                    StreetNumber: null!,
+                    AddressLine1: "3000 Hillswood Business Park",
+                    AddressLine2: null!,
+                    Route: null!,
+                    Locality: null!,
+                    Neighborhood: null!,
+                    AdministrativeArea1: null!,
+                    AdministrativeArea2: null!,
+                    PostalCode: "KT16 0RS",
+                    CountryId: CountryCode.GB),
+                Location = new LatLongDto(51.3728033, -0.5389749),
+            };
+
+            var result = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, createDto);
+            return result;
         }
     }
 }
