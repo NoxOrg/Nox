@@ -12,7 +12,7 @@ namespace ClientApi.Tests.Tests.Controllers
     [Collection("CountriesControllerTests")]
     public class CountriesControllerTests : NoxWebApiTestBase
     {
-        public CountriesControllerTests(ITestOutputHelper testOutputHelper, NoxTestContainerService containerService)
+        public CountriesControllerTests(ITestOutputHelper testOutputHelper, TestDatabaseContainerService containerService)
             : base(testOutputHelper, containerService)
         {
         }
@@ -653,14 +653,7 @@ namespace ClientApi.Tests.Tests.Controllers
             // Arrange
             var dto = new CountryCreateDto
             {
-                Name = _fixture.Create<string>(),
-                // we are not allowing this for now, create a related entity
-                //PhysicalWorkplaces = new List<WorkplaceCreateDto>()
-                //{
-                //    new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
-                //    new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
-                //    new WorkplaceCreateDto() { Name = _fixture.Create<string>() }
-                //}
+                Name = _fixture.Create<string>(),               
             };
             var physicalWorkplaces = new List<WorkplaceCreateDto>()
                 {

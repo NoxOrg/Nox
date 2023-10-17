@@ -57,6 +57,7 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
         entity.Address = ClientApi.Domain.StoreMetadata.CreateAddress(createDto.Address);
         entity.Location = ClientApi.Domain.StoreMetadata.CreateLocation(createDto.Location);
         if (createDto.OpeningDay is not null)entity.OpeningDay = ClientApi.Domain.StoreMetadata.CreateOpeningDay(createDto.OpeningDay.NonNullValue<System.DateTimeOffset>());
+        if (createDto.Status is not null)entity.Status = ClientApi.Domain.StoreMetadata.CreateStatus(createDto.Status.NonNullValue<System.Int32>());
         entity.EnsureId(createDto.Id);
         if (createDto.VerifiedEmails is not null)
         {
@@ -72,6 +73,9 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
         entity.Location = ClientApi.Domain.StoreMetadata.CreateLocation(updateDto.Location.NonNullValue<LatLongDto>());
         if (updateDto.OpeningDay == null) { entity.OpeningDay = null; } else {
             entity.OpeningDay = ClientApi.Domain.StoreMetadata.CreateOpeningDay(updateDto.OpeningDay.ToValueFromNonNull<System.DateTimeOffset>());
+        }
+        if (updateDto.Status == null) { entity.Status = null; } else {
+            entity.Status = ClientApi.Domain.StoreMetadata.CreateStatus(updateDto.Status.ToValueFromNonNull<System.Int32>());
         }
     }
 
@@ -117,6 +121,15 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
             else
             {
                 entity.OpeningDay = ClientApi.Domain.StoreMetadata.CreateOpeningDay(OpeningDayUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("Status", out var StatusUpdateValue))
+        {
+            if (StatusUpdateValue == null) { entity.Status = null; }
+            else
+            {
+                entity.Status = ClientApi.Domain.StoreMetadata.CreateStatus(StatusUpdateValue);
             }
         }
     }

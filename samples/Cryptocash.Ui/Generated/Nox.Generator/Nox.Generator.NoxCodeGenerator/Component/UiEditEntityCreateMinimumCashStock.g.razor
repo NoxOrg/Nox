@@ -9,7 +9,7 @@
                        Variant="Variant.Outlined"
                        FullWidth="true"
                        Clearable="true"
-                       TextChanged="OnCurrencyIdChanged"
+                       TextChanged="OnCurrencyIdChanged"                       
                        Value="@CurrentCurrencyIdStr">
                 @foreach (CurrencyDto item in CurrencySelectionList)
                 {
@@ -24,6 +24,10 @@
                              Clearable="true"
                              MaxLength="63"
                              TextChanged="OnAmountChanged"
+                             Format="@Format"
+                             Disabled="IsDisabled"
+                             Adornment="Adornment.Start"
+                             AdornmentText="@DisplayCurrencySymbol"
                              Value="Amount" />
         </MudItem>
         <MudItem xs="2">

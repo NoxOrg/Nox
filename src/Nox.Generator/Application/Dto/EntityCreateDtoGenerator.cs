@@ -14,11 +14,9 @@ internal class EntityCreateDtoGenerator : INoxCodeGenerator
 
     public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
     {
-        NoxSolution solution = codeGeneratorState.Solution;
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (solution.Domain is null ||
-            !solution.Domain.Entities.Any())
+        if (codeGeneratorState.Solution.Domain is null)
         {
             return;
         }

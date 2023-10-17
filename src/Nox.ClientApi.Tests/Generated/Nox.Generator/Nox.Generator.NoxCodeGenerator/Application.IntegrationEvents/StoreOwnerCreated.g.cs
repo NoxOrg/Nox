@@ -13,5 +13,5 @@ namespace ClientApi.Application.IntegrationEvents;
 /// <summary>
 /// StoreOwnerCreated integration event.
 /// </summary>
-[IntegrationEventType("created", nameof(StoreOwner))]
+[IntegrationEventType("created", nameof(ClientApi.Domain.StoreOwner))]
 internal record StoreOwnerCreated(StoreOwnerDto StoreOwner) :  IIntegrationEvent;

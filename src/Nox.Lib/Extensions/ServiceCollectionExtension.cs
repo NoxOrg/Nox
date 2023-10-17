@@ -1,15 +1,15 @@
-using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
-using Nox.Abstractions;
-using Nox.Application.Providers;
-using Nox.Types.EntityFramework.Abstractions;
-using Nox.Types.EntityFramework.Configurations;
-using Nox.Configuration;
 using FluentValidation;
 using MediatR;
-using Nox.Application.Behaviors;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Nox.Abstractions;
+using Nox.Application.Behaviors;
 using Nox.Application.Factories;
+using Nox.Application.Providers;
+using Nox.Configuration;
+using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.Configurations;
+using System.Reflection;
 
 namespace Nox;
 
@@ -24,6 +24,7 @@ public static class ServiceCollectionExtension
         AddNoxLib(services, null, configure);
         return services;
     }
+
     public static IServiceCollection AddNoxLib(this IServiceCollection services, WebApplicationBuilder? webApplicationBuilder, Action<INoxOptions>? configure = null)
     {
         NoxOptions configurator = new();

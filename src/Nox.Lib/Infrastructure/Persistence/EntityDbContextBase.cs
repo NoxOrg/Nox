@@ -7,6 +7,9 @@ using Nox.Domain;
 using Nox.Abstractions;
 using Nox.Types;
 using System.Net;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Reflection.Emit;
+using Nox.Types.EntityFramework.Types;
 
 namespace Nox.Infrastructure.Persistence
 {
@@ -161,6 +164,36 @@ namespace Nox.Infrastructure.Persistence
         protected virtual void ClearDomainEvents(List<EntityEntry<IEntityHaveDomainEvents>> entriesWithDomainEvents)
         {
             entriesWithDomainEvents.ForEach(e => e.Entity.ClearDomainEvents());
+        }
+
+        /// <summary>
+        /// Configure Entity Enumeration 
+        /// </summary>
+        protected virtual void ConfigureEnumeration(EntityTypeBuilder enumModelBuilder)
+        {
+            enumModelBuilder.HasKey(nameof(EnumTypeBase.Id));
+            enumModelBuilder.Property(nameof(EnumTypeBase.Name)).IsRequired(true);
+        }
+
+        /// <summary>
+        /// Configure Entity Enumeration Localization 
+        /// </summary>
+        protected virtual void ConfigureEnumerationLocalized(EntityTypeBuilder enumModelBuilder, Type enumType, Type enumLocalizedType)
+        {
+            enumModelBuilder.HasKey(nameof(EnumTypeLocalizedBase.Id), nameof(EnumTypeLocalizedBase.CultureCode));
+
+            enumModelBuilder.Property(nameof(EnumTypeLocalizedBase.Name)).IsRequired(true);
+
+            enumModelBuilder.Property(nameof(EnumTypeLocalizedBase.CultureCode))
+                .IsUnicode(false)
+                .IsFixedLength(false)
+                .HasMaxLength(10)
+                .HasConversion<CultureCodeConverter>();
+            
+            enumModelBuilder
+                .HasOne(enumType)
+                .WithMany()
+                .HasForeignKey(nameof(EnumTypeLocalizedBase.Id));
         }
     }
 }

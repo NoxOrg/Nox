@@ -7,7 +7,10 @@ using Xunit.Abstractions;
 
 namespace ClientApi.Tests;
 
-public class NoxTestContainerService : IAsyncLifetime
+/// <summary>
+/// Containerized Database instance for testing 
+/// </summary>
+public class TestDatabaseContainerService : IAsyncLifetime, ITestDatabaseService
 {
 #if DEBUG
     //To change DatabaseProvider just replace DbProviderKind.

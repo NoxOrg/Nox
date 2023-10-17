@@ -13,5 +13,5 @@ namespace ClientApi.Application.IntegrationEvents;
 /// <summary>
 /// CountryDeleted integration event.
 /// </summary>
-[IntegrationEventType("deleted", nameof(Country))]
+[IntegrationEventType("deleted", nameof(ClientApi.Domain.Country))]
 internal record CountryDeleted(CountryDto Country) :  IIntegrationEvent;

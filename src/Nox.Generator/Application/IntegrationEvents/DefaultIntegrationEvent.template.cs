@@ -18,5 +18,5 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.IntegrationEvents;
 /// <summary>
 /// {{entity.Name}}{{operation}} integration event.
 /// </summary>
-[IntegrationEventType("{{operation | toLower}}", nameof({{entity.Name}}))]
+[IntegrationEventType("{{operation | toLower}}", nameof({{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}))]
 internal record {{entity.Name}}{{operation}}({{entity.Name}}Dto {{entity.Name}}) :  IIntegrationEvent;

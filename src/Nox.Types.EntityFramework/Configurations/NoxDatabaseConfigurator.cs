@@ -117,7 +117,8 @@ namespace Nox.Types.EntityFramework.Configurations
                         builder
                             .HasOne($"{codeGeneratorState.DomainNameSpace}.{relationshipToCreate.Relationship.Entity}", relationshipToCreate.Relationship.Name)
                             .WithMany(relationshipToCreate.Relationship.Related.EntityRelationship.Name)
-                            .HasForeignKey($"{relationshipToCreate.Relationship.Name}Id");
+                            .HasForeignKey($"{relationshipToCreate.Relationship.Name}Id")
+                            .OnDelete(DeleteBehavior.ClientSetNull);
                     }
                     else //One to One
                     {
@@ -132,7 +133,8 @@ namespace Nox.Types.EntityFramework.Configurations
                         builder
                             .HasOne($"{codeGeneratorState.DomainNameSpace}.{relationshipToCreate.Relationship.Entity}", relationshipToCreate.Relationship.Name)
                             .WithOne(relationshipToCreate.Relationship.Related.EntityRelationship.Name)
-                            .HasForeignKey(entity.Name, $"{relationshipToCreate.Relationship.Name}Id");
+                            .HasForeignKey(entity.Name, $"{relationshipToCreate.Relationship.Name}Id")
+                            .OnDelete(DeleteBehavior.ClientSetNull); 
                     }
 
                     // Setup foreign key property
@@ -187,7 +189,7 @@ namespace Nox.Types.EntityFramework.Configurations
                 var keyToBeConfigured = key.ShallowCopy();
                 keyToBeConfigured.Name = $"{relationshipToCreate.Relationship.Name}Id";
                 keyToBeConfigured.Description = $"Foreign key for entity {relationshipToCreate.Relationship.Name}";
-                keyToBeConfigured.IsRequired = false;
+                keyToBeConfigured.IsRequired = relationshipToCreate.Relationship.IsRequired();                
                 keyToBeConfigured.IsReadonly = false;
                 databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, keyToBeConfigured, entity, false);
             }

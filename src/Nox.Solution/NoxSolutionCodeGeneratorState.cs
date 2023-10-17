@@ -36,6 +36,10 @@ public class NoxSolutionCodeGeneratorState
 
     public Type? GetEntityDtoType(string dtoName) => _entryAssembly.GetType(GetEntityDtoTypeFullName(dtoName));
 
+    /// <summary>
+    /// Get a type from the entry/client Assembly
+    /// </summary>
+    public Type? GetType(string typeFullName) => _entryAssembly.GetType(typeFullName);
 
     public static string GetForeignKeyPropertyName(string foreignEntityName)
     {

@@ -13,5 +13,5 @@ namespace ClientApi.Application.IntegrationEvents;
 /// <summary>
 /// WorkplaceDeleted integration event.
 /// </summary>
-[IntegrationEventType("deleted", nameof(Workplace))]
+[IntegrationEventType("deleted", nameof(ClientApi.Domain.Workplace))]
 internal record WorkplaceDeleted(WorkplaceDto Workplace) :  IIntegrationEvent;
