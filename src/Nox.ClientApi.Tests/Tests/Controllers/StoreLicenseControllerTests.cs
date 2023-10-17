@@ -34,7 +34,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var createDto = new StoreLicenseCreateDto
             {
                 Issuer = issuer,
-                StoreWithLicenseId = store.Id,
+                StoreWithLicenseId = store!.Id,
             };
             var postResult = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl, createDto);
 
