@@ -9,8 +9,8 @@ namespace Nox.Generator.Tasks;
 
 public class FilesGeneratorTask : ITask
 {
-    public IBuildEngine BuildEngine { get; set; }
-    public ITaskHost HostObject { get; set; }
+    public IBuildEngine BuildEngine { get; set; } = default!;
+    public ITaskHost HostObject { get; set; } = default!;
 
     [Required]
     public ITaskItem[] NoxYamlFiles { get; set; } = default!;
