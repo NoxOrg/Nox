@@ -17,7 +17,7 @@ namespace ClientApi.Tests.Controllers
         public const string StoreOwnersUrl = "api/storeowners";
 
         public StoreOwnersControllerTests(ITestOutputHelper testOutput,
-            NoxTestContainerService containerService)
+            TestDatabaseContainerService containerService)
             : base(testOutput, containerService)
         {
         }

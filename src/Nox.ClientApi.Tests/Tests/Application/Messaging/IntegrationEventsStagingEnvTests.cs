@@ -15,7 +15,7 @@ namespace ClientApi.Tests.Application.Messaging
 
         public IntegrationEventsStagingEnvTests(
             ITestOutputHelper testOutput,
-            NoxTestContainerService containerService)
+            TestDatabaseContainerService containerService)
            : base(testOutput, containerService, true, Environments.Staging) { }
 
         #region Integration Events Staging

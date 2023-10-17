@@ -19,8 +19,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Include="..\Nox.Generator\Common\TemplateScriptsBridges\NoxSolutionBridge.cs" Link="NoxSolutionBridge.cs" />
-		<Compile Include="..\Nox.Generator\Common\StringExtensions.cs" Link="StringExtensions.cs" />
+	  <Compile Include="..\Nox.Generator\Common\ScribanScriptsExtensions.cs" Link="ScribanScriptsExtensions.cs" />		
+	  <Compile Include="..\Nox.Generator\Common\StringExtensions.cs" Link="StringExtensions.cs" />
 	</ItemGroup>
 
 

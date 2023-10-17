@@ -39,6 +39,10 @@ public partial class StoreUpdateDto : IEntityDto<StoreEntity>
     /// Opening day (Optional).
     /// </summary>
     public System.DateTimeOffset? OpeningDay { get; set; }
+    /// <summary>
+    /// Store Status (Optional).
+    /// </summary>
+    public System.Int32? Status { get; set; }
 
     /// <summary>
     /// Store Owner of the Store ZeroOrOne StoreOwners

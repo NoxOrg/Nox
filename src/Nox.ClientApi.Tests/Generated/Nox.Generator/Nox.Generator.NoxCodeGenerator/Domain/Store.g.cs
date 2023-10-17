@@ -90,6 +90,11 @@ internal abstract partial class StoreBase : AuditableEntityBase, IEntityConcurre
     /// Opening day (Optional).
     /// </summary>
     public Nox.Types.DateTime? OpeningDay { get; set; } = null!;
+
+    /// <summary>
+    /// Store Status (Optional).
+    /// </summary>
+    public Nox.Types.Enumeration? Status { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>

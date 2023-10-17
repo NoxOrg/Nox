@@ -13,7 +13,7 @@ namespace ClientApi.Tests.Tests.Controllers
     public class StoresControllerTests : NoxWebApiTestBase
     {
         public StoresControllerTests(ITestOutputHelper testOutput,
-            NoxTestContainerService containerService)
+            TestDatabaseContainerService containerService)
             : base(testOutput, containerService)
         {
         }

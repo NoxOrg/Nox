@@ -10,7 +10,7 @@ namespace ClientApi.Tests.Application.Dto
     public class CountryQualityOfLifeIndexDtoValidatorTests : NoxWebApiTestBase
     {
         public CountryQualityOfLifeIndexDtoValidatorTests(ITestOutputHelper testOutput,
-            NoxTestContainerService containerService)
+            TestDatabaseContainerService containerService)
             : base(testOutput, containerService)
         {
         }
