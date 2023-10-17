@@ -58,11 +58,13 @@ public class CountryService : IEntityService
             rtnDto.GoogleMapsUrl = currentDto.GoogleMapsUrl;
             rtnDto.OpenStreetMapsUrl = currentDto.OpenStreetMapsUrl;
             rtnDto.StartOfWeek = currentDto.StartOfWeek;
+            rtnDto.CountryUsedByCurrencyId = currentDto.CountryUsedByCurrencyId;
             rtnDto.CountryUsedByCommissions = CommissionService.ConvertCommissionIntoCreateDtoList(currentDto.CountryUsedByCommissions);
             rtnDto.CountryUsedByVendingMachines = VendingMachineService.ConvertVendingMachineIntoCreateDtoList(currentDto.CountryUsedByVendingMachines);
             rtnDto.CountryUsedByCustomers = CustomerService.ConvertCustomerIntoCreateDtoList(currentDto.CountryUsedByCustomers);
             rtnDto.CountryOwnedTimeZones = CountryTimeZoneService.ConvertCountryTimeZoneIntoCreateDtoList(currentDto.CountryOwnedTimeZones);
             rtnDto.CountryOwnedHolidays = HolidayService.ConvertHolidayIntoCreateDtoList(currentDto.CountryOwnedHolidays);
+            rtnDto.CountryUsedByCurrency = CurrencyService.ConvertCurrencyIntoCreateDto(currentDto.CountryUsedByCurrency);
 
             return rtnDto;
         }

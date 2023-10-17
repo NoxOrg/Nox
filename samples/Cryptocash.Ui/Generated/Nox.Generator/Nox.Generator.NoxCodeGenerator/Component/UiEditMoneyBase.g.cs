@@ -1,22 +1,36 @@
 ﻿using Cryptocash.Application.Dto;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using Nox.Types;
+using System.Text.RegularExpressions;
+using System.Web;
 
 namespace Cryptocash.Ui.Generated.Component
 {
     public class UiEditMoneyBase : ComponentBase
     {
+#nullable enable
+
         #region Declarations
 
         [Parameter]
-        public MoneyDto Money { get; set; }
+        public MoneyDto? Money { get; set; }
 
         public Decimal Amount { get; set; }
 
-        public Nox.Types.CurrencyCode CurrencyCode { get; set; }
+        public bool IsDisabled
+        {
+            get
+            {
+                return Currency == null;
+            }            
+        }
 
         [Parameter]
-        public string Title { get; set; }
+        public CurrencyDto? Currency { get; set; }
+
+        [Parameter]
+        public string? Title { get; set; }
 
         [Parameter]
         public EventCallback<MoneyDto> MoneyChanged { get; set; }
@@ -29,16 +43,24 @@ namespace Cryptocash.Ui.Generated.Component
             }
         }
 
-        #endregion
+        [Parameter]
+        public string Format { get; set; } = "#.##";
 
-        protected override void OnInitialized()
+        public string DisplayCurrencySymbol
         {
-            if (Money != null)
+            get
             {
-                Amount = Money.Amount;
-                CurrencyCode = Money.CurrencyCode;
+                if (Currency != null
+                    && !String.IsNullOrWhiteSpace(Currency.Id))
+                {
+                    return Currency.Id;
+                }
+
+                return string.Empty;
             }
         }
+
+        #endregion
 
         protected async Task OnMoneyChanged(string newValue)
         {
@@ -53,10 +75,17 @@ namespace Cryptocash.Ui.Generated.Component
             {
                 Amount = 0;
             }
-            
-            Money = new MoneyDto(Amount, CurrencyCode);
 
-            await MoneyChanged.InvokeAsync(Money);
+            CurrencyCode TempCurrencyCode;
+            if (Currency != null 
+                && !string.IsNullOrWhiteSpace(Currency.Id)
+                && Enum.TryParse(Currency.Id, out TempCurrencyCode)
+                && (Enum.IsDefined(typeof(CurrencyCode), TempCurrencyCode)))
+            {
+                Money = new MoneyDto(Amount, TempCurrencyCode);
+
+                await MoneyChanged.InvokeAsync(Money);
+            }            
         }
     }
 }

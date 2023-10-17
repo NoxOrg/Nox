@@ -9,4 +9,9 @@
               RequiredError="@ErrorRequiredMessage"              
               MaxLength="63"
               TextChanged="OnMoneyChanged"
+              Min="0"
+              Format="@Format"
+              Adornment="Adornment.Start"
+              AdornmentText="@DisplayCurrencySymbol"
+              Disabled="IsDisabled"
               Value="Amount" />

@@ -92,6 +92,33 @@ namespace Cryptocash.Ui.Generated.Component
         [Parameter]
         public EventCallback<StreetAddressDto> StreetAddressChanged { get; set; }
 
+        [Parameter]
+        public int MaxLengthStreetNumber { get; set; } = 32;
+
+        [Parameter]
+        public int MaxLengthAddressLine1 { get; set; } = 128;
+
+        [Parameter]
+        public int MaxLengthAddressLine2 { get; set; } = 128;
+
+        [Parameter]
+        public int MaxLengthRoute { get; set; } = 64;
+
+        [Parameter]
+        public int MaxLengthLocality { get; set; } = 64;
+
+        [Parameter]
+        public int MaxLengthNeighborhood { get; set; } = 64;
+
+        [Parameter]
+        public int MaxLengthAdministrativeArea1 { get; set; } = 64;
+
+        [Parameter]
+        public int MaxLengthAdministrativeArea2 { get; set; } = 64;
+
+        [Parameter]
+        public int MaxLengthPostalCode { get; set; } = 32;
+
         #endregion
 
         /// <summary>
