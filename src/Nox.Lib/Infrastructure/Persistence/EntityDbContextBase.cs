@@ -189,12 +189,11 @@ namespace Nox.Infrastructure.Persistence
                 .IsFixedLength(false)
                 .HasMaxLength(10)
                 .HasConversion<CultureCodeConverter>();
-
-            //TODO Configure Foreign Key
-            //enumModelBuilder
-            //    .HasOne(enumType)
-            //    .WithMany()
-            //    .HasForeignKey(enumLocalizedType.Name, nameof(EnumTypeLocalizedBase.Id));
+            
+            enumModelBuilder
+                .HasOne(enumType)
+                .WithMany()
+                .HasForeignKey(nameof(EnumTypeLocalizedBase.Id));
         }
     }
 }
