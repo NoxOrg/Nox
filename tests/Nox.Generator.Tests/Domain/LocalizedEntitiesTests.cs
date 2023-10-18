@@ -2,17 +2,17 @@
 
 namespace Nox.Generator.Tests.Domain;
 
-public class DomainEventTests : IClassFixture<GeneratorFixture>
+public class LocalizedEntitiesTests : IClassFixture<GeneratorFixture>
 {
     private readonly GeneratorFixture _fixture;
 
-    public DomainEventTests(GeneratorFixture fixture)
+    public LocalizedEntitiesTests(GeneratorFixture fixture)
     {
         _fixture = fixture;
     }
 
     [Fact]
-    public void Can_generate_domain_event_files()
+    public void Can_generate_localized_entity_files()
     {
         var path = "files/yaml/domain/";
         var sources = new[]
@@ -24,10 +24,9 @@ public class DomainEventTests : IClassFixture<GeneratorFixture>
         _fixture
             .GenerateSourceCodeFor(sources)
             .AssertOutputResult()
-            .AssertFileExistence(10, "Domain.Country.g.cs", "CountryNameUpdatedEvent.g.cs")
+            .AssertFileExistence(10, "Domain.CountryLocalized.g.cs")
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
-            .Check("CountryNameUpdatedEvent.expected.g.cs", "CountryNameUpdatedEvent.g.cs")
-            .Check("CountryWithRequiredDomainEvent.expected.g.cs", "Domain.Country.g.cs");
+            .Check("CountryLocalized.expected.g.cs", "Domain.CountryLocalized.g.cs");
     }
 }
