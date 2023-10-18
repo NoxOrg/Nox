@@ -89,6 +89,7 @@ public abstract class StoreDtoBase : EntityDtoBase, IEntityDto<StoreEntity>
     /// Store Status (Optional).
     /// </summary>
     public System.Int32? Status { get; set; }
+    public string? StatusName { get; set; } = default!;
 
     /// <summary>
     /// Store Owner of the Store ZeroOrOne StoreOwners

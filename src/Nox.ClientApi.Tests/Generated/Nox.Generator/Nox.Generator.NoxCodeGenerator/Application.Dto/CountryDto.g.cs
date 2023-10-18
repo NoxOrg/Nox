@@ -116,6 +116,7 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<CountryEntity>
     /// Country Continent (Optional).
     /// </summary>
     public System.Int32? Continent { get; set; }
+    public string? ContinentName { get; set; } = default!;
 
     /// <summary>
     /// Country Country workplaces ZeroOrMany Workplaces

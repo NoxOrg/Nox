@@ -113,7 +113,7 @@ internal partial class ClientApiDbContext : Nox.Infrastructure.Persistence.Entit
             ConfigureEnumeration(modelBuilder.Entity("ClientApi.Domain.CountryContinent"));
             var enumLocalizedType = codeGeneratorState.GetType("ClientApi.Domain.CountryContinentLocalized")!;
             var enumType = codeGeneratorState.GetType("ClientApi.Domain.CountryContinent")!;
-        ConfigureEnumerationLocalized(modelBuilder.Entity(enumLocalizedType), enumType, enumLocalizedType);
+            ConfigureEnumerationLocalized(modelBuilder.Entity(enumLocalizedType), enumType, enumLocalizedType);
             ConfigureEnumeration(modelBuilder.Entity("ClientApi.Domain.StoreStatus"));
     }
 

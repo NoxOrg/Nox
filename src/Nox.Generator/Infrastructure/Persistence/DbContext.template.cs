@@ -115,7 +115,7 @@ internal partial class {{className}} : Nox.Infrastructure.Persistence.EntityDbCo
             {{- if enumAtt.EnumerationTypeOptions.IsLocalized}}
             var enumLocalizedType = codeGeneratorState.GetType("{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{enumAtt.Name}}Localized")!;
             var enumType = codeGeneratorState.GetType("{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{enumAtt.Name}}")!;
-        ConfigureEnumerationLocalized(modelBuilder.Entity(enumLocalizedType), enumType, enumLocalizedType);
+            ConfigureEnumerationLocalized(modelBuilder.Entity(enumLocalizedType), enumType, enumLocalizedType);
             {{- end }}
         {{- end }}
         {{- end }}

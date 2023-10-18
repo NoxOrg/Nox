@@ -102,6 +102,10 @@ public abstract class {{className}}Base : EntityDtoBase, IEntityDto<{{entity.Nam
     /// </summary>
     public {{attributeType attribute}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
 {{- end }}
+{{- ######################################### Enumerations ###################################################### -}}
+{{- for enumAtt in enumerationAttributes }}
+    public string{{ if !enumAtt.IsRequired}}?{{end}} {{enumAtt.Name}}Name { get; set; } = default!;
+{{- end }}
 {{- ######################################### Relationships###################################################### -}}
 {{- for relationship in entity.Relationships }}
 
