@@ -34,42 +34,4 @@ public class CustomerService : IEntityService
 
         return rtnApiUiService;
     }
-
-    public static CustomerCreateDto ConvertCustomerIntoCreateDto(CustomerDto currentDto)
-    {
-        if (currentDto != null)
-        {
-            CustomerCreateDto rtnDto = new CustomerCreateDto();
-            rtnDto.FirstName = currentDto.FirstName;
-            rtnDto.LastName = currentDto.LastName;
-            rtnDto.EmailAddress = currentDto.EmailAddress;
-            rtnDto.Address = currentDto.Address;
-            rtnDto.MobileNumber = currentDto.MobileNumber;
-            rtnDto.CustomerRelatedPaymentDetails = PaymentDetailService.ConvertPaymentDetailIntoCreateDtoList(currentDto.CustomerRelatedPaymentDetails);
-            rtnDto.CustomerRelatedBookings = BookingService.ConvertBookingIntoCreateDtoList(currentDto.CustomerRelatedBookings);
-            rtnDto.CustomerRelatedTransactions = TransactionService.ConvertTransactionIntoCreateDtoList(currentDto.CustomerRelatedTransactions);
-            rtnDto.CustomerBaseCountry = CountryService.ConvertCountryIntoCreateDto(currentDto.CustomerBaseCountry);
-
-            return rtnDto;
-        }
-
-        return null;
-    }
-
-    public static List<CustomerCreateDto> ConvertCustomerIntoCreateDtoList(List<CustomerDto> currentDtoList)
-    {
-        if (currentDtoList != null)
-        {
-            List<CustomerCreateDto> rtnDto = new List<CustomerCreateDto>();
-
-            foreach (CustomerDto currentDto in currentDtoList)
-            {
-                rtnDto.Add(ConvertCustomerIntoCreateDto(currentDto));
-            }
-
-            return rtnDto;
-        }
-
-        return null;
-    }
 }

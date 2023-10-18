@@ -16,7 +16,7 @@ namespace Cryptocash.Ui.Generated.Component
         public LandLordDto LandLord { get; set; }
 
         [Parameter]
-        public LandLordCreateDto LandLordCreate { get; set; }
+        public System.Int64? LandLordId { get; set; }
 
         public string CurrentLandLordIdStr { get; set; }
 
@@ -30,7 +30,7 @@ namespace Cryptocash.Ui.Generated.Component
         public EventCallback<LandLordDto> LandLordChanged { get; set; }
 
         [Parameter]
-        public EventCallback<LandLordCreateDto> LandLordCreateChanged { get; set; }
+        public EventCallback<System.Int64?> LandLordIdChanged { get; set; }
 
         #endregion
 
@@ -46,8 +46,11 @@ namespace Cryptocash.Ui.Generated.Component
                 LandLord = LandLordSelectionList.FirstOrDefault(LandLord => long.Equals(LandLord.Id, CurrentLandLordId));
                 await LandLordChanged.InvokeAsync(LandLord);
 
-                LandLordCreate = LandLordService.ConvertLandLordIntoCreateDto(LandLord);
-                await LandLordCreateChanged.InvokeAsync(LandLordCreate);
+                if (LandLord != null)
+                {
+                    LandLordId = LandLord.Id;
+                    await LandLordIdChanged.InvokeAsync(LandLordId);
+                }   
             }            
         }
 
