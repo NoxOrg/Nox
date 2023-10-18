@@ -14,7 +14,6 @@
 //  - store.entity.nox.yaml
 //  - workplace.entity.nox.yaml
 //  - generator.nox.yaml
-
 // Logging Verbosity Diagnostic
 // Enabled Generators Types
 //  - None
