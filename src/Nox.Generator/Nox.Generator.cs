@@ -53,6 +53,8 @@ public class NoxCodeGenerator : IIncrementalGenerator
         {
             if (TryGetGeneratorConfig(noxYamls, out var config) && TryGetNoxSolution(noxYamls, out var solution))
             {
+                _debug.AppendLine($"// Logging Verbosity {config.LoggingVerbosity}");
+
                 var codeGeneratorState = new NoxSolutionCodeGeneratorState(solution, Assembly.GetEntryAssembly()!);
 
                 var generatorFlows = new (NoxGeneratorKind GeneratorKind, bool IsEnabled)[]
@@ -68,12 +70,31 @@ public class NoxCodeGenerator : IIncrementalGenerator
                 .Select(x => x.GeneratorKind)
                 .ToArray();
 
+                if(config.LoggingVerbosity == LoggingVerbosity.Diagnostic)
+                {
+                    _debug.AppendLine($"// Enabled Generators Types");
+                    foreach (var flow in generatorFlows)
+                    {
+                        _debug.AppendLine($"//  - {flow}");
+                    }
+                }
+
                 var generatorInstances = Assembly
                     .GetExecutingAssembly()
                     .GetTypes()
                     .Where(x => x.IsClass && !x.IsAbstract && typeof(INoxCodeGenerator).IsAssignableFrom(x))
                     .Select(x => (INoxCodeGenerator)Activator.CreateInstance(x))
                     .ToArray();
+
+                if (config.LoggingVerbosity == LoggingVerbosity.Diagnostic)
+                {
+                    _debug.AppendLine($"// Found Generators");
+                    foreach (var generatorInstance in generatorInstances)
+                    {
+                        _debug.AppendLine($"//  - {generatorInstance}");
+                    }
+                }
+
 
                 var projectRoot = GetProjectRootDirectory(noxYamls);
 
