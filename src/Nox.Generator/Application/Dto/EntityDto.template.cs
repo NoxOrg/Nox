@@ -104,6 +104,7 @@ public abstract class {{className}}Base : EntityDtoBase, IEntityDto<{{entity.Nam
 {{- end }}
 {{- ######################################### Enumerations ###################################################### -}}
 {{- for enumAtt in enumerationAttributes }}
+    [NotMapped]
     public string{{ if !enumAtt.IsRequired}}?{{end}} {{enumAtt.Name}}Name { get; set; } = default!;
 {{- end }}
 {{- ######################################### Relationships###################################################### -}}

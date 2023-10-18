@@ -116,6 +116,7 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<CountryEntity>
     /// Country Continent (Optional).
     /// </summary>
     public System.Int32? Continent { get; set; }
+    [NotMapped]
     public string? ContinentName { get; set; } = default!;
 
     /// <summary>
