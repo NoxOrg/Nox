@@ -25,14 +25,14 @@ internal class EntitiesLocalizedGenerator : INoxCodeGenerator
                 continue;
             }
 
-            var entityHasAnyAttributesToLocalize =
-                entity.Attributes?.Count > 0 &&
-                entity.Attributes.Any(x =>
+            var entityAttributesToLocalize =
+                entity.Attributes.Where(x =>
                     x.Type == NoxType.Text &&
                     x.TextTypeOptions != null &&
-                    x.TextTypeOptions.IsLocalized);
+                    x.TextTypeOptions.IsLocalized)
+                .ToList();
 
-            if (!entityHasAnyAttributesToLocalize)
+            if (!entityAttributesToLocalize.Any())
             {
                 continue;
             }
@@ -43,6 +43,7 @@ internal class EntitiesLocalizedGenerator : INoxCodeGenerator
                 .WithClassName($"{entity.Name}Localized")
                 .WithFileNamePrefix($"Domain")
                 .WithObject("entity", entity)
+                .WithObject("entityAttributesToLocalize", entityAttributesToLocalize)
                 .GenerateSourceCodeFromResource("Domain.EntityLocalized");
         }
     }

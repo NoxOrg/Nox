@@ -24,8 +24,7 @@ internal abstract partial class CountryLocalized : IEntityConcurrent
     /// </summary>
     public Nox.Types.Text Id { get; set; } = null!;
 
-      public Nox.Types.CultureCode? CultureCode { get; set; }
-    
+      public Nox.Types.CultureCode CultureCode { get; set; } = null!;
     
     
         /// <summary>
@@ -40,21 +39,10 @@ internal abstract partial class CountryLocalized : IEntityConcurrent
         public Nox.Types.Text AlphaCode3 { get; set; } = null!;
     
     
-    
-    
-    
         /// <summary>
         /// The capital city of the country (Optional).
         /// </summary>
         public Nox.Types.Text? Capital { get; set; } = null!;
-    
-    
-    
-    
-    
-    
-    
-    
 
     /// <summary>
     /// Entity tag used as concurrency token.
