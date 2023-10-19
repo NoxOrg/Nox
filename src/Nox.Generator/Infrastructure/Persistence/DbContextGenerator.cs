@@ -22,13 +22,20 @@ internal class DbContextGenerator : INoxCodeGenerator
         var className = $"{codeGeneratorState.Solution.Name}DbContext";
         var templateName = @"Infrastructure.Persistence.DbContext";
         var enumerationAttributes = codeGeneratorState.Solution.Domain.Entities
-        .Select(entity => new { Entity = entity, Attributes = entity.Attributes.Where(attribute => attribute.Type == NoxType.Enumeration).ToArray() })
-        .Where(entity => entity.Attributes.Any());
+            .Select(entity => new { Entity = entity, Attributes = entity.Attributes.Where(attribute => attribute.Type == NoxType.Enumeration).ToArray() })
+            .Where(entity => entity.Attributes.Any());
+
+        var entitiesToLocalize = codeGeneratorState.Solution.Domain.Entities
+            .Where(entity =>
+                !entity.IsOwnedEntity &&
+                entity.Keys.Count == 1 &&
+                entity.GetAttributesToLocalize().Any());
 
         new TemplateCodeBuilder(context, codeGeneratorState)
             .WithClassName(className)
             .WithFileNamePrefix("Infrastructure.Persistence")
             .WithObject("enumerationAttributes", enumerationAttributes)
+            .WithObject("entitiesToLocalize", entitiesToLocalize)
             .GenerateSourceCodeFromResource(templateName);
     }
 }

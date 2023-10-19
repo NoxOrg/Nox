@@ -128,6 +128,10 @@ internal partial class TestWebAppDbContext : Nox.Infrastructure.Persistence.Enti
 
     public DbSet<TestWebApp.Domain.TestEntityForUniqueConstraints> TestEntityForUniqueConstraints { get; set; } = null!;
 
+    public DbSet<TestWebApp.Domain.TestEntityLocalization> TestEntityLocalizations { get; set; } = null!;
+
+public DbSet<TestWebApp.Domain.TestEntityLocalizationLocalized> TestEntityLocalizationsLocalized { get; set; } = null!;
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -163,6 +167,18 @@ internal partial class TestWebAppDbContext : Nox.Infrastructure.Persistence.Enti
             if (type != null)
             {
                 ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+
+                if (entity.Keys.Count == 1 &&
+                    entity.GetAttributesToLocalize().Any())
+                {
+                    type = codeGeneratorState.GetEntityType(entity.LocalizedName);
+                    if (type == null)
+                    {
+                        throw new NullReferenceException($"Type {entity.LocalizedName} is not found in current assembly.");
+                    }
+
+                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureLocalizedEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+                }
             }
         }
 
@@ -205,5 +221,6 @@ internal partial class TestWebAppDbContext : Nox.Infrastructure.Persistence.Enti
         modelBuilder.Entity<TestWebApp.Domain.TestEntityTwoRelationshipsManyToMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
         modelBuilder.Entity<TestWebApp.Domain.TestEntityTwoRelationshipsOneToMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
         modelBuilder.Entity<TestWebApp.Domain.TestEntityForTypes>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityLocalization>().HasQueryFilter(p => p.DeletedAtUtc == null);
     }
 }

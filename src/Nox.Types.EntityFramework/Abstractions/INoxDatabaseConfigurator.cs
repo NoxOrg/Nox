@@ -9,4 +9,9 @@ public interface INoxDatabaseConfigurator
         NoxSolutionCodeGeneratorState codeGeneratorState,
         IEntityBuilder builder,
         Entity entity);
+
+    void ConfigureLocalizedEntity(
+        NoxSolutionCodeGeneratorState codeGeneratorState,
+        IEntityBuilder builder,
+        Entity entity);
 }

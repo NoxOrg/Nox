@@ -125,4 +125,10 @@ public class SqlServerIntegrationTests : NoxIntegrationContainerTestBase<NoxTest
     {
         _noxCommonTestCases.GeneratedRelationshipTwoRelationshipsToTheSameEntityOneToMany();
     }
+
+    [Fact]
+    public void GeneratedEntities_SqlServer_LocalizedEntitiesBeingGenerated()
+    {
+        _noxCommonTestCases.LocalizedEntitiesBeingGenerated();
+    }
 }

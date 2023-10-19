@@ -56,6 +56,9 @@ internal partial class {{className}} : Nox.Infrastructure.Persistence.EntityDbCo
     public DbSet<{{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}> {{entity.PluralName}} { get; set; } = null!;
 {{- end }}
 {{ end }}
+{{ for entity in entitiesToLocalize -}}
+    public DbSet<{{codeGeneratorState.DomainNameSpace}}.{{entity.LocalizedName}}> {{entity.PluralName}}Localized { get; set; } = null!;
+{{ end }}
 
     {{- for entityAtt in enumerationAttributes #Setup Entity Enumerations}}
     {{- for enumAtt in entityAtt.Attributes}}
@@ -103,12 +106,24 @@ internal partial class {{className}} : Nox.Infrastructure.Persistence.EntityDbCo
             if (type != null)
             {
                 ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+
+                if (entity.Keys.Count == 1 &&
+                    entity.GetAttributesToLocalize().Any())
+                {
+                    type = codeGeneratorState.GetEntityType(entity.LocalizedName);
+                    if (type == null)
+                    {
+                        throw new NullReferenceException($"Type {entity.LocalizedName} is not found in current assembly.");
+                    }
+
+                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureLocalizedEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+                }
             }
         }
 
         modelBuilder.ForEntitiesOfType<IEntityConcurrent>(
-            builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());         
-        
+            builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());
+
         {{- for entityAtt in enumerationAttributes #Setup Entity Enumerations}}
         {{- for enumAtt in entityAtt.Attributes}}
             ConfigureEnumeration(modelBuilder.Entity("{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{enumAtt.Name}}"));

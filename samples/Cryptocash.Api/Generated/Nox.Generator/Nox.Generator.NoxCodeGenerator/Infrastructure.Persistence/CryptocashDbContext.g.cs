@@ -82,6 +82,7 @@ internal partial class CryptocashDbContext : Nox.Infrastructure.Persistence.Enti
     public DbSet<Cryptocash.Domain.CashStockOrder> CashStockOrders { get; set; } = null!;
 
 
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
@@ -116,6 +117,18 @@ internal partial class CryptocashDbContext : Nox.Infrastructure.Persistence.Enti
             if (type != null)
             {
                 ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+
+                if (entity.Keys.Count == 1 &&
+                    entity.GetAttributesToLocalize().Any())
+                {
+                    type = codeGeneratorState.GetEntityType(entity.LocalizedName);
+                    if (type == null)
+                    {
+                        throw new NullReferenceException($"Type {entity.LocalizedName} is not found in current assembly.");
+                    }
+
+                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureLocalizedEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+                }
             }
         }
 

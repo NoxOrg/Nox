@@ -125,4 +125,10 @@ public class PostgresIntegrationTests : NoxIntegrationContainerTestBase<NoxTestP
     {
         _noxCommonTestCases.GeneratedRelationshipTwoRelationshipsToTheSameEntityOneToMany();
     }
+
+    [Fact]
+    public void GeneratedEntities_Postgres_LocalizedEntitiesBeingGenerated()
+    {
+        _noxCommonTestCases.LocalizedEntitiesBeingGenerated();
+    }
 }

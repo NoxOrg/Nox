@@ -17,7 +17,7 @@ namespace {{codeGeneratorState.DomainNameSpace}};
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-internal abstract partial class {{className}} : IEntityConcurrent
+internal partial class {{className}} : IEntityConcurrent
 {
 {{- for key in entity.Keys }}
     /// <summary>
@@ -35,9 +35,9 @@ internal abstract partial class {{className}} : IEntityConcurrent
     {{- end}}
 {{- end }}
 
-      public Nox.Types.CultureCode CultureCode { get; set; } = null!;
+    public Nox.Types.CultureCode CultureCode { get; set; } = null!;
 {{- for attribute in entityAttributesToLocalize }}
-    {{ if attribute.Type == "Text" && attribute.TextTypeOptions.IsLocalized }}
+    {{ if attribute.Type == "Text" }}
 
     /// <summary>
     /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).

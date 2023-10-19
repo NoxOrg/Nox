@@ -115,6 +115,8 @@ internal class DtoDbContext : DbContext
         
         public DbSet<TestEntityForUniqueConstraintsDto> TestEntityForUniqueConstraints { get; set; } = null!;
         
+        public DbSet<TestEntityLocalizationDto> TestEntityLocalizations { get; set; } = null!;
+        
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -193,5 +195,6 @@ internal class DtoDbContext : DbContext
         modelBuilder.Entity<TestEntityTwoRelationshipsManyToManyDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
         modelBuilder.Entity<TestEntityTwoRelationshipsOneToManyDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
         modelBuilder.Entity<TestEntityForTypesDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
+        modelBuilder.Entity<TestEntityLocalizationDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
     }
 }

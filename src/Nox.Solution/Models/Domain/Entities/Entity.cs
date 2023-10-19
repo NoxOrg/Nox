@@ -98,6 +98,21 @@ public class Entity : DefinitionBase
         (Persistence is not null) &&
         (Persistence.Create.RaiseIntegrationEvents || Persistence.Update.RaiseIntegrationEvents || Persistence.Delete.RaiseIntegrationEvents);
 
+    [YamlIgnore]
+    public string LocalizedName => $"{Name}Localized";
+
+    public Entity ShallowCopy(string? newName = null)
+    {
+        var copy = (Entity)MemberwiseClone();
+
+        if (!string.IsNullOrWhiteSpace(newName))
+        {
+            copy.Name = newName!;
+        }
+
+        return copy;
+    }
+
     internal bool ApplyDefaults()
     {
         if (string.IsNullOrWhiteSpace(PluralName))
@@ -115,6 +130,14 @@ public class Entity : DefinitionBase
     {
         EnsureAttributesByName();
         return _attributesByName![entityName];
+    }
+
+    public virtual IEnumerable<NoxSimpleTypeDefinition> GetAttributesToLocalize()
+    {
+        return Attributes
+            .Where(x => x.Type == NoxType.Text &&
+                x.TextTypeOptions != null &&
+                x.TextTypeOptions.IsLocalized);
     }
 
     public virtual bool TryGetAttributeByName(string entityName, out NoxSimpleTypeDefinition? result)

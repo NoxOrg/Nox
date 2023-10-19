@@ -25,11 +25,8 @@ internal class EntitiesLocalizedGenerator : INoxCodeGenerator
                 continue;
             }
 
-            var entityAttributesToLocalize =
-                entity.Attributes.Where(x =>
-                    x.Type == NoxType.Text &&
-                    x.TextTypeOptions != null &&
-                    x.TextTypeOptions.IsLocalized)
+            var entityAttributesToLocalize = entity
+                .GetAttributesToLocalize()
                 .ToList();
 
             if (!entityAttributesToLocalize.Any())
@@ -40,7 +37,7 @@ internal class EntitiesLocalizedGenerator : INoxCodeGenerator
             context.CancellationToken.ThrowIfCancellationRequested();
 
             new TemplateCodeBuilder(context, codeGeneratorState)
-                .WithClassName($"{entity.Name}Localized")
+                .WithClassName(entity.LocalizedName)
                 .WithFileNamePrefix($"Domain")
                 .WithObject("entity", entity)
                 .WithObject("entityAttributesToLocalize", entityAttributesToLocalize)
