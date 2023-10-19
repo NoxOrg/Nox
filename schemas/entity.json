@@ -342,6 +342,16 @@
           "type": "null"
         }
       ]
+    },
+    "localizedName": {    
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
     }
   },
   "additionalProperties": false
