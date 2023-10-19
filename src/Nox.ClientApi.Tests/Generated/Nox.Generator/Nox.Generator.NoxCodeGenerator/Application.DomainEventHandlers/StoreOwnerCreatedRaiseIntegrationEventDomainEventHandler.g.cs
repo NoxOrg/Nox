@@ -11,11 +11,11 @@ using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.DomainEventHandlers;
 
-internal abstract class StoreOwnerCreatedDomainEventHandlerBase : INotificationHandler<StoreOwnerCreated>
+internal abstract class StoreOwnerCreatedRaiseIntegrationEventDomainEventHandlerBase : INotificationHandler<StoreOwnerCreated>
 {
     protected readonly IOutboxRepository _outboxRepository;
 
-    protected StoreOwnerCreatedDomainEventHandlerBase(IOutboxRepository outboxRepository)
+    protected StoreOwnerCreatedRaiseIntegrationEventDomainEventHandlerBase(IOutboxRepository outboxRepository)
     {
         _outboxRepository = outboxRepository;
     }
@@ -28,9 +28,9 @@ internal abstract class StoreOwnerCreatedDomainEventHandlerBase : INotificationH
     }
 }
 
-internal partial class StoreOwnerCreatedDomainEventHandler : StoreOwnerCreatedDomainEventHandlerBase
+internal partial class StoreOwnerCreatedRaiseIntegrationEventDomainEventHandler : StoreOwnerCreatedRaiseIntegrationEventDomainEventHandlerBase
 {
-    public StoreOwnerCreatedDomainEventHandler(IOutboxRepository outboxRepository)
+    public StoreOwnerCreatedRaiseIntegrationEventDomainEventHandler(IOutboxRepository outboxRepository)
         : base(outboxRepository)
     {
     }

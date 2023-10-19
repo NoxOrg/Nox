@@ -89,7 +89,7 @@ internal partial class {{className}} : Nox.Infrastructure.Persistence.EntityDbCo
         modelBuilder.AddOutboxMessageEntity();
         modelBuilder.AddOutboxStateEntity();
         {{- end }}
-        foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
+        foreach (var entity in _noxSolution.Domain!.Entities)
         {
             Console.WriteLine($"{{className}} Configure database for Entity {entity.Name}");
 
@@ -99,7 +99,7 @@ internal partial class {{className}} : Nox.Infrastructure.Persistence.EntityDbCo
                 continue;
             }
 
-            var type = codeGeneratorState.GetEntityType(entity.Name);
+            var type = _clientAssemblyProvider.GetType(codeGeneratorState.GetEntityTypeFullName(entity.Name));
             if (type != null)
             {
                 ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
@@ -113,8 +113,8 @@ internal partial class {{className}} : Nox.Infrastructure.Persistence.EntityDbCo
         {{- for enumAtt in entityAtt.Attributes}}
             ConfigureEnumeration(modelBuilder.Entity("{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{enumAtt.Name}}"));
             {{- if enumAtt.EnumerationTypeOptions.IsLocalized}}
-            var enumLocalizedType = codeGeneratorState.GetType("{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{enumAtt.Name}}Localized")!;
-            var enumType = codeGeneratorState.GetType("{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{enumAtt.Name}}")!;
+            var enumLocalizedType = _clientAssemblyProvider.GetType("{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{enumAtt.Name}}Localized")!;
+            var enumType = _clientAssemblyProvider.GetType("{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{enumAtt.Name}}")!;
             ConfigureEnumerationLocalized(modelBuilder.Entity(enumLocalizedType), enumType, enumLocalizedType);
             {{- end }}
         {{- end }}

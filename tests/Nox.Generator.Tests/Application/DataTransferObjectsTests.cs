@@ -26,6 +26,6 @@ public class DataTransferObjectsTests : IClassFixture<GeneratorFixture>
         _generatorFixture
             .GenerateSourceCodeFor(sources)
             .AssertOutputResult()
-            .AssertFileExistence(2);
+            .AssertFileCount(2);
     }
 }

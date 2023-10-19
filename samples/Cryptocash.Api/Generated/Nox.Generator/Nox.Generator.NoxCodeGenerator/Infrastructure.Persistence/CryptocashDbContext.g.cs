@@ -102,7 +102,7 @@ internal partial class CryptocashDbContext : Nox.Infrastructure.Persistence.Enti
         modelBuilder.AddInboxStateEntity();
         modelBuilder.AddOutboxMessageEntity();
         modelBuilder.AddOutboxStateEntity();
-        foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
+        foreach (var entity in _noxSolution.Domain!.Entities)
         {
             Console.WriteLine($"CryptocashDbContext Configure database for Entity {entity.Name}");
 
@@ -112,7 +112,7 @@ internal partial class CryptocashDbContext : Nox.Infrastructure.Persistence.Enti
                 continue;
             }
 
-            var type = codeGeneratorState.GetEntityType(entity.Name);
+            var type = _clientAssemblyProvider.GetType(codeGeneratorState.GetEntityTypeFullName(entity.Name));
             if (type != null)
             {
                 ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);

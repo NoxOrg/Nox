@@ -70,7 +70,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
                 .Select(x => x.GeneratorKind)
                 .ToArray();
 
-                if(config.LoggingVerbosity == LoggingVerbosity.Diagnostic)
+                if (config.LoggingVerbosity == LoggingVerbosity.Diagnostic)
                 {
                     _debug.AppendLine($"// Enabled Generators Types");
                     foreach (var flow in generatorFlows)
@@ -102,7 +102,13 @@ public class NoxCodeGenerator : IIncrementalGenerator
                 {
                     foreach (var flowInstance in generatorInstances.Where(x => x.GeneratorKind == flow))
                     {
-                        flowInstance.Generate(context, codeGeneratorState, config, projectRoot);
+                        flowInstance.Generate(
+                            context,
+                            codeGeneratorState,
+                            config,
+                            (logMessage) => _debug.AppendLine($"// {flowInstance} {logMessage}"),
+                            projectRoot
+                            );
                     }
                 }
             }

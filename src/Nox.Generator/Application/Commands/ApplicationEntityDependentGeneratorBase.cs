@@ -9,10 +9,13 @@ internal abstract class ApplicationEntityDependentGeneratorBase : INoxCodeGenera
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Application;
 
-    public void Generate(SourceProductionContext context,
-        NoxSolutionCodeGeneratorState codeGeneratorState,
-        GeneratorConfig config,
-        string? projectRootPath)
+    public void Generate(
+       SourceProductionContext context,
+       NoxSolutionCodeGeneratorState codeGeneratorState,
+       GeneratorConfig config,
+       System.Action<string> log,
+       string? projectRootPath
+       )
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 

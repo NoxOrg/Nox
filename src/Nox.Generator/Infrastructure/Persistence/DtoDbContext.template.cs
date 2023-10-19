@@ -4,6 +4,7 @@
 using Microsoft.EntityFrameworkCore;
 using Nox;
 using Nox.Solution;
+using Nox.Extensions;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Configuration;
 
@@ -61,8 +62,7 @@ internal class DtoDbContext : DbContext
 
         if (_noxSolution.Domain != null)
         {
-            var codeGeneratorState =
-                new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
+            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
             foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
             {
                 // Ignore owned entities configuration as they are configured inside entity constructor
@@ -71,7 +71,7 @@ internal class DtoDbContext : DbContext
                     continue;
                 }
 
-                var type = codeGeneratorState.GetEntityDtoType(entity.Name + "Dto");
+                var type = _clientAssemblyProvider.GetType(codeGeneratorState.GetEntityDtoTypeFullName(entity.Name + "Dto"));
                 if (type != null)
                 {
                     _noxDtoDatabaseConfigurator.ConfigureDto(codeGeneratorState,

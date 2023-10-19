@@ -24,9 +24,9 @@ public class ApplicationExtensionTests : IClassFixture<GeneratorFixture>
         _generatorFixture
             .GenerateSourceCodeFor(sources)
             .AssertOutputResult()
-            .AssertFileExistence(2)
+            .AssertFileCount(2)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
-            .Check("Application.ServiceCollectionExtensions.expected.g.cs", "Application.ServiceCollectionExtensions.g.cs");
+            .AssertFileExistsAndContent("Application.ServiceCollectionExtensions.expected.g.cs", "Application.ServiceCollectionExtensions.g.cs");
     }
 }

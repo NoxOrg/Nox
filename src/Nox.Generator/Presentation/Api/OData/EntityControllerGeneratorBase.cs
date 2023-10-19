@@ -14,7 +14,13 @@ internal abstract class EntityControllerGeneratorBase : INoxCodeGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Presentation;
 
-    public abstract void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config, string? projectRootPath);
+    public abstract void Generate(
+      SourceProductionContext context,
+      NoxSolutionCodeGeneratorState codeGeneratorState,
+      GeneratorConfig config,
+      System.Action<string> log,
+      string? projectRootPath
+      );
 
     protected static string GetPrimaryKeysQuery(Entity entity, string prefix = "key", bool withKeyName = false)
     {

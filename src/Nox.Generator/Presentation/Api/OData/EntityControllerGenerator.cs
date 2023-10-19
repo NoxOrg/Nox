@@ -7,14 +7,17 @@ using Nox.Types.Extensions;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using static Humanizer.In;
 using static Nox.Generator.Common.BaseGenerator;
 
 namespace Nox.Generator.Presentation.Api.OData;
 
 internal class EntityControllerGenerator : EntityControllerGeneratorBase
 {
-    public override void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config, string? projectRootPath)
+    public override void Generate(
+    SourceProductionContext context,
+    NoxSolutionCodeGeneratorState codeGeneratorState,
+    GeneratorConfig config, System.Action<string> log,
+    string? projectRootPath)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
