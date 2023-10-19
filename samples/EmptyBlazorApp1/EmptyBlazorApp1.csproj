@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+
+	<ItemGroup>
+		<InputFiles Include="../.nox/design/**/*.yaml" />
+		<InputFiles Include="generator.nox.yaml" />
+		<OutputFiles Include="Nox.Generated" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\Nox.Generator\Nox.Generator.csproj" />
+	</ItemGroup>
+
+	<UsingTask TaskName="Nox.Generator.Tasks.FilesGeneratorTask" AssemblyFile="bin\Debug\net7.0\Nox.Generator.dll" />
+
+	<Target Name="GenerateFiles" BeforeTargets="Build" Inputs="@(InputFiles)" Outputs="@(OutputFiles)">
+		<FilesGeneratorTask NoxYamlFiles="@(InputFiles)"></FilesGeneratorTask>
+	</Target>	
+
+</Project>

@@ -15,8 +15,8 @@ using YamlDotNet.Serialization.NamingConventions;
 
 namespace Nox.Generator;
 
-[Generator]
-public class NoxCodeGenerator : IIncrementalGenerator
+//[Generator]
+public class NoxCodeGenerator //: IIncrementalGenerator
 {
     private static readonly List<string> _errors = new();
 
@@ -77,9 +77,9 @@ public class NoxCodeGenerator : IIncrementalGenerator
 
                 foreach (var flow in generatorFlows)
                 {
-                    foreach (var flowInstance in generatorInstances.Where(x => x.GeneratorKind == flow))
+                    foreach (var flowInstance in generatorInstances!.Where(x => x!.GeneratorKind == flow))
                     {
-                        flowInstance.Generate(context, codeGeneratorState, config);
+                        flowInstance!.Generate(context, codeGeneratorState, config);
                     }
                 }
             }

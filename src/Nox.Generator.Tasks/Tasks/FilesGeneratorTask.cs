@@ -17,6 +17,13 @@ public class FilesGeneratorTask : ITask
 
     public bool Execute()
     {
+#if DEBUG
+        if (!Debugger.IsAttached)
+        {
+            Debugger.Launch();
+        }
+#endif
+
         var noxYamls = ReadNoxYamlFile();
         if (noxYamls is null)
             return false;
