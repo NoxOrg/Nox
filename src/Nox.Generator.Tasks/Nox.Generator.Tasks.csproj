@@ -4,16 +4,7 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<LangVersion>10.0</LangVersion>
 		<Nullable>enable</Nullable>
-	</PropertyGroup>
-
-	<ItemGroup>
-	  <Compile Remove="Ui\Components\NavigationMenuRazor.template.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <EmbeddedResource Include="Ui\Components\NavigationMenu.template.cs" />
-	  <EmbeddedResource Include="Ui\Components\NavigationMenuRazor.template.cs" />
-	</ItemGroup>	
+	</PropertyGroup>	
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.7.2" />
@@ -22,7 +13,7 @@
 	</ItemGroup>	
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Nox.Solution\Nox.Solution.csproj" />
+	  <ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
