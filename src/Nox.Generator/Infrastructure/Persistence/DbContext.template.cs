@@ -25,6 +25,7 @@ using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Solution;
 using Nox.Configuration;
+using Nox.Infrastructure;
 
 
 using {{codeGeneratorState.DomainNameSpace}};
@@ -36,6 +37,7 @@ internal partial class {{className}} : Nox.Infrastructure.Persistence.EntityDbCo
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
     private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
+    private readonly NoxCodeGenConventions _codeGeneratorState;
 
     public {{className}}(
             DbContextOptions<{{className}}> options,
@@ -44,12 +46,14 @@ internal partial class {{className}} : Nox.Infrastructure.Persistence.EntityDbCo
             INoxDatabaseProvider databaseProvider,
             INoxClientAssemblyProvider clientAssemblyProvider,
             IUserProvider userProvider,
-            ISystemProvider systemProvider
+            ISystemProvider systemProvider,
+            NoxCodeGenConventions codeGeneratorState
         ) : base(publisher, userProvider, systemProvider, options)
         {
             _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
             _clientAssemblyProvider = clientAssemblyProvider;
+            _codeGeneratorState = codeGeneratorState;
         }
 {{ for entity in solution.Domain.Entities -}}
 {{- if (!entity.IsOwnedEntity) }}
@@ -81,9 +85,6 @@ internal partial class {{className}} : Nox.Infrastructure.Persistence.EntityDbCo
 
         ConfigureAuditable(modelBuilder);
 
-
-        var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
-
         {{- if  codeGeneratorState.Solution.Infrastructure?.Messaging != null}}
         modelBuilder.AddInboxStateEntity();
         modelBuilder.AddOutboxMessageEntity();
@@ -99,10 +100,10 @@ internal partial class {{className}} : Nox.Infrastructure.Persistence.EntityDbCo
                 continue;
             }
 
-            var type = _clientAssemblyProvider.GetType(codeGeneratorState.GetEntityTypeFullName(entity.Name));
+            var type = _clientAssemblyProvider.GetType(_codeGeneratorState.GetEntityTypeFullName(entity.Name));
             if (type != null)
             {
-                ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+                ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
             }
         }
 

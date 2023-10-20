@@ -9,7 +9,7 @@ internal class EntityControllerRelationshipsGenerator : EntityControllerGenerato
 {
     public override void Generate(
     SourceProductionContext context,
-    NoxSolutionCodeGeneratorState codeGeneratorState,
+    NoxCodeGenConventions codeGeneratorState,
     GeneratorConfig config, System.Action<string> log,
     string? projectRootPath)
     {

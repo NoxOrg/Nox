@@ -15,7 +15,7 @@ internal class EntityMetaGenerator : INoxCodeGenerator
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
     public void Generate(
       SourceProductionContext context,
-      NoxSolutionCodeGeneratorState codeGeneratorState,
+      NoxCodeGenConventions codeGeneratorState,
       GeneratorConfig config,
       System.Action<string> log,
       string? projectRootPath

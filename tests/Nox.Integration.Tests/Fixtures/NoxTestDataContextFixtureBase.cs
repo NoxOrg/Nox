@@ -1,6 +1,8 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Nox.Infrastructure;
+using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using TestWebApp.Infrastructure.Persistence;
 
@@ -28,9 +30,12 @@ public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
             services.Remove(descriptor);
         }
         services.AddSingleton(sp =>
-        {
-            var configurations = sp.GetServices<INoxTypeDatabaseConfigurator>();
-            return GetDatabaseProvider(configurations);
+        {            
+            return GetDatabaseProvider(
+                sp.GetServices<INoxTypeDatabaseConfigurator>(),
+                sp.GetRequiredService<NoxCodeGenConventions>(),
+                sp.GetRequiredService<INoxClientAssemblyProvider>()
+                );
         });
 
         _serviceProvider = services.BuildServiceProvider();
@@ -55,5 +60,9 @@ public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
         _dbContext = scope.ServiceProvider.GetRequiredService<TestWebAppDbContext>();
     }
 
-    protected abstract INoxDatabaseProvider GetDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators);
+    protected abstract INoxDatabaseProvider GetDatabaseProvider(
+        IEnumerable<INoxTypeDatabaseConfigurator> configurators,
+        NoxCodeGenConventions noxSolutionCodeGeneratorState,
+        INoxClientAssemblyProvider clientAssemblyProvider
+        );
 }

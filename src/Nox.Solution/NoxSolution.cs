@@ -25,44 +25,7 @@ public class NoxSolution : Solution
         var validator = new SolutionValidator();
         validator.ValidateAndThrow(this);
     }
-
-    public List<EntityRelationshipWithType> GetRelationshipsToCreate(
-        NoxSolutionCodeGeneratorState codeGeneratorState,
-        Entity entity)
-    {
-        var fullRelationshipModels = new List<EntityRelationshipWithType>();
-
-
-        foreach (var relationship in entity.Relationships)
-        {
-            fullRelationshipModels.Add(new EntityRelationshipWithType
-            {
-                Relationship = relationship,
-                RelationshipEntityType = codeGeneratorState.GetEntityType(relationship.Entity)!
-            });
-        }
-
-        return fullRelationshipModels;
-    }
-
-    public List<EntityRelationshipWithType> GetOwnedRelationshipsToCreate(
-        NoxSolutionCodeGeneratorState codeGeneratorState,
-        Entity entity)
-    {
-        var fullRelationshipModels = new List<EntityRelationshipWithType>();
-
-        foreach (var relationship in entity.OwnedRelationships)
-        {
-            fullRelationshipModels.Add(new EntityRelationshipWithType
-            {
-                Relationship = relationship,
-                RelationshipEntityType = codeGeneratorState.GetEntityType(relationship.Entity)!
-            });
-        }
-
-        return fullRelationshipModels;
-    }
-
+   
     internal bool IsOwnedEntity(Entity entity)
     {
         // Cannot rely on constructor in this scenario as

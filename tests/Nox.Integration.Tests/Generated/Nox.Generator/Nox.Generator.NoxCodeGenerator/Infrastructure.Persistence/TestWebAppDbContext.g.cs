@@ -23,6 +23,7 @@ using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Solution;
 using Nox.Configuration;
+using Nox.Infrastructure;
 
 
 using TestWebApp.Domain;
@@ -34,6 +35,7 @@ internal partial class TestWebAppDbContext : Nox.Infrastructure.Persistence.Enti
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
     private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
+    private readonly NoxCodeGenConventions _codeGeneratorState;
 
     public TestWebAppDbContext(
             DbContextOptions<TestWebAppDbContext> options,
@@ -42,12 +44,14 @@ internal partial class TestWebAppDbContext : Nox.Infrastructure.Persistence.Enti
             INoxDatabaseProvider databaseProvider,
             INoxClientAssemblyProvider clientAssemblyProvider,
             IUserProvider userProvider,
-            ISystemProvider systemProvider
+            ISystemProvider systemProvider,
+            NoxCodeGenConventions codeGeneratorState
         ) : base(publisher, userProvider, systemProvider, options)
         {
             _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
             _clientAssemblyProvider = clientAssemblyProvider;
+            _codeGeneratorState = codeGeneratorState;
         }
 
     public DbSet<TestWebApp.Domain.TestEntityZeroOrOne> TestEntityZeroOrOnes { get; set; } = null!;
@@ -143,9 +147,6 @@ internal partial class TestWebAppDbContext : Nox.Infrastructure.Persistence.Enti
         base.OnModelCreating(modelBuilder);
 
         ConfigureAuditable(modelBuilder);
-
-
-        var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
         modelBuilder.AddInboxStateEntity();
         modelBuilder.AddOutboxMessageEntity();
         modelBuilder.AddOutboxStateEntity();
@@ -159,10 +160,10 @@ internal partial class TestWebAppDbContext : Nox.Infrastructure.Persistence.Enti
                 continue;
             }
 
-            var type = _clientAssemblyProvider.GetType(codeGeneratorState.GetEntityTypeFullName(entity.Name));
+            var type = _clientAssemblyProvider.GetType(_codeGeneratorState.GetEntityTypeFullName(entity.Name));
             if (type != null)
             {
-                ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+                ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
             }
         }
 

@@ -14,7 +14,7 @@ internal class DomainEventGenerator : INoxCodeGenerator
 
     public void Generate(
       SourceProductionContext context,
-      NoxSolutionCodeGeneratorState codeGeneratorState,
+      NoxCodeGenConventions codeGeneratorState,
       GeneratorConfig config,
       System.Action<string> log,
       string? projectRootPath
@@ -38,7 +38,7 @@ internal class DomainEventGenerator : INoxCodeGenerator
 #pragma warning restore S3267 // Loops should be simplified with "LINQ" expressions
     }
 
-    private static void GenerateEvent(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, DomainEvent evt)
+    private static void GenerateEvent(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, DomainEvent evt)
     {
         var code = new CodeBuilder($"{evt.Name}.g.cs", context);
 

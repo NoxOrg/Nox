@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.TestHost;
 using Nox.Types.EntityFramework.Abstractions;
 using ClientApi.Infrastructure.Persistence;
 using Xunit.Abstractions;
+using Nox.Solution;
+using Nox.Infrastructure;
 
 namespace ClientApi.Tests;
 
@@ -64,8 +66,10 @@ public class NoxTestApplicationFactory : WebApplicationFactory<StartupFixture>
                 }
                 services.AddSingleton(sp =>
                 {
-                    var configurations = sp.GetServices<INoxTypeDatabaseConfigurator>();
-                    return _databaseService.GetDatabaseProvider(configurations);
+                    return _databaseService.GetDatabaseProvider(
+                        sp.GetServices<INoxTypeDatabaseConfigurator>(),
+                        sp.GetRequiredService<NoxCodeGenConventions>(),
+                        sp.GetRequiredService<INoxClientAssemblyProvider>());
                 });
 
                 if (_enableMessaging)

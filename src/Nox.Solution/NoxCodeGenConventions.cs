@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Linq;
-using System.Reflection;
-using Nox.Types;
 
 namespace Nox.Solution;
 
-public class NoxSolutionCodeGeneratorState
-{
+/// <summary>
+/// Code generation conventions for namespaces, class names, etc...
+/// </summary>
+public class NoxCodeGenConventions
+{    
     private readonly NoxSolution _noxSolution;
-    private readonly Assembly _entryAssembly;
 
-    public NoxSolutionCodeGeneratorState(NoxSolution noxSolution, Assembly entryAssembly)
+    public NoxCodeGenConventions(NoxSolution noxSolution)
     {
-        _noxSolution = noxSolution;
-        _entryAssembly = entryAssembly;
+        _noxSolution = noxSolution;     
     }
 
     public NoxSolution Solution => _noxSolution;
@@ -31,15 +29,6 @@ public class NoxSolutionCodeGeneratorState
     public string GetEntityTypeFullName(string entityName) => $"{DomainNameSpace}.{entityName}";
 
     public string GetEntityDtoTypeFullName(string dtoName) => $"{DtoNameSpace}.{dtoName}";
-
-    public Type? GetEntityType(string entityName) => _entryAssembly.GetType(GetEntityTypeFullName(entityName));
-
-    public Type? GetEntityDtoType(string dtoName) => _entryAssembly.GetType(GetEntityDtoTypeFullName(dtoName));
-
-    /// <summary>
-    /// Get a type from the entry/client Assembly
-    /// </summary>
-    public Type? GetType(string typeFullName) => _entryAssembly.GetType(typeFullName);
 
     public static string GetForeignKeyPropertyName(string foreignEntityName)
     {

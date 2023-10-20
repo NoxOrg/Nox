@@ -14,7 +14,7 @@ internal class EntityCreateDtoGenerator : INoxCodeGenerator
 
     public void Generate(
       SourceProductionContext context,
-      NoxSolutionCodeGeneratorState codeGeneratorState,
+      NoxCodeGenConventions codeGeneratorState,
       GeneratorConfig config,
       System.Action<string> log,
       string? projectRootPath

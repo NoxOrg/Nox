@@ -14,7 +14,7 @@ internal class DtoDynamicGenerator// : INoxCodeGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Application;
 
-    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config, string? projectRootPath)
+    public void Generate(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, GeneratorConfig config, string? projectRootPath)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -27,7 +27,7 @@ internal class DtoDynamicGenerator// : INoxCodeGenerator
         }
     }
 
-    public static void GenerateDto(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, string name, string? description, IReadOnlyList<NoxSimpleTypeDefinition> attributes)
+    public static void GenerateDto(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, string name, string? description, IReadOnlyList<NoxSimpleTypeDefinition> attributes)
     {
         var code = new CodeBuilder($"DtoDynamic.{name}.g.cs", context);
 
@@ -53,7 +53,7 @@ internal class DtoDynamicGenerator// : INoxCodeGenerator
         code.GenerateSourceCode();
     }
 
-    private static void GenerateDto(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, DataTransferObject dto)
+    private static void GenerateDto(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, DataTransferObject dto)
     {
         var className = dto.Name.EnsureEndsWith("Dto");
         var code = new CodeBuilder($"DtoDynamic.{dto.Name}.g.cs", context);

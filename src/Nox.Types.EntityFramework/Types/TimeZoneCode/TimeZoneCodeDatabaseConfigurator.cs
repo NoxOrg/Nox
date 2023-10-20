@@ -19,7 +19,7 @@ public class TimeZoneCodeDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     /// <inheritdoc/>
     public void ConfigureEntityProperty(
-        NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
+        NoxCodeGenConventions noxSolutionCodeGeneratorState,
         IEntityBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,

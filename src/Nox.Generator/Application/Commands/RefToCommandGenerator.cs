@@ -8,7 +8,7 @@ namespace Nox.Generator.Application.Commands;
 
 internal class RefToCommandGenerator : ApplicationEntityDependentGeneratorBase
 {
-    protected override void DoGenerate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, IEnumerable<Entity> entities)
+    protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, IEnumerable<Entity> entities)
     {
         var templateName = @"Application.Commands.RefToCommand";
         foreach (var entity in entities.Where(x => !x.IsOwnedEntity))

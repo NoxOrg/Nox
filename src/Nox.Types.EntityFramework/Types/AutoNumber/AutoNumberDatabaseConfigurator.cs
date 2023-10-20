@@ -31,7 +31,7 @@ public class AutoNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
     /// <param name="entity">The Entity to which the property belongs.</param>
     /// <param name="isKey">A flag indicating whether the property is a key property.</param>
     public void ConfigureEntityProperty(
-        NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
+        NoxCodeGenConventions noxSolutionCodeGeneratorState,
         IEntityBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,

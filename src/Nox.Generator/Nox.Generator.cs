@@ -55,7 +55,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
             {
                 _debug.AppendLine($"// Logging Verbosity {config.LoggingVerbosity}");
 
-                var codeGeneratorState = new NoxSolutionCodeGeneratorState(solution, Assembly.GetEntryAssembly()!);
+                var codeGeneratorState = new NoxCodeGenConventions(solution);
 
                 var generatorFlows = new (NoxGeneratorKind GeneratorKind, bool IsEnabled)[]
                 {

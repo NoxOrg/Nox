@@ -11,7 +11,7 @@ public class PostgresDateTimeRangeDatabaseConfiguration : DateTimeRangeDatabaseC
     public override bool IsDefault => false;
 
     public virtual void ConfigureEntityProperty(
-        NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
+        NoxCodeGenConventions noxSolutionCodeGeneratorState,
         EntityTypeBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity, bool isKey)

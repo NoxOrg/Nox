@@ -11,7 +11,7 @@ internal abstract class ApplicationEntityDependentGeneratorBase : INoxCodeGenera
 
     public void Generate(
        SourceProductionContext context,
-       NoxSolutionCodeGeneratorState codeGeneratorState,
+       NoxCodeGenConventions codeGeneratorState,
        GeneratorConfig config,
        System.Action<string> log,
        string? projectRootPath
@@ -27,5 +27,5 @@ internal abstract class ApplicationEntityDependentGeneratorBase : INoxCodeGenera
         DoGenerate(context, codeGeneratorState, codeGeneratorState.Solution.Domain.Entities);
     }
 
-    protected abstract void DoGenerate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, IEnumerable<Entity> entities);
+    protected abstract void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, IEnumerable<Entity> entities);
 }

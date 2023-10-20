@@ -4,23 +4,32 @@ using Nox.Solution.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Infrastructure;
 
 namespace Nox.Types.EntityFramework.Configurations;
 
-public class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
+public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
 {
-    public void ConfigureDto(NoxSolutionCodeGeneratorState codeGeneratorState, IEntityBuilder builder, Entity entity)
+    private NoxCodeGenConventions _codeGeneratorState { get; }
+    private INoxClientAssemblyProvider _clientAssemblyProvider { get; }
+
+    public NoxDtoDatabaseConfigurator(NoxCodeGenConventions codeGeneratorState,INoxClientAssemblyProvider clientAssemblyProvider)
+    {
+        _codeGeneratorState = codeGeneratorState;
+        _clientAssemblyProvider = clientAssemblyProvider;
+    }
+    public void ConfigureDto(IEntityBuilder builder, Entity entity)
     {
         ConfigureKeys(builder, entity);
 
-        ConfigureAttributes(codeGeneratorState, builder, entity);
+        ConfigureAttributes(builder, entity);
 
-        ConfigureRelationships(codeGeneratorState, builder, entity);
+        ConfigureRelationships(builder, entity);
 
-        ConfigureOwnedRelations(codeGeneratorState, builder, entity);
+        ConfigureOwnedRelations(builder, entity);
     }
 
-    private static void ConfigureAttributes(NoxSolutionCodeGeneratorState codeGeneratorState, IEntityBuilder builder, Entity entity)
+    private void ConfigureAttributes(IEntityBuilder builder, Entity entity)
     {
         foreach (var attribute in entity.Attributes!)
         {
@@ -28,25 +37,25 @@ public class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
 
             if (attribute.Type == NoxType.VatNumber)
             {
-                var compoundDtoType = codeGeneratorState.GetEntityDtoType("VatNumberDto")!;
+                var compoundDtoType = _clientAssemblyProvider.ClientAssembly.GetType(_codeGeneratorState.GetEntityDtoTypeFullName("VatNumberDto"));
 
-                builder.OwnsOne(compoundDtoType, attribute.Name)
+                builder.OwnsOne(compoundDtoType!, attribute.Name)
                     .Property(nameof(VatNumber.CountryCode))
                     .HasConversion(new EnumToStringConverter<CountryCode>());
             }
 
             if (attribute.Type == NoxType.StreetAddress)
             {
-                var compoundDtoType = codeGeneratorState.GetEntityDtoType("StreetAddressDto")!;
+                var compoundDtoType = _clientAssemblyProvider.ClientAssembly.GetType(_codeGeneratorState.GetEntityDtoTypeFullName("StreetAddressDto")); 
 
-                builder.OwnsOne(compoundDtoType, attribute.Name)
+                builder.OwnsOne(compoundDtoType!, attribute.Name)
                     .Property(nameof(StreetAddress.CountryId))
                     .HasConversion(new EnumToStringConverter<CountryCode>());
             }
         }
     }
 
-    private static void ConfigureRelationships(NoxSolutionCodeGeneratorState codeGeneratorState, IEntityBuilder builder, Entity entity)
+    private void ConfigureRelationships(IEntityBuilder builder, Entity entity)
     {
         foreach (var relationshipToCreate in entity.Relationships)
         {
@@ -68,7 +77,7 @@ public class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
                 if (relationshipToCreate.Related.EntityRelationship.WithMultiEntity)
                 {
                     builder
-                        .HasOne($"{codeGeneratorState.DtoNameSpace}.{relationshipToCreate.Entity}Dto", relationshipToCreate.Name)
+                        .HasOne($"{_codeGeneratorState.DtoNameSpace}.{relationshipToCreate.Entity}Dto", relationshipToCreate.Name)
                         .WithMany(relationshipToCreate.Related.EntityRelationship.Name)
                         .HasForeignKey($"{relationshipToCreate.Name}Id");
                 }
@@ -76,15 +85,15 @@ public class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
                 else
                 {
                     builder
-                        .HasOne($"{codeGeneratorState.DtoNameSpace}.{relationshipToCreate.Entity}Dto", relationshipToCreate.Name)
+                        .HasOne($"{_codeGeneratorState.DtoNameSpace}.{relationshipToCreate.Entity}Dto", relationshipToCreate.Name)
                         .WithOne(relationshipToCreate.Related.EntityRelationship.Name)
-                        .HasForeignKey($"{codeGeneratorState.DtoNameSpace}.{entity.Name}Dto", $"{relationshipToCreate.Name}Id");
+                        .HasForeignKey($"{_codeGeneratorState.DtoNameSpace}.{entity.Name}Dto", $"{relationshipToCreate.Name}Id");
                 }
             }
         }
     }
 
-    private static void ConfigureOwnedRelations(NoxSolutionCodeGeneratorState codeGeneratorState, IEntityBuilder builder, Entity entity)
+    private void ConfigureOwnedRelations(IEntityBuilder builder, Entity entity)
     {
         var keyNames = entity.Keys!.Select(x => x.Name);
 
@@ -92,11 +101,11 @@ public class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
         foreach (var ownedRelationship in entity.OwnedRelationships)
         //#pragma warning restore S3267 // Loops should be simplified with "LINQ" expressions
         {
-            var relatedEntityDtoType = codeGeneratorState.GetEntityDtoType(ownedRelationship.Related.Entity.Name + "Dto")!;
+            var relatedEntityDtoType = _clientAssemblyProvider.ClientAssembly.GetType(_codeGeneratorState.GetEntityDtoTypeFullName(ownedRelationship.Related.Entity.Name + "Dto")); 
 
             if (ownedRelationship.WithSingleEntity())
             {
-                builder.OwnsOne(relatedEntityDtoType,
+                builder.OwnsOne(relatedEntityDtoType!,
                     ownedRelationship.Name,
                     owned =>
                     {
@@ -105,7 +114,7 @@ public class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
                 return;
             }
 
-            builder.OwnsMany(relatedEntityDtoType,
+            builder.OwnsMany(relatedEntityDtoType!,
                 ownedRelationship.Name,
                 owned =>
                 {

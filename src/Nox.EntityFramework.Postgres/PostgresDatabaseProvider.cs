@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Nox.Infrastructure;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Configurations;
@@ -14,7 +15,11 @@ public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProv
     public string ConnectionString { get; protected set; } = string.Empty;
     public NoxDataStoreTypeFlags StoreTypes { get; private set; }
     
-    public PostgresDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators) : base(configurators, typeof(IPostgresNoxTypeDatabaseConfigurator))
+    public PostgresDatabaseProvider(
+        IEnumerable<INoxTypeDatabaseConfigurator> configurators,
+        NoxCodeGenConventions noxSolutionCodeGeneratorState,
+        INoxClientAssemblyProvider clientAssemblyProvider
+        ) : base(configurators, noxSolutionCodeGeneratorState, clientAssemblyProvider, typeof(IPostgresNoxTypeDatabaseConfigurator))
     {
     }
 

@@ -10,7 +10,7 @@ public class PhoneNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
     public virtual bool IsDefault => true;
 
     public void ConfigureEntityProperty(
-        NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
+        NoxCodeGenConventions noxSolutionCodeGeneratorState,
         IEntityBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,
