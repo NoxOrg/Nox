@@ -143,27 +143,27 @@ public partial class CountryMetadata
                 new Nox.Types.EnumerationValues()
                 {
                     Id = 1,
-                    Description = "Europe",
+                    Name = "Europe",
                 },
                 new Nox.Types.EnumerationValues()
                 {
                     Id = 2,
-                    Description = "Asia",
+                    Name = "Asia",
                 },
                 new Nox.Types.EnumerationValues()
                 {
                     Id = 3,
-                    Description = "Africa",
+                    Name = "Africa",
                 },
                 new Nox.Types.EnumerationValues()
                 {
                     Id = 4,
-                    Description = "America",
+                    Name = "America",
                 },
                 new Nox.Types.EnumerationValues()
                 {
                     Id = 5,
-                    Description = "Oceania",
+                    Name = "Oceania",
                 },
             },
             IsLocalized = true,
