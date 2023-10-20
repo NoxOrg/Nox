@@ -27,9 +27,9 @@ internal partial class CreateTestEntityExactlyOneToZeroOrOneCommandHandler : Cre
 	public CreateTestEntityExactlyOneToZeroOrOneCommandHandler(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestWebApp.Domain.TestEntityZeroOrOneToExactlyOne, TestEntityZeroOrOneToExactlyOneCreateDto, TestEntityZeroOrOneToExactlyOneUpdateDto> testentityzerooronetoexactlyonefactory,
+		IEntityFactory<TestWebApp.Domain.TestEntityZeroOrOneToExactlyOne, TestEntityZeroOrOneToExactlyOneCreateDto, TestEntityZeroOrOneToExactlyOneUpdateDto> TestEntityZeroOrOneToExactlyOneFactory,
 		IEntityFactory<TestEntityExactlyOneToZeroOrOneEntity, TestEntityExactlyOneToZeroOrOneCreateDto, TestEntityExactlyOneToZeroOrOneUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,testentityzerooronetoexactlyonefactory, entityFactory)
+		: base(dbContext, noxSolution,TestEntityZeroOrOneToExactlyOneFactory, entityFactory)
 	{
 	}
 }
@@ -37,19 +37,19 @@ internal partial class CreateTestEntityExactlyOneToZeroOrOneCommandHandler : Cre
 
 internal abstract class CreateTestEntityExactlyOneToZeroOrOneCommandHandlerBase : CommandBase<CreateTestEntityExactlyOneToZeroOrOneCommand,TestEntityExactlyOneToZeroOrOneEntity>, IRequestHandler <CreateTestEntityExactlyOneToZeroOrOneCommand, TestEntityExactlyOneToZeroOrOneKeyDto>
 {
-	private readonly TestWebAppDbContext _dbContext;
-	private readonly IEntityFactory<TestEntityExactlyOneToZeroOrOneEntity, TestEntityExactlyOneToZeroOrOneCreateDto, TestEntityExactlyOneToZeroOrOneUpdateDto> _entityFactory;
-	private readonly IEntityFactory<TestWebApp.Domain.TestEntityZeroOrOneToExactlyOne, TestEntityZeroOrOneToExactlyOneCreateDto, TestEntityZeroOrOneToExactlyOneUpdateDto> _testentityzerooronetoexactlyonefactory;
+	protected readonly TestWebAppDbContext DbContext;
+	protected readonly IEntityFactory<TestEntityExactlyOneToZeroOrOneEntity, TestEntityExactlyOneToZeroOrOneCreateDto, TestEntityExactlyOneToZeroOrOneUpdateDto> EntityFactory;
+	protected readonly IEntityFactory<TestWebApp.Domain.TestEntityZeroOrOneToExactlyOne, TestEntityZeroOrOneToExactlyOneCreateDto, TestEntityZeroOrOneToExactlyOneUpdateDto> TestEntityZeroOrOneToExactlyOneFactory;
 
 	public CreateTestEntityExactlyOneToZeroOrOneCommandHandlerBase(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestWebApp.Domain.TestEntityZeroOrOneToExactlyOne, TestEntityZeroOrOneToExactlyOneCreateDto, TestEntityZeroOrOneToExactlyOneUpdateDto> testentityzerooronetoexactlyonefactory,
+		IEntityFactory<TestWebApp.Domain.TestEntityZeroOrOneToExactlyOne, TestEntityZeroOrOneToExactlyOneCreateDto, TestEntityZeroOrOneToExactlyOneUpdateDto> TestEntityZeroOrOneToExactlyOneFactory,
 		IEntityFactory<TestEntityExactlyOneToZeroOrOneEntity, TestEntityExactlyOneToZeroOrOneCreateDto, TestEntityExactlyOneToZeroOrOneUpdateDto> entityFactory) : base(noxSolution)
 	{
-		_dbContext = dbContext;
-		_entityFactory = entityFactory;
-		_testentityzerooronetoexactlyonefactory = testentityzerooronetoexactlyonefactory;
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
+		this.TestEntityZeroOrOneToExactlyOneFactory = TestEntityZeroOrOneToExactlyOneFactory;
 	}
 
 	public virtual async Task<TestEntityExactlyOneToZeroOrOneKeyDto> Handle(CreateTestEntityExactlyOneToZeroOrOneCommand request, CancellationToken cancellationToken)
@@ -57,11 +57,11 @@ internal abstract class CreateTestEntityExactlyOneToZeroOrOneCommandHandlerBase 
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.TestEntityZeroOrOneToExactlyOneId is not null)
 		{
 			var relatedKey = TestWebApp.Domain.TestEntityZeroOrOneToExactlyOneMetadata.CreateId(request.EntityDto.TestEntityZeroOrOneToExactlyOneId.NonNullValue<System.String>());
-			var relatedEntity = await _dbContext.TestEntityZeroOrOneToExactlyOnes.FindAsync(relatedKey);
+			var relatedEntity = await DbContext.TestEntityZeroOrOneToExactlyOnes.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToTestEntityZeroOrOneToExactlyOne(relatedEntity);
 			else
@@ -69,13 +69,13 @@ internal abstract class CreateTestEntityExactlyOneToZeroOrOneCommandHandlerBase 
 		}
 		else if(request.EntityDto.TestEntityZeroOrOneToExactlyOne is not null)
 		{
-			var relatedEntity = _testentityzerooronetoexactlyonefactory.CreateEntity(request.EntityDto.TestEntityZeroOrOneToExactlyOne);
+			var relatedEntity = TestEntityZeroOrOneToExactlyOneFactory.CreateEntity(request.EntityDto.TestEntityZeroOrOneToExactlyOne);
 			entityToCreate.CreateRefToTestEntityZeroOrOneToExactlyOne(relatedEntity);
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		_dbContext.TestEntityExactlyOneToZeroOrOnes.Add(entityToCreate);
-		await _dbContext.SaveChangesAsync();
+		DbContext.TestEntityExactlyOneToZeroOrOnes.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
 		return new TestEntityExactlyOneToZeroOrOneKeyDto(entityToCreate.Id.Value);
 	}
 }

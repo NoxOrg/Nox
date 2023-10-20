@@ -35,16 +35,16 @@ internal partial class CreateRatingProgramCommandHandler : CreateRatingProgramCo
 
 internal abstract class CreateRatingProgramCommandHandlerBase : CommandBase<CreateRatingProgramCommand,RatingProgramEntity>, IRequestHandler <CreateRatingProgramCommand, RatingProgramKeyDto>
 {
-	private readonly ClientApiDbContext _dbContext;
-	private readonly IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> _entityFactory;
+	protected readonly ClientApiDbContext DbContext;
+	protected readonly IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> EntityFactory;
 
 	public CreateRatingProgramCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> entityFactory) : base(noxSolution)
 	{
-		_dbContext = dbContext;
-		_entityFactory = entityFactory;
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<RatingProgramKeyDto> Handle(CreateRatingProgramCommand request, CancellationToken cancellationToken)
@@ -52,11 +52,11 @@ internal abstract class CreateRatingProgramCommandHandlerBase : CommandBase<Crea
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 
 		await OnCompletedAsync(request, entityToCreate);
-		_dbContext.RatingPrograms.Add(entityToCreate);
-		await _dbContext.SaveChangesAsync();
+		DbContext.RatingPrograms.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
 		return new RatingProgramKeyDto(entityToCreate.StoreId.Value, entityToCreate.Id.Value);
 	}
 }

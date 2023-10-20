@@ -27,9 +27,9 @@ internal partial class CreateSecondTestEntityOneOrManyCommandHandler : CreateSec
 	public CreateSecondTestEntityOneOrManyCommandHandler(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestWebApp.Domain.TestEntityOneOrMany, TestEntityOneOrManyCreateDto, TestEntityOneOrManyUpdateDto> testentityoneormanyfactory,
+		IEntityFactory<TestWebApp.Domain.TestEntityOneOrMany, TestEntityOneOrManyCreateDto, TestEntityOneOrManyUpdateDto> TestEntityOneOrManyFactory,
 		IEntityFactory<SecondTestEntityOneOrManyEntity, SecondTestEntityOneOrManyCreateDto, SecondTestEntityOneOrManyUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,testentityoneormanyfactory, entityFactory)
+		: base(dbContext, noxSolution,TestEntityOneOrManyFactory, entityFactory)
 	{
 	}
 }
@@ -37,19 +37,19 @@ internal partial class CreateSecondTestEntityOneOrManyCommandHandler : CreateSec
 
 internal abstract class CreateSecondTestEntityOneOrManyCommandHandlerBase : CommandBase<CreateSecondTestEntityOneOrManyCommand,SecondTestEntityOneOrManyEntity>, IRequestHandler <CreateSecondTestEntityOneOrManyCommand, SecondTestEntityOneOrManyKeyDto>
 {
-	private readonly TestWebAppDbContext _dbContext;
-	private readonly IEntityFactory<SecondTestEntityOneOrManyEntity, SecondTestEntityOneOrManyCreateDto, SecondTestEntityOneOrManyUpdateDto> _entityFactory;
-	private readonly IEntityFactory<TestWebApp.Domain.TestEntityOneOrMany, TestEntityOneOrManyCreateDto, TestEntityOneOrManyUpdateDto> _testentityoneormanyfactory;
+	protected readonly TestWebAppDbContext DbContext;
+	protected readonly IEntityFactory<SecondTestEntityOneOrManyEntity, SecondTestEntityOneOrManyCreateDto, SecondTestEntityOneOrManyUpdateDto> EntityFactory;
+	protected readonly IEntityFactory<TestWebApp.Domain.TestEntityOneOrMany, TestEntityOneOrManyCreateDto, TestEntityOneOrManyUpdateDto> TestEntityOneOrManyFactory;
 
 	public CreateSecondTestEntityOneOrManyCommandHandlerBase(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestWebApp.Domain.TestEntityOneOrMany, TestEntityOneOrManyCreateDto, TestEntityOneOrManyUpdateDto> testentityoneormanyfactory,
+		IEntityFactory<TestWebApp.Domain.TestEntityOneOrMany, TestEntityOneOrManyCreateDto, TestEntityOneOrManyUpdateDto> TestEntityOneOrManyFactory,
 		IEntityFactory<SecondTestEntityOneOrManyEntity, SecondTestEntityOneOrManyCreateDto, SecondTestEntityOneOrManyUpdateDto> entityFactory) : base(noxSolution)
 	{
-		_dbContext = dbContext;
-		_entityFactory = entityFactory;
-		_testentityoneormanyfactory = testentityoneormanyfactory;
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
+		this.TestEntityOneOrManyFactory = TestEntityOneOrManyFactory;
 	}
 
 	public virtual async Task<SecondTestEntityOneOrManyKeyDto> Handle(CreateSecondTestEntityOneOrManyCommand request, CancellationToken cancellationToken)
@@ -57,16 +57,16 @@ internal abstract class CreateSecondTestEntityOneOrManyCommandHandlerBase : Comm
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		foreach(var relatedCreateDto in request.EntityDto.TestEntityOneOrManyRelationship)
 		{
-			var relatedEntity = _testentityoneormanyfactory.CreateEntity(relatedCreateDto);
+			var relatedEntity = TestEntityOneOrManyFactory.CreateEntity(relatedCreateDto);
 			entityToCreate.CreateRefToTestEntityOneOrManyRelationship(relatedEntity);
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		_dbContext.SecondTestEntityOneOrManies.Add(entityToCreate);
-		await _dbContext.SaveChangesAsync();
+		DbContext.SecondTestEntityOneOrManies.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
 		return new SecondTestEntityOneOrManyKeyDto(entityToCreate.Id.Value);
 	}
 }

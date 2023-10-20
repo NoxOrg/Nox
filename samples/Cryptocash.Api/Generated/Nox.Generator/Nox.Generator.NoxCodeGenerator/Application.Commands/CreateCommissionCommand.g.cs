@@ -27,10 +27,10 @@ internal partial class CreateCommissionCommandHandler : CreateCommissionCommandH
 	public CreateCommissionCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> countryfactory,
-		IEntityFactory<Cryptocash.Domain.Booking, BookingCreateDto, BookingUpdateDto> bookingfactory,
+		IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
+		IEntityFactory<Cryptocash.Domain.Booking, BookingCreateDto, BookingUpdateDto> BookingFactory,
 		IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,countryfactory, bookingfactory, entityFactory)
+		: base(dbContext, noxSolution,CountryFactory, BookingFactory, entityFactory)
 	{
 	}
 }
@@ -38,22 +38,22 @@ internal partial class CreateCommissionCommandHandler : CreateCommissionCommandH
 
 internal abstract class CreateCommissionCommandHandlerBase : CommandBase<CreateCommissionCommand,CommissionEntity>, IRequestHandler <CreateCommissionCommand, CommissionKeyDto>
 {
-	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto> _entityFactory;
-	private readonly IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> _countryfactory;
-	private readonly IEntityFactory<Cryptocash.Domain.Booking, BookingCreateDto, BookingUpdateDto> _bookingfactory;
+	protected readonly CryptocashDbContext DbContext;
+	protected readonly IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto> EntityFactory;
+	protected readonly IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory;
+	protected readonly IEntityFactory<Cryptocash.Domain.Booking, BookingCreateDto, BookingUpdateDto> BookingFactory;
 
 	public CreateCommissionCommandHandlerBase(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> countryfactory,
-		IEntityFactory<Cryptocash.Domain.Booking, BookingCreateDto, BookingUpdateDto> bookingfactory,
+		IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
+		IEntityFactory<Cryptocash.Domain.Booking, BookingCreateDto, BookingUpdateDto> BookingFactory,
 		IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto> entityFactory) : base(noxSolution)
 	{
-		_dbContext = dbContext;
-		_entityFactory = entityFactory;
-		_countryfactory = countryfactory;
-		_bookingfactory = bookingfactory;
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
+		this.CountryFactory = CountryFactory;
+		this.BookingFactory = BookingFactory;
 	}
 
 	public virtual async Task<CommissionKeyDto> Handle(CreateCommissionCommand request, CancellationToken cancellationToken)
@@ -61,11 +61,11 @@ internal abstract class CreateCommissionCommandHandlerBase : CommandBase<CreateC
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.CommissionFeesForCountryId is not null)
 		{
 			var relatedKey = Cryptocash.Domain.CountryMetadata.CreateId(request.EntityDto.CommissionFeesForCountryId.NonNullValue<System.String>());
-			var relatedEntity = await _dbContext.Countries.FindAsync(relatedKey);
+			var relatedEntity = await DbContext.Countries.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToCommissionFeesForCountry(relatedEntity);
 			else
@@ -73,18 +73,18 @@ internal abstract class CreateCommissionCommandHandlerBase : CommandBase<CreateC
 		}
 		else if(request.EntityDto.CommissionFeesForCountry is not null)
 		{
-			var relatedEntity = _countryfactory.CreateEntity(request.EntityDto.CommissionFeesForCountry);
+			var relatedEntity = CountryFactory.CreateEntity(request.EntityDto.CommissionFeesForCountry);
 			entityToCreate.CreateRefToCommissionFeesForCountry(relatedEntity);
 		}
 		foreach(var relatedCreateDto in request.EntityDto.CommissionFeesForBooking)
 		{
-			var relatedEntity = _bookingfactory.CreateEntity(relatedCreateDto);
+			var relatedEntity = BookingFactory.CreateEntity(relatedCreateDto);
 			entityToCreate.CreateRefToCommissionFeesForBooking(relatedEntity);
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		_dbContext.Commissions.Add(entityToCreate);
-		await _dbContext.SaveChangesAsync();
+		DbContext.Commissions.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
 		return new CommissionKeyDto(entityToCreate.Id.Value);
 	}
 }
