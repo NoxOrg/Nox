@@ -35,7 +35,7 @@ internal partial class ClientApiDbContext : Nox.Infrastructure.Persistence.Entit
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
     private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
-    private readonly NoxCodeGenConventions _codeGeneratorState;
+    private readonly NoxCodeGenConventions _codeGenConventions;
 
     public ClientApiDbContext(
             DbContextOptions<ClientApiDbContext> options,
@@ -51,7 +51,7 @@ internal partial class ClientApiDbContext : Nox.Infrastructure.Persistence.Entit
             _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
             _clientAssemblyProvider = clientAssemblyProvider;
-            _codeGeneratorState = codeGeneratorState;
+            _codeGenConventions = codeGeneratorState;
         }
 
     public DbSet<ClientApi.Domain.Country> Countries { get; set; } = null!;
@@ -102,7 +102,7 @@ internal partial class ClientApiDbContext : Nox.Infrastructure.Persistence.Entit
                 continue;
             }
 
-            var type = _clientAssemblyProvider.GetType(_codeGeneratorState.GetEntityTypeFullName(entity.Name));
+            var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.Name));
             if (type != null)
             {
                 ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);

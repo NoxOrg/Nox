@@ -27,7 +27,7 @@ internal class DtoDbContext : DbContext
 
     protected readonly INoxClientAssemblyProvider _clientAssemblyProvider;
     protected readonly INoxDtoDatabaseConfigurator _noxDtoDatabaseConfigurator;
-    private readonly NoxCodeGenConventions _codeGeneratorState;
+    private readonly NoxCodeGenConventions _codeGenConventions;
 
     public DtoDbContext(
         DbContextOptions<DtoDbContext> options,
@@ -42,7 +42,7 @@ internal class DtoDbContext : DbContext
         _dbProvider = databaseProvider;
         _clientAssemblyProvider = clientAssemblyProvider;
         _noxDtoDatabaseConfigurator = noxDtoDatabaseConfigurator;
-        _codeGeneratorState = codeGeneratorState;
+        _codeGenConventions = codeGeneratorState;
     }
 
     
@@ -90,7 +90,7 @@ internal class DtoDbContext : DbContext
 
         if (_noxSolution.Domain != null)
         {            
-            foreach (var entity in _codeGeneratorState.Solution.Domain!.Entities)
+            foreach (var entity in _codeGenConventions.Solution.Domain!.Entities)
             {
                 // Ignore owned entities configuration as they are configured inside entity constructor
                 if (entity.IsOwnedEntity)
@@ -98,7 +98,7 @@ internal class DtoDbContext : DbContext
                     continue;
                 }
 
-                var type = _clientAssemblyProvider.GetType(_codeGeneratorState.GetEntityDtoTypeFullName(entity.Name + "Dto"));
+                var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityDtoTypeFullName(entity.Name + "Dto"));
                 if (type != null)
                 {
                     _noxDtoDatabaseConfigurator.ConfigureDto(

@@ -14,7 +14,7 @@ namespace Nox.Types.EntityFramework.Configurations
         //We could use the container to manage this
         protected readonly Dictionary<NoxType, INoxTypeDatabaseConfigurator> TypesDatabaseConfigurations = new();
 
-        protected NoxCodeGenConventions CodeGeneratorState { get; }
+        protected NoxCodeGenConventions CodeGenConventions { get; }
         protected INoxClientAssemblyProvider ClientAssemblyProvider { get; }
 
 
@@ -25,11 +25,11 @@ namespace Nox.Types.EntityFramework.Configurations
         /// <param name="databaseProviderSpecificOverrides">Configurator type specific to database provider</param>
         protected NoxDatabaseConfigurator(
             IEnumerable<INoxTypeDatabaseConfigurator> configurators,
-            NoxCodeGenConventions codeGeneratorState,
+            NoxCodeGenConventions codeGenConventions,
             INoxClientAssemblyProvider clientAssemblyProvider,
             Type databaseProviderSpecificOverrides)
         {
-            CodeGeneratorState = codeGeneratorState;
+            CodeGenConventions = codeGenConventions;
             ClientAssemblyProvider = clientAssemblyProvider;
 
             var noxTypeDatabaseConfigurators =
@@ -60,15 +60,15 @@ namespace Nox.Types.EntityFramework.Configurations
             var relationshipsToCreate = GetRelationshipsToCreate(entity);
             var ownedRelationshipsToCreate = GetOwnedRelationshipsToCreate(entity);
 
-            ConfigureKeys(CodeGeneratorState, builder, entity);
+            ConfigureKeys(CodeGenConventions, builder, entity);
 
-            ConfigureAttributes(CodeGeneratorState, builder, entity);
+            ConfigureAttributes(CodeGenConventions, builder, entity);
 
             ConfigureSystemFields(builder, entity);
 
-            ConfigureRelationships(CodeGeneratorState, builder, entity, relationshipsToCreate);
+            ConfigureRelationships(CodeGenConventions, builder, entity, relationshipsToCreate);
 
-            ConfigureOwnedRelationships(CodeGeneratorState, builder, entity, ownedRelationshipsToCreate);
+            ConfigureOwnedRelationships(CodeGenConventions, builder, entity, ownedRelationshipsToCreate);
 
             ConfigureUniqueAttributeConstraints(builder, entity);
         }
@@ -336,7 +336,7 @@ namespace Nox.Types.EntityFramework.Configurations
                 fullRelationshipModels.Add(new EntityRelationshipWithType
                 {
                     Relationship = relationship,
-                    RelationshipEntityType = ClientAssemblyProvider.ClientAssembly.GetType(CodeGeneratorState.GetEntityTypeFullName(relationship.Entity))!
+                    RelationshipEntityType = ClientAssemblyProvider.ClientAssembly.GetType(CodeGenConventions.GetEntityTypeFullName(relationship.Entity))!
                 });
             }
 
@@ -352,7 +352,7 @@ namespace Nox.Types.EntityFramework.Configurations
                 fullRelationshipModels.Add(new EntityRelationshipWithType
                 {
                     Relationship = relationship,
-                    RelationshipEntityType = ClientAssemblyProvider.ClientAssembly.GetType(CodeGeneratorState.GetEntityTypeFullName(relationship.Entity))!
+                    RelationshipEntityType = ClientAssemblyProvider.ClientAssembly.GetType(CodeGenConventions.GetEntityTypeFullName(relationship.Entity))!
                 });
             }
             return fullRelationshipModels;

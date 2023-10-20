@@ -37,7 +37,7 @@ internal partial class {{className}} : Nox.Infrastructure.Persistence.EntityDbCo
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
     private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
-    private readonly NoxCodeGenConventions _codeGeneratorState;
+    private readonly NoxCodeGenConventions _codeGenConventions;
 
     public {{className}}(
             DbContextOptions<{{className}}> options,
@@ -53,7 +53,7 @@ internal partial class {{className}} : Nox.Infrastructure.Persistence.EntityDbCo
             _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
             _clientAssemblyProvider = clientAssemblyProvider;
-            _codeGeneratorState = codeGeneratorState;
+            _codeGenConventions = codeGeneratorState;
         }
 {{ for entity in solution.Domain.Entities -}}
 {{- if (!entity.IsOwnedEntity) }}
@@ -100,7 +100,7 @@ internal partial class {{className}} : Nox.Infrastructure.Persistence.EntityDbCo
                 continue;
             }
 
-            var type = _clientAssemblyProvider.GetType(_codeGeneratorState.GetEntityTypeFullName(entity.Name));
+            var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.Name));
             if (type != null)
             {
                 ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);

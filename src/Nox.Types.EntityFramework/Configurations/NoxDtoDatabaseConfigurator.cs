@@ -10,12 +10,12 @@ namespace Nox.Types.EntityFramework.Configurations;
 
 public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
 {
-    private NoxCodeGenConventions _codeGeneratorState { get; }
+    private NoxCodeGenConventions _codeGenConventions { get; }
     private INoxClientAssemblyProvider _clientAssemblyProvider { get; }
 
-    public NoxDtoDatabaseConfigurator(NoxCodeGenConventions codeGeneratorState,INoxClientAssemblyProvider clientAssemblyProvider)
+    public NoxDtoDatabaseConfigurator(NoxCodeGenConventions codeGenConventions,INoxClientAssemblyProvider clientAssemblyProvider)
     {
-        _codeGeneratorState = codeGeneratorState;
+        _codeGenConventions = codeGenConventions;
         _clientAssemblyProvider = clientAssemblyProvider;
     }
     public void ConfigureDto(IEntityBuilder builder, Entity entity)
@@ -37,7 +37,7 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
 
             if (attribute.Type == NoxType.VatNumber)
             {
-                var compoundDtoType = _clientAssemblyProvider.ClientAssembly.GetType(_codeGeneratorState.GetEntityDtoTypeFullName("VatNumberDto"));
+                var compoundDtoType = _clientAssemblyProvider.ClientAssembly.GetType(_codeGenConventions.GetEntityDtoTypeFullName("VatNumberDto"));
 
                 builder.OwnsOne(compoundDtoType!, attribute.Name)
                     .Property(nameof(VatNumber.CountryCode))
@@ -46,7 +46,7 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
 
             if (attribute.Type == NoxType.StreetAddress)
             {
-                var compoundDtoType = _clientAssemblyProvider.ClientAssembly.GetType(_codeGeneratorState.GetEntityDtoTypeFullName("StreetAddressDto")); 
+                var compoundDtoType = _clientAssemblyProvider.ClientAssembly.GetType(_codeGenConventions.GetEntityDtoTypeFullName("StreetAddressDto")); 
 
                 builder.OwnsOne(compoundDtoType!, attribute.Name)
                     .Property(nameof(StreetAddress.CountryId))
@@ -77,7 +77,7 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
                 if (relationshipToCreate.Related.EntityRelationship.WithMultiEntity)
                 {
                     builder
-                        .HasOne($"{_codeGeneratorState.DtoNameSpace}.{relationshipToCreate.Entity}Dto", relationshipToCreate.Name)
+                        .HasOne($"{_codeGenConventions.DtoNameSpace}.{relationshipToCreate.Entity}Dto", relationshipToCreate.Name)
                         .WithMany(relationshipToCreate.Related.EntityRelationship.Name)
                         .HasForeignKey($"{relationshipToCreate.Name}Id");
                 }
@@ -85,9 +85,9 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
                 else
                 {
                     builder
-                        .HasOne($"{_codeGeneratorState.DtoNameSpace}.{relationshipToCreate.Entity}Dto", relationshipToCreate.Name)
+                        .HasOne($"{_codeGenConventions.DtoNameSpace}.{relationshipToCreate.Entity}Dto", relationshipToCreate.Name)
                         .WithOne(relationshipToCreate.Related.EntityRelationship.Name)
-                        .HasForeignKey($"{_codeGeneratorState.DtoNameSpace}.{entity.Name}Dto", $"{relationshipToCreate.Name}Id");
+                        .HasForeignKey($"{_codeGenConventions.DtoNameSpace}.{entity.Name}Dto", $"{relationshipToCreate.Name}Id");
                 }
             }
         }
@@ -101,7 +101,7 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
         foreach (var ownedRelationship in entity.OwnedRelationships)
         //#pragma warning restore S3267 // Loops should be simplified with "LINQ" expressions
         {
-            var relatedEntityDtoType = _clientAssemblyProvider.ClientAssembly.GetType(_codeGeneratorState.GetEntityDtoTypeFullName(ownedRelationship.Related.Entity.Name + "Dto")); 
+            var relatedEntityDtoType = _clientAssemblyProvider.ClientAssembly.GetType(_codeGenConventions.GetEntityDtoTypeFullName(ownedRelationship.Related.Entity.Name + "Dto")); 
 
             if (ownedRelationship.WithSingleEntity())
             {
