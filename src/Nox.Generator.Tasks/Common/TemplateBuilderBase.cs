@@ -84,7 +84,7 @@ internal abstract class TemplateBuilderBase
     /// <returns></returns>
     public TemplateBuilderBase GenerateSourceCodeFromResource(string templateFileName)
     {
-        var resourceName = $"Nox.Generator.{templateFileName}.template.cs";
+        var resourceName = $"Nox.Generator.Tasks.{templateFileName}.template.cs";
 
         _className ??= ComputeDefaultClassName(templateFileName);
 

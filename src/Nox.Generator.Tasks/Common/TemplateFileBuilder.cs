@@ -9,7 +9,7 @@ namespace Nox.Generator.Tasks.Common;
 /// </summary>
 internal class TemplateFileBuilder : TemplateBuilderBase
 {
-    private string? _fileExtension;
+    private string _fileExtension = "g.cs";
 
     private string _absoluteOutputPath;
 
@@ -32,7 +32,7 @@ internal class TemplateFileBuilder : TemplateBuilderBase
 
     public override void SaveSourceCode(string fileName, string sourceCode)
     {
-        string absoluteFilePath = Path.Combine(_absoluteOutputPath, $"{fileName}.g.{_fileExtension}");
+        string absoluteFilePath = Path.Combine(_absoluteOutputPath, $"{fileName}.{_fileExtension}");
 
         FileInfo file = new FileInfo(absoluteFilePath);
         file.Directory.Create(); // If the directory already exists, this method does nothing.

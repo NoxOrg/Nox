@@ -34,7 +34,6 @@ internal class NoxFileGenerator
 
     public void GenerateFiles()
     {
-        //TODO set output path
         var _debug = new CodeBuilder($"Generator.g.cs", AbsoluteOutputPath);
         _errors.Clear();
 
@@ -99,6 +98,21 @@ internal class NoxFileGenerator
         {
             _errors.Add(e.Message + e.StackTrace);
         }
+
+        if (_errors.Any())
+        {
+            _debug.AppendLine("// Errors ->");
+            foreach (var e in _errors)
+            {
+                _debug.AppendLine($"//  - {e}");
+            }
+        }
+        else
+        {
+            _debug.AppendLine("// SUCCESS.");
+        }
+
+        _debug.GenerateSourceCode();
     }
 
     private bool TryGetGeneratorConfig(out GeneratorConfig config)

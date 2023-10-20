@@ -1,9 +1,7 @@
-﻿@*Generated *@
+﻿@namespace {{codeGeneratorState.UiNameSpace}}.Components
 
-@namespace {{codeGeneratorState.UiNameSpace}}.Components;
-@inherits NavigationMenu 
+<h3>Navigation Menu</h3>
 
-Navigation Menu Component
 @*
 <MudNavMenu Style="margin-top:20px;">    
     {{- for entity in entities }}

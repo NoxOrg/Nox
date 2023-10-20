@@ -25,6 +25,7 @@ internal class NavigationMenuGenerator : INoxFileGenerator
         var entities = codeGeneratorState.Solution.Domain.Entities.Where(x => !x.IsOwnedEntity);
 
         new TemplateFileBuilder(codeGeneratorState, absoluteOutputPath)
+            .WithFileExtension("razor.cs")
             .WithClassName($"NavigationMenu")
             .WithFileNamePrefix($"Ui.Components")
             .WithObject("entities", entities)

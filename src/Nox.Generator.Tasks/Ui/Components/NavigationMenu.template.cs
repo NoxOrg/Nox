@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace {{codeGeneratorState.UiNameSpace}}.Components;
 
-public class NavigationMenu : ComponentBase
+public partial class NavigationMenu : ComponentBase
 {
     {{- for entity in entities }}
     
