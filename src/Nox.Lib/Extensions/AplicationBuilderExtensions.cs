@@ -41,6 +41,8 @@ namespace Nox
                 builder.UseSwaggerUI();
             }
 
+            noxBuilder.UseEtlBox(checkLicense: !isDevelopment);
+
             return noxBuilder;
         }
 

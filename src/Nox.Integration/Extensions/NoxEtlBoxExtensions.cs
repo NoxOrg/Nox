@@ -7,12 +7,18 @@ namespace Nox.Integration.Extensions;
 
 public static class NoxEtlBoxExtensions
 {
-    public static void UseEtlBox(this IApplicationBuilder applicationBuilder)
+    public static IApplicationBuilder UseEtlBox(this IApplicationBuilder appBuilder, bool checkLicense)
     {
-        var etlLicenseProvider = applicationBuilder.ApplicationServices.GetRequiredService<IEtlBoxLicenseProvider>();
+        if (!checkLicense)
+        {
+            return appBuilder;
+        }
+
+        var etlLicenseProvider = appBuilder.ApplicationServices.GetRequiredService<IEtlBoxLicenseProvider>();
 
         LicenseCheck.LicenseKey = etlLicenseProvider.GetLicenseKey();
-
         LicenseCheck.CheckValidLicenseOrThrow(progressCount: 1);
+
+        return appBuilder;
     }
 }
