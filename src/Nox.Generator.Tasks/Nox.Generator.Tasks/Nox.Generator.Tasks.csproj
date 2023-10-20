@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<LangVersion>10.0</LangVersion>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Ui\Components\NavigationMenuRazor.template.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Ui\Components\NavigationMenu.template.cs" />
+	  <EmbeddedResource Include="Ui\Components\NavigationMenuRazor.template.cs" />
+	</ItemGroup>	
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.7.2" />
+		<PackageReference Include="Scriban" Version="5.9.0" />
+		<PackageReference Include="YamlDotNet" Version="13.7.1" />
+	</ItemGroup>	
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Nox.Solution\Nox.Solution.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Remove="**\**\*.template.cs" />
+	</ItemGroup>
+
+</Project>
