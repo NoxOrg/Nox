@@ -7,7 +7,11 @@ namespace Nox.Generator.Presentation.Api.OData;
 
 internal class EntityControllerCustomQueriesGenerator : EntityControllerGeneratorBase
 {
-    public override void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config, string? projectRootPath)
+    public override void Generate(
+    SourceProductionContext context,
+    NoxCodeGenConventions codeGeneratorState,
+    GeneratorConfig config, System.Action<string> log,
+    string? projectRootPath)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 

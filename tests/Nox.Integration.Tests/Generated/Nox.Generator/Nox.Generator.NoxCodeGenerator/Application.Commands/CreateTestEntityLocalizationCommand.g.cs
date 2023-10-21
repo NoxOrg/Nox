@@ -36,16 +36,16 @@ internal partial class CreateTestEntityLocalizationCommandHandler : CreateTestEn
 
 internal abstract class CreateTestEntityLocalizationCommandHandlerBase : CommandBase<CreateTestEntityLocalizationCommand,TestEntityLocalizationEntity>, IRequestHandler <CreateTestEntityLocalizationCommand, TestEntityLocalizationKeyDto>
 {
-	private readonly TestWebAppDbContext _dbContext;
-	private readonly IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> _entityFactory;
+	protected readonly TestWebAppDbContext DbContext;
+	protected readonly IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> EntityFactory;
 
 	public CreateTestEntityLocalizationCommandHandlerBase(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> entityFactory) : base(noxSolution)
 	{
-		_dbContext = dbContext;
-		_entityFactory = entityFactory;
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<TestEntityLocalizationKeyDto> Handle(CreateTestEntityLocalizationCommand request, CancellationToken cancellationToken)
@@ -53,11 +53,11 @@ internal abstract class CreateTestEntityLocalizationCommandHandlerBase : Command
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 
 		await OnCompletedAsync(request, entityToCreate);
-		_dbContext.TestEntityLocalizations.Add(entityToCreate);
-		await _dbContext.SaveChangesAsync();
+		DbContext.TestEntityLocalizations.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
 		return new TestEntityLocalizationKeyDto(entityToCreate.Id.Value);
 	}
 }

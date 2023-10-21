@@ -5,13 +5,13 @@ namespace Nox.Types.EntityFramework.Abstractions;
 
 public interface INoxDatabaseConfigurator
 {
-    void ConfigureEntity(
-        NoxSolutionCodeGeneratorState codeGeneratorState,
-        IEntityBuilder builder,
-        Entity entity);
+    /// <summary>
+    /// Configure the data base model for an Entity
+    /// </summary>
+    void ConfigureEntity(IEntityBuilder builder, Entity entity);
 
-    void ConfigureLocalizedEntity(
-        NoxSolutionCodeGeneratorState codeGeneratorState,
-        IEntityBuilder builder,
-        Entity entity);
+    /// <summary>
+    /// Configure the data base model for an localized Entity
+    /// </summary>
+    void ConfigureLocalizedEntity(IEntityBuilder builder, Entity entity);
 }

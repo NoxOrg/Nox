@@ -27,9 +27,9 @@ internal partial class CreateStoreOwnerCommandHandler : CreateStoreOwnerCommandH
 	public CreateStoreOwnerCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> storefactory,
+		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
 		IEntityFactory<StoreOwnerEntity, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,storefactory, entityFactory)
+		: base(dbContext, noxSolution,StoreFactory, entityFactory)
 	{
 	}
 }
@@ -37,19 +37,19 @@ internal partial class CreateStoreOwnerCommandHandler : CreateStoreOwnerCommandH
 
 internal abstract class CreateStoreOwnerCommandHandlerBase : CommandBase<CreateStoreOwnerCommand,StoreOwnerEntity>, IRequestHandler <CreateStoreOwnerCommand, StoreOwnerKeyDto>
 {
-	private readonly ClientApiDbContext _dbContext;
-	private readonly IEntityFactory<StoreOwnerEntity, StoreOwnerCreateDto, StoreOwnerUpdateDto> _entityFactory;
-	private readonly IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> _storefactory;
+	protected readonly ClientApiDbContext DbContext;
+	protected readonly IEntityFactory<StoreOwnerEntity, StoreOwnerCreateDto, StoreOwnerUpdateDto> EntityFactory;
+	protected readonly IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory;
 
 	public CreateStoreOwnerCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> storefactory,
+		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
 		IEntityFactory<StoreOwnerEntity, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory) : base(noxSolution)
 	{
-		_dbContext = dbContext;
-		_entityFactory = entityFactory;
-		_storefactory = storefactory;
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
+		this.StoreFactory = StoreFactory;
 	}
 
 	public virtual async Task<StoreOwnerKeyDto> Handle(CreateStoreOwnerCommand request, CancellationToken cancellationToken)
@@ -57,16 +57,16 @@ internal abstract class CreateStoreOwnerCommandHandlerBase : CommandBase<CreateS
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		foreach(var relatedCreateDto in request.EntityDto.Stores)
 		{
-			var relatedEntity = _storefactory.CreateEntity(relatedCreateDto);
+			var relatedEntity = StoreFactory.CreateEntity(relatedCreateDto);
 			entityToCreate.CreateRefToStores(relatedEntity);
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		_dbContext.StoreOwners.Add(entityToCreate);
-		await _dbContext.SaveChangesAsync();
+		DbContext.StoreOwners.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
 		return new StoreOwnerKeyDto(entityToCreate.Id.Value);
 	}
 }

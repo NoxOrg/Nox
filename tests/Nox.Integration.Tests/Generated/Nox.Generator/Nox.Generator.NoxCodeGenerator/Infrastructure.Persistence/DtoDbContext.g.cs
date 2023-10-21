@@ -4,8 +4,10 @@
 using Microsoft.EntityFrameworkCore;
 using Nox;
 using Nox.Solution;
+using Nox.Extensions;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Configuration;
+using Nox.Infrastructure;
 
 using TestWebApp.Application.Dto;
 
@@ -25,19 +27,22 @@ internal class DtoDbContext : DbContext
 
     protected readonly INoxClientAssemblyProvider _clientAssemblyProvider;
     protected readonly INoxDtoDatabaseConfigurator _noxDtoDatabaseConfigurator;
+    private readonly NoxCodeGenConventions _codeGenConventions;
 
     public DtoDbContext(
         DbContextOptions<DtoDbContext> options,
         NoxSolution noxSolution,
         INoxDatabaseProvider databaseProvider,
         INoxClientAssemblyProvider clientAssemblyProvider,
-        INoxDtoDatabaseConfigurator noxDtoDatabaseConfigurator
+        INoxDtoDatabaseConfigurator noxDtoDatabaseConfigurator,
+        NoxCodeGenConventions codeGeneratorState
     ) : base(options)
     {
         _noxSolution = noxSolution;
         _dbProvider = databaseProvider;
         _clientAssemblyProvider = clientAssemblyProvider;
         _noxDtoDatabaseConfigurator = noxDtoDatabaseConfigurator;
+        _codeGenConventions = codeGeneratorState;
     }
 
     
@@ -134,10 +139,8 @@ internal class DtoDbContext : DbContext
         ConfigureAuditable(modelBuilder);
 
         if (_noxSolution.Domain != null)
-        {
-            var codeGeneratorState =
-                new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
-            foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
+        {            
+            foreach (var entity in _codeGenConventions.Solution.Domain!.Entities)
             {
                 // Ignore owned entities configuration as they are configured inside entity constructor
                 if (entity.IsOwnedEntity)
@@ -145,12 +148,12 @@ internal class DtoDbContext : DbContext
                     continue;
                 }
 
-                var type = codeGeneratorState.GetEntityDtoType(entity.Name + "Dto");
+                var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityDtoTypeFullName(entity.Name + "Dto"));
                 if (type != null)
                 {
-                    _noxDtoDatabaseConfigurator.ConfigureDto(codeGeneratorState,
-                        new Nox.Types.EntityFramework.EntityBuilderAdapter.EntityBuilderAdapter(
-                            modelBuilder.Entity(type)), entity);
+                    _noxDtoDatabaseConfigurator.ConfigureDto(
+                        new Nox.Types.EntityFramework.EntityBuilderAdapter.EntityBuilderAdapter(modelBuilder.Entity(type)),
+                        entity);
                 }
                 else
                 {

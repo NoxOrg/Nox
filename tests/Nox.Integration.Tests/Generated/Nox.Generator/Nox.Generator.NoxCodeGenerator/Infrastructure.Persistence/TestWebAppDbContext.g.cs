@@ -23,6 +23,7 @@ using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Solution;
 using Nox.Configuration;
+using Nox.Infrastructure;
 
 
 using TestWebApp.Domain;
@@ -34,6 +35,7 @@ internal partial class TestWebAppDbContext : Nox.Infrastructure.Persistence.Enti
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
     private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
+    private readonly NoxCodeGenConventions _codeGenConventions;
 
     public TestWebAppDbContext(
             DbContextOptions<TestWebAppDbContext> options,
@@ -42,12 +44,14 @@ internal partial class TestWebAppDbContext : Nox.Infrastructure.Persistence.Enti
             INoxDatabaseProvider databaseProvider,
             INoxClientAssemblyProvider clientAssemblyProvider,
             IUserProvider userProvider,
-            ISystemProvider systemProvider
+            ISystemProvider systemProvider,
+            NoxCodeGenConventions codeGeneratorState
         ) : base(publisher, userProvider, systemProvider, options)
         {
             _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
             _clientAssemblyProvider = clientAssemblyProvider;
+            _codeGenConventions = codeGeneratorState;
         }
 
     public DbSet<TestWebApp.Domain.TestEntityZeroOrOne> TestEntityZeroOrOnes { get; set; } = null!;
@@ -147,13 +151,10 @@ public DbSet<TestWebApp.Domain.TestEntityLocalizationLocalized> TestEntityLocali
         base.OnModelCreating(modelBuilder);
 
         ConfigureAuditable(modelBuilder);
-
-
-        var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
         modelBuilder.AddInboxStateEntity();
         modelBuilder.AddOutboxMessageEntity();
         modelBuilder.AddOutboxStateEntity();
-        foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
+        foreach (var entity in _noxSolution.Domain!.Entities)
         {
             Console.WriteLine($"TestWebAppDbContext Configure database for Entity {entity.Name}");
 
@@ -163,21 +164,21 @@ public DbSet<TestWebApp.Domain.TestEntityLocalizationLocalized> TestEntityLocali
                 continue;
             }
 
-            var type = codeGeneratorState.GetEntityType(entity.Name);
+            var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.Name));
             if (type != null)
             {
-                ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+                ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
 
                 if (entity.Keys.Count == 1 &&
                     entity.GetAttributesToLocalize().Any())
                 {
-                    type = codeGeneratorState.GetEntityType(entity.LocalizedName);
+                    type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.LocalizedName));
                     if (type == null)
                     {
                         throw new NullReferenceException($"Type {entity.LocalizedName} is not found in current assembly.");
                     }
 
-                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureLocalizedEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureLocalizedEntity(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
                 }
             }
         }

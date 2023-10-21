@@ -25,6 +25,7 @@ using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Solution;
 using Nox.Configuration;
+using Nox.Infrastructure;
 
 
 using {{codeGeneratorState.DomainNameSpace}};
@@ -36,6 +37,7 @@ internal partial class {{className}} : Nox.Infrastructure.Persistence.EntityDbCo
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
     private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
+    private readonly NoxCodeGenConventions _codeGenConventions;
 
     public {{className}}(
             DbContextOptions<{{className}}> options,
@@ -44,12 +46,14 @@ internal partial class {{className}} : Nox.Infrastructure.Persistence.EntityDbCo
             INoxDatabaseProvider databaseProvider,
             INoxClientAssemblyProvider clientAssemblyProvider,
             IUserProvider userProvider,
-            ISystemProvider systemProvider
+            ISystemProvider systemProvider,
+            NoxCodeGenConventions codeGeneratorState
         ) : base(publisher, userProvider, systemProvider, options)
         {
             _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
             _clientAssemblyProvider = clientAssemblyProvider;
+            _codeGenConventions = codeGeneratorState;
         }
 {{ for entity in solution.Domain.Entities -}}
 {{- if (!entity.IsOwnedEntity) }}
@@ -84,15 +88,12 @@ internal partial class {{className}} : Nox.Infrastructure.Persistence.EntityDbCo
 
         ConfigureAuditable(modelBuilder);
 
-
-        var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
-
         {{- if  codeGeneratorState.Solution.Infrastructure?.Messaging != null}}
         modelBuilder.AddInboxStateEntity();
         modelBuilder.AddOutboxMessageEntity();
         modelBuilder.AddOutboxStateEntity();
         {{- end }}
-        foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
+        foreach (var entity in _noxSolution.Domain!.Entities)
         {
             Console.WriteLine($"{{className}} Configure database for Entity {entity.Name}");
 
@@ -102,21 +103,21 @@ internal partial class {{className}} : Nox.Infrastructure.Persistence.EntityDbCo
                 continue;
             }
 
-            var type = codeGeneratorState.GetEntityType(entity.Name);
+            var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.Name));
             if (type != null)
             {
-                ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+                ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
 
                 if (entity.Keys.Count == 1 &&
                     entity.GetAttributesToLocalize().Any())
                 {
-                    type = codeGeneratorState.GetEntityType(entity.LocalizedName);
+                    type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.LocalizedName));
                     if (type == null)
                     {
                         throw new NullReferenceException($"Type {entity.LocalizedName} is not found in current assembly.");
                     }
 
-                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureLocalizedEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureLocalizedEntity(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
                 }
             }
         }
@@ -128,8 +129,8 @@ internal partial class {{className}} : Nox.Infrastructure.Persistence.EntityDbCo
         {{- for enumAtt in entityAtt.Attributes}}
             ConfigureEnumeration(modelBuilder.Entity("{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{enumAtt.Name}}"));
             {{- if enumAtt.EnumerationTypeOptions.IsLocalized}}
-            var enumLocalizedType = codeGeneratorState.GetType("{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{enumAtt.Name}}Localized")!;
-            var enumType = codeGeneratorState.GetType("{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{enumAtt.Name}}")!;
+            var enumLocalizedType = _clientAssemblyProvider.GetType("{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{enumAtt.Name}}Localized")!;
+            var enumType = _clientAssemblyProvider.GetType("{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{enumAtt.Name}}")!;
             ConfigureEnumerationLocalized(modelBuilder.Entity(enumLocalizedType), enumType, enumLocalizedType);
             {{- end }}
         {{- end }}

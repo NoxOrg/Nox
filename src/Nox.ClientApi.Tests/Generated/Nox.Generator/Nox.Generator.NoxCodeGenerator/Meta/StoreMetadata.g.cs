@@ -74,22 +74,22 @@ public partial class StoreMetadata
                 new Nox.Types.EnumerationValues()
                 {
                     Id = 1,
-                    Description = "Construction",
+                    Name = "Construction",
                 },
                 new Nox.Types.EnumerationValues()
                 {
                     Id = 2,
-                    Description = "LicensePermit",
+                    Name = "LicensePermit",
                 },
                 new Nox.Types.EnumerationValues()
                 {
                     Id = 3,
-                    Description = "Opened",
+                    Name = "Opened",
                 },
                 new Nox.Types.EnumerationValues()
                 {
                     Id = 4,
-                    Description = "Closed",
+                    Name = "Closed",
                 },
             },
             IsLocalized = false,

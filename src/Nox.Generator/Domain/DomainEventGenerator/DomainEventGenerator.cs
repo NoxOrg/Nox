@@ -12,7 +12,13 @@ internal class DomainEventGenerator : INoxCodeGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
 
-    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config, string? projectRootPath)
+    public void Generate(
+      SourceProductionContext context,
+      NoxCodeGenConventions codeGeneratorState,
+      GeneratorConfig config,
+      System.Action<string> log,
+      string? projectRootPath
+      )
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -32,7 +38,7 @@ internal class DomainEventGenerator : INoxCodeGenerator
 #pragma warning restore S3267 // Loops should be simplified with "LINQ" expressions
     }
 
-    private static void GenerateEvent(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, DomainEvent evt)
+    private static void GenerateEvent(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, DomainEvent evt)
     {
         var code = new CodeBuilder($"{evt.Name}.g.cs", context);
 

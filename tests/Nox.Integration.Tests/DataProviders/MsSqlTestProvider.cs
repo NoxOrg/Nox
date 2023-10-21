@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Nox.EntityFramework.SqlServer;
+using Nox.Infrastructure;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 
@@ -7,7 +8,12 @@ namespace Nox.Integration.Tests.DataProviders;
 
 internal class MsSqlTestProvider : SqlServerDatabaseProvider
 {
-    public MsSqlTestProvider(string connectionString, IEnumerable<INoxTypeDatabaseConfigurator> configurators) : base(configurators)
+    public MsSqlTestProvider(
+        string connectionString,
+        IEnumerable<INoxTypeDatabaseConfigurator> configurators,
+        NoxCodeGenConventions noxSolutionCodeGeneratorState,
+        INoxClientAssemblyProvider clientAssemblyProvider
+        ) : base(configurators, noxSolutionCodeGeneratorState, clientAssemblyProvider)
     {
         ConnectionString = connectionString;
     }

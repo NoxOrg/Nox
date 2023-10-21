@@ -36,16 +36,16 @@ internal partial class CreateTestEntityOwnedRelationshipZeroOrManyCommandHandler
 
 internal abstract class CreateTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase : CommandBase<CreateTestEntityOwnedRelationshipZeroOrManyCommand,TestEntityOwnedRelationshipZeroOrManyEntity>, IRequestHandler <CreateTestEntityOwnedRelationshipZeroOrManyCommand, TestEntityOwnedRelationshipZeroOrManyKeyDto>
 {
-	private readonly TestWebAppDbContext _dbContext;
-	private readonly IEntityFactory<TestEntityOwnedRelationshipZeroOrManyEntity, TestEntityOwnedRelationshipZeroOrManyCreateDto, TestEntityOwnedRelationshipZeroOrManyUpdateDto> _entityFactory;
+	protected readonly TestWebAppDbContext DbContext;
+	protected readonly IEntityFactory<TestEntityOwnedRelationshipZeroOrManyEntity, TestEntityOwnedRelationshipZeroOrManyCreateDto, TestEntityOwnedRelationshipZeroOrManyUpdateDto> EntityFactory;
 
 	public CreateTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityOwnedRelationshipZeroOrManyEntity, TestEntityOwnedRelationshipZeroOrManyCreateDto, TestEntityOwnedRelationshipZeroOrManyUpdateDto> entityFactory) : base(noxSolution)
 	{
-		_dbContext = dbContext;
-		_entityFactory = entityFactory;
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<TestEntityOwnedRelationshipZeroOrManyKeyDto> Handle(CreateTestEntityOwnedRelationshipZeroOrManyCommand request, CancellationToken cancellationToken)
@@ -53,11 +53,11 @@ internal abstract class CreateTestEntityOwnedRelationshipZeroOrManyCommandHandle
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 
 		await OnCompletedAsync(request, entityToCreate);
-		_dbContext.TestEntityOwnedRelationshipZeroOrManies.Add(entityToCreate);
-		await _dbContext.SaveChangesAsync();
+		DbContext.TestEntityOwnedRelationshipZeroOrManies.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
 		return new TestEntityOwnedRelationshipZeroOrManyKeyDto(entityToCreate.Id.Value);
 	}
 }

@@ -23,6 +23,7 @@ using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Solution;
 using Nox.Configuration;
+using Nox.Infrastructure;
 
 
 using ClientApi.Domain;
@@ -34,6 +35,7 @@ internal partial class ClientApiDbContext : Nox.Infrastructure.Persistence.Entit
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
     private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
+    private readonly NoxCodeGenConventions _codeGenConventions;
 
     public ClientApiDbContext(
             DbContextOptions<ClientApiDbContext> options,
@@ -42,12 +44,14 @@ internal partial class ClientApiDbContext : Nox.Infrastructure.Persistence.Entit
             INoxDatabaseProvider databaseProvider,
             INoxClientAssemblyProvider clientAssemblyProvider,
             IUserProvider userProvider,
-            ISystemProvider systemProvider
+            ISystemProvider systemProvider,
+            NoxCodeGenConventions codeGeneratorState
         ) : base(publisher, userProvider, systemProvider, options)
         {
             _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
             _clientAssemblyProvider = clientAssemblyProvider;
+            _codeGenConventions = codeGeneratorState;
         }
 
     public DbSet<ClientApi.Domain.Country> Countries { get; set; } = null!;
@@ -86,13 +90,10 @@ internal partial class ClientApiDbContext : Nox.Infrastructure.Persistence.Entit
         base.OnModelCreating(modelBuilder);
 
         ConfigureAuditable(modelBuilder);
-
-
-        var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
         modelBuilder.AddInboxStateEntity();
         modelBuilder.AddOutboxMessageEntity();
         modelBuilder.AddOutboxStateEntity();
-        foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
+        foreach (var entity in _noxSolution.Domain!.Entities)
         {
             Console.WriteLine($"ClientApiDbContext Configure database for Entity {entity.Name}");
 
@@ -102,21 +103,21 @@ internal partial class ClientApiDbContext : Nox.Infrastructure.Persistence.Entit
                 continue;
             }
 
-            var type = codeGeneratorState.GetEntityType(entity.Name);
+            var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.Name));
             if (type != null)
             {
-                ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+                ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
 
                 if (entity.Keys.Count == 1 &&
                     entity.GetAttributesToLocalize().Any())
                 {
-                    type = codeGeneratorState.GetEntityType(entity.LocalizedName);
+                    type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.LocalizedName));
                     if (type == null)
                     {
                         throw new NullReferenceException($"Type {entity.LocalizedName} is not found in current assembly.");
                     }
 
-                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureLocalizedEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureLocalizedEntity(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
                 }
             }
         }
@@ -124,8 +125,8 @@ internal partial class ClientApiDbContext : Nox.Infrastructure.Persistence.Entit
         modelBuilder.ForEntitiesOfType<IEntityConcurrent>(
             builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());
             ConfigureEnumeration(modelBuilder.Entity("ClientApi.Domain.CountryContinent"));
-            var enumLocalizedType = codeGeneratorState.GetType("ClientApi.Domain.CountryContinentLocalized")!;
-            var enumType = codeGeneratorState.GetType("ClientApi.Domain.CountryContinent")!;
+            var enumLocalizedType = _clientAssemblyProvider.GetType("ClientApi.Domain.CountryContinentLocalized")!;
+            var enumType = _clientAssemblyProvider.GetType("ClientApi.Domain.CountryContinent")!;
             ConfigureEnumerationLocalized(modelBuilder.Entity(enumLocalizedType), enumType, enumLocalizedType);
             ConfigureEnumeration(modelBuilder.Entity("ClientApi.Domain.StoreStatus"));
     }

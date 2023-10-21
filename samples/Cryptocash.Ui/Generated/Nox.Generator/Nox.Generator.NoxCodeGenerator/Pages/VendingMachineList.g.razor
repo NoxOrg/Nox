@@ -87,7 +87,7 @@
                                                 <MudGrid>
                                                     <MudItem xs="6">
                                                         <UiEditMacAddress_g @bind-MacAddress="CurrentAddEntity.MacAddress"
-                                                                            Title="MacAddress"
+                                                                            Title="MAC Address"
                                                                             Format="##:##:##:##:##:##" />
                                                     </MudItem>
                                                     <MudItem xs="6">
@@ -102,7 +102,7 @@
                                                                       MinLength="4" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <UiEditCountry_g @bind-CountryCreate="CurrentAddEntity.VendingMachineInstallationCountry"
+                                                        <UiEditCountry_g @bind-CountryId="CurrentAddEntity.VendingMachineInstallationCountryId"
                                                                          TitleCountry="Installation Country"
                                                                          CountrySelectionList="CountryEntityData?.EntityList" />
                                                     </MudItem>
@@ -112,18 +112,13 @@
                                                                       Format="#.##" />
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        @if (CurrentAddEntity.VendingMachineInstallationCountry != null
-                                                             && CurrentAddEntity.VendingMachineInstallationCountry.CountryUsedByCurrencyId != null)                                                       {   
-                                                           <UiEditMoney_g @bind-Money="CurrentAddEntity.RentPerSquareMetre"
-                                                                          Currency="GetCurrencyById(CurrentAddEntity.VendingMachineInstallationCountry.CountryUsedByCurrencyId)"
+                                                        <UiEditMoney_g @bind-Money="CurrentAddEntity.RentPerSquareMetre"
+                                                                          Currency="GetCurrencyByCountryId(CurrentAddEntity.VendingMachineInstallationCountryId)"
                                                                           Title="Rent per Square Metre"
-                                                                          Format="#.##" />
-                                                        }else{
-                                                            <UiEditMoney_g Title="Rent per Square Metre" />    
-                                                        }                                                     
+                                                                          Format="#.##" />                                                   
                                                     </MudItem>
                                                     <MudItem xs="6">
-                                                        <UiEditEntitySelectLandLord_g @bind-LandLordCreate="CurrentAddEntity.VendingMachineContractedAreaLandLord"
+                                                        <UiEditEntitySelectLandLord_g @bind-LandLordId="CurrentAddEntity.VendingMachineContractedAreaLandLordId"
                                                                                       Title="ContractedAreaLandLord"
                                                                                       LandLordSelectionList="LandLordEntityData?.EntityList" />
                                                     </MudItem>

@@ -11,11 +11,11 @@ using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.DomainEventHandlers;
 
-internal abstract class CountryUpdatedDomainEventHandlerBase : INotificationHandler<CountryUpdated>
+internal abstract class CountryUpdatedRaiseIntegrationEventDomainEventHandlerBase : INotificationHandler<CountryUpdated>
 {
     protected readonly IOutboxRepository _outboxRepository;
 
-    protected CountryUpdatedDomainEventHandlerBase(IOutboxRepository outboxRepository)
+    protected CountryUpdatedRaiseIntegrationEventDomainEventHandlerBase(IOutboxRepository outboxRepository)
     {
         _outboxRepository = outboxRepository;
     }
@@ -28,9 +28,9 @@ internal abstract class CountryUpdatedDomainEventHandlerBase : INotificationHand
     }
 }
 
-internal partial class CountryUpdatedDomainEventHandler : CountryUpdatedDomainEventHandlerBase
+internal partial class CountryUpdatedRaiseIntegrationEventDomainEventHandler : CountryUpdatedRaiseIntegrationEventDomainEventHandlerBase
 {
-    public CountryUpdatedDomainEventHandler(IOutboxRepository outboxRepository)
+    public CountryUpdatedRaiseIntegrationEventDomainEventHandler(IOutboxRepository outboxRepository)
         : base(outboxRepository)
     {
     }

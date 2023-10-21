@@ -51,10 +51,10 @@ attributes:
     type: enumeration
     enumerationTypeOptions:
       values: 
-        - { id: 1, description: Construction} 
-        - { id: 2, description: LicensePermit}
-        - { id: 3, description: Opened} 
-        - { id: 4, description: Closed} 
+        - { id: 1, name: Construction} 
+        - { id: 2, name: LicensePermit}
+        - { id: 3, name: Opened} 
+        - { id: 4, name: Closed} 
       isLocalized: false
     isRequired: false
 

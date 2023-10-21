@@ -31,9 +31,9 @@ public class QueryTests : IClassFixture<GeneratorFixture>
         _fixture
             .GenerateSourceCodeFor(sources)
             .AssertOutputResult()
-            .AssertFileExistence(8, filesShouldExist)
+            .AssertFileCount(8, filesShouldExist)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
-            .Check("Dto.CountryCreateDto.expected.g.cs", "Application.Dto.CountryCreateDto.g.cs");
+            .AssertFileExistsAndContent("Dto.CountryCreateDto.expected.g.cs", "Application.Dto.CountryCreateDto.g.cs");
     }
 }

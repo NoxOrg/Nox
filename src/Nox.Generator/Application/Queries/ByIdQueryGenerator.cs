@@ -10,7 +10,7 @@ namespace Nox.Generator.Application.Queries;
 
 internal class ByIdQueryGenerator : ApplicationEntityDependentGeneratorBase
 {
-    protected override void DoGenerate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, IEnumerable<Entity> entities)
+    protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, IEnumerable<Entity> entities)
     {
         var templateName = @"Application.Queries.ByIdQuery";
         foreach (var entity in entities)

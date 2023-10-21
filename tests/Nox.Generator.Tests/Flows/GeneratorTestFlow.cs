@@ -21,7 +21,7 @@ internal class GeneratorTestFlow : IGeneratorTestFlow
 
     public IDictionary<string,string> Sources { get; }
 
-    public IGeneratorTestFlow AssertFileExistence(int expectedFileCount, params string[] fileNames)
+    public IGeneratorTestFlow AssertFileCount(int expectedFileCount, params string[] fileNames)
     {
         _generatorRunResult
             .GeneratedSources

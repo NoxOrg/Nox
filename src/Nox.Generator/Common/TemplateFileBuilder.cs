@@ -16,7 +16,7 @@ internal class TemplateFileBuilder : TemplateBuilderBase
 
     private string _outputPath;
 
-    public TemplateFileBuilder(NoxSolutionCodeGeneratorState codeGeneratorState, string? outputPath)
+    public TemplateFileBuilder(NoxCodeGenConventions codeGeneratorState, string? outputPath)
         : base (codeGeneratorState)
     {
         _outputPath = outputPath ?? "";

@@ -15,7 +15,7 @@ internal class GeneratorContentTestFlow : IGeneratorContentTestFlow
         _generatorRunResult = generatorRunResult;
     }
 
-    public IGeneratorContentTestFlow Check(
+    public IGeneratorContentTestFlow AssertFileExistsAndContent(
         string expectedFileName,
         string actualFileName)
     {

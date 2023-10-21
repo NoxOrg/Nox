@@ -14,7 +14,7 @@ public class JsonDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     /// <inheritdoc/>
     public void ConfigureEntityProperty(
-        NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
+        NoxCodeGenConventions noxSolutionCodeGeneratorState,
         IEntityBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,

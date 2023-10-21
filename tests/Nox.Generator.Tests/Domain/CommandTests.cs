@@ -31,7 +31,7 @@ public class CommandTests : IClassFixture<GeneratorFixture>
         _fixture
             .GenerateSourceCodeFor(sources)
             .AssertOutputResult()
-            .AssertFileExistence(8, filesShouldExist)
+            .AssertFileCount(8, filesShouldExist)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles/");
     }

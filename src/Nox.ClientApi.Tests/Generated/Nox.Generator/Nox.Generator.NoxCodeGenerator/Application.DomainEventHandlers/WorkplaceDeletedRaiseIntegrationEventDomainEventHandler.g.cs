@@ -11,11 +11,11 @@ using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.DomainEventHandlers;
 
-internal abstract class WorkplaceDeletedDomainEventHandlerBase : INotificationHandler<WorkplaceDeleted>
+internal abstract class WorkplaceDeletedRaiseIntegrationEventDomainEventHandlerBase : INotificationHandler<WorkplaceDeleted>
 {
     protected readonly IOutboxRepository _outboxRepository;
 
-    protected WorkplaceDeletedDomainEventHandlerBase(IOutboxRepository outboxRepository)
+    protected WorkplaceDeletedRaiseIntegrationEventDomainEventHandlerBase(IOutboxRepository outboxRepository)
     {
         _outboxRepository = outboxRepository;
     }
@@ -28,9 +28,9 @@ internal abstract class WorkplaceDeletedDomainEventHandlerBase : INotificationHa
     }
 }
 
-internal partial class WorkplaceDeletedDomainEventHandler : WorkplaceDeletedDomainEventHandlerBase
+internal partial class WorkplaceDeletedRaiseIntegrationEventDomainEventHandler : WorkplaceDeletedRaiseIntegrationEventDomainEventHandlerBase
 {
-    public WorkplaceDeletedDomainEventHandler(IOutboxRepository outboxRepository)
+    public WorkplaceDeletedRaiseIntegrationEventDomainEventHandler(IOutboxRepository outboxRepository)
         : base(outboxRepository)
     {
     }

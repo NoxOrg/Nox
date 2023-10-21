@@ -24,9 +24,9 @@ public class LocalizedEntitiesTests : IClassFixture<GeneratorFixture>
         _fixture
             .GenerateSourceCodeFor(sources)
             .AssertOutputResult()
-            .AssertFileExistence(10, "Domain.CountryLocalized.g.cs")
+            .AssertFileCount(10, "Domain.CountryLocalized.g.cs")
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
-            .Check("CountryLocalized.expected.g.cs", "Domain.CountryLocalized.g.cs");
+            .AssertFileExistsAndContent("CountryLocalized.expected.g.cs", "Domain.CountryLocalized.g.cs");
     }
 }

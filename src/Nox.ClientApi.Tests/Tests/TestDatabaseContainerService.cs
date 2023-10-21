@@ -1,5 +1,7 @@
 ﻿using DotNet.Testcontainers.Containers;
 using Nox;
+using Nox.Infrastructure;
+using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using Testcontainers.MsSql;
 using Testcontainers.PostgreSql;
@@ -34,7 +36,10 @@ public class TestDatabaseContainerService : IAsyncLifetime, ITestDatabaseService
         return _applicationFactory;
     }
 
-    public INoxDatabaseProvider GetDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurations)
+    public INoxDatabaseProvider GetDatabaseProvider(
+        IEnumerable<INoxTypeDatabaseConfigurator> configurations,
+        NoxCodeGenConventions noxSolutionCodeGeneratorState,
+        INoxClientAssemblyProvider noxClientAssemblyProvider)
     {
         string connectionString = _connectionStringGetter();
         if (DbProviderKind == DatabaseServerProvider.SqlServer)
@@ -43,8 +48,8 @@ public class TestDatabaseContainerService : IAsyncLifetime, ITestDatabaseService
         }
         return DbProviderKind switch
         {
-            DatabaseServerProvider.Postgres => new PostgreSqlTestProvider(connectionString, configurations),
-            DatabaseServerProvider.SqlServer => new MsSqlTestProvider(connectionString, configurations),
+            DatabaseServerProvider.Postgres => new PostgreSqlTestProvider(connectionString, configurations, noxSolutionCodeGeneratorState, noxClientAssemblyProvider),
+            DatabaseServerProvider.SqlServer => new MsSqlTestProvider(connectionString, configurations, noxSolutionCodeGeneratorState, noxClientAssemblyProvider),
             _ => throw new NotImplementedException($"{DbProviderKind} is not suported"),
         };
     }

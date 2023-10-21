@@ -27,7 +27,7 @@ public class EnumerationValues
     public int Id { get; set; }
 
     [Required]
-    [Title("The friendly description of the Enum value. Contains no spaces.")]
-    [Description("The description in the default culture of the Enum identifier.")]
-    public string Description { get; set; } = default!;
+    [Title("The friendly name of the Enum value. Contains no spaces.")]
+    [Description("The name in the default culture of the Enum identifier.")]
+    public string Name { get; set; } = default!;
 }

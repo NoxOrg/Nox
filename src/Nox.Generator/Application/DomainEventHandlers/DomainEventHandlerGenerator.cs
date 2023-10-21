@@ -10,12 +10,25 @@ internal class DomainEventHandlerGenerator : INoxCodeGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Application;
 
-    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config, string? projectRootPath)
+    public void Generate(
+      SourceProductionContext context,
+      NoxCodeGenConventions codeGeneratorState,
+      GeneratorConfig config,
+      System.Action<string> log,
+      string? projectRootPath
+      )
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
         if (codeGeneratorState.Solution.Infrastructure?.Messaging is null || codeGeneratorState.Solution.Domain?.Entities is null)
+        {
+            if(config.LoggingVerbosity == LoggingVerbosity.Diagnostic)
+            {
+                log("Skipping generator because no entity or no messaging infrastructure set");
+            }
             return;
+        }
+            
 
         foreach (var (operation, raiseIntegrationEvent, entity) in GroupEntitiesWithDomainEventsByOperation(codeGeneratorState.Solution.Domain.Entities))
         {
@@ -24,7 +37,7 @@ internal class DomainEventHandlerGenerator : INoxCodeGenerator
             if (raiseIntegrationEvent)
             {
                 new TemplateCodeBuilder(context, codeGeneratorState)
-                    .WithClassName($"{entity.Name}{operation}DomainEventHandler")
+                    .WithClassName($"{entity.Name}{operation}RaiseIntegrationEventDomainEventHandler")
                     .WithFileNamePrefix($"Application.DomainEventHandlers")
                     .WithObject("operation", operation)
                     .WithObject("entity", entity)

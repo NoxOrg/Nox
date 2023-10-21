@@ -10,7 +10,7 @@ public class PostgresDateTimeDatabaseConfiguration : DateTimeDatabaseConfigurato
     public override bool IsDefault => false;
 
     public override void ConfigureEntityProperty(
-        NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
+        NoxCodeGenConventions noxSolutionCodeGeneratorState,
         IEntityBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,
