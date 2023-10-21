@@ -25,20 +25,13 @@ internal class EntitiesLocalizedGenerator : INoxCodeGenerator
         foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             // Currently skip owned and composite key entities
-            if (entity.IsOwnedEntity ||
-                entity.Keys.Count > 1)
+            if (!entity.ShouldBeLocalized)
             {
                 continue;
             }
 
             var entityAttributesToLocalize = entity
-                .GetAttributesToLocalize()
-                .ToList();
-
-            if (!entityAttributesToLocalize.Any())
-            {
-                continue;
-            }
+                .GetAttributesToLocalize();
 
             context.CancellationToken.ThrowIfCancellationRequested();
 

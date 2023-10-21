@@ -345,7 +345,7 @@ namespace Nox.Types.EntityFramework.Configurations
             var attributes = entity.GetAttributesToLocalize().ToList();
             attributes.Add(new NoxSimpleTypeDefinition
             {
-                Name = "CultureCode",
+                Name = codeGeneratorState.LocalizationCultureField,
                 Type = NoxType.CultureCode,
                 IsRequired = true,
                 IsReadonly = true

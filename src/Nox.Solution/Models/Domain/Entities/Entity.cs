@@ -101,6 +101,15 @@ public class Entity : DefinitionBase
     [YamlIgnore]
     public string LocalizedName => $"{Name}Localized";
 
+    [YamlIgnore]
+    public bool HasCompositeKey => Keys.Count > 1;
+
+    [YamlIgnore]
+    public bool ShouldBeLocalized =>
+        !HasCompositeKey &&
+        !IsOwnedEntity &&
+        GetAttributesToLocalize().Any();
+
     public Entity ShallowCopy(string? newName = null)
     {
         var copy = (Entity)MemberwiseClone();
@@ -137,7 +146,7 @@ public class Entity : DefinitionBase
         return Attributes
             .Where(x => x.Type == NoxType.Text &&
                 x.TextTypeOptions != null &&
-                x.TextTypeOptions.IsLocalized);
+                x.TextTypeOptions!.IsLocalized);
     }
 
     public virtual bool TryGetAttributeByName(string entityName, out NoxSimpleTypeDefinition? result)

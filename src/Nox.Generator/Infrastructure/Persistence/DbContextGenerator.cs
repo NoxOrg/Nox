@@ -24,7 +24,7 @@ internal class DbContextGenerator : INoxCodeGenerator
         {
             return;
         }
-        
+
         var className = $"{codeGeneratorState.Solution.Name}DbContext";
         var templateName = @"Infrastructure.Persistence.DbContext";
         var enumerationAttributes = codeGeneratorState.Solution.Domain.Entities
@@ -32,10 +32,7 @@ internal class DbContextGenerator : INoxCodeGenerator
             .Where(entity => entity.Attributes.Any());
 
         var entitiesToLocalize = codeGeneratorState.Solution.Domain.Entities
-            .Where(entity =>
-                !entity.IsOwnedEntity &&
-                entity.Keys.Count == 1 &&
-                entity.GetAttributesToLocalize().Any());
+            .Where(entity => entity.ShouldBeLocalized);
 
         new TemplateCodeBuilder(context, codeGeneratorState)
             .WithClassName(className)

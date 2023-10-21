@@ -108,8 +108,7 @@ internal partial class ClientApiDbContext : Nox.Infrastructure.Persistence.Entit
             {
                 ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
 
-                if (entity.Keys.Count == 1 &&
-                    entity.GetAttributesToLocalize().Any())
+                if (entity.ShouldBeLocalized)
                 {
                     type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.LocalizedName));
                     if (type == null)
