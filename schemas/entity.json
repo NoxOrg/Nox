@@ -352,6 +352,26 @@
           "type": "null"
         }
       ]
+    },
+    "hasCompositeKey": {    
+      "oneOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "shouldBeLocalized": {    
+      "oneOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
     }
   },
   "additionalProperties": false

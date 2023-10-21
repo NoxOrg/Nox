@@ -165,20 +165,13 @@ public DbSet<TestWebApp.Domain.TestEntityLocalizationLocalized> TestEntityLocali
             }
 
             var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.Name));
-            if (type != null)
+            ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(new EntityBuilderAdapter(modelBuilder.Entity(type!)), entity);
+
+            if (entity.ShouldBeLocalized)
             {
-                ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+                type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.LocalizedName));
 
-                if (entity.ShouldBeLocalized)
-                {
-                    type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.LocalizedName));
-                    if (type == null)
-                    {
-                        throw new NullReferenceException($"Type {entity.LocalizedName} is not found in current assembly.");
-                    }
-
-                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureLocalizedEntity(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
-                }
+                ((INoxDatabaseConfigurator)_dbProvider).ConfigureLocalizedEntity(new EntityBuilderAdapter(modelBuilder.Entity(type!)), entity);
             }
         }
 
