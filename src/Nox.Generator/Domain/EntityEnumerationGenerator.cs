@@ -17,7 +17,7 @@ internal class EntityEnumerationGenerator : INoxCodeGenerator
 
     public void Generate(
       SourceProductionContext context,
-      NoxCodeGenConventions codeGeneratorState,
+      NoxCodeGenConventions noxCodeGenCodeConventions,
       GeneratorConfig config,
       System.Action<string> log,
       string? projectRootPath
@@ -25,20 +25,28 @@ internal class EntityEnumerationGenerator : INoxCodeGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Domain is null)
+        if (noxCodeGenCodeConventions.Solution.Domain is null)
         {
             return;
         }
 
         context.CancellationToken.ThrowIfCancellationRequested();
-        foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
+        foreach (var entity in noxCodeGenCodeConventions.Solution.Domain!.Entities)
         {
-            var enumerationAttributes = entity.Attributes.Where(attribute => attribute.Type == NoxType.Enumeration);
+            var enumerationAttributes = 
+                entity
+                .Attributes
+                .Where(attribute => attribute.Type == NoxType.Enumeration)
+                .Select(attribute => new { 
+                    Attribute = attribute, 
+                    EntityNameForEnumeration = noxCodeGenCodeConventions.GetEntityNameForEnumType(entity.Name, attribute.Name), 
+                    EntityNameForLocalizedEnumeration = noxCodeGenCodeConventions.GetEntityNameForLocalizedEnumType(entity.Name, attribute.Name)
+                });
             if(!enumerationAttributes.Any())
             {
                 continue;
             }
-            new TemplateCodeBuilder(context, codeGeneratorState)
+            new TemplateCodeBuilder(context, noxCodeGenCodeConventions)
             .WithClassName($"{entity.Name}Enumerations")
             .WithFileNamePrefix($"Domain")
             .WithObject("enumerationAttributes", enumerationAttributes)

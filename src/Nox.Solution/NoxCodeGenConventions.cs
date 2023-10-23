@@ -24,6 +24,25 @@ public class NoxCodeGenConventions
     public string Events => $"{RootNameSpace}.Application.Events";
     public string UiNameSpace => $"{RootNameSpace}.Ui";
 
+    /// <summary>
+    /// Computes the Entity Name that holds the values of an enumeration attribute
+    /// </summary>
+    public string GetEntityNameForEnumType(string entityName, string attributeName) => $"{entityName}{attributeName}";
+    /// <summary>
+    /// Computes the Entity Type Full Name that holds the values of an enumeration attribute
+    /// </summary>
+    public string GetEntityTypeFullNameForEnumType(string entityName, string attributeName) => $"{DomainNameSpace}.{entityName}{attributeName}";
+    /// <summary>
+    /// Computes the Entity Name that holds the translated values of an enumeration attribute
+    /// </summary>
+    public string GetEntityNameForLocalizedEnumType(string entityName, string attributeName) => $"{entityName}{attributeName}Localized";
+    /// <summary>
+    /// Computes the Entity Name that holds the translated values of an localized entity.
+    /// </summary>
+    public static string GetEntityNameForLocalizedType(string entityName) => $"{entityName}Localized";
+    /// <summary>
+    /// Localization culture field name.
+    /// </summary>
     public string LocalizationCultureField => "CultureCode";
 
     public string GetEntityTypeFullName(string entityName) => $"{DomainNameSpace}.{entityName}";
@@ -31,6 +50,4 @@ public class NoxCodeGenConventions
     public string GetEntityDtoTypeFullName(string dtoName) => $"{DtoNameSpace}.{dtoName}";
 
     public static string GetForeignKeyPropertyName(string foreignEntityName) => $"{foreignEntityName}Id";
-
-    public static string GetEntityNameForLocalizedType(string entityName) => $"{entityName}Localized";
 }

@@ -172,7 +172,14 @@ namespace Nox.Infrastructure.Persistence
         protected virtual void ConfigureEnumeration(EntityTypeBuilder enumModelBuilder)
         {
             enumModelBuilder.HasKey(nameof(EnumTypeBase.Id));
-            enumModelBuilder.Property(nameof(EnumTypeBase.Name)).IsRequired(true);
+            
+            enumModelBuilder
+                .Property(nameof(EnumTypeBase.Id))
+                .HasConversion<EnumerationConverter>();
+
+            enumModelBuilder
+                .Property(nameof(EnumTypeBase.Name))
+                .IsRequired(true);
         }
 
         /// <summary>
@@ -181,6 +188,10 @@ namespace Nox.Infrastructure.Persistence
         protected virtual void ConfigureEnumerationLocalized(EntityTypeBuilder enumModelBuilder, Type enumType, Type enumLocalizedType)
         {
             enumModelBuilder.HasKey(nameof(EnumTypeLocalizedBase.Id), nameof(EnumTypeLocalizedBase.CultureCode));
+
+            enumModelBuilder
+                .Property(nameof(EnumTypeLocalizedBase.Id))
+                .HasConversion<EnumerationConverter>();
 
             enumModelBuilder.Property(nameof(EnumTypeLocalizedBase.Name)).IsRequired(true);
 

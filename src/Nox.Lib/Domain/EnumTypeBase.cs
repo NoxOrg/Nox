@@ -1,18 +1,19 @@
-﻿namespace Nox.Domain
+﻿using Nox.Types;
+
+namespace Nox.Domain;
+
+/// <summary>
+/// Base for Nox.Type Enum
+/// </summary>
+public abstract partial class EnumTypeBase
 {
     /// <summary>
-    /// Base for Nox.Type Enum
+    /// Enum value
     /// </summary>
-    public abstract partial class EnumTypeBase
-    {
-        /// <summary>
-        /// Enum value
-        /// </summary>
-        public int Id { get; set; }
+    public Enumeration Id { get; set; } = null!;
 
-        /// <summary>
-        /// Default Translation for the Enum Name
-        /// </summary>
-        public string Name { get; set; } = null!;
-    }
+    /// <summary>
+    /// Default Translation for the Enum Name
+    /// </summary>
+    public string Name { get; set; } = null!;
 }

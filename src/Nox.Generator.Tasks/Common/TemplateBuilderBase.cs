@@ -8,13 +8,13 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace Nox.Generator.Common;
+namespace Nox.Generator.Tasks.Common;
 
 internal abstract class TemplateBuilderBase
 {
     private static readonly Assembly Assembly = Assembly.GetExecutingAssembly();
 
-    private readonly NoxCodeGenConventions _noxCodeGenConventions;
+    private readonly NoxCodeGenConventions _codeGeneratorState;
 
     private readonly Dictionary<string, object> _model;
 
@@ -22,14 +22,14 @@ internal abstract class TemplateBuilderBase
     private string? _fileNamePrefix;
     private string? _fileNameSuffix;
 
-    protected TemplateBuilderBase(NoxCodeGenConventions noxCodeGenConventions)
+    protected TemplateBuilderBase(NoxCodeGenConventions codeGeneratorState)
     {
-        _noxCodeGenConventions = noxCodeGenConventions;
+        _codeGeneratorState = codeGeneratorState;
 
         _model = new Dictionary<string, object>
         {
-            ["codeGeneratorState"] = _noxCodeGenConventions,
-            ["solution"] = _noxCodeGenConventions.Solution
+            ["codeGeneratorState"] = _codeGeneratorState,
+            ["solution"] = _codeGeneratorState.Solution
         };
     }
 
@@ -84,7 +84,7 @@ internal abstract class TemplateBuilderBase
     /// <returns></returns>
     public TemplateBuilderBase GenerateSourceCodeFromResource(string templateFileName)
     {
-        var resourceName = $"Nox.Generator.{templateFileName}.template.cs";
+        var resourceName = $"Nox.Generator.Tasks.{templateFileName}.template.cs";
 
         _className ??= ComputeDefaultClassName(templateFileName);
 
@@ -136,7 +136,7 @@ internal abstract class TemplateBuilderBase
         context.PushGlobal(scriptModelObject);
 
         // Add Delegate functions to instance objects
-        ScribanScriptsExtensions.AddFunctions(context, _noxCodeGenConventions.Solution);
+        ScribanScriptsExtensions.AddFunctions(context, _codeGeneratorState.Solution);
 
         return strongTemplate.Render(context);
     }    

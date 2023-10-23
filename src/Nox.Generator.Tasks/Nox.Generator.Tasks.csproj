@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<LangVersion>10.0</LangVersion>
+		<Nullable>enable</Nullable>
+		<PackageScribanIncludeSource>true</PackageScribanIncludeSource>
+	</PropertyGroup>	
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.7.2" />
+		<PackageReference Include="Scriban" Version="5.9.0" IncludeAssets="Build" />
+		<PackageReference Include="YamlDotNet" Version="13.7.1" PrivateAssets="all" GeneratePathProperty="true" />
+		<PackageReference Include="Humanizer.Core" Version="2.14.1" PrivateAssets="all" GeneratePathProperty="true" />
+		<PackageReference Include="FluentValidation" Version="11.8.0" PrivateAssets="all" GeneratePathProperty="true" />
+		<PackageReference Include="System.Text.Json" Version="7.0.3" PrivateAssets="all" GeneratePathProperty="true" />
+		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+	</ItemGroup>	
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Remove="**\**\*.template.cs" />
+		<EmbeddedResource Include="**\**\*.template.cs" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
+	</PropertyGroup>
+	
+	<Target Name="GetDependencyTargetPaths">
+		<ItemGroup>
+			<TargetPathWithTargetPlatformMoniker Include="$(PKGYamlDotNet)\lib\netstandard2.0\YamlDotNet.dll" IncludeRuntimeDependency="false" />
+			<TargetPathWithTargetPlatformMoniker Include="$(PKGHumanizer_Core)\lib\netstandard2.0\Humanizer.dll" IncludeRuntimeDependency="false" />
+			<TargetPathWithTargetPlatformMoniker Include="$(PKGFluentValidation)\lib\netstandard2.0\FluentValidation.dll" IncludeRuntimeDependency="false" />
+			<TargetPathWithTargetPlatformMoniker Include="$(PKGSystem_Text_Json)\lib\netstandard2.0\System.Text.Json.dll" IncludeRuntimeDependency="false" />
+		</ItemGroup>
+	</Target>
+
+</Project>

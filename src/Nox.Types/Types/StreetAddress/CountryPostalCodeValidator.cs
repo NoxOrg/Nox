@@ -7,7 +7,7 @@ namespace Nox.Types;
 /// <summary>
 /// Validates Postal Code against country postal code formats.
 /// </summary>
-internal static class CountryPostalCodeValidator
+public static class CountryPostalCodeValidator
 {
     private const int PostCodeMaxLength = 15;
 
@@ -24,7 +24,7 @@ internal static class CountryPostalCodeValidator
             return false;
         }
 
-        var patterns = _postalCodeMapping
+        var patterns = PostalCodesMapping
             .Where(x => x.CountryCode == countryCode)
             .Select(x => x.Pattern)
             .ToList();
@@ -45,7 +45,10 @@ internal static class CountryPostalCodeValidator
         return isValid;
     }
 
-    private static readonly List<(string CountryCode, string Pattern)> _postalCodeMapping = new()
+    /// <summary>
+    /// Map between Country and regex for postal codes
+    /// </summary>
+    public static readonly List<(string CountryCode, string Pattern)> PostalCodesMapping = new()
     {
         ("AF",@"^\d{4}$"),
         ("AX",@"^\d{5}$"),
