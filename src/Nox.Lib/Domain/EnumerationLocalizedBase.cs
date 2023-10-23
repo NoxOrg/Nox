@@ -6,7 +6,7 @@ namespace Nox.Domain;
 /// <summary>
 /// Base for localize Nox.Type Enum
 /// </summary>
-public abstract class EnumTypeLocalizedBase
+public abstract class EnumerationLocalizedBase
 {
     /// <summary>
     /// Enum value

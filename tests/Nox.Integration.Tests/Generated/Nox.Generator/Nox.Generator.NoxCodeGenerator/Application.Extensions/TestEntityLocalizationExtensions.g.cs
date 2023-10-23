@@ -6,13 +6,11 @@ using System.Linq;
 
 using Nox.Extensions;
 
-using TestWebApp.Domain;
-
 namespace TestWebApp.Application.Dto;
 
 internal static class TestEntityLocalizationExtensions
 {
-    public static TestEntityLocalizationDto ToDto(this TestEntityLocalization entity)
+    public static TestEntityLocalizationDto ToDto(this TestWebApp.Domain.TestEntityLocalization entity)
     {
         var dto = new TestEntityLocalizationDto();
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);

@@ -27,15 +27,15 @@ public class NoxCodeGenConventions
     /// <summary>
     /// Computes the Entity Name that holds the values of an enumeration attribute
     /// </summary>
-    public string GetEntityNameForEnumType(string entityName, string attributeName) => $"{entityName}{attributeName}";
+    public string GetEntityNameForEnumeration(string entityName, string attributeName) => $"{entityName}{attributeName}";
     /// <summary>
     /// Computes the Entity Type Full Name that holds the values of an enumeration attribute
     /// </summary>
-    public string GetEntityTypeFullNameForEnumType(string entityName, string attributeName) => $"{DomainNameSpace}.{entityName}{attributeName}";
+    public string GetEntityTypeFullNameForEnumeration(string entityName, string attributeName) => $"{DomainNameSpace}.{entityName}{attributeName}";
     /// <summary>
     /// Computes the Entity Name that holds the translated values of an enumeration attribute
     /// </summary>
-    public string GetEntityNameForLocalizedEnumType(string entityName, string attributeName) => $"{entityName}{attributeName}Localized";
+    public string GetEntityNameForEnumerationLocalized(string entityName, string attributeName) => $"{entityName}{attributeName}Localized";
     /// <summary>
     /// Computes the Entity Name that holds the translated values of an localized entity.
     /// </summary>
