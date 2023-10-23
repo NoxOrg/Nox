@@ -6,13 +6,11 @@ using System.Linq;
 
 using Nox.Extensions;
 
-using Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 internal static class MinimumCashStockExtensions
 {
-    public static MinimumCashStockDto ToDto(this MinimumCashStock entity)
+    public static MinimumCashStockDto ToDto(this Cryptocash.Domain.MinimumCashStock entity)
     {
         var dto = new MinimumCashStockDto();
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);

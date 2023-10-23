@@ -6,13 +6,11 @@ using System.Linq;
 
 using Nox.Extensions;
 
-using Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 internal static class CountryTimeZoneExtensions
 {
-    public static CountryTimeZoneDto ToDto(this CountryTimeZone entity)
+    public static CountryTimeZoneDto ToDto(this Cryptocash.Domain.CountryTimeZone entity)
     {
         var dto = new CountryTimeZoneDto();
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);
