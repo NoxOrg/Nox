@@ -26,6 +26,19 @@ public class NoxCodeGenConventions
     public string Events => $"{RootNameSpace}.Application.Events";
     public string UiNameSpace => $"{RootNameSpace}.Ui";
 
+    /// <summary>
+    /// Computes the Entity Name that holds the values of an enumeration attribute
+    /// </summary>
+    public string GetEntityNameForEnumType(string entityName, string attributeName) => $"{entityName}{attributeName}";
+    /// <summary>
+    /// Computes the Entity Type Full Name that holds the values of an enumeration attribute
+    /// </summary>
+    public string GetEntityTypeFullNameForEnumType(string entityName, string attributeName) => $"{DomainNameSpace}.{entityName}{attributeName}";
+    /// <summary>
+    /// Computes the Entity Name that holds the translated values of an enumeration attribute
+    /// </summary>
+    public string GetEntityNameForLocalizedEnumType(string entityName, string attributeName) => $"{entityName}{attributeName}Localized";
+
     public string GetEntityTypeFullName(string entityName) => $"{DomainNameSpace}.{entityName}";
 
     public string GetEntityDtoTypeFullName(string dtoName) => $"{DtoNameSpace}.{dtoName}";

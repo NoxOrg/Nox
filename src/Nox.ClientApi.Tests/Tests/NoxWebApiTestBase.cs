@@ -8,9 +8,9 @@ using Xunit.Abstractions;
 
 namespace ClientApi.Tests;
 
-public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerService>
+//public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerService>
 //For development Purposes
-//public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseInstanceService>
+public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseInstanceService>
 {
     protected readonly Fixture _fixture = new Fixture();
     private readonly NoxTestApplicationFactory _appFactory;
