@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+ <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+ <!--Defining all the text files input and output parameters-->
+<ItemGroup>
+	<InputFiles Include="../.nox/design/**/*.yaml" />
+	<InputFiles Include="../.nox/docs/**/*.md" />
+	<InputFiles Include="generator.nox.yaml" />
+	<OutputFiles Include="Nox.Generated" />
+</ItemGroup>
+
+ <!--A target that generates code, which is executed before the compilation-->
+ <Target Name="BeforeCompile" Inputs="@(InputFiles)" Outputs="@(OutputFiles)">
+ 	<!--Calling our custom task-->
+	 <NoxGeneratorTask NoxYamlFiles="@(InputFiles)"></NoxGeneratorTask>
+ 	<!--Our generated file is included to be compiled-->
+ 	<ItemGroup>
+ 		<Compile Remove="@(OutputFiles)" />
+ 		<Compile Include="@(OutputFiles)" />
+ 	</ItemGroup>
+ </Target>
+
+ <!--The generated file is deleted after a general clean. It will force the regeneration on rebuild-->
+ <Target Name="AfterClean">
+ 	<Delete Files="$(RootFolder)\@(OutputFiles)\*" />
+ </Target>
+ </Project>
