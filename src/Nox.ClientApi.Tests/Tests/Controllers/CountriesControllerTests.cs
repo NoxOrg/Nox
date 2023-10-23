@@ -13,9 +13,9 @@ namespace ClientApi.Tests.Tests.Controllers
     public class CountriesControllerTests : NoxWebApiTestBase
     {
         public CountriesControllerTests(ITestOutputHelper testOutputHelper,             
-           // TestDatabaseContainerService containerService
+            TestDatabaseContainerService containerService
             //For Development purposes
-            TestDatabaseInstanceService containerService
+            //TestDatabaseInstanceService containerService
             )
             : base(testOutputHelper, containerService)
         {
