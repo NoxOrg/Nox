@@ -30,7 +30,7 @@ internal class NoxBuilder : INoxBuilder
 
     public INoxBuilder UseEtlBox(bool checkLicense)
     {
-        _applicationBuilder.UseEtlBox(checkLicense);
+        _applicationBuilder.ApplicationServices.UseEtlBox(checkLicense);
 
         return this;
     }
