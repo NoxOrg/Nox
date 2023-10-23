@@ -39,5 +39,9 @@
     <ItemGroup>
       <PackageReference Include="ETLBox" Version="3.0.2" />
     </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
+    </ItemGroup>
     
 </Project>
