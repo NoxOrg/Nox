@@ -8,6 +8,10 @@ public interface INoxDatabaseConfigurator
     /// <summary>
     /// Configure the data base model for an Entity
     /// </summary>
-    /// <param name="entityResolverByName">Function to resolve an Entity name to a Type</param>
-    void ConfigureEntity(IEntityBuilder builder,Entity entity);
+    void ConfigureEntity(IEntityBuilder builder, Entity entity);
+
+    /// <summary>
+    /// Configure the data base model for an localized Entity
+    /// </summary>
+    void ConfigureLocalizedEntity(IEntityBuilder builder, Entity entity);
 }

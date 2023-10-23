@@ -63,6 +63,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<SecondTestEntityTwoRelationshipsOneToManyDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityForTypesDto>().HasKey(e => new { e.Id });
         builder.EntityType<TestEntityForUniqueConstraintsDto>().HasKey(e => new { e.Id });
+        builder.EntityType<TestEntityLocalizationDto>().HasKey(e => new { e.Id });
 
         builder.EntitySet<TestEntityZeroOrOneDto>("TestEntityZeroOrOnes");
         builder.EntityType<TestEntityZeroOrOneDto>().ContainsOptional(e => e.SecondTestEntityZeroOrOneRelationship);
@@ -291,6 +292,11 @@ internal static class ODataServiceCollectionExtensions
         builder.EntitySet<TestEntityForUniqueConstraintsDto>("TestEntityForUniqueConstraints");
 
         builder.EntityType<TestEntityForUniqueConstraintsDto>();
+        builder.EntitySet<TestEntityLocalizationDto>("TestEntityLocalizations");
+
+        builder.EntityType<TestEntityLocalizationDto>();
+        builder.EntityType<TestEntityLocalizationDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<TestEntityLocalizationDto>().Ignore(e => e.Etag);
 
         if(configure != null) configure(builder);
 

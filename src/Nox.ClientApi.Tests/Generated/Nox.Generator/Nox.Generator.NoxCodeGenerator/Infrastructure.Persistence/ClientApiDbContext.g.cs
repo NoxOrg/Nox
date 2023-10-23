@@ -71,6 +71,7 @@ internal partial class ClientApiDbContext : Nox.Infrastructure.Persistence.Entit
     public DbSet<ClientApi.Domain.StoreLicense> StoreLicenses { get; set; } = null!;
 
 
+
     public DbSet<ClientApi.Domain.CountryContinent> CountriesContinents { get; set; } = null!;
     public DbSet<ClientApi.Domain.CountryContinentLocalized> CountriesContinentsLocalized { get; set; } = null!;
     public DbSet<ClientApi.Domain.StoreStatus> StoresStatuses { get; set; } = null!;
@@ -103,9 +104,13 @@ internal partial class ClientApiDbContext : Nox.Infrastructure.Persistence.Entit
             }
 
             var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.Name));
-            if (type != null)
+            ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(new EntityBuilderAdapter(modelBuilder.Entity(type!)), entity);
+
+            if (entity.ShouldBeLocalized)
             {
-                ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+                type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(NoxCodeGenConventions.GetEntityNameForLocalizedType(entity.Name)));
+
+                ((INoxDatabaseConfigurator)_dbProvider).ConfigureLocalizedEntity(new EntityBuilderAdapter(modelBuilder.Entity(type!)), entity);
             }
         }
 

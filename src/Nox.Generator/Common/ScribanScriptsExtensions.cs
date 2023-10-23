@@ -50,10 +50,14 @@ internal static class ScribanScriptsExtensions
         var scriptObject9 = new ScriptObject();
         scriptObject9.Import("Pluralize", new Func<string,
             string>(name => name.Pluralize()));
-            
+
 		var scriptObject10 = new ScriptObject();
         scriptObject10.Import("ToLowerFirstChar", new Func<string, string>(
             input => input.ToLowerFirstChar()));
+
+        var scriptObject11 = new ScriptObject();
+        scriptObject11.Import("GetEntityNameForLocalizedType", new Func<string, string>(
+            entityName => NoxCodeGenConventions.GetEntityNameForLocalizedType(entityName)));
 
 
         context.PushGlobal(scriptObject1);
@@ -66,5 +70,6 @@ internal static class ScribanScriptsExtensions
         context.PushGlobal(scriptObject8);
         context.PushGlobal(scriptObject9);
         context.PushGlobal(scriptObject10);
+        context.PushGlobal(scriptObject11);
     }
 }

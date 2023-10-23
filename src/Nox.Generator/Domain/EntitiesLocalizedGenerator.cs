@@ -25,28 +25,18 @@ internal class EntitiesLocalizedGenerator : INoxCodeGenerator
         foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             // Currently skip owned and composite key entities
-            if (entity.IsOwnedEntity ||
-                entity.Keys.Count > 1)
+            if (!entity.ShouldBeLocalized)
             {
                 continue;
             }
 
-            var entityAttributesToLocalize =
-                entity.Attributes.Where(x =>
-                    x.Type == NoxType.Text &&
-                    x.TextTypeOptions != null &&
-                    x.TextTypeOptions.IsLocalized)
-                .ToList();
-
-            if (!entityAttributesToLocalize.Any())
-            {
-                continue;
-            }
+            var entityAttributesToLocalize = entity
+                .GetAttributesToLocalize();
 
             context.CancellationToken.ThrowIfCancellationRequested();
 
             new TemplateCodeBuilder(context, codeGeneratorState)
-                .WithClassName($"{entity.Name}Localized")
+                .WithClassName(NoxCodeGenConventions.GetEntityNameForLocalizedType(entity.Name))
                 .WithFileNamePrefix($"Domain")
                 .WithObject("entity", entity)
                 .WithObject("entityAttributesToLocalize", entityAttributesToLocalize)

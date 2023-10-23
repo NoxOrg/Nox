@@ -992,4 +992,30 @@ public class NoxCommonTestCaseFactory
         Assert.Equal(testEntity.TestRelationshipOne[0].Id.Value, textId2);
         Assert.Equal(testEntity.TestRelationshipTwo[0].Id.Value, textId3);
     }
+
+    public void LocalizedEntitiesBeingGenerated()
+    {
+        var text = "TX";
+        var textId1 = "T1";
+        var culture = "en-US";
+
+        var newItem = new TestEntityLocalizationLocalized()
+        {
+            Id = Text.From(textId1),
+            TextFieldToLocalize = Text.From(text),
+            CultureCode = CultureCode.From(culture)
+        };
+
+        DataContext.TestEntityLocalizationsLocalized.Add(newItem);
+        DataContext.SaveChanges();
+
+        // Force the recreation of DataContext and ensure we have fresh data from database
+        _dbContextFixture.RefreshDbContext();
+
+        var testEntity = DataContext.TestEntityLocalizationsLocalized.First();
+
+        Assert.Equal(testEntity.Id.Value, textId1);
+        Assert.Equal(testEntity.TextFieldToLocalize.Value, text);
+        Assert.Equal(testEntity.CultureCode.Value, culture);
+    }
 }
