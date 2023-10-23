@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Integration.Abstractions;
+using Nox.Integration.Services;
 
-namespace Nox.Integration.Extensions;
+namespace Nox.Integration;
 
 public static class NoxEtlBoxExtensions
 {
@@ -20,5 +21,11 @@ public static class NoxEtlBoxExtensions
         LicenseCheck.CheckValidLicenseOrThrow(progressCount: 1);
 
         return appBuilder;
+    }
+
+    public static IServiceCollection AddEtlBox(this IServiceCollection services)
+    {
+        services.AddScoped<IEtlBoxLicenseProvider, EtlBoxLicenseValueProvider>();
+        return services;
     }
 }

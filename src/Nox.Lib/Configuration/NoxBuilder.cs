@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.OData;
 using Nox.Monitoring.ElasticApm;
-using Nox.Integration.Extensions;
+using Nox.Integration;
 
 namespace Nox;
 
