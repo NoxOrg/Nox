@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Nox.Solution;
+﻿namespace Nox.Solution;
 
 /// <summary>
 /// Code generation conventions for namespaces, class names, etc...
@@ -33,4 +31,6 @@ public class NoxCodeGenConventions
     public string GetEntityDtoTypeFullName(string dtoName) => $"{DtoNameSpace}.{dtoName}";
 
     public static string GetForeignKeyPropertyName(string foreignEntityName) => $"{foreignEntityName}Id";
+
+    public static string GetEntityNameForLocalizedType(string entityName) => $"{entityName}Localized";
 }

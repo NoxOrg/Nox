@@ -77,7 +77,7 @@ namespace Nox.Types.EntityFramework.Configurations
             IEntityBuilder builder,
             Entity entity)
         {
-            var localizedEntity = entity.ShallowCopy(entity.LocalizedName);
+            var localizedEntity = entity.ShallowCopy(NoxCodeGenConventions.GetEntityNameForLocalizedType(entity.Name));
 
             ConfigureKeys(CodeGenConventions, builder, localizedEntity);
 

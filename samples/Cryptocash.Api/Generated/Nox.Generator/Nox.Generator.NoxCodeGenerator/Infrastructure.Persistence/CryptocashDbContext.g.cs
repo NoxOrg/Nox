@@ -119,7 +119,7 @@ internal partial class CryptocashDbContext : Nox.Infrastructure.Persistence.Enti
 
             if (entity.ShouldBeLocalized)
             {
-                type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.LocalizedName));
+                type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(NoxCodeGenConventions.GetEntityNameForLocalizedType(entity.Name)));
 
                 ((INoxDatabaseConfigurator)_dbProvider).ConfigureLocalizedEntity(new EntityBuilderAdapter(modelBuilder.Entity(type!)), entity);
             }

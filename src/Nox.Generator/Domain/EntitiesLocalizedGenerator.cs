@@ -36,7 +36,7 @@ internal class EntitiesLocalizedGenerator : INoxCodeGenerator
             context.CancellationToken.ThrowIfCancellationRequested();
 
             new TemplateCodeBuilder(context, codeGeneratorState)
-                .WithClassName(entity.LocalizedName)
+                .WithClassName(NoxCodeGenConventions.GetEntityNameForLocalizedType(entity.Name))
                 .WithFileNamePrefix($"Domain")
                 .WithObject("entity", entity)
                 .WithObject("entityAttributesToLocalize", entityAttributesToLocalize)

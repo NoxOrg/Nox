@@ -99,9 +99,6 @@ public class Entity : DefinitionBase
         (Persistence.Create.RaiseIntegrationEvents || Persistence.Update.RaiseIntegrationEvents || Persistence.Delete.RaiseIntegrationEvents);
 
     [YamlIgnore]
-    public string LocalizedName => $"{Name}Localized";
-
-    [YamlIgnore]
     public bool HasCompositeKey => Keys.Count > 1;
 
     [YamlIgnore]
@@ -124,6 +121,11 @@ public class Entity : DefinitionBase
 
     internal bool ApplyDefaults()
     {
+        foreach (var attribute in Attributes)
+        {
+            attribute.ApplyDefaults();
+        }
+
         if (string.IsNullOrWhiteSpace(PluralName))
             PluralName = Name.Pluralize();
 
@@ -145,7 +147,6 @@ public class Entity : DefinitionBase
     {
         return Attributes
             .Where(x => x.Type == NoxType.Text &&
-                x.TextTypeOptions != null &&
                 x.TextTypeOptions!.IsLocalized);
     }
 
