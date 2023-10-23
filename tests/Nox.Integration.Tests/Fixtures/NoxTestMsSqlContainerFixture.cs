@@ -1,4 +1,6 @@
-﻿using Nox.Integration.Tests.DataProviders;
+﻿using Nox.Infrastructure;
+using Nox.Integration.Tests.DataProviders;
+using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using Testcontainers.MsSql;
 using TestWebApp.Infrastructure.Persistence;
@@ -17,9 +19,13 @@ public class NoxTestMsSqlContainerFixture : NoxTestContainerFixtureBase<MsSqlCon
             .Build();
     }
 
-    protected override INoxDatabaseProvider GetDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators)
+    protected override INoxDatabaseProvider GetDatabaseProvider(
+        IEnumerable<INoxTypeDatabaseConfigurator> configurators,
+        NoxCodeGenConventions noxSolutionCodeGeneratorState,
+        INoxClientAssemblyProvider clientAssemblyProvider
+        )
     {
-        return new MsSqlTestProvider(GetConnectionString(), configurators);
+        return new MsSqlTestProvider(GetConnectionString(), configurators, noxSolutionCodeGeneratorState, clientAssemblyProvider);
     }
 
     private string GetConnectionString()

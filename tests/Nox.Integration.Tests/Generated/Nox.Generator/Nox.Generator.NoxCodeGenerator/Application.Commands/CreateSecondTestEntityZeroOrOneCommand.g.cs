@@ -27,9 +27,9 @@ internal partial class CreateSecondTestEntityZeroOrOneCommandHandler : CreateSec
 	public CreateSecondTestEntityZeroOrOneCommandHandler(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestWebApp.Domain.TestEntityZeroOrOne, TestEntityZeroOrOneCreateDto, TestEntityZeroOrOneUpdateDto> testentityzerooronefactory,
+		IEntityFactory<TestWebApp.Domain.TestEntityZeroOrOne, TestEntityZeroOrOneCreateDto, TestEntityZeroOrOneUpdateDto> TestEntityZeroOrOneFactory,
 		IEntityFactory<SecondTestEntityZeroOrOneEntity, SecondTestEntityZeroOrOneCreateDto, SecondTestEntityZeroOrOneUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,testentityzerooronefactory, entityFactory)
+		: base(dbContext, noxSolution,TestEntityZeroOrOneFactory, entityFactory)
 	{
 	}
 }
@@ -37,19 +37,19 @@ internal partial class CreateSecondTestEntityZeroOrOneCommandHandler : CreateSec
 
 internal abstract class CreateSecondTestEntityZeroOrOneCommandHandlerBase : CommandBase<CreateSecondTestEntityZeroOrOneCommand,SecondTestEntityZeroOrOneEntity>, IRequestHandler <CreateSecondTestEntityZeroOrOneCommand, SecondTestEntityZeroOrOneKeyDto>
 {
-	private readonly TestWebAppDbContext _dbContext;
-	private readonly IEntityFactory<SecondTestEntityZeroOrOneEntity, SecondTestEntityZeroOrOneCreateDto, SecondTestEntityZeroOrOneUpdateDto> _entityFactory;
-	private readonly IEntityFactory<TestWebApp.Domain.TestEntityZeroOrOne, TestEntityZeroOrOneCreateDto, TestEntityZeroOrOneUpdateDto> _testentityzerooronefactory;
+	protected readonly TestWebAppDbContext DbContext;
+	protected readonly IEntityFactory<SecondTestEntityZeroOrOneEntity, SecondTestEntityZeroOrOneCreateDto, SecondTestEntityZeroOrOneUpdateDto> EntityFactory;
+	protected readonly IEntityFactory<TestWebApp.Domain.TestEntityZeroOrOne, TestEntityZeroOrOneCreateDto, TestEntityZeroOrOneUpdateDto> TestEntityZeroOrOneFactory;
 
 	public CreateSecondTestEntityZeroOrOneCommandHandlerBase(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestWebApp.Domain.TestEntityZeroOrOne, TestEntityZeroOrOneCreateDto, TestEntityZeroOrOneUpdateDto> testentityzerooronefactory,
+		IEntityFactory<TestWebApp.Domain.TestEntityZeroOrOne, TestEntityZeroOrOneCreateDto, TestEntityZeroOrOneUpdateDto> TestEntityZeroOrOneFactory,
 		IEntityFactory<SecondTestEntityZeroOrOneEntity, SecondTestEntityZeroOrOneCreateDto, SecondTestEntityZeroOrOneUpdateDto> entityFactory) : base(noxSolution)
 	{
-		_dbContext = dbContext;
-		_entityFactory = entityFactory;
-		_testentityzerooronefactory = testentityzerooronefactory;
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
+		this.TestEntityZeroOrOneFactory = TestEntityZeroOrOneFactory;
 	}
 
 	public virtual async Task<SecondTestEntityZeroOrOneKeyDto> Handle(CreateSecondTestEntityZeroOrOneCommand request, CancellationToken cancellationToken)
@@ -57,11 +57,11 @@ internal abstract class CreateSecondTestEntityZeroOrOneCommandHandlerBase : Comm
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.TestEntityZeroOrOneRelationshipId is not null)
 		{
 			var relatedKey = TestWebApp.Domain.TestEntityZeroOrOneMetadata.CreateId(request.EntityDto.TestEntityZeroOrOneRelationshipId.NonNullValue<System.String>());
-			var relatedEntity = await _dbContext.TestEntityZeroOrOnes.FindAsync(relatedKey);
+			var relatedEntity = await DbContext.TestEntityZeroOrOnes.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToTestEntityZeroOrOneRelationship(relatedEntity);
 			else
@@ -69,13 +69,13 @@ internal abstract class CreateSecondTestEntityZeroOrOneCommandHandlerBase : Comm
 		}
 		else if(request.EntityDto.TestEntityZeroOrOneRelationship is not null)
 		{
-			var relatedEntity = _testentityzerooronefactory.CreateEntity(request.EntityDto.TestEntityZeroOrOneRelationship);
+			var relatedEntity = TestEntityZeroOrOneFactory.CreateEntity(request.EntityDto.TestEntityZeroOrOneRelationship);
 			entityToCreate.CreateRefToTestEntityZeroOrOneRelationship(relatedEntity);
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		_dbContext.SecondTestEntityZeroOrOnes.Add(entityToCreate);
-		await _dbContext.SaveChangesAsync();
+		DbContext.SecondTestEntityZeroOrOnes.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
 		return new SecondTestEntityZeroOrOneKeyDto(entityToCreate.Id.Value);
 	}
 }

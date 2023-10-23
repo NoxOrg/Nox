@@ -27,9 +27,9 @@ internal partial class CreateTestEntityExactlyOneCommandHandler : CreateTestEnti
 	public CreateTestEntityExactlyOneCommandHandler(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestWebApp.Domain.SecondTestEntityExactlyOne, SecondTestEntityExactlyOneCreateDto, SecondTestEntityExactlyOneUpdateDto> secondtestentityexactlyonefactory,
+		IEntityFactory<TestWebApp.Domain.SecondTestEntityExactlyOne, SecondTestEntityExactlyOneCreateDto, SecondTestEntityExactlyOneUpdateDto> SecondTestEntityExactlyOneFactory,
 		IEntityFactory<TestEntityExactlyOneEntity, TestEntityExactlyOneCreateDto, TestEntityExactlyOneUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,secondtestentityexactlyonefactory, entityFactory)
+		: base(dbContext, noxSolution,SecondTestEntityExactlyOneFactory, entityFactory)
 	{
 	}
 }
@@ -37,19 +37,19 @@ internal partial class CreateTestEntityExactlyOneCommandHandler : CreateTestEnti
 
 internal abstract class CreateTestEntityExactlyOneCommandHandlerBase : CommandBase<CreateTestEntityExactlyOneCommand,TestEntityExactlyOneEntity>, IRequestHandler <CreateTestEntityExactlyOneCommand, TestEntityExactlyOneKeyDto>
 {
-	private readonly TestWebAppDbContext _dbContext;
-	private readonly IEntityFactory<TestEntityExactlyOneEntity, TestEntityExactlyOneCreateDto, TestEntityExactlyOneUpdateDto> _entityFactory;
-	private readonly IEntityFactory<TestWebApp.Domain.SecondTestEntityExactlyOne, SecondTestEntityExactlyOneCreateDto, SecondTestEntityExactlyOneUpdateDto> _secondtestentityexactlyonefactory;
+	protected readonly TestWebAppDbContext DbContext;
+	protected readonly IEntityFactory<TestEntityExactlyOneEntity, TestEntityExactlyOneCreateDto, TestEntityExactlyOneUpdateDto> EntityFactory;
+	protected readonly IEntityFactory<TestWebApp.Domain.SecondTestEntityExactlyOne, SecondTestEntityExactlyOneCreateDto, SecondTestEntityExactlyOneUpdateDto> SecondTestEntityExactlyOneFactory;
 
 	public CreateTestEntityExactlyOneCommandHandlerBase(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestWebApp.Domain.SecondTestEntityExactlyOne, SecondTestEntityExactlyOneCreateDto, SecondTestEntityExactlyOneUpdateDto> secondtestentityexactlyonefactory,
+		IEntityFactory<TestWebApp.Domain.SecondTestEntityExactlyOne, SecondTestEntityExactlyOneCreateDto, SecondTestEntityExactlyOneUpdateDto> SecondTestEntityExactlyOneFactory,
 		IEntityFactory<TestEntityExactlyOneEntity, TestEntityExactlyOneCreateDto, TestEntityExactlyOneUpdateDto> entityFactory) : base(noxSolution)
 	{
-		_dbContext = dbContext;
-		_entityFactory = entityFactory;
-		_secondtestentityexactlyonefactory = secondtestentityexactlyonefactory;
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
+		this.SecondTestEntityExactlyOneFactory = SecondTestEntityExactlyOneFactory;
 	}
 
 	public virtual async Task<TestEntityExactlyOneKeyDto> Handle(CreateTestEntityExactlyOneCommand request, CancellationToken cancellationToken)
@@ -57,11 +57,11 @@ internal abstract class CreateTestEntityExactlyOneCommandHandlerBase : CommandBa
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.SecondTestEntityExactlyOneRelationshipId is not null)
 		{
 			var relatedKey = TestWebApp.Domain.SecondTestEntityExactlyOneMetadata.CreateId(request.EntityDto.SecondTestEntityExactlyOneRelationshipId.NonNullValue<System.String>());
-			var relatedEntity = await _dbContext.SecondTestEntityExactlyOnes.FindAsync(relatedKey);
+			var relatedEntity = await DbContext.SecondTestEntityExactlyOnes.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToSecondTestEntityExactlyOneRelationship(relatedEntity);
 			else
@@ -69,13 +69,13 @@ internal abstract class CreateTestEntityExactlyOneCommandHandlerBase : CommandBa
 		}
 		else if(request.EntityDto.SecondTestEntityExactlyOneRelationship is not null)
 		{
-			var relatedEntity = _secondtestentityexactlyonefactory.CreateEntity(request.EntityDto.SecondTestEntityExactlyOneRelationship);
+			var relatedEntity = SecondTestEntityExactlyOneFactory.CreateEntity(request.EntityDto.SecondTestEntityExactlyOneRelationship);
 			entityToCreate.CreateRefToSecondTestEntityExactlyOneRelationship(relatedEntity);
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		_dbContext.TestEntityExactlyOnes.Add(entityToCreate);
-		await _dbContext.SaveChangesAsync();
+		DbContext.TestEntityExactlyOnes.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
 		return new TestEntityExactlyOneKeyDto(entityToCreate.Id.Value);
 	}
 }

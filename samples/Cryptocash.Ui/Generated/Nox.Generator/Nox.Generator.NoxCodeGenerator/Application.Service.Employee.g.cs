@@ -34,24 +34,4 @@ public class EmployeeService : IEntityService
 
         return rtnApiUiService;
     }
-
-    public static EmployeeCreateDto ConvertEmployeeIntoCreateDto(EmployeeDto currentDto)
-    {
-        if (currentDto != null)
-        {
-            EmployeeCreateDto rtnDto = new EmployeeCreateDto();
-            rtnDto.FirstName = currentDto.FirstName;
-            rtnDto.LastName = currentDto.LastName;
-            rtnDto.EmailAddress = currentDto.EmailAddress;
-            rtnDto.Address = currentDto.Address;
-            rtnDto.FirstWorkingDay = currentDto.FirstWorkingDay;
-            rtnDto.LastWorkingDay = currentDto.LastWorkingDay;
-            rtnDto.EmployeeReviewingCashStockOrder = CashStockOrderService.ConvertCashStockOrderIntoCreateDto(currentDto.EmployeeReviewingCashStockOrder);
-            rtnDto.EmployeeContactPhoneNumbers = EmployeePhoneNumberService.ConvertEmployeePhoneNumberIntoCreateDtoList(currentDto.EmployeeContactPhoneNumbers);
-
-            return rtnDto;
-        }
-
-        return null;
-    }
 }

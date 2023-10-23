@@ -10,7 +10,7 @@ namespace ClientApi.Tests.Application.Dto
     public class RatingProgramDtoValidatorTests : NoxWebApiTestBase
     {
         public RatingProgramDtoValidatorTests(ITestOutputHelper testOutput,
-            NoxTestContainerService containerService)
+            TestDatabaseContainerService containerService)
             : base(testOutput, containerService)
         {
         }

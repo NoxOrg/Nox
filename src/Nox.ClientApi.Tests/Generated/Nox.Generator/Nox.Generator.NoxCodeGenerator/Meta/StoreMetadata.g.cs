@@ -65,6 +65,45 @@ public partial class StoreMetadata
         
     
         /// <summary>
+        /// Type options for property 'Status'
+        /// </summary>
+        public static Nox.Types.EnumerationTypeOptions StatusTypeOptions {get; private set;} = new ()
+        {
+            Values = new System.Collections.Generic.List<Nox.Types.EnumerationValues>()
+            {
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 1,
+                    Name = "Construction",
+                },
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 2,
+                    Name = "LicensePermit",
+                },
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 3,
+                    Name = "Opened",
+                },
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 4,
+                    Name = "Closed",
+                },
+            },
+            IsLocalized = false,
+        };
+    
+    
+        /// <summary>
+        /// Factory for property 'Status'
+        /// </summary>
+        public static Nox.Types.Enumeration CreateStatus(System.Int32 value)
+            => Nox.Types.Enumeration.From(value, StatusTypeOptions);
+        
+    
+        /// <summary>
         /// Type options for property 'StoreOwnerId'
         /// </summary>
         public static Nox.Types.TextTypeOptions StoreOwnerIdTypeOptions {get; private set;} = new ()
@@ -118,5 +157,14 @@ public partial class StoreMetadata
             => solution.Domain!
                 .GetEntityByName("Store")
                 .GetAttributeByName("OpeningDay")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Status'
+        /// </summary>
+        public static TypeUserInterface? StatusUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Store")
+                .GetAttributeByName("Status")?
                 .UserInterface;
 }

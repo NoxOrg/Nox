@@ -24,11 +24,11 @@ public class IntegrationEventTests : IClassFixture<GeneratorFixture>
         // Assert the driver doesn't recompute the output
         _generatorFixture.GenerateSourceCodeFor(sourcePaths)
             .AssertOutputResult()
-            .AssertFileExistence(5)
+            .AssertFileCount(5)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles")
-            .Check("CountryNameChangedAppEvent.expected.g.cs", "Application.IntegrationEvent.CountryNameChangedAppEvent.g.cs")
-            .Check("CountryLocalNamesAddedEvent.expected.g.cs", "Application.IntegrationEvent.CountryLocalNamesAddedEvent.g.cs")
-            .Check("CountryCurrenciesAddedEvent.expected.g.cs", "Application.IntegrationEvent.CountryCurrenciesAddedEvent.g.cs");
+            .AssertFileExistsAndContent("CountryNameChangedAppEvent.expected.g.cs", "Application.IntegrationEvents.CountryNameChangedAppEvent.g.cs")
+            .AssertFileExistsAndContent("CountryLocalNamesAddedEvent.expected.g.cs", "Application.IntegrationEvents.CountryLocalNamesAddedEvent.g.cs")
+            .AssertFileExistsAndContent("CountryCurrenciesAddedEvent.expected.g.cs", "Application.IntegrationEvents.CountryCurrenciesAddedEvent.g.cs");
     }
 }

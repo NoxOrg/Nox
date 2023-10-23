@@ -6,7 +6,7 @@ public interface IGeneratorTestFlow
 {
     IGeneratorTestFlow AssertOutputResult();
 
-    IGeneratorTestFlow AssertFileExistence(int expectedFileCount, params string[] fileNames);
+    IGeneratorTestFlow AssertFileCount(int expectedFileCount, params string[] fileNames);
 
     IGeneratorContentTestFlow AssertContent();
 

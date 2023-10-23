@@ -38,36 +38,4 @@ public class LandLordService : IEntityService
 
         return rtnApiUiService;
     }
-
-    public static LandLordCreateDto ConvertLandLordIntoCreateDto(LandLordDto currentDto)
-    {
-        if (currentDto != null)
-        {
-            LandLordCreateDto rtnDto = new LandLordCreateDto();
-            rtnDto.Name = currentDto.Name;
-            rtnDto.Address = currentDto.Address;
-            rtnDto.ContractedAreasForVendingMachines = VendingMachineService.ConvertVendingMachineIntoCreateDtoList(currentDto.ContractedAreasForVendingMachines);
-
-            return rtnDto;
-        }
-
-        return null;
-    }
-
-    public static List<LandLordCreateDto> ConvertLandLordIntoCreateDtoList(List<LandLordDto> currentDtoList)
-    {
-        if (currentDtoList != null)
-        {
-            List<LandLordCreateDto> rtnDto = new List<LandLordCreateDto>();
-
-            foreach (LandLordDto currentDto in currentDtoList)
-            {
-                rtnDto.Add(ConvertLandLordIntoCreateDto(currentDto));
-            }
-
-            return rtnDto;
-        }
-
-        return null;
-    }
 }

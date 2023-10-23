@@ -20,3 +20,5 @@ infrastructure: true
 
 # Generates APi's
 presentation: true
+
+loggingVerbosity: diagnostic

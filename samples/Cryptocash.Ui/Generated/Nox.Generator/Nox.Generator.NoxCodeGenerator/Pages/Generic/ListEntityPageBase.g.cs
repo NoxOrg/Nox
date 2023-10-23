@@ -236,22 +236,8 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         {
             if (CurrentAddEntity != null)
             {
-                //TODO Commented out for now - but need to discuss Validate pre Creation POST
-                //var CreateEntityValidate = CurrentAddEntity!.Validate();
-                //if (CreateEntityValidate == null && CreateEntityValidate.Count() > 0)
-                //{
-                //    var ErrorMessage = new StringBuilder().AppendLine("VendingMachineService.GetCreateEntityQuery: Validation Errors: ");
-
-                //    foreach (var item in CreateEntityValidate)
-                //    {
-                //        ErrorMessage.AppendLine(item.Key + ":" + item.Value);
-                //    }
-
-                //    throw new ArgumentException(ErrorMessage.ToString(), nameof(T));
-                //}
-
                 var jsonOptions = new JsonSerializerOptions();
-                jsonOptions.Converters.Add(new JsonStringEnumConverter());
+                jsonOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
 
                 CurrentApiUiService!.ApiCreateData = JsonSerializer.Serialize(CurrentAddEntity, jsonOptions);
 
@@ -810,6 +796,32 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             LandLordEntityData = await EntityDataService<LandLordDto>.GetAsyncRecursivePagedEntityData(LandLordApiService);
 
             return;
+        }
+
+        protected CurrencyDto? GetCurrencyByCountryId(string? CountryId)
+        {
+            var CurrencyId = string.Empty;
+            if (!String.IsNullOrWhiteSpace(CountryId)
+                && CountryEntityData != null
+                && CountryEntityData.EntityList != null)
+            {
+                var FindCountry = CountryEntityData.EntityList.FirstOrDefault(Country => String.Equals(Country.Id, CountryId, StringComparison.CurrentCultureIgnoreCase));
+
+                if (FindCountry != null 
+                    && !String.IsNullOrWhiteSpace(FindCountry.CountryUsedByCurrencyId))
+                {
+                    CurrencyId = FindCountry.CountryUsedByCurrencyId;
+                }
+            }
+
+            if (!String.IsNullOrWhiteSpace(CurrencyId)
+                && CurrencyEntityData != null
+                && CurrencyEntityData.EntityList != null)
+            {
+                return CurrencyEntityData.EntityList.FirstOrDefault(Currency => String.Equals(Currency.Id, CurrencyId, StringComparison.CurrentCultureIgnoreCase));
+            }
+
+            return null;
         }
 
         #endregion

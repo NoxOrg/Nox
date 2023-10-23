@@ -1,5 +1,4 @@
 ﻿using Microsoft.CodeAnalysis;
-using Nox.Generator.Common.TemplateScriptsBridges;
 using Nox.Solution;
 using Scriban;
 using Scriban.Parsing;
@@ -15,7 +14,7 @@ internal abstract class TemplateBuilderBase
 {
     private static readonly Assembly Assembly = Assembly.GetExecutingAssembly();
 
-    private readonly NoxSolutionCodeGeneratorState _codeGeneratorState;
+    private readonly NoxCodeGenConventions _codeGeneratorState;
 
     private readonly Dictionary<string, object> _model;
 
@@ -23,7 +22,7 @@ internal abstract class TemplateBuilderBase
     private string? _fileNamePrefix;
     private string? _fileNameSuffix;
 
-    protected TemplateBuilderBase(NoxSolutionCodeGeneratorState codeGeneratorState)
+    protected TemplateBuilderBase(NoxCodeGenConventions codeGeneratorState)
     {
         _codeGeneratorState = codeGeneratorState;
 
@@ -137,7 +136,7 @@ internal abstract class TemplateBuilderBase
         context.PushGlobal(scriptModelObject);
 
         // Add Delegate functions to instance objects
-        NoxSolutionBridge.AddFunctions(context, _codeGeneratorState.Solution);
+        ScribanScriptsExtensions.AddFunctions(context, _codeGeneratorState.Solution);
 
         return strongTemplate.Render(context);
     }    

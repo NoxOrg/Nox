@@ -9,7 +9,7 @@ internal class TemplateCodeBuilder : TemplateBuilderBase
 {    
     private readonly SourceProductionContext _context;
 
-    public TemplateCodeBuilder(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
+    public TemplateCodeBuilder(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState)
         : base(codeGeneratorState)
     {
         _context = context;

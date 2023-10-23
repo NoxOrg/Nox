@@ -13,7 +13,9 @@ namespace ClientApi.ServiceMetadata
     {
         public GenerateMetadataTests(
             ITestOutputHelper testOutputHelper,
-            NoxTestContainerService containerService) : base(testOutputHelper, containerService)
+            TestDatabaseContainerService containerService) : base(testOutputHelper, containerService)
+            //For development purposes
+            //TestDatabaseInstanceService containerService) : base(testOutputHelper, containerService)
         {
         }
 

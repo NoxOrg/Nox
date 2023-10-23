@@ -10,7 +10,7 @@ public class DateTimeDatabaseConfigurator : INoxTypeDatabaseConfigurator
     public virtual bool IsDefault => true;
 
     public virtual void ConfigureEntityProperty(
-        NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
+        NoxCodeGenConventions noxSolutionCodeGeneratorState,
         IEntityBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,

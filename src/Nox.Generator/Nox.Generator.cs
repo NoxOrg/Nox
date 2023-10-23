@@ -53,7 +53,9 @@ public class NoxCodeGenerator : IIncrementalGenerator
         {
             if (TryGetGeneratorConfig(noxYamls, out var config) && TryGetNoxSolution(noxYamls, out var solution))
             {
-                var codeGeneratorState = new NoxSolutionCodeGeneratorState(solution, Assembly.GetEntryAssembly()!);
+                _debug.AppendLine($"// Logging Verbosity {config.LoggingVerbosity}");
+
+                var codeGeneratorState = new NoxCodeGenConventions(solution);
 
                 var generatorFlows = new (NoxGeneratorKind GeneratorKind, bool IsEnabled)[]
                 {
@@ -68,6 +70,15 @@ public class NoxCodeGenerator : IIncrementalGenerator
                 .Select(x => x.GeneratorKind)
                 .ToArray();
 
+                if (config.LoggingVerbosity == LoggingVerbosity.Diagnostic)
+                {
+                    _debug.AppendLine($"// Enabled Generators Types");
+                    foreach (var flow in generatorFlows)
+                    {
+                        _debug.AppendLine($"//  - {flow}");
+                    }
+                }
+
                 var generatorInstances = Assembly
                     .GetExecutingAssembly()
                     .GetTypes()
@@ -75,13 +86,29 @@ public class NoxCodeGenerator : IIncrementalGenerator
                     .Select(x => (INoxCodeGenerator)Activator.CreateInstance(x))
                     .ToArray();
 
+                if (config.LoggingVerbosity == LoggingVerbosity.Diagnostic)
+                {
+                    _debug.AppendLine($"// Found Generators");
+                    foreach (var generatorInstance in generatorInstances)
+                    {
+                        _debug.AppendLine($"//  - {generatorInstance}");
+                    }
+                }
+
+
                 var projectRoot = GetProjectRootDirectory(noxYamls);
 
                 foreach (var flow in generatorFlows)
                 {
                     foreach (var flowInstance in generatorInstances.Where(x => x.GeneratorKind == flow))
                     {
-                        flowInstance.Generate(context, codeGeneratorState, config, projectRoot);
+                        flowInstance.Generate(
+                            context,
+                            codeGeneratorState,
+                            config,
+                            (logMessage) => _debug.AppendLine($"// {flowInstance} {logMessage}"),
+                            projectRoot
+                            );
                     }
                 }
             }

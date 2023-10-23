@@ -1,5 +1,7 @@
 ﻿using DotNet.Testcontainers.Containers;
 using Nox;
+using Nox.Infrastructure;
+using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using Testcontainers.MsSql;
 using Testcontainers.PostgreSql;
@@ -7,7 +9,10 @@ using Xunit.Abstractions;
 
 namespace ClientApi.Tests;
 
-public class NoxTestContainerService : IAsyncLifetime
+/// <summary>
+/// Containerized Database instance for testing 
+/// </summary>
+public class TestDatabaseContainerService : IAsyncLifetime, ITestDatabaseService
 {
 #if DEBUG
     //To change DatabaseProvider just replace DbProviderKind.
@@ -31,7 +36,10 @@ public class NoxTestContainerService : IAsyncLifetime
         return _applicationFactory;
     }
 
-    public INoxDatabaseProvider GetDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurations)
+    public INoxDatabaseProvider GetDatabaseProvider(
+        IEnumerable<INoxTypeDatabaseConfigurator> configurations,
+        NoxCodeGenConventions noxSolutionCodeGeneratorState,
+        INoxClientAssemblyProvider noxClientAssemblyProvider)
     {
         string connectionString = _connectionStringGetter();
         if (DbProviderKind == DatabaseServerProvider.SqlServer)
@@ -40,8 +48,8 @@ public class NoxTestContainerService : IAsyncLifetime
         }
         return DbProviderKind switch
         {
-            DatabaseServerProvider.Postgres => new PostgreSqlTestProvider(connectionString, configurations),
-            DatabaseServerProvider.SqlServer => new MsSqlTestProvider(connectionString, configurations),
+            DatabaseServerProvider.Postgres => new PostgreSqlTestProvider(connectionString, configurations, noxSolutionCodeGeneratorState, noxClientAssemblyProvider),
+            DatabaseServerProvider.SqlServer => new MsSqlTestProvider(connectionString, configurations, noxSolutionCodeGeneratorState, noxClientAssemblyProvider),
             _ => throw new NotImplementedException($"{DbProviderKind} is not suported"),
         };
     }

@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MudBlazor;
+using Nox.Types;
 
 namespace Cryptocash.Ui.Generated.Component
 {
-    public class UiEditIpAddressBase : ComponentBase
+    public class UiEditIpV4AddressBase : ComponentBase
     {
         #region Declarations
 
@@ -23,6 +25,9 @@ namespace Cryptocash.Ui.Generated.Component
             }
         }
 
+        [Parameter]
+        public int MaxLength { get; set; } = 63;
+
         #endregion
 
         protected async Task OnIpAddressChanged(string newValue)
@@ -30,6 +35,11 @@ namespace Cryptocash.Ui.Generated.Component
             IpAddress = newValue;
 
             await IpAddressChanged.InvokeAsync(IpAddress);
+        }
+
+        public IMask DisplayMask()
+        {
+            return RegexMask.IPv4();
         }
     }
 }

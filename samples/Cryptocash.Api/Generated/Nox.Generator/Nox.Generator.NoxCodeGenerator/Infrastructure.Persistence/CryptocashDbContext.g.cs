@@ -23,6 +23,7 @@ using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Solution;
 using Nox.Configuration;
+using Nox.Infrastructure;
 
 
 using Cryptocash.Domain;
@@ -34,6 +35,7 @@ internal partial class CryptocashDbContext : Nox.Infrastructure.Persistence.Enti
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
     private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
+    private readonly NoxCodeGenConventions _codeGenConventions;
 
     public CryptocashDbContext(
             DbContextOptions<CryptocashDbContext> options,
@@ -42,12 +44,14 @@ internal partial class CryptocashDbContext : Nox.Infrastructure.Persistence.Enti
             INoxDatabaseProvider databaseProvider,
             INoxClientAssemblyProvider clientAssemblyProvider,
             IUserProvider userProvider,
-            ISystemProvider systemProvider
+            ISystemProvider systemProvider,
+            NoxCodeGenConventions codeGeneratorState
         ) : base(publisher, userProvider, systemProvider, options)
         {
             _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
             _clientAssemblyProvider = clientAssemblyProvider;
+            _codeGenConventions = codeGeneratorState;
         }
 
     public DbSet<Cryptocash.Domain.Booking> Bookings { get; set; } = null!;
@@ -81,6 +85,7 @@ internal partial class CryptocashDbContext : Nox.Infrastructure.Persistence.Enti
 
     public DbSet<Cryptocash.Domain.CashStockOrder> CashStockOrders { get; set; } = null!;
 
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
@@ -95,33 +100,28 @@ internal partial class CryptocashDbContext : Nox.Infrastructure.Persistence.Enti
         base.OnModelCreating(modelBuilder);
 
         ConfigureAuditable(modelBuilder);
-
-        if (_noxSolution.Domain != null)
+        modelBuilder.AddInboxStateEntity();
+        modelBuilder.AddOutboxMessageEntity();
+        modelBuilder.AddOutboxStateEntity();
+        foreach (var entity in _noxSolution.Domain!.Entities)
         {
-            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
-            modelBuilder.AddInboxStateEntity();
-            modelBuilder.AddOutboxMessageEntity();
-            modelBuilder.AddOutboxStateEntity();
-            foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
+            Console.WriteLine($"CryptocashDbContext Configure database for Entity {entity.Name}");
+
+            // Ignore owned entities configuration as they are configured inside entity constructor
+            if (entity.IsOwnedEntity)
             {
-                Console.WriteLine($"CryptocashDbContext Configure database for Entity {entity.Name}");
-
-                // Ignore owned entities configuration as they are configured inside entity constructor
-                if (entity.IsOwnedEntity)
-                {
-                    continue;
-                }
-
-                var type = codeGeneratorState.GetEntityType(entity.Name);
-                if (type != null)
-                {
-                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
-                }
+                continue;
             }
 
-            modelBuilder.ForEntitiesOfType<IEntityConcurrent>(
-                builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());
+            var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.Name));
+            if (type != null)
+            {
+                ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+            }
         }
+
+        modelBuilder.ForEntitiesOfType<IEntityConcurrent>(
+            builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());
     }
 
     private void ConfigureAuditable(ModelBuilder modelBuilder)

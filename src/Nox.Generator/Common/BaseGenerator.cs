@@ -83,7 +83,7 @@ internal class BaseGenerator
         code.AppendLine($@"}}");
     }
 
-    public static string GenerateTypeDefinition(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, NoxComplexTypeDefinition typeDefinition, bool generateDto = false)
+    public static string GenerateTypeDefinition(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, NoxComplexTypeDefinition typeDefinition, bool generateDto = false)
     {
         string stringTypeDefinition;
         string typeName;
@@ -136,7 +136,7 @@ internal class BaseGenerator
         return stringTypeDefinition;
     }
    
-    private static void GenerateDtoFromDefinition(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, string typeName, ArrayTypeOptions options)
+    private static void GenerateDtoFromDefinition(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, string typeName, ArrayTypeOptions options)
     {
         DtoDynamicGenerator.GenerateDto(context,
             codeGeneratorState,

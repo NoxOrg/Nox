@@ -1475,7 +1475,7 @@
                         ],
                         "required": [
                           "id",
-                          "description"
+                          "name"
                         ],
                         "properties": {
                           "id": {    
@@ -1483,9 +1483,9 @@
                             "description": "The Enum identifier. This value will be persisted with entities and should uniquely identify an entry.",
                             "type": "integer"
                           },
-                          "description": {    
-                            "title": "The friendly description of the Enum value. Contains no spaces.",
-                            "description": "The description in the default culture of the Enum identifier.",
+                          "name": {    
+                            "title": "The friendly name of the Enum value. Contains no spaces.",
+                            "description": "The name in the default culture of the Enum identifier.",
                             "type": "string"
                           }
                         }
@@ -6889,7 +6889,7 @@
                         ],
                         "required": [
                           "id",
-                          "description"
+                          "name"
                         ],
                         "properties": {
                           "id": {    
@@ -6897,9 +6897,9 @@
                             "description": "The Enum identifier. This value will be persisted with entities and should uniquely identify an entry.",
                             "type": "integer"
                           },
-                          "description": {    
-                            "title": "The friendly description of the Enum value. Contains no spaces.",
-                            "description": "The description in the default culture of the Enum identifier.",
+                          "name": {    
+                            "title": "The friendly name of the Enum value. Contains no spaces.",
+                            "description": "The name in the default culture of the Enum identifier.",
                             "type": "string"
                           }
                         }
@@ -12123,7 +12123,7 @@
                 ],
                 "required": [
                   "id",
-                  "description"
+                  "name"
                 ],
                 "properties": {
                   "id": {    
@@ -12131,9 +12131,9 @@
                     "description": "The Enum identifier. This value will be persisted with entities and should uniquely identify an entry.",
                     "type": "integer"
                   },
-                  "description": {    
-                    "title": "The friendly description of the Enum value. Contains no spaces.",
-                    "description": "The description in the default culture of the Enum identifier.",
+                  "name": {    
+                    "title": "The friendly name of the Enum value. Contains no spaces.",
+                    "description": "The name in the default culture of the Enum identifier.",
                     "type": "string"
                   }
                 }

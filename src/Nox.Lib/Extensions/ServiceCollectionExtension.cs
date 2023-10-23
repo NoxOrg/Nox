@@ -1,15 +1,15 @@
-using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
-using Nox.Abstractions;
-using Nox.Application.Providers;
-using Nox.Types.EntityFramework.Abstractions;
-using Nox.Types.EntityFramework.Configurations;
-using Nox.Configuration;
 using FluentValidation;
 using MediatR;
-using Nox.Application.Behaviors;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Nox.Abstractions;
+using Nox.Application.Behaviors;
 using Nox.Application.Factories;
+using Nox.Application.Providers;
+using Nox.Configuration;
+using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.Configurations;
+using System.Reflection;
 
 namespace Nox;
 
@@ -24,6 +24,7 @@ public static class ServiceCollectionExtension
         AddNoxLib(services, null, configure);
         return services;
     }
+
     public static IServiceCollection AddNoxLib(this IServiceCollection services, WebApplicationBuilder? webApplicationBuilder, Action<INoxOptions>? configure = null)
     {
         NoxOptions configurator = new();
@@ -41,7 +42,7 @@ public static class ServiceCollectionExtension
            scan.FromAssemblies(noxAssemblies)
            .AddClasses(classes => classes.AssignableTo(typeof(IEntityFactory<,,>)))
            .AsImplementedInterfaces()
-           .WithSingletonLifetime());
+           .WithTransientLifetime());
 
         return services;
     }
@@ -55,7 +56,7 @@ public static class ServiceCollectionExtension
                 .Where(c => !c.ContainsGenericParameters) // Skip Open Generics
            )
           .AsImplementedInterfaces()
-          .WithSingletonLifetime());
+          .WithTransientLifetime());
 
         // Register Command Validators, 
         services.Scan(scan =>
@@ -65,7 +66,7 @@ public static class ServiceCollectionExtension
                 .Where(c => !c.ContainsGenericParameters) // Skip Open Generics
            )
           .AsImplementedInterfaces(i => i.IsAssignableTo(typeof(IValidator)) && i.GenericTypeArguments.Any())
-          .WithSingletonLifetime());
+          .WithTransientLifetime());
 
         return services
             .AddMediatR(cfg =>
@@ -93,7 +94,7 @@ public static class ServiceCollectionExtension
     internal static IServiceCollection AddNoxDtos(this IServiceCollection services)
     {
         // For now we do not need a specific database provider
-        services.AddSingleton<INoxDtoDatabaseConfigurator, NoxDtoDatabaseConfigurator>();
+        services.AddTransient<INoxDtoDatabaseConfigurator, NoxDtoDatabaseConfigurator>();
 
         return services;
     }

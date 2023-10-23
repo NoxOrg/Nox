@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Nox.EntityFramework.Sqlite;
+using Nox.Infrastructure;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 
@@ -10,7 +11,10 @@ internal class SqliteTestProvider : SqliteDatabaseProvider
 {
     private const string InMemoryConnectionString = $"DataSource=testdb;mode=memory;cache=shared";
 
-    public SqliteTestProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators) : base(configurators)
+    public SqliteTestProvider(
+        IEnumerable<INoxTypeDatabaseConfigurator> configurators,
+        NoxCodeGenConventions noxSolutionCodeGeneratorState,
+        INoxClientAssemblyProvider clientAssemblyProvider) : base(configurators, noxSolutionCodeGeneratorState, clientAssemblyProvider)
     {
         ConnectionString = InMemoryConnectionString;
     }

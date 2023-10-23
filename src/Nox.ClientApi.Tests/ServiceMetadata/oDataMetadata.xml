@@ -62,6 +62,7 @@
                 <Property Name="Address" Type="ClientApi.Application.Dto.StreetAddressDto" Nullable="false" />
                 <Property Name="Location" Type="ClientApi.Application.Dto.LatLongDto" Nullable="false" />
                 <Property Name="OpeningDay" Type="Edm.DateTimeOffset" />
+                <Property Name="Status" Type="Edm.Int32" />
                 <Property Name="OwnershipId" Type="Edm.String" />
                 <NavigationProperty Name="VerifiedEmails" Type="ClientApi.Application.Dto.EmailAddressDto" ContainsTarget="true" />
                 <NavigationProperty Name="Ownership" Type="ClientApi.Application.Dto.StoreOwnerDto" ContainsTarget="true" />

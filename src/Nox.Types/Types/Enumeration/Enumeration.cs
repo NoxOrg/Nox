@@ -59,7 +59,7 @@ public sealed class Enumeration : ValueObject<int, Enumeration>
         {
             throw new ArgumentNullException(nameof(options));
         }
-        var value = options.Values.FirstOrDefault(o => o.Description.Equals(stringValue, StringComparison.InvariantCultureIgnoreCase))?.Id;  
+        var value = options.Values.FirstOrDefault(o => o.Name.Equals(stringValue, StringComparison.InvariantCultureIgnoreCase))?.Id;  
 
         if (value is null)
         {
@@ -91,12 +91,12 @@ public sealed class Enumeration : ValueObject<int, Enumeration>
 
     public override string ToString()
     {
-        return _typeOptions.Values.FirstOrDefault(o => o.Id == Value)?.Description ?? string.Empty;
+        return _typeOptions.Values.FirstOrDefault(o => o.Id == Value)?.Name ?? string.Empty;
     }
 
     public IDictionary<int,string>? GetValues()
     {
-        return _typeOptions.Values.ToDictionary( o => o.Id, o => o.Description );
+        return _typeOptions.Values.ToDictionary( o => o.Id, o => o.Name );
     }
 
 }

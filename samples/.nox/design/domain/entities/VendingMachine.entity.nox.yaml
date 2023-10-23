@@ -33,48 +33,59 @@ attributes:
     type: macAddress     
     isRequired: true  
     userInterface:
+      label: MacAddress
+      fieldGroup: Details
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
       canFilter: true
       showOnCreateForm: true
       showOnUpdateForm: true
+      inputMask: '##:##:##:##:##:##'
+      inputOrder: 1      
 
   - name: PublicIp
     description: Vending machine public ip
     type: ipAddress     
     isRequired: true  
     userInterface:
+      label: Public Ip
+      fieldGroup: Details
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
       canFilter: true
       showOnCreateForm: true
       showOnUpdateForm: true
+      inputOrder: 2
 
   - name: GeoLocation
     description: Vending machine geo location
     type: latLong     
     isRequired: true  
     userInterface:
+      fieldGroup: Location
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
       canFilter: true
       showOnCreateForm: true
       showOnUpdateForm: true
+      inputOrder: 1
 
   - name: StreetAddress
     description: Vending machine street address
     type: streetAddress
     isRequired: true
     userInterface:
+      fieldGroup: Location
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
       canFilter: true
       showOnCreateForm: true
       showOnUpdateForm: true
+      inputOrder: 2
 
   - name: SerialNumber
     description: Vending machine serial number
@@ -84,36 +95,45 @@ attributes:
       maxLength: 63
     isRequired: true
     userInterface:
+      label: Serial Number
+      fieldGroup: Details
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
       canFilter: true
       showOnCreateForm: true
       showOnUpdateForm: true
+      inputOrder: 3
 
   - name: InstallationFootPrint
     description: Vending machine installation area
     type: area
     isRequired: false
     userInterface:
+      label: Installation Area
+      fieldGroup: Details
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
       canFilter: true
       showOnCreateForm: true
       showOnUpdateForm: true
+      inputOrder: 4
 
   - name: RentPerSquareMetre
     description: Landlord rent amount based on area of the vending machine installation
     type: money
     isRequired: false
     userInterface:
+      label: Rent per Square Metre
+      fieldGroup: Details
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
       canFilter: true
       showOnCreateForm: true
       showOnUpdateForm: true
+      inputOrder: 5
 
 relationships:
     

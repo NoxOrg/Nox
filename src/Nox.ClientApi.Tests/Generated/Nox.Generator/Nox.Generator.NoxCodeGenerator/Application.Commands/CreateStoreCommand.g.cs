@@ -27,10 +27,10 @@ internal partial class CreateStoreCommandHandler : CreateStoreCommandHandlerBase
 	public CreateStoreCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<ClientApi.Domain.StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> storeownerfactory,
-		IEntityFactory<ClientApi.Domain.StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> storelicensefactory,
+		IEntityFactory<ClientApi.Domain.StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> StoreOwnerFactory,
+		IEntityFactory<ClientApi.Domain.StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> StoreLicenseFactory,
 		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,storeownerfactory, storelicensefactory, entityFactory)
+		: base(dbContext, noxSolution,StoreOwnerFactory, StoreLicenseFactory, entityFactory)
 	{
 	}
 }
@@ -38,22 +38,22 @@ internal partial class CreateStoreCommandHandler : CreateStoreCommandHandlerBase
 
 internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreCommand,StoreEntity>, IRequestHandler <CreateStoreCommand, StoreKeyDto>
 {
-	private readonly ClientApiDbContext _dbContext;
-	private readonly IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> _entityFactory;
-	private readonly IEntityFactory<ClientApi.Domain.StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> _storeownerfactory;
-	private readonly IEntityFactory<ClientApi.Domain.StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> _storelicensefactory;
+	protected readonly ClientApiDbContext DbContext;
+	protected readonly IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> EntityFactory;
+	protected readonly IEntityFactory<ClientApi.Domain.StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> StoreOwnerFactory;
+	protected readonly IEntityFactory<ClientApi.Domain.StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> StoreLicenseFactory;
 
 	public CreateStoreCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<ClientApi.Domain.StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> storeownerfactory,
-		IEntityFactory<ClientApi.Domain.StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> storelicensefactory,
+		IEntityFactory<ClientApi.Domain.StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> StoreOwnerFactory,
+		IEntityFactory<ClientApi.Domain.StoreLicense, StoreLicenseCreateDto, StoreLicenseUpdateDto> StoreLicenseFactory,
 		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory) : base(noxSolution)
 	{
-		_dbContext = dbContext;
-		_entityFactory = entityFactory;
-		_storeownerfactory = storeownerfactory;
-		_storelicensefactory = storelicensefactory;
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
+		this.StoreOwnerFactory = StoreOwnerFactory;
+		this.StoreLicenseFactory = StoreLicenseFactory;
 	}
 
 	public virtual async Task<StoreKeyDto> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
@@ -61,11 +61,11 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.OwnershipId is not null)
 		{
 			var relatedKey = ClientApi.Domain.StoreOwnerMetadata.CreateId(request.EntityDto.OwnershipId.NonNullValue<System.String>());
-			var relatedEntity = await _dbContext.StoreOwners.FindAsync(relatedKey);
+			var relatedEntity = await DbContext.StoreOwners.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToOwnership(relatedEntity);
 			else
@@ -73,13 +73,13 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		}
 		else if(request.EntityDto.Ownership is not null)
 		{
-			var relatedEntity = _storeownerfactory.CreateEntity(request.EntityDto.Ownership);
+			var relatedEntity = StoreOwnerFactory.CreateEntity(request.EntityDto.Ownership);
 			entityToCreate.CreateRefToOwnership(relatedEntity);
 		}
 		if(request.EntityDto.LicenseId is not null)
 		{
 			var relatedKey = ClientApi.Domain.StoreLicenseMetadata.CreateId(request.EntityDto.LicenseId.NonNullValue<System.Int64>());
-			var relatedEntity = await _dbContext.StoreLicenses.FindAsync(relatedKey);
+			var relatedEntity = await DbContext.StoreLicenses.FindAsync(relatedKey);
 			if(relatedEntity is not null)
 				entityToCreate.CreateRefToLicense(relatedEntity);
 			else
@@ -87,13 +87,13 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		}
 		else if(request.EntityDto.License is not null)
 		{
-			var relatedEntity = _storelicensefactory.CreateEntity(request.EntityDto.License);
+			var relatedEntity = StoreLicenseFactory.CreateEntity(request.EntityDto.License);
 			entityToCreate.CreateRefToLicense(relatedEntity);
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		_dbContext.Stores.Add(entityToCreate);
-		await _dbContext.SaveChangesAsync();
+		DbContext.Stores.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
 		return new StoreKeyDto(entityToCreate.Id.Value);
 	}
 }

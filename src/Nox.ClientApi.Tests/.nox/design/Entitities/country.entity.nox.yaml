@@ -83,11 +83,11 @@ attributes:
     type: enumeration
     enumerationTypeOptions:
       values: 
-        - { id: 1, description: Europe} 
-        - { id: 2, description: Asia}
-        - { id: 3, description: Africa} 
-        - { id: 4, description: America} 
-        - { id: 5, description: Oceania} 
+        - { id: 1, name: Europe} 
+        - { id: 2, name: Asia}
+        - { id: 3, name: Africa} 
+        - { id: 4, name: America} 
+        - { id: 5, name: Oceania} 
       isLocalized: true
     isRequired: false
 

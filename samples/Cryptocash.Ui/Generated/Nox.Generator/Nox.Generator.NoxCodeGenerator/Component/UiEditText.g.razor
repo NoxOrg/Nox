@@ -6,7 +6,7 @@
               FullWidth="true"
               Clearable="true"
               Required="true"
-              RequiredError="@ErrorRequiredMessage"
-              MaxLength="63"
-              TextChanged="OnTextChanged"
+              MaxLength="@MaxLength"
+              Validation="@(new Func<string, string>(ValidateLength))"
+              TextChanged="OnTextChanged"                
               Value="Text" />

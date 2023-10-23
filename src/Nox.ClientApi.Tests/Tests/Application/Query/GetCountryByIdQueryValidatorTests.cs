@@ -14,7 +14,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
         public GetCountryByIdQueryValidatorTests(
             ITestOutputHelper testOutputHelper,
-            NoxTestContainerService containerService)
+            TestDatabaseContainerService containerService)
             : base(testOutputHelper, containerService)
         {
         }

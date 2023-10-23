@@ -15,13 +15,11 @@ namespace Cryptocash.Ui.Generated.Component
         [Parameter]
         public EventCallback<string> TextChanged { get; set; }
 
-        public string ErrorRequiredMessage
-        {
-            get
-            {
-                return Title += " is required";
-            }
-        }
+        [Parameter]
+        public int MaxLength { get; set; } = 63;
+
+        [Parameter]
+        public int MinLength { get; set; } = 0;
 
         #endregion
 
@@ -30,6 +28,14 @@ namespace Cryptocash.Ui.Generated.Component
             Text = newValue;
 
             await TextChanged.InvokeAsync(Text);
+        }
+
+        public string ValidateLength(string arg)
+        {
+            if (arg != null
+                && arg.Length < MinLength)
+                return String.Format("{0} is required and must be at least {1} characters long", Title, MinLength.ToString());
+            return null;
         }
     }
 }

@@ -8,7 +8,9 @@ using Xunit.Abstractions;
 
 namespace ClientApi.Tests;
 
-public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
+public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerService>
+//For development Purposes
+//public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseInstanceService>
 {
     protected readonly Fixture _fixture = new Fixture();
     private readonly NoxTestApplicationFactory _appFactory;
@@ -16,16 +18,13 @@ public abstract class NoxWebApiTestBase : IClassFixture<NoxTestContainerService>
     /// <summary>
     /// TODO  enableMessagingTests is causing the GitHub CI to hang...
     /// </summary>
-    /// <param name="testOutput"></param>
-    /// <param name="containerService"></param>
-    /// <param name="enableMessagingTests"></param>
     protected NoxWebApiTestBase(
-        ITestOutputHelper testOutput,
-        NoxTestContainerService containerService,
+        ITestOutputHelper testOutput,      
+        ITestDatabaseService testDatabaseService,
         bool enableMessagingTests = false,
         string? environment = null)
     {
-        _appFactory = containerService.GetTestApplicationFactory(testOutput, enableMessagingTests, environment);
+        _appFactory = testDatabaseService.GetTestApplicationFactory(testOutput, enableMessagingTests, environment);
         _appFactory.ResetDataContext();
     }
 

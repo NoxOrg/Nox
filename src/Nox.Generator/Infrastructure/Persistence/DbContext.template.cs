@@ -25,6 +25,7 @@ using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Solution;
 using Nox.Configuration;
+using Nox.Infrastructure;
 
 
 using {{codeGeneratorState.DomainNameSpace}};
@@ -36,6 +37,7 @@ internal partial class {{className}} : Nox.Infrastructure.Persistence.EntityDbCo
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
     private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
+    private readonly NoxCodeGenConventions _codeGenConventions;
 
     public {{className}}(
             DbContextOptions<{{className}}> options,
@@ -44,19 +46,30 @@ internal partial class {{className}} : Nox.Infrastructure.Persistence.EntityDbCo
             INoxDatabaseProvider databaseProvider,
             INoxClientAssemblyProvider clientAssemblyProvider,
             IUserProvider userProvider,
-            ISystemProvider systemProvider
+            ISystemProvider systemProvider,
+            NoxCodeGenConventions codeGeneratorState
         ) : base(publisher, userProvider, systemProvider, options)
         {
             _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
             _clientAssemblyProvider = clientAssemblyProvider;
+            _codeGenConventions = codeGeneratorState;
         }
 {{ for entity in solution.Domain.Entities -}}
 {{- if (!entity.IsOwnedEntity) }}
     public DbSet<{{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}> {{entity.PluralName}} { get; set; } = null!;
-
 {{- end }}
 {{ end }}
+
+    {{- for entityAtt in enumerationAttributes #Setup Entity Enumerations}}
+    {{- for enumAtt in entityAtt.Attributes}}
+    public DbSet<{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{enumAtt.Name}}> {{Pluralize (entityAtt.Entity.Name)}}{{Pluralize (enumAtt.Name)}} { get; set; } = null!;        
+        {{- if enumAtt.EnumerationTypeOptions.IsLocalized}}
+    public DbSet<{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{enumAtt.Name}}Localized> {{Pluralize (entityAtt.Entity.Name)}}{{Pluralize (enumAtt.Name)}}Localized { get; set; } = null!;                
+        {{- end }}
+    {{- end }}
+    {{- end }}
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
@@ -72,35 +85,41 @@ internal partial class {{className}} : Nox.Infrastructure.Persistence.EntityDbCo
 
         ConfigureAuditable(modelBuilder);
 
-        if (_noxSolution.Domain != null)
+        {{- if  codeGeneratorState.Solution.Infrastructure?.Messaging != null}}
+        modelBuilder.AddInboxStateEntity();
+        modelBuilder.AddOutboxMessageEntity();
+        modelBuilder.AddOutboxStateEntity();
+        {{- end }}
+        foreach (var entity in _noxSolution.Domain!.Entities)
         {
-            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
+            Console.WriteLine($"{{className}} Configure database for Entity {entity.Name}");
 
-            {{- if  codeGeneratorState.Solution.Infrastructure?.Messaging != null}}
-            modelBuilder.AddInboxStateEntity();
-            modelBuilder.AddOutboxMessageEntity();
-            modelBuilder.AddOutboxStateEntity();
-            {{- end }}
-            foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
+            // Ignore owned entities configuration as they are configured inside entity constructor
+            if (entity.IsOwnedEntity)
             {
-                Console.WriteLine($"{{className}} Configure database for Entity {entity.Name}");
-
-                // Ignore owned entities configuration as they are configured inside entity constructor
-                if (entity.IsOwnedEntity)
-                {
-                    continue;
-                }
-
-                var type = codeGeneratorState.GetEntityType(entity.Name);
-                if (type != null)
-                {
-                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
-                }
+                continue;
             }
 
-            modelBuilder.ForEntitiesOfType<IEntityConcurrent>(
-                builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());
+            var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.Name));
+            if (type != null)
+            {
+                ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+            }
         }
+
+        modelBuilder.ForEntitiesOfType<IEntityConcurrent>(
+            builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());         
+        
+        {{- for entityAtt in enumerationAttributes #Setup Entity Enumerations}}
+        {{- for enumAtt in entityAtt.Attributes}}
+            ConfigureEnumeration(modelBuilder.Entity("{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{enumAtt.Name}}"));
+            {{- if enumAtt.EnumerationTypeOptions.IsLocalized}}
+            var enumLocalizedType = _clientAssemblyProvider.GetType("{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{enumAtt.Name}}Localized")!;
+            var enumType = _clientAssemblyProvider.GetType("{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{enumAtt.Name}}")!;
+            ConfigureEnumerationLocalized(modelBuilder.Entity(enumLocalizedType), enumType, enumLocalizedType);
+            {{- end }}
+        {{- end }}
+        {{- end }}
     }
 
     private void ConfigureAuditable(ModelBuilder modelBuilder)
