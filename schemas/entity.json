@@ -343,16 +343,6 @@
         }
       ]
     },
-    "localizedName": {    
-      "oneOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ]
-    },
     "hasCompositeKey": {    
       "oneOf": [
         {
