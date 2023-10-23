@@ -6,4 +6,8 @@ public interface INoxIntegration
     public string Description { get; internal set; }
     INoxReceiveAdapter ReceiveAdapter { get; internal set; }
     INoxSendAdapter SendAdapter { get; internal set; }
+    
+    //todo handlers?
+    
+    //todo mapping?
 }
