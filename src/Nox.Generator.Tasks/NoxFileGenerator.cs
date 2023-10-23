@@ -37,14 +37,15 @@ internal class NoxFileGenerator
         var _debug = new CodeBuilder($"Generator.g.cs", AbsoluteOutputPath);
         _errors.Clear();
 
-        _debug.AppendLine("// Found files ->");
-        _debug.AppendLine(string.Join("\r\n", _noxYamls.Select(path => $"// - {Path.GetFileName(path)}")));
+        _debug.AppendLine("/* v 1 0 0 11");
+        _debug.AppendLine("Found files ->");
+        _debug.AppendLine(string.Join("\r\n", _noxYamls.Select(path => $"- {Path.GetFileName(path)}")));
 
         try
         {
             if (TryGetGeneratorConfig(out var config) && TryGetNoxSolution(out var solution))
             {
-                _debug.AppendLine($"// Logging Verbosity {config.LoggingVerbosity}");
+                _debug.AppendLine($"Logging Verbosity {config.LoggingVerbosity}");
 
                 var codeGeneratorState = new NoxCodeGenConventions(solution);
 
@@ -63,8 +64,8 @@ internal class NoxFileGenerator
 
                 if (config.LoggingVerbosity == LoggingVerbosity.Diagnostic)
                 {
-                    _debug.AppendLine($"// Enabled Generators Types");
-                    _debug.AppendLine(string.Join("\r\n", generatorFlows.Select(flow => $"// - {flow}")));
+                    _debug.AppendLine($"Enabled Generators Types");
+                    _debug.AppendLine(string.Join("\r\n", generatorFlows.Select(flow => $"- {flow}")));
                 }
 
                 var generatorInstances = Assembly
@@ -76,8 +77,8 @@ internal class NoxFileGenerator
 
                 if (config.LoggingVerbosity == LoggingVerbosity.Diagnostic)
                 {
-                    _debug.AppendLine($"// Found Generators");
-                    _debug.AppendLine(string.Join("\r\n", generatorInstances.Select(i => $"// - {i}")));
+                    _debug.AppendLine($"Found Generators");
+                    _debug.AppendLine(string.Join("\r\n", generatorInstances.Select(i => $"- {i}")));
                 }
 
                 foreach (var flow in generatorFlows)
@@ -87,7 +88,7 @@ internal class NoxFileGenerator
                         flowInstance.Generate(
                             codeGeneratorState,
                             config,
-                            (logMessage) => _debug.AppendLine($"// {flowInstance} {logMessage}"),
+                            (logMessage) => _debug.AppendLine($"{flowInstance} {logMessage}"),
                             AbsoluteOutputPath
                             );
                     }
@@ -101,17 +102,18 @@ internal class NoxFileGenerator
 
         if (_errors.Any())
         {
-            _debug.AppendLine("// Errors ->");
+            _debug.AppendLine("Errors ->");
             foreach (var e in _errors)
             {
-                _debug.AppendLine($"//  - {e}");
+                _debug.AppendLine($"- {e}");
             }
         }
         else
         {
-            _debug.AppendLine("// SUCCESS.");
+            _debug.AppendLine("SUCCESS.");
         }
 
+        _debug.AppendLine("*/");
         _debug.GenerateSourceCode();
     }
 
