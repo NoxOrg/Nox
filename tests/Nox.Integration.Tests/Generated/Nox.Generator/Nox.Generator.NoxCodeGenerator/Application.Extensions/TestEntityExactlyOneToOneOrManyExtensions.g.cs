@@ -6,13 +6,11 @@ using System.Linq;
 
 using Nox.Extensions;
 
-using TestWebApp.Domain;
-
 namespace TestWebApp.Application.Dto;
 
 internal static class TestEntityExactlyOneToOneOrManyExtensions
 {
-    public static TestEntityExactlyOneToOneOrManyDto ToDto(this TestEntityExactlyOneToOneOrMany entity)
+    public static TestEntityExactlyOneToOneOrManyDto ToDto(this TestWebApp.Domain.TestEntityExactlyOneToOneOrMany entity)
     {
         var dto = new TestEntityExactlyOneToOneOrManyDto();
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);

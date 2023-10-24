@@ -6,13 +6,11 @@ using System.Linq;
 
 using Nox.Extensions;
 
-using Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 internal static class CashStockOrderExtensions
 {
-    public static CashStockOrderDto ToDto(this CashStockOrder entity)
+    public static CashStockOrderDto ToDto(this Cryptocash.Domain.CashStockOrder entity)
     {
         var dto = new CashStockOrderDto();
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);

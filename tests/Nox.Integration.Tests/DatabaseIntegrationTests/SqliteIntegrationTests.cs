@@ -132,4 +132,10 @@ public class SqliteIntegrationTests
     {
         _noxCommonTestCases.GeneratedRelationshipTwoRelationshipsToTheSameEntityOneToMany();
     }
+
+    [Fact]
+    public void GeneratedEntities_Sqlite_LocalizedEntitiesBeingGenerated()
+    {
+        _noxCommonTestCases.LocalizedEntitiesBeingGenerated();
+    }
 }

@@ -6,13 +6,11 @@ using System.Linq;
 
 using Nox.Extensions;
 
-using ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 internal static class CountryBarCodeExtensions
 {
-    public static CountryBarCodeDto ToDto(this CountryBarCode entity)
+    public static CountryBarCodeDto ToDto(this ClientApi.Domain.CountryBarCode entity)
     {
         var dto = new CountryBarCodeDto();
         dto.SetIfNotNull(entity?.BarCodeName, (dto) => dto.BarCodeName =entity!.BarCodeName!.Value);

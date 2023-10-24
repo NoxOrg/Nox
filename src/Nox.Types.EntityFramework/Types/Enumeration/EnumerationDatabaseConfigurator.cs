@@ -1,4 +1,5 @@
-﻿using Nox.Solution;
+﻿using Microsoft.EntityFrameworkCore;
+using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 
@@ -19,8 +20,14 @@ public class EnumerationDatabaseConfigurator : INoxTypeDatabaseConfigurator
         builder
             .Property(property.Name)
             .IsRequired(property.IsRequired)            
-            .HasMaxLength(255)
             .HasConversion<EnumerationConverter>();
+
+        builder
+            .HasOne(noxSolutionCodeGeneratorState.GetEntityTypeFullNameForEnumeration(entity.Name, property.Name), null) // No navigation property
+            .WithMany()
+            .HasForeignKey(property.Name)
+            .OnDelete(DeleteBehavior.ClientSetNull);
+
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;

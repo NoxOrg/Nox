@@ -133,4 +133,13 @@ public class NoxSimpleTypeDefinition
     {
         return (NoxSimpleTypeDefinition)MemberwiseClone();
     }
+
+    internal void ApplyDefaults()
+    {
+        if (Type == NoxType.Text &&
+            TextTypeOptions == null)
+        {
+            TextTypeOptions = new TextTypeOptions();
+        }
+    }
 }

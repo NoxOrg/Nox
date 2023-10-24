@@ -4,7 +4,7 @@
 
 namespace ClientApi.Domain;
 
-public partial class StoreStatus: Nox.Domain.EnumTypeBase
+public partial class StoreStatus: Nox.Domain.EnumerationBase
 {    
    
 }
