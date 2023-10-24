@@ -47,6 +47,9 @@ internal class DtoDbContext : DbContext
 
     {{ for entity in entities }}
     public DbSet<{{ entity.Name }}Dto> {{ entity.PluralName }} { get; set; } = null!;
+    {{ if entity.HasLocalizedAttributes }}    
+    public DbSet<{{ entity.Name }}LocalizedDto> {{ entity.PluralName }}Localized { get; set; } = null!;
+    {{ end -}}    
     {{ end }}
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -77,19 +80,19 @@ internal class DtoDbContext : DbContext
                 var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityDtoTypeFullName(entity.Name + "Dto"));
                 if (type != null)
                 {
-                    _noxDtoDatabaseConfigurator.ConfigureDto(
-                        new Nox.Types.EntityFramework.EntityBuilderAdapter.EntityBuilderAdapter(modelBuilder.Entity(type)),
-                        entity);
-                }
+        _noxDtoDatabaseConfigurator.ConfigureDto(
+            new Nox.Types.EntityFramework.EntityBuilderAdapter.EntityBuilderAdapter(modelBuilder.Entity(type)),
+            entity);
+    }
                 else
-                {
+    {
                     throw new Exception($"Could not resolve type for {entity.Name}Dto");
                 }
             }
         }
     }
 
-    private void ConfigureAuditable(ModelBuilder modelBuilder)
+private void ConfigureAuditable(ModelBuilder modelBuilder)
     {
     {{- for entity in entities }}
     {{- if entity.Persistence?.IsAudited }}

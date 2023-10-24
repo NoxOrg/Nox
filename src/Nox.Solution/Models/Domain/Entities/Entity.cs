@@ -98,6 +98,10 @@ public class Entity : DefinitionBase
         (Persistence is not null) &&
         (Persistence.Create.RaiseIntegrationEvents || Persistence.Update.RaiseIntegrationEvents || Persistence.Delete.RaiseIntegrationEvents);
 
+    [YamlIgnore]
+    public bool HasLocalizedAttributes =>
+        Attributes.Any(a => a.Type == NoxType.Text && a.TextTypeOptions?.IsLocalized == true);
+
     internal bool ApplyDefaults()
     {
         if (string.IsNullOrWhiteSpace(PluralName))
