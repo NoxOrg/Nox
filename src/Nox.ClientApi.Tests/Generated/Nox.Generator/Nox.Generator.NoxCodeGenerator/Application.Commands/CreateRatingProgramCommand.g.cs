@@ -24,7 +24,7 @@ public record CreateRatingProgramCommand(RatingProgramCreateDto EntityDto) : IRe
 internal partial class CreateRatingProgramCommandHandler : CreateRatingProgramCommandHandlerBase
 {
 	public CreateRatingProgramCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> entityFactory)
 		: base(dbContext, noxSolution,entityFactory)
@@ -35,11 +35,11 @@ internal partial class CreateRatingProgramCommandHandler : CreateRatingProgramCo
 
 internal abstract class CreateRatingProgramCommandHandlerBase : CommandBase<CreateRatingProgramCommand,RatingProgramEntity>, IRequestHandler <CreateRatingProgramCommand, RatingProgramKeyDto>
 {
-	protected readonly ClientApiDbContext DbContext;
+	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> EntityFactory;
 
 	public CreateRatingProgramCommandHandlerBase(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> entityFactory) : base(noxSolution)
 	{

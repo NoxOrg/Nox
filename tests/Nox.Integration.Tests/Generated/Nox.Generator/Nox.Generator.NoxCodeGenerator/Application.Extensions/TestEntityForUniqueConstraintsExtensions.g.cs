@@ -6,13 +6,11 @@ using System.Linq;
 
 using Nox.Extensions;
 
-using TestWebApp.Domain;
-
 namespace TestWebApp.Application.Dto;
 
 internal static class TestEntityForUniqueConstraintsExtensions
 {
-    public static TestEntityForUniqueConstraintsDto ToDto(this TestEntityForUniqueConstraints entity)
+    public static TestEntityForUniqueConstraintsDto ToDto(this TestWebApp.Domain.TestEntityForUniqueConstraints entity)
     {
         var dto = new TestEntityForUniqueConstraintsDto();
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);

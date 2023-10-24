@@ -33,11 +33,11 @@ namespace Nox.Solution.Validation
                 .SetValidator(e => new UniquePropertyValidator<EntityRelationship>(e.OwnedRelationships, x => x.Name, "entity owned relation"));
 
             RuleForEach(e => e.OwnedRelationships)
-                .Must(x => x.Related.Entity.Keys.Count <= 1)
+                .Must(x => !x.Related.Entity.HasCompositeKey)
                 .WithMessage((x, r) => string.Format(ValidationResources.RelationEntityDependentMustHaveSingleKey, x.Name, r.Related.Entity.Name, r.Name));
 
             RuleForEach(e => e.Relationships)
-                .Must(x => x.Related.Entity.Keys.Count <= 1)
+                .Must(x => !x.Related.Entity.HasCompositeKey)
                 .WithMessage((x, r) => string.Format(ValidationResources.RelationEntityDependentMustHaveSingleKey, x.Name, r.Related.Entity.Name, r.Name));
 
             RuleForEach(e => e.Queries)

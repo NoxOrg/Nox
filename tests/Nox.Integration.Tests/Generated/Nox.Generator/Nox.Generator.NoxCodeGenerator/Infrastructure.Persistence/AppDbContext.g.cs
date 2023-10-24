@@ -30,15 +30,15 @@ using TestWebApp.Domain;
 
 namespace TestWebApp.Infrastructure.Persistence;
 
-internal partial class TestWebAppDbContext : Nox.Infrastructure.Persistence.EntityDbContextBase
+internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbContextBase
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
     private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
     private readonly NoxCodeGenConventions _codeGenConventions;
 
-    public TestWebAppDbContext(
-            DbContextOptions<TestWebAppDbContext> options,
+    public AppDbContext(
+            DbContextOptions<AppDbContext> options,
             IPublisher publisher,
             NoxSolution noxSolution,
             INoxDatabaseProvider databaseProvider,
@@ -132,6 +132,10 @@ internal partial class TestWebAppDbContext : Nox.Infrastructure.Persistence.Enti
 
     public DbSet<TestWebApp.Domain.TestEntityForUniqueConstraints> TestEntityForUniqueConstraints { get; set; } = null!;
 
+    public DbSet<TestWebApp.Domain.TestEntityLocalization> TestEntityLocalizations { get; set; } = null!;
+
+public DbSet<TestWebApp.Domain.TestEntityLocalizationLocalized> TestEntityLocalizationsLocalized { get; set; } = null!;
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -152,7 +156,7 @@ internal partial class TestWebAppDbContext : Nox.Infrastructure.Persistence.Enti
         modelBuilder.AddOutboxStateEntity();
         foreach (var entity in _noxSolution.Domain!.Entities)
         {
-            Console.WriteLine($"TestWebAppDbContext Configure database for Entity {entity.Name}");
+            Console.WriteLine($"AppDbContext Configure database for Entity {entity.Name}");
 
             // Ignore owned entities configuration as they are configured inside entity constructor
             if (entity.IsOwnedEntity)
@@ -161,9 +165,13 @@ internal partial class TestWebAppDbContext : Nox.Infrastructure.Persistence.Enti
             }
 
             var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.Name));
-            if (type != null)
+            ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(new EntityBuilderAdapter(modelBuilder.Entity(type!)), entity);
+
+            if (entity.ShouldBeLocalized)
             {
-                ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+                type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(NoxCodeGenConventions.GetEntityNameForLocalizedType(entity.Name)));
+
+                ((INoxDatabaseConfigurator)_dbProvider).ConfigureLocalizedEntity(new EntityBuilderAdapter(modelBuilder.Entity(type!)), entity);
             }
         }
 
@@ -206,5 +214,6 @@ internal partial class TestWebAppDbContext : Nox.Infrastructure.Persistence.Enti
         modelBuilder.Entity<TestWebApp.Domain.TestEntityTwoRelationshipsManyToMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
         modelBuilder.Entity<TestWebApp.Domain.TestEntityTwoRelationshipsOneToMany>().HasQueryFilter(p => p.DeletedAtUtc == null);
         modelBuilder.Entity<TestWebApp.Domain.TestEntityForTypes>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<TestWebApp.Domain.TestEntityLocalization>().HasQueryFilter(p => p.DeletedAtUtc == null);
     }
 }

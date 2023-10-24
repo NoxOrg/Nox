@@ -57,7 +57,7 @@ public abstract class NoxTestDataContextFixtureBase : INoxTestDataContextFixture
     public void RefreshDbContext()
     {
         var scope = _serviceProvider.CreateScope();
-        _dbContext = scope.ServiceProvider.GetRequiredService<TestWebAppDbContext>();
+        _dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     }
 
     protected abstract INoxDatabaseProvider GetDatabaseProvider(

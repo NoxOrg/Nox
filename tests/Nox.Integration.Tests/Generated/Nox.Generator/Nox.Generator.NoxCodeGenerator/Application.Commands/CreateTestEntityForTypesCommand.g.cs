@@ -25,7 +25,7 @@ public record CreateTestEntityForTypesCommand(TestEntityForTypesCreateDto Entity
 internal partial class CreateTestEntityForTypesCommandHandler : CreateTestEntityForTypesCommandHandlerBase
 {
 	public CreateTestEntityForTypesCommandHandler(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityForTypesEntity, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> entityFactory)
 		: base(dbContext, noxSolution,entityFactory)
@@ -36,11 +36,11 @@ internal partial class CreateTestEntityForTypesCommandHandler : CreateTestEntity
 
 internal abstract class CreateTestEntityForTypesCommandHandlerBase : CommandBase<CreateTestEntityForTypesCommand,TestEntityForTypesEntity>, IRequestHandler <CreateTestEntityForTypesCommand, TestEntityForTypesKeyDto>
 {
-	protected readonly TestWebAppDbContext DbContext;
+	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<TestEntityForTypesEntity, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> EntityFactory;
 
 	public CreateTestEntityForTypesCommandHandlerBase(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityForTypesEntity, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> entityFactory) : base(noxSolution)
 	{

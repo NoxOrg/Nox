@@ -171,14 +171,14 @@ namespace Nox.Infrastructure.Persistence
         /// </summary>
         protected virtual void ConfigureEnumeration(EntityTypeBuilder enumModelBuilder)
         {
-            enumModelBuilder.HasKey(nameof(EnumTypeBase.Id));
+            enumModelBuilder.HasKey(nameof(EnumerationBase.Id));
             
             enumModelBuilder
-                .Property(nameof(EnumTypeBase.Id))
+                .Property(nameof(EnumerationBase.Id))
                 .HasConversion<EnumerationConverter>();
 
             enumModelBuilder
-                .Property(nameof(EnumTypeBase.Name))
+                .Property(nameof(EnumerationBase.Name))
                 .IsRequired(true);
         }
 
@@ -187,15 +187,15 @@ namespace Nox.Infrastructure.Persistence
         /// </summary>
         protected virtual void ConfigureEnumerationLocalized(EntityTypeBuilder enumModelBuilder, Type enumType, Type enumLocalizedType)
         {
-            enumModelBuilder.HasKey(nameof(EnumTypeLocalizedBase.Id), nameof(EnumTypeLocalizedBase.CultureCode));
+            enumModelBuilder.HasKey(nameof(EnumerationLocalizedBase.Id), nameof(EnumerationLocalizedBase.CultureCode));
 
             enumModelBuilder
-                .Property(nameof(EnumTypeLocalizedBase.Id))
+                .Property(nameof(EnumerationLocalizedBase.Id))
                 .HasConversion<EnumerationConverter>();
 
-            enumModelBuilder.Property(nameof(EnumTypeLocalizedBase.Name)).IsRequired(true);
+            enumModelBuilder.Property(nameof(EnumerationLocalizedBase.Name)).IsRequired(true);
 
-            enumModelBuilder.Property(nameof(EnumTypeLocalizedBase.CultureCode))
+            enumModelBuilder.Property(nameof(EnumerationLocalizedBase.CultureCode))
                 .IsUnicode(false)
                 .IsFixedLength(false)
                 .HasMaxLength(10)
@@ -204,7 +204,7 @@ namespace Nox.Infrastructure.Persistence
             enumModelBuilder
                 .HasOne(enumType)
                 .WithMany()
-                .HasForeignKey(nameof(EnumTypeLocalizedBase.Id));
+                .HasForeignKey(nameof(EnumerationLocalizedBase.Id));
         }
     }
 }

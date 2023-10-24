@@ -5,7 +5,7 @@ namespace Nox.Domain;
 /// <summary>
 /// Base for Nox.Type Enum
 /// </summary>
-public abstract partial class EnumTypeBase
+public abstract partial class EnumerationBase
 {
     /// <summary>
     /// Enum value

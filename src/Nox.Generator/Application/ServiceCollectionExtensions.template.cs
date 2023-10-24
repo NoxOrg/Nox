@@ -37,8 +37,8 @@ internal static class {{className}}
     {
         services.AddNoxLib(webApplicationBuilder, configurator =>
         {
-            configurator.WithDatabaseContexts<{{ solutionName }}DbContext, DtoDbContext>();
-            configurator.WithMessagingTransactionalOutbox<{{ solutionName }}DbContext>();
+            configurator.WithDatabaseContexts<AppDbContext, DtoDbContext>();
+            configurator.WithMessagingTransactionalOutbox<AppDbContext>();
             configureNox?.Invoke(configurator);
         });
         {{- if configPresentation == true }}

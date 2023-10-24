@@ -22,7 +22,7 @@ public record CreateEmployeePhoneNumberForEmployeeCommand(EmployeeKeyDto ParentK
 internal partial class CreateEmployeePhoneNumberForEmployeeCommandHandler : CreateEmployeePhoneNumberForEmployeeCommandHandlerBase
 {
 	public CreateEmployeePhoneNumberForEmployeeCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> entityFactory)
 		: base(dbContext, noxSolution, entityFactory)
@@ -31,11 +31,11 @@ internal partial class CreateEmployeePhoneNumberForEmployeeCommandHandler : Crea
 }
 internal abstract class CreateEmployeePhoneNumberForEmployeeCommandHandlerBase : CommandBase<CreateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumberEntity>, IRequestHandler<CreateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumberKeyDto?>
 {
-	private readonly CryptocashDbContext _dbContext;
+	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> _entityFactory;
 
 	public CreateEmployeePhoneNumberForEmployeeCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> entityFactory) : base(noxSolution)
 	{

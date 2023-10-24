@@ -28,7 +28,7 @@ internal partial class CreateRefStoreToOwnershipCommandHandler
 	: RefStoreToOwnershipCommandHandlerBase<CreateRefStoreToOwnershipCommand>
 {
 	public CreateRefStoreToOwnershipCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Create)
@@ -42,7 +42,7 @@ internal partial class DeleteRefStoreToOwnershipCommandHandler
 	: RefStoreToOwnershipCommandHandlerBase<DeleteRefStoreToOwnershipCommand>
 {
 	public DeleteRefStoreToOwnershipCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Delete)
@@ -56,7 +56,7 @@ internal partial class DeleteAllRefStoreToOwnershipCommandHandler
 	: RefStoreToOwnershipCommandHandlerBase<DeleteAllRefStoreToOwnershipCommand>
 {
 	public DeleteAllRefStoreToOwnershipCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
@@ -66,14 +66,14 @@ internal partial class DeleteAllRefStoreToOwnershipCommandHandler
 internal abstract class RefStoreToOwnershipCommandHandlerBase<TRequest> : CommandBase<TRequest, StoreEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefStoreToOwnershipCommand
 {
-	public ClientApiDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
 	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefStoreToOwnershipCommandHandlerBase(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		RelationshipAction action)
 		: base(noxSolution)

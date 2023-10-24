@@ -10,6 +10,7 @@ end}}
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Infrastructure.Messaging;
+using DomainNamespace = {{codeGeneratorState.DomainNameSpace}};
 
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
@@ -18,5 +19,5 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.IntegrationEvents;
 /// <summary>
 /// {{entity.Name}}{{operation}} integration event.
 /// </summary>
-[IntegrationEventType("{{operation | toLower}}", nameof({{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}))]
+[IntegrationEventType("{{operation | toLower}}", nameof(DomainNamespace.{{entity.Name}}))]
 internal record {{entity.Name}}{{operation}}({{entity.Name}}Dto {{entity.Name}}) :  IIntegrationEvent;

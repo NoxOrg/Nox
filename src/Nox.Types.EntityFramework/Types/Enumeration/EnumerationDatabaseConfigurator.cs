@@ -23,7 +23,7 @@ public class EnumerationDatabaseConfigurator : INoxTypeDatabaseConfigurator
             .HasConversion<EnumerationConverter>();
 
         builder
-            .HasOne(noxSolutionCodeGeneratorState.GetEntityTypeFullNameForEnumType(entity.Name, property.Name), null) // No navigation property
+            .HasOne(noxSolutionCodeGeneratorState.GetEntityTypeFullNameForEnumeration(entity.Name, property.Name), null) // No navigation property
             .WithMany()
             .HasForeignKey(property.Name)
             .OnDelete(DeleteBehavior.ClientSetNull);

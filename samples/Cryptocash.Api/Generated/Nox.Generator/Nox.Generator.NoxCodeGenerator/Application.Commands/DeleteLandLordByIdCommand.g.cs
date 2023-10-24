@@ -18,17 +18,17 @@ public record DeleteLandLordByIdCommand(System.Int64 keyId, System.Guid? Etag) :
 internal class DeleteLandLordByIdCommandHandler : DeleteLandLordByIdCommandHandlerBase
 {
 	public DeleteLandLordByIdCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
 internal abstract class DeleteLandLordByIdCommandHandlerBase : CommandBase<DeleteLandLordByIdCommand, LandLordEntity>, IRequestHandler<DeleteLandLordByIdCommand, bool>
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public DeleteLandLordByIdCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;

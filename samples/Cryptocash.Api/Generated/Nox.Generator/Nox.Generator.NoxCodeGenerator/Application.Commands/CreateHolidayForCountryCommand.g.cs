@@ -22,7 +22,7 @@ public record CreateHolidayForCountryCommand(CountryKeyDto ParentKeyDto, Holiday
 internal partial class CreateHolidayForCountryCommandHandler : CreateHolidayForCountryCommandHandlerBase
 {
 	public CreateHolidayForCountryCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<HolidayEntity, HolidayCreateDto, HolidayUpdateDto> entityFactory)
 		: base(dbContext, noxSolution, entityFactory)
@@ -31,11 +31,11 @@ internal partial class CreateHolidayForCountryCommandHandler : CreateHolidayForC
 }
 internal abstract class CreateHolidayForCountryCommandHandlerBase : CommandBase<CreateHolidayForCountryCommand, HolidayEntity>, IRequestHandler<CreateHolidayForCountryCommand, HolidayKeyDto?>
 {
-	private readonly CryptocashDbContext _dbContext;
+	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<HolidayEntity, HolidayCreateDto, HolidayUpdateDto> _entityFactory;
 
 	public CreateHolidayForCountryCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<HolidayEntity, HolidayCreateDto, HolidayUpdateDto> entityFactory) : base(noxSolution)
 	{

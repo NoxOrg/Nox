@@ -16,27 +16,27 @@ variables:
   DATABASE_PORT: "5432"
 
 infrastructure:
-  
+
   persistence:
 
     databaseServer: # tests will override this configuration
       name: ClientApi
-      provider: sqlServer      
+      provider: sqlServer
       options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True
       serverUri: localhost
-      user: sa  
+      user: sa
       password: Developer*123
-      # provider: sqLite      
+      # provider: sqLite
       # #options: "DataSource=:memory:"
       # options: "Data Source=Client.db"
       # serverUri: "localhost"
-      # user: "sa"  
+      # user: "sa"
       # password: "pwd"
-      
+
   messaging:
-    integrationEventServer:       
+    integrationEventServer:
       name: IntegrationBus
-      provider: inMemory      
+      provider: inMemory
 
 environments:
 
@@ -487,7 +487,7 @@ domain:
             description: Test entity relationship to TestEntityZeroOrOneToZeroOrMany
             relationship: zeroOrMany
             entity: TestEntityZeroOrOneToZeroOrMany
-    
+
     - name: TestEntityExactlyOneToOneOrMany
       description: Entity created for testing database
 
@@ -541,7 +541,7 @@ domain:
             description: Test entity relationship to TestEntityExactlyOneToOneOrMany
             relationship: oneOrMany
             entity: TestEntityExactlyOneToOneOrMany
-    
+
     - name: TestEntityExactlyOneToZeroOrMany
       description: Entity created for testing database
 
@@ -595,7 +595,7 @@ domain:
             description: Test entity relationship to TestEntityExactlyOneToZeroOrMany
             relationship: zeroOrMany
             entity: TestEntityExactlyOneToZeroOrMany
-    
+
     - name: TestEntityOneOrManyToZeroOrMany
       description: Entity created for testing database
 
@@ -1193,7 +1193,7 @@ domain:
 
         - name: StreetAddressTestField
           type: streetAddress
-        
+
         - name: CurrencyCode3TestField
           type: currencyCode3
 
@@ -1331,7 +1331,7 @@ domain:
 
         - name: UrlTestField
           type: url
-        
+
         - name: DateTimeScheduleTestField
           type: dateTimeSchedule
 
@@ -1388,28 +1388,58 @@ domain:
             minValue: 4
             maxValue: 894
           isRequired: true
-          
+
         - name: UniqueNumberField
           type: number
           numberTypeOptions:
             minValue: 4
             maxValue: 894
           isRequired: true
-        
+
         - name: UniqueCountryCode
           type: countryCode2
           isRequired: true
-          
+
         - name: UniqueCurrencyCode
           type: currencyCode3
           isRequired: true
-          
+
       uniqueAttributeConstraints:
         - name: UniqueNumberField
           attributeNames:
             - UniqueNumberField
-        
+
         - name: UniqueFields
           attributeNames:
             - UniqueCountryCode
             - UniqueCurrencyCode
+
+    - name: TestEntityLocalization
+      description: Entity created for testing localization
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextFieldToLocalize
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+            isLocalized: true
+          isRequired: true
+
+        - name: NumberField
+          type: number
+          numberTypeOptions:
+            minValue: 4
+            maxValue: 894
+          isRequired: true

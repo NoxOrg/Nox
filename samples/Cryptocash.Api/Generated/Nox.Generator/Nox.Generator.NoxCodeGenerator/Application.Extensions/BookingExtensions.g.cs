@@ -6,13 +6,11 @@ using System.Linq;
 
 using Nox.Extensions;
 
-using Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 internal static class BookingExtensions
 {
-    public static BookingDto ToDto(this Booking entity)
+    public static BookingDto ToDto(this Cryptocash.Domain.Booking entity)
     {
         var dto = new BookingDto();
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);

@@ -28,7 +28,7 @@ internal partial class CreateRefVendingMachineToVendingMachineContractedAreaLand
 	: RefVendingMachineToVendingMachineContractedAreaLandLordCommandHandlerBase<CreateRefVendingMachineToVendingMachineContractedAreaLandLordCommand>
 {
 	public CreateRefVendingMachineToVendingMachineContractedAreaLandLordCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Create)
@@ -42,7 +42,7 @@ internal partial class DeleteRefVendingMachineToVendingMachineContractedAreaLand
 	: RefVendingMachineToVendingMachineContractedAreaLandLordCommandHandlerBase<DeleteRefVendingMachineToVendingMachineContractedAreaLandLordCommand>
 {
 	public DeleteRefVendingMachineToVendingMachineContractedAreaLandLordCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Delete)
@@ -56,7 +56,7 @@ internal partial class DeleteAllRefVendingMachineToVendingMachineContractedAreaL
 	: RefVendingMachineToVendingMachineContractedAreaLandLordCommandHandlerBase<DeleteAllRefVendingMachineToVendingMachineContractedAreaLandLordCommand>
 {
 	public DeleteAllRefVendingMachineToVendingMachineContractedAreaLandLordCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
@@ -66,14 +66,14 @@ internal partial class DeleteAllRefVendingMachineToVendingMachineContractedAreaL
 internal abstract class RefVendingMachineToVendingMachineContractedAreaLandLordCommandHandlerBase<TRequest> : CommandBase<TRequest, VendingMachineEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefVendingMachineToVendingMachineContractedAreaLandLordCommand
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
 	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefVendingMachineToVendingMachineContractedAreaLandLordCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		RelationshipAction action)
 		: base(noxSolution)
