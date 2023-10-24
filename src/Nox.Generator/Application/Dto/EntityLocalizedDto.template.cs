@@ -18,7 +18,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto;
 /// <summary>
 /// {{entity.Description}} Localized DTO.
 /// </summary>
-internal abstract partial class {{className}}
+internal partial class {{className}}
 {
 {{- for key in entity.Keys }}
     /// <summary>
@@ -30,9 +30,9 @@ internal abstract partial class {{className}}
     public {{SinglePrimitiveTypeForKey key}} {{key.Name}} { get; set; } = default!;
 {{- end}}
 {{ end }}
-    public System.String CultureCode { get; set; } = null!;
+    public System.String {{codeGeneratorState.LocalizationCultureField}} { get; set; } = null!;
 {{- for attribute in entityAttributesToLocalize }}
-{{ if attribute.Type == "Text" && attribute.TextTypeOptions.IsLocalized }}
+{{ if attribute.Type == "Text" }}
     /// <summary>
     /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
     /// </summary>

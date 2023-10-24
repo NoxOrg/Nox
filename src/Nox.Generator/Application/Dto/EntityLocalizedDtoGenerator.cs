@@ -1,10 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
-using Nox.Types;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Nox.Generator.Application.Dto;
 
@@ -26,26 +23,19 @@ internal class EntityLocalizedDtoGenerator : INoxCodeGenerator
 
         foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
-            // Currently skip owned and composite key entities
-            if (entity.IsOwnedEntity || entity.Keys.Count > 1)
+            if (!entity.ShouldBeLocalized)
                 continue;
 
-            var entityAttributesToLocalize = GetAttributesForLocalization(entity);
+            var entityAttributesToLocalize = entity.GetAttributesToLocalize();
 
-            if (entityAttributesToLocalize.Any())
-            {
-                context.CancellationToken.ThrowIfCancellationRequested();
+            context.CancellationToken.ThrowIfCancellationRequested();
 
-                new TemplateCodeBuilder(context, codeGeneratorState)
-                    .WithClassName($"{entity.Name}LocalizedDto")
-                    .WithFileNamePrefix("Application.Dto")
-                    .WithObject("entity", entity)
-                    .WithObject("entityAttributesToLocalize", entityAttributesToLocalize)
-                    .GenerateSourceCodeFromResource("Application.Dto.EntityLocalizedDto");
-            }
+            new TemplateCodeBuilder(context, codeGeneratorState)
+                .WithClassName(NoxCodeGenConventions.GetEntityDtoNameForLocalizedType(entity.Name))
+                .WithFileNamePrefix("Application.Dto")
+                .WithObject("entity", entity)
+                .WithObject("entityAttributesToLocalize", entityAttributesToLocalize)
+                .GenerateSourceCodeFromResource("Application.Dto.EntityLocalizedDto");
         }
     }
-
-    private static List<NoxSimpleTypeDefinition> GetAttributesForLocalization(Entity entity)
-        => entity.Attributes.Where(x => x.Type == NoxType.Text && x.TextTypeOptions != null && x.TextTypeOptions.IsLocalized).ToList();
 }

@@ -59,6 +59,9 @@ internal static class ScribanScriptsExtensions
         scriptObject11.Import("GetEntityNameForLocalizedType", new Func<string, string>(
             entityName => NoxCodeGenConventions.GetEntityNameForLocalizedType(entityName)));
 
+        var scriptObject12 = new ScriptObject();
+        scriptObject12.Import("GetEntityDtoNameForLocalizedType", new Func<string, string>(
+            entityName => NoxCodeGenConventions.GetEntityDtoNameForLocalizedType(entityName)));
 
         context.PushGlobal(scriptObject1);
         context.PushGlobal(scriptObject2);
@@ -71,5 +74,6 @@ internal static class ScribanScriptsExtensions
         context.PushGlobal(scriptObject9);
         context.PushGlobal(scriptObject10);
         context.PushGlobal(scriptObject11);
+        context.PushGlobal(scriptObject12);
     }
 }
