@@ -18,17 +18,17 @@ public record DeleteBookingByIdCommand(System.Guid keyId, System.Guid? Etag) : I
 internal class DeleteBookingByIdCommandHandler : DeleteBookingByIdCommandHandlerBase
 {
 	public DeleteBookingByIdCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
 internal abstract class DeleteBookingByIdCommandHandlerBase : CommandBase<DeleteBookingByIdCommand, BookingEntity>, IRequestHandler<DeleteBookingByIdCommand, bool>
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public DeleteBookingByIdCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;

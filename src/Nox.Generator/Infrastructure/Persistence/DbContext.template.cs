@@ -32,15 +32,15 @@ using {{codeGeneratorState.DomainNameSpace}};
 
 namespace {{codeGeneratorState.PersistenceNameSpace}};
 
-internal partial class {{className}} : Nox.Infrastructure.Persistence.EntityDbContextBase
+internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbContextBase
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
     private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
     private readonly NoxCodeGenConventions _codeGenConventions;
 
-    public {{className}}(
-            DbContextOptions<{{className}}> options,
+    public AppDbContext(
+            DbContextOptions<AppDbContext> options,
             IPublisher publisher,
             NoxSolution noxSolution,
             INoxDatabaseProvider databaseProvider,

@@ -25,7 +25,7 @@ public record CreateCommissionCommand(CommissionCreateDto EntityDto) : IRequest<
 internal partial class CreateCommissionCommandHandler : CreateCommissionCommandHandlerBase
 {
 	public CreateCommissionCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
 		IEntityFactory<Cryptocash.Domain.Booking, BookingCreateDto, BookingUpdateDto> BookingFactory,
@@ -38,13 +38,13 @@ internal partial class CreateCommissionCommandHandler : CreateCommissionCommandH
 
 internal abstract class CreateCommissionCommandHandlerBase : CommandBase<CreateCommissionCommand,CommissionEntity>, IRequestHandler <CreateCommissionCommand, CommissionKeyDto>
 {
-	protected readonly CryptocashDbContext DbContext;
+	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.Booking, BookingCreateDto, BookingUpdateDto> BookingFactory;
 
 	public CreateCommissionCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
 		IEntityFactory<Cryptocash.Domain.Booking, BookingCreateDto, BookingUpdateDto> BookingFactory,

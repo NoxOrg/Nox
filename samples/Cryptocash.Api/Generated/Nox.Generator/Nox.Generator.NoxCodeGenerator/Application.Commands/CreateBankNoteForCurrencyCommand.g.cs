@@ -22,7 +22,7 @@ public record CreateBankNoteForCurrencyCommand(CurrencyKeyDto ParentKeyDto, Bank
 internal partial class CreateBankNoteForCurrencyCommandHandler : CreateBankNoteForCurrencyCommandHandlerBase
 {
 	public CreateBankNoteForCurrencyCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<BankNoteEntity, BankNoteCreateDto, BankNoteUpdateDto> entityFactory)
 		: base(dbContext, noxSolution, entityFactory)
@@ -31,11 +31,11 @@ internal partial class CreateBankNoteForCurrencyCommandHandler : CreateBankNoteF
 }
 internal abstract class CreateBankNoteForCurrencyCommandHandlerBase : CommandBase<CreateBankNoteForCurrencyCommand, BankNoteEntity>, IRequestHandler<CreateBankNoteForCurrencyCommand, BankNoteKeyDto?>
 {
-	private readonly CryptocashDbContext _dbContext;
+	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<BankNoteEntity, BankNoteCreateDto, BankNoteUpdateDto> _entityFactory;
 
 	public CreateBankNoteForCurrencyCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<BankNoteEntity, BankNoteCreateDto, BankNoteUpdateDto> entityFactory) : base(noxSolution)
 	{

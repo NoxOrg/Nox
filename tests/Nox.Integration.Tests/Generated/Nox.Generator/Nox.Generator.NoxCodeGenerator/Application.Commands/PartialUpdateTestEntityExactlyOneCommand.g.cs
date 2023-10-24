@@ -21,7 +21,7 @@ public record PartialUpdateTestEntityExactlyOneCommand(System.String keyId, Dict
 internal class PartialUpdateTestEntityExactlyOneCommandHandler : PartialUpdateTestEntityExactlyOneCommandHandlerBase
 {
 	public PartialUpdateTestEntityExactlyOneCommandHandler(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityExactlyOneEntity, TestEntityExactlyOneCreateDto, TestEntityExactlyOneUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
@@ -29,11 +29,11 @@ internal class PartialUpdateTestEntityExactlyOneCommandHandler : PartialUpdateTe
 }
 internal class PartialUpdateTestEntityExactlyOneCommandHandlerBase : CommandBase<PartialUpdateTestEntityExactlyOneCommand, TestEntityExactlyOneEntity>, IRequestHandler<PartialUpdateTestEntityExactlyOneCommand, TestEntityExactlyOneKeyDto?>
 {
-	public TestWebAppDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	public IEntityFactory<TestEntityExactlyOneEntity, TestEntityExactlyOneCreateDto, TestEntityExactlyOneUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateTestEntityExactlyOneCommandHandlerBase(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityExactlyOneEntity, TestEntityExactlyOneCreateDto, TestEntityExactlyOneUpdateDto> entityFactory) : base(noxSolution)
 	{

@@ -19,7 +19,7 @@ public record DeleteCountryLocalNameForCountryCommand(CountryKeyDto ParentKeyDto
 internal partial class DeleteCountryLocalNameForCountryCommandHandler : DeleteCountryLocalNameForCountryCommandHandlerBase
 {
 	public DeleteCountryLocalNameForCountryCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(dbContext, noxSolution)
 	{
@@ -28,10 +28,10 @@ internal partial class DeleteCountryLocalNameForCountryCommandHandler : DeleteCo
 
 internal partial class DeleteCountryLocalNameForCountryCommandHandlerBase : CommandBase<DeleteCountryLocalNameForCountryCommand, CountryLocalNameEntity>, IRequestHandler <DeleteCountryLocalNameForCountryCommand, bool>
 {
-	public ClientApiDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public DeleteCountryLocalNameForCountryCommandHandlerBase(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;

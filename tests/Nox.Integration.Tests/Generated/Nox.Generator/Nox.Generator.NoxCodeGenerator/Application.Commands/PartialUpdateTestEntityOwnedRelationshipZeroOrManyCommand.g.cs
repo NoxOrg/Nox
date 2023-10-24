@@ -21,7 +21,7 @@ public record PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommand(System.S
 internal class PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommandHandler : PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase
 {
 	public PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommandHandler(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityOwnedRelationshipZeroOrManyEntity, TestEntityOwnedRelationshipZeroOrManyCreateDto, TestEntityOwnedRelationshipZeroOrManyUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
@@ -29,11 +29,11 @@ internal class PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommandHandler 
 }
 internal class PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase : CommandBase<PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommand, TestEntityOwnedRelationshipZeroOrManyEntity>, IRequestHandler<PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommand, TestEntityOwnedRelationshipZeroOrManyKeyDto?>
 {
-	public TestWebAppDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	public IEntityFactory<TestEntityOwnedRelationshipZeroOrManyEntity, TestEntityOwnedRelationshipZeroOrManyCreateDto, TestEntityOwnedRelationshipZeroOrManyUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityOwnedRelationshipZeroOrManyEntity, TestEntityOwnedRelationshipZeroOrManyCreateDto, TestEntityOwnedRelationshipZeroOrManyUpdateDto> entityFactory) : base(noxSolution)
 	{

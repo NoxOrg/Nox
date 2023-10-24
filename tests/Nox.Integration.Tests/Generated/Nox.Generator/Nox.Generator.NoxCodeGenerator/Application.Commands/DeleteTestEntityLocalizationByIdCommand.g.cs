@@ -18,17 +18,17 @@ public record DeleteTestEntityLocalizationByIdCommand(System.String keyId, Syste
 internal class DeleteTestEntityLocalizationByIdCommandHandler : DeleteTestEntityLocalizationByIdCommandHandlerBase
 {
 	public DeleteTestEntityLocalizationByIdCommandHandler(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
 internal abstract class DeleteTestEntityLocalizationByIdCommandHandlerBase : CommandBase<DeleteTestEntityLocalizationByIdCommand, TestEntityLocalizationEntity>, IRequestHandler<DeleteTestEntityLocalizationByIdCommand, bool>
 {
-	public TestWebAppDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public DeleteTestEntityLocalizationByIdCommandHandlerBase(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;

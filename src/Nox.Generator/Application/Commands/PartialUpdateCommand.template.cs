@@ -21,7 +21,7 @@ public record PartialUpdate{{entity.Name}}Command({{primaryKeys}}, Dictionary<st
 internal class PartialUpdate{{entity.Name}}CommandHandler : PartialUpdate{{entity.Name}}CommandHandlerBase
 {
 	public PartialUpdate{{entity.Name}}CommandHandler(
-		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
@@ -29,11 +29,11 @@ internal class PartialUpdate{{entity.Name}}CommandHandler : PartialUpdate{{entit
 }
 internal class PartialUpdate{{entity.Name}}CommandHandlerBase : CommandBase<PartialUpdate{{entity.Name}}Command, {{entity.Name}}Entity>, IRequestHandler<PartialUpdate{{entity.Name}}Command, {{entity.Name}}KeyDto?>
 {
-	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	public IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> EntityFactory { get; }
 
 	public PartialUpdate{{entity.Name}}CommandHandlerBase(
-		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(noxSolution)
 	{

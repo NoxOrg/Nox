@@ -25,7 +25,7 @@ public record CreateTestEntityLocalizationCommand(TestEntityLocalizationCreateDt
 internal partial class CreateTestEntityLocalizationCommandHandler : CreateTestEntityLocalizationCommandHandlerBase
 {
 	public CreateTestEntityLocalizationCommandHandler(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> entityFactory)
 		: base(dbContext, noxSolution,entityFactory)
@@ -36,11 +36,11 @@ internal partial class CreateTestEntityLocalizationCommandHandler : CreateTestEn
 
 internal abstract class CreateTestEntityLocalizationCommandHandlerBase : CommandBase<CreateTestEntityLocalizationCommand,TestEntityLocalizationEntity>, IRequestHandler <CreateTestEntityLocalizationCommand, TestEntityLocalizationKeyDto>
 {
-	protected readonly TestWebAppDbContext DbContext;
+	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> EntityFactory;
 
 	public CreateTestEntityLocalizationCommandHandlerBase(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> entityFactory) : base(noxSolution)
 	{

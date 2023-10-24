@@ -2,6 +2,7 @@
 using Nox.Integration.Tests.DataProviders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using System;
 using Testcontainers.MsSql;
 using TestWebApp.Infrastructure.Persistence;
 
@@ -33,7 +34,7 @@ public class NoxTestMsSqlContainerFixture : NoxTestContainerFixtureBase<MsSqlCon
         var connectionString = _container.GetConnectionString();
         if (connectionString.Contains(MasterDbName))
         {
-            return connectionString.Replace(MasterDbName, nameof(TestWebAppDbContext));
+            return connectionString.Replace(MasterDbName, nameof(AppDbContext));
         }
 
         return connectionString;

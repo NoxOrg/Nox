@@ -28,7 +28,7 @@ internal partial class CreateRefMinimumCashStockToMinimumCashStocksRequiredByVen
 	: RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandlerBase<CreateRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand>
 {
 	public CreateRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Create)
@@ -42,7 +42,7 @@ internal partial class DeleteRefMinimumCashStockToMinimumCashStocksRequiredByVen
 	: RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandlerBase<DeleteRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand>
 {
 	public DeleteRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Delete)
@@ -56,7 +56,7 @@ internal partial class DeleteAllRefMinimumCashStockToMinimumCashStocksRequiredBy
 	: RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandlerBase<DeleteAllRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand>
 {
 	public DeleteAllRefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
@@ -66,14 +66,14 @@ internal partial class DeleteAllRefMinimumCashStockToMinimumCashStocksRequiredBy
 internal abstract class RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandlerBase<TRequest> : CommandBase<TRequest, MinimumCashStockEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommand
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
 	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefMinimumCashStockToMinimumCashStocksRequiredByVendingMachinesCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		RelationshipAction action)
 		: base(noxSolution)

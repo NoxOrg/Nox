@@ -19,7 +19,7 @@ public record UpdateBankNoteForCurrencyCommand(CurrencyKeyDto ParentKeyDto, Bank
 internal partial class UpdateBankNoteForCurrencyCommandHandler : UpdateBankNoteForCurrencyCommandHandlerBase
 {
 	public UpdateBankNoteForCurrencyCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<BankNoteEntity, BankNoteCreateDto, BankNoteUpdateDto> entityFactory)
 		: base(dbContext, noxSolution, entityFactory)
@@ -29,11 +29,11 @@ internal partial class UpdateBankNoteForCurrencyCommandHandler : UpdateBankNoteF
 
 internal partial class UpdateBankNoteForCurrencyCommandHandlerBase : CommandBase<UpdateBankNoteForCurrencyCommand, BankNoteEntity>, IRequestHandler <UpdateBankNoteForCurrencyCommand, BankNoteKeyDto?>
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<BankNoteEntity, BankNoteCreateDto, BankNoteUpdateDto> _entityFactory;
 
 	public UpdateBankNoteForCurrencyCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<BankNoteEntity, BankNoteCreateDto, BankNoteUpdateDto> entityFactory) : base(noxSolution)
 	{

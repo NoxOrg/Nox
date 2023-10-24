@@ -20,7 +20,7 @@ public record UpdateCountryBarCodeForCountryCommand(CountryKeyDto ParentKeyDto, 
 internal partial class UpdateCountryBarCodeForCountryCommandHandler : UpdateCountryBarCodeForCountryCommandHandlerBase
 {
 	public UpdateCountryBarCodeForCountryCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryBarCodeEntity, CountryBarCodeCreateDto, CountryBarCodeUpdateDto> entityFactory)
 		: base(dbContext, noxSolution, entityFactory)
@@ -30,11 +30,11 @@ internal partial class UpdateCountryBarCodeForCountryCommandHandler : UpdateCoun
 
 internal partial class UpdateCountryBarCodeForCountryCommandHandlerBase : CommandBase<UpdateCountryBarCodeForCountryCommand, CountryBarCodeEntity>, IRequestHandler <UpdateCountryBarCodeForCountryCommand, CountryBarCodeKeyDto?>
 {
-	public ClientApiDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<CountryBarCodeEntity, CountryBarCodeCreateDto, CountryBarCodeUpdateDto> _entityFactory;
 
 	public UpdateCountryBarCodeForCountryCommandHandlerBase(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryBarCodeEntity, CountryBarCodeCreateDto, CountryBarCodeUpdateDto> entityFactory) : base(noxSolution)
 	{

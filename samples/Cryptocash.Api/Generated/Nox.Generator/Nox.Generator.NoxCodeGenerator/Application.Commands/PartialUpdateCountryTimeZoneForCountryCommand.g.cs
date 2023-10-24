@@ -18,7 +18,7 @@ public record PartialUpdateCountryTimeZoneForCountryCommand(CountryKeyDto Parent
 internal partial class PartialUpdateCountryTimeZoneForCountryCommandHandler: PartialUpdateCountryTimeZoneForCountryCommandHandlerBase
 {
 	public PartialUpdateCountryTimeZoneForCountryCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneCreateDto, CountryTimeZoneUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
@@ -26,11 +26,11 @@ internal partial class PartialUpdateCountryTimeZoneForCountryCommandHandler: Par
 }
 internal abstract class PartialUpdateCountryTimeZoneForCountryCommandHandlerBase: CommandBase<PartialUpdateCountryTimeZoneForCountryCommand, CountryTimeZoneEntity>, IRequestHandler <PartialUpdateCountryTimeZoneForCountryCommand, CountryTimeZoneKeyDto?>
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	public IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneCreateDto, CountryTimeZoneUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateCountryTimeZoneForCountryCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneCreateDto, CountryTimeZoneUpdateDto> entityFactory) : base(noxSolution)
 	{

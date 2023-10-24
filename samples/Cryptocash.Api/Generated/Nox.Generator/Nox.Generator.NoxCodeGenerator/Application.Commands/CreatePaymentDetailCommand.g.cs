@@ -25,7 +25,7 @@ public record CreatePaymentDetailCommand(PaymentDetailCreateDto EntityDto) : IRe
 internal partial class CreatePaymentDetailCommandHandler : CreatePaymentDetailCommandHandlerBase
 {
 	public CreatePaymentDetailCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Customer, CustomerCreateDto, CustomerUpdateDto> CustomerFactory,
 		IEntityFactory<Cryptocash.Domain.PaymentProvider, PaymentProviderCreateDto, PaymentProviderUpdateDto> PaymentProviderFactory,
@@ -38,13 +38,13 @@ internal partial class CreatePaymentDetailCommandHandler : CreatePaymentDetailCo
 
 internal abstract class CreatePaymentDetailCommandHandlerBase : CommandBase<CreatePaymentDetailCommand,PaymentDetailEntity>, IRequestHandler <CreatePaymentDetailCommand, PaymentDetailKeyDto>
 {
-	protected readonly CryptocashDbContext DbContext;
+	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<PaymentDetailEntity, PaymentDetailCreateDto, PaymentDetailUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.Customer, CustomerCreateDto, CustomerUpdateDto> CustomerFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.PaymentProvider, PaymentProviderCreateDto, PaymentProviderUpdateDto> PaymentProviderFactory;
 
 	public CreatePaymentDetailCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Customer, CustomerCreateDto, CustomerUpdateDto> CustomerFactory,
 		IEntityFactory<Cryptocash.Domain.PaymentProvider, PaymentProviderCreateDto, PaymentProviderUpdateDto> PaymentProviderFactory,

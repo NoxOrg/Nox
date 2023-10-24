@@ -21,7 +21,7 @@ public record PartialUpdatePaymentDetailCommand(System.Int64 keyId, Dictionary<s
 internal class PartialUpdatePaymentDetailCommandHandler : PartialUpdatePaymentDetailCommandHandlerBase
 {
 	public PartialUpdatePaymentDetailCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<PaymentDetailEntity, PaymentDetailCreateDto, PaymentDetailUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
@@ -29,11 +29,11 @@ internal class PartialUpdatePaymentDetailCommandHandler : PartialUpdatePaymentDe
 }
 internal class PartialUpdatePaymentDetailCommandHandlerBase : CommandBase<PartialUpdatePaymentDetailCommand, PaymentDetailEntity>, IRequestHandler<PartialUpdatePaymentDetailCommand, PaymentDetailKeyDto?>
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	public IEntityFactory<PaymentDetailEntity, PaymentDetailCreateDto, PaymentDetailUpdateDto> EntityFactory { get; }
 
 	public PartialUpdatePaymentDetailCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<PaymentDetailEntity, PaymentDetailCreateDto, PaymentDetailUpdateDto> entityFactory) : base(noxSolution)
 	{

@@ -18,17 +18,17 @@ public record DeleteVendingMachineByIdCommand(System.Guid keyId, System.Guid? Et
 internal class DeleteVendingMachineByIdCommandHandler : DeleteVendingMachineByIdCommandHandlerBase
 {
 	public DeleteVendingMachineByIdCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
 internal abstract class DeleteVendingMachineByIdCommandHandlerBase : CommandBase<DeleteVendingMachineByIdCommand, VendingMachineEntity>, IRequestHandler<DeleteVendingMachineByIdCommand, bool>
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public DeleteVendingMachineByIdCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;

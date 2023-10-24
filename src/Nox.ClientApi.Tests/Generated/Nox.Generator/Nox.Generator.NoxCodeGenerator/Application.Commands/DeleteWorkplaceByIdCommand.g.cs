@@ -18,17 +18,17 @@ public record DeleteWorkplaceByIdCommand(System.UInt32 keyId, System.Guid? Etag)
 internal class DeleteWorkplaceByIdCommandHandler : DeleteWorkplaceByIdCommandHandlerBase
 {
 	public DeleteWorkplaceByIdCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
 internal abstract class DeleteWorkplaceByIdCommandHandlerBase : CommandBase<DeleteWorkplaceByIdCommand, WorkplaceEntity>, IRequestHandler<DeleteWorkplaceByIdCommand, bool>
 {
-	public ClientApiDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public DeleteWorkplaceByIdCommandHandlerBase(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;

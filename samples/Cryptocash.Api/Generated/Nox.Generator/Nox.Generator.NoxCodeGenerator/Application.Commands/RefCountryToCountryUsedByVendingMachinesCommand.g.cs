@@ -28,7 +28,7 @@ internal partial class CreateRefCountryToCountryUsedByVendingMachinesCommandHand
 	: RefCountryToCountryUsedByVendingMachinesCommandHandlerBase<CreateRefCountryToCountryUsedByVendingMachinesCommand>
 {
 	public CreateRefCountryToCountryUsedByVendingMachinesCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Create)
@@ -42,7 +42,7 @@ internal partial class DeleteRefCountryToCountryUsedByVendingMachinesCommandHand
 	: RefCountryToCountryUsedByVendingMachinesCommandHandlerBase<DeleteRefCountryToCountryUsedByVendingMachinesCommand>
 {
 	public DeleteRefCountryToCountryUsedByVendingMachinesCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Delete)
@@ -56,7 +56,7 @@ internal partial class DeleteAllRefCountryToCountryUsedByVendingMachinesCommandH
 	: RefCountryToCountryUsedByVendingMachinesCommandHandlerBase<DeleteAllRefCountryToCountryUsedByVendingMachinesCommand>
 {
 	public DeleteAllRefCountryToCountryUsedByVendingMachinesCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
@@ -66,14 +66,14 @@ internal partial class DeleteAllRefCountryToCountryUsedByVendingMachinesCommandH
 internal abstract class RefCountryToCountryUsedByVendingMachinesCommandHandlerBase<TRequest> : CommandBase<TRequest, CountryEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCountryToCountryUsedByVendingMachinesCommand
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
 	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefCountryToCountryUsedByVendingMachinesCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		RelationshipAction action)
 		: base(noxSolution)

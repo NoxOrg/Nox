@@ -25,7 +25,7 @@ public record CreateStoreOwnerCommand(StoreOwnerCreateDto EntityDto) : IRequest<
 internal partial class CreateStoreOwnerCommandHandler : CreateStoreOwnerCommandHandlerBase
 {
 	public CreateStoreOwnerCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
 		IEntityFactory<StoreOwnerEntity, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory)
@@ -37,12 +37,12 @@ internal partial class CreateStoreOwnerCommandHandler : CreateStoreOwnerCommandH
 
 internal abstract class CreateStoreOwnerCommandHandlerBase : CommandBase<CreateStoreOwnerCommand,StoreOwnerEntity>, IRequestHandler <CreateStoreOwnerCommand, StoreOwnerKeyDto>
 {
-	protected readonly ClientApiDbContext DbContext;
+	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<StoreOwnerEntity, StoreOwnerCreateDto, StoreOwnerUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory;
 
 	public CreateStoreOwnerCommandHandlerBase(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
 		IEntityFactory<StoreOwnerEntity, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory) : base(noxSolution)
