@@ -34,9 +34,7 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
     {
         var localizedEntity = entity.ShallowCopy(NoxCodeGenConventions.GetEntityNameForLocalizedType(entity.Name));
 
-        ConfigureKeys(_codeGenConventions, builder, localizedEntity);
-
-        //ConfigureLocalizedAttributes(_codeGenConventions, builder, localizedEntity);
+        ConfigureKeys(builder, localizedEntity);
     }
 
     private void ConfigureAttributes(IEntityBuilder builder, Entity entity)
