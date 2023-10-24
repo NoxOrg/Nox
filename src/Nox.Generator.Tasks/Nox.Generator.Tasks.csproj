@@ -8,6 +8,7 @@
 		<DebugType>embedded</DebugType>
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<NoWarn>$(NoWarn);NU5128;NU5100</NoWarn>
 	</PropertyGroup>
 	<PropertyGroup>
 		<IsPackable>true</IsPackable>
@@ -63,8 +64,6 @@
 		</TargetsForTfmSpecificBuildOutput>
 		<!-- This property tells MSBuild where the root folder of the package's build assets should be. Because we are not a library package, we should not pack to 'lib'. Instead, we choose 'tasks' by convention. -->
 		<BuildOutputTargetFolder>tasks</BuildOutputTargetFolder>
-		<!-- NuGet does validation that libraries in a package are exposed as dependencies, but we _explicitly_ do not want that behavior for MSBuild tasks. They are isolated by design. Therefore we ignore this specific warning. -->
-		<NoWarn>NU5100</NoWarn>
 	</PropertyGroup>
 
 	<!-- This is the target we defined above. It's purpose is to add all of our PackageReference and ProjectReference's runtime assets to our package output.  -->
