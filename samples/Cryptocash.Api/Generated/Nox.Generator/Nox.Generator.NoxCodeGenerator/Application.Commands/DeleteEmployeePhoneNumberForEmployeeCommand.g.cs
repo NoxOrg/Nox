@@ -19,7 +19,7 @@ public record DeleteEmployeePhoneNumberForEmployeeCommand(EmployeeKeyDto ParentK
 internal partial class DeleteEmployeePhoneNumberForEmployeeCommandHandler : DeleteEmployeePhoneNumberForEmployeeCommandHandlerBase
 {
 	public DeleteEmployeePhoneNumberForEmployeeCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(dbContext, noxSolution)
 	{
@@ -28,10 +28,10 @@ internal partial class DeleteEmployeePhoneNumberForEmployeeCommandHandler : Dele
 
 internal partial class DeleteEmployeePhoneNumberForEmployeeCommandHandlerBase : CommandBase<DeleteEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumberEntity>, IRequestHandler <DeleteEmployeePhoneNumberForEmployeeCommand, bool>
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public DeleteEmployeePhoneNumberForEmployeeCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;

@@ -19,7 +19,7 @@ public record UpdateHolidayForCountryCommand(CountryKeyDto ParentKeyDto, Holiday
 internal partial class UpdateHolidayForCountryCommandHandler : UpdateHolidayForCountryCommandHandlerBase
 {
 	public UpdateHolidayForCountryCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<HolidayEntity, HolidayCreateDto, HolidayUpdateDto> entityFactory)
 		: base(dbContext, noxSolution, entityFactory)
@@ -29,11 +29,11 @@ internal partial class UpdateHolidayForCountryCommandHandler : UpdateHolidayForC
 
 internal partial class UpdateHolidayForCountryCommandHandlerBase : CommandBase<UpdateHolidayForCountryCommand, HolidayEntity>, IRequestHandler <UpdateHolidayForCountryCommand, HolidayKeyDto?>
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<HolidayEntity, HolidayCreateDto, HolidayUpdateDto> _entityFactory;
 
 	public UpdateHolidayForCountryCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<HolidayEntity, HolidayCreateDto, HolidayUpdateDto> entityFactory) : base(noxSolution)
 	{

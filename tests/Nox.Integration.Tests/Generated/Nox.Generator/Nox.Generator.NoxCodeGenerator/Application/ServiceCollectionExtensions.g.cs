@@ -35,8 +35,8 @@ internal static class ServiceCollectionExtensions
     {
         services.AddNoxLib(webApplicationBuilder, configurator =>
         {
-            configurator.WithDatabaseContexts<TestWebAppDbContext, DtoDbContext>();
-            configurator.WithMessagingTransactionalOutbox<TestWebAppDbContext>();
+            configurator.WithDatabaseContexts<AppDbContext, DtoDbContext>();
+            configurator.WithMessagingTransactionalOutbox<AppDbContext>();
             configureNox?.Invoke(configurator);
         });
         services.AddNoxOdata(configureNoxOdata);

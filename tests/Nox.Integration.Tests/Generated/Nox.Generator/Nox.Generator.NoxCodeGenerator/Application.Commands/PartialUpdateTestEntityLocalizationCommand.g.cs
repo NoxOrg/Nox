@@ -21,7 +21,7 @@ public record PartialUpdateTestEntityLocalizationCommand(System.String keyId, Di
 internal class PartialUpdateTestEntityLocalizationCommandHandler : PartialUpdateTestEntityLocalizationCommandHandlerBase
 {
 	public PartialUpdateTestEntityLocalizationCommandHandler(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
@@ -29,11 +29,11 @@ internal class PartialUpdateTestEntityLocalizationCommandHandler : PartialUpdate
 }
 internal class PartialUpdateTestEntityLocalizationCommandHandlerBase : CommandBase<PartialUpdateTestEntityLocalizationCommand, TestEntityLocalizationEntity>, IRequestHandler<PartialUpdateTestEntityLocalizationCommand, TestEntityLocalizationKeyDto?>
 {
-	public TestWebAppDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	public IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateTestEntityLocalizationCommandHandlerBase(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> entityFactory) : base(noxSolution)
 	{

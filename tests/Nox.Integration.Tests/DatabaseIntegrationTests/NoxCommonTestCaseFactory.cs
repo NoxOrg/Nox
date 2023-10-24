@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Nox.Integration.Tests.Fixtures;
 using Nox.Types;
+using System;
 using System.Text.Json;
 using TestWebApp.Domain;
 using TestWebApp.Infrastructure.Persistence;
@@ -20,7 +21,7 @@ public class NoxCommonTestCaseFactory
         _dbContextFixture = dbContextFixture;
     }
 
-    private TestWebAppDbContext DataContext => (TestWebAppDbContext)_dbContextFixture.DataContext;
+    private AppDbContext DataContext => (AppDbContext)_dbContextFixture.DataContext;
 
     public void GenerateEntityCanSaveAndReadFieldsAllTypes(bool supportDateTimeOffset = true)
     {

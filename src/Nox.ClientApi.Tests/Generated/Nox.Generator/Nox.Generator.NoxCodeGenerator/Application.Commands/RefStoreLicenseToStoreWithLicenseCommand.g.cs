@@ -28,7 +28,7 @@ internal partial class CreateRefStoreLicenseToStoreWithLicenseCommandHandler
 	: RefStoreLicenseToStoreWithLicenseCommandHandlerBase<CreateRefStoreLicenseToStoreWithLicenseCommand>
 {
 	public CreateRefStoreLicenseToStoreWithLicenseCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Create)
@@ -42,7 +42,7 @@ internal partial class DeleteRefStoreLicenseToStoreWithLicenseCommandHandler
 	: RefStoreLicenseToStoreWithLicenseCommandHandlerBase<DeleteRefStoreLicenseToStoreWithLicenseCommand>
 {
 	public DeleteRefStoreLicenseToStoreWithLicenseCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Delete)
@@ -56,7 +56,7 @@ internal partial class DeleteAllRefStoreLicenseToStoreWithLicenseCommandHandler
 	: RefStoreLicenseToStoreWithLicenseCommandHandlerBase<DeleteAllRefStoreLicenseToStoreWithLicenseCommand>
 {
 	public DeleteAllRefStoreLicenseToStoreWithLicenseCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
@@ -66,14 +66,14 @@ internal partial class DeleteAllRefStoreLicenseToStoreWithLicenseCommandHandler
 internal abstract class RefStoreLicenseToStoreWithLicenseCommandHandlerBase<TRequest> : CommandBase<TRequest, StoreLicenseEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefStoreLicenseToStoreWithLicenseCommand
 {
-	public ClientApiDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
 	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefStoreLicenseToStoreWithLicenseCommandHandlerBase(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		RelationshipAction action)
 		: base(noxSolution)

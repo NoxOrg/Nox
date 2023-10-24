@@ -28,7 +28,7 @@ internal partial class CreateRefPaymentProviderToPaymentProviderRelatedPaymentDe
 	: RefPaymentProviderToPaymentProviderRelatedPaymentDetailsCommandHandlerBase<CreateRefPaymentProviderToPaymentProviderRelatedPaymentDetailsCommand>
 {
 	public CreateRefPaymentProviderToPaymentProviderRelatedPaymentDetailsCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Create)
@@ -42,7 +42,7 @@ internal partial class DeleteRefPaymentProviderToPaymentProviderRelatedPaymentDe
 	: RefPaymentProviderToPaymentProviderRelatedPaymentDetailsCommandHandlerBase<DeleteRefPaymentProviderToPaymentProviderRelatedPaymentDetailsCommand>
 {
 	public DeleteRefPaymentProviderToPaymentProviderRelatedPaymentDetailsCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Delete)
@@ -56,7 +56,7 @@ internal partial class DeleteAllRefPaymentProviderToPaymentProviderRelatedPaymen
 	: RefPaymentProviderToPaymentProviderRelatedPaymentDetailsCommandHandlerBase<DeleteAllRefPaymentProviderToPaymentProviderRelatedPaymentDetailsCommand>
 {
 	public DeleteAllRefPaymentProviderToPaymentProviderRelatedPaymentDetailsCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
@@ -66,14 +66,14 @@ internal partial class DeleteAllRefPaymentProviderToPaymentProviderRelatedPaymen
 internal abstract class RefPaymentProviderToPaymentProviderRelatedPaymentDetailsCommandHandlerBase<TRequest> : CommandBase<TRequest, PaymentProviderEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefPaymentProviderToPaymentProviderRelatedPaymentDetailsCommand
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
 	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefPaymentProviderToPaymentProviderRelatedPaymentDetailsCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		RelationshipAction action)
 		: base(noxSolution)

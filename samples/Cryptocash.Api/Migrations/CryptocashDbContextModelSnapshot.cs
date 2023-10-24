@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Cryptocash.Api.Migrations
 {
-    [DbContext(typeof(CryptocashDbContext))]
+    [DbContext(typeof(AppDbContext))]
     partial class CryptocashDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

@@ -28,7 +28,7 @@ internal partial class CreateRefBookingToBookingFeesForCommissionCommandHandler
 	: RefBookingToBookingFeesForCommissionCommandHandlerBase<CreateRefBookingToBookingFeesForCommissionCommand>
 {
 	public CreateRefBookingToBookingFeesForCommissionCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Create)
@@ -42,7 +42,7 @@ internal partial class DeleteRefBookingToBookingFeesForCommissionCommandHandler
 	: RefBookingToBookingFeesForCommissionCommandHandlerBase<DeleteRefBookingToBookingFeesForCommissionCommand>
 {
 	public DeleteRefBookingToBookingFeesForCommissionCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Delete)
@@ -56,7 +56,7 @@ internal partial class DeleteAllRefBookingToBookingFeesForCommissionCommandHandl
 	: RefBookingToBookingFeesForCommissionCommandHandlerBase<DeleteAllRefBookingToBookingFeesForCommissionCommand>
 {
 	public DeleteAllRefBookingToBookingFeesForCommissionCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
@@ -66,14 +66,14 @@ internal partial class DeleteAllRefBookingToBookingFeesForCommissionCommandHandl
 internal abstract class RefBookingToBookingFeesForCommissionCommandHandlerBase<TRequest> : CommandBase<TRequest, BookingEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefBookingToBookingFeesForCommissionCommand
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
 	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefBookingToBookingFeesForCommissionCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		RelationshipAction action)
 		: base(noxSolution)

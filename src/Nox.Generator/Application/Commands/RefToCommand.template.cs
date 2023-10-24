@@ -28,7 +28,7 @@ internal partial class CreateRef{{entity.Name}}To{{relationship.Name}}CommandHan
 	: Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBase<CreateRef{{entity.Name}}To{{relationship.Name}}Command>
 {
 	public CreateRef{{entity.Name}}To{{relationship.Name}}CommandHandler(
-		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Create)
@@ -42,7 +42,7 @@ internal partial class DeleteRef{{entity.Name}}To{{relationship.Name}}CommandHan
 	: Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBase<DeleteRef{{entity.Name}}To{{relationship.Name}}Command>
 {
 	public DeleteRef{{entity.Name}}To{{relationship.Name}}CommandHandler(
-		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Delete)
@@ -56,7 +56,7 @@ internal partial class DeleteAllRef{{entity.Name}}To{{relationship.Name}}Command
 	: Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBase<DeleteAllRef{{entity.Name}}To{{relationship.Name}}Command>
 {
 	public DeleteAllRef{{entity.Name}}To{{relationship.Name}}CommandHandler(
-		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
@@ -66,14 +66,14 @@ internal partial class DeleteAllRef{{entity.Name}}To{{relationship.Name}}Command
 internal abstract class Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBase<TRequest> : CommandBase<TRequest, {{entity.Name}}Entity>,
 	IRequestHandler <TRequest, bool> where TRequest : Ref{{entity.Name}}To{{relationship.Name}}Command
 {
-	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
 	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public Ref{{entity.Name}}To{{relationship.Name}}CommandHandlerBase(
-		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		RelationshipAction action)
 		: base(noxSolution)

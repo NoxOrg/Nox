@@ -30,15 +30,15 @@ using TestWebApp.Domain;
 
 namespace TestWebApp.Infrastructure.Persistence;
 
-internal partial class TestWebAppDbContext : Nox.Infrastructure.Persistence.EntityDbContextBase
+internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbContextBase
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
     private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
     private readonly NoxCodeGenConventions _codeGenConventions;
 
-    public TestWebAppDbContext(
-            DbContextOptions<TestWebAppDbContext> options,
+    public AppDbContext(
+            DbContextOptions<AppDbContext> options,
             IPublisher publisher,
             NoxSolution noxSolution,
             INoxDatabaseProvider databaseProvider,
@@ -156,7 +156,7 @@ public DbSet<TestWebApp.Domain.TestEntityLocalizationLocalized> TestEntityLocali
         modelBuilder.AddOutboxStateEntity();
         foreach (var entity in _noxSolution.Domain!.Entities)
         {
-            Console.WriteLine($"TestWebAppDbContext Configure database for Entity {entity.Name}");
+            Console.WriteLine($"AppDbContext Configure database for Entity {entity.Name}");
 
             // Ignore owned entities configuration as they are configured inside entity constructor
             if (entity.IsOwnedEntity)

@@ -37,7 +37,7 @@ This document provides information about the various endpoints available in our 
   - Description: Retrieve all CountryLocalNames for a specific Country.
 
 #### Create CountryLocalName
-- **POST** `/api/Countries/{key}/CountryLocalNames/{relatedKey}`
+- **POST** `/api/Countries/{key}/CountryLocalNames`
   - Description: Create a new CountryLocalName for a specific Country.
 
 #### Update CountryLocalName
@@ -59,7 +59,7 @@ This document provides information about the various endpoints available in our 
   - Description: Retrieve all CountryBarCodes for a specific Country.
 
 #### Create CountryBarCode
-- **POST** `/api/Countries/{key}/CountryBarCodes/{relatedKey}`
+- **POST** `/api/Countries/{key}/CountryBarCodes`
   - Description: Create a new CountryBarCode for a specific Country.
 
 #### Update CountryBarCode

@@ -30,15 +30,15 @@ using Cryptocash.Domain;
 
 namespace Cryptocash.Infrastructure.Persistence;
 
-internal partial class CryptocashDbContext : Nox.Infrastructure.Persistence.EntityDbContextBase
+internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbContextBase
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
     private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
     private readonly NoxCodeGenConventions _codeGenConventions;
 
-    public CryptocashDbContext(
-            DbContextOptions<CryptocashDbContext> options,
+    public AppDbContext(
+            DbContextOptions<AppDbContext> options,
             IPublisher publisher,
             NoxSolution noxSolution,
             INoxDatabaseProvider databaseProvider,
@@ -106,7 +106,7 @@ internal partial class CryptocashDbContext : Nox.Infrastructure.Persistence.Enti
         modelBuilder.AddOutboxStateEntity();
         foreach (var entity in _noxSolution.Domain!.Entities)
         {
-            Console.WriteLine($"CryptocashDbContext Configure database for Entity {entity.Name}");
+            Console.WriteLine($"AppDbContext Configure database for Entity {entity.Name}");
 
             // Ignore owned entities configuration as they are configured inside entity constructor
             if (entity.IsOwnedEntity)

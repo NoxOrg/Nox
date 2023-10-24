@@ -30,15 +30,15 @@ using ClientApi.Domain;
 
 namespace ClientApi.Infrastructure.Persistence;
 
-internal partial class ClientApiDbContext : Nox.Infrastructure.Persistence.EntityDbContextBase
+internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbContextBase
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
     private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
     private readonly NoxCodeGenConventions _codeGenConventions;
 
-    public ClientApiDbContext(
-            DbContextOptions<ClientApiDbContext> options,
+    public AppDbContext(
+            DbContextOptions<AppDbContext> options,
             IPublisher publisher,
             NoxSolution noxSolution,
             INoxDatabaseProvider databaseProvider,
@@ -95,7 +95,7 @@ internal partial class ClientApiDbContext : Nox.Infrastructure.Persistence.Entit
         modelBuilder.AddOutboxStateEntity();
         foreach (var entity in _noxSolution.Domain!.Entities)
         {
-            Console.WriteLine($"ClientApiDbContext Configure database for Entity {entity.Name}");
+            Console.WriteLine($"AppDbContext Configure database for Entity {entity.Name}");
 
             // Ignore owned entities configuration as they are configured inside entity constructor
             if (entity.IsOwnedEntity)

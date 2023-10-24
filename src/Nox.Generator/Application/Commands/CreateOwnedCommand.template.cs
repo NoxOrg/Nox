@@ -22,7 +22,7 @@ public record Create{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyD
 internal partial class Create{{entity.Name}}For{{parent.Name}}CommandHandler : Create{{entity.Name}}For{{parent.Name}}CommandHandlerBase
 {
 	public Create{{entity.Name}}For{{parent.Name}}CommandHandler(
-		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory)
 		: base(dbContext, noxSolution, entityFactory)
@@ -31,11 +31,11 @@ internal partial class Create{{entity.Name}}For{{parent.Name}}CommandHandler : C
 }
 internal abstract class Create{{entity.Name}}For{{parent.Name}}CommandHandlerBase : CommandBase<Create{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}Entity>, IRequestHandler<Create{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}KeyDto?>
 {
-	private readonly {{codeGeneratorState.Solution.Name}}DbContext _dbContext;
+	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> _entityFactory;
 
 	public Create{{entity.Name}}For{{parent.Name}}CommandHandlerBase(
-		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(noxSolution)
 	{

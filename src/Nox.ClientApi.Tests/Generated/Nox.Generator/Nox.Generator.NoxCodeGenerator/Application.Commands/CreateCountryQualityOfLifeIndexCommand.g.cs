@@ -24,7 +24,7 @@ public record CreateCountryQualityOfLifeIndexCommand(CountryQualityOfLifeIndexCr
 internal partial class CreateCountryQualityOfLifeIndexCommandHandler : CreateCountryQualityOfLifeIndexCommandHandlerBase
 {
 	public CreateCountryQualityOfLifeIndexCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> entityFactory)
 		: base(dbContext, noxSolution,entityFactory)
@@ -35,11 +35,11 @@ internal partial class CreateCountryQualityOfLifeIndexCommandHandler : CreateCou
 
 internal abstract class CreateCountryQualityOfLifeIndexCommandHandlerBase : CommandBase<CreateCountryQualityOfLifeIndexCommand,CountryQualityOfLifeIndexEntity>, IRequestHandler <CreateCountryQualityOfLifeIndexCommand, CountryQualityOfLifeIndexKeyDto>
 {
-	protected readonly ClientApiDbContext DbContext;
+	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> EntityFactory;
 
 	public CreateCountryQualityOfLifeIndexCommandHandlerBase(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> entityFactory) : base(noxSolution)
 	{

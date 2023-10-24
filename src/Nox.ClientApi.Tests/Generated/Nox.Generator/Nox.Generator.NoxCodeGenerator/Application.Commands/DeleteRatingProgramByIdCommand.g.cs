@@ -18,17 +18,17 @@ public record DeleteRatingProgramByIdCommand(System.Guid keyStoreId, System.Int6
 internal class DeleteRatingProgramByIdCommandHandler : DeleteRatingProgramByIdCommandHandlerBase
 {
 	public DeleteRatingProgramByIdCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
 internal abstract class DeleteRatingProgramByIdCommandHandlerBase : CommandBase<DeleteRatingProgramByIdCommand, RatingProgramEntity>, IRequestHandler<DeleteRatingProgramByIdCommand, bool>
 {
-	public ClientApiDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public DeleteRatingProgramByIdCommandHandlerBase(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;

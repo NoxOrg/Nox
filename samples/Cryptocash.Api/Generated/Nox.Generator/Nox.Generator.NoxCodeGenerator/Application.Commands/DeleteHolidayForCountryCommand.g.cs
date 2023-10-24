@@ -19,7 +19,7 @@ public record DeleteHolidayForCountryCommand(CountryKeyDto ParentKeyDto, Holiday
 internal partial class DeleteHolidayForCountryCommandHandler : DeleteHolidayForCountryCommandHandlerBase
 {
 	public DeleteHolidayForCountryCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(dbContext, noxSolution)
 	{
@@ -28,10 +28,10 @@ internal partial class DeleteHolidayForCountryCommandHandler : DeleteHolidayForC
 
 internal partial class DeleteHolidayForCountryCommandHandlerBase : CommandBase<DeleteHolidayForCountryCommand, HolidayEntity>, IRequestHandler <DeleteHolidayForCountryCommand, bool>
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public DeleteHolidayForCountryCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;

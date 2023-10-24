@@ -16,7 +16,7 @@ internal partial class CreateStoreOwnerCommandHandler
     private IOutboxRepository? _outboxRepository;
 
     public CreateStoreOwnerCommandHandler(
-        Infrastructure.Persistence.ClientApiDbContext dbContext,
+        Infrastructure.Persistence.AppDbContext dbContext,
         NoxSolution noxSolution,
         IEntityFactory<Store, StoreCreateDto, StoreUpdateDto> storefactory,
         IEntityFactory<StoreOwner, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory,

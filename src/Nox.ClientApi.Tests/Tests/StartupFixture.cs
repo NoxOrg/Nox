@@ -4,6 +4,7 @@ using ClientApi.Infrastructure.Persistence;
 using ClientApi.Application.Dto;
 using ClientApi.Tests.Application.Dto;
 using Microsoft.AspNetCore.Hosting;
+using System;
 
 namespace ClientApi.Tests;
 
@@ -43,9 +44,9 @@ public class StartupFixture
         app.UseNox(false);
 
         // Ensure a new / clean db for each test
-        var clientApiDbContext = app.ApplicationServices.GetRequiredService<ClientApiDbContext>();
-        clientApiDbContext!.Database.EnsureDeleted();
-        clientApiDbContext!.Database.EnsureCreated();
+        var appDbContext = app.ApplicationServices.GetRequiredService<AppDbContext>();
+        appDbContext!.Database.EnsureDeleted();
+        appDbContext!.Database.EnsureCreated();
 
         app.UseEndpoints(endpoints =>
         {

@@ -22,7 +22,7 @@ public record CreateExchangeRateForCurrencyCommand(CurrencyKeyDto ParentKeyDto, 
 internal partial class CreateExchangeRateForCurrencyCommandHandler : CreateExchangeRateForCurrencyCommandHandlerBase
 {
 	public CreateExchangeRateForCurrencyCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ExchangeRateEntity, ExchangeRateCreateDto, ExchangeRateUpdateDto> entityFactory)
 		: base(dbContext, noxSolution, entityFactory)
@@ -31,11 +31,11 @@ internal partial class CreateExchangeRateForCurrencyCommandHandler : CreateExcha
 }
 internal abstract class CreateExchangeRateForCurrencyCommandHandlerBase : CommandBase<CreateExchangeRateForCurrencyCommand, ExchangeRateEntity>, IRequestHandler<CreateExchangeRateForCurrencyCommand, ExchangeRateKeyDto?>
 {
-	private readonly CryptocashDbContext _dbContext;
+	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<ExchangeRateEntity, ExchangeRateCreateDto, ExchangeRateUpdateDto> _entityFactory;
 
 	public CreateExchangeRateForCurrencyCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ExchangeRateEntity, ExchangeRateCreateDto, ExchangeRateUpdateDto> entityFactory) : base(noxSolution)
 	{

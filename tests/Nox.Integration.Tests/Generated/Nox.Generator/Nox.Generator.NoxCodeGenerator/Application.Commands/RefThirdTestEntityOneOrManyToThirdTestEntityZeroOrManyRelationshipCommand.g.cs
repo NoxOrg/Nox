@@ -28,7 +28,7 @@ internal partial class CreateRefThirdTestEntityOneOrManyToThirdTestEntityZeroOrM
 	: RefThirdTestEntityOneOrManyToThirdTestEntityZeroOrManyRelationshipCommandHandlerBase<CreateRefThirdTestEntityOneOrManyToThirdTestEntityZeroOrManyRelationshipCommand>
 {
 	public CreateRefThirdTestEntityOneOrManyToThirdTestEntityZeroOrManyRelationshipCommandHandler(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Create)
@@ -42,7 +42,7 @@ internal partial class DeleteRefThirdTestEntityOneOrManyToThirdTestEntityZeroOrM
 	: RefThirdTestEntityOneOrManyToThirdTestEntityZeroOrManyRelationshipCommandHandlerBase<DeleteRefThirdTestEntityOneOrManyToThirdTestEntityZeroOrManyRelationshipCommand>
 {
 	public DeleteRefThirdTestEntityOneOrManyToThirdTestEntityZeroOrManyRelationshipCommandHandler(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Delete)
@@ -56,7 +56,7 @@ internal partial class DeleteAllRefThirdTestEntityOneOrManyToThirdTestEntityZero
 	: RefThirdTestEntityOneOrManyToThirdTestEntityZeroOrManyRelationshipCommandHandlerBase<DeleteAllRefThirdTestEntityOneOrManyToThirdTestEntityZeroOrManyRelationshipCommand>
 {
 	public DeleteAllRefThirdTestEntityOneOrManyToThirdTestEntityZeroOrManyRelationshipCommandHandler(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
@@ -66,14 +66,14 @@ internal partial class DeleteAllRefThirdTestEntityOneOrManyToThirdTestEntityZero
 internal abstract class RefThirdTestEntityOneOrManyToThirdTestEntityZeroOrManyRelationshipCommandHandlerBase<TRequest> : CommandBase<TRequest, ThirdTestEntityOneOrManyEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefThirdTestEntityOneOrManyToThirdTestEntityZeroOrManyRelationshipCommand
 {
-	public TestWebAppDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
 	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefThirdTestEntityOneOrManyToThirdTestEntityZeroOrManyRelationshipCommandHandlerBase(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		RelationshipAction action)
 		: base(noxSolution)

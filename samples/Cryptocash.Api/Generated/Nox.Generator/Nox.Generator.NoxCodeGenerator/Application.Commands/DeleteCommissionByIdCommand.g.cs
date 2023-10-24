@@ -18,17 +18,17 @@ public record DeleteCommissionByIdCommand(System.Int64 keyId, System.Guid? Etag)
 internal class DeleteCommissionByIdCommandHandler : DeleteCommissionByIdCommandHandlerBase
 {
 	public DeleteCommissionByIdCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
 internal abstract class DeleteCommissionByIdCommandHandlerBase : CommandBase<DeleteCommissionByIdCommand, CommissionEntity>, IRequestHandler<DeleteCommissionByIdCommand, bool>
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public DeleteCommissionByIdCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;

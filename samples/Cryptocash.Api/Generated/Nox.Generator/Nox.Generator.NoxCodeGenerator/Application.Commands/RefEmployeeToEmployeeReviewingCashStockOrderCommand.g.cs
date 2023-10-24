@@ -28,7 +28,7 @@ internal partial class CreateRefEmployeeToEmployeeReviewingCashStockOrderCommand
 	: RefEmployeeToEmployeeReviewingCashStockOrderCommandHandlerBase<CreateRefEmployeeToEmployeeReviewingCashStockOrderCommand>
 {
 	public CreateRefEmployeeToEmployeeReviewingCashStockOrderCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Create)
@@ -42,7 +42,7 @@ internal partial class DeleteRefEmployeeToEmployeeReviewingCashStockOrderCommand
 	: RefEmployeeToEmployeeReviewingCashStockOrderCommandHandlerBase<DeleteRefEmployeeToEmployeeReviewingCashStockOrderCommand>
 {
 	public DeleteRefEmployeeToEmployeeReviewingCashStockOrderCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Delete)
@@ -56,7 +56,7 @@ internal partial class DeleteAllRefEmployeeToEmployeeReviewingCashStockOrderComm
 	: RefEmployeeToEmployeeReviewingCashStockOrderCommandHandlerBase<DeleteAllRefEmployeeToEmployeeReviewingCashStockOrderCommand>
 {
 	public DeleteAllRefEmployeeToEmployeeReviewingCashStockOrderCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
@@ -66,14 +66,14 @@ internal partial class DeleteAllRefEmployeeToEmployeeReviewingCashStockOrderComm
 internal abstract class RefEmployeeToEmployeeReviewingCashStockOrderCommandHandlerBase<TRequest> : CommandBase<TRequest, EmployeeEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefEmployeeToEmployeeReviewingCashStockOrderCommand
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
 	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefEmployeeToEmployeeReviewingCashStockOrderCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		RelationshipAction action)
 		: base(noxSolution)
