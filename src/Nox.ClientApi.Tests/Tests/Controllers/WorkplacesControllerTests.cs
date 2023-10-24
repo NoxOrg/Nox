@@ -193,6 +193,38 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #endregion RELATIONSHIPS
 
+        #region LOCALIZATIONS
+
+        [Fact]
+        public async Task Post_LocalizedEntity_Success()
+        {
+            // Arrange
+            var createDto = new WorkplaceCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                Localizations = new List<WorkplaceLocalizedCreateDto>
+                {
+                    new()
+                    {
+                        LanguageCode = "en",
+                        Name = _fixture.Create<string>(),
+                    },
+                    new()
+                    {
+                        LanguageCode = "fr",
+                        Name = _fixture.Create<string>(),
+                    }
+                }
+            };
+
+            // Act
+            var result = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto);
+
+            //Assert
+        }
+
+        #endregion LOCALIZATIONS
+
         [Fact]
         public async Task Post_ToEntityWithNuid_NuidIsCreated()
         {
