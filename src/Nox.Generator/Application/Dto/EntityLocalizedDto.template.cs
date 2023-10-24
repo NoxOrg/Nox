@@ -2,7 +2,7 @@
    ret IsNoxTypeSimpleType attribute.Type ? (SinglePrimitiveTypeForKey attribute) : (attribute.Type + "Dto")
 end -}}
 // Generated
- 
+
 #nullable enable
 
 using System;
@@ -30,7 +30,7 @@ internal partial class {{className}}
     public {{SinglePrimitiveTypeForKey key}} {{key.Name}} { get; set; } = default!;
 {{- end}}
 {{ end }}
-    public System.String {{codeGeneratorState.LocalizationCultureField}} { get; set; } = null!;
+    public System.String {{codeGeneratorState.LocalizationCultureField}} { get; set; } = default!;
 {{- for attribute in entityAttributesToLocalize }}
 {{ if attribute.Type == "Text" }}
     /// <summary>

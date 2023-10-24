@@ -6,6 +6,7 @@ using Nox;
 using Nox.Solution;
 using Nox.Extensions;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Configuration;
 using Nox.Infrastructure;
 
@@ -45,21 +46,21 @@ internal class DtoDbContext : DbContext
         _codeGenConventions = codeGeneratorState;
     }
 
-    
-        public DbSet<CountryDto> Countries { get; set; } = null!;
-        
-        public DbSet<RatingProgramDto> RatingPrograms { get; set; } = null!;
-        
-        public DbSet<CountryQualityOfLifeIndexDto> CountryQualityOfLifeIndices { get; set; } = null!;
-        
-        public DbSet<StoreDto> Stores { get; set; } = null!;
-        
-        public DbSet<WorkplaceDto> Workplaces { get; set; } = null!;
-        
-        public DbSet<StoreOwnerDto> StoreOwners { get; set; } = null!;
-        
-        public DbSet<StoreLicenseDto> StoreLicenses { get; set; } = null!;
-        
+
+    public DbSet<CountryDto> Countries { get; set; } = null!;
+
+    public DbSet<RatingProgramDto> RatingPrograms { get; set; } = null!;
+
+    public DbSet<CountryQualityOfLifeIndexDto> CountryQualityOfLifeIndices { get; set; } = null!;
+
+    public DbSet<StoreDto> Stores { get; set; } = null!;
+
+    public DbSet<WorkplaceDto> Workplaces { get; set; } = null!;
+
+    public DbSet<StoreOwnerDto> StoreOwners { get; set; } = null!;
+
+    public DbSet<StoreLicenseDto> StoreLicenses { get; set; } = null!;
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -86,22 +87,27 @@ internal class DtoDbContext : DbContext
                     continue;
                 }
 
-                var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityDtoTypeFullName(entity.Name + "Dto"));
-                if (type != null)
+                var dtoName = entity.Name + "Dto";
+
+                var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityDtoTypeFullName(dtoName))
+                    ?? throw new Exception($"Could not resolve type for {dtoName}");
+
+                _noxDtoDatabaseConfigurator.ConfigureDto(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+
+                if (entity.ShouldBeLocalized)
                 {
-                    _noxDtoDatabaseConfigurator.ConfigureDto(
-                        new Nox.Types.EntityFramework.EntityBuilderAdapter.EntityBuilderAdapter(modelBuilder.Entity(type)),
-                        entity);
-                }
-                else
-                {
-                    throw new Exception($"Could not resolve type for {entity.Name}Dto");
+                    dtoName = NoxCodeGenConventions.GetEntityDtoNameForLocalizedType(entity.Name);
+                    
+                    type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityDtoTypeFullName(dtoName))
+                        ?? throw new Exception($"Could not resolve type for {dtoName}");
+
+                    _noxDtoDatabaseConfigurator.ConfigureLocalizedDto(new EntityBuilderAdapter(modelBuilder.Entity(type!)), entity);
                 }
             }
         }
     }
 
-    private void ConfigureAuditable(ModelBuilder modelBuilder)
+private void ConfigureAuditable(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<CountryDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
         modelBuilder.Entity<StoreDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
