@@ -8,10 +8,13 @@ namespace Nox.Generator.Tasks;
 public class NoxGeneratorTask : ITask
 {
     public IBuildEngine BuildEngine { get; set; } = default!;
+    
     public ITaskHost HostObject { get; set; } = default!;
 
     [Required]
     public ITaskItem[] NoxYamlFiles { get; set; } = default!;
+
+    public string OutputDirectory { get; set; } = "Nox.Generated";
 
     public bool Execute()
     {
@@ -26,7 +29,7 @@ public class NoxGeneratorTask : ITask
         if (noxYamls is null)
             return false;
 
-        var fileGenerator = new NoxFileGenerator(noxYamls);
+        var fileGenerator = new NoxFileGenerator(noxYamls, OutputDirectory);
         fileGenerator.GenerateFiles();
 
         return true;

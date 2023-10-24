@@ -13,22 +13,22 @@ namespace Nox.Generator.Tasks;
 
 internal class NoxFileGenerator
 {
-    private const string _outputFolder = "Nox.Generated";
-
     private readonly List<string> _errors = new();
     private readonly IEnumerable<string> _noxYamls = Array.Empty<string>();
     private readonly string? _projectRootDirectory;
+    private readonly string _outputDirectory;
 
     private string AbsoluteOutputPath { 
         get 
         { 
-            return Path.Combine(_projectRootDirectory, _outputFolder); 
+            return Path.Combine(_projectRootDirectory, _outputDirectory); 
         } 
     }
 
-    public NoxFileGenerator(IEnumerable<string> noxYamls)
+    public NoxFileGenerator(IEnumerable<string> noxYamls, string outputDirectory)
     {
         _noxYamls = noxYamls;
+        _outputDirectory = outputDirectory;
         _projectRootDirectory = GetProjectRootDirectory();
     }
 
@@ -37,7 +37,6 @@ internal class NoxFileGenerator
         var _debug = new CodeBuilder($"Generator.g.cs", AbsoluteOutputPath);
         _errors.Clear();
 
-        _debug.AppendLine("/* v 1 0 0 11");
         _debug.AppendLine("Found files ->");
         _debug.AppendLine(string.Join("\r\n", _noxYamls.Select(path => $"- {Path.GetFileName(path)}")));
 
