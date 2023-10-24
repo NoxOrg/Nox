@@ -37,7 +37,7 @@ This document provides information about the various endpoints available in our 
   - Description: Retrieve all BankNotes for a specific Currency.
 
 #### Create BankNote
-- **POST** `/api/Currencies/{key}/BankNotes/{relatedKey}`
+- **POST** `/api/Currencies/{key}/BankNotes`
   - Description: Create a new BankNote for a specific Currency.
 
 #### Update BankNote
@@ -59,7 +59,7 @@ This document provides information about the various endpoints available in our 
   - Description: Retrieve all ExchangeRates for a specific Currency.
 
 #### Create ExchangeRate
-- **POST** `/api/Currencies/{key}/ExchangeRates/{relatedKey}`
+- **POST** `/api/Currencies/{key}/ExchangeRates`
   - Description: Create a new ExchangeRate for a specific Currency.
 
 #### Update ExchangeRate

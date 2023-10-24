@@ -37,7 +37,7 @@ This document provides information about the various endpoints available in our 
   - Description: Retrieve all EmailAddresses for a specific Store.
 
 #### Create EmailAddress
-- **POST** `/api/Stores/{key}/EmailAddresses/{relatedKey}`
+- **POST** `/api/Stores/{key}/EmailAddresses`
   - Description: Create a new EmailAddress for a specific Store.
 
 #### Update EmailAddress
