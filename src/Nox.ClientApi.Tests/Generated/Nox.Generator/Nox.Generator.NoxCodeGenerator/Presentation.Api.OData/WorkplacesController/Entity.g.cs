@@ -22,6 +22,7 @@ using ClientApi.Domain;
 using ClientApi.Infrastructure.Persistence;
 
 using Nox.Types;
+using Nox.Presentation.Api;
 
 namespace ClientApi.Presentation.Api.OData;
 
@@ -32,11 +33,18 @@ public abstract partial class WorkplacesControllerBase : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
 
-    public WorkplacesControllerBase(
-        IMediator mediator
+    /// <symmary>
+    /// The HTTP language provider.
+    /// </symmary>
+    protected readonly IHttpLanguageProvider _languageProvider;
+
+    protected WorkplacesControllerBase(
+        IMediator mediator,
+        IHttpLanguageProvider languageProvider
     )
     {
         _mediator = mediator;
+        _languageProvider = languageProvider;
     }
 
     [EnableQuery]
@@ -60,7 +68,8 @@ public abstract partial class WorkplacesControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace));
+        var language = _languageProvider.GetLanguage();
+        var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace, language));
 
         var item = (await _mediator.Send(new GetWorkplaceByIdQuery(createdKey.keyId))).SingleOrDefault();
 
@@ -133,7 +142,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
 
 public partial class WorkplacesController : WorkplacesControllerBase
 {
-    public WorkplacesController(IMediator mediator)
-        : base(mediator)
+    public WorkplacesController(IMediator mediator, IHttpLanguageProvider languageProvider)
+        : base(mediator, languageProvider)
     {}
 }

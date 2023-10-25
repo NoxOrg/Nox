@@ -20,7 +20,7 @@ using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
-public record CreateCountryCommand(CountryCreateDto EntityDto) : IRequest<CountryKeyDto>;
+public record CreateCountryCommand(CountryCreateDto EntityDto, System.String CultureCode) : IRequest<CountryKeyDto>;
 
 internal partial class CreateCountryCommandHandler : CreateCountryCommandHandlerBase
 {

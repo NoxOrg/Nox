@@ -19,7 +19,7 @@ using CountryQualityOfLifeIndexEntity = ClientApi.Domain.CountryQualityOfLifeInd
 
 namespace ClientApi.Application.Commands;
 
-public record CreateCountryQualityOfLifeIndexCommand(CountryQualityOfLifeIndexCreateDto EntityDto) : IRequest<CountryQualityOfLifeIndexKeyDto>;
+public record CreateCountryQualityOfLifeIndexCommand(CountryQualityOfLifeIndexCreateDto EntityDto, System.String CultureCode) : IRequest<CountryQualityOfLifeIndexKeyDto>;
 
 internal partial class CreateCountryQualityOfLifeIndexCommandHandler : CreateCountryQualityOfLifeIndexCommandHandlerBase
 {

@@ -22,6 +22,7 @@ using ClientApi.Domain;
 using ClientApi.Infrastructure.Persistence;
 
 using Nox.Types;
+using Nox.Presentation.Api;
 
 namespace ClientApi.Presentation.Api.OData;
 
@@ -32,11 +33,18 @@ public abstract partial class StoreOwnersControllerBase : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
 
-    public StoreOwnersControllerBase(
-        IMediator mediator
+    /// <symmary>
+    /// The HTTP language provider.
+    /// </symmary>
+    protected readonly IHttpLanguageProvider _languageProvider;
+
+    protected StoreOwnersControllerBase(
+        IMediator mediator,
+        IHttpLanguageProvider languageProvider
     )
     {
         _mediator = mediator;
+        _languageProvider = languageProvider;
     }
 
     [EnableQuery]
@@ -60,7 +68,8 @@ public abstract partial class StoreOwnersControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateStoreOwnerCommand(storeOwner));
+        var language = _languageProvider.GetLanguage();
+        var createdKey = await _mediator.Send(new CreateStoreOwnerCommand(storeOwner, language));
 
         var item = (await _mediator.Send(new GetStoreOwnerByIdQuery(createdKey.keyId))).SingleOrDefault();
 
@@ -133,7 +142,7 @@ public abstract partial class StoreOwnersControllerBase : ODataController
 
 public partial class StoreOwnersController : StoreOwnersControllerBase
 {
-    public StoreOwnersController(IMediator mediator)
-        : base(mediator)
+    public StoreOwnersController(IMediator mediator, IHttpLanguageProvider languageProvider)
+        : base(mediator, languageProvider)
     {}
 }

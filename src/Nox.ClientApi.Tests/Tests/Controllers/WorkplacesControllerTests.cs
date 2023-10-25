@@ -193,6 +193,59 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #endregion RELATIONSHIPS
 
+        #region LOCALIZATIONS
+
+        [Fact]
+        public async Task Post_DefaultLanguageDescription_CreateLocalization()
+        {
+            // Arrange
+            var createDto = new WorkplaceCreateDto
+            {
+                Name = "Regus - Paris Gare de Lyon",
+                Description = "A modern, modestly sized building with parking, just minutes from the Gare de Lyon and Gare d'Austerlitz.",
+            };
+
+            var headers = CreateAcceptLanguageHeader("en-US");
+
+            // Act
+            var result = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, headers);
+
+            // Need to perform a GET with fr-FR and en-US language to validate the localization
+
+            // Assert
+            result.Should().NotBeNull();
+            result!.Id.Should().BeGreaterThan(0);
+            result!.Name.Should().Be(createDto.Name);
+            result!.Description.Should().Be(createDto.Description);
+        }
+
+        [Fact]
+        public async Task Post_NotDefaultLanguageDescription_CreateLocalization()
+        {
+            // Arrange
+            var createDto = new WorkplaceCreateDto
+            {
+                Name = "Regus - Paris Gare de Lyon",
+                Description = "Un immeuble moderne de taille modeste avec parking, à quelques minutes de la Gare de Lyon et de la Gare d'Austerlitz.",
+            };
+
+            var headers = CreateAcceptLanguageHeader("fr-FR");
+
+            // Act
+            var result = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, headers);
+
+
+            // Need to perform a GET with fr-FR and en-US language to validate the localization
+
+            // Assert
+            result.Should().NotBeNull();
+            result!.Id.Should().BeGreaterThan(0);
+            result!.Name.Should().Be(createDto.Name);
+            result!.Description.Should().Be(createDto.Description);
+        }
+
+        #endregion LOCALIZATIONS
+
         [Fact]
         public async Task Post_ToEntityWithNuid_NuidIsCreated()
         {

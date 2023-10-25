@@ -19,7 +19,7 @@ using RatingProgramEntity = ClientApi.Domain.RatingProgram;
 
 namespace ClientApi.Application.Commands;
 
-public record CreateRatingProgramCommand(RatingProgramCreateDto EntityDto) : IRequest<RatingProgramKeyDto>;
+public record CreateRatingProgramCommand(RatingProgramCreateDto EntityDto, System.String CultureCode) : IRequest<RatingProgramKeyDto>;
 
 internal partial class CreateRatingProgramCommandHandler : CreateRatingProgramCommandHandlerBase
 {

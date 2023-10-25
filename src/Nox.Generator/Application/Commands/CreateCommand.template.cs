@@ -31,7 +31,7 @@ using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Na
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
-public record Create{{entity.Name}}Command({{entity.Name}}CreateDto EntityDto) : IRequest<{{entity.Name}}KeyDto>;
+public record Create{{entity.Name}}Command({{entity.Name}}CreateDto EntityDto, System.String {{codeGeneratorState.LocalizationCultureField}}) : IRequest<{{entity.Name}}KeyDto>;
 
 internal partial class Create{{entity.Name}}CommandHandler : Create{{entity.Name}}CommandHandlerBase
 {

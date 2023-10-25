@@ -237,6 +237,12 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
                 { "If-Match", new List<string> { $"\"{etag}\"" } }
         };
 
+    public Dictionary<string, IEnumerable<string>> CreateAcceptLanguageHeader(params string[] language)
+        => new()
+        {
+            { "Accept-Language", language }
+        };
+
     private static void AddHeaders(HttpClient httpClient, Dictionary<string, IEnumerable<string>> headers)
     {
         foreach (var header in headers)

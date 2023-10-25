@@ -22,6 +22,7 @@ using ClientApi.Domain;
 using ClientApi.Infrastructure.Persistence;
 
 using Nox.Types;
+using Nox.Presentation.Api;
 
 namespace ClientApi.Presentation.Api.OData;
 
@@ -32,11 +33,18 @@ public abstract partial class CountryQualityOfLifeIndicesControllerBase : ODataC
     /// </summary>
     protected readonly IMediator _mediator;
 
-    public CountryQualityOfLifeIndicesControllerBase(
-        IMediator mediator
+    /// <symmary>
+    /// The HTTP language provider.
+    /// </symmary>
+    protected readonly IHttpLanguageProvider _languageProvider;
+
+    protected CountryQualityOfLifeIndicesControllerBase(
+        IMediator mediator,
+        IHttpLanguageProvider languageProvider
     )
     {
         _mediator = mediator;
+        _languageProvider = languageProvider;
     }
 
     [EnableQuery]
@@ -60,7 +68,8 @@ public abstract partial class CountryQualityOfLifeIndicesControllerBase : ODataC
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateCountryQualityOfLifeIndexCommand(countryQualityOfLifeIndex));
+        var language = _languageProvider.GetLanguage();
+        var createdKey = await _mediator.Send(new CreateCountryQualityOfLifeIndexCommand(countryQualityOfLifeIndex, language));
 
         var item = (await _mediator.Send(new GetCountryQualityOfLifeIndexByIdQuery(createdKey.keyCountryId, createdKey.keyId))).SingleOrDefault();
 
@@ -133,7 +142,7 @@ public abstract partial class CountryQualityOfLifeIndicesControllerBase : ODataC
 
 public partial class CountryQualityOfLifeIndicesController : CountryQualityOfLifeIndicesControllerBase
 {
-    public CountryQualityOfLifeIndicesController(IMediator mediator)
-        : base(mediator)
+    public CountryQualityOfLifeIndicesController(IMediator mediator, IHttpLanguageProvider languageProvider)
+        : base(mediator, languageProvider)
     {}
 }

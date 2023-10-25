@@ -22,6 +22,7 @@ using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.PersistenceNameSpace}};
 
 using Nox.Types;
+using Nox.Presentation.Api;
 
 namespace {{codeGeneratorState.ODataNameSpace}};
 
@@ -32,14 +33,21 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     /// </summary>
     protected readonly IMediator _mediator;
 
-    public {{entity.PluralName}}ControllerBase(
-        IMediator mediator
+    /// <symmary>
+    /// The HTTP language provider.
+    /// </symmary>
+    protected readonly IHttpLanguageProvider _languageProvider;
+
+    protected {{entity.PluralName}}ControllerBase(
+        IMediator mediator,
+        IHttpLanguageProvider languageProvider
         {{- for query in entity.Queries }},
         {{ query.Name }}QueryBase {{ ToLowerFirstChar query.Name }}
         {{- end }}
     )
     {
         _mediator = mediator;
+        _languageProvider = languageProvider;
     
         {{- for query in entity.Queries }}
         _{{ ToLowerFirstChar query.Name}} = {{ ToLowerFirstChar query.Name }};
@@ -68,7 +76,8 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new Create{{entity.Name}}Command({{ToLowerFirstChar entity.Name}}));
+        var language = _languageProvider.GetLanguage();
+        var createdKey = await _mediator.Send(new Create{{entity.Name}}Command({{ToLowerFirstChar entity.Name}}, language));
 
         var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ createdKeyPrimaryKeysQuery }}))).SingleOrDefault();
 
@@ -154,7 +163,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
 
 public partial class {{entity.PluralName}}Controller : {{entity.PluralName}}ControllerBase
 {
-    public {{entity.PluralName}}Controller(IMediator mediator)
-        : base(mediator)
+    public {{entity.PluralName}}Controller(IMediator mediator, IHttpLanguageProvider languageProvider)
+        : base(mediator, languageProvider)
     {}
 }

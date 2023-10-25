@@ -20,7 +20,7 @@ using StoreEntity = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Commands;
 
-public record CreateStoreCommand(StoreCreateDto EntityDto) : IRequest<StoreKeyDto>;
+public record CreateStoreCommand(StoreCreateDto EntityDto, System.String CultureCode) : IRequest<StoreKeyDto>;
 
 internal partial class CreateStoreCommandHandler : CreateStoreCommandHandlerBase
 {
