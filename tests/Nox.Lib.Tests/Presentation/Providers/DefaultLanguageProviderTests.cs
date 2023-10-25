@@ -92,6 +92,7 @@ public class DefaultLanguageProviderTests
     [InlineData("fr-FR")]
     [InlineData("fr-FR, fr;q=0.9, en;q=0.8, de;q=0.7, *;q=0.5")]
     [InlineData("fr-CH, fr-FR;q=0.9, en-US;q=0.8, de;q=0.7, *;q=0.5")]
+    [InlineData("fr-FR;q=0.9, en-US;q=0.8, de;q=0.7, *;q=0.5")]
     [InlineData("fr-CH, fr;q=0.9, en;q=0.8, fr-FR;q=0.7, *;q=0.5")]
     public void GetLanguage_WhenHeaderIsSet_ReturnsHeaderValue(string value)
     {

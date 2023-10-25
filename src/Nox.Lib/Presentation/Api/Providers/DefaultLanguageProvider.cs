@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
-using Nox.Abstractions;
 using Nox.Solution;
 
 namespace Nox.Presentation.Api.Providers;
 
-public class DefaultLanguageProvider : HttpHeaderValueProvider, ILanguageProvider
+public class DefaultLanguageProvider : HttpHeaderValueProvider, IHttpLanguageProvider
 {
     private readonly string _defaultLanguage;
     private readonly HashSet<string> _supportedLanguages;
