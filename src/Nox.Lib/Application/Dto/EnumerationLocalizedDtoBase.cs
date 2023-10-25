@@ -1,24 +1,23 @@
-﻿
-using Nox.Types;
-
-namespace Nox.Domain;
+﻿namespace Nox.Application.Dto;
 
 /// <summary>
 /// Enumeration Translated name
 /// </summary>
-public abstract class EnumerationLocalizedBase
+public abstract partial record EnumerationLocalizedDtoBase
 {
     /// <summary>
     /// Enumeration Id
     /// </summary>
-    public Enumeration Id { get; set; } = null!;
+    public int Id { get; set; }
 
     /// <summary>
     /// Culture Code for the translated name
     /// </summary>
-    public CultureCode CultureCode { get; set; } = null!;
+    public string CultureCode { get; set; } = null!;
+
     /// <summary>
-    /// Translation for the Enumeration Name
+    /// Default Translation for the Enumeration Name
     /// </summary>
     public string Name { get; set; } = null!;
-}
+
+ }

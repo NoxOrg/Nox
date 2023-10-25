@@ -1,16 +1,16 @@
 ﻿using Nox.Types;
 
-namespace Nox.Domain;
+namespace Nox.Application.Dto;
 
 /// <summary>
-/// Base for Nox.Type Enum
+/// A  Enumeration Id and Translated Name
 /// </summary>
-public abstract partial class EnumerationBase
+public abstract partial record EnumerationDtoBase
 {
     /// <summary>
     /// Enum Id
     /// </summary>
-    public Enumeration Id { get; set; } = null!;
+    public int Id { get; set; }
 
     /// <summary>
     /// Default Translation for the Enum Name
