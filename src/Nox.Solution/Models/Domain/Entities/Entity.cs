@@ -121,6 +121,9 @@ public class Entity : DefinitionBase
 
     internal bool ApplyDefaults()
     {
+        EnsureAttributesByName();
+        EnsureKeyByName();
+
         foreach (var attribute in Attributes)
         {
             attribute.ApplyDefaults();
@@ -139,7 +142,6 @@ public class Entity : DefinitionBase
 
     public virtual NoxSimpleTypeDefinition? GetAttributeByName(string entityName)
     {
-        EnsureAttributesByName();
         return _attributesByName![entityName];
     }
 
@@ -152,19 +154,16 @@ public class Entity : DefinitionBase
 
     public virtual bool TryGetAttributeByName(string entityName, out NoxSimpleTypeDefinition? result)
     {
-        EnsureAttributesByName();
         return _attributesByName!.TryGetValue(entityName, out result);
     }
 
     public virtual bool TryGetKeyByName(string entityName, out NoxSimpleTypeDefinition? result)
     {
-        EnsureKeyByName();
         return _keysByName!.TryGetValue(entityName, out result);
     }
 
     public virtual bool IsKey(string keyName)
     {
-        EnsureKeyByName();
         return _keysByName!.ContainsKey(keyName);
     }
 
@@ -252,6 +251,7 @@ public class Entity : DefinitionBase
             }
         }
     }
+
     private void EnsureAttributesByName()
     {
         if (_attributesByName is not null)
