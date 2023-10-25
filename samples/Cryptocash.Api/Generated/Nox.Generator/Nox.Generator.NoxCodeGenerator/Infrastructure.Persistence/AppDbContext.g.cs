@@ -30,15 +30,15 @@ using Cryptocash.Domain;
 
 namespace Cryptocash.Infrastructure.Persistence;
 
-internal partial class CryptocashDbContext : Nox.Infrastructure.Persistence.EntityDbContextBase
+internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbContextBase
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
     private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
-    private readonly NoxCodeGenConventions _codeGeneratorState;
+    private readonly NoxCodeGenConventions _codeGenConventions;
 
-    public CryptocashDbContext(
-            DbContextOptions<CryptocashDbContext> options,
+    public AppDbContext(
+            DbContextOptions<AppDbContext> options,
             IPublisher publisher,
             NoxSolution noxSolution,
             INoxDatabaseProvider databaseProvider,
@@ -51,7 +51,7 @@ internal partial class CryptocashDbContext : Nox.Infrastructure.Persistence.Enti
             _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
             _clientAssemblyProvider = clientAssemblyProvider;
-            _codeGeneratorState = codeGeneratorState;
+            _codeGenConventions = codeGeneratorState;
         }
 
     public DbSet<Cryptocash.Domain.Booking> Bookings { get; set; } = null!;
@@ -86,6 +86,7 @@ internal partial class CryptocashDbContext : Nox.Infrastructure.Persistence.Enti
     public DbSet<Cryptocash.Domain.CashStockOrder> CashStockOrders { get; set; } = null!;
 
 
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
@@ -105,7 +106,7 @@ internal partial class CryptocashDbContext : Nox.Infrastructure.Persistence.Enti
         modelBuilder.AddOutboxStateEntity();
         foreach (var entity in _noxSolution.Domain!.Entities)
         {
-            Console.WriteLine($"CryptocashDbContext Configure database for Entity {entity.Name}");
+            Console.WriteLine($"AppDbContext Configure database for Entity {entity.Name}");
 
             // Ignore owned entities configuration as they are configured inside entity constructor
             if (entity.IsOwnedEntity)
@@ -113,10 +114,14 @@ internal partial class CryptocashDbContext : Nox.Infrastructure.Persistence.Enti
                 continue;
             }
 
-            var type = _clientAssemblyProvider.GetType(_codeGeneratorState.GetEntityTypeFullName(entity.Name));
-            if (type != null)
+            var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.Name));
+            ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(new EntityBuilderAdapter(modelBuilder.Entity(type!)), entity);
+
+            if (entity.ShouldBeLocalized)
             {
-                ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+                type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(NoxCodeGenConventions.GetEntityNameForLocalizedType(entity.Name)));
+
+                ((INoxDatabaseConfigurator)_dbProvider).ConfigureLocalizedEntity(new EntityBuilderAdapter(modelBuilder.Entity(type!)), entity);
             }
         }
 

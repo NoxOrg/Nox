@@ -1,6 +1,4 @@
-﻿using Nox.Types;
-
-namespace Nox.Abstractions;
+﻿namespace Nox.Abstractions;
 
 public interface IUserProvider
 {

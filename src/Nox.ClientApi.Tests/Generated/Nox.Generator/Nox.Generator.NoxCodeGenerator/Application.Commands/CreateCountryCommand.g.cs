@@ -25,11 +25,11 @@ public record CreateCountryCommand(CountryCreateDto EntityDto) : IRequest<Countr
 internal partial class CreateCountryCommandHandler : CreateCountryCommandHandlerBase
 {
 	public CreateCountryCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> workplacefactory,
+		IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> WorkplaceFactory,
 		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,workplacefactory, entityFactory)
+		: base(dbContext, noxSolution,WorkplaceFactory, entityFactory)
 	{
 	}
 }
@@ -37,19 +37,19 @@ internal partial class CreateCountryCommandHandler : CreateCountryCommandHandler
 
 internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCountryCommand,CountryEntity>, IRequestHandler <CreateCountryCommand, CountryKeyDto>
 {
-	private readonly ClientApiDbContext _dbContext;
-	private readonly IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> _entityFactory;
-	private readonly IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> _workplacefactory;
+	protected readonly AppDbContext DbContext;
+	protected readonly IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> EntityFactory;
+	protected readonly IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> WorkplaceFactory;
 
 	public CreateCountryCommandHandlerBase(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> workplacefactory,
+		IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> WorkplaceFactory,
 		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory) : base(noxSolution)
 	{
-		_dbContext = dbContext;
-		_entityFactory = entityFactory;
-		_workplacefactory = workplacefactory;
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
+		this.WorkplaceFactory = WorkplaceFactory;
 	}
 
 	public virtual async Task<CountryKeyDto> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
@@ -57,16 +57,16 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		foreach(var relatedCreateDto in request.EntityDto.PhysicalWorkplaces)
 		{
-			var relatedEntity = _workplacefactory.CreateEntity(relatedCreateDto);
+			var relatedEntity = WorkplaceFactory.CreateEntity(relatedCreateDto);
 			entityToCreate.CreateRefToPhysicalWorkplaces(relatedEntity);
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		_dbContext.Countries.Add(entityToCreate);
-		await _dbContext.SaveChangesAsync();
+		DbContext.Countries.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
 		return new CountryKeyDto(entityToCreate.Id.Value);
 	}
 }

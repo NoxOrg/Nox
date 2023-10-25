@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Cryptocash.Domain;
 
-using BankNoteEntity = Cryptocash.Domain.BankNote;
+using DomainNamespace = Cryptocash.Domain;
+
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Currencies related frequent and rare bank notes.
 /// </summary>
-public partial class BankNoteUpdateDto : IEntityDto<BankNoteEntity>
+public partial class BankNoteUpdateDto : IEntityDto<DomainNamespace.BankNote>
 {
     /// <summary>
     /// Currency's cash bank note identifier (Required).

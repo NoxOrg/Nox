@@ -101,7 +101,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             EmailUser = User.From("user@iwgplc.ch"),
             StringUser = User.From("stringUser", new UserTypeOptions { ValidEmailFormat = false, ValidGuidFormat = false }),
             InfoEmail = Email.From("info@iwgplc.ch"),
-            Continent = Enumeration.From(1, new EnumerationTypeOptions { IsLocalized = false, Values = new EnumerationValues[] { new EnumerationValues() { Id = 1, Description = "Europe" } } }),
+            Continent = Enumeration.From(1, new EnumerationTypeOptions { IsLocalized = false, Values = new EnumerationValues[] { new EnumerationValues() { Id = 1, Name = "Europe" } } }),
             SecretPassword = EncryptedText.FromPlainText("12345678", encryptTypeOptions),
             AutoId = AutoNumber.FromDatabase(10U),
             Guid = Guid.From(System.Guid.NewGuid()),
@@ -189,7 +189,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Color = Color.From(255, 120, 95, 230),
             DayOfWeek = DayOfWeek.From(1),
             DateTimeSchedule = DateTimeSchedule.From("0 0 12 ? * 2,3,4,5,6 *"),
-            Continent = Enumeration.From(1, new EnumerationTypeOptions { IsLocalized = false, Values = new EnumerationValues[] { new EnumerationValues() { Id = 1, Description = "Europe" } } }),
+            Continent = Enumeration.From(1, new EnumerationTypeOptions { IsLocalized = false, Values = new EnumerationValues[] { new EnumerationValues() { Id = 1, Name = "Europe" } } }),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();

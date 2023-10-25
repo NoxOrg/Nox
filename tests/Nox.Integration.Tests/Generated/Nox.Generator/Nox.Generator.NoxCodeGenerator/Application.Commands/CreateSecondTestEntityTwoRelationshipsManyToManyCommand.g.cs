@@ -24,11 +24,11 @@ public record CreateSecondTestEntityTwoRelationshipsManyToManyCommand(SecondTest
 internal partial class CreateSecondTestEntityTwoRelationshipsManyToManyCommandHandler : CreateSecondTestEntityTwoRelationshipsManyToManyCommandHandlerBase
 {
 	public CreateSecondTestEntityTwoRelationshipsManyToManyCommandHandler(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestWebApp.Domain.TestEntityTwoRelationshipsManyToMany, TestEntityTwoRelationshipsManyToManyCreateDto, TestEntityTwoRelationshipsManyToManyUpdateDto> testentitytworelationshipsmanytomanyfactory,
+		IEntityFactory<TestWebApp.Domain.TestEntityTwoRelationshipsManyToMany, TestEntityTwoRelationshipsManyToManyCreateDto, TestEntityTwoRelationshipsManyToManyUpdateDto> TestEntityTwoRelationshipsManyToManyFactory,
 		IEntityFactory<SecondTestEntityTwoRelationshipsManyToManyEntity, SecondTestEntityTwoRelationshipsManyToManyCreateDto, SecondTestEntityTwoRelationshipsManyToManyUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,testentitytworelationshipsmanytomanyfactory, entityFactory)
+		: base(dbContext, noxSolution,TestEntityTwoRelationshipsManyToManyFactory, entityFactory)
 	{
 	}
 }
@@ -36,19 +36,19 @@ internal partial class CreateSecondTestEntityTwoRelationshipsManyToManyCommandHa
 
 internal abstract class CreateSecondTestEntityTwoRelationshipsManyToManyCommandHandlerBase : CommandBase<CreateSecondTestEntityTwoRelationshipsManyToManyCommand,SecondTestEntityTwoRelationshipsManyToManyEntity>, IRequestHandler <CreateSecondTestEntityTwoRelationshipsManyToManyCommand, SecondTestEntityTwoRelationshipsManyToManyKeyDto>
 {
-	private readonly TestWebAppDbContext _dbContext;
-	private readonly IEntityFactory<SecondTestEntityTwoRelationshipsManyToManyEntity, SecondTestEntityTwoRelationshipsManyToManyCreateDto, SecondTestEntityTwoRelationshipsManyToManyUpdateDto> _entityFactory;
-	private readonly IEntityFactory<TestWebApp.Domain.TestEntityTwoRelationshipsManyToMany, TestEntityTwoRelationshipsManyToManyCreateDto, TestEntityTwoRelationshipsManyToManyUpdateDto> _testentitytworelationshipsmanytomanyfactory;
+	protected readonly AppDbContext DbContext;
+	protected readonly IEntityFactory<SecondTestEntityTwoRelationshipsManyToManyEntity, SecondTestEntityTwoRelationshipsManyToManyCreateDto, SecondTestEntityTwoRelationshipsManyToManyUpdateDto> EntityFactory;
+	protected readonly IEntityFactory<TestWebApp.Domain.TestEntityTwoRelationshipsManyToMany, TestEntityTwoRelationshipsManyToManyCreateDto, TestEntityTwoRelationshipsManyToManyUpdateDto> TestEntityTwoRelationshipsManyToManyFactory;
 
 	public CreateSecondTestEntityTwoRelationshipsManyToManyCommandHandlerBase(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestWebApp.Domain.TestEntityTwoRelationshipsManyToMany, TestEntityTwoRelationshipsManyToManyCreateDto, TestEntityTwoRelationshipsManyToManyUpdateDto> testentitytworelationshipsmanytomanyfactory,
+		IEntityFactory<TestWebApp.Domain.TestEntityTwoRelationshipsManyToMany, TestEntityTwoRelationshipsManyToManyCreateDto, TestEntityTwoRelationshipsManyToManyUpdateDto> TestEntityTwoRelationshipsManyToManyFactory,
 		IEntityFactory<SecondTestEntityTwoRelationshipsManyToManyEntity, SecondTestEntityTwoRelationshipsManyToManyCreateDto, SecondTestEntityTwoRelationshipsManyToManyUpdateDto> entityFactory) : base(noxSolution)
 	{
-		_dbContext = dbContext;
-		_entityFactory = entityFactory;
-		_testentitytworelationshipsmanytomanyfactory = testentitytworelationshipsmanytomanyfactory;
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
+		this.TestEntityTwoRelationshipsManyToManyFactory = TestEntityTwoRelationshipsManyToManyFactory;
 	}
 
 	public virtual async Task<SecondTestEntityTwoRelationshipsManyToManyKeyDto> Handle(CreateSecondTestEntityTwoRelationshipsManyToManyCommand request, CancellationToken cancellationToken)
@@ -56,21 +56,21 @@ internal abstract class CreateSecondTestEntityTwoRelationshipsManyToManyCommandH
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		foreach(var relatedCreateDto in request.EntityDto.TestRelationshipOneOnOtherSide)
 		{
-			var relatedEntity = _testentitytworelationshipsmanytomanyfactory.CreateEntity(relatedCreateDto);
+			var relatedEntity = TestEntityTwoRelationshipsManyToManyFactory.CreateEntity(relatedCreateDto);
 			entityToCreate.CreateRefToTestRelationshipOneOnOtherSide(relatedEntity);
 		}
 		foreach(var relatedCreateDto in request.EntityDto.TestRelationshipTwoOnOtherSide)
 		{
-			var relatedEntity = _testentitytworelationshipsmanytomanyfactory.CreateEntity(relatedCreateDto);
+			var relatedEntity = TestEntityTwoRelationshipsManyToManyFactory.CreateEntity(relatedCreateDto);
 			entityToCreate.CreateRefToTestRelationshipTwoOnOtherSide(relatedEntity);
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		_dbContext.SecondTestEntityTwoRelationshipsManyToManies.Add(entityToCreate);
-		await _dbContext.SaveChangesAsync();
+		DbContext.SecondTestEntityTwoRelationshipsManyToManies.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
 		return new SecondTestEntityTwoRelationshipsManyToManyKeyDto(entityToCreate.Id.Value);
 	}
 }

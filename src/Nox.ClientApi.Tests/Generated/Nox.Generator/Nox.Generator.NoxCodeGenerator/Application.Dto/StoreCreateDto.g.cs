@@ -10,8 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using StoreEntity = ClientApi.Domain.Store;
-using ClientApi.Domain;
+using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
@@ -23,7 +22,7 @@ public partial class StoreCreateDto : StoreCreateDtoBase
 /// <summary>
 /// Stores.
 /// </summary>
-public abstract class StoreCreateDtoBase : IEntityDto<StoreEntity>
+public abstract class StoreCreateDtoBase : IEntityDto<DomainNamespace.Store>
 {/// <summary>
     ///  (Optional).
     /// </summary>
@@ -60,7 +59,7 @@ public abstract class StoreCreateDtoBase : IEntityDto<StoreEntity>
     /// </summary>
     public System.String? OwnershipId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual StoreOwnerCreateDto? Ownership { get; set; } = default!;
 
     /// <summary>
@@ -68,7 +67,7 @@ public abstract class StoreCreateDtoBase : IEntityDto<StoreEntity>
     /// </summary>
     public System.Int64? LicenseId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual StoreLicenseCreateDto? License { get; set; } = default!;
 
     /// <summary>

@@ -37,7 +37,7 @@ This document provides information about the various endpoints available in our 
   - Description: Retrieve all CountryTimeZones for a specific Country.
 
 #### Create CountryTimeZone
-- **POST** `/api/Countries/{key}/CountryTimeZones/{relatedKey}`
+- **POST** `/api/Countries/{key}/CountryTimeZones`
   - Description: Create a new CountryTimeZone for a specific Country.
 
 #### Update CountryTimeZone
@@ -59,7 +59,7 @@ This document provides information about the various endpoints available in our 
   - Description: Retrieve all Holidays for a specific Country.
 
 #### Create Holiday
-- **POST** `/api/Countries/{key}/Holidays/{relatedKey}`
+- **POST** `/api/Countries/{key}/Holidays`
   - Description: Create a new Holiday for a specific Country.
 
 #### Update Holiday

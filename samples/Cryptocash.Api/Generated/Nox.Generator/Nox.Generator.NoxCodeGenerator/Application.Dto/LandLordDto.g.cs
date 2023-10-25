@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using Cryptocash.Domain;
-using LandLordEntity = Cryptocash.Domain.LandLord;
+
+
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class LandLordDto : LandLordDtoBase
 /// <summary>
 /// Landlord related data.
 /// </summary>
-public abstract class LandLordDtoBase : EntityDtoBase, IEntityDto<LandLordEntity>
+public abstract class LandLordDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.LandLord>
 {
 
     #region Validation
@@ -37,12 +38,12 @@ public abstract class LandLordDtoBase : EntityDtoBase, IEntityDto<LandLordEntity
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            ExecuteActionAndCollectValidationExceptions("Name", () => Cryptocash.Domain.LandLordMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("Name", () => DomainNamespace.LandLordMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
         if (this.Address is not null)
-            ExecuteActionAndCollectValidationExceptions("Address", () => Cryptocash.Domain.LandLordMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("Address", () => DomainNamespace.LandLordMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
         else
             result.Add("Address", new [] { "Address is Required." });
     

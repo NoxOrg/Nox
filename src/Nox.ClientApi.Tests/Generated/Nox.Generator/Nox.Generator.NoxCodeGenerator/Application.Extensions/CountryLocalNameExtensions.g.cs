@@ -6,13 +6,11 @@ using System.Linq;
 
 using Nox.Extensions;
 
-using ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 internal static class CountryLocalNameExtensions
 {
-    public static CountryLocalNameDto ToDto(this CountryLocalName entity)
+    public static CountryLocalNameDto ToDto(this ClientApi.Domain.CountryLocalName entity)
     {
         var dto = new CountryLocalNameDto();
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);

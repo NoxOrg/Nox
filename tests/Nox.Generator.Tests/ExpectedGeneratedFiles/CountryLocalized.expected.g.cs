@@ -17,14 +17,14 @@ namespace SampleWebApp.Domain;
 /// <summary>
 /// The list of countries.
 /// </summary>
-internal abstract partial class CountryLocalized : IEntityConcurrent
+internal partial class CountryLocalized : IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
     /// </summary>
     public Nox.Types.Text Id { get; set; } = null!;
 
-      public Nox.Types.CultureCode CultureCode { get; set; } = null!;
+    public Nox.Types.CultureCode CultureCode { get; set; } = null!;
     
     
         /// <summary>

@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using TestWebApp.Domain;
-using TestEntityForTypesEntity = TestWebApp.Domain.TestEntityForTypes;
+
+
+using DomainNamespace = TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class TestEntityForTypesDto : TestEntityForTypesDtoBase
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public abstract class TestEntityForTypesDtoBase : EntityDtoBase, IEntityDto<TestEntityForTypesEntity>
+public abstract class TestEntityForTypesDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.TestEntityForTypes>
 {
 
     #region Validation
@@ -37,110 +38,110 @@ public abstract class TestEntityForTypesDtoBase : EntityDtoBase, IEntityDto<Test
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.TextTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("TextTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateTextTestField(this.TextTestField.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("TextTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateTextTestField(this.TextTestField.NonNullValue<System.String>()), result);
         else
             result.Add("TextTestField", new [] { "TextTestField is Required." });
     
-        ExecuteActionAndCollectValidationExceptions("NumberTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateNumberTestField(this.NumberTestField), result);
+        ExecuteActionAndCollectValidationExceptions("NumberTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateNumberTestField(this.NumberTestField), result);
     
         if (this.MoneyTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("MoneyTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateMoneyTestField(this.MoneyTestField.NonNullValue<MoneyDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("MoneyTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateMoneyTestField(this.MoneyTestField.NonNullValue<MoneyDto>()), result);
         if (this.CountryCode2TestField is not null)
-            ExecuteActionAndCollectValidationExceptions("CountryCode2TestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateCountryCode2TestField(this.CountryCode2TestField.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("CountryCode2TestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateCountryCode2TestField(this.CountryCode2TestField.NonNullValue<System.String>()), result);
         if (this.StreetAddressTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("StreetAddressTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateStreetAddressTestField(this.StreetAddressTestField.NonNullValue<StreetAddressDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("StreetAddressTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateStreetAddressTestField(this.StreetAddressTestField.NonNullValue<StreetAddressDto>()), result);
         if (this.CurrencyCode3TestField is not null)
-            ExecuteActionAndCollectValidationExceptions("CurrencyCode3TestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateCurrencyCode3TestField(this.CurrencyCode3TestField.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("CurrencyCode3TestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateCurrencyCode3TestField(this.CurrencyCode3TestField.NonNullValue<System.String>()), result);
         if (this.DayOfWeekTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("DayOfWeekTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateDayOfWeekTestField(this.DayOfWeekTestField.NonNullValue<System.UInt16>()), result);
+            ExecuteActionAndCollectValidationExceptions("DayOfWeekTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateDayOfWeekTestField(this.DayOfWeekTestField.NonNullValue<System.UInt16>()), result);
         if (this.JwtTokenTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("JwtTokenTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateJwtTokenTestField(this.JwtTokenTestField.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("JwtTokenTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateJwtTokenTestField(this.JwtTokenTestField.NonNullValue<System.String>()), result);
         if (this.GeoCoordTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("GeoCoordTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateGeoCoordTestField(this.GeoCoordTestField.NonNullValue<LatLongDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("GeoCoordTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateGeoCoordTestField(this.GeoCoordTestField.NonNullValue<LatLongDto>()), result);
         if (this.AreaTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("AreaTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateAreaTestField(this.AreaTestField.NonNullValue<System.Decimal>()), result);
+            ExecuteActionAndCollectValidationExceptions("AreaTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateAreaTestField(this.AreaTestField.NonNullValue<System.Decimal>()), result);
         if (this.TimeZoneCodeTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("TimeZoneCodeTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateTimeZoneCodeTestField(this.TimeZoneCodeTestField.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("TimeZoneCodeTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateTimeZoneCodeTestField(this.TimeZoneCodeTestField.NonNullValue<System.String>()), result);
         if (this.BooleanTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("BooleanTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateBooleanTestField(this.BooleanTestField.NonNullValue<System.Boolean>()), result);
+            ExecuteActionAndCollectValidationExceptions("BooleanTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateBooleanTestField(this.BooleanTestField.NonNullValue<System.Boolean>()), result);
         if (this.CountryCode3TestField is not null)
-            ExecuteActionAndCollectValidationExceptions("CountryCode3TestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateCountryCode3TestField(this.CountryCode3TestField.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("CountryCode3TestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateCountryCode3TestField(this.CountryCode3TestField.NonNullValue<System.String>()), result);
         if (this.CountryNumberTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("CountryNumberTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateCountryNumberTestField(this.CountryNumberTestField.NonNullValue<System.UInt16>()), result);
+            ExecuteActionAndCollectValidationExceptions("CountryNumberTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateCountryNumberTestField(this.CountryNumberTestField.NonNullValue<System.UInt16>()), result);
         if (this.CurrencyNumberTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("CurrencyNumberTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateCurrencyNumberTestField(this.CurrencyNumberTestField.NonNullValue<System.Int16>()), result);
+            ExecuteActionAndCollectValidationExceptions("CurrencyNumberTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateCurrencyNumberTestField(this.CurrencyNumberTestField.NonNullValue<System.Int16>()), result);
         if (this.DateTimeTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("DateTimeTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeTestField(this.DateTimeTestField.NonNullValue<System.DateTimeOffset>()), result);
+            ExecuteActionAndCollectValidationExceptions("DateTimeTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateDateTimeTestField(this.DateTimeTestField.NonNullValue<System.DateTimeOffset>()), result);
         if (this.DateTimeRangeTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("DateTimeRangeTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeRangeTestField(this.DateTimeRangeTestField.NonNullValue<DateTimeRangeDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("DateTimeRangeTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateDateTimeRangeTestField(this.DateTimeRangeTestField.NonNullValue<DateTimeRangeDto>()), result);
         if (this.DistanceTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("DistanceTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateDistanceTestField(this.DistanceTestField.NonNullValue<System.Decimal>()), result);
+            ExecuteActionAndCollectValidationExceptions("DistanceTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateDistanceTestField(this.DistanceTestField.NonNullValue<System.Decimal>()), result);
         if (this.EmailTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("EmailTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateEmailTestField(this.EmailTestField.NonNullValue<System.String>()), result); 
+            ExecuteActionAndCollectValidationExceptions("EmailTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateEmailTestField(this.EmailTestField.NonNullValue<System.String>()), result); 
         if (this.GuidTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("GuidTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateGuidTestField(this.GuidTestField.NonNullValue<System.Guid>()), result); 
+            ExecuteActionAndCollectValidationExceptions("GuidTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateGuidTestField(this.GuidTestField.NonNullValue<System.Guid>()), result); 
         if (this.InternetDomainTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("InternetDomainTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateInternetDomainTestField(this.InternetDomainTestField.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("InternetDomainTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateInternetDomainTestField(this.InternetDomainTestField.NonNullValue<System.String>()), result);
         if (this.IpAddressV4TestField is not null)
-            ExecuteActionAndCollectValidationExceptions("IpAddressV4TestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateIpAddressV4TestField(this.IpAddressV4TestField.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("IpAddressV4TestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateIpAddressV4TestField(this.IpAddressV4TestField.NonNullValue<System.String>()), result);
         if (this.IpAddressV6TestField is not null)
-            ExecuteActionAndCollectValidationExceptions("IpAddressV6TestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateIpAddressV6TestField(this.IpAddressV6TestField.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("IpAddressV6TestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateIpAddressV6TestField(this.IpAddressV6TestField.NonNullValue<System.String>()), result);
         if (this.JsonTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("JsonTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateJsonTestField(this.JsonTestField.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("JsonTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateJsonTestField(this.JsonTestField.NonNullValue<System.String>()), result);
         if (this.LengthTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("LengthTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateLengthTestField(this.LengthTestField.NonNullValue<System.Decimal>()), result);
+            ExecuteActionAndCollectValidationExceptions("LengthTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateLengthTestField(this.LengthTestField.NonNullValue<System.Decimal>()), result);
         if (this.MacAddressTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("MacAddressTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateMacAddressTestField(this.MacAddressTestField.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("MacAddressTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateMacAddressTestField(this.MacAddressTestField.NonNullValue<System.String>()), result);
         if (this.MonthTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("MonthTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateMonthTestField(this.MonthTestField.NonNullValue<System.Byte>()), result); 
+            ExecuteActionAndCollectValidationExceptions("MonthTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateMonthTestField(this.MonthTestField.NonNullValue<System.Byte>()), result); 
         if (this.PercentageTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("PercentageTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreatePercentageTestField(this.PercentageTestField.NonNullValue<System.Single>()), result);
+            ExecuteActionAndCollectValidationExceptions("PercentageTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreatePercentageTestField(this.PercentageTestField.NonNullValue<System.Single>()), result);
         if (this.PhoneNumberTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("PhoneNumberTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreatePhoneNumberTestField(this.PhoneNumberTestField.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("PhoneNumberTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreatePhoneNumberTestField(this.PhoneNumberTestField.NonNullValue<System.String>()), result);
         if (this.TemperatureTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("TemperatureTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateTemperatureTestField(this.TemperatureTestField.NonNullValue<System.Decimal>()), result);
+            ExecuteActionAndCollectValidationExceptions("TemperatureTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateTemperatureTestField(this.TemperatureTestField.NonNullValue<System.Decimal>()), result);
         if (this.TranslatedTextTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("TranslatedTextTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateTranslatedTextTestField(this.TranslatedTextTestField.NonNullValue<TranslatedTextDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("TranslatedTextTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateTranslatedTextTestField(this.TranslatedTextTestField.NonNullValue<TranslatedTextDto>()), result);
         if (this.UriTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("UriTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateUriTestField(this.UriTestField.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("UriTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateUriTestField(this.UriTestField.NonNullValue<System.String>()), result);
         if (this.VolumeTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("VolumeTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateVolumeTestField(this.VolumeTestField.NonNullValue<System.Decimal>()), result);
+            ExecuteActionAndCollectValidationExceptions("VolumeTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateVolumeTestField(this.VolumeTestField.NonNullValue<System.Decimal>()), result);
         if (this.WeightTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("WeightTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateWeightTestField(this.WeightTestField.NonNullValue<System.Decimal>()), result);
+            ExecuteActionAndCollectValidationExceptions("WeightTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateWeightTestField(this.WeightTestField.NonNullValue<System.Decimal>()), result);
         if (this.YearTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("YearTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateYearTestField(this.YearTestField.NonNullValue<System.UInt16>()), result);
+            ExecuteActionAndCollectValidationExceptions("YearTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateYearTestField(this.YearTestField.NonNullValue<System.UInt16>()), result);
         if (this.CultureCodeTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("CultureCodeTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateCultureCodeTestField(this.CultureCodeTestField.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("CultureCodeTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateCultureCodeTestField(this.CultureCodeTestField.NonNullValue<System.String>()), result);
         if (this.LanguageCodeTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("LanguageCodeTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateLanguageCodeTestField(this.LanguageCodeTestField.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("LanguageCodeTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateLanguageCodeTestField(this.LanguageCodeTestField.NonNullValue<System.String>()), result);
         if (this.YamlTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("YamlTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateYamlTestField(this.YamlTestField.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("YamlTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateYamlTestField(this.YamlTestField.NonNullValue<System.String>()), result);
         if (this.DateTimeDurationTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("DateTimeDurationTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeDurationTestField(this.DateTimeDurationTestField.NonNullValue<System.Int64>()), result);
+            ExecuteActionAndCollectValidationExceptions("DateTimeDurationTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateDateTimeDurationTestField(this.DateTimeDurationTestField.NonNullValue<System.Int64>()), result);
         if (this.TimeTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("TimeTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateTimeTestField(this.TimeTestField.NonNullValue<System.DateTime>()), result);
+            ExecuteActionAndCollectValidationExceptions("TimeTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateTimeTestField(this.TimeTestField.NonNullValue<System.DateTime>()), result);
         if (this.VatNumberTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("VatNumberTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateVatNumberTestField(this.VatNumberTestField.NonNullValue<VatNumberDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("VatNumberTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateVatNumberTestField(this.VatNumberTestField.NonNullValue<VatNumberDto>()), result);
         if (this.DateTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("DateTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTestField(this.DateTestField.NonNullValue<System.DateTime>()), result);
+            ExecuteActionAndCollectValidationExceptions("DateTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateDateTestField(this.DateTestField.NonNullValue<System.DateTime>()), result);
         if (this.MarkdownTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("MarkdownTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateMarkdownTestField(this.MarkdownTestField.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("MarkdownTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateMarkdownTestField(this.MarkdownTestField.NonNullValue<System.String>()), result);
         if (this.FileTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("FileTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateFileTestField(this.FileTestField.NonNullValue<FileDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("FileTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateFileTestField(this.FileTestField.NonNullValue<FileDto>()), result);
         if (this.ColorTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("ColorTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateColorTestField(this.ColorTestField.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("ColorTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateColorTestField(this.ColorTestField.NonNullValue<System.String>()), result);
         if (this.UrlTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("UrlTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateUrlTestField(this.UrlTestField.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("UrlTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateUrlTestField(this.UrlTestField.NonNullValue<System.String>()), result);
         if (this.DateTimeScheduleTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("DateTimeScheduleTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeScheduleTestField(this.DateTimeScheduleTestField.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("DateTimeScheduleTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateDateTimeScheduleTestField(this.DateTimeScheduleTestField.NonNullValue<System.String>()), result);
         if (this.UserTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("UserTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateUserTestField(this.UserTestField.NonNullValue<System.String>()), result); 
-        ExecuteActionAndCollectValidationExceptions("AutoNumberTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateAutoNumberTestField(this.AutoNumberTestField), result);
+            ExecuteActionAndCollectValidationExceptions("UserTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateUserTestField(this.UserTestField.NonNullValue<System.String>()), result); 
+        ExecuteActionAndCollectValidationExceptions("AutoNumberTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateAutoNumberTestField(this.AutoNumberTestField), result);
     
         if (this.HtmlTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("HtmlTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateHtmlTestField(this.HtmlTestField.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("HtmlTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateHtmlTestField(this.HtmlTestField.NonNullValue<System.String>()), result);
         if (this.ImageTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("ImageTestField", () => TestWebApp.Domain.TestEntityForTypesMetadata.CreateImageTestField(this.ImageTestField.NonNullValue<ImageDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("ImageTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateImageTestField(this.ImageTestField.NonNullValue<ImageDto>()), result);
 
         return result;
     }

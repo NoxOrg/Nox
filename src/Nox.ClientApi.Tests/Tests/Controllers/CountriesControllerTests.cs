@@ -12,7 +12,11 @@ namespace ClientApi.Tests.Tests.Controllers
     [Collection("CountriesControllerTests")]
     public class CountriesControllerTests : NoxWebApiTestBase
     {
-        public CountriesControllerTests(ITestOutputHelper testOutputHelper, TestDatabaseContainerService containerService)
+        public CountriesControllerTests(ITestOutputHelper testOutputHelper,             
+            TestDatabaseContainerService containerService
+            //For Development purposes
+            //TestDatabaseInstanceService containerService
+            )
             : base(testOutputHelper, containerService)
         {
         }
@@ -1051,7 +1055,7 @@ namespace ClientApi.Tests.Tests.Controllers
         }
 
         [Fact]
-        public async Task Delete_WhenTryingToGetOwnedEntities_ReturnesNotFound()
+        public async Task Delete_WhenTryingToGetOwnedEntities_ReturnsNotFound()
         {
             // Arrange
             var createDto = new CountryCreateDto
@@ -1078,6 +1082,24 @@ namespace ClientApi.Tests.Tests.Controllers
             var queryResult = await GetAsync($"{Endpoints.CountriesUrl}/{result!.Id}/CountryLocalNames/{country!.CountryShortNames[0].Id}");
 
             queryResult.Should().HaveStatusCode(HttpStatusCode.NotFound);
+        }
+
+        [Fact(Skip="Requires seed data from enumerations to be implemented")]
+        public async Task WhenPostWithContinent_ShouldGetContinent()
+        {
+            // Arrange
+            var dto = new CountryCreateDto
+            {
+                Name = "Portugal",
+                Continent = 1
+            };
+
+            // Act
+            var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
+
+            result.Should().NotBeNull();
+            //TODO Translated
+            result!.Continent.Should().Be(1);
         }
 
         #endregion TESTS

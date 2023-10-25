@@ -18,17 +18,17 @@ public record Delete{{entity.Name }}ByIdCommand({{primaryKeys}}{{ if !entity.IsO
 internal class Delete{{entity.Name}}ByIdCommandHandler : Delete{{entity.Name}}ByIdCommandHandlerBase
 {
 	public Delete{{entity.Name}}ByIdCommandHandler(
-		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
 internal abstract class Delete{{entity.Name}}ByIdCommandHandlerBase : CommandBase<Delete{{entity.Name}}ByIdCommand, {{entity.Name}}Entity>, IRequestHandler<Delete{{entity.Name}}ByIdCommand, bool>
 {
-	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public Delete{{entity.Name}}ByIdCommandHandlerBase(
-		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;

@@ -7,6 +7,8 @@ using Nox.Application.Behaviors;
 using Nox.Application.Factories;
 using Nox.Application.Providers;
 using Nox.Configuration;
+using Nox.Presentation.Api;
+using Nox.Presentation.Api.Providers;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Configurations;
 using System.Reflection;
@@ -42,7 +44,7 @@ public static class ServiceCollectionExtension
            scan.FromAssemblies(noxAssemblies)
            .AddClasses(classes => classes.AssignableTo(typeof(IEntityFactory<,,>)))
            .AsImplementedInterfaces()
-           .WithSingletonLifetime());
+           .WithTransientLifetime());
 
         return services;
     }
@@ -56,7 +58,7 @@ public static class ServiceCollectionExtension
                 .Where(c => !c.ContainsGenericParameters) // Skip Open Generics
            )
           .AsImplementedInterfaces()
-          .WithSingletonLifetime());
+          .WithTransientLifetime());
 
         // Register Command Validators, 
         services.Scan(scan =>
@@ -66,7 +68,7 @@ public static class ServiceCollectionExtension
                 .Where(c => !c.ContainsGenericParameters) // Skip Open Generics
            )
           .AsImplementedInterfaces(i => i.IsAssignableTo(typeof(IValidator)) && i.GenericTypeArguments.Any())
-          .WithSingletonLifetime());
+          .WithTransientLifetime());
 
         return services
             .AddMediatR(cfg =>
@@ -87,6 +89,7 @@ public static class ServiceCollectionExtension
     {
         services.AddScoped<IUserProvider, DefaultUserProvider>();
         services.AddScoped<ISystemProvider, DefaultSystemProvider>();
+        services.AddScoped<IHttpLanguageProvider, DefaultLanguageProvider>();
 
         return services;
     }
@@ -94,7 +97,7 @@ public static class ServiceCollectionExtension
     internal static IServiceCollection AddNoxDtos(this IServiceCollection services)
     {
         // For now we do not need a specific database provider
-        services.AddSingleton<INoxDtoDatabaseConfigurator, NoxDtoDatabaseConfigurator>();
+        services.AddTransient<INoxDtoDatabaseConfigurator, NoxDtoDatabaseConfigurator>();
 
         return services;
     }

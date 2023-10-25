@@ -14,7 +14,7 @@ internal abstract class TemplateBuilderBase
 {
     private static readonly Assembly Assembly = Assembly.GetExecutingAssembly();
 
-    private readonly NoxCodeGenConventions _codeGeneratorState;
+    private readonly NoxCodeGenConventions _noxCodeGenConventions;
 
     private readonly Dictionary<string, object> _model;
 
@@ -22,14 +22,14 @@ internal abstract class TemplateBuilderBase
     private string? _fileNamePrefix;
     private string? _fileNameSuffix;
 
-    protected TemplateBuilderBase(NoxCodeGenConventions codeGeneratorState)
+    protected TemplateBuilderBase(NoxCodeGenConventions noxCodeGenConventions)
     {
-        _codeGeneratorState = codeGeneratorState;
+        _noxCodeGenConventions = noxCodeGenConventions;
 
         _model = new Dictionary<string, object>
         {
-            ["codeGeneratorState"] = _codeGeneratorState,
-            ["solution"] = _codeGeneratorState.Solution
+            ["codeGeneratorState"] = _noxCodeGenConventions,
+            ["solution"] = _noxCodeGenConventions.Solution
         };
     }
 
@@ -136,7 +136,7 @@ internal abstract class TemplateBuilderBase
         context.PushGlobal(scriptModelObject);
 
         // Add Delegate functions to instance objects
-        ScribanScriptsExtensions.AddFunctions(context, _codeGeneratorState.Solution);
+        ScribanScriptsExtensions.AddFunctions(context, _noxCodeGenConventions.Solution);
 
         return strongTemplate.Render(context);
     }    

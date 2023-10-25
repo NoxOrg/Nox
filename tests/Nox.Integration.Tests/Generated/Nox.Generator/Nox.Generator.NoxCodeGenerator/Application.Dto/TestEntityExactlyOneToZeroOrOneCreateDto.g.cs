@@ -10,8 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using TestEntityExactlyOneToZeroOrOneEntity = TestWebApp.Domain.TestEntityExactlyOneToZeroOrOne;
-using TestWebApp.Domain;
+using DomainNamespace = TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
 
@@ -23,7 +22,7 @@ public partial class TestEntityExactlyOneToZeroOrOneCreateDto : TestEntityExactl
 /// <summary>
 /// .
 /// </summary>
-public abstract class TestEntityExactlyOneToZeroOrOneCreateDtoBase : IEntityDto<TestEntityExactlyOneToZeroOrOneEntity>
+public abstract class TestEntityExactlyOneToZeroOrOneCreateDtoBase : IEntityDto<DomainNamespace.TestEntityExactlyOneToZeroOrOne>
 {
     /// <summary>
     ///  (Required).

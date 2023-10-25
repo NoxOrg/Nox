@@ -10,8 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using HolidayEntity = Cryptocash.Domain.Holiday;
-using Cryptocash.Domain;
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -23,7 +22,7 @@ public partial class HolidayCreateDto : HolidayCreateDtoBase
 /// <summary>
 /// Holiday related to country.
 /// </summary>
-public abstract class HolidayCreateDtoBase : IEntityDto<HolidayEntity>
+public abstract class HolidayCreateDtoBase : IEntityDto<DomainNamespace.Holiday>
 {
     /// <summary>
     /// Country holiday name (Required).

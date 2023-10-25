@@ -10,8 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using CashStockOrderEntity = Cryptocash.Domain.CashStockOrder;
-using Cryptocash.Domain;
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -23,7 +22,7 @@ public partial class CashStockOrderCreateDto : CashStockOrderCreateDtoBase
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-public abstract class CashStockOrderCreateDtoBase : IEntityDto<CashStockOrderEntity>
+public abstract class CashStockOrderCreateDtoBase : IEntityDto<DomainNamespace.CashStockOrder>
 {
     /// <summary>
     /// Order amount (Required).

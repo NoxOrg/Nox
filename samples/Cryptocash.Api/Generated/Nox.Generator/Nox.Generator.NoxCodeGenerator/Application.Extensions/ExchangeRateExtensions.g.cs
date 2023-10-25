@@ -6,13 +6,11 @@ using System.Linq;
 
 using Nox.Extensions;
 
-using Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 internal static class ExchangeRateExtensions
 {
-    public static ExchangeRateDto ToDto(this ExchangeRate entity)
+    public static ExchangeRateDto ToDto(this Cryptocash.Domain.ExchangeRate entity)
     {
         var dto = new ExchangeRateDto();
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);

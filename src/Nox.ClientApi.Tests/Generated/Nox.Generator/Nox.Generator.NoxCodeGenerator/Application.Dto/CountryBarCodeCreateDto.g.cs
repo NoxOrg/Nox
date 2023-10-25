@@ -10,8 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using CountryBarCodeEntity = ClientApi.Domain.CountryBarCode;
-using ClientApi.Domain;
+using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
@@ -23,7 +22,7 @@ public partial class CountryBarCodeCreateDto : CountryBarCodeCreateDtoBase
 /// <summary>
 /// Bar code for country.
 /// </summary>
-public abstract class CountryBarCodeCreateDtoBase : IEntityDto<CountryBarCodeEntity>
+public abstract class CountryBarCodeCreateDtoBase : IEntityDto<DomainNamespace.CountryBarCode>
 {
     /// <summary>
     /// Bar code name (Required).

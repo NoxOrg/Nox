@@ -6,13 +6,11 @@ using System.Linq;
 
 using Nox.Extensions;
 
-using Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 internal static class PaymentProviderExtensions
 {
-    public static PaymentProviderDto ToDto(this PaymentProvider entity)
+    public static PaymentProviderDto ToDto(this Cryptocash.Domain.PaymentProvider entity)
     {
         var dto = new PaymentProviderDto();
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);

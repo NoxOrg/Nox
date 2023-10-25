@@ -10,8 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using EmailAddressEntity = ClientApi.Domain.EmailAddress;
-using ClientApi.Domain;
+using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
@@ -23,7 +22,7 @@ public partial class EmailAddressCreateDto : EmailAddressCreateDtoBase
 /// <summary>
 /// Verified Email Address.
 /// </summary>
-public abstract class EmailAddressCreateDtoBase : IEntityDto<EmailAddressEntity>
+public abstract class EmailAddressCreateDtoBase : IEntityDto<DomainNamespace.EmailAddress>
 {
     /// <summary>
     /// Email (Optional).

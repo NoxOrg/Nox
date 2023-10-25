@@ -6,13 +6,11 @@ using System.Linq;
 
 using Nox.Extensions;
 
-using ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 internal static class CountryExtensions
 {
-    public static CountryDto ToDto(this Country entity)
+    public static CountryDto ToDto(this ClientApi.Domain.Country entity)
     {
         var dto = new CountryDto();
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);

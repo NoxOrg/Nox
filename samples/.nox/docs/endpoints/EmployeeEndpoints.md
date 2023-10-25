@@ -37,7 +37,7 @@ This document provides information about the various endpoints available in our 
   - Description: Retrieve all EmployeePhoneNumbers for a specific Employee.
 
 #### Create EmployeePhoneNumber
-- **POST** `/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}`
+- **POST** `/api/Employees/{key}/EmployeePhoneNumbers`
   - Description: Create a new EmployeePhoneNumber for a specific Employee.
 
 #### Update EmployeePhoneNumber

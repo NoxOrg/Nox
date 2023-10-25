@@ -6,13 +6,11 @@ using System.Linq;
 
 using Nox.Extensions;
 
-using Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 internal static class LandLordExtensions
 {
-    public static LandLordDto ToDto(this LandLord entity)
+    public static LandLordDto ToDto(this Cryptocash.Domain.LandLord entity)
     {
         var dto = new LandLordDto();
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);

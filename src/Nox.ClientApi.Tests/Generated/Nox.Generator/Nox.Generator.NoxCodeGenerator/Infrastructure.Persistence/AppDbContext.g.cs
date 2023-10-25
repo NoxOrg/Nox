@@ -30,15 +30,15 @@ using ClientApi.Domain;
 
 namespace ClientApi.Infrastructure.Persistence;
 
-internal partial class ClientApiDbContext : Nox.Infrastructure.Persistence.EntityDbContextBase
+internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbContextBase
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
     private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
-    private readonly NoxCodeGenConventions _codeGeneratorState;
+    private readonly NoxCodeGenConventions _codeGenConventions;
 
-    public ClientApiDbContext(
-            DbContextOptions<ClientApiDbContext> options,
+    public AppDbContext(
+            DbContextOptions<AppDbContext> options,
             IPublisher publisher,
             NoxSolution noxSolution,
             INoxDatabaseProvider databaseProvider,
@@ -51,7 +51,7 @@ internal partial class ClientApiDbContext : Nox.Infrastructure.Persistence.Entit
             _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
             _clientAssemblyProvider = clientAssemblyProvider;
-            _codeGeneratorState = codeGeneratorState;
+            _codeGenConventions = codeGeneratorState;
         }
 
     public DbSet<ClientApi.Domain.Country> Countries { get; set; } = null!;
@@ -69,6 +69,7 @@ internal partial class ClientApiDbContext : Nox.Infrastructure.Persistence.Entit
     public DbSet<ClientApi.Domain.StoreOwner> StoreOwners { get; set; } = null!;
 
     public DbSet<ClientApi.Domain.StoreLicense> StoreLicenses { get; set; } = null!;
+
 
 
     public DbSet<ClientApi.Domain.CountryContinent> CountriesContinents { get; set; } = null!;
@@ -94,7 +95,7 @@ internal partial class ClientApiDbContext : Nox.Infrastructure.Persistence.Entit
         modelBuilder.AddOutboxStateEntity();
         foreach (var entity in _noxSolution.Domain!.Entities)
         {
-            Console.WriteLine($"ClientApiDbContext Configure database for Entity {entity.Name}");
+            Console.WriteLine($"AppDbContext Configure database for Entity {entity.Name}");
 
             // Ignore owned entities configuration as they are configured inside entity constructor
             if (entity.IsOwnedEntity)
@@ -102,10 +103,14 @@ internal partial class ClientApiDbContext : Nox.Infrastructure.Persistence.Entit
                 continue;
             }
 
-            var type = _clientAssemblyProvider.GetType(_codeGeneratorState.GetEntityTypeFullName(entity.Name));
-            if (type != null)
+            var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.Name));
+            ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(new EntityBuilderAdapter(modelBuilder.Entity(type!)), entity);
+
+            if (entity.ShouldBeLocalized)
             {
-                ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+                type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(NoxCodeGenConventions.GetEntityNameForLocalizedType(entity.Name)));
+
+                ((INoxDatabaseConfigurator)_dbProvider).ConfigureLocalizedEntity(new EntityBuilderAdapter(modelBuilder.Entity(type!)), entity);
             }
         }
 

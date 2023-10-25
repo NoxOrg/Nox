@@ -10,8 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using CountryEntity = ClientApi.Domain.Country;
-using ClientApi.Domain;
+using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
@@ -23,7 +22,7 @@ public partial class CountryCreateDto : CountryCreateDtoBase
 /// <summary>
 /// Country Entity.
 /// </summary>
-public abstract class CountryCreateDtoBase : IEntityDto<CountryEntity>
+public abstract class CountryCreateDtoBase : IEntityDto<DomainNamespace.Country>
 {
     /// <summary>
     /// The Country Name (Required).
@@ -72,7 +71,7 @@ public abstract class CountryCreateDtoBase : IEntityDto<CountryEntity>
     /// Country Country workplaces ZeroOrMany Workplaces
     /// </summary>
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<WorkplaceCreateDto> PhysicalWorkplaces { get; set; } = new();
 
     /// <summary>
