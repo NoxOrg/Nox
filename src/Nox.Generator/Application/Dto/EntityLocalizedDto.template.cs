@@ -31,12 +31,10 @@ internal partial class {{className}}
 {{- end}}
 {{ end }}
     public System.String {{codeGeneratorState.LocalizationCultureField}} { get; set; } = default!;
-{{- for attribute in entityAttributesToLocalize }}
-{{ if attribute.Type == "Text" }}
+{{ for attribute in entityAttributesToLocalize }}
     /// <summary>
     /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
     /// </summary>
     public {{attributeType attribute}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
-{{- end }}
-{{- end }}
+{{ end -}}
 }

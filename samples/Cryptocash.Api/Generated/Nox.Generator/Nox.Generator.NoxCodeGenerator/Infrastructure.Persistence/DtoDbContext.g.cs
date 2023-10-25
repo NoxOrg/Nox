@@ -9,6 +9,7 @@ using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Configuration;
 using Nox.Infrastructure;
+using Nox.Infrastructure.Persistence;
 
 using Cryptocash.Application.Dto;
 
@@ -102,7 +103,7 @@ internal class DtoDbContext : DbContext
                 var dtoName = entity.Name + "Dto";
 
                 var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityDtoTypeFullName(dtoName))
-                    ?? throw new Exception($"Could not resolve type for {dtoName}");
+                    ?? throw new TypeNotFoundException(dtoName);
 
                 _noxDtoDatabaseConfigurator.ConfigureDto(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
 
@@ -111,7 +112,7 @@ internal class DtoDbContext : DbContext
                     dtoName = NoxCodeGenConventions.GetEntityDtoNameForLocalizedType(entity.Name);
                     
                     type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityDtoTypeFullName(dtoName))
-                        ?? throw new Exception($"Could not resolve type for {dtoName}");
+                        ?? throw new TypeNotFoundException(dtoName);
 
                     _noxDtoDatabaseConfigurator.ConfigureLocalizedDto(new EntityBuilderAdapter(modelBuilder.Entity(type!)), entity);
                 }

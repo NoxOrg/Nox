@@ -64,7 +64,7 @@ public partial class WorkplaceMetadata
             MinLength = 4,
             MaxLength = 63,
             IsUnicode = true,
-            IsLocalized = false,
+            IsLocalized = true,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
