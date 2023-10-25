@@ -21,7 +21,7 @@ public class NoxIntegrationContext: INoxIntegrationContext
     {
         //todo this must execute an integration from _integrations;
         //Execute the Receive Adapter - this loads records from the adapter source
-        //Do Transformation
+        //Do Transformation/mapping
         //Execute the Send Adapter - this sends the records to the target
         //Handle Send Adapter response
         
