@@ -3,17 +3,20 @@ using Nox.Solution;
 
 namespace Nox.Integration;
 
-public class NoxIntegrationExecutor: INoxIntegrationExecutor
+public class NoxIntegrationContext: INoxIntegrationContext
 {
     private readonly List<INoxIntegration> _integrations;
     
-    public NoxIntegrationExecutor(NoxSolution solution)
+    public NoxIntegrationContext(NoxSolution solution)
     {
         //todo this must be created and configured from solution.
         _integrations = new List<INoxIntegration>();
+        
+        
+        
     }
     
-    public Task<bool> ExecuteAsync(string name)
+    public Task<bool> ExecuteIntegrationAsync(string name)
     {
         //todo this must execute an integration from _integrations;
         //Execute the Receive Adapter - this loads records from the adapter source
