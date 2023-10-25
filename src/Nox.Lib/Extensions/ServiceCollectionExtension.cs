@@ -87,6 +87,7 @@ public static class ServiceCollectionExtension
     {
         services.AddScoped<IUserProvider, DefaultUserProvider>();
         services.AddScoped<ISystemProvider, DefaultSystemProvider>();
+        services.AddScoped<ILanguageProvider, DefaultLanguageProvider>();
 
         return services;
     }
