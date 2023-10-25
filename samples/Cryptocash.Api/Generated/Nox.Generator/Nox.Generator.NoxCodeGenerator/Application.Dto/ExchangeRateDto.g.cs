@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using Cryptocash.Domain;
-using ExchangeRateEntity = Cryptocash.Domain.ExchangeRate;
+
+
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class ExchangeRateDto : ExchangeRateDtoBase
 /// <summary>
 /// Exchange rate and related data.
 /// </summary>
-public abstract class ExchangeRateDtoBase : EntityDtoBase, IEntityDto<ExchangeRateEntity>
+public abstract class ExchangeRateDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.ExchangeRate>
 {
 
     #region Validation
@@ -36,9 +37,9 @@ public abstract class ExchangeRateDtoBase : EntityDtoBase, IEntityDto<ExchangeRa
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
-        ExecuteActionAndCollectValidationExceptions("EffectiveRate", () => Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveRate(this.EffectiveRate), result);
+        ExecuteActionAndCollectValidationExceptions("EffectiveRate", () => DomainNamespace.ExchangeRateMetadata.CreateEffectiveRate(this.EffectiveRate), result);
     
-        ExecuteActionAndCollectValidationExceptions("EffectiveAt", () => Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveAt(this.EffectiveAt), result);
+        ExecuteActionAndCollectValidationExceptions("EffectiveAt", () => DomainNamespace.ExchangeRateMetadata.CreateEffectiveAt(this.EffectiveAt), result);
     
 
         return result;

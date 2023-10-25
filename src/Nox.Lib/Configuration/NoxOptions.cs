@@ -19,6 +19,7 @@ using Nox.OData;
 using Nox.Infrastructure.Messaging.InMemoryBus;
 using Nox.Infrastructure.Messaging.AzureServiceBus;
 using Nox.Infrastructure;
+using Nox.Integration;
 
 namespace Nox.Configuration
 {
@@ -152,6 +153,7 @@ namespace Nox.Configuration
                 .AddSecretsResolver()
                 .AddNoxMediatR(_clientAssembly)
                 .AddNoxFactories(noxAndEntryAssemblies)
+                .AddEtlBox()
                 .AddNoxProviders()
                 .AddNoxDtos();
 

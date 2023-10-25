@@ -18,7 +18,7 @@ public record PartialUpdateEmployeePhoneNumberForEmployeeCommand(EmployeeKeyDto 
 internal partial class PartialUpdateEmployeePhoneNumberForEmployeeCommandHandler: PartialUpdateEmployeePhoneNumberForEmployeeCommandHandlerBase
 {
 	public PartialUpdateEmployeePhoneNumberForEmployeeCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
@@ -26,11 +26,11 @@ internal partial class PartialUpdateEmployeePhoneNumberForEmployeeCommandHandler
 }
 internal abstract class PartialUpdateEmployeePhoneNumberForEmployeeCommandHandlerBase: CommandBase<PartialUpdateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumberEntity>, IRequestHandler <PartialUpdateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumberKeyDto?>
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	public IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateEmployeePhoneNumberForEmployeeCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> entityFactory) : base(noxSolution)
 	{

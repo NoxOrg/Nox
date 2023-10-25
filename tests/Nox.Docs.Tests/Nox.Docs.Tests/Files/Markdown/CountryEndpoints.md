@@ -37,7 +37,7 @@ This document provides information about the various endpoints available in our 
   - Description: Retrieve all CountryLocalNames for a specific Country.
 
 #### Create CountryLocalNames
-- **POST** `/api/Countries/{key}/CountryLocalNames/{relatedKey}`
+- **POST** `/api/Countries/{key}/CountryLocalNames`
   - Description: Create a new CountryLocalNames for a specific Country.
 
 #### Delete CountryLocalNames

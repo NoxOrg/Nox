@@ -20,7 +20,7 @@ public record UpdatePaymentProviderCommand(System.Int64 keyId, PaymentProviderUp
 internal partial class UpdatePaymentProviderCommandHandler : UpdatePaymentProviderCommandHandlerBase
 {
 	public UpdatePaymentProviderCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<PaymentProviderEntity, PaymentProviderCreateDto, PaymentProviderUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
@@ -29,11 +29,11 @@ internal partial class UpdatePaymentProviderCommandHandler : UpdatePaymentProvid
 
 internal abstract class UpdatePaymentProviderCommandHandlerBase : CommandBase<UpdatePaymentProviderCommand, PaymentProviderEntity>, IRequestHandler<UpdatePaymentProviderCommand, PaymentProviderKeyDto?>
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<PaymentProviderEntity, PaymentProviderCreateDto, PaymentProviderUpdateDto> _entityFactory;
 
 	public UpdatePaymentProviderCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<PaymentProviderEntity, PaymentProviderCreateDto, PaymentProviderUpdateDto> entityFactory) : base(noxSolution)
 	{

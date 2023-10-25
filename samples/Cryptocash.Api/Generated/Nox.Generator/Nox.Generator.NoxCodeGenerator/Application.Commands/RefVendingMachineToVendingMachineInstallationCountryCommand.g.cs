@@ -28,7 +28,7 @@ internal partial class CreateRefVendingMachineToVendingMachineInstallationCountr
 	: RefVendingMachineToVendingMachineInstallationCountryCommandHandlerBase<CreateRefVendingMachineToVendingMachineInstallationCountryCommand>
 {
 	public CreateRefVendingMachineToVendingMachineInstallationCountryCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Create)
@@ -42,7 +42,7 @@ internal partial class DeleteRefVendingMachineToVendingMachineInstallationCountr
 	: RefVendingMachineToVendingMachineInstallationCountryCommandHandlerBase<DeleteRefVendingMachineToVendingMachineInstallationCountryCommand>
 {
 	public DeleteRefVendingMachineToVendingMachineInstallationCountryCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Delete)
@@ -56,7 +56,7 @@ internal partial class DeleteAllRefVendingMachineToVendingMachineInstallationCou
 	: RefVendingMachineToVendingMachineInstallationCountryCommandHandlerBase<DeleteAllRefVendingMachineToVendingMachineInstallationCountryCommand>
 {
 	public DeleteAllRefVendingMachineToVendingMachineInstallationCountryCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
@@ -66,14 +66,14 @@ internal partial class DeleteAllRefVendingMachineToVendingMachineInstallationCou
 internal abstract class RefVendingMachineToVendingMachineInstallationCountryCommandHandlerBase<TRequest> : CommandBase<TRequest, VendingMachineEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefVendingMachineToVendingMachineInstallationCountryCommand
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
 	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefVendingMachineToVendingMachineInstallationCountryCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		RelationshipAction action)
 		: base(noxSolution)

@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using Cryptocash.Domain;
-using MinimumCashStockEntity = Cryptocash.Domain.MinimumCashStock;
+
+
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class MinimumCashStockDto : MinimumCashStockDtoBase
 /// <summary>
 /// Minimum cash stock required for vending machine.
 /// </summary>
-public abstract class MinimumCashStockDtoBase : EntityDtoBase, IEntityDto<MinimumCashStockEntity>
+public abstract class MinimumCashStockDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.MinimumCashStock>
 {
 
     #region Validation
@@ -37,7 +38,7 @@ public abstract class MinimumCashStockDtoBase : EntityDtoBase, IEntityDto<Minimu
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Amount is not null)
-            ExecuteActionAndCollectValidationExceptions("Amount", () => Cryptocash.Domain.MinimumCashStockMetadata.CreateAmount(this.Amount.NonNullValue<MoneyDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("Amount", () => DomainNamespace.MinimumCashStockMetadata.CreateAmount(this.Amount.NonNullValue<MoneyDto>()), result);
         else
             result.Add("Amount", new [] { "Amount is Required." });
     

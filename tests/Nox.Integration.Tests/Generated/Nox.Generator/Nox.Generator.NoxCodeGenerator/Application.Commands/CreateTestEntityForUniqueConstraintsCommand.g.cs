@@ -24,7 +24,7 @@ public record CreateTestEntityForUniqueConstraintsCommand(TestEntityForUniqueCon
 internal partial class CreateTestEntityForUniqueConstraintsCommandHandler : CreateTestEntityForUniqueConstraintsCommandHandlerBase
 {
 	public CreateTestEntityForUniqueConstraintsCommandHandler(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityForUniqueConstraintsEntity, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto> entityFactory)
 		: base(dbContext, noxSolution,entityFactory)
@@ -35,11 +35,11 @@ internal partial class CreateTestEntityForUniqueConstraintsCommandHandler : Crea
 
 internal abstract class CreateTestEntityForUniqueConstraintsCommandHandlerBase : CommandBase<CreateTestEntityForUniqueConstraintsCommand,TestEntityForUniqueConstraintsEntity>, IRequestHandler <CreateTestEntityForUniqueConstraintsCommand, TestEntityForUniqueConstraintsKeyDto>
 {
-	protected readonly TestWebAppDbContext DbContext;
+	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<TestEntityForUniqueConstraintsEntity, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto> EntityFactory;
 
 	public CreateTestEntityForUniqueConstraintsCommandHandlerBase(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityForUniqueConstraintsEntity, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto> entityFactory) : base(noxSolution)
 	{

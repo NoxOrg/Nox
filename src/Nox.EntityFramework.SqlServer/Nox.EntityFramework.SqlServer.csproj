@@ -30,7 +30,7 @@
 
     <ItemGroup>
       <PackageReference Include="Azure.Identity" Version="1.10.3" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.12" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.13" />
     </ItemGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

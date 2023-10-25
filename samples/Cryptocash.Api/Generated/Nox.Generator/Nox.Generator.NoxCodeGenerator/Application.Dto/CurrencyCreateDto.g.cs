@@ -10,8 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using CurrencyEntity = Cryptocash.Domain.Currency;
-using Cryptocash.Domain;
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -23,7 +22,7 @@ public partial class CurrencyCreateDto : CurrencyCreateDtoBase
 /// <summary>
 /// Currency and related data.
 /// </summary>
-public abstract class CurrencyCreateDtoBase : IEntityDto<CurrencyEntity>
+public abstract class CurrencyCreateDtoBase : IEntityDto<DomainNamespace.Currency>
 {
     /// <summary>
     /// Currency unique identifier (Required).
@@ -103,14 +102,14 @@ public abstract class CurrencyCreateDtoBase : IEntityDto<CurrencyEntity>
     /// Currency used by OneOrMany Countries
     /// </summary>
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<CountryCreateDto> CurrencyUsedByCountry { get; set; } = new();
 
     /// <summary>
     /// Currency used by ZeroOrMany MinimumCashStocks
     /// </summary>
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<MinimumCashStockCreateDto> CurrencyUsedByMinimumCashStocks { get; set; } = new();
 
     /// <summary>

@@ -60,5 +60,5 @@ public class Solution
 
     public Infrastructure? Infrastructure { get; internal set; }
 
-    public Application? Application { get; internal set; }
+    public Application? Application { get; internal set; } = new Application();
 }

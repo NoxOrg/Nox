@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using ClientApi.Domain;
-using WorkplaceEntity = ClientApi.Domain.Workplace;
+
+
+using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class WorkplaceDto : WorkplaceDtoBase
 /// <summary>
 /// Workplace.
 /// </summary>
-public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<WorkplaceEntity>
+public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.Workplace>
 {
 
     #region Validation
@@ -37,12 +38,12 @@ public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<WorkplaceEnti
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            ExecuteActionAndCollectValidationExceptions("Name", () => ClientApi.Domain.WorkplaceMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("Name", () => DomainNamespace.WorkplaceMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
         if (this.Description is not null)
-            ExecuteActionAndCollectValidationExceptions("Description", () => ClientApi.Domain.WorkplaceMetadata.CreateDescription(this.Description.NonNullValue<System.String>()), result); 
+            ExecuteActionAndCollectValidationExceptions("Description", () => DomainNamespace.WorkplaceMetadata.CreateDescription(this.Description.NonNullValue<System.String>()), result); 
 
         return result;
     }

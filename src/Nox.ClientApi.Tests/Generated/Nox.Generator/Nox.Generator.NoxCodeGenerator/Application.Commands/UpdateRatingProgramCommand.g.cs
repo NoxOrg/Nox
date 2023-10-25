@@ -20,7 +20,7 @@ public record UpdateRatingProgramCommand(System.Guid keyStoreId, System.Int64 ke
 internal partial class UpdateRatingProgramCommandHandler : UpdateRatingProgramCommandHandlerBase
 {
 	public UpdateRatingProgramCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
@@ -29,11 +29,11 @@ internal partial class UpdateRatingProgramCommandHandler : UpdateRatingProgramCo
 
 internal abstract class UpdateRatingProgramCommandHandlerBase : CommandBase<UpdateRatingProgramCommand, RatingProgramEntity>, IRequestHandler<UpdateRatingProgramCommand, RatingProgramKeyDto?>
 {
-	public ClientApiDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> _entityFactory;
 
 	public UpdateRatingProgramCommandHandlerBase(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> entityFactory) : base(noxSolution)
 	{

@@ -19,7 +19,7 @@ public record DeleteCountryTimeZoneForCountryCommand(CountryKeyDto ParentKeyDto,
 internal partial class DeleteCountryTimeZoneForCountryCommandHandler : DeleteCountryTimeZoneForCountryCommandHandlerBase
 {
 	public DeleteCountryTimeZoneForCountryCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(dbContext, noxSolution)
 	{
@@ -28,10 +28,10 @@ internal partial class DeleteCountryTimeZoneForCountryCommandHandler : DeleteCou
 
 internal partial class DeleteCountryTimeZoneForCountryCommandHandlerBase : CommandBase<DeleteCountryTimeZoneForCountryCommand, CountryTimeZoneEntity>, IRequestHandler <DeleteCountryTimeZoneForCountryCommand, bool>
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public DeleteCountryTimeZoneForCountryCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;

@@ -95,7 +95,6 @@ public class SolutionBuilderTests
             .AllowMissingSolutionYaml()
             .Build();
         Assert.NotNull(solution);
-        Assert.Null(solution.Application);
         Assert.Null(solution.Infrastructure);
         Assert.Null(solution.Domain);
         Assert.Null(solution.Environments);

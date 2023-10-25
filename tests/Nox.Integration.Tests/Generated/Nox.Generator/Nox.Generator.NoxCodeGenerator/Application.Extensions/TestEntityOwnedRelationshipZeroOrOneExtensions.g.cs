@@ -6,13 +6,11 @@ using System.Linq;
 
 using Nox.Extensions;
 
-using TestWebApp.Domain;
-
 namespace TestWebApp.Application.Dto;
 
 internal static class TestEntityOwnedRelationshipZeroOrOneExtensions
 {
-    public static TestEntityOwnedRelationshipZeroOrOneDto ToDto(this TestEntityOwnedRelationshipZeroOrOne entity)
+    public static TestEntityOwnedRelationshipZeroOrOneDto ToDto(this TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrOne entity)
     {
         var dto = new TestEntityOwnedRelationshipZeroOrOneDto();
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);

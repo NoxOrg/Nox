@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using TestWebApp.Domain;
 
-using TestEntityForUniqueConstraintsEntity = TestWebApp.Domain.TestEntityForUniqueConstraints;
+using DomainNamespace = TestWebApp.Domain;
+
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
 /// Entity created for testing constraints.
 /// </summary>
-public partial class TestEntityForUniqueConstraintsUpdateDto : IEntityDto<TestEntityForUniqueConstraintsEntity>
+public partial class TestEntityForUniqueConstraintsUpdateDto : IEntityDto<DomainNamespace.TestEntityForUniqueConstraints>
 {
     /// <summary>
     ///  (Required).

@@ -2,6 +2,7 @@
 using Nox.Integration.Tests.DatabaseIntegrationTests;
 using Nox.Integration.Tests.Fixtures;
 using Nox.Types;
+using System;
 using TestWebApp.Domain;
 using TestWebApp.Infrastructure.Persistence;
 
@@ -10,11 +11,11 @@ namespace Nox.Integration.Tests;
 [Collection("Sequential")]
 public class NuidTypeTests : NoxIntegrationContainerTestBase<NoxTestSqliteFixture>
 {
-    private readonly TestWebAppDbContext _dbContext;
+    private readonly AppDbContext _dbContext;
 
     public NuidTypeTests(NoxTestSqliteFixture fixture) : base(fixture)
     {
-        _dbContext = (TestWebAppDbContext)fixture.DataContext;
+        _dbContext = (AppDbContext)fixture.DataContext;
     }
 
     [Fact]

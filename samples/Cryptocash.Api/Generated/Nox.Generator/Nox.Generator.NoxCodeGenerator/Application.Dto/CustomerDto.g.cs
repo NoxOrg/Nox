@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using Cryptocash.Domain;
-using CustomerEntity = Cryptocash.Domain.Customer;
+
+
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class CustomerDto : CustomerDtoBase
 /// <summary>
 /// Customer definition and related data.
 /// </summary>
-public abstract class CustomerDtoBase : EntityDtoBase, IEntityDto<CustomerEntity>
+public abstract class CustomerDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.Customer>
 {
 
     #region Validation
@@ -37,27 +38,27 @@ public abstract class CustomerDtoBase : EntityDtoBase, IEntityDto<CustomerEntity
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.FirstName is not null)
-            ExecuteActionAndCollectValidationExceptions("FirstName", () => Cryptocash.Domain.CustomerMetadata.CreateFirstName(this.FirstName.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("FirstName", () => DomainNamespace.CustomerMetadata.CreateFirstName(this.FirstName.NonNullValue<System.String>()), result);
         else
             result.Add("FirstName", new [] { "FirstName is Required." });
     
         if (this.LastName is not null)
-            ExecuteActionAndCollectValidationExceptions("LastName", () => Cryptocash.Domain.CustomerMetadata.CreateLastName(this.LastName.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("LastName", () => DomainNamespace.CustomerMetadata.CreateLastName(this.LastName.NonNullValue<System.String>()), result);
         else
             result.Add("LastName", new [] { "LastName is Required." });
     
         if (this.EmailAddress is not null)
-            ExecuteActionAndCollectValidationExceptions("EmailAddress", () => Cryptocash.Domain.CustomerMetadata.CreateEmailAddress(this.EmailAddress.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("EmailAddress", () => DomainNamespace.CustomerMetadata.CreateEmailAddress(this.EmailAddress.NonNullValue<System.String>()), result);
         else
             result.Add("EmailAddress", new [] { "EmailAddress is Required." });
     
         if (this.Address is not null)
-            ExecuteActionAndCollectValidationExceptions("Address", () => Cryptocash.Domain.CustomerMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("Address", () => DomainNamespace.CustomerMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
         else
             result.Add("Address", new [] { "Address is Required." });
     
         if (this.MobileNumber is not null)
-            ExecuteActionAndCollectValidationExceptions("MobileNumber", () => Cryptocash.Domain.CustomerMetadata.CreateMobileNumber(this.MobileNumber.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("MobileNumber", () => DomainNamespace.CustomerMetadata.CreateMobileNumber(this.MobileNumber.NonNullValue<System.String>()), result);
 
         return result;
     }

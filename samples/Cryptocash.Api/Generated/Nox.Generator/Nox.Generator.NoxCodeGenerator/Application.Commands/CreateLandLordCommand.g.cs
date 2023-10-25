@@ -25,7 +25,7 @@ public record CreateLandLordCommand(LandLordCreateDto EntityDto) : IRequest<Land
 internal partial class CreateLandLordCommandHandler : CreateLandLordCommandHandlerBase
 {
 	public CreateLandLordCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory,
 		IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto> entityFactory)
@@ -37,12 +37,12 @@ internal partial class CreateLandLordCommandHandler : CreateLandLordCommandHandl
 
 internal abstract class CreateLandLordCommandHandlerBase : CommandBase<CreateLandLordCommand,LandLordEntity>, IRequestHandler <CreateLandLordCommand, LandLordKeyDto>
 {
-	protected readonly CryptocashDbContext DbContext;
+	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory;
 
 	public CreateLandLordCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory,
 		IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto> entityFactory) : base(noxSolution)

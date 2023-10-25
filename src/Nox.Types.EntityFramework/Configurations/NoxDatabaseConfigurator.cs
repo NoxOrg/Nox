@@ -73,6 +73,17 @@ namespace Nox.Types.EntityFramework.Configurations
             ConfigureUniqueAttributeConstraints(builder, entity);
         }
 
+        public virtual void ConfigureLocalizedEntity(
+            IEntityBuilder builder,
+            Entity entity)
+        {
+            var localizedEntity = entity.ShallowCopy(NoxCodeGenConventions.GetEntityNameForLocalizedType(entity.Name));
+
+            ConfigureKeys(CodeGenConventions, builder, localizedEntity);
+
+            ConfigureLocalizedAttributes(CodeGenConventions, builder, localizedEntity);
+        }
+
         private static void ConfigureSystemFields(IEntityBuilder builder, Entity entity)
         {
             // TODO clarify Auditable for owned entities
@@ -322,6 +333,33 @@ namespace Nox.Types.EntityFramework.Configurations
                     {
                         Debug.WriteLine($"Type {property.Type} not found");
                     }
+                }
+            }
+        }
+
+        protected virtual void ConfigureLocalizedAttributes(
+            NoxCodeGenConventions codeGeneratorState,
+            IEntityBuilder builder,
+            Entity entity)
+        {
+            var attributes = entity.GetAttributesToLocalize().ToList();
+            attributes.Add(new NoxSimpleTypeDefinition
+            {
+                Name = codeGeneratorState.LocalizationCultureField,
+                Type = NoxType.CultureCode,
+                IsRequired = true,
+                IsReadonly = true
+            });
+
+            foreach (var property in attributes)
+            {
+                if (TypesDatabaseConfigurations.TryGetValue(property.Type, out var databaseConfiguration))
+                {
+                    databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, property, entity, false);
+                }
+                else
+                {
+                    Debug.WriteLine($"Type {property.Type} not found");
                 }
             }
         }

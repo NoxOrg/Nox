@@ -28,7 +28,7 @@ internal partial class CreateRefBookingToBookingRelatedTransactionCommandHandler
 	: RefBookingToBookingRelatedTransactionCommandHandlerBase<CreateRefBookingToBookingRelatedTransactionCommand>
 {
 	public CreateRefBookingToBookingRelatedTransactionCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Create)
@@ -42,7 +42,7 @@ internal partial class DeleteRefBookingToBookingRelatedTransactionCommandHandler
 	: RefBookingToBookingRelatedTransactionCommandHandlerBase<DeleteRefBookingToBookingRelatedTransactionCommand>
 {
 	public DeleteRefBookingToBookingRelatedTransactionCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Delete)
@@ -56,7 +56,7 @@ internal partial class DeleteAllRefBookingToBookingRelatedTransactionCommandHand
 	: RefBookingToBookingRelatedTransactionCommandHandlerBase<DeleteAllRefBookingToBookingRelatedTransactionCommand>
 {
 	public DeleteAllRefBookingToBookingRelatedTransactionCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
@@ -66,14 +66,14 @@ internal partial class DeleteAllRefBookingToBookingRelatedTransactionCommandHand
 internal abstract class RefBookingToBookingRelatedTransactionCommandHandlerBase<TRequest> : CommandBase<TRequest, BookingEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefBookingToBookingRelatedTransactionCommand
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
 	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefBookingToBookingRelatedTransactionCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		RelationshipAction action)
 		: base(noxSolution)

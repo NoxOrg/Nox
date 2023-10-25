@@ -22,7 +22,7 @@ public record CreateEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto, EmailA
 internal partial class CreateEmailAddressForStoreCommandHandler : CreateEmailAddressForStoreCommandHandlerBase
 {
 	public CreateEmailAddressForStoreCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<EmailAddressEntity, EmailAddressCreateDto, EmailAddressUpdateDto> entityFactory)
 		: base(dbContext, noxSolution, entityFactory)
@@ -31,11 +31,11 @@ internal partial class CreateEmailAddressForStoreCommandHandler : CreateEmailAdd
 }
 internal abstract class CreateEmailAddressForStoreCommandHandlerBase : CommandBase<CreateEmailAddressForStoreCommand, EmailAddressEntity>, IRequestHandler<CreateEmailAddressForStoreCommand, EmailAddressKeyDto?>
 {
-	private readonly ClientApiDbContext _dbContext;
+	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<EmailAddressEntity, EmailAddressCreateDto, EmailAddressUpdateDto> _entityFactory;
 
 	public CreateEmailAddressForStoreCommandHandlerBase(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<EmailAddressEntity, EmailAddressCreateDto, EmailAddressUpdateDto> entityFactory) : base(noxSolution)
 	{

@@ -57,10 +57,23 @@ public partial class StoreOwnerMetadata
         
     
         /// <summary>
+        /// Type options for property 'TemporaryOwnerName'
+        /// </summary>
+        public static Nox.Types.TextTypeOptions TemporaryOwnerNameTypeOptions {get; private set;} = new ()
+        {
+            MinLength = 0,
+            MaxLength = 255,
+            IsUnicode = true,
+            IsLocalized = false,
+            Casing = Nox.Types.TextTypeCasing.Normal,
+        };
+    
+    
+        /// <summary>
         /// Factory for property 'TemporaryOwnerName'
         /// </summary>
         public static Nox.Types.Text CreateTemporaryOwnerName(System.String value)
-            => Nox.Types.Text.From(value);
+            => Nox.Types.Text.From(value, TemporaryOwnerNameTypeOptions);
         
     
         /// <summary>
@@ -96,10 +109,23 @@ public partial class StoreOwnerMetadata
         
     
         /// <summary>
+        /// Type options for property 'Notes'
+        /// </summary>
+        public static Nox.Types.TextTypeOptions NotesTypeOptions {get; private set;} = new ()
+        {
+            MinLength = 0,
+            MaxLength = 255,
+            IsUnicode = true,
+            IsLocalized = false,
+            Casing = Nox.Types.TextTypeCasing.Normal,
+        };
+    
+    
+        /// <summary>
         /// Factory for property 'Notes'
         /// </summary>
         public static Nox.Types.Text CreateNotes(System.String value)
-            => Nox.Types.Text.From(value);
+            => Nox.Types.Text.From(value, NotesTypeOptions);
         
 
         /// <summary>

@@ -28,7 +28,7 @@ internal partial class CreateRefCurrencyToCurrencyUsedByCountryCommandHandler
 	: RefCurrencyToCurrencyUsedByCountryCommandHandlerBase<CreateRefCurrencyToCurrencyUsedByCountryCommand>
 {
 	public CreateRefCurrencyToCurrencyUsedByCountryCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Create)
@@ -42,7 +42,7 @@ internal partial class DeleteRefCurrencyToCurrencyUsedByCountryCommandHandler
 	: RefCurrencyToCurrencyUsedByCountryCommandHandlerBase<DeleteRefCurrencyToCurrencyUsedByCountryCommand>
 {
 	public DeleteRefCurrencyToCurrencyUsedByCountryCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Delete)
@@ -56,7 +56,7 @@ internal partial class DeleteAllRefCurrencyToCurrencyUsedByCountryCommandHandler
 	: RefCurrencyToCurrencyUsedByCountryCommandHandlerBase<DeleteAllRefCurrencyToCurrencyUsedByCountryCommand>
 {
 	public DeleteAllRefCurrencyToCurrencyUsedByCountryCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
@@ -66,14 +66,14 @@ internal partial class DeleteAllRefCurrencyToCurrencyUsedByCountryCommandHandler
 internal abstract class RefCurrencyToCurrencyUsedByCountryCommandHandlerBase<TRequest> : CommandBase<TRequest, CurrencyEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefCurrencyToCurrencyUsedByCountryCommand
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
 	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefCurrencyToCurrencyUsedByCountryCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		RelationshipAction action)
 		: base(noxSolution)

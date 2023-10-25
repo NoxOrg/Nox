@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using Cryptocash.Domain;
-using EmployeeEntity = Cryptocash.Domain.Employee;
+
+
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class EmployeeDto : EmployeeDtoBase
 /// <summary>
 /// Employee definition and related data.
 /// </summary>
-public abstract class EmployeeDtoBase : EntityDtoBase, IEntityDto<EmployeeEntity>
+public abstract class EmployeeDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.Employee>
 {
 
     #region Validation
@@ -37,29 +38,29 @@ public abstract class EmployeeDtoBase : EntityDtoBase, IEntityDto<EmployeeEntity
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.FirstName is not null)
-            ExecuteActionAndCollectValidationExceptions("FirstName", () => Cryptocash.Domain.EmployeeMetadata.CreateFirstName(this.FirstName.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("FirstName", () => DomainNamespace.EmployeeMetadata.CreateFirstName(this.FirstName.NonNullValue<System.String>()), result);
         else
             result.Add("FirstName", new [] { "FirstName is Required." });
     
         if (this.LastName is not null)
-            ExecuteActionAndCollectValidationExceptions("LastName", () => Cryptocash.Domain.EmployeeMetadata.CreateLastName(this.LastName.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("LastName", () => DomainNamespace.EmployeeMetadata.CreateLastName(this.LastName.NonNullValue<System.String>()), result);
         else
             result.Add("LastName", new [] { "LastName is Required." });
     
         if (this.EmailAddress is not null)
-            ExecuteActionAndCollectValidationExceptions("EmailAddress", () => Cryptocash.Domain.EmployeeMetadata.CreateEmailAddress(this.EmailAddress.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("EmailAddress", () => DomainNamespace.EmployeeMetadata.CreateEmailAddress(this.EmailAddress.NonNullValue<System.String>()), result);
         else
             result.Add("EmailAddress", new [] { "EmailAddress is Required." });
     
         if (this.Address is not null)
-            ExecuteActionAndCollectValidationExceptions("Address", () => Cryptocash.Domain.EmployeeMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("Address", () => DomainNamespace.EmployeeMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
         else
             result.Add("Address", new [] { "Address is Required." });
     
-        ExecuteActionAndCollectValidationExceptions("FirstWorkingDay", () => Cryptocash.Domain.EmployeeMetadata.CreateFirstWorkingDay(this.FirstWorkingDay), result);
+        ExecuteActionAndCollectValidationExceptions("FirstWorkingDay", () => DomainNamespace.EmployeeMetadata.CreateFirstWorkingDay(this.FirstWorkingDay), result);
     
         if (this.LastWorkingDay is not null)
-            ExecuteActionAndCollectValidationExceptions("LastWorkingDay", () => Cryptocash.Domain.EmployeeMetadata.CreateLastWorkingDay(this.LastWorkingDay.NonNullValue<System.DateTime>()), result);
+            ExecuteActionAndCollectValidationExceptions("LastWorkingDay", () => DomainNamespace.EmployeeMetadata.CreateLastWorkingDay(this.LastWorkingDay.NonNullValue<System.DateTime>()), result);
 
         return result;
     }

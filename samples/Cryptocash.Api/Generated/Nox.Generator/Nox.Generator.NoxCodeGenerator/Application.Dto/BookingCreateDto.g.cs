@@ -10,8 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using BookingEntity = Cryptocash.Domain.Booking;
-using Cryptocash.Domain;
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -23,7 +22,7 @@ public partial class BookingCreateDto : BookingCreateDtoBase
 /// <summary>
 /// Exchange booking and related data.
 /// </summary>
-public abstract class BookingCreateDtoBase : IEntityDto<BookingEntity>
+public abstract class BookingCreateDtoBase : IEntityDto<DomainNamespace.Booking>
 {/// <summary>
     /// Booking unique identifier (Optional).
     /// </summary>
@@ -72,7 +71,7 @@ public abstract class BookingCreateDtoBase : IEntityDto<BookingEntity>
     /// </summary>
     public System.Int64? BookingForCustomerId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual CustomerCreateDto? BookingForCustomer { get; set; } = default!;
 
     /// <summary>
@@ -80,7 +79,7 @@ public abstract class BookingCreateDtoBase : IEntityDto<BookingEntity>
     /// </summary>
     public System.Guid? BookingRelatedVendingMachineId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual VendingMachineCreateDto? BookingRelatedVendingMachine { get; set; } = default!;
 
     /// <summary>
@@ -88,7 +87,7 @@ public abstract class BookingCreateDtoBase : IEntityDto<BookingEntity>
     /// </summary>
     public System.Int64? BookingFeesForCommissionId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual CommissionCreateDto? BookingFeesForCommission { get; set; } = default!;
 
     /// <summary>
@@ -96,6 +95,6 @@ public abstract class BookingCreateDtoBase : IEntityDto<BookingEntity>
     /// </summary>
     public System.Int64? BookingRelatedTransactionId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual TransactionCreateDto? BookingRelatedTransaction { get; set; } = default!;
 }

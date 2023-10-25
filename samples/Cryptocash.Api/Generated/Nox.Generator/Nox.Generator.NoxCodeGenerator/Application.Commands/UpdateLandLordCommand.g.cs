@@ -20,7 +20,7 @@ public record UpdateLandLordCommand(System.Int64 keyId, LandLordUpdateDto Entity
 internal partial class UpdateLandLordCommandHandler : UpdateLandLordCommandHandlerBase
 {
 	public UpdateLandLordCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
@@ -29,11 +29,11 @@ internal partial class UpdateLandLordCommandHandler : UpdateLandLordCommandHandl
 
 internal abstract class UpdateLandLordCommandHandlerBase : CommandBase<UpdateLandLordCommand, LandLordEntity>, IRequestHandler<UpdateLandLordCommand, LandLordKeyDto?>
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto> _entityFactory;
 
 	public UpdateLandLordCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto> entityFactory) : base(noxSolution)
 	{

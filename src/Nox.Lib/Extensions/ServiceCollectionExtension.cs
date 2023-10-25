@@ -7,6 +7,8 @@ using Nox.Application.Behaviors;
 using Nox.Application.Factories;
 using Nox.Application.Providers;
 using Nox.Configuration;
+using Nox.Presentation.Api;
+using Nox.Presentation.Api.Providers;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Configurations;
 using System.Reflection;
@@ -87,6 +89,7 @@ public static class ServiceCollectionExtension
     {
         services.AddScoped<IUserProvider, DefaultUserProvider>();
         services.AddScoped<ISystemProvider, DefaultSystemProvider>();
+        services.AddScoped<IHttpLanguageProvider, DefaultLanguageProvider>();
 
         return services;
     }

@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using ClientApi.Domain;
-using CountryBarCodeEntity = ClientApi.Domain.CountryBarCode;
+
+
+using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class CountryBarCodeDto : CountryBarCodeDtoBase
 /// <summary>
 /// Bar code for country.
 /// </summary>
-public abstract class CountryBarCodeDtoBase : EntityDtoBase, IEntityDto<CountryBarCodeEntity>
+public abstract class CountryBarCodeDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.CountryBarCode>
 {
 
     #region Validation
@@ -37,12 +38,12 @@ public abstract class CountryBarCodeDtoBase : EntityDtoBase, IEntityDto<CountryB
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.BarCodeName is not null)
-            ExecuteActionAndCollectValidationExceptions("BarCodeName", () => ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeName(this.BarCodeName.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("BarCodeName", () => DomainNamespace.CountryBarCodeMetadata.CreateBarCodeName(this.BarCodeName.NonNullValue<System.String>()), result);
         else
             result.Add("BarCodeName", new [] { "BarCodeName is Required." });
     
         if (this.BarCodeNumber is not null)
-            ExecuteActionAndCollectValidationExceptions("BarCodeNumber", () => ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeNumber(this.BarCodeNumber.NonNullValue<System.Int32>()), result);
+            ExecuteActionAndCollectValidationExceptions("BarCodeNumber", () => DomainNamespace.CountryBarCodeMetadata.CreateBarCodeNumber(this.BarCodeNumber.NonNullValue<System.Int32>()), result);
 
         return result;
     }

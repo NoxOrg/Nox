@@ -18,17 +18,17 @@ public record DeleteTestEntityExactlyOneToZeroOrOneByIdCommand(System.String key
 internal class DeleteTestEntityExactlyOneToZeroOrOneByIdCommandHandler : DeleteTestEntityExactlyOneToZeroOrOneByIdCommandHandlerBase
 {
 	public DeleteTestEntityExactlyOneToZeroOrOneByIdCommandHandler(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
 internal abstract class DeleteTestEntityExactlyOneToZeroOrOneByIdCommandHandlerBase : CommandBase<DeleteTestEntityExactlyOneToZeroOrOneByIdCommand, TestEntityExactlyOneToZeroOrOneEntity>, IRequestHandler<DeleteTestEntityExactlyOneToZeroOrOneByIdCommand, bool>
 {
-	public TestWebAppDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public DeleteTestEntityExactlyOneToZeroOrOneByIdCommandHandlerBase(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;

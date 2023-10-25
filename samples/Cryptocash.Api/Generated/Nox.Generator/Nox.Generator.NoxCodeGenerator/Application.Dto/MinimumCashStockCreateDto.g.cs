@@ -10,8 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using MinimumCashStockEntity = Cryptocash.Domain.MinimumCashStock;
-using Cryptocash.Domain;
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -23,7 +22,7 @@ public partial class MinimumCashStockCreateDto : MinimumCashStockCreateDtoBase
 /// <summary>
 /// Minimum cash stock required for vending machine.
 /// </summary>
-public abstract class MinimumCashStockCreateDtoBase : IEntityDto<MinimumCashStockEntity>
+public abstract class MinimumCashStockCreateDtoBase : IEntityDto<DomainNamespace.MinimumCashStock>
 {
     /// <summary>
     /// Cash stock amount (Required).
@@ -36,7 +35,7 @@ public abstract class MinimumCashStockCreateDtoBase : IEntityDto<MinimumCashStoc
     /// MinimumCashStock required by ZeroOrMany VendingMachines
     /// </summary>
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<VendingMachineCreateDto> MinimumCashStocksRequiredByVendingMachines { get; set; } = new();
 
     /// <summary>
@@ -44,6 +43,6 @@ public abstract class MinimumCashStockCreateDtoBase : IEntityDto<MinimumCashStoc
     /// </summary>
     public System.String? MinimumCashStockRelatedCurrencyId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual CurrencyCreateDto? MinimumCashStockRelatedCurrency { get; set; } = default!;
 }

@@ -19,7 +19,7 @@ public record DeleteExchangeRateForCurrencyCommand(CurrencyKeyDto ParentKeyDto, 
 internal partial class DeleteExchangeRateForCurrencyCommandHandler : DeleteExchangeRateForCurrencyCommandHandlerBase
 {
 	public DeleteExchangeRateForCurrencyCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(dbContext, noxSolution)
 	{
@@ -28,10 +28,10 @@ internal partial class DeleteExchangeRateForCurrencyCommandHandler : DeleteExcha
 
 internal partial class DeleteExchangeRateForCurrencyCommandHandlerBase : CommandBase<DeleteExchangeRateForCurrencyCommand, ExchangeRateEntity>, IRequestHandler <DeleteExchangeRateForCurrencyCommand, bool>
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public DeleteExchangeRateForCurrencyCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;

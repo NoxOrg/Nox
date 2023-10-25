@@ -28,7 +28,7 @@ internal partial class CreateRefPaymentDetailToPaymentDetailsUsedByCustomerComma
 	: RefPaymentDetailToPaymentDetailsUsedByCustomerCommandHandlerBase<CreateRefPaymentDetailToPaymentDetailsUsedByCustomerCommand>
 {
 	public CreateRefPaymentDetailToPaymentDetailsUsedByCustomerCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Create)
@@ -42,7 +42,7 @@ internal partial class DeleteRefPaymentDetailToPaymentDetailsUsedByCustomerComma
 	: RefPaymentDetailToPaymentDetailsUsedByCustomerCommandHandlerBase<DeleteRefPaymentDetailToPaymentDetailsUsedByCustomerCommand>
 {
 	public DeleteRefPaymentDetailToPaymentDetailsUsedByCustomerCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Delete)
@@ -56,7 +56,7 @@ internal partial class DeleteAllRefPaymentDetailToPaymentDetailsUsedByCustomerCo
 	: RefPaymentDetailToPaymentDetailsUsedByCustomerCommandHandlerBase<DeleteAllRefPaymentDetailToPaymentDetailsUsedByCustomerCommand>
 {
 	public DeleteAllRefPaymentDetailToPaymentDetailsUsedByCustomerCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
@@ -66,14 +66,14 @@ internal partial class DeleteAllRefPaymentDetailToPaymentDetailsUsedByCustomerCo
 internal abstract class RefPaymentDetailToPaymentDetailsUsedByCustomerCommandHandlerBase<TRequest> : CommandBase<TRequest, PaymentDetailEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefPaymentDetailToPaymentDetailsUsedByCustomerCommand
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
 	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefPaymentDetailToPaymentDetailsUsedByCustomerCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		RelationshipAction action)
 		: base(noxSolution)

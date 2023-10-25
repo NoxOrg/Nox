@@ -4,11 +4,11 @@
 
 namespace ClientApi.Domain;
 
-public partial class CountryContinent: Nox.Domain.EnumTypeBase
+public partial class CountryContinent: Nox.Domain.EnumerationBase
 {    
    
 }
-public partial class CountryContinentLocalized: Nox.Domain.EnumTypeLocalizedBase
+public partial class CountryContinentLocalized: Nox.Domain.EnumerationLocalizedBase
 {
     
 }

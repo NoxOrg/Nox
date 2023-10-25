@@ -19,7 +19,7 @@ public record UpdateCountryLocalNameForCountryCommand(CountryKeyDto ParentKeyDto
 internal partial class UpdateCountryLocalNameForCountryCommandHandler : UpdateCountryLocalNameForCountryCommandHandlerBase
 {
 	public UpdateCountryLocalNameForCountryCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryLocalNameEntity, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> entityFactory)
 		: base(dbContext, noxSolution, entityFactory)
@@ -29,11 +29,11 @@ internal partial class UpdateCountryLocalNameForCountryCommandHandler : UpdateCo
 
 internal partial class UpdateCountryLocalNameForCountryCommandHandlerBase : CommandBase<UpdateCountryLocalNameForCountryCommand, CountryLocalNameEntity>, IRequestHandler <UpdateCountryLocalNameForCountryCommand, CountryLocalNameKeyDto?>
 {
-	public ClientApiDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<CountryLocalNameEntity, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> _entityFactory;
 
 	public UpdateCountryLocalNameForCountryCommandHandlerBase(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryLocalNameEntity, CountryLocalNameCreateDto, CountryLocalNameUpdateDto> entityFactory) : base(noxSolution)
 	{

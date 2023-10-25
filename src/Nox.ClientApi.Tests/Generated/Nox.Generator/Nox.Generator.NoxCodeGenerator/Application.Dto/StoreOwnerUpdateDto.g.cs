@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using ClientApi.Domain;
 
-using StoreOwnerEntity = ClientApi.Domain.StoreOwner;
+using DomainNamespace = ClientApi.Domain;
+
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Store owners.
 /// </summary>
-public partial class StoreOwnerUpdateDto : IEntityDto<StoreOwnerEntity>
+public partial class StoreOwnerUpdateDto : IEntityDto<DomainNamespace.StoreOwner>
 {
     /// <summary>
     /// Owner Name (Required).

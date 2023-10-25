@@ -25,7 +25,7 @@ public record CreateSecondTestEntityZeroOrOneCommand(SecondTestEntityZeroOrOneCr
 internal partial class CreateSecondTestEntityZeroOrOneCommandHandler : CreateSecondTestEntityZeroOrOneCommandHandlerBase
 {
 	public CreateSecondTestEntityZeroOrOneCommandHandler(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.TestEntityZeroOrOne, TestEntityZeroOrOneCreateDto, TestEntityZeroOrOneUpdateDto> TestEntityZeroOrOneFactory,
 		IEntityFactory<SecondTestEntityZeroOrOneEntity, SecondTestEntityZeroOrOneCreateDto, SecondTestEntityZeroOrOneUpdateDto> entityFactory)
@@ -37,12 +37,12 @@ internal partial class CreateSecondTestEntityZeroOrOneCommandHandler : CreateSec
 
 internal abstract class CreateSecondTestEntityZeroOrOneCommandHandlerBase : CommandBase<CreateSecondTestEntityZeroOrOneCommand,SecondTestEntityZeroOrOneEntity>, IRequestHandler <CreateSecondTestEntityZeroOrOneCommand, SecondTestEntityZeroOrOneKeyDto>
 {
-	protected readonly TestWebAppDbContext DbContext;
+	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<SecondTestEntityZeroOrOneEntity, SecondTestEntityZeroOrOneCreateDto, SecondTestEntityZeroOrOneUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<TestWebApp.Domain.TestEntityZeroOrOne, TestEntityZeroOrOneCreateDto, TestEntityZeroOrOneUpdateDto> TestEntityZeroOrOneFactory;
 
 	public CreateSecondTestEntityZeroOrOneCommandHandlerBase(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.TestEntityZeroOrOne, TestEntityZeroOrOneCreateDto, TestEntityZeroOrOneUpdateDto> TestEntityZeroOrOneFactory,
 		IEntityFactory<SecondTestEntityZeroOrOneEntity, SecondTestEntityZeroOrOneCreateDto, SecondTestEntityZeroOrOneUpdateDto> entityFactory) : base(noxSolution)

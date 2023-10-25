@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using ClientApi.Domain;
 
-using CountryEntity = ClientApi.Domain.Country;
+using DomainNamespace = ClientApi.Domain;
+
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Country Entity.
 /// </summary>
-public partial class CountryUpdateDto : IEntityDto<CountryEntity>
+public partial class CountryUpdateDto : IEntityDto<DomainNamespace.Country>
 {
     /// <summary>
     /// The Country Name (Required).

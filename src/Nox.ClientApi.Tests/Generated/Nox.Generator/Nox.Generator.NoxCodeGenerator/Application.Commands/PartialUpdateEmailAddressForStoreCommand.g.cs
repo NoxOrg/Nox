@@ -19,7 +19,7 @@ public record PartialUpdateEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto,
 internal partial class PartialUpdateEmailAddressForStoreCommandHandler: PartialUpdateEmailAddressForStoreCommandHandlerBase
 {
 	public PartialUpdateEmailAddressForStoreCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<EmailAddressEntity, EmailAddressCreateDto, EmailAddressUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
@@ -27,11 +27,11 @@ internal partial class PartialUpdateEmailAddressForStoreCommandHandler: PartialU
 }
 internal abstract class PartialUpdateEmailAddressForStoreCommandHandlerBase: CommandBase<PartialUpdateEmailAddressForStoreCommand, EmailAddressEntity>, IRequestHandler <PartialUpdateEmailAddressForStoreCommand, EmailAddressKeyDto?>
 {
-	public ClientApiDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	public IEntityFactory<EmailAddressEntity, EmailAddressCreateDto, EmailAddressUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateEmailAddressForStoreCommandHandlerBase(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<EmailAddressEntity, EmailAddressCreateDto, EmailAddressUpdateDto> entityFactory) : base(noxSolution)
 	{

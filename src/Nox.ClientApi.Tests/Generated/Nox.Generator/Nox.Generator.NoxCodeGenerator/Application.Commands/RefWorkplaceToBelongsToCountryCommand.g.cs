@@ -28,7 +28,7 @@ internal partial class CreateRefWorkplaceToBelongsToCountryCommandHandler
 	: RefWorkplaceToBelongsToCountryCommandHandlerBase<CreateRefWorkplaceToBelongsToCountryCommand>
 {
 	public CreateRefWorkplaceToBelongsToCountryCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Create)
@@ -42,7 +42,7 @@ internal partial class DeleteRefWorkplaceToBelongsToCountryCommandHandler
 	: RefWorkplaceToBelongsToCountryCommandHandlerBase<DeleteRefWorkplaceToBelongsToCountryCommand>
 {
 	public DeleteRefWorkplaceToBelongsToCountryCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Delete)
@@ -56,7 +56,7 @@ internal partial class DeleteAllRefWorkplaceToBelongsToCountryCommandHandler
 	: RefWorkplaceToBelongsToCountryCommandHandlerBase<DeleteAllRefWorkplaceToBelongsToCountryCommand>
 {
 	public DeleteAllRefWorkplaceToBelongsToCountryCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
@@ -66,14 +66,14 @@ internal partial class DeleteAllRefWorkplaceToBelongsToCountryCommandHandler
 internal abstract class RefWorkplaceToBelongsToCountryCommandHandlerBase<TRequest> : CommandBase<TRequest, WorkplaceEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefWorkplaceToBelongsToCountryCommand
 {
-	public ClientApiDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
 	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefWorkplaceToBelongsToCountryCommandHandlerBase(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		RelationshipAction action)
 		: base(noxSolution)
