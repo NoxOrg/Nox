@@ -25,6 +25,15 @@ using Nox.Types;
 
 namespace TestWebApp.Presentation.Api.OData;
 
+public partial class TestEntityZeroOrManiesController : TestEntityZeroOrManiesControllerBase
+{
+    public TestEntityZeroOrManiesController(
+            IMediator mediator,
+            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        ): base(mediator, httpLanguageProvider)
+    {}
+}
+
 public abstract partial class TestEntityZeroOrManiesControllerBase : ODataController
 {
     /// <summary>
@@ -32,11 +41,15 @@ public abstract partial class TestEntityZeroOrManiesControllerBase : ODataContro
     /// </summary>
     protected readonly IMediator _mediator;
 
+    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
+
     public TestEntityZeroOrManiesControllerBase(
-        IMediator mediator
+        IMediator mediator,
+        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
+        _httpLanguageProvider = httpLanguageProvider;
     }
 
     [EnableQuery]
@@ -129,11 +142,4 @@ public abstract partial class TestEntityZeroOrManiesControllerBase : ODataContro
 
         return NoContent();
     }
-}
-
-public partial class TestEntityZeroOrManiesController : TestEntityZeroOrManiesControllerBase
-{
-    public TestEntityZeroOrManiesController(IMediator mediator)
-        : base(mediator)
-    {}
 }

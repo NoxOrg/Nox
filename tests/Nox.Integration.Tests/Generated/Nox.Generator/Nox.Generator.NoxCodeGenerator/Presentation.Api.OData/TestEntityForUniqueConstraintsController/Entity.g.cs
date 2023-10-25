@@ -25,6 +25,15 @@ using Nox.Types;
 
 namespace TestWebApp.Presentation.Api.OData;
 
+public partial class TestEntityForUniqueConstraintsController : TestEntityForUniqueConstraintsControllerBase
+{
+    public TestEntityForUniqueConstraintsController(
+            IMediator mediator,
+            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        ): base(mediator, httpLanguageProvider)
+    {}
+}
+
 public abstract partial class TestEntityForUniqueConstraintsControllerBase : ODataController
 {
     /// <summary>
@@ -32,11 +41,15 @@ public abstract partial class TestEntityForUniqueConstraintsControllerBase : ODa
     /// </summary>
     protected readonly IMediator _mediator;
 
+    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
+
     public TestEntityForUniqueConstraintsControllerBase(
-        IMediator mediator
+        IMediator mediator,
+        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
+        _httpLanguageProvider = httpLanguageProvider;
     }
 
     [EnableQuery]
@@ -129,11 +142,4 @@ public abstract partial class TestEntityForUniqueConstraintsControllerBase : ODa
 
         return NoContent();
     }
-}
-
-public partial class TestEntityForUniqueConstraintsController : TestEntityForUniqueConstraintsControllerBase
-{
-    public TestEntityForUniqueConstraintsController(IMediator mediator)
-        : base(mediator)
-    {}
 }

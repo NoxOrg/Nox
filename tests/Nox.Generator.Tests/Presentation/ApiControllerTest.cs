@@ -34,7 +34,7 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
         var contentCheckerFlow = _fixture
             .GenerateSourceCodeFor(sources)
             .AssertOutputResult()
-            .AssertFileCount(54, filesShouldExist)
+            .AssertFileCount(56, filesShouldExist)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles");
 
@@ -51,6 +51,7 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
         var controllerCustomCommandsFileName = $"Presentation.Api.OData.{controllerName}.CustomCommands.g.cs";
         var controllerRelationshipsFileName = $"Presentation.Api.OData.{controllerName}.Relationships.g.cs";
         var controllerOwnedRelationshipsFileName = $"Presentation.Api.OData.{controllerName}.OwnedRelationships.g.cs";
+        var controllerEnumerationsFileName = $"Presentation.Api.OData.{controllerName}.Enumerations.g.cs";
 
         contentCheckerFlow.AssertFileExistsAndContent(controllerFileName, controllerFileName);
         contentCheckerFlow.AssertFileExistsAndContent(controllerEntityFileName, controllerEntityFileName);
@@ -58,5 +59,7 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
         contentCheckerFlow.AssertFileExistsAndContent(controllerCustomCommandsFileName, controllerCustomCommandsFileName);
         contentCheckerFlow.AssertFileExistsAndContent(controllerRelationshipsFileName, controllerRelationshipsFileName);
         contentCheckerFlow.AssertFileExistsAndContent(controllerOwnedRelationshipsFileName, controllerOwnedRelationshipsFileName);
+        contentCheckerFlow.AssertFileExistsAndContent(controllerEnumerationsFileName, controllerEnumerationsFileName);
+
     }
 }
