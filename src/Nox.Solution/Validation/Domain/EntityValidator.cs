@@ -33,12 +33,12 @@ namespace Nox.Solution.Validation
                 .SetValidator(e => new UniquePropertyValidator<EntityRelationship>(e.OwnedRelationships, x => x.Name, "entity owned relation"));
 
             RuleForEach(e => e.OwnedRelationships)
-                .Must(x => x.Related.Entity.Keys.Count <= 1)
-                .WithMessage((x, r) => string.Format(ValidationResources.RelationEntityDependentMustHaveSingleKey, x.Name, r.Related.Entity.Name, r.Name));
+                .Must(x => x.Related.Entity is not null && x.Related.Entity.Keys.Count <= 1)
+                .WithMessage((x, r) => string.Format(ValidationResources.RelationEntityDependentMustHaveSingleKey, x.Name, r.Related.Entity?.Name, r.Name));
 
             RuleForEach(e => e.Relationships)
-                .Must(x => x.Related.Entity.Keys.Count <= 1)
-                .WithMessage((x, r) => string.Format(ValidationResources.RelationEntityDependentMustHaveSingleKey, x.Name, r.Related.Entity.Name, r.Name));
+                .Must(x => x.Related.Entity is not null && x.Related.Entity.Keys.Count <= 1)
+                .WithMessage((x, r) => string.Format(ValidationResources.RelationEntityDependentMustHaveSingleKey, x.Name, r.Related.Entity?.Name ?? string.Empty, r.Name));
 
             RuleForEach(e => e.Queries)
                 .SetValidator(e => new DomainQueryValidator(e.Queries, e.Name));

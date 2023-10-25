@@ -56,7 +56,12 @@ namespace Nox.Solution.Validation
         /// </summary>
         private bool HaveReverseRelationship(EntityRelationship toEvaluate, Entity currentEntity)
         {
+
+
+            if (toEvaluate.Related.Entity is null) return false;
+
             var toEntityName = toEvaluate.Related.Entity.Name;
+            
             var currentEntityRelationships = currentEntity
                 .Relationships!
                 .Where(x => x.Entity == toEntityName)
