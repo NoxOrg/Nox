@@ -71,7 +71,7 @@ public abstract class VendingMachineCreateDtoBase : IEntityDto<DomainNamespace.V
     /// </summary>
     public System.String? VendingMachineInstallationCountryId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual CountryCreateDto? VendingMachineInstallationCountry { get; set; } = default!;
 
     /// <summary>
@@ -79,27 +79,27 @@ public abstract class VendingMachineCreateDtoBase : IEntityDto<DomainNamespace.V
     /// </summary>
     public System.Int64? VendingMachineContractedAreaLandLordId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual LandLordCreateDto? VendingMachineContractedAreaLandLord { get; set; } = default!;
 
     /// <summary>
     /// VendingMachine related to ZeroOrMany Bookings
     /// </summary>
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<BookingCreateDto> VendingMachineRelatedBookings { get; set; } = new();
 
     /// <summary>
     /// VendingMachine related to ZeroOrMany CashStockOrders
     /// </summary>
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<CashStockOrderCreateDto> VendingMachineRelatedCashStockOrders { get; set; } = new();
 
     /// <summary>
     /// VendingMachine required ZeroOrMany MinimumCashStocks
     /// </summary>
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<MinimumCashStockCreateDto> VendingMachineRequiredMinimumCashStocks { get; set; } = new();
 }

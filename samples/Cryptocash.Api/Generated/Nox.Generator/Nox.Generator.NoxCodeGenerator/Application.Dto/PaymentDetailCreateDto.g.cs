@@ -46,7 +46,7 @@ public abstract class PaymentDetailCreateDtoBase : IEntityDto<DomainNamespace.Pa
     /// </summary>
     public System.Int64? PaymentDetailsUsedByCustomerId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual CustomerCreateDto? PaymentDetailsUsedByCustomer { get; set; } = default!;
 
     /// <summary>
@@ -54,6 +54,6 @@ public abstract class PaymentDetailCreateDtoBase : IEntityDto<DomainNamespace.Pa
     /// </summary>
     public System.Int64? PaymentDetailsRelatedPaymentProviderId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual PaymentProviderCreateDto? PaymentDetailsRelatedPaymentProvider { get; set; } = default!;
 }

@@ -41,6 +41,6 @@ public abstract class TestEntityZeroOrOneToExactlyOneCreateDtoBase : IEntityDto<
     /// </summary>
     public System.String? TestEntityExactlyOneToZeroOrOneId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual TestEntityExactlyOneToZeroOrOneCreateDto? TestEntityExactlyOneToZeroOrOne { get; set; } = default!;
 }

@@ -54,7 +54,7 @@ public abstract class TransactionCreateDtoBase : IEntityDto<DomainNamespace.Tran
     /// </summary>
     public System.Int64? TransactionForCustomerId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual CustomerCreateDto? TransactionForCustomer { get; set; } = default!;
 
     /// <summary>
@@ -62,6 +62,6 @@ public abstract class TransactionCreateDtoBase : IEntityDto<DomainNamespace.Tran
     /// </summary>
     public System.Guid? TransactionForBookingId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual BookingCreateDto? TransactionForBooking { get; set; } = default!;
 }

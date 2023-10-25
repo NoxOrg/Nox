@@ -42,13 +42,13 @@ public abstract class CommissionCreateDtoBase : IEntityDto<DomainNamespace.Commi
     /// </summary>
     public System.String? CommissionFeesForCountryId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual CountryCreateDto? CommissionFeesForCountry { get; set; } = default!;
 
     /// <summary>
     /// Commission fees for ZeroOrMany Bookings
     /// </summary>
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<BookingCreateDto> CommissionFeesForBooking { get; set; } = new();
 }

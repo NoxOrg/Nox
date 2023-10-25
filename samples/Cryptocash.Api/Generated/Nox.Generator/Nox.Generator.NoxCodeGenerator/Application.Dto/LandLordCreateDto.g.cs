@@ -41,6 +41,6 @@ public abstract class LandLordCreateDtoBase : IEntityDto<DomainNamespace.LandLor
     /// LandLord leases an area to house ZeroOrMany VendingMachines
     /// </summary>
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<VendingMachineCreateDto> ContractedAreasForVendingMachines { get; set; } = new();
 }

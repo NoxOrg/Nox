@@ -41,7 +41,7 @@ public abstract class TestEntityTwoRelationshipsOneToOneCreateDtoBase : IEntityD
     /// </summary>
     public System.String? TestRelationshipOneId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual SecondTestEntityTwoRelationshipsOneToOneCreateDto? TestRelationshipOne { get; set; } = default!;
 
     /// <summary>
@@ -49,6 +49,6 @@ public abstract class TestEntityTwoRelationshipsOneToOneCreateDtoBase : IEntityD
     /// </summary>
     public System.String? TestRelationshipTwoId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual SecondTestEntityTwoRelationshipsOneToOneCreateDto? TestRelationshipTwo { get; set; } = default!;
 }
