@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using ClientApi.Domain;
-using StoreLicenseEntity = ClientApi.Domain.StoreLicense;
+
+
+using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class StoreLicenseDto : StoreLicenseDtoBase
 /// <summary>
 /// Store license info.
 /// </summary>
-public abstract class StoreLicenseDtoBase : EntityDtoBase, IEntityDto<StoreLicenseEntity>
+public abstract class StoreLicenseDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.StoreLicense>
 {
 
     #region Validation
@@ -37,7 +38,7 @@ public abstract class StoreLicenseDtoBase : EntityDtoBase, IEntityDto<StoreLicen
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Issuer is not null)
-            ExecuteActionAndCollectValidationExceptions("Issuer", () => ClientApi.Domain.StoreLicenseMetadata.CreateIssuer(this.Issuer.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("Issuer", () => DomainNamespace.StoreLicenseMetadata.CreateIssuer(this.Issuer.NonNullValue<System.String>()), result);
         else
             result.Add("Issuer", new [] { "Issuer is Required." });
     

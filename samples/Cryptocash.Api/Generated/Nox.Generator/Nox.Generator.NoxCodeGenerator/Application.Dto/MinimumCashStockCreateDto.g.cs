@@ -10,8 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using MinimumCashStockEntity = Cryptocash.Domain.MinimumCashStock;
-using Cryptocash.Domain;
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -23,7 +22,7 @@ public partial class MinimumCashStockCreateDto : MinimumCashStockCreateDtoBase
 /// <summary>
 /// Minimum cash stock required for vending machine.
 /// </summary>
-public abstract class MinimumCashStockCreateDtoBase : IEntityDto<MinimumCashStockEntity>
+public abstract class MinimumCashStockCreateDtoBase : IEntityDto<DomainNamespace.MinimumCashStock>
 {
     /// <summary>
     /// Cash stock amount (Required).

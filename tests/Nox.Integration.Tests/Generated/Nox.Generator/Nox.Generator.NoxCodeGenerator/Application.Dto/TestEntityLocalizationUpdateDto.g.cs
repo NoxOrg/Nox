@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using TestWebApp.Domain;
 
-using TestEntityLocalizationEntity = TestWebApp.Domain.TestEntityLocalization;
+using DomainNamespace = TestWebApp.Domain;
+
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
 /// Entity created for testing localization.
 /// </summary>
-public partial class TestEntityLocalizationUpdateDto : IEntityDto<TestEntityLocalizationEntity>
+public partial class TestEntityLocalizationUpdateDto : IEntityDto<DomainNamespace.TestEntityLocalization>
 {
     /// <summary>
     ///  (Required).

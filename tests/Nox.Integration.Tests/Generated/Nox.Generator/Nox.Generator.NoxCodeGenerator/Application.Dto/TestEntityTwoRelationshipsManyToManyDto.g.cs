@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using TestWebApp.Domain;
-using TestEntityTwoRelationshipsManyToManyEntity = TestWebApp.Domain.TestEntityTwoRelationshipsManyToMany;
+
+
+using DomainNamespace = TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class TestEntityTwoRelationshipsManyToManyDto : TestEntityTwoRela
 /// <summary>
 /// .
 /// </summary>
-public abstract class TestEntityTwoRelationshipsManyToManyDtoBase : EntityDtoBase, IEntityDto<TestEntityTwoRelationshipsManyToManyEntity>
+public abstract class TestEntityTwoRelationshipsManyToManyDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.TestEntityTwoRelationshipsManyToMany>
 {
 
     #region Validation
@@ -37,7 +38,7 @@ public abstract class TestEntityTwoRelationshipsManyToManyDtoBase : EntityDtoBas
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.TextTestField is not null)
-            ExecuteActionAndCollectValidationExceptions("TextTestField", () => TestWebApp.Domain.TestEntityTwoRelationshipsManyToManyMetadata.CreateTextTestField(this.TextTestField.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("TextTestField", () => DomainNamespace.TestEntityTwoRelationshipsManyToManyMetadata.CreateTextTestField(this.TextTestField.NonNullValue<System.String>()), result);
         else
             result.Add("TextTestField", new [] { "TextTestField is Required." });
     

@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using ClientApi.Domain;
 
-using EmailAddressEntity = ClientApi.Domain.EmailAddress;
+using DomainNamespace = ClientApi.Domain;
+
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Verified Email Address.
 /// </summary>
-public partial class EmailAddressUpdateDto : IEntityDto<EmailAddressEntity>
+public partial class EmailAddressUpdateDto : IEntityDto<DomainNamespace.EmailAddress>
 {
     /// <summary>
     /// Email (Optional).

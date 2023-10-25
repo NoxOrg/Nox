@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using {{codeGeneratorState.DomainNameSpace}};
 
-using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
+using DomainNamespace = {{codeGeneratorState.DomainNameSpace}};
+
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public partial class {{className}} : IEntityDto<{{entity.Name}}Entity>
+public partial class {{className}} : IEntityDto<DomainNamespace.{{entity.Name}}>
 {
 {{- for attribute in entity.Attributes }}
     {{- if componentsInfo[attribute.Name].IsUpdatable == false -}}

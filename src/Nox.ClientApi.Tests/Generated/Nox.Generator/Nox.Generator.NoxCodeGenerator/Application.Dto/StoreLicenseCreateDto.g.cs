@@ -10,8 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using StoreLicenseEntity = ClientApi.Domain.StoreLicense;
-using ClientApi.Domain;
+using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
@@ -23,7 +22,7 @@ public partial class StoreLicenseCreateDto : StoreLicenseCreateDtoBase
 /// <summary>
 /// Store license info.
 /// </summary>
-public abstract class StoreLicenseCreateDtoBase : IEntityDto<StoreLicenseEntity>
+public abstract class StoreLicenseCreateDtoBase : IEntityDto<DomainNamespace.StoreLicense>
 {
     /// <summary>
     /// License issuer (Required).
@@ -37,6 +36,6 @@ public abstract class StoreLicenseCreateDtoBase : IEntityDto<StoreLicenseEntity>
     /// </summary>
     public System.Guid? StoreWithLicenseId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual StoreCreateDto? StoreWithLicense { get; set; } = default!;
 }

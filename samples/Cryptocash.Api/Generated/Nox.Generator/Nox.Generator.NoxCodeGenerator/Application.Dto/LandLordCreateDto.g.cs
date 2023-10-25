@@ -10,8 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using LandLordEntity = Cryptocash.Domain.LandLord;
-using Cryptocash.Domain;
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -23,7 +22,7 @@ public partial class LandLordCreateDto : LandLordCreateDtoBase
 /// <summary>
 /// Landlord related data.
 /// </summary>
-public abstract class LandLordCreateDtoBase : IEntityDto<LandLordEntity>
+public abstract class LandLordCreateDtoBase : IEntityDto<DomainNamespace.LandLord>
 {
     /// <summary>
     /// Landlord name (Required).

@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using ClientApi.Domain;
 
-using RatingProgramEntity = ClientApi.Domain.RatingProgram;
+using DomainNamespace = ClientApi.Domain;
+
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Rating program for store.
 /// </summary>
-public partial class RatingProgramUpdateDto : IEntityDto<RatingProgramEntity>
+public partial class RatingProgramUpdateDto : IEntityDto<DomainNamespace.RatingProgram>
 {
     /// <summary>
     /// Rating Program Name (Optional).

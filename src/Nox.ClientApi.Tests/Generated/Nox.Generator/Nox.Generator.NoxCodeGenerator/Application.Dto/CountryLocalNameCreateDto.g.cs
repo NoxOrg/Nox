@@ -10,8 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using CountryLocalNameEntity = ClientApi.Domain.CountryLocalName;
-using ClientApi.Domain;
+using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
@@ -23,7 +22,7 @@ public partial class CountryLocalNameCreateDto : CountryLocalNameCreateDtoBase
 /// <summary>
 /// Local names for countries.
 /// </summary>
-public abstract class CountryLocalNameCreateDtoBase : IEntityDto<CountryLocalNameEntity>
+public abstract class CountryLocalNameCreateDtoBase : IEntityDto<DomainNamespace.CountryLocalName>
 {
     /// <summary>
     /// Local name (Required).

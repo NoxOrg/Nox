@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using TestWebApp.Domain;
 
-using TestEntityOwnedRelationshipExactlyOneEntity = TestWebApp.Domain.TestEntityOwnedRelationshipExactlyOne;
+using DomainNamespace = TestWebApp.Domain;
+
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
 /// .
 /// </summary>
-public partial class TestEntityOwnedRelationshipExactlyOneUpdateDto : IEntityDto<TestEntityOwnedRelationshipExactlyOneEntity>
+public partial class TestEntityOwnedRelationshipExactlyOneUpdateDto : IEntityDto<DomainNamespace.TestEntityOwnedRelationshipExactlyOne>
 {
     /// <summary>
     ///  (Required).

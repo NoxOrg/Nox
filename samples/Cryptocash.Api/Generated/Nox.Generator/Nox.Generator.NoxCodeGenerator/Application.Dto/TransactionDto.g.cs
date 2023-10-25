@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using Cryptocash.Domain;
-using TransactionEntity = Cryptocash.Domain.Transaction;
+
+
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class TransactionDto : TransactionDtoBase
 /// <summary>
 /// Customer transaction log and related data.
 /// </summary>
-public abstract class TransactionDtoBase : EntityDtoBase, IEntityDto<TransactionEntity>
+public abstract class TransactionDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.Transaction>
 {
 
     #region Validation
@@ -37,19 +38,19 @@ public abstract class TransactionDtoBase : EntityDtoBase, IEntityDto<Transaction
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.TransactionType is not null)
-            ExecuteActionAndCollectValidationExceptions("TransactionType", () => Cryptocash.Domain.TransactionMetadata.CreateTransactionType(this.TransactionType.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("TransactionType", () => DomainNamespace.TransactionMetadata.CreateTransactionType(this.TransactionType.NonNullValue<System.String>()), result);
         else
             result.Add("TransactionType", new [] { "TransactionType is Required." });
     
-        ExecuteActionAndCollectValidationExceptions("ProcessedOnDateTime", () => Cryptocash.Domain.TransactionMetadata.CreateProcessedOnDateTime(this.ProcessedOnDateTime), result);
+        ExecuteActionAndCollectValidationExceptions("ProcessedOnDateTime", () => DomainNamespace.TransactionMetadata.CreateProcessedOnDateTime(this.ProcessedOnDateTime), result);
     
         if (this.Amount is not null)
-            ExecuteActionAndCollectValidationExceptions("Amount", () => Cryptocash.Domain.TransactionMetadata.CreateAmount(this.Amount.NonNullValue<MoneyDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("Amount", () => DomainNamespace.TransactionMetadata.CreateAmount(this.Amount.NonNullValue<MoneyDto>()), result);
         else
             result.Add("Amount", new [] { "Amount is Required." });
     
         if (this.Reference is not null)
-            ExecuteActionAndCollectValidationExceptions("Reference", () => Cryptocash.Domain.TransactionMetadata.CreateReference(this.Reference.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("Reference", () => DomainNamespace.TransactionMetadata.CreateReference(this.Reference.NonNullValue<System.String>()), result);
         else
             result.Add("Reference", new [] { "Reference is Required." });
     

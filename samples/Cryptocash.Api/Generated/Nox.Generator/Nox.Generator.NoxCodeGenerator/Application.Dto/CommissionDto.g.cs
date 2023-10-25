@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using Cryptocash.Domain;
-using CommissionEntity = Cryptocash.Domain.Commission;
+
+
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class CommissionDto : CommissionDtoBase
 /// <summary>
 /// Exchange commission rate and amount.
 /// </summary>
-public abstract class CommissionDtoBase : EntityDtoBase, IEntityDto<CommissionEntity>
+public abstract class CommissionDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.Commission>
 {
 
     #region Validation
@@ -36,9 +37,9 @@ public abstract class CommissionDtoBase : EntityDtoBase, IEntityDto<CommissionEn
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
-        ExecuteActionAndCollectValidationExceptions("Rate", () => Cryptocash.Domain.CommissionMetadata.CreateRate(this.Rate), result);
+        ExecuteActionAndCollectValidationExceptions("Rate", () => DomainNamespace.CommissionMetadata.CreateRate(this.Rate), result);
     
-        ExecuteActionAndCollectValidationExceptions("EffectiveAt", () => Cryptocash.Domain.CommissionMetadata.CreateEffectiveAt(this.EffectiveAt), result);
+        ExecuteActionAndCollectValidationExceptions("EffectiveAt", () => DomainNamespace.CommissionMetadata.CreateEffectiveAt(this.EffectiveAt), result);
     
 
         return result;
