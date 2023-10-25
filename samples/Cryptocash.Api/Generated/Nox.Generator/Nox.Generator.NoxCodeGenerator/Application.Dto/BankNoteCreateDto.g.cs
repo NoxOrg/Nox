@@ -10,8 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using BankNoteEntity = Cryptocash.Domain.BankNote;
-using Cryptocash.Domain;
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -23,7 +22,7 @@ public partial class BankNoteCreateDto : BankNoteCreateDtoBase
 /// <summary>
 /// Currencies related frequent and rare bank notes.
 /// </summary>
-public abstract class BankNoteCreateDtoBase : IEntityDto<BankNoteEntity>
+public abstract class BankNoteCreateDtoBase : IEntityDto<DomainNamespace.BankNote>
 {
     /// <summary>
     /// Currency's cash bank note identifier (Required).

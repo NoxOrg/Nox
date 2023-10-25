@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using Cryptocash.Domain;
-using VendingMachineEntity = Cryptocash.Domain.VendingMachine;
+
+
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class VendingMachineDto : VendingMachineDtoBase
 /// <summary>
 /// Vending machine definition and related data.
 /// </summary>
-public abstract class VendingMachineDtoBase : EntityDtoBase, IEntityDto<VendingMachineEntity>
+public abstract class VendingMachineDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.VendingMachine>
 {
 
     #region Validation
@@ -37,34 +38,34 @@ public abstract class VendingMachineDtoBase : EntityDtoBase, IEntityDto<VendingM
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.MacAddress is not null)
-            ExecuteActionAndCollectValidationExceptions("MacAddress", () => Cryptocash.Domain.VendingMachineMetadata.CreateMacAddress(this.MacAddress.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("MacAddress", () => DomainNamespace.VendingMachineMetadata.CreateMacAddress(this.MacAddress.NonNullValue<System.String>()), result);
         else
             result.Add("MacAddress", new [] { "MacAddress is Required." });
     
         if (this.PublicIp is not null)
-            ExecuteActionAndCollectValidationExceptions("PublicIp", () => Cryptocash.Domain.VendingMachineMetadata.CreatePublicIp(this.PublicIp.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("PublicIp", () => DomainNamespace.VendingMachineMetadata.CreatePublicIp(this.PublicIp.NonNullValue<System.String>()), result);
         else
             result.Add("PublicIp", new [] { "PublicIp is Required." });
     
         if (this.GeoLocation is not null)
-            ExecuteActionAndCollectValidationExceptions("GeoLocation", () => Cryptocash.Domain.VendingMachineMetadata.CreateGeoLocation(this.GeoLocation.NonNullValue<LatLongDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("GeoLocation", () => DomainNamespace.VendingMachineMetadata.CreateGeoLocation(this.GeoLocation.NonNullValue<LatLongDto>()), result);
         else
             result.Add("GeoLocation", new [] { "GeoLocation is Required." });
     
         if (this.StreetAddress is not null)
-            ExecuteActionAndCollectValidationExceptions("StreetAddress", () => Cryptocash.Domain.VendingMachineMetadata.CreateStreetAddress(this.StreetAddress.NonNullValue<StreetAddressDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("StreetAddress", () => DomainNamespace.VendingMachineMetadata.CreateStreetAddress(this.StreetAddress.NonNullValue<StreetAddressDto>()), result);
         else
             result.Add("StreetAddress", new [] { "StreetAddress is Required." });
     
         if (this.SerialNumber is not null)
-            ExecuteActionAndCollectValidationExceptions("SerialNumber", () => Cryptocash.Domain.VendingMachineMetadata.CreateSerialNumber(this.SerialNumber.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("SerialNumber", () => DomainNamespace.VendingMachineMetadata.CreateSerialNumber(this.SerialNumber.NonNullValue<System.String>()), result);
         else
             result.Add("SerialNumber", new [] { "SerialNumber is Required." });
     
         if (this.InstallationFootPrint is not null)
-            ExecuteActionAndCollectValidationExceptions("InstallationFootPrint", () => Cryptocash.Domain.VendingMachineMetadata.CreateInstallationFootPrint(this.InstallationFootPrint.NonNullValue<System.Decimal>()), result);
+            ExecuteActionAndCollectValidationExceptions("InstallationFootPrint", () => DomainNamespace.VendingMachineMetadata.CreateInstallationFootPrint(this.InstallationFootPrint.NonNullValue<System.Decimal>()), result);
         if (this.RentPerSquareMetre is not null)
-            ExecuteActionAndCollectValidationExceptions("RentPerSquareMetre", () => Cryptocash.Domain.VendingMachineMetadata.CreateRentPerSquareMetre(this.RentPerSquareMetre.NonNullValue<MoneyDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("RentPerSquareMetre", () => DomainNamespace.VendingMachineMetadata.CreateRentPerSquareMetre(this.RentPerSquareMetre.NonNullValue<MoneyDto>()), result);
 
         return result;
     }

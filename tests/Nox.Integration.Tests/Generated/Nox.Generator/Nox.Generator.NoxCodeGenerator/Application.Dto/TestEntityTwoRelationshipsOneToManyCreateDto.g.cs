@@ -10,8 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using TestEntityTwoRelationshipsOneToManyEntity = TestWebApp.Domain.TestEntityTwoRelationshipsOneToMany;
-using TestWebApp.Domain;
+using DomainNamespace = TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
 
@@ -23,7 +22,7 @@ public partial class TestEntityTwoRelationshipsOneToManyCreateDto : TestEntityTw
 /// <summary>
 /// .
 /// </summary>
-public abstract class TestEntityTwoRelationshipsOneToManyCreateDtoBase : IEntityDto<TestEntityTwoRelationshipsOneToManyEntity>
+public abstract class TestEntityTwoRelationshipsOneToManyCreateDtoBase : IEntityDto<DomainNamespace.TestEntityTwoRelationshipsOneToMany>
 {
     /// <summary>
     ///  (Required).
@@ -41,13 +40,13 @@ public abstract class TestEntityTwoRelationshipsOneToManyCreateDtoBase : IEntity
     /// TestEntityTwoRelationshipsOneToMany First relationship to the same entity ZeroOrMany SecondTestEntityTwoRelationshipsOneToManies
     /// </summary>
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<SecondTestEntityTwoRelationshipsOneToManyCreateDto> TestRelationshipOne { get; set; } = new();
 
     /// <summary>
     /// TestEntityTwoRelationshipsOneToMany Second relationship to the same entity ZeroOrMany SecondTestEntityTwoRelationshipsOneToManies
     /// </summary>
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<SecondTestEntityTwoRelationshipsOneToManyCreateDto> TestRelationshipTwo { get; set; } = new();
 }

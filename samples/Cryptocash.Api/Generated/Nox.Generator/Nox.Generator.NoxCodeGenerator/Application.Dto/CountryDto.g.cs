@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using Cryptocash.Domain;
-using CountryEntity = Cryptocash.Domain.Country;
+
+
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class CountryDto : CountryDtoBase
 /// <summary>
 /// Country and related data.
 /// </summary>
-public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<CountryEntity>
+public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.Country>
 {
 
     #region Validation
@@ -37,33 +38,33 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<CountryEntity>
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            ExecuteActionAndCollectValidationExceptions("Name", () => Cryptocash.Domain.CountryMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("Name", () => DomainNamespace.CountryMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
         if (this.OfficialName is not null)
-            ExecuteActionAndCollectValidationExceptions("OfficialName", () => Cryptocash.Domain.CountryMetadata.CreateOfficialName(this.OfficialName.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("OfficialName", () => DomainNamespace.CountryMetadata.CreateOfficialName(this.OfficialName.NonNullValue<System.String>()), result);
         if (this.CountryIsoNumeric is not null)
-            ExecuteActionAndCollectValidationExceptions("CountryIsoNumeric", () => Cryptocash.Domain.CountryMetadata.CreateCountryIsoNumeric(this.CountryIsoNumeric.NonNullValue<System.UInt16>()), result);
+            ExecuteActionAndCollectValidationExceptions("CountryIsoNumeric", () => DomainNamespace.CountryMetadata.CreateCountryIsoNumeric(this.CountryIsoNumeric.NonNullValue<System.UInt16>()), result);
         if (this.CountryIsoAlpha3 is not null)
-            ExecuteActionAndCollectValidationExceptions("CountryIsoAlpha3", () => Cryptocash.Domain.CountryMetadata.CreateCountryIsoAlpha3(this.CountryIsoAlpha3.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("CountryIsoAlpha3", () => DomainNamespace.CountryMetadata.CreateCountryIsoAlpha3(this.CountryIsoAlpha3.NonNullValue<System.String>()), result);
         if (this.GeoCoords is not null)
-            ExecuteActionAndCollectValidationExceptions("GeoCoords", () => Cryptocash.Domain.CountryMetadata.CreateGeoCoords(this.GeoCoords.NonNullValue<LatLongDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("GeoCoords", () => DomainNamespace.CountryMetadata.CreateGeoCoords(this.GeoCoords.NonNullValue<LatLongDto>()), result);
         if (this.FlagEmoji is not null)
-            ExecuteActionAndCollectValidationExceptions("FlagEmoji", () => Cryptocash.Domain.CountryMetadata.CreateFlagEmoji(this.FlagEmoji.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("FlagEmoji", () => DomainNamespace.CountryMetadata.CreateFlagEmoji(this.FlagEmoji.NonNullValue<System.String>()), result);
         if (this.FlagSvg is not null)
-            ExecuteActionAndCollectValidationExceptions("FlagSvg", () => Cryptocash.Domain.CountryMetadata.CreateFlagSvg(this.FlagSvg.NonNullValue<ImageDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("FlagSvg", () => DomainNamespace.CountryMetadata.CreateFlagSvg(this.FlagSvg.NonNullValue<ImageDto>()), result);
         if (this.FlagPng is not null)
-            ExecuteActionAndCollectValidationExceptions("FlagPng", () => Cryptocash.Domain.CountryMetadata.CreateFlagPng(this.FlagPng.NonNullValue<ImageDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("FlagPng", () => DomainNamespace.CountryMetadata.CreateFlagPng(this.FlagPng.NonNullValue<ImageDto>()), result);
         if (this.CoatOfArmsSvg is not null)
-            ExecuteActionAndCollectValidationExceptions("CoatOfArmsSvg", () => Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsSvg(this.CoatOfArmsSvg.NonNullValue<ImageDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("CoatOfArmsSvg", () => DomainNamespace.CountryMetadata.CreateCoatOfArmsSvg(this.CoatOfArmsSvg.NonNullValue<ImageDto>()), result);
         if (this.CoatOfArmsPng is not null)
-            ExecuteActionAndCollectValidationExceptions("CoatOfArmsPng", () => Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsPng(this.CoatOfArmsPng.NonNullValue<ImageDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("CoatOfArmsPng", () => DomainNamespace.CountryMetadata.CreateCoatOfArmsPng(this.CoatOfArmsPng.NonNullValue<ImageDto>()), result);
         if (this.GoogleMapsUrl is not null)
-            ExecuteActionAndCollectValidationExceptions("GoogleMapsUrl", () => Cryptocash.Domain.CountryMetadata.CreateGoogleMapsUrl(this.GoogleMapsUrl.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("GoogleMapsUrl", () => DomainNamespace.CountryMetadata.CreateGoogleMapsUrl(this.GoogleMapsUrl.NonNullValue<System.String>()), result);
         if (this.OpenStreetMapsUrl is not null)
-            ExecuteActionAndCollectValidationExceptions("OpenStreetMapsUrl", () => Cryptocash.Domain.CountryMetadata.CreateOpenStreetMapsUrl(this.OpenStreetMapsUrl.NonNullValue<System.String>()), result);
-        ExecuteActionAndCollectValidationExceptions("StartOfWeek", () => Cryptocash.Domain.CountryMetadata.CreateStartOfWeek(this.StartOfWeek), result);
+            ExecuteActionAndCollectValidationExceptions("OpenStreetMapsUrl", () => DomainNamespace.CountryMetadata.CreateOpenStreetMapsUrl(this.OpenStreetMapsUrl.NonNullValue<System.String>()), result);
+        ExecuteActionAndCollectValidationExceptions("StartOfWeek", () => DomainNamespace.CountryMetadata.CreateStartOfWeek(this.StartOfWeek), result);
     
 
         return result;

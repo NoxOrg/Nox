@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Cryptocash.Domain;
 
-using CashStockOrderEntity = Cryptocash.Domain.CashStockOrder;
+using DomainNamespace = Cryptocash.Domain;
+
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-public partial class CashStockOrderUpdateDto : IEntityDto<CashStockOrderEntity>
+public partial class CashStockOrderUpdateDto : IEntityDto<DomainNamespace.CashStockOrder>
 {
     /// <summary>
     /// Order amount (Required).

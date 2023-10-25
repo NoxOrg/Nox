@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using ClientApi.Domain;
-using EmailAddressEntity = ClientApi.Domain.EmailAddress;
+
+
+using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class EmailAddressDto : EmailAddressDtoBase
 /// <summary>
 /// Verified Email Address.
 /// </summary>
-public abstract class EmailAddressDtoBase : EntityDtoBase, IEntityDto<EmailAddressEntity>
+public abstract class EmailAddressDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.EmailAddress>
 {
 
     #region Validation
@@ -37,9 +38,9 @@ public abstract class EmailAddressDtoBase : EntityDtoBase, IEntityDto<EmailAddre
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Email is not null)
-            ExecuteActionAndCollectValidationExceptions("Email", () => ClientApi.Domain.EmailAddressMetadata.CreateEmail(this.Email.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("Email", () => DomainNamespace.EmailAddressMetadata.CreateEmail(this.Email.NonNullValue<System.String>()), result);
         if (this.IsVerified is not null)
-            ExecuteActionAndCollectValidationExceptions("IsVerified", () => ClientApi.Domain.EmailAddressMetadata.CreateIsVerified(this.IsVerified.NonNullValue<System.Boolean>()), result);
+            ExecuteActionAndCollectValidationExceptions("IsVerified", () => DomainNamespace.EmailAddressMetadata.CreateIsVerified(this.IsVerified.NonNullValue<System.Boolean>()), result);
 
         return result;
     }

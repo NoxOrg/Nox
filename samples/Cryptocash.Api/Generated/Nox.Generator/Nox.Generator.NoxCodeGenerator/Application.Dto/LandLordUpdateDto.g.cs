@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Cryptocash.Domain;
 
-using LandLordEntity = Cryptocash.Domain.LandLord;
+using DomainNamespace = Cryptocash.Domain;
+
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Landlord related data.
 /// </summary>
-public partial class LandLordUpdateDto : IEntityDto<LandLordEntity>
+public partial class LandLordUpdateDto : IEntityDto<DomainNamespace.LandLord>
 {
     /// <summary>
     /// Landlord name (Required).

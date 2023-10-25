@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using TestWebApp.Domain;
-using TestEntityForUniqueConstraintsEntity = TestWebApp.Domain.TestEntityForUniqueConstraints;
+
+
+using DomainNamespace = TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class TestEntityForUniqueConstraintsDto : TestEntityForUniqueCons
 /// <summary>
 /// Entity created for testing constraints.
 /// </summary>
-public abstract class TestEntityForUniqueConstraintsDtoBase : EntityDtoBase, IEntityDto<TestEntityForUniqueConstraintsEntity>
+public abstract class TestEntityForUniqueConstraintsDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.TestEntityForUniqueConstraints>
 {
 
     #region Validation
@@ -37,21 +38,21 @@ public abstract class TestEntityForUniqueConstraintsDtoBase : EntityDtoBase, IEn
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.TextField is not null)
-            ExecuteActionAndCollectValidationExceptions("TextField", () => TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateTextField(this.TextField.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("TextField", () => DomainNamespace.TestEntityForUniqueConstraintsMetadata.CreateTextField(this.TextField.NonNullValue<System.String>()), result);
         else
             result.Add("TextField", new [] { "TextField is Required." });
     
-        ExecuteActionAndCollectValidationExceptions("NumberField", () => TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateNumberField(this.NumberField), result);
+        ExecuteActionAndCollectValidationExceptions("NumberField", () => DomainNamespace.TestEntityForUniqueConstraintsMetadata.CreateNumberField(this.NumberField), result);
     
-        ExecuteActionAndCollectValidationExceptions("UniqueNumberField", () => TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateUniqueNumberField(this.UniqueNumberField), result);
+        ExecuteActionAndCollectValidationExceptions("UniqueNumberField", () => DomainNamespace.TestEntityForUniqueConstraintsMetadata.CreateUniqueNumberField(this.UniqueNumberField), result);
     
         if (this.UniqueCountryCode is not null)
-            ExecuteActionAndCollectValidationExceptions("UniqueCountryCode", () => TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateUniqueCountryCode(this.UniqueCountryCode.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("UniqueCountryCode", () => DomainNamespace.TestEntityForUniqueConstraintsMetadata.CreateUniqueCountryCode(this.UniqueCountryCode.NonNullValue<System.String>()), result);
         else
             result.Add("UniqueCountryCode", new [] { "UniqueCountryCode is Required." });
     
         if (this.UniqueCurrencyCode is not null)
-            ExecuteActionAndCollectValidationExceptions("UniqueCurrencyCode", () => TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateUniqueCurrencyCode(this.UniqueCurrencyCode.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("UniqueCurrencyCode", () => DomainNamespace.TestEntityForUniqueConstraintsMetadata.CreateUniqueCurrencyCode(this.UniqueCurrencyCode.NonNullValue<System.String>()), result);
         else
             result.Add("UniqueCurrencyCode", new [] { "UniqueCurrencyCode is Required." });
     

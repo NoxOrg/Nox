@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using ClientApi.Domain;
 
-using WorkplaceEntity = ClientApi.Domain.Workplace;
+using DomainNamespace = ClientApi.Domain;
+
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Workplace.
 /// </summary>
-public partial class WorkplaceUpdateDto : IEntityDto<WorkplaceEntity>
+public partial class WorkplaceUpdateDto : IEntityDto<DomainNamespace.Workplace>
 {
     /// <summary>
     /// Workplace Name (Required).

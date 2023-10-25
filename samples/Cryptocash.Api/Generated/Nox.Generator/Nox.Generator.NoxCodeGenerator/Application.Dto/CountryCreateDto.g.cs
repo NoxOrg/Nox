@@ -10,8 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using CountryEntity = Cryptocash.Domain.Country;
-using Cryptocash.Domain;
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -23,7 +22,7 @@ public partial class CountryCreateDto : CountryCreateDtoBase
 /// <summary>
 /// Country and related data.
 /// </summary>
-public abstract class CountryCreateDtoBase : IEntityDto<CountryEntity>
+public abstract class CountryCreateDtoBase : IEntityDto<DomainNamespace.Country>
 {
     /// <summary>
     /// Country unique identifier (Required).
@@ -92,28 +91,28 @@ public abstract class CountryCreateDtoBase : IEntityDto<CountryEntity>
     /// </summary>
     public System.String? CountryUsedByCurrencyId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual CurrencyCreateDto? CountryUsedByCurrency { get; set; } = default!;
 
     /// <summary>
     /// Country used by OneOrMany Commissions
     /// </summary>
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<CommissionCreateDto> CountryUsedByCommissions { get; set; } = new();
 
     /// <summary>
     /// Country used by ZeroOrMany VendingMachines
     /// </summary>
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<VendingMachineCreateDto> CountryUsedByVendingMachines { get; set; } = new();
 
     /// <summary>
     /// Country used by ZeroOrMany Customers
     /// </summary>
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<CustomerCreateDto> CountryUsedByCustomers { get; set; } = new();
 
     /// <summary>

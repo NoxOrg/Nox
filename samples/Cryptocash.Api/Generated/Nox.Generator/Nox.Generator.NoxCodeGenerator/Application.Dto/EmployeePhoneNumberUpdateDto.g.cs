@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Cryptocash.Domain;
 
-using EmployeePhoneNumberEntity = Cryptocash.Domain.EmployeePhoneNumber;
+using DomainNamespace = Cryptocash.Domain;
+
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Employee phone number and related data.
 /// </summary>
-public partial class EmployeePhoneNumberUpdateDto : IEntityDto<EmployeePhoneNumberEntity>
+public partial class EmployeePhoneNumberUpdateDto : IEntityDto<DomainNamespace.EmployeePhoneNumber>
 {
     /// <summary>
     /// Employee's phone number type (Required).

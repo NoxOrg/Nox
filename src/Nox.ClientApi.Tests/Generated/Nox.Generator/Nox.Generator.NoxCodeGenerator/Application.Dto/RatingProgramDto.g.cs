@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using ClientApi.Domain;
-using RatingProgramEntity = ClientApi.Domain.RatingProgram;
+
+
+using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class RatingProgramDto : RatingProgramDtoBase
 /// <summary>
 /// Rating program for store.
 /// </summary>
-public abstract class RatingProgramDtoBase : EntityDtoBase, IEntityDto<RatingProgramEntity>
+public abstract class RatingProgramDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.RatingProgram>
 {
 
     #region Validation
@@ -37,11 +38,11 @@ public abstract class RatingProgramDtoBase : EntityDtoBase, IEntityDto<RatingPro
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if(this.StoreId != default(System.Guid))
-            ExecuteActionAndCollectValidationExceptions("StoreId", () => ClientApi.Domain.RatingProgramMetadata.CreateStoreId(this.StoreId), result);
+            ExecuteActionAndCollectValidationExceptions("StoreId", () => DomainNamespace.RatingProgramMetadata.CreateStoreId(this.StoreId), result);
         else
             result.Add("StoreId", new [] { "StoreId is Required." });
         if (this.Name is not null)
-            ExecuteActionAndCollectValidationExceptions("Name", () => ClientApi.Domain.RatingProgramMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("Name", () => DomainNamespace.RatingProgramMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
 
         return result;
     }

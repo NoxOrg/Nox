@@ -46,6 +46,7 @@
 //  - Nox.Generator.Application.Extensions.EntityExtensionsGenerator
 //  - Nox.Generator.Application.Extensions.NoxTypeDtoExtensionsGenerator
 //  - Nox.Generator.Application.Dto.EntityCreateDtoGenerator
+//  - Nox.Generator.Application.Dto.EntityDtoEnumerationGenerator
 //  - Nox.Generator.Application.Dto.EntityLocalizedDtoGenerator
 //  - Nox.Generator.Application.Dto.EntityUpdateDtoGenerator
 //  - Nox.Generator.Application.Dto.NoxTypeDtoGenerator

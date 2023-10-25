@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Cryptocash.Domain;
 
-using CurrencyEntity = Cryptocash.Domain.Currency;
+using DomainNamespace = Cryptocash.Domain;
+
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Currency and related data.
 /// </summary>
-public partial class CurrencyUpdateDto : IEntityDto<CurrencyEntity>
+public partial class CurrencyUpdateDto : IEntityDto<DomainNamespace.Currency>
 {
     /// <summary>
     /// Currency's name (Required).
