@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Net.Http.Headers;
 using Nox.Abstractions;
 using Nox.Solution;
 
-namespace Nox.Application.Providers;
+namespace Nox.Presentation.Api.Providers;
 
 public class DefaultLanguageProvider : HttpHeaderValueProvider, ILanguageProvider
 {
@@ -14,19 +15,19 @@ public class DefaultLanguageProvider : HttpHeaderValueProvider, ILanguageProvide
         IHttpContextAccessor httpContextAccessor)
         : base(httpContextAccessor)
     {
-        _defaultLanguage = solution.Application?.Localization?.DefaultCulture ?? "en-US"; // should we set the language or throw an exception?
+        _defaultLanguage = solution.Application!.Localization!.DefaultCulture;
         _supportedLanguages = solution.Application?.Localization?.SupportedCultures?.ToHashSet() ?? new HashSet<string>();
     }
 
-    public override string HeaderName => "Accept-Language";
+    public override string HeaderName => HeaderNames.AcceptLanguage;
 
     public override string DefaultHeaderValue => _defaultLanguage;
 
     public string GetLanguage()
     {
         var language = GetHeaderValue();
-        language = language.Split(',').Select(x => x.Trim()).First();
+        language = language.Split(',').Select(x => x.Trim().Split(';')[0]).FirstOrDefault(_supportedLanguages.Contains);
 
-        return _supportedLanguages.Contains(language) ? language : _defaultLanguage;
+        return string.IsNullOrEmpty(language) ? _defaultLanguage : language;
     }
 }

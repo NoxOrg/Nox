@@ -23,6 +23,6 @@ public class Application: DefinitionBase
     [Description("The collection of events that this application can raise to the outside world.")]
     [AdditionalProperties(false)]
     public IReadOnlyList<IntegrationEvent>? IntegrationEvents { get; internal set; }
-    
-    public Localization? Localization { get; internal set; } 
+
+    public Localization? Localization { get; internal set; } = new Localization();
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace Nox.Application.Providers;
+namespace Nox.Presentation.Api.Providers;
 
 public abstract class HttpHeaderValueProvider
 {

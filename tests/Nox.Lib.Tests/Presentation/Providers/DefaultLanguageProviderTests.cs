@@ -1,10 +1,11 @@
 ﻿using FluentAssertions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Net.Http.Headers;
 using Moq;
-using Nox.Application.Providers;
+using Nox.Presentation.Api.Providers;
 using Nox.Solution;
 
-namespace Nox.Lib.Tests.Application.Providers;
+namespace Nox.Lib.Tests.Presentation.Providers;
 
 public class DefaultLanguageProviderTests
 {
@@ -29,6 +30,14 @@ public class DefaultLanguageProviderTests
         _provider = new DefaultLanguageProvider(
             _noxSolution,
             _httpContextAccessorMock.Object);
+    }
+
+    [Fact]
+    public void Constructor_WithDefaultSolution_DoesNotThrowException()
+    {
+        var action = () => new DefaultLanguageProvider(new NoxSolution(), _httpContextAccessorMock.Object);
+
+        action.Should().NotThrow();
     }
 
     [Fact]
@@ -68,7 +77,7 @@ public class DefaultLanguageProviderTests
         var expected = "en-US";
 
         var httpContext = new DefaultHttpContext();
-        httpContext.Request.Headers.Add("Accept-Language", value);
+        httpContext.Request.Headers.Add(HeaderNames.AcceptLanguage, value);
 
         _httpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(httpContext);
 
@@ -82,13 +91,15 @@ public class DefaultLanguageProviderTests
     [Theory]
     [InlineData("fr-FR")]
     [InlineData("fr-FR, fr;q=0.9, en;q=0.8, de;q=0.7, *;q=0.5")]
+    [InlineData("fr-CH, fr-FR;q=0.9, en-US;q=0.8, de;q=0.7, *;q=0.5")]
+    [InlineData("fr-CH, fr;q=0.9, en;q=0.8, fr-FR;q=0.7, *;q=0.5")]
     public void GetLanguage_WhenHeaderIsSet_ReturnsHeaderValue(string value)
     {
         // Arrange
         var expected = "fr-FR";
 
         var httpContext = new DefaultHttpContext();
-        httpContext.Request.Headers.Add("Accept-Language", value);
+        httpContext.Request.Headers.Add(HeaderNames.AcceptLanguage, value);
 
         _httpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(httpContext);
 
