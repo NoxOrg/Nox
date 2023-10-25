@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 using Nox.Abstractions;
 using Nox.Domain;
@@ -38,4 +39,7 @@ internal partial class CountryLocalizedDto
     /// The capital city of the country (Optional).
     /// </summary>
     public System.String? Capital { get; set; }
+
+    [JsonPropertyName("@odata.etag")]
+    public System.Guid Etag { get; init; }
 }
