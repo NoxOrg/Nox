@@ -11,7 +11,8 @@ public class NoxIntegrationContext: INoxIntegrationContext
     {
         //todo this must be created and configured from solution.
         _integrations = new List<INoxIntegration>();
-        
+         
+        //todo Interrogate the solution definition and build a list of integrations
         
         
     }
@@ -24,6 +25,7 @@ public class NoxIntegrationContext: INoxIntegrationContext
         //Execute the Send Adapter - this sends the records to the target
         //Handle Send Adapter response
         
+        //this must return flag to indicate success or failure
         return Task.FromResult(true);
     }
 }
