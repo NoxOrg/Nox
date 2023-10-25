@@ -5,25 +5,43 @@
 		<LangVersion>10.0</LangVersion>
 		<Nullable>enable</Nullable>
 		<PackageScribanIncludeSource>true</PackageScribanIncludeSource>
-	</PropertyGroup>	
+		<DebugType>embedded</DebugType>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<NoWarn>$(NoWarn);NU5128;NU5100</NoWarn>
+	</PropertyGroup>
+	<PropertyGroup>
+		<IsPackable>true</IsPackable>
+		<PackageId>Nox.Generator.Tasks</PackageId>
+		<Authors>The Nox Factory</Authors>
+		<Description>Nox generators library</Description>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<Copyright>Copyright (c) The Nox Factory 2023</Copyright>		
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/NoxOrg/Nox</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/NoxOrg/Nox.Lib.git</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageIcon>nox.png</PackageIcon>
+	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.7.2" />
-		<PackageReference Include="Scriban" Version="5.9.0" IncludeAssets="Build" />
+		<PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.7.2" PrivateAssets="all" ExcludeAssets="Runtime" />
+		<PackageReference Include="Scriban" Version="5.9.0" PrivateAssets="all" IncludeAssets="Build" />		
 		<PackageReference Include="YamlDotNet" Version="13.7.1" PrivateAssets="all" GeneratePathProperty="true" />
 		<PackageReference Include="Humanizer.Core" Version="2.14.1" PrivateAssets="all" GeneratePathProperty="true" />
 		<PackageReference Include="FluentValidation" Version="11.8.0" PrivateAssets="all" GeneratePathProperty="true" />
 		<PackageReference Include="System.Text.Json" Version="7.0.3" PrivateAssets="all" GeneratePathProperty="true" />
-		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-	</ItemGroup>	
-
-	<ItemGroup>
-	  <ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
+		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" PrivateAssets="all" GeneratePathProperty="true" />		
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
+	</ItemGroup>
+	
+	<ItemGroup>
 		<Compile Remove="**\**\*.template.cs" />
 		<EmbeddedResource Include="**\**\*.template.cs" />
+		<None Include="..\..\images\nox.png" Pack="true" PackagePath="" />
 	</ItemGroup>
 
 	<PropertyGroup>
@@ -32,11 +50,48 @@
 	
 	<Target Name="GetDependencyTargetPaths">
 		<ItemGroup>
-			<TargetPathWithTargetPlatformMoniker Include="$(PKGYamlDotNet)\lib\netstandard2.0\YamlDotNet.dll" IncludeRuntimeDependency="false" />
-			<TargetPathWithTargetPlatformMoniker Include="$(PKGHumanizer_Core)\lib\netstandard2.0\Humanizer.dll" IncludeRuntimeDependency="false" />
-			<TargetPathWithTargetPlatformMoniker Include="$(PKGFluentValidation)\lib\netstandard2.0\FluentValidation.dll" IncludeRuntimeDependency="false" />
-			<TargetPathWithTargetPlatformMoniker Include="$(PKGSystem_Text_Json)\lib\netstandard2.0\System.Text.Json.dll" IncludeRuntimeDependency="false" />
+			<TargetPathWithTargetPlatformMoniker Include="$(PKGYamlDotNet)\lib\netstandard2.0\*.dll" IncludeRuntimeDependency="false" />
+			<TargetPathWithTargetPlatformMoniker Include="$(PKGHumanizer_Core)\lib\netstandard2.0\*.dll" IncludeRuntimeDependency="false" />
+			<TargetPathWithTargetPlatformMoniker Include="$(PKGFluentValidation)\lib\netstandard2.0\*.dll" IncludeRuntimeDependency="false" />
+			<TargetPathWithTargetPlatformMoniker Include="$(PKGSystem_Text_Json)\lib\netstandard2.0\*.dll" IncludeRuntimeDependency="false" />
 		</ItemGroup>
 	</Target>
 
+	<PropertyGroup>
+		<!-- This target will run when MSBuild is collecting the files to be packaged, and we'll implement it below. This property controls the dependency list for this packaging process, so by adding our custom property we hook ourselves into the process in a supported way. -->
+		<TargetsForTfmSpecificBuildOutput>
+			$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage
+		</TargetsForTfmSpecificBuildOutput>
+		<!-- This property tells MSBuild where the root folder of the package's build assets should be. Because we are not a library package, we should not pack to 'lib'. Instead, we choose 'tasks' by convention. -->
+		<BuildOutputTargetFolder>tasks</BuildOutputTargetFolder>
+	</PropertyGroup>
+
+	<!-- This is the target we defined above. It's purpose is to add all of our PackageReference and ProjectReference's runtime assets to our package output.  -->
+	<Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
+		<ItemGroup>
+			<!-- The TargetPath is the path inside the package that the source file will be placed. This is already precomputed in the ReferenceCopyLocalPaths items' DestinationSubPath, so reuse it here. -->
+			<BuildOutputInPackage Include="@(ReferenceCopyLocalPaths)" TargetPath="%(ReferenceCopyLocalPaths.DestinationSubPath)" />
+		</ItemGroup>
+	</Target>
+
+	<PropertyGroup>
+		<!-- Tell the SDK to generate a deps.json file -->
+		<GenerateDependencyFile>true</GenerateDependencyFile>
+	</PropertyGroup>
+
+	<!-- This target adds the generated deps.json file to our package output -->
+	<Target Name="AddBuildDependencyFileToBuiltProjectOutputGroupOutput" BeforeTargets="BuiltProjectOutputGroup" Condition=" '$(GenerateDependencyFile)' == 'true'">
+		<ItemGroup>
+			<BuiltProjectOutputGroupOutput Include="$(ProjectDepsFilePath)" TargetPath="$(ProjectDepsFileName)" FinalOutputPath="$(ProjectDepsFilePath)" />
+		</ItemGroup>
+	</Target>	
+	
+	<ItemGroup>
+		<!-- these lines pack the build props/targets files to the `build` folder in the generated package.
+		by convention, the .NET SDK will look for build\<Package Id>.props and build\<Package Id>.targets
+		for automatic inclusion in the build. -->
+		<Content Include="build\Nox.Generator.Tasks.props" PackagePath="build\" />
+		<Content Include="build\Nox.Generator.Tasks.targets" PackagePath="build\" />
+	</ItemGroup>
 </Project>
+	
