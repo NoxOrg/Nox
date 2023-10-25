@@ -7,6 +7,7 @@ end -}}
 
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 using Nox.Abstractions;
 using Nox.Domain;
@@ -36,5 +37,7 @@ internal partial class {{className}}
     /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
     /// </summary>
     public {{attributeType attribute}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
-{{ end -}}
+{{ end }}
+    [JsonPropertyName("@odata.etag")]
+    public System.Guid Etag { get; init; }
 }

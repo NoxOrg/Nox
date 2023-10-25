@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 using Nox.Abstractions;
 using Nox.Domain;
@@ -28,4 +29,7 @@ internal partial class TestEntityLocalizationLocalizedDto
     ///  (Required).
     /// </summary>
     public System.String TextFieldToLocalize { get; set; } = default!;
+
+    [JsonPropertyName("@odata.etag")]
+    public System.Guid Etag { get; init; }
 }
