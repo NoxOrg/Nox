@@ -1000,14 +1000,21 @@ public class NoxCommonTestCaseFactory
         var textId1 = "T1";
         var culture = "en-US";
 
-        var newItem = new TestEntityLocalizationLocalized()
+        var newItem = new TestEntityLocalization()
+        {
+            Id = Text.From(textId1),
+            TextFieldToLocalize = Text.From(text),
+            NumberField = Number.From(123)
+        };
+        var newLocalizedItem = new TestEntityLocalizationLocalized()
         {
             Id = Text.From(textId1),
             TextFieldToLocalize = Text.From(text),
             CultureCode = CultureCode.From(culture)
         };
 
-        DataContext.TestEntityLocalizationsLocalized.Add(newItem);
+        DataContext.TestEntityLocalizations.Add(newItem);
+        DataContext.TestEntityLocalizationsLocalized.Add(newLocalizedItem);
         DataContext.SaveChanges();
 
         // Force the recreation of DataContext and ensure we have fresh data from database
