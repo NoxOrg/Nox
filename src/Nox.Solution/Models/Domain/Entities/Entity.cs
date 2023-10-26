@@ -233,22 +233,15 @@ public class Entity : DefinitionBase
         }
     }
 
-    private readonly object _lockEnsureByKeyObject = new object();
     private void EnsureKeyByName()
     {
         if (_keysByName is not null)
             return;
 
-        lock (_lockEnsureByKeyObject)
+        _keysByName = new();
+        for (int i = 0; i < Keys!.Count; i++)
         {
-            if (_keysByName is null)
-            {
-                _keysByName = new();
-                for (int i = 0; i < Keys!.Count; i++)
-                {
-                    _keysByName.TryAdd(Keys[i].Name, Keys[i]);
-                }
-            }
+            _keysByName.TryAdd(Keys[i].Name, Keys[i]);
         }
     }
 
@@ -257,16 +250,10 @@ public class Entity : DefinitionBase
         if (_attributesByName is not null)
             return;
 
-        lock (_lockEnsureByKeyObject)
+        _attributesByName = new();
+        for (int i = 0; i < Attributes!.Count; i++)
         {
-            if (_attributesByName is null)
-            {
-                _attributesByName = new();
-                for (int i = 0; i < Attributes!.Count; i++)
-                {
-                    _attributesByName.TryAdd(Attributes[i].Name, Attributes[i]);
-                }
-            }
+            _attributesByName.TryAdd(Attributes[i].Name, Attributes[i]);
         }
     }
 
