@@ -17,7 +17,7 @@ public class NoxCodeGenConventions
     public string DomainNameSpace => $"{RootNameSpace}.Domain";
     public string DtoNameSpace => $"{ApplicationNameSpace}.Dto";
     public string ApplicationNameSpace => $"{RootNameSpace}.Application";
-    public string DataTransferObjectsNameSpace => $"{RootNameSpace}.Application.DataTransferObjects";
+    public string ApplicationQueriesNameSpace => $"{ApplicationNameSpace}.Queries";
     public string PersistenceNameSpace => $"{RootNameSpace}.Infrastructure.Persistence";
 
     public string ODataNameSpace => $"{RootNameSpace}.Presentation.Api.OData";
@@ -28,6 +28,7 @@ public class NoxCodeGenConventions
     /// Computes the Entity Name that holds the values of an enumeration attribute
     /// </summary>
     public string GetEntityNameForEnumeration(string entityName, string attributeName) => $"{entityName}{attributeName}";
+    public string GetEntityDtoNameForEnumeration(string entityName, string attributeName) => $"{entityName}{attributeName}Dto";
     /// <summary>
     /// Computes the Entity Type Full Name that holds the values of an enumeration attribute
     /// </summary>
@@ -36,6 +37,7 @@ public class NoxCodeGenConventions
     /// Computes the Entity Name that holds the translated values of an enumeration attribute
     /// </summary>
     public string GetEntityNameForEnumerationLocalized(string entityName, string attributeName) => $"{entityName}{attributeName}Localized";
+    public string GetEntityDtoNameForEnumerationLocalized(string entityName, string attributeName) => $"{entityName}{attributeName}LocalizedDto";
     /// <summary>
     /// Computes the Entity Name that holds the translated values of an localized entity.
     /// </summary>

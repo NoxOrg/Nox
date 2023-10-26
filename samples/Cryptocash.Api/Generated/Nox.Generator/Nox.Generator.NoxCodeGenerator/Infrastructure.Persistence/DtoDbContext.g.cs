@@ -12,6 +12,7 @@ using Nox.Infrastructure;
 using Nox.Infrastructure.Persistence;
 
 using Cryptocash.Application.Dto;
+using DtoNameSpace = Cryptocash.Application.Dto;
 
 namespace Cryptocash.Infrastructure.Persistence;
 
@@ -47,33 +48,20 @@ internal class DtoDbContext : DbContext
         _codeGenConventions = codeGeneratorState;
     }
 
-
-    public DbSet<BookingDto> Bookings { get; set; } = null!;
-
-    public DbSet<CommissionDto> Commissions { get; set; } = null!;
-
-    public DbSet<CountryDto> Countries { get; set; } = null!;
-
-    public DbSet<CurrencyDto> Currencies { get; set; } = null!;
-
-    public DbSet<CustomerDto> Customers { get; set; } = null!;
-
-    public DbSet<PaymentDetailDto> PaymentDetails { get; set; } = null!;
-
-    public DbSet<TransactionDto> Transactions { get; set; } = null!;
-
-    public DbSet<EmployeeDto> Employees { get; set; } = null!;
-
-    public DbSet<LandLordDto> LandLords { get; set; } = null!;
-
-    public DbSet<MinimumCashStockDto> MinimumCashStocks { get; set; } = null!;
-
-    public DbSet<PaymentProviderDto> PaymentProviders { get; set; } = null!;
-
-    public DbSet<VendingMachineDto> VendingMachines { get; set; } = null!;
-
-    public DbSet<CashStockOrderDto> CashStockOrders { get; set; } = null!;
-
+    
+        public DbSet<BookingDto> Bookings { get; set; } = null!;
+        public DbSet<CommissionDto> Commissions { get; set; } = null!;
+        public DbSet<CountryDto> Countries { get; set; } = null!;
+        public DbSet<CurrencyDto> Currencies { get; set; } = null!;
+        public DbSet<CustomerDto> Customers { get; set; } = null!;
+        public DbSet<PaymentDetailDto> PaymentDetails { get; set; } = null!;
+        public DbSet<TransactionDto> Transactions { get; set; } = null!;
+        public DbSet<EmployeeDto> Employees { get; set; } = null!;
+        public DbSet<LandLordDto> LandLords { get; set; } = null!;
+        public DbSet<MinimumCashStockDto> MinimumCashStocks { get; set; } = null!;
+        public DbSet<PaymentProviderDto> PaymentProviders { get; set; } = null!;
+        public DbSet<VendingMachineDto> VendingMachines { get; set; } = null!;
+        public DbSet<CashStockOrderDto> CashStockOrders { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
