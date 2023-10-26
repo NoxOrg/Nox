@@ -100,7 +100,7 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 			else
 				throw new RelatedEntityNotFoundException("{{relationship.Name}}", relatedEntityId.ToString());
 		}
-		entity.UpdateAllRefTo{{relationship.Name}}({{ToLowerFirstChar relationship.Name}}Entities);
+		entity.UpdateRefTo{{relationship.Name}}({{ToLowerFirstChar relationship.Name}}Entities);
 		{{-end}}
 	{{- end }}
 

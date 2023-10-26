@@ -75,7 +75,7 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 			else
 				throw new RelatedEntityNotFoundException("CountryUsedByCommissions", relatedEntityId.ToString());
 		}
-		entity.UpdateAllRefToCountryUsedByCommissions(countryUsedByCommissionsEntities);
+		entity.UpdateRefToCountryUsedByCommissions(countryUsedByCommissionsEntities);
 
 		await DbContext.Entry(entity).Collection(x => x.CountryUsedByVendingMachines).LoadAsync();
 		var countryUsedByVendingMachinesEntities = new List<VendingMachine>();
@@ -89,7 +89,7 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 			else
 				throw new RelatedEntityNotFoundException("CountryUsedByVendingMachines", relatedEntityId.ToString());
 		}
-		entity.UpdateAllRefToCountryUsedByVendingMachines(countryUsedByVendingMachinesEntities);
+		entity.UpdateRefToCountryUsedByVendingMachines(countryUsedByVendingMachinesEntities);
 
 		await DbContext.Entry(entity).Collection(x => x.CountryUsedByCustomers).LoadAsync();
 		var countryUsedByCustomersEntities = new List<Customer>();
@@ -103,7 +103,7 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 			else
 				throw new RelatedEntityNotFoundException("CountryUsedByCustomers", relatedEntityId.ToString());
 		}
-		entity.UpdateAllRefToCountryUsedByCustomers(countryUsedByCustomersEntities);
+		entity.UpdateRefToCountryUsedByCustomers(countryUsedByCustomersEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

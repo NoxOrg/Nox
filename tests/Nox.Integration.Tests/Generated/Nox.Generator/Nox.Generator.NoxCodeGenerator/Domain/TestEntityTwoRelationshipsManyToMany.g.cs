@@ -97,7 +97,7 @@ internal abstract partial class TestEntityTwoRelationshipsManyToManyBase : Audit
         TestRelationshipOne.Add(relatedSecondTestEntityTwoRelationshipsManyToMany);
     }
 
-    public virtual void UpdateAllRefToTestRelationshipOne(List<SecondTestEntityTwoRelationshipsManyToMany> relatedSecondTestEntityTwoRelationshipsManyToMany)
+    public virtual void UpdateRefToTestRelationshipOne(List<SecondTestEntityTwoRelationshipsManyToMany> relatedSecondTestEntityTwoRelationshipsManyToMany)
     {
         if(relatedSecondTestEntityTwoRelationshipsManyToMany is null || relatedSecondTestEntityTwoRelationshipsManyToMany.Count < 2)
             throw new RelationshipDeletionException($"The relationship cannot be updated.");
@@ -129,7 +129,7 @@ internal abstract partial class TestEntityTwoRelationshipsManyToManyBase : Audit
         TestRelationshipTwo.Add(relatedSecondTestEntityTwoRelationshipsManyToMany);
     }
 
-    public virtual void UpdateAllRefToTestRelationshipTwo(List<SecondTestEntityTwoRelationshipsManyToMany> relatedSecondTestEntityTwoRelationshipsManyToMany)
+    public virtual void UpdateRefToTestRelationshipTwo(List<SecondTestEntityTwoRelationshipsManyToMany> relatedSecondTestEntityTwoRelationshipsManyToMany)
     {
         if(relatedSecondTestEntityTwoRelationshipsManyToMany is null || relatedSecondTestEntityTwoRelationshipsManyToMany.Count < 2)
             throw new RelationshipDeletionException($"The relationship cannot be updated.");

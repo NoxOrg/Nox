@@ -67,7 +67,7 @@ internal abstract class UpdateCustomerCommandHandlerBase : CommandBase<UpdateCus
 			else
 				throw new RelatedEntityNotFoundException("CustomerRelatedPaymentDetails", relatedEntityId.ToString());
 		}
-		entity.UpdateAllRefToCustomerRelatedPaymentDetails(customerRelatedPaymentDetailsEntities);
+		entity.UpdateRefToCustomerRelatedPaymentDetails(customerRelatedPaymentDetailsEntities);
 
 		await DbContext.Entry(entity).Collection(x => x.CustomerRelatedBookings).LoadAsync();
 		var customerRelatedBookingsEntities = new List<Booking>();
@@ -81,7 +81,7 @@ internal abstract class UpdateCustomerCommandHandlerBase : CommandBase<UpdateCus
 			else
 				throw new RelatedEntityNotFoundException("CustomerRelatedBookings", relatedEntityId.ToString());
 		}
-		entity.UpdateAllRefToCustomerRelatedBookings(customerRelatedBookingsEntities);
+		entity.UpdateRefToCustomerRelatedBookings(customerRelatedBookingsEntities);
 
 		await DbContext.Entry(entity).Collection(x => x.CustomerRelatedTransactions).LoadAsync();
 		var customerRelatedTransactionsEntities = new List<Transaction>();
@@ -95,7 +95,7 @@ internal abstract class UpdateCustomerCommandHandlerBase : CommandBase<UpdateCus
 			else
 				throw new RelatedEntityNotFoundException("CustomerRelatedTransactions", relatedEntityId.ToString());
 		}
-		entity.UpdateAllRefToCustomerRelatedTransactions(customerRelatedTransactionsEntities);
+		entity.UpdateRefToCustomerRelatedTransactions(customerRelatedTransactionsEntities);
 
 		var customerBaseCountryKey = Cryptocash.Domain.CountryMetadata.CreateId(request.EntityDto.CustomerBaseCountryId);
 		var customerBaseCountryEntity = await DbContext.Countries.FindAsync(customerBaseCountryKey);

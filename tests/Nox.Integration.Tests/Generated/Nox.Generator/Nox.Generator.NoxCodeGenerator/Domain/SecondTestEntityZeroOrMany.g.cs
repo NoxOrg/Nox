@@ -97,7 +97,7 @@ internal abstract partial class SecondTestEntityZeroOrManyBase : AuditableEntity
         TestEntityZeroOrManyRelationship.Add(relatedTestEntityZeroOrMany);
     }
 
-    public virtual void UpdateAllRefToTestEntityZeroOrManyRelationship(List<TestEntityZeroOrMany> relatedTestEntityZeroOrMany)
+    public virtual void UpdateRefToTestEntityZeroOrManyRelationship(List<TestEntityZeroOrMany> relatedTestEntityZeroOrMany)
     {
         TestEntityZeroOrManyRelationship.Clear();
         TestEntityZeroOrManyRelationship.AddRange(relatedTestEntityZeroOrMany);

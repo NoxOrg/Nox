@@ -67,7 +67,7 @@ internal abstract class UpdateMinimumCashStockCommandHandlerBase : CommandBase<U
 			else
 				throw new RelatedEntityNotFoundException("MinimumCashStocksRequiredByVendingMachines", relatedEntityId.ToString());
 		}
-		entity.UpdateAllRefToMinimumCashStocksRequiredByVendingMachines(minimumCashStocksRequiredByVendingMachinesEntities);
+		entity.UpdateRefToMinimumCashStocksRequiredByVendingMachines(minimumCashStocksRequiredByVendingMachinesEntities);
 
 		var minimumCashStockRelatedCurrencyKey = Cryptocash.Domain.CurrencyMetadata.CreateId(request.EntityDto.MinimumCashStockRelatedCurrencyId);
 		var minimumCashStockRelatedCurrencyEntity = await DbContext.Currencies.FindAsync(minimumCashStockRelatedCurrencyKey);

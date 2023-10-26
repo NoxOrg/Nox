@@ -97,7 +97,7 @@ internal abstract partial class TestEntityZeroOrManyToExactlyOneBase : Auditable
         TestEntityExactlyOneToZeroOrMany.Add(relatedTestEntityExactlyOneToZeroOrMany);
     }
 
-    public virtual void UpdateAllRefToTestEntityExactlyOneToZeroOrMany(List<TestEntityExactlyOneToZeroOrMany> relatedTestEntityExactlyOneToZeroOrMany)
+    public virtual void UpdateRefToTestEntityExactlyOneToZeroOrMany(List<TestEntityExactlyOneToZeroOrMany> relatedTestEntityExactlyOneToZeroOrMany)
     {
         TestEntityExactlyOneToZeroOrMany.Clear();
         TestEntityExactlyOneToZeroOrMany.AddRange(relatedTestEntityExactlyOneToZeroOrMany);

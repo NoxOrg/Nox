@@ -182,7 +182,7 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
         CountryUsedByCommissions.Add(relatedCommission);
     }
 
-    public virtual void UpdateAllRefToCountryUsedByCommissions(List<Commission> relatedCommission)
+    public virtual void UpdateRefToCountryUsedByCommissions(List<Commission> relatedCommission)
     {
         if(relatedCommission is null || relatedCommission.Count < 2)
             throw new RelationshipDeletionException($"The relationship cannot be updated.");
@@ -214,7 +214,7 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
         CountryUsedByVendingMachines.Add(relatedVendingMachine);
     }
 
-    public virtual void UpdateAllRefToCountryUsedByVendingMachines(List<VendingMachine> relatedVendingMachine)
+    public virtual void UpdateRefToCountryUsedByVendingMachines(List<VendingMachine> relatedVendingMachine)
     {
         CountryUsedByVendingMachines.Clear();
         CountryUsedByVendingMachines.AddRange(relatedVendingMachine);
@@ -240,7 +240,7 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
         CountryUsedByCustomers.Add(relatedCustomer);
     }
 
-    public virtual void UpdateAllRefToCountryUsedByCustomers(List<Customer> relatedCustomer)
+    public virtual void UpdateRefToCountryUsedByCustomers(List<Customer> relatedCustomer)
     {
         CountryUsedByCustomers.Clear();
         CountryUsedByCustomers.AddRange(relatedCustomer);

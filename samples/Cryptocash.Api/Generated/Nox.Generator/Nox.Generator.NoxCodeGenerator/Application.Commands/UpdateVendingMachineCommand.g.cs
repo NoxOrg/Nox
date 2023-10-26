@@ -83,7 +83,7 @@ internal abstract class UpdateVendingMachineCommandHandlerBase : CommandBase<Upd
 			else
 				throw new RelatedEntityNotFoundException("VendingMachineRelatedBookings", relatedEntityId.ToString());
 		}
-		entity.UpdateAllRefToVendingMachineRelatedBookings(vendingMachineRelatedBookingsEntities);
+		entity.UpdateRefToVendingMachineRelatedBookings(vendingMachineRelatedBookingsEntities);
 
 		await DbContext.Entry(entity).Collection(x => x.VendingMachineRelatedCashStockOrders).LoadAsync();
 		var vendingMachineRelatedCashStockOrdersEntities = new List<CashStockOrder>();
@@ -97,7 +97,7 @@ internal abstract class UpdateVendingMachineCommandHandlerBase : CommandBase<Upd
 			else
 				throw new RelatedEntityNotFoundException("VendingMachineRelatedCashStockOrders", relatedEntityId.ToString());
 		}
-		entity.UpdateAllRefToVendingMachineRelatedCashStockOrders(vendingMachineRelatedCashStockOrdersEntities);
+		entity.UpdateRefToVendingMachineRelatedCashStockOrders(vendingMachineRelatedCashStockOrdersEntities);
 
 		await DbContext.Entry(entity).Collection(x => x.VendingMachineRequiredMinimumCashStocks).LoadAsync();
 		var vendingMachineRequiredMinimumCashStocksEntities = new List<MinimumCashStock>();
@@ -111,7 +111,7 @@ internal abstract class UpdateVendingMachineCommandHandlerBase : CommandBase<Upd
 			else
 				throw new RelatedEntityNotFoundException("VendingMachineRequiredMinimumCashStocks", relatedEntityId.ToString());
 		}
-		entity.UpdateAllRefToVendingMachineRequiredMinimumCashStocks(vendingMachineRequiredMinimumCashStocksEntities);
+		entity.UpdateRefToVendingMachineRequiredMinimumCashStocks(vendingMachineRequiredMinimumCashStocksEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

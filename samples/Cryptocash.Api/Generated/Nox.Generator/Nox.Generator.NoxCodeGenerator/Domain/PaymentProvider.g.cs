@@ -102,7 +102,7 @@ internal abstract partial class PaymentProviderBase : AuditableEntityBase, IEnti
         PaymentProviderRelatedPaymentDetails.Add(relatedPaymentDetail);
     }
 
-    public virtual void UpdateAllRefToPaymentProviderRelatedPaymentDetails(List<PaymentDetail> relatedPaymentDetail)
+    public virtual void UpdateRefToPaymentProviderRelatedPaymentDetails(List<PaymentDetail> relatedPaymentDetail)
     {
         PaymentProviderRelatedPaymentDetails.Clear();
         PaymentProviderRelatedPaymentDetails.AddRange(relatedPaymentDetail);

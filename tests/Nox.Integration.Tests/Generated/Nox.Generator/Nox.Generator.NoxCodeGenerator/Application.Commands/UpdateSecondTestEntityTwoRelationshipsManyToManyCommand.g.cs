@@ -67,7 +67,7 @@ internal abstract class UpdateSecondTestEntityTwoRelationshipsManyToManyCommandH
 			else
 				throw new RelatedEntityNotFoundException("TestRelationshipOneOnOtherSide", relatedEntityId.ToString());
 		}
-		entity.UpdateAllRefToTestRelationshipOneOnOtherSide(testRelationshipOneOnOtherSideEntities);
+		entity.UpdateRefToTestRelationshipOneOnOtherSide(testRelationshipOneOnOtherSideEntities);
 
 		await DbContext.Entry(entity).Collection(x => x.TestRelationshipTwoOnOtherSide).LoadAsync();
 		var testRelationshipTwoOnOtherSideEntities = new List<TestEntityTwoRelationshipsManyToMany>();
@@ -81,7 +81,7 @@ internal abstract class UpdateSecondTestEntityTwoRelationshipsManyToManyCommandH
 			else
 				throw new RelatedEntityNotFoundException("TestRelationshipTwoOnOtherSide", relatedEntityId.ToString());
 		}
-		entity.UpdateAllRefToTestRelationshipTwoOnOtherSide(testRelationshipTwoOnOtherSideEntities);
+		entity.UpdateRefToTestRelationshipTwoOnOtherSide(testRelationshipTwoOnOtherSideEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

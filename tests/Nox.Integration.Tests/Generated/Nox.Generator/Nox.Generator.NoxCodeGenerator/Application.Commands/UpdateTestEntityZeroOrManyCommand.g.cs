@@ -67,7 +67,7 @@ internal abstract class UpdateTestEntityZeroOrManyCommandHandlerBase : CommandBa
 			else
 				throw new RelatedEntityNotFoundException("SecondTestEntityZeroOrManyRelationship", relatedEntityId.ToString());
 		}
-		entity.UpdateAllRefToSecondTestEntityZeroOrManyRelationship(secondTestEntityZeroOrManyRelationshipEntities);
+		entity.UpdateRefToSecondTestEntityZeroOrManyRelationship(secondTestEntityZeroOrManyRelationshipEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

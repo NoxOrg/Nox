@@ -122,7 +122,7 @@ internal abstract partial class StoreOwnerBase : AuditableEntityBase, IEntityCon
         Stores.Add(relatedStore);
     }
 
-    public virtual void UpdateAllRefToStores(List<Store> relatedStore)
+    public virtual void UpdateRefToStores(List<Store> relatedStore)
     {
         if(relatedStore is null || relatedStore.Count < 2)
             throw new RelationshipDeletionException($"The relationship cannot be updated.");

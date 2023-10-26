@@ -67,7 +67,7 @@ internal abstract class UpdateTestEntityTwoRelationshipsManyToManyCommandHandler
 			else
 				throw new RelatedEntityNotFoundException("TestRelationshipOne", relatedEntityId.ToString());
 		}
-		entity.UpdateAllRefToTestRelationshipOne(testRelationshipOneEntities);
+		entity.UpdateRefToTestRelationshipOne(testRelationshipOneEntities);
 
 		await DbContext.Entry(entity).Collection(x => x.TestRelationshipTwo).LoadAsync();
 		var testRelationshipTwoEntities = new List<SecondTestEntityTwoRelationshipsManyToMany>();
@@ -81,7 +81,7 @@ internal abstract class UpdateTestEntityTwoRelationshipsManyToManyCommandHandler
 			else
 				throw new RelatedEntityNotFoundException("TestRelationshipTwo", relatedEntityId.ToString());
 		}
-		entity.UpdateAllRefToTestRelationshipTwo(testRelationshipTwoEntities);
+		entity.UpdateRefToTestRelationshipTwo(testRelationshipTwoEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

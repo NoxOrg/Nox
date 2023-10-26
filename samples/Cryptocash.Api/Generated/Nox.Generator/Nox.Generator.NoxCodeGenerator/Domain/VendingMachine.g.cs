@@ -193,7 +193,7 @@ internal abstract partial class VendingMachineBase : AuditableEntityBase, IEntit
         VendingMachineRelatedBookings.Add(relatedBooking);
     }
 
-    public virtual void UpdateAllRefToVendingMachineRelatedBookings(List<Booking> relatedBooking)
+    public virtual void UpdateRefToVendingMachineRelatedBookings(List<Booking> relatedBooking)
     {
         VendingMachineRelatedBookings.Clear();
         VendingMachineRelatedBookings.AddRange(relatedBooking);
@@ -219,7 +219,7 @@ internal abstract partial class VendingMachineBase : AuditableEntityBase, IEntit
         VendingMachineRelatedCashStockOrders.Add(relatedCashStockOrder);
     }
 
-    public virtual void UpdateAllRefToVendingMachineRelatedCashStockOrders(List<CashStockOrder> relatedCashStockOrder)
+    public virtual void UpdateRefToVendingMachineRelatedCashStockOrders(List<CashStockOrder> relatedCashStockOrder)
     {
         VendingMachineRelatedCashStockOrders.Clear();
         VendingMachineRelatedCashStockOrders.AddRange(relatedCashStockOrder);
@@ -245,7 +245,7 @@ internal abstract partial class VendingMachineBase : AuditableEntityBase, IEntit
         VendingMachineRequiredMinimumCashStocks.Add(relatedMinimumCashStock);
     }
 
-    public virtual void UpdateAllRefToVendingMachineRequiredMinimumCashStocks(List<MinimumCashStock> relatedMinimumCashStock)
+    public virtual void UpdateRefToVendingMachineRequiredMinimumCashStocks(List<MinimumCashStock> relatedMinimumCashStock)
     {
         VendingMachineRequiredMinimumCashStocks.Clear();
         VendingMachineRequiredMinimumCashStocks.AddRange(relatedMinimumCashStock);

@@ -146,7 +146,7 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
         PhysicalWorkplaces.Add(relatedWorkplace);
     }
 
-    public virtual void UpdateAllRefToPhysicalWorkplaces(List<Workplace> relatedWorkplace)
+    public virtual void UpdateRefToPhysicalWorkplaces(List<Workplace> relatedWorkplace)
     {
         PhysicalWorkplaces.Clear();
         PhysicalWorkplaces.AddRange(relatedWorkplace);

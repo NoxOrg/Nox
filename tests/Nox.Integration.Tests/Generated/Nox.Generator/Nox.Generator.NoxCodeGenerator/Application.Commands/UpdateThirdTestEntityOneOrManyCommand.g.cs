@@ -67,7 +67,7 @@ internal abstract class UpdateThirdTestEntityOneOrManyCommandHandlerBase : Comma
 			else
 				throw new RelatedEntityNotFoundException("ThirdTestEntityZeroOrManyRelationship", relatedEntityId.ToString());
 		}
-		entity.UpdateAllRefToThirdTestEntityZeroOrManyRelationship(thirdTestEntityZeroOrManyRelationshipEntities);
+		entity.UpdateRefToThirdTestEntityZeroOrManyRelationship(thirdTestEntityZeroOrManyRelationshipEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

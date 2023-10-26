@@ -67,7 +67,7 @@ internal abstract class UpdatePaymentProviderCommandHandlerBase : CommandBase<Up
 			else
 				throw new RelatedEntityNotFoundException("PaymentProviderRelatedPaymentDetails", relatedEntityId.ToString());
 		}
-		entity.UpdateAllRefToPaymentProviderRelatedPaymentDetails(paymentProviderRelatedPaymentDetailsEntities);
+		entity.UpdateRefToPaymentProviderRelatedPaymentDetails(paymentProviderRelatedPaymentDetailsEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

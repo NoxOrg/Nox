@@ -82,7 +82,7 @@ internal abstract class UpdateCommissionCommandHandlerBase : CommandBase<UpdateC
 			else
 				throw new RelatedEntityNotFoundException("CommissionFeesForBooking", relatedEntityId.ToString());
 		}
-		entity.UpdateAllRefToCommissionFeesForBooking(commissionFeesForBookingEntities);
+		entity.UpdateRefToCommissionFeesForBooking(commissionFeesForBookingEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

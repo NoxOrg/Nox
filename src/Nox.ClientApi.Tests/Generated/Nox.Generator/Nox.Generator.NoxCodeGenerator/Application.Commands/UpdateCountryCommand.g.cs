@@ -67,7 +67,7 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 			else
 				throw new RelatedEntityNotFoundException("PhysicalWorkplaces", relatedEntityId.ToString());
 		}
-		entity.UpdateAllRefToPhysicalWorkplaces(physicalWorkplacesEntities);
+		entity.UpdateRefToPhysicalWorkplaces(physicalWorkplacesEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

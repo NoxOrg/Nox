@@ -97,7 +97,7 @@ internal abstract partial class TestEntityTwoRelationshipsOneToManyBase : Audita
         TestRelationshipOne.Add(relatedSecondTestEntityTwoRelationshipsOneToMany);
     }
 
-    public virtual void UpdateAllRefToTestRelationshipOne(List<SecondTestEntityTwoRelationshipsOneToMany> relatedSecondTestEntityTwoRelationshipsOneToMany)
+    public virtual void UpdateRefToTestRelationshipOne(List<SecondTestEntityTwoRelationshipsOneToMany> relatedSecondTestEntityTwoRelationshipsOneToMany)
     {
         TestRelationshipOne.Clear();
         TestRelationshipOne.AddRange(relatedSecondTestEntityTwoRelationshipsOneToMany);
@@ -123,7 +123,7 @@ internal abstract partial class TestEntityTwoRelationshipsOneToManyBase : Audita
         TestRelationshipTwo.Add(relatedSecondTestEntityTwoRelationshipsOneToMany);
     }
 
-    public virtual void UpdateAllRefToTestRelationshipTwo(List<SecondTestEntityTwoRelationshipsOneToMany> relatedSecondTestEntityTwoRelationshipsOneToMany)
+    public virtual void UpdateRefToTestRelationshipTwo(List<SecondTestEntityTwoRelationshipsOneToMany> relatedSecondTestEntityTwoRelationshipsOneToMany)
     {
         TestRelationshipTwo.Clear();
         TestRelationshipTwo.AddRange(relatedSecondTestEntityTwoRelationshipsOneToMany);

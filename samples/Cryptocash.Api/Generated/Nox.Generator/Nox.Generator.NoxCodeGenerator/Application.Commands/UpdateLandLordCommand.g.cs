@@ -67,7 +67,7 @@ internal abstract class UpdateLandLordCommandHandlerBase : CommandBase<UpdateLan
 			else
 				throw new RelatedEntityNotFoundException("ContractedAreasForVendingMachines", relatedEntityId.ToString());
 		}
-		entity.UpdateAllRefToContractedAreasForVendingMachines(contractedAreasForVendingMachinesEntities);
+		entity.UpdateRefToContractedAreasForVendingMachines(contractedAreasForVendingMachinesEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

@@ -117,7 +117,7 @@ internal abstract partial class CustomerBase : AuditableEntityBase, IEntityConcu
         CustomerRelatedPaymentDetails.Add(relatedPaymentDetail);
     }
 
-    public virtual void UpdateAllRefToCustomerRelatedPaymentDetails(List<PaymentDetail> relatedPaymentDetail)
+    public virtual void UpdateRefToCustomerRelatedPaymentDetails(List<PaymentDetail> relatedPaymentDetail)
     {
         CustomerRelatedPaymentDetails.Clear();
         CustomerRelatedPaymentDetails.AddRange(relatedPaymentDetail);
@@ -143,7 +143,7 @@ internal abstract partial class CustomerBase : AuditableEntityBase, IEntityConcu
         CustomerRelatedBookings.Add(relatedBooking);
     }
 
-    public virtual void UpdateAllRefToCustomerRelatedBookings(List<Booking> relatedBooking)
+    public virtual void UpdateRefToCustomerRelatedBookings(List<Booking> relatedBooking)
     {
         CustomerRelatedBookings.Clear();
         CustomerRelatedBookings.AddRange(relatedBooking);
@@ -169,7 +169,7 @@ internal abstract partial class CustomerBase : AuditableEntityBase, IEntityConcu
         CustomerRelatedTransactions.Add(relatedTransaction);
     }
 
-    public virtual void UpdateAllRefToCustomerRelatedTransactions(List<Transaction> relatedTransaction)
+    public virtual void UpdateRefToCustomerRelatedTransactions(List<Transaction> relatedTransaction)
     {
         CustomerRelatedTransactions.Clear();
         CustomerRelatedTransactions.AddRange(relatedTransaction);

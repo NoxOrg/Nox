@@ -67,7 +67,7 @@ internal abstract class UpdateStoreOwnerCommandHandlerBase : CommandBase<UpdateS
 			else
 				throw new RelatedEntityNotFoundException("Stores", relatedEntityId.ToString());
 		}
-		entity.UpdateAllRefToStores(storesEntities);
+		entity.UpdateRefToStores(storesEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

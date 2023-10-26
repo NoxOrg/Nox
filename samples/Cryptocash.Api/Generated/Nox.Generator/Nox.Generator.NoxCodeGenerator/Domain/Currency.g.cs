@@ -152,7 +152,7 @@ internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcu
         CurrencyUsedByCountry.Add(relatedCountry);
     }
 
-    public virtual void UpdateAllRefToCurrencyUsedByCountry(List<Country> relatedCountry)
+    public virtual void UpdateRefToCurrencyUsedByCountry(List<Country> relatedCountry)
     {
         if(relatedCountry is null || relatedCountry.Count < 2)
             throw new RelationshipDeletionException($"The relationship cannot be updated.");
@@ -184,7 +184,7 @@ internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcu
         CurrencyUsedByMinimumCashStocks.Add(relatedMinimumCashStock);
     }
 
-    public virtual void UpdateAllRefToCurrencyUsedByMinimumCashStocks(List<MinimumCashStock> relatedMinimumCashStock)
+    public virtual void UpdateRefToCurrencyUsedByMinimumCashStocks(List<MinimumCashStock> relatedMinimumCashStock)
     {
         CurrencyUsedByMinimumCashStocks.Clear();
         CurrencyUsedByMinimumCashStocks.AddRange(relatedMinimumCashStock);

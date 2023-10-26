@@ -207,7 +207,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
 
     {{- if relationship.WithMultiEntity }}
 
-    public virtual void UpdateAllRefTo{{relationship.Name}}(List<{{relationship.Entity}}> related{{relationship.Entity}})
+    public virtual void UpdateRefTo{{relationship.Name}}(List<{{relationship.Entity}}> related{{relationship.Entity}})
     {
         {{- if relationship.Relationship == "OneOrMany" }}
         if(related{{relationship.Entity}} is null || related{{relationship.Entity}}.Count < 2)

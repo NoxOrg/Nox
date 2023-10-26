@@ -97,7 +97,7 @@ internal abstract partial class SecondTestEntityTwoRelationshipsManyToManyBase :
         TestRelationshipOneOnOtherSide.Add(relatedTestEntityTwoRelationshipsManyToMany);
     }
 
-    public virtual void UpdateAllRefToTestRelationshipOneOnOtherSide(List<TestEntityTwoRelationshipsManyToMany> relatedTestEntityTwoRelationshipsManyToMany)
+    public virtual void UpdateRefToTestRelationshipOneOnOtherSide(List<TestEntityTwoRelationshipsManyToMany> relatedTestEntityTwoRelationshipsManyToMany)
     {
         TestRelationshipOneOnOtherSide.Clear();
         TestRelationshipOneOnOtherSide.AddRange(relatedTestEntityTwoRelationshipsManyToMany);
@@ -123,7 +123,7 @@ internal abstract partial class SecondTestEntityTwoRelationshipsManyToManyBase :
         TestRelationshipTwoOnOtherSide.Add(relatedTestEntityTwoRelationshipsManyToMany);
     }
 
-    public virtual void UpdateAllRefToTestRelationshipTwoOnOtherSide(List<TestEntityTwoRelationshipsManyToMany> relatedTestEntityTwoRelationshipsManyToMany)
+    public virtual void UpdateRefToTestRelationshipTwoOnOtherSide(List<TestEntityTwoRelationshipsManyToMany> relatedTestEntityTwoRelationshipsManyToMany)
     {
         TestRelationshipTwoOnOtherSide.Clear();
         TestRelationshipTwoOnOtherSide.AddRange(relatedTestEntityTwoRelationshipsManyToMany);

@@ -67,7 +67,7 @@ internal abstract class UpdateCurrencyCommandHandlerBase : CommandBase<UpdateCur
 			else
 				throw new RelatedEntityNotFoundException("CurrencyUsedByCountry", relatedEntityId.ToString());
 		}
-		entity.UpdateAllRefToCurrencyUsedByCountry(currencyUsedByCountryEntities);
+		entity.UpdateRefToCurrencyUsedByCountry(currencyUsedByCountryEntities);
 
 		await DbContext.Entry(entity).Collection(x => x.CurrencyUsedByMinimumCashStocks).LoadAsync();
 		var currencyUsedByMinimumCashStocksEntities = new List<MinimumCashStock>();
@@ -81,7 +81,7 @@ internal abstract class UpdateCurrencyCommandHandlerBase : CommandBase<UpdateCur
 			else
 				throw new RelatedEntityNotFoundException("CurrencyUsedByMinimumCashStocks", relatedEntityId.ToString());
 		}
-		entity.UpdateAllRefToCurrencyUsedByMinimumCashStocks(currencyUsedByMinimumCashStocksEntities);
+		entity.UpdateRefToCurrencyUsedByMinimumCashStocks(currencyUsedByMinimumCashStocksEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

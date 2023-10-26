@@ -67,7 +67,7 @@ internal abstract class UpdateTestEntityOneOrManyToExactlyOneCommandHandlerBase 
 			else
 				throw new RelatedEntityNotFoundException("TestEntityExactlyOneToOneOrMany", relatedEntityId.ToString());
 		}
-		entity.UpdateAllRefToTestEntityExactlyOneToOneOrMany(testEntityExactlyOneToOneOrManyEntities);
+		entity.UpdateRefToTestEntityExactlyOneToOneOrMany(testEntityExactlyOneToOneOrManyEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
