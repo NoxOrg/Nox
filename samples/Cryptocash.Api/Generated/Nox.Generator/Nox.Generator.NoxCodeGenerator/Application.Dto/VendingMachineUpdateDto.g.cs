@@ -67,4 +67,19 @@ public partial class VendingMachineUpdateDto : IEntityDto<DomainNamespace.Vendin
     /// </summary>
     [Required(ErrorMessage = "VendingMachineContractedAreaLandLord is required")]
     public System.Int64 VendingMachineContractedAreaLandLordId { get; set; } = default!;
+
+    /// <summary>
+    /// VendingMachine related to ZeroOrMany Bookings
+    /// </summary>
+    public List<System.Guid> VendingMachineRelatedBookingsId { get; set; } = new();
+
+    /// <summary>
+    /// VendingMachine related to ZeroOrMany CashStockOrders
+    /// </summary>
+    public List<System.Int64> VendingMachineRelatedCashStockOrdersId { get; set; } = new();
+
+    /// <summary>
+    /// VendingMachine required ZeroOrMany MinimumCashStocks
+    /// </summary>
+    public List<System.Int64> VendingMachineRequiredMinimumCashStocksId { get; set; } = new();
 }

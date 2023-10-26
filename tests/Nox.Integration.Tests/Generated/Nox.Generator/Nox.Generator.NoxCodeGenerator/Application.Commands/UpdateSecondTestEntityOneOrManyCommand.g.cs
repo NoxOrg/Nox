@@ -8,6 +8,8 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
@@ -52,6 +54,20 @@ internal abstract class UpdateSecondTestEntityOneOrManyCommandHandlerBase : Comm
 		{
 			return null;
 		}
+
+		await DbContext.Entry(entity).Collection(x => x.TestEntityOneOrManyRelationship).LoadAsync();
+		var testEntityOneOrManyRelationshipEntities = new List<TestEntityOneOrMany>();
+		foreach(var relatedEntityId in request.EntityDto.TestEntityOneOrManyRelationshipId)
+		{
+			var relatedKey = TestWebApp.Domain.TestEntityOneOrManyMetadata.CreateId(relatedEntityId);
+			var relatedEntity = await DbContext.TestEntityOneOrManies.FindAsync(relatedKey);
+						
+			if(relatedEntity is not null)
+				testEntityOneOrManyRelationshipEntities.Add(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("TestEntityOneOrManyRelationship", relatedEntityId.ToString());
+		}
+		entity.UpdateRefToTestEntityOneOrManyRelationship(testEntityOneOrManyRelationshipEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

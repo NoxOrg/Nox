@@ -8,6 +8,8 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
@@ -52,6 +54,22 @@ internal abstract class UpdateTransactionCommandHandlerBase : CommandBase<Update
 		{
 			return null;
 		}
+
+		var transactionForCustomerKey = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityDto.TransactionForCustomerId);
+		var transactionForCustomerEntity = await DbContext.Customers.FindAsync(transactionForCustomerKey);
+						
+		if(transactionForCustomerEntity is not null)
+			entity.CreateRefToTransactionForCustomer(transactionForCustomerEntity);
+		else
+			throw new RelatedEntityNotFoundException("TransactionForCustomer", request.EntityDto.TransactionForCustomerId.ToString());
+
+		var transactionForBookingKey = Cryptocash.Domain.BookingMetadata.CreateId(request.EntityDto.TransactionForBookingId);
+		var transactionForBookingEntity = await DbContext.Bookings.FindAsync(transactionForBookingKey);
+						
+		if(transactionForBookingEntity is not null)
+			entity.CreateRefToTransactionForBooking(transactionForBookingEntity);
+		else
+			throw new RelatedEntityNotFoundException("TransactionForBooking", request.EntityDto.TransactionForBookingId.ToString());
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

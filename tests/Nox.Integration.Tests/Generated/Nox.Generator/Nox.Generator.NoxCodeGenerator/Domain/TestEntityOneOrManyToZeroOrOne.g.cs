@@ -97,6 +97,14 @@ internal abstract partial class TestEntityOneOrManyToZeroOrOneBase : AuditableEn
         TestEntityZeroOrOneToOneOrMany.Add(relatedTestEntityZeroOrOneToOneOrMany);
     }
 
+    public virtual void UpdateRefToTestEntityZeroOrOneToOneOrMany(List<TestEntityZeroOrOneToOneOrMany> relatedTestEntityZeroOrOneToOneOrMany)
+    {
+        if(relatedTestEntityZeroOrOneToOneOrMany is null || relatedTestEntityZeroOrOneToOneOrMany.Count < 2)
+            throw new RelationshipDeletionException($"The relationship cannot be updated.");
+        TestEntityZeroOrOneToOneOrMany.Clear();
+        TestEntityZeroOrOneToOneOrMany.AddRange(relatedTestEntityZeroOrOneToOneOrMany);
+    }
+
     public virtual void DeleteRefToTestEntityZeroOrOneToOneOrMany(TestEntityZeroOrOneToOneOrMany relatedTestEntityZeroOrOneToOneOrMany)
     {
         if(TestEntityZeroOrOneToOneOrMany.Count() < 2)

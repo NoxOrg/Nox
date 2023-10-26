@@ -8,6 +8,8 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
@@ -51,6 +53,36 @@ internal abstract class UpdateSecondTestEntityTwoRelationshipsOneToOneCommandHan
 		if (entity == null)
 		{
 			return null;
+		}
+
+		if(request.EntityDto.TestRelationshipOneOnOtherSideId is not null)
+		{
+			var testRelationshipOneOnOtherSideKey = TestWebApp.Domain.TestEntityTwoRelationshipsOneToOneMetadata.CreateId(request.EntityDto.TestRelationshipOneOnOtherSideId.NonNullValue<System.String>());
+			var testRelationshipOneOnOtherSideEntity = await DbContext.TestEntityTwoRelationshipsOneToOnes.FindAsync(testRelationshipOneOnOtherSideKey);
+						
+			if(testRelationshipOneOnOtherSideEntity is not null)
+				entity.CreateRefToTestRelationshipOneOnOtherSide(testRelationshipOneOnOtherSideEntity);
+			else
+				throw new RelatedEntityNotFoundException("TestRelationshipOneOnOtherSide", request.EntityDto.TestRelationshipOneOnOtherSideId.NonNullValue<System.String>().ToString());
+		}
+		else
+		{
+			entity.DeleteAllRefToTestRelationshipOneOnOtherSide();
+		}
+
+		if(request.EntityDto.TestRelationshipTwoOnOtherSideId is not null)
+		{
+			var testRelationshipTwoOnOtherSideKey = TestWebApp.Domain.TestEntityTwoRelationshipsOneToOneMetadata.CreateId(request.EntityDto.TestRelationshipTwoOnOtherSideId.NonNullValue<System.String>());
+			var testRelationshipTwoOnOtherSideEntity = await DbContext.TestEntityTwoRelationshipsOneToOnes.FindAsync(testRelationshipTwoOnOtherSideKey);
+						
+			if(testRelationshipTwoOnOtherSideEntity is not null)
+				entity.CreateRefToTestRelationshipTwoOnOtherSide(testRelationshipTwoOnOtherSideEntity);
+			else
+				throw new RelatedEntityNotFoundException("TestRelationshipTwoOnOtherSide", request.EntityDto.TestRelationshipTwoOnOtherSideId.NonNullValue<System.String>().ToString());
+		}
+		else
+		{
+			entity.DeleteAllRefToTestRelationshipTwoOnOtherSide();
 		}
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);

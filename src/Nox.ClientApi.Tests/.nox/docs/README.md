@@ -30,7 +30,7 @@ erDiagram
     Workplace}o..o|Country : "Workplace country"
     StoreOwner {
     }
-    StoreOwner|o..o{Store : "Set of stores that this owner owns"
+    StoreOwner|o..|{Store : "Set of stores that this owner owns"
     StoreLicense {
     }
     StoreLicense|o..||Store : "Store that this license related to"
@@ -245,7 +245,7 @@ Notes|Text|Notes.|
 
 Description|Cardinality|Related Entity|Name|Can Navigate?
 -----------|-----------|--------------|----|-------------
-Set of stores that this owner owns|ZeroOrMany|Store|Stores|Yes
+Set of stores that this owner owns|OneOrMany|Store|Stores|Yes
 
 
 ### Workplace

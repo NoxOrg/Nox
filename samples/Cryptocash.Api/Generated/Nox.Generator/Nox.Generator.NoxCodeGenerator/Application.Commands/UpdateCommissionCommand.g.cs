@@ -8,6 +8,8 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
@@ -52,6 +54,35 @@ internal abstract class UpdateCommissionCommandHandlerBase : CommandBase<UpdateC
 		{
 			return null;
 		}
+
+		if(request.EntityDto.CommissionFeesForCountryId is not null)
+		{
+			var commissionFeesForCountryKey = Cryptocash.Domain.CountryMetadata.CreateId(request.EntityDto.CommissionFeesForCountryId.NonNullValue<System.String>());
+			var commissionFeesForCountryEntity = await DbContext.Countries.FindAsync(commissionFeesForCountryKey);
+						
+			if(commissionFeesForCountryEntity is not null)
+				entity.CreateRefToCommissionFeesForCountry(commissionFeesForCountryEntity);
+			else
+				throw new RelatedEntityNotFoundException("CommissionFeesForCountry", request.EntityDto.CommissionFeesForCountryId.NonNullValue<System.String>().ToString());
+		}
+		else
+		{
+			entity.DeleteAllRefToCommissionFeesForCountry();
+		}
+
+		await DbContext.Entry(entity).Collection(x => x.CommissionFeesForBooking).LoadAsync();
+		var commissionFeesForBookingEntities = new List<Booking>();
+		foreach(var relatedEntityId in request.EntityDto.CommissionFeesForBookingId)
+		{
+			var relatedKey = Cryptocash.Domain.BookingMetadata.CreateId(relatedEntityId);
+			var relatedEntity = await DbContext.Bookings.FindAsync(relatedKey);
+						
+			if(relatedEntity is not null)
+				commissionFeesForBookingEntities.Add(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("CommissionFeesForBooking", relatedEntityId.ToString());
+		}
+		entity.UpdateRefToCommissionFeesForBooking(commissionFeesForBookingEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

@@ -23,4 +23,10 @@ public partial class ThirdTestEntityZeroOrOneUpdateDto : IEntityDto<DomainNamesp
     [Required(ErrorMessage = "TextTestField2 is required")]
     
     public System.String TextTestField2 { get; set; } = default!;
+
+    /// <summary>
+    /// ThirdTestEntityZeroOrOne Test entity relationship to ThirdTestEntityExactlyOne ZeroOrOne ThirdTestEntityExactlyOnes
+    /// </summary>
+    
+    public System.String? ThirdTestEntityExactlyOneRelationshipId { get; set; } = default!;
 }

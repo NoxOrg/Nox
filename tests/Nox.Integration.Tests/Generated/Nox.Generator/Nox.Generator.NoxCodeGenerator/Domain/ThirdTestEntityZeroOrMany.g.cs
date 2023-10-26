@@ -97,6 +97,12 @@ internal abstract partial class ThirdTestEntityZeroOrManyBase : AuditableEntityB
         ThirdTestEntityOneOrManyRelationship.Add(relatedThirdTestEntityOneOrMany);
     }
 
+    public virtual void UpdateRefToThirdTestEntityOneOrManyRelationship(List<ThirdTestEntityOneOrMany> relatedThirdTestEntityOneOrMany)
+    {
+        ThirdTestEntityOneOrManyRelationship.Clear();
+        ThirdTestEntityOneOrManyRelationship.AddRange(relatedThirdTestEntityOneOrMany);
+    }
+
     public virtual void DeleteRefToThirdTestEntityOneOrManyRelationship(ThirdTestEntityOneOrMany relatedThirdTestEntityOneOrMany)
     {
         ThirdTestEntityOneOrManyRelationship.Remove(relatedThirdTestEntityOneOrMany);
