@@ -22,8 +22,18 @@ using TestWebApp.Domain;
 using TestWebApp.Infrastructure.Persistence;
 
 using Nox.Types;
+using Nox.Presentation.Api;
 
 namespace TestWebApp.Presentation.Api.OData;
+
+public partial class TestEntityTwoRelationshipsOneToOnesController : TestEntityTwoRelationshipsOneToOnesControllerBase
+{
+    public TestEntityTwoRelationshipsOneToOnesController(
+            IMediator mediator,
+            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        ): base(mediator, httpLanguageProvider)
+    {}
+}
 
 public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase : ODataController
 {
@@ -32,11 +42,18 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
     /// </summary>
     protected readonly IMediator _mediator;
 
+    /// <symmary>
+    /// The HTTP language provider.
+    /// </symmary>
+    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
+
     public TestEntityTwoRelationshipsOneToOnesControllerBase(
-        IMediator mediator
+        IMediator mediator,
+        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
+        _httpLanguageProvider = httpLanguageProvider;
     }
 
     [EnableQuery]
@@ -60,7 +77,8 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateTestEntityTwoRelationshipsOneToOneCommand(testEntityTwoRelationshipsOneToOne));
+        var language = _httpLanguageProvider.GetLanguage();
+        var createdKey = await _mediator.Send(new CreateTestEntityTwoRelationshipsOneToOneCommand(testEntityTwoRelationshipsOneToOne, language));
 
         var item = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(createdKey.keyId))).SingleOrDefault();
 
@@ -129,11 +147,4 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
 
         return NoContent();
     }
-}
-
-public partial class TestEntityTwoRelationshipsOneToOnesController : TestEntityTwoRelationshipsOneToOnesControllerBase
-{
-    public TestEntityTwoRelationshipsOneToOnesController(IMediator mediator)
-        : base(mediator)
-    {}
 }

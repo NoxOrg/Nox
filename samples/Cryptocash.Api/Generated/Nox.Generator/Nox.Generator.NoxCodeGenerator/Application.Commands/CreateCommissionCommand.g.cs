@@ -20,7 +20,7 @@ using CommissionEntity = Cryptocash.Domain.Commission;
 
 namespace Cryptocash.Application.Commands;
 
-public record CreateCommissionCommand(CommissionCreateDto EntityDto) : IRequest<CommissionKeyDto>;
+public record CreateCommissionCommand(CommissionCreateDto EntityDto, System.String CultureCode) : IRequest<CommissionKeyDto>;
 
 internal partial class CreateCommissionCommandHandler : CreateCommissionCommandHandlerBase
 {

@@ -22,9 +22,17 @@ using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.PersistenceNameSpace}};
 
 using Nox.Types;
-using Nox.Presentation.Api;
 
 namespace {{codeGeneratorState.ODataNameSpace}};
+
+public partial class {{entity.PluralName}}Controller : {{entity.PluralName}}ControllerBase
+{
+    public {{entity.PluralName}}Controller(
+            IMediator mediator,
+            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        ): base(mediator, httpLanguageProvider)
+    {}
+}
 
 public abstract partial class {{entity.PluralName}}ControllerBase : ODataController
 {
@@ -36,19 +44,19 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     /// <symmary>
     /// The HTTP language provider.
     /// </symmary>
-    protected readonly IHttpLanguageProvider _languageProvider;
+    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
 
-    protected {{entity.PluralName}}ControllerBase(
+    public {{entity.PluralName}}ControllerBase(
         IMediator mediator,
-        IHttpLanguageProvider languageProvider
+        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
         {{- for query in entity.Queries }},
         {{ query.Name }}QueryBase {{ ToLowerFirstChar query.Name }}
         {{- end }}
     )
     {
         _mediator = mediator;
-        _languageProvider = languageProvider;
-    
+        _httpLanguageProvider = httpLanguageProvider;
+
         {{- for query in entity.Queries }}
         _{{ ToLowerFirstChar query.Name}} = {{ ToLowerFirstChar query.Name }};
         {{- end }}
@@ -76,7 +84,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
             return BadRequest(ModelState);
         }
 
-        var language = _languageProvider.GetLanguage();
+        var language = _httpLanguageProvider.GetLanguage();
         var createdKey = await _mediator.Send(new Create{{entity.Name}}Command({{ToLowerFirstChar entity.Name}}, language));
 
         var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ createdKeyPrimaryKeysQuery }}))).SingleOrDefault();
@@ -159,11 +167,4 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
         return NoContent();
     }
     {{- end }}
-}
-
-public partial class {{entity.PluralName}}Controller : {{entity.PluralName}}ControllerBase
-{
-    public {{entity.PluralName}}Controller(IMediator mediator, IHttpLanguageProvider languageProvider)
-        : base(mediator, languageProvider)
-    {}
 }

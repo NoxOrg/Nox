@@ -26,6 +26,15 @@ using Nox.Presentation.Api;
 
 namespace ClientApi.Presentation.Api.OData;
 
+public partial class CountriesController : CountriesControllerBase
+{
+    public CountriesController(
+            IMediator mediator,
+            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        ): base(mediator, httpLanguageProvider)
+    {}
+}
+
 public abstract partial class CountriesControllerBase : ODataController
 {
     /// <summary>
@@ -36,15 +45,15 @@ public abstract partial class CountriesControllerBase : ODataController
     /// <symmary>
     /// The HTTP language provider.
     /// </symmary>
-    protected readonly IHttpLanguageProvider _languageProvider;
+    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
 
-    protected CountriesControllerBase(
+    public CountriesControllerBase(
         IMediator mediator,
-        IHttpLanguageProvider languageProvider
+        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
-        _languageProvider = languageProvider;
+        _httpLanguageProvider = httpLanguageProvider;
     }
 
     [EnableQuery]
@@ -68,7 +77,7 @@ public abstract partial class CountriesControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var language = _languageProvider.GetLanguage();
+        var language = _httpLanguageProvider.GetLanguage();
         var createdKey = await _mediator.Send(new CreateCountryCommand(country, language));
 
         var item = (await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId))).SingleOrDefault();
@@ -138,11 +147,4 @@ public abstract partial class CountriesControllerBase : ODataController
 
         return NoContent();
     }
-}
-
-public partial class CountriesController : CountriesControllerBase
-{
-    public CountriesController(IMediator mediator, IHttpLanguageProvider languageProvider)
-        : base(mediator, languageProvider)
-    {}
 }

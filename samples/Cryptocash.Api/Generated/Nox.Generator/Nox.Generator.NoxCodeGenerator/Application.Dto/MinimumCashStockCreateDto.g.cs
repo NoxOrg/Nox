@@ -35,7 +35,7 @@ public abstract class MinimumCashStockCreateDtoBase : IEntityDto<DomainNamespace
     /// MinimumCashStock required by ZeroOrMany VendingMachines
     /// </summary>
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<VendingMachineCreateDto> MinimumCashStocksRequiredByVendingMachines { get; set; } = new();
 
     /// <summary>
@@ -43,6 +43,6 @@ public abstract class MinimumCashStockCreateDtoBase : IEntityDto<DomainNamespace
     /// </summary>
     public System.String? MinimumCashStockRelatedCurrencyId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual CurrencyCreateDto? MinimumCashStockRelatedCurrency { get; set; } = default!;
 }

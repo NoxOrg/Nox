@@ -20,7 +20,7 @@ using CustomerEntity = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application.Commands;
 
-public record CreateCustomerCommand(CustomerCreateDto EntityDto) : IRequest<CustomerKeyDto>;
+public record CreateCustomerCommand(CustomerCreateDto EntityDto, System.String CultureCode) : IRequest<CustomerKeyDto>;
 
 internal partial class CreateCustomerCommandHandler : CreateCustomerCommandHandlerBase
 {

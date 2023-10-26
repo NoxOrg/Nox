@@ -22,8 +22,18 @@ using TestWebApp.Domain;
 using TestWebApp.Infrastructure.Persistence;
 
 using Nox.Types;
+using Nox.Presentation.Api;
 
 namespace TestWebApp.Presentation.Api.OData;
+
+public partial class TestEntityExactlyOneToOneOrManiesController : TestEntityExactlyOneToOneOrManiesControllerBase
+{
+    public TestEntityExactlyOneToOneOrManiesController(
+            IMediator mediator,
+            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        ): base(mediator, httpLanguageProvider)
+    {}
+}
 
 public abstract partial class TestEntityExactlyOneToOneOrManiesControllerBase : ODataController
 {
@@ -32,11 +42,18 @@ public abstract partial class TestEntityExactlyOneToOneOrManiesControllerBase : 
     /// </summary>
     protected readonly IMediator _mediator;
 
+    /// <symmary>
+    /// The HTTP language provider.
+    /// </symmary>
+    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
+
     public TestEntityExactlyOneToOneOrManiesControllerBase(
-        IMediator mediator
+        IMediator mediator,
+        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
+        _httpLanguageProvider = httpLanguageProvider;
     }
 
     [EnableQuery]
@@ -60,7 +77,8 @@ public abstract partial class TestEntityExactlyOneToOneOrManiesControllerBase : 
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateTestEntityExactlyOneToOneOrManyCommand(testEntityExactlyOneToOneOrMany));
+        var language = _httpLanguageProvider.GetLanguage();
+        var createdKey = await _mediator.Send(new CreateTestEntityExactlyOneToOneOrManyCommand(testEntityExactlyOneToOneOrMany, language));
 
         var item = (await _mediator.Send(new GetTestEntityExactlyOneToOneOrManyByIdQuery(createdKey.keyId))).SingleOrDefault();
 
@@ -129,11 +147,4 @@ public abstract partial class TestEntityExactlyOneToOneOrManiesControllerBase : 
 
         return NoContent();
     }
-}
-
-public partial class TestEntityExactlyOneToOneOrManiesController : TestEntityExactlyOneToOneOrManiesControllerBase
-{
-    public TestEntityExactlyOneToOneOrManiesController(IMediator mediator)
-        : base(mediator)
-    {}
 }

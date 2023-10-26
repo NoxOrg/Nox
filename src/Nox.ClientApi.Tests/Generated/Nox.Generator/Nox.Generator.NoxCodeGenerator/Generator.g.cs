@@ -32,6 +32,7 @@
 //  - Nox.Generator.Presentation.Api.OData.EntityControllerCustomCommandsGenerator
 //  - Nox.Generator.Presentation.Api.OData.EntityControllerCustomQueriesGenerator
 //  - Nox.Generator.Presentation.Api.OData.EntityControllerEntityGenerator
+//  - Nox.Generator.Presentation.Api.OData.EntityControllerEnumerationsGenerator
 //  - Nox.Generator.Presentation.Api.OData.EntityControllerOwnedRelationshipsGenerator
 //  - Nox.Generator.Presentation.Api.OData.EntityControllerRelationshipsGenerator
 //  - Nox.Generator.Presentation.Api.OData.EntityControllerGenerator
@@ -47,6 +48,7 @@
 //  - Nox.Generator.Application.Extensions.NoxTypeDtoExtensionsGenerator
 //  - Nox.Generator.Application.Dto.EntityCreateDtoGenerator
 //  - Nox.Generator.Application.Dto.EntityDtoEnumerationGenerator
+//  - Nox.Generator.Application.Dto.EntityLocalizedDtoGenerator
 //  - Nox.Generator.Application.Dto.EntityUpdateDtoGenerator
 //  - Nox.Generator.Application.Dto.NoxTypeDtoGenerator
 //  - Nox.Generator.Application.Dto.EntityEnumerationGenerator

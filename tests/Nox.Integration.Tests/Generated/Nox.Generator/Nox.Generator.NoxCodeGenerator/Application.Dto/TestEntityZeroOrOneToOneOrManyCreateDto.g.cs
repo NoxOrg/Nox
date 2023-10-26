@@ -41,6 +41,6 @@ public abstract class TestEntityZeroOrOneToOneOrManyCreateDtoBase : IEntityDto<D
     /// </summary>
     public System.String? TestEntityOneOrManyToZeroOrOneId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual TestEntityOneOrManyToZeroOrOneCreateDto? TestEntityOneOrManyToZeroOrOne { get; set; } = default!;
 }

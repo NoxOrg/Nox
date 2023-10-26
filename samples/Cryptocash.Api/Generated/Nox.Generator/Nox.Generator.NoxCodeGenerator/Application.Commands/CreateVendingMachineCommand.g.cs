@@ -20,7 +20,7 @@ using VendingMachineEntity = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application.Commands;
 
-public record CreateVendingMachineCommand(VendingMachineCreateDto EntityDto) : IRequest<VendingMachineKeyDto>;
+public record CreateVendingMachineCommand(VendingMachineCreateDto EntityDto, System.String CultureCode) : IRequest<VendingMachineKeyDto>;
 
 internal partial class CreateVendingMachineCommandHandler : CreateVendingMachineCommandHandlerBase
 {

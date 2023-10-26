@@ -20,7 +20,7 @@ using TransactionEntity = Cryptocash.Domain.Transaction;
 
 namespace Cryptocash.Application.Commands;
 
-public record CreateTransactionCommand(TransactionCreateDto EntityDto) : IRequest<TransactionKeyDto>;
+public record CreateTransactionCommand(TransactionCreateDto EntityDto, System.String CultureCode) : IRequest<TransactionKeyDto>;
 
 internal partial class CreateTransactionCommandHandler : CreateTransactionCommandHandlerBase
 {

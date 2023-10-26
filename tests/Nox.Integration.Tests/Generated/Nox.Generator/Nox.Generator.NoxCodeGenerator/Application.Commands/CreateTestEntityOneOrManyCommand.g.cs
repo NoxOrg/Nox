@@ -20,7 +20,7 @@ using TestEntityOneOrManyEntity = TestWebApp.Domain.TestEntityOneOrMany;
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateTestEntityOneOrManyCommand(TestEntityOneOrManyCreateDto EntityDto) : IRequest<TestEntityOneOrManyKeyDto>;
+public record CreateTestEntityOneOrManyCommand(TestEntityOneOrManyCreateDto EntityDto, System.String CultureCode) : IRequest<TestEntityOneOrManyKeyDto>;
 
 internal partial class CreateTestEntityOneOrManyCommandHandler : CreateTestEntityOneOrManyCommandHandlerBase
 {

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Infrastructure;
+using System.Diagnostics;
 
 namespace Nox.Types.EntityFramework.Configurations;
 
@@ -27,6 +28,13 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
         ConfigureRelationships(builder, entity);
 
         ConfigureOwnedRelations(builder, entity);
+    }
+
+    public void ConfigureLocalizedDto(IEntityBuilder builder, Entity entity)
+    {
+        var localizedEntity = entity.ShallowCopy(NoxCodeGenConventions.GetEntityNameForLocalizedType(entity.Name));
+
+        ConfigureKeys(builder, localizedEntity);
     }
 
     private void ConfigureAttributes(IEntityBuilder builder, Entity entity)

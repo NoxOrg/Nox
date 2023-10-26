@@ -20,7 +20,7 @@ using ThirdTestEntityZeroOrOneEntity = TestWebApp.Domain.ThirdTestEntityZeroOrOn
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateThirdTestEntityZeroOrOneCommand(ThirdTestEntityZeroOrOneCreateDto EntityDto) : IRequest<ThirdTestEntityZeroOrOneKeyDto>;
+public record CreateThirdTestEntityZeroOrOneCommand(ThirdTestEntityZeroOrOneCreateDto EntityDto, System.String CultureCode) : IRequest<ThirdTestEntityZeroOrOneKeyDto>;
 
 internal partial class CreateThirdTestEntityZeroOrOneCommandHandler : CreateThirdTestEntityZeroOrOneCommandHandlerBase
 {

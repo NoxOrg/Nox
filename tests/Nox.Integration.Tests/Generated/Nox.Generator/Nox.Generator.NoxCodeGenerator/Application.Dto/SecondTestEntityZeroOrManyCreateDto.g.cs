@@ -40,6 +40,6 @@ public abstract class SecondTestEntityZeroOrManyCreateDtoBase : IEntityDto<Domai
     /// SecondTestEntityZeroOrMany Test entity relationship to TestEntityZeroOrMany ZeroOrMany TestEntityZeroOrManies
     /// </summary>
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<TestEntityZeroOrManyCreateDto> TestEntityZeroOrManyRelationship { get; set; } = new();
 }

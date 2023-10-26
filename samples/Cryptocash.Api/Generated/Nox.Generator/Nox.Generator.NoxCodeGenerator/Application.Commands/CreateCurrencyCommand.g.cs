@@ -20,7 +20,7 @@ using CurrencyEntity = Cryptocash.Domain.Currency;
 
 namespace Cryptocash.Application.Commands;
 
-public record CreateCurrencyCommand(CurrencyCreateDto EntityDto) : IRequest<CurrencyKeyDto>;
+public record CreateCurrencyCommand(CurrencyCreateDto EntityDto, System.String CultureCode) : IRequest<CurrencyKeyDto>;
 
 internal partial class CreateCurrencyCommandHandler : CreateCurrencyCommandHandlerBase
 {

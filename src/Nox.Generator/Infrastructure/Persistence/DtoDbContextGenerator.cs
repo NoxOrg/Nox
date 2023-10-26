@@ -26,12 +26,18 @@ internal class DtoDbContextGenerator : INoxCodeGenerator
         }
 
         const string templateName = @"Infrastructure.Persistence.DtoDbContext";
-        var entities = codeGeneratorState.Solution.Domain.Entities.Where(e => !e.IsOwnedEntity).ToList();
-     
+        
+        var entities = codeGeneratorState.Solution.Domain.Entities
+            .Where(e => !e.IsOwnedEntity).ToList();
+
+        var entitiesToLocalize = codeGeneratorState.Solution.Domain.Entities
+            .Where(entity => entity.ShouldBeLocalized);
+
         new TemplateCodeBuilder(context, codeGeneratorState)
             .WithClassName("DtoDbContext")
             .WithFileNamePrefix($"Infrastructure.Persistence")
             .WithObject("entities", entities)
+            .WithObject("entitiesToLocalize", entitiesToLocalize)
             .GenerateSourceCodeFromResource(templateName);
     }
 }

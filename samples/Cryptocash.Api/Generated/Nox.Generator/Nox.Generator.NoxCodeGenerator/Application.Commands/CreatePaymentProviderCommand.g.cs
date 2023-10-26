@@ -20,7 +20,7 @@ using PaymentProviderEntity = Cryptocash.Domain.PaymentProvider;
 
 namespace Cryptocash.Application.Commands;
 
-public record CreatePaymentProviderCommand(PaymentProviderCreateDto EntityDto) : IRequest<PaymentProviderKeyDto>;
+public record CreatePaymentProviderCommand(PaymentProviderCreateDto EntityDto, System.String CultureCode) : IRequest<PaymentProviderKeyDto>;
 
 internal partial class CreatePaymentProviderCommandHandler : CreatePaymentProviderCommandHandlerBase
 {

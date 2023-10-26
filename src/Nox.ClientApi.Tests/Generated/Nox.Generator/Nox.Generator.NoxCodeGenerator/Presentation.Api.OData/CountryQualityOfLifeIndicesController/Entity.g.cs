@@ -26,6 +26,15 @@ using Nox.Presentation.Api;
 
 namespace ClientApi.Presentation.Api.OData;
 
+public partial class CountryQualityOfLifeIndicesController : CountryQualityOfLifeIndicesControllerBase
+{
+    public CountryQualityOfLifeIndicesController(
+            IMediator mediator,
+            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        ): base(mediator, httpLanguageProvider)
+    {}
+}
+
 public abstract partial class CountryQualityOfLifeIndicesControllerBase : ODataController
 {
     /// <summary>
@@ -36,15 +45,15 @@ public abstract partial class CountryQualityOfLifeIndicesControllerBase : ODataC
     /// <symmary>
     /// The HTTP language provider.
     /// </symmary>
-    protected readonly IHttpLanguageProvider _languageProvider;
+    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
 
-    protected CountryQualityOfLifeIndicesControllerBase(
+    public CountryQualityOfLifeIndicesControllerBase(
         IMediator mediator,
-        IHttpLanguageProvider languageProvider
+        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
-        _languageProvider = languageProvider;
+        _httpLanguageProvider = httpLanguageProvider;
     }
 
     [EnableQuery]
@@ -68,7 +77,7 @@ public abstract partial class CountryQualityOfLifeIndicesControllerBase : ODataC
             return BadRequest(ModelState);
         }
 
-        var language = _languageProvider.GetLanguage();
+        var language = _httpLanguageProvider.GetLanguage();
         var createdKey = await _mediator.Send(new CreateCountryQualityOfLifeIndexCommand(countryQualityOfLifeIndex, language));
 
         var item = (await _mediator.Send(new GetCountryQualityOfLifeIndexByIdQuery(createdKey.keyCountryId, createdKey.keyId))).SingleOrDefault();
@@ -138,11 +147,4 @@ public abstract partial class CountryQualityOfLifeIndicesControllerBase : ODataC
 
         return NoContent();
     }
-}
-
-public partial class CountryQualityOfLifeIndicesController : CountryQualityOfLifeIndicesControllerBase
-{
-    public CountryQualityOfLifeIndicesController(IMediator mediator, IHttpLanguageProvider languageProvider)
-        : base(mediator, languageProvider)
-    {}
 }

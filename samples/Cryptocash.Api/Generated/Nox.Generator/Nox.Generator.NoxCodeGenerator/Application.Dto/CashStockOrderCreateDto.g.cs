@@ -50,7 +50,7 @@ public abstract class CashStockOrderCreateDtoBase : IEntityDto<DomainNamespace.C
     /// </summary>
     public System.Guid? CashStockOrderForVendingMachineId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual VendingMachineCreateDto? CashStockOrderForVendingMachine { get; set; } = default!;
 
     /// <summary>
@@ -58,6 +58,6 @@ public abstract class CashStockOrderCreateDtoBase : IEntityDto<DomainNamespace.C
     /// </summary>
     public System.Int64? CashStockOrderReviewedByEmployeeId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual EmployeeCreateDto? CashStockOrderReviewedByEmployee { get; set; } = default!;
 }

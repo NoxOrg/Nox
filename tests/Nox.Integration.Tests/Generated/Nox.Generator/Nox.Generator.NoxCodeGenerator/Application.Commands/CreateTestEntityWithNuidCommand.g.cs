@@ -20,7 +20,7 @@ using TestEntityWithNuidEntity = TestWebApp.Domain.TestEntityWithNuid;
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateTestEntityWithNuidCommand(TestEntityWithNuidCreateDto EntityDto) : IRequest<TestEntityWithNuidKeyDto>;
+public record CreateTestEntityWithNuidCommand(TestEntityWithNuidCreateDto EntityDto, System.String CultureCode) : IRequest<TestEntityWithNuidKeyDto>;
 
 internal partial class CreateTestEntityWithNuidCommandHandler : CreateTestEntityWithNuidCommandHandlerBase
 {

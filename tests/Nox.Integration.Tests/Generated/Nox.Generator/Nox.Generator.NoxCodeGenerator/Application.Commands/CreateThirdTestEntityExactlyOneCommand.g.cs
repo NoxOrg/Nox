@@ -20,7 +20,7 @@ using ThirdTestEntityExactlyOneEntity = TestWebApp.Domain.ThirdTestEntityExactly
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateThirdTestEntityExactlyOneCommand(ThirdTestEntityExactlyOneCreateDto EntityDto) : IRequest<ThirdTestEntityExactlyOneKeyDto>;
+public record CreateThirdTestEntityExactlyOneCommand(ThirdTestEntityExactlyOneCreateDto EntityDto, System.String CultureCode) : IRequest<ThirdTestEntityExactlyOneKeyDto>;
 
 internal partial class CreateThirdTestEntityExactlyOneCommandHandler : CreateThirdTestEntityExactlyOneCommandHandlerBase
 {

@@ -20,7 +20,7 @@ using TestEntityLocalizationEntity = TestWebApp.Domain.TestEntityLocalization;
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateTestEntityLocalizationCommand(TestEntityLocalizationCreateDto EntityDto) : IRequest<TestEntityLocalizationKeyDto>;
+public record CreateTestEntityLocalizationCommand(TestEntityLocalizationCreateDto EntityDto, System.String CultureCode) : IRequest<TestEntityLocalizationKeyDto>;
 
 internal partial class CreateTestEntityLocalizationCommandHandler : CreateTestEntityLocalizationCommandHandlerBase
 {

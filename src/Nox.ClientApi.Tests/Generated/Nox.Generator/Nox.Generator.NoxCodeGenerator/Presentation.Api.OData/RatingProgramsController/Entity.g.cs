@@ -26,6 +26,15 @@ using Nox.Presentation.Api;
 
 namespace ClientApi.Presentation.Api.OData;
 
+public partial class RatingProgramsController : RatingProgramsControllerBase
+{
+    public RatingProgramsController(
+            IMediator mediator,
+            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        ): base(mediator, httpLanguageProvider)
+    {}
+}
+
 public abstract partial class RatingProgramsControllerBase : ODataController
 {
     /// <summary>
@@ -36,15 +45,15 @@ public abstract partial class RatingProgramsControllerBase : ODataController
     /// <symmary>
     /// The HTTP language provider.
     /// </symmary>
-    protected readonly IHttpLanguageProvider _languageProvider;
+    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
 
-    protected RatingProgramsControllerBase(
+    public RatingProgramsControllerBase(
         IMediator mediator,
-        IHttpLanguageProvider languageProvider
+        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
-        _languageProvider = languageProvider;
+        _httpLanguageProvider = httpLanguageProvider;
     }
 
     [EnableQuery]
@@ -68,7 +77,7 @@ public abstract partial class RatingProgramsControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var language = _languageProvider.GetLanguage();
+        var language = _httpLanguageProvider.GetLanguage();
         var createdKey = await _mediator.Send(new CreateRatingProgramCommand(ratingProgram, language));
 
         var item = (await _mediator.Send(new GetRatingProgramByIdQuery(createdKey.keyStoreId, createdKey.keyId))).SingleOrDefault();
@@ -138,11 +147,4 @@ public abstract partial class RatingProgramsControllerBase : ODataController
 
         return NoContent();
     }
-}
-
-public partial class RatingProgramsController : RatingProgramsControllerBase
-{
-    public RatingProgramsController(IMediator mediator, IHttpLanguageProvider languageProvider)
-        : base(mediator, languageProvider)
-    {}
 }

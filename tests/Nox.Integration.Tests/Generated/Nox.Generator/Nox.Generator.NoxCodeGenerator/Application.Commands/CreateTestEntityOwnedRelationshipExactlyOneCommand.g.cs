@@ -20,7 +20,7 @@ using TestEntityOwnedRelationshipExactlyOneEntity = TestWebApp.Domain.TestEntity
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateTestEntityOwnedRelationshipExactlyOneCommand(TestEntityOwnedRelationshipExactlyOneCreateDto EntityDto) : IRequest<TestEntityOwnedRelationshipExactlyOneKeyDto>;
+public record CreateTestEntityOwnedRelationshipExactlyOneCommand(TestEntityOwnedRelationshipExactlyOneCreateDto EntityDto, System.String CultureCode) : IRequest<TestEntityOwnedRelationshipExactlyOneKeyDto>;
 
 internal partial class CreateTestEntityOwnedRelationshipExactlyOneCommandHandler : CreateTestEntityOwnedRelationshipExactlyOneCommandHandlerBase
 {

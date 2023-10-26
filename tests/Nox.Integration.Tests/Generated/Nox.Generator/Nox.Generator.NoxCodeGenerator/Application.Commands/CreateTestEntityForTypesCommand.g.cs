@@ -20,7 +20,7 @@ using TestEntityForTypesEntity = TestWebApp.Domain.TestEntityForTypes;
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateTestEntityForTypesCommand(TestEntityForTypesCreateDto EntityDto) : IRequest<TestEntityForTypesKeyDto>;
+public record CreateTestEntityForTypesCommand(TestEntityForTypesCreateDto EntityDto, System.String CultureCode) : IRequest<TestEntityForTypesKeyDto>;
 
 internal partial class CreateTestEntityForTypesCommandHandler : CreateTestEntityForTypesCommandHandlerBase
 {

@@ -20,7 +20,7 @@ using TestEntityOwnedRelationshipOneOrManyEntity = TestWebApp.Domain.TestEntityO
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateTestEntityOwnedRelationshipOneOrManyCommand(TestEntityOwnedRelationshipOneOrManyCreateDto EntityDto) : IRequest<TestEntityOwnedRelationshipOneOrManyKeyDto>;
+public record CreateTestEntityOwnedRelationshipOneOrManyCommand(TestEntityOwnedRelationshipOneOrManyCreateDto EntityDto, System.String CultureCode) : IRequest<TestEntityOwnedRelationshipOneOrManyKeyDto>;
 
 internal partial class CreateTestEntityOwnedRelationshipOneOrManyCommandHandler : CreateTestEntityOwnedRelationshipOneOrManyCommandHandlerBase
 {

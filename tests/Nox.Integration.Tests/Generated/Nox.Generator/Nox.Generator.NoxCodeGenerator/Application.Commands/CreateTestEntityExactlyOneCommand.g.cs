@@ -20,7 +20,7 @@ using TestEntityExactlyOneEntity = TestWebApp.Domain.TestEntityExactlyOne;
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateTestEntityExactlyOneCommand(TestEntityExactlyOneCreateDto EntityDto) : IRequest<TestEntityExactlyOneKeyDto>;
+public record CreateTestEntityExactlyOneCommand(TestEntityExactlyOneCreateDto EntityDto, System.String CultureCode) : IRequest<TestEntityExactlyOneKeyDto>;
 
 internal partial class CreateTestEntityExactlyOneCommandHandler : CreateTestEntityExactlyOneCommandHandlerBase
 {

@@ -20,7 +20,7 @@ using TestEntityTwoRelationshipsOneToManyEntity = TestWebApp.Domain.TestEntityTw
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateTestEntityTwoRelationshipsOneToManyCommand(TestEntityTwoRelationshipsOneToManyCreateDto EntityDto) : IRequest<TestEntityTwoRelationshipsOneToManyKeyDto>;
+public record CreateTestEntityTwoRelationshipsOneToManyCommand(TestEntityTwoRelationshipsOneToManyCreateDto EntityDto, System.String CultureCode) : IRequest<TestEntityTwoRelationshipsOneToManyKeyDto>;
 
 internal partial class CreateTestEntityTwoRelationshipsOneToManyCommandHandler : CreateTestEntityTwoRelationshipsOneToManyCommandHandlerBase
 {

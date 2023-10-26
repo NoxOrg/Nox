@@ -20,7 +20,7 @@ using EmployeeEntity = Cryptocash.Domain.Employee;
 
 namespace Cryptocash.Application.Commands;
 
-public record CreateEmployeeCommand(EmployeeCreateDto EntityDto) : IRequest<EmployeeKeyDto>;
+public record CreateEmployeeCommand(EmployeeCreateDto EntityDto, System.String CultureCode) : IRequest<EmployeeKeyDto>;
 
 internal partial class CreateEmployeeCommandHandler : CreateEmployeeCommandHandlerBase
 {

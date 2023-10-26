@@ -26,6 +26,15 @@ using Nox.Presentation.Api;
 
 namespace ClientApi.Presentation.Api.OData;
 
+public partial class StoresController : StoresControllerBase
+{
+    public StoresController(
+            IMediator mediator,
+            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        ): base(mediator, httpLanguageProvider)
+    {}
+}
+
 public abstract partial class StoresControllerBase : ODataController
 {
     /// <summary>
@@ -36,15 +45,15 @@ public abstract partial class StoresControllerBase : ODataController
     /// <symmary>
     /// The HTTP language provider.
     /// </symmary>
-    protected readonly IHttpLanguageProvider _languageProvider;
+    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
 
-    protected StoresControllerBase(
+    public StoresControllerBase(
         IMediator mediator,
-        IHttpLanguageProvider languageProvider
+        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
-        _languageProvider = languageProvider;
+        _httpLanguageProvider = httpLanguageProvider;
     }
 
     [EnableQuery]
@@ -68,7 +77,7 @@ public abstract partial class StoresControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var language = _languageProvider.GetLanguage();
+        var language = _httpLanguageProvider.GetLanguage();
         var createdKey = await _mediator.Send(new CreateStoreCommand(store, language));
 
         var item = (await _mediator.Send(new GetStoreByIdQuery(createdKey.keyId))).SingleOrDefault();
@@ -138,11 +147,4 @@ public abstract partial class StoresControllerBase : ODataController
 
         return NoContent();
     }
-}
-
-public partial class StoresController : StoresControllerBase
-{
-    public StoresController(IMediator mediator, IHttpLanguageProvider languageProvider)
-        : base(mediator, languageProvider)
-    {}
 }

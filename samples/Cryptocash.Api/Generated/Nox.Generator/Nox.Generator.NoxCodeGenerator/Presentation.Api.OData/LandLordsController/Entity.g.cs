@@ -22,8 +22,18 @@ using Cryptocash.Domain;
 using Cryptocash.Infrastructure.Persistence;
 
 using Nox.Types;
+using Nox.Presentation.Api;
 
 namespace Cryptocash.Presentation.Api.OData;
+
+public partial class LandLordsController : LandLordsControllerBase
+{
+    public LandLordsController(
+            IMediator mediator,
+            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        ): base(mediator, httpLanguageProvider)
+    {}
+}
 
 public abstract partial class LandLordsControllerBase : ODataController
 {
@@ -32,11 +42,18 @@ public abstract partial class LandLordsControllerBase : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
 
+    /// <symmary>
+    /// The HTTP language provider.
+    /// </symmary>
+    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
+
     public LandLordsControllerBase(
-        IMediator mediator
+        IMediator mediator,
+        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
+        _httpLanguageProvider = httpLanguageProvider;
     }
 
     [EnableQuery]
@@ -60,7 +77,8 @@ public abstract partial class LandLordsControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateLandLordCommand(landLord));
+        var language = _httpLanguageProvider.GetLanguage();
+        var createdKey = await _mediator.Send(new CreateLandLordCommand(landLord, language));
 
         var item = (await _mediator.Send(new GetLandLordByIdQuery(createdKey.keyId))).SingleOrDefault();
 
@@ -129,11 +147,4 @@ public abstract partial class LandLordsControllerBase : ODataController
 
         return NoContent();
     }
-}
-
-public partial class LandLordsController : LandLordsControllerBase
-{
-    public LandLordsController(IMediator mediator)
-        : base(mediator)
-    {}
 }

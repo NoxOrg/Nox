@@ -40,6 +40,6 @@ public abstract class TestEntityZeroOrManyToExactlyOneCreateDtoBase : IEntityDto
     /// TestEntityZeroOrManyToExactlyOne Test entity relationship to TestEntityExactlyOneToZeroOrMany ZeroOrMany TestEntityExactlyOneToZeroOrManies
     /// </summary>
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<TestEntityExactlyOneToZeroOrManyCreateDto> TestEntityExactlyOneToZeroOrMany { get; set; } = new();
 }

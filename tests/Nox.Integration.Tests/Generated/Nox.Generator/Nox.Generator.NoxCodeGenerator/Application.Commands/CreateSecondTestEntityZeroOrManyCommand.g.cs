@@ -20,7 +20,7 @@ using SecondTestEntityZeroOrManyEntity = TestWebApp.Domain.SecondTestEntityZeroO
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateSecondTestEntityZeroOrManyCommand(SecondTestEntityZeroOrManyCreateDto EntityDto) : IRequest<SecondTestEntityZeroOrManyKeyDto>;
+public record CreateSecondTestEntityZeroOrManyCommand(SecondTestEntityZeroOrManyCreateDto EntityDto, System.String CultureCode) : IRequest<SecondTestEntityZeroOrManyKeyDto>;
 
 internal partial class CreateSecondTestEntityZeroOrManyCommandHandler : CreateSecondTestEntityZeroOrManyCommandHandlerBase
 {

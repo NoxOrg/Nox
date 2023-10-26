@@ -20,7 +20,7 @@ using MinimumCashStockEntity = Cryptocash.Domain.MinimumCashStock;
 
 namespace Cryptocash.Application.Commands;
 
-public record CreateMinimumCashStockCommand(MinimumCashStockCreateDto EntityDto) : IRequest<MinimumCashStockKeyDto>;
+public record CreateMinimumCashStockCommand(MinimumCashStockCreateDto EntityDto, System.String CultureCode) : IRequest<MinimumCashStockKeyDto>;
 
 internal partial class CreateMinimumCashStockCommandHandler : CreateMinimumCashStockCommandHandlerBase
 {

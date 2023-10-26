@@ -22,8 +22,18 @@ using Cryptocash.Domain;
 using Cryptocash.Infrastructure.Persistence;
 
 using Nox.Types;
+using Nox.Presentation.Api;
 
 namespace Cryptocash.Presentation.Api.OData;
+
+public partial class PaymentDetailsController : PaymentDetailsControllerBase
+{
+    public PaymentDetailsController(
+            IMediator mediator,
+            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        ): base(mediator, httpLanguageProvider)
+    {}
+}
 
 public abstract partial class PaymentDetailsControllerBase : ODataController
 {
@@ -32,11 +42,18 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
 
+    /// <symmary>
+    /// The HTTP language provider.
+    /// </symmary>
+    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
+
     public PaymentDetailsControllerBase(
-        IMediator mediator
+        IMediator mediator,
+        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
+        _httpLanguageProvider = httpLanguageProvider;
     }
 
     [EnableQuery]
@@ -60,7 +77,8 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreatePaymentDetailCommand(paymentDetail));
+        var language = _httpLanguageProvider.GetLanguage();
+        var createdKey = await _mediator.Send(new CreatePaymentDetailCommand(paymentDetail, language));
 
         var item = (await _mediator.Send(new GetPaymentDetailByIdQuery(createdKey.keyId))).SingleOrDefault();
 
@@ -129,11 +147,4 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
 
         return NoContent();
     }
-}
-
-public partial class PaymentDetailsController : PaymentDetailsControllerBase
-{
-    public PaymentDetailsController(IMediator mediator)
-        : base(mediator)
-    {}
 }

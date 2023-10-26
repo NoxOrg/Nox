@@ -20,7 +20,7 @@ using BookingEntity = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Commands;
 
-public record CreateBookingCommand(BookingCreateDto EntityDto) : IRequest<BookingKeyDto>;
+public record CreateBookingCommand(BookingCreateDto EntityDto, System.String CultureCode) : IRequest<BookingKeyDto>;
 
 internal partial class CreateBookingCommandHandler : CreateBookingCommandHandlerBase
 {

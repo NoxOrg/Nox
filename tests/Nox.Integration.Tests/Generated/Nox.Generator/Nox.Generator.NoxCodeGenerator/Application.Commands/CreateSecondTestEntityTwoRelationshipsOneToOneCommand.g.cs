@@ -19,7 +19,7 @@ using SecondTestEntityTwoRelationshipsOneToOneEntity = TestWebApp.Domain.SecondT
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateSecondTestEntityTwoRelationshipsOneToOneCommand(SecondTestEntityTwoRelationshipsOneToOneCreateDto EntityDto) : IRequest<SecondTestEntityTwoRelationshipsOneToOneKeyDto>;
+public record CreateSecondTestEntityTwoRelationshipsOneToOneCommand(SecondTestEntityTwoRelationshipsOneToOneCreateDto EntityDto, System.String CultureCode) : IRequest<SecondTestEntityTwoRelationshipsOneToOneKeyDto>;
 
 internal partial class CreateSecondTestEntityTwoRelationshipsOneToOneCommandHandler : CreateSecondTestEntityTwoRelationshipsOneToOneCommandHandlerBase
 {

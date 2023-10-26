@@ -22,8 +22,18 @@ using TestWebApp.Domain;
 using TestWebApp.Infrastructure.Persistence;
 
 using Nox.Types;
+using Nox.Presentation.Api;
 
 namespace TestWebApp.Presentation.Api.OData;
+
+public partial class TestEntityOwnedRelationshipOneOrManiesController : TestEntityOwnedRelationshipOneOrManiesControllerBase
+{
+    public TestEntityOwnedRelationshipOneOrManiesController(
+            IMediator mediator,
+            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        ): base(mediator, httpLanguageProvider)
+    {}
+}
 
 public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBase : ODataController
 {
@@ -32,11 +42,18 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
     /// </summary>
     protected readonly IMediator _mediator;
 
+    /// <symmary>
+    /// The HTTP language provider.
+    /// </symmary>
+    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
+
     public TestEntityOwnedRelationshipOneOrManiesControllerBase(
-        IMediator mediator
+        IMediator mediator,
+        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
+        _httpLanguageProvider = httpLanguageProvider;
     }
 
     [EnableQuery]
@@ -60,7 +77,8 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateTestEntityOwnedRelationshipOneOrManyCommand(testEntityOwnedRelationshipOneOrMany));
+        var language = _httpLanguageProvider.GetLanguage();
+        var createdKey = await _mediator.Send(new CreateTestEntityOwnedRelationshipOneOrManyCommand(testEntityOwnedRelationshipOneOrMany, language));
 
         var item = (await _mediator.Send(new GetTestEntityOwnedRelationshipOneOrManyByIdQuery(createdKey.keyId))).SingleOrDefault();
 
@@ -129,11 +147,4 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
 
         return NoContent();
     }
-}
-
-public partial class TestEntityOwnedRelationshipOneOrManiesController : TestEntityOwnedRelationshipOneOrManiesControllerBase
-{
-    public TestEntityOwnedRelationshipOneOrManiesController(IMediator mediator)
-        : base(mediator)
-    {}
 }
