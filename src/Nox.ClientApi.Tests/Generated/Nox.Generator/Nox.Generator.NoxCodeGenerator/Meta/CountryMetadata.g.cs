@@ -134,6 +134,50 @@ public partial class CountryMetadata
         
     
         /// <summary>
+        /// Type options for property 'Continent'
+        /// </summary>
+        public static Nox.Types.EnumerationTypeOptions ContinentTypeOptions {get; private set;} = new ()
+        {
+            Values = new System.Collections.Generic.List<Nox.Types.EnumerationValues>()
+            {
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 1,
+                    Name = "Europe",
+                },
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 2,
+                    Name = "Asia",
+                },
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 3,
+                    Name = "Africa",
+                },
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 4,
+                    Name = "America",
+                },
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 5,
+                    Name = "Oceania",
+                },
+            },
+            IsLocalized = true,
+        };
+    
+    
+        /// <summary>
+        /// Factory for property 'Continent'
+        /// </summary>
+        public static Nox.Types.Enumeration CreateContinent(System.Int32 value)
+            => Nox.Types.Enumeration.From(value, ContinentTypeOptions);
+        
+    
+        /// <summary>
         /// Factory for property 'CountryLocalNameId'
         /// </summary>
         public static Nox.Types.AutoNumber CreateCountryLocalNameId(System.Int64 value)
@@ -219,5 +263,14 @@ public partial class CountryMetadata
             => solution.Domain!
                 .GetEntityByName("Country")
                 .GetAttributeByName("StartOfWeek")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'Continent'
+        /// </summary>
+        public static TypeUserInterface? ContinentUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("Country")
+                .GetAttributeByName("Continent")?
                 .UserInterface;
 }

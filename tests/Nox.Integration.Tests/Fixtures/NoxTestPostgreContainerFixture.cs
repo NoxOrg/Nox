@@ -1,4 +1,6 @@
-﻿using Nox.Integration.Tests.DataProviders;
+﻿using Nox.Infrastructure;
+using Nox.Integration.Tests.DataProviders;
+using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using Testcontainers.PostgreSql;
 
@@ -17,9 +19,13 @@ public class NoxTestPostgreContainerFixture : NoxTestContainerFixtureBase<Postgr
           .WithCleanUp(true)
           .Build();
     }
-
-    protected override INoxDatabaseProvider GetDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators)
+  
+    protected override INoxDatabaseProvider GetDatabaseProvider(
+       IEnumerable<INoxTypeDatabaseConfigurator> configurators,
+       NoxCodeGenConventions noxSolutionCodeGeneratorState,
+       INoxClientAssemblyProvider clientAssemblyProvider
+       )
     {
-        return new PostgreSqlTestProvider(_container.GetConnectionString(), configurators);
+        return new PostgreSqlTestProvider(_container.GetConnectionString(), configurators, noxSolutionCodeGeneratorState, clientAssemblyProvider);
     }
 }

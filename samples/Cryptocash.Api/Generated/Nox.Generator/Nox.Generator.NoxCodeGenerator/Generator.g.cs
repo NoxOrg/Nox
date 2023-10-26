@@ -31,4 +31,5 @@
 //  - cryptocash.messaging.nox.yaml
 //  - cryptocash.persistence.nox.yaml
 //  - generator.nox.yaml
+// Logging Verbosity Minimal
 // SUCCESS.

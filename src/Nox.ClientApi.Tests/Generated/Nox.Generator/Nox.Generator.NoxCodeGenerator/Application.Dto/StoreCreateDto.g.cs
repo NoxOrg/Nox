@@ -50,6 +50,10 @@ public abstract class StoreCreateDtoBase : IEntityDto<StoreEntity>
     /// Opening day (Optional).
     /// </summary>
     public virtual System.DateTimeOffset? OpeningDay { get; set; }
+    /// <summary>
+    /// Store Status (Optional).
+    /// </summary>
+    public virtual System.Int32? Status { get; set; }
 
     /// <summary>
     /// Store Owner of the Store ZeroOrOne StoreOwners

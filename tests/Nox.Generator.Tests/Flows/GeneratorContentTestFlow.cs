@@ -7,7 +7,7 @@ namespace Nox.Generator.Tests.Flows;
 
 internal class GeneratorContentTestFlow : IGeneratorContentTestFlow
 {
-    private GeneratorRunResult _generatorRunResult;
+    private readonly GeneratorRunResult _generatorRunResult;
     private string _expectedFilesFolder;
 
     public GeneratorContentTestFlow(GeneratorRunResult generatorRunResult)
@@ -15,7 +15,7 @@ internal class GeneratorContentTestFlow : IGeneratorContentTestFlow
         _generatorRunResult = generatorRunResult;
     }
 
-    public IGeneratorContentTestFlow Check(
+    public IGeneratorContentTestFlow AssertFileExistsAndContent(
         string expectedFileName,
         string actualFileName)
     {

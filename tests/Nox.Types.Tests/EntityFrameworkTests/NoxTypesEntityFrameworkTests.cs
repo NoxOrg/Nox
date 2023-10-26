@@ -91,7 +91,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Nuid = Nuid.From(NuidDefinition.NuidStringValue),
             HashedText = HashedText.From("Test123."),
             ArabicName = TranslatedText.From((CultureCode.From("ar-SA"), "سوئٹزرلینڈ")),
-            CurrentTime = Time.From(07,55,33,250),
+            CurrentTime = Time.From(07, 55, 33, 250),
             Description = Markdown.From("This a **big country**."),
             PageHtml = Html.From("<html><body>Switzerland Website</body></html>"),
             CitiesCounties = Yaml.From(SwitzerlandCitiesCountiesYaml),
@@ -99,14 +99,15 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             PhoneNumber = PhoneNumber.From("+41 848 700 700"),
             GuidUser = User.From(Guid.NewGuid().ToString()),
             EmailUser = User.From("user@iwgplc.ch"),
-            StringUser = User.From("stringUser", new UserTypeOptions { ValidEmailFormat=false, ValidGuidFormat= false}),
+            StringUser = User.From("stringUser", new UserTypeOptions { ValidEmailFormat = false, ValidGuidFormat = false }),
             InfoEmail = Email.From("info@iwgplc.ch"),
+            Continent = Enumeration.From(1, new EnumerationTypeOptions { IsLocalized = false, Values = new EnumerationValues[] { new EnumerationValues() { Id = 1, Name = "Europe" } } }),
             SecretPassword = EncryptedText.FromPlainText("12345678", encryptTypeOptions),
             AutoId = AutoNumber.FromDatabase(10U),
             Guid = Guid.From(System.Guid.NewGuid()),
             Password = Password.From("Test123."),
             CurrencyNumber = CurrencyNumber.From(999),
-            Color = Color.From(255,255,255,0),
+            Color = Color.From(255, 255, 255, 0),
             DayOfWeek = DayOfWeek.From(1),
             DateTimeSchedule = DateTimeSchedule.From("0 0 12 ? * 2,3,4,5,6 *"),
         };
@@ -188,6 +189,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Color = Color.From(255, 120, 95, 230),
             DayOfWeek = DayOfWeek.From(1),
             DateTimeSchedule = DateTimeSchedule.From("0 0 12 ? * 2,3,4,5,6 *"),
+            Continent = Enumeration.From(1, new EnumerationTypeOptions { IsLocalized = false, Values = new EnumerationValues[] { new EnumerationValues() { Id = 1, Name = "Europe" } } }),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -267,6 +269,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.Color.ToHex().Should().Be("#785FE6");
         item.DayOfWeek.Value.Should().Be(1);
         item.DateTimeSchedule.Should().Be(newItem.DateTimeSchedule);
+        item.Continent.Should().Be(newItem.Continent);
     }
 
     private static StreetAddress CreateStreetAddress()

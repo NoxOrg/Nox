@@ -49,16 +49,12 @@ namespace Nox.Infrastructure.Messaging
                     var eventName = integrationEventAttribute?.EventName;
                     if (string.IsNullOrWhiteSpace(trait))
                     {
-                        // TODO: uncomment exception
-                        // TODO: test for null event scenario
-                        //throw new ArgumentException($"Provided {nameof(integrationEventAttribute.Trait)} in {nameof(IntegrationEventTypeAttribute)} for event {integrationEvent.GetType()} can't be null or empty.");
+                        throw new EventTraitIsNotFoundException($"Provided {nameof(integrationEventAttribute.Trait)} in {nameof(IntegrationEventTypeAttribute)} for event {integrationEvent.GetType()} can't be null or empty.");
                     }
 
                     if (string.IsNullOrWhiteSpace(eventName))
                     {
-                        // TODO: uncomment exception
-                        // TODO: test for null event scenario
-                        //throw new ArgumentException($"Provided {nameof(integrationEventAttribute.EventName)} in {nameof(IntegrationEventTypeAttribute)} for event {integrationEvent.GetType()} can't be null or empty.");
+                        throw new EventNameIsNotFoundException($"Provided {nameof(integrationEventAttribute.EventName)} in {nameof(IntegrationEventTypeAttribute)} for event {integrationEvent.GetType()} can't be null or empty.");
                     }
 
                     var cloudEvent = new CloudEvent(CloudEventsSpecVersion.V1_0)

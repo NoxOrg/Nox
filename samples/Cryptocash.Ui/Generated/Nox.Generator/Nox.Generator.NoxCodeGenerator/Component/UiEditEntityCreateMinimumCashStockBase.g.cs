@@ -6,6 +6,7 @@ using MudBlazor;
 using Nox.Types;
 using Cryptocash.Ui.Generated.Data.ApiSetting;
 using static MongoDB.Driver.WriteConcern;
+using System.Web;
 
 namespace Cryptocash.Ui.Generated.Component
 {
@@ -39,11 +40,36 @@ namespace Cryptocash.Ui.Generated.Component
 
         public Decimal Amount { get; set; } = 0;
 
-        public Nox.Types.CurrencyCode? CurrencyCode { get; set; }
+        public CurrencyDto? CurrentCurrency { get; set; }
 
         public MudForm? AddMinimumCashStockEntityForm { get; set; }
 
         public bool AddMinimumCashStockValidateSuccess { get; set; } = false;
+
+        [Parameter]
+        public string Format { get; set; } = "#.##";
+
+        public bool IsDisabled
+        {
+            get
+            {
+                return CurrentCurrency == null;
+            }
+        }
+
+        public string DisplayCurrencySymbol
+        {
+            get
+            {
+                if (CurrentCurrency != null
+                    && !String.IsNullOrWhiteSpace(CurrentCurrency.Id))
+                {
+                    return CurrentCurrency.Id;
+                }
+
+                return string.Empty;
+            }
+        }
 
         #endregion
 
@@ -51,22 +77,20 @@ namespace Cryptocash.Ui.Generated.Component
         {
             CurrentCurrencyIdStr = newValue;
 
-            CurrencyCode TempCurrencyCode;
-            if (!string.IsNullOrWhiteSpace(CurrentCurrencyIdStr)
-                && Enum.TryParse(CurrentCurrencyIdStr, out TempCurrencyCode) 
-                && (Enum.IsDefined(typeof(CurrencyCode), TempCurrencyCode)))
+            if (!String.IsNullOrWhiteSpace(CurrentCurrencyIdStr)
+                && CurrencySelectionList != null)
             {
-                CurrencyCode = TempCurrencyCode;
-            }
-            else
-            {
-                CurrencyCode = null;
+                 CurrentCurrency = CurrencySelectionList.FirstOrDefault(Currency => String.Equals(Currency.Id, CurrentCurrencyIdStr, StringComparison.CurrentCultureIgnoreCase));
             }
 
-            if (CurrencyCode != null)
-            {
+            CurrencyCode TempCurrencyCode;
+            if (CurrentCurrency != null
+                && !string.IsNullOrWhiteSpace(CurrentCurrency.Id)
+                && Enum.TryParse(CurrentCurrency.Id, out TempCurrencyCode) 
+                && (Enum.IsDefined(typeof(CurrencyCode), TempCurrencyCode)))
+            {                
                 CurrentMinimumCashStock = new();
-                CurrentMinimumCashStock.Amount = new(Amount, (CurrencyCode)CurrencyCode);
+                CurrentMinimumCashStock.Amount = new(Amount, (CurrencyCode)TempCurrencyCode);
             }
             else
             {
@@ -90,10 +114,14 @@ namespace Cryptocash.Ui.Generated.Component
                 Amount = 0;
             }
 
-            if (CurrencyCode != null)
+            CurrencyCode TempCurrencyCode;
+            if (CurrentCurrency != null
+                && !string.IsNullOrWhiteSpace(CurrentCurrency.Id)
+                && Enum.TryParse(CurrentCurrency.Id, out TempCurrencyCode)
+                && (Enum.IsDefined(typeof(CurrencyCode), TempCurrencyCode)))
             {
                 CurrentMinimumCashStock = new();
-                CurrentMinimumCashStock.Amount = new(Amount, (CurrencyCode)CurrencyCode);
+                CurrentMinimumCashStock.Amount = new(Amount, (CurrencyCode)TempCurrencyCode);
             }
             else
             {
@@ -126,7 +154,7 @@ namespace Cryptocash.Ui.Generated.Component
             Amount = 0;
             CurrentCurrencyIdStr = null;
             CurrentAmountStr = null;
-            CurrencyCode = null;
+            CurrentCurrency = null;
         }
     }
 }

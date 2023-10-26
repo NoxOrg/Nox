@@ -52,6 +52,10 @@ public partial class CountryUpdateDto : IEntityDto<CountryEntity>
     /// </summary>
     public System.UInt16? StartOfWeek { get; set; }
     /// <summary>
+    /// Country Continent (Optional).
+    /// </summary>
+    public System.Int32? Continent { get; set; }
+    /// <summary>
     /// Country is also coded as ZeroOrOne CountryBarCodes
     /// </summary>
     public CountryBarCodeUpdateDto? CountryBarCode { get; set; } = null!;

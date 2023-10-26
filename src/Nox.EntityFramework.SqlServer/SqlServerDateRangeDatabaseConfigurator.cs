@@ -9,7 +9,7 @@ public class SqlServerDateRangeDatabaseConfigurator : DateTimeRangeDatabaseConfi
 {
     public override bool IsDefault => false;
 
-    public override void ConfigureEntityProperty(NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState, IEntityBuilder builder, NoxSimpleTypeDefinition property, Entity entity, bool isKey)
+    public override void ConfigureEntityProperty(NoxCodeGenConventions noxSolutionCodeGeneratorState, IEntityBuilder builder, NoxSimpleTypeDefinition property, Entity entity, bool isKey)
     {
         builder
            .OwnsOne(typeof(DateTimeRange), property.Name, dtr =>

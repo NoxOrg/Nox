@@ -17,6 +17,7 @@ Name|Text|Store Name
 Address|StreetAddress|Street Address
 Location|LatLong|Location
 OpeningDay|DateTime|Opening day
+Status|Enumeration|Store Status
 StoreOwnerId|Text|
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
@@ -34,6 +35,7 @@ Name|Text|Store Name
 Address|StreetAddress|Street Address
 Location|LatLong|Location
 OpeningDay|DateTime|Opening day
+Status|Enumeration|Store Status
 StoreOwnerId|Text|
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
@@ -51,6 +53,7 @@ Name|Text|Store Name
 Address|StreetAddress|Street Address
 Location|LatLong|Location
 OpeningDay|DateTime|Opening day
+Status|Enumeration|Store Status
 StoreOwnerId|Text|
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 

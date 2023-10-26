@@ -12,19 +12,27 @@ internal class EntityDtoGenerator : INoxCodeGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
 
-    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config, string? projectRootPath)
+    public void Generate(
+      SourceProductionContext context,
+      NoxCodeGenConventions codeGeneratorState,
+      GeneratorConfig config,
+      System.Action<string> log,
+      string? projectRootPath
+      )
     {
         NoxSolution solution = codeGeneratorState.Solution;
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (solution.Domain is null ||
-            !solution.Domain.Entities.Any())
+        if (solution.Domain is null)
         {
             return;
         }
+
         foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
         {
             var primaryKeys = string.Join(", ", entity.Keys.Select(k => $"{codeGeneratorState.Solution.GetSinglePrimitiveTypeForKey(k)} key{k.Name}"));
+
+            var enumerationAttributes = entity.Attributes.Where(attribute => attribute.Type == NoxType.Enumeration);
 
             context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -32,7 +40,8 @@ internal class EntityDtoGenerator : INoxCodeGenerator
                 .WithClassName($"{entity.Name}Dto")
                 .WithFileNamePrefix("Application.Dto")
                 .WithObject("entity", entity)
-                .WithObject("primaryKeys", primaryKeys)                
+                .WithObject("primaryKeys", primaryKeys)    
+                .WithObject("enumerationAttributes", enumerationAttributes)
                 .GenerateSourceCodeFromResource("Application.Dto.EntityDto");         
         }        
     }

@@ -25,7 +25,7 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
 
         public ReferenceNavigationBuilder HasOne(string relatedTypeName, string? navigationName)
         {
-            return EntityTypeBuilder.HasOne(relatedTypeName, navigationName);
+            return EntityTypeBuilder.HasOne(relatedTypeName, navigationName);            
         }
 
         public CollectionNavigationBuilder HasMany(string navigationName)

@@ -8,7 +8,13 @@ internal class CustomIntegrationEventGenerator : INoxCodeGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Application;
 
-    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config, string? projectRootPath)
+    public void Generate(
+        SourceProductionContext context,
+        NoxCodeGenConventions codeGeneratorState,
+        GeneratorConfig config,
+        System.Action<string> log,
+        string? projectRootPath
+        )
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -21,7 +27,7 @@ internal class CustomIntegrationEventGenerator : INoxCodeGenerator
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName(integrationEvent.Name)
-                .WithFileNamePrefix($"Application.IntegrationEvent")
+                .WithFileNamePrefix($"Application.IntegrationEvents")
                 .WithObject("integrationEvent", integrationEvent)
                 .GenerateSourceCodeFromResource("Application.IntegrationEvents.CustomIntegrationEvent");
         }

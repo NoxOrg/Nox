@@ -27,9 +27,9 @@ internal partial class CreateTestEntityOneOrManyToZeroOrOneCommandHandler : Crea
 	public CreateTestEntityOneOrManyToZeroOrOneCommandHandler(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestWebApp.Domain.TestEntityZeroOrOneToOneOrMany, TestEntityZeroOrOneToOneOrManyCreateDto, TestEntityZeroOrOneToOneOrManyUpdateDto> testentityzerooronetooneormanyfactory,
+		IEntityFactory<TestWebApp.Domain.TestEntityZeroOrOneToOneOrMany, TestEntityZeroOrOneToOneOrManyCreateDto, TestEntityZeroOrOneToOneOrManyUpdateDto> TestEntityZeroOrOneToOneOrManyFactory,
 		IEntityFactory<TestEntityOneOrManyToZeroOrOneEntity, TestEntityOneOrManyToZeroOrOneCreateDto, TestEntityOneOrManyToZeroOrOneUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,testentityzerooronetooneormanyfactory, entityFactory)
+		: base(dbContext, noxSolution,TestEntityZeroOrOneToOneOrManyFactory, entityFactory)
 	{
 	}
 }
@@ -37,19 +37,19 @@ internal partial class CreateTestEntityOneOrManyToZeroOrOneCommandHandler : Crea
 
 internal abstract class CreateTestEntityOneOrManyToZeroOrOneCommandHandlerBase : CommandBase<CreateTestEntityOneOrManyToZeroOrOneCommand,TestEntityOneOrManyToZeroOrOneEntity>, IRequestHandler <CreateTestEntityOneOrManyToZeroOrOneCommand, TestEntityOneOrManyToZeroOrOneKeyDto>
 {
-	private readonly TestWebAppDbContext _dbContext;
-	private readonly IEntityFactory<TestEntityOneOrManyToZeroOrOneEntity, TestEntityOneOrManyToZeroOrOneCreateDto, TestEntityOneOrManyToZeroOrOneUpdateDto> _entityFactory;
-	private readonly IEntityFactory<TestWebApp.Domain.TestEntityZeroOrOneToOneOrMany, TestEntityZeroOrOneToOneOrManyCreateDto, TestEntityZeroOrOneToOneOrManyUpdateDto> _testentityzerooronetooneormanyfactory;
+	protected readonly TestWebAppDbContext DbContext;
+	protected readonly IEntityFactory<TestEntityOneOrManyToZeroOrOneEntity, TestEntityOneOrManyToZeroOrOneCreateDto, TestEntityOneOrManyToZeroOrOneUpdateDto> EntityFactory;
+	protected readonly IEntityFactory<TestWebApp.Domain.TestEntityZeroOrOneToOneOrMany, TestEntityZeroOrOneToOneOrManyCreateDto, TestEntityZeroOrOneToOneOrManyUpdateDto> TestEntityZeroOrOneToOneOrManyFactory;
 
 	public CreateTestEntityOneOrManyToZeroOrOneCommandHandlerBase(
 		TestWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestWebApp.Domain.TestEntityZeroOrOneToOneOrMany, TestEntityZeroOrOneToOneOrManyCreateDto, TestEntityZeroOrOneToOneOrManyUpdateDto> testentityzerooronetooneormanyfactory,
+		IEntityFactory<TestWebApp.Domain.TestEntityZeroOrOneToOneOrMany, TestEntityZeroOrOneToOneOrManyCreateDto, TestEntityZeroOrOneToOneOrManyUpdateDto> TestEntityZeroOrOneToOneOrManyFactory,
 		IEntityFactory<TestEntityOneOrManyToZeroOrOneEntity, TestEntityOneOrManyToZeroOrOneCreateDto, TestEntityOneOrManyToZeroOrOneUpdateDto> entityFactory) : base(noxSolution)
 	{
-		_dbContext = dbContext;
-		_entityFactory = entityFactory;
-		_testentityzerooronetooneormanyfactory = testentityzerooronetooneormanyfactory;
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
+		this.TestEntityZeroOrOneToOneOrManyFactory = TestEntityZeroOrOneToOneOrManyFactory;
 	}
 
 	public virtual async Task<TestEntityOneOrManyToZeroOrOneKeyDto> Handle(CreateTestEntityOneOrManyToZeroOrOneCommand request, CancellationToken cancellationToken)
@@ -57,16 +57,16 @@ internal abstract class CreateTestEntityOneOrManyToZeroOrOneCommandHandlerBase :
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		foreach(var relatedCreateDto in request.EntityDto.TestEntityZeroOrOneToOneOrMany)
 		{
-			var relatedEntity = _testentityzerooronetooneormanyfactory.CreateEntity(relatedCreateDto);
+			var relatedEntity = TestEntityZeroOrOneToOneOrManyFactory.CreateEntity(relatedCreateDto);
 			entityToCreate.CreateRefToTestEntityZeroOrOneToOneOrMany(relatedEntity);
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
-		_dbContext.TestEntityOneOrManyToZeroOrOnes.Add(entityToCreate);
-		await _dbContext.SaveChangesAsync();
+		DbContext.TestEntityOneOrManyToZeroOrOnes.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
 		return new TestEntityOneOrManyToZeroOrOneKeyDto(entityToCreate.Id.Value);
 	}
 }

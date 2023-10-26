@@ -56,6 +56,7 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.Property(e => e.DayOfWeek).HasConversion<DayOfWeekConverter>();
         builder.Property(e => e.DateTimeSchedule).HasConversion<DateTimeScheduleConverter>();
         builder.Property(e => e.CreateDate).HasConversion<DateTimeConverter>();
+        builder.Property(e => e.Continent).HasConversion<EnumerationConverter>();
 
         // Configure Multi-value ValueObjects
         builder.OwnsOne(e => e.LatLong).Ignore(p => p.Value);

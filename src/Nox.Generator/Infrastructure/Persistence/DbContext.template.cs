@@ -25,88 +25,101 @@ using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Solution;
 using Nox.Configuration;
+using Nox.Infrastructure;
 
 
 using {{codeGeneratorState.DomainNameSpace}};
 
 namespace {{codeGeneratorState.PersistenceNameSpace}};
 
-internal partial class {{className}} : DbContext
+internal partial class {{className}} : Nox.Infrastructure.Persistence.EntityDbContextBase
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
     private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
-    private readonly IUserProvider _userProvider;
-    private readonly ISystemProvider _systemProvider;
-    private readonly IPublisher _publisher;
+    private readonly NoxCodeGenConventions _codeGenConventions;
 
     public {{className}}(
             DbContextOptions<{{className}}> options,
             IPublisher publisher,
             NoxSolution noxSolution,
             INoxDatabaseProvider databaseProvider,
-            INoxClientAssemblyProvider clientAssemblyProvider, 
+            INoxClientAssemblyProvider clientAssemblyProvider,
             IUserProvider userProvider,
-            ISystemProvider systemProvider
-        ) : base(options)
+            ISystemProvider systemProvider,
+            NoxCodeGenConventions codeGeneratorState
+        ) : base(publisher, userProvider, systemProvider, options)
         {
-            _publisher = publisher;
             _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
             _clientAssemblyProvider = clientAssemblyProvider;
-            _userProvider = userProvider;
-            _systemProvider = systemProvider;
+            _codeGenConventions = codeGeneratorState;
         }
 {{ for entity in solution.Domain.Entities -}}
 {{- if (!entity.IsOwnedEntity) }}
     public DbSet<{{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}> {{entity.PluralName}} { get; set; } = null!;
-
 {{- end }}
 {{ end }}
+
+    {{- for entityAtt in enumerationAttributes #Setup Entity Enumerations}}
+    {{- for enumAtt in entityAtt.Attributes}}
+    public DbSet<{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{enumAtt.Name}}> {{Pluralize (entityAtt.Entity.Name)}}{{Pluralize (enumAtt.Name)}} { get; set; } = null!;        
+        {{- if enumAtt.EnumerationTypeOptions.IsLocalized}}
+    public DbSet<{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{enumAtt.Name}}Localized> {{Pluralize (entityAtt.Entity.Name)}}{{Pluralize (enumAtt.Name)}}Localized { get; set; } = null!;                
+        {{- end }}
+    {{- end }}
+    {{- end }}
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
         if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })
         {
-            _dbProvider.ConfigureDbContext(optionsBuilder, "{{solution.Name}}", _noxSolution.Infrastructure!.Persistence.DatabaseServer); 
+            _dbProvider.ConfigureDbContext(optionsBuilder, "{{solution.Name}}", _noxSolution.Infrastructure!.Persistence.DatabaseServer);
         }
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-       
+
         ConfigureAuditable(modelBuilder);
 
-        if (_noxSolution.Domain != null)
+        {{- if  codeGeneratorState.Solution.Infrastructure?.Messaging != null}}
+        modelBuilder.AddInboxStateEntity();
+        modelBuilder.AddOutboxMessageEntity();
+        modelBuilder.AddOutboxStateEntity();
+        {{- end }}
+        foreach (var entity in _noxSolution.Domain!.Entities)
         {
-            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
+            Console.WriteLine($"{{className}} Configure database for Entity {entity.Name}");
 
-            {{- if  codeGeneratorState.Solution.Infrastructure?.Messaging != null}}
-            modelBuilder.AddInboxStateEntity();
-            modelBuilder.AddOutboxMessageEntity();
-            modelBuilder.AddOutboxStateEntity();
-            {{- end }}                            
-            foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
+            // Ignore owned entities configuration as they are configured inside entity constructor
+            if (entity.IsOwnedEntity)
             {
-                Console.WriteLine($"{{className}} Configure database for Entity {entity.Name}");
-
-                // Ignore owned entities configuration as they are configured inside entity constructor
-                if (entity.IsOwnedEntity)
-                {
-                    continue;
-                }
-
-                var type = codeGeneratorState.GetEntityType(entity.Name);
-                if (type != null)
-                {
-                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
-                }
+                continue;
             }
 
-            modelBuilder.ForEntitiesOfType<IEntityConcurrent>(
-                builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());
+            var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.Name));
+            if (type != null)
+            {
+                ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+            }
         }
+
+        modelBuilder.ForEntitiesOfType<IEntityConcurrent>(
+            builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());         
+        
+        {{- for entityAtt in enumerationAttributes #Setup Entity Enumerations}}
+        {{- for enumAtt in entityAtt.Attributes}}
+            ConfigureEnumeration(modelBuilder.Entity("{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{enumAtt.Name}}"));
+            {{- if enumAtt.EnumerationTypeOptions.IsLocalized}}
+            var enumLocalizedType = _clientAssemblyProvider.GetType("{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{enumAtt.Name}}Localized")!;
+            var enumType = _clientAssemblyProvider.GetType("{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{enumAtt.Name}}")!;
+            ConfigureEnumerationLocalized(modelBuilder.Entity(enumLocalizedType), enumType, enumLocalizedType);
+            {{- end }}
+        {{- end }}
+        {{- end }}
     }
 
     private void ConfigureAuditable(ModelBuilder modelBuilder)
@@ -116,142 +129,5 @@ internal partial class {{className}} : DbContext
         modelBuilder.Entity<{{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}>().HasQueryFilter(p => p.DeletedAtUtc == null);
     {{- end }}
     {{- end }}
-    }
-
-    /// <inheritdoc/>
-    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
-    {
-        try
-        {
-            HandleSystemFields();
-            await HandleDomainEvents();
-            return await base.SaveChangesAsync(cancellationToken);
-        }
-        catch(DbUpdateConcurrencyException)
-        {
-            throw new Nox.Exceptions.ConcurrencyException($"Latest value of {nameof(IEntityConcurrent.Etag)} must be provided", HttpStatusCode.Conflict);
-        }
-    }
-
-    private async Task HandleDomainEvents()
-    {
-        var entriesWithDomainEvents = GetEntriesWithDomainEvents();
-        RaiseDomainEventsFor(entriesWithDomainEvents); 
-        await DispatchEvents(entriesWithDomainEvents.SelectMany(e=>e.Entity.DomainEvents));
-        ClearDomainEvents(entriesWithDomainEvents.ToList());
-    }
-    public EntityEntry<IEntityHaveDomainEvents>[] GetEntriesWithDomainEvents()
-    {
-        return ChangeTracker.Entries<IEntityHaveDomainEvents>().ToArray();
-    }
-
-    public void RaiseDomainEventsFor(IEnumerable<EntityEntry<IEntityHaveDomainEvents>> entriesWithDomainEvents)
-    {
-        foreach (var entry in entriesWithDomainEvents)
-        {
-            RaiseDomainEvent(entry);
-        }
-    }
-
-    private void RaiseDomainEvent(EntityEntry<IEntityHaveDomainEvents> entry)
-    {
-        switch (entry.State)
-        {
-            case EntityState.Added:
-                entry.Entity.RaiseCreateEvent();
-                break;
-
-            case EntityState.Modified:
-                entry.Entity.RaiseUpdateEvent();
-                break;
-
-            case EntityState.Deleted:
-                entry.Entity.RaiseDeleteEvent();
-                break;
-        }
-    }
-        
-    private async Task DispatchEvents(IEnumerable<IDomainEvent> selectMany)
-    {
-        var tasks = selectMany.Select(domainEvent => _publisher.Publish(domainEvent));
-        await Task.WhenAll(tasks);
-    }
-        
-    private void ClearDomainEvents(List<EntityEntry<IEntityHaveDomainEvents>> entriesWithDomainEvents)
-    {
-        entriesWithDomainEvents.ForEach(e=>e.Entity.ClearDomainEvents());
-    }
-
-    private void HandleSystemFields()
-    {
-        ChangeTracker.DetectChanges();
-
-        foreach (var entry in ChangeTracker.Entries<AuditableEntityBase>())
-        {
-            AuditEntity(entry);
-        }
-
-        foreach (var entry in ChangeTracker.Entries<IEntityConcurrent>())
-        {
-            TrackConcurrency(entry);
-        }
-    }
-
-    private void AuditEntity(EntityEntry<AuditableEntityBase> entry)
-    {
-        var user = _userProvider.GetUser();
-        var system = _systemProvider.GetSystem();
-
-        switch (entry.State)
-        {
-            case EntityState.Added:
-                entry.Entity.Created(user, system);
-                break;
-
-            case EntityState.Modified:
-                entry.Entity.Updated(user, system);
-                break;
-
-            case EntityState.Deleted:
-                entry.State = EntityState.Modified;
-                entry.Entity.Deleted(user, system);
-                ReattachOwnedEntries<IOwnedEntity>(entry);
-                ReattachOwnedEntries<INoxType>(entry);
-                break;
-        }
-    }
-
-    private void ReattachOwnedEntries<T>(EntityEntry<AuditableEntityBase> parentEntry)
-        where T : class
-    {
-        foreach (var navigationEntry in parentEntry.Navigations)
-        {
-            foreach (var ownedEntry in ChangeTracker.Entries<T>())
-            {
-                var isOwnedAndDeltetedEntry = ownedEntry.Metadata.IsOwned() && ownedEntry.State == EntityState.Deleted;
-                var isOwnedByCurrentParentEntry = ownedEntry.Entity == navigationEntry.CurrentValue || (navigationEntry.CurrentValue as IEnumerable<T>)?.Contains(ownedEntry.Entity) == true;
-
-                if (isOwnedAndDeltetedEntry && isOwnedByCurrentParentEntry)
-                {
-                    ownedEntry.State = EntityState.Unchanged;
-                }
-            }
-        }
-    }
-
-    private void TrackConcurrency(EntityEntry<IEntityConcurrent> entry)
-    {
-        switch (entry.State)
-        {
-            case EntityState.Added:
-                entry.Property(e => e.Etag).CurrentValue = System.Guid.NewGuid();
-                break;
-
-            case EntityState.Modified:
-            case EntityState.Deleted:
-                entry.Property(e => e.Etag).OriginalValue = entry.Property(p => p.Etag).CurrentValue;
-                entry.Property(e => e.Etag).CurrentValue = System.Guid.NewGuid();
-                break;
-        }
     }
 }

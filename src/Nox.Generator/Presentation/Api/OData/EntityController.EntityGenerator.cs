@@ -3,18 +3,15 @@
 using Nox.Generator.Common;
 using Nox.Solution;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace Nox.Generator.Presentation.Api.OData;
 
-internal class EntityControllerEntityGenerator : INoxCodeGenerator
+internal class EntityControllerEntityGenerator : EntityControllerGeneratorBase
 {
-    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Presentation;
-
-    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config, string? projectRootPath)
+    public override void Generate(
+    SourceProductionContext context,
+    NoxCodeGenConventions codeGeneratorState,
+    GeneratorConfig config, System.Action<string> log,
+    string? projectRootPath)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -39,6 +36,10 @@ internal class EntityControllerEntityGenerator : INoxCodeGenerator
                 .WithFileNamePrefix("Presentation.Api.OData")
                 .WithFileNameSuffix("Entity")
                 .WithObject("entity", entity)
+                .WithObject("primaryKeysQuery", GetPrimaryKeysQuery(entity))
+                .WithObject("createdKeyPrimaryKeysQuery", GetPrimaryKeysQuery(entity, "createdKey.key", true))
+                .WithObject("updatedKeyPrimaryKeysQuery", GetPrimaryKeysQuery(entity, "updatedKey.key", true))
+                .WithObject("primaryKeysRoute", GetPrimaryKeysRoute(entity, codeGeneratorState.Solution))
                 .GenerateSourceCodeFromResource(templateName);
         }
     }

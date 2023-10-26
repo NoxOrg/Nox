@@ -6,8 +6,14 @@ namespace Nox.Infrastructure.Messaging.AzureServiceBus;
 public class AzureServiceBusBrokerProvider : IMessageBrokerProvider
 {
     public MessageBrokerProvider Provider => MessageBrokerProvider.AzureServiceBus;
+    public readonly NoxSolution _noxSolution;
 
-    public IBusRegistrationConfigurator ConfigureMassTransit(MessagingServer messagingServerConfig,
+    public AzureServiceBusBrokerProvider(NoxSolution noxSolution)
+    {
+        _noxSolution = noxSolution;
+    }
+
+    public IBusRegistrationConfigurator ConfigureMassTransit(MessagingServer messagingServerConfig, 
         IBusRegistrationConfigurator configuration)
     {
         configuration.UsingAzureServiceBus((context, cfg) =>
@@ -21,10 +27,9 @@ public class AzureServiceBusBrokerProvider : IMessageBrokerProvider
             cfg.ConfigureEndpoints(context);
 
             cfg.UseRawJsonSerializer();
-
-            // TODO Define rules for Topics names
-            cfg.MessageTopology.SetEntityNameFormatter(new CustomEntityNameFormatter());
-        });
+                        
+            cfg.MessageTopology.SetEntityNameFormatter(new CustomEntityNameFormatter(_noxSolution.PlatformId, _noxSolution.Name));
+        });        
         return configuration;
     }
 }

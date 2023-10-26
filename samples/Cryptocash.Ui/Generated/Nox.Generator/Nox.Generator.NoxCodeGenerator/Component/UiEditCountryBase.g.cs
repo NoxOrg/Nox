@@ -16,32 +16,9 @@ namespace Cryptocash.Ui.Generated.Component
         public CountryDto Country { get; set; }
 
         [Parameter]
-        public CountryCreateDto CountryCreate { get; set; }
+        public string CountryId { get; set; }
 
         public string CurrentCountryIdStr { get; set; }
-
-        private Nox.Types.CountryCode? _CurrentCountryId { get; set; }
-
-        public Nox.Types.CountryCode? CurrentCountryId { 
-            get
-            {
-                if (_CurrentCountryId != null)
-                {
-                    return _CurrentCountryId;
-                }
-
-                if (!String.IsNullOrWhiteSpace(CurrentCountryIdStr)
-                    && Enum.IsDefined(typeof(Nox.Types.CountryCode), CurrentCountryIdStr))
-                {
-                    return (Nox.Types.CountryCode?)Enum.Parse(typeof(Nox.Types.CountryCode), CurrentCountryIdStr);
-                }
-                else{
-                    return null;
-                }
-            } 
-            
-            set { _CurrentCountryId = value; }
-         }
 
         [Parameter]
         public string TitleCountry { get; set; }
@@ -53,7 +30,7 @@ namespace Cryptocash.Ui.Generated.Component
         public EventCallback<CountryDto> CountryChanged { get; set; }
 
         [Parameter]
-        public EventCallback<CountryCreateDto> CountryCreateChanged { get; set; }
+        public EventCallback<string> CountryIdChanged { get; set; }
 
         #endregion
 
@@ -64,8 +41,12 @@ namespace Cryptocash.Ui.Generated.Component
             Country = CountrySelectionList.FirstOrDefault(Country => string.Equals(Country.Id, CurrentCountryIdStr, StringComparison.OrdinalIgnoreCase));
             await CountryChanged.InvokeAsync(Country);
 
-            CountryCreate = CountryService.ConvertCountryIntoCreateDto(Country);            
-            await CountryCreateChanged.InvokeAsync(CountryCreate);
+            if (Country != null
+                && !String.IsNullOrWhiteSpace(Country.Id))
+            {
+                CountryId = Country.Id;
+                await CountryIdChanged.InvokeAsync(CountryId);
+            }            
         }
 
         protected string ErrorRequiredMessage(string CurrentTitle)

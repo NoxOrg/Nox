@@ -46,6 +46,14 @@ public static class EntityRelationshipExtensions
         return generate;
     }
 
+
+    public static bool IsRequired(this EntityRelationship relationship)
+    {
+        return
+            relationship.Relationship == EntityRelationshipType.ExactlyOne ||
+            relationship.Relationship == EntityRelationshipType.OneOrMany;
+    }
+
     /// <summary>
     /// This relationship is a zero or one relation to the other entity
     /// </summary>

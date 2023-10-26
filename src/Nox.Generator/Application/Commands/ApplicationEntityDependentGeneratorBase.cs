@@ -9,10 +9,13 @@ internal abstract class ApplicationEntityDependentGeneratorBase : INoxCodeGenera
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Application;
 
-    public void Generate(SourceProductionContext context,
-        NoxSolutionCodeGeneratorState codeGeneratorState,
-        GeneratorConfig config,
-        string? projectRootPath)
+    public void Generate(
+       SourceProductionContext context,
+       NoxCodeGenConventions codeGeneratorState,
+       GeneratorConfig config,
+       System.Action<string> log,
+       string? projectRootPath
+       )
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -24,5 +27,5 @@ internal abstract class ApplicationEntityDependentGeneratorBase : INoxCodeGenera
         DoGenerate(context, codeGeneratorState, codeGeneratorState.Solution.Domain.Entities);
     }
 
-    protected abstract void DoGenerate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, IEnumerable<Entity> entities);
+    protected abstract void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, IEnumerable<Entity> entities);
 }

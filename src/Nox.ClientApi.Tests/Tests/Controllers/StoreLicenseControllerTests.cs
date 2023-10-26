@@ -14,7 +14,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
         public StoreLicenseControllerTests(
             ITestOutputHelper testOutput,
-            NoxTestContainerService containerService)
+            TestDatabaseContainerService containerService)
             : base(testOutput, containerService)
         {
         }
@@ -28,7 +28,60 @@ namespace ClientApi.Tests.Tests.Controllers
         {
             var issuer = _fixture.Create<string>();
             // Arrange
-            var createStoreDto = new StoreCreateDto
+            var store = await CreateStore();
+            var store2 = await CreateStore();
+
+            var createDto = new StoreLicenseCreateDto
+            {
+                Issuer = issuer,
+                StoreWithLicenseId = store!.Id,
+            };
+            var postResult = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl, createDto);
+
+                        // Act
+            await PostAsync($"{Endpoints.StoreLicensesUrl}/{postResult!.Id}/StoreWithLicense/{store2!.Id}/$ref");
+            var response = await GetODataSimpleResponseAsync<StoreLicenseDto>($"{Endpoints.StoreLicensesUrl}/{postResult!.Id}");
+
+            //Assert
+            response.Should().NotBeNull();
+            response!.Issuer.Should().BeEquivalentTo(issuer);
+            response!.StoreWithLicenseId.Should().Be(store2!.Id);
+        }
+
+        #endregion GET Entity By Key /api/{EntityPluralName}/{EntityKey} => api/storelicenses/1
+
+        #region GET Entity By Key /api/{EntityPluralName}/{EntityKey} => api/storelicenses/1
+
+        [Fact]
+        public async Task GetById_WithRelationshipNotSet_ReturnsValidData()
+        {
+            var issuer = _fixture.Create<string>();
+            // Arrange
+            StoreDto? store = await CreateStore();
+
+            var createDto = new StoreLicenseCreateDto
+            {
+                Issuer = issuer,
+                StoreWithLicenseId = store!.Id,
+            };
+            var postResult = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl, createDto);
+
+            // Act
+            var response = await GetODataSimpleResponseAsync<StoreLicenseDto>($"{Endpoints.StoreLicensesUrl}/{postResult!.Id}");
+
+            //Assert
+            response.Should().NotBeNull();
+            response!.Issuer.Should().BeEquivalentTo(issuer);
+            response!.StoreWithLicenseId.Should().Be(store.Id);
+        }
+
+        #endregion GET Entity By Key /api/{EntityPluralName}/{EntityKey} => api/storelicenses/1
+
+        #endregion Store Examples
+
+        private async Task<StoreDto?> CreateStore()
+        {
+            var createDto = new StoreCreateDto
             {
                 Name = _fixture.Create<string>(),
                 Address = new StreetAddressDto(
@@ -44,51 +97,8 @@ namespace ClientApi.Tests.Tests.Controllers
                     CountryId: CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
             };
-            var getStoreResult = await PostAsync<StoreCreateDto, StoreDto>("api/stores", createStoreDto);
 
-            var createDto = new StoreLicenseCreateDto
-            {
-                Issuer = issuer,
-            };
-            var postResult = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl, createDto);
-
-            await PostAsync($"{Endpoints.StoreLicensesUrl}/{postResult!.Id}/StoreWithLicense/{getStoreResult!.Id}/$ref");
-
-            // Act
-            var response = await GetODataSimpleResponseAsync<StoreLicenseDto>($"{Endpoints.StoreLicensesUrl}/{postResult!.Id}");
-
-            //Assert
-            response.Should().NotBeNull();
-            response!.Issuer.Should().BeEquivalentTo(issuer);
-            response!.StoreWithLicenseId.Should().Be(getStoreResult!.Id);
+            return await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, createDto)!;
         }
-
-        #endregion GET Entity By Key /api/{EntityPluralName}/{EntityKey} => api/storelicenses/1
-
-        #region GET Entity By Key /api/{EntityPluralName}/{EntityKey} => api/storelicenses/1
-
-        [Fact]
-        public async Task GetById_WithRelationshipNotSet_ReturnsValidData()
-        {
-            var issuer = _fixture.Create<string>();
-            // Arrange
-            var createDto = new StoreLicenseCreateDto
-            {
-                Issuer = issuer,
-            };
-            var postResult = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl, createDto);
-
-            // Act
-            var response = await GetODataSimpleResponseAsync<StoreLicenseDto>($"{Endpoints.StoreLicensesUrl}/{postResult!.Id}");
-
-            //Assert
-            response.Should().NotBeNull();
-            response!.Issuer.Should().BeEquivalentTo(issuer);
-            response!.StoreWithLicenseId.Should().BeNull();
-        }
-
-        #endregion GET Entity By Key /api/{EntityPluralName}/{EntityKey} => api/storelicenses/1
-
-        #endregion Store Examples
     }
 }

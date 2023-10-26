@@ -3,18 +3,15 @@
 using Nox.Generator.Common;
 using Nox.Solution;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace Nox.Generator.Presentation.Api.OData;
 
-internal class EntityControllerRelationshipsGenerator : INoxCodeGenerator
+internal class EntityControllerRelationshipsGenerator : EntityControllerGeneratorBase
 {
-    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Presentation;
-
-    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config, string? projectRootPath)
+    public override void Generate(
+    SourceProductionContext context,
+    NoxCodeGenConventions codeGeneratorState,
+    GeneratorConfig config, System.Action<string> log,
+    string? projectRootPath)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 

@@ -1,7 +1,5 @@
-﻿using Nox.Generator.Common.TemplateScriptsBridges;
+﻿using Nox.Generator.Common;
 using Nox.Solution;
-using Nox.Types;
-using Nox.Types.Extensions;
 using Scriban;
 using Scriban.Parsing;
 using Scriban.Runtime;
@@ -44,7 +42,7 @@ public static class ScribanTemplateExtensions
         context.PushGlobal(CreateScriptObject(model));
 
         // Add custom functions
-        NoxSolutionBridge.AddFunctions(context, new NoxSolution());
+        ScribanScriptsExtensions.AddFunctions(context, new NoxSolution());
 
         return context;
     }

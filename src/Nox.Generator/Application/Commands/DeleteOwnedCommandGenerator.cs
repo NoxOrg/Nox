@@ -8,7 +8,7 @@ namespace Nox.Generator.Application.Commands;
 
 internal class DeleteOwnedCommandGenerator : ApplicationEntityDependentGeneratorBase
 {
-    protected override void DoGenerate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, IEnumerable<Entity> entities)
+    protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, IEnumerable<Entity> entities)
     {
         var templateName = @"Application.Commands.DeleteOwnedCommand";
         foreach (var entity in entities)

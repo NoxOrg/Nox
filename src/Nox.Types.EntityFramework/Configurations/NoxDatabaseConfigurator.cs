@@ -1,4 +1,5 @@
 ﻿using Nox.Solution;
+using Nox.Infrastructure;
 using Nox.Solution.Extensions;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
@@ -13,6 +14,10 @@ namespace Nox.Types.EntityFramework.Configurations
         //We could use the container to manage this
         protected readonly Dictionary<NoxType, INoxTypeDatabaseConfigurator> TypesDatabaseConfigurations = new();
 
+        protected NoxCodeGenConventions CodeGenConventions { get; }
+        protected INoxClientAssemblyProvider ClientAssemblyProvider { get; }
+
+
         /// <summary>
         ///
         /// </summary>
@@ -20,8 +25,13 @@ namespace Nox.Types.EntityFramework.Configurations
         /// <param name="databaseProviderSpecificOverrides">Configurator type specific to database provider</param>
         protected NoxDatabaseConfigurator(
             IEnumerable<INoxTypeDatabaseConfigurator> configurators,
+            NoxCodeGenConventions codeGenConventions,
+            INoxClientAssemblyProvider clientAssemblyProvider,
             Type databaseProviderSpecificOverrides)
         {
+            CodeGenConventions = codeGenConventions;
+            ClientAssemblyProvider = clientAssemblyProvider;
+
             var noxTypeDatabaseConfigurators =
                 configurators as INoxTypeDatabaseConfigurator[] ?? configurators.ToArray();
 
@@ -37,26 +47,28 @@ namespace Nox.Types.EntityFramework.Configurations
             foreach (var configurator in noxTypeDatabaseConfigurators.Where(databaseProviderSpecificOverrides.IsInstanceOfType))
             {
                 TypesDatabaseConfigurations[configurator.ForNoxType] = configurator;
-            }
+            }            
         }
-
+        /// <summary>
+        /// Configure the data base model for an Entity
+        /// </summary>
+        /// <param name="entityResolverByName">Function to resolve an Entity name to a Type</param>
         public virtual void ConfigureEntity(
-            NoxSolutionCodeGeneratorState codeGeneratorState,
             IEntityBuilder builder,
             Entity entity)
         {
-            var relationshipsToCreate = codeGeneratorState.Solution.GetRelationshipsToCreate(codeGeneratorState, entity);
-            var ownedRelationshipsToCreate = codeGeneratorState.Solution.GetOwnedRelationshipsToCreate(codeGeneratorState, entity);
+            var relationshipsToCreate = GetRelationshipsToCreate(entity);
+            var ownedRelationshipsToCreate = GetOwnedRelationshipsToCreate(entity);
 
-            ConfigureKeys(codeGeneratorState, builder, entity);
+            ConfigureKeys(CodeGenConventions, builder, entity);
 
-            ConfigureAttributes(codeGeneratorState, builder, entity);
+            ConfigureAttributes(CodeGenConventions, builder, entity);
 
             ConfigureSystemFields(builder, entity);
 
-            ConfigureRelationships(codeGeneratorState, builder, entity, relationshipsToCreate);
+            ConfigureRelationships(CodeGenConventions, builder, entity, relationshipsToCreate);
 
-            ConfigureOwnedRelationships(codeGeneratorState, builder, entity, ownedRelationshipsToCreate);
+            ConfigureOwnedRelationships(CodeGenConventions, builder, entity, ownedRelationshipsToCreate);
 
             ConfigureUniqueAttributeConstraints(builder, entity);
         }
@@ -81,7 +93,7 @@ namespace Nox.Types.EntityFramework.Configurations
         }
 
         protected virtual void ConfigureRelationships(
-            NoxSolutionCodeGeneratorState codeGeneratorState,
+            NoxCodeGenConventions codeGeneratorState,
             IEntityBuilder builder,
             Entity entity,
             IReadOnlyList<EntityRelationshipWithType> relationshipsToCreate)
@@ -117,7 +129,8 @@ namespace Nox.Types.EntityFramework.Configurations
                         builder
                             .HasOne($"{codeGeneratorState.DomainNameSpace}.{relationshipToCreate.Relationship.Entity}", relationshipToCreate.Relationship.Name)
                             .WithMany(relationshipToCreate.Relationship.Related.EntityRelationship.Name)
-                            .HasForeignKey($"{relationshipToCreate.Relationship.Name}Id");
+                            .HasForeignKey($"{relationshipToCreate.Relationship.Name}Id")
+                            .OnDelete(DeleteBehavior.ClientSetNull);
                     }
                     else //One to One
                     {
@@ -132,7 +145,8 @@ namespace Nox.Types.EntityFramework.Configurations
                         builder
                             .HasOne($"{codeGeneratorState.DomainNameSpace}.{relationshipToCreate.Relationship.Entity}", relationshipToCreate.Relationship.Name)
                             .WithOne(relationshipToCreate.Relationship.Related.EntityRelationship.Name)
-                            .HasForeignKey(entity.Name, $"{relationshipToCreate.Relationship.Name}Id");
+                            .HasForeignKey(entity.Name, $"{relationshipToCreate.Relationship.Name}Id")
+                            .OnDelete(DeleteBehavior.ClientSetNull); 
                     }
 
                     // Setup foreign key property
@@ -142,7 +156,7 @@ namespace Nox.Types.EntityFramework.Configurations
         }
 
         protected virtual void ConfigureOwnedRelationships(
-            NoxSolutionCodeGeneratorState codeGeneratorState,
+            NoxCodeGenConventions codeGeneratorState,
             IEntityBuilder builder,
             Entity entity,
             IReadOnlyList<EntityRelationshipWithType> ownedRelationshipsToCreate)
@@ -154,7 +168,7 @@ namespace Nox.Types.EntityFramework.Configurations
                     builder
                         .OwnsOne(relationshipToCreate.RelationshipEntityType, relationshipToCreate.Relationship.Name, x =>
                         {
-                            ConfigureEntity(codeGeneratorState, new OwnedNavigationBuilderAdapter(x), relationshipToCreate.Relationship.Related.Entity);
+                            ConfigureEntity(new OwnedNavigationBuilderAdapter(x), relationshipToCreate.Relationship.Related.Entity);
                         });
                 }
                 else
@@ -162,14 +176,14 @@ namespace Nox.Types.EntityFramework.Configurations
                     builder
                         .OwnsMany(relationshipToCreate.RelationshipEntityType, relationshipToCreate.Relationship.Name, x =>
                         {
-                            ConfigureEntity(codeGeneratorState, new OwnedNavigationBuilderAdapter(x), relationshipToCreate.Relationship.Related.Entity);
+                            ConfigureEntity(new OwnedNavigationBuilderAdapter(x), relationshipToCreate.Relationship.Related.Entity);
                         });
                 }
             }
         }
 
         private void ConfigureRelationForeignKeyProperty(
-            NoxSolutionCodeGeneratorState codeGeneratorState,
+            NoxCodeGenConventions codeGeneratorState,
             IEntityBuilder builder,
             Entity entity,
             EntityRelationshipWithType relationshipToCreate)
@@ -187,14 +201,14 @@ namespace Nox.Types.EntityFramework.Configurations
                 var keyToBeConfigured = key.ShallowCopy();
                 keyToBeConfigured.Name = $"{relationshipToCreate.Relationship.Name}Id";
                 keyToBeConfigured.Description = $"Foreign key for entity {relationshipToCreate.Relationship.Name}";
-                keyToBeConfigured.IsRequired = false;
+                keyToBeConfigured.IsRequired = relationshipToCreate.Relationship.IsRequired();                
                 keyToBeConfigured.IsReadonly = false;
                 databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, keyToBeConfigured, entity, false);
             }
         }
 
         protected virtual void ConfigureKeys(
-            NoxSolutionCodeGeneratorState codeGeneratorState,
+            NoxCodeGenConventions codeGeneratorState,
             IEntityBuilder builder,
             Entity entity)
         {
@@ -228,7 +242,7 @@ namespace Nox.Types.EntityFramework.Configurations
         }
 
         protected virtual void ConfigureEntityKeyForEntityForeignKey(
-            NoxSolutionCodeGeneratorState codeGeneratorState,
+            NoxCodeGenConventions codeGeneratorState,
             IEntityBuilder builder,
             Entity entity,
             NoxSimpleTypeDefinition key)
@@ -292,7 +306,7 @@ namespace Nox.Types.EntityFramework.Configurations
         }
 
         protected virtual void ConfigureAttributes(
-            NoxSolutionCodeGeneratorState codeGeneratorState,
+            NoxCodeGenConventions codeGeneratorState,
             IEntityBuilder builder,
             Entity entity)
         {
@@ -311,5 +325,38 @@ namespace Nox.Types.EntityFramework.Configurations
                 }
             }
         }
+
+        private List<EntityRelationshipWithType> GetRelationshipsToCreate(Entity entity)
+        {
+            var fullRelationshipModels = new List<EntityRelationshipWithType>();
+
+
+            foreach (var relationship in entity.Relationships)
+            {
+                fullRelationshipModels.Add(new EntityRelationshipWithType
+                {
+                    Relationship = relationship,
+                    RelationshipEntityType = ClientAssemblyProvider.ClientAssembly.GetType(CodeGenConventions.GetEntityTypeFullName(relationship.Entity))!
+                });
+            }
+
+            return fullRelationshipModels;
+        }
+
+        private List<EntityRelationshipWithType> GetOwnedRelationshipsToCreate(Entity entity)
+        {
+            var fullRelationshipModels = new List<EntityRelationshipWithType>();
+
+            foreach (var relationship in entity.OwnedRelationships)
+            {
+                fullRelationshipModels.Add(new EntityRelationshipWithType
+                {
+                    Relationship = relationship,
+                    RelationshipEntityType = ClientAssemblyProvider.ClientAssembly.GetType(CodeGenConventions.GetEntityTypeFullName(relationship.Entity))!
+                });
+            }
+            return fullRelationshipModels;
+        }
     }
+  
 }

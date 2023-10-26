@@ -7,9 +7,9 @@ public class EnumerationTests
 
     private static readonly List<EnumerationValues> _values = new ()
         {
-            new () { Id = 1, Description = "Option 1" },
-            new () { Id = 2, Description = "Option 2" },
-            new () { Id = 3, Description = "Option 3" },
+            new () { Id = 1, Name = "Option 1" },
+            new () { Id = 2, Name = "Option 2" },
+            new () { Id = 3, Name = "Option 3" },
         };
 
     private static readonly EnumerationTypeOptions _options = new ()

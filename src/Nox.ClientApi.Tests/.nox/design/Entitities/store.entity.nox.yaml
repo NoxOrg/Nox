@@ -46,6 +46,18 @@ attributes:
       showOnCreateForm: true
       showOnUpdateForm: true
 
+  - name: Status
+    description: Store Status
+    type: enumeration
+    enumerationTypeOptions:
+      values: 
+        - { id: 1, name: Construction} 
+        - { id: 2, name: LicensePermit}
+        - { id: 3, name: Opened} 
+        - { id: 4, name: Closed} 
+      isLocalized: false
+    isRequired: false
+
 relationships:
 
     - name: Ownership

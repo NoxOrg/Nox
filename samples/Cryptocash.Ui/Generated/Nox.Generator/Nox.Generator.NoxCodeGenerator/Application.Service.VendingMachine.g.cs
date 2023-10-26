@@ -111,46 +111,4 @@ public class VendingMachineService : IEntityService
 
         return rtnApiUiService;
     }
-
-    public static VendingMachineCreateDto ConvertVendingMachineIntoCreateDto(VendingMachineDto currentDto)
-    {
-        if (currentDto != null)
-        {
-            VendingMachineCreateDto rtnDto = new VendingMachineCreateDto();
-            rtnDto.Id = currentDto.Id;
-            rtnDto.MacAddress = currentDto.MacAddress;
-            rtnDto.PublicIp = currentDto.PublicIp;
-            rtnDto.GeoLocation = currentDto.GeoLocation;
-            rtnDto.StreetAddress = currentDto.StreetAddress;
-            rtnDto.SerialNumber = currentDto.SerialNumber;
-            rtnDto.InstallationFootPrint = currentDto.InstallationFootPrint;
-            rtnDto.RentPerSquareMetre = currentDto.RentPerSquareMetre;
-            rtnDto.VendingMachineInstallationCountry = CountryService.ConvertCountryIntoCreateDto(currentDto.VendingMachineInstallationCountry);
-            rtnDto.VendingMachineContractedAreaLandLord = LandLordService.ConvertLandLordIntoCreateDto(currentDto.VendingMachineContractedAreaLandLord);
-            rtnDto.VendingMachineRelatedBookings = BookingService.ConvertBookingIntoCreateDtoList(currentDto.VendingMachineRelatedBookings);
-            rtnDto.VendingMachineRelatedCashStockOrders = CashStockOrderService.ConvertCashStockOrderIntoCreateDtoList(currentDto.VendingMachineRelatedCashStockOrders);
-            rtnDto.VendingMachineRequiredMinimumCashStocks = MinimumCashStockService.ConvertMinimumCashStockIntoCreateDtoList(currentDto.VendingMachineRequiredMinimumCashStocks);
-
-            return rtnDto;
-        }
-
-        return null;
-    }
-
-    public static List<VendingMachineCreateDto> ConvertVendingMachineIntoCreateDtoList(List<VendingMachineDto> currentDtoList)
-    {
-        if (currentDtoList != null)
-        {
-            List<VendingMachineCreateDto> rtnDto = new List<VendingMachineCreateDto>();
-
-            foreach (VendingMachineDto currentDto in currentDtoList)
-            {
-                rtnDto.Add(ConvertVendingMachineIntoCreateDto(currentDto));
-            }
-
-            return rtnDto;
-        }
-
-        return null;
-    }
 }

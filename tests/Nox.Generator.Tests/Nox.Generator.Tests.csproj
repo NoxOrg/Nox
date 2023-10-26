@@ -17,7 +17,7 @@
     <PackageReference Include="Basic.Reference.Assemblies.Net70" Version="1.4.5" />
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="Azure.Identity" Version="1.10.2" />
+    <PackageReference Include="Azure.Identity" Version="1.10.3" />
     <PackageReference Include="Microsoft.Build.Locator" Version="1.6.10" />
     <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.7.0" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.12" />
@@ -35,7 +35,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.2"/>
-        <PackageReference Include="xunit" Version="2.5.2"/>
+        <PackageReference Include="xunit" Version="2.5.3"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>

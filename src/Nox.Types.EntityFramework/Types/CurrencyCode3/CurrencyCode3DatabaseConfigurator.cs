@@ -11,7 +11,7 @@ public class CurrencyCode3DatabaseConfigurator : INoxTypeDatabaseConfigurator
     public bool IsDefault  => true;
 
     public void ConfigureEntityProperty(
-        NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
+        NoxCodeGenConventions noxSolutionCodeGeneratorState,
         IEntityBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,

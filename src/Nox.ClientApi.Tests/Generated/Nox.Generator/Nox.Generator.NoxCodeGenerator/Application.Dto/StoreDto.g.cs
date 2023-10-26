@@ -53,6 +53,8 @@ public abstract class StoreDtoBase : EntityDtoBase, IEntityDto<StoreEntity>
     
         if (this.OpeningDay is not null)
             ExecuteActionAndCollectValidationExceptions("OpeningDay", () => ClientApi.Domain.StoreMetadata.CreateOpeningDay(this.OpeningDay.NonNullValue<System.DateTimeOffset>()), result);
+        if (this.Status is not null)
+            ExecuteActionAndCollectValidationExceptions("Status", () => ClientApi.Domain.StoreMetadata.CreateStatus(this.Status.NonNullValue<System.Int32>()), result);
 
         return result;
     }
@@ -82,6 +84,13 @@ public abstract class StoreDtoBase : EntityDtoBase, IEntityDto<StoreEntity>
     /// Opening day (Optional).
     /// </summary>
     public System.DateTimeOffset? OpeningDay { get; set; }
+
+    /// <summary>
+    /// Store Status (Optional).
+    /// </summary>
+    public System.Int32? Status { get; set; }
+    [NotMapped]
+    public string? StatusName { get; set; } = default!;
 
     /// <summary>
     /// Store Owner of the Store ZeroOrOne StoreOwners

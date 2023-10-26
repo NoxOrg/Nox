@@ -35,16 +35,16 @@ internal partial class CreateCountryQualityOfLifeIndexCommandHandler : CreateCou
 
 internal abstract class CreateCountryQualityOfLifeIndexCommandHandlerBase : CommandBase<CreateCountryQualityOfLifeIndexCommand,CountryQualityOfLifeIndexEntity>, IRequestHandler <CreateCountryQualityOfLifeIndexCommand, CountryQualityOfLifeIndexKeyDto>
 {
-	private readonly ClientApiDbContext _dbContext;
-	private readonly IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> _entityFactory;
+	protected readonly ClientApiDbContext DbContext;
+	protected readonly IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> EntityFactory;
 
 	public CreateCountryQualityOfLifeIndexCommandHandlerBase(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> entityFactory) : base(noxSolution)
 	{
-		_dbContext = dbContext;
-		_entityFactory = entityFactory;
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<CountryQualityOfLifeIndexKeyDto> Handle(CreateCountryQualityOfLifeIndexCommand request, CancellationToken cancellationToken)
@@ -52,11 +52,11 @@ internal abstract class CreateCountryQualityOfLifeIndexCommandHandlerBase : Comm
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 
 		await OnCompletedAsync(request, entityToCreate);
-		_dbContext.CountryQualityOfLifeIndices.Add(entityToCreate);
-		await _dbContext.SaveChangesAsync();
+		DbContext.CountryQualityOfLifeIndices.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
 		return new CountryQualityOfLifeIndexKeyDto(entityToCreate.CountryId.Value, entityToCreate.Id.Value);
 	}
 }

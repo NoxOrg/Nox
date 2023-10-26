@@ -18,6 +18,7 @@ using Nox.EntityFramework.SqlServer;
 using Nox.OData;
 using Nox.Infrastructure.Messaging.InMemoryBus;
 using Nox.Infrastructure.Messaging.AzureServiceBus;
+using Nox.Infrastructure;
 
 namespace Nox.Configuration
 {
@@ -146,6 +147,7 @@ namespace Nox.Configuration
             services
                 .AddSingleton(typeof(NoxSolution), noxSolution)
                 .AddSingleton(typeof(INoxClientAssemblyProvider), serviceProvider => new NoxClientAssemblyProvider(_clientAssembly))
+                .AddSingleton(typeof(NoxCodeGenConventions), serviceProvider => new NoxCodeGenConventions(serviceProvider.GetRequiredService<NoxSolution>()))
                 .AddNoxHttpDefaults()
                 .AddSecretsResolver()
                 .AddNoxMediatR(_clientAssembly)
@@ -220,7 +222,7 @@ namespace Nox.Configuration
             {
                 IMessageBrokerProvider messageBrokerProvider = messagingConfig.Provider switch
                 {
-                    MessageBrokerProvider.AzureServiceBus => new AzureServiceBusBrokerProvider(),
+                    MessageBrokerProvider.AzureServiceBus => new AzureServiceBusBrokerProvider(noxSolution),
                     MessageBrokerProvider.InMemory => new InMemoryBrokerProvider(),
                     //MessageBrokerProvider.RabbitMq => throw new NotImplementedException(),
                     //MessageBrokerProvider.AmazonSqs => throw new NotImplementedException(),

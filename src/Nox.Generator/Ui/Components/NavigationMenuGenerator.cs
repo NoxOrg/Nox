@@ -9,7 +9,13 @@ internal class NavigationMenuGenerator : INoxCodeGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Ui;
 
-    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config, string? projectRootPath)
+    public void Generate(
+      SourceProductionContext context,
+      NoxCodeGenConventions codeGeneratorState,
+      GeneratorConfig config,
+      System.Action<string> log,
+      string? projectRootPath
+      )
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
