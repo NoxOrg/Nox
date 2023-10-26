@@ -131,4 +131,10 @@ public class PostgresIntegrationTests : NoxIntegrationContainerTestBase<NoxTestP
     {
         _noxCommonTestCases.LocalizedEntitiesBeingGenerated();
     }
+    
+    [Fact]
+    public void GeneratedEntities_Postgres_AutoNumberedEntitiesBeingGenerated()
+    {
+        _noxCommonTestCases.AutoNumberedEntitiesBeingGenerated();
+    }
 }

@@ -6,6 +6,8 @@ using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using Nox.Types.EntityFramework.Exceptions;
+
 
 namespace Nox.Types.EntityFramework.Configurations
 {
@@ -19,10 +21,16 @@ namespace Nox.Types.EntityFramework.Configurations
 
 
         /// <summary>
-        ///
+        /// Initializes a new instance of the <see cref="NoxDatabaseConfigurator"/> class.
         /// </summary>
-        /// <param name="configurators">List of all loaded <see cref="INoxTypeDatabaseConfigurator"/></param>
-        /// <param name="databaseProviderSpecificOverrides">Configurator type specific to database provider</param>
+        /// <param name="configurators">An enumerable collection of INoxTypeDatabaseConfigurator instances to configure the database mappings.</param>
+        /// <param name="codeGenConventions">The code generation conventions to be used.</param>
+        /// <param name="clientAssemblyProvider">The provider for client assemblies.</param>
+        /// <param name="databaseProviderSpecificOverrides">The type used to identify and override specific database provider configurators.</param>
+        /// <remarks>
+        /// This constructor initializes the database configurator with a collection of type-specific configurators.
+        /// It sets up default configurations and applies provider-specific overrides where necessary.
+        /// </remarks>
         protected NoxDatabaseConfigurator(
             IEnumerable<INoxTypeDatabaseConfigurator> configurators,
             NoxCodeGenConventions codeGenConventions,
@@ -52,8 +60,11 @@ namespace Nox.Types.EntityFramework.Configurations
         /// <summary>
         /// Configure the data base model for an Entity
         /// </summary>
-        /// <param name="entityResolverByName">Function to resolve an Entity name to a Type</param>
+        /// <param name="modelBuilder">Model builder type of <see cref="ModelBuilder"/>.</param>
+        /// <param name="builder">Entity builder type of <see cref="IEntityBuilder"/>.</param>
+        /// <param name="entity">Entity param type of <see cref="Entity"/>.</param>
         public virtual void ConfigureEntity(
+            ModelBuilder modelBuilder,
             IEntityBuilder builder,
             Entity entity)
         {
@@ -68,9 +79,13 @@ namespace Nox.Types.EntityFramework.Configurations
 
             ConfigureRelationships(CodeGenConventions, builder, entity, relationshipsToCreate);
 
-            ConfigureOwnedRelationships(CodeGenConventions, builder, entity, ownedRelationshipsToCreate);
+            ConfigureOwnedRelationships( CodeGenConventions, modelBuilder, builder, entity, ownedRelationshipsToCreate);
 
             ConfigureUniqueAttributeConstraints(builder, entity);
+            
+            ConfigureAutoNumberAttributeSequences(modelBuilder, entity);
+            
+            
         }
 
         public virtual void ConfigureLocalizedEntity(
@@ -168,6 +183,7 @@ namespace Nox.Types.EntityFramework.Configurations
 
         protected virtual void ConfigureOwnedRelationships(
             NoxCodeGenConventions codeGeneratorState,
+            ModelBuilder modelBuilder,
             IEntityBuilder builder,
             Entity entity,
             IReadOnlyList<EntityRelationshipWithType> ownedRelationshipsToCreate)
@@ -179,7 +195,7 @@ namespace Nox.Types.EntityFramework.Configurations
                     builder
                         .OwnsOne(relationshipToCreate.RelationshipEntityType, relationshipToCreate.Relationship.Name, x =>
                         {
-                            ConfigureEntity(new OwnedNavigationBuilderAdapter(x), relationshipToCreate.Relationship.Related.Entity);
+                            ConfigureEntity(modelBuilder,new OwnedNavigationBuilderAdapter(x), relationshipToCreate.Relationship.Related.Entity);
                         });
                 }
                 else
@@ -187,7 +203,7 @@ namespace Nox.Types.EntityFramework.Configurations
                     builder
                         .OwnsMany(relationshipToCreate.RelationshipEntityType, relationshipToCreate.Relationship.Name, x =>
                         {
-                            ConfigureEntity(new OwnedNavigationBuilderAdapter(x), relationshipToCreate.Relationship.Related.Entity);
+                            ConfigureEntity(modelBuilder,new OwnedNavigationBuilderAdapter(x), relationshipToCreate.Relationship.Related.Entity);
                         });
                 }
             }
@@ -244,7 +260,7 @@ namespace Nox.Types.EntityFramework.Configurations
                     }
                     else
                     {
-                        throw new Exception($"Could not find DatabaseConfigurator for type {key.Type} entity {entity.Name}");
+                        throw new DatabaseConfigurationException(key.Type,  entity.Name);
                     }
                 }
 
@@ -336,6 +352,8 @@ namespace Nox.Types.EntityFramework.Configurations
                 }
             }
         }
+        
+     
 
         protected virtual void ConfigureLocalizedAttributes(
             NoxCodeGenConventions codeGeneratorState,
@@ -364,6 +382,7 @@ namespace Nox.Types.EntityFramework.Configurations
             }
         }
 
+        
         private List<EntityRelationshipWithType> GetRelationshipsToCreate(Entity entity)
         {
             var fullRelationshipModels = new List<EntityRelationshipWithType>();
@@ -395,6 +414,9 @@ namespace Nox.Types.EntityFramework.Configurations
             }
             return fullRelationshipModels;
         }
+        
+        protected virtual void ConfigureAutoNumberAttributeSequences(ModelBuilder modelBuilder, Entity entity) {}
+        
     }
   
 }

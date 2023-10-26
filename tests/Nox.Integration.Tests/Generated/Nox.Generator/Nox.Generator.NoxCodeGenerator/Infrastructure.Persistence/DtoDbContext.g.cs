@@ -122,6 +122,8 @@ internal class DtoDbContext : DbContext
         
         public DbSet<TestEntityLocalizationDto> TestEntityLocalizations { get; set; } = null!;
         
+        public DbSet<TestEntityForAutoNumberUsagesDto> TestEntityForAutoNumberUsages { get; set; } = null!;
+        
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

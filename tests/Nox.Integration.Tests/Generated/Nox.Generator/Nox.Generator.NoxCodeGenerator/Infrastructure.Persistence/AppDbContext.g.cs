@@ -134,6 +134,8 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
 
     public DbSet<TestWebApp.Domain.TestEntityLocalization> TestEntityLocalizations { get; set; } = null!;
 
+    public DbSet<TestWebApp.Domain.TestEntityForAutoNumberUsages> TestEntityForAutoNumberUsages { get; set; } = null!;
+
 public DbSet<TestWebApp.Domain.TestEntityLocalizationLocalized> TestEntityLocalizationsLocalized { get; set; } = null!;
 
 
@@ -165,7 +167,7 @@ public DbSet<TestWebApp.Domain.TestEntityLocalizationLocalized> TestEntityLocali
             }
 
             var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.Name));
-            ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(new EntityBuilderAdapter(modelBuilder.Entity(type!)), entity);
+            ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(modelBuilder, new EntityBuilderAdapter(modelBuilder.Entity(type!)), entity);
 
             if (entity.ShouldBeLocalized)
             {

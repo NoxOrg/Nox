@@ -26,6 +26,9 @@ public class NoxSimpleTypeDefinition
     public NoxType Type { get; internal set; } = NoxType.Object;
 
     #region TypeOptions
+    
+    [IfEquals(nameof(Type), NoxType.AutoNumber)]
+    public AutoNumberTypeOptions? AutoNumberTypeOptions { get; set; }
 
     [IfEquals(nameof(Type), NoxType.Area)]
     public AreaTypeOptions? AreaTypeOptions { get; set; }

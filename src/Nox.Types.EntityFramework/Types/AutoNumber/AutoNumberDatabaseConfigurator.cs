@@ -19,7 +19,7 @@ public class AutoNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
     /// Gets a value indicating whether this configurator is the default one for the associated Nox type.
     /// In this case, it is set to true, indicating that this is the default configurator for AutoNumber.
     /// </summary>
-    public bool IsDefault => true;
+    public virtual bool IsDefault => true;
 
     /// <summary>
     /// Configures the database entity property for the AutoNumber type.
@@ -30,34 +30,17 @@ public class AutoNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
     /// <param name="property">The NoxSimpleTypeDefinition representing the property being configured.</param>
     /// <param name="entity">The Entity to which the property belongs.</param>
     /// <param name="isKey">A flag indicating whether the property is a key property.</param>
-    public void ConfigureEntityProperty(
+    public virtual void ConfigureEntityProperty(
         NoxCodeGenConventions noxSolutionCodeGeneratorState,
         IEntityBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,
         bool isKey)
     {
-        // If a normal attribute or key then it should be auto-incremented.
-        // Otherwise If it's a foreign key of entity id type or relationship it shouldn't be auto-incremented.
-        var shouldAutoincrement =
-            isKey ||
-            entity.Attributes.Any(x => x.Name.Equals(property.Name, StringComparison.OrdinalIgnoreCase) && x.Type == property.Type);
-
-        if (shouldAutoincrement)
-        {
-            builder
-                .Property(property.Name)
-                .IsRequired(property.IsRequired)
-                .HasConversion<AutoNumberConverter>()
-                .ValueGeneratedOnAdd();
-        }
-        else
-        {
-            builder
-                .Property(property.Name)
-                .IsRequired(property.IsRequired)
-                .HasConversion<AutoNumberConverter>();
-        }
+        builder
+            .Property(property.Name)
+            .IsRequired(property.IsRequired)
+            .HasConversion<AutoNumberConverter>();
     }
 
     /// <summary>

@@ -1019,4 +1019,45 @@ public class NoxCommonTestCaseFactory
         Assert.Equal(testEntity.TextFieldToLocalize.Value, text);
         Assert.Equal(testEntity.CultureCode.Value, culture);
     }
+    
+    public void AutoNumberedEntitiesBeingGenerated()
+    {
+
+        var idValue = 10;
+        var propertyValue = 20;
+        
+        var text = "TX";
+
+        var stru = DataContext.Database.GetConnectionString(); //("SELECT * FROM information_schema.sequences;");
+
+        var newItem = new TestEntityForAutoNumberUsages()
+        {
+            TextField = Text.From(text),
+        };
+
+        DataContext.TestEntityForAutoNumberUsages.Add(newItem);
+        
+        var newItem2 = new TestEntityForAutoNumberUsages()
+        {
+            TextField = Text.From(text),
+        };
+
+        DataContext.TestEntityForAutoNumberUsages.Add(newItem2);
+        DataContext.SaveChanges();
+
+        // Force the recreation of DataContext and ensure we have fresh data from database
+        _dbContextFixture.RefreshDbContext();
+
+        var testEntity = DataContext.TestEntityForAutoNumberUsages.First();
+        var testEntity2 = DataContext.TestEntityForAutoNumberUsages.OrderBy(e=>e.Id).Last();
+
+        
+        
+        
+        Assert.Equal(idValue, testEntity.Id.Value);
+        Assert.Equal(idValue + 2, testEntity2.Id.Value);
+        Assert.Equal(testEntity.TextField.Value, text);
+        Assert.Equal(propertyValue, testEntity.AutoNumberField.Value );
+        Assert.Equal(propertyValue + 2, testEntity2.AutoNumberField.Value );
+    }
 }

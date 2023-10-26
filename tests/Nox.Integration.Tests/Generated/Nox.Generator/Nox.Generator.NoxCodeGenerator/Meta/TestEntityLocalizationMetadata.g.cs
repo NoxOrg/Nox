@@ -21,11 +21,11 @@ public partial class TestEntityLocalizationMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions IdTypeOptions {get; private set;} = new ()
         {
-            MinLength = 2,
-            MaxLength = 2,
-            IsUnicode = false,
-            IsLocalized = false,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 2,
+            MaxLength = 2,
+            IsUnicode = false,
+            IsLocalized = false,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
@@ -41,11 +41,11 @@ public partial class TestEntityLocalizationMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions TextFieldToLocalizeTypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = true,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
@@ -61,9 +61,9 @@ public partial class TestEntityLocalizationMetadata
         /// </summary>
         public static Nox.Types.NumberTypeOptions NumberFieldTypeOptions {get; private set;} = new ()
         {
-            MinValue = 4m,
-            MaxValue = 894m,
-            DecimalDigits = 0,
+            MinValue = 4m,
+            MaxValue = 894m,
+            DecimalDigits = 0,
         };
     
     
