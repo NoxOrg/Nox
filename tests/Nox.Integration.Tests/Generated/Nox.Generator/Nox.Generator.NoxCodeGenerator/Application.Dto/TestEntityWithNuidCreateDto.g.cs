@@ -10,8 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using TestEntityWithNuidEntity = TestWebApp.Domain.TestEntityWithNuid;
-using TestWebApp.Domain;
+using DomainNamespace = TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
 
@@ -23,7 +22,7 @@ public partial class TestEntityWithNuidCreateDto : TestEntityWithNuidCreateDtoBa
 /// <summary>
 /// Entity created for testing nuid.
 /// </summary>
-public abstract class TestEntityWithNuidCreateDtoBase : IEntityDto<TestEntityWithNuidEntity>
+public abstract class TestEntityWithNuidCreateDtoBase : IEntityDto<DomainNamespace.TestEntityWithNuid>
 {
     /// <summary>
     ///  (Required).

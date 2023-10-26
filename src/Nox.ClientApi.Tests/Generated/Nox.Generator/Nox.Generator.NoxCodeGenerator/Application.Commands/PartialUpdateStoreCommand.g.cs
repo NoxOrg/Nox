@@ -21,7 +21,7 @@ public record PartialUpdateStoreCommand(System.Guid keyId, Dictionary<string, dy
 internal class PartialUpdateStoreCommandHandler : PartialUpdateStoreCommandHandlerBase
 {
 	public PartialUpdateStoreCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
@@ -29,11 +29,11 @@ internal class PartialUpdateStoreCommandHandler : PartialUpdateStoreCommandHandl
 }
 internal class PartialUpdateStoreCommandHandlerBase : CommandBase<PartialUpdateStoreCommand, StoreEntity>, IRequestHandler<PartialUpdateStoreCommand, StoreKeyDto?>
 {
-	public ClientApiDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	public IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateStoreCommandHandlerBase(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory) : base(noxSolution)
 	{

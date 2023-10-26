@@ -20,7 +20,7 @@ public record UpdateSecondTestEntityTwoRelationshipsManyToManyCommand(System.Str
 internal partial class UpdateSecondTestEntityTwoRelationshipsManyToManyCommandHandler : UpdateSecondTestEntityTwoRelationshipsManyToManyCommandHandlerBase
 {
 	public UpdateSecondTestEntityTwoRelationshipsManyToManyCommandHandler(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<SecondTestEntityTwoRelationshipsManyToManyEntity, SecondTestEntityTwoRelationshipsManyToManyCreateDto, SecondTestEntityTwoRelationshipsManyToManyUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
@@ -29,11 +29,11 @@ internal partial class UpdateSecondTestEntityTwoRelationshipsManyToManyCommandHa
 
 internal abstract class UpdateSecondTestEntityTwoRelationshipsManyToManyCommandHandlerBase : CommandBase<UpdateSecondTestEntityTwoRelationshipsManyToManyCommand, SecondTestEntityTwoRelationshipsManyToManyEntity>, IRequestHandler<UpdateSecondTestEntityTwoRelationshipsManyToManyCommand, SecondTestEntityTwoRelationshipsManyToManyKeyDto?>
 {
-	public TestWebAppDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<SecondTestEntityTwoRelationshipsManyToManyEntity, SecondTestEntityTwoRelationshipsManyToManyCreateDto, SecondTestEntityTwoRelationshipsManyToManyUpdateDto> _entityFactory;
 
 	public UpdateSecondTestEntityTwoRelationshipsManyToManyCommandHandlerBase(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<SecondTestEntityTwoRelationshipsManyToManyEntity, SecondTestEntityTwoRelationshipsManyToManyCreateDto, SecondTestEntityTwoRelationshipsManyToManyUpdateDto> entityFactory) : base(noxSolution)
 	{

@@ -20,7 +20,7 @@ public record UpdateTestEntityExactlyOneToZeroOrOneCommand(System.String keyId, 
 internal partial class UpdateTestEntityExactlyOneToZeroOrOneCommandHandler : UpdateTestEntityExactlyOneToZeroOrOneCommandHandlerBase
 {
 	public UpdateTestEntityExactlyOneToZeroOrOneCommandHandler(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityExactlyOneToZeroOrOneEntity, TestEntityExactlyOneToZeroOrOneCreateDto, TestEntityExactlyOneToZeroOrOneUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
@@ -29,11 +29,11 @@ internal partial class UpdateTestEntityExactlyOneToZeroOrOneCommandHandler : Upd
 
 internal abstract class UpdateTestEntityExactlyOneToZeroOrOneCommandHandlerBase : CommandBase<UpdateTestEntityExactlyOneToZeroOrOneCommand, TestEntityExactlyOneToZeroOrOneEntity>, IRequestHandler<UpdateTestEntityExactlyOneToZeroOrOneCommand, TestEntityExactlyOneToZeroOrOneKeyDto?>
 {
-	public TestWebAppDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<TestEntityExactlyOneToZeroOrOneEntity, TestEntityExactlyOneToZeroOrOneCreateDto, TestEntityExactlyOneToZeroOrOneUpdateDto> _entityFactory;
 
 	public UpdateTestEntityExactlyOneToZeroOrOneCommandHandlerBase(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityExactlyOneToZeroOrOneEntity, TestEntityExactlyOneToZeroOrOneCreateDto, TestEntityExactlyOneToZeroOrOneUpdateDto> entityFactory) : base(noxSolution)
 	{

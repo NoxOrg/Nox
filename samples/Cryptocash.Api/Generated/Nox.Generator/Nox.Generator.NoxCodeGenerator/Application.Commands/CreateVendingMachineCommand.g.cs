@@ -25,7 +25,7 @@ public record CreateVendingMachineCommand(VendingMachineCreateDto EntityDto) : I
 internal partial class CreateVendingMachineCommandHandler : CreateVendingMachineCommandHandlerBase
 {
 	public CreateVendingMachineCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
 		IEntityFactory<Cryptocash.Domain.LandLord, LandLordCreateDto, LandLordUpdateDto> LandLordFactory,
@@ -41,7 +41,7 @@ internal partial class CreateVendingMachineCommandHandler : CreateVendingMachine
 
 internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<CreateVendingMachineCommand,VendingMachineEntity>, IRequestHandler <CreateVendingMachineCommand, VendingMachineKeyDto>
 {
-	protected readonly CryptocashDbContext DbContext;
+	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<VendingMachineEntity, VendingMachineCreateDto, VendingMachineUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.LandLord, LandLordCreateDto, LandLordUpdateDto> LandLordFactory;
@@ -50,7 +50,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 	protected readonly IEntityFactory<Cryptocash.Domain.MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> MinimumCashStockFactory;
 
 	public CreateVendingMachineCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
 		IEntityFactory<Cryptocash.Domain.LandLord, LandLordCreateDto, LandLordUpdateDto> LandLordFactory,

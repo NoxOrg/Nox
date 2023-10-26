@@ -25,7 +25,7 @@ public record CreateStoreLicenseCommand(StoreLicenseCreateDto EntityDto) : IRequ
 internal partial class CreateStoreLicenseCommandHandler : CreateStoreLicenseCommandHandlerBase
 {
 	public CreateStoreLicenseCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
 		IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory)
@@ -37,12 +37,12 @@ internal partial class CreateStoreLicenseCommandHandler : CreateStoreLicenseComm
 
 internal abstract class CreateStoreLicenseCommandHandlerBase : CommandBase<CreateStoreLicenseCommand,StoreLicenseEntity>, IRequestHandler <CreateStoreLicenseCommand, StoreLicenseKeyDto>
 {
-	protected readonly ClientApiDbContext DbContext;
+	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory;
 
 	public CreateStoreLicenseCommandHandlerBase(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
 		IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory) : base(noxSolution)

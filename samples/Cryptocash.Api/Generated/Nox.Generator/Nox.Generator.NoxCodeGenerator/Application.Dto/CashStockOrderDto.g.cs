@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using Cryptocash.Domain;
-using CashStockOrderEntity = Cryptocash.Domain.CashStockOrder;
+
+
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class CashStockOrderDto : CashStockOrderDtoBase
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-public abstract class CashStockOrderDtoBase : EntityDtoBase, IEntityDto<CashStockOrderEntity>
+public abstract class CashStockOrderDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.CashStockOrder>
 {
 
     #region Validation
@@ -37,14 +38,14 @@ public abstract class CashStockOrderDtoBase : EntityDtoBase, IEntityDto<CashStoc
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Amount is not null)
-            ExecuteActionAndCollectValidationExceptions("Amount", () => Cryptocash.Domain.CashStockOrderMetadata.CreateAmount(this.Amount.NonNullValue<MoneyDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("Amount", () => DomainNamespace.CashStockOrderMetadata.CreateAmount(this.Amount.NonNullValue<MoneyDto>()), result);
         else
             result.Add("Amount", new [] { "Amount is Required." });
     
-        ExecuteActionAndCollectValidationExceptions("RequestedDeliveryDate", () => Cryptocash.Domain.CashStockOrderMetadata.CreateRequestedDeliveryDate(this.RequestedDeliveryDate), result);
+        ExecuteActionAndCollectValidationExceptions("RequestedDeliveryDate", () => DomainNamespace.CashStockOrderMetadata.CreateRequestedDeliveryDate(this.RequestedDeliveryDate), result);
     
         if (this.DeliveryDateTime is not null)
-            ExecuteActionAndCollectValidationExceptions("DeliveryDateTime", () => Cryptocash.Domain.CashStockOrderMetadata.CreateDeliveryDateTime(this.DeliveryDateTime.NonNullValue<System.DateTimeOffset>()), result); 
+            ExecuteActionAndCollectValidationExceptions("DeliveryDateTime", () => DomainNamespace.CashStockOrderMetadata.CreateDeliveryDateTime(this.DeliveryDateTime.NonNullValue<System.DateTimeOffset>()), result); 
 
         return result;
     }

@@ -6,13 +6,11 @@ using System.Linq;
 
 using Nox.Extensions;
 
-using Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 internal static class BankNoteExtensions
 {
-    public static BankNoteDto ToDto(this BankNote entity)
+    public static BankNoteDto ToDto(this Cryptocash.Domain.BankNote entity)
     {
         var dto = new BankNoteDto();
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);

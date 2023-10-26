@@ -25,7 +25,7 @@ public record CreateTestEntityExactlyOneToZeroOrManyCommand(TestEntityExactlyOne
 internal partial class CreateTestEntityExactlyOneToZeroOrManyCommandHandler : CreateTestEntityExactlyOneToZeroOrManyCommandHandlerBase
 {
 	public CreateTestEntityExactlyOneToZeroOrManyCommandHandler(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.TestEntityZeroOrManyToExactlyOne, TestEntityZeroOrManyToExactlyOneCreateDto, TestEntityZeroOrManyToExactlyOneUpdateDto> TestEntityZeroOrManyToExactlyOneFactory,
 		IEntityFactory<TestEntityExactlyOneToZeroOrManyEntity, TestEntityExactlyOneToZeroOrManyCreateDto, TestEntityExactlyOneToZeroOrManyUpdateDto> entityFactory)
@@ -37,12 +37,12 @@ internal partial class CreateTestEntityExactlyOneToZeroOrManyCommandHandler : Cr
 
 internal abstract class CreateTestEntityExactlyOneToZeroOrManyCommandHandlerBase : CommandBase<CreateTestEntityExactlyOneToZeroOrManyCommand,TestEntityExactlyOneToZeroOrManyEntity>, IRequestHandler <CreateTestEntityExactlyOneToZeroOrManyCommand, TestEntityExactlyOneToZeroOrManyKeyDto>
 {
-	protected readonly TestWebAppDbContext DbContext;
+	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<TestEntityExactlyOneToZeroOrManyEntity, TestEntityExactlyOneToZeroOrManyCreateDto, TestEntityExactlyOneToZeroOrManyUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<TestWebApp.Domain.TestEntityZeroOrManyToExactlyOne, TestEntityZeroOrManyToExactlyOneCreateDto, TestEntityZeroOrManyToExactlyOneUpdateDto> TestEntityZeroOrManyToExactlyOneFactory;
 
 	public CreateTestEntityExactlyOneToZeroOrManyCommandHandlerBase(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.TestEntityZeroOrManyToExactlyOne, TestEntityZeroOrManyToExactlyOneCreateDto, TestEntityZeroOrManyToExactlyOneUpdateDto> TestEntityZeroOrManyToExactlyOneFactory,
 		IEntityFactory<TestEntityExactlyOneToZeroOrManyEntity, TestEntityExactlyOneToZeroOrManyCreateDto, TestEntityExactlyOneToZeroOrManyUpdateDto> entityFactory) : base(noxSolution)

@@ -23,7 +23,7 @@ public record Delete{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyD
 internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandler : Delete{{entity.Name}}For{{parent.Name}}CommandHandlerBase
 {
 	public Delete{{entity.Name}}For{{parent.Name}}CommandHandler(
-		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(dbContext, noxSolution)
 	{
@@ -32,10 +32,10 @@ internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandler : D
 
 internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandlerBase : CommandBase<Delete{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}Entity>, IRequestHandler <Delete{{entity.Name}}For{{parent.Name}}Command, bool>
 {
-	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public Delete{{entity.Name}}For{{parent.Name}}CommandHandlerBase(
-		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;

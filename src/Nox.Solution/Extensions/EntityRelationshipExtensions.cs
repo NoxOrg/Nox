@@ -89,7 +89,11 @@ public static class EntityRelationshipExtensions
 
     public static string GetPrimitiveForeignKeyType(this EntityRelationship relationship)
     {
-        if (relationship.Related.Entity.Keys.Count <= 1)
+        if (relationship.Related.Entity.HasCompositeKey)
+        {
+            return $"{relationship.Related.Entity.Name}KeyDto";
+        }
+        else
         {
             var keyType = relationship.Related.Entity.Keys[0].Type;
             var typeDefinition = new NoxSimpleTypeDefinition()
@@ -100,10 +104,6 @@ public static class EntityRelationshipExtensions
             var componentType = keyType.GetComponents(typeDefinition).FirstOrDefault().Value;
 
             return $"System.{componentType.Name}";
-        }
-        else
-        {
-            return $"{relationship.Related.Entity.Name}KeyDto";
         }
     }
 }

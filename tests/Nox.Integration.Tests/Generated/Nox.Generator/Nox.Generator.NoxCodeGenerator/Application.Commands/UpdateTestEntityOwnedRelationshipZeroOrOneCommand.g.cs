@@ -20,7 +20,7 @@ public record UpdateTestEntityOwnedRelationshipZeroOrOneCommand(System.String ke
 internal partial class UpdateTestEntityOwnedRelationshipZeroOrOneCommandHandler : UpdateTestEntityOwnedRelationshipZeroOrOneCommandHandlerBase
 {
 	public UpdateTestEntityOwnedRelationshipZeroOrOneCommandHandler(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityOwnedRelationshipZeroOrOneEntity, TestEntityOwnedRelationshipZeroOrOneCreateDto, TestEntityOwnedRelationshipZeroOrOneUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
@@ -29,11 +29,11 @@ internal partial class UpdateTestEntityOwnedRelationshipZeroOrOneCommandHandler 
 
 internal abstract class UpdateTestEntityOwnedRelationshipZeroOrOneCommandHandlerBase : CommandBase<UpdateTestEntityOwnedRelationshipZeroOrOneCommand, TestEntityOwnedRelationshipZeroOrOneEntity>, IRequestHandler<UpdateTestEntityOwnedRelationshipZeroOrOneCommand, TestEntityOwnedRelationshipZeroOrOneKeyDto?>
 {
-	public TestWebAppDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<TestEntityOwnedRelationshipZeroOrOneEntity, TestEntityOwnedRelationshipZeroOrOneCreateDto, TestEntityOwnedRelationshipZeroOrOneUpdateDto> _entityFactory;
 
 	public UpdateTestEntityOwnedRelationshipZeroOrOneCommandHandlerBase(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityOwnedRelationshipZeroOrOneEntity, TestEntityOwnedRelationshipZeroOrOneCreateDto, TestEntityOwnedRelationshipZeroOrOneUpdateDto> entityFactory) : base(noxSolution)
 	{

@@ -10,8 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using TestEntityZeroOrManyEntity = TestWebApp.Domain.TestEntityZeroOrMany;
-using TestWebApp.Domain;
+using DomainNamespace = TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
 
@@ -23,7 +22,7 @@ public partial class TestEntityZeroOrManyCreateDto : TestEntityZeroOrManyCreateD
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public abstract class TestEntityZeroOrManyCreateDtoBase : IEntityDto<TestEntityZeroOrManyEntity>
+public abstract class TestEntityZeroOrManyCreateDtoBase : IEntityDto<DomainNamespace.TestEntityZeroOrMany>
 {
     /// <summary>
     ///  (Required).
@@ -41,6 +40,6 @@ public abstract class TestEntityZeroOrManyCreateDtoBase : IEntityDto<TestEntityZ
     /// TestEntityZeroOrMany Test entity relationship to SecondTestEntityZeroOrMany ZeroOrMany SecondTestEntityZeroOrManies
     /// </summary>
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<SecondTestEntityZeroOrManyCreateDto> SecondTestEntityZeroOrManyRelationship { get; set; } = new();
 }

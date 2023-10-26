@@ -21,7 +21,7 @@ public record PartialUpdateWorkplaceCommand(System.UInt32 keyId, Dictionary<stri
 internal class PartialUpdateWorkplaceCommandHandler : PartialUpdateWorkplaceCommandHandlerBase
 {
 	public PartialUpdateWorkplaceCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
@@ -29,11 +29,11 @@ internal class PartialUpdateWorkplaceCommandHandler : PartialUpdateWorkplaceComm
 }
 internal class PartialUpdateWorkplaceCommandHandlerBase : CommandBase<PartialUpdateWorkplaceCommand, WorkplaceEntity>, IRequestHandler<PartialUpdateWorkplaceCommand, WorkplaceKeyDto?>
 {
-	public ClientApiDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	public IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateWorkplaceCommandHandlerBase(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory) : base(noxSolution)
 	{

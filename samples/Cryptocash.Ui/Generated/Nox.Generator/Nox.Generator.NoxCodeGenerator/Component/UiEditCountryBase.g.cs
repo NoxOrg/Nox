@@ -21,7 +21,7 @@ namespace Cryptocash.Ui.Generated.Component
         public string CurrentCountryIdStr { get; set; }
 
         [Parameter]
-        public string TitleCountry { get; set; }
+        public string Title { get; set; }
 
         [Parameter]
         public List<CountryDto> CountrySelectionList { get; set; } = null;
@@ -33,6 +33,17 @@ namespace Cryptocash.Ui.Generated.Component
         public EventCallback<string> CountryIdChanged { get; set; }
 
         #endregion
+
+        /// <summary>
+        /// Handles initial loading
+        /// </summary>
+        protected override void OnInitialized()
+        {
+            if (!String.IsNullOrWhiteSpace(CountryId))
+            {
+                CurrentCountryIdStr = CountryId;
+            }
+        }
 
         protected async Task OnCountryIdChanged(string newValue)
         {

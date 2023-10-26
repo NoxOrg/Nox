@@ -20,7 +20,7 @@ public record UpdateTransactionCommand(System.Int64 keyId, TransactionUpdateDto 
 internal partial class UpdateTransactionCommandHandler : UpdateTransactionCommandHandlerBase
 {
 	public UpdateTransactionCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TransactionEntity, TransactionCreateDto, TransactionUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
@@ -29,11 +29,11 @@ internal partial class UpdateTransactionCommandHandler : UpdateTransactionComman
 
 internal abstract class UpdateTransactionCommandHandlerBase : CommandBase<UpdateTransactionCommand, TransactionEntity>, IRequestHandler<UpdateTransactionCommand, TransactionKeyDto?>
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<TransactionEntity, TransactionCreateDto, TransactionUpdateDto> _entityFactory;
 
 	public UpdateTransactionCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TransactionEntity, TransactionCreateDto, TransactionUpdateDto> entityFactory) : base(noxSolution)
 	{

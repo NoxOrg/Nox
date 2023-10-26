@@ -28,7 +28,7 @@ internal partial class CreateRefBookingToBookingForCustomerCommandHandler
 	: RefBookingToBookingForCustomerCommandHandlerBase<CreateRefBookingToBookingForCustomerCommand>
 {
 	public CreateRefBookingToBookingForCustomerCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Create)
@@ -42,7 +42,7 @@ internal partial class DeleteRefBookingToBookingForCustomerCommandHandler
 	: RefBookingToBookingForCustomerCommandHandlerBase<DeleteRefBookingToBookingForCustomerCommand>
 {
 	public DeleteRefBookingToBookingForCustomerCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Delete)
@@ -56,7 +56,7 @@ internal partial class DeleteAllRefBookingToBookingForCustomerCommandHandler
 	: RefBookingToBookingForCustomerCommandHandlerBase<DeleteAllRefBookingToBookingForCustomerCommand>
 {
 	public DeleteAllRefBookingToBookingForCustomerCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
@@ -66,14 +66,14 @@ internal partial class DeleteAllRefBookingToBookingForCustomerCommandHandler
 internal abstract class RefBookingToBookingForCustomerCommandHandlerBase<TRequest> : CommandBase<TRequest, BookingEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefBookingToBookingForCustomerCommand
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
 	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefBookingToBookingForCustomerCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		RelationshipAction action)
 		: base(noxSolution)

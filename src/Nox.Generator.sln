@@ -102,6 +102,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Generator.Tasks", "Nox.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Integration.Tests", "Nox.Integration.Tests\Nox.Integration.Tests.csproj", "{AAF75AC4-9D4B-4296-A43E-DFB44CA84DEA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Generator.Tasks.Test", "Nox.Generator.Tasks.Test\Nox.Generator.Tasks.Test.csproj", "{D6E2EA10-EBAB-4066-BA90-270F3D54DA94}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -232,6 +234,10 @@ Global
 		{3CC4CBD7-2946-4171-BA1D-116955286B41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CC4CBD7-2946-4171-BA1D-116955286B41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CC4CBD7-2946-4171-BA1D-116955286B41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6E2EA10-EBAB-4066-BA90-270F3D54DA94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6E2EA10-EBAB-4066-BA90-270F3D54DA94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6E2EA10-EBAB-4066-BA90-270F3D54DA94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6E2EA10-EBAB-4066-BA90-270F3D54DA94}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -267,6 +273,7 @@ Global
 		{470CA4DC-B1A1-4DAE-9A70-FEEE9C0FD173} = {8869EFA6-3BF6-458B-BABE-71775A588D73}
 		{AAF75AC4-9D4B-4296-A43E-DFB44CA84DEA} = {8869EFA6-3BF6-458B-BABE-71775A588D73}
 		{3CC4CBD7-2946-4171-BA1D-116955286B41} = {154B838E-65DE-479F-80B7-D48CF9862306}
+		{D6E2EA10-EBAB-4066-BA90-270F3D54DA94} = {154B838E-65DE-479F-80B7-D48CF9862306}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E72B357-9E1E-43B5-9868-8D2B74CB2AF0}

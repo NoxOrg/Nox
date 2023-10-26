@@ -18,17 +18,17 @@ public record DeleteStoreLicenseByIdCommand(System.Int64 keyId, System.Guid? Eta
 internal class DeleteStoreLicenseByIdCommandHandler : DeleteStoreLicenseByIdCommandHandlerBase
 {
 	public DeleteStoreLicenseByIdCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
 internal abstract class DeleteStoreLicenseByIdCommandHandlerBase : CommandBase<DeleteStoreLicenseByIdCommand, StoreLicenseEntity>, IRequestHandler<DeleteStoreLicenseByIdCommand, bool>
 {
-	public ClientApiDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public DeleteStoreLicenseByIdCommandHandlerBase(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;

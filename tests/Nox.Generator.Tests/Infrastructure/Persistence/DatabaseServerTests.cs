@@ -25,7 +25,7 @@ public class DatabaseServerTests : IClassFixture<GeneratorFixture>
         var filesShouldExist = new[]
         {
             "Domain.Country.g.cs",
-            "Infrastructure.Persistence.SampleWebAppDbContext.g.cs"
+            "Infrastructure.Persistence.AppDbContext.g.cs"
         };
 
         _fixture

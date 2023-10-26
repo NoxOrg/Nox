@@ -20,7 +20,7 @@ public record UpdateBookingCommand(System.Guid keyId, BookingUpdateDto EntityDto
 internal partial class UpdateBookingCommandHandler : UpdateBookingCommandHandlerBase
 {
 	public UpdateBookingCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
@@ -29,11 +29,11 @@ internal partial class UpdateBookingCommandHandler : UpdateBookingCommandHandler
 
 internal abstract class UpdateBookingCommandHandlerBase : CommandBase<UpdateBookingCommand, BookingEntity>, IRequestHandler<UpdateBookingCommand, BookingKeyDto?>
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> _entityFactory;
 
 	public UpdateBookingCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> entityFactory) : base(noxSolution)
 	{

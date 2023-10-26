@@ -39,8 +39,8 @@ internal class EntityEnumerationGenerator : INoxCodeGenerator
                 .Where(attribute => attribute.Type == NoxType.Enumeration)
                 .Select(attribute => new { 
                     Attribute = attribute, 
-                    EntityNameForEnumeration = noxCodeGenCodeConventions.GetEntityNameForEnumType(entity.Name, attribute.Name), 
-                    EntityNameForLocalizedEnumeration = noxCodeGenCodeConventions.GetEntityNameForLocalizedEnumType(entity.Name, attribute.Name)
+                    EntityNameForEnumeration = noxCodeGenCodeConventions.GetEntityNameForEnumeration(entity.Name, attribute.Name), 
+                    EntityNameForLocalizedEnumeration = noxCodeGenCodeConventions.GetEntityNameForEnumerationLocalized(entity.Name, attribute.Name)
                 });
             if(!enumerationAttributes.Any())
             {

@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using Cryptocash.Domain;
-using EmployeePhoneNumberEntity = Cryptocash.Domain.EmployeePhoneNumber;
+
+
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class EmployeePhoneNumberDto : EmployeePhoneNumberDtoBase
 /// <summary>
 /// Employee phone number and related data.
 /// </summary>
-public abstract class EmployeePhoneNumberDtoBase : EntityDtoBase, IEntityDto<EmployeePhoneNumberEntity>
+public abstract class EmployeePhoneNumberDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.EmployeePhoneNumber>
 {
 
     #region Validation
@@ -37,12 +38,12 @@ public abstract class EmployeePhoneNumberDtoBase : EntityDtoBase, IEntityDto<Emp
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.PhoneNumberType is not null)
-            ExecuteActionAndCollectValidationExceptions("PhoneNumberType", () => Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumberType(this.PhoneNumberType.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("PhoneNumberType", () => DomainNamespace.EmployeePhoneNumberMetadata.CreatePhoneNumberType(this.PhoneNumberType.NonNullValue<System.String>()), result);
         else
             result.Add("PhoneNumberType", new [] { "PhoneNumberType is Required." });
     
         if (this.PhoneNumber is not null)
-            ExecuteActionAndCollectValidationExceptions("PhoneNumber", () => Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumber(this.PhoneNumber.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("PhoneNumber", () => DomainNamespace.EmployeePhoneNumberMetadata.CreatePhoneNumber(this.PhoneNumber.NonNullValue<System.String>()), result);
         else
             result.Add("PhoneNumber", new [] { "PhoneNumber is Required." });
     

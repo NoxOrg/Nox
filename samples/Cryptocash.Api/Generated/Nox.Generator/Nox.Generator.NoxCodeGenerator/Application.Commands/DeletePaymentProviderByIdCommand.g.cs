@@ -18,17 +18,17 @@ public record DeletePaymentProviderByIdCommand(System.Int64 keyId, System.Guid? 
 internal class DeletePaymentProviderByIdCommandHandler : DeletePaymentProviderByIdCommandHandlerBase
 {
 	public DeletePaymentProviderByIdCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(dbContext, noxSolution)
 	{
 	}
 }
 internal abstract class DeletePaymentProviderByIdCommandHandlerBase : CommandBase<DeletePaymentProviderByIdCommand, PaymentProviderEntity>, IRequestHandler<DeletePaymentProviderByIdCommand, bool>
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public DeletePaymentProviderByIdCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;

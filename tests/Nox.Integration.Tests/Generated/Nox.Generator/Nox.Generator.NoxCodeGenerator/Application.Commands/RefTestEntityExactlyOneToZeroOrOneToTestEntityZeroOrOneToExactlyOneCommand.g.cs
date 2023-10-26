@@ -28,7 +28,7 @@ internal partial class CreateRefTestEntityExactlyOneToZeroOrOneToTestEntityZeroO
 	: RefTestEntityExactlyOneToZeroOrOneToTestEntityZeroOrOneToExactlyOneCommandHandlerBase<CreateRefTestEntityExactlyOneToZeroOrOneToTestEntityZeroOrOneToExactlyOneCommand>
 {
 	public CreateRefTestEntityExactlyOneToZeroOrOneToTestEntityZeroOrOneToExactlyOneCommandHandler(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Create)
@@ -42,7 +42,7 @@ internal partial class DeleteRefTestEntityExactlyOneToZeroOrOneToTestEntityZeroO
 	: RefTestEntityExactlyOneToZeroOrOneToTestEntityZeroOrOneToExactlyOneCommandHandlerBase<DeleteRefTestEntityExactlyOneToZeroOrOneToTestEntityZeroOrOneToExactlyOneCommand>
 {
 	public DeleteRefTestEntityExactlyOneToZeroOrOneToTestEntityZeroOrOneToExactlyOneCommandHandler(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Delete)
@@ -56,7 +56,7 @@ internal partial class DeleteAllRefTestEntityExactlyOneToZeroOrOneToTestEntityZe
 	: RefTestEntityExactlyOneToZeroOrOneToTestEntityZeroOrOneToExactlyOneCommandHandlerBase<DeleteAllRefTestEntityExactlyOneToZeroOrOneToTestEntityZeroOrOneToExactlyOneCommand>
 {
 	public DeleteAllRefTestEntityExactlyOneToZeroOrOneToTestEntityZeroOrOneToExactlyOneCommandHandler(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
@@ -66,14 +66,14 @@ internal partial class DeleteAllRefTestEntityExactlyOneToZeroOrOneToTestEntityZe
 internal abstract class RefTestEntityExactlyOneToZeroOrOneToTestEntityZeroOrOneToExactlyOneCommandHandlerBase<TRequest> : CommandBase<TRequest, TestEntityExactlyOneToZeroOrOneEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefTestEntityExactlyOneToZeroOrOneToTestEntityZeroOrOneToExactlyOneCommand
 {
-	public TestWebAppDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
 	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefTestEntityExactlyOneToZeroOrOneToTestEntityZeroOrOneToExactlyOneCommandHandlerBase(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		RelationshipAction action)
 		: base(noxSolution)

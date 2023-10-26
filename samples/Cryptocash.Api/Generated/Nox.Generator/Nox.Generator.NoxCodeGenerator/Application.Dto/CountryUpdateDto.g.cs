@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Cryptocash.Domain;
 
-using CountryEntity = Cryptocash.Domain.Country;
+using DomainNamespace = Cryptocash.Domain;
+
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Country and related data.
 /// </summary>
-public partial class CountryUpdateDto : IEntityDto<CountryEntity>
+public partial class CountryUpdateDto : IEntityDto<DomainNamespace.Country>
 {
     /// <summary>
     /// Country's name (Required).

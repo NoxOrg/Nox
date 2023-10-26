@@ -25,7 +25,7 @@ public record CreateThirdTestEntityExactlyOneCommand(ThirdTestEntityExactlyOneCr
 internal partial class CreateThirdTestEntityExactlyOneCommandHandler : CreateThirdTestEntityExactlyOneCommandHandlerBase
 {
 	public CreateThirdTestEntityExactlyOneCommandHandler(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.ThirdTestEntityZeroOrOne, ThirdTestEntityZeroOrOneCreateDto, ThirdTestEntityZeroOrOneUpdateDto> ThirdTestEntityZeroOrOneFactory,
 		IEntityFactory<ThirdTestEntityExactlyOneEntity, ThirdTestEntityExactlyOneCreateDto, ThirdTestEntityExactlyOneUpdateDto> entityFactory)
@@ -37,12 +37,12 @@ internal partial class CreateThirdTestEntityExactlyOneCommandHandler : CreateThi
 
 internal abstract class CreateThirdTestEntityExactlyOneCommandHandlerBase : CommandBase<CreateThirdTestEntityExactlyOneCommand,ThirdTestEntityExactlyOneEntity>, IRequestHandler <CreateThirdTestEntityExactlyOneCommand, ThirdTestEntityExactlyOneKeyDto>
 {
-	protected readonly TestWebAppDbContext DbContext;
+	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<ThirdTestEntityExactlyOneEntity, ThirdTestEntityExactlyOneCreateDto, ThirdTestEntityExactlyOneUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<TestWebApp.Domain.ThirdTestEntityZeroOrOne, ThirdTestEntityZeroOrOneCreateDto, ThirdTestEntityZeroOrOneUpdateDto> ThirdTestEntityZeroOrOneFactory;
 
 	public CreateThirdTestEntityExactlyOneCommandHandlerBase(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.ThirdTestEntityZeroOrOne, ThirdTestEntityZeroOrOneCreateDto, ThirdTestEntityZeroOrOneUpdateDto> ThirdTestEntityZeroOrOneFactory,
 		IEntityFactory<ThirdTestEntityExactlyOneEntity, ThirdTestEntityExactlyOneCreateDto, ThirdTestEntityExactlyOneUpdateDto> entityFactory) : base(noxSolution)

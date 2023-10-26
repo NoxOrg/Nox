@@ -21,7 +21,7 @@ public record PartialUpdateMinimumCashStockCommand(System.Int64 keyId, Dictionar
 internal class PartialUpdateMinimumCashStockCommandHandler : PartialUpdateMinimumCashStockCommandHandlerBase
 {
 	public PartialUpdateMinimumCashStockCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<MinimumCashStockEntity, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
@@ -29,11 +29,11 @@ internal class PartialUpdateMinimumCashStockCommandHandler : PartialUpdateMinimu
 }
 internal class PartialUpdateMinimumCashStockCommandHandlerBase : CommandBase<PartialUpdateMinimumCashStockCommand, MinimumCashStockEntity>, IRequestHandler<PartialUpdateMinimumCashStockCommand, MinimumCashStockKeyDto?>
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	public IEntityFactory<MinimumCashStockEntity, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateMinimumCashStockCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<MinimumCashStockEntity, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> entityFactory) : base(noxSolution)
 	{

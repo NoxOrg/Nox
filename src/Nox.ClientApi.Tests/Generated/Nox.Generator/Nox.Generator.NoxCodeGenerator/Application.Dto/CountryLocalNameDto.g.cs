@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using ClientApi.Domain;
-using CountryLocalNameEntity = ClientApi.Domain.CountryLocalName;
+
+
+using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class CountryLocalNameDto : CountryLocalNameDtoBase
 /// <summary>
 /// Local names for countries.
 /// </summary>
-public abstract class CountryLocalNameDtoBase : EntityDtoBase, IEntityDto<CountryLocalNameEntity>
+public abstract class CountryLocalNameDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.CountryLocalName>
 {
 
     #region Validation
@@ -37,12 +38,12 @@ public abstract class CountryLocalNameDtoBase : EntityDtoBase, IEntityDto<Countr
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            ExecuteActionAndCollectValidationExceptions("Name", () => ClientApi.Domain.CountryLocalNameMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("Name", () => DomainNamespace.CountryLocalNameMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
         if (this.NativeName is not null)
-            ExecuteActionAndCollectValidationExceptions("NativeName", () => ClientApi.Domain.CountryLocalNameMetadata.CreateNativeName(this.NativeName.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("NativeName", () => DomainNamespace.CountryLocalNameMetadata.CreateNativeName(this.NativeName.NonNullValue<System.String>()), result);
 
         return result;
     }

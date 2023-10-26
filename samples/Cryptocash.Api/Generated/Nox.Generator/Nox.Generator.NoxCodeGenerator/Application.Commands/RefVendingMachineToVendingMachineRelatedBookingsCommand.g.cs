@@ -28,7 +28,7 @@ internal partial class CreateRefVendingMachineToVendingMachineRelatedBookingsCom
 	: RefVendingMachineToVendingMachineRelatedBookingsCommandHandlerBase<CreateRefVendingMachineToVendingMachineRelatedBookingsCommand>
 {
 	public CreateRefVendingMachineToVendingMachineRelatedBookingsCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Create)
@@ -42,7 +42,7 @@ internal partial class DeleteRefVendingMachineToVendingMachineRelatedBookingsCom
 	: RefVendingMachineToVendingMachineRelatedBookingsCommandHandlerBase<DeleteRefVendingMachineToVendingMachineRelatedBookingsCommand>
 {
 	public DeleteRefVendingMachineToVendingMachineRelatedBookingsCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Delete)
@@ -56,7 +56,7 @@ internal partial class DeleteAllRefVendingMachineToVendingMachineRelatedBookings
 	: RefVendingMachineToVendingMachineRelatedBookingsCommandHandlerBase<DeleteAllRefVendingMachineToVendingMachineRelatedBookingsCommand>
 {
 	public DeleteAllRefVendingMachineToVendingMachineRelatedBookingsCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
@@ -66,14 +66,14 @@ internal partial class DeleteAllRefVendingMachineToVendingMachineRelatedBookings
 internal abstract class RefVendingMachineToVendingMachineRelatedBookingsCommandHandlerBase<TRequest> : CommandBase<TRequest, VendingMachineEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefVendingMachineToVendingMachineRelatedBookingsCommand
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
 	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefVendingMachineToVendingMachineRelatedBookingsCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		RelationshipAction action)
 		: base(noxSolution)

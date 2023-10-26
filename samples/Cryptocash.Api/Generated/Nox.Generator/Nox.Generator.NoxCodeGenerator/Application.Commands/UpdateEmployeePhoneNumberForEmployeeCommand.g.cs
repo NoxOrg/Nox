@@ -19,7 +19,7 @@ public record UpdateEmployeePhoneNumberForEmployeeCommand(EmployeeKeyDto ParentK
 internal partial class UpdateEmployeePhoneNumberForEmployeeCommandHandler : UpdateEmployeePhoneNumberForEmployeeCommandHandlerBase
 {
 	public UpdateEmployeePhoneNumberForEmployeeCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> entityFactory)
 		: base(dbContext, noxSolution, entityFactory)
@@ -29,11 +29,11 @@ internal partial class UpdateEmployeePhoneNumberForEmployeeCommandHandler : Upda
 
 internal partial class UpdateEmployeePhoneNumberForEmployeeCommandHandlerBase : CommandBase<UpdateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumberEntity>, IRequestHandler <UpdateEmployeePhoneNumberForEmployeeCommand, EmployeePhoneNumberKeyDto?>
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> _entityFactory;
 
 	public UpdateEmployeePhoneNumberForEmployeeCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<EmployeePhoneNumberEntity, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> entityFactory) : base(noxSolution)
 	{

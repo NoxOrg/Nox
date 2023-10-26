@@ -28,7 +28,7 @@ internal partial class CreateRefVendingMachineToVendingMachineRelatedCashStockOr
 	: RefVendingMachineToVendingMachineRelatedCashStockOrdersCommandHandlerBase<CreateRefVendingMachineToVendingMachineRelatedCashStockOrdersCommand>
 {
 	public CreateRefVendingMachineToVendingMachineRelatedCashStockOrdersCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Create)
@@ -42,7 +42,7 @@ internal partial class DeleteRefVendingMachineToVendingMachineRelatedCashStockOr
 	: RefVendingMachineToVendingMachineRelatedCashStockOrdersCommandHandlerBase<DeleteRefVendingMachineToVendingMachineRelatedCashStockOrdersCommand>
 {
 	public DeleteRefVendingMachineToVendingMachineRelatedCashStockOrdersCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Delete)
@@ -56,7 +56,7 @@ internal partial class DeleteAllRefVendingMachineToVendingMachineRelatedCashStoc
 	: RefVendingMachineToVendingMachineRelatedCashStockOrdersCommandHandlerBase<DeleteAllRefVendingMachineToVendingMachineRelatedCashStockOrdersCommand>
 {
 	public DeleteAllRefVendingMachineToVendingMachineRelatedCashStockOrdersCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
@@ -66,14 +66,14 @@ internal partial class DeleteAllRefVendingMachineToVendingMachineRelatedCashStoc
 internal abstract class RefVendingMachineToVendingMachineRelatedCashStockOrdersCommandHandlerBase<TRequest> : CommandBase<TRequest, VendingMachineEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefVendingMachineToVendingMachineRelatedCashStockOrdersCommand
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
 	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefVendingMachineToVendingMachineRelatedCashStockOrdersCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		RelationshipAction action)
 		: base(noxSolution)

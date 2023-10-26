@@ -6,13 +6,11 @@ using System.Linq;
 
 using Nox.Extensions;
 
-using ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 internal static class StoreOwnerExtensions
 {
-    public static StoreOwnerDto ToDto(this StoreOwner entity)
+    public static StoreOwnerDto ToDto(this ClientApi.Domain.StoreOwner entity)
     {
         var dto = new StoreOwnerDto();
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);

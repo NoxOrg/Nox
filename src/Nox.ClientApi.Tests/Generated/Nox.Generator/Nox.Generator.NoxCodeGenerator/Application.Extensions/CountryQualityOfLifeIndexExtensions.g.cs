@@ -6,13 +6,11 @@ using System.Linq;
 
 using Nox.Extensions;
 
-using ClientApi.Domain;
-
 namespace ClientApi.Application.Dto;
 
 internal static class CountryQualityOfLifeIndexExtensions
 {
-    public static CountryQualityOfLifeIndexDto ToDto(this CountryQualityOfLifeIndex entity)
+    public static CountryQualityOfLifeIndexDto ToDto(this ClientApi.Domain.CountryQualityOfLifeIndex entity)
     {
         var dto = new CountryQualityOfLifeIndexDto();
         dto.SetIfNotNull(entity?.CountryId, (dto) => dto.CountryId = entity!.CountryId.Value);

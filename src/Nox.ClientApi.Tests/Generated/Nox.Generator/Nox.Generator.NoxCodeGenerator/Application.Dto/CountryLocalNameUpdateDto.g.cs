@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using ClientApi.Domain;
 
-using CountryLocalNameEntity = ClientApi.Domain.CountryLocalName;
+using DomainNamespace = ClientApi.Domain;
+
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Local names for countries.
 /// </summary>
-public partial class CountryLocalNameUpdateDto : IEntityDto<CountryLocalNameEntity>
+public partial class CountryLocalNameUpdateDto : IEntityDto<DomainNamespace.CountryLocalName>
 {
     /// <summary>
     /// Local name (Required).

@@ -9,6 +9,7 @@ using ClientApi.Infrastructure.Persistence;
 using Xunit.Abstractions;
 using Nox.Solution;
 using Nox.Infrastructure;
+using System;
 
 namespace ClientApi.Tests;
 
@@ -42,12 +43,12 @@ public class NoxTestApplicationFactory : WebApplicationFactory<StartupFixture>
 
     public void ResetDataContext()
     {
-        var dbContext = Services.GetRequiredService<ClientApiDbContext>();
+        var dbContext = Services.GetRequiredService<AppDbContext>();
         dbContext.Database.EnsureDeleted();
         dbContext.Database.EnsureCreated();
     }
 
-    internal ClientApiDbContext GetDbContext() => Services.GetRequiredService<ClientApiDbContext>();
+    internal AppDbContext GetDbContext() => Services.GetRequiredService<AppDbContext>();
 
     protected override IWebHostBuilder? CreateWebHostBuilder()
     {

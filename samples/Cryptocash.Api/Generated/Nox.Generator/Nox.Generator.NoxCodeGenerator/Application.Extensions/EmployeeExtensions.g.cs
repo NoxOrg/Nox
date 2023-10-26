@@ -6,13 +6,11 @@ using System.Linq;
 
 using Nox.Extensions;
 
-using Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 internal static class EmployeeExtensions
 {
-    public static EmployeeDto ToDto(this Employee entity)
+    public static EmployeeDto ToDto(this Cryptocash.Domain.Employee entity)
     {
         var dto = new EmployeeDto();
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);

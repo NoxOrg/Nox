@@ -21,7 +21,7 @@ public record PartialUpdateBookingCommand(System.Guid keyId, Dictionary<string, 
 internal class PartialUpdateBookingCommandHandler : PartialUpdateBookingCommandHandlerBase
 {
 	public PartialUpdateBookingCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
@@ -29,11 +29,11 @@ internal class PartialUpdateBookingCommandHandler : PartialUpdateBookingCommandH
 }
 internal class PartialUpdateBookingCommandHandlerBase : CommandBase<PartialUpdateBookingCommand, BookingEntity>, IRequestHandler<PartialUpdateBookingCommand, BookingKeyDto?>
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	public IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateBookingCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> entityFactory) : base(noxSolution)
 	{

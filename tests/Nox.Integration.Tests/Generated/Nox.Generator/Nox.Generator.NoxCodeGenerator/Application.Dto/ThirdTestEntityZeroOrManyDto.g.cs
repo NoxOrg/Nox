@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using TestWebApp.Domain;
-using ThirdTestEntityZeroOrManyEntity = TestWebApp.Domain.ThirdTestEntityZeroOrMany;
+
+
+using DomainNamespace = TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class ThirdTestEntityZeroOrManyDto : ThirdTestEntityZeroOrManyDto
 /// <summary>
 /// .
 /// </summary>
-public abstract class ThirdTestEntityZeroOrManyDtoBase : EntityDtoBase, IEntityDto<ThirdTestEntityZeroOrManyEntity>
+public abstract class ThirdTestEntityZeroOrManyDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.ThirdTestEntityZeroOrMany>
 {
 
     #region Validation
@@ -37,7 +38,7 @@ public abstract class ThirdTestEntityZeroOrManyDtoBase : EntityDtoBase, IEntityD
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.TextTestField2 is not null)
-            ExecuteActionAndCollectValidationExceptions("TextTestField2", () => TestWebApp.Domain.ThirdTestEntityZeroOrManyMetadata.CreateTextTestField2(this.TextTestField2.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("TextTestField2", () => DomainNamespace.ThirdTestEntityZeroOrManyMetadata.CreateTextTestField2(this.TextTestField2.NonNullValue<System.String>()), result);
         else
             result.Add("TextTestField2", new [] { "TextTestField2 is Required." });
     

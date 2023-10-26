@@ -10,8 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using CountryQualityOfLifeIndexEntity = ClientApi.Domain.CountryQualityOfLifeIndex;
-using ClientApi.Domain;
+using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
@@ -23,7 +22,7 @@ public partial class CountryQualityOfLifeIndexCreateDto : CountryQualityOfLifeIn
 /// <summary>
 /// Country Quality Of Life Index.
 /// </summary>
-public abstract class CountryQualityOfLifeIndexCreateDtoBase : IEntityDto<CountryQualityOfLifeIndexEntity>
+public abstract class CountryQualityOfLifeIndexCreateDtoBase : IEntityDto<DomainNamespace.CountryQualityOfLifeIndex>
 {
     /// <summary>
     ///  (Required).

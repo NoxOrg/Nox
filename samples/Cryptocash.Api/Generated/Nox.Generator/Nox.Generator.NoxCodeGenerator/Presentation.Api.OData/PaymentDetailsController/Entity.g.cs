@@ -25,6 +25,15 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
+public partial class PaymentDetailsController : PaymentDetailsControllerBase
+{
+    public PaymentDetailsController(
+            IMediator mediator,
+            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        ): base(mediator, httpLanguageProvider)
+    {}
+}
+
 public abstract partial class PaymentDetailsControllerBase : ODataController
 {
     /// <summary>
@@ -32,11 +41,15 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
 
+    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
+
     public PaymentDetailsControllerBase(
-        IMediator mediator
+        IMediator mediator,
+        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
+        _httpLanguageProvider = httpLanguageProvider;
     }
 
     [EnableQuery]
@@ -129,11 +142,4 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
 
         return NoContent();
     }
-}
-
-public partial class PaymentDetailsController : PaymentDetailsControllerBase
-{
-    public PaymentDetailsController(IMediator mediator)
-        : base(mediator)
-    {}
 }

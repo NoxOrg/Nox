@@ -20,7 +20,7 @@ public record DeleteCountryBarCodeForCountryCommand(CountryKeyDto ParentKeyDto) 
 internal partial class DeleteCountryBarCodeForCountryCommandHandler : DeleteCountryBarCodeForCountryCommandHandlerBase
 {
 	public DeleteCountryBarCodeForCountryCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(dbContext, noxSolution)
 	{
@@ -29,10 +29,10 @@ internal partial class DeleteCountryBarCodeForCountryCommandHandler : DeleteCoun
 
 internal partial class DeleteCountryBarCodeForCountryCommandHandlerBase : CommandBase<DeleteCountryBarCodeForCountryCommand, CountryBarCodeEntity>, IRequestHandler <DeleteCountryBarCodeForCountryCommand, bool>
 {
-	public ClientApiDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public DeleteCountryBarCodeForCountryCommandHandlerBase(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;

@@ -25,7 +25,7 @@ public record CreateMinimumCashStockCommand(MinimumCashStockCreateDto EntityDto)
 internal partial class CreateMinimumCashStockCommandHandler : CreateMinimumCashStockCommandHandlerBase
 {
 	public CreateMinimumCashStockCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory,
 		IEntityFactory<Cryptocash.Domain.Currency, CurrencyCreateDto, CurrencyUpdateDto> CurrencyFactory,
@@ -38,13 +38,13 @@ internal partial class CreateMinimumCashStockCommandHandler : CreateMinimumCashS
 
 internal abstract class CreateMinimumCashStockCommandHandlerBase : CommandBase<CreateMinimumCashStockCommand,MinimumCashStockEntity>, IRequestHandler <CreateMinimumCashStockCommand, MinimumCashStockKeyDto>
 {
-	protected readonly CryptocashDbContext DbContext;
+	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<MinimumCashStockEntity, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.Currency, CurrencyCreateDto, CurrencyUpdateDto> CurrencyFactory;
 
 	public CreateMinimumCashStockCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory,
 		IEntityFactory<Cryptocash.Domain.Currency, CurrencyCreateDto, CurrencyUpdateDto> CurrencyFactory,

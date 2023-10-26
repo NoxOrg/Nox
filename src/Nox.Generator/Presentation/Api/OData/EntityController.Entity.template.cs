@@ -25,6 +25,15 @@ using Nox.Types;
 
 namespace {{codeGeneratorState.ODataNameSpace}};
 
+public partial class {{entity.PluralName}}Controller : {{entity.PluralName}}ControllerBase
+{
+    public {{entity.PluralName}}Controller(
+            IMediator mediator,
+            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        ): base(mediator, httpLanguageProvider)
+    {}
+}
+
 public abstract partial class {{entity.PluralName}}ControllerBase : ODataController
 {
     /// <summary>
@@ -32,15 +41,19 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     /// </summary>
     protected readonly IMediator _mediator;
 
+    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
+
     public {{entity.PluralName}}ControllerBase(
-        IMediator mediator
+        IMediator mediator,
+        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
         {{- for query in entity.Queries }},
         {{ query.Name }}QueryBase {{ ToLowerFirstChar query.Name }}
         {{- end }}
     )
     {
         _mediator = mediator;
-    
+        _httpLanguageProvider = httpLanguageProvider;
+
         {{- for query in entity.Queries }}
         _{{ ToLowerFirstChar query.Name}} = {{ ToLowerFirstChar query.Name }};
         {{- end }}
@@ -150,11 +163,4 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
         return NoContent();
     }
     {{- end }}
-}
-
-public partial class {{entity.PluralName}}Controller : {{entity.PluralName}}ControllerBase
-{
-    public {{entity.PluralName}}Controller(IMediator mediator)
-        : base(mediator)
-    {}
 }

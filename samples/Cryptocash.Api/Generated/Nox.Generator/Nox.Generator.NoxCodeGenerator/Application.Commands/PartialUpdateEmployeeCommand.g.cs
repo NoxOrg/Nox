@@ -21,7 +21,7 @@ public record PartialUpdateEmployeeCommand(System.Int64 keyId, Dictionary<string
 internal class PartialUpdateEmployeeCommandHandler : PartialUpdateEmployeeCommandHandlerBase
 {
 	public PartialUpdateEmployeeCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
@@ -29,11 +29,11 @@ internal class PartialUpdateEmployeeCommandHandler : PartialUpdateEmployeeComman
 }
 internal class PartialUpdateEmployeeCommandHandlerBase : CommandBase<PartialUpdateEmployeeCommand, EmployeeEntity>, IRequestHandler<PartialUpdateEmployeeCommand, EmployeeKeyDto?>
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	public IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateEmployeeCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto> entityFactory) : base(noxSolution)
 	{

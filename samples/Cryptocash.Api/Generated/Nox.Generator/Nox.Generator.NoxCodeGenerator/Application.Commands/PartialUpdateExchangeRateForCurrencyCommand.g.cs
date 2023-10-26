@@ -18,7 +18,7 @@ public record PartialUpdateExchangeRateForCurrencyCommand(CurrencyKeyDto ParentK
 internal partial class PartialUpdateExchangeRateForCurrencyCommandHandler: PartialUpdateExchangeRateForCurrencyCommandHandlerBase
 {
 	public PartialUpdateExchangeRateForCurrencyCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ExchangeRateEntity, ExchangeRateCreateDto, ExchangeRateUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
@@ -26,11 +26,11 @@ internal partial class PartialUpdateExchangeRateForCurrencyCommandHandler: Parti
 }
 internal abstract class PartialUpdateExchangeRateForCurrencyCommandHandlerBase: CommandBase<PartialUpdateExchangeRateForCurrencyCommand, ExchangeRateEntity>, IRequestHandler <PartialUpdateExchangeRateForCurrencyCommand, ExchangeRateKeyDto?>
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	public IEntityFactory<ExchangeRateEntity, ExchangeRateCreateDto, ExchangeRateUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateExchangeRateForCurrencyCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ExchangeRateEntity, ExchangeRateCreateDto, ExchangeRateUpdateDto> entityFactory) : base(noxSolution)
 	{

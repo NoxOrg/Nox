@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using Cryptocash.Domain;
-using PaymentDetailEntity = Cryptocash.Domain.PaymentDetail;
+
+
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class PaymentDetailDto : PaymentDetailDtoBase
 /// <summary>
 /// Customer payment account related data.
 /// </summary>
-public abstract class PaymentDetailDtoBase : EntityDtoBase, IEntityDto<PaymentDetailEntity>
+public abstract class PaymentDetailDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.PaymentDetail>
 {
 
     #region Validation
@@ -37,17 +38,17 @@ public abstract class PaymentDetailDtoBase : EntityDtoBase, IEntityDto<PaymentDe
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.PaymentAccountName is not null)
-            ExecuteActionAndCollectValidationExceptions("PaymentAccountName", () => Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountName(this.PaymentAccountName.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("PaymentAccountName", () => DomainNamespace.PaymentDetailMetadata.CreatePaymentAccountName(this.PaymentAccountName.NonNullValue<System.String>()), result);
         else
             result.Add("PaymentAccountName", new [] { "PaymentAccountName is Required." });
     
         if (this.PaymentAccountNumber is not null)
-            ExecuteActionAndCollectValidationExceptions("PaymentAccountNumber", () => Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountNumber(this.PaymentAccountNumber.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("PaymentAccountNumber", () => DomainNamespace.PaymentDetailMetadata.CreatePaymentAccountNumber(this.PaymentAccountNumber.NonNullValue<System.String>()), result);
         else
             result.Add("PaymentAccountNumber", new [] { "PaymentAccountNumber is Required." });
     
         if (this.PaymentAccountSortCode is not null)
-            ExecuteActionAndCollectValidationExceptions("PaymentAccountSortCode", () => Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountSortCode(this.PaymentAccountSortCode.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("PaymentAccountSortCode", () => DomainNamespace.PaymentDetailMetadata.CreatePaymentAccountSortCode(this.PaymentAccountSortCode.NonNullValue<System.String>()), result);
 
         return result;
     }

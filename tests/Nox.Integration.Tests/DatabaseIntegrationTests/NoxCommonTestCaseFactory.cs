@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Nox.Integration.Tests.Fixtures;
 using Nox.Types;
+using System;
 using System.Text.Json;
 using TestWebApp.Domain;
 using TestWebApp.Infrastructure.Persistence;
@@ -20,7 +21,7 @@ public class NoxCommonTestCaseFactory
         _dbContextFixture = dbContextFixture;
     }
 
-    private TestWebAppDbContext DataContext => (TestWebAppDbContext)_dbContextFixture.DataContext;
+    private AppDbContext DataContext => (AppDbContext)_dbContextFixture.DataContext;
 
     public void GenerateEntityCanSaveAndReadFieldsAllTypes(bool supportDateTimeOffset = true)
     {
@@ -991,5 +992,31 @@ public class NoxCommonTestCaseFactory
         Assert.NotNull(testEntity3.TestRelationshipTwoOnOtherSide);
         Assert.Equal(testEntity.TestRelationshipOne[0].Id.Value, textId2);
         Assert.Equal(testEntity.TestRelationshipTwo[0].Id.Value, textId3);
+    }
+
+    public void LocalizedEntitiesBeingGenerated()
+    {
+        var text = "TX";
+        var textId1 = "T1";
+        var culture = "en-US";
+
+        var newItem = new TestEntityLocalizationLocalized()
+        {
+            Id = Text.From(textId1),
+            TextFieldToLocalize = Text.From(text),
+            CultureCode = CultureCode.From(culture)
+        };
+
+        DataContext.TestEntityLocalizationsLocalized.Add(newItem);
+        DataContext.SaveChanges();
+
+        // Force the recreation of DataContext and ensure we have fresh data from database
+        _dbContextFixture.RefreshDbContext();
+
+        var testEntity = DataContext.TestEntityLocalizationsLocalized.First();
+
+        Assert.Equal(testEntity.Id.Value, textId1);
+        Assert.Equal(testEntity.TextFieldToLocalize.Value, text);
+        Assert.Equal(testEntity.CultureCode.Value, culture);
     }
 }

@@ -21,7 +21,7 @@ public record PartialUpdateSecondTestEntityOneOrManyCommand(System.String keyId,
 internal class PartialUpdateSecondTestEntityOneOrManyCommandHandler : PartialUpdateSecondTestEntityOneOrManyCommandHandlerBase
 {
 	public PartialUpdateSecondTestEntityOneOrManyCommandHandler(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<SecondTestEntityOneOrManyEntity, SecondTestEntityOneOrManyCreateDto, SecondTestEntityOneOrManyUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
 	{
@@ -29,11 +29,11 @@ internal class PartialUpdateSecondTestEntityOneOrManyCommandHandler : PartialUpd
 }
 internal class PartialUpdateSecondTestEntityOneOrManyCommandHandlerBase : CommandBase<PartialUpdateSecondTestEntityOneOrManyCommand, SecondTestEntityOneOrManyEntity>, IRequestHandler<PartialUpdateSecondTestEntityOneOrManyCommand, SecondTestEntityOneOrManyKeyDto?>
 {
-	public TestWebAppDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	public IEntityFactory<SecondTestEntityOneOrManyEntity, SecondTestEntityOneOrManyCreateDto, SecondTestEntityOneOrManyUpdateDto> EntityFactory { get; }
 
 	public PartialUpdateSecondTestEntityOneOrManyCommandHandlerBase(
-		TestWebAppDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<SecondTestEntityOneOrManyEntity, SecondTestEntityOneOrManyCreateDto, SecondTestEntityOneOrManyUpdateDto> entityFactory) : base(noxSolution)
 	{

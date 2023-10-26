@@ -22,7 +22,7 @@ public record CreateCountryTimeZoneForCountryCommand(CountryKeyDto ParentKeyDto,
 internal partial class CreateCountryTimeZoneForCountryCommandHandler : CreateCountryTimeZoneForCountryCommandHandlerBase
 {
 	public CreateCountryTimeZoneForCountryCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneCreateDto, CountryTimeZoneUpdateDto> entityFactory)
 		: base(dbContext, noxSolution, entityFactory)
@@ -31,11 +31,11 @@ internal partial class CreateCountryTimeZoneForCountryCommandHandler : CreateCou
 }
 internal abstract class CreateCountryTimeZoneForCountryCommandHandlerBase : CommandBase<CreateCountryTimeZoneForCountryCommand, CountryTimeZoneEntity>, IRequestHandler<CreateCountryTimeZoneForCountryCommand, CountryTimeZoneKeyDto?>
 {
-	private readonly CryptocashDbContext _dbContext;
+	private readonly AppDbContext _dbContext;
 	private readonly IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneCreateDto, CountryTimeZoneUpdateDto> _entityFactory;
 
 	public CreateCountryTimeZoneForCountryCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneCreateDto, CountryTimeZoneUpdateDto> entityFactory) : base(noxSolution)
 	{

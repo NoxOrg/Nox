@@ -22,7 +22,7 @@ public record PartialUpdate{{entity.Name}}For{{parent.Name}}Command({{parent.Nam
 internal partial class PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHandler: PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHandlerBase
 {
 	public PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHandler(
-		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
 	{
@@ -30,11 +30,11 @@ internal partial class PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHand
 }
 internal abstract class PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHandlerBase: CommandBase<PartialUpdate{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}Entity>, IRequestHandler <PartialUpdate{{entity.Name}}For{{parent.Name}}Command, {{entity.Name}}KeyDto?>
 {
-	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 	public IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> EntityFactory { get; }
 
 	public PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHandlerBase(
-		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(noxSolution)
 	{

@@ -6,13 +6,11 @@ using System.Linq;
 
 using Nox.Extensions;
 
-using Cryptocash.Domain;
-
 namespace Cryptocash.Application.Dto;
 
 internal static class VendingMachineExtensions
 {
-    public static VendingMachineDto ToDto(this VendingMachine entity)
+    public static VendingMachineDto ToDto(this Cryptocash.Domain.VendingMachine entity)
     {
         var dto = new VendingMachineDto();
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);

@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Cryptocash.Domain;
 
-using HolidayEntity = Cryptocash.Domain.Holiday;
+using DomainNamespace = Cryptocash.Domain;
+
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Holiday related to country.
 /// </summary>
-public partial class HolidayUpdateDto : IEntityDto<HolidayEntity>
+public partial class HolidayUpdateDto : IEntityDto<DomainNamespace.Holiday>
 {
     /// <summary>
     /// Country holiday name (Required).

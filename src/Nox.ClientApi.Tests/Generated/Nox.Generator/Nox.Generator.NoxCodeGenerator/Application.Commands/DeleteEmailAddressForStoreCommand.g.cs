@@ -20,7 +20,7 @@ public record DeleteEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto) : IReq
 internal partial class DeleteEmailAddressForStoreCommandHandler : DeleteEmailAddressForStoreCommandHandlerBase
 {
 	public DeleteEmailAddressForStoreCommandHandler(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution)
 		: base(dbContext, noxSolution)
 	{
@@ -29,10 +29,10 @@ internal partial class DeleteEmailAddressForStoreCommandHandler : DeleteEmailAdd
 
 internal partial class DeleteEmailAddressForStoreCommandHandlerBase : CommandBase<DeleteEmailAddressForStoreCommand, EmailAddressEntity>, IRequestHandler <DeleteEmailAddressForStoreCommand, bool>
 {
-	public ClientApiDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public DeleteEmailAddressForStoreCommandHandlerBase(
-		ClientApiDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution) : base(noxSolution)
 	{
 		DbContext = dbContext;

@@ -28,7 +28,7 @@ internal partial class CreateRefTransactionToTransactionForCustomerCommandHandle
 	: RefTransactionToTransactionForCustomerCommandHandlerBase<CreateRefTransactionToTransactionForCustomerCommand>
 {
 	public CreateRefTransactionToTransactionForCustomerCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Create)
@@ -42,7 +42,7 @@ internal partial class DeleteRefTransactionToTransactionForCustomerCommandHandle
 	: RefTransactionToTransactionForCustomerCommandHandlerBase<DeleteRefTransactionToTransactionForCustomerCommand>
 {
 	public DeleteRefTransactionToTransactionForCustomerCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.Delete)
@@ -56,7 +56,7 @@ internal partial class DeleteAllRefTransactionToTransactionForCustomerCommandHan
 	: RefTransactionToTransactionForCustomerCommandHandlerBase<DeleteAllRefTransactionToTransactionForCustomerCommand>
 {
 	public DeleteAllRefTransactionToTransactionForCustomerCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution
 		)
 		: base(dbContext, noxSolution, RelationshipAction.DeleteAll)
@@ -66,14 +66,14 @@ internal partial class DeleteAllRefTransactionToTransactionForCustomerCommandHan
 internal abstract class RefTransactionToTransactionForCustomerCommandHandlerBase<TRequest> : CommandBase<TRequest, TransactionEntity>,
 	IRequestHandler <TRequest, bool> where TRequest : RefTransactionToTransactionForCustomerCommand
 {
-	public CryptocashDbContext DbContext { get; }
+	public AppDbContext DbContext { get; }
 
 	public RelationshipAction Action { get; }
 
 	public enum RelationshipAction { Create, Delete, DeleteAll };
 
 	public RefTransactionToTransactionForCustomerCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		RelationshipAction action)
 		: base(noxSolution)

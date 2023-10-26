@@ -25,6 +25,15 @@ using Nox.Types;
 
 namespace ClientApi.Presentation.Api.OData;
 
+public partial class WorkplacesController : WorkplacesControllerBase
+{
+    public WorkplacesController(
+            IMediator mediator,
+            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        ): base(mediator, httpLanguageProvider)
+    {}
+}
+
 public abstract partial class WorkplacesControllerBase : ODataController
 {
     /// <summary>
@@ -32,11 +41,15 @@ public abstract partial class WorkplacesControllerBase : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
 
+    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
+
     public WorkplacesControllerBase(
-        IMediator mediator
+        IMediator mediator,
+        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
+        _httpLanguageProvider = httpLanguageProvider;
     }
 
     [EnableQuery]
@@ -129,11 +142,4 @@ public abstract partial class WorkplacesControllerBase : ODataController
 
         return NoContent();
     }
-}
-
-public partial class WorkplacesController : WorkplacesControllerBase
-{
-    public WorkplacesController(IMediator mediator)
-        : base(mediator)
-    {}
 }

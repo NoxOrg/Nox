@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using ClientApi.Domain;
 
-using StoreLicenseEntity = ClientApi.Domain.StoreLicense;
+using DomainNamespace = ClientApi.Domain;
+
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Store license info.
 /// </summary>
-public partial class StoreLicenseUpdateDto : IEntityDto<StoreLicenseEntity>
+public partial class StoreLicenseUpdateDto : IEntityDto<DomainNamespace.StoreLicense>
 {
     /// <summary>
     /// License issuer (Required).

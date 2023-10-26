@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Cryptocash.Api.Migrations
 {
-    [DbContext(typeof(CryptocashDbContext))]
+    [DbContext(typeof(AppDbContext))]
     [Migration("20231002213437_InitialCreate")]
     partial class InitialCreate
     {

@@ -25,7 +25,7 @@ public record CreateBookingCommand(BookingCreateDto EntityDto) : IRequest<Bookin
 internal partial class CreateBookingCommandHandler : CreateBookingCommandHandlerBase
 {
 	public CreateBookingCommandHandler(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Customer, CustomerCreateDto, CustomerUpdateDto> CustomerFactory,
 		IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory,
@@ -40,7 +40,7 @@ internal partial class CreateBookingCommandHandler : CreateBookingCommandHandler
 
 internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBookingCommand,BookingEntity>, IRequestHandler <CreateBookingCommand, BookingKeyDto>
 {
-	protected readonly CryptocashDbContext DbContext;
+	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.Customer, CustomerCreateDto, CustomerUpdateDto> CustomerFactory;
 	protected readonly IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory;
@@ -48,7 +48,7 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 	protected readonly IEntityFactory<Cryptocash.Domain.Transaction, TransactionCreateDto, TransactionUpdateDto> TransactionFactory;
 
 	public CreateBookingCommandHandlerBase(
-		CryptocashDbContext dbContext,
+        AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Customer, CustomerCreateDto, CustomerUpdateDto> CustomerFactory,
 		IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory,

@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using Cryptocash.Domain;
-using CountryTimeZoneEntity = Cryptocash.Domain.CountryTimeZone;
+
+
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class CountryTimeZoneDto : CountryTimeZoneDtoBase
 /// <summary>
 /// Time zone related to country.
 /// </summary>
-public abstract class CountryTimeZoneDtoBase : EntityDtoBase, IEntityDto<CountryTimeZoneEntity>
+public abstract class CountryTimeZoneDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.CountryTimeZone>
 {
 
     #region Validation
@@ -37,7 +38,7 @@ public abstract class CountryTimeZoneDtoBase : EntityDtoBase, IEntityDto<Country
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.TimeZoneCode is not null)
-            ExecuteActionAndCollectValidationExceptions("TimeZoneCode", () => Cryptocash.Domain.CountryTimeZoneMetadata.CreateTimeZoneCode(this.TimeZoneCode.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("TimeZoneCode", () => DomainNamespace.CountryTimeZoneMetadata.CreateTimeZoneCode(this.TimeZoneCode.NonNullValue<System.String>()), result);
         else
             result.Add("TimeZoneCode", new [] { "TimeZoneCode is Required." });
     
