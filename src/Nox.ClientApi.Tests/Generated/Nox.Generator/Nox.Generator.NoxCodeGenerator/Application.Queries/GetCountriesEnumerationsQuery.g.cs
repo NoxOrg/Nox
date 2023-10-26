@@ -30,8 +30,18 @@ internal abstract class GetCountriesContinentsQueryHandlerBase : QueryBase<IQuer
 
     public virtual Task<IQueryable<DtoNameSpace.CountryContinentDto>> Handle(GetCountriesContinentsQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<DtoNameSpace.CountryContinentDto>)DataDbContext.CountriesContinents
-            .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
+        {
+             //TODO Culture Code
+            IQueryable<DtoNameSpace.CountryContinentDto> queryBuilder =
+            from enumValues in DataDbContext.CountriesContinents.AsNoTracking()
+            from enumLocalized in DataDbContext.CountriesContinentsLocalized.AsNoTracking()
+                .Where(l => enumValues.Id == l.Id && l.CultureCode == "pt-PT").DefaultIfEmpty()
+            select new DtoNameSpace.CountryContinentDto()
+            {
+                Id = enumValues.Id,
+                Name = enumLocalized.Name ?? enumValues.Name,
+            };
+            return Task.FromResult(OnResponse(queryBuilder));
+        }
     }
 }

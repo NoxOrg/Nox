@@ -30,8 +30,8 @@ internal abstract class GetStoresStatusesQueryHandlerBase : QueryBase<IQueryable
 
     public virtual Task<IQueryable<DtoNameSpace.StoreStatusDto>> Handle(GetStoresStatusesQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<DtoNameSpace.StoreStatusDto>)DataDbContext.StoresStatuses
+        var queryBuilder = (IQueryable<DtoNameSpace.StoreStatusDto>)DataDbContext.StoresStatuses
             .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
+        return Task.FromResult(OnResponse(queryBuilder));
     }
 }

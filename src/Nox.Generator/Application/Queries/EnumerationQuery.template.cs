@@ -32,9 +32,25 @@ internal abstract class Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute
 
     public virtual Task<IQueryable<DtoNameSpace.{{enumAtt.EntityNameForEnumeration}}>> Handle(Get{{(entity.PluralName)}}{{Pluralize (enumAtt.Attribute.Name)}}Query request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<DtoNameSpace.{{enumAtt.EntityNameForEnumeration}}>)DataDbContext.{{entity.PluralName}}{{ Pluralize(enumAtt.Attribute.Name)}}
+        {{- if enumAtt.Attribute.EnumerationTypeOptions.IsLocalized}}
+        {
+             //TODO Culture Code
+            IQueryable<DtoNameSpace.{{enumAtt.EntityNameForEnumeration}}> queryBuilder =
+            from enumValues in DataDbContext.{{entity.PluralName}}{{ Pluralize(enumAtt.Attribute.Name)}}.AsNoTracking()
+            from enumLocalized in DataDbContext.{{entity.PluralName}}{{ Pluralize(enumAtt.Attribute.Name)}}Localized.AsNoTracking()
+                .Where(l => enumValues.Id == l.Id && l.CultureCode == "pt-PT").DefaultIfEmpty()
+            select new DtoNameSpace.{{enumAtt.EntityNameForEnumeration}}()
+            {
+                Id = enumValues.Id,
+                Name = enumLocalized.Name ?? enumValues.Name,
+            };
+            return Task.FromResult(OnResponse(queryBuilder));
+        }
+        {{- else }}
+        var queryBuilder = (IQueryable<DtoNameSpace.{{enumAtt.EntityNameForEnumeration}}>)DataDbContext.{{entity.PluralName}}{{ Pluralize(enumAtt.Attribute.Name)}}
             .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
+        return Task.FromResult(OnResponse(queryBuilder));
+        {{- end }}
     }
 }
 {{- end}}
