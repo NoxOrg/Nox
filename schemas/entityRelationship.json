@@ -44,6 +44,21 @@
       "description": "The name of the target entity that this entity relates to.",
       "type": "string"
     },
+    "userInterface": {    
+      "anyOf": [
+        { "$ref": "typeUserInterface.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    },
     "entityPlural": {    
       "oneOf": [
         {

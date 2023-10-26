@@ -25,7 +25,7 @@ using Nox.Solution;
 using Nox.Configuration;
 using Nox.Infrastructure;
 
-
+using DomainNameSpace = TestWebApp.Domain;
 using TestWebApp.Domain;
 
 namespace TestWebApp.Infrastructure.Persistence;
@@ -53,89 +53,46 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
             _clientAssemblyProvider = clientAssemblyProvider;
             _codeGenConventions = codeGeneratorState;
         }
-
+    
     public DbSet<TestWebApp.Domain.TestEntityZeroOrOne> TestEntityZeroOrOnes { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.SecondTestEntityZeroOrOne> SecondTestEntityZeroOrOnes { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.TestEntityWithNuid> TestEntityWithNuids { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.TestEntityOneOrMany> TestEntityOneOrManies { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.SecondTestEntityOneOrMany> SecondTestEntityOneOrManies { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.TestEntityZeroOrMany> TestEntityZeroOrManies { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.SecondTestEntityZeroOrMany> SecondTestEntityZeroOrManies { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.ThirdTestEntityOneOrMany> ThirdTestEntityOneOrManies { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.ThirdTestEntityZeroOrMany> ThirdTestEntityZeroOrManies { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.ThirdTestEntityExactlyOne> ThirdTestEntityExactlyOnes { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.ThirdTestEntityZeroOrOne> ThirdTestEntityZeroOrOnes { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.TestEntityExactlyOne> TestEntityExactlyOnes { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.SecondTestEntityExactlyOne> SecondTestEntityExactlyOnes { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.TestEntityZeroOrOneToZeroOrMany> TestEntityZeroOrOneToZeroOrManies { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.TestEntityZeroOrManyToZeroOrOne> TestEntityZeroOrManyToZeroOrOnes { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.TestEntityExactlyOneToOneOrMany> TestEntityExactlyOneToOneOrManies { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.TestEntityOneOrManyToExactlyOne> TestEntityOneOrManyToExactlyOnes { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.TestEntityExactlyOneToZeroOrMany> TestEntityExactlyOneToZeroOrManies { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.TestEntityZeroOrManyToExactlyOne> TestEntityZeroOrManyToExactlyOnes { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.TestEntityOneOrManyToZeroOrMany> TestEntityOneOrManyToZeroOrManies { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.TestEntityZeroOrManyToOneOrMany> TestEntityZeroOrManyToOneOrManies { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.TestEntityZeroOrOneToOneOrMany> TestEntityZeroOrOneToOneOrManies { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.TestEntityOneOrManyToZeroOrOne> TestEntityOneOrManyToZeroOrOnes { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.TestEntityZeroOrOneToExactlyOne> TestEntityZeroOrOneToExactlyOnes { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.TestEntityExactlyOneToZeroOrOne> TestEntityExactlyOneToZeroOrOnes { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.TestEntityOwnedRelationshipExactlyOne> TestEntityOwnedRelationshipExactlyOnes { get; set; } = null!;
-
-
     public DbSet<TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrOne> TestEntityOwnedRelationshipZeroOrOnes { get; set; } = null!;
-
-
     public DbSet<TestWebApp.Domain.TestEntityOwnedRelationshipOneOrMany> TestEntityOwnedRelationshipOneOrManies { get; set; } = null!;
-
-
     public DbSet<TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrMany> TestEntityOwnedRelationshipZeroOrManies { get; set; } = null!;
-
-
     public DbSet<TestWebApp.Domain.TestEntityTwoRelationshipsOneToOne> TestEntityTwoRelationshipsOneToOnes { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToOne> SecondTestEntityTwoRelationshipsOneToOnes { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.TestEntityTwoRelationshipsManyToMany> TestEntityTwoRelationshipsManyToManies { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.SecondTestEntityTwoRelationshipsManyToMany> SecondTestEntityTwoRelationshipsManyToManies { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.TestEntityTwoRelationshipsOneToMany> TestEntityTwoRelationshipsOneToManies { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToMany> SecondTestEntityTwoRelationshipsOneToManies { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.TestEntityForTypes> TestEntityForTypes { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.TestEntityForUniqueConstraints> TestEntityForUniqueConstraints { get; set; } = null!;
-
     public DbSet<TestWebApp.Domain.TestEntityLocalization> TestEntityLocalizations { get; set; } = null!;
-
-public DbSet<TestWebApp.Domain.TestEntityLocalizationLocalized> TestEntityLocalizationsLocalized { get; set; } = null!;
-
+    public DbSet<TestWebApp.Domain.TestEntityLocalizationLocalized> TestEntityLocalizationsLocalized { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

@@ -121,6 +121,9 @@ public class Entity : DefinitionBase
 
     internal bool ApplyDefaults()
     {
+        EnsureAttributesByName();
+        EnsureKeyByName();
+
         foreach (var attribute in Attributes)
         {
             attribute.ApplyDefaults();
@@ -139,7 +142,6 @@ public class Entity : DefinitionBase
 
     public virtual NoxSimpleTypeDefinition? GetAttributeByName(string entityName)
     {
-        EnsureAttributesByName();
         return _attributesByName![entityName];
     }
 
@@ -152,19 +154,16 @@ public class Entity : DefinitionBase
 
     public virtual bool TryGetAttributeByName(string entityName, out NoxSimpleTypeDefinition? result)
     {
-        EnsureAttributesByName();
         return _attributesByName!.TryGetValue(entityName, out result);
     }
 
     public virtual bool TryGetKeyByName(string entityName, out NoxSimpleTypeDefinition? result)
     {
-        EnsureKeyByName();
         return _keysByName!.TryGetValue(entityName, out result);
     }
 
     public virtual bool IsKey(string keyName)
     {
-        EnsureKeyByName();
         return _keysByName!.ContainsKey(keyName);
     }
 
@@ -234,39 +233,27 @@ public class Entity : DefinitionBase
         }
     }
 
-    private readonly object _lockEnsureByKeyObject = new object();
     private void EnsureKeyByName()
     {
         if (_keysByName is not null)
             return;
 
-        lock (_lockEnsureByKeyObject)
+        _keysByName = new();
+        for (int i = 0; i < Keys!.Count; i++)
         {
-            if (_keysByName is null)
-            {
-                _keysByName = new();
-                for (int i = 0; i < Keys!.Count; i++)
-                {
-                    _keysByName.TryAdd(Keys[i].Name, Keys[i]);
-                }
-            }
+            _keysByName.TryAdd(Keys[i].Name, Keys[i]);
         }
     }
+
     private void EnsureAttributesByName()
     {
         if (_attributesByName is not null)
             return;
 
-        lock (_lockEnsureByKeyObject)
+        _attributesByName = new();
+        for (int i = 0; i < Attributes!.Count; i++)
         {
-            if (_attributesByName is null)
-            {
-                _attributesByName = new();
-                for (int i = 0; i < Attributes!.Count; i++)
-                {
-                    _attributesByName.TryAdd(Attributes[i].Name, Attributes[i]);
-                }
-            }
+            _attributesByName.TryAdd(Attributes[i].Name, Attributes[i]);
         }
     }
 

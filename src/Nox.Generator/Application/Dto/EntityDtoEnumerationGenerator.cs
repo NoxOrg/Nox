@@ -2,6 +2,7 @@
 using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Types;
+using System;
 using System.Linq;
 
 namespace Nox.Generator.Application.Dto;
@@ -34,10 +35,11 @@ internal class EntityDtoEnumerationGenerator : INoxCodeGenerator
                 .Where(attribute => attribute.Type == NoxType.Enumeration)
                 .Select(attribute => new { 
                     Attribute = attribute, 
-                    EntityNameForEnumeration = noxCodeGenCodeConventions.GetEntityNameForEnumeration(entity.Name, attribute.Name) + "Dto", 
-                    EntityNameForLocalizedEnumeration = noxCodeGenCodeConventions.GetEntityNameForEnumerationLocalized(entity.Name, attribute.Name) + "Dto"
+                    EntityNameForEnumeration = noxCodeGenCodeConventions.GetEntityDtoNameForEnumeration(entity.Name, attribute.Name), 
+                    EntityNameForLocalizedEnumeration = noxCodeGenCodeConventions.GetEntityDtoNameForEnumerationLocalized(entity.Name, attribute.Name)
                 });
-            if(!enumerationAttributes.Any())
+
+            if (!enumerationAttributes.Any())
             {
                 continue;
             }

@@ -12,6 +12,7 @@ using Nox.Infrastructure;
 using Nox.Infrastructure.Persistence;
 
 using {{codeGeneratorState.RootNameSpace}}.Application.Dto;
+using DtoNameSpace = {{codeGeneratorState.DtoNameSpace}};
 
 namespace {{codeGeneratorState.RootNameSpace}}.Infrastructure.Persistence;
 
@@ -47,12 +48,21 @@ internal class DtoDbContext : DbContext
         _codeGenConventions = codeGeneratorState;
     }
 
-{{ for entity in entities }}
+    {{ for entity in entities }}
     public DbSet<{{ entity.Name }}Dto> {{ entity.PluralName }} { get; set; } = null!;
-{{ end }}
-{{- for entity in entitiesToLocalize }}
+    {{- end }}
+    {{- for entity in entitiesToLocalize }}
     public DbSet<{{GetEntityDtoNameForLocalizedType entity.Name}}> {{GetEntityDtoNameForLocalizedType entity.PluralName}} { get; set; } = null!;
-{{ end }}
+    {{- end }}
+
+    {{- for entityAtt in enumerationAttributes #Setup Entity Enumerations}}
+    {{- for enumAtt in entityAtt.Attributes}}
+    public DbSet<DtoNameSpace.{{enumAtt.EntityNameForEnumeration}}> {{enumAtt.DbSetNameForEnumeration}} { get; set; } = null!;
+    {{- if enumAtt.Attribute.EnumerationTypeOptions.IsLocalized}}
+    public DbSet<DtoNameSpace.{{ enumAtt.EntityNameForLocalizedEnumeration}}> {{enumAtt.DbSetNameForLocalizedEnumeration}} { get; set; } = null!;
+    {{- end }}
+    {{- end }}
+    {{- end }}
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
