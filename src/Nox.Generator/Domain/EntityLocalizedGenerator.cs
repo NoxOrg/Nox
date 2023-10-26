@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Nox.Generator.Domain;
 
-internal class EntitiesLocalizedGenerator : INoxCodeGenerator
+internal class EntityLocalizedGenerator : INoxCodeGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
 
