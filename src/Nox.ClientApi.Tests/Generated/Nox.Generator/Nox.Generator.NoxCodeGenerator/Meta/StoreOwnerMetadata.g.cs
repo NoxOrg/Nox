@@ -21,11 +21,11 @@ public partial class StoreOwnerMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions IdTypeOptions {get; private set;} = new ()
         {
-            MinLength = 3,
-            MaxLength = 3,
-            IsUnicode = false,
-            IsLocalized = false,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 3,
+            MaxLength = 3,
+            IsUnicode = false,
+            IsLocalized = false,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
@@ -41,11 +41,11 @@ public partial class StoreOwnerMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions NameTypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = false,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = false,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
@@ -61,11 +61,11 @@ public partial class StoreOwnerMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions TemporaryOwnerNameTypeOptions {get; private set;} = new ()
         {
-            MinLength = 0,
-            MaxLength = 255,
-            IsUnicode = true,
-            IsLocalized = false,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 0,
+            MaxLength = 255,
+            IsUnicode = true,
+            IsLocalized = false,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
@@ -95,9 +95,9 @@ public partial class StoreOwnerMetadata
         /// </summary>
         public static Nox.Types.TranslatedTextTypeOptions LocalGreetingTypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
-            CharacterCasing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 4,
+            MaxLength = 63,
+            CharacterCasing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
@@ -113,11 +113,11 @@ public partial class StoreOwnerMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions NotesTypeOptions {get; private set;} = new ()
         {
-            MinLength = 0,
-            MaxLength = 255,
-            IsUnicode = true,
-            IsLocalized = false,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 0,
+            MaxLength = 255,
+            IsUnicode = true,
+            IsLocalized = false,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
