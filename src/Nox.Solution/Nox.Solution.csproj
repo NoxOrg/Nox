@@ -59,6 +59,10 @@
 		</Compile>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Models\Domain\Entities\ApiRoute\" />
+	</ItemGroup>
+
 
 
 </Project>
