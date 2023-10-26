@@ -9,12 +9,15 @@ public class NoxIntegrationContext: INoxIntegrationContext
     
     public NoxIntegrationContext(NoxSolution solution)
     {
-        //todo this must be created and configured from solution.
         _integrations = new List<INoxIntegration>();
-         
+    }
+
+    public void Initialize()
+    {
+        //todo this must be called from service extension.
         //todo Interrogate the solution definition and build a list of integrations
-        
-        
+        //iteratate yaml and build integration instances
+        //Add instance to _integrations
     }
     
     public Task<bool> ExecuteIntegrationAsync(string name)
@@ -29,3 +32,4 @@ public class NoxIntegrationContext: INoxIntegrationContext
         return Task.FromResult(true);
     }
 }
+

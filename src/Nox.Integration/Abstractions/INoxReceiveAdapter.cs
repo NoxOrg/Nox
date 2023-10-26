@@ -6,6 +6,6 @@ public interface INoxReceiveAdapter
     
     public NoxReceiveAdapterDatabaseOptions? DatabaseOptions { get;  internal set; }
     
-    Task<bool> Execute();
+    //todo create a EtlBox source which we can use in an Etl Network
     
 }
