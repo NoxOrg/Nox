@@ -70,6 +70,49 @@ namespace Cryptocash.Ui.Generated.Data.Generic
         }
 
         /// <summary>
+        /// Service method to send Edit Entity data to Api and update Api Entity
+        /// </summary>
+        /// <param name="ApiUiService"></param>
+        /// <returns>Task</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="Exception"></exception>
+        public static async Task PutAsyncApi(ApiUiService? ApiUiService)
+        {
+            if (ApiUiService == null
+                || string.IsNullOrWhiteSpace(ApiUiService.ApiEditId)
+                || string.IsNullOrWhiteSpace(ApiUiService.ApiEditData)
+                || string.IsNullOrWhiteSpace(ApiUiService.ApiEditQuery)
+                )
+            {
+                throw new ArgumentException("ApiDataService.PutAsyncApi: Malformed Input", nameof(ApiUiService));
+            }
+
+            if (ApiUiService.ApiEditEtag == null)
+            {
+                throw new ArgumentException("ApiDataService.PutAsyncApi: Malformed Etag", nameof(ApiUiService));
+            }
+
+            var Client = new HttpClient();
+
+            var headers = CreateEtagHeader(ApiUiService.ApiEditEtag);
+
+            foreach (var header in headers)
+            {
+                Client.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
+
+            var Content = new StringContent(ApiUiService.ApiEditData.ToString(), Encoding.UTF8, "application/json");
+
+            var HttpResponseMessage = await Client.PutAsync(new Uri(ApiUiService.ApiEditQuery), Content);
+
+            if (!HttpResponseMessage.IsSuccessStatusCode)
+            {
+                var ErrorResponseContent = await HttpResponseMessage.Content.ReadAsStringAsync();
+                throw new Exception($"ApiDataService.PutAsyncApi: HttpResponseMessage Error: {HttpResponseMessage.StatusCode}: {ErrorResponseContent}");
+            }
+        }
+
+        /// <summary>
         /// Service method to delete entity in target Api
         /// </summary>
         /// <param name="ApiUiService"></param>
