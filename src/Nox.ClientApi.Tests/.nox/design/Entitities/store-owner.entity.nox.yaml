@@ -59,7 +59,7 @@ relationships:
 
     - name: Stores
       description: Set of stores that this owner owns
-      relationship: zeroOrMany
+      relationship: oneOrMany
       entity: Store
 
 persistence: 

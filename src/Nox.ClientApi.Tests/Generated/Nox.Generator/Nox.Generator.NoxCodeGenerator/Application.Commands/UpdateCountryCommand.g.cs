@@ -8,6 +8,8 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
@@ -52,6 +54,20 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 		{
 			return null;
 		}
+
+		await DbContext.Entry(entity).Collection(x => x.PhysicalWorkplaces).LoadAsync();
+		var physicalWorkplacesEntities = new List<Workplace>();
+		foreach(var relatedEntityId in request.EntityDto.PhysicalWorkplacesId)
+		{
+			var relatedKey = ClientApi.Domain.WorkplaceMetadata.CreateId(relatedEntityId);
+			var relatedEntity = await DbContext.Workplaces.FindAsync(relatedKey);
+						
+			if(relatedEntity is not null)
+				physicalWorkplacesEntities.Add(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("PhysicalWorkplaces", relatedEntityId.ToString());
+		}
+		entity.UpdateAllRefToPhysicalWorkplaces(physicalWorkplacesEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

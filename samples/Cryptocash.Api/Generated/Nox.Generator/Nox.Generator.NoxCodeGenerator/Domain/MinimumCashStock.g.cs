@@ -97,6 +97,12 @@ internal abstract partial class MinimumCashStockBase : AuditableEntityBase, IEnt
         MinimumCashStocksRequiredByVendingMachines.Add(relatedVendingMachine);
     }
 
+    public virtual void UpdateAllRefToMinimumCashStocksRequiredByVendingMachines(List<VendingMachine> relatedVendingMachine)
+    {
+        MinimumCashStocksRequiredByVendingMachines.Clear();
+        MinimumCashStocksRequiredByVendingMachines.AddRange(relatedVendingMachine);
+    }
+
     public virtual void DeleteRefToMinimumCashStocksRequiredByVendingMachines(VendingMachine relatedVendingMachine)
     {
         MinimumCashStocksRequiredByVendingMachines.Remove(relatedVendingMachine);

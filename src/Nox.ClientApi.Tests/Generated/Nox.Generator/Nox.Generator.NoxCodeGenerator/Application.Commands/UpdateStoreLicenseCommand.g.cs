@@ -8,6 +8,8 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
@@ -52,6 +54,14 @@ internal abstract class UpdateStoreLicenseCommandHandlerBase : CommandBase<Updat
 		{
 			return null;
 		}
+
+		var storeWithLicenseKey = ClientApi.Domain.StoreMetadata.CreateId(request.EntityDto.StoreWithLicenseId);
+		var storeWithLicenseEntity = await DbContext.Stores.FindAsync(storeWithLicenseKey);
+						
+		if(storeWithLicenseEntity is not null)
+			entity.CreateRefToStoreWithLicense(storeWithLicenseEntity);
+		else
+			throw new RelatedEntityNotFoundException("StoreWithLicense", request.EntityDto.StoreWithLicenseId.ToString());
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

@@ -8,6 +8,8 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
@@ -52,6 +54,20 @@ internal abstract class UpdatePaymentProviderCommandHandlerBase : CommandBase<Up
 		{
 			return null;
 		}
+
+		await DbContext.Entry(entity).Collection(x => x.PaymentProviderRelatedPaymentDetails).LoadAsync();
+		var paymentProviderRelatedPaymentDetailsEntities = new List<PaymentDetail>();
+		foreach(var relatedEntityId in request.EntityDto.PaymentProviderRelatedPaymentDetailsId)
+		{
+			var relatedKey = Cryptocash.Domain.PaymentDetailMetadata.CreateId(relatedEntityId);
+			var relatedEntity = await DbContext.PaymentDetails.FindAsync(relatedKey);
+						
+			if(relatedEntity is not null)
+				paymentProviderRelatedPaymentDetailsEntities.Add(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("PaymentProviderRelatedPaymentDetails", relatedEntityId.ToString());
+		}
+		entity.UpdateAllRefToPaymentProviderRelatedPaymentDetails(paymentProviderRelatedPaymentDetailsEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

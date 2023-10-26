@@ -8,6 +8,8 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
@@ -52,6 +54,20 @@ internal abstract class UpdateThirdTestEntityOneOrManyCommandHandlerBase : Comma
 		{
 			return null;
 		}
+
+		await DbContext.Entry(entity).Collection(x => x.ThirdTestEntityZeroOrManyRelationship).LoadAsync();
+		var thirdTestEntityZeroOrManyRelationshipEntities = new List<ThirdTestEntityZeroOrMany>();
+		foreach(var relatedEntityId in request.EntityDto.ThirdTestEntityZeroOrManyRelationshipId)
+		{
+			var relatedKey = TestWebApp.Domain.ThirdTestEntityZeroOrManyMetadata.CreateId(relatedEntityId);
+			var relatedEntity = await DbContext.ThirdTestEntityZeroOrManies.FindAsync(relatedKey);
+						
+			if(relatedEntity is not null)
+				thirdTestEntityZeroOrManyRelationshipEntities.Add(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("ThirdTestEntityZeroOrManyRelationship", relatedEntityId.ToString());
+		}
+		entity.UpdateAllRefToThirdTestEntityZeroOrManyRelationship(thirdTestEntityZeroOrManyRelationshipEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

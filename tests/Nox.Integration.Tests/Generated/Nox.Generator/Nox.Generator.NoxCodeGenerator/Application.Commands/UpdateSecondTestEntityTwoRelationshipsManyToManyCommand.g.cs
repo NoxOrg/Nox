@@ -8,6 +8,8 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
@@ -52,6 +54,34 @@ internal abstract class UpdateSecondTestEntityTwoRelationshipsManyToManyCommandH
 		{
 			return null;
 		}
+
+		await DbContext.Entry(entity).Collection(x => x.TestRelationshipOneOnOtherSide).LoadAsync();
+		var testRelationshipOneOnOtherSideEntities = new List<TestEntityTwoRelationshipsManyToMany>();
+		foreach(var relatedEntityId in request.EntityDto.TestRelationshipOneOnOtherSideId)
+		{
+			var relatedKey = TestWebApp.Domain.TestEntityTwoRelationshipsManyToManyMetadata.CreateId(relatedEntityId);
+			var relatedEntity = await DbContext.TestEntityTwoRelationshipsManyToManies.FindAsync(relatedKey);
+						
+			if(relatedEntity is not null)
+				testRelationshipOneOnOtherSideEntities.Add(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("TestRelationshipOneOnOtherSide", relatedEntityId.ToString());
+		}
+		entity.UpdateAllRefToTestRelationshipOneOnOtherSide(testRelationshipOneOnOtherSideEntities);
+
+		await DbContext.Entry(entity).Collection(x => x.TestRelationshipTwoOnOtherSide).LoadAsync();
+		var testRelationshipTwoOnOtherSideEntities = new List<TestEntityTwoRelationshipsManyToMany>();
+		foreach(var relatedEntityId in request.EntityDto.TestRelationshipTwoOnOtherSideId)
+		{
+			var relatedKey = TestWebApp.Domain.TestEntityTwoRelationshipsManyToManyMetadata.CreateId(relatedEntityId);
+			var relatedEntity = await DbContext.TestEntityTwoRelationshipsManyToManies.FindAsync(relatedKey);
+						
+			if(relatedEntity is not null)
+				testRelationshipTwoOnOtherSideEntities.Add(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("TestRelationshipTwoOnOtherSide", relatedEntityId.ToString());
+		}
+		entity.UpdateAllRefToTestRelationshipTwoOnOtherSide(testRelationshipTwoOnOtherSideEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

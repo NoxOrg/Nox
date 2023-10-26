@@ -132,7 +132,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 //Ownership = createOwner
             };
             var store = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, createStore);
-            var owner = await PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(StoreOwnersControllerTests.StoreOwnersUrl, createOwner);
+            var owner = await PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(Endpoints.StoreOwnersUrl, createOwner);
             await PostAsync($"{Endpoints.StoresUrl}/{store!.Id}/Ownership/{owner!.Id}/$ref");
 
             // Act

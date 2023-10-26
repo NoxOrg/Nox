@@ -102,6 +102,12 @@ internal abstract partial class LandLordBase : AuditableEntityBase, IEntityConcu
         ContractedAreasForVendingMachines.Add(relatedVendingMachine);
     }
 
+    public virtual void UpdateAllRefToContractedAreasForVendingMachines(List<VendingMachine> relatedVendingMachine)
+    {
+        ContractedAreasForVendingMachines.Clear();
+        ContractedAreasForVendingMachines.AddRange(relatedVendingMachine);
+    }
+
     public virtual void DeleteRefToContractedAreasForVendingMachines(VendingMachine relatedVendingMachine)
     {
         ContractedAreasForVendingMachines.Remove(relatedVendingMachine);

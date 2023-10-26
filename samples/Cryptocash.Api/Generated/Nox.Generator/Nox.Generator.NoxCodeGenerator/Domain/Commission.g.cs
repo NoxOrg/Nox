@@ -127,6 +127,12 @@ internal abstract partial class CommissionBase : AuditableEntityBase, IEntityCon
         CommissionFeesForBooking.Add(relatedBooking);
     }
 
+    public virtual void UpdateAllRefToCommissionFeesForBooking(List<Booking> relatedBooking)
+    {
+        CommissionFeesForBooking.Clear();
+        CommissionFeesForBooking.AddRange(relatedBooking);
+    }
+
     public virtual void DeleteRefToCommissionFeesForBooking(Booking relatedBooking)
     {
         CommissionFeesForBooking.Remove(relatedBooking);

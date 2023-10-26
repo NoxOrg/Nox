@@ -55,6 +55,11 @@ public partial class CountryUpdateDto : IEntityDto<DomainNamespace.Country>
     /// Country Continent (Optional).
     /// </summary>
     public System.Int32? Continent { get; set; }
+
+    /// <summary>
+    /// Country Country workplaces ZeroOrMany Workplaces
+    /// </summary>
+    public List<System.UInt32> PhysicalWorkplacesId { get; set; } = new();
     /// <summary>
     /// Country is also coded as ZeroOrOne CountryBarCodes
     /// </summary>

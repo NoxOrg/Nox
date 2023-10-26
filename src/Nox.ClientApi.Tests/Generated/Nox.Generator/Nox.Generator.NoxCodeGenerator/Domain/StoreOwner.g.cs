@@ -113,7 +113,7 @@ internal abstract partial class StoreOwnerBase : AuditableEntityBase, IEntityCon
     }
 
     /// <summary>
-    /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores
+    /// StoreOwner Set of stores that this owner owns OneOrMany Stores
     /// </summary>
     public virtual List<Store> Stores { get; private set; } = new();
 
@@ -122,13 +122,25 @@ internal abstract partial class StoreOwnerBase : AuditableEntityBase, IEntityCon
         Stores.Add(relatedStore);
     }
 
+    public virtual void UpdateAllRefToStores(List<Store> relatedStore)
+    {
+        if(relatedStore is null || relatedStore.Count < 2)
+            throw new RelationshipDeletionException($"The relationship cannot be updated.");
+        Stores.Clear();
+        Stores.AddRange(relatedStore);
+    }
+
     public virtual void DeleteRefToStores(Store relatedStore)
     {
+        if(Stores.Count() < 2)
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         Stores.Remove(relatedStore);
     }
 
     public virtual void DeleteAllRefToStores()
     {
+        if(Stores.Count() < 2)
+            throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         Stores.Clear();
     }
 

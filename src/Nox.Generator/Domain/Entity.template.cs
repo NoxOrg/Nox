@@ -205,6 +205,19 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
         {{- end }}
     }
 
+    {{- if relationship.WithMultiEntity }}
+
+    public virtual void UpdateAllRefTo{{relationship.Name}}(List<{{relationship.Entity}}> related{{relationship.Entity}})
+    {
+        {{- if relationship.Relationship == "OneOrMany" }}
+        if(related{{relationship.Entity}} is null || related{{relationship.Entity}}.Count < 2)
+            throw new RelationshipDeletionException($"The relationship cannot be updated.");
+        {{- end }}
+        {{relationship.Name}}.Clear();
+        {{relationship.Name}}.AddRange(related{{relationship.Entity}});
+    }
+    {{- end }}
+
     public virtual void DeleteRefTo{{relationship.Name}}({{relationship.Entity}} related{{relationship.Entity}})
     {
         {{- if relationship.WithSingleEntity }}
