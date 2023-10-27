@@ -38,20 +38,37 @@ public class AreaTests
     [Fact]
     public void Area_Constructor_SpecifyingMaxValue_WithGreaterValueInput_ThrowsException()
     {
-        var action = () => Area.From(12.5, new AreaTypeOptions { MaxValue = 10, Units = AreaTypeUnit.SquareMeter });
+        void Test()
+        {
+            var action = () => Area.From(12.5, new AreaTypeOptions { MaxValue = 10, Units = AreaTypeUnit.SquareMeter });
 
-        action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
-                "Could not create a Nox Area type as value 12.5 m² is greater than the specified maximum of 10 m².") });
+            action.Should().Throw<TypeValidationException>()
+                .And.Errors.Should().BeEquivalentTo(new[]
+                {
+                    new ValidationFailure("Value",
+                        "Could not create a Nox Area type as value 12.5 m² is greater than the specified maximum of 10 m².")
+                });
+        }
+
+        TestUtility.RunInInvariantCulture(Test);
     }
 
     [Fact]
     public void Area_Constructor_SpecifyingMinValue_WithLesserValueInput_ThrowsException()
     {
-        var action = () => Area.From(12.5, new AreaTypeOptions { MinValue = 15, Units = AreaTypeUnit.SquareMeter });
+        void Test()
+        {
+            var action = () => Area.From(12.5, new AreaTypeOptions { MinValue = 15, Units = AreaTypeUnit.SquareMeter });
 
-        action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Area type as value 12.5 m² is lesser than the specified minimum of 15 m².") });
+            action.Should().Throw<TypeValidationException>()
+                .And.Errors.Should().BeEquivalentTo(new[]
+                {
+                    new ValidationFailure("Value",
+                        "Could not create a Nox Area type as value 12.5 m² is lesser than the specified minimum of 15 m².")
+                });
+        }
+
+        TestUtility.RunInInvariantCulture(Test);
     }
 
     [Fact]
@@ -62,7 +79,11 @@ public class AreaTests
             var action = () => Area.From(-12.5);
 
             action.Should().Throw<TypeValidationException>()
-                .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Area type as negative area value -12.5 is not allowed.") });
+                .And.Errors.Should().BeEquivalentTo(new[]
+                {
+                    new ValidationFailure("Value",
+                        "Could not create a Nox Area type as negative area value -12.5 is not allowed.")
+                });
         }
 
         TestUtility.RunInInvariantCulture(Test);
@@ -74,7 +95,8 @@ public class AreaTests
         var action = () => Area.From(double.NaN);
 
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox type as value NaN is not allowed.") });
+            .And.Errors.Should().BeEquivalentTo(new[]
+                { new ValidationFailure("Value", "Could not create a Nox type as value NaN is not allowed.") });
     }
 
     [Fact]
@@ -83,7 +105,8 @@ public class AreaTests
         var action = () => Area.From(double.PositiveInfinity);
 
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
+            .And.Errors.Should().BeEquivalentTo(new[]
+                { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
     }
 
     [Fact]
@@ -92,7 +115,8 @@ public class AreaTests
         var action = () => Area.From(double.NegativeInfinity);
 
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
+            .And.Errors.Should().BeEquivalentTo(new[]
+                { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
     }
 
     [Fact]
