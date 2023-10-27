@@ -8,7 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 
 using TestWebApp.Application.Dto;
-using TestWebApp.Infrastructure.Persistence;
+using TestWebApp.Infrastructure.Persistence;using Nox.Presentation.Api;
+using Nox.Solution;
 
 namespace TestWebApp.Application.Queries;
 
@@ -16,25 +17,59 @@ public record GetTestEntityLocalizationsQuery() : IRequest<IQueryable<TestEntity
 
 internal partial class GetTestEntityLocalizationsQueryHandler: GetTestEntityLocalizationsQueryHandlerBase
 {
-    public GetTestEntityLocalizationsQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    public GetTestEntityLocalizationsQueryHandler(DtoDbContext dataDbContext,
+        NoxSolution solution,
+        IHttpLanguageProvider languageProvider): base(dataDbContext,
+            solution,
+            languageProvider)
     {
     
     }
 }
 
 internal abstract class GetTestEntityLocalizationsQueryHandlerBase : QueryBase<IQueryable<TestEntityLocalizationDto>>, IRequestHandler<GetTestEntityLocalizationsQuery, IQueryable<TestEntityLocalizationDto>>
-{
-    public  GetTestEntityLocalizationsQueryHandlerBase(DtoDbContext dataDbContext)
+{private readonly NoxSolution _solution;
+        private readonly IHttpLanguageProvider _languageProvider;
+
+    public  GetTestEntityLocalizationsQueryHandlerBase(DtoDbContext dataDbContext,
+        NoxSolution solution,
+        IHttpLanguageProvider languageProvider)
     {
-        DataDbContext = dataDbContext;
+        DataDbContext = dataDbContext;_solution = solution;
+        _languageProvider = languageProvider;
     }
 
     public DtoDbContext DataDbContext { get; }
 
     public virtual Task<IQueryable<TestEntityLocalizationDto>> Handle(GetTestEntityLocalizationsQuery request, CancellationToken cancellationToken)
     {
+        var cultureCode = _languageProvider.GetLanguage();
+
+        if (cultureCode == _solution.Application?.Localization?.DefaultCulture)
+        {
         var item = (IQueryable<TestEntityLocalizationDto>)DataDbContext.TestEntityLocalizations
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));
+        }
+
+        IQueryable<TestEntityLocalizationDto> linqQueryBuilder =
+            from item in DataDbContext.TestEntityLocalizations.AsNoTracking()
+            join itemLocalizedFromJoin in DataDbContext.TestEntityLocalizationsLocalized on cultureCode equals itemLocalizedFromJoin.CultureCode into joinedData
+            from itemLocalized in joinedData.Where(l => item.Id == l.Id).DefaultIfEmpty()
+            select new TestEntityLocalizationDto()
+            {
+        Id = item.Id,
+        TextFieldToLocalize = itemLocalized.TextFieldToLocalize ?? "[" + item.TextFieldToLocalize + "]",
+        NumberField = item.NumberField,
+        Etag = item.Etag
+            };
+
+        var sqlStatement = linqQueryBuilder.ToQueryString().Replace($"@__{nameof(cultureCode)}_0", $"'{cultureCode}'");
+
+        IQueryable<TestEntityLocalizationDto> getItemsQuery =
+            from item in DataDbContext.TestEntityLocalizations.FromSqlRaw(sqlStatement)
+            select item;
+
+        return Task.FromResult(OnResponse(getItemsQuery));
     }
 }

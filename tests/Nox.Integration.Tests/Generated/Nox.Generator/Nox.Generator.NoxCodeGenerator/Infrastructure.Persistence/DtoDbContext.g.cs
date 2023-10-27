@@ -87,7 +87,7 @@ internal class DtoDbContext : DbContext
         public DbSet<TestEntityForTypesDto> TestEntityForTypes { get; set; } = null!;
         public DbSet<TestEntityForUniqueConstraintsDto> TestEntityForUniqueConstraints { get; set; } = null!;
         public DbSet<TestEntityLocalizationDto> TestEntityLocalizations { get; set; } = null!;
-    public DbSet<TestEntityLocalizationLocalizedDto> TestEntityLocalizationsLocalizedDto { get; set; } = null!;
+    public DbSet<TestEntityLocalizationLocalizedDto> TestEntityLocalizationsLocalized { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

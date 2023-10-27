@@ -1,8 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
-using Nox.Types;
-using System.Linq;
+using Nox.Solution.Extensions;
 
 namespace Nox.Generator.Domain;
 
