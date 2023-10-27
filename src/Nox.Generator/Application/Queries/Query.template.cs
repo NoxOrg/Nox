@@ -49,15 +49,6 @@ internal abstract class Get{{entity.PluralName}}QueryHandlerBase : QueryBase<IQu
 {{- if entity.ShouldBeLocalized }}
         var cultureCode = _languageProvider.GetLanguage();
 
-        if (cultureCode == _solution.Application?.Localization?.DefaultCulture)
-        {
-{{- end }}
-        var item = (IQueryable<{{entity.Name}}Dto>)DataDbContext.{{entity.PluralName}}
-            .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
-{{- if entity.ShouldBeLocalized }}
-        }
-
         IQueryable<{{entity.Name}}Dto> linqQueryBuilder =
             from item in DataDbContext.{{entity.PluralName}}.AsNoTracking()
             join itemLocalizedFromJoin in DataDbContext.{{GetEntityNameForLocalizedType entity.PluralName}} on cultureCode equals itemLocalizedFromJoin.{{codeGeneratorState.LocalizationCultureField}} into joinedData
