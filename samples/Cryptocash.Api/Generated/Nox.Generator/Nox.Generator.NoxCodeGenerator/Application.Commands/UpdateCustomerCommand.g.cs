@@ -8,6 +8,8 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
@@ -52,6 +54,56 @@ internal abstract class UpdateCustomerCommandHandlerBase : CommandBase<UpdateCus
 		{
 			return null;
 		}
+
+		await DbContext.Entry(entity).Collection(x => x.CustomerRelatedPaymentDetails).LoadAsync();
+		var customerRelatedPaymentDetailsEntities = new List<PaymentDetail>();
+		foreach(var relatedEntityId in request.EntityDto.CustomerRelatedPaymentDetailsId)
+		{
+			var relatedKey = Cryptocash.Domain.PaymentDetailMetadata.CreateId(relatedEntityId);
+			var relatedEntity = await DbContext.PaymentDetails.FindAsync(relatedKey);
+						
+			if(relatedEntity is not null)
+				customerRelatedPaymentDetailsEntities.Add(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("CustomerRelatedPaymentDetails", relatedEntityId.ToString());
+		}
+		entity.UpdateRefToCustomerRelatedPaymentDetails(customerRelatedPaymentDetailsEntities);
+
+		await DbContext.Entry(entity).Collection(x => x.CustomerRelatedBookings).LoadAsync();
+		var customerRelatedBookingsEntities = new List<Booking>();
+		foreach(var relatedEntityId in request.EntityDto.CustomerRelatedBookingsId)
+		{
+			var relatedKey = Cryptocash.Domain.BookingMetadata.CreateId(relatedEntityId);
+			var relatedEntity = await DbContext.Bookings.FindAsync(relatedKey);
+						
+			if(relatedEntity is not null)
+				customerRelatedBookingsEntities.Add(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("CustomerRelatedBookings", relatedEntityId.ToString());
+		}
+		entity.UpdateRefToCustomerRelatedBookings(customerRelatedBookingsEntities);
+
+		await DbContext.Entry(entity).Collection(x => x.CustomerRelatedTransactions).LoadAsync();
+		var customerRelatedTransactionsEntities = new List<Transaction>();
+		foreach(var relatedEntityId in request.EntityDto.CustomerRelatedTransactionsId)
+		{
+			var relatedKey = Cryptocash.Domain.TransactionMetadata.CreateId(relatedEntityId);
+			var relatedEntity = await DbContext.Transactions.FindAsync(relatedKey);
+						
+			if(relatedEntity is not null)
+				customerRelatedTransactionsEntities.Add(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("CustomerRelatedTransactions", relatedEntityId.ToString());
+		}
+		entity.UpdateRefToCustomerRelatedTransactions(customerRelatedTransactionsEntities);
+
+		var customerBaseCountryKey = Cryptocash.Domain.CountryMetadata.CreateId(request.EntityDto.CustomerBaseCountryId);
+		var customerBaseCountryEntity = await DbContext.Countries.FindAsync(customerBaseCountryKey);
+						
+		if(customerBaseCountryEntity is not null)
+			entity.CreateRefToCustomerBaseCountry(customerBaseCountryEntity);
+		else
+			throw new RelatedEntityNotFoundException("CustomerBaseCountry", request.EntityDto.CustomerBaseCountryId.ToString());
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

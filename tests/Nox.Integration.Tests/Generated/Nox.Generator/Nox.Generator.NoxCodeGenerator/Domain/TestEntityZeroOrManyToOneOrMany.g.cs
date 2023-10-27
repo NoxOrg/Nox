@@ -97,6 +97,12 @@ internal abstract partial class TestEntityZeroOrManyToOneOrManyBase : AuditableE
         TestEntityOneOrManyToZeroOrMany.Add(relatedTestEntityOneOrManyToZeroOrMany);
     }
 
+    public virtual void UpdateRefToTestEntityOneOrManyToZeroOrMany(List<TestEntityOneOrManyToZeroOrMany> relatedTestEntityOneOrManyToZeroOrMany)
+    {
+        TestEntityOneOrManyToZeroOrMany.Clear();
+        TestEntityOneOrManyToZeroOrMany.AddRange(relatedTestEntityOneOrManyToZeroOrMany);
+    }
+
     public virtual void DeleteRefToTestEntityOneOrManyToZeroOrMany(TestEntityOneOrManyToZeroOrMany relatedTestEntityOneOrManyToZeroOrMany)
     {
         TestEntityOneOrManyToZeroOrMany.Remove(relatedTestEntityOneOrManyToZeroOrMany);

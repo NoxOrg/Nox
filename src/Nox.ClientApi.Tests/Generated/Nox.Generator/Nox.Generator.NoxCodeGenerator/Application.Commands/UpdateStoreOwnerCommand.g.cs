@@ -8,6 +8,8 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
@@ -52,6 +54,20 @@ internal abstract class UpdateStoreOwnerCommandHandlerBase : CommandBase<UpdateS
 		{
 			return null;
 		}
+
+		await DbContext.Entry(entity).Collection(x => x.Stores).LoadAsync();
+		var storesEntities = new List<Store>();
+		foreach(var relatedEntityId in request.EntityDto.StoresId)
+		{
+			var relatedKey = ClientApi.Domain.StoreMetadata.CreateId(relatedEntityId);
+			var relatedEntity = await DbContext.Stores.FindAsync(relatedKey);
+						
+			if(relatedEntity is not null)
+				storesEntities.Add(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("Stores", relatedEntityId.ToString());
+		}
+		entity.UpdateRefToStores(storesEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

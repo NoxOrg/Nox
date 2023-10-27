@@ -47,6 +47,21 @@ public partial class CustomerUpdateDto : IEntityDto<DomainNamespace.Customer>
     public System.String? MobileNumber { get; set; }
 
     /// <summary>
+    /// Customer related to ZeroOrMany PaymentDetails
+    /// </summary>
+    public List<System.Int64> CustomerRelatedPaymentDetailsId { get; set; } = new();
+
+    /// <summary>
+    /// Customer related to ZeroOrMany Bookings
+    /// </summary>
+    public List<System.Guid> CustomerRelatedBookingsId { get; set; } = new();
+
+    /// <summary>
+    /// Customer related to ZeroOrMany Transactions
+    /// </summary>
+    public List<System.Int64> CustomerRelatedTransactionsId { get; set; } = new();
+
+    /// <summary>
     /// Customer based in ExactlyOne Countries
     /// </summary>
     [Required(ErrorMessage = "CustomerBaseCountry is required")]

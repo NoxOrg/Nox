@@ -69,4 +69,10 @@ public partial class BookingUpdateDto : IEntityDto<DomainNamespace.Booking>
     /// </summary>
     [Required(ErrorMessage = "BookingFeesForCommission is required")]
     public System.Int64 BookingFeesForCommissionId { get; set; } = default!;
+
+    /// <summary>
+    /// Booking related to ExactlyOne Transactions
+    /// </summary>
+    [Required(ErrorMessage = "BookingRelatedTransaction is required")]
+    public System.Int64 BookingRelatedTransactionId { get; set; } = default!;
 }

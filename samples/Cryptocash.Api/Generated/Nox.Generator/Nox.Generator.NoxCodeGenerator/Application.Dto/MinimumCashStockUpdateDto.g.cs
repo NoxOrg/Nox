@@ -25,6 +25,11 @@ public partial class MinimumCashStockUpdateDto : IEntityDto<DomainNamespace.Mini
     public MoneyDto Amount { get; set; } = default!;
 
     /// <summary>
+    /// MinimumCashStock required by ZeroOrMany VendingMachines
+    /// </summary>
+    public List<System.Guid> MinimumCashStocksRequiredByVendingMachinesId { get; set; } = new();
+
+    /// <summary>
     /// MinimumCashStock related to ExactlyOne Currencies
     /// </summary>
     [Required(ErrorMessage = "MinimumCashStockRelatedCurrency is required")]

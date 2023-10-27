@@ -8,6 +8,8 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
@@ -52,6 +54,22 @@ internal abstract class UpdateCashStockOrderCommandHandlerBase : CommandBase<Upd
 		{
 			return null;
 		}
+
+		var cashStockOrderForVendingMachineKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(request.EntityDto.CashStockOrderForVendingMachineId);
+		var cashStockOrderForVendingMachineEntity = await DbContext.VendingMachines.FindAsync(cashStockOrderForVendingMachineKey);
+						
+		if(cashStockOrderForVendingMachineEntity is not null)
+			entity.CreateRefToCashStockOrderForVendingMachine(cashStockOrderForVendingMachineEntity);
+		else
+			throw new RelatedEntityNotFoundException("CashStockOrderForVendingMachine", request.EntityDto.CashStockOrderForVendingMachineId.ToString());
+
+		var cashStockOrderReviewedByEmployeeKey = Cryptocash.Domain.EmployeeMetadata.CreateId(request.EntityDto.CashStockOrderReviewedByEmployeeId);
+		var cashStockOrderReviewedByEmployeeEntity = await DbContext.Employees.FindAsync(cashStockOrderReviewedByEmployeeKey);
+						
+		if(cashStockOrderReviewedByEmployeeEntity is not null)
+			entity.CreateRefToCashStockOrderReviewedByEmployee(cashStockOrderReviewedByEmployeeEntity);
+		else
+			throw new RelatedEntityNotFoundException("CashStockOrderReviewedByEmployee", request.EntityDto.CashStockOrderReviewedByEmployeeId.ToString());
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

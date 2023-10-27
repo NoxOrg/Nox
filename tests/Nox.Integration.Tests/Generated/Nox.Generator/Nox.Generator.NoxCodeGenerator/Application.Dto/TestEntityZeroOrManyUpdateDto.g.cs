@@ -23,4 +23,9 @@ public partial class TestEntityZeroOrManyUpdateDto : IEntityDto<DomainNamespace.
     [Required(ErrorMessage = "TextTestField is required")]
     
     public System.String TextTestField { get; set; } = default!;
+
+    /// <summary>
+    /// TestEntityZeroOrMany Test entity relationship to SecondTestEntityZeroOrMany ZeroOrMany SecondTestEntityZeroOrManies
+    /// </summary>
+    public List<System.String> SecondTestEntityZeroOrManyRelationshipId { get; set; } = new();
 }

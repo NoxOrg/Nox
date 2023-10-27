@@ -123,6 +123,48 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #endregion POST
 
+        #region PUT
+
+        #region PUT Update related entity /api/{EntityPluralName}/{EntityKey} => api/workplaces/1
+
+        [Fact]
+        public async Task Put_UpdateBelongsToCountry_Success()
+        {
+            // Arrange
+            var workplaceCreateDto = new WorkplaceCreateDto() { Name = _fixture.Create<string>() };
+            var countryCreateDto1 = new CountryCreateDto { Name = _fixture.Create<string>() };
+            var countryCreateDto2 = new CountryCreateDto { Name = _fixture.Create<string>() };
+
+            // Act
+            var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, workplaceCreateDto);
+            var countryResponse1 = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, countryCreateDto1);
+            var countryResponse2 = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, countryCreateDto2);
+            await PostAsync($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/belongstocountry/{countryResponse1!.Id}/$ref");
+
+            var getWorkplaceResponse = await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}");
+            var headers = CreateEtagHeader(getWorkplaceResponse!.Etag);
+            await PutAsync<WorkplaceUpdateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}",
+                new WorkplaceUpdateDto
+                {
+                    Name = workplaceResponse!.Name,
+                    BelongsToCountryId = countryResponse2!.Id
+                },
+                headers);
+
+            const string oDataRequest = $"$expand={nameof(WorkplaceDto.BelongsToCountry)}";
+            getWorkplaceResponse = await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}?{oDataRequest}");
+
+            //Assert
+            getWorkplaceResponse.Should().NotBeNull();
+            getWorkplaceResponse!.Id.Should().BeGreaterThan(0);
+            getWorkplaceResponse!.BelongsToCountry.Should().NotBeNull();
+            getWorkplaceResponse!.BelongsToCountry!.Id.Should().Be(countryResponse2!.Id);
+        }
+
+        #endregion
+
+        #endregion
+
         #region DELETE
 
         #region DELETE Delete ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedEntityKey}/$ref => api/workplaces/1/belongstocountry/1/$ref

@@ -29,4 +29,9 @@ public partial class PaymentProviderUpdateDto : IEntityDto<DomainNamespace.Payme
     [Required(ErrorMessage = "PaymentProviderType is required")]
     
     public System.String PaymentProviderType { get; set; } = default!;
+
+    /// <summary>
+    /// PaymentProvider related to ZeroOrMany PaymentDetails
+    /// </summary>
+    public List<System.Int64> PaymentProviderRelatedPaymentDetailsId { get; set; } = new();
 }

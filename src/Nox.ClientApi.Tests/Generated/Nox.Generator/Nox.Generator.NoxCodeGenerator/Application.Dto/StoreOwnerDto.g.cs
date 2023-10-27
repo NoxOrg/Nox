@@ -96,7 +96,7 @@ public abstract class StoreOwnerDtoBase : EntityDtoBase, IEntityDto<DomainNamesp
     public System.String? Notes { get; set; }
 
     /// <summary>
-    /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores
+    /// StoreOwner Set of stores that this owner owns OneOrMany Stores
     /// </summary>
     public virtual List<StoreDto> Stores { get; set; } = new();
     [System.Text.Json.Serialization.JsonIgnore]

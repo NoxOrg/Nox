@@ -8,6 +8,8 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
@@ -52,6 +54,20 @@ internal abstract class UpdateTestEntityOneOrManyToExactlyOneCommandHandlerBase 
 		{
 			return null;
 		}
+
+		await DbContext.Entry(entity).Collection(x => x.TestEntityExactlyOneToOneOrMany).LoadAsync();
+		var testEntityExactlyOneToOneOrManyEntities = new List<TestEntityExactlyOneToOneOrMany>();
+		foreach(var relatedEntityId in request.EntityDto.TestEntityExactlyOneToOneOrManyId)
+		{
+			var relatedKey = TestWebApp.Domain.TestEntityExactlyOneToOneOrManyMetadata.CreateId(relatedEntityId);
+			var relatedEntity = await DbContext.TestEntityExactlyOneToOneOrManies.FindAsync(relatedKey);
+						
+			if(relatedEntity is not null)
+				testEntityExactlyOneToOneOrManyEntities.Add(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("TestEntityExactlyOneToOneOrMany", relatedEntityId.ToString());
+		}
+		entity.UpdateRefToTestEntityExactlyOneToOneOrMany(testEntityExactlyOneToOneOrManyEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
