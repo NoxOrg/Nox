@@ -59,7 +59,7 @@ internal abstract class GetWorkplacesQueryHandlerBase : QueryBase<IQueryable<Wor
         Etag = item.Etag
             };
 
-        var sqlStatement = linqQueryBuilder.ToQueryString().Replace($"@__{nameof(cultureCode)}_0", $"'{cultureCode}'");
+        var sqlStatement = linqQueryBuilder.ToQueryString().Replace($"WHERE @__{nameof(cultureCode)}_0", $"WHERE '{cultureCode}'");
 
         IQueryable<WorkplaceDto> getItemsQuery =
             from item in DataDbContext.Workplaces.FromSqlRaw(sqlStatement)

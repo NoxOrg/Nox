@@ -67,7 +67,7 @@ internal abstract class Get{{entity.PluralName}}QueryHandlerBase : QueryBase<IQu
         Etag = item.Etag
             };
 
-        var sqlStatement = linqQueryBuilder.ToQueryString().Replace($"@__{nameof(cultureCode)}_0", $"'{cultureCode}'");
+        var sqlStatement = linqQueryBuilder.ToQueryString().Replace($"WHERE @__{nameof(cultureCode)}_0", $"WHERE '{cultureCode}'");
 
         IQueryable<{{entity.Name}}Dto> getItemsQuery =
             from item in DataDbContext.{{entity.PluralName}}.FromSqlRaw(sqlStatement)
