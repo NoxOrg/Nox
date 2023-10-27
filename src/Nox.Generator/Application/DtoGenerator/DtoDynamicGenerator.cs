@@ -38,7 +38,7 @@ internal class DtoDynamicGenerator// : INoxCodeGenerator
         code.AppendLine($"using Nox.Types;");
         code.AppendLine($"using System.Collections.Generic;");
         code.AppendLine();
-        code.AppendLine($"namespace {codeGeneratorState.DataTransferObjectsNameSpace};");
+        code.AppendLine($"namespace {codeGeneratorState.DtoNameSpace};");
         code.AppendLine();
 
         GenerateDocs(code, description);
@@ -65,7 +65,7 @@ internal class DtoDynamicGenerator// : INoxCodeGenerator
         code.AppendLine($"using Nox.Types;");
         code.AppendLine($"using System.Collections.Generic;");
         code.AppendLine();
-        code.AppendLine($"namespace {codeGeneratorState.DataTransferObjectsNameSpace};");
+        code.AppendLine($"namespace {codeGeneratorState.DtoNameSpace};");
 
         GenerateDocs(code, dto.Description ?? "It's good practice to give a proper description of your dto's");
 

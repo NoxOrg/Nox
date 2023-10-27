@@ -2,7 +2,9 @@
 using ClientApi.Application.Dto;
 using ClientApi.Tests.Controllers;
 using FluentAssertions;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Nox.Types;
+using System.Net;
 using Xunit.Abstractions;
 
 namespace ClientApi.Tests.Tests.Controllers
@@ -18,6 +20,75 @@ namespace ClientApi.Tests.Tests.Controllers
             : base(testOutput, containerService)
         {
         }
+
+        #region RELATIONSHIPS
+
+        #region PUT
+
+        #region PUT Update related entity /api/{EntityPluralName}/{EntityKey} => api/storeLicenses/1
+
+        [Fact]
+        public async Task Put_UpdateRelatedStore_Success()
+        {
+            //Arrange
+            var store1 = await CreateStore();
+            var store2 = await CreateStore();
+            var storeLicenseResponse = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl,
+                new StoreLicenseCreateDto
+                {
+                    Issuer = _fixture.Create<string>(),
+                    StoreWithLicenseId = store1!.Id,
+                });
+
+            //Act
+            var headers = CreateEtagHeader(storeLicenseResponse!.Etag);
+            await PutAsync<StoreLicenseUpdateDto, StoreLicenseDto>($"{Endpoints.StoreLicensesUrl}/{storeLicenseResponse!.Id}",
+                new StoreLicenseUpdateDto
+                {
+                    Issuer = storeLicenseResponse!.Issuer,
+                    StoreWithLicenseId = store2!.Id
+                },
+                headers);
+
+            var getStoreLicenseResponse = await GetODataSimpleResponseAsync<StoreLicenseDto>($"{Endpoints.StoreLicensesUrl}/{storeLicenseResponse!.Id}");
+
+            //Assert
+            getStoreLicenseResponse.Should().NotBeNull();
+            getStoreLicenseResponse!.StoreWithLicenseId.Should().Be(store2!.Id);
+        }
+
+        [Fact]
+        public async Task Put_UpdateRelatedStoreToEmpty_Fail()
+        {
+            //Arrange
+            var store1 = await CreateStore();
+            var storeLicenseResponse = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl,
+                new StoreLicenseCreateDto
+                {
+                    Issuer = _fixture.Create<string>(),
+                    StoreWithLicenseId = store1!.Id,
+                });
+
+            //Act
+            var headers = CreateEtagHeader(storeLicenseResponse!.Etag);
+            var putStoreLicenseResponse = await PutAsync($"{Endpoints.StoreLicensesUrl}/{storeLicenseResponse!.Id}",
+                new StoreLicenseUpdateDto
+                {
+                    Issuer = storeLicenseResponse!.Issuer
+                },
+                headers,
+                false);
+
+            //Assert
+            putStoreLicenseResponse.Should().NotBeNull();
+            putStoreLicenseResponse.Should().HaveStatusCode(HttpStatusCode.BadRequest);
+        }
+
+        #endregion
+
+        #endregion
+
+        #endregion
 
         #region Store Examples
 
@@ -38,7 +109,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
             var postResult = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl, createDto);
 
-                        // Act
+            // Act
             await PostAsync($"{Endpoints.StoreLicensesUrl}/{postResult!.Id}/StoreWithLicense/{store2!.Id}/$ref");
             var response = await GetODataSimpleResponseAsync<StoreLicenseDto>($"{Endpoints.StoreLicensesUrl}/{postResult!.Id}");
 

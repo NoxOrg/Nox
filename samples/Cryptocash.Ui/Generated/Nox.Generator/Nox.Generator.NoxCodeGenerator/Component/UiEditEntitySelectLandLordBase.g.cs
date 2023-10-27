@@ -18,6 +18,9 @@ namespace Cryptocash.Ui.Generated.Component
         [Parameter]
         public System.Int64? LandLordId { get; set; }
 
+        [Parameter]
+        public System.Int64 LandLordIdLong { get; set; }
+
         public string CurrentLandLordIdStr { get; set; }
 
         [Parameter]
@@ -32,7 +35,22 @@ namespace Cryptocash.Ui.Generated.Component
         [Parameter]
         public EventCallback<System.Int64?> LandLordIdChanged { get; set; }
 
+        [Parameter]
+        public EventCallback<System.Int64> LandLordIdLongChanged { get; set; }
+
         #endregion
+
+        /// <summary>
+        /// Handles initial loading
+        /// </summary>
+        protected override void OnInitialized()
+        {
+            if (LandLordIdLong > 0)
+            {
+                LandLordId = LandLordIdLong;
+                CurrentLandLordIdStr = LandLordIdLong.ToString();
+            }
+        }
 
         protected async Task OnLandLordIdChanged(string newValue)
         {
@@ -49,7 +67,9 @@ namespace Cryptocash.Ui.Generated.Component
                 if (LandLord != null)
                 {
                     LandLordId = LandLord.Id;
+                    LandLordIdLong = (long)LandLordId;
                     await LandLordIdChanged.InvokeAsync(LandLordId);
+                    await LandLordIdLongChanged.InvokeAsync(LandLordIdLong);
                 }   
             }            
         }

@@ -34,7 +34,7 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
         var contentCheckerFlow = _fixture
             .GenerateSourceCodeFor(sources)
             .AssertOutputResult()
-            .AssertFileCount(56, filesShouldExist)
+            .AssertFileCount(54, filesShouldExist)
             .AssertContent()
             .WithExpectedFilesFolder("./ExpectedGeneratedFiles");
 
@@ -59,7 +59,5 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
         contentCheckerFlow.AssertFileExistsAndContent(controllerCustomCommandsFileName, controllerCustomCommandsFileName);
         contentCheckerFlow.AssertFileExistsAndContent(controllerRelationshipsFileName, controllerRelationshipsFileName);
         contentCheckerFlow.AssertFileExistsAndContent(controllerOwnedRelationshipsFileName, controllerOwnedRelationshipsFileName);
-        contentCheckerFlow.AssertFileExistsAndContent(controllerEnumerationsFileName, controllerEnumerationsFileName);
-
     }
 }

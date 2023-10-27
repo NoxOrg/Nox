@@ -12,7 +12,7 @@
 
 @page "/VendingMachines"
 
-@inherits ListEntityPageBase<VendingMachineDto, VendingMachineCreateDto>
+@inherits ListEntityPageBase<VendingMachineDto, VendingMachineCreateDto, VendingMachineUpdateDto>
 
 @if (!IsLoading)
 {
@@ -74,7 +74,7 @@
                             <MudText Typo="Typo.h6">@AddLabel</MudText>
                         </TitleContent>
                         <DialogContent>
-                            <MudForm @ref="AddEntityForm" @bind-IsValid="@AddEntityValidateSuccess" Disabled="IsAddEntityProcessing">
+                            <MudForm @ref="AddEntityForm" @bind-IsValid="@AddEntityValidateSuccess">
                                 <MudGrid>
                                     <MudItem xs="4">
                                         <MudCard Outlined="true">
@@ -92,8 +92,7 @@
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <UiEditIpV4Address_g @bind-IpAddress="CurrentAddEntity.PublicIp"
-                                                                           Title="Public Ip"
-                                                                           MaxLength="63" />
+                                                                           Title="Public Ip" />
                                                     </MudItem>
                                                     <MudItem xs=6>
                                                         <UiEditText_g @bind-Text="CurrentAddEntity.SerialNumber"
@@ -103,7 +102,7 @@
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <UiEditCountry_g @bind-CountryId="CurrentAddEntity.VendingMachineInstallationCountryId"
-                                                                         TitleCountry="Installation Country"
+                                                                         Title="Installation Country"
                                                                          CountrySelectionList="CountryEntityData?.EntityList" />
                                                     </MudItem>
                                                     <MudItem xs="6">
@@ -182,23 +181,123 @@
                                         <MudButton OnClick="AddEntityCloseDialog"
                                                    Variant="Variant.Outlined"
                                                    Color="Color.Info"
-                                                   Disabled="@IsAddEntityProcessing"
                                                    Style="Margin:15px;">CANCEL</MudButton>
                                         <MudButton OnClick="@(async () => await AddEntitySubmit())"
                                                    Variant="Variant.Filled"
                                                    Color="Color.Info"
-                                                   Disabled="@IsAddEntityProcessing"
                                                    Style="Margin:15px;">
-                                            @if (IsAddEntityProcessing)
-                                            {
-                                                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
-                                                <MudText Class="ms-2">PROCESSING</MudText>
-                                            }
-                                            else
-                                            {
-                                                <MudText>SUBMIT</MudText>
-                                            }
+                                            <MudText>SUBMIT</MudText>
                                         </MudButton>
+                        </DialogActions>
+                    </MudDialog>
+                }
+
+
+                @if (CurrentApiUiService != null && CurrentEditEntity != null)
+                {
+                    var EditLabel = "EDIT " + CurrentEntityName;
+
+                    <MudDialog @bind-IsVisible="IsVisibleEditEntityDialog" Options="EditDialogOptions">
+                        <TitleContent>
+                            <MudText Typo="Typo.h6">@EditLabel</MudText>
+                        </TitleContent>
+                        <DialogContent>
+                            <MudForm @ref="EditEntityForm" @bind-IsValid="@EditEntityValidateSuccess">
+                                <MudGrid>
+                                    <MudItem xs="6">
+                                        <MudCard Outlined="true">
+                                            <MudCardHeader>
+                                                <CardHeaderContent>
+                                                    <MudText Typo="Typo.h6">Details</MudText>
+                                                </CardHeaderContent>
+                                            </MudCardHeader>
+                                            <MudCardContent>
+                                                <MudGrid>
+                                                    <MudItem xs="6">
+                                                        <UiEditMacAddress_g @bind-MacAddress="CurrentEditEntity.MacAddress"
+                                                                            Title="MAC Address"
+                                                                            Format="##:##:##:##:##:##" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <UiEditIpV4Address_g @bind-IpAddress="CurrentEditEntity.PublicIp"
+                                                                             Title="Public Ip" />
+                                                    </MudItem>
+                                                    <MudItem xs=6>
+                                                        <UiEditText_g @bind-Text="CurrentEditEntity.SerialNumber"
+                                                                      Title="Serial Number"
+                                                                      MaxLength="63"
+                                                                      MinLength="4" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <UiEditCountry_g @bind-CountryId="CurrentEditEntity.VendingMachineInstallationCountryId"
+                                                                         Title="Installation Country"
+                                                                         CountrySelectionList="CountryEntityData?.EntityList" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <UiEditArea_g @bind-Area="CurrentEditEntity.InstallationFootPrint"
+                                                                      Title="Installation Area"
+                                                                      Format="#.##" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <UiEditMoney_g @bind-Money="CurrentEditEntity.RentPerSquareMetre"
+                                                                       Currency="GetCurrencyByCountryId(CurrentEditEntity.VendingMachineInstallationCountryId)"
+                                                                       Title="Rent per Square Metre"
+                                                                       Format="#.##" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <UiEditEntitySelectLandLord_g @bind-LandLordIdLong="CurrentEditEntity.VendingMachineContractedAreaLandLordId"
+                                                                                      Title="ContractedAreaLandLord"
+                                                                                      LandLordSelectionList="LandLordEntityData?.EntityList" />
+                                                    </MudItem>
+                                                </MudGrid>
+                                            </MudCardContent>
+                                        </MudCard>
+                                    </MudItem>
+                                    <MudItem xs="6">
+                                        <MudCard Outlined="true">
+                                            <MudCardHeader>
+                                                <CardHeaderContent>
+                                                    <MudText Typo="Typo.h6">Location</MudText>
+                                                </CardHeaderContent>
+                                            </MudCardHeader>
+                                            <MudCardContent>
+                                                <MudItem xs="12">
+                                                    <UiEditLatLong_g @bind-Latlong="CurrentEditEntity.GeoLocation"
+                                                                     TitleLatitude="Latitude"
+                                                                     TitleLongitude="Longitude"
+                                                                     Format="#.########" />
+                                                </MudItem>
+                                                <MudItem xs=12>
+                                                    <UiEditStreetAddress_g @bind-StreetAddress="CurrentEditEntity.StreetAddress"
+                                                                           TitleStreetNumber="StreetNumber"
+                                                                           TitleAddressLine1="AddressLine1"
+                                                                           TitleAddressLine2="AddressLine2"
+                                                                           TitleRoute="Route"
+                                                                           TitleLocality="Locality"
+                                                                           TitleNeighborhood="Neighborhood"
+                                                                           TitleAdministrativeArea1="AdministrativeArea1"
+                                                                           TitleAdministrativeArea2="AdministrativeArea2"
+                                                                           TitlePostalCode="PostalCode"
+                                                                           TitleCountryId="CountryId"
+                                                                           CountrySelectionList="CountryEntityData?.EntityList" />
+                                                </MudItem>
+                                            </MudCardContent>
+                                        </MudCard>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudForm>
+                        </DialogContent>
+                        <DialogActions>
+                            <MudButton OnClick="EditEntityCloseDialog"
+                                       Variant="Variant.Outlined"
+                                       Color="Color.Info"
+                                       Style="Margin:15px;">CANCEL</MudButton>
+                            <MudButton OnClick="@(async () => await EditEntitySubmit())"
+                                       Variant="Variant.Filled"
+                                       Color="Color.Info"
+                                       Style="Margin:15px;">
+                                <MudText>SUBMIT</MudText>
+                            </MudButton>
                         </DialogActions>
                     </MudDialog>
                 }
@@ -282,6 +381,9 @@
 
                                 <MudTd>
                                     <MudMenu Icon="@Icons.Material.Filled.MoreHoriz" Color="Color.Info">
+                                        <MudMenuItem Icon="@Icons.Material.Filled.Edit" IconColor="Color.Info" OnClick="@(e=>EditEntityOpenDialog(context))">
+                                            <MudText Color="Color.Info">EDIT</MudText>
+                                        </MudMenuItem>
                                         <MudMenuItem Icon="@Icons.Material.Filled.DeleteOutline" IconColor="Color.Error" OnClick="@(e=>DeleteEntitySelect(context.Id.ToString(), context.Etag))">
                                             <MudText Color="Color.Error">DELETE</MudText>
                                         </MudMenuItem>
@@ -336,22 +438,12 @@
             <MudButton OnClick="DeleteEntityCloseConfirmation"
                        Color="Color.Info"
                        Variant="Variant.Outlined"
-                       Disabled="@IsDeleteEntityProcessing"
                        Style="Margin:15px;">CANCEL</MudButton>
             <MudButton OnClick="@(async () => await DeleteEntitySubmit())"
                        Variant="Variant.Filled"
                        Color="Color.Error"
-                       Disabled="@IsDeleteEntityProcessing"
                        Style="Margin:15px;">
-                @if (IsDeleteEntityProcessing)
-                {
-                    <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
-                    <MudText Class="ms-2">PROCESSING</MudText>
-                }
-                else
-                {
-                    <MudText>DELETE</MudText>
-                }
+                <MudText>DELETE</MudText>
             </MudButton>
         </DialogActions>
     </MudDialog>

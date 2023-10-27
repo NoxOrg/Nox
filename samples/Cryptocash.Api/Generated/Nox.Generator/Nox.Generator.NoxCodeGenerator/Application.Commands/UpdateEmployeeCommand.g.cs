@@ -8,6 +8,8 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
@@ -52,6 +54,14 @@ internal abstract class UpdateEmployeeCommandHandlerBase : CommandBase<UpdateEmp
 		{
 			return null;
 		}
+
+		var employeeReviewingCashStockOrderKey = Cryptocash.Domain.CashStockOrderMetadata.CreateId(request.EntityDto.EmployeeReviewingCashStockOrderId);
+		var employeeReviewingCashStockOrderEntity = await DbContext.CashStockOrders.FindAsync(employeeReviewingCashStockOrderKey);
+						
+		if(employeeReviewingCashStockOrderEntity is not null)
+			entity.CreateRefToEmployeeReviewingCashStockOrder(employeeReviewingCashStockOrderEntity);
+		else
+			throw new RelatedEntityNotFoundException("EmployeeReviewingCashStockOrder", request.EntityDto.EmployeeReviewingCashStockOrderId.ToString());
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

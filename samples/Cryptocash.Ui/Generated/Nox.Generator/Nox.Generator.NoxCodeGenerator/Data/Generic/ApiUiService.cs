@@ -206,6 +206,32 @@ namespace Cryptocash.Ui.Generated.Data.Generic
         public string? ApiCreateData { get; set; }
 
         /// <summary>
+        /// Property ApiEditData used to store edit Api Entity related params
+        /// </summary>
+        public string? ApiEditData { get; set; }
+
+        /// <summary>
+        /// Property ApiEditId used to store edit Api Entity related id
+        /// </summary>
+        public string? ApiEditId { get; set; }
+
+        /// <summary>
+        /// Property ApiDeleteQuery used to pass delete Api Entity related query string params to Api
+        /// </summary>
+        public string ApiEditQuery
+        {
+            get
+            {
+                return Url + "/" + ApiEditId?.Trim();
+            }
+        }
+
+        /// <summary>
+        /// Property ApiEditEtag used to reference Api Entity when updating
+        /// </summary>
+        public System.Guid? ApiEditEtag { get; set; }
+
+        /// <summary>
         /// Property ApiDeleteQuery used to pass delete Api Entity related query string params to Api
         /// </summary>
         public string ApiDeleteQuery

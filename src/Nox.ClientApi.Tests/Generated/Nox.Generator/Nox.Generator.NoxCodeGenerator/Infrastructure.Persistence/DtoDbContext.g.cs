@@ -12,6 +12,7 @@ using Nox.Infrastructure;
 using Nox.Infrastructure.Persistence;
 
 using ClientApi.Application.Dto;
+using DtoNameSpace = ClientApi.Application.Dto;
 
 namespace ClientApi.Infrastructure.Persistence;
 
@@ -47,23 +48,18 @@ internal class DtoDbContext : DbContext
         _codeGenConventions = codeGeneratorState;
     }
 
-
-    public DbSet<CountryDto> Countries { get; set; } = null!;
-
-    public DbSet<RatingProgramDto> RatingPrograms { get; set; } = null!;
-
-    public DbSet<CountryQualityOfLifeIndexDto> CountryQualityOfLifeIndices { get; set; } = null!;
-
-    public DbSet<StoreDto> Stores { get; set; } = null!;
-
-    public DbSet<WorkplaceDto> Workplaces { get; set; } = null!;
-
-    public DbSet<StoreOwnerDto> StoreOwners { get; set; } = null!;
-
-    public DbSet<StoreLicenseDto> StoreLicenses { get; set; } = null!;
-
+    
+        public DbSet<CountryDto> Countries { get; set; } = null!;
+        public DbSet<RatingProgramDto> RatingPrograms { get; set; } = null!;
+        public DbSet<CountryQualityOfLifeIndexDto> CountryQualityOfLifeIndices { get; set; } = null!;
+        public DbSet<StoreDto> Stores { get; set; } = null!;
+        public DbSet<WorkplaceDto> Workplaces { get; set; } = null!;
+        public DbSet<StoreOwnerDto> StoreOwners { get; set; } = null!;
+        public DbSet<StoreLicenseDto> StoreLicenses { get; set; } = null!;
     public DbSet<WorkplaceLocalizedDto> WorkplacesLocalizedDto { get; set; } = null!;
-
+    public DbSet<DtoNameSpace.CountryContinentDto> CountriesContinents { get; set; } = null!;
+    public DbSet<DtoNameSpace.CountryContinentLocalizedDto> CountriesContinentsLocalized { get; set; } = null!;
+    public DbSet<DtoNameSpace.StoreStatusDto> StoresStatuses { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

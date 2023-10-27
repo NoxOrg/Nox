@@ -93,7 +93,6 @@ namespace Cryptocash.Ui.Generated.Data.Generic
         /// <summary>
         /// Method used to create ApiEntity
         /// </summary>
-        /// <param name="AddEntity"></param>
         /// <param name="ApiUiService"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
@@ -107,6 +106,26 @@ namespace Cryptocash.Ui.Generated.Data.Generic
                 throw new ArgumentException("EntityDataService.CreateAsyncEntityData: Malformed Input", nameof(ApiUiService));
             }
             await ApiDataService.PostAsyncApi(ApiUiService);
+        }
+
+        /// <summary>
+        /// Method used to edit ApiEntity
+        /// </summary>
+        /// <param name="AddEntity"></param>
+        /// <param name="ApiUiService"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public static async Task EditAsyncEntityData(ApiUiService? ApiUiService)
+        {
+            if (ApiUiService == null
+                || string.IsNullOrWhiteSpace(ApiUiService.ApiEditId)
+                || string.IsNullOrWhiteSpace(ApiUiService.ApiEditData)
+                || string.IsNullOrWhiteSpace(ApiUiService.ApiEditQuery)
+                )
+            {
+                throw new ArgumentException("EntityDataService.EditAsyncEntityData: Malformed Input", nameof(ApiUiService));
+            }
+            await ApiDataService.PutAsyncApi(ApiUiService);
         }
 
         /// <summary>
