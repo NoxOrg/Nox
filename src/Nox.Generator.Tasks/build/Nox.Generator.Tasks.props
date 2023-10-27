@@ -18,7 +18,7 @@
 <ItemGroup>
 	<InputFiles Include="../.nox/design/**/*.yaml" />
 	<InputFiles Include="../.nox/docs/**/*.md" />
-	<InputFiles Include="generator.nox.yaml" />	
+	<InputFiles Include="*generator.nox.yaml" />	
 </ItemGroup>
 	
  </Project>
