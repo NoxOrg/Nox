@@ -22,7 +22,6 @@ using ClientApi.Domain;
 using ClientApi.Infrastructure.Persistence;
 
 using Nox.Types;
-using Nox.Presentation.Api;
 
 namespace ClientApi.Presentation.Api.OData;
 
@@ -78,7 +77,7 @@ public abstract partial class CountryQualityOfLifeIndicesControllerBase : ODataC
         }
 
         var language = _httpLanguageProvider.GetLanguage();
-        var createdKey = await _mediator.Send(new CreateCountryQualityOfLifeIndexCommand(countryQualityOfLifeIndex, language));
+        var createdKey = await _mediator.Send(new CreateCountryQualityOfLifeIndexCommand(countryQualityOfLifeIndex, Nox.Types.CultureCode.From(language)));
 
         var item = (await _mediator.Send(new GetCountryQualityOfLifeIndexByIdQuery(createdKey.keyCountryId, createdKey.keyId))).SingleOrDefault();
 

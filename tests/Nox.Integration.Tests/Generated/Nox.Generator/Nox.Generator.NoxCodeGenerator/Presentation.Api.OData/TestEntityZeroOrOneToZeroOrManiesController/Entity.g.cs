@@ -22,7 +22,6 @@ using TestWebApp.Domain;
 using TestWebApp.Infrastructure.Persistence;
 
 using Nox.Types;
-using Nox.Presentation.Api;
 
 namespace TestWebApp.Presentation.Api.OData;
 
@@ -78,7 +77,7 @@ public abstract partial class TestEntityZeroOrOneToZeroOrManiesControllerBase : 
         }
 
         var language = _httpLanguageProvider.GetLanguage();
-        var createdKey = await _mediator.Send(new CreateTestEntityZeroOrOneToZeroOrManyCommand(testEntityZeroOrOneToZeroOrMany, language));
+        var createdKey = await _mediator.Send(new CreateTestEntityZeroOrOneToZeroOrManyCommand(testEntityZeroOrOneToZeroOrMany, Nox.Types.CultureCode.From(language)));
 
         var item = (await _mediator.Send(new GetTestEntityZeroOrOneToZeroOrManyByIdQuery(createdKey.keyId))).SingleOrDefault();
 

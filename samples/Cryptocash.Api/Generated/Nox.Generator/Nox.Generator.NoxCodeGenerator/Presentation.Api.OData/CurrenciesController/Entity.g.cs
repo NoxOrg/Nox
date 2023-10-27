@@ -22,7 +22,6 @@ using Cryptocash.Domain;
 using Cryptocash.Infrastructure.Persistence;
 
 using Nox.Types;
-using Nox.Presentation.Api;
 
 namespace Cryptocash.Presentation.Api.OData;
 
@@ -78,7 +77,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         }
 
         var language = _httpLanguageProvider.GetLanguage();
-        var createdKey = await _mediator.Send(new CreateCurrencyCommand(currency, language));
+        var createdKey = await _mediator.Send(new CreateCurrencyCommand(currency, Nox.Types.CultureCode.From(language)));
 
         var item = (await _mediator.Send(new GetCurrencyByIdQuery(createdKey.keyId))).SingleOrDefault();
 

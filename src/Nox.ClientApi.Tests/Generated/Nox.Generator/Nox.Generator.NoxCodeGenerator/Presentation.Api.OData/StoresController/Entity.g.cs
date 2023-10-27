@@ -22,7 +22,6 @@ using ClientApi.Domain;
 using ClientApi.Infrastructure.Persistence;
 
 using Nox.Types;
-using Nox.Presentation.Api;
 
 namespace ClientApi.Presentation.Api.OData;
 
@@ -78,7 +77,7 @@ public abstract partial class StoresControllerBase : ODataController
         }
 
         var language = _httpLanguageProvider.GetLanguage();
-        var createdKey = await _mediator.Send(new CreateStoreCommand(store, language));
+        var createdKey = await _mediator.Send(new CreateStoreCommand(store, Nox.Types.CultureCode.From(language)));
 
         var item = (await _mediator.Send(new GetStoreByIdQuery(createdKey.keyId))).SingleOrDefault();
 

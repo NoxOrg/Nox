@@ -22,7 +22,6 @@ using Cryptocash.Domain;
 using Cryptocash.Infrastructure.Persistence;
 
 using Nox.Types;
-using Nox.Presentation.Api;
 
 namespace Cryptocash.Presentation.Api.OData;
 
@@ -78,7 +77,7 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         }
 
         var language = _httpLanguageProvider.GetLanguage();
-        var createdKey = await _mediator.Send(new CreateCashStockOrderCommand(cashStockOrder, language));
+        var createdKey = await _mediator.Send(new CreateCashStockOrderCommand(cashStockOrder, Nox.Types.CultureCode.From(language)));
 
         var item = (await _mediator.Send(new GetCashStockOrderByIdQuery(createdKey.keyId))).SingleOrDefault();
 

@@ -77,7 +77,7 @@ public abstract partial class CompoundKeysEntitiesControllerBase : ODataControll
         }
 
         var language = _httpLanguageProvider.GetLanguage();
-        var createdKey = await _mediator.Send(new CreateCompoundKeysEntityCommand(compoundKeysEntity, language));
+        var createdKey = await _mediator.Send(new CreateCompoundKeysEntityCommand(compoundKeysEntity, Nox.Types.CultureCode.From(language)));
 
         var item = (await _mediator.Send(new GetCompoundKeysEntityByIdQuery(createdKey.keyId1, createdKey.keyId2))).SingleOrDefault();
 

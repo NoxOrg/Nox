@@ -22,7 +22,6 @@ using Cryptocash.Domain;
 using Cryptocash.Infrastructure.Persistence;
 
 using Nox.Types;
-using Nox.Presentation.Api;
 
 namespace Cryptocash.Presentation.Api.OData;
 
@@ -78,7 +77,7 @@ public abstract partial class CustomersControllerBase : ODataController
         }
 
         var language = _httpLanguageProvider.GetLanguage();
-        var createdKey = await _mediator.Send(new CreateCustomerCommand(customer, language));
+        var createdKey = await _mediator.Send(new CreateCustomerCommand(customer, Nox.Types.CultureCode.From(language)));
 
         var item = (await _mediator.Send(new GetCustomerByIdQuery(createdKey.keyId))).SingleOrDefault();
 

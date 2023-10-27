@@ -20,7 +20,7 @@ using EmployeeEntity = Cryptocash.Domain.Employee;
 
 namespace Cryptocash.Application.Commands;
 
-public record CreateEmployeeCommand(EmployeeCreateDto EntityDto, System.String CultureCode) : IRequest<EmployeeKeyDto>;
+public record CreateEmployeeCommand(EmployeeCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<EmployeeKeyDto>;
 
 internal partial class CreateEmployeeCommandHandler : CreateEmployeeCommandHandlerBase
 {
@@ -45,7 +45,8 @@ internal abstract class CreateEmployeeCommandHandlerBase : CommandBase<CreateEmp
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.CashStockOrder, CashStockOrderCreateDto, CashStockOrderUpdateDto> CashStockOrderFactory,
-		IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

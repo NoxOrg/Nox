@@ -22,7 +22,6 @@ using ClientApi.Domain;
 using ClientApi.Infrastructure.Persistence;
 
 using Nox.Types;
-using Nox.Presentation.Api;
 
 namespace ClientApi.Presentation.Api.OData;
 
@@ -78,7 +77,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         }
 
         var language = _httpLanguageProvider.GetLanguage();
-        var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace, language));
+        var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace, Nox.Types.CultureCode.From(language)));
 
         var item = (await _mediator.Send(new GetWorkplaceByIdQuery(createdKey.keyId))).SingleOrDefault();
 

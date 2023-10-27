@@ -22,7 +22,6 @@ using ClientApi.Domain;
 using ClientApi.Infrastructure.Persistence;
 
 using Nox.Types;
-using Nox.Presentation.Api;
 
 namespace ClientApi.Presentation.Api.OData;
 
@@ -78,7 +77,7 @@ public abstract partial class RatingProgramsControllerBase : ODataController
         }
 
         var language = _httpLanguageProvider.GetLanguage();
-        var createdKey = await _mediator.Send(new CreateRatingProgramCommand(ratingProgram, language));
+        var createdKey = await _mediator.Send(new CreateRatingProgramCommand(ratingProgram, Nox.Types.CultureCode.From(language)));
 
         var item = (await _mediator.Send(new GetRatingProgramByIdQuery(createdKey.keyStoreId, createdKey.keyId))).SingleOrDefault();
 
