@@ -45,13 +45,6 @@ internal abstract class GetWorkplacesQueryHandlerBase : QueryBase<IQueryable<Wor
     {
         var cultureCode = _languageProvider.GetLanguage();
 
-        if (cultureCode == _solution.Application?.Localization?.DefaultCulture)
-        {
-        var item = (IQueryable<WorkplaceDto>)DataDbContext.Workplaces
-            .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
-        }
-
         IQueryable<WorkplaceDto> linqQueryBuilder =
             from item in DataDbContext.Workplaces.AsNoTracking()
             join itemLocalizedFromJoin in DataDbContext.WorkplacesLocalized on cultureCode equals itemLocalizedFromJoin.CultureCode into joinedData
@@ -73,5 +66,6 @@ internal abstract class GetWorkplacesQueryHandlerBase : QueryBase<IQueryable<Wor
             select item;
 
         return Task.FromResult(OnResponse(getItemsQuery));
+
     }
 }

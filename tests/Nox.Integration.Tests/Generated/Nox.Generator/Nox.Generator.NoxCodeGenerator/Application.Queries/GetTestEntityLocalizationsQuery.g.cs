@@ -45,13 +45,6 @@ internal abstract class GetTestEntityLocalizationsQueryHandlerBase : QueryBase<I
     {
         var cultureCode = _languageProvider.GetLanguage();
 
-        if (cultureCode == _solution.Application?.Localization?.DefaultCulture)
-        {
-        var item = (IQueryable<TestEntityLocalizationDto>)DataDbContext.TestEntityLocalizations
-            .AsNoTracking();
-       return Task.FromResult(OnResponse(item));
-        }
-
         IQueryable<TestEntityLocalizationDto> linqQueryBuilder =
             from item in DataDbContext.TestEntityLocalizations.AsNoTracking()
             join itemLocalizedFromJoin in DataDbContext.TestEntityLocalizationsLocalized on cultureCode equals itemLocalizedFromJoin.CultureCode into joinedData
@@ -71,5 +64,6 @@ internal abstract class GetTestEntityLocalizationsQueryHandlerBase : QueryBase<I
             select item;
 
         return Task.FromResult(OnResponse(getItemsQuery));
+
     }
 }
