@@ -74,6 +74,10 @@ internal abstract class Get{{entity.PluralName}}QueryHandlerBase : QueryBase<IQu
             select item;
 
         return Task.FromResult(OnResponse(getItemsQuery));
+{{ else }}
+        var item = (IQueryable<{{entity.Name}}Dto>)DataDbContext.{{entity.PluralName}}
+            .AsNoTracking();
+       return Task.FromResult(OnResponse(item));
 {{- end }}
     }
 }
