@@ -96,7 +96,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             FullWidth = true,
             ClassBackground = "custom-dialog",
             DisableBackdropClick = true,
-            MaxWidth = MaxWidth.ExtraLarge
+            Position = DialogPosition.TopCenter
         };
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             FullWidth = true,
             ClassBackground = "custom-dialog",
             DisableBackdropClick = true,
-            MaxWidth = MaxWidth.ExtraLarge
+            Position = DialogPosition.TopCenter
         };
 
         /// <summary>
@@ -683,6 +683,8 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
 
                     AddEntityValidateSuccess = true;
 
+                    IsDataGridLoading = true;
+
                     await CreateApiEntityData();
 
                     CurrentApiUiService?.ResetAllSearchFilterList();
@@ -697,6 +699,8 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
                     }
 
                     ShowSuccessSnackbar("Entity Added Successfully");
+
+                    IsDataGridLoading = false;
                 }
             }
         }
@@ -795,6 +799,8 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
 
                     EditEntityValidateSuccess = true;
 
+                    IsDataGridLoading = true;
+
                     await EditApiEntityData();
 
                     CurrentApiUiService?.ResetAllSearchFilterList();
@@ -809,6 +815,8 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
                     }
 
                     ShowSuccessSnackbar("Entity Updated Successfully");
+
+                    IsDataGridLoading = false;
                 }
             }
         }    
