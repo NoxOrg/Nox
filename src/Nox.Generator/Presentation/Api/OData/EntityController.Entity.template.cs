@@ -69,7 +69,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     [EnableQuery]
     public async Task<SingleResult<{{entity.Name}}Dto>> Get({{ primaryKeysRoute }})
     {
-        var result = await _mediator.Send(new Get{{ entity.Name }}ByIdQuery({{ primaryKeysQuery }}));
+        var result = await _mediator.Send(new Get{{ entity.Name }}ByIdQuery({{if entity.IsLocalized}}_httpLanguageProvider.GetLanguage(), {{end}}{{ primaryKeysQuery }}));
         return SingleResult.Create(result);
     }
     {{- end }}
@@ -83,7 +83,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
 
         var createdKey = await _mediator.Send(new Create{{entity.Name}}Command({{ToLowerFirstChar entity.Name}}));
 
-        var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ createdKeyPrimaryKeysQuery }}))).SingleOrDefault();
+        var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{if entity.IsLocalized}}_httpLanguageProvider.GetLanguage(), {{end}}{{ createdKeyPrimaryKeysQuery }}))).SingleOrDefault();
 
         return Created(item);
     }
@@ -107,7 +107,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
             return NotFound();
         }
 
-        var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ updatedKeyPrimaryKeysQuery }}))).SingleOrDefault();
+        var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{if entity.IsLocalized}}_httpLanguageProvider.GetLanguage(), {{end}}{{ updatedKeyPrimaryKeysQuery }}))).SingleOrDefault();
 
         return Ok(item);
     }
@@ -140,7 +140,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
             return NotFound();
         }
 
-        var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ updatedKeyPrimaryKeysQuery }}))).SingleOrDefault();
+        var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{if entity.IsLocalized}}_httpLanguageProvider.GetLanguage(), {{end}}{{ updatedKeyPrimaryKeysQuery }}))).SingleOrDefault();
 
         return Ok(item);
     }

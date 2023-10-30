@@ -583,8 +583,9 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         var relatedEntity = relationship.Related.Entity;
         code.AppendLine($"public async Task<ActionResult> GetRefTo{relationship.Name}({GetPrimaryKeysRoute(entity, solution)})");
 
+        var localizationParameter = entity.IsLocalized ? "_httpLanguageProvider.GetLanguage(), " : "";
         code.StartBlock();
-        code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)})))" +
+        code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({localizationParameter}{GetPrimaryKeysQuery(entity)})))" +
             $".Select(x => x.{relationship.Name}).SingleOrDefault();");
         code.AppendLine($"if (related is null)");
         code.StartBlock();

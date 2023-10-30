@@ -62,7 +62,7 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
     [EnableQuery]
     public async Task<SingleResult<TestEntityLocalizationDto>> Get([FromRoute] System.String key)
     {
-        var result = await _mediator.Send(new GetTestEntityLocalizationByIdQuery(key));
+        var result = await _mediator.Send(new GetTestEntityLocalizationByIdQuery(_httpLanguageProvider.GetLanguage(), key));
         return SingleResult.Create(result);
     }
 
@@ -75,7 +75,7 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
 
         var createdKey = await _mediator.Send(new CreateTestEntityLocalizationCommand(testEntityLocalization));
 
-        var item = (await _mediator.Send(new GetTestEntityLocalizationByIdQuery(createdKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetTestEntityLocalizationByIdQuery(_httpLanguageProvider.GetLanguage(), createdKey.keyId))).SingleOrDefault();
 
         return Created(item);
     }
@@ -95,7 +95,7 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
             return NotFound();
         }
 
-        var item = (await _mediator.Send(new GetTestEntityLocalizationByIdQuery(updatedKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetTestEntityLocalizationByIdQuery(_httpLanguageProvider.GetLanguage(), updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
     }
@@ -125,7 +125,7 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
             return NotFound();
         }
 
-        var item = (await _mediator.Send(new GetTestEntityLocalizationByIdQuery(updatedKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetTestEntityLocalizationByIdQuery(_httpLanguageProvider.GetLanguage(), updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
     }

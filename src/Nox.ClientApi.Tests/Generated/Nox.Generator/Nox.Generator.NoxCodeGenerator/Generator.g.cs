@@ -42,6 +42,7 @@
 //  - Nox.Generator.Application.DefaultIntegrationEventGenerator
 //  - Nox.Generator.Application.ServiceCollectionExtensionsGenerator
 //  - Nox.Generator.Application.Queries.ByIdQueryGenerator
+//  - Nox.Generator.Application.Queries.ByIdQueryLocalizedGenerator
 //  - Nox.Generator.Application.Queries.EnumerationQueryGenerator
 //  - Nox.Generator.Application.Queries.QueryGenerator
 //  - Nox.Generator.Application.Queries.QueryLocalizedGenerator

@@ -9,16 +9,18 @@ using Nox.Application.Commands;
 
 using TestWebApp.Application.Dto;
 using TestWebApp.Infrastructure.Persistence;
+using Nox.Presentation.Api;
+using Nox.Solution;
 
 namespace TestWebApp.Application.Queries;
 
-public record GetTestEntityLocalizationByIdQuery(System.String keyId) : IRequest <IQueryable<TestEntityLocalizationDto>>;
+public record GetTestEntityLocalizationByIdQuery(string cultureCode, System.String keyId) : IRequest <IQueryable<TestEntityLocalizationDto>>;
 
 internal partial class GetTestEntityLocalizationByIdQueryHandler:GetTestEntityLocalizationByIdQueryHandlerBase
 {
     public  GetTestEntityLocalizationByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
-    
+
     }
 }
 
@@ -32,11 +34,30 @@ internal abstract class GetTestEntityLocalizationByIdQueryHandlerBase:  QueryBas
     public DtoDbContext DataDbContext { get; }
 
     public virtual Task<IQueryable<TestEntityLocalizationDto>> Handle(GetTestEntityLocalizationByIdQuery request, CancellationToken cancellationToken)
-    {    
-        var query = DataDbContext.TestEntityLocalizations
-            .AsNoTracking()
-            .Where(r =>
-                r.Id.Equals(request.keyId));
-        return Task.FromResult(OnResponse(query));
+    {
+        var cultureCode = request.cultureCode;
+
+        IQueryable<TestEntityLocalizationDto> linqQueryBuilder =
+            from item in DataDbContext.TestEntityLocalizations.Where(r =>
+                r.Id.Equals(request.keyId)).AsNoTracking()
+            join itemLocalizedFromJoin in DataDbContext.TestEntityLocalizationsLocalized on cultureCode equals itemLocalizedFromJoin.CultureCode into joinedData
+            from itemLocalized in joinedData.Where(l => item.Id == l.Id).DefaultIfEmpty()
+            select new TestEntityLocalizationDto()
+            {
+        Id = item.Id,
+        TextFieldToLocalize = itemLocalized.TextFieldToLocalize ?? "[" + item.TextFieldToLocalize + "]",
+        NumberField = item.NumberField,
+        Etag = item.Etag
+            };
+
+        var sqlStatement = linqQueryBuilder.ToQueryString()
+            .Replace($"= @__{nameof(request)}_{nameof(request.keyId)}_0", $"= '{request.keyId}'")
+            .Replace($"WHERE @__{nameof(cultureCode)}_1", $"WHERE '{cultureCode}'");
+
+        IQueryable<TestEntityLocalizationDto> getItemsQuery =
+            from item in DataDbContext.TestEntityLocalizations.FromSqlRaw(sqlStatement)
+            select item;
+
+        return Task.FromResult(OnResponse(getItemsQuery));
     }
 }

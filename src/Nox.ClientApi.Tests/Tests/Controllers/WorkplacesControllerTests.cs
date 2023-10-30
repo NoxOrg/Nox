@@ -471,6 +471,35 @@ namespace ClientApi.Tests.Tests.Controllers
             localizedWorkplaces![0].Description.Should().EndWith("]");
         }
 
+        [Fact]
+        public async Task GetById_LocalizedValueNotFound_ShouldReturnDefaultValue()
+        {
+            var nameFixture = _fixture.Create<string>();
+
+            // Arrange
+            var createDto = new WorkplaceCreateDto
+            {
+                Name = nameFixture,
+                Description = _fixture.Create<string>(),
+            };
+
+            var createdEntity = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto);
+
+            var headers = new Dictionary<string, IEnumerable<string>>()
+            {
+                { "Accept-Language", new List<string> { $"fr-CH, fr;q=0.9, en;q=0.8, de;q=0.7, *;q=0.5" } }
+            };
+
+            // Act
+            var localizedWorkplaces = (await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{createdEntity!.Id}", headers));
+
+            // Assert
+            localizedWorkplaces.Should().NotBeNull();
+            localizedWorkplaces!.Description.Should().NotBeNull();
+            localizedWorkplaces.Description.Should().StartWith("[");
+            localizedWorkplaces.Description.Should().EndWith("]");
+        }
+
         // TODO: implement once create command works
         //[Fact]
         //public async Task Get_LocalizedValue_ShouldReturnLocalizationValue()

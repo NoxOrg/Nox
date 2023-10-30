@@ -62,7 +62,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     [EnableQuery]
     public async Task<SingleResult<WorkplaceDto>> Get([FromRoute] System.UInt32 key)
     {
-        var result = await _mediator.Send(new GetWorkplaceByIdQuery(key));
+        var result = await _mediator.Send(new GetWorkplaceByIdQuery(_httpLanguageProvider.GetLanguage(), key));
         return SingleResult.Create(result);
     }
 
@@ -75,7 +75,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
 
         var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace));
 
-        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(createdKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(_httpLanguageProvider.GetLanguage(), createdKey.keyId))).SingleOrDefault();
 
         return Created(item);
     }
@@ -95,7 +95,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
             return NotFound();
         }
 
-        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(updatedKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(_httpLanguageProvider.GetLanguage(), updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
     }
@@ -125,7 +125,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
             return NotFound();
         }
 
-        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(updatedKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(_httpLanguageProvider.GetLanguage(), updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
     }
