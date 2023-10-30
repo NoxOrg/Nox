@@ -97,14 +97,11 @@
 
 	<PropertyGroup>
 		<!-- Define the local NuGet feed path -->
-		<LocalFeedPath>D:\IWG\Nox.Generator\src\nuget</LocalFeedPath>
+		<LocalFeedPath>..\nuget</LocalFeedPath>
 	</PropertyGroup>
 
 	<Target Name="CopyPackage" AfterTargets="Pack">
-		<Copy
-		  SourceFiles="$(OutputPath)..\$(PackageId).$(Version).nupkg"
-		  DestinationFolder="$(LocalFeedPath)"
-    />
+		<Copy SourceFiles="$(OutputPath)..\$(PackageId).$(Version).nupkg" DestinationFolder="$(LocalFeedPath)" />
 	</Target>
 
 </Project>
