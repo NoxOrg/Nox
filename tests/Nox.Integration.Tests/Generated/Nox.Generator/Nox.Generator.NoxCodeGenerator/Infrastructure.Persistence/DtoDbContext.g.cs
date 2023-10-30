@@ -121,7 +121,7 @@ internal class DtoDbContext : DbContext
 
                 _noxDtoDatabaseConfigurator.ConfigureDto(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
 
-                if (entity.ShouldBeLocalized)
+                if (entity.IsLocalized)
                 {
                     dtoName = NoxCodeGenConventions.GetEntityDtoNameForLocalizedType(entity.Name);
                     

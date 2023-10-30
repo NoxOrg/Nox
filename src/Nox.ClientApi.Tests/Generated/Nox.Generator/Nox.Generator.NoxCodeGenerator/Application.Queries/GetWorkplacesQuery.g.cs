@@ -8,7 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 
 using ClientApi.Application.Dto;
-using ClientApi.Infrastructure.Persistence;using Nox.Presentation.Api;
+using ClientApi.Infrastructure.Persistence;
+using Nox.Presentation.Api;
 using Nox.Solution;
 
 namespace ClientApi.Application.Queries;
@@ -18,9 +19,7 @@ public record GetWorkplacesQuery() : IRequest<IQueryable<WorkplaceDto>>;
 internal partial class GetWorkplacesQueryHandler: GetWorkplacesQueryHandlerBase
 {
     public GetWorkplacesQueryHandler(DtoDbContext dataDbContext,
-        NoxSolution solution,
         IHttpLanguageProvider languageProvider): base(dataDbContext,
-            solution,
             languageProvider)
     {
     
@@ -28,14 +27,13 @@ internal partial class GetWorkplacesQueryHandler: GetWorkplacesQueryHandlerBase
 }
 
 internal abstract class GetWorkplacesQueryHandlerBase : QueryBase<IQueryable<WorkplaceDto>>, IRequestHandler<GetWorkplacesQuery, IQueryable<WorkplaceDto>>
-{private readonly NoxSolution _solution;
-        private readonly IHttpLanguageProvider _languageProvider;
+{
+    private readonly IHttpLanguageProvider _languageProvider;
 
     public  GetWorkplacesQueryHandlerBase(DtoDbContext dataDbContext,
-        NoxSolution solution,
         IHttpLanguageProvider languageProvider)
     {
-        DataDbContext = dataDbContext;_solution = solution;
+        DataDbContext = dataDbContext;
         _languageProvider = languageProvider;
     }
 
@@ -66,6 +64,5 @@ internal abstract class GetWorkplacesQueryHandlerBase : QueryBase<IQueryable<Wor
             select item;
 
         return Task.FromResult(OnResponse(getItemsQuery));
-
     }
 }

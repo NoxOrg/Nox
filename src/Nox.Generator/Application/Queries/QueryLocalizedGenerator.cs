@@ -7,13 +7,13 @@ using System.Linq;
 
 namespace Nox.Generator.Application.Queries;
 
-internal class QueryGenerator : ApplicationEntityDependentGeneratorBase
+internal class QueryLocalizedGenerator : ApplicationEntityDependentGeneratorBase
 {
     protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, IEnumerable<Entity> entities)
     {
-        var templateName = @"Application.Queries.Query";
+        var templateName = @"Application.Queries.QueryLocalized";
 
-        foreach (var entity in entities.Where(x => !x.IsLocalized))
+        foreach (var entity in entities.Where(x => x.IsLocalized))
         {
             if (entity.IsOwnedEntity)
                 continue;

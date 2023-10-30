@@ -8,7 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 
 using TestWebApp.Application.Dto;
-using TestWebApp.Infrastructure.Persistence;using Nox.Presentation.Api;
+using TestWebApp.Infrastructure.Persistence;
+using Nox.Presentation.Api;
 using Nox.Solution;
 
 namespace TestWebApp.Application.Queries;
@@ -18,9 +19,7 @@ public record GetTestEntityLocalizationsQuery() : IRequest<IQueryable<TestEntity
 internal partial class GetTestEntityLocalizationsQueryHandler: GetTestEntityLocalizationsQueryHandlerBase
 {
     public GetTestEntityLocalizationsQueryHandler(DtoDbContext dataDbContext,
-        NoxSolution solution,
         IHttpLanguageProvider languageProvider): base(dataDbContext,
-            solution,
             languageProvider)
     {
     
@@ -28,14 +27,13 @@ internal partial class GetTestEntityLocalizationsQueryHandler: GetTestEntityLoca
 }
 
 internal abstract class GetTestEntityLocalizationsQueryHandlerBase : QueryBase<IQueryable<TestEntityLocalizationDto>>, IRequestHandler<GetTestEntityLocalizationsQuery, IQueryable<TestEntityLocalizationDto>>
-{private readonly NoxSolution _solution;
-        private readonly IHttpLanguageProvider _languageProvider;
+{
+    private readonly IHttpLanguageProvider _languageProvider;
 
     public  GetTestEntityLocalizationsQueryHandlerBase(DtoDbContext dataDbContext,
-        NoxSolution solution,
         IHttpLanguageProvider languageProvider)
     {
-        DataDbContext = dataDbContext;_solution = solution;
+        DataDbContext = dataDbContext;
         _languageProvider = languageProvider;
     }
 
@@ -57,13 +55,12 @@ internal abstract class GetTestEntityLocalizationsQueryHandlerBase : QueryBase<I
         Etag = item.Etag
             };
 
-        var sqlStatement = linqQueryBuilder.ToQueryString().Replace($"WHERE @__{nameof(cultureCode)}_0", $"'{cultureCode}'");
+        var sqlStatement = linqQueryBuilder.ToQueryString().Replace($"WHERE @__{nameof(cultureCode)}_0", $"WHERE '{cultureCode}'");
 
         IQueryable<TestEntityLocalizationDto> getItemsQuery =
             from item in DataDbContext.TestEntityLocalizations.FromSqlRaw(sqlStatement)
             select item;
 
         return Task.FromResult(OnResponse(getItemsQuery));
-
     }
 }

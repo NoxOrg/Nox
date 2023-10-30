@@ -24,7 +24,7 @@ internal class EntityLocalizedDtoGenerator : INoxCodeGenerator
 
         foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
-            if (!entity.ShouldBeLocalized)
+            if (!entity.IsLocalized)
                 continue;
 
             var entityAttributesToLocalize = entity.GetAttributesToLocalize();

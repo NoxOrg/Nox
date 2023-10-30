@@ -103,7 +103,7 @@ public class Entity : DefinitionBase
     public bool HasCompositeKey => Keys.Count > 1;
 
     [YamlIgnore]
-    public bool ShouldBeLocalized =>
+    public bool IsLocalized =>
         !HasCompositeKey &&
         !IsOwnedEntity &&
         this.GetAttributesToLocalize().Any();
