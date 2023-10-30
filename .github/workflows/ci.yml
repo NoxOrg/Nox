@@ -33,11 +33,6 @@ jobs:
       - name: Build Nox.Generator.Tasks
         run: dotnet build ./src/Nox.Generator.Tasks
 
-      - name: Check NuGet Local Feed
-        run: |
-          # List the contents of the local NuGet feed for verification
-          ls -l ./src/nuget/
-
       - name: Restore
         run: dotnet restore ./src/Nox.Generator.sln
 

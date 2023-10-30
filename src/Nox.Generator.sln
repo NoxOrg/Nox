@@ -26,6 +26,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0SolutionItems", "0SolutionItems", "{820129FF-6448-42E2-8792-ABE1A8CBF722}"
 	ProjectSection(SolutionItems) = preProject
 		..\GitVersion.yml = ..\GitVersion.yml
+		nuget.config = nuget.config
 		..\readme.md = ..\readme.md
 	EndProjectSection
 EndProject
