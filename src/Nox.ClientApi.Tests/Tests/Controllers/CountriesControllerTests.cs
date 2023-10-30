@@ -232,10 +232,10 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             result.Should().NotBeNull();
-            result!.Id.Should().BeGreaterThan(0);
+            result!.Id.Should().BeGreaterThanOrEqualTo(10);
 
             getCountryResponse.Should().NotBeNull();
-            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.Id.Should().BeGreaterThanOrEqualTo(10);
             getCountryResponse!.CountryShortNames!.Single().Name.Should().Be(expectedCountryLocalName);
             getCountryResponse!.CountryBarCode.Should().NotBeNull();
             getCountryResponse!.CountryBarCode!.BarCodeName.Should().Be(expectedBarCodeName);
@@ -561,7 +561,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             countryResponse.Should().NotBeNull();
-            countryResponse!.Id.Should().BeGreaterThan(0);
+            countryResponse!.Id.Should().BeGreaterThanOrEqualTo(10);
 
             getRefResponse.Should().NotBeNull();
             getRefResponse.Should().HaveCount(3)
@@ -598,10 +598,10 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             result.Should().NotBeNull();
-            result!.Id.Should().BeGreaterThan(0);
+            result!.Id.Should().BeGreaterThanOrEqualTo(10);
 
             getCountryResponse.Should().NotBeNull();
-            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.Id.Should().BeGreaterThanOrEqualTo(10);
             getCountryResponse!.PhysicalWorkplaces.Should().NotBeNull();
             getCountryResponse!.PhysicalWorkplaces!.Should()
                 .HaveCount(3)
@@ -630,12 +630,12 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             countryResponse.Should().NotBeNull();
-            countryResponse!.Id.Should().BeGreaterThan(0);
+            countryResponse!.Id.Should().BeGreaterThanOrEqualTo(10);
             workplaceResponse.Should().NotBeNull();
             workplaceResponse!.Id.Should().BeGreaterThan(0);
 
             getCountryResponse.Should().NotBeNull();
-            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.Id.Should().BeGreaterThanOrEqualTo(10);
             getCountryResponse!.PhysicalWorkplaces.Should().NotBeNull();
             getCountryResponse!.PhysicalWorkplaces!.Should()
                 .HaveCount(1)
@@ -682,10 +682,10 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             countryResponse.Should().NotBeNull();
-            countryResponse!.Id.Should().BeGreaterThan(0);
+            countryResponse!.Id.Should().BeGreaterThanOrEqualTo(10);
 
             getCountryResponse.Should().NotBeNull();
-            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.Id.Should().BeGreaterThanOrEqualTo(10);
             getCountryResponse!.PhysicalWorkplaces.Should().NotBeNull();
             getCountryResponse!.PhysicalWorkplaces!.Should()
                 .HaveCount(2)
@@ -721,10 +721,10 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             countryResponse.Should().NotBeNull();
-            countryResponse!.Id.Should().BeGreaterThan(0);
+            countryResponse!.Id.Should().BeGreaterThanOrEqualTo(10);
 
             getCountryResponse.Should().NotBeNull();
-            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.Id.Should().BeGreaterThanOrEqualTo(10);
             getCountryResponse!.PhysicalWorkplaces.Should().NotBeNull();
             getCountryResponse!.PhysicalWorkplaces.Should().BeEmpty();
         }
@@ -751,7 +751,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             result.Should().NotBeNull();
-            result!.Id.Should().BeGreaterThan(0);
+            result!.Id.Should().BeGreaterThanOrEqualTo(10);
         }
 
         [Fact]
@@ -799,7 +799,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             result.Should().NotBeNull();
-            result.Id.Should().BeGreaterThan(0);
+            result.Id.Should().BeGreaterThanOrEqualTo(10);
 
             queryResult.Should().NotBeNull();
             queryResult!.CountryDebt!.Amount.Should().Be(expectedAmount);
@@ -1003,7 +1003,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             result.Should().NotBeNull();
-            result!.Id.Should().BeGreaterThan(0);
+            result!.Id.Should().BeGreaterThanOrEqualTo(10);
             result!.FirstLanguageCode.Should().Be(expectedLanguageCode);
         }
 

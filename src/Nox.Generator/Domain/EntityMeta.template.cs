@@ -16,7 +16,7 @@ namespace {{codeGeneratorState.DomainNameSpace}};
 public partial class {{className}}
 {
 {{- for entityMetaData in entitiesMetaData }}
-    {{ if entityMetaData.HasTypeOptions == true }}
+    {{ if entityMetaData.HasTypeOptions == true && entityMetaData.Type != "AutoNumber" }}
     /// <summary>
     /// Type options for property '{{entityMetaData.Name}}'
     /// </summary>

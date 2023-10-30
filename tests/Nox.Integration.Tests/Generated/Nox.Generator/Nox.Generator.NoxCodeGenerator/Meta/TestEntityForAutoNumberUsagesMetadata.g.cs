@@ -17,37 +17,17 @@ public partial class TestEntityForAutoNumberUsagesMetadata
 {
     
         /// <summary>
-        /// Type options for property 'Id'
-        /// </summary>
-        public static Nox.Types.AutoNumberTypeOptions IdTypeOptions {get; private set;} = new ()
-        {
-            StartsAt = 10,
-            IncrementsBy = 2,
-        };
-    
-    
-        /// <summary>
         /// Factory for property 'Id'
         /// </summary>
         public static Nox.Types.AutoNumber CreateId(System.Int64 value)
-            => Nox.Types.AutoNumber.From(value, IdTypeOptions);
+            => Nox.Types.AutoNumber.FromDatabase(value);
         
-    
-        /// <summary>
-        /// Type options for property 'AutoNumberField'
-        /// </summary>
-        public static Nox.Types.AutoNumberTypeOptions AutoNumberFieldTypeOptions {get; private set;} = new ()
-        {
-            StartsAt = 20,
-            IncrementsBy = 2,
-        };
-    
     
         /// <summary>
         /// Factory for property 'AutoNumberField'
         /// </summary>
         public static Nox.Types.AutoNumber CreateAutoNumberField(System.Int64 value)
-            => Nox.Types.AutoNumber.From(value, AutoNumberFieldTypeOptions);
+            => Nox.Types.AutoNumber.FromDatabase(value);
         
     
         /// <summary>

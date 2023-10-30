@@ -14,6 +14,9 @@ keys:
     isRequired: true
     description: The unique identifier 
     type: autoNumber
+    autoNumberTypeOptions:
+      startsAt: 10
+      incrementsBy: 5
 
 attributes:
 
