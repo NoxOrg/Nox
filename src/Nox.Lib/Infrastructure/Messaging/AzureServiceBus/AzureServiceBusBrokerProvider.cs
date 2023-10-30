@@ -6,7 +6,7 @@ namespace Nox.Infrastructure.Messaging.AzureServiceBus;
 public class AzureServiceBusBrokerProvider : IMessageBrokerProvider
 {
     public MessageBrokerProvider Provider => MessageBrokerProvider.AzureServiceBus;
-    public readonly NoxSolution _noxSolution;
+    private readonly NoxSolution _noxSolution;
 
     public AzureServiceBusBrokerProvider(NoxSolution noxSolution)
     {
@@ -23,11 +23,8 @@ public class AzureServiceBusBrokerProvider : IMessageBrokerProvider
             var connectionString = $"Endpoint={config.Endpoint}/;SharedAccessKeyName={config.SharedAccessKeyName};SharedAccessKey={config.SharedAccessKey}";
 
             cfg.Host(connectionString);
-
             cfg.ConfigureEndpoints(context);
-
-            cfg.UseRawJsonSerializer();
-                        
+            cfg.AddSerializer(new CloudEventSerializorFactory(_noxSolution.PlatformId, _noxSolution.Name, _noxSolution.Version));
             cfg.MessageTopology.SetEntityNameFormatter(new CustomEntityNameFormatter(_noxSolution.PlatformId, _noxSolution.Name));
         });        
         return configuration;
