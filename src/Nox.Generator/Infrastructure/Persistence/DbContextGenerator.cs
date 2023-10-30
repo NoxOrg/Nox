@@ -29,7 +29,7 @@ internal class DbContextGenerator : INoxCodeGenerator
         const string templateName = @"Infrastructure.Persistence.DbContext";
 
         var entitiesToLocalize = noxCodeGenCodeConventions.Solution.Domain.Entities
-            .Where(entity => entity.ShouldBeLocalized);
+            .Where(entity => entity.IsLocalized);
 
         var enumerationAttributes = noxCodeGenCodeConventions.Solution.Domain.Entities
            .Select(entity =>

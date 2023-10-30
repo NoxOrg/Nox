@@ -55,7 +55,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<WorkplaceDto>>> Get()
     {
-        var result = await _mediator.Send(new GetWorkplacesQuery());
+        var result = await _mediator.Send(new GetWorkplacesQuery(_httpLanguageProvider.GetLanguage()));
         return Ok(result);
     }
 

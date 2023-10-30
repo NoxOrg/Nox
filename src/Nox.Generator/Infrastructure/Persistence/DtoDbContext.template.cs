@@ -52,7 +52,7 @@ internal class DtoDbContext : DbContext
     public DbSet<{{ entity.Name }}Dto> {{ entity.PluralName }} { get; set; } = null!;
     {{- end }}
     {{- for entity in entitiesToLocalize }}
-    public DbSet<{{GetEntityDtoNameForLocalizedType entity.Name}}> {{GetEntityDtoNameForLocalizedType entity.PluralName}} { get; set; } = null!;
+    public DbSet<{{GetEntityDtoNameForLocalizedType entity.Name}}> {{GetEntityNameForLocalizedType entity.PluralName}} { get; set; } = null!;
     {{- end }}
 
     {{- for entityAtt in enumerationAttributes #Setup Entity Enumerations}}
@@ -96,7 +96,7 @@ internal class DtoDbContext : DbContext
 
                 _noxDtoDatabaseConfigurator.ConfigureDto(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
 
-                if (entity.ShouldBeLocalized)
+                if (entity.IsLocalized)
                 {
                     dtoName = NoxCodeGenConventions.GetEntityDtoNameForLocalizedType(entity.Name);
                     

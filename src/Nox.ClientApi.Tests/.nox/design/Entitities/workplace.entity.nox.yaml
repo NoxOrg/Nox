@@ -12,7 +12,7 @@ keys:
 
   - name: Id
     type: nuid
-    description: Workplace unique identifier 
+    description: Workplace unique identifier
     isRequired: true
     nuidTypeOptions:
         separator: "-"
@@ -48,11 +48,12 @@ attributes:
 relationships:
 
     - name: BelongsToCountry
-      description: Workplace country 
+      description: Workplace country
       relationship: zeroOrOne
       entity: Country
+
 persistence:
-    isAudited: false    
+    isAudited: false
     create:
         isEnabled: true
         raiseEvents: domainEventsOnly

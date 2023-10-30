@@ -1,5 +1,6 @@
 ﻿using Humanizer;
 using Nox.Solution.Events;
+using Nox.Solution.Extensions;
 using Nox.Types;
 using Nox.Types.Schema;
 using System;
@@ -102,10 +103,10 @@ public class Entity : DefinitionBase
     public bool HasCompositeKey => Keys.Count > 1;
 
     [YamlIgnore]
-    public bool ShouldBeLocalized =>
+    public bool IsLocalized =>
         !HasCompositeKey &&
         !IsOwnedEntity &&
-        GetAttributesToLocalize().Any();
+        this.GetAttributesToLocalize().Any();
 
     public Entity ShallowCopy(string? newName = null)
     {
@@ -143,13 +144,6 @@ public class Entity : DefinitionBase
     public virtual NoxSimpleTypeDefinition? GetAttributeByName(string entityName)
     {
         return _attributesByName![entityName];
-    }
-
-    public virtual IEnumerable<NoxSimpleTypeDefinition> GetAttributesToLocalize()
-    {
-        return Attributes
-            .Where(x => x.Type == NoxType.Text &&
-                x.TextTypeOptions!.IsLocalized);
     }
 
     public virtual bool TryGetAttributeByName(string entityName, out NoxSimpleTypeDefinition? result)
