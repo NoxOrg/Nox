@@ -46,7 +46,7 @@ internal abstract class UpdateStoreCommandHandlerBase : CommandBase<UpdateStoreC
 	public virtual async Task<StoreKeyDto?> Handle(UpdateStoreCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = ClientApi.Domain.StoreMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Stores.FindAsync(keyId);

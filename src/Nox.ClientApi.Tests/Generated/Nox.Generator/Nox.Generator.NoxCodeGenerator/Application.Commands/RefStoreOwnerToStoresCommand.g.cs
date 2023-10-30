@@ -85,7 +85,7 @@ internal abstract class RefStoreOwnerToStoresCommandHandlerBase<TRequest> : Comm
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = ClientApi.Domain.StoreOwnerMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.StoreOwners.FindAsync(keyId);
 		if (entity == null)

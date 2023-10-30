@@ -37,7 +37,7 @@ internal abstract class DeleteLandLordByIdCommandHandlerBase : CommandBase<Delet
 	public virtual async Task<bool> Handle(DeleteLandLordByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.LandLordMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.LandLords.FindAsync(keyId);

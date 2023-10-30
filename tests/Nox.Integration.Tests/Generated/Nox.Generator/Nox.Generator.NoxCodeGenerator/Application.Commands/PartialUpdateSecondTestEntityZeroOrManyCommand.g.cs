@@ -44,7 +44,7 @@ internal class PartialUpdateSecondTestEntityZeroOrManyCommandHandlerBase : Comma
 	public virtual async Task<SecondTestEntityZeroOrManyKeyDto?> Handle(PartialUpdateSecondTestEntityZeroOrManyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.SecondTestEntityZeroOrManyMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.SecondTestEntityZeroOrManies.FindAsync(keyId);

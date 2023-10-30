@@ -59,7 +59,7 @@ internal abstract class CreateCashStockOrderCommandHandlerBase : CommandBase<Cre
 	public virtual async Task<CashStockOrderKeyDto> Handle(CreateCashStockOrderCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.CashStockOrderForVendingMachineId is not null)

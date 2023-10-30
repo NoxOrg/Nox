@@ -46,7 +46,7 @@ internal abstract class UpdateTestEntityLocalizationCommandHandlerBase : Command
 	public virtual async Task<TestEntityLocalizationKeyDto?> Handle(UpdateTestEntityLocalizationCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityLocalizationMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityLocalizations.FindAsync(keyId);

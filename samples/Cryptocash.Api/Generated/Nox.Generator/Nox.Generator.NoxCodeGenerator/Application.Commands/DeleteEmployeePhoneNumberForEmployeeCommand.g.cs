@@ -40,7 +40,7 @@ internal partial class DeleteEmployeePhoneNumberForEmployeeCommandHandlerBase : 
 	public virtual async Task<bool> Handle(DeleteEmployeePhoneNumberForEmployeeCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.EmployeeMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await DbContext.Employees.FindAsync(keyId);
 		if (parentEntity == null)

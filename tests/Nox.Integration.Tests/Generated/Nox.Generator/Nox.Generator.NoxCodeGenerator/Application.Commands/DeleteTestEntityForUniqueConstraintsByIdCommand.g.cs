@@ -37,7 +37,7 @@ internal abstract class DeleteTestEntityForUniqueConstraintsByIdCommandHandlerBa
 	public virtual async Task<bool> Handle(DeleteTestEntityForUniqueConstraintsByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityForUniqueConstraints.FindAsync(keyId);

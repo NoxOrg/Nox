@@ -55,7 +55,7 @@ internal abstract class CreateThirdTestEntityExactlyOneCommandHandlerBase : Comm
 	public virtual async Task<ThirdTestEntityExactlyOneKeyDto> Handle(CreateThirdTestEntityExactlyOneCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.ThirdTestEntityZeroOrOneRelationshipId is not null)

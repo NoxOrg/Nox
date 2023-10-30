@@ -41,7 +41,7 @@ internal abstract class PartialUpdateExchangeRateForCurrencyCommandHandlerBase: 
 	public virtual async Task<ExchangeRateKeyDto?> Handle(PartialUpdateExchangeRateForCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.CurrencyMetadata.CreateId(request.ParentKeyDto.keyId);
 
 		var parentEntity = await DbContext.Currencies.FindAsync(keyId);

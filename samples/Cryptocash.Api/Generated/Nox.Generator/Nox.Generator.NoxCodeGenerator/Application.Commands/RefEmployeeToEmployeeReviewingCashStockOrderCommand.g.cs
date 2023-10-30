@@ -85,7 +85,7 @@ internal abstract class RefEmployeeToEmployeeReviewingCashStockOrderCommandHandl
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.EmployeeMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.Employees.FindAsync(keyId);
 		if (entity == null)

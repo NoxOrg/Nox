@@ -46,7 +46,7 @@ internal abstract class UpdateVendingMachineCommandHandlerBase : CommandBase<Upd
 	public virtual async Task<VendingMachineKeyDto?> Handle(UpdateVendingMachineCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.VendingMachineMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.VendingMachines.FindAsync(keyId);

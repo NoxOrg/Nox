@@ -55,7 +55,7 @@ internal abstract class CreatePaymentProviderCommandHandlerBase : CommandBase<Cr
 	public virtual async Task<PaymentProviderKeyDto> Handle(CreatePaymentProviderCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		foreach(var relatedCreateDto in request.EntityDto.PaymentProviderRelatedPaymentDetails)

@@ -46,7 +46,7 @@ internal abstract class UpdateTestEntityExactlyOneCommandHandlerBase : CommandBa
 	public virtual async Task<TestEntityExactlyOneKeyDto?> Handle(UpdateTestEntityExactlyOneCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityExactlyOneMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityExactlyOnes.FindAsync(keyId);
