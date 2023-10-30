@@ -22,4 +22,8 @@
         </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Nox.Integration\Nox.Integration.csproj" />
+    </ItemGroup>
+
 </Project>
