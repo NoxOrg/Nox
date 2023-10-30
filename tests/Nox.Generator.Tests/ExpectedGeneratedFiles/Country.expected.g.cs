@@ -54,7 +54,7 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     ///  (Required).
     /// </summary>
     public Nuid Id {get; set;} = null!;
-    
+       
     	public virtual void EnsureId()
     	{
     		if(Id is null)
