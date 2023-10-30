@@ -14,34 +14,36 @@ using Nox.Solution;
 
 namespace TestWebApp.Application.Queries;
 
-public record GetTestEntityLocalizationsQuery() : IRequest<IQueryable<TestEntityLocalizationDto>>;
+public class GetTestEntityLocalizationsQuery : IRequest<IQueryable<TestEntityLocalizationDto>>
+{
+    public string CultureCode { get; set; }
+
+    public GetTestEntityLocalizationsQuery(string cultureCode)
+    {
+        CultureCode = cultureCode;
+    }
+};
 
 internal partial class GetTestEntityLocalizationsQueryHandler: GetTestEntityLocalizationsQueryHandlerBase
 {
-    public GetTestEntityLocalizationsQueryHandler(DtoDbContext dataDbContext,
-        IHttpLanguageProvider languageProvider): base(dataDbContext,
-            languageProvider)
+    public GetTestEntityLocalizationsQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
-    
+
     }
 }
 
 internal abstract class GetTestEntityLocalizationsQueryHandlerBase : QueryBase<IQueryable<TestEntityLocalizationDto>>, IRequestHandler<GetTestEntityLocalizationsQuery, IQueryable<TestEntityLocalizationDto>>
 {
-    private readonly IHttpLanguageProvider _languageProvider;
-
-    public  GetTestEntityLocalizationsQueryHandlerBase(DtoDbContext dataDbContext,
-        IHttpLanguageProvider languageProvider)
+    public  GetTestEntityLocalizationsQueryHandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
-        _languageProvider = languageProvider;
     }
 
     public DtoDbContext DataDbContext { get; }
 
     public virtual Task<IQueryable<TestEntityLocalizationDto>> Handle(GetTestEntityLocalizationsQuery request, CancellationToken cancellationToken)
     {
-        var cultureCode = _languageProvider.GetLanguage();
+        var cultureCode = request.CultureCode;
 
         IQueryable<TestEntityLocalizationDto> linqQueryBuilder =
             from item in DataDbContext.TestEntityLocalizations.AsNoTracking()

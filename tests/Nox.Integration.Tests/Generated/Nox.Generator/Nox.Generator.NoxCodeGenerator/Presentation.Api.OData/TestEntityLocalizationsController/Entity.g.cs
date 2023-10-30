@@ -55,7 +55,7 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<TestEntityLocalizationDto>>> Get()
     {
-        var result = await _mediator.Send(new GetTestEntityLocalizationsQuery());
+        var result = await _mediator.Send(new GetTestEntityLocalizationsQuery(_httpLanguageProvider.GetLanguage()));
         return Ok(result);
     }
 

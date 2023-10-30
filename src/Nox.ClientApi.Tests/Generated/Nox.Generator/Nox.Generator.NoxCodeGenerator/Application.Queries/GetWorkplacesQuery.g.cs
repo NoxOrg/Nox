@@ -14,34 +14,36 @@ using Nox.Solution;
 
 namespace ClientApi.Application.Queries;
 
-public record GetWorkplacesQuery() : IRequest<IQueryable<WorkplaceDto>>;
+public class GetWorkplacesQuery : IRequest<IQueryable<WorkplaceDto>>
+{
+    public string CultureCode { get; set; }
+
+    public GetWorkplacesQuery(string cultureCode)
+    {
+        CultureCode = cultureCode;
+    }
+};
 
 internal partial class GetWorkplacesQueryHandler: GetWorkplacesQueryHandlerBase
 {
-    public GetWorkplacesQueryHandler(DtoDbContext dataDbContext,
-        IHttpLanguageProvider languageProvider): base(dataDbContext,
-            languageProvider)
+    public GetWorkplacesQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
-    
+
     }
 }
 
 internal abstract class GetWorkplacesQueryHandlerBase : QueryBase<IQueryable<WorkplaceDto>>, IRequestHandler<GetWorkplacesQuery, IQueryable<WorkplaceDto>>
 {
-    private readonly IHttpLanguageProvider _languageProvider;
-
-    public  GetWorkplacesQueryHandlerBase(DtoDbContext dataDbContext,
-        IHttpLanguageProvider languageProvider)
+    public  GetWorkplacesQueryHandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
-        _languageProvider = languageProvider;
     }
 
     public DtoDbContext DataDbContext { get; }
 
     public virtual Task<IQueryable<WorkplaceDto>> Handle(GetWorkplacesQuery request, CancellationToken cancellationToken)
     {
-        var cultureCode = _languageProvider.GetLanguage();
+        var cultureCode = request.CultureCode;
 
         IQueryable<WorkplaceDto> linqQueryBuilder =
             from item in DataDbContext.Workplaces.AsNoTracking()

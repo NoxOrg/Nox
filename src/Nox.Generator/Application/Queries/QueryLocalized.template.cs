@@ -14,34 +14,36 @@ using Nox.Solution;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Queries;
 
-public record Get{{entity.PluralName}}Query() : IRequest<IQueryable<{{entity.Name}}Dto>>;
+public class Get{{entity.PluralName}}Query : IRequest<IQueryable<{{entity.Name}}Dto>>
+{
+    public string CultureCode { get; set; }
+
+    public Get{{entity.PluralName}}Query(string cultureCode)
+    {
+        CultureCode = cultureCode;
+    }
+};
 
 internal partial class Get{{entity.PluralName}}QueryHandler: Get{{entity.PluralName}}QueryHandlerBase
 {
-    public Get{{entity.PluralName}}QueryHandler(DtoDbContext dataDbContext,
-        IHttpLanguageProvider languageProvider): base(dataDbContext,
-            languageProvider)
+    public Get{{entity.PluralName}}QueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
     {
-    
+
     }
 }
 
 internal abstract class Get{{entity.PluralName}}QueryHandlerBase : QueryBase<IQueryable<{{entity.Name}}Dto>>, IRequestHandler<Get{{entity.PluralName}}Query, IQueryable<{{entity.Name}}Dto>>
 {
-    private readonly IHttpLanguageProvider _languageProvider;
-
-    public  Get{{entity.PluralName}}QueryHandlerBase(DtoDbContext dataDbContext,
-        IHttpLanguageProvider languageProvider)
+    public  Get{{entity.PluralName}}QueryHandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
-        _languageProvider = languageProvider;
     }
 
     public DtoDbContext DataDbContext { get; }
 
     public virtual Task<IQueryable<{{entity.Name}}Dto>> Handle(Get{{entity.PluralName}}Query request, CancellationToken cancellationToken)
     {
-        var cultureCode = _languageProvider.GetLanguage();
+        var cultureCode = request.CultureCode;
 
         IQueryable<{{entity.Name}}Dto> linqQueryBuilder =
             from item in DataDbContext.{{entity.PluralName}}.AsNoTracking()

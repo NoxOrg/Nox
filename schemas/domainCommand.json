@@ -134,7 +134,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -369,7 +369,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -515,7 +515,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -669,7 +669,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -851,7 +851,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -995,7 +995,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -1167,7 +1167,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -1324,7 +1324,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -1458,7 +1458,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -1635,7 +1635,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -1792,7 +1792,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -1945,7 +1945,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -2093,7 +2093,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -2248,7 +2248,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -2392,7 +2392,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -2564,7 +2564,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -2718,7 +2718,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -3074,7 +3074,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -3238,7 +3238,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -3392,7 +3392,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -3824,7 +3824,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -3978,7 +3978,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -4130,7 +4130,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -4309,7 +4309,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -4453,7 +4453,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -4612,7 +4612,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -4786,7 +4786,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -5171,7 +5171,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -5343,7 +5343,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -5515,7 +5515,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -5669,7 +5669,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -5814,7 +5814,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -5868,7 +5868,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -6103,7 +6103,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -6249,7 +6249,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -6403,7 +6403,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -6585,7 +6585,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -6729,7 +6729,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -6901,7 +6901,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -7058,7 +7058,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -7192,7 +7192,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -7369,7 +7369,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -7526,7 +7526,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -7679,7 +7679,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -7827,7 +7827,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -7982,7 +7982,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -8126,7 +8126,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -8298,7 +8298,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -8452,7 +8452,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -8808,7 +8808,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -8972,7 +8972,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -9126,7 +9126,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -9558,7 +9558,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -9712,7 +9712,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -9864,7 +9864,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -10043,7 +10043,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -10187,7 +10187,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -10346,7 +10346,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -10520,7 +10520,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -10905,7 +10905,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -11077,7 +11077,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -11249,7 +11249,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -11403,7 +11403,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -11548,7 +11548,7 @@
                     }
                   ]
                 },
-                "shouldBeLocalized": {    
+                "isLocalized": {    
                   "oneOf": [
                     {
                       "type": "boolean"
@@ -11602,7 +11602,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -11761,7 +11761,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -11894,7 +11894,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -12035,7 +12035,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -12204,7 +12204,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -12335,7 +12335,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -12494,7 +12494,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -12638,7 +12638,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -12759,7 +12759,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -12923,7 +12923,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -13067,7 +13067,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -13207,7 +13207,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -13342,7 +13342,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -13484,7 +13484,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -13615,7 +13615,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -13774,7 +13774,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -13915,7 +13915,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -14258,7 +14258,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -14409,7 +14409,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -14550,7 +14550,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -14969,7 +14969,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -15110,7 +15110,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -15249,7 +15249,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -15415,7 +15415,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -15546,7 +15546,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -15692,7 +15692,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -15853,7 +15853,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -16225,7 +16225,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -16384,7 +16384,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -16543,7 +16543,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -16684,7 +16684,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
@@ -16813,7 +16813,7 @@
             }
           ]
         },
-        "shouldBeLocalized": {    
+        "isLocalized": {    
           "oneOf": [
             {
               "type": "boolean"
