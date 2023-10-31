@@ -543,7 +543,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             var headers = new Dictionary<string, IEnumerable<string>>()
             {
-                { "Accept-Language", new List<string> { $"fr-CH, fr;q=0.9, en;q=0.8, de;q=0.7, *;q=0.5" } }
+                { "Accept-Language", new List<string> { $"fr-FR, fr;q=0.9, en;q=0.8, de;q=0.7, *;q=0.5" } }
             };
 
             // Act
