@@ -58,10 +58,26 @@ internal abstract class CreateStoreOwnerCommandHandlerBase : CommandBase<CreateS
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		foreach(var relatedCreateDto in request.EntityDto.Stores)
+		if(request.EntityDto.StoresId.Any())
 		{
-			var relatedEntity = StoreFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToStores(relatedEntity);
+			foreach(var relatedId in request.EntityDto.StoresId)
+			{
+				var relatedKey = ClientApi.Domain.StoreMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.Stores.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToStores(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("Stores", relatedId.ToString());
+			}
+		}
+		else
+		{
+			foreach(var relatedCreateDto in request.EntityDto.Stores)
+			{
+				var relatedEntity = StoreFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToStores(relatedEntity);
+			}
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

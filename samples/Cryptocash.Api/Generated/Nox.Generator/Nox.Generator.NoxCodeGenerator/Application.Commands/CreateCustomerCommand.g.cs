@@ -70,20 +70,68 @@ internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCus
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		foreach(var relatedCreateDto in request.EntityDto.CustomerRelatedPaymentDetails)
+		if(request.EntityDto.CustomerRelatedPaymentDetailsId.Any())
 		{
-			var relatedEntity = PaymentDetailFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToCustomerRelatedPaymentDetails(relatedEntity);
+			foreach(var relatedId in request.EntityDto.CustomerRelatedPaymentDetailsId)
+			{
+				var relatedKey = Cryptocash.Domain.PaymentDetailMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.PaymentDetails.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToCustomerRelatedPaymentDetails(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("CustomerRelatedPaymentDetails", relatedId.ToString());
+			}
 		}
-		foreach(var relatedCreateDto in request.EntityDto.CustomerRelatedBookings)
+		else
 		{
-			var relatedEntity = BookingFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToCustomerRelatedBookings(relatedEntity);
+			foreach(var relatedCreateDto in request.EntityDto.CustomerRelatedPaymentDetails)
+			{
+				var relatedEntity = PaymentDetailFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToCustomerRelatedPaymentDetails(relatedEntity);
+			}
 		}
-		foreach(var relatedCreateDto in request.EntityDto.CustomerRelatedTransactions)
+		if(request.EntityDto.CustomerRelatedBookingsId.Any())
 		{
-			var relatedEntity = TransactionFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToCustomerRelatedTransactions(relatedEntity);
+			foreach(var relatedId in request.EntityDto.CustomerRelatedBookingsId)
+			{
+				var relatedKey = Cryptocash.Domain.BookingMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.Bookings.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToCustomerRelatedBookings(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("CustomerRelatedBookings", relatedId.ToString());
+			}
+		}
+		else
+		{
+			foreach(var relatedCreateDto in request.EntityDto.CustomerRelatedBookings)
+			{
+				var relatedEntity = BookingFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToCustomerRelatedBookings(relatedEntity);
+			}
+		}
+		if(request.EntityDto.CustomerRelatedTransactionsId.Any())
+		{
+			foreach(var relatedId in request.EntityDto.CustomerRelatedTransactionsId)
+			{
+				var relatedKey = Cryptocash.Domain.TransactionMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.Transactions.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToCustomerRelatedTransactions(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("CustomerRelatedTransactions", relatedId.ToString());
+			}
+		}
+		else
+		{
+			foreach(var relatedCreateDto in request.EntityDto.CustomerRelatedTransactions)
+			{
+				var relatedEntity = TransactionFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToCustomerRelatedTransactions(relatedEntity);
+			}
 		}
 		if(request.EntityDto.CustomerBaseCountryId is not null)
 		{

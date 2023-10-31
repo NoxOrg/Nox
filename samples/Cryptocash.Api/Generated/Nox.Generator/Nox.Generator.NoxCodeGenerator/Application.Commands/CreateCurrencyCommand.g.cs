@@ -62,15 +62,47 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		foreach(var relatedCreateDto in request.EntityDto.CurrencyUsedByCountry)
+		if(request.EntityDto.CurrencyUsedByCountryId.Any())
 		{
-			var relatedEntity = CountryFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToCurrencyUsedByCountry(relatedEntity);
+			foreach(var relatedId in request.EntityDto.CurrencyUsedByCountryId)
+			{
+				var relatedKey = Cryptocash.Domain.CountryMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.Countries.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToCurrencyUsedByCountry(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("CurrencyUsedByCountry", relatedId.ToString());
+			}
 		}
-		foreach(var relatedCreateDto in request.EntityDto.CurrencyUsedByMinimumCashStocks)
+		else
 		{
-			var relatedEntity = MinimumCashStockFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToCurrencyUsedByMinimumCashStocks(relatedEntity);
+			foreach(var relatedCreateDto in request.EntityDto.CurrencyUsedByCountry)
+			{
+				var relatedEntity = CountryFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToCurrencyUsedByCountry(relatedEntity);
+			}
+		}
+		if(request.EntityDto.CurrencyUsedByMinimumCashStocksId.Any())
+		{
+			foreach(var relatedId in request.EntityDto.CurrencyUsedByMinimumCashStocksId)
+			{
+				var relatedKey = Cryptocash.Domain.MinimumCashStockMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.MinimumCashStocks.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToCurrencyUsedByMinimumCashStocks(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("CurrencyUsedByMinimumCashStocks", relatedId.ToString());
+			}
+		}
+		else
+		{
+			foreach(var relatedCreateDto in request.EntityDto.CurrencyUsedByMinimumCashStocks)
+			{
+				var relatedEntity = MinimumCashStockFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToCurrencyUsedByMinimumCashStocks(relatedEntity);
+			}
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

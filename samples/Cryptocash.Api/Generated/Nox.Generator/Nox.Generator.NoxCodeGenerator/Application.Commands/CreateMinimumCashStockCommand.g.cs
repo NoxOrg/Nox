@@ -62,10 +62,26 @@ internal abstract class CreateMinimumCashStockCommandHandlerBase : CommandBase<C
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		foreach(var relatedCreateDto in request.EntityDto.MinimumCashStocksRequiredByVendingMachines)
+		if(request.EntityDto.MinimumCashStocksRequiredByVendingMachinesId.Any())
 		{
-			var relatedEntity = VendingMachineFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToMinimumCashStocksRequiredByVendingMachines(relatedEntity);
+			foreach(var relatedId in request.EntityDto.MinimumCashStocksRequiredByVendingMachinesId)
+			{
+				var relatedKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToMinimumCashStocksRequiredByVendingMachines(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("MinimumCashStocksRequiredByVendingMachines", relatedId.ToString());
+			}
+		}
+		else
+		{
+			foreach(var relatedCreateDto in request.EntityDto.MinimumCashStocksRequiredByVendingMachines)
+			{
+				var relatedEntity = VendingMachineFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToMinimumCashStocksRequiredByVendingMachines(relatedEntity);
+			}
 		}
 		if(request.EntityDto.MinimumCashStockRelatedCurrencyId is not null)
 		{

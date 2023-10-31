@@ -58,10 +58,26 @@ internal abstract class CreateSecondTestEntityOneOrManyCommandHandlerBase : Comm
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		foreach(var relatedCreateDto in request.EntityDto.TestEntityOneOrManyRelationship)
+		if(request.EntityDto.TestEntityOneOrManyRelationshipId.Any())
 		{
-			var relatedEntity = TestEntityOneOrManyFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToTestEntityOneOrManyRelationship(relatedEntity);
+			foreach(var relatedId in request.EntityDto.TestEntityOneOrManyRelationshipId)
+			{
+				var relatedKey = TestWebApp.Domain.TestEntityOneOrManyMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.TestEntityOneOrManies.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToTestEntityOneOrManyRelationship(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("TestEntityOneOrManyRelationship", relatedId.ToString());
+			}
+		}
+		else
+		{
+			foreach(var relatedCreateDto in request.EntityDto.TestEntityOneOrManyRelationship)
+			{
+				var relatedEntity = TestEntityOneOrManyFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToTestEntityOneOrManyRelationship(relatedEntity);
+			}
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

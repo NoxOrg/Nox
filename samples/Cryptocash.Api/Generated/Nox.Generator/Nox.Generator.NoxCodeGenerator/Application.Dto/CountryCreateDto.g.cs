@@ -97,6 +97,7 @@ public abstract class CountryCreateDtoBase : IEntityDto<DomainNamespace.Country>
     /// <summary>
     /// Country used by OneOrMany Commissions
     /// </summary>
+    public virtual List<System.Int64> CountryUsedByCommissionsId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<CommissionCreateDto> CountryUsedByCommissions { get; set; } = new();
@@ -104,6 +105,7 @@ public abstract class CountryCreateDtoBase : IEntityDto<DomainNamespace.Country>
     /// <summary>
     /// Country used by ZeroOrMany VendingMachines
     /// </summary>
+    public virtual List<System.Guid> CountryUsedByVendingMachinesId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<VendingMachineCreateDto> CountryUsedByVendingMachines { get; set; } = new();
@@ -111,6 +113,7 @@ public abstract class CountryCreateDtoBase : IEntityDto<DomainNamespace.Country>
     /// <summary>
     /// Country used by ZeroOrMany Customers
     /// </summary>
+    public virtual List<System.Int64> CountryUsedByCustomersId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<CustomerCreateDto> CountryUsedByCustomers { get; set; } = new();

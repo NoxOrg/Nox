@@ -58,10 +58,26 @@ internal abstract class CreateTestEntityOneOrManyToExactlyOneCommandHandlerBase 
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		foreach(var relatedCreateDto in request.EntityDto.TestEntityExactlyOneToOneOrMany)
+		if(request.EntityDto.TestEntityExactlyOneToOneOrManyId.Any())
 		{
-			var relatedEntity = TestEntityExactlyOneToOneOrManyFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToTestEntityExactlyOneToOneOrMany(relatedEntity);
+			foreach(var relatedId in request.EntityDto.TestEntityExactlyOneToOneOrManyId)
+			{
+				var relatedKey = TestWebApp.Domain.TestEntityExactlyOneToOneOrManyMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.TestEntityExactlyOneToOneOrManies.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToTestEntityExactlyOneToOneOrMany(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("TestEntityExactlyOneToOneOrMany", relatedId.ToString());
+			}
+		}
+		else
+		{
+			foreach(var relatedCreateDto in request.EntityDto.TestEntityExactlyOneToOneOrMany)
+			{
+				var relatedEntity = TestEntityExactlyOneToOneOrManyFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToTestEntityExactlyOneToOneOrMany(relatedEntity);
+			}
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
