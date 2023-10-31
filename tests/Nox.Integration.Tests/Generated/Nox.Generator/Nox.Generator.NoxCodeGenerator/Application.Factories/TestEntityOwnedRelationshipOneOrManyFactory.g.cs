@@ -40,9 +40,9 @@ internal abstract class TestEntityOwnedRelationshipOneOrManyFactoryBase : IEntit
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(TestEntityOwnedRelationshipOneOrManyEntity entity, TestEntityOwnedRelationshipOneOrManyUpdateDto updateDto)
+    public virtual void UpdateEntity(TestEntityOwnedRelationshipOneOrManyEntity entity, TestEntityOwnedRelationshipOneOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(TestEntityOwnedRelationshipOneOrManyEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -59,7 +59,7 @@ internal abstract class TestEntityOwnedRelationshipOneOrManyFactoryBase : IEntit
         return entity;
     }
 
-    private void UpdateEntityInternal(TestEntityOwnedRelationshipOneOrManyEntity entity, TestEntityOwnedRelationshipOneOrManyUpdateDto updateDto)
+    private void UpdateEntityInternal(TestEntityOwnedRelationshipOneOrManyEntity entity, TestEntityOwnedRelationshipOneOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.TextTestField = TestWebApp.Domain.TestEntityOwnedRelationshipOneOrManyMetadata.CreateTextTestField(updateDto.TextTestField.NonNullValue<System.String>());
     }
@@ -78,6 +78,9 @@ internal abstract class TestEntityOwnedRelationshipOneOrManyFactoryBase : IEntit
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == Nox.Types.CultureCode.From("");
 }
 
 internal partial class TestEntityOwnedRelationshipOneOrManyFactory : TestEntityOwnedRelationshipOneOrManyFactoryBase

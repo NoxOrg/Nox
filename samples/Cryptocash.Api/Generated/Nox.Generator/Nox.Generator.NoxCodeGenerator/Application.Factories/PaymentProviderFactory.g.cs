@@ -37,9 +37,9 @@ internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvi
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(PaymentProviderEntity entity, PaymentProviderUpdateDto updateDto)
+    public virtual void UpdateEntity(PaymentProviderEntity entity, PaymentProviderUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(PaymentProviderEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -55,7 +55,7 @@ internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvi
         return entity;
     }
 
-    private void UpdateEntityInternal(PaymentProviderEntity entity, PaymentProviderUpdateDto updateDto)
+    private void UpdateEntityInternal(PaymentProviderEntity entity, PaymentProviderUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.PaymentProviderName = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderName(updateDto.PaymentProviderName.NonNullValue<System.String>());
         entity.PaymentProviderType = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderType(updateDto.PaymentProviderType.NonNullValue<System.String>());
@@ -86,6 +86,9 @@ internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvi
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == Nox.Types.CultureCode.From("");
 }
 
 internal partial class PaymentProviderFactory : PaymentProviderFactoryBase

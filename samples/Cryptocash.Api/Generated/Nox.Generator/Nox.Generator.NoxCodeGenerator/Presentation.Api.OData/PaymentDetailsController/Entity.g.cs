@@ -87,8 +87,10 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
+        var language = _httpLanguageProvider.GetLanguage();
+
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdatePaymentDetailCommand(key, paymentDetail, etag));
+        var updatedKey = await _mediator.Send(new UpdatePaymentDetailCommand(key, paymentDetail, Nox.Types.CultureCode.From(language), etag));
 
         if (updatedKey is null)
         {

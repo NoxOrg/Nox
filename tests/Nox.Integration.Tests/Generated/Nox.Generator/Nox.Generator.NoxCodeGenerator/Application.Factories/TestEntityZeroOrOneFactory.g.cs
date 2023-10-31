@@ -37,9 +37,9 @@ internal abstract class TestEntityZeroOrOneFactoryBase : IEntityFactory<TestEnti
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(TestEntityZeroOrOneEntity entity, TestEntityZeroOrOneUpdateDto updateDto)
+    public virtual void UpdateEntity(TestEntityZeroOrOneEntity entity, TestEntityZeroOrOneUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(TestEntityZeroOrOneEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -55,7 +55,7 @@ internal abstract class TestEntityZeroOrOneFactoryBase : IEntityFactory<TestEnti
         return entity;
     }
 
-    private void UpdateEntityInternal(TestEntityZeroOrOneEntity entity, TestEntityZeroOrOneUpdateDto updateDto)
+    private void UpdateEntityInternal(TestEntityZeroOrOneEntity entity, TestEntityZeroOrOneUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.TextTestField = TestWebApp.Domain.TestEntityZeroOrOneMetadata.CreateTextTestField(updateDto.TextTestField.NonNullValue<System.String>());
     }
@@ -74,6 +74,9 @@ internal abstract class TestEntityZeroOrOneFactoryBase : IEntityFactory<TestEnti
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == Nox.Types.CultureCode.From("");
 }
 
 internal partial class TestEntityZeroOrOneFactory : TestEntityZeroOrOneFactoryBase

@@ -17,14 +17,15 @@ using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
-public record UpdateCountryCommand(System.Int64 keyId, CountryUpdateDto EntityDto, System.Guid? Etag) : IRequest<CountryKeyDto?>;
+public record UpdateCountryCommand(System.Int64 keyId, CountryUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<CountryKeyDto?>;
 
 internal partial class UpdateCountryCommandHandler : UpdateCountryCommandHandlerBase
 {
 	public UpdateCountryCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory) 
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -37,7 +38,8 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 	public UpdateCountryCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -69,7 +71,7 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 		}
 		entity.UpdateRefToPhysicalWorkplaces(physicalWorkplacesEntities);
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

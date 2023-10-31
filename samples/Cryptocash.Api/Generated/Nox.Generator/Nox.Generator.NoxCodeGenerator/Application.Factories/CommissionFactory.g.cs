@@ -37,9 +37,9 @@ internal abstract class CommissionFactoryBase : IEntityFactory<CommissionEntity,
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(CommissionEntity entity, CommissionUpdateDto updateDto)
+    public virtual void UpdateEntity(CommissionEntity entity, CommissionUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(CommissionEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -55,7 +55,7 @@ internal abstract class CommissionFactoryBase : IEntityFactory<CommissionEntity,
         return entity;
     }
 
-    private void UpdateEntityInternal(CommissionEntity entity, CommissionUpdateDto updateDto)
+    private void UpdateEntityInternal(CommissionEntity entity, CommissionUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Rate = Cryptocash.Domain.CommissionMetadata.CreateRate(updateDto.Rate.NonNullValue<System.Single>());
         entity.EffectiveAt = Cryptocash.Domain.CommissionMetadata.CreateEffectiveAt(updateDto.EffectiveAt.NonNullValue<System.DateTimeOffset>());
@@ -86,6 +86,9 @@ internal abstract class CommissionFactoryBase : IEntityFactory<CommissionEntity,
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == Nox.Types.CultureCode.From("");
 }
 
 internal partial class CommissionFactory : CommissionFactoryBase

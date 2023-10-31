@@ -87,8 +87,10 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
             return BadRequest(ModelState);
         }
 
+        var language = _httpLanguageProvider.GetLanguage();
+
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateThirdTestEntityZeroOrOneCommand(key, thirdTestEntityZeroOrOne, etag));
+        var updatedKey = await _mediator.Send(new UpdateThirdTestEntityZeroOrOneCommand(key, thirdTestEntityZeroOrOne, Nox.Types.CultureCode.From(language), etag));
 
         if (updatedKey is null)
         {

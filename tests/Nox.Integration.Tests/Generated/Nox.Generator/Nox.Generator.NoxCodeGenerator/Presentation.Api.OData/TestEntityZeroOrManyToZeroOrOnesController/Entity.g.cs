@@ -87,8 +87,10 @@ public abstract partial class TestEntityZeroOrManyToZeroOrOnesControllerBase : O
             return BadRequest(ModelState);
         }
 
+        var language = _httpLanguageProvider.GetLanguage();
+
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateTestEntityZeroOrManyToZeroOrOneCommand(key, testEntityZeroOrManyToZeroOrOne, etag));
+        var updatedKey = await _mediator.Send(new UpdateTestEntityZeroOrManyToZeroOrOneCommand(key, testEntityZeroOrManyToZeroOrOne, Nox.Types.CultureCode.From(language), etag));
 
         if (updatedKey is null)
         {

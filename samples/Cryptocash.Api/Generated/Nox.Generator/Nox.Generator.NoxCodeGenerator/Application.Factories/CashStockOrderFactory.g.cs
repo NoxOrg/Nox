@@ -37,9 +37,9 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(CashStockOrderEntity entity, CashStockOrderUpdateDto updateDto)
+    public virtual void UpdateEntity(CashStockOrderEntity entity, CashStockOrderUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(CashStockOrderEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -52,17 +52,15 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
         var entity = new Cryptocash.Domain.CashStockOrder();
         entity.Amount = Cryptocash.Domain.CashStockOrderMetadata.CreateAmount(createDto.Amount);
         entity.RequestedDeliveryDate = Cryptocash.Domain.CashStockOrderMetadata.CreateRequestedDeliveryDate(createDto.RequestedDeliveryDate);
-        if (createDto.DeliveryDateTime is not null)entity.DeliveryDateTime = Cryptocash.Domain.CashStockOrderMetadata.CreateDeliveryDateTime(createDto.DeliveryDateTime.NonNullValue<System.DateTimeOffset>());
+        entity.SetIfNotNull(createDto.DeliveryDateTime, (entity) => entity.DeliveryDateTime =Cryptocash.Domain.CashStockOrderMetadata.CreateDeliveryDateTime(createDto.DeliveryDateTime.NonNullValue<System.DateTimeOffset>()));
         return entity;
     }
 
-    private void UpdateEntityInternal(CashStockOrderEntity entity, CashStockOrderUpdateDto updateDto)
+    private void UpdateEntityInternal(CashStockOrderEntity entity, CashStockOrderUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Amount = Cryptocash.Domain.CashStockOrderMetadata.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>());
         entity.RequestedDeliveryDate = Cryptocash.Domain.CashStockOrderMetadata.CreateRequestedDeliveryDate(updateDto.RequestedDeliveryDate.NonNullValue<System.DateTime>());
-        if (updateDto.DeliveryDateTime == null) { entity.DeliveryDateTime = null; } else {
-            entity.DeliveryDateTime = Cryptocash.Domain.CashStockOrderMetadata.CreateDeliveryDateTime(updateDto.DeliveryDateTime.ToValueFromNonNull<System.DateTimeOffset>());
-        }
+        entity.SetIfNotNull(updateDto.DeliveryDateTime, (entity) => entity.DeliveryDateTime = Cryptocash.Domain.CashStockOrderMetadata.CreateDeliveryDateTime(updateDto.DeliveryDateTime.ToValueFromNonNull<System.DateTimeOffset>()));
     }
 
     private void PartialUpdateEntityInternal(CashStockOrderEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -99,6 +97,9 @@ internal abstract class CashStockOrderFactoryBase : IEntityFactory<CashStockOrde
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == Nox.Types.CultureCode.From("");
 }
 
 internal partial class CashStockOrderFactory : CashStockOrderFactoryBase

@@ -146,11 +146,7 @@ public class Entity : DefinitionBase
     }
 
     public virtual IEnumerable<NoxSimpleTypeDefinition> GetAttributesToLocalize()
-    {
-        return Attributes
-            .Where(x => x.Type == NoxType.Text &&
-                x.TextTypeOptions!.IsLocalized);
-    }
+        => Attributes.Where(attribute => attribute.IsLocalized);
 
     public virtual bool TryGetAttributeByName(string entityName, out NoxSimpleTypeDefinition? result)
     {

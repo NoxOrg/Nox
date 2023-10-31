@@ -37,9 +37,9 @@ internal abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetailE
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(PaymentDetailEntity entity, PaymentDetailUpdateDto updateDto)
+    public virtual void UpdateEntity(PaymentDetailEntity entity, PaymentDetailUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(PaymentDetailEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -52,17 +52,15 @@ internal abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetailE
         var entity = new Cryptocash.Domain.PaymentDetail();
         entity.PaymentAccountName = Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountName(createDto.PaymentAccountName);
         entity.PaymentAccountNumber = Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountNumber(createDto.PaymentAccountNumber);
-        if (createDto.PaymentAccountSortCode is not null)entity.PaymentAccountSortCode = Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountSortCode(createDto.PaymentAccountSortCode.NonNullValue<System.String>());
+        entity.SetIfNotNull(createDto.PaymentAccountSortCode, (entity) => entity.PaymentAccountSortCode =Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountSortCode(createDto.PaymentAccountSortCode.NonNullValue<System.String>()));
         return entity;
     }
 
-    private void UpdateEntityInternal(PaymentDetailEntity entity, PaymentDetailUpdateDto updateDto)
+    private void UpdateEntityInternal(PaymentDetailEntity entity, PaymentDetailUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.PaymentAccountName = Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountName(updateDto.PaymentAccountName.NonNullValue<System.String>());
         entity.PaymentAccountNumber = Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountNumber(updateDto.PaymentAccountNumber.NonNullValue<System.String>());
-        if (updateDto.PaymentAccountSortCode == null) { entity.PaymentAccountSortCode = null; } else {
-            entity.PaymentAccountSortCode = Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountSortCode(updateDto.PaymentAccountSortCode.ToValueFromNonNull<System.String>());
-        }
+        entity.SetIfNotNull(updateDto.PaymentAccountSortCode, (entity) => entity.PaymentAccountSortCode = Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountSortCode(updateDto.PaymentAccountSortCode.ToValueFromNonNull<System.String>()));
     }
 
     private void PartialUpdateEntityInternal(PaymentDetailEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -99,6 +97,9 @@ internal abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetailE
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == Nox.Types.CultureCode.From("");
 }
 
 internal partial class PaymentDetailFactory : PaymentDetailFactoryBase

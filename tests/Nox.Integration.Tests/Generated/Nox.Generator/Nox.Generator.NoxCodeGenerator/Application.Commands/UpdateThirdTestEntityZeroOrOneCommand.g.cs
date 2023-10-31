@@ -17,14 +17,15 @@ using ThirdTestEntityZeroOrOneEntity = TestWebApp.Domain.ThirdTestEntityZeroOrOn
 
 namespace TestWebApp.Application.Commands;
 
-public record UpdateThirdTestEntityZeroOrOneCommand(System.String keyId, ThirdTestEntityZeroOrOneUpdateDto EntityDto, System.Guid? Etag) : IRequest<ThirdTestEntityZeroOrOneKeyDto?>;
+public record UpdateThirdTestEntityZeroOrOneCommand(System.String keyId, ThirdTestEntityZeroOrOneUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<ThirdTestEntityZeroOrOneKeyDto?>;
 
 internal partial class UpdateThirdTestEntityZeroOrOneCommandHandler : UpdateThirdTestEntityZeroOrOneCommandHandlerBase
 {
 	public UpdateThirdTestEntityZeroOrOneCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<ThirdTestEntityZeroOrOneEntity, ThirdTestEntityZeroOrOneCreateDto, ThirdTestEntityZeroOrOneUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<ThirdTestEntityZeroOrOneEntity, ThirdTestEntityZeroOrOneCreateDto, ThirdTestEntityZeroOrOneUpdateDto> entityFactory) 
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -37,7 +38,8 @@ internal abstract class UpdateThirdTestEntityZeroOrOneCommandHandlerBase : Comma
 	public UpdateThirdTestEntityZeroOrOneCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<ThirdTestEntityZeroOrOneEntity, ThirdTestEntityZeroOrOneCreateDto, ThirdTestEntityZeroOrOneUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<ThirdTestEntityZeroOrOneEntity, ThirdTestEntityZeroOrOneCreateDto, ThirdTestEntityZeroOrOneUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -70,7 +72,7 @@ internal abstract class UpdateThirdTestEntityZeroOrOneCommandHandlerBase : Comma
 			entity.DeleteAllRefToThirdTestEntityExactlyOneRelationship();
 		}
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

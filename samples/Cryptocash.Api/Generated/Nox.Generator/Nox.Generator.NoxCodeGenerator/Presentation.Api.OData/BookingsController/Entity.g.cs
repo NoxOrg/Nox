@@ -87,8 +87,10 @@ public abstract partial class BookingsControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
+        var language = _httpLanguageProvider.GetLanguage();
+
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateBookingCommand(key, booking, etag));
+        var updatedKey = await _mediator.Send(new UpdateBookingCommand(key, booking, Nox.Types.CultureCode.From(language), etag));
 
         if (updatedKey is null)
         {

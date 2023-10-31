@@ -87,8 +87,10 @@ public abstract partial class StoreOwnersControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
+        var language = _httpLanguageProvider.GetLanguage();
+
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateStoreOwnerCommand(key, storeOwner, etag));
+        var updatedKey = await _mediator.Send(new UpdateStoreOwnerCommand(key, storeOwner, Nox.Types.CultureCode.From(language), etag));
 
         if (updatedKey is null)
         {

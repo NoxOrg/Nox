@@ -95,11 +95,13 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
         {
             return BadRequest(ModelState);
         }
+
+        var language = _httpLanguageProvider.GetLanguage();
         {{~ if !entity.IsOwnedEntity }}
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new Update{{ entity.Name }}Command({{ primaryKeysQuery }}, {{ToLowerFirstChar entity.Name}}, etag));
+        var updatedKey = await _mediator.Send(new Update{{ entity.Name }}Command({{ primaryKeysQuery }}, {{ToLowerFirstChar entity.Name}}, Nox.Types.CultureCode.From(language), etag));
         {{- else }}
-        var updatedKey = await _mediator.Send(new Update{{ entity.Name }}Command({{ primaryKeysQuery }}, {{ToLowerFirstChar entity.Name}}));
+        var updatedKey = await _mediator.Send(new Update{{ entity.Name }}Command({{ primaryKeysQuery }}, {{ToLowerFirstChar entity.Name}}, Nox.Types.CultureCode.From(language)));
         {{- end}}
 
         if (updatedKey is null)

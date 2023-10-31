@@ -59,7 +59,7 @@ internal partial class UpdateCountryBarCodeForCountryCommandHandlerBase : Comman
 			return null;
 		}
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto, GetLocalizationDefaultCultureCode());
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 

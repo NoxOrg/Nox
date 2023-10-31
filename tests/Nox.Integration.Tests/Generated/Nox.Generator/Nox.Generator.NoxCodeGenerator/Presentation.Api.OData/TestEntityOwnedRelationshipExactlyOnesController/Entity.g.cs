@@ -87,8 +87,10 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
             return BadRequest(ModelState);
         }
 
+        var language = _httpLanguageProvider.GetLanguage();
+
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateTestEntityOwnedRelationshipExactlyOneCommand(key, testEntityOwnedRelationshipExactlyOne, etag));
+        var updatedKey = await _mediator.Send(new UpdateTestEntityOwnedRelationshipExactlyOneCommand(key, testEntityOwnedRelationshipExactlyOne, Nox.Types.CultureCode.From(language), etag));
 
         if (updatedKey is null)
         {

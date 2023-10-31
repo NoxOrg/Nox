@@ -37,9 +37,9 @@ internal abstract class SecondTestEntityTwoRelationshipsOneToManyFactoryBase : I
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(SecondTestEntityTwoRelationshipsOneToManyEntity entity, SecondTestEntityTwoRelationshipsOneToManyUpdateDto updateDto)
+    public virtual void UpdateEntity(SecondTestEntityTwoRelationshipsOneToManyEntity entity, SecondTestEntityTwoRelationshipsOneToManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(SecondTestEntityTwoRelationshipsOneToManyEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -55,7 +55,7 @@ internal abstract class SecondTestEntityTwoRelationshipsOneToManyFactoryBase : I
         return entity;
     }
 
-    private void UpdateEntityInternal(SecondTestEntityTwoRelationshipsOneToManyEntity entity, SecondTestEntityTwoRelationshipsOneToManyUpdateDto updateDto)
+    private void UpdateEntityInternal(SecondTestEntityTwoRelationshipsOneToManyEntity entity, SecondTestEntityTwoRelationshipsOneToManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.TextTestField2 = TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToManyMetadata.CreateTextTestField2(updateDto.TextTestField2.NonNullValue<System.String>());
     }
@@ -74,6 +74,9 @@ internal abstract class SecondTestEntityTwoRelationshipsOneToManyFactoryBase : I
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == Nox.Types.CultureCode.From("");
 }
 
 internal partial class SecondTestEntityTwoRelationshipsOneToManyFactory : SecondTestEntityTwoRelationshipsOneToManyFactoryBase

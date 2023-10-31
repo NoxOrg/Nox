@@ -87,8 +87,10 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
             return BadRequest(ModelState);
         }
 
+        var language = _httpLanguageProvider.GetLanguage();
+
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateTestEntityTwoRelationshipsOneToOneCommand(key, testEntityTwoRelationshipsOneToOne, etag));
+        var updatedKey = await _mediator.Send(new UpdateTestEntityTwoRelationshipsOneToOneCommand(key, testEntityTwoRelationshipsOneToOne, Nox.Types.CultureCode.From(language), etag));
 
         if (updatedKey is null)
         {

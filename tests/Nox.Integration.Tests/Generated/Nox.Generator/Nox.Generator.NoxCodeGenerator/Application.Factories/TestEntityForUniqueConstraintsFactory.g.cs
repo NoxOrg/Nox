@@ -37,9 +37,9 @@ internal abstract class TestEntityForUniqueConstraintsFactoryBase : IEntityFacto
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(TestEntityForUniqueConstraintsEntity entity, TestEntityForUniqueConstraintsUpdateDto updateDto)
+    public virtual void UpdateEntity(TestEntityForUniqueConstraintsEntity entity, TestEntityForUniqueConstraintsUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(TestEntityForUniqueConstraintsEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -59,7 +59,7 @@ internal abstract class TestEntityForUniqueConstraintsFactoryBase : IEntityFacto
         return entity;
     }
 
-    private void UpdateEntityInternal(TestEntityForUniqueConstraintsEntity entity, TestEntityForUniqueConstraintsUpdateDto updateDto)
+    private void UpdateEntityInternal(TestEntityForUniqueConstraintsEntity entity, TestEntityForUniqueConstraintsUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.TextField = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateTextField(updateDto.TextField.NonNullValue<System.String>());
         entity.NumberField = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateNumberField(updateDto.NumberField.NonNullValue<System.Int16>());
@@ -126,6 +126,9 @@ internal abstract class TestEntityForUniqueConstraintsFactoryBase : IEntityFacto
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == Nox.Types.CultureCode.From("");
 }
 
 internal partial class TestEntityForUniqueConstraintsFactory : TestEntityForUniqueConstraintsFactoryBase

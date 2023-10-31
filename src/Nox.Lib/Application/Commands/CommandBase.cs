@@ -33,5 +33,8 @@ public abstract class CommandBase<TRequest, TEntity>: INoxCommand where TEntity 
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     protected virtual Task OnCompletedAsync(TRequest request, TEntity entity) { return Task.CompletedTask; }
+
+    protected Types.CultureCode GetLocalizationDefaultCultureCode()
+        => Types.CultureCode.From(NoxSolution!.Application!.Localization!.DefaultCulture);
 }
 

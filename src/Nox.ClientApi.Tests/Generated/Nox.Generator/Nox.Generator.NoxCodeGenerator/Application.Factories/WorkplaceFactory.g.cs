@@ -37,9 +37,9 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(WorkplaceEntity entity, WorkplaceUpdateDto updateDto)
+    public virtual void UpdateEntity(WorkplaceEntity entity, WorkplaceUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(WorkplaceEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -51,17 +51,16 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
     {
         var entity = new ClientApi.Domain.Workplace();
         entity.Name = ClientApi.Domain.WorkplaceMetadata.CreateName(createDto.Name);
-        if (createDto.Description is not null)entity.Description = ClientApi.Domain.WorkplaceMetadata.CreateDescription(createDto.Description.NonNullValue<System.String>());
+        entity.SetIfNotNull(createDto.Description, (entity) => entity.Description =ClientApi.Domain.WorkplaceMetadata.CreateDescription(createDto.Description.NonNullValue<System.String>()));
 		entity.EnsureId();
         return entity;
     }
 
-    private void UpdateEntityInternal(WorkplaceEntity entity, WorkplaceUpdateDto updateDto)
+    private void UpdateEntityInternal(WorkplaceEntity entity, WorkplaceUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Name = ClientApi.Domain.WorkplaceMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
-        if (updateDto.Description == null) { entity.Description = null; } else {
-            entity.Description = ClientApi.Domain.WorkplaceMetadata.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>());
-        }
+        if(IsDefaultCultureCode(cultureCode))
+        entity.SetIfNotNull(updateDto.Description, (entity) => entity.Description = ClientApi.Domain.WorkplaceMetadata.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>()));
 		entity.EnsureId();
     }
 
@@ -89,6 +88,9 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
         }
 		entity.EnsureId();
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == Nox.Types.CultureCode.From("");
 }
 
 internal partial class WorkplaceFactory : WorkplaceFactoryBase

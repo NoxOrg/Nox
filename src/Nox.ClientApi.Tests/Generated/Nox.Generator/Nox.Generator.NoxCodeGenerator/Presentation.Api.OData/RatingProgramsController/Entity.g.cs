@@ -87,8 +87,10 @@ public abstract partial class RatingProgramsControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
+        var language = _httpLanguageProvider.GetLanguage();
+
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateRatingProgramCommand(keyStoreId, keyId, ratingProgram, etag));
+        var updatedKey = await _mediator.Send(new UpdateRatingProgramCommand(keyStoreId, keyId, ratingProgram, Nox.Types.CultureCode.From(language), etag));
 
         if (updatedKey is null)
         {

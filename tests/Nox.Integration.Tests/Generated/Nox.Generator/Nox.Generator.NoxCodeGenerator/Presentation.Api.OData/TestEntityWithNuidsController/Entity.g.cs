@@ -87,8 +87,10 @@ public abstract partial class TestEntityWithNuidsControllerBase : ODataControlle
             return BadRequest(ModelState);
         }
 
+        var language = _httpLanguageProvider.GetLanguage();
+
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateTestEntityWithNuidCommand(key, testEntityWithNuid, etag));
+        var updatedKey = await _mediator.Send(new UpdateTestEntityWithNuidCommand(key, testEntityWithNuid, Nox.Types.CultureCode.From(language), etag));
 
         if (updatedKey is null)
         {

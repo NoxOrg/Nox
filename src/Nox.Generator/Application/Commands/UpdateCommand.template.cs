@@ -17,14 +17,16 @@ using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Na
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
-public record Update{{entity.Name}}Command({{primaryKeys}}, {{entity.Name}}UpdateDto EntityDto{{ if !entity.IsOwnedEntity}}, System.Guid? Etag{{end}}) : IRequest<{{entity.Name}}KeyDto?>;
+public record Update{{entity.Name}}Command({{primaryKeys}}, {{entity.Name}}UpdateDto EntityDto, Nox.Types.CultureCode {{codeGeneratorState.LocalizationCultureField}}{{ if !entity.IsOwnedEntity}}, System.Guid? Etag{{end}}) : IRequest<{{entity.Name}}KeyDto?>;
 
 internal partial class Update{{entity.Name}}CommandHandler : Update{{entity.Name}}CommandHandlerBase
 {
 	public Update{{entity.Name}}CommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory{{if entity.ShouldBeLocalized }},
+		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}UpdateDto> entityLocalizedFactory{{ end -}}) 
+		: base(dbContext, noxSolution, entityFactory{{- if entity.ShouldBeLocalized }}, entityLocalizedFactory{{ end -}})
 	{
 	}
 }
@@ -33,14 +35,22 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> _entityFactory;
+	{{- if entity.ShouldBeLocalized }}
+	private readonly IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}UpdateDto> _entityLocalizedFactory;
+	{{- end }}
 
 	public Update{{entity.Name}}CommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory{{if entity.ShouldBeLocalized }},
+		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}UpdateDto> entityLocalizedFactory{{ end -}})
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
+		{{- if entity.ShouldBeLocalized }} 
+		_entityLocalizedFactory = entityLocalizedFactory;
+		{{- end }}
 	}
 
 	public virtual async Task<{{entity.Name}}KeyDto?> Handle(Update{{entity.Name}}Command request, CancellationToken cancellationToken)
@@ -104,10 +114,14 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 		{{-end}}
 	{{- end }}
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 
 		{{- if !entity.IsOwnedEntity }}
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		{{- end }}
+		
+		{{- if entity.ShouldBeLocalized }}
+		await UpdateLocalizedEntityAsync(entity, request.EntityDto, request.CultureCode);
 		{{- end }}
 
 		await OnCompletedAsync(request, entity);
@@ -121,4 +135,24 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
 	}
+	{{- if entity.ShouldBeLocalized }}
+
+	private async Task UpdateLocalizedEntityAsync({{entity.Name}}Entity entity, {{entity.Name}}UpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
+		var entityLocalized = await DbContext.{{entity.PluralName}}Localized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
+		if(entityLocalized is not null)
+		{
+			_entityLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto, cultureCode);
+			entityLocalized.Etag = entity.Etag;
+			
+			DbContext.Entry(entityLocalized).State = EntityState.Modified;
+		}
+		else
+		{
+			entityLocalized = _entityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
+			
+			DbContext.{{entity.PluralName}}Localized.Add(entityLocalized);
+		}
+	}
+	{{- end }}
 }

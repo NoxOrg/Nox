@@ -87,8 +87,10 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
+        var language = _httpLanguageProvider.GetLanguage();
+
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateCashStockOrderCommand(key, cashStockOrder, etag));
+        var updatedKey = await _mediator.Send(new UpdateCashStockOrderCommand(key, cashStockOrder, Nox.Types.CultureCode.From(language), etag));
 
         if (updatedKey is null)
         {

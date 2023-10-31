@@ -87,8 +87,10 @@ public abstract partial class SecondTestEntityTwoRelationshipsManyToManiesContro
             return BadRequest(ModelState);
         }
 
+        var language = _httpLanguageProvider.GetLanguage();
+
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateSecondTestEntityTwoRelationshipsManyToManyCommand(key, secondTestEntityTwoRelationshipsManyToMany, etag));
+        var updatedKey = await _mediator.Send(new UpdateSecondTestEntityTwoRelationshipsManyToManyCommand(key, secondTestEntityTwoRelationshipsManyToMany, Nox.Types.CultureCode.From(language), etag));
 
         if (updatedKey is null)
         {

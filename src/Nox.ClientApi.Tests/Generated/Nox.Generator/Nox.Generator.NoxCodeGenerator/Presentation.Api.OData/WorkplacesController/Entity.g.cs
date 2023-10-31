@@ -87,8 +87,10 @@ public abstract partial class WorkplacesControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
+        var language = _httpLanguageProvider.GetLanguage();
+
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateWorkplaceCommand(key, workplace, etag));
+        var updatedKey = await _mediator.Send(new UpdateWorkplaceCommand(key, workplace, Nox.Types.CultureCode.From(language), etag));
 
         if (updatedKey is null)
         {

@@ -17,14 +17,15 @@ using StoreEntity = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Commands;
 
-public record UpdateStoreCommand(System.Guid keyId, StoreUpdateDto EntityDto, System.Guid? Etag) : IRequest<StoreKeyDto?>;
+public record UpdateStoreCommand(System.Guid keyId, StoreUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<StoreKeyDto?>;
 
 internal partial class UpdateStoreCommandHandler : UpdateStoreCommandHandlerBase
 {
 	public UpdateStoreCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory) 
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -37,7 +38,8 @@ internal abstract class UpdateStoreCommandHandlerBase : CommandBase<UpdateStoreC
 	public UpdateStoreCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -85,7 +87,7 @@ internal abstract class UpdateStoreCommandHandlerBase : CommandBase<UpdateStoreC
 			entity.DeleteAllRefToLicense();
 		}
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

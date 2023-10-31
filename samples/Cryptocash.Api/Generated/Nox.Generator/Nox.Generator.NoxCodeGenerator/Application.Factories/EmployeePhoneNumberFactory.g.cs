@@ -37,9 +37,9 @@ internal abstract class EmployeePhoneNumberFactoryBase : IEntityFactory<Employee
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(EmployeePhoneNumberEntity entity, EmployeePhoneNumberUpdateDto updateDto)
+    public virtual void UpdateEntity(EmployeePhoneNumberEntity entity, EmployeePhoneNumberUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(EmployeePhoneNumberEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -55,7 +55,7 @@ internal abstract class EmployeePhoneNumberFactoryBase : IEntityFactory<Employee
         return entity;
     }
 
-    private void UpdateEntityInternal(EmployeePhoneNumberEntity entity, EmployeePhoneNumberUpdateDto updateDto)
+    private void UpdateEntityInternal(EmployeePhoneNumberEntity entity, EmployeePhoneNumberUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.PhoneNumberType = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumberType(updateDto.PhoneNumberType.NonNullValue<System.String>());
         entity.PhoneNumber = Cryptocash.Domain.EmployeePhoneNumberMetadata.CreatePhoneNumber(updateDto.PhoneNumber.NonNullValue<System.String>());
@@ -86,6 +86,9 @@ internal abstract class EmployeePhoneNumberFactoryBase : IEntityFactory<Employee
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == Nox.Types.CultureCode.From("");
 }
 
 internal partial class EmployeePhoneNumberFactory : EmployeePhoneNumberFactoryBase

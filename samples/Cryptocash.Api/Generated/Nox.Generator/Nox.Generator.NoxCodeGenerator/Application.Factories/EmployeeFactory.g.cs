@@ -40,9 +40,9 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(EmployeeEntity entity, EmployeeUpdateDto updateDto)
+    public virtual void UpdateEntity(EmployeeEntity entity, EmployeeUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(EmployeeEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -58,21 +58,19 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
         entity.EmailAddress = Cryptocash.Domain.EmployeeMetadata.CreateEmailAddress(createDto.EmailAddress);
         entity.Address = Cryptocash.Domain.EmployeeMetadata.CreateAddress(createDto.Address);
         entity.FirstWorkingDay = Cryptocash.Domain.EmployeeMetadata.CreateFirstWorkingDay(createDto.FirstWorkingDay);
-        if (createDto.LastWorkingDay is not null)entity.LastWorkingDay = Cryptocash.Domain.EmployeeMetadata.CreateLastWorkingDay(createDto.LastWorkingDay.NonNullValue<System.DateTime>());
+        entity.SetIfNotNull(createDto.LastWorkingDay, (entity) => entity.LastWorkingDay =Cryptocash.Domain.EmployeeMetadata.CreateLastWorkingDay(createDto.LastWorkingDay.NonNullValue<System.DateTime>()));
         createDto.EmployeeContactPhoneNumbers.ForEach(dto => entity.CreateRefToEmployeeContactPhoneNumbers(EmployeePhoneNumberFactory.CreateEntity(dto)));
         return entity;
     }
 
-    private void UpdateEntityInternal(EmployeeEntity entity, EmployeeUpdateDto updateDto)
+    private void UpdateEntityInternal(EmployeeEntity entity, EmployeeUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.FirstName = Cryptocash.Domain.EmployeeMetadata.CreateFirstName(updateDto.FirstName.NonNullValue<System.String>());
         entity.LastName = Cryptocash.Domain.EmployeeMetadata.CreateLastName(updateDto.LastName.NonNullValue<System.String>());
         entity.EmailAddress = Cryptocash.Domain.EmployeeMetadata.CreateEmailAddress(updateDto.EmailAddress.NonNullValue<System.String>());
         entity.Address = Cryptocash.Domain.EmployeeMetadata.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
         entity.FirstWorkingDay = Cryptocash.Domain.EmployeeMetadata.CreateFirstWorkingDay(updateDto.FirstWorkingDay.NonNullValue<System.DateTime>());
-        if (updateDto.LastWorkingDay == null) { entity.LastWorkingDay = null; } else {
-            entity.LastWorkingDay = Cryptocash.Domain.EmployeeMetadata.CreateLastWorkingDay(updateDto.LastWorkingDay.ToValueFromNonNull<System.DateTime>());
-        }
+        entity.SetIfNotNull(updateDto.LastWorkingDay, (entity) => entity.LastWorkingDay = Cryptocash.Domain.EmployeeMetadata.CreateLastWorkingDay(updateDto.LastWorkingDay.ToValueFromNonNull<System.DateTime>()));
     }
 
     private void PartialUpdateEntityInternal(EmployeeEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -142,6 +140,9 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == Nox.Types.CultureCode.From("");
 }
 
 internal partial class EmployeeFactory : EmployeeFactoryBase

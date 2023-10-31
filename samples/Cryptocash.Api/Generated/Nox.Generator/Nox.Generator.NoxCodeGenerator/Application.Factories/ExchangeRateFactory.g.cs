@@ -37,9 +37,9 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEnt
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(ExchangeRateEntity entity, ExchangeRateUpdateDto updateDto)
+    public virtual void UpdateEntity(ExchangeRateEntity entity, ExchangeRateUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(ExchangeRateEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -55,7 +55,7 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEnt
         return entity;
     }
 
-    private void UpdateEntityInternal(ExchangeRateEntity entity, ExchangeRateUpdateDto updateDto)
+    private void UpdateEntityInternal(ExchangeRateEntity entity, ExchangeRateUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.EffectiveRate = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveRate(updateDto.EffectiveRate.NonNullValue<System.Int32>());
         entity.EffectiveAt = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveAt(updateDto.EffectiveAt.NonNullValue<System.DateTimeOffset>());
@@ -86,6 +86,9 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEnt
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == Nox.Types.CultureCode.From("");
 }
 
 internal partial class ExchangeRateFactory : ExchangeRateFactoryBase

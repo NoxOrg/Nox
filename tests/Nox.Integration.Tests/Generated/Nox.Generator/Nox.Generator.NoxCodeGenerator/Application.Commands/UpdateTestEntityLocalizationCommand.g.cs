@@ -17,14 +17,16 @@ using TestEntityLocalizationEntity = TestWebApp.Domain.TestEntityLocalization;
 
 namespace TestWebApp.Application.Commands;
 
-public record UpdateTestEntityLocalizationCommand(System.String keyId, TestEntityLocalizationUpdateDto EntityDto, System.Guid? Etag) : IRequest<TestEntityLocalizationKeyDto?>;
+public record UpdateTestEntityLocalizationCommand(System.String keyId, TestEntityLocalizationUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityLocalizationKeyDto?>;
 
 internal partial class UpdateTestEntityLocalizationCommandHandler : UpdateTestEntityLocalizationCommandHandlerBase
 {
 	public UpdateTestEntityLocalizationCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> entityFactory,
+		IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationUpdateDto> entityLocalizedFactory) 
+		: base(dbContext, noxSolution, entityFactory, entityLocalizedFactory)
 	{
 	}
 }
@@ -33,14 +35,18 @@ internal abstract class UpdateTestEntityLocalizationCommandHandlerBase : Command
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> _entityFactory;
+	private readonly IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationUpdateDto> _entityLocalizedFactory;
 
 	public UpdateTestEntityLocalizationCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> entityFactory,
+		IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationUpdateDto> entityLocalizedFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
-		_entityFactory = entityFactory;
+		_entityFactory = entityFactory; 
+		_entityLocalizedFactory = entityLocalizedFactory;
 	}
 
 	public virtual async Task<TestEntityLocalizationKeyDto?> Handle(UpdateTestEntityLocalizationCommand request, CancellationToken cancellationToken)
@@ -55,8 +61,9 @@ internal abstract class UpdateTestEntityLocalizationCommandHandlerBase : Command
 			return null;
 		}
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		await UpdateLocalizedEntityAsync(entity, request.EntityDto, request.CultureCode);
 
 		await OnCompletedAsync(request, entity);
 
@@ -68,5 +75,23 @@ internal abstract class UpdateTestEntityLocalizationCommandHandlerBase : Command
 		}
 
 		return new TestEntityLocalizationKeyDto(entity.Id.Value);
+	}
+
+	private async Task UpdateLocalizedEntityAsync(TestEntityLocalizationEntity entity, TestEntityLocalizationUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
+		var entityLocalized = await DbContext.TestEntityLocalizationsLocalized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
+		if(entityLocalized is not null)
+		{
+			_entityLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto, cultureCode);
+			entityLocalized.Etag = entity.Etag;
+			
+			DbContext.Entry(entityLocalized).State = EntityState.Modified;
+		}
+		else
+		{
+			entityLocalized = _entityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
+			
+			DbContext.TestEntityLocalizationsLocalized.Add(entityLocalized);
+		}
 	}
 }

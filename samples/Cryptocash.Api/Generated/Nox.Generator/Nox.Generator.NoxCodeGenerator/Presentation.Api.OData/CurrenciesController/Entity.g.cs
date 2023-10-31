@@ -87,8 +87,10 @@ public abstract partial class CurrenciesControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
+        var language = _httpLanguageProvider.GetLanguage();
+
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateCurrencyCommand(key, currency, etag));
+        var updatedKey = await _mediator.Send(new UpdateCurrencyCommand(key, currency, Nox.Types.CultureCode.From(language), etag));
 
         if (updatedKey is null)
         {

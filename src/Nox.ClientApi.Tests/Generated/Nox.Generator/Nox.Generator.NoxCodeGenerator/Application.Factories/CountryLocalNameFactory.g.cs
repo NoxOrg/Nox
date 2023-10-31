@@ -37,9 +37,9 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(CountryLocalNameEntity entity, CountryLocalNameUpdateDto updateDto)
+    public virtual void UpdateEntity(CountryLocalNameEntity entity, CountryLocalNameUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(CountryLocalNameEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -51,16 +51,14 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
     {
         var entity = new ClientApi.Domain.CountryLocalName();
         entity.Name = ClientApi.Domain.CountryLocalNameMetadata.CreateName(createDto.Name);
-        if (createDto.NativeName is not null)entity.NativeName = ClientApi.Domain.CountryLocalNameMetadata.CreateNativeName(createDto.NativeName.NonNullValue<System.String>());
+        entity.SetIfNotNull(createDto.NativeName, (entity) => entity.NativeName =ClientApi.Domain.CountryLocalNameMetadata.CreateNativeName(createDto.NativeName.NonNullValue<System.String>()));
         return entity;
     }
 
-    private void UpdateEntityInternal(CountryLocalNameEntity entity, CountryLocalNameUpdateDto updateDto)
+    private void UpdateEntityInternal(CountryLocalNameEntity entity, CountryLocalNameUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Name = ClientApi.Domain.CountryLocalNameMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
-        if (updateDto.NativeName == null) { entity.NativeName = null; } else {
-            entity.NativeName = ClientApi.Domain.CountryLocalNameMetadata.CreateNativeName(updateDto.NativeName.ToValueFromNonNull<System.String>());
-        }
+        entity.SetIfNotNull(updateDto.NativeName, (entity) => entity.NativeName = ClientApi.Domain.CountryLocalNameMetadata.CreateNativeName(updateDto.NativeName.ToValueFromNonNull<System.String>()));
     }
 
     private void PartialUpdateEntityInternal(CountryLocalNameEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -86,6 +84,9 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == Nox.Types.CultureCode.From("");
 }
 
 internal partial class CountryLocalNameFactory : CountryLocalNameFactoryBase

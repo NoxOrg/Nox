@@ -37,9 +37,9 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(TransactionEntity entity, TransactionUpdateDto updateDto)
+    public virtual void UpdateEntity(TransactionEntity entity, TransactionUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(TransactionEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -57,7 +57,7 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
         return entity;
     }
 
-    private void UpdateEntityInternal(TransactionEntity entity, TransactionUpdateDto updateDto)
+    private void UpdateEntityInternal(TransactionEntity entity, TransactionUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.TransactionType = Cryptocash.Domain.TransactionMetadata.CreateTransactionType(updateDto.TransactionType.NonNullValue<System.String>());
         entity.ProcessedOnDateTime = Cryptocash.Domain.TransactionMetadata.CreateProcessedOnDateTime(updateDto.ProcessedOnDateTime.NonNullValue<System.DateTimeOffset>());
@@ -112,6 +112,9 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == Nox.Types.CultureCode.From("");
 }
 
 internal partial class TransactionFactory : TransactionFactoryBase
