@@ -76,7 +76,7 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateThirdTestEntityExactlyOneCommand(thirdTestEntityExactlyOne));
+        var createdKey = await _mediator.Send(new CreateThirdTestEntityExactlyOneCommand(thirdTestEntityExactlyOne, _cultureCode));
 
         var item = (await _mediator.Send(new GetThirdTestEntityExactlyOneByIdQuery(createdKey.keyId))).SingleOrDefault();
 

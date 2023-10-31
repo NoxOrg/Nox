@@ -76,7 +76,7 @@ public abstract partial class LandLordsControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateLandLordCommand(landLord));
+        var createdKey = await _mediator.Send(new CreateLandLordCommand(landLord, _cultureCode));
 
         var item = (await _mediator.Send(new GetLandLordByIdQuery(createdKey.keyId))).SingleOrDefault();
 

@@ -76,7 +76,7 @@ public abstract partial class CountryQualityOfLifeIndicesControllerBase : ODataC
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateCountryQualityOfLifeIndexCommand(countryQualityOfLifeIndex));
+        var createdKey = await _mediator.Send(new CreateCountryQualityOfLifeIndexCommand(countryQualityOfLifeIndex, _cultureCode));
 
         var item = (await _mediator.Send(new GetCountryQualityOfLifeIndexByIdQuery(createdKey.keyCountryId, createdKey.keyId))).SingleOrDefault();
 

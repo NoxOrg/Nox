@@ -76,7 +76,7 @@ public abstract partial class TransactionsControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateTransactionCommand(transaction));
+        var createdKey = await _mediator.Send(new CreateTransactionCommand(transaction, _cultureCode));
 
         var item = (await _mediator.Send(new GetTransactionByIdQuery(createdKey.keyId))).SingleOrDefault();
 

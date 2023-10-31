@@ -76,7 +76,7 @@ public abstract partial class TestEntityWithNuidsControllerBase : ODataControlle
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateTestEntityWithNuidCommand(testEntityWithNuid));
+        var createdKey = await _mediator.Send(new CreateTestEntityWithNuidCommand(testEntityWithNuid, _cultureCode));
 
         var item = (await _mediator.Send(new GetTestEntityWithNuidByIdQuery(createdKey.keyId))).SingleOrDefault();
 

@@ -76,7 +76,7 @@ public abstract partial class EmployeesControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateEmployeeCommand(employee));
+        var createdKey = await _mediator.Send(new CreateEmployeeCommand(employee, _cultureCode));
 
         var item = (await _mediator.Send(new GetEmployeeByIdQuery(createdKey.keyId))).SingleOrDefault();
 

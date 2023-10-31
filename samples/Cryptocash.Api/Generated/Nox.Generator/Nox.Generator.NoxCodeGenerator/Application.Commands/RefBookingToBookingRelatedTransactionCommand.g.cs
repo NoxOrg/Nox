@@ -85,7 +85,7 @@ internal abstract class RefBookingToBookingRelatedTransactionCommandHandlerBase<
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.BookingMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.Bookings.FindAsync(keyId);
 		if (entity == null)

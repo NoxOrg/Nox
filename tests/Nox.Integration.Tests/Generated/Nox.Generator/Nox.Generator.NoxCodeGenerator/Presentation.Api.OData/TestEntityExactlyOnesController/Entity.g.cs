@@ -76,7 +76,7 @@ public abstract partial class TestEntityExactlyOnesControllerBase : ODataControl
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateTestEntityExactlyOneCommand(testEntityExactlyOne));
+        var createdKey = await _mediator.Send(new CreateTestEntityExactlyOneCommand(testEntityExactlyOne, _cultureCode));
 
         var item = (await _mediator.Send(new GetTestEntityExactlyOneByIdQuery(createdKey.keyId))).SingleOrDefault();
 

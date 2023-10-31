@@ -76,7 +76,7 @@ public abstract partial class CustomersControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateCustomerCommand(customer));
+        var createdKey = await _mediator.Send(new CreateCustomerCommand(customer, _cultureCode));
 
         var item = (await _mediator.Send(new GetCustomerByIdQuery(createdKey.keyId))).SingleOrDefault();
 

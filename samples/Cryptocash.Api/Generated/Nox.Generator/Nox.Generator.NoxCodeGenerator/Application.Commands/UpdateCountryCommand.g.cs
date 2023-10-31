@@ -48,7 +48,7 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 	public virtual async Task<CountryKeyDto?> Handle(UpdateCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.CountryMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Countries.FindAsync(keyId);

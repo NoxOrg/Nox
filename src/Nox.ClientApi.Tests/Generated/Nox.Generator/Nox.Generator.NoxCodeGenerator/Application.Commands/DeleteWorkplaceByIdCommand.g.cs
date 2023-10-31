@@ -37,7 +37,7 @@ internal abstract class DeleteWorkplaceByIdCommandHandlerBase : CommandBase<Dele
 	public virtual async Task<bool> Handle(DeleteWorkplaceByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = ClientApi.Domain.WorkplaceMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Workplaces.FindAsync(keyId);

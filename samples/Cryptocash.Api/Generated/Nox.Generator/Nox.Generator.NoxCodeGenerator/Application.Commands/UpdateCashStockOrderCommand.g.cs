@@ -48,7 +48,7 @@ internal abstract class UpdateCashStockOrderCommandHandlerBase : CommandBase<Upd
 	public virtual async Task<CashStockOrderKeyDto?> Handle(UpdateCashStockOrderCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.CashStockOrderMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.CashStockOrders.FindAsync(keyId);

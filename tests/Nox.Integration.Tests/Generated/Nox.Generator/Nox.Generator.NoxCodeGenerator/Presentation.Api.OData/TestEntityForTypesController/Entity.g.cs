@@ -76,7 +76,7 @@ public abstract partial class TestEntityForTypesControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateTestEntityForTypesCommand(testEntityForTypes));
+        var createdKey = await _mediator.Send(new CreateTestEntityForTypesCommand(testEntityForTypes, _cultureCode));
 
         var item = (await _mediator.Send(new GetTestEntityForTypesByIdQuery(createdKey.keyId))).SingleOrDefault();
 

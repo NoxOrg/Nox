@@ -20,7 +20,7 @@ using ThirdTestEntityOneOrManyEntity = TestWebApp.Domain.ThirdTestEntityOneOrMan
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateThirdTestEntityOneOrManyCommand(ThirdTestEntityOneOrManyCreateDto EntityDto) : IRequest<ThirdTestEntityOneOrManyKeyDto>;
+public record CreateThirdTestEntityOneOrManyCommand(ThirdTestEntityOneOrManyCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<ThirdTestEntityOneOrManyKeyDto>;
 
 internal partial class CreateThirdTestEntityOneOrManyCommandHandler : CreateThirdTestEntityOneOrManyCommandHandlerBase
 {
@@ -45,7 +45,8 @@ internal abstract class CreateThirdTestEntityOneOrManyCommandHandlerBase : Comma
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.ThirdTestEntityZeroOrMany, ThirdTestEntityZeroOrManyCreateDto, ThirdTestEntityZeroOrManyUpdateDto> ThirdTestEntityZeroOrManyFactory,
-		IEntityFactory<ThirdTestEntityOneOrManyEntity, ThirdTestEntityOneOrManyCreateDto, ThirdTestEntityOneOrManyUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<ThirdTestEntityOneOrManyEntity, ThirdTestEntityOneOrManyCreateDto, ThirdTestEntityOneOrManyUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -55,7 +56,7 @@ internal abstract class CreateThirdTestEntityOneOrManyCommandHandlerBase : Comma
 	public virtual async Task<ThirdTestEntityOneOrManyKeyDto> Handle(CreateThirdTestEntityOneOrManyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		foreach(var relatedCreateDto in request.EntityDto.ThirdTestEntityZeroOrManyRelationship)

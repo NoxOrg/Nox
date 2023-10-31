@@ -76,7 +76,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateCurrencyCommand(currency));
+        var createdKey = await _mediator.Send(new CreateCurrencyCommand(currency, _cultureCode));
 
         var item = (await _mediator.Send(new GetCurrencyByIdQuery(createdKey.keyId))).SingleOrDefault();
 

@@ -76,7 +76,7 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateThirdTestEntityZeroOrOneCommand(thirdTestEntityZeroOrOne));
+        var createdKey = await _mediator.Send(new CreateThirdTestEntityZeroOrOneCommand(thirdTestEntityZeroOrOne, _cultureCode));
 
         var item = (await _mediator.Send(new GetThirdTestEntityZeroOrOneByIdQuery(createdKey.keyId))).SingleOrDefault();
 

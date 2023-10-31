@@ -45,7 +45,7 @@ internal partial class UpdateCountryBarCodeForCountryCommandHandlerBase : Comman
 	public virtual async Task<CountryBarCodeKeyDto?> Handle(UpdateCountryBarCodeForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = ClientApi.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await DbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)

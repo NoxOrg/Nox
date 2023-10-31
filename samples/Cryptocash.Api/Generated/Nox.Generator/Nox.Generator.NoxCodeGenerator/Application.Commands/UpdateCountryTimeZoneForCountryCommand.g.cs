@@ -44,7 +44,7 @@ internal partial class UpdateCountryTimeZoneForCountryCommandHandlerBase : Comma
 	public virtual async Task<CountryTimeZoneKeyDto?> Handle(UpdateCountryTimeZoneForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await DbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)

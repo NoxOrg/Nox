@@ -129,7 +129,6 @@ public class NoxSimpleTypeDefinition
     [Description("Indicates whether this attribute is readonly. Defaults to false.")]
     public bool IsReadonly { get; internal set; } = false;
 
-    // TODO: [YamlIgnore]
     public bool IsLocalized => Type == NoxType.Text && TextTypeOptions!.IsLocalized;
 
     public NoxSimpleTypeDefinition ShallowCopy()

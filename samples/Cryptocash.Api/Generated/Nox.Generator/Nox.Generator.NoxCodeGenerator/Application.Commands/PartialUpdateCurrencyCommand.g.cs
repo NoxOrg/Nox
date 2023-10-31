@@ -44,7 +44,7 @@ internal class PartialUpdateCurrencyCommandHandlerBase : CommandBase<PartialUpda
 	public virtual async Task<CurrencyKeyDto?> Handle(PartialUpdateCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.CurrencyMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Currencies.FindAsync(keyId);

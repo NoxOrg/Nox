@@ -20,7 +20,7 @@ using TestEntityZeroOrOneToOneOrManyEntity = TestWebApp.Domain.TestEntityZeroOrO
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateTestEntityZeroOrOneToOneOrManyCommand(TestEntityZeroOrOneToOneOrManyCreateDto EntityDto) : IRequest<TestEntityZeroOrOneToOneOrManyKeyDto>;
+public record CreateTestEntityZeroOrOneToOneOrManyCommand(TestEntityZeroOrOneToOneOrManyCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<TestEntityZeroOrOneToOneOrManyKeyDto>;
 
 internal partial class CreateTestEntityZeroOrOneToOneOrManyCommandHandler : CreateTestEntityZeroOrOneToOneOrManyCommandHandlerBase
 {
@@ -45,7 +45,8 @@ internal abstract class CreateTestEntityZeroOrOneToOneOrManyCommandHandlerBase :
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.TestEntityOneOrManyToZeroOrOne, TestEntityOneOrManyToZeroOrOneCreateDto, TestEntityOneOrManyToZeroOrOneUpdateDto> TestEntityOneOrManyToZeroOrOneFactory,
-		IEntityFactory<TestEntityZeroOrOneToOneOrManyEntity, TestEntityZeroOrOneToOneOrManyCreateDto, TestEntityZeroOrOneToOneOrManyUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<TestEntityZeroOrOneToOneOrManyEntity, TestEntityZeroOrOneToOneOrManyCreateDto, TestEntityZeroOrOneToOneOrManyUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -55,7 +56,7 @@ internal abstract class CreateTestEntityZeroOrOneToOneOrManyCommandHandlerBase :
 	public virtual async Task<TestEntityZeroOrOneToOneOrManyKeyDto> Handle(CreateTestEntityZeroOrOneToOneOrManyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.TestEntityOneOrManyToZeroOrOneId is not null)

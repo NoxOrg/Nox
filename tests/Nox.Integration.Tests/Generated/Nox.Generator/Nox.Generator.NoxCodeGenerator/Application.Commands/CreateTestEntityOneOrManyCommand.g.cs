@@ -20,7 +20,7 @@ using TestEntityOneOrManyEntity = TestWebApp.Domain.TestEntityOneOrMany;
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateTestEntityOneOrManyCommand(TestEntityOneOrManyCreateDto EntityDto) : IRequest<TestEntityOneOrManyKeyDto>;
+public record CreateTestEntityOneOrManyCommand(TestEntityOneOrManyCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<TestEntityOneOrManyKeyDto>;
 
 internal partial class CreateTestEntityOneOrManyCommandHandler : CreateTestEntityOneOrManyCommandHandlerBase
 {
@@ -45,7 +45,8 @@ internal abstract class CreateTestEntityOneOrManyCommandHandlerBase : CommandBas
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.SecondTestEntityOneOrMany, SecondTestEntityOneOrManyCreateDto, SecondTestEntityOneOrManyUpdateDto> SecondTestEntityOneOrManyFactory,
-		IEntityFactory<TestEntityOneOrManyEntity, TestEntityOneOrManyCreateDto, TestEntityOneOrManyUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<TestEntityOneOrManyEntity, TestEntityOneOrManyCreateDto, TestEntityOneOrManyUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -55,7 +56,7 @@ internal abstract class CreateTestEntityOneOrManyCommandHandlerBase : CommandBas
 	public virtual async Task<TestEntityOneOrManyKeyDto> Handle(CreateTestEntityOneOrManyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		foreach(var relatedCreateDto in request.EntityDto.SecondTestEntityOneOrManyRelationship)

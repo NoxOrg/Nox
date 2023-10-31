@@ -48,7 +48,7 @@ internal abstract class UpdateMinimumCashStockCommandHandlerBase : CommandBase<U
 	public virtual async Task<MinimumCashStockKeyDto?> Handle(UpdateMinimumCashStockCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.MinimumCashStockMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.MinimumCashStocks.FindAsync(keyId);

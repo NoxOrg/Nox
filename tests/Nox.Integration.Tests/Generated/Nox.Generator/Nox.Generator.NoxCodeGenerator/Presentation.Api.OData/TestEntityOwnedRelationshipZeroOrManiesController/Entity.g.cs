@@ -76,7 +76,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateTestEntityOwnedRelationshipZeroOrManyCommand(testEntityOwnedRelationshipZeroOrMany));
+        var createdKey = await _mediator.Send(new CreateTestEntityOwnedRelationshipZeroOrManyCommand(testEntityOwnedRelationshipZeroOrMany, _cultureCode));
 
         var item = (await _mediator.Send(new GetTestEntityOwnedRelationshipZeroOrManyByIdQuery(createdKey.keyId))).SingleOrDefault();
 

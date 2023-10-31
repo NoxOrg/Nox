@@ -33,7 +33,7 @@ internal class DtoDbContextGenerator : INoxCodeGenerator
             .Where(e => !e.IsOwnedEntity).ToList();
 
         var entitiesToLocalize = noxCodeGenCodeConventions.Solution.Domain.Entities
-            .Where(entity => entity.ShouldBeLocalized);
+            .Where(entity => entity.IsLocalized);
 
         var enumerationAttributes = noxCodeGenCodeConventions.Solution.Domain.Entities
             .Select(entity =>

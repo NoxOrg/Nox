@@ -85,7 +85,7 @@ internal abstract class RefCountryToCountryUsedByCustomersCommandHandlerBase<TRe
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.CountryMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.Countries.FindAsync(keyId);
 		if (entity == null)

@@ -24,7 +24,7 @@ public abstract class CommandBase<TRequest, TEntity>: INoxCommand where TEntity 
     /// </summary>
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
-    protected virtual void OnExecuting(TRequest request) { }
+    protected virtual Task OnExecutingAsync(TRequest request) { return Task.CompletedTask; }
 
     /// <summary>
     /// Command handler completed

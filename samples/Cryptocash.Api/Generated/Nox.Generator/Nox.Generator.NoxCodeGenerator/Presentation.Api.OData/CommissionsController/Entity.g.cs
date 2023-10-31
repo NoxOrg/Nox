@@ -76,7 +76,7 @@ public abstract partial class CommissionsControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateCommissionCommand(commission));
+        var createdKey = await _mediator.Send(new CreateCommissionCommand(commission, _cultureCode));
 
         var item = (await _mediator.Send(new GetCommissionByIdQuery(createdKey.keyId))).SingleOrDefault();
 

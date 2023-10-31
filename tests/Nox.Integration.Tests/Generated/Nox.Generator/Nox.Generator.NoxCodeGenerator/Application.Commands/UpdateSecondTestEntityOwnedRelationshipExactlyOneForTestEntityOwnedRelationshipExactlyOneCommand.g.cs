@@ -45,7 +45,7 @@ internal partial class UpdateSecondTestEntityOwnedRelationshipExactlyOneForTestE
 	public virtual async Task<SecondTestEntityOwnedRelationshipExactlyOneKeyDto?> Handle(UpdateSecondTestEntityOwnedRelationshipExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityOwnedRelationshipExactlyOneMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await DbContext.TestEntityOwnedRelationshipExactlyOnes.FindAsync(keyId);
 		if (parentEntity == null)

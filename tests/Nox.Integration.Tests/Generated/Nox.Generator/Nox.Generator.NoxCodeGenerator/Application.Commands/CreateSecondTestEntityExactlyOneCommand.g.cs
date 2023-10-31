@@ -20,7 +20,7 @@ using SecondTestEntityExactlyOneEntity = TestWebApp.Domain.SecondTestEntityExact
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateSecondTestEntityExactlyOneCommand(SecondTestEntityExactlyOneCreateDto EntityDto) : IRequest<SecondTestEntityExactlyOneKeyDto>;
+public record CreateSecondTestEntityExactlyOneCommand(SecondTestEntityExactlyOneCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<SecondTestEntityExactlyOneKeyDto>;
 
 internal partial class CreateSecondTestEntityExactlyOneCommandHandler : CreateSecondTestEntityExactlyOneCommandHandlerBase
 {
@@ -45,7 +45,8 @@ internal abstract class CreateSecondTestEntityExactlyOneCommandHandlerBase : Com
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.TestEntityExactlyOne, TestEntityExactlyOneCreateDto, TestEntityExactlyOneUpdateDto> TestEntityExactlyOneFactory,
-		IEntityFactory<SecondTestEntityExactlyOneEntity, SecondTestEntityExactlyOneCreateDto, SecondTestEntityExactlyOneUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<SecondTestEntityExactlyOneEntity, SecondTestEntityExactlyOneCreateDto, SecondTestEntityExactlyOneUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -55,7 +56,7 @@ internal abstract class CreateSecondTestEntityExactlyOneCommandHandlerBase : Com
 	public virtual async Task<SecondTestEntityExactlyOneKeyDto> Handle(CreateSecondTestEntityExactlyOneCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.TestEntityExactlyOneRelationshipId is not null)

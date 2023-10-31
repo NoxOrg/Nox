@@ -48,7 +48,7 @@ internal abstract class UpdateTestEntityWithNuidCommandHandlerBase : CommandBase
 	public virtual async Task<TestEntityWithNuidKeyDto?> Handle(UpdateTestEntityWithNuidCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityWithNuidMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityWithNuids.FindAsync(keyId);

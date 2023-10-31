@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
+using Nox.Solution.Extensions;
 using System.Linq;
 
 namespace Nox.Generator.Application.Factories;
@@ -23,7 +24,7 @@ internal class EntityLocalizedFactoryGenerator : INoxCodeGenerator
             return;
         }
 
-        foreach (var entity in codeGeneratorState.Solution.Domain.Entities.Where(e => e.ShouldBeLocalized))
+        foreach (var entity in codeGeneratorState.Solution.Domain.Entities.Where(e => e.IsLocalized))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 

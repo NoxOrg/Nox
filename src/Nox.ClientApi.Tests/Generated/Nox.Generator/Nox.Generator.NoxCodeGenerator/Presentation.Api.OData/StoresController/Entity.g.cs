@@ -76,7 +76,7 @@ public abstract partial class StoresControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateStoreCommand(store));
+        var createdKey = await _mediator.Send(new CreateStoreCommand(store, _cultureCode));
 
         var item = (await _mediator.Send(new GetStoreByIdQuery(createdKey.keyId))).SingleOrDefault();
 

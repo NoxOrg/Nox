@@ -20,7 +20,7 @@ using TestEntityWithNuidEntity = TestWebApp.Domain.TestEntityWithNuid;
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateTestEntityWithNuidCommand(TestEntityWithNuidCreateDto EntityDto) : IRequest<TestEntityWithNuidKeyDto>;
+public record CreateTestEntityWithNuidCommand(TestEntityWithNuidCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<TestEntityWithNuidKeyDto>;
 
 internal partial class CreateTestEntityWithNuidCommandHandler : CreateTestEntityWithNuidCommandHandlerBase
 {
@@ -42,7 +42,8 @@ internal abstract class CreateTestEntityWithNuidCommandHandlerBase : CommandBase
 	public CreateTestEntityWithNuidCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityWithNuidEntity, TestEntityWithNuidCreateDto, TestEntityWithNuidUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<TestEntityWithNuidEntity, TestEntityWithNuidCreateDto, TestEntityWithNuidUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -51,7 +52,7 @@ internal abstract class CreateTestEntityWithNuidCommandHandlerBase : CommandBase
 	public virtual async Task<TestEntityWithNuidKeyDto> Handle(CreateTestEntityWithNuidCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 

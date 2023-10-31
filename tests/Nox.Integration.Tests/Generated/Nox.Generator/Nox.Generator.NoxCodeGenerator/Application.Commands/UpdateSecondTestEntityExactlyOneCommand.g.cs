@@ -48,7 +48,7 @@ internal abstract class UpdateSecondTestEntityExactlyOneCommandHandlerBase : Com
 	public virtual async Task<SecondTestEntityExactlyOneKeyDto?> Handle(UpdateSecondTestEntityExactlyOneCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.SecondTestEntityExactlyOneMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.SecondTestEntityExactlyOnes.FindAsync(keyId);

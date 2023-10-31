@@ -58,7 +58,7 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<TestEntityLocalizationDto>>> Get()
     {
-        var result = await _mediator.Send(new GetTestEntityLocalizationsQuery());
+        var result = await _mediator.Send(new GetTestEntityLocalizationsQuery(_cultureCode.Value));
         return Ok(result);
     }
 
@@ -76,7 +76,7 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateTestEntityLocalizationCommand(testEntityLocalization));
+        var createdKey = await _mediator.Send(new CreateTestEntityLocalizationCommand(testEntityLocalization, _cultureCode));
 
         var item = (await _mediator.Send(new GetTestEntityLocalizationByIdQuery(createdKey.keyId))).SingleOrDefault();
 

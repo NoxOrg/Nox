@@ -48,7 +48,7 @@ internal abstract class UpdateStoreOwnerCommandHandlerBase : CommandBase<UpdateS
 	public virtual async Task<StoreOwnerKeyDto?> Handle(UpdateStoreOwnerCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = ClientApi.Domain.StoreOwnerMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.StoreOwners.FindAsync(keyId);

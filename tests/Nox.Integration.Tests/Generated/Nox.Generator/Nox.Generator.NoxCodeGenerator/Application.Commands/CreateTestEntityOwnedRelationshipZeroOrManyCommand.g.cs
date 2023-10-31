@@ -20,7 +20,7 @@ using TestEntityOwnedRelationshipZeroOrManyEntity = TestWebApp.Domain.TestEntity
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateTestEntityOwnedRelationshipZeroOrManyCommand(TestEntityOwnedRelationshipZeroOrManyCreateDto EntityDto) : IRequest<TestEntityOwnedRelationshipZeroOrManyKeyDto>;
+public record CreateTestEntityOwnedRelationshipZeroOrManyCommand(TestEntityOwnedRelationshipZeroOrManyCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<TestEntityOwnedRelationshipZeroOrManyKeyDto>;
 
 internal partial class CreateTestEntityOwnedRelationshipZeroOrManyCommandHandler : CreateTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase
 {
@@ -42,7 +42,8 @@ internal abstract class CreateTestEntityOwnedRelationshipZeroOrManyCommandHandle
 	public CreateTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityOwnedRelationshipZeroOrManyEntity, TestEntityOwnedRelationshipZeroOrManyCreateDto, TestEntityOwnedRelationshipZeroOrManyUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<TestEntityOwnedRelationshipZeroOrManyEntity, TestEntityOwnedRelationshipZeroOrManyCreateDto, TestEntityOwnedRelationshipZeroOrManyUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -51,7 +52,7 @@ internal abstract class CreateTestEntityOwnedRelationshipZeroOrManyCommandHandle
 	public virtual async Task<TestEntityOwnedRelationshipZeroOrManyKeyDto> Handle(CreateTestEntityOwnedRelationshipZeroOrManyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 

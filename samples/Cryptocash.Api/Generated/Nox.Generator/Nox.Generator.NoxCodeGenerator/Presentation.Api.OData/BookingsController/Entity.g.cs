@@ -76,7 +76,7 @@ public abstract partial class BookingsControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateBookingCommand(booking));
+        var createdKey = await _mediator.Send(new CreateBookingCommand(booking, _cultureCode));
 
         var item = (await _mediator.Send(new GetBookingByIdQuery(createdKey.keyId))).SingleOrDefault();
 

@@ -48,7 +48,7 @@ internal abstract class UpdateCommissionCommandHandlerBase : CommandBase<UpdateC
 	public virtual async Task<CommissionKeyDto?> Handle(UpdateCommissionCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.CommissionMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Commissions.FindAsync(keyId);

@@ -48,7 +48,7 @@ internal abstract class UpdateEmployeeCommandHandlerBase : CommandBase<UpdateEmp
 	public virtual async Task<EmployeeKeyDto?> Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.EmployeeMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Employees.FindAsync(keyId);

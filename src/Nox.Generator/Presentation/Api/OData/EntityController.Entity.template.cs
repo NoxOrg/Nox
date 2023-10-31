@@ -65,7 +65,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<{{entity.Name}}Dto>>> Get()
     {
-        var result = await _mediator.Send(new Get{{entity.PluralName}}Query());
+        var result = await _mediator.Send(new Get{{entity.PluralName}}Query({{if entity.IsLocalized}}_cultureCode.Value{{end}}));
         return Ok(result);
     }
 
@@ -84,7 +84,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new Create{{entity.Name}}Command({{ToLowerFirstChar entity.Name}}));
+        var createdKey = await _mediator.Send(new Create{{entity.Name}}Command({{ToLowerFirstChar entity.Name}}, _cultureCode));
 
         var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ createdKeyPrimaryKeysQuery }}))).SingleOrDefault();
 

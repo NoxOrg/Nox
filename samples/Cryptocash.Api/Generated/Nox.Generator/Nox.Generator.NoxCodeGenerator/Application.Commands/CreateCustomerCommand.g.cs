@@ -20,7 +20,7 @@ using CustomerEntity = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application.Commands;
 
-public record CreateCustomerCommand(CustomerCreateDto EntityDto) : IRequest<CustomerKeyDto>;
+public record CreateCustomerCommand(CustomerCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<CustomerKeyDto>;
 
 internal partial class CreateCustomerCommandHandler : CreateCustomerCommandHandlerBase
 {
@@ -54,7 +54,8 @@ internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCus
 		IEntityFactory<Cryptocash.Domain.Booking, BookingCreateDto, BookingUpdateDto> BookingFactory,
 		IEntityFactory<Cryptocash.Domain.Transaction, TransactionCreateDto, TransactionUpdateDto> TransactionFactory,
 		IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
-		IEntityFactory<CustomerEntity, CustomerCreateDto, CustomerUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<CustomerEntity, CustomerCreateDto, CustomerUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -67,7 +68,7 @@ internal abstract class CreateCustomerCommandHandlerBase : CommandBase<CreateCus
 	public virtual async Task<CustomerKeyDto> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		foreach(var relatedCreateDto in request.EntityDto.CustomerRelatedPaymentDetails)

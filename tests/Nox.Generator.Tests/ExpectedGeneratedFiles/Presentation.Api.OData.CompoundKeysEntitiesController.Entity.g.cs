@@ -76,7 +76,7 @@ public abstract partial class CompoundKeysEntitiesControllerBase : ODataControll
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateCompoundKeysEntityCommand(compoundKeysEntity));
+        var createdKey = await _mediator.Send(new CreateCompoundKeysEntityCommand(compoundKeysEntity, _cultureCode));
 
         var item = (await _mediator.Send(new GetCompoundKeysEntityByIdQuery(createdKey.keyId1, createdKey.keyId2))).SingleOrDefault();
 

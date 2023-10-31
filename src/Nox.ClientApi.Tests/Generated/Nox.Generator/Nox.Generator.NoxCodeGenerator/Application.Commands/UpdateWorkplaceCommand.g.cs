@@ -24,9 +24,8 @@ internal partial class UpdateWorkplaceCommandHandler : UpdateWorkplaceCommandHan
 	public UpdateWorkplaceCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
-		IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> entityLocalizedFactory) 
-		: base(dbContext, noxSolution, entityFactory, entityLocalizedFactory)
+		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory) 
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -35,24 +34,21 @@ internal abstract class UpdateWorkplaceCommandHandlerBase : CommandBase<UpdateWo
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> _entityFactory;
-	private readonly IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> _entityLocalizedFactory;
 
 	public UpdateWorkplaceCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
-		IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> entityLocalizedFactory)
+		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory)
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
-		_entityFactory = entityFactory; 
-		_entityLocalizedFactory = entityLocalizedFactory;
+		_entityFactory = entityFactory;
 	}
 
 	public virtual async Task<WorkplaceKeyDto?> Handle(UpdateWorkplaceCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = ClientApi.Domain.WorkplaceMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Workplaces.FindAsync(keyId);
@@ -78,7 +74,6 @@ internal abstract class UpdateWorkplaceCommandHandlerBase : CommandBase<UpdateWo
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		await UpdateLocalizedEntityAsync(entity, request.EntityDto, request.CultureCode);
 
 		await OnCompletedAsync(request, entity);
 
@@ -90,23 +85,5 @@ internal abstract class UpdateWorkplaceCommandHandlerBase : CommandBase<UpdateWo
 		}
 
 		return new WorkplaceKeyDto(entity.Id.Value);
-	}
-
-	private async Task UpdateLocalizedEntityAsync(WorkplaceEntity entity, WorkplaceUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
-	{
-		var entityLocalized = await DbContext.WorkplacesLocalized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
-		if(entityLocalized is not null)
-		{
-			_entityLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto, cultureCode);
-			entityLocalized.Etag = entity.Etag;
-			
-			DbContext.Entry(entityLocalized).State = EntityState.Modified;
-		}
-		else
-		{
-			entityLocalized = _entityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
-			
-			DbContext.WorkplacesLocalized.Add(entityLocalized);
-		}
 	}
 }

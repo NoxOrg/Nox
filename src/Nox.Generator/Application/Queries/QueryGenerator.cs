@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Application.Commands;
 using Nox.Generator.Common;
 using Nox.Solution;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Nox.Generator.Application.Queries;
 
@@ -12,7 +13,7 @@ internal class QueryGenerator : ApplicationEntityDependentGeneratorBase
     {
         var templateName = @"Application.Queries.Query";
 
-        foreach (var entity in entities)
+        foreach (var entity in entities.Where(x => !x.IsLocalized))
         {
             if (entity.IsOwnedEntity)
                 continue;

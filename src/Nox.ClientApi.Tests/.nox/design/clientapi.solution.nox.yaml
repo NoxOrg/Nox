@@ -76,20 +76,27 @@ infrastructure:
 
 application:
   integrationEvents:
-        - name: CountryPopulationHigherThan100M
-          description: Country Population Updated with Population Higher then 100M
-          type: object
-          trait: Country
-          objectTypeOptions:
-            attributes:
-              - name: Name
-                type: text
+    - name: CountryPopulationHigherThan100M
+      description: Country Population Updated with Population Higher then 100M
+      type: object
+      trait: Country
+      objectTypeOptions:
+        attributes:
+          - name: Name
+            type: text
 
-              - name: Population
-                type: number
+          - name: Population
+            type: number
 
-              - name: CountryDebt
-                type: money
+          - name: CountryDebt
+            type: money
+
+  localization: 
+    supportedCultures:
+      - fr-FR
+      - de-DE
+      - en-US
+    defaultCulture: en-US 
 
   dataTransferObjects:
     - name: TempDto

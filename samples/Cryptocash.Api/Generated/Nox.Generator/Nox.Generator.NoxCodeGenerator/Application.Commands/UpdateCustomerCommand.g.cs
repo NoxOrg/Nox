@@ -48,7 +48,7 @@ internal abstract class UpdateCustomerCommandHandlerBase : CommandBase<UpdateCus
 	public virtual async Task<CustomerKeyDto?> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.CustomerMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Customers.FindAsync(keyId);

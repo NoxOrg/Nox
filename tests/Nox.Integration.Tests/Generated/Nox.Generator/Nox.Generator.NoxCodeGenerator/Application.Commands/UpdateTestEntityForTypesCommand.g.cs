@@ -48,7 +48,7 @@ internal abstract class UpdateTestEntityForTypesCommandHandlerBase : CommandBase
 	public virtual async Task<TestEntityForTypesKeyDto?> Handle(UpdateTestEntityForTypesCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityForTypesMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityForTypes.FindAsync(keyId);

@@ -58,7 +58,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<WorkplaceDto>>> Get()
     {
-        var result = await _mediator.Send(new GetWorkplacesQuery());
+        var result = await _mediator.Send(new GetWorkplacesQuery(_cultureCode.Value));
         return Ok(result);
     }
 
@@ -76,7 +76,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace));
+        var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace, _cultureCode));
 
         var item = (await _mediator.Send(new GetWorkplaceByIdQuery(createdKey.keyId))).SingleOrDefault();
 

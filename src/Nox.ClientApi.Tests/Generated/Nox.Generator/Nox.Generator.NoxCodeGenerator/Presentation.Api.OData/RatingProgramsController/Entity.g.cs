@@ -76,7 +76,7 @@ public abstract partial class RatingProgramsControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateRatingProgramCommand(ratingProgram));
+        var createdKey = await _mediator.Send(new CreateRatingProgramCommand(ratingProgram, _cultureCode));
 
         var item = (await _mediator.Send(new GetRatingProgramByIdQuery(createdKey.keyStoreId, createdKey.keyId))).SingleOrDefault();
 

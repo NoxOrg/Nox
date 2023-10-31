@@ -76,7 +76,7 @@ public abstract partial class CountriesControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateCountryCommand(country));
+        var createdKey = await _mediator.Send(new CreateCountryCommand(country, _cultureCode));
 
         var item = (await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId))).SingleOrDefault();
 

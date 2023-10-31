@@ -44,7 +44,7 @@ internal class PartialUpdateTestEntityLocalizationCommandHandlerBase : CommandBa
 	public virtual async Task<TestEntityLocalizationKeyDto?> Handle(PartialUpdateTestEntityLocalizationCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityLocalizationMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityLocalizations.FindAsync(keyId);

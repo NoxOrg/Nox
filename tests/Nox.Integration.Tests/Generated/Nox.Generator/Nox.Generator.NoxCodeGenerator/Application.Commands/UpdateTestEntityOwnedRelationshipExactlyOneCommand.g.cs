@@ -48,7 +48,7 @@ internal abstract class UpdateTestEntityOwnedRelationshipExactlyOneCommandHandle
 	public virtual async Task<TestEntityOwnedRelationshipExactlyOneKeyDto?> Handle(UpdateTestEntityOwnedRelationshipExactlyOneCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityOwnedRelationshipExactlyOneMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityOwnedRelationshipExactlyOnes.FindAsync(keyId);

@@ -48,7 +48,7 @@ internal abstract class UpdateCountryQualityOfLifeIndexCommandHandlerBase : Comm
 	public virtual async Task<CountryQualityOfLifeIndexKeyDto?> Handle(UpdateCountryQualityOfLifeIndexCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyCountryId = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateCountryId(request.keyCountryId);
 		var keyId = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateId(request.keyId);
 

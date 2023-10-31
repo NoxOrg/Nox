@@ -37,7 +37,7 @@ internal abstract class DeletePaymentDetailByIdCommandHandlerBase : CommandBase<
 	public virtual async Task<bool> Handle(DeletePaymentDetailByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.PaymentDetailMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.PaymentDetails.FindAsync(keyId);

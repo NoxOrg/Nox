@@ -76,7 +76,7 @@ public abstract partial class TestEntityForUniqueConstraintsControllerBase : ODa
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateTestEntityForUniqueConstraintsCommand(testEntityForUniqueConstraints));
+        var createdKey = await _mediator.Send(new CreateTestEntityForUniqueConstraintsCommand(testEntityForUniqueConstraints, _cultureCode));
 
         var item = (await _mediator.Send(new GetTestEntityForUniqueConstraintsByIdQuery(createdKey.keyId))).SingleOrDefault();
 
