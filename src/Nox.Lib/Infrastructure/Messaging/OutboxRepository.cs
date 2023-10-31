@@ -34,7 +34,7 @@ namespace Nox.Infrastructure.Messaging
 
             var prefix = _webHostEnvironment.EnvironmentName == Environments.Production ? string.Empty : $"{_webHostEnvironment.EnvironmentName.ToLower()}.";
 
-            await _bus.Publish(new CloudEventMessage(integrationEvent, _userProvider.GetUser().ToString(), prefix), sendContext =>
+            await _bus.Publish(new CloudEventMessage<T>(integrationEvent, _userProvider.GetUser().ToString(), prefix), sendContext =>
             {
                 sendContext.ContentType = new ContentType("application/cloudevents+json");
             });
