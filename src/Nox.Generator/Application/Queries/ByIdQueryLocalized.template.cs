@@ -11,10 +11,11 @@ using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 using {{codeGeneratorState.PersistenceNameSpace}};
 using Nox.Presentation.Api;
 using Nox.Solution;
+using Nox.Types;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Queries;
 
-public record Get{{entity.Name }}ByIdQuery(string cultureCode, {{primaryKeys}}) : IRequest <IQueryable<{{entity.Name}}Dto>>;
+public record Get{{entity.Name }}ByIdQuery(CultureCode cultureCode, {{primaryKeys}}) : IRequest <IQueryable<{{entity.Name}}Dto>>;
 
 internal partial class Get{{entity.Name}}ByIdQueryHandler:Get{{entity.Name}}ByIdQueryHandlerBase
 {
@@ -35,7 +36,7 @@ internal abstract class Get{{entity.Name}}ByIdQueryHandlerBase:  QueryBase<IQuer
 
     public virtual Task<IQueryable<{{entity.Name}}Dto>> Handle(Get{{entity.Name}}ByIdQuery request, CancellationToken cancellationToken)
     {
-        var cultureCode = request.cultureCode;
+        var cultureCode = request.cultureCode.Value;
 
         IQueryable<{{entity.Name}}Dto> linqQueryBuilder =
             from item in DataDbContext.{{entity.PluralName}}.Where(r =>

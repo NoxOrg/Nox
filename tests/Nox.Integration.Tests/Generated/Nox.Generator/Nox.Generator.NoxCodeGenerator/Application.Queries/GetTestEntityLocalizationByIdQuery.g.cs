@@ -11,10 +11,11 @@ using TestWebApp.Application.Dto;
 using TestWebApp.Infrastructure.Persistence;
 using Nox.Presentation.Api;
 using Nox.Solution;
+using Nox.Types;
 
 namespace TestWebApp.Application.Queries;
 
-public record GetTestEntityLocalizationByIdQuery(string cultureCode, System.String keyId) : IRequest <IQueryable<TestEntityLocalizationDto>>;
+public record GetTestEntityLocalizationByIdQuery(CultureCode cultureCode, System.String keyId) : IRequest <IQueryable<TestEntityLocalizationDto>>;
 
 internal partial class GetTestEntityLocalizationByIdQueryHandler:GetTestEntityLocalizationByIdQueryHandlerBase
 {
@@ -35,7 +36,7 @@ internal abstract class GetTestEntityLocalizationByIdQueryHandlerBase:  QueryBas
 
     public virtual Task<IQueryable<TestEntityLocalizationDto>> Handle(GetTestEntityLocalizationByIdQuery request, CancellationToken cancellationToken)
     {
-        var cultureCode = request.cultureCode;
+        var cultureCode = request.cultureCode.Value;
 
         IQueryable<TestEntityLocalizationDto> linqQueryBuilder =
             from item in DataDbContext.TestEntityLocalizations.Where(r =>
