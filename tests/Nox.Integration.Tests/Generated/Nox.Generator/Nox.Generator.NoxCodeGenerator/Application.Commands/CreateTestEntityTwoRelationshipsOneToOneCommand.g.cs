@@ -20,7 +20,7 @@ using TestEntityTwoRelationshipsOneToOneEntity = TestWebApp.Domain.TestEntityTwo
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateTestEntityTwoRelationshipsOneToOneCommand(TestEntityTwoRelationshipsOneToOneCreateDto EntityDto) : IRequest<TestEntityTwoRelationshipsOneToOneKeyDto>;
+public record CreateTestEntityTwoRelationshipsOneToOneCommand(TestEntityTwoRelationshipsOneToOneCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<TestEntityTwoRelationshipsOneToOneKeyDto>;
 
 internal partial class CreateTestEntityTwoRelationshipsOneToOneCommandHandler : CreateTestEntityTwoRelationshipsOneToOneCommandHandlerBase
 {
@@ -45,7 +45,8 @@ internal abstract class CreateTestEntityTwoRelationshipsOneToOneCommandHandlerBa
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToOne, SecondTestEntityTwoRelationshipsOneToOneCreateDto, SecondTestEntityTwoRelationshipsOneToOneUpdateDto> SecondTestEntityTwoRelationshipsOneToOneFactory,
-		IEntityFactory<TestEntityTwoRelationshipsOneToOneEntity, TestEntityTwoRelationshipsOneToOneCreateDto, TestEntityTwoRelationshipsOneToOneUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<TestEntityTwoRelationshipsOneToOneEntity, TestEntityTwoRelationshipsOneToOneCreateDto, TestEntityTwoRelationshipsOneToOneUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

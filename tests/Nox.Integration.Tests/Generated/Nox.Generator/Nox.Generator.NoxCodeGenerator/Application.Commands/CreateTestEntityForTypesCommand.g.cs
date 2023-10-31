@@ -20,7 +20,7 @@ using TestEntityForTypesEntity = TestWebApp.Domain.TestEntityForTypes;
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateTestEntityForTypesCommand(TestEntityForTypesCreateDto EntityDto) : IRequest<TestEntityForTypesKeyDto>;
+public record CreateTestEntityForTypesCommand(TestEntityForTypesCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<TestEntityForTypesKeyDto>;
 
 internal partial class CreateTestEntityForTypesCommandHandler : CreateTestEntityForTypesCommandHandlerBase
 {
@@ -42,7 +42,8 @@ internal abstract class CreateTestEntityForTypesCommandHandlerBase : CommandBase
 	public CreateTestEntityForTypesCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityForTypesEntity, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<TestEntityForTypesEntity, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

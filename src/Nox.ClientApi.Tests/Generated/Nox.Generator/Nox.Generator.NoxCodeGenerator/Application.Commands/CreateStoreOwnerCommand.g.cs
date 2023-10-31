@@ -20,7 +20,7 @@ using StoreOwnerEntity = ClientApi.Domain.StoreOwner;
 
 namespace ClientApi.Application.Commands;
 
-public record CreateStoreOwnerCommand(StoreOwnerCreateDto EntityDto) : IRequest<StoreOwnerKeyDto>;
+public record CreateStoreOwnerCommand(StoreOwnerCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<StoreOwnerKeyDto>;
 
 internal partial class CreateStoreOwnerCommandHandler : CreateStoreOwnerCommandHandlerBase
 {
@@ -45,7 +45,8 @@ internal abstract class CreateStoreOwnerCommandHandlerBase : CommandBase<CreateS
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
-		IEntityFactory<StoreOwnerEntity, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<StoreOwnerEntity, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

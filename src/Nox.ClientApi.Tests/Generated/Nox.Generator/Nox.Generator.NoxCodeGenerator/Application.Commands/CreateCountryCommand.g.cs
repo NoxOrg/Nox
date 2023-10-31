@@ -20,7 +20,7 @@ using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
-public record CreateCountryCommand(CountryCreateDto EntityDto) : IRequest<CountryKeyDto>;
+public record CreateCountryCommand(CountryCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<CountryKeyDto>;
 
 internal partial class CreateCountryCommandHandler : CreateCountryCommandHandlerBase
 {
@@ -45,7 +45,8 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> WorkplaceFactory,
-		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

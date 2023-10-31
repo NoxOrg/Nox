@@ -20,7 +20,7 @@ using CountryEntity = Cryptocash.Domain.Country;
 
 namespace Cryptocash.Application.Commands;
 
-public record CreateCountryCommand(CountryCreateDto EntityDto) : IRequest<CountryKeyDto>;
+public record CreateCountryCommand(CountryCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<CountryKeyDto>;
 
 internal partial class CreateCountryCommandHandler : CreateCountryCommandHandlerBase
 {
@@ -54,7 +54,8 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 		IEntityFactory<Cryptocash.Domain.Commission, CommissionCreateDto, CommissionUpdateDto> CommissionFactory,
 		IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory,
 		IEntityFactory<Cryptocash.Domain.Customer, CustomerCreateDto, CustomerUpdateDto> CustomerFactory,
-		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

@@ -19,7 +19,7 @@ using WorkplaceEntity = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Commands;
 
-public record CreateWorkplaceCommand(WorkplaceCreateDto EntityDto) : IRequest<WorkplaceKeyDto>;
+public record CreateWorkplaceCommand(WorkplaceCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<WorkplaceKeyDto>;
 
 internal partial class CreateWorkplaceCommandHandler : CreateWorkplaceCommandHandlerBase
 {
@@ -27,8 +27,9 @@ internal partial class CreateWorkplaceCommandHandler : CreateWorkplaceCommandHan
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
-		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,CountryFactory, entityFactory)
+		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
+		IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity> entityLocalizedFactory)
+		: base(dbContext, noxSolution,CountryFactory, entityFactory, entityLocalizedFactory)
 	{
 	}
 }
@@ -38,17 +39,21 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 {
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> EntityFactory;
+	protected readonly IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity> EntityLocalizedFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory;
 
 	public CreateWorkplaceCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
-		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
+		IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity> entityLocalizedFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
-		this.CountryFactory = CountryFactory;
+		this.CountryFactory = CountryFactory; 
+		EntityLocalizedFactory = entityLocalizedFactory;
 	}
 
 	public virtual async Task<WorkplaceKeyDto> Handle(CreateWorkplaceCommand request, CancellationToken cancellationToken)
@@ -74,6 +79,8 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 
 		await OnCompletedAsync(request, entityToCreate);
 		DbContext.Workplaces.Add(entityToCreate);
+		var entityLocalizedToCreate = EntityLocalizedFactory.CreateLocalizedEntity(entityToCreate, request.CultureCode);
+		DbContext.WorkplacesLocalized.Add(entityLocalizedToCreate);
 		await DbContext.SaveChangesAsync();
 		return new WorkplaceKeyDto(entityToCreate.Id.Value);
 	}

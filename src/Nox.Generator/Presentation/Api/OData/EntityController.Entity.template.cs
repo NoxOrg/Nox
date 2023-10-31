@@ -41,7 +41,10 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     /// </summary>
     protected readonly IMediator _mediator;
 
-    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
+    /// <symmary>
+    /// The Culture Code from the HTTP request.
+    /// </symmary>
+    protected readonly Nox.Types.CultureCode _cultureCode;
 
     public {{entity.PluralName}}ControllerBase(
         IMediator mediator,
@@ -52,7 +55,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     )
     {
         _mediator = mediator;
-        _httpLanguageProvider = httpLanguageProvider;
+        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
 
         {{- for query in entity.Queries }}
         _{{ ToLowerFirstChar query.Name}} = {{ ToLowerFirstChar query.Name }};
@@ -62,7 +65,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<{{entity.Name}}Dto>>> Get()
     {
-        var result = await _mediator.Send(new Get{{entity.PluralName}}Query({{if entity.IsLocalized}}_httpLanguageProvider.GetLanguage(){{end}}));
+        var result = await _mediator.Send(new Get{{entity.PluralName}}Query({{if entity.IsLocalized}}_cultureCode.Value{{end}}));
         return Ok(result);
     }
 
@@ -81,7 +84,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new Create{{entity.Name}}Command({{ToLowerFirstChar entity.Name}}));
+        var createdKey = await _mediator.Send(new Create{{entity.Name}}Command({{ToLowerFirstChar entity.Name}}, _cultureCode));
 
         var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ createdKeyPrimaryKeysQuery }}))).SingleOrDefault();
 
