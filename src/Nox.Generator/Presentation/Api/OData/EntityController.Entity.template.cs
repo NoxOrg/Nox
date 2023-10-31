@@ -41,7 +41,10 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     /// </summary>
     protected readonly IMediator _mediator;
 
-    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
+    /// <symmary>
+    /// The Culture Code from the HTTP request.
+    /// </symmary>
+    protected readonly Nox.Types.CultureCode _cultureCode;
 
     public {{entity.PluralName}}ControllerBase(
         IMediator mediator,
@@ -52,7 +55,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     )
     {
         _mediator = mediator;
-        _httpLanguageProvider = httpLanguageProvider;
+        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
 
         {{- for query in entity.Queries }}
         _{{ ToLowerFirstChar query.Name}} = {{ ToLowerFirstChar query.Name }};
@@ -95,13 +98,11 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
         {
             return BadRequest(ModelState);
         }
-
-        var language = _httpLanguageProvider.GetLanguage();
         {{~ if !entity.IsOwnedEntity }}
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new Update{{ entity.Name }}Command({{ primaryKeysQuery }}, {{ToLowerFirstChar entity.Name}}, Nox.Types.CultureCode.From(language), etag));
+        var updatedKey = await _mediator.Send(new Update{{ entity.Name }}Command({{ primaryKeysQuery }}, {{ToLowerFirstChar entity.Name}}, _cultureCode, etag));
         {{- else }}
-        var updatedKey = await _mediator.Send(new Update{{ entity.Name }}Command({{ primaryKeysQuery }}, {{ToLowerFirstChar entity.Name}}, Nox.Types.CultureCode.From(language)));
+        var updatedKey = await _mediator.Send(new Update{{ entity.Name }}Command({{ primaryKeysQuery }}, {{ToLowerFirstChar entity.Name}}, _cultureCode));
         {{- end}}
 
         if (updatedKey is null)

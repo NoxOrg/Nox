@@ -41,7 +41,10 @@ public abstract partial class RatingProgramsControllerBase : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
 
-    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
+    /// <symmary>
+    /// The Culture Code from the HTTP request.
+    /// </symmary>
+    protected readonly Nox.Types.CultureCode _cultureCode;
 
     public RatingProgramsControllerBase(
         IMediator mediator,
@@ -49,7 +52,7 @@ public abstract partial class RatingProgramsControllerBase : ODataController
     )
     {
         _mediator = mediator;
-        _httpLanguageProvider = httpLanguageProvider;
+        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
     }
 
     [EnableQuery]
@@ -87,10 +90,8 @@ public abstract partial class RatingProgramsControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var language = _httpLanguageProvider.GetLanguage();
-
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateRatingProgramCommand(keyStoreId, keyId, ratingProgram, Nox.Types.CultureCode.From(language), etag));
+        var updatedKey = await _mediator.Send(new UpdateRatingProgramCommand(keyStoreId, keyId, ratingProgram, _cultureCode, etag));
 
         if (updatedKey is null)
         {
