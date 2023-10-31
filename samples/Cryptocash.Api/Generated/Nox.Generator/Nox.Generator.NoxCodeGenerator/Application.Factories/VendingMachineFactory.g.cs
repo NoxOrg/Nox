@@ -25,6 +25,7 @@ namespace Cryptocash.Application.Factories;
 
 internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachineEntity, VendingMachineCreateDto, VendingMachineUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public VendingMachineFactoryBase
     (
@@ -150,7 +151,7 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == Nox.Types.CultureCode.From("");
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class VendingMachineFactory : VendingMachineFactoryBase

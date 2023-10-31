@@ -25,6 +25,7 @@ namespace ClientApi.Application.Factories;
 
 internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public CountryQualityOfLifeIndexFactoryBase
     (
@@ -76,7 +77,7 @@ internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<Co
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == Nox.Types.CultureCode.From("");
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class CountryQualityOfLifeIndexFactory : CountryQualityOfLifeIndexFactoryBase

@@ -25,6 +25,7 @@ namespace Cryptocash.Application.Factories;
 
 internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntity, TransactionCreateDto, TransactionUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public TransactionFactoryBase
     (
@@ -114,7 +115,7 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == Nox.Types.CultureCode.From("");
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class TransactionFactory : TransactionFactoryBase

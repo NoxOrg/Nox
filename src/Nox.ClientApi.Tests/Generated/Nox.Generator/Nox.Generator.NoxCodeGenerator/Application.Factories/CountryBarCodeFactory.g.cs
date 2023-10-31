@@ -25,6 +25,7 @@ namespace ClientApi.Application.Factories;
 
 internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCodeEntity, CountryBarCodeCreateDto, CountryBarCodeUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public CountryBarCodeFactoryBase
     (
@@ -86,7 +87,7 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == Nox.Types.CultureCode.From("");
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class CountryBarCodeFactory : CountryBarCodeFactoryBase

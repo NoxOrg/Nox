@@ -29,6 +29,8 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Factories;
 
 internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("{{codeGeneratorState.Solution.Application.Localization.DefaultCulture}}");
+
     {{- for ownedEntity in ownedEntities #Factories Properties for owned entitites}}
     protected IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{ownedEntity}}, {{ownedEntity}}CreateDto, {{ownedEntity}}UpdateDto> {{ownedEntity}}Factory {get;}
     {{- end }}
@@ -169,7 +171,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == Nox.Types.CultureCode.From("{{codeGeneratorState.Solution.Application.Localization.DefaultCultureCode}}");
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class {{className}} : {{className}}Base

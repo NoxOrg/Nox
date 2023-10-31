@@ -46,6 +46,12 @@ public static class ServiceCollectionExtension
            .AsImplementedInterfaces()
            .WithTransientLifetime());
 
+        services.Scan(scan =>
+           scan.FromAssemblies(noxAssemblies)
+           .AddClasses(classes => classes.AssignableTo(typeof(IEntityLocalizedFactory<,,>)))
+           .AsImplementedInterfaces()
+           .WithTransientLifetime());
+
         return services;
     }
     internal static IServiceCollection AddNoxMediatR(this IServiceCollection services, Assembly serviceAssembly)

@@ -25,6 +25,7 @@ namespace TestWebApp.Application.Factories;
 
 internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntityForTypesEntity, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public TestEntityForTypesFactoryBase
     (
@@ -630,7 +631,7 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == Nox.Types.CultureCode.From("");
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class TestEntityForTypesFactory : TestEntityForTypesFactoryBase

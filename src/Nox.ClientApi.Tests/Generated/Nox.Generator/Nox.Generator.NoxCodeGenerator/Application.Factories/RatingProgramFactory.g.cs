@@ -25,6 +25,7 @@ namespace ClientApi.Application.Factories;
 
 internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public RatingProgramFactoryBase
     (
@@ -74,7 +75,7 @@ internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgramE
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == Nox.Types.CultureCode.From("");
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class RatingProgramFactory : RatingProgramFactoryBase

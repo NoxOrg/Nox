@@ -25,6 +25,7 @@ namespace ClientApi.Application.Factories;
 
 internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public WorkplaceFactoryBase
     (
@@ -90,7 +91,7 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == Nox.Types.CultureCode.From("");
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class WorkplaceFactory : WorkplaceFactoryBase

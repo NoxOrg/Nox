@@ -25,6 +25,7 @@ namespace Cryptocash.Application.Factories;
 
 internal abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCashStockEntity, MinimumCashStockCreateDto, MinimumCashStockUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public MinimumCashStockFactoryBase
     (
@@ -75,7 +76,7 @@ internal abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCash
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == Nox.Types.CultureCode.From("");
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class MinimumCashStockFactory : MinimumCashStockFactoryBase

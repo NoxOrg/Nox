@@ -25,6 +25,7 @@ namespace Cryptocash.Application.Factories;
 
 internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, CurrencyCreateDto, CurrencyUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     protected IEntityFactory<Cryptocash.Domain.BankNote, BankNoteCreateDto, BankNoteUpdateDto> BankNoteFactory {get;}
     protected IEntityFactory<Cryptocash.Domain.ExchangeRate, ExchangeRateCreateDto, ExchangeRateUpdateDto> ExchangeRateFactory {get;}
 
@@ -223,7 +224,7 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == Nox.Types.CultureCode.From("");
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class CurrencyFactory : CurrencyFactoryBase

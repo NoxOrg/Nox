@@ -25,6 +25,7 @@ namespace TestWebApp.Application.Factories;
 
 internal abstract class TestEntityForUniqueConstraintsFactoryBase : IEntityFactory<TestEntityForUniqueConstraintsEntity, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public TestEntityForUniqueConstraintsFactoryBase
     (
@@ -128,7 +129,7 @@ internal abstract class TestEntityForUniqueConstraintsFactoryBase : IEntityFacto
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == Nox.Types.CultureCode.From("");
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class TestEntityForUniqueConstraintsFactory : TestEntityForUniqueConstraintsFactoryBase

@@ -41,7 +41,10 @@ public abstract partial class CountriesControllerBase : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
 
-    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
+    /// <symmary>
+    /// The Culture Code from the HTTP request.
+    /// </symmary>
+    protected readonly Nox.Types.CultureCode _cultureCode;
 
     public CountriesControllerBase(
         IMediator mediator,
@@ -50,7 +53,7 @@ public abstract partial class CountriesControllerBase : ODataController
     )
     {
         _mediator = mediator;
-        _httpLanguageProvider = httpLanguageProvider;
+        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
         _getCountriesByContinent = getCountriesByContinent;
     }
 
@@ -90,7 +93,7 @@ public abstract partial class CountriesControllerBase : ODataController
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateCountryCommand(key, country, etag));
+        var updatedKey = await _mediator.Send(new UpdateCountryCommand(key, country, _cultureCode, etag));
 
         if (updatedKey is null)
         {

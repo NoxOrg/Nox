@@ -25,6 +25,7 @@ namespace Cryptocash.Application.Factories;
 
 internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public BookingFactoryBase
     (
@@ -146,7 +147,7 @@ internal abstract class BookingFactoryBase : IEntityFactory<BookingEntity, Booki
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == Nox.Types.CultureCode.From("");
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class BookingFactory : BookingFactoryBase

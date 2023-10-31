@@ -25,6 +25,7 @@ namespace Cryptocash.Application.Factories;
 
 internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     protected IEntityFactory<Cryptocash.Domain.CountryTimeZone, CountryTimeZoneCreateDto, CountryTimeZoneUpdateDto> CountryTimeZoneFactory {get;}
     protected IEntityFactory<Cryptocash.Domain.Holiday, HolidayCreateDto, HolidayUpdateDto> HolidayFactory {get;}
 
@@ -218,7 +219,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == Nox.Types.CultureCode.From("");
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class CountryFactory : CountryFactoryBase

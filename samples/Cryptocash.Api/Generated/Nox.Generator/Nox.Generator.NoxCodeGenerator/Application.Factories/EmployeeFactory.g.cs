@@ -25,6 +25,7 @@ namespace Cryptocash.Application.Factories;
 
 internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     protected IEntityFactory<Cryptocash.Domain.EmployeePhoneNumber, EmployeePhoneNumberCreateDto, EmployeePhoneNumberUpdateDto> EmployeePhoneNumberFactory {get;}
 
     public EmployeeFactoryBase
@@ -142,7 +143,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == Nox.Types.CultureCode.From("");
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class EmployeeFactory : EmployeeFactoryBase

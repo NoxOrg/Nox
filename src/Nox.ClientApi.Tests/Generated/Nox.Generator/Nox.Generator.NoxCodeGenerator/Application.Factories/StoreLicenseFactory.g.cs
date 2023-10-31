@@ -25,6 +25,7 @@ namespace ClientApi.Application.Factories;
 
 internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public StoreLicenseFactoryBase
     (
@@ -75,7 +76,7 @@ internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicenseEnt
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == Nox.Types.CultureCode.From("");
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class StoreLicenseFactory : StoreLicenseFactoryBase

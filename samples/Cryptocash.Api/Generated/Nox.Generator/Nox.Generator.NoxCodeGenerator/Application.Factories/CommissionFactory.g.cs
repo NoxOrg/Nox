@@ -25,6 +25,7 @@ namespace Cryptocash.Application.Factories;
 
 internal abstract class CommissionFactoryBase : IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public CommissionFactoryBase
     (
@@ -88,7 +89,7 @@ internal abstract class CommissionFactoryBase : IEntityFactory<CommissionEntity,
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == Nox.Types.CultureCode.From("");
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class CommissionFactory : CommissionFactoryBase

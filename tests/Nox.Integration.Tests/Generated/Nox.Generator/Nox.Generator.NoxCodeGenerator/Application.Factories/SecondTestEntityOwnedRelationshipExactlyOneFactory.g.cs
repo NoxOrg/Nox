@@ -25,6 +25,7 @@ namespace TestWebApp.Application.Factories;
 
 internal abstract class SecondTestEntityOwnedRelationshipExactlyOneFactoryBase : IEntityFactory<SecondTestEntityOwnedRelationshipExactlyOneEntity, SecondTestEntityOwnedRelationshipExactlyOneCreateDto, SecondTestEntityOwnedRelationshipExactlyOneUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public SecondTestEntityOwnedRelationshipExactlyOneFactoryBase
     (
@@ -75,7 +76,7 @@ internal abstract class SecondTestEntityOwnedRelationshipExactlyOneFactoryBase :
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == Nox.Types.CultureCode.From("");
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class SecondTestEntityOwnedRelationshipExactlyOneFactory : SecondTestEntityOwnedRelationshipExactlyOneFactoryBase

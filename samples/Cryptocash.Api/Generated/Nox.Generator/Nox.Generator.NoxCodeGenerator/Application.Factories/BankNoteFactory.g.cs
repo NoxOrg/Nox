@@ -25,6 +25,7 @@ namespace Cryptocash.Application.Factories;
 
 internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, BankNoteCreateDto, BankNoteUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public BankNoteFactoryBase
     (
@@ -88,7 +89,7 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, Ban
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == Nox.Types.CultureCode.From("");
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class BankNoteFactory : BankNoteFactoryBase

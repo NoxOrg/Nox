@@ -25,6 +25,7 @@ namespace ClientApi.Application.Factories;
 
 internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLocalNameEntity, CountryLocalNameCreateDto, CountryLocalNameUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public CountryLocalNameFactoryBase
     (
@@ -86,7 +87,7 @@ internal abstract class CountryLocalNameFactoryBase : IEntityFactory<CountryLoca
     }
 
     private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
-        => cultureCode == Nox.Types.CultureCode.From("");
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class CountryLocalNameFactory : CountryLocalNameFactoryBase
