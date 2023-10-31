@@ -44,7 +44,7 @@ internal class PartialUpdateBookingCommandHandlerBase : CommandBase<PartialUpdat
 	public virtual async Task<BookingKeyDto?> Handle(PartialUpdateBookingCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.BookingMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Bookings.FindAsync(keyId);

@@ -68,7 +68,7 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 	public virtual async Task<CountryKeyDto> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.CountryUsedByCurrencyId is not null)

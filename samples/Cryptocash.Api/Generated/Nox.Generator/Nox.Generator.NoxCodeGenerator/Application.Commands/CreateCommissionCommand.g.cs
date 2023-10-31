@@ -60,7 +60,7 @@ internal abstract class CreateCommissionCommandHandlerBase : CommandBase<CreateC
 	public virtual async Task<CommissionKeyDto> Handle(CreateCommissionCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.CommissionFeesForCountryId is not null)

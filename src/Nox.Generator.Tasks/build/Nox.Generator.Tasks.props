@@ -13,12 +13,12 @@
 
 <!--Task parameters default values, this can be overridden-->
 <PropertyGroup>
-	<OutputDirectory>Nox.Generated</OutputDirectory>
+	<OutputDirectory Condition="'$(OutputDirectory)' == ''">Nox.Generated</OutputDirectory>
 </PropertyGroup>
 <ItemGroup>
 	<InputFiles Include="../.nox/design/**/*.yaml" />
 	<InputFiles Include="../.nox/docs/**/*.md" />
-	<InputFiles Include="generator.nox.yaml" />	
+	<InputFiles Include="*generator.nox.yaml" />	
 </ItemGroup>
 	
  </Project>

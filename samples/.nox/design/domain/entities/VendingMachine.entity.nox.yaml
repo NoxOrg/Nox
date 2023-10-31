@@ -34,7 +34,7 @@ attributes:
     isRequired: true  
     userInterface:
       label: MacAddress
-      fieldGroup: Details
+      pageGroup: Details
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -50,7 +50,7 @@ attributes:
     isRequired: true  
     userInterface:
       label: Public Ip
-      fieldGroup: Details
+      pageGroup: Details
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -64,7 +64,7 @@ attributes:
     type: latLong     
     isRequired: true  
     userInterface:
-      fieldGroup: Location
+      pageGroup: Location
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -78,7 +78,7 @@ attributes:
     type: streetAddress
     isRequired: true
     userInterface:
-      fieldGroup: Location
+      pageGroup: Location
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -96,7 +96,7 @@ attributes:
     isRequired: true
     userInterface:
       label: Serial Number
-      fieldGroup: Details
+      pageGroup: Details
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -111,7 +111,7 @@ attributes:
     isRequired: false
     userInterface:
       label: Installation Area
-      fieldGroup: Details
+      pageGroup: Details
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
@@ -126,14 +126,14 @@ attributes:
     isRequired: false
     userInterface:
       label: Rent per Square Metre
-      fieldGroup: Details
+      pageGroup: Details
       showInSearchResults: optionalAndOnByDefault
       canSort: true
       canSearch: true
       canFilter: true
       showOnCreateForm: true
       showOnUpdateForm: true
-      inputOrder: 5
+      inputOrder: 5     
 
 relationships:
     
@@ -141,26 +141,51 @@ relationships:
     description: installed in
     relationship: exactlyOne
     entity: Country
+    userInterface:
+      label: Installation Country      
+      pageGroup: Details
+      showOnCreateForm: true
+      showOnUpdateForm: true     
 
   - name: VendingMachineContractedAreaLandLord
     description: contracted area leased by
     relationship: exactlyOne
     entity: LandLord
+    userInterface:
+      label: Contracted Area LandLord   
+      pageGroup: Details
+      showOnCreateForm: true
+      showOnUpdateForm: true
 
   - name: VendingMachineRelatedBookings
     description: related to
     relationship: zeroOrMany
     entity: Booking
+    userInterface:
+      label: Related Bookings   
+      pageGroup: Related Bookings
+      showOnCreateForm: false
+      showOnUpdateForm: true
 
   - name: VendingMachineRelatedCashStockOrders
     description: related to
     relationship: zeroOrMany
     entity: CashStockOrder
+    userInterface:
+      label: Related Cash Stock Orders   
+      pageGroup: Cash Stock Orders 
+      showOnCreateForm: false
+      showOnUpdateForm: true
 
   - name: VendingMachineRequiredMinimumCashStocks
     description: required
     relationship: zeroOrMany
     entity: MinimumCashStock
+    userInterface:
+      label: Minimum Cash Stocks   
+      pageGroup: Minimum Cash Stocks 
+      showOnCreateForm: true
+      showOnUpdateForm: true
 
 persistence:
     isAudited: true    

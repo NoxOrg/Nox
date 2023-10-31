@@ -124,7 +124,7 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
             var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.Name));
             ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(new EntityBuilderAdapter(modelBuilder.Entity(type!)), entity);
 
-            if (entity.ShouldBeLocalized)
+            if (entity.IsLocalized)
             {
                 type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(NoxCodeGenConventions.GetEntityNameForLocalizedType(entity.Name)));
 

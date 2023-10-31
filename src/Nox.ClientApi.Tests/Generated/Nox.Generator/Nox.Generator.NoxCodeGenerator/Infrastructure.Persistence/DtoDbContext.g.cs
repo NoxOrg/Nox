@@ -56,7 +56,7 @@ internal class DtoDbContext : DbContext
         public DbSet<WorkplaceDto> Workplaces { get; set; } = null!;
         public DbSet<StoreOwnerDto> StoreOwners { get; set; } = null!;
         public DbSet<StoreLicenseDto> StoreLicenses { get; set; } = null!;
-    public DbSet<WorkplaceLocalizedDto> WorkplacesLocalizedDto { get; set; } = null!;
+    public DbSet<WorkplaceLocalizedDto> WorkplacesLocalized { get; set; } = null!;
     public DbSet<DtoNameSpace.CountryContinentDto> CountriesContinents { get; set; } = null!;
     public DbSet<DtoNameSpace.CountryContinentLocalizedDto> CountriesContinentsLocalized { get; set; } = null!;
     public DbSet<DtoNameSpace.StoreStatusDto> StoresStatuses { get; set; } = null!;
@@ -93,7 +93,7 @@ internal class DtoDbContext : DbContext
 
                 _noxDtoDatabaseConfigurator.ConfigureDto(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
 
-                if (entity.ShouldBeLocalized)
+                if (entity.IsLocalized)
                 {
                     dtoName = NoxCodeGenConventions.GetEntityDtoNameForLocalizedType(entity.Name);
                     

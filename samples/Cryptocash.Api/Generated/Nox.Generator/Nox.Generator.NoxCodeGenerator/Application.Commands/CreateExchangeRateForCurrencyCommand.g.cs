@@ -45,7 +45,7 @@ internal abstract class CreateExchangeRateForCurrencyCommandHandlerBase : Comman
 
 	public virtual  async Task<ExchangeRateKeyDto?> Handle(CreateExchangeRateForCurrencyCommand request, CancellationToken cancellationToken)
 	{
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.CurrencyMetadata.CreateId(request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.Currencies.FindAsync(keyId);

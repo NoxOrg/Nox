@@ -40,7 +40,7 @@ internal partial class DeleteCountryLocalNameForCountryCommandHandlerBase : Comm
 	public virtual async Task<bool> Handle(DeleteCountryLocalNameForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = ClientApi.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await DbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)

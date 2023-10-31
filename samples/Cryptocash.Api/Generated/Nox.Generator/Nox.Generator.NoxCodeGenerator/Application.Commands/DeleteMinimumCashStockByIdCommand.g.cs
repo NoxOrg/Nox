@@ -37,7 +37,7 @@ internal abstract class DeleteMinimumCashStockByIdCommandHandlerBase : CommandBa
 	public virtual async Task<bool> Handle(DeleteMinimumCashStockByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.MinimumCashStockMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.MinimumCashStocks.FindAsync(keyId);

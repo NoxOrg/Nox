@@ -44,7 +44,7 @@ internal class PartialUpdateTestEntityForUniqueConstraintsCommandHandlerBase : C
 	public virtual async Task<TestEntityForUniqueConstraintsKeyDto?> Handle(PartialUpdateTestEntityForUniqueConstraintsCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityForUniqueConstraints.FindAsync(keyId);

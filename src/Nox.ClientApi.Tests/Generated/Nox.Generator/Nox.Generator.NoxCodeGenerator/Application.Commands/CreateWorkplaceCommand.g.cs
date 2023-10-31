@@ -59,7 +59,7 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 	public virtual async Task<WorkplaceKeyDto> Handle(CreateWorkplaceCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.BelongsToCountryId is not null)

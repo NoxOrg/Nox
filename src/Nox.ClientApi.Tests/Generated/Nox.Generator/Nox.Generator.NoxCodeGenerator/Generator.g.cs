@@ -44,6 +44,7 @@
 //  - Nox.Generator.Application.Queries.ByIdQueryGenerator
 //  - Nox.Generator.Application.Queries.EnumerationQueryGenerator
 //  - Nox.Generator.Application.Queries.QueryGenerator
+//  - Nox.Generator.Application.Queries.QueryLocalizedGenerator
 //  - Nox.Generator.Application.Factories.EntityFactoryGenerator
 //  - Nox.Generator.Application.Factories.EntityLocalizedFactoryGenerator
 //  - Nox.Generator.Application.Extensions.EntityExtensionsGenerator

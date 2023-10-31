@@ -9,12 +9,13 @@ namespace ClientApi.Application.Commands;
 /// </summary>
 internal partial class CreateCountryCommandHandler
 {
-    protected override void OnExecuting(CreateCountryCommand request)
+    protected override Task OnExecutingAsync(CreateCountryCommand request)
     {
         if (request.EntityDto.Population < 0)
         {
             request.EntityDto.Population = 0;
         }
+        return Task.CompletedTask;
     }
 
     /// <summary>

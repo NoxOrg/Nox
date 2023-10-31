@@ -60,7 +60,7 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 	public virtual async Task<StoreKeyDto> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.OwnershipId is not null)

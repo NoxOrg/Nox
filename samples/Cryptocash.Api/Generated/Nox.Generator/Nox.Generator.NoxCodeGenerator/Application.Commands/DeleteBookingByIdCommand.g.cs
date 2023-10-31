@@ -37,7 +37,7 @@ internal abstract class DeleteBookingByIdCommandHandlerBase : CommandBase<Delete
 	public virtual async Task<bool> Handle(DeleteBookingByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.BookingMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Bookings.FindAsync(keyId);

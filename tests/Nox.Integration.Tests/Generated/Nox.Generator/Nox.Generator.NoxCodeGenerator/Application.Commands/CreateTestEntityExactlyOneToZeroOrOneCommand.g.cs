@@ -56,7 +56,7 @@ internal abstract class CreateTestEntityExactlyOneToZeroOrOneCommandHandlerBase 
 	public virtual async Task<TestEntityExactlyOneToZeroOrOneKeyDto> Handle(CreateTestEntityExactlyOneToZeroOrOneCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.TestEntityZeroOrOneToExactlyOneId is not null)

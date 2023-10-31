@@ -44,7 +44,7 @@ internal class PartialUpdateSecondTestEntityExactlyOneCommandHandlerBase : Comma
 	public virtual async Task<SecondTestEntityExactlyOneKeyDto?> Handle(PartialUpdateSecondTestEntityExactlyOneCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.SecondTestEntityExactlyOneMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.SecondTestEntityExactlyOnes.FindAsync(keyId);

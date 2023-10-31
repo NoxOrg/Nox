@@ -33,9 +33,11 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
     /// <summary>
     ///  Get collection result from Odata End Point
     /// </summary>
-    public async Task<TResult?> GetODataCollectionResponseAsync<TResult>(string requestUrl)
+    public async Task<TResult?> GetODataCollectionResponseAsync<TResult>(string requestUrl, Dictionary<string, IEnumerable<string>>? headers = null)
     {
         using var httpClient = _appFactory.CreateClient();
+
+        AddHeaders(httpClient, headers ?? new());
 
         var result = await httpClient.GetAsync(requestUrl);
         result.EnsureSuccessStatusCode();
@@ -50,9 +52,11 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
     ///  Get single result from Odata End Point
     ///  Asserts is a valid Odata Response
     /// </summary>
-    public async Task<TResult?> GetODataSimpleResponseAsync<TResult>(string requestUrl)
+    public async Task<TResult?> GetODataSimpleResponseAsync<TResult>(string requestUrl, Dictionary<string, IEnumerable<string>>? headers = null)
     {
         using var httpClient = _appFactory.CreateClient();
+
+        AddHeaders(httpClient, headers ?? new());
 
         var result = await httpClient.GetAsync(requestUrl);
 

@@ -41,7 +41,7 @@ internal abstract class PartialUpdateHolidayForCountryCommandHandlerBase: Comman
 	public virtual async Task<HolidayKeyDto?> Handle(PartialUpdateHolidayForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
 
 		var parentEntity = await DbContext.Countries.FindAsync(keyId);

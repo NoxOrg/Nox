@@ -46,7 +46,7 @@ internal abstract class UpdatePaymentProviderCommandHandlerBase : CommandBase<Up
 	public virtual async Task<PaymentProviderKeyDto?> Handle(UpdatePaymentProviderCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.PaymentProviderMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.PaymentProviders.FindAsync(keyId);

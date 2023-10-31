@@ -60,7 +60,7 @@ internal abstract class CreateMinimumCashStockCommandHandlerBase : CommandBase<C
 	public virtual async Task<MinimumCashStockKeyDto> Handle(CreateMinimumCashStockCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		foreach(var relatedCreateDto in request.EntityDto.MinimumCashStocksRequiredByVendingMachines)

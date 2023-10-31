@@ -85,7 +85,7 @@ internal abstract class RefLandLordToContractedAreasForVendingMachinesCommandHan
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.LandLordMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.LandLords.FindAsync(keyId);
 		if (entity == null)

@@ -37,7 +37,7 @@ internal abstract class DeleteStoreByIdCommandHandlerBase : CommandBase<DeleteSt
 	public virtual async Task<bool> Handle(DeleteStoreByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = ClientApi.Domain.StoreMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Stores.FindAsync(keyId);

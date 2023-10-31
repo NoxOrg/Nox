@@ -68,7 +68,7 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 	public virtual async Task<BookingKeyDto> Handle(CreateBookingCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.BookingForCustomerId is not null)

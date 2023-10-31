@@ -52,7 +52,7 @@ internal abstract class CreateTestEntityOwnedRelationshipExactlyOneCommandHandle
 	public virtual async Task<TestEntityOwnedRelationshipExactlyOneKeyDto> Handle(CreateTestEntityOwnedRelationshipExactlyOneCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 

@@ -56,7 +56,7 @@ internal abstract class CreateEmployeeCommandHandlerBase : CommandBase<CreateEmp
 	public virtual async Task<EmployeeKeyDto> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.EmployeeReviewingCashStockOrderId is not null)

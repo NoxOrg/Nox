@@ -44,7 +44,7 @@ internal class PartialUpdateVendingMachineCommandHandlerBase : CommandBase<Parti
 	public virtual async Task<VendingMachineKeyDto?> Handle(PartialUpdateVendingMachineCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.VendingMachineMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.VendingMachines.FindAsync(keyId);

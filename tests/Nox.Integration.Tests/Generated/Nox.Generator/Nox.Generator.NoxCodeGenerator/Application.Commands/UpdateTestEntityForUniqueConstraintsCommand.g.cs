@@ -46,7 +46,7 @@ internal abstract class UpdateTestEntityForUniqueConstraintsCommandHandlerBase :
 	public virtual async Task<TestEntityForUniqueConstraintsKeyDto?> Handle(UpdateTestEntityForUniqueConstraintsCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityForUniqueConstraintsMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityForUniqueConstraints.FindAsync(keyId);

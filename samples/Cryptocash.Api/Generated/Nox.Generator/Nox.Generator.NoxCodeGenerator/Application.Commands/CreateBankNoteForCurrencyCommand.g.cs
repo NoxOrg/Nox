@@ -45,7 +45,7 @@ internal abstract class CreateBankNoteForCurrencyCommandHandlerBase : CommandBas
 
 	public virtual  async Task<BankNoteKeyDto?> Handle(CreateBankNoteForCurrencyCommand request, CancellationToken cancellationToken)
 	{
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.CurrencyMetadata.CreateId(request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.Currencies.FindAsync(keyId);

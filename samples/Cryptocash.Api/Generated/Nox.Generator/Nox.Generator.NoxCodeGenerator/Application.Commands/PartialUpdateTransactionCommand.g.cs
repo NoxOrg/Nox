@@ -44,7 +44,7 @@ internal class PartialUpdateTransactionCommandHandlerBase : CommandBase<PartialU
 	public virtual async Task<TransactionKeyDto?> Handle(PartialUpdateTransactionCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.TransactionMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Transactions.FindAsync(keyId);

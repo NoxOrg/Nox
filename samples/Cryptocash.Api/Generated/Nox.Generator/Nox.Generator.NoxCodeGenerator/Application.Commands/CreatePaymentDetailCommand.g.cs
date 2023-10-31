@@ -60,7 +60,7 @@ internal abstract class CreatePaymentDetailCommandHandlerBase : CommandBase<Crea
 	public virtual async Task<PaymentDetailKeyDto> Handle(CreatePaymentDetailCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.PaymentDetailsUsedByCustomerId is not null)

@@ -37,7 +37,7 @@ internal abstract class DeleteStoreLicenseByIdCommandHandlerBase : CommandBase<D
 	public virtual async Task<bool> Handle(DeleteStoreLicenseByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = ClientApi.Domain.StoreLicenseMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.StoreLicenses.FindAsync(keyId);

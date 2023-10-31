@@ -37,7 +37,7 @@ internal abstract class DeleteEmployeeByIdCommandHandlerBase : CommandBase<Delet
 	public virtual async Task<bool> Handle(DeleteEmployeeByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.EmployeeMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Employees.FindAsync(keyId);

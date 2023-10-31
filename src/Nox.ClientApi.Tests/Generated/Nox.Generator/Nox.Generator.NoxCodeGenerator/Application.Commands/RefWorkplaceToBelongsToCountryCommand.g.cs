@@ -85,7 +85,7 @@ internal abstract class RefWorkplaceToBelongsToCountryCommandHandlerBase<TReques
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = ClientApi.Domain.WorkplaceMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.Workplaces.FindAsync(keyId);
 		if (entity == null)

@@ -44,7 +44,7 @@ internal class PartialUpdateTestEntityZeroOrOneCommandHandlerBase : CommandBase<
 	public virtual async Task<TestEntityZeroOrOneKeyDto?> Handle(PartialUpdateTestEntityZeroOrOneCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityZeroOrOneMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityZeroOrOnes.FindAsync(keyId);

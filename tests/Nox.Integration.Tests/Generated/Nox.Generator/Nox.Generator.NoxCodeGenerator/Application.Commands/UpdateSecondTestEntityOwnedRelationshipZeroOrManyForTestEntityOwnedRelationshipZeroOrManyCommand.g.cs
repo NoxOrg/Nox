@@ -44,7 +44,7 @@ internal partial class UpdateSecondTestEntityOwnedRelationshipZeroOrManyForTestE
 	public virtual async Task<SecondTestEntityOwnedRelationshipZeroOrManyKeyDto?> Handle(UpdateSecondTestEntityOwnedRelationshipZeroOrManyForTestEntityOwnedRelationshipZeroOrManyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await DbContext.TestEntityOwnedRelationshipZeroOrManies.FindAsync(keyId);
 		if (parentEntity == null)

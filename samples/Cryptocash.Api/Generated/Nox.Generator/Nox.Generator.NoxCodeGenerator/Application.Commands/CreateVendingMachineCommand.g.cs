@@ -72,7 +72,7 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 	public virtual async Task<VendingMachineKeyDto> Handle(CreateVendingMachineCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.VendingMachineInstallationCountryId is not null)

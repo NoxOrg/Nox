@@ -46,7 +46,7 @@ internal abstract class UpdateSecondTestEntityTwoRelationshipsOneToOneCommandHan
 	public virtual async Task<SecondTestEntityTwoRelationshipsOneToOneKeyDto?> Handle(UpdateSecondTestEntityTwoRelationshipsOneToOneCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToOneMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.SecondTestEntityTwoRelationshipsOneToOnes.FindAsync(keyId);

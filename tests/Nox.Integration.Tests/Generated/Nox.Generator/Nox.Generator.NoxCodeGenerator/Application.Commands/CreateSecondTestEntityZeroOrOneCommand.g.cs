@@ -56,7 +56,7 @@ internal abstract class CreateSecondTestEntityZeroOrOneCommandHandlerBase : Comm
 	public virtual async Task<SecondTestEntityZeroOrOneKeyDto> Handle(CreateSecondTestEntityZeroOrOneCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.TestEntityZeroOrOneRelationshipId is not null)

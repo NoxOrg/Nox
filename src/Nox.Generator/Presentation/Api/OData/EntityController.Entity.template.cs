@@ -65,7 +65,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<{{entity.Name}}Dto>>> Get()
     {
-        var result = await _mediator.Send(new Get{{entity.PluralName}}Query());
+        var result = await _mediator.Send(new Get{{entity.PluralName}}Query({{if entity.IsLocalized}}_httpLanguageProvider.GetLanguage(){{end}}));
         return Ok(result);
     }
 
