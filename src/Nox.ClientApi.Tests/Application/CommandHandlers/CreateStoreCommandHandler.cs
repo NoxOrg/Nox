@@ -11,12 +11,13 @@ internal partial class CreateStoreCommandHandler
     /// Using the added property to do some logic in the request before executing the command
     /// </summary>
     /// <param name="request"></param>
-    protected override void OnExecuting(CreateStoreCommand request)
+    protected override Task OnExecutingAsync(CreateStoreCommand request)
     {
         if (request.EntityDto.IsTemporary) 
         {
             // do your code
         }
+        return Task.CompletedTask;
     }
 
     /// <summary>

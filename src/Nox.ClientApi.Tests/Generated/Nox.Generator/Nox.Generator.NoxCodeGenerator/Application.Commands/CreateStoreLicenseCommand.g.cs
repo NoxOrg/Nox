@@ -55,7 +55,7 @@ internal abstract class CreateStoreLicenseCommandHandlerBase : CommandBase<Creat
 	public virtual async Task<StoreLicenseKeyDto> Handle(CreateStoreLicenseCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.StoreWithLicenseId is not null)

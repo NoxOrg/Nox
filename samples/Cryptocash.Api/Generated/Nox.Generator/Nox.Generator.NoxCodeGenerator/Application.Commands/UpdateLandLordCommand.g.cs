@@ -46,7 +46,7 @@ internal abstract class UpdateLandLordCommandHandlerBase : CommandBase<UpdateLan
 	public virtual async Task<LandLordKeyDto?> Handle(UpdateLandLordCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.LandLordMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.LandLords.FindAsync(keyId);

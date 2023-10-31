@@ -41,7 +41,7 @@ internal partial class DeleteEmailAddressForStoreCommandHandlerBase : CommandBas
 	public virtual async Task<bool> Handle(DeleteEmailAddressForStoreCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = ClientApi.Domain.StoreMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await DbContext.Stores.FindAsync(keyId);
 		if (parentEntity == null)

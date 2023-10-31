@@ -46,7 +46,7 @@ internal abstract class UpdateBookingCommandHandlerBase : CommandBase<UpdateBook
 	public virtual async Task<BookingKeyDto?> Handle(UpdateBookingCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.BookingMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Bookings.FindAsync(keyId);

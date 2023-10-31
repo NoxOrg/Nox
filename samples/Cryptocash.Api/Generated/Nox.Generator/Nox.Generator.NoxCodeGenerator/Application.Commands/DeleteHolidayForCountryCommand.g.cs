@@ -40,7 +40,7 @@ internal partial class DeleteHolidayForCountryCommandHandlerBase : CommandBase<D
 	public virtual async Task<bool> Handle(DeleteHolidayForCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.CountryMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await DbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)

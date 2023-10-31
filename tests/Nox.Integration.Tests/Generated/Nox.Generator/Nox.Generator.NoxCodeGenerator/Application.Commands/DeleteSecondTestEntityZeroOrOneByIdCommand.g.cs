@@ -37,7 +37,7 @@ internal abstract class DeleteSecondTestEntityZeroOrOneByIdCommandHandlerBase : 
 	public virtual async Task<bool> Handle(DeleteSecondTestEntityZeroOrOneByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.SecondTestEntityZeroOrOneMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.SecondTestEntityZeroOrOnes.FindAsync(keyId);

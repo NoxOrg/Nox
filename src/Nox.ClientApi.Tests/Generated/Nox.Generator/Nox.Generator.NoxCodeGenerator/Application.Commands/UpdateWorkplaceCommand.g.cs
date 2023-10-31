@@ -46,7 +46,7 @@ internal abstract class UpdateWorkplaceCommandHandlerBase : CommandBase<UpdateWo
 	public virtual async Task<WorkplaceKeyDto?> Handle(UpdateWorkplaceCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = ClientApi.Domain.WorkplaceMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Workplaces.FindAsync(keyId);

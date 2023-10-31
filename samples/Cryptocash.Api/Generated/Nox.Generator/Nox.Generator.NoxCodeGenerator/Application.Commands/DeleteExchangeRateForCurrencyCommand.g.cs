@@ -40,7 +40,7 @@ internal partial class DeleteExchangeRateForCurrencyCommandHandlerBase : Command
 	public virtual async Task<bool> Handle(DeleteExchangeRateForCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.CurrencyMetadata.CreateId(request.ParentKeyDto.keyId);
 		var parentEntity = await DbContext.Currencies.FindAsync(keyId);
 		if (parentEntity == null)

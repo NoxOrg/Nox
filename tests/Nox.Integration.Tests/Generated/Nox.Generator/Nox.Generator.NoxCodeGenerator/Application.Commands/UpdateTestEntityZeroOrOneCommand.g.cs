@@ -46,7 +46,7 @@ internal abstract class UpdateTestEntityZeroOrOneCommandHandlerBase : CommandBas
 	public virtual async Task<TestEntityZeroOrOneKeyDto?> Handle(UpdateTestEntityZeroOrOneCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityZeroOrOneMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityZeroOrOnes.FindAsync(keyId);

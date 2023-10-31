@@ -37,7 +37,7 @@ internal abstract class DeleteThirdTestEntityOneOrManyByIdCommandHandlerBase : C
 	public virtual async Task<bool> Handle(DeleteThirdTestEntityOneOrManyByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.ThirdTestEntityOneOrManyMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.ThirdTestEntityOneOrManies.FindAsync(keyId);

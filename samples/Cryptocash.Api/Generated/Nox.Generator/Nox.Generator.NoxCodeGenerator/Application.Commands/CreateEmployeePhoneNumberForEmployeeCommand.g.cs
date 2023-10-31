@@ -45,7 +45,7 @@ internal abstract class CreateEmployeePhoneNumberForEmployeeCommandHandlerBase :
 
 	public virtual  async Task<EmployeePhoneNumberKeyDto?> Handle(CreateEmployeePhoneNumberForEmployeeCommand request, CancellationToken cancellationToken)
 	{
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.EmployeeMetadata.CreateId(request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.Employees.FindAsync(keyId);

@@ -45,7 +45,7 @@ internal abstract class CreateEmailAddressForStoreCommandHandlerBase : CommandBa
 
 	public virtual  async Task<EmailAddressKeyDto?> Handle(CreateEmailAddressForStoreCommand request, CancellationToken cancellationToken)
 	{
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = ClientApi.Domain.StoreMetadata.CreateId(request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.Stores.FindAsync(keyId);

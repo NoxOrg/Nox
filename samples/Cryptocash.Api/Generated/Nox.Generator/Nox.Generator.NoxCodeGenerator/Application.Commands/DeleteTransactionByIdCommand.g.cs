@@ -37,7 +37,7 @@ internal abstract class DeleteTransactionByIdCommandHandlerBase : CommandBase<De
 	public virtual async Task<bool> Handle(DeleteTransactionByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.TransactionMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Transactions.FindAsync(keyId);

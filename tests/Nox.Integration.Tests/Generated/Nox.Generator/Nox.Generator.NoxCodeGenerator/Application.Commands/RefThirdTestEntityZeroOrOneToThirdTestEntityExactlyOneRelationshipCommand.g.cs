@@ -85,7 +85,7 @@ internal abstract class RefThirdTestEntityZeroOrOneToThirdTestEntityExactlyOneRe
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.ThirdTestEntityZeroOrOneMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.ThirdTestEntityZeroOrOnes.FindAsync(keyId);
 		if (entity == null)

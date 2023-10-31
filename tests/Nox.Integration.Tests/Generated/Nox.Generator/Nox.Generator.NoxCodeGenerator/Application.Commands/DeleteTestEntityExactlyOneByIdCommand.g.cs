@@ -37,7 +37,7 @@ internal abstract class DeleteTestEntityExactlyOneByIdCommandHandlerBase : Comma
 	public virtual async Task<bool> Handle(DeleteTestEntityExactlyOneByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityExactlyOneMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityExactlyOnes.FindAsync(keyId);
