@@ -5,6 +5,8 @@ using System.Net;
 using ClientApi.Tests.Tests.Models;
 using Xunit.Abstractions;
 using ClientApi.Tests.Controllers;
+using Microsoft.AspNetCore.Http.HttpResults;
+using static MassTransit.ValidationResultExtensions;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
@@ -235,6 +237,90 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #endregion RELATIONSHIPS
 
+        #region LOCALIZATIONS
+
+        [Fact]
+        public async Task Post_DefaultLanguageDescription_CreateLocalization()
+        {
+            // Arrange
+            var createDto = new WorkplaceCreateDto
+            {
+                Name = "Regus - Paris Gare de Lyon",
+                Description = "A modern, modestly sized building with parking, just minutes from the Gare de Lyon and Gare d'Austerlitz.",
+            };
+
+            var headers = CreateAcceptLanguageHeader("en-US");
+
+            // Act
+            var result = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, headers);
+
+            // Need to perform a GET with fr-FR and en-US language to validate the localization
+
+            // Assert
+            result.Should().NotBeNull();
+            result!.Id.Should().BeGreaterThan(0);
+            result!.Name.Should().Be(createDto.Name);
+            result!.Description.Should().Be(createDto.Description);
+        }
+
+        [Fact]
+        public async Task Post_NotDefaultLanguageDescription_CreateLocalization()
+        {
+            // Arrange
+            var createDto = new WorkplaceCreateDto
+            {
+                Name = "Regus - Paris Gare de Lyon",
+                Description = "Un immeuble moderne de taille modeste avec parking, à quelques minutes de la Gare de Lyon et de la Gare d'Austerlitz.",
+            };
+
+            var headers = CreateAcceptLanguageHeader("fr-FR");
+
+            // Act
+            var result = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, headers);
+
+
+            // Need to perform a GET with fr-FR and en-US language to validate the localization
+
+            // Assert
+            result.Should().NotBeNull();
+            result!.Id.Should().BeGreaterThan(0);
+            result!.Name.Should().Be(createDto.Name);
+            result!.Description.Should().Be(createDto.Description);
+        }
+
+        [Fact]
+        public async Task Post_WhenInvokedMultipleTimes_CreatesCorrectLocalizations()
+        {
+            // Arrange
+            var createDto1 = new WorkplaceCreateDto
+            {
+                Name = "Regus - Dubai BCW Jafza View 18 & 19",
+	            Description = "33-storey tower in Jebel Ali Free Zone, located on Sheikh Zayed Road and only a few kilometres from Al Maktoum Airport.",
+            };
+
+            var createDto2 = new WorkplaceCreateDto
+            {
+                Name = "Regus - Paris Gare de Lyon",
+                Description = "Un immeuble moderne de taille modeste avec parking, à quelques minutes de la Gare de Lyon et de la Gare d'Austerlitz.",
+            };
+
+            // Act
+            var result1 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto1, CreateAcceptLanguageHeader("en-US"));
+
+            var result2 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto2, CreateAcceptLanguageHeader("fr-FR"));
+
+            // Need to perform a GET with fr-FR and en-US language to validate the localization
+
+            // Assert
+            result1!.Name.Should().Be(createDto1.Name);
+            result1!.Description.Should().Be(createDto1.Description);
+
+            result2!.Name.Should().Be(createDto2.Name);
+            result2!.Description.Should().Be(createDto2.Description);
+        }
+
+        #endregion LOCALIZATIONS
+
         [Fact]
         public async Task Post_ToEntityWithNuid_NuidIsCreated()
         {
@@ -457,7 +543,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             var headers = new Dictionary<string, IEnumerable<string>>()
             {
-                { "Accept-Language", new List<string> { $"fr-CH, fr;q=0.9, en;q=0.8, de;q=0.7, *;q=0.5" } }
+                { "Accept-Language", new List<string> { $"fr-FR, fr;q=0.9, en;q=0.8, de;q=0.7, *;q=0.5" } }
             };
 
             // Act

@@ -41,7 +41,10 @@ public abstract partial class TestEntityZeroOrOneToExactlyOnesControllerBase : O
     /// </summary>
     protected readonly IMediator _mediator;
 
-    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
+    /// <symmary>
+    /// The Culture Code from the HTTP request.
+    /// </symmary>
+    protected readonly Nox.Types.CultureCode _cultureCode;
 
     public TestEntityZeroOrOneToExactlyOnesControllerBase(
         IMediator mediator,
@@ -49,7 +52,7 @@ public abstract partial class TestEntityZeroOrOneToExactlyOnesControllerBase : O
     )
     {
         _mediator = mediator;
-        _httpLanguageProvider = httpLanguageProvider;
+        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
     }
 
     [EnableQuery]
@@ -73,7 +76,7 @@ public abstract partial class TestEntityZeroOrOneToExactlyOnesControllerBase : O
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateTestEntityZeroOrOneToExactlyOneCommand(testEntityZeroOrOneToExactlyOne));
+        var createdKey = await _mediator.Send(new CreateTestEntityZeroOrOneToExactlyOneCommand(testEntityZeroOrOneToExactlyOne, _cultureCode));
 
         var item = (await _mediator.Send(new GetTestEntityZeroOrOneToExactlyOneByIdQuery(createdKey.keyId))).SingleOrDefault();
 

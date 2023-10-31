@@ -41,7 +41,10 @@ public abstract partial class LandLordsControllerBase : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
 
-    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
+    /// <symmary>
+    /// The Culture Code from the HTTP request.
+    /// </symmary>
+    protected readonly Nox.Types.CultureCode _cultureCode;
 
     public LandLordsControllerBase(
         IMediator mediator,
@@ -49,7 +52,7 @@ public abstract partial class LandLordsControllerBase : ODataController
     )
     {
         _mediator = mediator;
-        _httpLanguageProvider = httpLanguageProvider;
+        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
     }
 
     [EnableQuery]
@@ -73,7 +76,7 @@ public abstract partial class LandLordsControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateLandLordCommand(landLord));
+        var createdKey = await _mediator.Send(new CreateLandLordCommand(landLord, _cultureCode));
 
         var item = (await _mediator.Send(new GetLandLordByIdQuery(createdKey.keyId))).SingleOrDefault();
 
