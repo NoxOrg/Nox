@@ -1,3 +1,4 @@
+using Microsoft.Data.SqlClient;
 using Nox.Integration.Abstractions;
 using Nox.Integration.Adapters;
 using Nox.Solution;
@@ -11,16 +12,23 @@ public static class IntegrationContextDatabaseReceiveExtensions
         switch (dataConnectionDefinition.Provider)
         {
             case DataConnectionProvider.SqlServer:
-                instance.ReceiveAdapter = CreateSqlServerReceiveAdapter(options, dataConnectionDefinition);
+                instance.ReceiveAdapter = CreateSqlServerReceiveAdapter(instance.Name, options, dataConnectionDefinition);
                 break;
         }
         return instance;
     }
 
-    internal static SqlServerReceiveAdapter CreateSqlServerReceiveAdapter(IntegrationSourceDatabaseOptions options, DataConnection dataConnectionDefinition)
+    internal static SqlServerReceiveAdapter CreateSqlServerReceiveAdapter(string integrationName, IntegrationSourceDatabaseOptions options, DataConnection dataConnectionDefinition)
     {
-        var adapter = new SqlServerReceiveAdapter(options.Query, options.MinimumExpectedRecords!.Value);
-        //todo create the connection manager here
+        var csb = new SqlConnectionStringBuilder(dataConnectionDefinition.Options)
+        {
+            DataSource = $"{dataConnectionDefinition.ServerUri},{dataConnectionDefinition.Port ?? 1433}",
+            UserID = dataConnectionDefinition.User,
+            Password = dataConnectionDefinition.Password,
+            InitialCatalog = dataConnectionDefinition.Name,
+            ApplicationName = integrationName
+        };
+        var adapter = new SqlServerReceiveAdapter(options.Query, options.MinimumExpectedRecords!.Value, csb.ConnectionString);
         return adapter;
     }
 }

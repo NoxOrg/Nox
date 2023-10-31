@@ -19,6 +19,5 @@ public class NoxIntegration: INoxIntegration
     public Task<bool> ExecuteAsync()
     {
         
-        throw new NotImplementedException();
     }
 }

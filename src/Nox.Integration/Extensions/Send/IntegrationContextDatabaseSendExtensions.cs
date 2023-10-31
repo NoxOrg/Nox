@@ -1,3 +1,4 @@
+using Microsoft.Data.SqlClient;
 using Nox.Integration.Abstractions;
 using Nox.Integration.Adapters;
 using Nox.Solution;
@@ -11,17 +12,24 @@ public static class IntegrationContextDatabaseSendExtensions
         switch (dataConnectionDefinition.Provider)
         {
             case DataConnectionProvider.SqlServer:
-                instance.SendAdapter = CreateSqlServerSendAdapter(options, dataConnectionDefinition);
+                instance.SendAdapter = CreateSqlServerSendAdapter(instance.Name, options, dataConnectionDefinition);
                 break;
         }
 
         return instance;
     }
     
-    internal static SqlServerSendAdapter CreateSqlServerSendAdapter(IntegrationTargetDatabaseOptions options, DataConnection dataConnectionDefinition)
+    internal static SqlServerSendAdapter CreateSqlServerSendAdapter(string integrationName, IntegrationTargetDatabaseOptions options, DataConnection dataConnectionDefinition)
     {
-        var adapter = new SqlServerSendAdapter(options.StoredProcedure);
-        //todo create the connection manager here
+        var csb = new SqlConnectionStringBuilder(dataConnectionDefinition.Options)
+        {
+            DataSource = $"{dataConnectionDefinition.ServerUri},{dataConnectionDefinition.Port ?? 1433}",
+            UserID = dataConnectionDefinition.User,
+            Password = dataConnectionDefinition.Password,
+            InitialCatalog = dataConnectionDefinition.Name,
+            ApplicationName = integrationName
+        };
+        var adapter = new SqlServerSendAdapter(options.StoredProcedure, csb.ConnectionString);
         return adapter;
     }
 }

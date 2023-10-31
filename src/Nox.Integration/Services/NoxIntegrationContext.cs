@@ -1,4 +1,5 @@
 using Nox.Integration.Abstractions;
+using Nox.Integration.Extensions;
 using Nox.Solution;
 
 namespace Nox.Integration.Services;
@@ -19,6 +20,8 @@ public class NoxIntegrationContext: INoxIntegrationContext
         foreach (var integration in _solution.Application!.Integrations!)
         {
             var instance = new NoxIntegration(integration.Name, integration.Description);
+            instance.WithReceiveAdapter(integration.Source, _solution.Infrastructure?.Dependencies?.DataConnections);
+            instance.WithSendAdapter(integration.Target, _solution.Infrastructure?.Dependencies?.DataConnections);
             
             _integrations.Add(instance);
         }
@@ -27,17 +30,16 @@ public class NoxIntegrationContext: INoxIntegrationContext
         //iteratate yaml and build integration instances
     }
     
-    public Task<bool> ExecuteIntegrationAsync(string name)
+    public async Task<bool> ExecuteIntegrationAsync(string name)
     {
-        //todo this must execute an integration from _integrations;
-        //Execute the Receive Adapter - this loads records from the adapter source
-        //Do Transformation/mapping
-        //Execute the Send Adapter - this sends the records to the target
-        //Handle Send Adapter response
-        
-        //this must return flag to indicate success or failure
-        return Task.FromResult(true);
+        var integration = _integrations.Single(i => i.Name == name);
+        var result = await integration.ExecuteAsync();
+        return result;
     }
 
+    public void AddIntegration(INoxIntegration instance)
+    {
+        _integrations.Add(instance);
+    }
 }
 
