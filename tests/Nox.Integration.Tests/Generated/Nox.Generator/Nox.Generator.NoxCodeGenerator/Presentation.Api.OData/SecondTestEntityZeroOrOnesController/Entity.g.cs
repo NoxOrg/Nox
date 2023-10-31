@@ -42,9 +42,9 @@ public abstract partial class SecondTestEntityZeroOrOnesControllerBase : ODataCo
     protected readonly IMediator _mediator;
 
     /// <symmary>
-    /// The HTTP language provider.
+    /// The Culture Code from the HTTP request.
     /// </symmary>
-    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
+    protected readonly Nox.Types.CultureCode _cultureCode;
 
     public SecondTestEntityZeroOrOnesControllerBase(
         IMediator mediator,
@@ -52,7 +52,7 @@ public abstract partial class SecondTestEntityZeroOrOnesControllerBase : ODataCo
     )
     {
         _mediator = mediator;
-        _httpLanguageProvider = httpLanguageProvider;
+        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
     }
 
     [EnableQuery]
@@ -76,8 +76,7 @@ public abstract partial class SecondTestEntityZeroOrOnesControllerBase : ODataCo
             return BadRequest(ModelState);
         }
 
-        var language = _httpLanguageProvider.GetLanguage();
-        var createdKey = await _mediator.Send(new CreateSecondTestEntityZeroOrOneCommand(secondTestEntityZeroOrOne, Nox.Types.CultureCode.From(language)));
+        var createdKey = await _mediator.Send(new CreateSecondTestEntityZeroOrOneCommand(secondTestEntityZeroOrOne, _cultureCode));
 
         var item = (await _mediator.Send(new GetSecondTestEntityZeroOrOneByIdQuery(createdKey.keyId))).SingleOrDefault();
 

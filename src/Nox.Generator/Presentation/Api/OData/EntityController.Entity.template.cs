@@ -42,9 +42,9 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     protected readonly IMediator _mediator;
 
     /// <symmary>
-    /// The HTTP language provider.
+    /// The Culture Code from the HTTP request.
     /// </symmary>
-    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
+    protected readonly Nox.Types.CultureCode _cultureCode;
 
     public {{entity.PluralName}}ControllerBase(
         IMediator mediator,
@@ -55,7 +55,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     )
     {
         _mediator = mediator;
-        _httpLanguageProvider = httpLanguageProvider;
+        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
 
         {{- for query in entity.Queries }}
         _{{ ToLowerFirstChar query.Name}} = {{ ToLowerFirstChar query.Name }};
@@ -84,8 +84,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
             return BadRequest(ModelState);
         }
 
-        var language = _httpLanguageProvider.GetLanguage();
-        var createdKey = await _mediator.Send(new Create{{entity.Name}}Command({{ToLowerFirstChar entity.Name}}, Nox.Types.CultureCode.From(language)));
+        var createdKey = await _mediator.Send(new Create{{entity.Name}}Command({{ToLowerFirstChar entity.Name}}, _cultureCode));
 
         var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ createdKeyPrimaryKeysQuery }}))).SingleOrDefault();
 

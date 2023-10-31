@@ -42,9 +42,9 @@ public abstract partial class CountriesControllerBase : ODataController
     protected readonly IMediator _mediator;
 
     /// <symmary>
-    /// The HTTP language provider.
+    /// The Culture Code from the HTTP request.
     /// </symmary>
-    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
+    protected readonly Nox.Types.CultureCode _cultureCode;
 
     public CountriesControllerBase(
         IMediator mediator,
@@ -53,7 +53,7 @@ public abstract partial class CountriesControllerBase : ODataController
     )
     {
         _mediator = mediator;
-        _httpLanguageProvider = httpLanguageProvider;
+        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
         _getCountriesByContinent = getCountriesByContinent;
     }
 
@@ -78,8 +78,7 @@ public abstract partial class CountriesControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var language = _httpLanguageProvider.GetLanguage();
-        var createdKey = await _mediator.Send(new CreateCountryCommand(country, Nox.Types.CultureCode.From(language)));
+        var createdKey = await _mediator.Send(new CreateCountryCommand(country, _cultureCode));
 
         var item = (await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId))).SingleOrDefault();
 

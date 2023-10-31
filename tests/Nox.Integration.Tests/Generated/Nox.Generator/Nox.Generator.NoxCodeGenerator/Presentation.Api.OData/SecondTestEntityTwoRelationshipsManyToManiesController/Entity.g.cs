@@ -42,9 +42,9 @@ public abstract partial class SecondTestEntityTwoRelationshipsManyToManiesContro
     protected readonly IMediator _mediator;
 
     /// <symmary>
-    /// The HTTP language provider.
+    /// The Culture Code from the HTTP request.
     /// </symmary>
-    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
+    protected readonly Nox.Types.CultureCode _cultureCode;
 
     public SecondTestEntityTwoRelationshipsManyToManiesControllerBase(
         IMediator mediator,
@@ -52,7 +52,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsManyToManiesContro
     )
     {
         _mediator = mediator;
-        _httpLanguageProvider = httpLanguageProvider;
+        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
     }
 
     [EnableQuery]
@@ -76,8 +76,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsManyToManiesContro
             return BadRequest(ModelState);
         }
 
-        var language = _httpLanguageProvider.GetLanguage();
-        var createdKey = await _mediator.Send(new CreateSecondTestEntityTwoRelationshipsManyToManyCommand(secondTestEntityTwoRelationshipsManyToMany, Nox.Types.CultureCode.From(language)));
+        var createdKey = await _mediator.Send(new CreateSecondTestEntityTwoRelationshipsManyToManyCommand(secondTestEntityTwoRelationshipsManyToMany, _cultureCode));
 
         var item = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsManyToManyByIdQuery(createdKey.keyId))).SingleOrDefault();
 

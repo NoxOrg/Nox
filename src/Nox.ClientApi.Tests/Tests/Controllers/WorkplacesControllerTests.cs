@@ -5,6 +5,8 @@ using System.Net;
 using ClientApi.Tests.Tests.Models;
 using Xunit.Abstractions;
 using ClientApi.Tests.Controllers;
+using Microsoft.AspNetCore.Http.HttpResults;
+using static MassTransit.ValidationResultExtensions;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
@@ -284,6 +286,37 @@ namespace ClientApi.Tests.Tests.Controllers
             result!.Id.Should().BeGreaterThan(0);
             result!.Name.Should().Be(createDto.Name);
             result!.Description.Should().Be(createDto.Description);
+        }
+
+        [Fact]
+        public async Task Post_WhenInvokedMultipleTimes_CreatesCorrectLocalizations()
+        {
+            // Arrange
+            var createDto1 = new WorkplaceCreateDto
+            {
+                Name = "Regus - Dubai BCW Jafza View 18 & 19",
+	            Description = "33-storey tower in Jebel Ali Free Zone, located on Sheikh Zayed Road and only a few kilometres from Al Maktoum Airport.",
+            };
+
+            var createDto2 = new WorkplaceCreateDto
+            {
+                Name = "Regus - Paris Gare de Lyon",
+                Description = "Un immeuble moderne de taille modeste avec parking, à quelques minutes de la Gare de Lyon et de la Gare d'Austerlitz.",
+            };
+
+            // Act
+            var result1 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto1, CreateAcceptLanguageHeader("en-US"));
+
+            var result2 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto2, CreateAcceptLanguageHeader("fr-FR"));
+
+            // Need to perform a GET with fr-FR and en-US language to validate the localization
+
+            // Assert
+            result1!.Name.Should().Be(createDto1.Name);
+            result1!.Description.Should().Be(createDto1.Description);
+
+            result2!.Name.Should().Be(createDto2.Name);
+            result2!.Description.Should().Be(createDto2.Description);
         }
 
         #endregion LOCALIZATIONS
