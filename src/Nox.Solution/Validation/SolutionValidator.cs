@@ -3,7 +3,6 @@ using Nox.Solution.Constants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Nox.Types;
 
 namespace Nox.Solution.Validation
 {
@@ -35,7 +34,7 @@ namespace Nox.Solution.Validation
                 .SetValidator(sln => new TeamValidator(sln.Team));
 
             RuleFor(sln => sln.Domain!)
-                .SetValidator(sln => new DomainValidator(sln.Application));
+                .SetValidator(sln => new DomainValidator(sln.Application, sln.Infrastructure));
 
             RuleFor(sln => sln.Application!)
                 .SetValidator(sln =>
@@ -66,10 +65,6 @@ namespace Nox.Solution.Validation
             RuleFor(sln => sln.Infrastructure!)
                 .SetValidator(new InfrastructureValidator());
 
-            RuleForEach(sln => sln.Domain!.Entities)
-                .Must(e => e.Attributes.Union(e.Keys).Count(a => a.Type == NoxType.AutoNumber) <= 1)
-                .When((s) => s.Infrastructure is { Persistence.DatabaseServer.Provider: DatabaseServerProvider.SqLite })
-                .WithMessage((_,e)=> string.Format(ValidationResources.PersistenceDatabaseSqliteAutoNumberLimitation, e.Name));
         }
     }
 }

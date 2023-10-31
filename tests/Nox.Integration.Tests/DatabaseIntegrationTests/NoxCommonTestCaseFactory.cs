@@ -1026,20 +1026,21 @@ public class NoxCommonTestCaseFactory
         var idValue = 10;
         var propertyValue = 20;
         
-        var text = "TX";
+        var text1 = "TX1";
+        var text2 = "TX2";
 
         var stru = DataContext.Database.GetConnectionString(); //("SELECT * FROM information_schema.sequences;");
 
         var newItem = new TestEntityForAutoNumberUsages()
         {
-            TextField = Text.From(text),
+            TextField = Text.From(text1),
         };
 
         DataContext.TestEntityForAutoNumberUsages.Add(newItem);
         
         var newItem2 = new TestEntityForAutoNumberUsages()
         {
-            TextField = Text.From(text),
+            TextField = Text.From(text2),
         };
 
         DataContext.TestEntityForAutoNumberUsages.Add(newItem2);
@@ -1048,16 +1049,15 @@ public class NoxCommonTestCaseFactory
         // Force the recreation of DataContext and ensure we have fresh data from database
         _dbContextFixture.RefreshDbContext();
 
-        var testEntity = DataContext.TestEntityForAutoNumberUsages.First();
+        var testEntity1 = DataContext.TestEntityForAutoNumberUsages.First();
         var testEntity2 = DataContext.TestEntityForAutoNumberUsages.OrderBy(e=>e.Id).Last();
 
+        testEntity1.Id.Value.Should().Be(idValue);
+        testEntity2.Id.Value.Should().Be(idValue + 2);
+        testEntity1.TextField.Value.Should().Be(text1);
+        testEntity2.TextField.Value.Should().Be(text2);
+        testEntity1.AutoNumberField.Value.Should().Be(propertyValue);
+        testEntity2.AutoNumberField.Value.Should().Be(propertyValue + 2);
         
-        
-        
-        Assert.Equal(idValue, testEntity.Id.Value);
-        Assert.Equal(idValue + 2, testEntity2.Id.Value);
-        Assert.Equal(testEntity.TextField.Value, text);
-        Assert.Equal(propertyValue, testEntity.AutoNumberField.Value );
-        Assert.Equal(propertyValue + 2, testEntity2.AutoNumberField.Value );
     }
 }

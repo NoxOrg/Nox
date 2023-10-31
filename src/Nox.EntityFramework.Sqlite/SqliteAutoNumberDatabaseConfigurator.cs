@@ -17,9 +17,9 @@ public class SqliteAutoNumberDatabaseConfigurator: AutoNumberDatabaseConfigurato
         
         // If a normal attribute or key then it should be auto-incremented.
         // Otherwise If it's a foreign key of entity id type or relationship it shouldn't be auto-incremented.
-        var shouldAutoincrement = entity.Attributes.Any(x => x.Name.Equals(property.Name, StringComparison.OrdinalIgnoreCase) && x.Type == property.Type);
+        var shouldAutoincrement = isKey || entity.Attributes.Any(x => x.Name.Equals(property.Name, StringComparison.OrdinalIgnoreCase) && x.Type == property.Type);
 
-        if (isKey || shouldAutoincrement)
+        if (shouldAutoincrement)
         {
             builder
                 .Property(property.Name).ValueGeneratedOnAdd();
