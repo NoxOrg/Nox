@@ -140,19 +140,17 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 	private async Task UpdateLocalizedEntityAsync({{entity.Name}}Entity entity, {{entity.Name}}UpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
 		var entityLocalized = await DbContext.{{entity.PluralName}}Localized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
-		if(entityLocalized is not null)
+		if(entityLocalized is null)
 		{
-			_entityLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto, cultureCode);
-			entityLocalized.Etag = entity.Etag;
-			
-			DbContext.Entry(entityLocalized).State = EntityState.Modified;
+			entityLocalized = _entityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
+			DbContext.{{entity.PluralName}}Localized.Add(entityLocalized);
 		}
 		else
 		{
-			entityLocalized = _entityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
-			
-			DbContext.{{entity.PluralName}}Localized.Add(entityLocalized);
+			DbContext.Entry(entityLocalized).State = EntityState.Modified;
 		}
+
+		_entityLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto, cultureCode);
 	}
 	{{- end }}
 }

@@ -378,7 +378,7 @@ namespace ClientApi.Tests.Tests.Controllers
             enResult.Should().NotBeNull();
             enResult.Should().HaveCount(1);
             enResult![0].Name.Should().Be(createDto.Name);
-            enResult![0].Description.Should().Be(updateDto.Description);
+            enResult![0].Description.Should().Be(createDto.Description);
             frResult.Should().NotBeNull();
             frResult.Should().HaveCount(1);
             frResult![0].Name.Should().Be(createDto.Name);

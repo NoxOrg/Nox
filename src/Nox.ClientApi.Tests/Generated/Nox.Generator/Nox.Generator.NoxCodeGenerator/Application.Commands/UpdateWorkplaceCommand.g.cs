@@ -95,18 +95,16 @@ internal abstract class UpdateWorkplaceCommandHandlerBase : CommandBase<UpdateWo
 	private async Task UpdateLocalizedEntityAsync(WorkplaceEntity entity, WorkplaceUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
 	{
 		var entityLocalized = await DbContext.WorkplacesLocalized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
-		if(entityLocalized is not null)
+		if(entityLocalized is null)
 		{
-			_entityLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto, cultureCode);
-			entityLocalized.Etag = entity.Etag;
-			
-			DbContext.Entry(entityLocalized).State = EntityState.Modified;
+			entityLocalized = _entityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
+			DbContext.WorkplacesLocalized.Add(entityLocalized);
 		}
 		else
 		{
-			entityLocalized = _entityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
-			
-			DbContext.WorkplacesLocalized.Add(entityLocalized);
+			DbContext.Entry(entityLocalized).State = EntityState.Modified;
 		}
+
+		_entityLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto, cultureCode);
 	}
 }
