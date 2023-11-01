@@ -1209,7 +1209,7 @@ namespace ClientApi.Tests.Tests.Controllers
             queryResult.Should().HaveStatusCode(HttpStatusCode.NotFound);
         }
 
-        [Fact(Skip="Requires seed data from enumerations to be implemented")]
+        [Fact]
         public async Task WhenPostWithContinent_ShouldGetContinent()
         {
             // Arrange
