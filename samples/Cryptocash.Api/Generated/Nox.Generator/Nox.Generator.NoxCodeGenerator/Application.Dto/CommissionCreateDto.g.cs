@@ -48,6 +48,7 @@ public abstract class CommissionCreateDtoBase : IEntityDto<DomainNamespace.Commi
     /// <summary>
     /// Commission fees for ZeroOrMany Bookings
     /// </summary>
+    public virtual List<System.Guid> CommissionFeesForBookingId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<BookingCreateDto> CommissionFeesForBooking { get; set; } = new();

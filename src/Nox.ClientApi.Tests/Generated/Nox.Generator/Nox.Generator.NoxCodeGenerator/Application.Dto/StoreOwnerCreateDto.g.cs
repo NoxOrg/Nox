@@ -61,6 +61,7 @@ public abstract class StoreOwnerCreateDtoBase : IEntityDto<DomainNamespace.Store
     /// <summary>
     /// StoreOwner Set of stores that this owner owns OneOrMany Stores
     /// </summary>
+    public virtual List<System.Guid> StoresId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<StoreCreateDto> Stores { get; set; } = new();

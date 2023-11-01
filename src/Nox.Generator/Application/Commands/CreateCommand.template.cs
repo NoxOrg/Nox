@@ -117,10 +117,28 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 			entityToCreate.CreateRefTo{{relationship.Name}}(relatedEntity);
 		}
 		{{- else}}
-		foreach(var relatedCreateDto in request.EntityDto.{{relationship.Name}})
+		if(request.EntityDto.{{relationship.Name}}Id.Any())
 		{
-			var relatedEntity = {{fieldFactoryName relationship.Entity}}.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefTo{{relationship.Name}}(relatedEntity);
+			{{- relatedEntity =  relationship.Related.Entity }}
+			{{- key = array.first relatedEntity.Keys }}
+			foreach(var relatedId in request.EntityDto.{{relationship.Name}}Id)
+			{
+				var relatedKey = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(relatedId);
+				var relatedEntity = await DbContext.{{relatedEntity.PluralName}}.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefTo{{relationship.Name}}(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("{{relationship.Name}}", relatedId.ToString());
+			}
+		}
+		else
+		{
+			foreach(var relatedCreateDto in request.EntityDto.{{relationship.Name}})
+			{
+				var relatedEntity = {{fieldFactoryName relationship.Entity}}.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefTo{{relationship.Name}}(relatedEntity);
+			}
 		}
 		{{-end}}
 	{{- end }}

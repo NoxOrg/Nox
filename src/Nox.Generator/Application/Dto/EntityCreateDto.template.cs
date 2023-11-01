@@ -71,8 +71,8 @@ public abstract class {{className}}Base : IEntityDto<DomainNamespace.{{entity.Na
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual {{relationship.Entity}}CreateDto? {{relationship.Name}} { get; set; } = default!;
     {{- else }}
-    {{#Simplify Avoid complexity by not allowing circular dependency between dtos
-    #TODO Allow to set a list of Ids for a *ToMany relations}}
+    public virtual List<{{relationship.ForeignKeyPrimitiveType}}> {{relationship.Name}}Id { get; set; } = new();
+    {{#Simplify Avoid complexity by not allowing circular dependency between dtos}}
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<{{relationship.Entity}}CreateDto> {{relationship.Name}} { get; set; } = new();
     {{-end}}
