@@ -5,6 +5,7 @@ using System.Net;
 using ClientApi.Tests.Tests.Models;
 using Xunit.Abstractions;
 using ClientApi.Tests.Controllers;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
@@ -248,13 +249,14 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, CreateAcceptLanguageHeader("en-US"));
+            var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, CreateAcceptLanguageHeader("en-US"));
 
             var result = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}", CreateAcceptLanguageHeader("en-US")))?.ToList();
 
             // Assert
             result.Should().NotBeNull();
             result.Should().HaveCount(1);
+            result![0].Id.Should().Be(postResult!.Id);
             result![0].Name.Should().Be(createDto.Name);
             result![0].Description.Should().Be(createDto.Description);
         }
@@ -270,13 +272,14 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, CreateAcceptLanguageHeader("fr-FR"));
+            var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, CreateAcceptLanguageHeader("fr-FR"));
 
             var result = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}", CreateAcceptLanguageHeader("en-US")))?.ToList();
 
             // Assert
             result.Should().NotBeNull();
             result.Should().HaveCount(1);
+            result![0].Id.Should().Be(postResult!.Id);
             result![0].Name.Should().Be(createDto.Name);
             result![0].Description.Should().Be("[" + createDto.Description + "]");
         }
@@ -298,16 +301,18 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto1, CreateAcceptLanguageHeader("en-US"));
-            await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto2, CreateAcceptLanguageHeader("fr-FR"));
+            var postResult1 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto1, CreateAcceptLanguageHeader("en-US"));
+            var postResult2 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto2, CreateAcceptLanguageHeader("fr-FR"));
 
             var result = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}", CreateAcceptLanguageHeader("en-US")))?.ToList();
 
             // Assert
             result.Should().NotBeNull();
             result.Should().HaveCount(2);
+            result![0].Id.Should().Be(postResult1!.Id);
             result![0].Name.Should().Be(createDto1.Name);
             result![0].Description.Should().Be(createDto1.Description);
+            result![1].Id.Should().Be(postResult2!.Id);
             result![1].Name.Should().Be(createDto2.Name);
             result![1].Description.Should().Be("[" + createDto2.Description + "]");
         }
@@ -330,7 +335,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             // Act
             var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, CreateAcceptLanguageHeader("en-US"));
-            
+
             var headers = CreateHeaders(
                 CreateEtagHeader(postResult?.Etag),
                 CreateAcceptLanguageHeader("en-US"));
@@ -342,6 +347,7 @@ namespace ClientApi.Tests.Tests.Controllers
             // Assert
             enResult.Should().NotBeNull();
             enResult.Should().HaveCount(1);
+            enResult![0].Id.Should().Be(postResult.Id);
             enResult![0].Name.Should().Be(createDto.Name);
             enResult![0].Description.Should().Be(updateDto.Description);
         }
@@ -377,10 +383,12 @@ namespace ClientApi.Tests.Tests.Controllers
             // Assert
             enResult.Should().NotBeNull();
             enResult.Should().HaveCount(1);
+            enResult![0].Id.Should().Be(postResult.Id);
             enResult![0].Name.Should().Be(createDto.Name);
             enResult![0].Description.Should().Be(createDto.Description);
             frResult.Should().NotBeNull();
             frResult.Should().HaveCount(1);
+            frResult![0].Id.Should().Be(postResult.Id);
             frResult![0].Name.Should().Be(createDto.Name);
             frResult![0].Description.Should().Be(updateDto.Description);
         }
