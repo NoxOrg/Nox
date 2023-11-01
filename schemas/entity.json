@@ -353,7 +353,7 @@
         }
       ]
     },
-    "shouldBeLocalized": {    
+    "isLocalized": {    
       "oneOf": [
         {
           "type": "boolean"

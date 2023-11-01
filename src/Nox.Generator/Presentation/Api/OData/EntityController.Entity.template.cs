@@ -25,6 +25,15 @@ using Nox.Types;
 
 namespace {{codeGeneratorState.ODataNameSpace}};
 
+public partial class {{entity.PluralName}}Controller : {{entity.PluralName}}ControllerBase
+{
+    public {{entity.PluralName}}Controller(
+            IMediator mediator,
+            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        ): base(mediator, httpLanguageProvider)
+    {}
+}
+
 public abstract partial class {{entity.PluralName}}ControllerBase : ODataController
 {
     /// <summary>
@@ -32,15 +41,22 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     /// </summary>
     protected readonly IMediator _mediator;
 
+    /// <symmary>
+    /// The Culture Code from the HTTP request.
+    /// </symmary>
+    protected readonly Nox.Types.CultureCode _cultureCode;
+
     public {{entity.PluralName}}ControllerBase(
-        IMediator mediator
+        IMediator mediator,
+        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
         {{- for query in entity.Queries }},
         {{ query.Name }}QueryBase {{ ToLowerFirstChar query.Name }}
         {{- end }}
     )
     {
         _mediator = mediator;
-    
+        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
+
         {{- for query in entity.Queries }}
         _{{ ToLowerFirstChar query.Name}} = {{ ToLowerFirstChar query.Name }};
         {{- end }}
@@ -49,7 +65,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<{{entity.Name}}Dto>>> Get()
     {
-        var result = await _mediator.Send(new Get{{entity.PluralName}}Query());
+        var result = await _mediator.Send(new Get{{entity.PluralName}}Query({{if entity.IsLocalized}}_cultureCode.Value{{end}}));
         return Ok(result);
     }
 
@@ -68,7 +84,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new Create{{entity.Name}}Command({{ToLowerFirstChar entity.Name}}));
+        var createdKey = await _mediator.Send(new Create{{entity.Name}}Command({{ToLowerFirstChar entity.Name}}, _cultureCode));
 
         var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ createdKeyPrimaryKeysQuery }}))).SingleOrDefault();
 
@@ -150,11 +166,4 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
         return NoContent();
     }
     {{- end }}
-}
-
-public partial class {{entity.PluralName}}Controller : {{entity.PluralName}}ControllerBase
-{
-    public {{entity.PluralName}}Controller(IMediator mediator)
-        : base(mediator)
-    {}
 }

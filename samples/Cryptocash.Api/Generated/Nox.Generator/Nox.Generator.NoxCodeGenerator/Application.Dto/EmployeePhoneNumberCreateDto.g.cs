@@ -10,8 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using EmployeePhoneNumberEntity = Cryptocash.Domain.EmployeePhoneNumber;
-using Cryptocash.Domain;
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -23,7 +22,7 @@ public partial class EmployeePhoneNumberCreateDto : EmployeePhoneNumberCreateDto
 /// <summary>
 /// Employee phone number and related data.
 /// </summary>
-public abstract class EmployeePhoneNumberCreateDtoBase : IEntityDto<EmployeePhoneNumberEntity>
+public abstract class EmployeePhoneNumberCreateDtoBase : IEntityDto<DomainNamespace.EmployeePhoneNumber>
 {
     /// <summary>
     /// Employee's phone number type (Required).

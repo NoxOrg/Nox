@@ -25,6 +25,15 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
+public partial class BookingsController : BookingsControllerBase
+{
+    public BookingsController(
+            IMediator mediator,
+            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        ): base(mediator, httpLanguageProvider)
+    {}
+}
+
 public abstract partial class BookingsControllerBase : ODataController
 {
     /// <summary>
@@ -32,11 +41,18 @@ public abstract partial class BookingsControllerBase : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
 
+    /// <symmary>
+    /// The Culture Code from the HTTP request.
+    /// </symmary>
+    protected readonly Nox.Types.CultureCode _cultureCode;
+
     public BookingsControllerBase(
-        IMediator mediator
+        IMediator mediator,
+        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
+        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
     }
 
     [EnableQuery]
@@ -60,7 +76,7 @@ public abstract partial class BookingsControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateBookingCommand(booking));
+        var createdKey = await _mediator.Send(new CreateBookingCommand(booking, _cultureCode));
 
         var item = (await _mediator.Send(new GetBookingByIdQuery(createdKey.keyId))).SingleOrDefault();
 
@@ -129,11 +145,4 @@ public abstract partial class BookingsControllerBase : ODataController
 
         return NoContent();
     }
-}
-
-public partial class BookingsController : BookingsControllerBase
-{
-    public BookingsController(IMediator mediator)
-        : base(mediator)
-    {}
 }

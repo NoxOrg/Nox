@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using ClientApi.Domain;
-using StoreEntity = ClientApi.Domain.Store;
+
+
+using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class StoreDto : StoreDtoBase
 /// <summary>
 /// Stores.
 /// </summary>
-public abstract class StoreDtoBase : EntityDtoBase, IEntityDto<StoreEntity>
+public abstract class StoreDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.Store>
 {
 
     #region Validation
@@ -37,24 +38,24 @@ public abstract class StoreDtoBase : EntityDtoBase, IEntityDto<StoreEntity>
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            ExecuteActionAndCollectValidationExceptions("Name", () => ClientApi.Domain.StoreMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("Name", () => DomainNamespace.StoreMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
         if (this.Address is not null)
-            ExecuteActionAndCollectValidationExceptions("Address", () => ClientApi.Domain.StoreMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("Address", () => DomainNamespace.StoreMetadata.CreateAddress(this.Address.NonNullValue<StreetAddressDto>()), result);
         else
             result.Add("Address", new [] { "Address is Required." });
     
         if (this.Location is not null)
-            ExecuteActionAndCollectValidationExceptions("Location", () => ClientApi.Domain.StoreMetadata.CreateLocation(this.Location.NonNullValue<LatLongDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("Location", () => DomainNamespace.StoreMetadata.CreateLocation(this.Location.NonNullValue<LatLongDto>()), result);
         else
             result.Add("Location", new [] { "Location is Required." });
     
         if (this.OpeningDay is not null)
-            ExecuteActionAndCollectValidationExceptions("OpeningDay", () => ClientApi.Domain.StoreMetadata.CreateOpeningDay(this.OpeningDay.NonNullValue<System.DateTimeOffset>()), result);
+            ExecuteActionAndCollectValidationExceptions("OpeningDay", () => DomainNamespace.StoreMetadata.CreateOpeningDay(this.OpeningDay.NonNullValue<System.DateTimeOffset>()), result);
         if (this.Status is not null)
-            ExecuteActionAndCollectValidationExceptions("Status", () => ClientApi.Domain.StoreMetadata.CreateStatus(this.Status.NonNullValue<System.Int32>()), result);
+            ExecuteActionAndCollectValidationExceptions("Status", () => DomainNamespace.StoreMetadata.CreateStatus(this.Status.NonNullValue<System.Int32>()), result);
 
         return result;
     }

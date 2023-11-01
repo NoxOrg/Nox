@@ -10,8 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using CashStockOrderEntity = Cryptocash.Domain.CashStockOrder;
-using Cryptocash.Domain;
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -23,7 +22,7 @@ public partial class CashStockOrderCreateDto : CashStockOrderCreateDtoBase
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-public abstract class CashStockOrderCreateDtoBase : IEntityDto<CashStockOrderEntity>
+public abstract class CashStockOrderCreateDtoBase : IEntityDto<DomainNamespace.CashStockOrder>
 {
     /// <summary>
     /// Order amount (Required).
@@ -51,7 +50,7 @@ public abstract class CashStockOrderCreateDtoBase : IEntityDto<CashStockOrderEnt
     /// </summary>
     public System.Guid? CashStockOrderForVendingMachineId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual VendingMachineCreateDto? CashStockOrderForVendingMachine { get; set; } = default!;
 
     /// <summary>
@@ -59,6 +58,6 @@ public abstract class CashStockOrderCreateDtoBase : IEntityDto<CashStockOrderEnt
     /// </summary>
     public System.Int64? CashStockOrderReviewedByEmployeeId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual EmployeeCreateDto? CashStockOrderReviewedByEmployee { get; set; } = default!;
 }

@@ -8,6 +8,8 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
@@ -44,7 +46,7 @@ internal abstract class UpdateMinimumCashStockCommandHandlerBase : CommandBase<U
 	public virtual async Task<MinimumCashStockKeyDto?> Handle(UpdateMinimumCashStockCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.MinimumCashStockMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.MinimumCashStocks.FindAsync(keyId);
@@ -52,6 +54,28 @@ internal abstract class UpdateMinimumCashStockCommandHandlerBase : CommandBase<U
 		{
 			return null;
 		}
+
+		await DbContext.Entry(entity).Collection(x => x.MinimumCashStocksRequiredByVendingMachines).LoadAsync();
+		var minimumCashStocksRequiredByVendingMachinesEntities = new List<VendingMachine>();
+		foreach(var relatedEntityId in request.EntityDto.MinimumCashStocksRequiredByVendingMachinesId)
+		{
+			var relatedKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(relatedEntityId);
+			var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKey);
+						
+			if(relatedEntity is not null)
+				minimumCashStocksRequiredByVendingMachinesEntities.Add(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("MinimumCashStocksRequiredByVendingMachines", relatedEntityId.ToString());
+		}
+		entity.UpdateRefToMinimumCashStocksRequiredByVendingMachines(minimumCashStocksRequiredByVendingMachinesEntities);
+
+		var minimumCashStockRelatedCurrencyKey = Cryptocash.Domain.CurrencyMetadata.CreateId(request.EntityDto.MinimumCashStockRelatedCurrencyId);
+		var minimumCashStockRelatedCurrencyEntity = await DbContext.Currencies.FindAsync(minimumCashStockRelatedCurrencyKey);
+						
+		if(minimumCashStockRelatedCurrencyEntity is not null)
+			entity.CreateRefToMinimumCashStockRelatedCurrency(minimumCashStockRelatedCurrencyEntity);
+		else
+			throw new RelatedEntityNotFoundException("MinimumCashStockRelatedCurrency", request.EntityDto.MinimumCashStockRelatedCurrencyId.ToString());
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

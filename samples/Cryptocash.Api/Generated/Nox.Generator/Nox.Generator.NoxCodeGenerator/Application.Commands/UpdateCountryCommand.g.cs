@@ -8,6 +8,8 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
@@ -44,7 +46,7 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 	public virtual async Task<CountryKeyDto?> Handle(UpdateCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.CountryMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Countries.FindAsync(keyId);
@@ -52,6 +54,56 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 		{
 			return null;
 		}
+
+		var countryUsedByCurrencyKey = Cryptocash.Domain.CurrencyMetadata.CreateId(request.EntityDto.CountryUsedByCurrencyId);
+		var countryUsedByCurrencyEntity = await DbContext.Currencies.FindAsync(countryUsedByCurrencyKey);
+						
+		if(countryUsedByCurrencyEntity is not null)
+			entity.CreateRefToCountryUsedByCurrency(countryUsedByCurrencyEntity);
+		else
+			throw new RelatedEntityNotFoundException("CountryUsedByCurrency", request.EntityDto.CountryUsedByCurrencyId.ToString());
+
+		await DbContext.Entry(entity).Collection(x => x.CountryUsedByCommissions).LoadAsync();
+		var countryUsedByCommissionsEntities = new List<Commission>();
+		foreach(var relatedEntityId in request.EntityDto.CountryUsedByCommissionsId)
+		{
+			var relatedKey = Cryptocash.Domain.CommissionMetadata.CreateId(relatedEntityId);
+			var relatedEntity = await DbContext.Commissions.FindAsync(relatedKey);
+						
+			if(relatedEntity is not null)
+				countryUsedByCommissionsEntities.Add(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("CountryUsedByCommissions", relatedEntityId.ToString());
+		}
+		entity.UpdateRefToCountryUsedByCommissions(countryUsedByCommissionsEntities);
+
+		await DbContext.Entry(entity).Collection(x => x.CountryUsedByVendingMachines).LoadAsync();
+		var countryUsedByVendingMachinesEntities = new List<VendingMachine>();
+		foreach(var relatedEntityId in request.EntityDto.CountryUsedByVendingMachinesId)
+		{
+			var relatedKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(relatedEntityId);
+			var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKey);
+						
+			if(relatedEntity is not null)
+				countryUsedByVendingMachinesEntities.Add(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("CountryUsedByVendingMachines", relatedEntityId.ToString());
+		}
+		entity.UpdateRefToCountryUsedByVendingMachines(countryUsedByVendingMachinesEntities);
+
+		await DbContext.Entry(entity).Collection(x => x.CountryUsedByCustomers).LoadAsync();
+		var countryUsedByCustomersEntities = new List<Customer>();
+		foreach(var relatedEntityId in request.EntityDto.CountryUsedByCustomersId)
+		{
+			var relatedKey = Cryptocash.Domain.CustomerMetadata.CreateId(relatedEntityId);
+			var relatedEntity = await DbContext.Customers.FindAsync(relatedKey);
+						
+			if(relatedEntity is not null)
+				countryUsedByCustomersEntities.Add(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("CountryUsedByCustomers", relatedEntityId.ToString());
+		}
+		entity.UpdateRefToCountryUsedByCustomers(countryUsedByCustomersEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

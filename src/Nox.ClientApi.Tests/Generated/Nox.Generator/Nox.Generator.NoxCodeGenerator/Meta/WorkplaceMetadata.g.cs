@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -62,9 +62,9 @@ public partial class WorkplaceMetadata
         public static Nox.Types.TextTypeOptions DescriptionTypeOptions {get; private set;} = new ()
         {
             MinLength = 4,
-            MaxLength = 63,
+            MaxLength = 255,
             IsUnicode = true,
-            IsLocalized = false,
+            IsLocalized = true,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
     

@@ -8,6 +8,8 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
@@ -44,7 +46,7 @@ internal abstract class UpdateLandLordCommandHandlerBase : CommandBase<UpdateLan
 	public virtual async Task<LandLordKeyDto?> Handle(UpdateLandLordCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.LandLordMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.LandLords.FindAsync(keyId);
@@ -52,6 +54,20 @@ internal abstract class UpdateLandLordCommandHandlerBase : CommandBase<UpdateLan
 		{
 			return null;
 		}
+
+		await DbContext.Entry(entity).Collection(x => x.ContractedAreasForVendingMachines).LoadAsync();
+		var contractedAreasForVendingMachinesEntities = new List<VendingMachine>();
+		foreach(var relatedEntityId in request.EntityDto.ContractedAreasForVendingMachinesId)
+		{
+			var relatedKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(relatedEntityId);
+			var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKey);
+						
+			if(relatedEntity is not null)
+				contractedAreasForVendingMachinesEntities.Add(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("ContractedAreasForVendingMachines", relatedEntityId.ToString());
+		}
+		entity.UpdateRefToContractedAreasForVendingMachines(contractedAreasForVendingMachinesEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

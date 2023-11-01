@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Cryptocash.Domain;
 
-using PaymentProviderEntity = Cryptocash.Domain.PaymentProvider;
+using DomainNamespace = Cryptocash.Domain;
+
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Payment provider related data.
 /// </summary>
-public partial class PaymentProviderUpdateDto : IEntityDto<PaymentProviderEntity>
+public partial class PaymentProviderUpdateDto : IEntityDto<DomainNamespace.PaymentProvider>
 {
     /// <summary>
     /// Payment provider name (Required).
@@ -29,4 +29,9 @@ public partial class PaymentProviderUpdateDto : IEntityDto<PaymentProviderEntity
     [Required(ErrorMessage = "PaymentProviderType is required")]
     
     public System.String PaymentProviderType { get; set; } = default!;
+
+    /// <summary>
+    /// PaymentProvider related to ZeroOrMany PaymentDetails
+    /// </summary>
+    public List<System.Int64> PaymentProviderRelatedPaymentDetailsId { get; set; } = new();
 }

@@ -6,10 +6,13 @@ using Nox;
 using Nox.Solution;
 using Nox.Extensions;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Configuration;
 using Nox.Infrastructure;
+using Nox.Infrastructure.Persistence;
 
 using Cryptocash.Application.Dto;
+using DtoNameSpace = Cryptocash.Application.Dto;
 
 namespace Cryptocash.Infrastructure.Persistence;
 
@@ -47,31 +50,18 @@ internal class DtoDbContext : DbContext
 
     
         public DbSet<BookingDto> Bookings { get; set; } = null!;
-        
         public DbSet<CommissionDto> Commissions { get; set; } = null!;
-        
         public DbSet<CountryDto> Countries { get; set; } = null!;
-        
         public DbSet<CurrencyDto> Currencies { get; set; } = null!;
-        
         public DbSet<CustomerDto> Customers { get; set; } = null!;
-        
         public DbSet<PaymentDetailDto> PaymentDetails { get; set; } = null!;
-        
         public DbSet<TransactionDto> Transactions { get; set; } = null!;
-        
         public DbSet<EmployeeDto> Employees { get; set; } = null!;
-        
         public DbSet<LandLordDto> LandLords { get; set; } = null!;
-        
         public DbSet<MinimumCashStockDto> MinimumCashStocks { get; set; } = null!;
-        
         public DbSet<PaymentProviderDto> PaymentProviders { get; set; } = null!;
-        
         public DbSet<VendingMachineDto> VendingMachines { get; set; } = null!;
-        
         public DbSet<CashStockOrderDto> CashStockOrders { get; set; } = null!;
-        
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -98,22 +88,27 @@ internal class DtoDbContext : DbContext
                     continue;
                 }
 
-                var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityDtoTypeFullName(entity.Name + "Dto"));
-                if (type != null)
+                var dtoName = entity.Name + "Dto";
+
+                var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityDtoTypeFullName(dtoName))
+                    ?? throw new TypeNotFoundException(dtoName);
+
+                _noxDtoDatabaseConfigurator.ConfigureDto(new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+
+                if (entity.IsLocalized)
                 {
-                    _noxDtoDatabaseConfigurator.ConfigureDto(
-                        new Nox.Types.EntityFramework.EntityBuilderAdapter.EntityBuilderAdapter(modelBuilder.Entity(type)),
-                        entity);
-                }
-                else
-                {
-                    throw new Exception($"Could not resolve type for {entity.Name}Dto");
+                    dtoName = NoxCodeGenConventions.GetEntityDtoNameForLocalizedType(entity.Name);
+                    
+                    type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityDtoTypeFullName(dtoName))
+                        ?? throw new TypeNotFoundException(dtoName);
+
+                    _noxDtoDatabaseConfigurator.ConfigureLocalizedDto(new EntityBuilderAdapter(modelBuilder.Entity(type!)), entity);
                 }
             }
         }
     }
 
-    private void ConfigureAuditable(ModelBuilder modelBuilder)
+private void ConfigureAuditable(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<BookingDto>().HasQueryFilter(e => e.DeletedAtUtc == null);
         modelBuilder.Entity<CommissionDto>().HasQueryFilter(e => e.DeletedAtUtc == null);

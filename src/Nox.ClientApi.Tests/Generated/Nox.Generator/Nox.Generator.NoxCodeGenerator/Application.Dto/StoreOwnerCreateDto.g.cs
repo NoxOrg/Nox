@@ -10,8 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using StoreOwnerEntity = ClientApi.Domain.StoreOwner;
-using ClientApi.Domain;
+using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
@@ -23,7 +22,7 @@ public partial class StoreOwnerCreateDto : StoreOwnerCreateDtoBase
 /// <summary>
 /// Store owners.
 /// </summary>
-public abstract class StoreOwnerCreateDtoBase : IEntityDto<StoreOwnerEntity>
+public abstract class StoreOwnerCreateDtoBase : IEntityDto<DomainNamespace.StoreOwner>
 {
     /// <summary>
     ///  (Required).
@@ -60,9 +59,9 @@ public abstract class StoreOwnerCreateDtoBase : IEntityDto<StoreOwnerEntity>
     public virtual System.String? Notes { get; set; }
 
     /// <summary>
-    /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores
+    /// StoreOwner Set of stores that this owner owns OneOrMany Stores
     /// </summary>
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<StoreCreateDto> Stores { get; set; } = new();
 }

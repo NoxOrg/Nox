@@ -25,6 +25,15 @@ using Nox.Types;
 
 namespace TestWebApp.Presentation.Api.OData;
 
+public partial class TestEntityZeroOrManyToOneOrManiesController : TestEntityZeroOrManyToOneOrManiesControllerBase
+{
+    public TestEntityZeroOrManyToOneOrManiesController(
+            IMediator mediator,
+            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        ): base(mediator, httpLanguageProvider)
+    {}
+}
+
 public abstract partial class TestEntityZeroOrManyToOneOrManiesControllerBase : ODataController
 {
     /// <summary>
@@ -32,11 +41,18 @@ public abstract partial class TestEntityZeroOrManyToOneOrManiesControllerBase : 
     /// </summary>
     protected readonly IMediator _mediator;
 
+    /// <symmary>
+    /// The Culture Code from the HTTP request.
+    /// </symmary>
+    protected readonly Nox.Types.CultureCode _cultureCode;
+
     public TestEntityZeroOrManyToOneOrManiesControllerBase(
-        IMediator mediator
+        IMediator mediator,
+        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
+        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
     }
 
     [EnableQuery]
@@ -60,7 +76,7 @@ public abstract partial class TestEntityZeroOrManyToOneOrManiesControllerBase : 
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateTestEntityZeroOrManyToOneOrManyCommand(testEntityZeroOrManyToOneOrMany));
+        var createdKey = await _mediator.Send(new CreateTestEntityZeroOrManyToOneOrManyCommand(testEntityZeroOrManyToOneOrMany, _cultureCode));
 
         var item = (await _mediator.Send(new GetTestEntityZeroOrManyToOneOrManyByIdQuery(createdKey.keyId))).SingleOrDefault();
 
@@ -129,11 +145,4 @@ public abstract partial class TestEntityZeroOrManyToOneOrManiesControllerBase : 
 
         return NoContent();
     }
-}
-
-public partial class TestEntityZeroOrManyToOneOrManiesController : TestEntityZeroOrManyToOneOrManiesControllerBase
-{
-    public TestEntityZeroOrManyToOneOrManiesController(IMediator mediator)
-        : base(mediator)
-    {}
 }

@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using TestWebApp.Domain;
 
-using SecondTestEntityTwoRelationshipsOneToManyEntity = TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToMany;
+using DomainNamespace = TestWebApp.Domain;
+
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
 /// .
 /// </summary>
-public partial class SecondTestEntityTwoRelationshipsOneToManyUpdateDto : IEntityDto<SecondTestEntityTwoRelationshipsOneToManyEntity>
+public partial class SecondTestEntityTwoRelationshipsOneToManyUpdateDto : IEntityDto<DomainNamespace.SecondTestEntityTwoRelationshipsOneToMany>
 {
     /// <summary>
     ///  (Required).

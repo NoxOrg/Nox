@@ -54,7 +54,9 @@ internal abstract partial class VendingMachineBase : AuditableEntityBase, IEntit
     /// Vending machine unique identifier (Required).
     /// </summary>
     public Nox.Types.Guid Id {get; set;} = null!;
-    
+         /// <summary>
+        /// Ensures that a Guid Id is set or will be generate a new one
+        /// </summary>
     	public virtual void EnsureId(System.Guid guid)
     	{
     		if(System.Guid.Empty.Equals(guid))
@@ -63,11 +65,7 @@ internal abstract partial class VendingMachineBase : AuditableEntityBase, IEntit
     		}
     		else
     		{
-    			var currentGuid = Nox.Types.Guid.From(guid);
-    			if(Id != currentGuid)
-    			{
-    				throw new NoxGuidTypeException("Immutable guid property Id value is different since it has been initialized");
-    			}
+    			Id = Nox.Types.Guid.From(guid);
     		}
     	}
 
@@ -193,6 +191,12 @@ internal abstract partial class VendingMachineBase : AuditableEntityBase, IEntit
         VendingMachineRelatedBookings.Add(relatedBooking);
     }
 
+    public virtual void UpdateRefToVendingMachineRelatedBookings(List<Booking> relatedBooking)
+    {
+        VendingMachineRelatedBookings.Clear();
+        VendingMachineRelatedBookings.AddRange(relatedBooking);
+    }
+
     public virtual void DeleteRefToVendingMachineRelatedBookings(Booking relatedBooking)
     {
         VendingMachineRelatedBookings.Remove(relatedBooking);
@@ -213,6 +217,12 @@ internal abstract partial class VendingMachineBase : AuditableEntityBase, IEntit
         VendingMachineRelatedCashStockOrders.Add(relatedCashStockOrder);
     }
 
+    public virtual void UpdateRefToVendingMachineRelatedCashStockOrders(List<CashStockOrder> relatedCashStockOrder)
+    {
+        VendingMachineRelatedCashStockOrders.Clear();
+        VendingMachineRelatedCashStockOrders.AddRange(relatedCashStockOrder);
+    }
+
     public virtual void DeleteRefToVendingMachineRelatedCashStockOrders(CashStockOrder relatedCashStockOrder)
     {
         VendingMachineRelatedCashStockOrders.Remove(relatedCashStockOrder);
@@ -231,6 +241,12 @@ internal abstract partial class VendingMachineBase : AuditableEntityBase, IEntit
     public virtual void CreateRefToVendingMachineRequiredMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
     {
         VendingMachineRequiredMinimumCashStocks.Add(relatedMinimumCashStock);
+    }
+
+    public virtual void UpdateRefToVendingMachineRequiredMinimumCashStocks(List<MinimumCashStock> relatedMinimumCashStock)
+    {
+        VendingMachineRequiredMinimumCashStocks.Clear();
+        VendingMachineRequiredMinimumCashStocks.AddRange(relatedMinimumCashStock);
     }
 
     public virtual void DeleteRefToVendingMachineRequiredMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)

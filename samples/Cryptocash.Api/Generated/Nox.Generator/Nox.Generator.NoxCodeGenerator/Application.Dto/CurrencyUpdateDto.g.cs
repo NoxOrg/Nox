@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Cryptocash.Domain;
 
-using CurrencyEntity = Cryptocash.Domain.Currency;
+using DomainNamespace = Cryptocash.Domain;
+
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Currency and related data.
 /// </summary>
-public partial class CurrencyUpdateDto : IEntityDto<CurrencyEntity>
+public partial class CurrencyUpdateDto : IEntityDto<DomainNamespace.Currency>
 {
     /// <summary>
     /// Currency's name (Required).
@@ -85,4 +85,14 @@ public partial class CurrencyUpdateDto : IEntityDto<CurrencyEntity>
     [Required(ErrorMessage = "MinorToMajorValue is required")]
     
     public MoneyDto MinorToMajorValue { get; set; } = default!;
+
+    /// <summary>
+    /// Currency used by OneOrMany Countries
+    /// </summary>
+    public List<System.String> CurrencyUsedByCountryId { get; set; } = new();
+
+    /// <summary>
+    /// Currency used by ZeroOrMany MinimumCashStocks
+    /// </summary>
+    public List<System.Int64> CurrencyUsedByMinimumCashStocksId { get; set; } = new();
 }

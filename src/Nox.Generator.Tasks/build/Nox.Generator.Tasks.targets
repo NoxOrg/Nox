@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+ <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+ <!--A target that generates code, which is executed before the compilation-->
+ <Target Name="BeforeCompile" Inputs="@(InputFiles)" Outputs="$(OutputDirectory)">
+ 	<!--Calling our custom task-->
+	 <NoxGeneratorTask NoxYamlFiles="@(InputFiles)" OutputDirectory="$(OutputDirectory)"></NoxGeneratorTask>
+ </Target>
+
+ <!--The generated file is deleted after a general clean. It will force the regeneration on rebuild-->
+ <Target Name="AfterClean">
+    <RemoveDir Directories="$(OutputDirectory)" />
+ </Target> 
+ </Project>

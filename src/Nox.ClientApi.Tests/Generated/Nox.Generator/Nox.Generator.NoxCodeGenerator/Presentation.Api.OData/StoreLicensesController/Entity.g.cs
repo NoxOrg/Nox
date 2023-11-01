@@ -25,6 +25,15 @@ using Nox.Types;
 
 namespace ClientApi.Presentation.Api.OData;
 
+public partial class StoreLicensesController : StoreLicensesControllerBase
+{
+    public StoreLicensesController(
+            IMediator mediator,
+            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        ): base(mediator, httpLanguageProvider)
+    {}
+}
+
 public abstract partial class StoreLicensesControllerBase : ODataController
 {
     /// <summary>
@@ -32,11 +41,18 @@ public abstract partial class StoreLicensesControllerBase : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
 
+    /// <symmary>
+    /// The Culture Code from the HTTP request.
+    /// </symmary>
+    protected readonly Nox.Types.CultureCode _cultureCode;
+
     public StoreLicensesControllerBase(
-        IMediator mediator
+        IMediator mediator,
+        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
+        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
     }
 
     [EnableQuery]
@@ -60,7 +76,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateStoreLicenseCommand(storeLicense));
+        var createdKey = await _mediator.Send(new CreateStoreLicenseCommand(storeLicense, _cultureCode));
 
         var item = (await _mediator.Send(new GetStoreLicenseByIdQuery(createdKey.keyId))).SingleOrDefault();
 
@@ -129,11 +145,4 @@ public abstract partial class StoreLicensesControllerBase : ODataController
 
         return NoContent();
     }
-}
-
-public partial class StoreLicensesController : StoreLicensesControllerBase
-{
-    public StoreLicensesController(IMediator mediator)
-        : base(mediator)
-    {}
 }

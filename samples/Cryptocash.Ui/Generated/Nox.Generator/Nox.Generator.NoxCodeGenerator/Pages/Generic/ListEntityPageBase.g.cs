@@ -12,6 +12,8 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using Cryptocash.Ui.Generated.Data.Generic.Service;
 using Cryptocash.Application.Dto;
+using AutoMapper;
+using System.Reflection;
 
 namespace Cryptocash.Ui.Generated.Pages.Generic
 {
@@ -19,7 +21,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
     /// PageBase Class to handle List Entity related pages note: T is used to reduce the amount of generator code required
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ListEntityPageBase<T, CreateT> : ComponentBase
+    public class ListEntityPageBase<T, CreateT, EditT> : ComponentBase
     {
         #nullable enable
 
@@ -72,11 +74,6 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         public bool IsOpenDeleteEntityConfirmation = false;
 
         /// <summary>
-        /// Property IsDeleteEntityProcessing flag used to control display awaiting async process to complete
-        /// </summary>
-        public bool IsDeleteEntityProcessing = false;
-
-        /// <summary>
         /// Property CurrentDeleteEntityId used to store the current entity Id to delete
         /// </summary>
         public string CurrentDeleteEntityId = string.Empty;
@@ -99,7 +96,18 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             FullWidth = true,
             ClassBackground = "custom-dialog",
             DisableBackdropClick = true,
-            MaxWidth = MaxWidth.ExtraLarge
+            Position = DialogPosition.TopCenter
+        };
+
+        /// <summary>
+        /// Property EditDialogOptions to define dialog css and keyboard options
+        /// </summary>
+        public DialogOptions EditDialogOptions = new()
+        {
+            FullWidth = true,
+            ClassBackground = "custom-dialog",
+            DisableBackdropClick = true,
+            Position = DialogPosition.TopCenter
         };
 
         /// <summary>
@@ -113,7 +121,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         };
 
         /// <summary>
-        /// Property AddEntityForm used to reference Add Antity Form in Ui
+        /// Property AddEntityForm used to reference Add Entity Form in Ui
         /// </summary>
         public MudForm? AddEntityForm { get; set; }
 
@@ -133,9 +141,34 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         public bool AddEntityValidateSuccess { get; set; } = false;
 
         /// <summary>
-        /// Property IsAddEntityProcessing used to display loading status whilst Add request is processing
+        /// Property EditEntityForm used to reference Edit Entity Form in Ui
         /// </summary>
-        public bool IsAddEntityProcessing { get; set; } = false;
+        public MudForm? EditEntityForm { get; set; }
+
+        /// <summary>
+        /// Property IsVisibleEditEntityDialog to handle Edit Entity dialog visibility
+        /// </summary>
+        public bool IsVisibleEditEntityDialog = false;
+
+        /// <summary>
+        /// Property CurrentEditEntity used as a temporary storage whilst updating entity via api
+        /// </summary>
+        public EditT? CurrentEditEntity { get; set; } = default;
+
+        /// <summary>
+        /// Property CurrentEditEntityId used as a temporary storage whilst updating entity via api
+        /// </summary>
+        public string? CurrentEditEntityId { get; set; }
+
+        /// <summary>
+        /// Property CurrentEditEtag used to reference Api Entity when updating
+        /// </summary>
+        public System.Guid? CurrentEditEtag { get; set; } = null;
+
+        /// <summary>
+        /// Property EditEntityValidateSuccess used to ensure form passed dataannotation validation before proceeding
+        /// </summary>
+        public bool EditEntityValidateSuccess { get; set; } = false;
 
         /// <summary>
         /// Property CountryEntityData used to store Country list data in preparation for selection
@@ -246,6 +279,25 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         }
 
         /// <summary>
+        /// Method to send edit entity data to Api
+        /// </summary>
+        /// <returns></returns>
+        private async Task EditApiEntityData()
+        {
+            if (CurrentEditEntity != null)
+            {
+                var jsonOptions = new JsonSerializerOptions();
+                jsonOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
+
+                CurrentApiUiService!.ApiEditId = CurrentEditEntityId;
+                CurrentApiUiService!.ApiEditEtag = CurrentEditEtag;
+                CurrentApiUiService!.ApiEditData = JsonSerializer.Serialize(CurrentEditEntity, jsonOptions);
+
+                await EntityDataService<T>.EditAsyncEntityData(CurrentApiUiService);
+            }
+        }
+
+        /// <summary>
         /// Method to send add entity data to Api
         /// </summary>
         /// <returns></returns>
@@ -278,6 +330,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             CurrentApiUiService?.ResetOrderList();
             ResetViewList();
             ResetAddEntity();
+            ResetEditEntity();
             await GetAllCountries();
             await GetAllCurrencies();
             await GetAllLandLords();
@@ -626,20 +679,18 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
 
                 if (AddEntityForm.IsValid)
                 {
-                    IsAddEntityProcessing = true;
+                    IsVisibleAddEntityDialog = false;
 
                     AddEntityValidateSuccess = true;
 
-                    var test = CurrentAddEntity; //TODO remove later
+                    IsDataGridLoading = true;
 
                     await CreateApiEntityData();
 
                     CurrentApiUiService?.ResetAllSearchFilterList();
                     CurrentApiUiService?.ResetOrderList();
                     ResetViewList();
-                    ResetAddEntity();
-
-                    ShowSuccessSnackbar("Entity Added Successfully");
+                    ResetAddEntity();                    
 
                     PreviousAPiQuery = String.Empty;
                     if (DataGridTable != null)
@@ -647,12 +698,128 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
                         await DataGridTable!.ReloadServerData();
                     }
 
-                    IsVisibleAddEntityDialog = false;
+                    ShowSuccessSnackbar("Entity Added Successfully");
 
-                    IsAddEntityProcessing = false;
+                    IsDataGridLoading = false;
                 }
             }
         }
+
+        #endregion
+
+        #region Edit
+
+        /// <summary>
+        /// Method to Reset CurrentEditEntity to a new class of T ready to be populated by Edit Item Dialog panel on Ui
+        /// </summary>
+        private void ResetEditEntity()
+        {
+            CurrentEditEntityId = String.Empty;
+            CurrentEditEtag = null;
+            CurrentEditEntity = (EditT?)Activator.CreateInstance(typeof(EditT));
+        }
+
+        /// <summary>
+        /// Method to open Edit Entity dialog
+        /// </summary>
+        public void EditEntityOpenDialog(T SelectedEditEntity)
+        {            
+            ResetEditEntity();            
+
+            if (SelectedEditEntity != null)
+            {
+                CurrentEditEntityId = GetIdAsStringFromDto(SelectedEditEntity);
+                CurrentEditEtag = GetEtagFromDto(SelectedEditEntity);
+                CurrentEditEntity = ConvertToEditDto(SelectedEditEntity);
+
+                IsVisibleEditEntityDialog = true;
+            }            
+        }
+
+        private string? GetIdAsStringFromDto(T SelectedEntity)
+        {
+            string? rtnIdStr = string.Empty;
+
+            Type t = SelectedEntity.GetType();
+            var GetProp = t.GetProperty("Id");
+            var GetValue = GetProp?.GetValue(SelectedEntity);
+            if (GetValue != null
+                && !String.IsNullOrWhiteSpace(GetValue.ToString()))
+            {
+                rtnIdStr = GetValue.ToString();
+            }
+
+            return rtnIdStr;
+        }
+
+        private System.Guid? GetEtagFromDto(T SelectedEntity)
+        {
+            Type t = SelectedEntity.GetType();
+            var GetProp = t.GetProperty("Etag");
+            var GetValue = GetProp?.GetValue(SelectedEntity);
+            if (GetValue != null)
+            {
+                return (System.Guid)GetValue;
+            }
+
+            return null;
+        }
+
+        private EditT? ConvertToEditDto(T SelectedEntity)
+        {
+            var config = new MapperConfiguration(cfg =>
+                    cfg.CreateMap<T, EditT>()
+                );
+            var mapper = new Mapper(config);
+
+            return mapper.Map<EditT>(SelectedEntity);
+        }
+
+        /// <summary>
+        /// Method to close Edit Entity dialog
+        /// </summary>
+        public void EditEntityCloseDialog()
+        {
+            IsVisibleEditEntityDialog = false;
+        }
+
+        /// <summary>
+        /// Method to Create EditEntity and send to Api
+        /// </summary>
+        /// <returns>Task</returns>
+        public async Task EditEntitySubmit()
+        {
+            if (EditEntityForm != null)
+            {
+                await EditEntityForm.Validate();
+
+                if (EditEntityForm.IsValid)
+                {
+                    IsVisibleEditEntityDialog = false;
+
+                    EditEntityValidateSuccess = true;
+
+                    IsDataGridLoading = true;
+
+                    await EditApiEntityData();
+
+                    CurrentApiUiService?.ResetAllSearchFilterList();
+                    CurrentApiUiService?.ResetOrderList();
+                    ResetViewList();
+                    ResetEditEntity();
+
+                    PreviousAPiQuery = String.Empty;
+                    if (DataGridTable != null)
+                    {
+                        await DataGridTable!.ReloadServerData();
+                    }
+
+                    ShowSuccessSnackbar("Entity Updated Successfully");
+
+                    IsDataGridLoading = false;
+                }
+            }
+        }    
 
         #endregion
 
@@ -702,7 +869,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             if (!String.IsNullOrWhiteSpace(CurrentDeleteEntityId)
                 && CurrentApiUiService != null)
             {
-                IsDeleteEntityProcessing = true;
+                IsOpenDeleteEntityConfirmation = false;
 
                 CurrentApiUiService!.ApiDeleteQueryData = CurrentDeleteEntityId;
                 CurrentApiUiService!.ApiDeleteEtag = CurrentDeleteEtag;
@@ -712,9 +879,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
                 CurrentApiUiService!.ResetAllSearchFilterList();
                 CurrentApiUiService!.ResetOrderList();
                 ResetViewList();
-                ResetDeleteEntity();
-
-                ShowSuccessSnackbar("Vending machine deleted successfully");
+                ResetDeleteEntity();                
 
                 PreviousAPiQuery = String.Empty;
                 if (DataGridTable != null)
@@ -722,10 +887,8 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
                     await DataGridTable!.ReloadServerData();
                 }
 
-                IsOpenDeleteEntityConfirmation = false;
+                ShowSuccessSnackbar("Vending machine deleted successfully");
             }
-
-            IsDeleteEntityProcessing = false;
         }
 
         #endregion

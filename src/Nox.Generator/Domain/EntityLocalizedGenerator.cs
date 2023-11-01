@@ -1,12 +1,11 @@
 ﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
-using Nox.Types;
-using System.Linq;
+using Nox.Solution.Extensions;
 
 namespace Nox.Generator.Domain;
 
-internal class EntitiesLocalizedGenerator : INoxCodeGenerator
+internal class EntityLocalizedGenerator : INoxCodeGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
 
@@ -25,7 +24,7 @@ internal class EntitiesLocalizedGenerator : INoxCodeGenerator
         foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             // Currently skip owned and composite key entities
-            if (!entity.ShouldBeLocalized)
+            if (!entity.IsLocalized)
             {
                 continue;
             }

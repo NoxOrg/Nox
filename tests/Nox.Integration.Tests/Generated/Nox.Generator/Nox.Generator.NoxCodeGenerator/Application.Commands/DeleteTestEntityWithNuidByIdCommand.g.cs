@@ -37,7 +37,7 @@ internal abstract class DeleteTestEntityWithNuidByIdCommandHandlerBase : Command
 	public virtual async Task<bool> Handle(DeleteTestEntityWithNuidByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityWithNuidMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityWithNuids.FindAsync(keyId);

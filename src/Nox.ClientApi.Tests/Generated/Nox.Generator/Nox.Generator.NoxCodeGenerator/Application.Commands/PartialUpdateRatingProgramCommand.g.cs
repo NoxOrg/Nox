@@ -44,7 +44,7 @@ internal class PartialUpdateRatingProgramCommandHandlerBase : CommandBase<Partia
 	public virtual async Task<RatingProgramKeyDto?> Handle(PartialUpdateRatingProgramCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyStoreId = ClientApi.Domain.RatingProgramMetadata.CreateStoreId(request.keyStoreId);
 		var keyId = ClientApi.Domain.RatingProgramMetadata.CreateId(request.keyId);
 

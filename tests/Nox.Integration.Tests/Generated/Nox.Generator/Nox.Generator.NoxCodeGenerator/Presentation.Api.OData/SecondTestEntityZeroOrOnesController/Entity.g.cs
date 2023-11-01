@@ -25,6 +25,15 @@ using Nox.Types;
 
 namespace TestWebApp.Presentation.Api.OData;
 
+public partial class SecondTestEntityZeroOrOnesController : SecondTestEntityZeroOrOnesControllerBase
+{
+    public SecondTestEntityZeroOrOnesController(
+            IMediator mediator,
+            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        ): base(mediator, httpLanguageProvider)
+    {}
+}
+
 public abstract partial class SecondTestEntityZeroOrOnesControllerBase : ODataController
 {
     /// <summary>
@@ -32,11 +41,18 @@ public abstract partial class SecondTestEntityZeroOrOnesControllerBase : ODataCo
     /// </summary>
     protected readonly IMediator _mediator;
 
+    /// <symmary>
+    /// The Culture Code from the HTTP request.
+    /// </symmary>
+    protected readonly Nox.Types.CultureCode _cultureCode;
+
     public SecondTestEntityZeroOrOnesControllerBase(
-        IMediator mediator
+        IMediator mediator,
+        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
+        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
     }
 
     [EnableQuery]
@@ -60,7 +76,7 @@ public abstract partial class SecondTestEntityZeroOrOnesControllerBase : ODataCo
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateSecondTestEntityZeroOrOneCommand(secondTestEntityZeroOrOne));
+        var createdKey = await _mediator.Send(new CreateSecondTestEntityZeroOrOneCommand(secondTestEntityZeroOrOne, _cultureCode));
 
         var item = (await _mediator.Send(new GetSecondTestEntityZeroOrOneByIdQuery(createdKey.keyId))).SingleOrDefault();
 
@@ -129,11 +145,4 @@ public abstract partial class SecondTestEntityZeroOrOnesControllerBase : ODataCo
 
         return NoContent();
     }
-}
-
-public partial class SecondTestEntityZeroOrOnesController : SecondTestEntityZeroOrOnesControllerBase
-{
-    public SecondTestEntityZeroOrOnesController(IMediator mediator)
-        : base(mediator)
-    {}
 }

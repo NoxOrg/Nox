@@ -31,7 +31,7 @@ using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Na
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
-public record Create{{entity.Name}}Command({{entity.Name}}CreateDto EntityDto) : IRequest<{{entity.Name}}KeyDto>;
+public record Create{{entity.Name}}Command({{entity.Name}}CreateDto EntityDto, Nox.Types.CultureCode {{codeGeneratorState.LocalizationCultureField}}) : IRequest<{{entity.Name}}KeyDto>;
 
 internal partial class Create{{entity.Name}}CommandHandler : Create{{entity.Name}}CommandHandlerBase
 {
@@ -41,8 +41,9 @@ internal partial class Create{{entity.Name}}CommandHandler : Create{{entity.Name
 		{{- for relatedEntity in relatedEntities }}
 		IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{relatedEntity}}, {{relatedEntity}}CreateDto, {{relatedEntity}}UpdateDto> {{fieldFactoryName relatedEntity}},
 		{{- end }}
-		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory)
-		: base(dbContext, noxSolution, {{- for relatedEntity in relatedEntities}}{{fieldFactoryName relatedEntity}}, {{end}}entityFactory)
+		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory{{if entity.IsLocalized }},
+		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity> entityLocalizedFactory{{ end -}})
+		: base(dbContext, noxSolution, {{- for relatedEntity in relatedEntities}}{{fieldFactoryName relatedEntity}}, {{end}}entityFactory{{- if entity.IsLocalized }}, entityLocalizedFactory{{ end -}})
 	{
 	}
 }
@@ -52,6 +53,9 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 {
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> EntityFactory;
+	{{- if entity.IsLocalized }}
+	protected readonly IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity> EntityLocalizedFactory;
+	{{- end -}}
 	{{- for relatedEntity in relatedEntities }}
 	protected readonly IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{relatedEntity}}, {{relatedEntity}}CreateDto, {{relatedEntity}}UpdateDto> {{fieldFactoryName relatedEntity}};
 	{{- end }}
@@ -62,19 +66,24 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 		{{- for relatedEntity in relatedEntities }}
 		IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{relatedEntity}}, {{relatedEntity}}CreateDto, {{relatedEntity}}UpdateDto> {{fieldFactoryName relatedEntity}},
 		{{- end }}
-		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory{{if entity.IsLocalized }},
+		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity> entityLocalizedFactory{{ end -}})
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
 		{{- for relatedEntity in relatedEntities }}
 		this.{{fieldFactoryName relatedEntity}} = {{fieldFactoryName relatedEntity}};
 		{{- end }}
+		{{- if entity.IsLocalized }} 
+		EntityLocalizedFactory = entityLocalizedFactory;
+		{{- end }}
 	}
 
 	public virtual async Task<{{entity.Name}}KeyDto> Handle(Create{{entity.Name}}Command request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 
@@ -118,6 +127,10 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 
 		await OnCompletedAsync(request, entityToCreate);
 		DbContext.{{entity.PluralName}}.Add(entityToCreate);
+		{{- if entity.IsLocalized }}
+		var entityLocalizedToCreate = EntityLocalizedFactory.CreateLocalizedEntity(entityToCreate, request.{{codeGeneratorState.LocalizationCultureField}});
+		DbContext.{{entity.PluralName}}Localized.Add(entityLocalizedToCreate);
+		{{- end }}
 		await DbContext.SaveChangesAsync();
 		return new {{entity.Name}}KeyDto({{primaryKeysQuery}});
 	}

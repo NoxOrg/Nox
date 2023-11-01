@@ -37,7 +37,7 @@ internal abstract class DeleteTestEntityOneOrManyToZeroOrOneByIdCommandHandlerBa
 	public virtual async Task<bool> Handle(DeleteTestEntityOneOrManyToZeroOrOneByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityOneOrManyToZeroOrOneMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityOneOrManyToZeroOrOnes.FindAsync(keyId);

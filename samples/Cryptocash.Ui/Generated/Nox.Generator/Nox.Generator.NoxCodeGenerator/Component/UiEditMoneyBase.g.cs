@@ -62,6 +62,17 @@ namespace Cryptocash.Ui.Generated.Component
 
         #endregion
 
+        /// <summary>
+        /// Handles initial loading
+        /// </summary>
+        protected override void OnInitialized()
+        {
+            if (Money != null)
+            {
+                Amount = Money.Amount;
+            }
+        }
+
         protected async Task OnMoneyChanged(string newValue)
         {
             if (!string.IsNullOrWhiteSpace(newValue))

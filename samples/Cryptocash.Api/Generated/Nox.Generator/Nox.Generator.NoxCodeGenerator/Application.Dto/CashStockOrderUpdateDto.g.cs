@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Cryptocash.Domain;
 
-using CashStockOrderEntity = Cryptocash.Domain.CashStockOrder;
+using DomainNamespace = Cryptocash.Domain;
+
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-public partial class CashStockOrderUpdateDto : IEntityDto<CashStockOrderEntity>
+public partial class CashStockOrderUpdateDto : IEntityDto<DomainNamespace.CashStockOrder>
 {
     /// <summary>
     /// Order amount (Required).
@@ -39,4 +39,10 @@ public partial class CashStockOrderUpdateDto : IEntityDto<CashStockOrderEntity>
     /// </summary>
     [Required(ErrorMessage = "CashStockOrderForVendingMachine is required")]
     public System.Guid CashStockOrderForVendingMachineId { get; set; } = default!;
+
+    /// <summary>
+    /// CashStockOrder reviewed by ExactlyOne Employees
+    /// </summary>
+    [Required(ErrorMessage = "CashStockOrderReviewedByEmployee is required")]
+    public System.Int64 CashStockOrderReviewedByEmployeeId { get; set; } = default!;
 }

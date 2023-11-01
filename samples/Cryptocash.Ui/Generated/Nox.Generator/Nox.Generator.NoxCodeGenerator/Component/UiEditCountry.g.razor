@@ -4,12 +4,12 @@
 
 @if (CountrySelectionList != null && CountrySelectionList.Count > 0)
 {
-    <MudSelect Label="@TitleCountry"
+    <MudSelect Label="@Title"
                Variant="Variant.Outlined"
                FullWidth="true"
                Clearable="true"
                Required="true"
-               RequiredError="@ErrorRequiredMessage(TitleCountry)"
+               RequiredError="@ErrorRequiredMessage(Title)"
                TextChanged="OnCountryIdChanged"
                Value="@CurrentCountryIdStr">
         @foreach (CountryDto item in CountrySelectionList)

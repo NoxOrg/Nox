@@ -54,7 +54,7 @@ internal abstract partial class WorkplaceBase : EntityBase, IEntityConcurrent
     /// Workplace unique identifier (Required).
     /// </summary>
     public Nuid Id {get; set;} = null!;
-    
+       
     	public virtual void EnsureId()
     	{
     		if(Id is null)

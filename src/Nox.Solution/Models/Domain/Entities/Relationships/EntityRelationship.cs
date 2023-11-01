@@ -1,5 +1,6 @@
 ﻿using Humanizer;
 using Nox.Solution.Extensions;
+using Nox.Types;
 using Nox.Types.Schema;
 using YamlDotNet.Serialization;
 
@@ -31,6 +32,8 @@ public class EntityRelationship : DefinitionBase
     [Title("The target entity that relates to this entity.")]
     [Description("The name of the target entity that this entity relates to.")]
     public string Entity { get; internal set; } = null!;
+
+    public TypeUserInterface? UserInterface { get; internal set; }
 
     [YamlIgnore] 
     public string EntityPlural => Entity.Pluralize();

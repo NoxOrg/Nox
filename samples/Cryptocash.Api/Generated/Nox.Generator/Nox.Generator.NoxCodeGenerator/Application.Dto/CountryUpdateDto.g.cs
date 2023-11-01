@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Cryptocash.Domain;
 
-using CountryEntity = Cryptocash.Domain.Country;
+using DomainNamespace = Cryptocash.Domain;
+
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Country and related data.
 /// </summary>
-public partial class CountryUpdateDto : IEntityDto<CountryEntity>
+public partial class CountryUpdateDto : IEntityDto<DomainNamespace.Country>
 {
     /// <summary>
     /// Country's name (Required).
@@ -79,4 +79,19 @@ public partial class CountryUpdateDto : IEntityDto<CountryEntity>
     /// </summary>
     [Required(ErrorMessage = "CountryUsedByCurrency is required")]
     public System.String CountryUsedByCurrencyId { get; set; } = default!;
+
+    /// <summary>
+    /// Country used by OneOrMany Commissions
+    /// </summary>
+    public List<System.Int64> CountryUsedByCommissionsId { get; set; } = new();
+
+    /// <summary>
+    /// Country used by ZeroOrMany VendingMachines
+    /// </summary>
+    public List<System.Guid> CountryUsedByVendingMachinesId { get; set; } = new();
+
+    /// <summary>
+    /// Country used by ZeroOrMany Customers
+    /// </summary>
+    public List<System.Int64> CountryUsedByCustomersId { get; set; } = new();
 }

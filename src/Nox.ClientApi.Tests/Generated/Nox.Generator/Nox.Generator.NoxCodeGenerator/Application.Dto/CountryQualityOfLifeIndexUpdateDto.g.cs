@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using ClientApi.Domain;
 
-using CountryQualityOfLifeIndexEntity = ClientApi.Domain.CountryQualityOfLifeIndex;
+using DomainNamespace = ClientApi.Domain;
+
 namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Country Quality Of Life Index.
 /// </summary>
-public partial class CountryQualityOfLifeIndexUpdateDto : IEntityDto<CountryQualityOfLifeIndexEntity>
+public partial class CountryQualityOfLifeIndexUpdateDto : IEntityDto<DomainNamespace.CountryQualityOfLifeIndex>
 {
     /// <summary>
     /// Rating Index (Required).

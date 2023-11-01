@@ -132,7 +132,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 //Ownership = createOwner
             };
             var store = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, createStore);
-            var owner = await PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(StoreOwnersControllerTests.StoreOwnersUrl, createOwner);
+            var owner = await PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(Endpoints.StoreOwnersUrl, createOwner);
             await PostAsync($"{Endpoints.StoresUrl}/{store!.Id}/Ownership/{owner!.Id}/$ref");
 
             // Act
@@ -279,23 +279,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #endregion POST Entity with Deleted RelationshipId /api/{EntityPluralName} => api/stores
 
-        #endregion Relationship Examples
-
-        [Fact]
-        public async Task Post_ReturnsId()
-        {
-            // Arrange
-            // Acty
-            StoreDto? result = await CreateStore();
-
-            //Assert
-            result.Should().NotBeNull();
-            result.Should()
-                .BeOfType<StoreDto>()
-                .Which.Id.Should().NotBeEmpty();
-        }
-
-       
+        #endregion Relationship Examples       
 
         [Fact]
         public async Task Deleted_ShouldPerformSoftDelete()
@@ -335,7 +319,42 @@ namespace ClientApi.Tests.Tests.Controllers
             queryResult.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
+
+        [Fact]
+        public async Task WhenPostWithoutId_GeneratesId()
+        {
+            // Arrange
+            // Act
+            StoreDto? result = await CreateStore();
+
+            //Assert
+            result.Should().NotBeNull();
+            result.Should()
+                .BeOfType<StoreDto>()
+                .Which.Id.Should().NotBeEmpty();
+        }
+
+        [Fact]
+        public async Task WhenPostWitId_UsesPostId()
+        {
+            // Arrange
+            var expectedId = System.Guid.NewGuid();
+            // Act
+            StoreDto? result = await CreateStore(expectedId);
+
+            //Assert
+            result.Should().NotBeNull();
+            result.Should()
+                .BeOfType<StoreDto>()
+                .Which.Id.Should().Be(expectedId);
+        }
+
         private async Task<StoreDto?> CreateStore()
+        {
+            return await CreateStore(System.Guid.Empty);
+        }
+
+        private async Task<StoreDto?> CreateStore(System.Guid id)
         {
             var createDto = new StoreCreateDto
             {
@@ -353,6 +372,9 @@ namespace ClientApi.Tests.Tests.Controllers
                     CountryId: CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
             };
+
+            if (System.Guid.Empty != id)
+                createDto.Id = id;
 
             var result = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, createDto);
             return result;

@@ -25,6 +25,15 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
+public partial class TransactionsController : TransactionsControllerBase
+{
+    public TransactionsController(
+            IMediator mediator,
+            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        ): base(mediator, httpLanguageProvider)
+    {}
+}
+
 public abstract partial class TransactionsControllerBase : ODataController
 {
     /// <summary>
@@ -32,11 +41,18 @@ public abstract partial class TransactionsControllerBase : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
 
+    /// <symmary>
+    /// The Culture Code from the HTTP request.
+    /// </symmary>
+    protected readonly Nox.Types.CultureCode _cultureCode;
+
     public TransactionsControllerBase(
-        IMediator mediator
+        IMediator mediator,
+        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
+        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
     }
 
     [EnableQuery]
@@ -60,7 +76,7 @@ public abstract partial class TransactionsControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateTransactionCommand(transaction));
+        var createdKey = await _mediator.Send(new CreateTransactionCommand(transaction, _cultureCode));
 
         var item = (await _mediator.Send(new GetTransactionByIdQuery(createdKey.keyId))).SingleOrDefault();
 
@@ -129,11 +145,4 @@ public abstract partial class TransactionsControllerBase : ODataController
 
         return NoContent();
     }
-}
-
-public partial class TransactionsController : TransactionsControllerBase
-{
-    public TransactionsController(IMediator mediator)
-        : base(mediator)
-    {}
 }

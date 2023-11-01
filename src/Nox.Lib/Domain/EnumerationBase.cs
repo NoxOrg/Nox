@@ -8,7 +8,7 @@ namespace Nox.Domain;
 public abstract partial class EnumerationBase
 {
     /// <summary>
-    /// Enum value
+    /// Enum Id
     /// </summary>
     public Enumeration Id { get; set; } = null!;
 

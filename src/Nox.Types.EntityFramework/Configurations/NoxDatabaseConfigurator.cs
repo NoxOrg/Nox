@@ -55,7 +55,7 @@ namespace Nox.Types.EntityFramework.Configurations
             foreach (var configurator in noxTypeDatabaseConfigurators.Where(databaseProviderSpecificOverrides.IsInstanceOfType))
             {
                 TypesDatabaseConfigurations[configurator.ForNoxType] = configurator;
-            }            
+            }
         }
         /// <summary>
         /// Configure the data base model for an Entity
@@ -71,7 +71,7 @@ namespace Nox.Types.EntityFramework.Configurations
             var relationshipsToCreate = GetRelationshipsToCreate(entity);
             var ownedRelationshipsToCreate = GetOwnedRelationshipsToCreate(entity);
 
-            ConfigureKeys(CodeGenConventions, builder, entity);
+            ConfigureKeys(CodeGenConventions, builder, entity, entity.Keys);
 
             ConfigureAttributes(CodeGenConventions, builder, entity);
 
@@ -94,7 +94,30 @@ namespace Nox.Types.EntityFramework.Configurations
         {
             var localizedEntity = entity.ShallowCopy(NoxCodeGenConventions.GetEntityNameForLocalizedType(entity.Name));
 
-            ConfigureKeys(CodeGenConventions, builder, localizedEntity);
+            var keys = new List<NoxSimpleTypeDefinition>()
+            {
+                // Configure same keys as Entity
+                new NoxSimpleTypeDefinition()
+                {
+                    // We only support entities with single key
+                    Name = entity.Keys.Single().Name,
+                    Type = NoxType.EntityId, // Create Foreign key to Main Entity
+                    EntityIdTypeOptions = new EntityIdTypeOptions()
+                    {
+                        Entity = entity.Name
+                    }
+                },
+                // And add Culture Code has Key
+                new NoxSimpleTypeDefinition()
+                {
+                    Name = CodeGenConventions.LocalizationCultureField,
+                    Type = NoxType.CultureCode,
+                    IsRequired = true,
+                }
+            };
+            
+             //Configure keys without navigation properties
+             ConfigureKeys(CodeGenConventions, builder, localizedEntity, keys, false);
 
             ConfigureLocalizedAttributes(CodeGenConventions, builder, localizedEntity);
         }
@@ -172,7 +195,7 @@ namespace Nox.Types.EntityFramework.Configurations
                             .HasOne($"{codeGeneratorState.DomainNameSpace}.{relationshipToCreate.Relationship.Entity}", relationshipToCreate.Relationship.Name)
                             .WithOne(relationshipToCreate.Relationship.Related.EntityRelationship.Name)
                             .HasForeignKey(entity.Name, $"{relationshipToCreate.Relationship.Name}Id")
-                            .OnDelete(DeleteBehavior.ClientSetNull); 
+                            .OnDelete(DeleteBehavior.ClientSetNull);
                     }
 
                     // Setup foreign key property
@@ -228,7 +251,7 @@ namespace Nox.Types.EntityFramework.Configurations
                 var keyToBeConfigured = key.ShallowCopy();
                 keyToBeConfigured.Name = $"{relationshipToCreate.Relationship.Name}Id";
                 keyToBeConfigured.Description = $"Foreign key for entity {relationshipToCreate.Relationship.Name}";
-                keyToBeConfigured.IsRequired = relationshipToCreate.Relationship.IsRequired();                
+                keyToBeConfigured.IsRequired = relationshipToCreate.Relationship.IsRequired();
                 keyToBeConfigured.IsReadonly = false;
                 databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, keyToBeConfigured, entity, false);
             }
@@ -237,18 +260,20 @@ namespace Nox.Types.EntityFramework.Configurations
         protected virtual void ConfigureKeys(
             NoxCodeGenConventions codeGeneratorState,
             IEntityBuilder builder,
-            Entity entity)
+            Entity entity,
+            IReadOnlyList<NoxSimpleTypeDefinition> keys,
+            bool configureNavigationProperty = true)
         {
-            if (entity.Keys is { Count: > 0 })
+            if (keys is { Count: > 0 })
             {
-                var keysPropertyNames = new List<string>(entity.Keys.Count);
-                foreach (var key in entity.Keys)
+                var keysPropertyNames = new List<string>(keys.Count);
+                foreach (var key in keys)
                 {
                     if (key.Type == NoxType.EntityId) //its key and foreign key
                     {
                         Console.WriteLine($"    Setup Key {key.Name} as Foreign Key for Entity {entity.Name}");
 
-                        ConfigureEntityKeyForEntityForeignKey(codeGeneratorState, builder, entity, key);
+                        ConfigureEntityKeyForEntityForeignKey(codeGeneratorState, builder, entity, key, configureNavigationProperty);
                         keysPropertyNames.Add(key.Name);
                     }
                     else if (TypesDatabaseConfigurations.TryGetValue(key.Type,
@@ -272,15 +297,15 @@ namespace Nox.Types.EntityFramework.Configurations
             NoxCodeGenConventions codeGeneratorState,
             IEntityBuilder builder,
             Entity entity,
-            NoxSimpleTypeDefinition key)
+            NoxSimpleTypeDefinition key,
+            bool configureNavigationProperty = true)
         {
             // Key type of the Foreign Entity Key
             var foreignEntityKeyType = codeGeneratorState.Solution.GetSingleKeyTypeForEntity(key.EntityIdTypeOptions!.Entity);
-
             builder
-            .HasOne(key.EntityIdTypeOptions!.Entity)
-            .WithOne()
-            .HasForeignKey(entity.Name, key.Name);
+                .HasOne(codeGeneratorState.GetEntityTypeFullName(key.EntityIdTypeOptions.Entity), configureNavigationProperty ?  key.EntityIdTypeOptions!.Entity: null)
+                .WithOne()
+                .HasForeignKey(entity.Name, key.Name);
 
             //Configure foreign key property
             if (TypesDatabaseConfigurations.TryGetValue(foreignEntityKeyType,
@@ -361,13 +386,6 @@ namespace Nox.Types.EntityFramework.Configurations
             Entity entity)
         {
             var attributes = entity.GetAttributesToLocalize().ToList();
-            attributes.Add(new NoxSimpleTypeDefinition
-            {
-                Name = codeGeneratorState.LocalizationCultureField,
-                Type = NoxType.CultureCode,
-                IsRequired = true,
-                IsReadonly = true
-            });
 
             foreach (var property in attributes)
             {
@@ -418,5 +436,5 @@ namespace Nox.Types.EntityFramework.Configurations
         protected virtual void ConfigureAutoNumberAttributeSequences(ModelBuilder modelBuilder, Entity entity) {}
         
     }
-  
+
 }

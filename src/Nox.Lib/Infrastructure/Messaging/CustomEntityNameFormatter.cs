@@ -2,7 +2,7 @@
 using Nox.Application;
 using System.Reflection;
 
-namespace Nox.Infrastructure.Messaging.AzureServiceBus
+namespace Nox.Infrastructure.Messaging
 {
     internal class CustomEntityNameFormatter : IEntityNameFormatter
     {
@@ -14,20 +14,21 @@ namespace Nox.Infrastructure.Messaging.AzureServiceBus
             _platformId = platformId;
             _name = name;
         }
-
+        
         public string FormatEntityName<T>()
         {
-            var integrationEventAttribute = typeof(T).GenericTypeArguments[0].GetCustomAttribute<IntegrationEventTypeAttribute>();
+            var messageType = typeof(T);
 
-            if (typeof(T).GetGenericTypeDefinition() != typeof(NoxMessageRecord<>))
+            if (!messageType.IsGenericType || messageType.GetGenericTypeDefinition() != typeof(CloudEventMessage<>))
             {
                 throw new UnknownMessageTypeException($"Unknown message type '{typeof(T)}' received.");
             }
-
+            var integrationEventAttribute = messageType.GenericTypeArguments[0].GetCustomAttribute<IntegrationEventTypeAttribute>();
+          
             if (integrationEventAttribute == null ||
                 string.IsNullOrWhiteSpace(integrationEventAttribute.Trait))
             {
-                throw new EventTraitIsNotFoundException($"Integration event {typeof(T).Name} should have {nameof(IntegrationEventTypeAttribute)} with non-empty {nameof(integrationEventAttribute.Trait)} specified.");
+                throw new EventTraitIsNotFoundException($"Integration event {messageType.Name} should have {nameof(IntegrationEventTypeAttribute)} with non-empty {nameof(integrationEventAttribute.Trait)} specified.");
             }
 
             return $"{_platformId}.{_name}.{integrationEventAttribute.Trait}";

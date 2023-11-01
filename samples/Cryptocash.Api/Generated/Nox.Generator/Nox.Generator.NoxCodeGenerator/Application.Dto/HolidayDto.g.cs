@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using Cryptocash.Domain;
-using HolidayEntity = Cryptocash.Domain.Holiday;
+
+
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class HolidayDto : HolidayDtoBase
 /// <summary>
 /// Holiday related to country.
 /// </summary>
-public abstract class HolidayDtoBase : EntityDtoBase, IEntityDto<HolidayEntity>
+public abstract class HolidayDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.Holiday>
 {
 
     #region Validation
@@ -37,16 +38,16 @@ public abstract class HolidayDtoBase : EntityDtoBase, IEntityDto<HolidayEntity>
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.Name is not null)
-            ExecuteActionAndCollectValidationExceptions("Name", () => Cryptocash.Domain.HolidayMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("Name", () => DomainNamespace.HolidayMetadata.CreateName(this.Name.NonNullValue<System.String>()), result);
         else
             result.Add("Name", new [] { "Name is Required." });
     
         if (this.Type is not null)
-            ExecuteActionAndCollectValidationExceptions("Type", () => Cryptocash.Domain.HolidayMetadata.CreateType(this.Type.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("Type", () => DomainNamespace.HolidayMetadata.CreateType(this.Type.NonNullValue<System.String>()), result);
         else
             result.Add("Type", new [] { "Type is Required." });
     
-        ExecuteActionAndCollectValidationExceptions("Date", () => Cryptocash.Domain.HolidayMetadata.CreateDate(this.Date), result);
+        ExecuteActionAndCollectValidationExceptions("Date", () => DomainNamespace.HolidayMetadata.CreateDate(this.Date), result);
     
 
         return result;

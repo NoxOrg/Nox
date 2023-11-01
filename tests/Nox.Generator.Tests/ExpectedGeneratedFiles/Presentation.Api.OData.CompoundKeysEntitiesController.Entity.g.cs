@@ -25,6 +25,15 @@ using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
+public partial class CompoundKeysEntitiesController : CompoundKeysEntitiesControllerBase
+{
+    public CompoundKeysEntitiesController(
+            IMediator mediator,
+            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        ): base(mediator, httpLanguageProvider)
+    {}
+}
+
 public abstract partial class CompoundKeysEntitiesControllerBase : ODataController
 {
     /// <summary>
@@ -32,11 +41,18 @@ public abstract partial class CompoundKeysEntitiesControllerBase : ODataControll
     /// </summary>
     protected readonly IMediator _mediator;
 
+    /// <symmary>
+    /// The Culture Code from the HTTP request.
+    /// </symmary>
+    protected readonly Nox.Types.CultureCode _cultureCode;
+
     public CompoundKeysEntitiesControllerBase(
-        IMediator mediator
+        IMediator mediator,
+        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
+        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
     }
 
     [EnableQuery]
@@ -60,7 +76,7 @@ public abstract partial class CompoundKeysEntitiesControllerBase : ODataControll
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateCompoundKeysEntityCommand(compoundKeysEntity));
+        var createdKey = await _mediator.Send(new CreateCompoundKeysEntityCommand(compoundKeysEntity, _cultureCode));
 
         var item = (await _mediator.Send(new GetCompoundKeysEntityByIdQuery(createdKey.keyId1, createdKey.keyId2))).SingleOrDefault();
 
@@ -129,11 +145,4 @@ public abstract partial class CompoundKeysEntitiesControllerBase : ODataControll
 
         return NoContent();
     }
-}
-
-public partial class CompoundKeysEntitiesController : CompoundKeysEntitiesControllerBase
-{
-    public CompoundKeysEntitiesController(IMediator mediator)
-        : base(mediator)
-    {}
 }

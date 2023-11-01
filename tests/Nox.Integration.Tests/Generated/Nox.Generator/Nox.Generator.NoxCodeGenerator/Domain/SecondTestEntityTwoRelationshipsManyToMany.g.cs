@@ -97,6 +97,12 @@ internal abstract partial class SecondTestEntityTwoRelationshipsManyToManyBase :
         TestRelationshipOneOnOtherSide.Add(relatedTestEntityTwoRelationshipsManyToMany);
     }
 
+    public virtual void UpdateRefToTestRelationshipOneOnOtherSide(List<TestEntityTwoRelationshipsManyToMany> relatedTestEntityTwoRelationshipsManyToMany)
+    {
+        TestRelationshipOneOnOtherSide.Clear();
+        TestRelationshipOneOnOtherSide.AddRange(relatedTestEntityTwoRelationshipsManyToMany);
+    }
+
     public virtual void DeleteRefToTestRelationshipOneOnOtherSide(TestEntityTwoRelationshipsManyToMany relatedTestEntityTwoRelationshipsManyToMany)
     {
         TestRelationshipOneOnOtherSide.Remove(relatedTestEntityTwoRelationshipsManyToMany);
@@ -115,6 +121,12 @@ internal abstract partial class SecondTestEntityTwoRelationshipsManyToManyBase :
     public virtual void CreateRefToTestRelationshipTwoOnOtherSide(TestEntityTwoRelationshipsManyToMany relatedTestEntityTwoRelationshipsManyToMany)
     {
         TestRelationshipTwoOnOtherSide.Add(relatedTestEntityTwoRelationshipsManyToMany);
+    }
+
+    public virtual void UpdateRefToTestRelationshipTwoOnOtherSide(List<TestEntityTwoRelationshipsManyToMany> relatedTestEntityTwoRelationshipsManyToMany)
+    {
+        TestRelationshipTwoOnOtherSide.Clear();
+        TestRelationshipTwoOnOtherSide.AddRange(relatedTestEntityTwoRelationshipsManyToMany);
     }
 
     public virtual void DeleteRefToTestRelationshipTwoOnOtherSide(TestEntityTwoRelationshipsManyToMany relatedTestEntityTwoRelationshipsManyToMany)

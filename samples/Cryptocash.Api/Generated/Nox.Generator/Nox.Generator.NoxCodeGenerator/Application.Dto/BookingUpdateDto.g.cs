@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Cryptocash.Domain;
 
-using BookingEntity = Cryptocash.Domain.Booking;
+using DomainNamespace = Cryptocash.Domain;
+
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Exchange booking and related data.
 /// </summary>
-public partial class BookingUpdateDto : IEntityDto<BookingEntity>
+public partial class BookingUpdateDto : IEntityDto<DomainNamespace.Booking>
 {
     /// <summary>
     /// Booking's amount exchanged from (Required).
@@ -69,4 +69,10 @@ public partial class BookingUpdateDto : IEntityDto<BookingEntity>
     /// </summary>
     [Required(ErrorMessage = "BookingFeesForCommission is required")]
     public System.Int64 BookingFeesForCommissionId { get; set; } = default!;
+
+    /// <summary>
+    /// Booking related to ExactlyOne Transactions
+    /// </summary>
+    [Required(ErrorMessage = "BookingRelatedTransaction is required")]
+    public System.Int64 BookingRelatedTransactionId { get; set; } = default!;
 }

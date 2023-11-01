@@ -51,6 +51,7 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
         var controllerCustomCommandsFileName = $"Presentation.Api.OData.{controllerName}.CustomCommands.g.cs";
         var controllerRelationshipsFileName = $"Presentation.Api.OData.{controllerName}.Relationships.g.cs";
         var controllerOwnedRelationshipsFileName = $"Presentation.Api.OData.{controllerName}.OwnedRelationships.g.cs";
+        var controllerEnumerationsFileName = $"Presentation.Api.OData.{controllerName}.Enumerations.g.cs";
 
         contentCheckerFlow.AssertFileExistsAndContent(controllerFileName, controllerFileName);
         contentCheckerFlow.AssertFileExistsAndContent(controllerEntityFileName, controllerEntityFileName);

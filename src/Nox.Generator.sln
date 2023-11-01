@@ -26,6 +26,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0SolutionItems", "0SolutionItems", "{820129FF-6448-42E2-8792-ABE1A8CBF722}"
 	ProjectSection(SolutionItems) = preProject
 		..\GitVersion.yml = ..\GitVersion.yml
+		nuget.config = nuget.config
 		..\readme.md = ..\readme.md
 	EndProjectSection
 EndProject
@@ -99,6 +100,15 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.ClientApi.Tests", "Nox.ClientApi.Tests\Nox.ClientApi.Tests.csproj", "{9C2797EF-9215-4CB2-8468-7DBD5404FFBA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Generator.Tasks", "Nox.Generator.Tasks\Nox.Generator.Tasks.csproj", "{3CC4CBD7-2946-4171-BA1D-116955286B41}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Integration.Tests", "Nox.Integration.Tests\Nox.Integration.Tests.csproj", "{AAF75AC4-9D4B-4296-A43E-DFB44CA84DEA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Generator.Tasks.Test", "Nox.Generator.Tasks.Test\Nox.Generator.Tasks.Test.csproj", "{D6E2EA10-EBAB-4066-BA90-270F3D54DA94}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{EE7F628D-42C8-4D9D-AA72-C6C223D43576}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\dependabot.yml = ..\.github\dependabot.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -226,6 +236,14 @@ Global
 		{3CC4CBD7-2946-4171-BA1D-116955286B41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CC4CBD7-2946-4171-BA1D-116955286B41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CC4CBD7-2946-4171-BA1D-116955286B41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAF75AC4-9D4B-4296-A43E-DFB44CA84DEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAF75AC4-9D4B-4296-A43E-DFB44CA84DEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAF75AC4-9D4B-4296-A43E-DFB44CA84DEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAF75AC4-9D4B-4296-A43E-DFB44CA84DEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6E2EA10-EBAB-4066-BA90-270F3D54DA94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6E2EA10-EBAB-4066-BA90-270F3D54DA94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6E2EA10-EBAB-4066-BA90-270F3D54DA94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6E2EA10-EBAB-4066-BA90-270F3D54DA94}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -260,6 +278,9 @@ Global
 		{3F8C7B7D-34A5-4E2D-8CA2-1D50DA91E31A} = {BDF97718-FAAD-4A1B-BA61-BFF0A7B78827}
 		{470CA4DC-B1A1-4DAE-9A70-FEEE9C0FD173} = {8869EFA6-3BF6-458B-BABE-71775A588D73}
 		{3CC4CBD7-2946-4171-BA1D-116955286B41} = {154B838E-65DE-479F-80B7-D48CF9862306}
+		{AAF75AC4-9D4B-4296-A43E-DFB44CA84DEA} = {8869EFA6-3BF6-458B-BABE-71775A588D73}
+		{D6E2EA10-EBAB-4066-BA90-270F3D54DA94} = {154B838E-65DE-479F-80B7-D48CF9862306}
+		{EE7F628D-42C8-4D9D-AA72-C6C223D43576} = {820129FF-6448-42E2-8792-ABE1A8CBF722}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E72B357-9E1E-43B5-9868-8D2B74CB2AF0}

@@ -25,6 +25,15 @@ using Nox.Types;
 
 namespace TestWebApp.Presentation.Api.OData;
 
+public partial class TestEntityLocalizationsController : TestEntityLocalizationsControllerBase
+{
+    public TestEntityLocalizationsController(
+            IMediator mediator,
+            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        ): base(mediator, httpLanguageProvider)
+    {}
+}
+
 public abstract partial class TestEntityLocalizationsControllerBase : ODataController
 {
     /// <summary>
@@ -32,17 +41,24 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
     /// </summary>
     protected readonly IMediator _mediator;
 
+    /// <symmary>
+    /// The Culture Code from the HTTP request.
+    /// </symmary>
+    protected readonly Nox.Types.CultureCode _cultureCode;
+
     public TestEntityLocalizationsControllerBase(
-        IMediator mediator
+        IMediator mediator,
+        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
+        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
     }
 
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<TestEntityLocalizationDto>>> Get()
     {
-        var result = await _mediator.Send(new GetTestEntityLocalizationsQuery());
+        var result = await _mediator.Send(new GetTestEntityLocalizationsQuery(_cultureCode.Value));
         return Ok(result);
     }
 
@@ -60,7 +76,7 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateTestEntityLocalizationCommand(testEntityLocalization));
+        var createdKey = await _mediator.Send(new CreateTestEntityLocalizationCommand(testEntityLocalization, _cultureCode));
 
         var item = (await _mediator.Send(new GetTestEntityLocalizationByIdQuery(createdKey.keyId))).SingleOrDefault();
 
@@ -129,11 +145,4 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
 
         return NoContent();
     }
-}
-
-public partial class TestEntityLocalizationsController : TestEntityLocalizationsControllerBase
-{
-    public TestEntityLocalizationsController(IMediator mediator)
-        : base(mediator)
-    {}
 }

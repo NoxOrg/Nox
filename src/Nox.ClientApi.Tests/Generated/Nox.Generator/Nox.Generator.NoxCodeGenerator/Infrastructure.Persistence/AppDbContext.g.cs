@@ -25,7 +25,7 @@ using Nox.Solution;
 using Nox.Configuration;
 using Nox.Infrastructure;
 
-
+using DomainNameSpace = ClientApi.Domain;
 using ClientApi.Domain;
 
 namespace ClientApi.Infrastructure.Persistence;
@@ -53,28 +53,18 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
             _clientAssemblyProvider = clientAssemblyProvider;
             _codeGenConventions = codeGeneratorState;
         }
-
+    
     public DbSet<ClientApi.Domain.Country> Countries { get; set; } = null!;
-
-
-
     public DbSet<ClientApi.Domain.RatingProgram> RatingPrograms { get; set; } = null!;
-
     public DbSet<ClientApi.Domain.CountryQualityOfLifeIndex> CountryQualityOfLifeIndices { get; set; } = null!;
-
     public DbSet<ClientApi.Domain.Store> Stores { get; set; } = null!;
-
     public DbSet<ClientApi.Domain.Workplace> Workplaces { get; set; } = null!;
-
     public DbSet<ClientApi.Domain.StoreOwner> StoreOwners { get; set; } = null!;
-
     public DbSet<ClientApi.Domain.StoreLicense> StoreLicenses { get; set; } = null!;
-
-
-
-    public DbSet<ClientApi.Domain.CountryContinent> CountriesContinents { get; set; } = null!;
-    public DbSet<ClientApi.Domain.CountryContinentLocalized> CountriesContinentsLocalized { get; set; } = null!;
-    public DbSet<ClientApi.Domain.StoreStatus> StoresStatuses { get; set; } = null!;
+    public DbSet<ClientApi.Domain.WorkplaceLocalized> WorkplacesLocalized { get; set; } = null!;
+    public DbSet<DomainNameSpace.CountryContinent> CountriesContinents { get; set; } = null!;
+    public DbSet<DomainNameSpace.CountryContinentLocalized> CountriesContinentsLocalized { get; set; } = null!;
+    public DbSet<DomainNameSpace.StoreStatus> StoresStatuses { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -106,7 +96,7 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
             var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.Name));
             ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(modelBuilder, new EntityBuilderAdapter(modelBuilder.Entity(type!)), entity);
 
-            if (entity.ShouldBeLocalized)
+            if (entity.IsLocalized)
             {
                 type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(NoxCodeGenConventions.GetEntityNameForLocalizedType(entity.Name)));
 

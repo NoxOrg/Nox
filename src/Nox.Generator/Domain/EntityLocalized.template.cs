@@ -24,14 +24,9 @@ internal partial class {{className}} : IEntityConcurrent
     /// {{key.Description}} (Required).
     /// </summary>
     {{ if key.Type == "EntityId" -}}
-    public Nox.Types.{{SingleKeyTypeForEntity key.EntityIdTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
-    {{- # Navigation Property }}
-
-    public virtual {{key.EntityIdTypeOptions.Entity}} {{key.EntityIdTypeOptions.Entity}} { get; set; } = null!;
-
+    public Nox.Types.{{SingleKeyTypeForEntity key.EntityIdTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;    
     {{- else -}}
-
-    public Nox.Types.{{key.Type}} {{key.Name}} { get; set; } = null!;
+    public Nox.Types.{{key.Type}} {{key.Name}} { get; set; } = null!;    
     {{- end}}
 {{- end }}
 

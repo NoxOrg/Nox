@@ -37,7 +37,7 @@ internal abstract class DeleteRatingProgramByIdCommandHandlerBase : CommandBase<
 	public virtual async Task<bool> Handle(DeleteRatingProgramByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyStoreId = ClientApi.Domain.RatingProgramMetadata.CreateStoreId(request.keyStoreId);
 		var keyId = ClientApi.Domain.RatingProgramMetadata.CreateId(request.keyId);
 

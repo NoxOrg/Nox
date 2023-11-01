@@ -10,8 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using SecondTestEntityTwoRelationshipsManyToManyEntity = TestWebApp.Domain.SecondTestEntityTwoRelationshipsManyToMany;
-using TestWebApp.Domain;
+using DomainNamespace = TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
 
@@ -23,7 +22,7 @@ public partial class SecondTestEntityTwoRelationshipsManyToManyCreateDto : Secon
 /// <summary>
 /// .
 /// </summary>
-public abstract class SecondTestEntityTwoRelationshipsManyToManyCreateDtoBase : IEntityDto<SecondTestEntityTwoRelationshipsManyToManyEntity>
+public abstract class SecondTestEntityTwoRelationshipsManyToManyCreateDtoBase : IEntityDto<DomainNamespace.SecondTestEntityTwoRelationshipsManyToMany>
 {
     /// <summary>
     ///  (Required).
@@ -41,13 +40,13 @@ public abstract class SecondTestEntityTwoRelationshipsManyToManyCreateDtoBase : 
     /// SecondTestEntityTwoRelationshipsManyToMany First relationship to the same entity on the other side ZeroOrMany TestEntityTwoRelationshipsManyToManies
     /// </summary>
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<TestEntityTwoRelationshipsManyToManyCreateDto> TestRelationshipOneOnOtherSide { get; set; } = new();
 
     /// <summary>
     /// SecondTestEntityTwoRelationshipsManyToMany Second relationship to the same entity on the other side ZeroOrMany TestEntityTwoRelationshipsManyToManies
     /// </summary>
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<TestEntityTwoRelationshipsManyToManyCreateDto> TestRelationshipTwoOnOtherSide { get; set; } = new();
 }

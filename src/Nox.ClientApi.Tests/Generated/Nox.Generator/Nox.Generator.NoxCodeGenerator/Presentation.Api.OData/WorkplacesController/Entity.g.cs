@@ -25,6 +25,15 @@ using Nox.Types;
 
 namespace ClientApi.Presentation.Api.OData;
 
+public partial class WorkplacesController : WorkplacesControllerBase
+{
+    public WorkplacesController(
+            IMediator mediator,
+            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        ): base(mediator, httpLanguageProvider)
+    {}
+}
+
 public abstract partial class WorkplacesControllerBase : ODataController
 {
     /// <summary>
@@ -32,17 +41,24 @@ public abstract partial class WorkplacesControllerBase : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
 
+    /// <symmary>
+    /// The Culture Code from the HTTP request.
+    /// </symmary>
+    protected readonly Nox.Types.CultureCode _cultureCode;
+
     public WorkplacesControllerBase(
-        IMediator mediator
+        IMediator mediator,
+        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
+        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
     }
 
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<WorkplaceDto>>> Get()
     {
-        var result = await _mediator.Send(new GetWorkplacesQuery());
+        var result = await _mediator.Send(new GetWorkplacesQuery(_cultureCode.Value));
         return Ok(result);
     }
 
@@ -60,7 +76,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace));
+        var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace, _cultureCode));
 
         var item = (await _mediator.Send(new GetWorkplaceByIdQuery(createdKey.keyId))).SingleOrDefault();
 
@@ -129,11 +145,4 @@ public abstract partial class WorkplacesControllerBase : ODataController
 
         return NoContent();
     }
-}
-
-public partial class WorkplacesController : WorkplacesControllerBase
-{
-    public WorkplacesController(IMediator mediator)
-        : base(mediator)
-    {}
 }

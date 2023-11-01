@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using ClientApi.Domain;
-using CountryQualityOfLifeIndexEntity = ClientApi.Domain.CountryQualityOfLifeIndex;
+
+
+using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class CountryQualityOfLifeIndexDto : CountryQualityOfLifeIndexDto
 /// <summary>
 /// Country Quality Of Life Index.
 /// </summary>
-public abstract class CountryQualityOfLifeIndexDtoBase : EntityDtoBase, IEntityDto<CountryQualityOfLifeIndexEntity>
+public abstract class CountryQualityOfLifeIndexDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.CountryQualityOfLifeIndex>
 {
 
     #region Validation
@@ -37,10 +38,10 @@ public abstract class CountryQualityOfLifeIndexDtoBase : EntityDtoBase, IEntityD
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if(this.CountryId != default(System.Int64))
-            ExecuteActionAndCollectValidationExceptions("CountryId", () => ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateCountryId(this.CountryId), result);
+            ExecuteActionAndCollectValidationExceptions("CountryId", () => DomainNamespace.CountryQualityOfLifeIndexMetadata.CreateCountryId(this.CountryId), result);
         else
             result.Add("CountryId", new [] { "CountryId is Required." });
-        ExecuteActionAndCollectValidationExceptions("IndexRating", () => ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateIndexRating(this.IndexRating), result);
+        ExecuteActionAndCollectValidationExceptions("IndexRating", () => DomainNamespace.CountryQualityOfLifeIndexMetadata.CreateIndexRating(this.IndexRating), result);
     
 
         return result;

@@ -10,8 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using EmployeeEntity = Cryptocash.Domain.Employee;
-using Cryptocash.Domain;
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -23,7 +22,7 @@ public partial class EmployeeCreateDto : EmployeeCreateDtoBase
 /// <summary>
 /// Employee definition and related data.
 /// </summary>
-public abstract class EmployeeCreateDtoBase : IEntityDto<EmployeeEntity>
+public abstract class EmployeeCreateDtoBase : IEntityDto<DomainNamespace.Employee>
 {
     /// <summary>
     /// Employee's first name (Required).
@@ -65,7 +64,7 @@ public abstract class EmployeeCreateDtoBase : IEntityDto<EmployeeEntity>
     /// </summary>
     public System.Int64? EmployeeReviewingCashStockOrderId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual CashStockOrderCreateDto? EmployeeReviewingCashStockOrder { get; set; } = default!;
 
     /// <summary>

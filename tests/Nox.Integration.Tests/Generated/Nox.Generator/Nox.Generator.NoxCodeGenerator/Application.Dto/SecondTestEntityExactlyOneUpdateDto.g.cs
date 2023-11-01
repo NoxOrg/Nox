@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using TestWebApp.Domain;
 
-using SecondTestEntityExactlyOneEntity = TestWebApp.Domain.SecondTestEntityExactlyOne;
+using DomainNamespace = TestWebApp.Domain;
+
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
 /// .
 /// </summary>
-public partial class SecondTestEntityExactlyOneUpdateDto : IEntityDto<SecondTestEntityExactlyOneEntity>
+public partial class SecondTestEntityExactlyOneUpdateDto : IEntityDto<DomainNamespace.SecondTestEntityExactlyOne>
 {
     /// <summary>
     ///  (Required).
@@ -23,4 +23,10 @@ public partial class SecondTestEntityExactlyOneUpdateDto : IEntityDto<SecondTest
     [Required(ErrorMessage = "TextTestField2 is required")]
     
     public System.String TextTestField2 { get; set; } = default!;
+
+    /// <summary>
+    /// SecondTestEntityExactlyOne Test entity relationship to TestEntityExactlyOneRelationship ExactlyOne TestEntityExactlyOnes
+    /// </summary>
+    [Required(ErrorMessage = "TestEntityExactlyOneRelationship is required")]
+    public System.String TestEntityExactlyOneRelationshipId { get; set; } = default!;
 }

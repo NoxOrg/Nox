@@ -8,6 +8,7 @@ end -}}
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -15,9 +16,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using {{codeGeneratorState.DomainNameSpace}};
-using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
+
+
+using DomainNamespace = {{codeGeneratorState.DomainNameSpace}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
@@ -31,7 +32,7 @@ public partial class {{className}} : {{className}}Base
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public abstract class {{className}}Base : EntityDtoBase, IEntityDto<{{entity.Name}}Entity>
+public abstract class {{className}}Base : EntityDtoBase, IEntityDto<DomainNamespace.{{entity.Name}}>
 {
 
     #region Validation
@@ -43,18 +44,18 @@ public abstract class {{className}}Base : EntityDtoBase, IEntityDto<{{entity.Nam
         {{- if key.IsRequired }}        
             {{- if IsValueType (SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity) }}
         if(this.{{key.Name}} != default({{SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity}}))
-            ExecuteActionAndCollectValidationExceptions("{{key.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(this.{{key.Name}}), result);
+            ExecuteActionAndCollectValidationExceptions("{{key.Name}}", () => DomainNamespace.{{entity.Name}}Metadata.Create{{key.Name}}(this.{{key.Name}}), result);
         else
             result.Add("{{key.Name}}", new [] { "{{key.Name}} is Required." });
             {{- else }}
         if (this.{{key.Name}} is not null)
-            ExecuteActionAndCollectValidationExceptions("{{key.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(this.{{key.Name}}), result);
+            ExecuteActionAndCollectValidationExceptions("{{key.Name}}", () => DomainNamespace.{{entity.Name}}Metadata.Create{{key.Name}}(this.{{key.Name}}), result);
         else
             result.Add("{{key.Name}}", new [] { "{{key.Name}} is Required." });
             {{- end }}
         {{- else }}
         if (this.{{attribute.Name}} is not null)
-            ExecuteActionAndCollectValidationExceptions("{{key.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(this.{{key.Name}}), result);
+            ExecuteActionAndCollectValidationExceptions("{{key.Name}}", () => DomainNamespace.{{entity.Name}}Metadata.Create{{key.Name}}(this.{{key.Name}}), result);
         {{- end }}
     {{- end }}
     {{- end }}
@@ -64,16 +65,16 @@ public abstract class {{className}}Base : EntityDtoBase, IEntityDto<{{entity.Nam
 
     {{- if attribute.IsRequired }}
         {{- if IsValueType (attributeType attribute) }}
-        ExecuteActionAndCollectValidationExceptions("{{attribute.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(this.{{attribute.Name}}), result);
+        ExecuteActionAndCollectValidationExceptions("{{attribute.Name}}", () => DomainNamespace.{{entity.Name}}Metadata.Create{{attribute.Name}}(this.{{attribute.Name}}), result);
         {{- else }}
         if (this.{{attribute.Name}} is not null)
-            ExecuteActionAndCollectValidationExceptions("{{attribute.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(this.{{attribute.Name}}.NonNullValue<{{attributeType attribute}}>()), result);
+            ExecuteActionAndCollectValidationExceptions("{{attribute.Name}}", () => DomainNamespace.{{entity.Name}}Metadata.Create{{attribute.Name}}(this.{{attribute.Name}}.NonNullValue<{{attributeType attribute}}>()), result);
         else
             result.Add("{{attribute.Name}}", new [] { "{{attribute.Name}} is Required." });
         {{- end }}
     {{ else }}
         if (this.{{attribute.Name}} is not null)
-            ExecuteActionAndCollectValidationExceptions("{{attribute.Name}}", () => {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(this.{{attribute.Name}}.NonNullValue<{{attributeType attribute}}>()), result);
+            ExecuteActionAndCollectValidationExceptions("{{attribute.Name}}", () => DomainNamespace.{{entity.Name}}Metadata.Create{{attribute.Name}}(this.{{attribute.Name}}.NonNullValue<{{attributeType attribute}}>()), result);
     {{- end }}
     {{- end}}
 

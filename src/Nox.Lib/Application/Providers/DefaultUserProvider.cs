@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Nox.Abstractions;
-using Nox.Types;
 
 namespace Nox.Application.Providers;
 
-public class DefaultUserProvider : IUserProvider
+internal sealed class DefaultUserProvider : IUserProvider
 {
     private const string UserNameHeader = "X-User-Name";
     private const string DefaultUserName = "N/A";

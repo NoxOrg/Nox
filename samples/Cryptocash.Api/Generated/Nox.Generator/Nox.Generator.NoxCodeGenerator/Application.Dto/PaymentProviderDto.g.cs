@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using Cryptocash.Domain;
-using PaymentProviderEntity = Cryptocash.Domain.PaymentProvider;
+
+
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class PaymentProviderDto : PaymentProviderDtoBase
 /// <summary>
 /// Payment provider related data.
 /// </summary>
-public abstract class PaymentProviderDtoBase : EntityDtoBase, IEntityDto<PaymentProviderEntity>
+public abstract class PaymentProviderDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.PaymentProvider>
 {
 
     #region Validation
@@ -37,12 +38,12 @@ public abstract class PaymentProviderDtoBase : EntityDtoBase, IEntityDto<Payment
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.PaymentProviderName is not null)
-            ExecuteActionAndCollectValidationExceptions("PaymentProviderName", () => Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderName(this.PaymentProviderName.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("PaymentProviderName", () => DomainNamespace.PaymentProviderMetadata.CreatePaymentProviderName(this.PaymentProviderName.NonNullValue<System.String>()), result);
         else
             result.Add("PaymentProviderName", new [] { "PaymentProviderName is Required." });
     
         if (this.PaymentProviderType is not null)
-            ExecuteActionAndCollectValidationExceptions("PaymentProviderType", () => Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderType(this.PaymentProviderType.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("PaymentProviderType", () => DomainNamespace.PaymentProviderMetadata.CreatePaymentProviderType(this.PaymentProviderType.NonNullValue<System.String>()), result);
         else
             result.Add("PaymentProviderType", new [] { "PaymentProviderType is Required." });
     

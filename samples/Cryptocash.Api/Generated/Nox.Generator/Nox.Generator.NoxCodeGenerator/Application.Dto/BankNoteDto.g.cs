@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using Cryptocash.Domain;
-using BankNoteEntity = Cryptocash.Domain.BankNote;
+
+
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class BankNoteDto : BankNoteDtoBase
 /// <summary>
 /// Currencies related frequent and rare bank notes.
 /// </summary>
-public abstract class BankNoteDtoBase : EntityDtoBase, IEntityDto<BankNoteEntity>
+public abstract class BankNoteDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.BankNote>
 {
 
     #region Validation
@@ -37,12 +38,12 @@ public abstract class BankNoteDtoBase : EntityDtoBase, IEntityDto<BankNoteEntity
         var result = new Dictionary<string, IEnumerable<string>>();
     
         if (this.CashNote is not null)
-            ExecuteActionAndCollectValidationExceptions("CashNote", () => Cryptocash.Domain.BankNoteMetadata.CreateCashNote(this.CashNote.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("CashNote", () => DomainNamespace.BankNoteMetadata.CreateCashNote(this.CashNote.NonNullValue<System.String>()), result);
         else
             result.Add("CashNote", new [] { "CashNote is Required." });
     
         if (this.Value is not null)
-            ExecuteActionAndCollectValidationExceptions("Value", () => Cryptocash.Domain.BankNoteMetadata.CreateValue(this.Value.NonNullValue<MoneyDto>()), result);
+            ExecuteActionAndCollectValidationExceptions("Value", () => DomainNamespace.BankNoteMetadata.CreateValue(this.Value.NonNullValue<MoneyDto>()), result);
         else
             result.Add("Value", new [] { "Value is Required." });
     

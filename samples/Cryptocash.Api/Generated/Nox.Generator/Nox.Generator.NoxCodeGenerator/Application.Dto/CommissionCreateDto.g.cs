@@ -10,8 +10,7 @@ using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
 
-using CommissionEntity = Cryptocash.Domain.Commission;
-using Cryptocash.Domain;
+using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -23,7 +22,7 @@ public partial class CommissionCreateDto : CommissionCreateDtoBase
 /// <summary>
 /// Exchange commission rate and amount.
 /// </summary>
-public abstract class CommissionCreateDtoBase : IEntityDto<CommissionEntity>
+public abstract class CommissionCreateDtoBase : IEntityDto<DomainNamespace.Commission>
 {
     /// <summary>
     /// Commission rate (Required).
@@ -43,13 +42,13 @@ public abstract class CommissionCreateDtoBase : IEntityDto<CommissionEntity>
     /// </summary>
     public System.String? CommissionFeesForCountryId { get; set; } = default!;
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual CountryCreateDto? CommissionFeesForCountry { get; set; } = default!;
 
     /// <summary>
     /// Commission fees for ZeroOrMany Bookings
     /// </summary>
     
-    [System.Text.Json.Serialization.JsonIgnore] 
+    [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<BookingCreateDto> CommissionFeesForBooking { get; set; } = new();
 }

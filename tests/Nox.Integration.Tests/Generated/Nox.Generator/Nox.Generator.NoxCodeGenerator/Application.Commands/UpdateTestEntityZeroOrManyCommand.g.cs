@@ -8,6 +8,8 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
@@ -44,7 +46,7 @@ internal abstract class UpdateTestEntityZeroOrManyCommandHandlerBase : CommandBa
 	public virtual async Task<TestEntityZeroOrManyKeyDto?> Handle(UpdateTestEntityZeroOrManyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityZeroOrManyMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityZeroOrManies.FindAsync(keyId);
@@ -52,6 +54,20 @@ internal abstract class UpdateTestEntityZeroOrManyCommandHandlerBase : CommandBa
 		{
 			return null;
 		}
+
+		await DbContext.Entry(entity).Collection(x => x.SecondTestEntityZeroOrManyRelationship).LoadAsync();
+		var secondTestEntityZeroOrManyRelationshipEntities = new List<SecondTestEntityZeroOrMany>();
+		foreach(var relatedEntityId in request.EntityDto.SecondTestEntityZeroOrManyRelationshipId)
+		{
+			var relatedKey = TestWebApp.Domain.SecondTestEntityZeroOrManyMetadata.CreateId(relatedEntityId);
+			var relatedEntity = await DbContext.SecondTestEntityZeroOrManies.FindAsync(relatedKey);
+						
+			if(relatedEntity is not null)
+				secondTestEntityZeroOrManyRelationshipEntities.Add(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("SecondTestEntityZeroOrManyRelationship", relatedEntityId.ToString());
+		}
+		entity.UpdateRefToSecondTestEntityZeroOrManyRelationship(secondTestEntityZeroOrManyRelationshipEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

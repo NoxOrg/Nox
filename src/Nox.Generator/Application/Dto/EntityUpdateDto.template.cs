@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using {{codeGeneratorState.DomainNameSpace}};
 
-using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
+using DomainNamespace = {{codeGeneratorState.DomainNameSpace}};
+
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public partial class {{className}} : IEntityDto<{{entity.Name}}Entity>
+public partial class {{className}} : IEntityDto<DomainNamespace.{{entity.Name}}>
 {
 {{- for attribute in entity.Attributes }}
     {{- if componentsInfo[attribute.Name].IsUpdatable == false -}}
@@ -34,13 +34,15 @@ public partial class {{className}} : IEntityDto<{{entity.Name}}Entity>
     {{- end}}
 {{- end }}
 {{- for relationship in entity.Relationships}}
-    {{- if relationship.WithSingleEntity && relationship.ShouldGenerateForeignOnThisSide}}
 
     /// <summary>
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
+    {{- if relationship.WithSingleEntity }}
     {{ if relationship.Relationship == "ExactlyOne" }}[Required(ErrorMessage = "{{relationship.Name}} is required")]{{-end}}
     public {{relationship.ForeignKeyPrimitiveType}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}}Id { get; set; } = default!;
+    {{-else}}
+    public List<{{relationship.ForeignKeyPrimitiveType}}> {{relationship.Name}}Id { get; set; } = new();
     {{-end}}
 {{- end }}
 {{- for relationship in entity.OwnedRelationships}}

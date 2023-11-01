@@ -1,21 +1,21 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Cryptocash.Domain;
 
-using VendingMachineEntity = Cryptocash.Domain.VendingMachine;
+using DomainNamespace = Cryptocash.Domain;
+
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Vending machine definition and related data.
 /// </summary>
-public partial class VendingMachineUpdateDto : IEntityDto<VendingMachineEntity>
+public partial class VendingMachineUpdateDto : IEntityDto<DomainNamespace.VendingMachine>
 {
     /// <summary>
     /// Vending machine mac address (Required).
@@ -67,4 +67,19 @@ public partial class VendingMachineUpdateDto : IEntityDto<VendingMachineEntity>
     /// </summary>
     [Required(ErrorMessage = "VendingMachineContractedAreaLandLord is required")]
     public System.Int64 VendingMachineContractedAreaLandLordId { get; set; } = default!;
+
+    /// <summary>
+    /// VendingMachine related to ZeroOrMany Bookings
+    /// </summary>
+    public List<System.Guid> VendingMachineRelatedBookingsId { get; set; } = new();
+
+    /// <summary>
+    /// VendingMachine related to ZeroOrMany CashStockOrders
+    /// </summary>
+    public List<System.Int64> VendingMachineRelatedCashStockOrdersId { get; set; } = new();
+
+    /// <summary>
+    /// VendingMachine required ZeroOrMany MinimumCashStocks
+    /// </summary>
+    public List<System.Int64> VendingMachineRequiredMinimumCashStocksId { get; set; } = new();
 }

@@ -8,6 +8,8 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
@@ -44,7 +46,7 @@ internal abstract class UpdatePaymentDetailCommandHandlerBase : CommandBase<Upda
 	public virtual async Task<PaymentDetailKeyDto?> Handle(UpdatePaymentDetailCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.PaymentDetailMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.PaymentDetails.FindAsync(keyId);
@@ -52,6 +54,22 @@ internal abstract class UpdatePaymentDetailCommandHandlerBase : CommandBase<Upda
 		{
 			return null;
 		}
+
+		var paymentDetailsUsedByCustomerKey = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityDto.PaymentDetailsUsedByCustomerId);
+		var paymentDetailsUsedByCustomerEntity = await DbContext.Customers.FindAsync(paymentDetailsUsedByCustomerKey);
+						
+		if(paymentDetailsUsedByCustomerEntity is not null)
+			entity.CreateRefToPaymentDetailsUsedByCustomer(paymentDetailsUsedByCustomerEntity);
+		else
+			throw new RelatedEntityNotFoundException("PaymentDetailsUsedByCustomer", request.EntityDto.PaymentDetailsUsedByCustomerId.ToString());
+
+		var paymentDetailsRelatedPaymentProviderKey = Cryptocash.Domain.PaymentProviderMetadata.CreateId(request.EntityDto.PaymentDetailsRelatedPaymentProviderId);
+		var paymentDetailsRelatedPaymentProviderEntity = await DbContext.PaymentProviders.FindAsync(paymentDetailsRelatedPaymentProviderKey);
+						
+		if(paymentDetailsRelatedPaymentProviderEntity is not null)
+			entity.CreateRefToPaymentDetailsRelatedPaymentProvider(paymentDetailsRelatedPaymentProviderEntity);
+		else
+			throw new RelatedEntityNotFoundException("PaymentDetailsRelatedPaymentProvider", request.EntityDto.PaymentDetailsRelatedPaymentProviderId.ToString());
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
