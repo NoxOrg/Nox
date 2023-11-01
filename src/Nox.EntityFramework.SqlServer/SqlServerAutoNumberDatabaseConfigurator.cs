@@ -25,7 +25,7 @@ public class SqlServerAutoNumberDatabaseConfigurator: AutoNumberDatabaseConfigur
             var metadata = builder
                 .Property(property.Name).ValueGeneratedOnAdd()
                 .Metadata;
-            metadata.SetIdentityIncrement(typeOptions.IncrementsBy);
+            metadata.SetIdentitySeed(typeOptions.StartsAt);
             metadata.SetIdentityIncrement(typeOptions.IncrementsBy);
         }
         else if (shouldAutoincrement)
