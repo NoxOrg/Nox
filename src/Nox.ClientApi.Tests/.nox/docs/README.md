@@ -56,7 +56,7 @@ Country Entity. *This entity is auditable and tracks info about who, which syste
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|AutoNumber|The unique identifier.|Required, Primary Key
+Id|AutoNumber|The unique identifier.|Required, Primary Key, StartsAt: 10, IncrementsBy: 5
 Name|Text|The Country Name.|Required, MinLength: 4, MaxLength: 63
 Population|Number|Population.|MaxValue: 1500000000
 CountryDebt|Money|The Money.|MinValue: 100000
@@ -264,7 +264,7 @@ Id|Nuid|Workplace unique identifier.|Required, Primary Key, Separator: -, Proper
 Name|Text|Workplace Name.|Required, MinLength: 4, MaxLength: 63
 Description|Text|Workplace Description.|MinLength: 4, IsLocalized: true
 Greeting|Formula|The Formula.|
-CountryId|AutoNumber|The unique identifier.|Required, Foreign Key
+CountryId|AutoNumber|The unique identifier.|Required, Foreign Key, StartsAt: 10, IncrementsBy: 5
 
 
 #### <u>Relationships</u>

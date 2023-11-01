@@ -14,7 +14,7 @@ internal partial class GetCountriesQueryHandler
 {
     protected override IQueryable<CountryDto> OnResponse(IQueryable<CountryDto> response)
     {
-          return response.Where(country => country.Id < 50);
+          return response.Where(country => country.Id < 300);
     }
 }
 
