@@ -2,5 +2,5 @@
 
 namespace Nox.Infrastructure.Messaging
 {
-    internal record class CloudEventMessage(IIntegrationEvent IntegrationEvent, string user, string MessagePrefix);
+    internal record class CloudEventMessage<T>(T IntegrationEvent, string User, string MessagePrefix) where T :IIntegrationEvent;
 }
