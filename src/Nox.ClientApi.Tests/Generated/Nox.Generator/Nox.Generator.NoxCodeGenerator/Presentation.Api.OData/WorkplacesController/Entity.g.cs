@@ -41,7 +41,10 @@ public abstract partial class WorkplacesControllerBase : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
 
-    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
+    /// <symmary>
+    /// The Culture Code from the HTTP request.
+    /// </symmary>
+    protected readonly Nox.Types.CultureCode _cultureCode;
 
     public WorkplacesControllerBase(
         IMediator mediator,
@@ -49,13 +52,13 @@ public abstract partial class WorkplacesControllerBase : ODataController
     )
     {
         _mediator = mediator;
-        _httpLanguageProvider = httpLanguageProvider;
+        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
     }
 
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<WorkplaceDto>>> Get()
     {
-        var result = await _mediator.Send(new GetWorkplacesQuery(_httpLanguageProvider.GetLanguage()));
+        var result = await _mediator.Send(new GetWorkplacesQuery(_cultureCode.Value));
         return Ok(result);
     }
 
@@ -73,7 +76,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace));
+        var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace, _cultureCode));
 
         var item = (await _mediator.Send(new GetWorkplaceByIdQuery(_httpLanguageProvider.GetLanguage(), createdKey.keyId))).SingleOrDefault();
 

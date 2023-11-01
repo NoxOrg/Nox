@@ -1,4 +1,6 @@
 ﻿using MassTransit;
+using Nox.Application;
+using System.Reflection;
 
 namespace Nox.Infrastructure.Messaging
 {
@@ -15,21 +17,21 @@ namespace Nox.Infrastructure.Messaging
         
         public string FormatEntityName<T>()
         {
-            return $"test-integration-event";
-            //var integrationEventAttribute = typeof(T).GenericTypeArguments[0].GetCustomAttribute<IntegrationEventTypeAttribute>();
+            var messageType = typeof(T);
 
-            //if (typeof(T) != typeof(CloudEvent))
-            //{
-            //    throw new UnknownMessageTypeException($"Unknown message type '{typeof(T)}' received.");
-            //}
+            if (!messageType.IsGenericType || messageType.GetGenericTypeDefinition() != typeof(CloudEventMessage<>))
+            {
+                throw new UnknownMessageTypeException($"Unknown message type '{typeof(T)}' received.");
+            }
+            var integrationEventAttribute = messageType.GenericTypeArguments[0].GetCustomAttribute<IntegrationEventTypeAttribute>();
+          
+            if (integrationEventAttribute == null ||
+                string.IsNullOrWhiteSpace(integrationEventAttribute.Trait))
+            {
+                throw new EventTraitIsNotFoundException($"Integration event {messageType.Name} should have {nameof(IntegrationEventTypeAttribute)} with non-empty {nameof(integrationEventAttribute.Trait)} specified.");
+            }
 
-            //if (integrationEventAttribute == null ||
-            //    string.IsNullOrWhiteSpace(integrationEventAttribute.Trait))
-            //{
-            //    throw new EventTraitIsNotFoundException($"Integration event {typeof(T).Name} should have {nameof(IntegrationEventTypeAttribute)} with non-empty {nameof(integrationEventAttribute.Trait)} specified.");
-            //}
-
-            //return $"{_platformId}.{_name}.{integrationEventAttribute.Trait}";
+            return $"{_platformId}.{_name}.{integrationEventAttribute.Trait}";
         }
     }
 }

@@ -45,9 +45,9 @@ namespace ClientApi.Tests.Application.Messaging
             //Assert
             updateResult.Should().NotBeNull();
             var messageObject = MassTransitTestHarness.Published.Select(x => true).AsEnumerable().First().MessageObject;
-            //((NoxMessageRecord<CountryCreated>)messageObject).source!.OriginalString.Should().Be("https://staging.Nox-Tests.com/ClientApi");
-            //((NoxMessageRecord<CountryCreated>)messageObject).type.Should().Be("Nox-Tests.ClientApi.Country.v1.0.created");
-            //((NoxMessageRecord<CountryCreated>)messageObject).dataschema!.OriginalString.Should().Be("https://staging.Nox-Tests.com/schemas/ClientApi/Country/v1.0/created.json");
+            //((CloudEventMessage<CountryCreated>)messageObject).source!.OriginalString.Should().Be("https://staging.Nox-Tests.com/ClientApi");
+            //((CloudEventMessage<CountryCreated>)messageObject).type.Should().Be("Nox-Tests.ClientApi.Country.v1.0.created");
+            //((CloudEventMessage<CountryCreated>)messageObject).dataschema!.OriginalString.Should().Be("https://staging.Nox-Tests.com/schemas/ClientApi/Country/v1.0/created.json");
         }
 
         #endregion Integration Events
