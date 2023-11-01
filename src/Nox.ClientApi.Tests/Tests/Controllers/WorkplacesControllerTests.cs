@@ -5,8 +5,6 @@ using System.Net;
 using ClientApi.Tests.Tests.Models;
 using Xunit.Abstractions;
 using ClientApi.Tests.Controllers;
-using Microsoft.AspNetCore.Http.HttpResults;
-using static MassTransit.ValidationResultExtensions;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
@@ -240,7 +238,7 @@ namespace ClientApi.Tests.Tests.Controllers
         #region LOCALIZATIONS
 
         [Fact]
-        public async Task Post_DefaultLanguageDescription_CreateLocalization()
+        public async Task Post_DefaultLanguageDescription_CreatesLocalization()
         {
             // Arrange
             var createDto = new WorkplaceCreateDto
@@ -249,22 +247,20 @@ namespace ClientApi.Tests.Tests.Controllers
                 Description = "A modern, modestly sized building with parking, just minutes from the Gare de Lyon and Gare d'Austerlitz.",
             };
 
-            var headers = CreateAcceptLanguageHeader("en-US");
-
             // Act
-            var result = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, headers);
+            await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, CreateAcceptLanguageHeader("en-US"));
 
-            // Need to perform a GET with fr-FR and en-US language to validate the localization
+            var result = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}", CreateAcceptLanguageHeader("en-US")))?.ToList();
 
             // Assert
             result.Should().NotBeNull();
-            result!.Id.Should().BeGreaterThan(0);
-            result!.Name.Should().Be(createDto.Name);
-            result!.Description.Should().Be(createDto.Description);
+            result.Should().HaveCount(1);
+            result![0].Name.Should().Be(createDto.Name);
+            result![0].Description.Should().Be(createDto.Description);
         }
 
         [Fact]
-        public async Task Post_NotDefaultLanguageDescription_CreateLocalization()
+        public async Task Post_NotDefaultLanguageDescription_CreatesLocalization()
         {
             // Arrange
             var createDto = new WorkplaceCreateDto
@@ -273,19 +269,16 @@ namespace ClientApi.Tests.Tests.Controllers
                 Description = "Un immeuble moderne de taille modeste avec parking, à quelques minutes de la Gare de Lyon et de la Gare d'Austerlitz.",
             };
 
-            var headers = CreateAcceptLanguageHeader("fr-FR");
-
             // Act
-            var result = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, headers);
+            await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, CreateAcceptLanguageHeader("fr-FR"));
 
-
-            // Need to perform a GET with fr-FR and en-US language to validate the localization
+            var result = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}", CreateAcceptLanguageHeader("en-US")))?.ToList();
 
             // Assert
             result.Should().NotBeNull();
-            result!.Id.Should().BeGreaterThan(0);
-            result!.Name.Should().Be(createDto.Name);
-            result!.Description.Should().Be(createDto.Description);
+            result.Should().HaveCount(1);
+            result![0].Name.Should().Be(createDto.Name);
+            result![0].Description.Should().Be("[" + createDto.Description + "]");
         }
 
         [Fact]
@@ -295,7 +288,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var createDto1 = new WorkplaceCreateDto
             {
                 Name = "Regus - Dubai BCW Jafza View 18 & 19",
-	            Description = "33-storey tower in Jebel Ali Free Zone, located on Sheikh Zayed Road and only a few kilometres from Al Maktoum Airport.",
+                Description = "33-storey tower in Jebel Ali Free Zone, located on Sheikh Zayed Road and only a few kilometres from Al Maktoum Airport.",
             };
 
             var createDto2 = new WorkplaceCreateDto
@@ -305,18 +298,91 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result1 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto1, CreateAcceptLanguageHeader("en-US"));
+            await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto1, CreateAcceptLanguageHeader("en-US"));
+            await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto2, CreateAcceptLanguageHeader("fr-FR"));
 
-            var result2 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto2, CreateAcceptLanguageHeader("fr-FR"));
-
-            // Need to perform a GET with fr-FR and en-US language to validate the localization
+            var result = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}", CreateAcceptLanguageHeader("en-US")))?.ToList();
 
             // Assert
-            result1!.Name.Should().Be(createDto1.Name);
-            result1!.Description.Should().Be(createDto1.Description);
+            result.Should().NotBeNull();
+            result.Should().HaveCount(2);
+            result![0].Name.Should().Be(createDto1.Name);
+            result![0].Description.Should().Be(createDto1.Description);
+            result![1].Name.Should().Be(createDto2.Name);
+            result![1].Description.Should().Be("[" + createDto2.Description + "]");
+        }
 
-            result2!.Name.Should().Be(createDto2.Name);
-            result2!.Description.Should().Be(createDto2.Description);
+        [Fact]
+        public async Task Put_DefaultLanguageDescription_UpdatesLocalization()
+        {
+            // Arrange
+            var createDto = new WorkplaceCreateDto
+            {
+                Name = "Regus - Paris Gare de Lyon",
+                Description = "A modern, modestly sized building with parking.",
+            };
+
+            var updateDto = new WorkplaceUpdateDto
+            {
+                Name = "Regus - Paris Gare de Lyon",
+                Description = "A modern, modestly sized building with parking, just minutes from the Gare de Lyon and Gare d'Austerlitz.",
+            };
+
+            // Act
+            var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, CreateAcceptLanguageHeader("en-US"));
+            
+            var headers = CreateHeaders(
+                CreateEtagHeader(postResult?.Etag),
+                CreateAcceptLanguageHeader("en-US"));
+
+            await PutAsync<WorkplaceUpdateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}", updateDto, headers);
+
+            var enResult = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}", CreateAcceptLanguageHeader("en-US")))?.ToList();
+
+            // Assert
+            enResult.Should().NotBeNull();
+            enResult.Should().HaveCount(1);
+            enResult![0].Name.Should().Be(createDto.Name);
+            enResult![0].Description.Should().Be(updateDto.Description);
+        }
+
+        [Fact]
+        public async Task Put_NotDefaultLanguageDescription_CreatesLocalization()
+        {
+            // Arrange
+            var createDto = new WorkplaceCreateDto
+            {
+                Name = "Regus - Paris Gare de Lyon",
+                Description = "A modern, modestly sized building with parking, just minutes from the Gare de Lyon and Gare d'Austerlitz.",
+            };
+
+            var updateDto = new WorkplaceUpdateDto
+            {
+                Name = "Regus - Paris Gare de Lyon",
+                Description = "Un immeuble moderne de taille modeste avec parking, à quelques minutes de la Gare de Lyon et de la Gare d'Austerlitz.",
+            };
+
+            // Act
+            var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, CreateAcceptLanguageHeader("en-US"));
+
+            var headers = CreateHeaders(
+                CreateEtagHeader(postResult?.Etag),
+                CreateAcceptLanguageHeader("fr-FR"));
+
+            await PutAsync<WorkplaceUpdateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}", updateDto, headers);
+
+            var enResult = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}", CreateAcceptLanguageHeader("en-US")))?.ToList();
+            var frResult = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}", CreateAcceptLanguageHeader("fr-FR")))?.ToList();
+
+            // Assert
+            enResult.Should().NotBeNull();
+            enResult.Should().HaveCount(1);
+            enResult![0].Name.Should().Be(createDto.Name);
+            enResult![0].Description.Should().Be(updateDto.Description);
+            frResult.Should().NotBeNull();
+            frResult.Should().HaveCount(1);
+            frResult![0].Name.Should().Be(createDto.Name);
+            frResult![0].Description.Should().Be(updateDto.Description);
         }
 
         #endregion LOCALIZATIONS
