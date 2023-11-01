@@ -19,15 +19,14 @@ public class SqlServerAutoNumberDatabaseConfigurator: AutoNumberDatabaseConfigur
         // Otherwise If it's a foreign key of entity id type or relationship it shouldn't be auto-incremented.
         var shouldAutoincrement = entity.Attributes.Any(x => x.Name.Equals(property.Name, StringComparison.OrdinalIgnoreCase) && x.Type == property.Type);
 
-        var typeOptions = property.AutoNumberTypeOptions ??= new AutoNumberTypeOptions();
         if (isKey)
         {
-            builder
+            var typeOptions = property.AutoNumberTypeOptions ??= new AutoNumberTypeOptions();
+            var metadata = builder
                 .Property(property.Name).ValueGeneratedOnAdd()
-                .Metadata.SetIdentitySeed(typeOptions.StartsAt);
-            builder
-                .Property(property.Name).ValueGeneratedOnAdd()
-                .Metadata.SetIdentityIncrement(typeOptions.IncrementsBy);
+                .Metadata;
+            metadata.SetIdentityIncrement(typeOptions.IncrementsBy);
+            metadata.SetIdentityIncrement(typeOptions.IncrementsBy);
         }
         else if (shouldAutoincrement)
         {

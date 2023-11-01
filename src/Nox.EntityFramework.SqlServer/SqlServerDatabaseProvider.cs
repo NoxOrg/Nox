@@ -45,7 +45,7 @@ public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabasePro
                 
             var seqName = $"Seq{entity.Name}{property.Name}";
                 
-            modelBuilder.HasSequence<long>(seqName, entity.Persistence!.Schema)
+            modelBuilder.HasSequence<long>(seqName)
                 .StartsAt(typeOptions.StartsAt)
                 .IncrementsBy(typeOptions.IncrementsBy);
         }

@@ -18,13 +18,13 @@ public class PostgresAutoNumberDatabaseConfigurator: AutoNumberDatabaseConfigura
         // Otherwise If it's a foreign key of entity id type or relationship it shouldn't be auto-incremented.
         var shouldAutoincrement = isKey ||  entity.Attributes.Any(x => x.Name.Equals(property.Name, StringComparison.OrdinalIgnoreCase) && x.Type == property.Type);
 
-        var typeOptions = property.AutoNumberTypeOptions ??= new AutoNumberTypeOptions();
         if (shouldAutoincrement)
         {
-            builder
-                .Property(property.Name).ValueGeneratedOnAdd().Metadata.SetIdentityIncrementBy(typeOptions.IncrementsBy);
-            builder
-                .Property(property.Name).ValueGeneratedOnAdd().Metadata.SetIdentityStartValue(typeOptions.StartsAt);
+            var typeOptions = property.AutoNumberTypeOptions ??= new AutoNumberTypeOptions();
+            var metadata = builder
+                .Property(property.Name).ValueGeneratedOnAdd().Metadata;
+            metadata.SetIdentityIncrementBy(typeOptions.IncrementsBy);
+            metadata.SetIdentityStartValue(typeOptions.StartsAt);
         }
        
         base.ConfigureEntityProperty(noxSolutionCodeGeneratorState, builder, property, entity, isKey);

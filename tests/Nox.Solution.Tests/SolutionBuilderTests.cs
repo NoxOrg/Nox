@@ -114,7 +114,7 @@ public class SolutionBuilderTests
     }
 
     [Fact]
-    public void Must_not_throw_if_entity_has_multiple_autonumber_property_when_database_provider_not_sqlite()
+    public void Must_not_throw_if_entity_has_multiple_autonumber_property_when_database_provider_is_mssql()
     {
 
         _ = new NoxSolutionBuilder()
@@ -124,6 +124,21 @@ public class SolutionBuilderTests
 
         Assert.NotNull(instance);
         Assert.Equal(DatabaseServerProvider.SqlServer, instance.Infrastructure!.Persistence.DatabaseServer.Provider);
+
+        var allProperties = instance.Domain!.Entities[0].Attributes.Union(instance.Domain!.Entities[0].Keys);
+        Assert.True(allProperties.Count(p=>p.Type == NoxType.AutoNumber) > 1);
+    }  
+    [Fact]
+    public void Must_not_throw_if_entity_has_multiple_autonumber_property_when_database_provider_is_postgresql()
+    {
+
+        _ = new NoxSolutionBuilder()
+            .UseYamlFile("./files/postgresql-multiple-autonumber-entity.solution.nox.yaml")
+            .Build();
+        var instance = NoxSolutionBuilder.Instance;
+
+        Assert.NotNull(instance);
+        Assert.Equal(DatabaseServerProvider.Postgres, instance.Infrastructure!.Persistence.DatabaseServer.Provider);
 
         var allProperties = instance.Domain!.Entities[0].Attributes.Union(instance.Domain!.Entities[0].Keys);
         Assert.True(allProperties.Count(p=>p.Type == NoxType.AutoNumber) > 1);
