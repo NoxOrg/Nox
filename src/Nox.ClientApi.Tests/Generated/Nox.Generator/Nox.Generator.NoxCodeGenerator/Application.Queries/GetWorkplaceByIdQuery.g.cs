@@ -54,6 +54,7 @@ internal abstract class GetWorkplaceByIdQueryHandlerBase:  QueryBase<IQueryable<
             };
 
         var sqlStatement = linqQueryBuilder.ToQueryString()
+            .Replace("DECLARE", "-- DECLARE")
             .Replace($"= @__{nameof(request)}_{nameof(request.keyId)}_0", $"= '{request.keyId}'")
             .Replace($"WHERE @__{nameof(cultureCode)}_1", $"WHERE '{cultureCode}'");
 
