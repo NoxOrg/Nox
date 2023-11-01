@@ -56,6 +56,7 @@ public abstract class CustomerCreateDtoBase : IEntityDto<DomainNamespace.Custome
     /// <summary>
     /// Customer related to ZeroOrMany PaymentDetails
     /// </summary>
+    public virtual List<System.Int64> CustomerRelatedPaymentDetailsId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<PaymentDetailCreateDto> CustomerRelatedPaymentDetails { get; set; } = new();
@@ -63,6 +64,7 @@ public abstract class CustomerCreateDtoBase : IEntityDto<DomainNamespace.Custome
     /// <summary>
     /// Customer related to ZeroOrMany Bookings
     /// </summary>
+    public virtual List<System.Guid> CustomerRelatedBookingsId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<BookingCreateDto> CustomerRelatedBookings { get; set; } = new();
@@ -70,6 +72,7 @@ public abstract class CustomerCreateDtoBase : IEntityDto<DomainNamespace.Custome
     /// <summary>
     /// Customer related to ZeroOrMany Transactions
     /// </summary>
+    public virtual List<System.Int64> CustomerRelatedTransactionsId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<TransactionCreateDto> CustomerRelatedTransactions { get; set; } = new();

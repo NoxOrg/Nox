@@ -85,20 +85,68 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 			var relatedEntity = CurrencyFactory.CreateEntity(request.EntityDto.CountryUsedByCurrency);
 			entityToCreate.CreateRefToCountryUsedByCurrency(relatedEntity);
 		}
-		foreach(var relatedCreateDto in request.EntityDto.CountryUsedByCommissions)
+		if(request.EntityDto.CountryUsedByCommissionsId.Any())
 		{
-			var relatedEntity = CommissionFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToCountryUsedByCommissions(relatedEntity);
+			foreach(var relatedId in request.EntityDto.CountryUsedByCommissionsId)
+			{
+				var relatedKey = Cryptocash.Domain.CommissionMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.Commissions.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToCountryUsedByCommissions(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("CountryUsedByCommissions", relatedId.ToString());
+			}
 		}
-		foreach(var relatedCreateDto in request.EntityDto.CountryUsedByVendingMachines)
+		else
 		{
-			var relatedEntity = VendingMachineFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToCountryUsedByVendingMachines(relatedEntity);
+			foreach(var relatedCreateDto in request.EntityDto.CountryUsedByCommissions)
+			{
+				var relatedEntity = CommissionFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToCountryUsedByCommissions(relatedEntity);
+			}
 		}
-		foreach(var relatedCreateDto in request.EntityDto.CountryUsedByCustomers)
+		if(request.EntityDto.CountryUsedByVendingMachinesId.Any())
 		{
-			var relatedEntity = CustomerFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToCountryUsedByCustomers(relatedEntity);
+			foreach(var relatedId in request.EntityDto.CountryUsedByVendingMachinesId)
+			{
+				var relatedKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToCountryUsedByVendingMachines(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("CountryUsedByVendingMachines", relatedId.ToString());
+			}
+		}
+		else
+		{
+			foreach(var relatedCreateDto in request.EntityDto.CountryUsedByVendingMachines)
+			{
+				var relatedEntity = VendingMachineFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToCountryUsedByVendingMachines(relatedEntity);
+			}
+		}
+		if(request.EntityDto.CountryUsedByCustomersId.Any())
+		{
+			foreach(var relatedId in request.EntityDto.CountryUsedByCustomersId)
+			{
+				var relatedKey = Cryptocash.Domain.CustomerMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.Customers.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToCountryUsedByCustomers(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("CountryUsedByCustomers", relatedId.ToString());
+			}
+		}
+		else
+		{
+			foreach(var relatedCreateDto in request.EntityDto.CountryUsedByCustomers)
+			{
+				var relatedEntity = CustomerFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToCountryUsedByCustomers(relatedEntity);
+			}
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

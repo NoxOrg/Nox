@@ -103,20 +103,68 @@ internal abstract class CreateVendingMachineCommandHandlerBase : CommandBase<Cre
 			var relatedEntity = LandLordFactory.CreateEntity(request.EntityDto.VendingMachineContractedAreaLandLord);
 			entityToCreate.CreateRefToVendingMachineContractedAreaLandLord(relatedEntity);
 		}
-		foreach(var relatedCreateDto in request.EntityDto.VendingMachineRelatedBookings)
+		if(request.EntityDto.VendingMachineRelatedBookingsId.Any())
 		{
-			var relatedEntity = BookingFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToVendingMachineRelatedBookings(relatedEntity);
+			foreach(var relatedId in request.EntityDto.VendingMachineRelatedBookingsId)
+			{
+				var relatedKey = Cryptocash.Domain.BookingMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.Bookings.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToVendingMachineRelatedBookings(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("VendingMachineRelatedBookings", relatedId.ToString());
+			}
 		}
-		foreach(var relatedCreateDto in request.EntityDto.VendingMachineRelatedCashStockOrders)
+		else
 		{
-			var relatedEntity = CashStockOrderFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToVendingMachineRelatedCashStockOrders(relatedEntity);
+			foreach(var relatedCreateDto in request.EntityDto.VendingMachineRelatedBookings)
+			{
+				var relatedEntity = BookingFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToVendingMachineRelatedBookings(relatedEntity);
+			}
 		}
-		foreach(var relatedCreateDto in request.EntityDto.VendingMachineRequiredMinimumCashStocks)
+		if(request.EntityDto.VendingMachineRelatedCashStockOrdersId.Any())
 		{
-			var relatedEntity = MinimumCashStockFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToVendingMachineRequiredMinimumCashStocks(relatedEntity);
+			foreach(var relatedId in request.EntityDto.VendingMachineRelatedCashStockOrdersId)
+			{
+				var relatedKey = Cryptocash.Domain.CashStockOrderMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.CashStockOrders.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToVendingMachineRelatedCashStockOrders(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("VendingMachineRelatedCashStockOrders", relatedId.ToString());
+			}
+		}
+		else
+		{
+			foreach(var relatedCreateDto in request.EntityDto.VendingMachineRelatedCashStockOrders)
+			{
+				var relatedEntity = CashStockOrderFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToVendingMachineRelatedCashStockOrders(relatedEntity);
+			}
+		}
+		if(request.EntityDto.VendingMachineRequiredMinimumCashStocksId.Any())
+		{
+			foreach(var relatedId in request.EntityDto.VendingMachineRequiredMinimumCashStocksId)
+			{
+				var relatedKey = Cryptocash.Domain.MinimumCashStockMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.MinimumCashStocks.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToVendingMachineRequiredMinimumCashStocks(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("VendingMachineRequiredMinimumCashStocks", relatedId.ToString());
+			}
+		}
+		else
+		{
+			foreach(var relatedCreateDto in request.EntityDto.VendingMachineRequiredMinimumCashStocks)
+			{
+				var relatedEntity = MinimumCashStockFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToVendingMachineRequiredMinimumCashStocks(relatedEntity);
+			}
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

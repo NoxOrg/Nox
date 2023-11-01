@@ -59,10 +59,26 @@ internal abstract class CreateThirdTestEntityZeroOrManyCommandHandlerBase : Comm
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		foreach(var relatedCreateDto in request.EntityDto.ThirdTestEntityOneOrManyRelationship)
+		if(request.EntityDto.ThirdTestEntityOneOrManyRelationshipId.Any())
 		{
-			var relatedEntity = ThirdTestEntityOneOrManyFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToThirdTestEntityOneOrManyRelationship(relatedEntity);
+			foreach(var relatedId in request.EntityDto.ThirdTestEntityOneOrManyRelationshipId)
+			{
+				var relatedKey = TestWebApp.Domain.ThirdTestEntityOneOrManyMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.ThirdTestEntityOneOrManies.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToThirdTestEntityOneOrManyRelationship(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("ThirdTestEntityOneOrManyRelationship", relatedId.ToString());
+			}
+		}
+		else
+		{
+			foreach(var relatedCreateDto in request.EntityDto.ThirdTestEntityOneOrManyRelationship)
+			{
+				var relatedEntity = ThirdTestEntityOneOrManyFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToThirdTestEntityOneOrManyRelationship(relatedEntity);
+			}
 		}
 
 		await OnCompletedAsync(request, entityToCreate);
