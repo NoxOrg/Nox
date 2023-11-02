@@ -296,6 +296,22 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToPhysicalWorkplaces([FromRoute] System.Int64 key, [FromBody] WorkplaceCreateDto workplace)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        workplace.BelongsToCountryId = key;
+        var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetWorkplaceByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToPhysicalWorkplaces([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.PhysicalWorkplaces).SingleOrDefault();

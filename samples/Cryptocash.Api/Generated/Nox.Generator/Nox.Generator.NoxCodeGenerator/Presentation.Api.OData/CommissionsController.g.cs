@@ -44,6 +44,22 @@ public abstract partial class CommissionsControllerBase : ODataController
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToCommissionFeesForCountry([FromRoute] System.Int64 key, [FromBody] CountryCreateDto country)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        country.CountryUsedByCommissionsId = new List<System.Int64> { key };
+        var createdKey = await _mediator.Send(new CreateCountryCommand(country, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToCommissionFeesForCountry([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).Select(x => x.CommissionFeesForCountry).SingleOrDefault();
@@ -102,6 +118,22 @@ public abstract partial class CommissionsControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    public virtual async Task<ActionResult> PostToCommissionFeesForBooking([FromRoute] System.Int64 key, [FromBody] BookingCreateDto booking)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        booking.BookingFeesForCommissionId = key;
+        var createdKey = await _mediator.Send(new CreateBookingCommand(booking, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetBookingByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     public async Task<ActionResult> GetRefToCommissionFeesForBooking([FromRoute] System.Int64 key)

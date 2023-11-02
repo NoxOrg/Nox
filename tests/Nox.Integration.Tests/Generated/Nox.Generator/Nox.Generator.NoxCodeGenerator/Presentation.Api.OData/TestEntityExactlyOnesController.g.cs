@@ -44,6 +44,22 @@ public abstract partial class TestEntityExactlyOnesControllerBase : ODataControl
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToSecondTestEntityExactlyOneRelationship([FromRoute] System.String key, [FromBody] SecondTestEntityExactlyOneCreateDto secondTestEntityExactlyOne)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        secondTestEntityExactlyOne.TestEntityExactlyOneRelationshipId = key;
+        var createdKey = await _mediator.Send(new CreateSecondTestEntityExactlyOneCommand(secondTestEntityExactlyOne, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetSecondTestEntityExactlyOneByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToSecondTestEntityExactlyOneRelationship([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetTestEntityExactlyOneByIdQuery(key))).Select(x => x.SecondTestEntityExactlyOneRelationship).SingleOrDefault();

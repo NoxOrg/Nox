@@ -44,6 +44,22 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToStoreWithLicense([FromRoute] System.Int64 key, [FromBody] StoreCreateDto store)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        store.LicenseId = key;
+        var createdKey = await _mediator.Send(new CreateStoreCommand(store, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetStoreByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToStoreWithLicense([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.StoreWithLicense).SingleOrDefault();

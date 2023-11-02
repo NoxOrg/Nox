@@ -702,6 +702,39 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #endregion
 
+        #region POST Related Entity TO Entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName} => api/countries/1/PhysicalWorkplaces
+
+        [Fact]
+        public async Task Post_PhysicalWorkplacesToCountry_Success()
+        {
+            // Arrange
+            var countryCreateDto = new CountryCreateDto { Name = _fixture.Create<string>() };
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, countryCreateDto);
+
+            // Act
+            var headers = CreateEtagHeader(countryResponse?.Etag);
+            var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(
+                $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.PhysicalWorkplaces)}",
+                new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
+                headers);
+
+            const string oDataRequest = $"$expand={nameof(CountryDto.PhysicalWorkplaces)}";
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{countryResponse!.Id}?{oDataRequest}");
+
+            //Assert
+            workplaceResponse.Should().NotBeNull();
+            workplaceResponse!.Name.Should().NotBeNull();
+            workplaceResponse!.BelongsToCountryId.Should().Be(countryResponse!.Id);
+
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.PhysicalWorkplaces.Should().NotBeNull();
+            getCountryResponse!.PhysicalWorkplaces!.Should().HaveCount(1);
+            getCountryResponse!.PhysicalWorkplaces!.First().Id.Should().Be(workplaceResponse!.Id);
+        }
+
+        #endregion
+
         #endregion POST
 
         #region DELETE

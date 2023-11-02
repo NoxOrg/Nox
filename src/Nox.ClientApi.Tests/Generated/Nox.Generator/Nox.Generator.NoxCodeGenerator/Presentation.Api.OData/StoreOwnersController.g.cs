@@ -44,6 +44,22 @@ public abstract partial class StoreOwnersControllerBase : ODataController
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToStores([FromRoute] System.String key, [FromBody] StoreCreateDto store)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        store.OwnershipId = key;
+        var createdKey = await _mediator.Send(new CreateStoreCommand(store, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetStoreByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToStores([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetStoreOwnerByIdQuery(key))).Select(x => x.Stores).SingleOrDefault();
