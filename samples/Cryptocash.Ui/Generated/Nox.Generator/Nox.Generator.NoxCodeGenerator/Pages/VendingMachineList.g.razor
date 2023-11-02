@@ -79,7 +79,7 @@
                                     <MudItem xs="12">
                                         <MudTabs Rounded="true" Border="true" HideSlider="true">
                                             <MudTabPanel Text="Details">
-                                                <MudGrid Style="margin-top:15px;margin-bottom:10px;">
+                                                <MudGrid Style="margin-top:15px;">
                                                     <MudItem xs="6">
                                                         <UiEditMacAddress_g @bind-MacAddress="CurrentAddEntity.MacAddress"
                                                                             Title="MAC Address"
@@ -119,7 +119,7 @@
                                                 </MudGrid>
                                             </MudTabPanel>
                                             <MudTabPanel Text="Location">
-                                                <MudGrid Style="margin-top:15px;margin-bottom:10px;">
+                                                <MudGrid Style="margin-top:15px;">
                                                     <MudItem xs=12>
                                                         <UiEditLatLong_g @bind-Latlong="CurrentAddEntity.GeoLocation"
                                                                          TitleLatitude="Latitude"
@@ -143,7 +143,7 @@
                                                 </MudGrid>
                                             </MudTabPanel>
                                             <MudTabPanel Text="Minimum Cash Stocks">
-                                                <MudGrid Style="margin-top:15px;margin-bottom:10px;">
+                                                <MudGrid Style="margin-top:15px;">
                                                     <MudItem xs=12>
                                                         <UiEditEntityCreateMinimumCashStock_g @bind-MinimumCashStockList="CurrentAddEntity.VendingMachineRequiredMinimumCashStocks"
                                                                                               TitleCurrency="Currency"
@@ -157,20 +157,23 @@
                                             </MudTabPanel>
                                         </MudTabs>
                                     </MudItem>
+                                    <MudItem xs="12">
+                                        <UiErrorSummary_g Errors="AddErrors" />
+                                    </MudItem>
                                 </MudGrid>
                             </MudForm>                                                                       
                         </DialogContent>
-                        <DialogActions>
-                            <MudButton OnClick="AddEntityCloseDialog"
-                                       Variant="Variant.Outlined"
-                                       Color="Color.Info"
-                                       Style="Margin:15px;">CANCEL</MudButton>
-                            <MudButton OnClick="@(async () => await AddEntitySubmit())"
-                                       Variant="Variant.Filled"
-                                       Color="Color.Info"
-                                       Style="Margin:15px;">
-                                <MudText>SUBMIT</MudText>
-                            </MudButton>
+                        <DialogActions>                              
+                                    <MudButton OnClick="AddEntityCloseDialog"
+                                               Variant="Variant.Outlined"
+                                               Color="Color.Info"
+                                               Style="Margin:15px;">CANCEL</MudButton>
+                                    <MudButton OnClick="@(async () => await AddEntitySubmit())"
+                                               Variant="Variant.Filled"
+                                               Color="Color.Info"
+                                               Style="Margin:15px;">
+                                        <MudText>SUBMIT</MudText>
+                                    </MudButton>
                         </DialogActions>
                     </MudDialog>
                 }
@@ -189,7 +192,7 @@
                                     <MudItem xs="12">
                                         <MudTabs Rounded="true" Border="true" HideSlider="true">
                                             <MudTabPanel Text="Details">
-                                                <MudGrid Style="margin-top:15px;margin-bottom:10px;">
+                                                <MudGrid Style="margin-top:15px;">
                                                         <MudItem xs="6">
                                                             <UiEditMacAddress_g @bind-MacAddress="CurrentEditEntity.MacAddress"
                                                                                 Title="MAC Address"
@@ -229,7 +232,7 @@
                                                 </MudGrid>
                                             </MudTabPanel>
                                             <MudTabPanel Text="Location">
-                                                <MudGrid Style="margin-top:15px;margin-bottom:10px;">
+                                                <MudGrid Style="margin-top:15px;">
                                                     <MudItem xs="12">
                                                         <UiEditLatLong_g @bind-Latlong="CurrentEditEntity.GeoLocation"
                                                                          TitleLatitude="Latitude"
@@ -254,10 +257,13 @@
                                             </MudTabPanel>
                                         </MudTabs>
                                     </MudItem>
+                                    <MudItem xs="12">
+                                        <UiErrorSummary_g Errors="EditErrors" />
+                                    </MudItem>
                                 </MudGrid>
                             </MudForm>
                         </DialogContent>
-                        <DialogActions>
+                        <DialogActions>                           
                             <MudButton OnClick="EditEntityCloseDialog"
                                        Variant="Variant.Outlined"
                                        Color="Color.Info"
