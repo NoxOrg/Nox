@@ -1061,8 +1061,10 @@ public class NoxCommonTestCaseFactory
         testEntity2.Id.Value.Should().Be(idValue + 2);
         testEntity1.TextField.Should().Be(text1);
         testEntity2.TextField.Should().Be(text2);
-        testEntity1.AutoNumberField.Value.Should().Be(propertyValue);
-        testEntity2.AutoNumberField.Value.Should().Be(propertyValue + 2);
+        testEntity1.AutoNumberFieldWithOptions.Value.Should().Be(propertyValue);
+        testEntity2.AutoNumberFieldWithOptions.Value.Should().Be(propertyValue + 2);
+        testEntity1.AutoNumberFieldWithoutOptions.Value.Should().Be(1);
+        testEntity2.AutoNumberFieldWithoutOptions.Value.Should().Be(2);
         
     }
 }

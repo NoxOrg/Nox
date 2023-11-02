@@ -1460,11 +1460,15 @@ domain:
             incrementsBy: 2
       
       attributes:
-        - name: AutoNumberField
+        - name: AutoNumberFieldWithOptions
           type: autoNumber
           autoNumberTypeOptions:
               startsAt: 20
               incrementsBy: 2
+          isRequired: true
+          
+        - name: AutoNumberFieldWithoutOptions
+          type: autoNumber
           isRequired: true
           
         - name: TextField
