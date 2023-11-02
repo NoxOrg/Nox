@@ -9,9 +9,14 @@ namespace Nox.Application.Commands;
 public abstract class CommandBase<TRequest, TEntity>: INoxCommand where TEntity : IEntity
 {
     protected NoxSolution NoxSolution { get; }
+
+    protected Types.CultureCode DefaultCultureCode;
+
+
     protected CommandBase(NoxSolution noxSolution)
     {
         NoxSolution = noxSolution;
+        DefaultCultureCode = Types.CultureCode.From(NoxSolution!.Application!.Localization!.DefaultCulture);
     }
 
     protected Entity GetEntityDefinition<E>()
@@ -33,8 +38,5 @@ public abstract class CommandBase<TRequest, TEntity>: INoxCommand where TEntity 
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     protected virtual Task OnCompletedAsync(TRequest request, TEntity entity) { return Task.CompletedTask; }
-
-    protected Types.CultureCode GetLocalizationDefaultCultureCode()
-        => Types.CultureCode.From(NoxSolution!.Application!.Localization!.DefaultCulture);
 }
 

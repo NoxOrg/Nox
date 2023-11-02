@@ -59,7 +59,7 @@ internal partial class UpdateEmailAddressForStoreCommandHandlerBase : CommandBas
 			return null;
 		}
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto, GetLocalizationDefaultCultureCode());
+		_entityFactory.UpdateEntity(entity, request.EntityDto, DefaultCultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 
