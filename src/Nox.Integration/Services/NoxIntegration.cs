@@ -18,6 +18,6 @@ public class NoxIntegration: INoxIntegration
     
     public Task<bool> ExecuteAsync()
     {
-        
+        return Task.FromResult(true);
     }
 }
