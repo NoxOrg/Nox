@@ -58,7 +58,12 @@ internal abstract partial class TestEntityForAutoNumberUsagesBase : EntityBase, 
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Nox.Types.AutoNumber AutoNumberField { get; set; } = null!;
+    public Nox.Types.AutoNumber AutoNumberFieldWithOptions { get; set; } = null!;
+
+    /// <summary>
+    ///  (Required).
+    /// </summary>
+    public Nox.Types.AutoNumber AutoNumberFieldWithoutOptions { get; set; } = null!;
 
     /// <summary>
     ///  (Required).

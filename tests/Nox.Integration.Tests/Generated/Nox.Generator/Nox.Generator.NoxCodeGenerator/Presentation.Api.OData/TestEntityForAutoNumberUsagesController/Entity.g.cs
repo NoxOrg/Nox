@@ -21,9 +21,16 @@ using TestWebApp.Application.Commands;
 using TestWebApp.Domain;
 using TestWebApp.Infrastructure.Persistence;
 
-using Nox.Types;
-
 namespace TestWebApp.Presentation.Api.OData;
+
+public partial class TestEntityForAutoNumberUsagesController : TestEntityForAutoNumberUsagesControllerBase
+{
+    public TestEntityForAutoNumberUsagesController(
+            IMediator mediator,
+            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        ): base(mediator, httpLanguageProvider)
+    {}
+}
 
 public abstract partial class TestEntityForAutoNumberUsagesControllerBase : ODataController
 {
@@ -32,11 +39,18 @@ public abstract partial class TestEntityForAutoNumberUsagesControllerBase : ODat
     /// </summary>
     protected readonly IMediator _mediator;
 
+    /// <symmary>
+    /// The Culture Code from the HTTP request.
+    /// </symmary>
+    protected readonly Nox.Types.CultureCode _cultureCode;
+
     public TestEntityForAutoNumberUsagesControllerBase(
-        IMediator mediator
+        IMediator mediator,
+        Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
     )
     {
         _mediator = mediator;
+        _cultureCode = httpLanguageProvider.GetLanguage();
     }
 
     [EnableQuery]
@@ -60,7 +74,7 @@ public abstract partial class TestEntityForAutoNumberUsagesControllerBase : ODat
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateTestEntityForAutoNumberUsagesCommand(testEntityForAutoNumberUsages));
+        var createdKey = await _mediator.Send(new CreateTestEntityForAutoNumberUsagesCommand(testEntityForAutoNumberUsages, _cultureCode));
 
         var item = (await _mediator.Send(new GetTestEntityForAutoNumberUsagesByIdQuery(createdKey.keyId))).SingleOrDefault();
 
@@ -129,11 +143,4 @@ public abstract partial class TestEntityForAutoNumberUsagesControllerBase : ODat
 
         return NoContent();
     }
-}
-
-public partial class TestEntityForAutoNumberUsagesController : TestEntityForAutoNumberUsagesControllerBase
-{
-    public TestEntityForAutoNumberUsagesController(IMediator mediator)
-        : base(mediator)
-    {}
 }

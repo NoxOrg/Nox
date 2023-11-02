@@ -1,28 +1,34 @@
 ﻿// Generated
 
 #nullable enable
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
 using Nox.Application.Dto;
 using Nox.Types;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using TestWebApp.Domain;
 
-using TestEntityForAutoNumberUsagesEntity = TestWebApp.Domain.TestEntityForAutoNumberUsages;
+using DomainNamespace = TestWebApp.Domain;
+
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
 /// Entity created for testing auto number usages.
 /// </summary>
-public partial class TestEntityForAutoNumberUsagesUpdateDto : IEntityDto<TestEntityForAutoNumberUsagesEntity>
+public partial class TestEntityForAutoNumberUsagesUpdateDto : IEntityDto<DomainNamespace.TestEntityForAutoNumberUsages>
 {
     /// <summary>
     ///  (Required).
     /// </summary>
-    [Required(ErrorMessage = "AutoNumberField is required")]
+    [Required(ErrorMessage = "AutoNumberFieldWithOptions is required")]
     
-    public System.Int64 AutoNumberField { get; set; } = default!;
+    public System.Int64 AutoNumberFieldWithOptions { get; set; } = default!;
+    /// <summary>
+    ///  (Required).
+    /// </summary>
+    [Required(ErrorMessage = "AutoNumberFieldWithoutOptions is required")]
+    
+    public System.Int64 AutoNumberFieldWithoutOptions { get; set; } = default!;
     /// <summary>
     ///  (Required).
     /// </summary>

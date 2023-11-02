@@ -44,7 +44,7 @@ internal class PartialUpdateTestEntityForAutoNumberUsagesCommandHandlerBase : Co
 	public virtual async Task<TestEntityForAutoNumberUsagesKeyDto?> Handle(PartialUpdateTestEntityForAutoNumberUsagesCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityForAutoNumberUsages.FindAsync(keyId);
