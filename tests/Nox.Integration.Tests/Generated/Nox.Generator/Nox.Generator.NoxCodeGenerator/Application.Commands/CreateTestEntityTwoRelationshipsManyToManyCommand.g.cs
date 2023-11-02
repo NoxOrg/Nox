@@ -59,15 +59,47 @@ internal abstract class CreateTestEntityTwoRelationshipsManyToManyCommandHandler
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		foreach(var relatedCreateDto in request.EntityDto.TestRelationshipOne)
+		if(request.EntityDto.TestRelationshipOneId.Any())
 		{
-			var relatedEntity = SecondTestEntityTwoRelationshipsManyToManyFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToTestRelationshipOne(relatedEntity);
+			foreach(var relatedId in request.EntityDto.TestRelationshipOneId)
+			{
+				var relatedKey = TestWebApp.Domain.SecondTestEntityTwoRelationshipsManyToManyMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.SecondTestEntityTwoRelationshipsManyToManies.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToTestRelationshipOne(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("TestRelationshipOne", relatedId.ToString());
+			}
 		}
-		foreach(var relatedCreateDto in request.EntityDto.TestRelationshipTwo)
+		else
 		{
-			var relatedEntity = SecondTestEntityTwoRelationshipsManyToManyFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToTestRelationshipTwo(relatedEntity);
+			foreach(var relatedCreateDto in request.EntityDto.TestRelationshipOne)
+			{
+				var relatedEntity = SecondTestEntityTwoRelationshipsManyToManyFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToTestRelationshipOne(relatedEntity);
+			}
+		}
+		if(request.EntityDto.TestRelationshipTwoId.Any())
+		{
+			foreach(var relatedId in request.EntityDto.TestRelationshipTwoId)
+			{
+				var relatedKey = TestWebApp.Domain.SecondTestEntityTwoRelationshipsManyToManyMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.SecondTestEntityTwoRelationshipsManyToManies.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToTestRelationshipTwo(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("TestRelationshipTwo", relatedId.ToString());
+			}
+		}
+		else
+		{
+			foreach(var relatedCreateDto in request.EntityDto.TestRelationshipTwo)
+			{
+				var relatedEntity = SecondTestEntityTwoRelationshipsManyToManyFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToTestRelationshipTwo(relatedEntity);
+			}
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

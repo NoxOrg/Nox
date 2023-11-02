@@ -34,7 +34,7 @@ namespace Nox.Solution.Validation
                 .SetValidator(sln => new TeamValidator(sln.Team));
 
             RuleFor(sln => sln.Domain!)
-                .SetValidator(sln => new DomainValidator(sln.Application));
+                .SetValidator(sln => new DomainValidator(sln.Application, sln.Infrastructure));
 
             RuleFor(sln => sln.Application!)
                 .SetValidator(sln =>
@@ -64,6 +64,7 @@ namespace Nox.Solution.Validation
 
             RuleFor(sln => sln.Infrastructure!)
                 .SetValidator(new InfrastructureValidator());
+
         }
     }
 }

@@ -1443,3 +1443,38 @@ domain:
             minValue: 4
             maxValue: 894
           isRequired: true
+          
+    - name: TestEntityForAutoNumberUsages
+      description: Entity created for testing auto number usages
+        
+      persistence:
+        isAudited: false
+        
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: autoNumber
+          autoNumberTypeOptions:
+            startsAt: 10
+            incrementsBy: 2
+      
+      attributes:
+        - name: AutoNumberFieldWithOptions
+          type: autoNumber
+          autoNumberTypeOptions:
+              startsAt: 20
+              incrementsBy: 2
+          isRequired: true
+          
+        - name: AutoNumberFieldWithoutOptions
+          type: autoNumber
+          isRequired: true
+          
+        - name: TextField
+          type: text
+          textTypeOptions:
+            minLength: 1
+            maxLength: 63
+          isRequired: true  
+        

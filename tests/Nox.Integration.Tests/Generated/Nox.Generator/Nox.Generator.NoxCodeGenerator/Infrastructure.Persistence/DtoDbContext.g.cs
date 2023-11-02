@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 #nullable enable
 
 using Microsoft.EntityFrameworkCore;
@@ -88,6 +88,7 @@ internal class DtoDbContext : DbContext
         public DbSet<TestEntityForUniqueConstraintsDto> TestEntityForUniqueConstraints { get; set; } = null!;
         public DbSet<TestEntityLocalizationDto> TestEntityLocalizations { get; set; } = null!;
     public DbSet<TestEntityLocalizationLocalizedDto> TestEntityLocalizationsLocalized { get; set; } = null!;
+        public DbSet<TestEntityForAutoNumberUsagesDto> TestEntityForAutoNumberUsages { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

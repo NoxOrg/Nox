@@ -5,15 +5,11 @@ using Cryptocash.Ui.Generated.Data.ApiSetting;
 using Cryptocash.Ui.Generated.Data.Enum;
 using Microsoft.AspNetCore.Components.Web;
 using Cryptocash.Ui.Generated.Data.Generic;
-using MassTransit.Serialization.JsonConverters;
-using System.Security.Principal;
-using System.Text;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 using Cryptocash.Ui.Generated.Data.Generic.Service;
 using Cryptocash.Application.Dto;
 using AutoMapper;
-using System.Reflection;
 
 namespace Cryptocash.Ui.Generated.Pages.Generic
 {
@@ -126,6 +122,11 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         public MudForm? AddEntityForm { get; set; }
 
         /// <summary>
+        /// Property AddErrors to handle Form errors for display
+        /// </summary>
+        public Dictionary<string, IEnumerable<string>>? AddErrors { get; set; } = new();
+
+        /// <summary>
         /// Property IsVisibleAddDialog to handle Add Entity dialog visibility
         /// </summary>
         public bool IsVisibleAddEntityDialog = false;
@@ -144,6 +145,11 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         /// Property EditEntityForm used to reference Edit Entity Form in Ui
         /// </summary>
         public MudForm? EditEntityForm { get; set; }
+
+        /// <summary>
+        /// Property EditErrors to handle Form errors for display
+        /// </summary>
+        public Dictionary<string, IEnumerable<string>>? EditErrors { get; set; } = new();
 
         /// <summary>
         /// Property IsVisibleEditEntityDialog to handle Edit Entity dialog visibility
@@ -647,6 +653,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         /// </summary>
         private void ResetAddEntity()
         {
+            AddErrors = new();
             CurrentAddEntity = (CreateT?)Activator.CreateInstance(typeof(CreateT));
         }
 
@@ -672,12 +679,29 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         /// </summary>
         /// <returns>Task</returns>
         public async Task AddEntitySubmit()
-        {
+        {  
             if (AddEntityForm != null)
             {
+                if (CurrentAddEntity != null)
+                {
+                    var config = new MapperConfiguration(cfg =>
+                        cfg.CreateMap<CreateT, T>()
+                    );
+                    var mapper = new Mapper(config);
+                    T validatedEntity = mapper.Map<T>(CurrentAddEntity);
+
+                    var TMethod = typeof(T).GetMethod("Validate");
+                    if (TMethod != null)
+                    {
+                        AddErrors = (Dictionary<string, IEnumerable<string>>?)TMethod!.Invoke(validatedEntity, new object[] { });
+                    }
+                }
+
                 await AddEntityForm.Validate();
 
-                if (AddEntityForm.IsValid)
+                if (AddEntityForm.IsValid
+                    && AddErrors != null
+                    && AddErrors.Count() < 1)
                 {
                     IsVisibleAddEntityDialog = false;
 
@@ -714,6 +738,7 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         /// </summary>
         private void ResetEditEntity()
         {
+            EditErrors = new();
             CurrentEditEntityId = String.Empty;
             CurrentEditEtag = null;
             CurrentEditEntity = (EditT?)Activator.CreateInstance(typeof(EditT));
@@ -791,9 +816,26 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         {
             if (EditEntityForm != null)
             {
+                if (CurrentEditEntity != null)
+                {
+                    var config = new MapperConfiguration(cfg =>
+                        cfg.CreateMap<EditT, T>()
+                    );
+                    var mapper = new Mapper(config);
+                    T validatedEntity = mapper.Map<T>(CurrentEditEntity);
+
+                    var TMethod = typeof(T).GetMethod("Validate");
+                    if (TMethod != null)
+                    {
+                        EditErrors = (Dictionary<string, IEnumerable<string>>?)TMethod!.Invoke(validatedEntity, new object[] { });
+                    }
+                }
+
                 await EditEntityForm.Validate();
 
-                if (EditEntityForm.IsValid)
+                if (EditEntityForm.IsValid
+                    && EditErrors != null
+                    && EditErrors.Count() < 1)
                 {
                     IsVisibleEditEntityDialog = false;
 

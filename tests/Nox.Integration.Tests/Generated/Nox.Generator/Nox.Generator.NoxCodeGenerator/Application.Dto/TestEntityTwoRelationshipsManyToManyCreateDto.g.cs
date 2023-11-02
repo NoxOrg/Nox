@@ -39,6 +39,7 @@ public abstract class TestEntityTwoRelationshipsManyToManyCreateDtoBase : IEntit
     /// <summary>
     /// TestEntityTwoRelationshipsManyToMany First relationship to the same entity OneOrMany SecondTestEntityTwoRelationshipsManyToManies
     /// </summary>
+    public virtual List<System.String> TestRelationshipOneId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<SecondTestEntityTwoRelationshipsManyToManyCreateDto> TestRelationshipOne { get; set; } = new();
@@ -46,6 +47,7 @@ public abstract class TestEntityTwoRelationshipsManyToManyCreateDtoBase : IEntit
     /// <summary>
     /// TestEntityTwoRelationshipsManyToMany Second relationship to the same entity OneOrMany SecondTestEntityTwoRelationshipsManyToManies
     /// </summary>
+    public virtual List<System.String> TestRelationshipTwoId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<SecondTestEntityTwoRelationshipsManyToManyCreateDto> TestRelationshipTwo { get; set; } = new();

@@ -12,7 +12,7 @@ namespace Nox.ClientApi.Tests.Application.Queries
     {
         public GetCountryByIdQueryValidator(ILogger<GetCountryByIdQuery> logger)
         {            
-            RuleFor(query => query.keyId).Must(key => key < 50).WithMessage("No permissions for keys greater then 50");
+            RuleFor(query => query.keyId).Must(key => key < 300).WithMessage("No permissions for keys greater than 300");
         }
     }
 }

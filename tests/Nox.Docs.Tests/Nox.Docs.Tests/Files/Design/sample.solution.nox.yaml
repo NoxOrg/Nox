@@ -445,7 +445,7 @@ infrastructure:
     searchServer:
       name: SampleSearch
       provider: elasticSearch
-      serverUri: elastic.igwplc.com
+      serverUri: elastic.iwgplc.com
       user: ElasticUser
       password: ElasticPassword
     
@@ -481,7 +481,7 @@ infrastructure:
       emailServer:
         name: SampleEmailServer
         provider: sendGrid
-        serverUri: sendgrid.igwplc.com
+        serverUri: sendgrid.iwgplc.com
         user: SendGridUser
         password: SendGridPassword
       smsServer:
