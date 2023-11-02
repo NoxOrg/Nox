@@ -121,7 +121,7 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new PartialUpdateThirdTestEntityExactlyOneCommand(key, updatedProperties, etag));
+        var updatedKey = await _mediator.Send(new PartialUpdateThirdTestEntityExactlyOneCommand(key, updatedProperties, _cultureCode, etag));
 
         if (updatedKey is null)
         {

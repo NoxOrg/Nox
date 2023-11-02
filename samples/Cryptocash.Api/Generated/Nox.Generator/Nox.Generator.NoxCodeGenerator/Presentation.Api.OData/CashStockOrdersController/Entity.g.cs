@@ -121,7 +121,7 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new PartialUpdateCashStockOrderCommand(key, updatedProperties, etag));
+        var updatedKey = await _mediator.Send(new PartialUpdateCashStockOrderCommand(key, updatedProperties, _cultureCode, etag));
 
         if (updatedKey is null)
         {

@@ -42,7 +42,7 @@ internal abstract class TestEntityZeroOrManyFactoryBase : IEntityFactory<TestEnt
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity(TestEntityZeroOrManyEntity entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(TestEntityZeroOrManyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }

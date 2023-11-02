@@ -55,7 +55,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
         UpdateEntityInternal(entity, updateDto);
     }
 
-    public virtual void PartialUpdateEntity({{entity.Name}}Entity entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity({{entity.Name}}Entity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
         PartialUpdateEntityInternal(entity, updatedProperties);
     }

@@ -121,7 +121,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new PartialUpdateVendingMachineCommand(key, updatedProperties, etag));
+        var updatedKey = await _mediator.Send(new PartialUpdateVendingMachineCommand(key, updatedProperties, _cultureCode, etag));
 
         if (updatedKey is null)
         {

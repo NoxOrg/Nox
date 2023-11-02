@@ -121,7 +121,7 @@ public abstract partial class TestEntityExactlyOneToOneOrManiesControllerBase : 
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new PartialUpdateTestEntityExactlyOneToOneOrManyCommand(key, updatedProperties, etag));
+        var updatedKey = await _mediator.Send(new PartialUpdateTestEntityExactlyOneToOneOrManyCommand(key, updatedProperties, _cultureCode, etag));
 
         if (updatedKey is null)
         {

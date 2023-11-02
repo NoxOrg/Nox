@@ -121,7 +121,7 @@ public abstract partial class CompoundKeysEntitiesControllerBase : ODataControll
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new PartialUpdateCompoundKeysEntityCommand(keyId1, keyId2, updatedProperties, etag));
+        var updatedKey = await _mediator.Send(new PartialUpdateCompoundKeysEntityCommand(keyId1, keyId2, updatedProperties, _cultureCode, etag));
 
         if (updatedKey is null)
         {

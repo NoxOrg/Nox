@@ -121,7 +121,7 @@ public abstract partial class CountriesControllerBase : ODataController
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new PartialUpdateCountryCommand(key, updatedProperties, etag));
+        var updatedKey = await _mediator.Send(new PartialUpdateCountryCommand(key, updatedProperties, _cultureCode, etag));
 
         if (updatedKey is null)
         {

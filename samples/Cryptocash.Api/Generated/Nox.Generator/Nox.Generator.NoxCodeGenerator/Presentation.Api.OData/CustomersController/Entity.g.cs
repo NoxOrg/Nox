@@ -121,7 +121,7 @@ public abstract partial class CustomersControllerBase : ODataController
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new PartialUpdateCustomerCommand(key, updatedProperties, etag));
+        var updatedKey = await _mediator.Send(new PartialUpdateCustomerCommand(key, updatedProperties, _cultureCode, etag));
 
         if (updatedKey is null)
         {

@@ -27,6 +27,6 @@ namespace Nox.Application.Factories
         /// </summary>
         /// <param name="entity">Entity to update</param>
         /// <param name="updatedProperties">Properties to update</param>
-        void PartialUpdateEntity(TEntityType entity, Dictionary<string, dynamic> updatedProperties);
+        void PartialUpdateEntity(TEntityType entity, Dictionary<string, dynamic> updatedProperties, Types.CultureCode cultureCode);
     }
 }
