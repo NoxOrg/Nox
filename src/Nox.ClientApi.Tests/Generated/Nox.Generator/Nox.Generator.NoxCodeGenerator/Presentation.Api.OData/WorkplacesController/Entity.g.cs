@@ -21,8 +21,6 @@ using ClientApi.Application.Commands;
 using ClientApi.Domain;
 using ClientApi.Infrastructure.Persistence;
 
-using Nox.Types;
-
 namespace ClientApi.Presentation.Api.OData;
 
 public partial class WorkplacesController : WorkplacesControllerBase
@@ -52,20 +50,20 @@ public abstract partial class WorkplacesControllerBase : ODataController
     )
     {
         _mediator = mediator;
-        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
+        _cultureCode = httpLanguageProvider.GetLanguage();
     }
 
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<WorkplaceDto>>> Get()
     {
-        var result = await _mediator.Send(new GetWorkplacesQuery(_cultureCode.Value));
+        var result = await _mediator.Send(new GetWorkplacesQuery(_cultureCode));
         return Ok(result);
     }
 
     [EnableQuery]
     public async Task<SingleResult<WorkplaceDto>> Get([FromRoute] System.UInt32 key)
     {
-        var result = await _mediator.Send(new GetWorkplaceByIdQuery(_httpLanguageProvider.GetLanguage(), key));
+        var result = await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key));
         return SingleResult.Create(result);
     }
 
@@ -78,7 +76,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
 
         var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace, _cultureCode));
 
-        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(_httpLanguageProvider.GetLanguage(), createdKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, createdKey.keyId))).SingleOrDefault();
 
         return Created(item);
     }
@@ -98,7 +96,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
             return NotFound();
         }
 
-        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(_httpLanguageProvider.GetLanguage(), updatedKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
     }
@@ -128,7 +126,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
             return NotFound();
         }
 
-        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(_httpLanguageProvider.GetLanguage(), updatedKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
     }

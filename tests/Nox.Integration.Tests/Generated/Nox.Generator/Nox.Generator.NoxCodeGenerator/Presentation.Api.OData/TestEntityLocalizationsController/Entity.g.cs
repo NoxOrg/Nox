@@ -21,8 +21,6 @@ using TestWebApp.Application.Commands;
 using TestWebApp.Domain;
 using TestWebApp.Infrastructure.Persistence;
 
-using Nox.Types;
-
 namespace TestWebApp.Presentation.Api.OData;
 
 public partial class TestEntityLocalizationsController : TestEntityLocalizationsControllerBase
@@ -52,20 +50,20 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
     )
     {
         _mediator = mediator;
-        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
+        _cultureCode = httpLanguageProvider.GetLanguage();
     }
 
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<TestEntityLocalizationDto>>> Get()
     {
-        var result = await _mediator.Send(new GetTestEntityLocalizationsQuery(_cultureCode.Value));
+        var result = await _mediator.Send(new GetTestEntityLocalizationsQuery(_cultureCode));
         return Ok(result);
     }
 
     [EnableQuery]
     public async Task<SingleResult<TestEntityLocalizationDto>> Get([FromRoute] System.String key)
     {
-        var result = await _mediator.Send(new GetTestEntityLocalizationByIdQuery(_httpLanguageProvider.GetLanguage(), key));
+        var result = await _mediator.Send(new GetTestEntityLocalizationByIdQuery(_cultureCode, key));
         return SingleResult.Create(result);
     }
 
@@ -78,7 +76,7 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
 
         var createdKey = await _mediator.Send(new CreateTestEntityLocalizationCommand(testEntityLocalization, _cultureCode));
 
-        var item = (await _mediator.Send(new GetTestEntityLocalizationByIdQuery(_httpLanguageProvider.GetLanguage(), createdKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetTestEntityLocalizationByIdQuery(_cultureCode, createdKey.keyId))).SingleOrDefault();
 
         return Created(item);
     }
@@ -98,7 +96,7 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
             return NotFound();
         }
 
-        var item = (await _mediator.Send(new GetTestEntityLocalizationByIdQuery(_httpLanguageProvider.GetLanguage(), updatedKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetTestEntityLocalizationByIdQuery(_cultureCode, updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
     }
@@ -128,7 +126,7 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
             return NotFound();
         }
 
-        var item = (await _mediator.Send(new GetTestEntityLocalizationByIdQuery(_httpLanguageProvider.GetLanguage(), updatedKey.keyId))).SingleOrDefault();
+        var item = (await _mediator.Send(new GetTestEntityLocalizationByIdQuery(_cultureCode, updatedKey.keyId))).SingleOrDefault();
 
         return Ok(item);
     }

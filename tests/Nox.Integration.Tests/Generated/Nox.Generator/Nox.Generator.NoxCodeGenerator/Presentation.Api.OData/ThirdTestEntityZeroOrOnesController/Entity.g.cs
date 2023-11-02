@@ -21,8 +21,6 @@ using TestWebApp.Application.Commands;
 using TestWebApp.Domain;
 using TestWebApp.Infrastructure.Persistence;
 
-using Nox.Types;
-
 namespace TestWebApp.Presentation.Api.OData;
 
 public partial class ThirdTestEntityZeroOrOnesController : ThirdTestEntityZeroOrOnesControllerBase
@@ -52,7 +50,7 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
     )
     {
         _mediator = mediator;
-        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
+        _cultureCode = httpLanguageProvider.GetLanguage();
     }
 
     [EnableQuery]
