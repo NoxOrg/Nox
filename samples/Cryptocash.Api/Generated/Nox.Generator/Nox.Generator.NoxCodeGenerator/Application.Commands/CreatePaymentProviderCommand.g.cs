@@ -59,10 +59,26 @@ internal abstract class CreatePaymentProviderCommandHandlerBase : CommandBase<Cr
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		foreach(var relatedCreateDto in request.EntityDto.PaymentProviderRelatedPaymentDetails)
+		if(request.EntityDto.PaymentProviderRelatedPaymentDetailsId.Any())
 		{
-			var relatedEntity = PaymentDetailFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToPaymentProviderRelatedPaymentDetails(relatedEntity);
+			foreach(var relatedId in request.EntityDto.PaymentProviderRelatedPaymentDetailsId)
+			{
+				var relatedKey = Cryptocash.Domain.PaymentDetailMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.PaymentDetails.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToPaymentProviderRelatedPaymentDetails(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("PaymentProviderRelatedPaymentDetails", relatedId.ToString());
+			}
+		}
+		else
+		{
+			foreach(var relatedCreateDto in request.EntityDto.PaymentProviderRelatedPaymentDetails)
+			{
+				var relatedEntity = PaymentDetailFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToPaymentProviderRelatedPaymentDetails(relatedEntity);
+			}
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

@@ -85,6 +85,7 @@ public abstract class VendingMachineCreateDtoBase : IEntityDto<DomainNamespace.V
     /// <summary>
     /// VendingMachine related to ZeroOrMany Bookings
     /// </summary>
+    public virtual List<System.Guid> VendingMachineRelatedBookingsId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<BookingCreateDto> VendingMachineRelatedBookings { get; set; } = new();
@@ -92,6 +93,7 @@ public abstract class VendingMachineCreateDtoBase : IEntityDto<DomainNamespace.V
     /// <summary>
     /// VendingMachine related to ZeroOrMany CashStockOrders
     /// </summary>
+    public virtual List<System.Int64> VendingMachineRelatedCashStockOrdersId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<CashStockOrderCreateDto> VendingMachineRelatedCashStockOrders { get; set; } = new();
@@ -99,6 +101,7 @@ public abstract class VendingMachineCreateDtoBase : IEntityDto<DomainNamespace.V
     /// <summary>
     /// VendingMachine required ZeroOrMany MinimumCashStocks
     /// </summary>
+    public virtual List<System.Int64> VendingMachineRequiredMinimumCashStocksId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<MinimumCashStockCreateDto> VendingMachineRequiredMinimumCashStocks { get; set; } = new();

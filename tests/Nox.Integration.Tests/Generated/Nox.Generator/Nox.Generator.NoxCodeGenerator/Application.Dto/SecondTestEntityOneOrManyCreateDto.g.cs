@@ -39,6 +39,7 @@ public abstract class SecondTestEntityOneOrManyCreateDtoBase : IEntityDto<Domain
     /// <summary>
     /// SecondTestEntityOneOrMany Test entity relationship to TestEntityOneOrMany OneOrMany TestEntityOneOrManies
     /// </summary>
+    public virtual List<System.String> TestEntityOneOrManyRelationshipId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual List<TestEntityOneOrManyCreateDto> TestEntityOneOrManyRelationship { get; set; } = new();
