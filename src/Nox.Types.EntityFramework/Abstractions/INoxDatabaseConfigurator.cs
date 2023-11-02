@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Nox.Solution;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 
@@ -8,7 +9,7 @@ public interface INoxDatabaseConfigurator
     /// <summary>
     /// Configure the data base model for an Entity
     /// </summary>
-    void ConfigureEntity(IEntityBuilder builder, Entity entity);
+    void ConfigureEntity(ModelBuilder modelBuilder, IEntityBuilder builder, Entity entity);
 
     /// <summary>
     /// Configure the data base model for an localized Entity

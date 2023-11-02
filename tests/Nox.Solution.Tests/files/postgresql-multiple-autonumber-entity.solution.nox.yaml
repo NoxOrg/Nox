@@ -1,0 +1,56 @@
+#
+# workplace.solution.nox.yaml
+#
+# yaml-language-server: $schema=https://noxorg.dev/schemas/solution.json
+#
+
+name: TestWebApp
+
+description: Sample Nox solution yaml configuration
+
+infrastructure:
+
+  persistence:
+
+    databaseServer:
+      name: ClientApi
+      provider: postgres
+      options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True
+      serverUri: localhost
+      user: postgres
+      password: Developer*123
+
+domain:
+
+  entities:
+
+    - name: TestEntityForAutoNumberUsages
+      description: Entity created for testing auto number usages
+      
+      persistence:
+        isAudited: false
+      
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: autoNumber
+          autoNumberTypeOptions:
+            startsAt: 10
+            incrementsBy: 2
+      
+      attributes:
+        - name: AutoNumberField
+          type: autoNumber
+          autoNumberTypeOptions:
+            startsAt: 20
+            incrementsBy: 2
+          isRequired: true
+
+        - name: TextField
+          type: text
+          textTypeOptions:
+            minLength: 1
+            maxLength: 63
+          isRequired: true  
+        

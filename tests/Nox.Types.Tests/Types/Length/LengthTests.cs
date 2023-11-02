@@ -39,21 +39,37 @@ public class LengthTests
     [Fact]
     public void Length_Constructor_SpecifyingMaxValue_WithGreaterValueInput_ThrowsException()
     {
-        var action = () => Length.From(7.5, new LengthTypeOptions { MaxValue = 5, Units = LengthTypeUnit.Meter });
+        void Test()
+        {
+            var action = () => Length.From(7.5, new LengthTypeOptions { MaxValue = 5, Units = LengthTypeUnit.Meter });
 
-        action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
-                "Could not create a Nox Length type as value 7.5 m is greater than the specified maximum of 5 m.") });
+            action.Should().Throw<TypeValidationException>()
+                .And.Errors.Should().BeEquivalentTo(new[]
+                {
+                    new ValidationFailure("Value",
+                        "Could not create a Nox Length type as value 7.5 m is greater than the specified maximum of 5 m.")
+                });
+        }
+
+    TestUtility.RunInInvariantCulture(Test);
     }
 
     [Fact]
     public void Length_Constructor_SpecifyingMinValue_WithLesserValueInput_ThrowsException()
     {
-        var action = () => Length.From(7.5, new LengthTypeOptions { MinValue = 10, Units = LengthTypeUnit.Meter });
+        void Test()
+        {
+            var action = () => Length.From(7.5, new LengthTypeOptions { MinValue = 10, Units = LengthTypeUnit.Meter });
 
-        action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", 
-                "Could not create a Nox Length type as value 7.5 m is lesser than the specified minimum of 10 m.") });
+            action.Should().Throw<TypeValidationException>()
+                .And.Errors.Should().BeEquivalentTo(new[]
+                {
+                    new ValidationFailure("Value",
+                        "Could not create a Nox Length type as value 7.5 m is lesser than the specified minimum of 10 m.")
+                });
+        }
+
+        TestUtility.RunInInvariantCulture(Test);
     }
 
     [Fact]
