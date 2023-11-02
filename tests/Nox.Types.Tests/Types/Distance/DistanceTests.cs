@@ -38,21 +38,39 @@ public class DistanceTests
     [Fact]
     public void Distance_Constructor_SpecifyingMaxValue_WithGreaterValueInput_ThrowsException()
     {
-        var action = () => Distance.From(7.5, new DistanceTypeOptions { MaxValue = 5, Units = DistanceTypeUnit.Kilometer });
+        void Test()
+        {
+            var action = () =>
+                Distance.From(7.5, new DistanceTypeOptions { MaxValue = 5, Units = DistanceTypeUnit.Kilometer });
 
-        action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
-                "Could not create a Nox Distance type as value 7.5 km is greater than the specified maximum of 5 km.") });
+            action.Should().Throw<TypeValidationException>()
+                .And.Errors.Should().BeEquivalentTo(new[]
+                {
+                    new ValidationFailure("Value",
+                        "Could not create a Nox Distance type as value 7.5 km is greater than the specified maximum of 5 km.")
+                });
+        }
+
+        TestUtility.RunInInvariantCulture(Test);
     }
 
     [Fact]
     public void Distance_Constructor_SpecifyingMinValue_WithLesserValueInput_ThrowsException()
     {
-        var action = () => Distance.From(7.5, new DistanceTypeOptions { MinValue = 10, Units = DistanceTypeUnit.Kilometer });
+        void Test()
+        {
+            var action = () =>
+                Distance.From(7.5, new DistanceTypeOptions { MinValue = 10, Units = DistanceTypeUnit.Kilometer });
 
-        action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
-                "Could not create a Nox Distance type as value 7.5 km is lesser than the specified minimum of 10 km.") });
+            action.Should().Throw<TypeValidationException>()
+                .And.Errors.Should().BeEquivalentTo(new[]
+                {
+                    new ValidationFailure("Value",
+                        "Could not create a Nox Distance type as value 7.5 km is lesser than the specified minimum of 10 km.")
+                });
+        }
+
+        TestUtility.RunInInvariantCulture(Test);
     }
 
     [Fact]
@@ -122,27 +140,45 @@ public class DistanceTests
     [Fact]
     public void Distance_Constructor_SpecifyingMaxValue_WithGreaterValueLatLongInput_ThrowsException()
     {
-        var origin = LatLong.From(46.94809, 7.44744);
-        var destination = LatLong.From(46.204391, 6.143158);
+        void Test()
+        {
+            var origin = LatLong.From(46.94809, 7.44744);
+            var destination = LatLong.From(46.204391, 6.143158);
 
-        var action = () => Distance.From(origin, destination, new DistanceTypeOptions { MaxValue = 100, Units = DistanceTypeUnit.Kilometer });
+            var action = () => Distance.From(origin, destination,
+                new DistanceTypeOptions { MaxValue = 100, Units = DistanceTypeUnit.Kilometer });
 
-        action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
-                "Could not create a Nox Distance type as value 129.522785 km is greater than the specified maximum of 100 km.") });
+            action.Should().Throw<TypeValidationException>()
+                .And.Errors.Should().BeEquivalentTo(new[]
+                {
+                    new ValidationFailure("Value",
+                        "Could not create a Nox Distance type as value 129.522785 km is greater than the specified maximum of 100 km.")
+                });
+        }
+
+        TestUtility.RunInInvariantCulture(Test);
     }
 
     [Fact]
     public void Distance_Constructor_SpecifyingMinValue_WithLesserValueLatLongInput_ThrowsException()
     {
-        var origin = LatLong.From(46.94809, 7.44744);
-        var destination = LatLong.From(46.204391, 6.143158);
+        void Test()
+        {
+            var origin = LatLong.From(46.94809, 7.44744);
+            var destination = LatLong.From(46.204391, 6.143158);
 
-        var action = () => Distance.From(origin, destination, new DistanceTypeOptions { MinValue = 150, Units = DistanceTypeUnit.Kilometer });
+            var action = () => Distance.From(origin, destination,
+                new DistanceTypeOptions { MinValue = 150, Units = DistanceTypeUnit.Kilometer });
 
-        action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
-                "Could not create a Nox Distance type as value 129.522785 km is lesser than the specified minimum of 150 km.") });
+            action.Should().Throw<TypeValidationException>()
+                .And.Errors.Should().BeEquivalentTo(new[]
+                {
+                    new ValidationFailure("Value",
+                        "Could not create a Nox Distance type as value 129.522785 km is lesser than the specified minimum of 150 km.")
+                });
+        }
+
+        TestUtility.RunInInvariantCulture(Test);
     }
 
     [Fact]
