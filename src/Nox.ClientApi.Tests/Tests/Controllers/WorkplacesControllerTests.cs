@@ -309,12 +309,14 @@ namespace ClientApi.Tests.Tests.Controllers
             // Assert
             result.Should().NotBeNull();
             result.Should().HaveCount(2);
-            result![0].Id.Should().Be(postResult1!.Id);
-            result![0].Name.Should().Be(createDto1.Name);
-            result![0].Description.Should().Be(createDto1.Description);
-            result![1].Id.Should().Be(postResult2!.Id);
-            result![1].Name.Should().Be(createDto2.Name);
-            result![1].Description.Should().Be("[" + createDto2.Description + "]");
+
+            var enResult = result!.First(x => x.Id == postResult1!.Id);
+            enResult.Name.Should().Be(createDto1.Name);
+            enResult.Description.Should().Be(createDto1.Description);
+
+            var frResult = result!.First(x => x.Id == postResult2!.Id);
+            frResult.Name.Should().Be(createDto2.Name);
+            frResult.Description.Should().Be("[" + createDto2.Description + "]");
         }
 
         [Fact]
