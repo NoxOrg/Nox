@@ -37,7 +37,7 @@ internal abstract class DeleteTestEntityForAutoNumberUsagesByIdCommandHandlerBas
 	public virtual async Task<bool> Handle(DeleteTestEntityForAutoNumberUsagesByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityForAutoNumberUsages.FindAsync(keyId);

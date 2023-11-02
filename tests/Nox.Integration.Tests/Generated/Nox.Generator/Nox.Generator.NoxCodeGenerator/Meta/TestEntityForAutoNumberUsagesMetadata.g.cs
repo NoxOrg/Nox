@@ -24,9 +24,16 @@ public partial class TestEntityForAutoNumberUsagesMetadata
         
     
         /// <summary>
-        /// Factory for property 'AutoNumberField'
+        /// Factory for property 'AutoNumberFieldWithOptions'
         /// </summary>
-        public static Nox.Types.AutoNumber CreateAutoNumberField(System.Int64 value)
+        public static Nox.Types.AutoNumber CreateAutoNumberFieldWithOptions(System.Int64 value)
+            => Nox.Types.AutoNumber.FromDatabase(value);
+        
+    
+        /// <summary>
+        /// Factory for property 'AutoNumberFieldWithoutOptions'
+        /// </summary>
+        public static Nox.Types.AutoNumber CreateAutoNumberFieldWithoutOptions(System.Int64 value)
             => Nox.Types.AutoNumber.FromDatabase(value);
         
     
@@ -35,11 +42,11 @@ public partial class TestEntityForAutoNumberUsagesMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions TextFieldTypeOptions {get; private set;} = new ()
         {
-            MinLength = 1,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = false,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 1,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = false,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
@@ -51,12 +58,21 @@ public partial class TestEntityForAutoNumberUsagesMetadata
         
 
         /// <summary>
-        /// User Interface for property 'AutoNumberField'
+        /// User Interface for property 'AutoNumberFieldWithOptions'
         /// </summary>
-        public static TypeUserInterface? AutoNumberFieldUiOptions(NoxSolution solution) 
+        public static TypeUserInterface? AutoNumberFieldWithOptionsUiOptions(NoxSolution solution) 
             => solution.Domain!
                 .GetEntityByName("TestEntityForAutoNumberUsages")
-                .GetAttributeByName("AutoNumberField")?
+                .GetAttributeByName("AutoNumberFieldWithOptions")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'AutoNumberFieldWithoutOptions'
+        /// </summary>
+        public static TypeUserInterface? AutoNumberFieldWithoutOptionsUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("TestEntityForAutoNumberUsages")
+                .GetAttributeByName("AutoNumberFieldWithoutOptions")?
                 .UserInterface;
 
         /// <summary>
