@@ -93,6 +93,8 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
     public DbSet<TestWebApp.Domain.TestEntityForUniqueConstraints> TestEntityForUniqueConstraints { get; set; } = null!;
     public DbSet<TestWebApp.Domain.TestEntityLocalization> TestEntityLocalizations { get; set; } = null!;
     public DbSet<TestWebApp.Domain.TestEntityLocalizationLocalized> TestEntityLocalizationsLocalized { get; set; } = null!;
+    public DbSet<DomainNameSpace.TestEntityForTypesEnumerationTestField> TestEntityForTypesEnumerationTestFields { get; set; } = null!;
+    public DbSet<DomainNameSpace.TestEntityForTypesEnumerationTestFieldLocalized> TestEntityForTypesEnumerationTestFieldsLocalized { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -146,7 +148,7 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
                 {
                     var enumLocalizedType = _clientAssemblyProvider.GetType($"TestWebApp.Domain.{_codeGenConventions.GetEntityNameForEnumerationLocalized(entity.Name, enumAttribute.Name)}")!;
                     var enumType = _clientAssemblyProvider.GetType($"TestWebApp.Domain.{_codeGenConventions.GetEntityNameForEnumeration(entity.Name, enumAttribute.Name)}")!;
-                    ConfigureEnumerationLocalized(modelBuilder.Entity(enumLocalizedType), enumType, enumLocalizedType, enumAttribute.EnumerationTypeOptions!, _noxSolution.Application?.Localization?.DefaultCulture ?? "en-US"); // TODO check if it is not defined if we want to use en-US or just skip seeding localized data
+                    ConfigureEnumerationLocalized(modelBuilder.Entity(enumLocalizedType), enumType, enumLocalizedType, enumAttribute.EnumerationTypeOptions!, _noxSolution.Application!.Localization!.DefaultCulture);
                 }
             }
     }

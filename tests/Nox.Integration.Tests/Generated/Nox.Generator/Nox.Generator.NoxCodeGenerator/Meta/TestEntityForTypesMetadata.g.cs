@@ -57,6 +57,40 @@ public partial class TestEntityForTypesMetadata
         
     
         /// <summary>
+        /// Type options for property 'EnumerationTestField'
+        /// </summary>
+        public static Nox.Types.EnumerationTypeOptions EnumerationTestFieldTypeOptions {get; private set;} = new ()
+        {
+            Values = new System.Collections.Generic.List<Nox.Types.EnumerationValues>()
+            {
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 1,
+                    Name = "Value1",
+                },
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 2,
+                    Name = "Value2",
+                },
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 3,
+                    Name = "Value3",
+                },
+            },
+            IsLocalized = true,
+        };
+    
+    
+        /// <summary>
+        /// Factory for property 'EnumerationTestField'
+        /// </summary>
+        public static Nox.Types.Enumeration CreateEnumerationTestField(System.Int32 value)
+            => Nox.Types.Enumeration.From(value, EnumerationTestFieldTypeOptions);
+        
+    
+        /// <summary>
         /// Type options for property 'NumberTestField'
         /// </summary>
         public static Nox.Types.NumberTypeOptions NumberTestFieldTypeOptions {get; private set;} = new ()
@@ -462,6 +496,15 @@ public partial class TestEntityForTypesMetadata
             => solution.Domain!
                 .GetEntityByName("TestEntityForTypes")
                 .GetAttributeByName("TextTestField")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'EnumerationTestField'
+        /// </summary>
+        public static TypeUserInterface? EnumerationTestFieldUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("TestEntityForTypes")
+                .GetAttributeByName("EnumerationTestField")?
                 .UserInterface;
 
         /// <summary>

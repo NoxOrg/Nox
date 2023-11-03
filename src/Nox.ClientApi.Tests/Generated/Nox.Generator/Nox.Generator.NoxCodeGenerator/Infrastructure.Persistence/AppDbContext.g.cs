@@ -118,7 +118,7 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
                 {
                     var enumLocalizedType = _clientAssemblyProvider.GetType($"ClientApi.Domain.{_codeGenConventions.GetEntityNameForEnumerationLocalized(entity.Name, enumAttribute.Name)}")!;
                     var enumType = _clientAssemblyProvider.GetType($"ClientApi.Domain.{_codeGenConventions.GetEntityNameForEnumeration(entity.Name, enumAttribute.Name)}")!;
-                    ConfigureEnumerationLocalized(modelBuilder.Entity(enumLocalizedType), enumType, enumLocalizedType, enumAttribute.EnumerationTypeOptions!, _noxSolution.Application?.Localization?.DefaultCulture ?? "en-US"); // TODO check if it is not defined if we want to use en-US or just skip seeding localized data
+                    ConfigureEnumerationLocalized(modelBuilder.Entity(enumLocalizedType), enumType, enumLocalizedType, enumAttribute.EnumerationTypeOptions!, _noxSolution.Application!.Localization!.DefaultCulture);
                 }
             }
     }

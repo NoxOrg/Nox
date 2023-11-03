@@ -36,6 +36,10 @@ public abstract class TestEntityForTypesCreateDtoBase : IEntityDto<DomainNamespa
     
     public virtual System.String TextTestField { get; set; } = default!;
     /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public virtual System.Int32? EnumerationTestField { get; set; }
+    /// <summary>
     ///  (Required).
     /// </summary>
     [Required(ErrorMessage = "NumberTestField is required")]
