@@ -115,15 +115,13 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
             {{- if !IsNoxTypeReadable attribute.Type || attribute.Type == "Formula" -}}
                 {{ continue; }}
             {{- end}}
-        {{- if attribute.IsLocalized }}
-        if(IsDefaultCultureCode(cultureCode)) 
-        {{- end -}}
-        {{- if attribute.IsRequired }}
+        {{ if attribute.IsLocalized }}if(IsDefaultCultureCode(cultureCode)) {{ end }}
+        {{- if attribute.IsRequired -}}
         entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
             {{- if IsNoxTypeSimpleType attribute.Type -}}.NonNullValue<{{SinglePrimitiveTypeForKey attribute}}>()
             {{- else -}}.NonNullValue<{{attribute.Type}}Dto>()
             {{- end}});
-        {{- else }}
+        {{- else -}}
         entity.SetIfNotNull(updateDto.{{attribute.Name}}, (entity) => entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
             {{- if IsNoxTypeSimpleType attribute.Type -}}.ToValueFromNonNull<{{SinglePrimitiveTypeForKey attribute}}>()
             {{- else -}}.ToValueFromNonNull<{{attribute.Type}}Dto>()

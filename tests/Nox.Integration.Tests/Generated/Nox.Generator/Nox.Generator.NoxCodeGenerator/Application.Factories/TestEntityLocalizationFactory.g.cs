@@ -59,8 +59,7 @@ internal abstract class TestEntityLocalizationFactoryBase : IEntityFactory<TestE
 
     private void UpdateEntityInternal(TestEntityLocalizationEntity entity, TestEntityLocalizationUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        if(IsDefaultCultureCode(cultureCode))
-        entity.TextFieldToLocalize = TestWebApp.Domain.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(updateDto.TextFieldToLocalize.NonNullValue<System.String>());
+        if(IsDefaultCultureCode(cultureCode)) entity.TextFieldToLocalize = TestWebApp.Domain.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(updateDto.TextFieldToLocalize.NonNullValue<System.String>());
         entity.NumberField = TestWebApp.Domain.TestEntityLocalizationMetadata.CreateNumberField(updateDto.NumberField.NonNullValue<System.Int16>());
     }
 

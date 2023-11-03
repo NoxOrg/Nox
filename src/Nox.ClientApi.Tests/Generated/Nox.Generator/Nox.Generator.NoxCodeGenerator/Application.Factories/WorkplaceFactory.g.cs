@@ -60,8 +60,7 @@ internal abstract class WorkplaceFactoryBase : IEntityFactory<WorkplaceEntity, W
     private void UpdateEntityInternal(WorkplaceEntity entity, WorkplaceUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Name = ClientApi.Domain.WorkplaceMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
-        if(IsDefaultCultureCode(cultureCode))
-        entity.SetIfNotNull(updateDto.Description, (entity) => entity.Description = ClientApi.Domain.WorkplaceMetadata.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>()));
+        if(IsDefaultCultureCode(cultureCode)) entity.SetIfNotNull(updateDto.Description, (entity) => entity.Description = ClientApi.Domain.WorkplaceMetadata.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>()));
 		entity.EnsureId();
     }
 
