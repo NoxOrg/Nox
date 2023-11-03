@@ -169,14 +169,14 @@ public abstract partial class EmployeesControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToEmployeeReviewingCashStockOrder([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public async Task<ActionResult> CreateRefToCashStockOrder([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var createdRef = await _mediator.Send(new CreateRefEmployeeToEmployeeReviewingCashStockOrderCommand(new EmployeeKeyDto(key), new CashStockOrderKeyDto(relatedKey)));
+        var createdRef = await _mediator.Send(new CreateRefEmployeeToCashStockOrderCommand(new EmployeeKeyDto(key), new CashStockOrderKeyDto(relatedKey)));
         if (!createdRef)
         {
             return NotFound();
@@ -185,7 +185,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToEmployeeReviewingCashStockOrder([FromRoute] System.Int64 key, [FromBody] CashStockOrderCreateDto cashStockOrder)
+    public virtual async Task<ActionResult> PostToCashStockOrder([FromRoute] System.Int64 key, [FromBody] CashStockOrderCreateDto cashStockOrder)
     {
         if (!ModelState.IsValid)
         {
@@ -193,7 +193,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        cashStockOrder.CashStockOrderReviewedByEmployeeId = key;
+        cashStockOrder.EmployeeId = key;
         var createdKey = await _mediator.Send(new CreateCashStockOrderCommand(cashStockOrder, _cultureCode));
         
         var createdItem = (await _mediator.Send(new GetCashStockOrderByIdQuery(createdKey.keyId))).SingleOrDefault();
@@ -201,9 +201,9 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Created(createdItem);
     }
     
-    public async Task<ActionResult> GetRefToEmployeeReviewingCashStockOrder([FromRoute] System.Int64 key)
+    public async Task<ActionResult> GetRefToCashStockOrder([FromRoute] System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetEmployeeByIdQuery(key))).Select(x => x.EmployeeReviewingCashStockOrder).SingleOrDefault();
+        var related = (await _mediator.Send(new GetEmployeeByIdQuery(key))).Select(x => x.CashStockOrder).SingleOrDefault();
         if (related is null)
         {
             return NotFound();
@@ -213,14 +213,14 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToEmployeeReviewingCashStockOrder([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public async Task<ActionResult> DeleteRefToCashStockOrder([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedRef = await _mediator.Send(new DeleteRefEmployeeToEmployeeReviewingCashStockOrderCommand(new EmployeeKeyDto(key), new CashStockOrderKeyDto(relatedKey)));
+        var deletedRef = await _mediator.Send(new DeleteRefEmployeeToCashStockOrderCommand(new EmployeeKeyDto(key), new CashStockOrderKeyDto(relatedKey)));
         if (!deletedRef)
         {
             return NotFound();
@@ -229,14 +229,14 @@ public abstract partial class EmployeesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToEmployeeReviewingCashStockOrder([FromRoute] System.Int64 key)
+    public async Task<ActionResult> DeleteRefToCashStockOrder([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefEmployeeToEmployeeReviewingCashStockOrderCommand(new EmployeeKeyDto(key)));
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefEmployeeToCashStockOrderCommand(new EmployeeKeyDto(key)));
         if (!deletedAllRef)
         {
             return NotFound();

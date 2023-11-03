@@ -58,7 +58,8 @@ internal abstract class Get{{entity.PluralName}}QueryHandlerBase : QueryBase<IQu
         {{attribute.Name}} = {{if attribute.IsLocalized}}itemLocalized.{{attribute.Name}} ?? "[" + item.{{attribute.Name}} + "]"{{else}}item.{{attribute.Name}}{{end}},
         {{- end }}
         {{- for rel in entity.Relationships }}
-        {{ if rel.ShouldGenerateForeignOnThisSide}}{{rel.Name}}Id = item.{{rel.Name}}Id,{{- end }}
+	    {{- relationshipName = GetRelationshipPublicName entity rel }}
+        {{ if rel.ShouldGenerateForeignOnThisSide}}{{relationshipName}}Id = item.{{relationshipName}}Id,{{- end }}
         {{- end }}
         Etag = item.Etag
             };

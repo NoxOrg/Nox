@@ -55,34 +55,34 @@ internal abstract class UpdateCommissionCommandHandlerBase : CommandBase<UpdateC
 			return null;
 		}
 
-		if(request.EntityDto.CommissionFeesForCountryId is not null)
+		if(request.EntityDto.CountryId is not null)
 		{
-			var commissionFeesForCountryKey = Cryptocash.Domain.CountryMetadata.CreateId(request.EntityDto.CommissionFeesForCountryId.NonNullValue<System.String>());
-			var commissionFeesForCountryEntity = await DbContext.Countries.FindAsync(commissionFeesForCountryKey);
+			var countryKey = Cryptocash.Domain.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.String>());
+			var countryEntity = await DbContext.Countries.FindAsync(countryKey);
 						
-			if(commissionFeesForCountryEntity is not null)
-				entity.CreateRefToCommissionFeesForCountry(commissionFeesForCountryEntity);
+			if(countryEntity is not null)
+				entity.CreateRefToCountry(countryEntity);
 			else
-				throw new RelatedEntityNotFoundException("CommissionFeesForCountry", request.EntityDto.CommissionFeesForCountryId.NonNullValue<System.String>().ToString());
+				throw new RelatedEntityNotFoundException("Country", request.EntityDto.CountryId.NonNullValue<System.String>().ToString());
 		}
 		else
 		{
-			entity.DeleteAllRefToCommissionFeesForCountry();
+			entity.DeleteAllRefToCountry();
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.CommissionFeesForBooking).LoadAsync();
-		var commissionFeesForBookingEntities = new List<Booking>();
-		foreach(var relatedEntityId in request.EntityDto.CommissionFeesForBookingId)
+		await DbContext.Entry(entity).Collection(x => x.Bookings).LoadAsync();
+		var bookingsEntities = new List<Booking>();
+		foreach(var relatedEntityId in request.EntityDto.BookingsId)
 		{
 			var relatedKey = Cryptocash.Domain.BookingMetadata.CreateId(relatedEntityId);
 			var relatedEntity = await DbContext.Bookings.FindAsync(relatedKey);
 						
 			if(relatedEntity is not null)
-				commissionFeesForBookingEntities.Add(relatedEntity);
+				bookingsEntities.Add(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("CommissionFeesForBooking", relatedEntityId.ToString());
+				throw new RelatedEntityNotFoundException("Bookings", relatedEntityId.ToString());
 		}
-		entity.UpdateRefToCommissionFeesForBooking(commissionFeesForBookingEntities);
+		entity.UpdateRefToBookings(bookingsEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

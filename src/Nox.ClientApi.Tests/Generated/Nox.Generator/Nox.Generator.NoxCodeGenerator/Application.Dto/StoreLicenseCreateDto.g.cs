@@ -34,8 +34,8 @@ public abstract class StoreLicenseCreateDtoBase : IEntityDto<DomainNamespace.Sto
     /// <summary>
     /// StoreLicense Store that this license related to ExactlyOne Stores
     /// </summary>
-    public System.Guid? StoreWithLicenseId { get; set; } = default!;
+    public System.Guid? StoreId { get; set; } = default!;
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual StoreCreateDto? StoreWithLicense { get; set; } = default!;
+    public virtual StoreCreateDto? Store { get; set; } = default!;
 }

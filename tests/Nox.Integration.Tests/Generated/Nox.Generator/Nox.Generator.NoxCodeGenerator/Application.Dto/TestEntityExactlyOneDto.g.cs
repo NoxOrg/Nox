@@ -61,8 +61,8 @@ public abstract class TestEntityExactlyOneDtoBase : EntityDtoBase, IEntityDto<Do
     /// TestEntityExactlyOne Test entity relationship to SecondTestEntityExactlyOneRelationship ExactlyOne SecondTestEntityExactlyOnes
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.String? SecondTestEntityExactlyOneRelationshipId { get; set; } = default!;
-    public virtual SecondTestEntityExactlyOneDto? SecondTestEntityExactlyOneRelationship { get; set; } = null!;
+    public System.String? SecondTestEntityExactlyOneId { get; set; } = default!;
+    public virtual SecondTestEntityExactlyOneDto? SecondTestEntityExactlyOne { get; set; } = null!;
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

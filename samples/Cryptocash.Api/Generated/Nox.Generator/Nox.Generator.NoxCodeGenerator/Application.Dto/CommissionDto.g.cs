@@ -65,13 +65,13 @@ public abstract class CommissionDtoBase : EntityDtoBase, IEntityDto<DomainNamesp
     /// Commission fees for ZeroOrOne Countries
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.String? CommissionFeesForCountryId { get; set; } = default!;
-    public virtual CountryDto? CommissionFeesForCountry { get; set; } = null!;
+    public System.String? CountryId { get; set; } = default!;
+    public virtual CountryDto? Country { get; set; } = null!;
 
     /// <summary>
     /// Commission fees for ZeroOrMany Bookings
     /// </summary>
-    public virtual List<BookingDto> CommissionFeesForBooking { get; set; } = new();
+    public virtual List<BookingDto> Bookings { get; set; } = new();
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

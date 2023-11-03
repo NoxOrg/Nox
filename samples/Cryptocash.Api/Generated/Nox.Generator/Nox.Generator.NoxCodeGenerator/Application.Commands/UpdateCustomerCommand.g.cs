@@ -55,55 +55,55 @@ internal abstract class UpdateCustomerCommandHandlerBase : CommandBase<UpdateCus
 			return null;
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.CustomerRelatedPaymentDetails).LoadAsync();
-		var customerRelatedPaymentDetailsEntities = new List<PaymentDetail>();
-		foreach(var relatedEntityId in request.EntityDto.CustomerRelatedPaymentDetailsId)
+		await DbContext.Entry(entity).Collection(x => x.PaymentDetails).LoadAsync();
+		var paymentDetailsEntities = new List<PaymentDetail>();
+		foreach(var relatedEntityId in request.EntityDto.PaymentDetailsId)
 		{
 			var relatedKey = Cryptocash.Domain.PaymentDetailMetadata.CreateId(relatedEntityId);
 			var relatedEntity = await DbContext.PaymentDetails.FindAsync(relatedKey);
 						
 			if(relatedEntity is not null)
-				customerRelatedPaymentDetailsEntities.Add(relatedEntity);
+				paymentDetailsEntities.Add(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("CustomerRelatedPaymentDetails", relatedEntityId.ToString());
+				throw new RelatedEntityNotFoundException("PaymentDetails", relatedEntityId.ToString());
 		}
-		entity.UpdateRefToCustomerRelatedPaymentDetails(customerRelatedPaymentDetailsEntities);
+		entity.UpdateRefToPaymentDetails(paymentDetailsEntities);
 
-		await DbContext.Entry(entity).Collection(x => x.CustomerRelatedBookings).LoadAsync();
-		var customerRelatedBookingsEntities = new List<Booking>();
-		foreach(var relatedEntityId in request.EntityDto.CustomerRelatedBookingsId)
+		await DbContext.Entry(entity).Collection(x => x.Bookings).LoadAsync();
+		var bookingsEntities = new List<Booking>();
+		foreach(var relatedEntityId in request.EntityDto.BookingsId)
 		{
 			var relatedKey = Cryptocash.Domain.BookingMetadata.CreateId(relatedEntityId);
 			var relatedEntity = await DbContext.Bookings.FindAsync(relatedKey);
 						
 			if(relatedEntity is not null)
-				customerRelatedBookingsEntities.Add(relatedEntity);
+				bookingsEntities.Add(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("CustomerRelatedBookings", relatedEntityId.ToString());
+				throw new RelatedEntityNotFoundException("Bookings", relatedEntityId.ToString());
 		}
-		entity.UpdateRefToCustomerRelatedBookings(customerRelatedBookingsEntities);
+		entity.UpdateRefToBookings(bookingsEntities);
 
-		await DbContext.Entry(entity).Collection(x => x.CustomerRelatedTransactions).LoadAsync();
-		var customerRelatedTransactionsEntities = new List<Transaction>();
-		foreach(var relatedEntityId in request.EntityDto.CustomerRelatedTransactionsId)
+		await DbContext.Entry(entity).Collection(x => x.Transactions).LoadAsync();
+		var transactionsEntities = new List<Transaction>();
+		foreach(var relatedEntityId in request.EntityDto.TransactionsId)
 		{
 			var relatedKey = Cryptocash.Domain.TransactionMetadata.CreateId(relatedEntityId);
 			var relatedEntity = await DbContext.Transactions.FindAsync(relatedKey);
 						
 			if(relatedEntity is not null)
-				customerRelatedTransactionsEntities.Add(relatedEntity);
+				transactionsEntities.Add(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("CustomerRelatedTransactions", relatedEntityId.ToString());
+				throw new RelatedEntityNotFoundException("Transactions", relatedEntityId.ToString());
 		}
-		entity.UpdateRefToCustomerRelatedTransactions(customerRelatedTransactionsEntities);
+		entity.UpdateRefToTransactions(transactionsEntities);
 
-		var customerBaseCountryKey = Cryptocash.Domain.CountryMetadata.CreateId(request.EntityDto.CustomerBaseCountryId);
-		var customerBaseCountryEntity = await DbContext.Countries.FindAsync(customerBaseCountryKey);
+		var countryKey = Cryptocash.Domain.CountryMetadata.CreateId(request.EntityDto.CountryId);
+		var countryEntity = await DbContext.Countries.FindAsync(countryKey);
 						
-		if(customerBaseCountryEntity is not null)
-			entity.CreateRefToCustomerBaseCountry(customerBaseCountryEntity);
+		if(countryEntity is not null)
+			entity.CreateRefToCountry(countryEntity);
 		else
-			throw new RelatedEntityNotFoundException("CustomerBaseCountry", request.EntityDto.CustomerBaseCountryId.ToString());
+			throw new RelatedEntityNotFoundException("Country", request.EntityDto.CountryId.ToString());
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

@@ -325,22 +325,22 @@ public class NoxCommonTestCaseFactory
             TextTestField2 = Text.From(text),
         };
 
-        newItem.SecondTestEntityZeroOrManyRelationship.Add(newItem2);
+        newItem.SecondTestEntityZeroOrManies.Add(newItem2);
         DataContext.SecondTestEntityZeroOrManies.Add(newItem2);
         DataContext.SaveChanges();
 
         // Force the recreation of DataContext and ensure we have fresh data from database
         _dbContextFixture.RefreshDbContext();
 
-        var testEntity = DataContext.TestEntityZeroOrManies.Include(x => x.SecondTestEntityZeroOrManyRelationship).First();
-        var secondTestEntity = DataContext.SecondTestEntityZeroOrManies.Include(x => x.TestEntityZeroOrManyRelationship).First();
+        var testEntity = DataContext.TestEntityZeroOrManies.Include(x => x.SecondTestEntityZeroOrManies).First();
+        var secondTestEntity = DataContext.SecondTestEntityZeroOrManies.Include(x => x.TestEntityZeroOrManies).First();
 
         Assert.Equal(testEntity.Id.Value, textId1);
         Assert.Equal(secondTestEntity.Id.Value, textId2);
-        Assert.NotEmpty(testEntity.SecondTestEntityZeroOrManyRelationship);
-        Assert.NotEmpty(secondTestEntity.TestEntityZeroOrManyRelationship);
-        Assert.Equal(testEntity.SecondTestEntityZeroOrManyRelationship[0].Id.Value, textId2);
-        Assert.Equal(secondTestEntity.TestEntityZeroOrManyRelationship[0].Id.Value, textId1);
+        Assert.NotEmpty(testEntity.SecondTestEntityZeroOrManies);
+        Assert.NotEmpty(secondTestEntity.TestEntityZeroOrManies);
+        Assert.Equal(testEntity.SecondTestEntityZeroOrManies[0].Id.Value, textId2);
+        Assert.Equal(secondTestEntity.TestEntityZeroOrManies[0].Id.Value, textId1);
     }
 
     public void GeneratedRelationshipOneOrMany()
@@ -363,22 +363,22 @@ public class NoxCommonTestCaseFactory
             TextTestField2 = Text.From(text),
         };
 
-        newItem.SecondTestEntityOneOrManyRelationship.Add(newItem2);
+        newItem.SecondTestEntityOneOrManies.Add(newItem2);
         DataContext.SecondTestEntityOneOrManies.Add(newItem2);
         DataContext.SaveChanges();
 
         // Force the recreation of DataContext and ensure we have fresh data from database
         _dbContextFixture.RefreshDbContext();
 
-        var testEntity = DataContext.TestEntityOneOrManies.Include(x => x.SecondTestEntityOneOrManyRelationship).First();
-        var secondTestEntity = DataContext.SecondTestEntityOneOrManies.Include(x => x.TestEntityOneOrManyRelationship).First();
+        var testEntity = DataContext.TestEntityOneOrManies.Include(x => x.SecondTestEntityOneOrManies).First();
+        var secondTestEntity = DataContext.SecondTestEntityOneOrManies.Include(x => x.TestEntityOneOrManies).First();
 
         Assert.Equal(testEntity.Id.Value, textId1);
         Assert.Equal(secondTestEntity.Id.Value, textId2);
-        Assert.NotEmpty(testEntity.SecondTestEntityOneOrManyRelationship);
-        Assert.NotEmpty(secondTestEntity.TestEntityOneOrManyRelationship);
-        Assert.Equal(testEntity.SecondTestEntityOneOrManyRelationship[0].Id.Value, textId2);
-        Assert.Equal(secondTestEntity.TestEntityOneOrManyRelationship[0].Id.Value, textId1);
+        Assert.NotEmpty(testEntity.SecondTestEntityOneOrManies);
+        Assert.NotEmpty(secondTestEntity.TestEntityOneOrManies);
+        Assert.Equal(testEntity.SecondTestEntityOneOrManies[0].Id.Value, textId2);
+        Assert.Equal(secondTestEntity.TestEntityOneOrManies[0].Id.Value, textId1);
     }
 
     public void GeneratedRelationshipExactlyOne()
@@ -398,7 +398,7 @@ public class NoxCommonTestCaseFactory
             TextTestField2 = Text.From(text),
         };
 
-        newItem.SecondTestEntityExactlyOneRelationshipId = newItem2.Id;
+        newItem.SecondTestEntityExactlyOneId = newItem2.Id;
         DataContext.TestEntityExactlyOnes.Add(newItem);
         DataContext.SecondTestEntityExactlyOnes.Add(newItem2);
         DataContext.SaveChanges();
@@ -406,15 +406,15 @@ public class NoxCommonTestCaseFactory
         // Force the recreation of DataContext and ensure we have fresh data from database
         _dbContextFixture.RefreshDbContext();
 
-        var testEntity = DataContext.TestEntityExactlyOnes.Include(x => x.SecondTestEntityExactlyOneRelationship).First();
-        var secondTestEntity = DataContext.SecondTestEntityExactlyOnes.Include(x => x.TestEntityExactlyOneRelationship).First();
+        var testEntity = DataContext.TestEntityExactlyOnes.Include(x => x.SecondTestEntityExactlyOne).First();
+        var secondTestEntity = DataContext.SecondTestEntityExactlyOnes.Include(x => x.TestEntityExactlyOne).First();
 
         Assert.Equal(testEntity.Id.Value, textId1);
         Assert.Equal(secondTestEntity.Id.Value, textId2);
-        Assert.NotNull(testEntity.SecondTestEntityExactlyOneRelationship);
-        Assert.NotNull(secondTestEntity.TestEntityExactlyOneRelationship);
-        Assert.Equal(testEntity.SecondTestEntityExactlyOneRelationship.Id.Value, textId2);
-        Assert.Equal(secondTestEntity.TestEntityExactlyOneRelationship.Id.Value, textId1);
+        Assert.NotNull(testEntity.SecondTestEntityExactlyOne);
+        Assert.NotNull(secondTestEntity.TestEntityExactlyOne);
+        Assert.Equal(testEntity.SecondTestEntityExactlyOne.Id.Value, textId2);
+        Assert.Equal(secondTestEntity.TestEntityExactlyOne.Id.Value, textId1);
     }
 
     public void GeneratedRelationshipZeroOrOne()
@@ -434,7 +434,7 @@ public class NoxCommonTestCaseFactory
             TextTestField2 = Text.From(text),
         };
 
-        newItem.SecondTestEntityZeroOrOneRelationshipId = newItem2.Id;
+        newItem.SecondTestEntityZeroOrOneId = newItem2.Id;
         DataContext.TestEntityZeroOrOnes.Add(newItem);
         DataContext.SecondTestEntityZeroOrOnes.Add(newItem2);
         DataContext.SaveChanges();
@@ -442,15 +442,15 @@ public class NoxCommonTestCaseFactory
         // Force the recreation of DataContext and ensure we have fresh data from database
         _dbContextFixture.RefreshDbContext();
 
-        var testEntity = DataContext.TestEntityZeroOrOnes.Include(x => x.SecondTestEntityZeroOrOneRelationship).First();
-        var secondTestEntity = DataContext.SecondTestEntityZeroOrOnes.Include(x => x.TestEntityZeroOrOneRelationship).First();
+        var testEntity = DataContext.TestEntityZeroOrOnes.Include(x => x.SecondTestEntityZeroOrOne).First();
+        var secondTestEntity = DataContext.SecondTestEntityZeroOrOnes.Include(x => x.TestEntityZeroOrOne).First();
 
         Assert.Equal(testEntity.Id.Value, textId1);
         Assert.Equal(secondTestEntity.Id.Value, textId2);
-        Assert.NotNull(testEntity.SecondTestEntityZeroOrOneRelationship);
-        Assert.NotNull(secondTestEntity.TestEntityZeroOrOneRelationship);
-        Assert.Equal(testEntity.SecondTestEntityZeroOrOneRelationship.Id.Value, textId2);
-        Assert.Equal(secondTestEntity.TestEntityZeroOrOneRelationship.Id.Value, textId1);
+        Assert.NotNull(testEntity.SecondTestEntityZeroOrOne);
+        Assert.NotNull(secondTestEntity.TestEntityZeroOrOne);
+        Assert.Equal(testEntity.SecondTestEntityZeroOrOne.Id.Value, textId2);
+        Assert.Equal(secondTestEntity.TestEntityZeroOrOne.Id.Value, textId1);
     }
 
     public void GeneratedRelationshipZeroOrOneZeroOrMany()
@@ -471,7 +471,7 @@ public class NoxCommonTestCaseFactory
         };
 
         newItem.TestEntityZeroOrManyToZeroOrOneId = newItem2.Id;
-        newItem2.TestEntityZeroOrOneToZeroOrMany.Add(newItem);
+        newItem2.TestEntityZeroOrOneToZeroOrManies.Add(newItem);
         DataContext.TestEntityZeroOrOneToZeroOrManies.Add(newItem);
         DataContext.TestEntityZeroOrManyToZeroOrOnes.Add(newItem2);
         DataContext.SaveChanges();
@@ -480,14 +480,14 @@ public class NoxCommonTestCaseFactory
         _dbContextFixture.RefreshDbContext();
 
         var testEntity = DataContext.TestEntityZeroOrOneToZeroOrManies.Include(x => x.TestEntityZeroOrManyToZeroOrOne).First();
-        var secondTestEntity = DataContext.TestEntityZeroOrManyToZeroOrOnes.Include(x => x.TestEntityZeroOrOneToZeroOrMany).First();
+        var secondTestEntity = DataContext.TestEntityZeroOrManyToZeroOrOnes.Include(x => x.TestEntityZeroOrOneToZeroOrManies).First();
 
         Assert.Equal(testEntity.Id.Value, textId1);
         Assert.Equal(secondTestEntity.Id.Value, textId2);
         Assert.NotNull(testEntity.TestEntityZeroOrManyToZeroOrOne);
-        Assert.NotNull(secondTestEntity.TestEntityZeroOrOneToZeroOrMany);
+        Assert.NotNull(secondTestEntity.TestEntityZeroOrOneToZeroOrManies);
         Assert.Equal(testEntity.TestEntityZeroOrManyToZeroOrOne.Id.Value, textId2);
-        Assert.Equal(secondTestEntity.TestEntityZeroOrOneToZeroOrMany[0].Id.Value, textId1);
+        Assert.Equal(secondTestEntity.TestEntityZeroOrOneToZeroOrManies[0].Id.Value, textId1);
     }
 
     public void GeneratedRelationshipZeroOrOneOneOrMany()
@@ -508,7 +508,7 @@ public class NoxCommonTestCaseFactory
         };
 
         newItem.TestEntityOneOrManyToZeroOrOneId = newItem2.Id;
-        newItem2.TestEntityZeroOrOneToOneOrMany.Add(newItem);
+        newItem2.TestEntityZeroOrOneToOneOrManies.Add(newItem);
         DataContext.TestEntityZeroOrOneToOneOrManies.Add(newItem);
         DataContext.TestEntityOneOrManyToZeroOrOnes.Add(newItem2);
         DataContext.SaveChanges();
@@ -517,14 +517,14 @@ public class NoxCommonTestCaseFactory
         _dbContextFixture.RefreshDbContext();
 
         var testEntity = DataContext.TestEntityZeroOrOneToOneOrManies.Include(x => x.TestEntityOneOrManyToZeroOrOne).First();
-        var secondTestEntity = DataContext.TestEntityOneOrManyToZeroOrOnes.Include(x => x.TestEntityZeroOrOneToOneOrMany).First();
+        var secondTestEntity = DataContext.TestEntityOneOrManyToZeroOrOnes.Include(x => x.TestEntityZeroOrOneToOneOrManies).First();
 
         Assert.Equal(testEntity.Id.Value, textId1);
         Assert.Equal(secondTestEntity.Id.Value, textId2);
         Assert.NotNull(testEntity.TestEntityOneOrManyToZeroOrOne);
-        Assert.NotNull(secondTestEntity.TestEntityZeroOrOneToOneOrMany);
+        Assert.NotNull(secondTestEntity.TestEntityZeroOrOneToOneOrManies);
         Assert.Equal(testEntity.TestEntityOneOrManyToZeroOrOne.Id.Value, textId2);
-        Assert.Equal(secondTestEntity.TestEntityZeroOrOneToOneOrMany[0].Id.Value, textId1);
+        Assert.Equal(secondTestEntity.TestEntityZeroOrOneToOneOrManies[0].Id.Value, textId1);
     }
 
     public void GeneratedRelationshipZeroOrOneExactlyOne()
@@ -581,7 +581,7 @@ public class NoxCommonTestCaseFactory
         };
 
         newItem.TestEntityOneOrManyToExactlyOneId = newItem2.Id;
-        newItem2.TestEntityExactlyOneToOneOrMany.Add(newItem);
+        newItem2.TestEntityExactlyOneToOneOrManies.Add(newItem);
         DataContext.TestEntityExactlyOneToOneOrManies.Add(newItem);
         DataContext.TestEntityOneOrManyToExactlyOnes.Add(newItem2);
         DataContext.SaveChanges();
@@ -590,14 +590,14 @@ public class NoxCommonTestCaseFactory
         _dbContextFixture.RefreshDbContext();
 
         var testEntity = DataContext.TestEntityExactlyOneToOneOrManies.Include(x => x.TestEntityOneOrManyToExactlyOne).First();
-        var secondTestEntity = DataContext.TestEntityOneOrManyToExactlyOnes.Include(x => x.TestEntityExactlyOneToOneOrMany).First();
+        var secondTestEntity = DataContext.TestEntityOneOrManyToExactlyOnes.Include(x => x.TestEntityExactlyOneToOneOrManies).First();
 
         Assert.Equal(testEntity.Id.Value, textId1);
         Assert.Equal(secondTestEntity.Id.Value, textId2);
         Assert.NotNull(testEntity.TestEntityOneOrManyToExactlyOne);
-        Assert.NotNull(secondTestEntity.TestEntityExactlyOneToOneOrMany);
+        Assert.NotNull(secondTestEntity.TestEntityExactlyOneToOneOrManies);
         Assert.Equal(testEntity.TestEntityOneOrManyToExactlyOne.Id.Value, textId2);
-        Assert.Equal(secondTestEntity.TestEntityExactlyOneToOneOrMany[0].Id.Value, textId1);
+        Assert.Equal(secondTestEntity.TestEntityExactlyOneToOneOrManies[0].Id.Value, textId1);
     }
 
     public void GeneratedRelationshipExactlyOneZeroOrMany()
@@ -617,7 +617,7 @@ public class NoxCommonTestCaseFactory
             TextTestField2 = Text.From(text),
         };
 
-        newItem.TestEntityExactlyOneToZeroOrMany.Add(newItem2);
+        newItem.TestEntityExactlyOneToZeroOrManies.Add(newItem2);
         newItem2.TestEntityZeroOrManyToExactlyOneId = newItem.Id;
         DataContext.TestEntityZeroOrManyToExactlyOnes.Add(newItem);
         DataContext.TestEntityExactlyOneToZeroOrManies.Add(newItem2);
@@ -626,14 +626,14 @@ public class NoxCommonTestCaseFactory
         // Force the recreation of DataContext and ensure we have fresh data from database
         _dbContextFixture.RefreshDbContext();
 
-        var testEntity = DataContext.TestEntityZeroOrManyToExactlyOnes.Include(x => x.TestEntityExactlyOneToZeroOrMany).First();
+        var testEntity = DataContext.TestEntityZeroOrManyToExactlyOnes.Include(x => x.TestEntityExactlyOneToZeroOrManies).First();
         var secondTestEntity = DataContext.TestEntityExactlyOneToZeroOrManies.Include(x => x.TestEntityZeroOrManyToExactlyOne).First();
 
         Assert.Equal(testEntity.Id.Value, textId1);
         Assert.Equal(secondTestEntity.Id.Value, textId2);
-        Assert.NotNull(testEntity.TestEntityExactlyOneToZeroOrMany);
+        Assert.NotNull(testEntity.TestEntityExactlyOneToZeroOrManies);
         Assert.NotNull(secondTestEntity.TestEntityZeroOrManyToExactlyOne);
-        Assert.Equal(testEntity.TestEntityExactlyOneToZeroOrMany[0].Id.Value, textId2);
+        Assert.Equal(testEntity.TestEntityExactlyOneToZeroOrManies[0].Id.Value, textId2);
         Assert.Equal(secondTestEntity.TestEntityZeroOrManyToExactlyOne.Id.Value, textId1);
     }
 
@@ -655,8 +655,8 @@ public class NoxCommonTestCaseFactory
             TextTestField = Text.From(text),
         };
 
-        newItem.TestEntityOneOrManyToZeroOrMany.Add(newItem2);
-        newItem2.TestEntityZeroOrManyToOneOrMany.Add(newItem);
+        newItem.TestEntityOneOrManyToZeroOrManies.Add(newItem2);
+        newItem2.TestEntityZeroOrManyToOneOrManies.Add(newItem);
         DataContext.TestEntityZeroOrManyToOneOrManies.Add(newItem);
         DataContext.TestEntityOneOrManyToZeroOrManies.Add(newItem2);
         DataContext.SaveChanges();
@@ -664,15 +664,15 @@ public class NoxCommonTestCaseFactory
         // Force the recreation of DataContext and ensure we have fresh data from database
         _dbContextFixture.RefreshDbContext();
 
-        var testEntity = DataContext.TestEntityZeroOrManyToOneOrManies.Include(x => x.TestEntityOneOrManyToZeroOrMany).First();
-        var secondTestEntity = DataContext.TestEntityOneOrManyToZeroOrManies.Include(x => x.TestEntityZeroOrManyToOneOrMany).First();
+        var testEntity = DataContext.TestEntityZeroOrManyToOneOrManies.Include(x => x.TestEntityOneOrManyToZeroOrManies).First();
+        var secondTestEntity = DataContext.TestEntityOneOrManyToZeroOrManies.Include(x => x.TestEntityZeroOrManyToOneOrManies).First();
 
         Assert.Equal(testEntity.Id.Value, textId1);
         Assert.Equal(secondTestEntity.Id.Value, textId2);
-        Assert.NotEmpty(testEntity.TestEntityOneOrManyToZeroOrMany);
-        Assert.NotEmpty(secondTestEntity.TestEntityZeroOrManyToOneOrMany);
-        Assert.Equal(testEntity.TestEntityOneOrManyToZeroOrMany[0].Id.Value, textId2);
-        Assert.Equal(secondTestEntity.TestEntityZeroOrManyToOneOrMany[0].Id.Value, textId1);
+        Assert.NotEmpty(testEntity.TestEntityOneOrManyToZeroOrManies);
+        Assert.NotEmpty(secondTestEntity.TestEntityZeroOrManyToOneOrManies);
+        Assert.Equal(testEntity.TestEntityOneOrManyToZeroOrManies[0].Id.Value, textId2);
+        Assert.Equal(secondTestEntity.TestEntityZeroOrManyToOneOrManies[0].Id.Value, textId1);
     }
 
     public void GeneratedRelationshipZeroOrManyZeroOrMany()

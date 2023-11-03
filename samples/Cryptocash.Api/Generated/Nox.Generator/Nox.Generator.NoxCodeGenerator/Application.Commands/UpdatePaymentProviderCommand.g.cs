@@ -55,19 +55,19 @@ internal abstract class UpdatePaymentProviderCommandHandlerBase : CommandBase<Up
 			return null;
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.PaymentProviderRelatedPaymentDetails).LoadAsync();
-		var paymentProviderRelatedPaymentDetailsEntities = new List<PaymentDetail>();
-		foreach(var relatedEntityId in request.EntityDto.PaymentProviderRelatedPaymentDetailsId)
+		await DbContext.Entry(entity).Collection(x => x.PaymentDetails).LoadAsync();
+		var paymentDetailsEntities = new List<PaymentDetail>();
+		foreach(var relatedEntityId in request.EntityDto.PaymentDetailsId)
 		{
 			var relatedKey = Cryptocash.Domain.PaymentDetailMetadata.CreateId(relatedEntityId);
 			var relatedEntity = await DbContext.PaymentDetails.FindAsync(relatedKey);
 						
 			if(relatedEntity is not null)
-				paymentProviderRelatedPaymentDetailsEntities.Add(relatedEntity);
+				paymentDetailsEntities.Add(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("PaymentProviderRelatedPaymentDetails", relatedEntityId.ToString());
+				throw new RelatedEntityNotFoundException("PaymentDetails", relatedEntityId.ToString());
 		}
-		entity.UpdateRefToPaymentProviderRelatedPaymentDetails(paymentProviderRelatedPaymentDetailsEntities);
+		entity.UpdateRefToPaymentDetails(paymentDetailsEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

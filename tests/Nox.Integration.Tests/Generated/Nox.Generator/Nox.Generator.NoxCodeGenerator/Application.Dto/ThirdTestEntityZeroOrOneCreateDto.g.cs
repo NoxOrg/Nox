@@ -39,8 +39,8 @@ public abstract class ThirdTestEntityZeroOrOneCreateDtoBase : IEntityDto<DomainN
     /// <summary>
     /// ThirdTestEntityZeroOrOne Test entity relationship to ThirdTestEntityExactlyOne ZeroOrOne ThirdTestEntityExactlyOnes
     /// </summary>
-    public System.String? ThirdTestEntityExactlyOneRelationshipId { get; set; } = default!;
+    public System.String? ThirdTestEntityExactlyOneId { get; set; } = default!;
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual ThirdTestEntityExactlyOneCreateDto? ThirdTestEntityExactlyOneRelationship { get; set; } = default!;
+    public virtual ThirdTestEntityExactlyOneCreateDto? ThirdTestEntityExactlyOne { get; set; } = default!;
 }

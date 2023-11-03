@@ -59,25 +59,25 @@ internal abstract class CreateLandLordCommandHandlerBase : CommandBase<CreateLan
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.ContractedAreasForVendingMachinesId.Any())
+		if(request.EntityDto.VendingMachinesId.Any())
 		{
-			foreach(var relatedId in request.EntityDto.ContractedAreasForVendingMachinesId)
+			foreach(var relatedId in request.EntityDto.VendingMachinesId)
 			{
 				var relatedKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)
-					entityToCreate.CreateRefToContractedAreasForVendingMachines(relatedEntity);
+					entityToCreate.CreateRefToVendingMachines(relatedEntity);
 				else
-					throw new RelatedEntityNotFoundException("ContractedAreasForVendingMachines", relatedId.ToString());
+					throw new RelatedEntityNotFoundException("VendingMachines", relatedId.ToString());
 			}
 		}
 		else
 		{
-			foreach(var relatedCreateDto in request.EntityDto.ContractedAreasForVendingMachines)
+			foreach(var relatedCreateDto in request.EntityDto.VendingMachines)
 			{
 				var relatedEntity = VendingMachineFactory.CreateEntity(relatedCreateDto);
-				entityToCreate.CreateRefToContractedAreasForVendingMachines(relatedEntity);
+				entityToCreate.CreateRefToVendingMachines(relatedEntity);
 			}
 		}
 

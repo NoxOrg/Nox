@@ -25,6 +25,9 @@ public class Entity : DefinitionBase
     [YamlIgnore]
     private ConcurrentDictionary<string, NoxSimpleTypeDefinition>? _keysByName;
 
+    [YamlIgnore]
+    private ConcurrentDictionary<EntityRelationship, string>? _relationshipPublicNamesByRelationship;
+
     [Required]
     [Title("The name of the entity. Contains no spaces.")]
     [Description("The name of the abstract or real-world entity. It should be a commonly used singular noun and be unique within a solution.")]
@@ -124,6 +127,7 @@ public class Entity : DefinitionBase
     {
         EnsureAttributesByName();
         EnsureKeyByName();
+        EnsureRelationshipPublicNames();
 
         foreach (var attribute in Attributes)
         {
@@ -227,6 +231,11 @@ public class Entity : DefinitionBase
         }
     }
 
+    public virtual string GetRelationshipPublicName(EntityRelationship relationship)
+    {
+        return _relationshipPublicNamesByRelationship![relationship];
+    }
+
     private void EnsureKeyByName()
     {
         if (_keysByName is not null)
@@ -248,6 +257,26 @@ public class Entity : DefinitionBase
         for (int i = 0; i < Attributes!.Count; i++)
         {
             _attributesByName.TryAdd(Attributes[i].Name, Attributes[i]);
+        }
+    }
+
+    private void EnsureRelationshipPublicNames()
+    {
+        if (_relationshipPublicNamesByRelationship is not null)
+            return;
+
+        _relationshipPublicNamesByRelationship = new();
+        for (int i = 0; i < Relationships!.Count; i++)
+        {
+            string name;
+            if (Relationships.Count(rel => rel.Entity == Relationships[i].Entity) == 1)
+                name = Relationships[i].WithSingleEntity() 
+                    ? Relationships[i].Entity 
+                    : Relationships[i].EntityPlural;
+            else
+                name = Relationships[i].Name;
+
+            _relationshipPublicNamesByRelationship.TryAdd(Relationships[i], name);
         }
     }
 

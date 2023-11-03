@@ -89,34 +89,34 @@ public abstract class CountryCreateDtoBase : IEntityDto<DomainNamespace.Country>
     /// <summary>
     /// Country used by ExactlyOne Currencies
     /// </summary>
-    public System.String? CountryUsedByCurrencyId { get; set; } = default!;
+    public System.String? CurrencyId { get; set; } = default!;
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual CurrencyCreateDto? CountryUsedByCurrency { get; set; } = default!;
+    public virtual CurrencyCreateDto? Currency { get; set; } = default!;
 
     /// <summary>
     /// Country used by OneOrMany Commissions
     /// </summary>
-    public virtual List<System.Int64> CountryUsedByCommissionsId { get; set; } = new();
+    public virtual List<System.Int64> CommissionsId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual List<CommissionCreateDto> CountryUsedByCommissions { get; set; } = new();
+    public virtual List<CommissionCreateDto> Commissions { get; set; } = new();
 
     /// <summary>
     /// Country used by ZeroOrMany VendingMachines
     /// </summary>
-    public virtual List<System.Guid> CountryUsedByVendingMachinesId { get; set; } = new();
+    public virtual List<System.Guid> VendingMachinesId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual List<VendingMachineCreateDto> CountryUsedByVendingMachines { get; set; } = new();
+    public virtual List<VendingMachineCreateDto> VendingMachines { get; set; } = new();
 
     /// <summary>
     /// Country used by ZeroOrMany Customers
     /// </summary>
-    public virtual List<System.Int64> CountryUsedByCustomersId { get; set; } = new();
+    public virtual List<System.Int64> CustomersId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual List<CustomerCreateDto> CountryUsedByCustomers { get; set; } = new();
+    public virtual List<CustomerCreateDto> Customers { get; set; } = new();
 
     /// <summary>
     /// Country owned OneOrMany CountryTimeZones

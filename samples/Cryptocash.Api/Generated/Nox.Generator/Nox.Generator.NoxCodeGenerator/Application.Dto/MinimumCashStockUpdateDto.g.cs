@@ -27,11 +27,11 @@ public partial class MinimumCashStockUpdateDto : IEntityDto<DomainNamespace.Mini
     /// <summary>
     /// MinimumCashStock required by ZeroOrMany VendingMachines
     /// </summary>
-    public List<System.Guid> MinimumCashStocksRequiredByVendingMachinesId { get; set; } = new();
+    public List<System.Guid> VendingMachinesId { get; set; } = new();
 
     /// <summary>
     /// MinimumCashStock related to ExactlyOne Currencies
     /// </summary>
-    [Required(ErrorMessage = "MinimumCashStockRelatedCurrency is required")]
-    public System.String MinimumCashStockRelatedCurrencyId { get; set; } = default!;
+    [Required(ErrorMessage = "Currency is required")]
+    public System.String CurrencyId { get; set; } = default!;
 }

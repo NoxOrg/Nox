@@ -143,24 +143,24 @@ internal abstract partial class BookingBase : AuditableEntityBase, IEntityConcur
     /// <summary>
     /// Booking for ExactlyOne Customers
     /// </summary>
-    public virtual Customer BookingForCustomer { get; private set; } = null!;
+    public virtual Customer Customer { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Customer
     /// </summary>
-    public Nox.Types.AutoNumber BookingForCustomerId { get; set; } = null!;
+    public Nox.Types.AutoNumber CustomerId { get; set; } = null!;
 
-    public virtual void CreateRefToBookingForCustomer(Customer relatedCustomer)
+    public virtual void CreateRefToCustomer(Customer relatedCustomer)
     {
-        BookingForCustomer = relatedCustomer;
+        Customer = relatedCustomer;
     }
 
-    public virtual void DeleteRefToBookingForCustomer(Customer relatedCustomer)
+    public virtual void DeleteRefToCustomer(Customer relatedCustomer)
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
-    public virtual void DeleteAllRefToBookingForCustomer()
+    public virtual void DeleteAllRefToCustomer()
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
@@ -168,24 +168,24 @@ internal abstract partial class BookingBase : AuditableEntityBase, IEntityConcur
     /// <summary>
     /// Booking related to ExactlyOne VendingMachines
     /// </summary>
-    public virtual VendingMachine BookingRelatedVendingMachine { get; private set; } = null!;
+    public virtual VendingMachine VendingMachine { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity VendingMachine
     /// </summary>
-    public Nox.Types.Guid BookingRelatedVendingMachineId { get; set; } = null!;
+    public Nox.Types.Guid VendingMachineId { get; set; } = null!;
 
-    public virtual void CreateRefToBookingRelatedVendingMachine(VendingMachine relatedVendingMachine)
+    public virtual void CreateRefToVendingMachine(VendingMachine relatedVendingMachine)
     {
-        BookingRelatedVendingMachine = relatedVendingMachine;
+        VendingMachine = relatedVendingMachine;
     }
 
-    public virtual void DeleteRefToBookingRelatedVendingMachine(VendingMachine relatedVendingMachine)
+    public virtual void DeleteRefToVendingMachine(VendingMachine relatedVendingMachine)
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
-    public virtual void DeleteAllRefToBookingRelatedVendingMachine()
+    public virtual void DeleteAllRefToVendingMachine()
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
@@ -193,24 +193,24 @@ internal abstract partial class BookingBase : AuditableEntityBase, IEntityConcur
     /// <summary>
     /// Booking fees for ExactlyOne Commissions
     /// </summary>
-    public virtual Commission BookingFeesForCommission { get; private set; } = null!;
+    public virtual Commission Commission { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Commission
     /// </summary>
-    public Nox.Types.AutoNumber BookingFeesForCommissionId { get; set; } = null!;
+    public Nox.Types.AutoNumber CommissionId { get; set; } = null!;
 
-    public virtual void CreateRefToBookingFeesForCommission(Commission relatedCommission)
+    public virtual void CreateRefToCommission(Commission relatedCommission)
     {
-        BookingFeesForCommission = relatedCommission;
+        Commission = relatedCommission;
     }
 
-    public virtual void DeleteRefToBookingFeesForCommission(Commission relatedCommission)
+    public virtual void DeleteRefToCommission(Commission relatedCommission)
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
-    public virtual void DeleteAllRefToBookingFeesForCommission()
+    public virtual void DeleteAllRefToCommission()
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
@@ -218,19 +218,19 @@ internal abstract partial class BookingBase : AuditableEntityBase, IEntityConcur
     /// <summary>
     /// Booking related to ExactlyOne Transactions
     /// </summary>
-    public virtual Transaction BookingRelatedTransaction { get; private set; } = null!;
+    public virtual Transaction Transaction { get; private set; } = null!;
 
-    public virtual void CreateRefToBookingRelatedTransaction(Transaction relatedTransaction)
+    public virtual void CreateRefToTransaction(Transaction relatedTransaction)
     {
-        BookingRelatedTransaction = relatedTransaction;
+        Transaction = relatedTransaction;
     }
 
-    public virtual void DeleteRefToBookingRelatedTransaction(Transaction relatedTransaction)
+    public virtual void DeleteRefToTransaction(Transaction relatedTransaction)
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
-    public virtual void DeleteAllRefToBookingRelatedTransaction()
+    public virtual void DeleteAllRefToTransaction()
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }

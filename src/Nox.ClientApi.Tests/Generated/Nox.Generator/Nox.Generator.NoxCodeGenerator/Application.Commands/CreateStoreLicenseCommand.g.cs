@@ -59,19 +59,19 @@ internal abstract class CreateStoreLicenseCommandHandlerBase : CommandBase<Creat
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.StoreWithLicenseId is not null)
+		if(request.EntityDto.StoreId is not null)
 		{
-			var relatedKey = ClientApi.Domain.StoreMetadata.CreateId(request.EntityDto.StoreWithLicenseId.NonNullValue<System.Guid>());
+			var relatedKey = ClientApi.Domain.StoreMetadata.CreateId(request.EntityDto.StoreId.NonNullValue<System.Guid>());
 			var relatedEntity = await DbContext.Stores.FindAsync(relatedKey);
 			if(relatedEntity is not null)
-				entityToCreate.CreateRefToStoreWithLicense(relatedEntity);
+				entityToCreate.CreateRefToStore(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("StoreWithLicense", request.EntityDto.StoreWithLicenseId.NonNullValue<System.Guid>().ToString());
+				throw new RelatedEntityNotFoundException("Store", request.EntityDto.StoreId.NonNullValue<System.Guid>().ToString());
 		}
-		else if(request.EntityDto.StoreWithLicense is not null)
+		else if(request.EntityDto.Store is not null)
 		{
-			var relatedEntity = StoreFactory.CreateEntity(request.EntityDto.StoreWithLicense);
-			entityToCreate.CreateRefToStoreWithLicense(relatedEntity);
+			var relatedEntity = StoreFactory.CreateEntity(request.EntityDto.Store);
+			entityToCreate.CreateRefToStore(relatedEntity);
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

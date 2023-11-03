@@ -61,8 +61,8 @@ public abstract class StoreLicenseDtoBase : EntityDtoBase, IEntityDto<DomainName
     /// StoreLicense Store that this license related to ExactlyOne Stores
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Guid? StoreWithLicenseId { get; set; } = default!;
-    public virtual StoreDto? StoreWithLicense { get; set; } = null!;
+    public System.Guid? StoreId { get; set; } = default!;
+    public virtual StoreDto? Store { get; set; } = null!;
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

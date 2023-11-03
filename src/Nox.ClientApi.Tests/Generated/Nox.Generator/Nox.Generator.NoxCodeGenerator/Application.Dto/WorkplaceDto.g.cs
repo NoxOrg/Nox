@@ -73,8 +73,8 @@ public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<DomainNamespa
     /// Workplace Workplace country ZeroOrOne Countries
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Int64? BelongsToCountryId { get; set; } = default!;
-    public virtual CountryDto? BelongsToCountry { get; set; } = null!;
+    public System.Int64? CountryId { get; set; } = default!;
+    public virtual CountryDto? Country { get; set; } = null!;
 
     [JsonPropertyName("@odata.etag")]
     public System.Guid Etag { get; init; }

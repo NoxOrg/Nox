@@ -90,24 +90,24 @@ internal abstract partial class StoreLicenseBase : AuditableEntityBase, IEntityC
     /// <summary>
     /// StoreLicense Store that this license related to ExactlyOne Stores
     /// </summary>
-    public virtual Store StoreWithLicense { get; private set; } = null!;
+    public virtual Store Store { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Store
     /// </summary>
-    public Nox.Types.Guid StoreWithLicenseId { get; set; } = null!;
+    public Nox.Types.Guid StoreId { get; set; } = null!;
 
-    public virtual void CreateRefToStoreWithLicense(Store relatedStore)
+    public virtual void CreateRefToStore(Store relatedStore)
     {
-        StoreWithLicense = relatedStore;
+        Store = relatedStore;
     }
 
-    public virtual void DeleteRefToStoreWithLicense(Store relatedStore)
+    public virtual void DeleteRefToStore(Store relatedStore)
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
-    public virtual void DeleteAllRefToStoreWithLicense()
+    public virtual void DeleteAllRefToStore()
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }

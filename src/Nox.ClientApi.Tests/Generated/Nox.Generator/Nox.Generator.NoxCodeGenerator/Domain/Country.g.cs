@@ -139,27 +139,27 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     /// <summary>
     /// Country Country workplaces ZeroOrMany Workplaces
     /// </summary>
-    public virtual List<Workplace> PhysicalWorkplaces { get; private set; } = new();
+    public virtual List<Workplace> Workplaces { get; private set; } = new();
 
-    public virtual void CreateRefToPhysicalWorkplaces(Workplace relatedWorkplace)
+    public virtual void CreateRefToWorkplaces(Workplace relatedWorkplace)
     {
-        PhysicalWorkplaces.Add(relatedWorkplace);
+        Workplaces.Add(relatedWorkplace);
     }
 
-    public virtual void UpdateRefToPhysicalWorkplaces(List<Workplace> relatedWorkplace)
+    public virtual void UpdateRefToWorkplaces(List<Workplace> relatedWorkplace)
     {
-        PhysicalWorkplaces.Clear();
-        PhysicalWorkplaces.AddRange(relatedWorkplace);
+        Workplaces.Clear();
+        Workplaces.AddRange(relatedWorkplace);
     }
 
-    public virtual void DeleteRefToPhysicalWorkplaces(Workplace relatedWorkplace)
+    public virtual void DeleteRefToWorkplaces(Workplace relatedWorkplace)
     {
-        PhysicalWorkplaces.Remove(relatedWorkplace);
+        Workplaces.Remove(relatedWorkplace);
     }
 
-    public virtual void DeleteAllRefToPhysicalWorkplaces()
+    public virtual void DeleteAllRefToWorkplaces()
     {
-        PhysicalWorkplaces.Clear();
+        Workplaces.Clear();
     }
 
     /// <summary>

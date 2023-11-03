@@ -114,27 +114,27 @@ public abstract class BookingDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
     /// Booking for ExactlyOne Customers
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Int64? BookingForCustomerId { get; set; } = default!;
-    public virtual CustomerDto? BookingForCustomer { get; set; } = null!;
+    public System.Int64? CustomerId { get; set; } = default!;
+    public virtual CustomerDto? Customer { get; set; } = null!;
 
     /// <summary>
     /// Booking related to ExactlyOne VendingMachines
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Guid? BookingRelatedVendingMachineId { get; set; } = default!;
-    public virtual VendingMachineDto? BookingRelatedVendingMachine { get; set; } = null!;
+    public System.Guid? VendingMachineId { get; set; } = default!;
+    public virtual VendingMachineDto? VendingMachine { get; set; } = null!;
 
     /// <summary>
     /// Booking fees for ExactlyOne Commissions
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Int64? BookingFeesForCommissionId { get; set; } = default!;
-    public virtual CommissionDto? BookingFeesForCommission { get; set; } = null!;
+    public System.Int64? CommissionId { get; set; } = default!;
+    public virtual CommissionDto? Commission { get; set; } = null!;
 
     /// <summary>
     /// Booking related to ExactlyOne Transactions
     /// </summary>
-    public virtual TransactionDto? BookingRelatedTransaction { get; set; } = null!;
+    public virtual TransactionDto? Transaction { get; set; } = null!;
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

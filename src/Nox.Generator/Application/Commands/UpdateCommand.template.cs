@@ -60,47 +60,48 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 
 	{{- for relationship in entity.Relationships }}
 		{{- relatedEntity =  relationship.Related.Entity }}
+		{{- relationshipName = GetRelationshipPublicName entity relationship }}
 		{{- key = array.first relatedEntity.Keys }}
 		{{- if relationship.Relationship == "ZeroOrOne" }}
 
-		if(request.EntityDto.{{relationship.Name}}Id is not null)
+		if(request.EntityDto.{{relationshipName}}Id is not null)
 		{
-			var {{ToLowerFirstChar relationship.Name}}Key = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{relationship.Name}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>());
-			var {{ToLowerFirstChar relationship.Name}}Entity = await DbContext.{{relatedEntity.PluralName}}.FindAsync({{ToLowerFirstChar relationship.Name}}Key);
+			var {{ToLowerFirstChar relationshipName}}Key = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{relationshipName}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>());
+			var {{ToLowerFirstChar relationshipName}}Entity = await DbContext.{{relatedEntity.PluralName}}.FindAsync({{ToLowerFirstChar relationshipName}}Key);
 						
-			if({{ToLowerFirstChar relationship.Name}}Entity is not null)
-				entity.CreateRefTo{{relationship.Name}}({{ToLowerFirstChar relationship.Name}}Entity);
+			if({{ToLowerFirstChar relationshipName}}Entity is not null)
+				entity.CreateRefTo{{relationshipName}}({{ToLowerFirstChar relationshipName}}Entity);
 			else
-				throw new RelatedEntityNotFoundException("{{relationship.Name}}", request.EntityDto.{{relationship.Name}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>().ToString());
+				throw new RelatedEntityNotFoundException("{{relationshipName}}", request.EntityDto.{{relationshipName}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>().ToString());
 		}
 		else
 		{
-			entity.DeleteAllRefTo{{relationship.Name}}();
+			entity.DeleteAllRefTo{{relationshipName}}();
 		}
 		{{- else if relationship.Relationship == "ExactlyOne" }}
 
-		var {{ToLowerFirstChar relationship.Name}}Key = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{relationship.Name}}Id);
-		var {{ToLowerFirstChar relationship.Name}}Entity = await DbContext.{{relatedEntity.PluralName}}.FindAsync({{ToLowerFirstChar relationship.Name}}Key);
+		var {{ToLowerFirstChar relationshipName}}Key = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{relationshipName}}Id);
+		var {{ToLowerFirstChar relationshipName}}Entity = await DbContext.{{relatedEntity.PluralName}}.FindAsync({{ToLowerFirstChar relationshipName}}Key);
 						
-		if({{ToLowerFirstChar relationship.Name}}Entity is not null)
-			entity.CreateRefTo{{relationship.Name}}({{ToLowerFirstChar relationship.Name}}Entity);
+		if({{ToLowerFirstChar relationshipName}}Entity is not null)
+			entity.CreateRefTo{{relationshipName}}({{ToLowerFirstChar relationshipName}}Entity);
 		else
-			throw new RelatedEntityNotFoundException("{{relationship.Name}}", request.EntityDto.{{relationship.Name}}Id.ToString());
+			throw new RelatedEntityNotFoundException("{{relationshipName}}", request.EntityDto.{{relationshipName}}Id.ToString());
 		{{- else }}
 
-		await DbContext.Entry(entity).Collection(x => x.{{relationship.Name}}).LoadAsync();
-		var {{ToLowerFirstChar relationship.Name}}Entities = new List<{{relationship.Entity}}>();
-		foreach(var relatedEntityId in request.EntityDto.{{relationship.Name}}Id)
+		await DbContext.Entry(entity).Collection(x => x.{{relationshipName}}).LoadAsync();
+		var {{ToLowerFirstChar relationshipName}}Entities = new List<{{relationship.Entity}}>();
+		foreach(var relatedEntityId in request.EntityDto.{{relationshipName}}Id)
 		{
 			var relatedKey = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(relatedEntityId);
 			var relatedEntity = await DbContext.{{relatedEntity.PluralName}}.FindAsync(relatedKey);
 						
 			if(relatedEntity is not null)
-				{{ToLowerFirstChar relationship.Name}}Entities.Add(relatedEntity);
+				{{ToLowerFirstChar relationshipName}}Entities.Add(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("{{relationship.Name}}", relatedEntityId.ToString());
+				throw new RelatedEntityNotFoundException("{{relationshipName}}", relatedEntityId.ToString());
 		}
-		entity.UpdateRefTo{{relationship.Name}}({{ToLowerFirstChar relationship.Name}}Entities);
+		entity.UpdateRefTo{{relationshipName}}({{ToLowerFirstChar relationshipName}}Entities);
 		{{-end}}
 	{{- end }}
 

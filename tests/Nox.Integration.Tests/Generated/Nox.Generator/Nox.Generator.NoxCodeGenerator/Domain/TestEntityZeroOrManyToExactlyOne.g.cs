@@ -90,27 +90,27 @@ internal abstract partial class TestEntityZeroOrManyToExactlyOneBase : Auditable
     /// <summary>
     /// TestEntityZeroOrManyToExactlyOne Test entity relationship to TestEntityExactlyOneToZeroOrMany ZeroOrMany TestEntityExactlyOneToZeroOrManies
     /// </summary>
-    public virtual List<TestEntityExactlyOneToZeroOrMany> TestEntityExactlyOneToZeroOrMany { get; private set; } = new();
+    public virtual List<TestEntityExactlyOneToZeroOrMany> TestEntityExactlyOneToZeroOrManies { get; private set; } = new();
 
-    public virtual void CreateRefToTestEntityExactlyOneToZeroOrMany(TestEntityExactlyOneToZeroOrMany relatedTestEntityExactlyOneToZeroOrMany)
+    public virtual void CreateRefToTestEntityExactlyOneToZeroOrManies(TestEntityExactlyOneToZeroOrMany relatedTestEntityExactlyOneToZeroOrMany)
     {
-        TestEntityExactlyOneToZeroOrMany.Add(relatedTestEntityExactlyOneToZeroOrMany);
+        TestEntityExactlyOneToZeroOrManies.Add(relatedTestEntityExactlyOneToZeroOrMany);
     }
 
-    public virtual void UpdateRefToTestEntityExactlyOneToZeroOrMany(List<TestEntityExactlyOneToZeroOrMany> relatedTestEntityExactlyOneToZeroOrMany)
+    public virtual void UpdateRefToTestEntityExactlyOneToZeroOrManies(List<TestEntityExactlyOneToZeroOrMany> relatedTestEntityExactlyOneToZeroOrMany)
     {
-        TestEntityExactlyOneToZeroOrMany.Clear();
-        TestEntityExactlyOneToZeroOrMany.AddRange(relatedTestEntityExactlyOneToZeroOrMany);
+        TestEntityExactlyOneToZeroOrManies.Clear();
+        TestEntityExactlyOneToZeroOrManies.AddRange(relatedTestEntityExactlyOneToZeroOrMany);
     }
 
-    public virtual void DeleteRefToTestEntityExactlyOneToZeroOrMany(TestEntityExactlyOneToZeroOrMany relatedTestEntityExactlyOneToZeroOrMany)
+    public virtual void DeleteRefToTestEntityExactlyOneToZeroOrManies(TestEntityExactlyOneToZeroOrMany relatedTestEntityExactlyOneToZeroOrMany)
     {
-        TestEntityExactlyOneToZeroOrMany.Remove(relatedTestEntityExactlyOneToZeroOrMany);
+        TestEntityExactlyOneToZeroOrManies.Remove(relatedTestEntityExactlyOneToZeroOrMany);
     }
 
-    public virtual void DeleteAllRefToTestEntityExactlyOneToZeroOrMany()
+    public virtual void DeleteAllRefToTestEntityExactlyOneToZeroOrManies()
     {
-        TestEntityExactlyOneToZeroOrMany.Clear();
+        TestEntityExactlyOneToZeroOrManies.Clear();
     }
 
     /// <summary>

@@ -28,14 +28,14 @@ public abstract partial class StoreLicensesControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToStoreWithLicense([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    public async Task<ActionResult> CreateRefToStore([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var createdRef = await _mediator.Send(new CreateRefStoreLicenseToStoreWithLicenseCommand(new StoreLicenseKeyDto(key), new StoreKeyDto(relatedKey)));
+        var createdRef = await _mediator.Send(new CreateRefStoreLicenseToStoreCommand(new StoreLicenseKeyDto(key), new StoreKeyDto(relatedKey)));
         if (!createdRef)
         {
             return NotFound();
@@ -44,7 +44,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToStoreWithLicense([FromRoute] System.Int64 key, [FromBody] StoreCreateDto store)
+    public virtual async Task<ActionResult> PostToStore([FromRoute] System.Int64 key, [FromBody] StoreCreateDto store)
     {
         if (!ModelState.IsValid)
         {
@@ -52,7 +52,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        store.LicenseId = key;
+        store.StoreLicenseId = key;
         var createdKey = await _mediator.Send(new CreateStoreCommand(store, _cultureCode));
         
         var createdItem = (await _mediator.Send(new GetStoreByIdQuery(createdKey.keyId))).SingleOrDefault();
@@ -60,9 +60,9 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return Created(createdItem);
     }
     
-    public async Task<ActionResult> GetRefToStoreWithLicense([FromRoute] System.Int64 key)
+    public async Task<ActionResult> GetRefToStore([FromRoute] System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.StoreWithLicense).SingleOrDefault();
+        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.Store).SingleOrDefault();
         if (related is null)
         {
             return NotFound();
@@ -72,14 +72,14 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToStoreWithLicense([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    public async Task<ActionResult> DeleteRefToStore([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedRef = await _mediator.Send(new DeleteRefStoreLicenseToStoreWithLicenseCommand(new StoreLicenseKeyDto(key), new StoreKeyDto(relatedKey)));
+        var deletedRef = await _mediator.Send(new DeleteRefStoreLicenseToStoreCommand(new StoreLicenseKeyDto(key), new StoreKeyDto(relatedKey)));
         if (!deletedRef)
         {
             return NotFound();
@@ -88,14 +88,14 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToStoreWithLicense([FromRoute] System.Int64 key)
+    public async Task<ActionResult> DeleteRefToStore([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefStoreLicenseToStoreWithLicenseCommand(new StoreLicenseKeyDto(key)));
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefStoreLicenseToStoreCommand(new StoreLicenseKeyDto(key)));
         if (!deletedAllRef)
         {
             return NotFound();

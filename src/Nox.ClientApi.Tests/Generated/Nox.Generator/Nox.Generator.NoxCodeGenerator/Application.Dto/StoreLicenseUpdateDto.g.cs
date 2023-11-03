@@ -27,6 +27,6 @@ public partial class StoreLicenseUpdateDto : IEntityDto<DomainNamespace.StoreLic
     /// <summary>
     /// StoreLicense Store that this license related to ExactlyOne Stores
     /// </summary>
-    [Required(ErrorMessage = "StoreWithLicense is required")]
-    public System.Guid StoreWithLicenseId { get; set; } = default!;
+    [Required(ErrorMessage = "Store is required")]
+    public System.Guid StoreId { get; set; } = default!;
 }

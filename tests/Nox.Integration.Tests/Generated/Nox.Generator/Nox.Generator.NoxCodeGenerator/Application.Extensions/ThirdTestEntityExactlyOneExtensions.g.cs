@@ -15,7 +15,7 @@ internal static class ThirdTestEntityExactlyOneExtensions
         var dto = new ThirdTestEntityExactlyOneDto();
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);
         dto.SetIfNotNull(entity?.TextTestField, (dto) => dto.TextTestField =entity!.TextTestField!.Value);
-        dto.SetIfNotNull(entity?.ThirdTestEntityZeroOrOneRelationshipId, (dto) => dto.ThirdTestEntityZeroOrOneRelationshipId = entity!.ThirdTestEntityZeroOrOneRelationshipId!.Value);
+        dto.SetIfNotNull(entity?.ThirdTestEntityZeroOrOneId, (dto) => dto.ThirdTestEntityZeroOrOneId = entity!.ThirdTestEntityZeroOrOneId!.Value);
 
         return dto;
     }

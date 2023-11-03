@@ -28,14 +28,14 @@ public abstract partial class LandLordsControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToContractedAreasForVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    public async Task<ActionResult> CreateRefToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var createdRef = await _mediator.Send(new CreateRefLandLordToContractedAreasForVendingMachinesCommand(new LandLordKeyDto(key), new VendingMachineKeyDto(relatedKey)));
+        var createdRef = await _mediator.Send(new CreateRefLandLordToVendingMachinesCommand(new LandLordKeyDto(key), new VendingMachineKeyDto(relatedKey)));
         if (!createdRef)
         {
             return NotFound();
@@ -44,7 +44,7 @@ public abstract partial class LandLordsControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToContractedAreasForVendingMachines([FromRoute] System.Int64 key, [FromBody] VendingMachineCreateDto vendingMachine)
+    public virtual async Task<ActionResult> PostToVendingMachines([FromRoute] System.Int64 key, [FromBody] VendingMachineCreateDto vendingMachine)
     {
         if (!ModelState.IsValid)
         {
@@ -52,7 +52,7 @@ public abstract partial class LandLordsControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        vendingMachine.VendingMachineContractedAreaLandLordId = key;
+        vendingMachine.LandLordId = key;
         var createdKey = await _mediator.Send(new CreateVendingMachineCommand(vendingMachine, _cultureCode));
         
         var createdItem = (await _mediator.Send(new GetVendingMachineByIdQuery(createdKey.keyId))).SingleOrDefault();
@@ -60,9 +60,9 @@ public abstract partial class LandLordsControllerBase : ODataController
         return Created(createdItem);
     }
     
-    public async Task<ActionResult> GetRefToContractedAreasForVendingMachines([FromRoute] System.Int64 key)
+    public async Task<ActionResult> GetRefToVendingMachines([FromRoute] System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetLandLordByIdQuery(key))).Select(x => x.ContractedAreasForVendingMachines).SingleOrDefault();
+        var related = (await _mediator.Send(new GetLandLordByIdQuery(key))).Select(x => x.VendingMachines).SingleOrDefault();
         if (related is null)
         {
             return NotFound();
@@ -76,14 +76,14 @@ public abstract partial class LandLordsControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToContractedAreasForVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    public async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedRef = await _mediator.Send(new DeleteRefLandLordToContractedAreasForVendingMachinesCommand(new LandLordKeyDto(key), new VendingMachineKeyDto(relatedKey)));
+        var deletedRef = await _mediator.Send(new DeleteRefLandLordToVendingMachinesCommand(new LandLordKeyDto(key), new VendingMachineKeyDto(relatedKey)));
         if (!deletedRef)
         {
             return NotFound();
@@ -92,14 +92,14 @@ public abstract partial class LandLordsControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToContractedAreasForVendingMachines([FromRoute] System.Int64 key)
+    public async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefLandLordToContractedAreasForVendingMachinesCommand(new LandLordKeyDto(key)));
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefLandLordToVendingMachinesCommand(new LandLordKeyDto(key)));
         if (!deletedAllRef)
         {
             return NotFound();

@@ -42,12 +42,13 @@ internal static class ODataServiceCollectionExtensions
 
         {{- if entity.Relationships != null }}
             {{- for relationship in entity.Relationships  }}
+		        {{- relationshipName = GetRelationshipPublicName entity relationship }}
                 {{- if relationship.Relationship == "ExactlyOne" }}
-        builder.EntityType<{{entity.Name}}Dto>().ContainsRequired(e => e.{{relationship.Name}});
+        builder.EntityType<{{entity.Name}}Dto>().ContainsRequired(e => e.{{relationshipName}});
                 {{- else if relationship.Relationship == "ZeroOrOne" }}
-        builder.EntityType<{{entity.Name}}Dto>().ContainsOptional(e => e.{{relationship.Name}});
+        builder.EntityType<{{entity.Name}}Dto>().ContainsOptional(e => e.{{relationshipName}});
                 {{- else }}
-        builder.EntityType<{{entity.Name}}Dto>().ContainsMany(e => e.{{relationship.Name}});
+        builder.EntityType<{{entity.Name}}Dto>().ContainsMany(e => e.{{relationshipName}});
                 {{- end }}
             {{- end }}
         {{- end }}

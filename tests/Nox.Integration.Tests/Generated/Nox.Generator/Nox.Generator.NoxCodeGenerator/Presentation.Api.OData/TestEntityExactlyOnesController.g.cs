@@ -28,14 +28,14 @@ public abstract partial class TestEntityExactlyOnesControllerBase : ODataControl
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToSecondTestEntityExactlyOneRelationship([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public async Task<ActionResult> CreateRefToSecondTestEntityExactlyOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var createdRef = await _mediator.Send(new CreateRefTestEntityExactlyOneToSecondTestEntityExactlyOneRelationshipCommand(new TestEntityExactlyOneKeyDto(key), new SecondTestEntityExactlyOneKeyDto(relatedKey)));
+        var createdRef = await _mediator.Send(new CreateRefTestEntityExactlyOneToSecondTestEntityExactlyOneCommand(new TestEntityExactlyOneKeyDto(key), new SecondTestEntityExactlyOneKeyDto(relatedKey)));
         if (!createdRef)
         {
             return NotFound();
@@ -44,7 +44,7 @@ public abstract partial class TestEntityExactlyOnesControllerBase : ODataControl
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToSecondTestEntityExactlyOneRelationship([FromRoute] System.String key, [FromBody] SecondTestEntityExactlyOneCreateDto secondTestEntityExactlyOne)
+    public virtual async Task<ActionResult> PostToSecondTestEntityExactlyOne([FromRoute] System.String key, [FromBody] SecondTestEntityExactlyOneCreateDto secondTestEntityExactlyOne)
     {
         if (!ModelState.IsValid)
         {
@@ -52,7 +52,7 @@ public abstract partial class TestEntityExactlyOnesControllerBase : ODataControl
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        secondTestEntityExactlyOne.TestEntityExactlyOneRelationshipId = key;
+        secondTestEntityExactlyOne.TestEntityExactlyOneId = key;
         var createdKey = await _mediator.Send(new CreateSecondTestEntityExactlyOneCommand(secondTestEntityExactlyOne, _cultureCode));
         
         var createdItem = (await _mediator.Send(new GetSecondTestEntityExactlyOneByIdQuery(createdKey.keyId))).SingleOrDefault();
@@ -60,9 +60,9 @@ public abstract partial class TestEntityExactlyOnesControllerBase : ODataControl
         return Created(createdItem);
     }
     
-    public async Task<ActionResult> GetRefToSecondTestEntityExactlyOneRelationship([FromRoute] System.String key)
+    public async Task<ActionResult> GetRefToSecondTestEntityExactlyOne([FromRoute] System.String key)
     {
-        var related = (await _mediator.Send(new GetTestEntityExactlyOneByIdQuery(key))).Select(x => x.SecondTestEntityExactlyOneRelationship).SingleOrDefault();
+        var related = (await _mediator.Send(new GetTestEntityExactlyOneByIdQuery(key))).Select(x => x.SecondTestEntityExactlyOne).SingleOrDefault();
         if (related is null)
         {
             return NotFound();
@@ -72,14 +72,14 @@ public abstract partial class TestEntityExactlyOnesControllerBase : ODataControl
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToSecondTestEntityExactlyOneRelationship([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public async Task<ActionResult> DeleteRefToSecondTestEntityExactlyOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedRef = await _mediator.Send(new DeleteRefTestEntityExactlyOneToSecondTestEntityExactlyOneRelationshipCommand(new TestEntityExactlyOneKeyDto(key), new SecondTestEntityExactlyOneKeyDto(relatedKey)));
+        var deletedRef = await _mediator.Send(new DeleteRefTestEntityExactlyOneToSecondTestEntityExactlyOneCommand(new TestEntityExactlyOneKeyDto(key), new SecondTestEntityExactlyOneKeyDto(relatedKey)));
         if (!deletedRef)
         {
             return NotFound();
@@ -88,14 +88,14 @@ public abstract partial class TestEntityExactlyOnesControllerBase : ODataControl
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToSecondTestEntityExactlyOneRelationship([FromRoute] System.String key)
+    public async Task<ActionResult> DeleteRefToSecondTestEntityExactlyOne([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefTestEntityExactlyOneToSecondTestEntityExactlyOneRelationshipCommand(new TestEntityExactlyOneKeyDto(key)));
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefTestEntityExactlyOneToSecondTestEntityExactlyOneCommand(new TestEntityExactlyOneKeyDto(key)));
         if (!deletedAllRef)
         {
             return NotFound();

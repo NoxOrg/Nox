@@ -124,46 +124,46 @@ internal abstract partial class StoreBase : AuditableEntityBase, IEntityConcurre
     /// <summary>
     /// Store Owner of the Store ZeroOrOne StoreOwners
     /// </summary>
-    public virtual StoreOwner? Ownership { get; private set; } = null!;
+    public virtual StoreOwner? StoreOwner { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ZeroOrOne to entity StoreOwner
     /// </summary>
-    public Nox.Types.Text? OwnershipId { get; set; } = null!;
+    public Nox.Types.Text? StoreOwnerId { get; set; } = null!;
 
-    public virtual void CreateRefToOwnership(StoreOwner relatedStoreOwner)
+    public virtual void CreateRefToStoreOwner(StoreOwner relatedStoreOwner)
     {
-        Ownership = relatedStoreOwner;
+        StoreOwner = relatedStoreOwner;
     }
 
-    public virtual void DeleteRefToOwnership(StoreOwner relatedStoreOwner)
+    public virtual void DeleteRefToStoreOwner(StoreOwner relatedStoreOwner)
     {
-        Ownership = null;
+        StoreOwner = null;
     }
 
-    public virtual void DeleteAllRefToOwnership()
+    public virtual void DeleteAllRefToStoreOwner()
     {
-        OwnershipId = null;
+        StoreOwnerId = null;
     }
 
     /// <summary>
     /// Store License that this store uses ZeroOrOne StoreLicenses
     /// </summary>
-    public virtual StoreLicense? License { get; private set; } = null!;
+    public virtual StoreLicense? StoreLicense { get; private set; } = null!;
 
-    public virtual void CreateRefToLicense(StoreLicense relatedStoreLicense)
+    public virtual void CreateRefToStoreLicense(StoreLicense relatedStoreLicense)
     {
-        License = relatedStoreLicense;
+        StoreLicense = relatedStoreLicense;
     }
 
-    public virtual void DeleteRefToLicense(StoreLicense relatedStoreLicense)
+    public virtual void DeleteRefToStoreLicense(StoreLicense relatedStoreLicense)
     {
-        License = null;
+        StoreLicense = null;
     }
 
-    public virtual void DeleteAllRefToLicense()
+    public virtual void DeleteAllRefToStoreLicense()
     {
-        License = null;
+        StoreLicense = null;
     }
 
     /// <summary>

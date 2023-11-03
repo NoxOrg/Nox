@@ -505,7 +505,8 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
     private static void GenerateCreateRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
     {
         var relatedEntity = relationship.Related.Entity;
-        code.AppendLine($"public async Task<ActionResult> CreateRefTo{relationship.Name}({GetPrimaryKeysRoute(entity, solution)}, {GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey")})");
+        code.AppendLine($"public async Task<ActionResult> CreateRefTo{entity.GetRelationshipPublicName(relationship)}" +
+            $"({GetPrimaryKeysRoute(entity, solution)}, {GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey")})");
 
         code.StartBlock();
         code.AppendLine($"if (!ModelState.IsValid)");
@@ -513,7 +514,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine($"var createdRef = await _mediator.Send(new CreateRef{entity.Name}To{relationship.Name}Command(" +
+        code.AppendLine($"var createdRef = await _mediator.Send(new CreateRef{entity.Name}To{entity.GetRelationshipPublicName(relationship)}Command(" +
             $"new {entity.Name}KeyDto({GetPrimaryKeysQuery(entity)}), new {relatedEntity.Name}KeyDto({GetPrimaryKeysQuery(relatedEntity, "relatedKey")})));");
         code.AppendLine($"if (!createdRef)");
         code.StartBlock();
@@ -531,7 +532,8 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
     private static void GenerateDeleteRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
     {
         var relatedEntity = relationship.Related.Entity;
-        code.AppendLine($"public async Task<ActionResult> DeleteRefTo{relationship.Name}({GetPrimaryKeysRoute(entity, solution)}, {GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey")})");
+        code.AppendLine($"public async Task<ActionResult> DeleteRefTo{entity.GetRelationshipPublicName(relationship)}" +
+            $"({GetPrimaryKeysRoute(entity, solution)}, {GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey")})");
 
         code.StartBlock();
         code.AppendLine($"if (!ModelState.IsValid)");
@@ -539,7 +541,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine($"var deletedRef = await _mediator.Send(new DeleteRef{entity.Name}To{relationship.Name}Command(" +
+        code.AppendLine($"var deletedRef = await _mediator.Send(new DeleteRef{entity.Name}To{entity.GetRelationshipPublicName(relationship)}Command(" +
             $"new {entity.Name}KeyDto({GetPrimaryKeysQuery(entity)}), new {relatedEntity.Name}KeyDto({GetPrimaryKeysQuery(relatedEntity, "relatedKey")})));");
         code.AppendLine($"if (!deletedRef)");
         code.StartBlock();
@@ -556,7 +558,8 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
     private static void GenerateDeleteAllRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
     {
-        code.AppendLine($"public async Task<ActionResult> DeleteRefTo{relationship.Name}({GetPrimaryKeysRoute(entity, solution)})");
+        code.AppendLine($"public async Task<ActionResult> DeleteRefTo{entity.GetRelationshipPublicName(relationship)}" +
+            $"({GetPrimaryKeysRoute(entity, solution)})");
 
         code.StartBlock();
         code.AppendLine($"if (!ModelState.IsValid)");
@@ -564,7 +567,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine($"var deletedAllRef = await _mediator.Send(new DeleteAllRef{entity.Name}To{relationship.Name}Command(" +
+        code.AppendLine($"var deletedAllRef = await _mediator.Send(new DeleteAllRef{entity.Name}To{entity.GetRelationshipPublicName(relationship)}Command(" +
             $"new {entity.Name}KeyDto({GetPrimaryKeysQuery(entity)})));");
         code.AppendLine($"if (!deletedAllRef)");
         code.StartBlock();
@@ -582,11 +585,13 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
     private static void GenerateGetRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
     {
         var relatedEntity = relationship.Related.Entity;
-        code.AppendLine($"public async Task<ActionResult> GetRefTo{relationship.Name}({GetPrimaryKeysRoute(entity, solution)})");
+        var relationshipName = entity.GetRelationshipPublicName(relationship);
+        code.AppendLine($"public async Task<ActionResult> GetRefTo{relationshipName}" +
+            $"({GetPrimaryKeysRoute(entity, solution)})");
 
         code.StartBlock();
         code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)})))" +
-            $".Select(x => x.{relationship.Name}).SingleOrDefault();");
+            $".Select(x => x.{relationshipName}).SingleOrDefault();");
         code.AppendLine($"if (related is null)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
@@ -618,14 +623,15 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
     private static void GenerateRelatedPost(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code)
     {
         var relatedEntity = relationship.Related.Entity;
-        var isSingleRelationship = relationship.WithSingleEntity();
         var reversedRelationship = relationship.Related.EntityRelationship;
+        var reversedRelationshipName = relationship.Related.Entity.GetRelationshipPublicName(reversedRelationship);
 
         //Only Single Keys entities are supported
         if (entity.HasCompositeKey || relatedEntity.HasCompositeKey)
             return;
 
-        code.AppendLine($"public virtual async Task<ActionResult> PostTo{relationship.Name}({GetPrimaryKeysRoute(entity, solution)}, [FromBody] {relatedEntity.Name}CreateDto {relatedEntity.Name.ToLowerFirstChar()})");
+        code.AppendLine($"public virtual async Task<ActionResult> PostTo{entity.GetRelationshipPublicName(relationship)}" +
+            $"({GetPrimaryKeysRoute(entity, solution)}, [FromBody] {relatedEntity.Name}CreateDto {relatedEntity.Name.ToLowerFirstChar()})");
 
         code.StartBlock();
         code.AppendLine($"if (!ModelState.IsValid)");
@@ -636,9 +642,9 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
 
         if(reversedRelationship.WithSingleEntity())
-            code.AppendLine($"{relatedEntity.Name.ToLowerFirstChar()}.{reversedRelationship.Name}Id = key;");
+            code.AppendLine($"{relatedEntity.Name.ToLowerFirstChar()}.{reversedRelationshipName}Id = key;");
         else
-            code.AppendLine($"{relatedEntity.Name.ToLowerFirstChar()}.{reversedRelationship.Name}Id = " +
+            code.AppendLine($"{relatedEntity.Name.ToLowerFirstChar()}.{reversedRelationshipName}Id = " +
                 $"new List<{solution.GetSinglePrimitiveTypeForKey(entity.Keys[0])}> {{ key }};");
         code.AppendLine($"var createdKey = await _mediator.Send(new Create{relatedEntity.Name}Command({relatedEntity.Name.ToLowerFirstChar()}, _cultureCode));");
         code.AppendLine();

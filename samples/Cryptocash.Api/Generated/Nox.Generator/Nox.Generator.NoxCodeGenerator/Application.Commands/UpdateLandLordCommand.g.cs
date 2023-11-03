@@ -55,19 +55,19 @@ internal abstract class UpdateLandLordCommandHandlerBase : CommandBase<UpdateLan
 			return null;
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.ContractedAreasForVendingMachines).LoadAsync();
-		var contractedAreasForVendingMachinesEntities = new List<VendingMachine>();
-		foreach(var relatedEntityId in request.EntityDto.ContractedAreasForVendingMachinesId)
+		await DbContext.Entry(entity).Collection(x => x.VendingMachines).LoadAsync();
+		var vendingMachinesEntities = new List<VendingMachine>();
+		foreach(var relatedEntityId in request.EntityDto.VendingMachinesId)
 		{
 			var relatedKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(relatedEntityId);
 			var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKey);
 						
 			if(relatedEntity is not null)
-				contractedAreasForVendingMachinesEntities.Add(relatedEntity);
+				vendingMachinesEntities.Add(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("ContractedAreasForVendingMachines", relatedEntityId.ToString());
+				throw new RelatedEntityNotFoundException("VendingMachines", relatedEntityId.ToString());
 		}
-		entity.UpdateRefToContractedAreasForVendingMachines(contractedAreasForVendingMachinesEntities);
+		entity.UpdateRefToVendingMachines(vendingMachinesEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

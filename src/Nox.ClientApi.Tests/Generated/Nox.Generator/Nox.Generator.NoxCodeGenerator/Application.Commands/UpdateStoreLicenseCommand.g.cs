@@ -55,13 +55,13 @@ internal abstract class UpdateStoreLicenseCommandHandlerBase : CommandBase<Updat
 			return null;
 		}
 
-		var storeWithLicenseKey = ClientApi.Domain.StoreMetadata.CreateId(request.EntityDto.StoreWithLicenseId);
-		var storeWithLicenseEntity = await DbContext.Stores.FindAsync(storeWithLicenseKey);
+		var storeKey = ClientApi.Domain.StoreMetadata.CreateId(request.EntityDto.StoreId);
+		var storeEntity = await DbContext.Stores.FindAsync(storeKey);
 						
-		if(storeWithLicenseEntity is not null)
-			entity.CreateRefToStoreWithLicense(storeWithLicenseEntity);
+		if(storeEntity is not null)
+			entity.CreateRefToStore(storeEntity);
 		else
-			throw new RelatedEntityNotFoundException("StoreWithLicense", request.EntityDto.StoreWithLicenseId.ToString());
+			throw new RelatedEntityNotFoundException("Store", request.EntityDto.StoreId.ToString());
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

@@ -55,19 +55,19 @@ internal abstract class UpdateWorkplaceCommandHandlerBase : CommandBase<UpdateWo
 			return null;
 		}
 
-		if(request.EntityDto.BelongsToCountryId is not null)
+		if(request.EntityDto.CountryId is not null)
 		{
-			var belongsToCountryKey = ClientApi.Domain.CountryMetadata.CreateId(request.EntityDto.BelongsToCountryId.NonNullValue<System.Int64>());
-			var belongsToCountryEntity = await DbContext.Countries.FindAsync(belongsToCountryKey);
+			var countryKey = ClientApi.Domain.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.Int64>());
+			var countryEntity = await DbContext.Countries.FindAsync(countryKey);
 						
-			if(belongsToCountryEntity is not null)
-				entity.CreateRefToBelongsToCountry(belongsToCountryEntity);
+			if(countryEntity is not null)
+				entity.CreateRefToCountry(countryEntity);
 			else
-				throw new RelatedEntityNotFoundException("BelongsToCountry", request.EntityDto.BelongsToCountryId.NonNullValue<System.Int64>().ToString());
+				throw new RelatedEntityNotFoundException("Country", request.EntityDto.CountryId.NonNullValue<System.Int64>().ToString());
 		}
 		else
 		{
-			entity.DeleteAllRefToBelongsToCountry();
+			entity.DeleteAllRefToCountry();
 		}
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);

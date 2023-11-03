@@ -15,10 +15,6 @@ namespace Nox.Solution.Validation
                 .NotEmpty()
                 .WithMessage(t => string.Format(ValidationResources.EntityNameEmpty));
 
-            RuleFor(e => e.ApplyDefaults())
-                .NotEqual(false)
-                .WithMessage(e => string.Format(ValidationResources.EntityDefaultsFalse, e.Name));
-
             RuleFor(e => e.Persistence!)
                 .SetValidator(e => new EntityPersistenceValidator(e));
 
@@ -26,6 +22,10 @@ namespace Nox.Solution.Validation
                 .SetValidator(x => new EntityItemUniquenessValidator<EntityRelationship>(x, t => t.Name, nameof(x.Relationships)))
                 .SetValidator(e => new EntityRelationshipValidator(e.Name, entities))
                 .SetValidator(e => new UniquePropertyValidator<EntityRelationship>(e.Relationships, x => x.Name, "entity relation"));
+
+            RuleFor(e => e.ApplyDefaults())
+                .NotEqual(false)
+                .WithMessage(e => string.Format(ValidationResources.EntityDefaultsFalse, e.Name));
 
             RuleForEach(e => e.OwnedRelationships)
                 .SetValidator(e => new EntityRelationshipValidator(e.Name, entities, requiresCorrespondingRelationship: false))

@@ -95,52 +95,52 @@ internal abstract partial class CommissionBase : AuditableEntityBase, IEntityCon
     /// <summary>
     /// Commission fees for ZeroOrOne Countries
     /// </summary>
-    public virtual Country? CommissionFeesForCountry { get; private set; } = null!;
+    public virtual Country? Country { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ZeroOrOne to entity Country
     /// </summary>
-    public Nox.Types.CountryCode2? CommissionFeesForCountryId { get; set; } = null!;
+    public Nox.Types.CountryCode2? CountryId { get; set; } = null!;
 
-    public virtual void CreateRefToCommissionFeesForCountry(Country relatedCountry)
+    public virtual void CreateRefToCountry(Country relatedCountry)
     {
-        CommissionFeesForCountry = relatedCountry;
+        Country = relatedCountry;
     }
 
-    public virtual void DeleteRefToCommissionFeesForCountry(Country relatedCountry)
+    public virtual void DeleteRefToCountry(Country relatedCountry)
     {
-        CommissionFeesForCountry = null;
+        Country = null;
     }
 
-    public virtual void DeleteAllRefToCommissionFeesForCountry()
+    public virtual void DeleteAllRefToCountry()
     {
-        CommissionFeesForCountryId = null;
+        CountryId = null;
     }
 
     /// <summary>
     /// Commission fees for ZeroOrMany Bookings
     /// </summary>
-    public virtual List<Booking> CommissionFeesForBooking { get; private set; } = new();
+    public virtual List<Booking> Bookings { get; private set; } = new();
 
-    public virtual void CreateRefToCommissionFeesForBooking(Booking relatedBooking)
+    public virtual void CreateRefToBookings(Booking relatedBooking)
     {
-        CommissionFeesForBooking.Add(relatedBooking);
+        Bookings.Add(relatedBooking);
     }
 
-    public virtual void UpdateRefToCommissionFeesForBooking(List<Booking> relatedBooking)
+    public virtual void UpdateRefToBookings(List<Booking> relatedBooking)
     {
-        CommissionFeesForBooking.Clear();
-        CommissionFeesForBooking.AddRange(relatedBooking);
+        Bookings.Clear();
+        Bookings.AddRange(relatedBooking);
     }
 
-    public virtual void DeleteRefToCommissionFeesForBooking(Booking relatedBooking)
+    public virtual void DeleteRefToBookings(Booking relatedBooking)
     {
-        CommissionFeesForBooking.Remove(relatedBooking);
+        Bookings.Remove(relatedBooking);
     }
 
-    public virtual void DeleteAllRefToCommissionFeesForBooking()
+    public virtual void DeleteAllRefToBookings()
     {
-        CommissionFeesForBooking.Clear();
+        Bookings.Clear();
     }
 
     /// <summary>

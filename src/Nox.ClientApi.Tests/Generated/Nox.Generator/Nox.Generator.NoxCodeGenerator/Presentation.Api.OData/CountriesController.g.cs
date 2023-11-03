@@ -280,14 +280,14 @@ public abstract partial class CountriesControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToPhysicalWorkplaces([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
+    public async Task<ActionResult> CreateRefToWorkplaces([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var createdRef = await _mediator.Send(new CreateRefCountryToPhysicalWorkplacesCommand(new CountryKeyDto(key), new WorkplaceKeyDto(relatedKey)));
+        var createdRef = await _mediator.Send(new CreateRefCountryToWorkplacesCommand(new CountryKeyDto(key), new WorkplaceKeyDto(relatedKey)));
         if (!createdRef)
         {
             return NotFound();
@@ -296,7 +296,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToPhysicalWorkplaces([FromRoute] System.Int64 key, [FromBody] WorkplaceCreateDto workplace)
+    public virtual async Task<ActionResult> PostToWorkplaces([FromRoute] System.Int64 key, [FromBody] WorkplaceCreateDto workplace)
     {
         if (!ModelState.IsValid)
         {
@@ -304,7 +304,7 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        workplace.BelongsToCountryId = key;
+        workplace.CountryId = key;
         var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace, _cultureCode));
         
         var createdItem = (await _mediator.Send(new GetWorkplaceByIdQuery(createdKey.keyId))).SingleOrDefault();
@@ -312,9 +312,9 @@ public abstract partial class CountriesControllerBase : ODataController
         return Created(createdItem);
     }
     
-    public async Task<ActionResult> GetRefToPhysicalWorkplaces([FromRoute] System.Int64 key)
+    public async Task<ActionResult> GetRefToWorkplaces([FromRoute] System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.PhysicalWorkplaces).SingleOrDefault();
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.Workplaces).SingleOrDefault();
         if (related is null)
         {
             return NotFound();
@@ -328,14 +328,14 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToPhysicalWorkplaces([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
+    public async Task<ActionResult> DeleteRefToWorkplaces([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedRef = await _mediator.Send(new DeleteRefCountryToPhysicalWorkplacesCommand(new CountryKeyDto(key), new WorkplaceKeyDto(relatedKey)));
+        var deletedRef = await _mediator.Send(new DeleteRefCountryToWorkplacesCommand(new CountryKeyDto(key), new WorkplaceKeyDto(relatedKey)));
         if (!deletedRef)
         {
             return NotFound();
@@ -344,14 +344,14 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToPhysicalWorkplaces([FromRoute] System.Int64 key)
+    public async Task<ActionResult> DeleteRefToWorkplaces([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefCountryToPhysicalWorkplacesCommand(new CountryKeyDto(key)));
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefCountryToWorkplacesCommand(new CountryKeyDto(key)));
         if (!deletedAllRef)
         {
             return NotFound();

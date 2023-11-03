@@ -59,19 +59,19 @@ internal abstract class CreateTestEntityExactlyOneCommandHandlerBase : CommandBa
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.SecondTestEntityExactlyOneRelationshipId is not null)
+		if(request.EntityDto.SecondTestEntityExactlyOneId is not null)
 		{
-			var relatedKey = TestWebApp.Domain.SecondTestEntityExactlyOneMetadata.CreateId(request.EntityDto.SecondTestEntityExactlyOneRelationshipId.NonNullValue<System.String>());
+			var relatedKey = TestWebApp.Domain.SecondTestEntityExactlyOneMetadata.CreateId(request.EntityDto.SecondTestEntityExactlyOneId.NonNullValue<System.String>());
 			var relatedEntity = await DbContext.SecondTestEntityExactlyOnes.FindAsync(relatedKey);
 			if(relatedEntity is not null)
-				entityToCreate.CreateRefToSecondTestEntityExactlyOneRelationship(relatedEntity);
+				entityToCreate.CreateRefToSecondTestEntityExactlyOne(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("SecondTestEntityExactlyOneRelationship", request.EntityDto.SecondTestEntityExactlyOneRelationshipId.NonNullValue<System.String>().ToString());
+				throw new RelatedEntityNotFoundException("SecondTestEntityExactlyOne", request.EntityDto.SecondTestEntityExactlyOneId.NonNullValue<System.String>().ToString());
 		}
-		else if(request.EntityDto.SecondTestEntityExactlyOneRelationship is not null)
+		else if(request.EntityDto.SecondTestEntityExactlyOne is not null)
 		{
-			var relatedEntity = SecondTestEntityExactlyOneFactory.CreateEntity(request.EntityDto.SecondTestEntityExactlyOneRelationship);
-			entityToCreate.CreateRefToSecondTestEntityExactlyOneRelationship(relatedEntity);
+			var relatedEntity = SecondTestEntityExactlyOneFactory.CreateEntity(request.EntityDto.SecondTestEntityExactlyOne);
+			entityToCreate.CreateRefToSecondTestEntityExactlyOne(relatedEntity);
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

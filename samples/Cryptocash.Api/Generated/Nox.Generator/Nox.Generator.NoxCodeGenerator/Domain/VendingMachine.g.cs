@@ -134,24 +134,24 @@ internal abstract partial class VendingMachineBase : AuditableEntityBase, IEntit
     /// <summary>
     /// VendingMachine installed in ExactlyOne Countries
     /// </summary>
-    public virtual Country VendingMachineInstallationCountry { get; private set; } = null!;
+    public virtual Country Country { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Country
     /// </summary>
-    public Nox.Types.CountryCode2 VendingMachineInstallationCountryId { get; set; } = null!;
+    public Nox.Types.CountryCode2 CountryId { get; set; } = null!;
 
-    public virtual void CreateRefToVendingMachineInstallationCountry(Country relatedCountry)
+    public virtual void CreateRefToCountry(Country relatedCountry)
     {
-        VendingMachineInstallationCountry = relatedCountry;
+        Country = relatedCountry;
     }
 
-    public virtual void DeleteRefToVendingMachineInstallationCountry(Country relatedCountry)
+    public virtual void DeleteRefToCountry(Country relatedCountry)
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
-    public virtual void DeleteAllRefToVendingMachineInstallationCountry()
+    public virtual void DeleteAllRefToCountry()
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
@@ -159,24 +159,24 @@ internal abstract partial class VendingMachineBase : AuditableEntityBase, IEntit
     /// <summary>
     /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
-    public virtual LandLord VendingMachineContractedAreaLandLord { get; private set; } = null!;
+    public virtual LandLord LandLord { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity LandLord
     /// </summary>
-    public Nox.Types.AutoNumber VendingMachineContractedAreaLandLordId { get; set; } = null!;
+    public Nox.Types.AutoNumber LandLordId { get; set; } = null!;
 
-    public virtual void CreateRefToVendingMachineContractedAreaLandLord(LandLord relatedLandLord)
+    public virtual void CreateRefToLandLord(LandLord relatedLandLord)
     {
-        VendingMachineContractedAreaLandLord = relatedLandLord;
+        LandLord = relatedLandLord;
     }
 
-    public virtual void DeleteRefToVendingMachineContractedAreaLandLord(LandLord relatedLandLord)
+    public virtual void DeleteRefToLandLord(LandLord relatedLandLord)
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
-    public virtual void DeleteAllRefToVendingMachineContractedAreaLandLord()
+    public virtual void DeleteAllRefToLandLord()
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
@@ -184,79 +184,79 @@ internal abstract partial class VendingMachineBase : AuditableEntityBase, IEntit
     /// <summary>
     /// VendingMachine related to ZeroOrMany Bookings
     /// </summary>
-    public virtual List<Booking> VendingMachineRelatedBookings { get; private set; } = new();
+    public virtual List<Booking> Bookings { get; private set; } = new();
 
-    public virtual void CreateRefToVendingMachineRelatedBookings(Booking relatedBooking)
+    public virtual void CreateRefToBookings(Booking relatedBooking)
     {
-        VendingMachineRelatedBookings.Add(relatedBooking);
+        Bookings.Add(relatedBooking);
     }
 
-    public virtual void UpdateRefToVendingMachineRelatedBookings(List<Booking> relatedBooking)
+    public virtual void UpdateRefToBookings(List<Booking> relatedBooking)
     {
-        VendingMachineRelatedBookings.Clear();
-        VendingMachineRelatedBookings.AddRange(relatedBooking);
+        Bookings.Clear();
+        Bookings.AddRange(relatedBooking);
     }
 
-    public virtual void DeleteRefToVendingMachineRelatedBookings(Booking relatedBooking)
+    public virtual void DeleteRefToBookings(Booking relatedBooking)
     {
-        VendingMachineRelatedBookings.Remove(relatedBooking);
+        Bookings.Remove(relatedBooking);
     }
 
-    public virtual void DeleteAllRefToVendingMachineRelatedBookings()
+    public virtual void DeleteAllRefToBookings()
     {
-        VendingMachineRelatedBookings.Clear();
+        Bookings.Clear();
     }
 
     /// <summary>
     /// VendingMachine related to ZeroOrMany CashStockOrders
     /// </summary>
-    public virtual List<CashStockOrder> VendingMachineRelatedCashStockOrders { get; private set; } = new();
+    public virtual List<CashStockOrder> CashStockOrders { get; private set; } = new();
 
-    public virtual void CreateRefToVendingMachineRelatedCashStockOrders(CashStockOrder relatedCashStockOrder)
+    public virtual void CreateRefToCashStockOrders(CashStockOrder relatedCashStockOrder)
     {
-        VendingMachineRelatedCashStockOrders.Add(relatedCashStockOrder);
+        CashStockOrders.Add(relatedCashStockOrder);
     }
 
-    public virtual void UpdateRefToVendingMachineRelatedCashStockOrders(List<CashStockOrder> relatedCashStockOrder)
+    public virtual void UpdateRefToCashStockOrders(List<CashStockOrder> relatedCashStockOrder)
     {
-        VendingMachineRelatedCashStockOrders.Clear();
-        VendingMachineRelatedCashStockOrders.AddRange(relatedCashStockOrder);
+        CashStockOrders.Clear();
+        CashStockOrders.AddRange(relatedCashStockOrder);
     }
 
-    public virtual void DeleteRefToVendingMachineRelatedCashStockOrders(CashStockOrder relatedCashStockOrder)
+    public virtual void DeleteRefToCashStockOrders(CashStockOrder relatedCashStockOrder)
     {
-        VendingMachineRelatedCashStockOrders.Remove(relatedCashStockOrder);
+        CashStockOrders.Remove(relatedCashStockOrder);
     }
 
-    public virtual void DeleteAllRefToVendingMachineRelatedCashStockOrders()
+    public virtual void DeleteAllRefToCashStockOrders()
     {
-        VendingMachineRelatedCashStockOrders.Clear();
+        CashStockOrders.Clear();
     }
 
     /// <summary>
     /// VendingMachine required ZeroOrMany MinimumCashStocks
     /// </summary>
-    public virtual List<MinimumCashStock> VendingMachineRequiredMinimumCashStocks { get; private set; } = new();
+    public virtual List<MinimumCashStock> MinimumCashStocks { get; private set; } = new();
 
-    public virtual void CreateRefToVendingMachineRequiredMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
+    public virtual void CreateRefToMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
     {
-        VendingMachineRequiredMinimumCashStocks.Add(relatedMinimumCashStock);
+        MinimumCashStocks.Add(relatedMinimumCashStock);
     }
 
-    public virtual void UpdateRefToVendingMachineRequiredMinimumCashStocks(List<MinimumCashStock> relatedMinimumCashStock)
+    public virtual void UpdateRefToMinimumCashStocks(List<MinimumCashStock> relatedMinimumCashStock)
     {
-        VendingMachineRequiredMinimumCashStocks.Clear();
-        VendingMachineRequiredMinimumCashStocks.AddRange(relatedMinimumCashStock);
+        MinimumCashStocks.Clear();
+        MinimumCashStocks.AddRange(relatedMinimumCashStock);
     }
 
-    public virtual void DeleteRefToVendingMachineRequiredMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
+    public virtual void DeleteRefToMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
     {
-        VendingMachineRequiredMinimumCashStocks.Remove(relatedMinimumCashStock);
+        MinimumCashStocks.Remove(relatedMinimumCashStock);
     }
 
-    public virtual void DeleteAllRefToVendingMachineRequiredMinimumCashStocks()
+    public virtual void DeleteAllRefToMinimumCashStocks()
     {
-        VendingMachineRequiredMinimumCashStocks.Clear();
+        MinimumCashStocks.Clear();
     }
 
     /// <summary>

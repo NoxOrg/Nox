@@ -55,19 +55,19 @@ internal abstract class UpdateThirdTestEntityZeroOrOneCommandHandlerBase : Comma
 			return null;
 		}
 
-		if(request.EntityDto.ThirdTestEntityExactlyOneRelationshipId is not null)
+		if(request.EntityDto.ThirdTestEntityExactlyOneId is not null)
 		{
-			var thirdTestEntityExactlyOneRelationshipKey = TestWebApp.Domain.ThirdTestEntityExactlyOneMetadata.CreateId(request.EntityDto.ThirdTestEntityExactlyOneRelationshipId.NonNullValue<System.String>());
-			var thirdTestEntityExactlyOneRelationshipEntity = await DbContext.ThirdTestEntityExactlyOnes.FindAsync(thirdTestEntityExactlyOneRelationshipKey);
+			var thirdTestEntityExactlyOneKey = TestWebApp.Domain.ThirdTestEntityExactlyOneMetadata.CreateId(request.EntityDto.ThirdTestEntityExactlyOneId.NonNullValue<System.String>());
+			var thirdTestEntityExactlyOneEntity = await DbContext.ThirdTestEntityExactlyOnes.FindAsync(thirdTestEntityExactlyOneKey);
 						
-			if(thirdTestEntityExactlyOneRelationshipEntity is not null)
-				entity.CreateRefToThirdTestEntityExactlyOneRelationship(thirdTestEntityExactlyOneRelationshipEntity);
+			if(thirdTestEntityExactlyOneEntity is not null)
+				entity.CreateRefToThirdTestEntityExactlyOne(thirdTestEntityExactlyOneEntity);
 			else
-				throw new RelatedEntityNotFoundException("ThirdTestEntityExactlyOneRelationship", request.EntityDto.ThirdTestEntityExactlyOneRelationshipId.NonNullValue<System.String>().ToString());
+				throw new RelatedEntityNotFoundException("ThirdTestEntityExactlyOne", request.EntityDto.ThirdTestEntityExactlyOneId.NonNullValue<System.String>().ToString());
 		}
 		else
 		{
-			entity.DeleteAllRefToThirdTestEntityExactlyOneRelationship();
+			entity.DeleteAllRefToThirdTestEntityExactlyOne();
 		}
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);

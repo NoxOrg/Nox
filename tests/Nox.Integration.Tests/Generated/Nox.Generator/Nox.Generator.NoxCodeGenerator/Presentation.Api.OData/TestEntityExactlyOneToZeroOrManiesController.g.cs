@@ -52,7 +52,7 @@ public abstract partial class TestEntityExactlyOneToZeroOrManiesControllerBase :
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        testEntityZeroOrManyToExactlyOne.TestEntityExactlyOneToZeroOrManyId = new List<System.String> { key };
+        testEntityZeroOrManyToExactlyOne.TestEntityExactlyOneToZeroOrManiesId = new List<System.String> { key };
         var createdKey = await _mediator.Send(new CreateTestEntityZeroOrManyToExactlyOneCommand(testEntityZeroOrManyToExactlyOne, _cultureCode));
         
         var createdItem = (await _mediator.Send(new GetTestEntityZeroOrManyToExactlyOneByIdQuery(createdKey.keyId))).SingleOrDefault();

@@ -150,24 +150,24 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     /// <summary>
     /// Country used by ExactlyOne Currencies
     /// </summary>
-    public virtual Currency CountryUsedByCurrency { get; private set; } = null!;
+    public virtual Currency Currency { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Currency
     /// </summary>
-    public Nox.Types.CurrencyCode3 CountryUsedByCurrencyId { get; set; } = null!;
+    public Nox.Types.CurrencyCode3 CurrencyId { get; set; } = null!;
 
-    public virtual void CreateRefToCountryUsedByCurrency(Currency relatedCurrency)
+    public virtual void CreateRefToCurrency(Currency relatedCurrency)
     {
-        CountryUsedByCurrency = relatedCurrency;
+        Currency = relatedCurrency;
     }
 
-    public virtual void DeleteRefToCountryUsedByCurrency(Currency relatedCurrency)
+    public virtual void DeleteRefToCurrency(Currency relatedCurrency)
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
-    public virtual void DeleteAllRefToCountryUsedByCurrency()
+    public virtual void DeleteAllRefToCurrency()
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
@@ -175,85 +175,85 @@ internal abstract partial class CountryBase : AuditableEntityBase, IEntityConcur
     /// <summary>
     /// Country used by OneOrMany Commissions
     /// </summary>
-    public virtual List<Commission> CountryUsedByCommissions { get; private set; } = new();
+    public virtual List<Commission> Commissions { get; private set; } = new();
 
-    public virtual void CreateRefToCountryUsedByCommissions(Commission relatedCommission)
+    public virtual void CreateRefToCommissions(Commission relatedCommission)
     {
-        CountryUsedByCommissions.Add(relatedCommission);
+        Commissions.Add(relatedCommission);
     }
 
-    public virtual void UpdateRefToCountryUsedByCommissions(List<Commission> relatedCommission)
+    public virtual void UpdateRefToCommissions(List<Commission> relatedCommission)
     {
         if(relatedCommission is null || relatedCommission.Count < 2)
             throw new RelationshipDeletionException($"The relationship cannot be updated.");
-        CountryUsedByCommissions.Clear();
-        CountryUsedByCommissions.AddRange(relatedCommission);
+        Commissions.Clear();
+        Commissions.AddRange(relatedCommission);
     }
 
-    public virtual void DeleteRefToCountryUsedByCommissions(Commission relatedCommission)
+    public virtual void DeleteRefToCommissions(Commission relatedCommission)
     {
-        if(CountryUsedByCommissions.Count() < 2)
+        if(Commissions.Count() < 2)
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
-        CountryUsedByCommissions.Remove(relatedCommission);
+        Commissions.Remove(relatedCommission);
     }
 
-    public virtual void DeleteAllRefToCountryUsedByCommissions()
+    public virtual void DeleteAllRefToCommissions()
     {
-        if(CountryUsedByCommissions.Count() < 2)
+        if(Commissions.Count() < 2)
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
-        CountryUsedByCommissions.Clear();
+        Commissions.Clear();
     }
 
     /// <summary>
     /// Country used by ZeroOrMany VendingMachines
     /// </summary>
-    public virtual List<VendingMachine> CountryUsedByVendingMachines { get; private set; } = new();
+    public virtual List<VendingMachine> VendingMachines { get; private set; } = new();
 
-    public virtual void CreateRefToCountryUsedByVendingMachines(VendingMachine relatedVendingMachine)
+    public virtual void CreateRefToVendingMachines(VendingMachine relatedVendingMachine)
     {
-        CountryUsedByVendingMachines.Add(relatedVendingMachine);
+        VendingMachines.Add(relatedVendingMachine);
     }
 
-    public virtual void UpdateRefToCountryUsedByVendingMachines(List<VendingMachine> relatedVendingMachine)
+    public virtual void UpdateRefToVendingMachines(List<VendingMachine> relatedVendingMachine)
     {
-        CountryUsedByVendingMachines.Clear();
-        CountryUsedByVendingMachines.AddRange(relatedVendingMachine);
+        VendingMachines.Clear();
+        VendingMachines.AddRange(relatedVendingMachine);
     }
 
-    public virtual void DeleteRefToCountryUsedByVendingMachines(VendingMachine relatedVendingMachine)
+    public virtual void DeleteRefToVendingMachines(VendingMachine relatedVendingMachine)
     {
-        CountryUsedByVendingMachines.Remove(relatedVendingMachine);
+        VendingMachines.Remove(relatedVendingMachine);
     }
 
-    public virtual void DeleteAllRefToCountryUsedByVendingMachines()
+    public virtual void DeleteAllRefToVendingMachines()
     {
-        CountryUsedByVendingMachines.Clear();
+        VendingMachines.Clear();
     }
 
     /// <summary>
     /// Country used by ZeroOrMany Customers
     /// </summary>
-    public virtual List<Customer> CountryUsedByCustomers { get; private set; } = new();
+    public virtual List<Customer> Customers { get; private set; } = new();
 
-    public virtual void CreateRefToCountryUsedByCustomers(Customer relatedCustomer)
+    public virtual void CreateRefToCustomers(Customer relatedCustomer)
     {
-        CountryUsedByCustomers.Add(relatedCustomer);
+        Customers.Add(relatedCustomer);
     }
 
-    public virtual void UpdateRefToCountryUsedByCustomers(List<Customer> relatedCustomer)
+    public virtual void UpdateRefToCustomers(List<Customer> relatedCustomer)
     {
-        CountryUsedByCustomers.Clear();
-        CountryUsedByCustomers.AddRange(relatedCustomer);
+        Customers.Clear();
+        Customers.AddRange(relatedCustomer);
     }
 
-    public virtual void DeleteRefToCountryUsedByCustomers(Customer relatedCustomer)
+    public virtual void DeleteRefToCustomers(Customer relatedCustomer)
     {
-        CountryUsedByCustomers.Remove(relatedCustomer);
+        Customers.Remove(relatedCustomer);
     }
 
-    public virtual void DeleteAllRefToCountryUsedByCustomers()
+    public virtual void DeleteAllRefToCustomers()
     {
-        CountryUsedByCustomers.Clear();
+        Customers.Clear();
     }
 
     /// <summary>

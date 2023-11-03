@@ -69,40 +69,40 @@ public abstract class VendingMachineCreateDtoBase : IEntityDto<DomainNamespace.V
     /// <summary>
     /// VendingMachine installed in ExactlyOne Countries
     /// </summary>
-    public System.String? VendingMachineInstallationCountryId { get; set; } = default!;
+    public System.String? CountryId { get; set; } = default!;
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual CountryCreateDto? VendingMachineInstallationCountry { get; set; } = default!;
+    public virtual CountryCreateDto? Country { get; set; } = default!;
 
     /// <summary>
     /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
-    public System.Int64? VendingMachineContractedAreaLandLordId { get; set; } = default!;
+    public System.Int64? LandLordId { get; set; } = default!;
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual LandLordCreateDto? VendingMachineContractedAreaLandLord { get; set; } = default!;
+    public virtual LandLordCreateDto? LandLord { get; set; } = default!;
 
     /// <summary>
     /// VendingMachine related to ZeroOrMany Bookings
     /// </summary>
-    public virtual List<System.Guid> VendingMachineRelatedBookingsId { get; set; } = new();
+    public virtual List<System.Guid> BookingsId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual List<BookingCreateDto> VendingMachineRelatedBookings { get; set; } = new();
+    public virtual List<BookingCreateDto> Bookings { get; set; } = new();
 
     /// <summary>
     /// VendingMachine related to ZeroOrMany CashStockOrders
     /// </summary>
-    public virtual List<System.Int64> VendingMachineRelatedCashStockOrdersId { get; set; } = new();
+    public virtual List<System.Int64> CashStockOrdersId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual List<CashStockOrderCreateDto> VendingMachineRelatedCashStockOrders { get; set; } = new();
+    public virtual List<CashStockOrderCreateDto> CashStockOrders { get; set; } = new();
 
     /// <summary>
     /// VendingMachine required ZeroOrMany MinimumCashStocks
     /// </summary>
-    public virtual List<System.Int64> VendingMachineRequiredMinimumCashStocksId { get; set; } = new();
+    public virtual List<System.Int64> MinimumCashStocksId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual List<MinimumCashStockCreateDto> VendingMachineRequiredMinimumCashStocks { get; set; } = new();
+    public virtual List<MinimumCashStockCreateDto> MinimumCashStocks { get; set; } = new();
 }

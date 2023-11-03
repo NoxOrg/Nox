@@ -59,25 +59,25 @@ internal abstract class CreateTestEntityZeroOrManyCommandHandlerBase : CommandBa
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.SecondTestEntityZeroOrManyRelationshipId.Any())
+		if(request.EntityDto.SecondTestEntityZeroOrManiesId.Any())
 		{
-			foreach(var relatedId in request.EntityDto.SecondTestEntityZeroOrManyRelationshipId)
+			foreach(var relatedId in request.EntityDto.SecondTestEntityZeroOrManiesId)
 			{
 				var relatedKey = TestWebApp.Domain.SecondTestEntityZeroOrManyMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.SecondTestEntityZeroOrManies.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)
-					entityToCreate.CreateRefToSecondTestEntityZeroOrManyRelationship(relatedEntity);
+					entityToCreate.CreateRefToSecondTestEntityZeroOrManies(relatedEntity);
 				else
-					throw new RelatedEntityNotFoundException("SecondTestEntityZeroOrManyRelationship", relatedId.ToString());
+					throw new RelatedEntityNotFoundException("SecondTestEntityZeroOrManies", relatedId.ToString());
 			}
 		}
 		else
 		{
-			foreach(var relatedCreateDto in request.EntityDto.SecondTestEntityZeroOrManyRelationship)
+			foreach(var relatedCreateDto in request.EntityDto.SecondTestEntityZeroOrManies)
 			{
 				var relatedEntity = SecondTestEntityZeroOrManyFactory.CreateEntity(relatedCreateDto);
-				entityToCreate.CreateRefToSecondTestEntityZeroOrManyRelationship(relatedEntity);
+				entityToCreate.CreateRefToSecondTestEntityZeroOrManies(relatedEntity);
 			}
 		}
 

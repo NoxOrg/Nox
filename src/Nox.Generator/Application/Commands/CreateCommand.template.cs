@@ -88,56 +88,57 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 
 	{{- for relationship in entity.Relationships }}
+		{{- relationshipName = GetRelationshipPublicName entity relationship }}
 		{{- if relationship.WithSingleEntity }}
-		if(request.EntityDto.{{relationship.Name}}Id is not null)
+		if(request.EntityDto.{{relationshipName}}Id is not null)
 		{
 			{{- relatedEntity =  relationship.Related.Entity }}
 			{{- if (array.size relatedEntity.Keys) == 1 }}
 
 			{{- key = array.first relatedEntity.Keys }}
-			var relatedKey = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{relationship.Name}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>());
+			var relatedKey = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{relationshipName}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>());
 			var relatedEntity = await DbContext.{{relatedEntity.PluralName}}.FindAsync(relatedKey);
 			
 			{{- else }}
 
 			{{- for key in relatedEntity.Keys }}
-			var relatedKey{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}request.EntityDto.{{relationship.Name}}Id!.key{{key.Name}});
+			var relatedKey{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}request.EntityDto.{{relationshipName}}Id!.key{{key.Name}});
 			{{- end }}
 			var relatedEntity = await DbContext.{{relatedEntity.PluralName}}.FindAsync({{relatedEntity.Keys | array.map "Name" | keysQuery}});
 			
 			{{- end }}
 			if(relatedEntity is not null)
-				entityToCreate.CreateRefTo{{relationship.Name}}(relatedEntity);
+				entityToCreate.CreateRefTo{{relationshipName}}(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("{{relationship.Name}}", request.EntityDto.{{relationship.Name}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>().ToString());
+				throw new RelatedEntityNotFoundException("{{relationshipName}}", request.EntityDto.{{relationshipName}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>().ToString());
 		}
-		else if(request.EntityDto.{{relationship.Name}} is not null)
+		else if(request.EntityDto.{{relationshipName}} is not null)
 		{
-			var relatedEntity = {{fieldFactoryName relationship.Entity}}.CreateEntity(request.EntityDto.{{relationship.Name}});
-			entityToCreate.CreateRefTo{{relationship.Name}}(relatedEntity);
+			var relatedEntity = {{fieldFactoryName relationship.Entity}}.CreateEntity(request.EntityDto.{{relationshipName}});
+			entityToCreate.CreateRefTo{{relationshipName}}(relatedEntity);
 		}
 		{{- else}}
-		if(request.EntityDto.{{relationship.Name}}Id.Any())
+		if(request.EntityDto.{{relationshipName}}Id.Any())
 		{
 			{{- relatedEntity =  relationship.Related.Entity }}
 			{{- key = array.first relatedEntity.Keys }}
-			foreach(var relatedId in request.EntityDto.{{relationship.Name}}Id)
+			foreach(var relatedId in request.EntityDto.{{relationshipName}}Id)
 			{
 				var relatedKey = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(relatedId);
 				var relatedEntity = await DbContext.{{relatedEntity.PluralName}}.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)
-					entityToCreate.CreateRefTo{{relationship.Name}}(relatedEntity);
+					entityToCreate.CreateRefTo{{relationshipName}}(relatedEntity);
 				else
-					throw new RelatedEntityNotFoundException("{{relationship.Name}}", relatedId.ToString());
+					throw new RelatedEntityNotFoundException("{{relationshipName}}", relatedId.ToString());
 			}
 		}
 		else
 		{
-			foreach(var relatedCreateDto in request.EntityDto.{{relationship.Name}})
+			foreach(var relatedCreateDto in request.EntityDto.{{relationshipName}})
 			{
 				var relatedEntity = {{fieldFactoryName relationship.Entity}}.CreateEntity(relatedCreateDto);
-				entityToCreate.CreateRefTo{{relationship.Name}}(relatedEntity);
+				entityToCreate.CreateRefTo{{relationshipName}}(relatedEntity);
 			}
 		}
 		{{-end}}

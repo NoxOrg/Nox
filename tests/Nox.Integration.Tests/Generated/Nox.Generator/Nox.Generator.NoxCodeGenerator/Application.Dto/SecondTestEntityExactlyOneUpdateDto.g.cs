@@ -27,6 +27,6 @@ public partial class SecondTestEntityExactlyOneUpdateDto : IEntityDto<DomainName
     /// <summary>
     /// SecondTestEntityExactlyOne Test entity relationship to TestEntityExactlyOneRelationship ExactlyOne TestEntityExactlyOnes
     /// </summary>
-    [Required(ErrorMessage = "TestEntityExactlyOneRelationship is required")]
-    public System.String TestEntityExactlyOneRelationshipId { get; set; } = default!;
+    [Required(ErrorMessage = "TestEntityExactlyOne is required")]
+    public System.String TestEntityExactlyOneId { get; set; } = default!;
 }

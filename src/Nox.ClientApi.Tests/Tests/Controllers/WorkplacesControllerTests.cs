@@ -23,7 +23,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region GET
 
-        #region GET Ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/$ref => api/workplaces/1/belongstocountry/$ref
+        #region GET Ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/$ref => api/workplaces/1/Country/$ref
 
         [Fact]
         public async Task Get_RefToRelatedEntity_Success()
@@ -33,17 +33,17 @@ namespace ClientApi.Tests.Tests.Controllers
             {
                 Name = _fixture.Create<string>(),
             };
-            var belongsToCountry = new CountryCreateDto()
+            var Country = new CountryCreateDto()
             {
                 Name = _fixture.Create<string>()
             };
 
             var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, dto);
-            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, belongsToCountry);
-            await PostAsync($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/BelongsToCountry/{countryResponse!.Id}/$ref");
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, Country);
+            await PostAsync($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/Country/{countryResponse!.Id}/$ref");
 
             // Act
-            var getRefResponse = await GetODataSimpleResponseAsync<ODataReferenceResponse>($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.BelongsToCountry)}/$ref");
+            var getRefResponse = await GetODataSimpleResponseAsync<ODataReferenceResponse>($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}/$ref");
 
             //Assert
             workplaceResponse.Should().NotBeNull();
@@ -53,7 +53,7 @@ namespace ClientApi.Tests.Tests.Controllers
             getRefResponse!.ODataId!.Should().NotBeNullOrEmpty();
         }
 
-        #endregion GET Ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/$ref => api/workplaces/1/belongstocountry/$ref
+        #endregion GET Ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/$ref => api/workplaces/1/Country/$ref
 
         #endregion GET
 
@@ -69,14 +69,14 @@ namespace ClientApi.Tests.Tests.Controllers
             var dto = new WorkplaceCreateDto
             {
                 Name = _fixture.Create<string>(),
-                BelongsToCountry = new CountryCreateDto()
+                Country = new CountryCreateDto()
                 {
                     Name = expectedCountryName
                 }
             };
             // Act
             var result = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, dto);
-            const string oDataRequest = $"$expand={nameof(WorkplaceDto.BelongsToCountry)}";
+            const string oDataRequest = $"$expand={nameof(WorkplaceDto.Country)}";
             var getCountryResponse = await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{result!.Id}?{oDataRequest}");
 
             //Assert
@@ -85,16 +85,16 @@ namespace ClientApi.Tests.Tests.Controllers
 
             getCountryResponse.Should().NotBeNull();
             getCountryResponse!.Id.Should().BeGreaterThan(0);
-            getCountryResponse!.BelongsToCountry.Should().NotBeNull();
-            getCountryResponse!.BelongsToCountry!.Name.Should().Be(expectedCountryName);
+            getCountryResponse!.Country.Should().NotBeNull();
+            getCountryResponse!.Country!.Name.Should().Be(expectedCountryName);
         }
 
         #endregion POST Entity With Related Entity /api/{EntityPluralName} => api/workplaces
 
-        #region POST Create ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedEntityKey}/$ref => api/workplaces/1/belongstocountry/1/$ref
+        #region POST Create ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedEntityKey}/$ref => api/workplaces/1/Country/1/$ref
 
         [Fact]
-        public async Task Post_CreateRefToBelongsToCountry_Success()
+        public async Task Post_CreateRefToCountry_Success()
         {
             // Arrange
             var workplaceCreateDto = new WorkplaceCreateDto() { Name = _fixture.Create<string>() };
@@ -103,9 +103,9 @@ namespace ClientApi.Tests.Tests.Controllers
             // Act
             var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, workplaceCreateDto);
             var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, countryCreateDto);
-            var createRefResponse = await PostAsync($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/belongstocountry/{countryResponse!.Id}/$ref");
+            var createRefResponse = await PostAsync($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/Country/{countryResponse!.Id}/$ref");
 
-            const string oDataRequest = $"$expand={nameof(WorkplaceDto.BelongsToCountry)}";
+            const string oDataRequest = $"$expand={nameof(WorkplaceDto.Country)}";
             var getWorkplaceResponse = await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}?{oDataRequest}");
 
             //Assert
@@ -116,14 +116,14 @@ namespace ClientApi.Tests.Tests.Controllers
 
             getWorkplaceResponse.Should().NotBeNull();
             getWorkplaceResponse!.Id.Should().BeGreaterThan(0);
-            getWorkplaceResponse!.BelongsToCountry.Should().NotBeNull();
-            getWorkplaceResponse!.BelongsToCountry!.Id.Should().BeGreaterThan(0);
-            getWorkplaceResponse!.BelongsToCountry!.Name.Should().NotBeNull();
+            getWorkplaceResponse!.Country.Should().NotBeNull();
+            getWorkplaceResponse!.Country!.Id.Should().BeGreaterThan(0);
+            getWorkplaceResponse!.Country!.Name.Should().NotBeNull();
         }
 
-        #endregion POST Create ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedEntityKey}/$ref => api/workplaces/1/belongstocountry/1/$ref
+        #endregion POST Create ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedEntityKey}/$ref => api/workplaces/1/Country/1/$ref
 
-        #region POST Related Entity TO Entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName} => api/workplaces/1/belongstocountry
+        #region POST Related Entity TO Entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName} => api/workplaces/1/Country
 
         [Fact]
         public async Task Post_CountryToWorkplaces_Success()
@@ -135,11 +135,11 @@ namespace ClientApi.Tests.Tests.Controllers
             // Act
             var headers = CreateEtagHeader(workplaceResponse?.Etag);
             var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(
-                $"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.BelongsToCountry)}",
+                $"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}",
                 new CountryCreateDto() { Name = _fixture.Create<string>() },
                 headers);
 
-            const string oDataRequest = $"$expand={nameof(WorkplaceDto.BelongsToCountry)}";
+            const string oDataRequest = $"$expand={nameof(WorkplaceDto.Country)}";
             var getWorkplaceResponse = await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}?{oDataRequest}");
 
             //Assert
@@ -148,9 +148,9 @@ namespace ClientApi.Tests.Tests.Controllers
 
             getWorkplaceResponse.Should().NotBeNull();
             getWorkplaceResponse!.Id.Should().BeGreaterThan(0);
-            getWorkplaceResponse!.BelongsToCountryId.Should().Be(countryResponse!.Id);
-            getWorkplaceResponse!.BelongsToCountry.Should().NotBeNull();
-            getWorkplaceResponse!.BelongsToCountry!.Id.Should().Be(countryResponse!.Id);
+            getWorkplaceResponse!.CountryId.Should().Be(countryResponse!.Id);
+            getWorkplaceResponse!.Country.Should().NotBeNull();
+            getWorkplaceResponse!.Country!.Id.Should().Be(countryResponse!.Id);
         }
 
         #endregion
@@ -162,7 +162,7 @@ namespace ClientApi.Tests.Tests.Controllers
         #region PUT Update related entity /api/{EntityPluralName}/{EntityKey} => api/workplaces/1
 
         [Fact]
-        public async Task Put_UpdateBelongsToCountry_Success()
+        public async Task Put_UpdateCountry_Success()
         {
             // Arrange
             var workplaceCreateDto = new WorkplaceCreateDto() { Name = _fixture.Create<string>() };
@@ -173,7 +173,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, workplaceCreateDto);
             var countryResponse1 = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, countryCreateDto1);
             var countryResponse2 = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, countryCreateDto2);
-            await PostAsync($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/belongstocountry/{countryResponse1!.Id}/$ref");
+            await PostAsync($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/Country/{countryResponse1!.Id}/$ref");
 
             var getWorkplaceResponse = await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}");
             var headers = CreateEtagHeader(getWorkplaceResponse!.Etag);
@@ -181,18 +181,18 @@ namespace ClientApi.Tests.Tests.Controllers
                 new WorkplaceUpdateDto
                 {
                     Name = workplaceResponse!.Name,
-                    BelongsToCountryId = countryResponse2!.Id
+                    CountryId = countryResponse2!.Id
                 },
                 headers);
 
-            const string oDataRequest = $"$expand={nameof(WorkplaceDto.BelongsToCountry)}";
+            const string oDataRequest = $"$expand={nameof(WorkplaceDto.Country)}";
             getWorkplaceResponse = await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}?{oDataRequest}");
 
             //Assert
             getWorkplaceResponse.Should().NotBeNull();
             getWorkplaceResponse!.Id.Should().BeGreaterThan(0);
-            getWorkplaceResponse!.BelongsToCountry.Should().NotBeNull();
-            getWorkplaceResponse!.BelongsToCountry!.Id.Should().Be(countryResponse2!.Id);
+            getWorkplaceResponse!.Country.Should().NotBeNull();
+            getWorkplaceResponse!.Country!.Id.Should().Be(countryResponse2!.Id);
         }
 
         #endregion
@@ -201,10 +201,10 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region DELETE
 
-        #region DELETE Delete ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedEntityKey}/$ref => api/workplaces/1/belongstocountry/1/$ref
+        #region DELETE Delete ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedEntityKey}/$ref => api/workplaces/1/Country/1/$ref
 
         [Fact]
-        public async Task Delete_RefToBelongsToCountry_Success()
+        public async Task Delete_RefToCountry_Success()
         {
             // Arrange
             var workplaceCreateDto = new WorkplaceCreateDto() { Name = _fixture.Create<string>() };
@@ -213,10 +213,10 @@ namespace ClientApi.Tests.Tests.Controllers
             // Act
             var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, workplaceCreateDto);
             var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, countryCreateDto);
-            var createRefResponse = await PostAsync($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/belongstocountry/{countryResponse!.Id}/$ref");
-            var deleteRefResponse = await DeleteAsync($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/belongstocountry/{countryResponse!.Id}/$ref");
+            var createRefResponse = await PostAsync($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/Country/{countryResponse!.Id}/$ref");
+            var deleteRefResponse = await DeleteAsync($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/Country/{countryResponse!.Id}/$ref");
 
-            const string oDataRequest = $"$expand={nameof(WorkplaceDto.BelongsToCountry)}";
+            const string oDataRequest = $"$expand={nameof(WorkplaceDto.Country)}";
             var getWorkplaceResponse = await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}?{oDataRequest}");
 
             //Assert
@@ -227,16 +227,16 @@ namespace ClientApi.Tests.Tests.Controllers
 
             getWorkplaceResponse.Should().NotBeNull();
             getWorkplaceResponse!.Id.Should().BeGreaterThan(0);
-            getWorkplaceResponse!.BelongsToCountry.Should().BeNull();
-            getWorkplaceResponse!.BelongsToCountryId.Should().BeNull();
+            getWorkplaceResponse!.Country.Should().BeNull();
+            getWorkplaceResponse!.CountryId.Should().BeNull();
         }
 
-        #endregion DELETE Delete ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedEntityKey}/$ref => api/workplaces/1/belongstocountry/1/$ref
+        #endregion DELETE Delete ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedEntityKey}/$ref => api/workplaces/1/Country/1/$ref
 
-        #region DELETE Delete all ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/$ref => api/workplaces/1/belongstocountry/$ref
+        #region DELETE Delete all ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/$ref => api/workplaces/1/Country/$ref
 
         [Fact]
-        public async Task Delete_AllRefToBelongsToCountry_Success()
+        public async Task Delete_AllRefToCountry_Success()
         {
             // Arrange
             var workplaceCreateDto = new WorkplaceCreateDto() { Name = _fixture.Create<string>() };
@@ -245,10 +245,10 @@ namespace ClientApi.Tests.Tests.Controllers
             // Act
             var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, workplaceCreateDto);
             var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, countryCreateDto);
-            var createRefResponse = await PostAsync($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/belongstocountry/{countryResponse!.Id}/$ref");
-            var deleteRefResponse = await DeleteAsync($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/belongstocountry/$ref");
+            var createRefResponse = await PostAsync($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/Country/{countryResponse!.Id}/$ref");
+            var deleteRefResponse = await DeleteAsync($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/Country/$ref");
 
-            const string oDataRequest = $"$expand={nameof(WorkplaceDto.BelongsToCountry)}";
+            const string oDataRequest = $"$expand={nameof(WorkplaceDto.Country)}";
             var getWorkplaceResponse = await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}?{oDataRequest}");
 
             //Assert
@@ -259,11 +259,11 @@ namespace ClientApi.Tests.Tests.Controllers
 
             getWorkplaceResponse.Should().NotBeNull();
             getWorkplaceResponse!.Id.Should().BeGreaterThan(0);
-            getWorkplaceResponse!.BelongsToCountry.Should().BeNull();
-            getWorkplaceResponse!.BelongsToCountryId.Should().BeNull();
+            getWorkplaceResponse!.Country.Should().BeNull();
+            getWorkplaceResponse!.CountryId.Should().BeNull();
         }
 
-        #endregion DELETE Delete all ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/$ref => api/workplaces/1/belongstocountry/$ref
+        #endregion DELETE Delete all ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/$ref => api/workplaces/1/Country/$ref
 
         #endregion DELETE
 

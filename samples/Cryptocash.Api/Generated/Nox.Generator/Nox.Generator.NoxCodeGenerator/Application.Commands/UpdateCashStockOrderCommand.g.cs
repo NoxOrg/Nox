@@ -55,21 +55,21 @@ internal abstract class UpdateCashStockOrderCommandHandlerBase : CommandBase<Upd
 			return null;
 		}
 
-		var cashStockOrderForVendingMachineKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(request.EntityDto.CashStockOrderForVendingMachineId);
-		var cashStockOrderForVendingMachineEntity = await DbContext.VendingMachines.FindAsync(cashStockOrderForVendingMachineKey);
+		var vendingMachineKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(request.EntityDto.VendingMachineId);
+		var vendingMachineEntity = await DbContext.VendingMachines.FindAsync(vendingMachineKey);
 						
-		if(cashStockOrderForVendingMachineEntity is not null)
-			entity.CreateRefToCashStockOrderForVendingMachine(cashStockOrderForVendingMachineEntity);
+		if(vendingMachineEntity is not null)
+			entity.CreateRefToVendingMachine(vendingMachineEntity);
 		else
-			throw new RelatedEntityNotFoundException("CashStockOrderForVendingMachine", request.EntityDto.CashStockOrderForVendingMachineId.ToString());
+			throw new RelatedEntityNotFoundException("VendingMachine", request.EntityDto.VendingMachineId.ToString());
 
-		var cashStockOrderReviewedByEmployeeKey = Cryptocash.Domain.EmployeeMetadata.CreateId(request.EntityDto.CashStockOrderReviewedByEmployeeId);
-		var cashStockOrderReviewedByEmployeeEntity = await DbContext.Employees.FindAsync(cashStockOrderReviewedByEmployeeKey);
+		var employeeKey = Cryptocash.Domain.EmployeeMetadata.CreateId(request.EntityDto.EmployeeId);
+		var employeeEntity = await DbContext.Employees.FindAsync(employeeKey);
 						
-		if(cashStockOrderReviewedByEmployeeEntity is not null)
-			entity.CreateRefToCashStockOrderReviewedByEmployee(cashStockOrderReviewedByEmployeeEntity);
+		if(employeeEntity is not null)
+			entity.CreateRefToEmployee(employeeEntity);
 		else
-			throw new RelatedEntityNotFoundException("CashStockOrderReviewedByEmployee", request.EntityDto.CashStockOrderReviewedByEmployeeId.ToString());
+			throw new RelatedEntityNotFoundException("Employee", request.EntityDto.EmployeeId.ToString());
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

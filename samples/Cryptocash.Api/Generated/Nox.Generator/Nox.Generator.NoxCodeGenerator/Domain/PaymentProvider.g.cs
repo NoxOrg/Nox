@@ -95,27 +95,27 @@ internal abstract partial class PaymentProviderBase : AuditableEntityBase, IEnti
     /// <summary>
     /// PaymentProvider related to ZeroOrMany PaymentDetails
     /// </summary>
-    public virtual List<PaymentDetail> PaymentProviderRelatedPaymentDetails { get; private set; } = new();
+    public virtual List<PaymentDetail> PaymentDetails { get; private set; } = new();
 
-    public virtual void CreateRefToPaymentProviderRelatedPaymentDetails(PaymentDetail relatedPaymentDetail)
+    public virtual void CreateRefToPaymentDetails(PaymentDetail relatedPaymentDetail)
     {
-        PaymentProviderRelatedPaymentDetails.Add(relatedPaymentDetail);
+        PaymentDetails.Add(relatedPaymentDetail);
     }
 
-    public virtual void UpdateRefToPaymentProviderRelatedPaymentDetails(List<PaymentDetail> relatedPaymentDetail)
+    public virtual void UpdateRefToPaymentDetails(List<PaymentDetail> relatedPaymentDetail)
     {
-        PaymentProviderRelatedPaymentDetails.Clear();
-        PaymentProviderRelatedPaymentDetails.AddRange(relatedPaymentDetail);
+        PaymentDetails.Clear();
+        PaymentDetails.AddRange(relatedPaymentDetail);
     }
 
-    public virtual void DeleteRefToPaymentProviderRelatedPaymentDetails(PaymentDetail relatedPaymentDetail)
+    public virtual void DeleteRefToPaymentDetails(PaymentDetail relatedPaymentDetail)
     {
-        PaymentProviderRelatedPaymentDetails.Remove(relatedPaymentDetail);
+        PaymentDetails.Remove(relatedPaymentDetail);
     }
 
-    public virtual void DeleteAllRefToPaymentProviderRelatedPaymentDetails()
+    public virtual void DeleteAllRefToPaymentDetails()
     {
-        PaymentProviderRelatedPaymentDetails.Clear();
+        PaymentDetails.Clear();
     }
 
     /// <summary>

@@ -90,33 +90,33 @@ internal abstract partial class TestEntityOneOrManyToExactlyOneBase : AuditableE
     /// <summary>
     /// TestEntityOneOrManyToExactlyOne Test entity relationship to TestEntityExactlyOneToOneOrMany OneOrMany TestEntityExactlyOneToOneOrManies
     /// </summary>
-    public virtual List<TestEntityExactlyOneToOneOrMany> TestEntityExactlyOneToOneOrMany { get; private set; } = new();
+    public virtual List<TestEntityExactlyOneToOneOrMany> TestEntityExactlyOneToOneOrManies { get; private set; } = new();
 
-    public virtual void CreateRefToTestEntityExactlyOneToOneOrMany(TestEntityExactlyOneToOneOrMany relatedTestEntityExactlyOneToOneOrMany)
+    public virtual void CreateRefToTestEntityExactlyOneToOneOrManies(TestEntityExactlyOneToOneOrMany relatedTestEntityExactlyOneToOneOrMany)
     {
-        TestEntityExactlyOneToOneOrMany.Add(relatedTestEntityExactlyOneToOneOrMany);
+        TestEntityExactlyOneToOneOrManies.Add(relatedTestEntityExactlyOneToOneOrMany);
     }
 
-    public virtual void UpdateRefToTestEntityExactlyOneToOneOrMany(List<TestEntityExactlyOneToOneOrMany> relatedTestEntityExactlyOneToOneOrMany)
+    public virtual void UpdateRefToTestEntityExactlyOneToOneOrManies(List<TestEntityExactlyOneToOneOrMany> relatedTestEntityExactlyOneToOneOrMany)
     {
         if(relatedTestEntityExactlyOneToOneOrMany is null || relatedTestEntityExactlyOneToOneOrMany.Count < 2)
             throw new RelationshipDeletionException($"The relationship cannot be updated.");
-        TestEntityExactlyOneToOneOrMany.Clear();
-        TestEntityExactlyOneToOneOrMany.AddRange(relatedTestEntityExactlyOneToOneOrMany);
+        TestEntityExactlyOneToOneOrManies.Clear();
+        TestEntityExactlyOneToOneOrManies.AddRange(relatedTestEntityExactlyOneToOneOrMany);
     }
 
-    public virtual void DeleteRefToTestEntityExactlyOneToOneOrMany(TestEntityExactlyOneToOneOrMany relatedTestEntityExactlyOneToOneOrMany)
+    public virtual void DeleteRefToTestEntityExactlyOneToOneOrManies(TestEntityExactlyOneToOneOrMany relatedTestEntityExactlyOneToOneOrMany)
     {
-        if(TestEntityExactlyOneToOneOrMany.Count() < 2)
+        if(TestEntityExactlyOneToOneOrManies.Count() < 2)
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
-        TestEntityExactlyOneToOneOrMany.Remove(relatedTestEntityExactlyOneToOneOrMany);
+        TestEntityExactlyOneToOneOrManies.Remove(relatedTestEntityExactlyOneToOneOrMany);
     }
 
-    public virtual void DeleteAllRefToTestEntityExactlyOneToOneOrMany()
+    public virtual void DeleteAllRefToTestEntityExactlyOneToOneOrManies()
     {
-        if(TestEntityExactlyOneToOneOrMany.Count() < 2)
+        if(TestEntityExactlyOneToOneOrManies.Count() < 2)
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
-        TestEntityExactlyOneToOneOrMany.Clear();
+        TestEntityExactlyOneToOneOrManies.Clear();
     }
 
     /// <summary>

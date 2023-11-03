@@ -55,13 +55,13 @@ internal abstract class UpdateEmployeeCommandHandlerBase : CommandBase<UpdateEmp
 			return null;
 		}
 
-		var employeeReviewingCashStockOrderKey = Cryptocash.Domain.CashStockOrderMetadata.CreateId(request.EntityDto.EmployeeReviewingCashStockOrderId);
-		var employeeReviewingCashStockOrderEntity = await DbContext.CashStockOrders.FindAsync(employeeReviewingCashStockOrderKey);
+		var cashStockOrderKey = Cryptocash.Domain.CashStockOrderMetadata.CreateId(request.EntityDto.CashStockOrderId);
+		var cashStockOrderEntity = await DbContext.CashStockOrders.FindAsync(cashStockOrderKey);
 						
-		if(employeeReviewingCashStockOrderEntity is not null)
-			entity.CreateRefToEmployeeReviewingCashStockOrder(employeeReviewingCashStockOrderEntity);
+		if(cashStockOrderEntity is not null)
+			entity.CreateRefToCashStockOrder(cashStockOrderEntity);
 		else
-			throw new RelatedEntityNotFoundException("EmployeeReviewingCashStockOrder", request.EntityDto.EmployeeReviewingCashStockOrderId.ToString());
+			throw new RelatedEntityNotFoundException("CashStockOrder", request.EntityDto.CashStockOrderId.ToString());
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
