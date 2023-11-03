@@ -533,12 +533,13 @@ namespace ClientApi.Tests.Tests.Controllers
         public async Task Get_LocalizedValueNotFound_ShouldReturnDefaultValue()
         {
             var nameFixture = _fixture.Create<string>();
+            var testDescription = "TestDescription";
 
             // Arrange
             var createDto = new WorkplaceCreateDto
             {
                 Name = nameFixture,
-                Description = _fixture.Create<string>(),
+                Description = testDescription,
             };
 
             await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto);
@@ -555,20 +556,20 @@ namespace ClientApi.Tests.Tests.Controllers
             localizedWorkplaces.Should().NotBeNull();
             localizedWorkplaces.Should().HaveCount(1);
             localizedWorkplaces![0].Description.Should().NotBeNull();
-            localizedWorkplaces![0].Description.Should().StartWith("[");
-            localizedWorkplaces![0].Description.Should().EndWith("]");
+            localizedWorkplaces[0].Description.Should().BeEquivalentTo($"[{testDescription}]");
         }
 
         [Fact]
         public async Task GetById_LocalizedValueNotFound_ShouldReturnDefaultValue()
         {
             var nameFixture = _fixture.Create<string>();
+            var testDescription = "TestDescription";
 
             // Arrange
             var createDto = new WorkplaceCreateDto
             {
                 Name = nameFixture,
-                Description = _fixture.Create<string>(),
+                Description = testDescription,
             };
 
             var createdEntity = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto);
@@ -584,8 +585,7 @@ namespace ClientApi.Tests.Tests.Controllers
             // Assert
             localizedWorkplaces.Should().NotBeNull();
             localizedWorkplaces!.Description.Should().NotBeNull();
-            localizedWorkplaces.Description.Should().StartWith("[");
-            localizedWorkplaces.Description.Should().EndWith("]");
+            localizedWorkplaces.Description.Should().BeEquivalentTo($"[{testDescription}]");
         }
 
         [Fact]

@@ -15,26 +15,26 @@ using Nox.Types;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Queries;
 
-public record Get{{entity.Name }}ByIdQuery(CultureCode cultureCode, {{primaryKeys}}) : IRequest <IQueryable<{{entity.Name}}Dto>>;
+public record {{className}}(CultureCode cultureCode, {{primaryKeys}}) : IRequest <IQueryable<{{entity.Name}}Dto>>;
 
-internal partial class Get{{entity.Name}}ByIdQueryHandler:Get{{entity.Name}}ByIdQueryHandlerBase
+internal partial class {{className}}Handler : {{className}}HandlerBase
 {
-    public  Get{{entity.Name}}ByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    public  {{className}}Handler(DtoDbContext dataDbContext) : base(dataDbContext)
     {
 
     }
 }
 
-internal abstract class Get{{entity.Name}}ByIdQueryHandlerBase:  QueryBase<IQueryable<{{entity.Name}}Dto>>, IRequestHandler<Get{{entity.Name}}ByIdQuery, IQueryable<{{entity.Name}}Dto>>
+internal abstract class {{className}}HandlerBase:  QueryBase<IQueryable<{{entity.Name}}Dto>>, IRequestHandler<{{className}}, IQueryable<{{entity.Name}}Dto>>
 {
-    public  Get{{entity.Name}}ByIdQueryHandlerBase(DtoDbContext dataDbContext)
+    public  {{className}}HandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public virtual Task<IQueryable<{{entity.Name}}Dto>> Handle(Get{{entity.Name}}ByIdQuery request, CancellationToken cancellationToken)
+    public virtual Task<IQueryable<{{entity.Name}}Dto>> Handle({{className}} request, CancellationToken cancellationToken)
     {
         var cultureCode = request.cultureCode.Value;
 

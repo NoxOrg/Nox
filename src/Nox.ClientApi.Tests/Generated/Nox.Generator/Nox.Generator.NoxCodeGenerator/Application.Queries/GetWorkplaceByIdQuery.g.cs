@@ -17,9 +17,9 @@ namespace ClientApi.Application.Queries;
 
 public record GetWorkplaceByIdQuery(CultureCode cultureCode, System.UInt32 keyId) : IRequest <IQueryable<WorkplaceDto>>;
 
-internal partial class GetWorkplaceByIdQueryHandler:GetWorkplaceByIdQueryHandlerBase
+internal partial class GetWorkplaceByIdQueryHandler : GetWorkplaceByIdQueryHandlerBase
 {
-    public  GetWorkplaceByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    public  GetWorkplaceByIdQueryHandler(DtoDbContext dataDbContext) : base(dataDbContext)
     {
 
     }

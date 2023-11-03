@@ -17,9 +17,9 @@ namespace TestWebApp.Application.Queries;
 
 public record GetTestEntityLocalizationByIdQuery(CultureCode cultureCode, System.String keyId) : IRequest <IQueryable<TestEntityLocalizationDto>>;
 
-internal partial class GetTestEntityLocalizationByIdQueryHandler:GetTestEntityLocalizationByIdQueryHandlerBase
+internal partial class GetTestEntityLocalizationByIdQueryHandler : GetTestEntityLocalizationByIdQueryHandlerBase
 {
-    public  GetTestEntityLocalizationByIdQueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    public  GetTestEntityLocalizationByIdQueryHandler(DtoDbContext dataDbContext) : base(dataDbContext)
     {
 
     }
