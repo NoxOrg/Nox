@@ -44,6 +44,22 @@ public abstract partial class LandLordsControllerBase : ODataController
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToContractedAreasForVendingMachines([FromRoute] System.Int64 key, [FromBody] VendingMachineCreateDto vendingMachine)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        vendingMachine.VendingMachineContractedAreaLandLordId = key;
+        var createdKey = await _mediator.Send(new CreateVendingMachineCommand(vendingMachine, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetVendingMachineByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToContractedAreasForVendingMachines([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetLandLordByIdQuery(key))).Select(x => x.ContractedAreasForVendingMachines).SingleOrDefault();

@@ -95,6 +95,18 @@
         }
       },
       "additionalProperties": false
+    },
+    "repositoryName": {    
+      "title": "Overrides repository name for Nox solution.",
+      "description": "Can be set when the repository name in DevOps is something different to the Nox convension. If it left undefined, Nox must default it to {Solution.Name}.v{solution.version}",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
     }
   },
   "additionalProperties": false

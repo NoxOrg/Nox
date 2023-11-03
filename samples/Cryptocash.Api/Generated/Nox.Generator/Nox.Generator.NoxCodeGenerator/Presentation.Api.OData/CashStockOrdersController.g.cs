@@ -44,6 +44,22 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToCashStockOrderForVendingMachine([FromRoute] System.Int64 key, [FromBody] VendingMachineCreateDto vendingMachine)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        vendingMachine.VendingMachineRelatedCashStockOrdersId = new List<System.Int64> { key };
+        var createdKey = await _mediator.Send(new CreateVendingMachineCommand(vendingMachine, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetVendingMachineByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToCashStockOrderForVendingMachine([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetCashStockOrderByIdQuery(key))).Select(x => x.CashStockOrderForVendingMachine).SingleOrDefault();
@@ -102,6 +118,22 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    public virtual async Task<ActionResult> PostToCashStockOrderReviewedByEmployee([FromRoute] System.Int64 key, [FromBody] EmployeeCreateDto employee)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        employee.EmployeeReviewingCashStockOrderId = key;
+        var createdKey = await _mediator.Send(new CreateEmployeeCommand(employee, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetEmployeeByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     public async Task<ActionResult> GetRefToCashStockOrderReviewedByEmployee([FromRoute] System.Int64 key)

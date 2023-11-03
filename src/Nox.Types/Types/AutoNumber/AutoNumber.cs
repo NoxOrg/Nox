@@ -16,4 +16,5 @@ public sealed class AutoNumber : ValueObject<long, AutoNumber>
     /// <see cref="AutoNumber"/> object can only be created with <see cref="ValueObject{T,TValueObject}.FromDatabase"/>.
     /// </summary>
     public new static AutoNumber From(long _) => throw new InvalidOperationException($"{nameof(AutoNumber)} can only be created with {nameof(FromDatabase)}.");
+    public static AutoNumber From(long _, AutoNumberTypeOptions __) => throw new InvalidOperationException($"{nameof(AutoNumber)} can only be created with {nameof(FromDatabase)}.");
 }

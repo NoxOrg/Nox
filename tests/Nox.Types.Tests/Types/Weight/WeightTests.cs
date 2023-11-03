@@ -40,21 +40,39 @@ public class WeightTests
     [Fact]
     public void Distance_Constructor_SpecifyingMaxValue_WithGreaterValueInput_ThrowsException()
     {
-        var action = () => Weight.From(7.5, new WeightTypeOptions { MaxValue = 5, Units = WeightTypeUnit.Kilogram });
+        void Test()
+        {
+            var action = () =>
+                Weight.From(7.5, new WeightTypeOptions { MaxValue = 5, Units = WeightTypeUnit.Kilogram });
 
-        action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
-                "Could not create a Nox Weight type as value 7.5 kg is greater than the specified maximum of 5 kg.") });
+            action.Should().Throw<TypeValidationException>()
+                .And.Errors.Should().BeEquivalentTo(new[]
+                {
+                    new ValidationFailure("Value",
+                        "Could not create a Nox Weight type as value 7.5 kg is greater than the specified maximum of 5 kg.")
+                });
+        }
+
+        TestUtility.RunInInvariantCulture(Test);
     }
 
     [Fact]
     public void Weight_Constructor_SpecifyingMinValue_WithLesserValueInput_ThrowsException()
     {
-        var action = () => Weight.From(7.5, new WeightTypeOptions { MinValue = 10, Units = WeightTypeUnit.Kilogram });
+        void Test()
+        {
+            var action = () =>
+                Weight.From(7.5, new WeightTypeOptions { MinValue = 10, Units = WeightTypeUnit.Kilogram });
 
-        action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
-                "Could not create a Nox Weight type as value 7.5 kg is lesser than the specified minimum of 10 kg.") });
+            action.Should().Throw<TypeValidationException>()
+                .And.Errors.Should().BeEquivalentTo(new[]
+                {
+                    new ValidationFailure("Value",
+                        "Could not create a Nox Weight type as value 7.5 kg is lesser than the specified minimum of 10 kg.")
+                });
+        }
+
+        TestUtility.RunInInvariantCulture(Test);
     }
 
     [Fact]

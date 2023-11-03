@@ -44,6 +44,22 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToPaymentDetailsUsedByCustomer([FromRoute] System.Int64 key, [FromBody] CustomerCreateDto customer)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        customer.CustomerRelatedPaymentDetailsId = new List<System.Int64> { key };
+        var createdKey = await _mediator.Send(new CreateCustomerCommand(customer, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetCustomerByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToPaymentDetailsUsedByCustomer([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetPaymentDetailByIdQuery(key))).Select(x => x.PaymentDetailsUsedByCustomer).SingleOrDefault();
@@ -102,6 +118,22 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    public virtual async Task<ActionResult> PostToPaymentDetailsRelatedPaymentProvider([FromRoute] System.Int64 key, [FromBody] PaymentProviderCreateDto paymentProvider)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        paymentProvider.PaymentProviderRelatedPaymentDetailsId = new List<System.Int64> { key };
+        var createdKey = await _mediator.Send(new CreatePaymentProviderCommand(paymentProvider, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetPaymentProviderByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     public async Task<ActionResult> GetRefToPaymentDetailsRelatedPaymentProvider([FromRoute] System.Int64 key)

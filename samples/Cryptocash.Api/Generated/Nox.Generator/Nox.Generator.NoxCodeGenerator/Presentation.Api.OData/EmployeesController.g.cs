@@ -185,6 +185,22 @@ public abstract partial class EmployeesControllerBase : ODataController
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToEmployeeReviewingCashStockOrder([FromRoute] System.Int64 key, [FromBody] CashStockOrderCreateDto cashStockOrder)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        cashStockOrder.CashStockOrderReviewedByEmployeeId = key;
+        var createdKey = await _mediator.Send(new CreateCashStockOrderCommand(cashStockOrder, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetCashStockOrderByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToEmployeeReviewingCashStockOrder([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetEmployeeByIdQuery(key))).Select(x => x.EmployeeReviewingCashStockOrder).SingleOrDefault();
