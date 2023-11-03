@@ -20,6 +20,7 @@ using Nox.Infrastructure.Messaging.InMemoryBus;
 using Nox.Infrastructure.Messaging.AzureServiceBus;
 using Nox.Infrastructure;
 using Nox.Integration;
+using Nox.Integration.Extensions;
 
 namespace Nox.Configuration
 {
