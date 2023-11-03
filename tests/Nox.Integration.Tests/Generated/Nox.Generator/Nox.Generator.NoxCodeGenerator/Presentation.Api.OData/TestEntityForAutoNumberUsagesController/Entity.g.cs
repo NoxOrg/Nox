@@ -89,7 +89,7 @@ public abstract partial class TestEntityForAutoNumberUsagesControllerBase : ODat
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateTestEntityForAutoNumberUsagesCommand(key, testEntityForAutoNumberUsages, etag));
+        var updatedKey = await _mediator.Send(new UpdateTestEntityForAutoNumberUsagesCommand(key, testEntityForAutoNumberUsages, _cultureCode, etag));
 
         if (updatedKey is null)
         {
@@ -119,7 +119,7 @@ public abstract partial class TestEntityForAutoNumberUsagesControllerBase : ODat
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new PartialUpdateTestEntityForAutoNumberUsagesCommand(key, updatedProperties, etag));
+        var updatedKey = await _mediator.Send(new PartialUpdateTestEntityForAutoNumberUsagesCommand(key, updatedProperties, _cultureCode, etag));
 
         if (updatedKey is null)
         {

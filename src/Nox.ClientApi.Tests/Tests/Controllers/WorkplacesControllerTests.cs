@@ -560,7 +560,7 @@ namespace ClientApi.Tests.Tests.Controllers
             //Assert
             patchResult.Should().NotBeNull();
             patchResult!.Name.Should().Be(expectedName);
-            patchResult!.Description.Should().Be(originalDescription);
+            patchResult!.Description.Should().Be(expectedDescription);
         }
 
         [Fact]
