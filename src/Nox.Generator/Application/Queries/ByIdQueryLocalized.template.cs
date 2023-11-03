@@ -15,39 +15,35 @@ using Nox.Types;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Queries;
 
-public class Get{{entity.PluralName}}Query : IRequest<IQueryable<{{entity.Name}}Dto>>
-{
-    public CultureCode CultureCode { get; set; }
+public record {{className}}(CultureCode cultureCode, {{primaryKeys}}) : IRequest <IQueryable<{{entity.Name}}Dto>>;
 
-    public Get{{entity.PluralName}}Query(CultureCode cultureCode)
-    {
-        CultureCode = cultureCode;
-    }
-};
-
-internal partial class Get{{entity.PluralName}}QueryHandler: Get{{entity.PluralName}}QueryHandlerBase
+internal partial class {{className}}Handler : {{className}}HandlerBase
 {
-    public Get{{entity.PluralName}}QueryHandler(DtoDbContext dataDbContext): base(dataDbContext)
+    public  {{className}}Handler(DtoDbContext dataDbContext) : base(dataDbContext)
     {
 
     }
 }
 
-internal abstract class Get{{entity.PluralName}}QueryHandlerBase : QueryBase<IQueryable<{{entity.Name}}Dto>>, IRequestHandler<Get{{entity.PluralName}}Query, IQueryable<{{entity.Name}}Dto>>
+internal abstract class {{className}}HandlerBase:  QueryBase<IQueryable<{{entity.Name}}Dto>>, IRequestHandler<{{className}}, IQueryable<{{entity.Name}}Dto>>
 {
-    public  Get{{entity.PluralName}}QueryHandlerBase(DtoDbContext dataDbContext)
+    public  {{className}}HandlerBase(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public virtual Task<IQueryable<{{entity.Name}}Dto>> Handle(Get{{entity.PluralName}}Query request, CancellationToken cancellationToken)
+    public virtual Task<IQueryable<{{entity.Name}}Dto>> Handle({{className}} request, CancellationToken cancellationToken)
     {
-        var cultureCode = request.CultureCode.Value;
+        var cultureCode = request.cultureCode.Value;
 
         IQueryable<{{entity.Name}}Dto> linqQueryBuilder =
-            from item in DataDbContext.{{entity.PluralName}}.AsNoTracking()
+            from item in DataDbContext.{{entity.PluralName}}.Where(r =>
+            {{- for key in entity.Keys }}
+                r.{{key.Name}}.Equals(request.key{{key.Name}}){{if !for.last}} &&{{end}}
+            {{- end -}}
+            ).AsNoTracking()
             join itemLocalizedFromJoin in DataDbContext.{{GetEntityNameForLocalizedType entity.PluralName}} on cultureCode equals itemLocalizedFromJoin.{{codeGeneratorState.LocalizationCultureField}} into joinedData
             from itemLocalized in joinedData.Where(l => item.{{entity.Keys[0].Name}} == l.{{entity.Keys[0].Name}}).DefaultIfEmpty()
             select new {{entity.Name}}Dto()
@@ -59,12 +55,15 @@ internal abstract class Get{{entity.PluralName}}QueryHandlerBase : QueryBase<IQu
         {{attribute.Name}} = {{if attribute.IsLocalized}}itemLocalized.{{attribute.Name}} ?? "[" + item.{{attribute.Name}} + "]"{{else}}item.{{attribute.Name}}{{end}},
         {{- end }}
         {{- for rel in entity.Relationships }}
-        {{ if rel.ShouldGenerateForeignOnThisSide}}{{rel.Name}}Id = item.{{rel.Name}}Id,{{- end }}
+        {{rel.Name}}Id = item.{{rel.Name}}Id,
         {{- end }}
         Etag = item.Etag
             };
 
-        var sqlStatement = linqQueryBuilder.ToQueryString().Replace($"WHERE @__{nameof(cultureCode)}_0", $"WHERE '{cultureCode}'");
+        var sqlStatement = linqQueryBuilder.ToQueryString()
+            .Replace("DECLARE", "-- DECLARE")
+            .Replace($"= @__{nameof(request)}_{nameof(request.keyId)}_0", $"= '{request.keyId}'")
+            .Replace($"WHERE @__{nameof(cultureCode)}_1", $"WHERE '{cultureCode}'");
 
         IQueryable<{{entity.Name}}Dto> getItemsQuery =
             from item in DataDbContext.{{entity.PluralName}}.FromSqlRaw(sqlStatement)

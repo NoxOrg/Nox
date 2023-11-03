@@ -11,14 +11,15 @@ using ClientApi.Application.Dto;
 using ClientApi.Infrastructure.Persistence;
 using Nox.Presentation.Api;
 using Nox.Solution;
+using Nox.Types;
 
 namespace ClientApi.Application.Queries;
 
 public class GetWorkplacesQuery : IRequest<IQueryable<WorkplaceDto>>
 {
-    public string CultureCode { get; set; }
+    public CultureCode CultureCode { get; set; }
 
-    public GetWorkplacesQuery(string cultureCode)
+    public GetWorkplacesQuery(CultureCode cultureCode)
     {
         CultureCode = cultureCode;
     }
@@ -43,7 +44,7 @@ internal abstract class GetWorkplacesQueryHandlerBase : QueryBase<IQueryable<Wor
 
     public virtual Task<IQueryable<WorkplaceDto>> Handle(GetWorkplacesQuery request, CancellationToken cancellationToken)
     {
-        var cultureCode = request.CultureCode;
+        var cultureCode = request.CultureCode.Value;
 
         IQueryable<WorkplaceDto> linqQueryBuilder =
             from item in DataDbContext.Workplaces.AsNoTracking()
