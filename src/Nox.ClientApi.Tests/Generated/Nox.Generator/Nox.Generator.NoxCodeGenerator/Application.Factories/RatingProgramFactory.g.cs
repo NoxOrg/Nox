@@ -25,6 +25,7 @@ namespace ClientApi.Application.Factories;
 
 internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public RatingProgramFactoryBase
     (
@@ -37,32 +38,30 @@ internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgramE
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(RatingProgramEntity entity, RatingProgramUpdateDto updateDto)
+    public virtual void UpdateEntity(RatingProgramEntity entity, RatingProgramUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(RatingProgramEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties);
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private ClientApi.Domain.RatingProgram ToEntity(RatingProgramCreateDto createDto)
     {
         var entity = new ClientApi.Domain.RatingProgram();
         entity.StoreId = RatingProgramMetadata.CreateStoreId(createDto.StoreId);
-        if (createDto.Name is not null)entity.Name = ClientApi.Domain.RatingProgramMetadata.CreateName(createDto.Name.NonNullValue<System.String>());
+        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name =ClientApi.Domain.RatingProgramMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
         return entity;
     }
 
-    private void UpdateEntityInternal(RatingProgramEntity entity, RatingProgramUpdateDto updateDto)
+    private void UpdateEntityInternal(RatingProgramEntity entity, RatingProgramUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        if (updateDto.Name == null) { entity.Name = null; } else {
-            entity.Name = ClientApi.Domain.RatingProgramMetadata.CreateName(updateDto.Name.ToValueFromNonNull<System.String>());
-        }
+        entity.SetIfNotNull(updateDto.Name, (entity) => entity.Name = ClientApi.Domain.RatingProgramMetadata.CreateName(updateDto.Name.ToValueFromNonNull<System.String>()));
     }
 
-    private void PartialUpdateEntityInternal(RatingProgramEntity entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(RatingProgramEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
 
         if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
@@ -74,6 +73,9 @@ internal abstract class RatingProgramFactoryBase : IEntityFactory<RatingProgramE
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class RatingProgramFactory : RatingProgramFactoryBase

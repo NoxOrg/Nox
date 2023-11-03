@@ -25,6 +25,7 @@ namespace ClientApi.Application.Factories;
 
 internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCodeEntity, CountryBarCodeCreateDto, CountryBarCodeUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public CountryBarCodeFactoryBase
     (
@@ -37,33 +38,31 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(CountryBarCodeEntity entity, CountryBarCodeUpdateDto updateDto)
+    public virtual void UpdateEntity(CountryBarCodeEntity entity, CountryBarCodeUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(CountryBarCodeEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties);
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private ClientApi.Domain.CountryBarCode ToEntity(CountryBarCodeCreateDto createDto)
     {
         var entity = new ClientApi.Domain.CountryBarCode();
         entity.BarCodeName = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeName(createDto.BarCodeName);
-        if (createDto.BarCodeNumber is not null)entity.BarCodeNumber = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeNumber(createDto.BarCodeNumber.NonNullValue<System.Int32>());
+        entity.SetIfNotNull(createDto.BarCodeNumber, (entity) => entity.BarCodeNumber =ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeNumber(createDto.BarCodeNumber.NonNullValue<System.Int32>()));
         return entity;
     }
 
-    private void UpdateEntityInternal(CountryBarCodeEntity entity, CountryBarCodeUpdateDto updateDto)
+    private void UpdateEntityInternal(CountryBarCodeEntity entity, CountryBarCodeUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.BarCodeName = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeName(updateDto.BarCodeName.NonNullValue<System.String>());
-        if (updateDto.BarCodeNumber == null) { entity.BarCodeNumber = null; } else {
-            entity.BarCodeNumber = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeNumber(updateDto.BarCodeNumber.ToValueFromNonNull<System.Int32>());
-        }
+        entity.SetIfNotNull(updateDto.BarCodeNumber, (entity) => entity.BarCodeNumber = ClientApi.Domain.CountryBarCodeMetadata.CreateBarCodeNumber(updateDto.BarCodeNumber.ToValueFromNonNull<System.Int32>()));
     }
 
-    private void PartialUpdateEntityInternal(CountryBarCodeEntity entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(CountryBarCodeEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
 
         if (updatedProperties.TryGetValue("BarCodeName", out var BarCodeNameUpdateValue))
@@ -86,6 +85,9 @@ internal abstract class CountryBarCodeFactoryBase : IEntityFactory<CountryBarCod
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class CountryBarCodeFactory : CountryBarCodeFactoryBase

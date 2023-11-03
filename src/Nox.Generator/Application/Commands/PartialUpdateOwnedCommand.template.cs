@@ -70,7 +70,7 @@ internal abstract class PartialUpdate{{entity.Name}}For{{parent.Name}}CommandHan
 			return null;
 		}
 
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, null!);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, DefaultCultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

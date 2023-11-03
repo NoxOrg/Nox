@@ -1,4 +1,4 @@
-﻿// Generated
+﻿﻿// Generated
 
 #nullable enable
 
@@ -16,7 +16,7 @@ internal partial class WorkplaceLocalizedFactory : WorkplaceLocalizedFactoryBase
 {
 }
 
-internal abstract class WorkplaceLocalizedFactoryBase : IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity>
+internal abstract class WorkplaceLocalizedFactoryBase : IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto>
 {
     public virtual WorkplaceLocalized CreateLocalizedEntity(WorkplaceEntity entity, CultureCode cultureCode)
     {
@@ -28,5 +28,26 @@ internal abstract class WorkplaceLocalizedFactoryBase : IEntityLocalizedFactory<
         };
 
         return localizedEntity;
+    }
+
+    public virtual void UpdateLocalizedEntity(WorkplaceLocalized localizedEntity, WorkplaceUpdateDto updateDto, CultureCode cultureCode)
+    {
+        localizedEntity.SetIfNotNull(updateDto.Description, (localizedEntity) => localizedEntity.Description = ClientApi.Domain.WorkplaceMetadata.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>()));
+    }
+
+    public virtual void PartialUpdateEntity(WorkplaceLocalized localizedEntity, Dictionary<string, dynamic> updatedProperties, CultureCode cultureCode)
+    {
+
+        if (updatedProperties.TryGetValue("Description", out var DescriptionUpdateValue))
+        {
+            if (DescriptionUpdateValue == null) 
+            { 
+                localizedEntity.Description = null; 
+            }
+            else
+            {
+                localizedEntity.Description = ClientApi.Domain.WorkplaceMetadata.CreateDescription(DescriptionUpdateValue);
+            }
+        }
     }
 }

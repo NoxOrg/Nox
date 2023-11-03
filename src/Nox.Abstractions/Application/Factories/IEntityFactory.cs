@@ -20,7 +20,7 @@ namespace Nox.Application.Factories
         /// </summary>
         /// <param name="entity">Entity to update</param>
         /// <param name="updateDto">Updated dto</param>
-        void UpdateEntity(TEntityType entity, TUpdateEntityDtoType updateDto);
+        void UpdateEntity(TEntityType entity, TUpdateEntityDtoType updateDto, Types.CultureCode cultureCode);
 
         /// <summary>
         /// Updates some properties of an entity

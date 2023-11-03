@@ -23,7 +23,9 @@ internal class PartialUpdateWorkplaceCommandHandler : PartialUpdateWorkplaceComm
 	public PartialUpdateWorkplaceCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
+		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
+		IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> entityLocalizedFactory)
+		: base(dbContext,noxSolution, entityFactory, entityLocalizedFactory)
 	{
 	}
 }
@@ -31,14 +33,16 @@ internal class PartialUpdateWorkplaceCommandHandlerBase : CommandBase<PartialUpd
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> EntityFactory { get; }
-
-	public PartialUpdateWorkplaceCommandHandlerBase(
+	public IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> EntityLocalizedFactory { get; }public PartialUpdateWorkplaceCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
+		IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> entityLocalizedFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
-		EntityFactory = entityFactory;
+		EntityFactory = entityFactory; 
+		EntityLocalizedFactory = entityLocalizedFactory;
 	}
 
 	public virtual async Task<WorkplaceKeyDto?> Handle(PartialUpdateWorkplaceCommand request, CancellationToken cancellationToken)

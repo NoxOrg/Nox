@@ -1,4 +1,4 @@
-// Generated
+﻿﻿// Generated
 
 #nullable enable
 
@@ -16,7 +16,7 @@ internal partial class {{className}} : {{className}}Base
 {
 }
 
-internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedEntityName}}, {{entity.Name}}Entity>
+internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedEntityName}}, {{entity.Name}}Entity, {{entity.Name}}UpdateDto>
 {
     public virtual {{localizedEntityName}} CreateLocalizedEntity({{entity.Name}}Entity entity, CultureCode cultureCode)
     {
@@ -32,5 +32,51 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
         };
 
         return localizedEntity;
+    }
+
+    public virtual void UpdateLocalizedEntity({{ localizedEntityName}} localizedEntity, {{entity.Name}}UpdateDto updateDto, CultureCode cultureCode)
+    {
+        {{- for attribute in localizedEntityAttributes }}
+        {{- if attribute.IsRequired }}
+        localizedEntity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
+            {{- if IsNoxTypeSimpleType attribute.Type -}}.NonNullValue<{{SinglePrimitiveTypeForKey attribute}}>()
+            {{- else -}}.NonNullValue<{{attribute.Type}}Dto>()
+            {{- end}});
+        {{- else }}
+        localizedEntity.SetIfNotNull(updateDto.{{attribute.Name}}, (localizedEntity) => localizedEntity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
+            {{- if IsNoxTypeSimpleType attribute.Type -}}.ToValueFromNonNull<{{SinglePrimitiveTypeForKey attribute}}>()
+            {{- else -}}.ToValueFromNonNull<{{attribute.Type}}Dto>()
+            {{- end}}));
+        {{- end }}
+        {{- end }}
+    }
+
+    public virtual void PartialUpdateEntity({{ localizedEntityName}} localizedEntity, Dictionary<string, dynamic> updatedProperties, CultureCode cultureCode)
+    {
+        {{- for attribute in localizedEntityAttributes }}
+            {{- if !IsNoxTypeReadable attribute.Type || attribute.Type == "Formula" -}}
+                {{ continue; }}
+            {{- end}}
+
+        if (updatedProperties.TryGetValue("{{attribute.Name}}", out var {{attribute.Name}}UpdateValue))
+        {
+            {{- if attribute.IsRequired }}
+            if ({{attribute.Name}}UpdateValue == null)
+            {
+                throw new ArgumentException("Attribute '{{attribute.Name}}' can't be null");
+            }
+            {{- else }}
+            if ({{attribute.Name}}UpdateValue == null) 
+            { 
+                localizedEntity.{{attribute.Name}} = null; 
+            }
+            else
+            {{- end }}
+            {
+                localizedEntity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}({{attribute.Name}}UpdateValue);
+            }
+        }
+
+        {{- end }}
     }
 }

@@ -6,12 +6,17 @@ namespace Nox.Application.Commands;
 /// <summary>
 /// Base Implementation for aNox Command
 /// </summary>
-public abstract class CommandBase<TRequest, TEntity>: INoxCommand where TEntity : IEntity
+public abstract class CommandBase<TRequest, TEntity> : INoxCommand where TEntity : IEntity
 {
     protected NoxSolution NoxSolution { get; }
+
+    protected Types.CultureCode DefaultCultureCode;
+
+
     protected CommandBase(NoxSolution noxSolution)
     {
         NoxSolution = noxSolution;
+        DefaultCultureCode = Types.CultureCode.From(NoxSolution!.Application!.Localization!.DefaultCulture);
     }
 
     protected Entity GetEntityDefinition<E>()
@@ -34,4 +39,3 @@ public abstract class CommandBase<TRequest, TEntity>: INoxCommand where TEntity 
     /// <param name="cancellationToken"></param>
     protected virtual Task OnCompletedAsync(TRequest request, TEntity entity) { return Task.CompletedTask; }
 }
-

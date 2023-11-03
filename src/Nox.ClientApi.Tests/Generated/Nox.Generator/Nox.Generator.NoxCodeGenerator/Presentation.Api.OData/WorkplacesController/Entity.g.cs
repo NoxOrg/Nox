@@ -91,7 +91,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateWorkplaceCommand(key, workplace, etag));
+        var updatedKey = await _mediator.Send(new UpdateWorkplaceCommand(key, workplace, _cultureCode, etag));
 
         if (updatedKey is null)
         {

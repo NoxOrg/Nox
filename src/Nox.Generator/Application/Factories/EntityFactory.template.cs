@@ -29,6 +29,8 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Factories;
 
 internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("{{codeGeneratorState.Solution.Application.Localization.DefaultCulture}}");
+
     {{- for ownedEntity in ownedEntities #Factories Properties for owned entitites}}
     protected IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{ownedEntity}}, {{ownedEntity}}CreateDto, {{ownedEntity}}UpdateDto> {{ownedEntity}}Factory {get;}
     {{- end }}
@@ -50,14 +52,14 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity({{entity.Name}}Entity entity, {{entity.Name}}UpdateDto updateDto)
+    public virtual void UpdateEntity({{entity.Name}}Entity entity, {{entity.Name}}UpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity({{entity.Name}}Entity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties);
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private {{codeGeneratorState.DomainNameSpace}}.{{ entity.Name }} ToEntity({{entity.Name}}CreateDto createDto)
@@ -74,11 +76,11 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
                 {{ continue; }}
             {{- end}}
         {{- if !attribute.IsRequired }}
-        if (createDto.{{attribute.Name}} is not null)
+        entity.SetIfNotNull(createDto.{{attribute.Name}}, (entity) => entity.{{attribute.Name}} = 
             {{- if IsNoxTypeSimpleType attribute.Type -}}
-        entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(createDto.{{attribute.Name}}.NonNullValue<{{SinglePrimitiveTypeForKey attribute}}>());
+        {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(createDto.{{attribute.Name}}.NonNullValue<{{SinglePrimitiveTypeForKey attribute}}>()));
             {{- else -}}
-        entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(createDto.{{attribute.Name}}.NonNullValue<{{attribute.Type}}Dto>());
+        {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(createDto.{{attribute.Name}}.NonNullValue<{{attribute.Type}}Dto>()));
             {{- end}}
         {{- else }}
         entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(createDto.{{attribute.Name}});
@@ -107,24 +109,23 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
         return entity;
     }
 
-    private void UpdateEntityInternal({{entity.Name}}Entity entity, {{entity.Name}}UpdateDto updateDto)
+    private void UpdateEntityInternal({{entity.Name}}Entity entity, {{entity.Name}}UpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         {{- for attribute in entity.Attributes }}
             {{- if !IsNoxTypeReadable attribute.Type || attribute.Type == "Formula" -}}
                 {{ continue; }}
             {{- end}}
-        {{- if attribute.IsRequired }}
+        {{ if attribute.IsLocalized }}if(IsDefaultCultureCode(cultureCode)) {{ end }}
+        {{- if attribute.IsRequired -}}
         entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
             {{- if IsNoxTypeSimpleType attribute.Type -}}.NonNullValue<{{SinglePrimitiveTypeForKey attribute}}>()
             {{- else -}}.NonNullValue<{{attribute.Type}}Dto>()
             {{- end}});
-        {{- else}}
-        if (updateDto.{{attribute.Name}} == null) { entity.{{attribute.Name}} = null; } else {
-            entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
+        {{- else -}}
+        entity.SetIfNotNull(updateDto.{{attribute.Name}}, (entity) => entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
             {{- if IsNoxTypeSimpleType attribute.Type -}}.ToValueFromNonNull<{{SinglePrimitiveTypeForKey attribute}}>()
             {{- else -}}.ToValueFromNonNull<{{attribute.Type}}Dto>()
-            {{- end}});
-        }
+            {{- end}}));
         {{- end }}
         {{- end }}
 
@@ -135,14 +136,14 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
 		{{- end }}
     }
 
-    private void PartialUpdateEntityInternal({{entity.Name}}Entity entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal({{entity.Name}}Entity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
         {{- for attribute in entity.Attributes }}
             {{- if !IsNoxTypeReadable attribute.Type || attribute.Type == "Formula" -}}
                 {{ continue; }}
             {{- end}}
 
-        if (updatedProperties.TryGetValue("{{attribute.Name}}", out var {{attribute.Name}}UpdateValue))
+        if ({{- if attribute.IsLocalized }}IsDefaultCultureCode(cultureCode) && {{ end -}} updatedProperties.TryGetValue("{{attribute.Name}}", out var {{attribute.Name}}UpdateValue))
         {
             {{- if attribute.IsRequired }}
             if ({{attribute.Name}}UpdateValue == null)
@@ -166,6 +167,9 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
 		    {{- end }}
 		{{- end }}
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class {{className}} : {{className}}Base
