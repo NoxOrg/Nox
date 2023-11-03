@@ -44,6 +44,22 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToPaymentProviderRelatedPaymentDetails([FromRoute] System.Int64 key, [FromBody] PaymentDetailCreateDto paymentDetail)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        paymentDetail.PaymentDetailsRelatedPaymentProviderId = key;
+        var createdKey = await _mediator.Send(new CreatePaymentDetailCommand(paymentDetail, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetPaymentDetailByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToPaymentProviderRelatedPaymentDetails([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetPaymentProviderByIdQuery(key))).Select(x => x.PaymentProviderRelatedPaymentDetails).SingleOrDefault();

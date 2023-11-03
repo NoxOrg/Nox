@@ -19,7 +19,7 @@ using TestEntityForAutoNumberUsagesEntity = TestWebApp.Domain.TestEntityForAutoN
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateTestEntityForAutoNumberUsagesCommand(TestEntityForAutoNumberUsagesCreateDto EntityDto) : IRequest<TestEntityForAutoNumberUsagesKeyDto>;
+public record CreateTestEntityForAutoNumberUsagesCommand(TestEntityForAutoNumberUsagesCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<TestEntityForAutoNumberUsagesKeyDto>;
 
 internal partial class CreateTestEntityForAutoNumberUsagesCommandHandler : CreateTestEntityForAutoNumberUsagesCommandHandlerBase
 {
@@ -41,7 +41,8 @@ internal abstract class CreateTestEntityForAutoNumberUsagesCommandHandlerBase : 
 	public CreateTestEntityForAutoNumberUsagesCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityForAutoNumberUsagesEntity, TestEntityForAutoNumberUsagesCreateDto, TestEntityForAutoNumberUsagesUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<TestEntityForAutoNumberUsagesEntity, TestEntityForAutoNumberUsagesCreateDto, TestEntityForAutoNumberUsagesUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -50,7 +51,7 @@ internal abstract class CreateTestEntityForAutoNumberUsagesCommandHandlerBase : 
 	public virtual async Task<TestEntityForAutoNumberUsagesKeyDto> Handle(CreateTestEntityForAutoNumberUsagesCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 

@@ -321,6 +321,22 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToCountryUsedByCurrency([FromRoute] System.String key, [FromBody] CurrencyCreateDto currency)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        currency.CurrencyUsedByCountryId = new List<System.String> { key };
+        var createdKey = await _mediator.Send(new CreateCurrencyCommand(currency, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetCurrencyByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToCountryUsedByCurrency([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.CountryUsedByCurrency).SingleOrDefault();
@@ -379,6 +395,22 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    public virtual async Task<ActionResult> PostToCountryUsedByCommissions([FromRoute] System.String key, [FromBody] CommissionCreateDto commission)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        commission.CommissionFeesForCountryId = key;
+        var createdKey = await _mediator.Send(new CreateCommissionCommand(commission, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetCommissionByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     public async Task<ActionResult> GetRefToCountryUsedByCommissions([FromRoute] System.String key)
@@ -445,6 +477,22 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToCountryUsedByVendingMachines([FromRoute] System.String key, [FromBody] VendingMachineCreateDto vendingMachine)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        vendingMachine.VendingMachineInstallationCountryId = key;
+        var createdKey = await _mediator.Send(new CreateVendingMachineCommand(vendingMachine, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetVendingMachineByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToCountryUsedByVendingMachines([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.CountryUsedByVendingMachines).SingleOrDefault();
@@ -507,6 +555,22 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    public virtual async Task<ActionResult> PostToCountryUsedByCustomers([FromRoute] System.String key, [FromBody] CustomerCreateDto customer)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        customer.CustomerBaseCountryId = key;
+        var createdKey = await _mediator.Send(new CreateCustomerCommand(customer, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetCustomerByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     public async Task<ActionResult> GetRefToCountryUsedByCustomers([FromRoute] System.String key)
