@@ -6,6 +6,7 @@ public interface INoxIntegration
 {
     string Name { get; }
     string? Description { get; }
+    IntegrationMergeType MergeType { get; }
     internal INoxReceiveAdapter? ReceiveAdapter { get; set; }
     internal INoxSendAdapter? SendAdapter { get; set; }
     internal Task<bool> ExecuteAsync();

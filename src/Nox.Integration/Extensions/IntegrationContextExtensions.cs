@@ -10,11 +10,11 @@ public static class IntegrationContextExtensions
 {
     public static INoxIntegration WithReceiveAdapter(this INoxIntegration instance, IntegrationSource sourceDefinition, IReadOnlyList<DataConnection>? dataConnections)
     {
-        switch (sourceDefinition.SourceAdapterType)
+        switch (sourceDefinition.SourceSourceAdapterType)
         {
-            case IntegrationAdapterType.Database:
+            case IntegrationSourceAdapterType.DatabaseQuery:
                 var dataConnection = ProcessDatabaseSourceDefinition(sourceDefinition, dataConnections);
-                instance.WithDatabaseReceiveAdapter(sourceDefinition.DatabaseOptions!, dataConnection);
+                instance.WithDatabaseReceiveAdapter(sourceDefinition.QueryOptions!, dataConnection);
                 break;
         }
 
@@ -23,7 +23,7 @@ public static class IntegrationContextExtensions
     
     private static DataConnection ProcessDatabaseSourceDefinition(IntegrationSource sourceDefinition, IReadOnlyList<DataConnection>? dataConnections)
     {
-        if (sourceDefinition.DatabaseOptions == null)
+        if (sourceDefinition.QueryOptions == null)
         {
             throw new NoxIntegrationConfigurationException(
                 "Database options missing. Integrations that receive data from databases must specify valid database options.");
@@ -54,9 +54,9 @@ public static class IntegrationContextExtensions
     {
         switch (targetDefinition.TargetAdapterType)
         {
-            case IntegrationAdapterType.Database:
+            case IntegrationTargetAdapterType.DatabaseTable:
                 var dataConnection = ProcessDatabaseTargetDefinition(targetDefinition, dataConnections);
-                instance.WithDatabaseSendAdapter(targetDefinition.DatabaseOptions!, dataConnection);
+                instance.WithDatabaseSendAdapter(targetDefinition.TableOptions!, dataConnection);
                 break;
         }
         return instance;
@@ -64,7 +64,7 @@ public static class IntegrationContextExtensions
 
     private static DataConnection ProcessDatabaseTargetDefinition(IntegrationTarget targetDefinition, IReadOnlyList<DataConnection>? dataConnections)
     {
-        if (targetDefinition.DatabaseOptions == null)
+        if (targetDefinition.StoredProcedureOptions == null)
         {
             throw new NoxIntegrationConfigurationException(
                 "Database options missing. Integrations that send data to databases must specify valid database options.");

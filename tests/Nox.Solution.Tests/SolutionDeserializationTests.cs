@@ -229,8 +229,8 @@ public class SolutionDeserializationTests
         Assert.Equal(IntegrationTransformType.DefaultTransform, noxConfig.Application.Integrations[0].TransformationType);
         
         Assert.NotNull(noxConfig.Application.Integrations[0].Target);
-        Assert.Equal("Country", noxConfig.Application.Integrations[0].Target!.Name);
-        Assert.Equal(IntegrationAdapterType.Entity, noxConfig.Application.Integrations[0].Target!.TargetAdapterType);
+        Assert.Equal("Country", noxConfig.Application.Integrations[0].Target.Name);
+        Assert.Equal(IntegrationTargetAdapterType.DatabaseTable, noxConfig.Application.Integrations[0].Target.TargetAdapterType);
     }
 
     [Fact]

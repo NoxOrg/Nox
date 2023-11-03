@@ -1,3 +1,4 @@
+using System.Dynamic;
 using ETLBox;
 
 namespace Nox.Integration.Abstractions.Adapters;
@@ -6,5 +7,4 @@ public interface INoxDatabaseReceiveAdapter: INoxReceiveAdapter
 {
     string Query { get; }
     int MinimumExpectedRecords { get; }
-    IConnectionManager ConnectionManager { get; }
 }

@@ -5,7 +5,7 @@ namespace Nox.Solution;
 [Title("Definition namespace for a database integration source.")]
 [Description("This section specified attributes related to an integration source of type Database. Attributes include the database query as well as minimum expected records.")]
 [AdditionalProperties(false)]
-public class IntegrationSourceDatabaseOptions
+public class IntegrationSourceQueryOptions
 {
     [Required]
     [Title("The query to execute.")]

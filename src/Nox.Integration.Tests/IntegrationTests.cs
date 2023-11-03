@@ -28,17 +28,17 @@ public class IntegrationTests
             ServerUri = "localhost"
         });
 
-        var integration = new NoxIntegration("EtlTest", "This is a test Integration")
+        var integration = new NoxIntegration("EtlTest", "This is a test Integration", IntegrationMergeType.MergeNew)
             .WithReceiveAdapter(new IntegrationSource
             {
                 Name = "TestSource",
                 Description = "Integration Source for testing",
-                DatabaseOptions = new IntegrationSourceDatabaseOptions
+                QueryOptions = new IntegrationSourceQueryOptions
                 {
                     Query = "SELECT * FROM SourceTable",
                     MinimumExpectedRecords = 10
                 },
-                SourceAdapterType = IntegrationAdapterType.Database,
+                SourceSourceAdapterType = IntegrationSourceAdapterType.DatabaseQuery,
                 DataConnectionName = "SourceDataConnection",
                 Watermark = new IntegrationSourceWatermark
                 {
@@ -53,12 +53,13 @@ public class IntegrationTests
             {
                 Name = "TestTarget",
                 Description = "Integration target for testing.",
-                DatabaseOptions = new IntegrationTargetDatabaseOptions
+                StoredProcedureOptions = new IntegrationTargetStoredProcedureOptions
                 {
-                    StoredProcedure = "up_Insert_Target"
+                    StoredProcedure = "up_Insert_Target",
+                    SchemaName = "dbo"
                 },
                 DataConnectionName = "TargetDatabase",
-                TargetAdapterType = IntegrationAdapterType.Database
+                TargetAdapterType = IntegrationTargetAdapterType.StoredProcedure
             }, dataConnections);
 
         var context = new NoxIntegrationContext(new Solution.Solution());

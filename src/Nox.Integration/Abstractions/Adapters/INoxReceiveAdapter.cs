@@ -1,6 +1,10 @@
+using System.Dynamic;
+using ETLBox;
+
 namespace Nox.Integration.Abstractions.Adapters;
 
 public interface INoxReceiveAdapter
 {
-    public IntegrationAdapterType AdapterType { get; }
+    IntegrationSourceAdapterType SourceAdapterType { get; }
+    IDataFlowExecutableSource<ExpandoObject> DataFlowSource { get; }
 }

@@ -19,7 +19,7 @@ public class NoxIntegrationContext: INoxIntegrationContext
     {
         foreach (var integration in _solution.Application!.Integrations!)
         {
-            var instance = new NoxIntegration(integration.Name, integration.Description);
+            var instance = new NoxIntegration(integration.Name, integration.Description, integration.MergeType);
             instance.WithReceiveAdapter(integration.Source, _solution.Infrastructure?.Dependencies?.DataConnections);
             instance.WithSendAdapter(integration.Target, _solution.Infrastructure?.Dependencies?.DataConnections);
             
@@ -27,7 +27,7 @@ public class NoxIntegrationContext: INoxIntegrationContext
         }
         
         //todo Interrogate the solution definition and build a list of integrations
-        //iteratate yaml and build integration instances
+        //iterate yaml and build integration instances
     }
     
     public async Task<bool> ExecuteIntegrationAsync(string name)

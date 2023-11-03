@@ -21,6 +21,8 @@ public class Integration
     [Required]
     public IntegrationSchedule? Schedule { get; internal set; }
 
+    [Required] public IntegrationMergeType MergeType { get; internal set; } = IntegrationMergeType.MergeNew;
+
     [Required]
     public IntegrationSource Source { get; internal set; } = null!;
 

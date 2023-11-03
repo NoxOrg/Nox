@@ -18,7 +18,7 @@ namespace Nox.Solution.Validation
 
             RuleFor(p => p.TargetAdapterType)
                 .IsInEnum()
-                .WithMessage(p => string.Format(ValidationResources.IntegrationTargetTypeEmpty, p.Name, integrationName, IntegrationAdapterType.Entity.ToNameList()));
+                .WithMessage(p => string.Format(ValidationResources.IntegrationTargetTypeEmpty, p.Name, integrationName, IntegrationTargetAdapterType.File.ToNameList()));
             
             //Data Connection required when adapter type != entity
             RuleFor(p => p.DataConnectionName)
@@ -27,33 +27,40 @@ namespace Nox.Solution.Validation
                 .Must(HaveValidDataConnection)
                 .WithMessage(m => string.Format(ValidationResources.IntegrationTargetDataConnectionMissing, m.Name, integrationName, m.DataConnectionName));
 
-            //Database options required when adapter type == Database
-            RuleFor(target => target!.DatabaseOptions)
+            //Table options required when adapter type == Table
+            RuleFor(target => target!.TableOptions)
                 .NotNull()
-                .WithMessage(target => string.Format(ValidationResources.IntegrationTargetDatabaseOptionsEmpty, target!.Name, integrationName))
-                .SetValidator(target => new IntegrationTargetDatabaseOptionsValidator(integrationName))
-                .When(target => target?.TargetAdapterType == IntegrationAdapterType.Database);
+                .WithMessage(target => string.Format(ValidationResources.IntegrationTargetTableOptionsEmpty, target!.Name, integrationName))
+                .SetValidator(target => new IntegrationTargetTableOptionsValidator(integrationName))
+                .When(target => target?.TargetAdapterType == IntegrationTargetAdapterType.DatabaseTable);
+            
+            //Stored Proc options required when adapter type == StoredProcedure
+            RuleFor(target => target!.StoredProcedureOptions)
+                .NotNull()
+                .WithMessage(target => string.Format(ValidationResources.IntegrationTargetStoredProcedureOptionsEmpty, target!.Name, integrationName))
+                .SetValidator(target => new IntegrationTargetStoredProcedureOptionsValidator(integrationName))
+                .When(target => target?.TargetAdapterType == IntegrationTargetAdapterType.DatabaseTable);
 
             //File options required when adapter type == File
             RuleFor(target => target!.FileOptions)
                 .NotNull()
                 .WithMessage(target => string.Format(ValidationResources.IntegrationTargetFileOptionsEmpty, target!.Name, integrationName))
                 .SetValidator(target => new IntegrationTargetFileOptionsValidator(integrationName))
-                .When(target => target?.TargetAdapterType == IntegrationAdapterType.File);
+                .When(target => target?.TargetAdapterType == IntegrationTargetAdapterType.File);
             
             //Message queue options required when adapter type == MessageQueue
             RuleFor(target => target!.MessageQueueOptions)
                 .NotNull()
                 .WithMessage(target => string.Format(ValidationResources.IntegrationTargetMsgQueueOptionsEmpty, target!.Name, integrationName))
                 .SetValidator(target => new IntegrationTargetMessageQueueOptionsValidator(integrationName))
-                .When(target => target?.TargetAdapterType == IntegrationAdapterType.MessageQueue);
+                .When(target => target?.TargetAdapterType == IntegrationTargetAdapterType.MessageQueue);
 
             //WebApi options required when adapter type == WebApi
             RuleFor(target => target!.WebApiOptions)
                 .NotNull()
                 .WithMessage(target => string.Format(ValidationResources.IntegrationTargetHttpOptionsEmpty, target!.Name, integrationName))
                 .SetValidator(target => new IntegrationTargetHttpOptionsValidator(integrationName))
-                .When(target => target?.TargetAdapterType == IntegrationAdapterType.WebApi);
+                .When(target => target?.TargetAdapterType == IntegrationTargetAdapterType.WebApi);
             
         }
         
