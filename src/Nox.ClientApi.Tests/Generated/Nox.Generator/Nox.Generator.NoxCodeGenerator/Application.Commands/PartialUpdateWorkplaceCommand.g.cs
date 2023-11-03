@@ -58,11 +58,22 @@ internal class PartialUpdateWorkplaceCommandHandlerBase : CommandBase<PartialUpd
 		}
 		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		await PartiallyUpdateLocalizedEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 
 		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		return new WorkplaceKeyDto(entity.Id.Value);
+	}
+
+	private async Task PartiallyUpdateLocalizedEntityAsync(WorkplaceEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+	{
+		var entityLocalized = await DbContext.WorkplacesLocalized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
+		if(entityLocalized is not null)
+		{
+			EntityLocalizedFactory.PartialUpdateEntity(entityLocalized, updatedProperties, cultureCode);
+			DbContext.Entry(entityLocalized).State = EntityState.Modified;
+		}
 	}
 }

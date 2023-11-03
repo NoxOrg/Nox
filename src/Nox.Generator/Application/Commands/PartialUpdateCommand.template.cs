@@ -70,10 +70,26 @@ internal class PartialUpdate{{entity.Name}}CommandHandlerBase : CommandBase<Part
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		{{- end }}
 
+		{{- if entity.IsLocalized }}
+		await PartiallyUpdateLocalizedEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
+		{{- end }}
+
 		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
 	}
+	{{- if entity.IsLocalized }}
+
+	private async Task PartiallyUpdateLocalizedEntityAsync({{entity.Name}}Entity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+	{
+		var entityLocalized = await DbContext.{{entity.PluralName}}Localized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
+		if(entityLocalized is not null)
+		{
+			EntityLocalizedFactory.PartialUpdateEntity(entityLocalized, updatedProperties, cultureCode);
+			DbContext.Entry(entityLocalized).State = EntityState.Modified;
+		}
+	}
+	{{- end }}
 }

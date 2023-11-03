@@ -58,11 +58,22 @@ internal class PartialUpdateTestEntityLocalizationCommandHandlerBase : CommandBa
 		}
 		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		await PartiallyUpdateLocalizedEntityAsync(entity, request.UpdatedProperties, request.CultureCode);
 
 		await OnCompletedAsync(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		return new TestEntityLocalizationKeyDto(entity.Id.Value);
+	}
+
+	private async Task PartiallyUpdateLocalizedEntityAsync(TestEntityLocalizationEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
+	{
+		var entityLocalized = await DbContext.TestEntityLocalizationsLocalized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
+		if(entityLocalized is not null)
+		{
+			EntityLocalizedFactory.PartialUpdateEntity(entityLocalized, updatedProperties, cultureCode);
+			DbContext.Entry(entityLocalized).State = EntityState.Modified;
+		}
 	}
 }
