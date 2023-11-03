@@ -10,7 +10,7 @@ namespace ClientApi.Tests.Application.Messaging
         public static  void AssertAnyPublished<T>(this ITestHarness testHarness) where T : IIntegrationEvent    
         {
             var events = testHarness.Published.Select<CloudEventMessage<T>>().Select(x => x.MessageObject as CloudEventMessage<T>).ToArray();
-            events.Should().Contain(x => x!.IntegrationEvent is T);
+            events.Should().Contain(x => x!.Data is T);
         }
     }
 }

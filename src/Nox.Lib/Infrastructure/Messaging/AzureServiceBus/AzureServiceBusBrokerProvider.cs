@@ -20,11 +20,11 @@ public class AzureServiceBusBrokerProvider : IMessageBrokerProvider
         {
             AzureServiceBusConfig config = messagingServerConfig.AzureServiceBusConfig!;
 
-            var connectionString = $"Endpoint={config.Endpoint}/;SharedAccessKeyName={config.SharedAccessKeyName};SharedAccessKey={config.SharedAccessKey}";
+            var connectionString = $"Endpoint={config.Endpoint};SharedAccessKeyName={config.SharedAccessKeyName};SharedAccessKey={config.SharedAccessKey}";
 
             cfg.Host(connectionString);
             cfg.ConfigureEndpoints(context);
-            cfg.AddSerializer(new CloudEventSerializorFactory(_noxSolution.PlatformId, _noxSolution.Name, _noxSolution.Version));
+            cfg.UseRawJsonSerializer();
             cfg.MessageTopology.SetEntityNameFormatter(new CustomEntityNameFormatter(_noxSolution.PlatformId, _noxSolution.Name));
         });        
         return configuration;

@@ -21,8 +21,6 @@ public class InMemoryBrokerProvider : IMessageBrokerProvider
 
             cfg.UseRawJsonSerializer();
 
-            cfg.AddSerializer(new CloudEventSerializorFactory(_noxSolution.PlatformId, _noxSolution.Name, _noxSolution.Version));
-
             cfg.MessageTopology.SetEntityNameFormatter(new CustomEntityNameFormatter(_noxSolution.PlatformId, _noxSolution.Name));
         });
         return configuration;
