@@ -44,6 +44,22 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToMinimumCashStocksRequiredByVendingMachines([FromRoute] System.Int64 key, [FromBody] VendingMachineCreateDto vendingMachine)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        vendingMachine.VendingMachineRequiredMinimumCashStocksId = new List<System.Int64> { key };
+        var createdKey = await _mediator.Send(new CreateVendingMachineCommand(vendingMachine, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetVendingMachineByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToMinimumCashStocksRequiredByVendingMachines([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetMinimumCashStockByIdQuery(key))).Select(x => x.MinimumCashStocksRequiredByVendingMachines).SingleOrDefault();
@@ -106,6 +122,22 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    public virtual async Task<ActionResult> PostToMinimumCashStockRelatedCurrency([FromRoute] System.Int64 key, [FromBody] CurrencyCreateDto currency)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        currency.CurrencyUsedByMinimumCashStocksId = new List<System.Int64> { key };
+        var createdKey = await _mediator.Send(new CreateCurrencyCommand(currency, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetCurrencyByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     public async Task<ActionResult> GetRefToMinimumCashStockRelatedCurrency([FromRoute] System.Int64 key)

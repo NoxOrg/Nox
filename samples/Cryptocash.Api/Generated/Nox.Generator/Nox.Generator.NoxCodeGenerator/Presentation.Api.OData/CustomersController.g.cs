@@ -44,6 +44,22 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToCustomerRelatedPaymentDetails([FromRoute] System.Int64 key, [FromBody] PaymentDetailCreateDto paymentDetail)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        paymentDetail.PaymentDetailsUsedByCustomerId = key;
+        var createdKey = await _mediator.Send(new CreatePaymentDetailCommand(paymentDetail, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetPaymentDetailByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToCustomerRelatedPaymentDetails([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.CustomerRelatedPaymentDetails).SingleOrDefault();
@@ -106,6 +122,22 @@ public abstract partial class CustomersControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    public virtual async Task<ActionResult> PostToCustomerRelatedBookings([FromRoute] System.Int64 key, [FromBody] BookingCreateDto booking)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        booking.BookingForCustomerId = key;
+        var createdKey = await _mediator.Send(new CreateBookingCommand(booking, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetBookingByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     public async Task<ActionResult> GetRefToCustomerRelatedBookings([FromRoute] System.Int64 key)
@@ -172,6 +204,22 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToCustomerRelatedTransactions([FromRoute] System.Int64 key, [FromBody] TransactionCreateDto transaction)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        transaction.TransactionForCustomerId = key;
+        var createdKey = await _mediator.Send(new CreateTransactionCommand(transaction, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetTransactionByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToCustomerRelatedTransactions([FromRoute] System.Int64 key)
     {
         var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.CustomerRelatedTransactions).SingleOrDefault();
@@ -234,6 +282,22 @@ public abstract partial class CustomersControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    public virtual async Task<ActionResult> PostToCustomerBaseCountry([FromRoute] System.Int64 key, [FromBody] CountryCreateDto country)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        country.CountryUsedByCustomersId = new List<System.Int64> { key };
+        var createdKey = await _mediator.Send(new CreateCountryCommand(country, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     public async Task<ActionResult> GetRefToCustomerBaseCountry([FromRoute] System.Int64 key)

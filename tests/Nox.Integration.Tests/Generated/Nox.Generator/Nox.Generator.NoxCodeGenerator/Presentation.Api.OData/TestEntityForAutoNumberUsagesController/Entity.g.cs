@@ -32,6 +32,15 @@ public partial class TestEntityForAutoNumberUsagesController : TestEntityForAuto
     {}
 }
 
+public partial class TestEntityForAutoNumberUsagesController : TestEntityForAutoNumberUsagesControllerBase
+{
+    public TestEntityForAutoNumberUsagesController(
+            IMediator mediator,
+            Nox.Presentation.Api.IHttpLanguageProvider httpLanguageProvider
+        ): base(mediator, httpLanguageProvider)
+    {}
+}
+
 public abstract partial class TestEntityForAutoNumberUsagesControllerBase : ODataController
 {
     /// <summary>
