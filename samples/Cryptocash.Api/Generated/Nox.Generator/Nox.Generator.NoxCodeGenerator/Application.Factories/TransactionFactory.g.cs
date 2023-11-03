@@ -25,6 +25,7 @@ namespace Cryptocash.Application.Factories;
 
 internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntity, TransactionCreateDto, TransactionUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public TransactionFactoryBase
     (
@@ -37,14 +38,14 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(TransactionEntity entity, TransactionUpdateDto updateDto)
+    public virtual void UpdateEntity(TransactionEntity entity, TransactionUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(TransactionEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties);
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private Cryptocash.Domain.Transaction ToEntity(TransactionCreateDto createDto)
@@ -57,7 +58,7 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
         return entity;
     }
 
-    private void UpdateEntityInternal(TransactionEntity entity, TransactionUpdateDto updateDto)
+    private void UpdateEntityInternal(TransactionEntity entity, TransactionUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.TransactionType = Cryptocash.Domain.TransactionMetadata.CreateTransactionType(updateDto.TransactionType.NonNullValue<System.String>());
         entity.ProcessedOnDateTime = Cryptocash.Domain.TransactionMetadata.CreateProcessedOnDateTime(updateDto.ProcessedOnDateTime.NonNullValue<System.DateTimeOffset>());
@@ -65,7 +66,7 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
         entity.Reference = Cryptocash.Domain.TransactionMetadata.CreateReference(updateDto.Reference.NonNullValue<System.String>());
     }
 
-    private void PartialUpdateEntityInternal(TransactionEntity entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(TransactionEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
 
         if (updatedProperties.TryGetValue("TransactionType", out var TransactionTypeUpdateValue))
@@ -112,6 +113,9 @@ internal abstract class TransactionFactoryBase : IEntityFactory<TransactionEntit
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class TransactionFactory : TransactionFactoryBase

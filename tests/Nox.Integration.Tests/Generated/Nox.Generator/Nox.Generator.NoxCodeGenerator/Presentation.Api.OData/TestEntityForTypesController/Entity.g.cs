@@ -91,7 +91,7 @@ public abstract partial class TestEntityForTypesControllerBase : ODataController
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateTestEntityForTypesCommand(key, testEntityForTypes, etag));
+        var updatedKey = await _mediator.Send(new UpdateTestEntityForTypesCommand(key, testEntityForTypes, _cultureCode, etag));
 
         if (updatedKey is null)
         {

@@ -91,7 +91,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateSecondTestEntityTwoRelationshipsOneToOneCommand(key, secondTestEntityTwoRelationshipsOneToOne, etag));
+        var updatedKey = await _mediator.Send(new UpdateSecondTestEntityTwoRelationshipsOneToOneCommand(key, secondTestEntityTwoRelationshipsOneToOne, _cultureCode, etag));
 
         if (updatedKey is null)
         {

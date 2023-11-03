@@ -91,7 +91,7 @@ public abstract partial class PaymentDetailsControllerBase : ODataController
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdatePaymentDetailCommand(key, paymentDetail, etag));
+        var updatedKey = await _mediator.Send(new UpdatePaymentDetailCommand(key, paymentDetail, _cultureCode, etag));
 
         if (updatedKey is null)
         {

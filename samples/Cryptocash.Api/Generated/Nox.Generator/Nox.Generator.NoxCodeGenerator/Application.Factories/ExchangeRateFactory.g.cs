@@ -25,6 +25,7 @@ namespace Cryptocash.Application.Factories;
 
 internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEntity, ExchangeRateCreateDto, ExchangeRateUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public ExchangeRateFactoryBase
     (
@@ -37,14 +38,14 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEnt
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(ExchangeRateEntity entity, ExchangeRateUpdateDto updateDto)
+    public virtual void UpdateEntity(ExchangeRateEntity entity, ExchangeRateUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(ExchangeRateEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties);
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private Cryptocash.Domain.ExchangeRate ToEntity(ExchangeRateCreateDto createDto)
@@ -55,13 +56,13 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEnt
         return entity;
     }
 
-    private void UpdateEntityInternal(ExchangeRateEntity entity, ExchangeRateUpdateDto updateDto)
+    private void UpdateEntityInternal(ExchangeRateEntity entity, ExchangeRateUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.EffectiveRate = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveRate(updateDto.EffectiveRate.NonNullValue<System.Int32>());
         entity.EffectiveAt = Cryptocash.Domain.ExchangeRateMetadata.CreateEffectiveAt(updateDto.EffectiveAt.NonNullValue<System.DateTimeOffset>());
     }
 
-    private void PartialUpdateEntityInternal(ExchangeRateEntity entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(ExchangeRateEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
 
         if (updatedProperties.TryGetValue("EffectiveRate", out var EffectiveRateUpdateValue))
@@ -86,6 +87,9 @@ internal abstract class ExchangeRateFactoryBase : IEntityFactory<ExchangeRateEnt
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class ExchangeRateFactory : ExchangeRateFactoryBase

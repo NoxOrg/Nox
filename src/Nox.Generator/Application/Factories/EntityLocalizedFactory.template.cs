@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -66,9 +66,9 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
                 throw new ArgumentException("Attribute '{{attribute.Name}}' can't be null");
             }
             {{- else }}
-            if ({{attribute.Name}}UpdateValue == null) 
-            { 
-                localizedEntity.{{attribute.Name}} = null; 
+            if ({{attribute.Name}}UpdateValue == null)
+            {
+                localizedEntity.{{attribute.Name}} = null;
             }
             else
             {{- end }}

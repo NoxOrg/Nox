@@ -25,6 +25,7 @@ namespace TestWebApp.Application.Factories;
 
 internal abstract class TestEntityZeroOrOneFactoryBase : IEntityFactory<TestEntityZeroOrOneEntity, TestEntityZeroOrOneCreateDto, TestEntityZeroOrOneUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public TestEntityZeroOrOneFactoryBase
     (
@@ -37,14 +38,14 @@ internal abstract class TestEntityZeroOrOneFactoryBase : IEntityFactory<TestEnti
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(TestEntityZeroOrOneEntity entity, TestEntityZeroOrOneUpdateDto updateDto)
+    public virtual void UpdateEntity(TestEntityZeroOrOneEntity entity, TestEntityZeroOrOneUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(TestEntityZeroOrOneEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties);
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private TestWebApp.Domain.TestEntityZeroOrOne ToEntity(TestEntityZeroOrOneCreateDto createDto)
@@ -55,12 +56,12 @@ internal abstract class TestEntityZeroOrOneFactoryBase : IEntityFactory<TestEnti
         return entity;
     }
 
-    private void UpdateEntityInternal(TestEntityZeroOrOneEntity entity, TestEntityZeroOrOneUpdateDto updateDto)
+    private void UpdateEntityInternal(TestEntityZeroOrOneEntity entity, TestEntityZeroOrOneUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.TextTestField = TestWebApp.Domain.TestEntityZeroOrOneMetadata.CreateTextTestField(updateDto.TextTestField.NonNullValue<System.String>());
     }
 
-    private void PartialUpdateEntityInternal(TestEntityZeroOrOneEntity entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(TestEntityZeroOrOneEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
 
         if (updatedProperties.TryGetValue("TextTestField", out var TextTestFieldUpdateValue))
@@ -74,6 +75,9 @@ internal abstract class TestEntityZeroOrOneFactoryBase : IEntityFactory<TestEnti
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class TestEntityZeroOrOneFactory : TestEntityZeroOrOneFactoryBase

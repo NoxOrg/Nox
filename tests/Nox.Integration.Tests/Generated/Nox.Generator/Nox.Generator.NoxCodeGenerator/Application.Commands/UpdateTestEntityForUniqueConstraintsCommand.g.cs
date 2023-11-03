@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -17,14 +17,15 @@ using TestEntityForUniqueConstraintsEntity = TestWebApp.Domain.TestEntityForUniq
 
 namespace TestWebApp.Application.Commands;
 
-public record UpdateTestEntityForUniqueConstraintsCommand(System.String keyId, TestEntityForUniqueConstraintsUpdateDto EntityDto, System.Guid? Etag) : IRequest<TestEntityForUniqueConstraintsKeyDto?>;
+public record UpdateTestEntityForUniqueConstraintsCommand(System.String keyId, TestEntityForUniqueConstraintsUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityForUniqueConstraintsKeyDto?>;
 
 internal partial class UpdateTestEntityForUniqueConstraintsCommandHandler : UpdateTestEntityForUniqueConstraintsCommandHandlerBase
 {
 	public UpdateTestEntityForUniqueConstraintsCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityForUniqueConstraintsEntity, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<TestEntityForUniqueConstraintsEntity, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto> entityFactory) 
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -37,7 +38,8 @@ internal abstract class UpdateTestEntityForUniqueConstraintsCommandHandlerBase :
 	public UpdateTestEntityForUniqueConstraintsCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityForUniqueConstraintsEntity, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<TestEntityForUniqueConstraintsEntity, TestEntityForUniqueConstraintsCreateDto, TestEntityForUniqueConstraintsUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -55,7 +57,7 @@ internal abstract class UpdateTestEntityForUniqueConstraintsCommandHandlerBase :
 			return null;
 		}
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

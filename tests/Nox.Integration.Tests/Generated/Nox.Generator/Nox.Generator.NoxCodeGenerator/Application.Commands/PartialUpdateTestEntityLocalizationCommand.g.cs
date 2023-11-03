@@ -23,7 +23,9 @@ internal class PartialUpdateTestEntityLocalizationCommandHandler : PartialUpdate
 	public PartialUpdateTestEntityLocalizationCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
+		IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> entityFactory,
+		IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationUpdateDto> entityLocalizedFactory)
+		: base(dbContext,noxSolution, entityFactory, entityLocalizedFactory)
 	{
 	}
 }
@@ -31,14 +33,16 @@ internal class PartialUpdateTestEntityLocalizationCommandHandlerBase : CommandBa
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> EntityFactory { get; }
-
-	public PartialUpdateTestEntityLocalizationCommandHandlerBase(
+	public IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationUpdateDto> EntityLocalizedFactory { get; }public PartialUpdateTestEntityLocalizationCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> entityFactory,
+		IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationUpdateDto> entityLocalizedFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
-		EntityFactory = entityFactory;
+		EntityFactory = entityFactory; 
+		EntityLocalizedFactory = entityLocalizedFactory;
 	}
 
 	public virtual async Task<TestEntityLocalizationKeyDto?> Handle(PartialUpdateTestEntityLocalizationCommand request, CancellationToken cancellationToken)

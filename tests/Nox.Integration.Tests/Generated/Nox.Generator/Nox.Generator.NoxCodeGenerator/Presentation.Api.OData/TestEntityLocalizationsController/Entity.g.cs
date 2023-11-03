@@ -91,7 +91,7 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateTestEntityLocalizationCommand(key, testEntityLocalization, etag));
+        var updatedKey = await _mediator.Send(new UpdateTestEntityLocalizationCommand(key, testEntityLocalization, _cultureCode, etag));
 
         if (updatedKey is null)
         {

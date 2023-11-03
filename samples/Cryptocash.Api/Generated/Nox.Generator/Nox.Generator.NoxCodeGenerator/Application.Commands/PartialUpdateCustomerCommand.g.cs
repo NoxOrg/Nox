@@ -23,19 +23,19 @@ internal class PartialUpdateCustomerCommandHandler : PartialUpdateCustomerComman
 	public PartialUpdateCustomerCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<CustomerEntity, CustomerCreateDto, CustomerUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
+		IEntityFactory<CustomerEntity, CustomerCreateDto, CustomerUpdateDto> entityFactory)
+		: base(dbContext,noxSolution, entityFactory)
 	{
 	}
 }
 internal class PartialUpdateCustomerCommandHandlerBase : CommandBase<PartialUpdateCustomerCommand, CustomerEntity>, IRequestHandler<PartialUpdateCustomerCommand, CustomerKeyDto?>
 {
 	public AppDbContext DbContext { get; }
-	public IEntityFactory<CustomerEntity, CustomerCreateDto, CustomerUpdateDto> EntityFactory { get; }
-
-	public PartialUpdateCustomerCommandHandlerBase(
+	public IEntityFactory<CustomerEntity, CustomerCreateDto, CustomerUpdateDto> EntityFactory { get; }public PartialUpdateCustomerCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<CustomerEntity, CustomerCreateDto, CustomerUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<CustomerEntity, CustomerCreateDto, CustomerUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

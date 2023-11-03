@@ -25,6 +25,7 @@ namespace TestWebApp.Application.Factories;
 
 internal abstract class TestEntityWithNuidFactoryBase : IEntityFactory<TestEntityWithNuidEntity, TestEntityWithNuidCreateDto, TestEntityWithNuidUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public TestEntityWithNuidFactoryBase
     (
@@ -37,14 +38,14 @@ internal abstract class TestEntityWithNuidFactoryBase : IEntityFactory<TestEntit
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(TestEntityWithNuidEntity entity, TestEntityWithNuidUpdateDto updateDto)
+    public virtual void UpdateEntity(TestEntityWithNuidEntity entity, TestEntityWithNuidUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(TestEntityWithNuidEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties);
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private TestWebApp.Domain.TestEntityWithNuid ToEntity(TestEntityWithNuidCreateDto createDto)
@@ -55,13 +56,13 @@ internal abstract class TestEntityWithNuidFactoryBase : IEntityFactory<TestEntit
         return entity;
     }
 
-    private void UpdateEntityInternal(TestEntityWithNuidEntity entity, TestEntityWithNuidUpdateDto updateDto)
+    private void UpdateEntityInternal(TestEntityWithNuidEntity entity, TestEntityWithNuidUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Name = TestWebApp.Domain.TestEntityWithNuidMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
 		entity.EnsureId();
     }
 
-    private void PartialUpdateEntityInternal(TestEntityWithNuidEntity entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(TestEntityWithNuidEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
 
         if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
@@ -76,6 +77,9 @@ internal abstract class TestEntityWithNuidFactoryBase : IEntityFactory<TestEntit
         }
 		entity.EnsureId();
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class TestEntityWithNuidFactory : TestEntityWithNuidFactoryBase

@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -40,9 +40,9 @@ internal abstract class WorkplaceLocalizedFactoryBase : IEntityLocalizedFactory<
 
         if (updatedProperties.TryGetValue("Description", out var DescriptionUpdateValue))
         {
-            if (DescriptionUpdateValue == null) 
-            { 
-                localizedEntity.Description = null; 
+            if (DescriptionUpdateValue == null)
+            {
+                localizedEntity.Description = null;
             }
             else
             {

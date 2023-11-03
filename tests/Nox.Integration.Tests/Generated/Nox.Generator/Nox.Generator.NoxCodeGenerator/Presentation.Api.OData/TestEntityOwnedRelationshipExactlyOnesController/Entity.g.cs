@@ -91,7 +91,7 @@ public abstract partial class TestEntityOwnedRelationshipExactlyOnesControllerBa
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateTestEntityOwnedRelationshipExactlyOneCommand(key, testEntityOwnedRelationshipExactlyOne, etag));
+        var updatedKey = await _mediator.Send(new UpdateTestEntityOwnedRelationshipExactlyOneCommand(key, testEntityOwnedRelationshipExactlyOne, _cultureCode, etag));
 
         if (updatedKey is null)
         {

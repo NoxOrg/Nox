@@ -25,6 +25,7 @@ namespace Cryptocash.Application.Factories;
 
 internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, HolidayCreateDto, HolidayUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public HolidayFactoryBase
     (
@@ -37,14 +38,14 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(HolidayEntity entity, HolidayUpdateDto updateDto)
+    public virtual void UpdateEntity(HolidayEntity entity, HolidayUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(HolidayEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties);
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private Cryptocash.Domain.Holiday ToEntity(HolidayCreateDto createDto)
@@ -56,14 +57,14 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
         return entity;
     }
 
-    private void UpdateEntityInternal(HolidayEntity entity, HolidayUpdateDto updateDto)
+    private void UpdateEntityInternal(HolidayEntity entity, HolidayUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Name = Cryptocash.Domain.HolidayMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         entity.Type = Cryptocash.Domain.HolidayMetadata.CreateType(updateDto.Type.NonNullValue<System.String>());
         entity.Date = Cryptocash.Domain.HolidayMetadata.CreateDate(updateDto.Date.NonNullValue<System.DateTime>());
     }
 
-    private void PartialUpdateEntityInternal(HolidayEntity entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(HolidayEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
 
         if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
@@ -99,6 +100,9 @@ internal abstract class HolidayFactoryBase : IEntityFactory<HolidayEntity, Holid
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class HolidayFactory : HolidayFactoryBase

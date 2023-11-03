@@ -91,7 +91,7 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateSecondTestEntityZeroOrManyCommand(key, secondTestEntityZeroOrMany, etag));
+        var updatedKey = await _mediator.Send(new UpdateSecondTestEntityZeroOrManyCommand(key, secondTestEntityZeroOrMany, _cultureCode, etag));
 
         if (updatedKey is null)
         {

@@ -25,6 +25,7 @@ namespace Cryptocash.Application.Factories;
 
 internal abstract class CommissionFactoryBase : IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public CommissionFactoryBase
     (
@@ -37,14 +38,14 @@ internal abstract class CommissionFactoryBase : IEntityFactory<CommissionEntity,
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(CommissionEntity entity, CommissionUpdateDto updateDto)
+    public virtual void UpdateEntity(CommissionEntity entity, CommissionUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(CommissionEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties);
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private Cryptocash.Domain.Commission ToEntity(CommissionCreateDto createDto)
@@ -55,13 +56,13 @@ internal abstract class CommissionFactoryBase : IEntityFactory<CommissionEntity,
         return entity;
     }
 
-    private void UpdateEntityInternal(CommissionEntity entity, CommissionUpdateDto updateDto)
+    private void UpdateEntityInternal(CommissionEntity entity, CommissionUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Rate = Cryptocash.Domain.CommissionMetadata.CreateRate(updateDto.Rate.NonNullValue<System.Single>());
         entity.EffectiveAt = Cryptocash.Domain.CommissionMetadata.CreateEffectiveAt(updateDto.EffectiveAt.NonNullValue<System.DateTimeOffset>());
     }
 
-    private void PartialUpdateEntityInternal(CommissionEntity entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(CommissionEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
 
         if (updatedProperties.TryGetValue("Rate", out var RateUpdateValue))
@@ -86,6 +87,9 @@ internal abstract class CommissionFactoryBase : IEntityFactory<CommissionEntity,
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class CommissionFactory : CommissionFactoryBase

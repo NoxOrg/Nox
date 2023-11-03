@@ -25,6 +25,7 @@ namespace Cryptocash.Application.Factories;
 
 internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     protected IEntityFactory<Cryptocash.Domain.CountryTimeZone, CountryTimeZoneCreateDto, CountryTimeZoneUpdateDto> CountryTimeZoneFactory {get;}
     protected IEntityFactory<Cryptocash.Domain.Holiday, HolidayCreateDto, HolidayUpdateDto> HolidayFactory {get;}
 
@@ -43,14 +44,14 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(CountryEntity entity, CountryUpdateDto updateDto)
+    public virtual void UpdateEntity(CountryEntity entity, CountryUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(CountryEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties);
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private Cryptocash.Domain.Country ToEntity(CountryCreateDto createDto)
@@ -58,63 +59,41 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         var entity = new Cryptocash.Domain.Country();
         entity.Id = CountryMetadata.CreateId(createDto.Id);
         entity.Name = Cryptocash.Domain.CountryMetadata.CreateName(createDto.Name);
-        if (createDto.OfficialName is not null)entity.OfficialName = Cryptocash.Domain.CountryMetadata.CreateOfficialName(createDto.OfficialName.NonNullValue<System.String>());
-        if (createDto.CountryIsoNumeric is not null)entity.CountryIsoNumeric = Cryptocash.Domain.CountryMetadata.CreateCountryIsoNumeric(createDto.CountryIsoNumeric.NonNullValue<System.UInt16>());
-        if (createDto.CountryIsoAlpha3 is not null)entity.CountryIsoAlpha3 = Cryptocash.Domain.CountryMetadata.CreateCountryIsoAlpha3(createDto.CountryIsoAlpha3.NonNullValue<System.String>());
-        if (createDto.GeoCoords is not null)entity.GeoCoords = Cryptocash.Domain.CountryMetadata.CreateGeoCoords(createDto.GeoCoords.NonNullValue<LatLongDto>());
-        if (createDto.FlagEmoji is not null)entity.FlagEmoji = Cryptocash.Domain.CountryMetadata.CreateFlagEmoji(createDto.FlagEmoji.NonNullValue<System.String>());
-        if (createDto.FlagSvg is not null)entity.FlagSvg = Cryptocash.Domain.CountryMetadata.CreateFlagSvg(createDto.FlagSvg.NonNullValue<ImageDto>());
-        if (createDto.FlagPng is not null)entity.FlagPng = Cryptocash.Domain.CountryMetadata.CreateFlagPng(createDto.FlagPng.NonNullValue<ImageDto>());
-        if (createDto.CoatOfArmsSvg is not null)entity.CoatOfArmsSvg = Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsSvg(createDto.CoatOfArmsSvg.NonNullValue<ImageDto>());
-        if (createDto.CoatOfArmsPng is not null)entity.CoatOfArmsPng = Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsPng(createDto.CoatOfArmsPng.NonNullValue<ImageDto>());
-        if (createDto.GoogleMapsUrl is not null)entity.GoogleMapsUrl = Cryptocash.Domain.CountryMetadata.CreateGoogleMapsUrl(createDto.GoogleMapsUrl.NonNullValue<System.String>());
-        if (createDto.OpenStreetMapsUrl is not null)entity.OpenStreetMapsUrl = Cryptocash.Domain.CountryMetadata.CreateOpenStreetMapsUrl(createDto.OpenStreetMapsUrl.NonNullValue<System.String>());
+        entity.SetIfNotNull(createDto.OfficialName, (entity) => entity.OfficialName =Cryptocash.Domain.CountryMetadata.CreateOfficialName(createDto.OfficialName.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.CountryIsoNumeric, (entity) => entity.CountryIsoNumeric =Cryptocash.Domain.CountryMetadata.CreateCountryIsoNumeric(createDto.CountryIsoNumeric.NonNullValue<System.UInt16>()));
+        entity.SetIfNotNull(createDto.CountryIsoAlpha3, (entity) => entity.CountryIsoAlpha3 =Cryptocash.Domain.CountryMetadata.CreateCountryIsoAlpha3(createDto.CountryIsoAlpha3.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.GeoCoords, (entity) => entity.GeoCoords =Cryptocash.Domain.CountryMetadata.CreateGeoCoords(createDto.GeoCoords.NonNullValue<LatLongDto>()));
+        entity.SetIfNotNull(createDto.FlagEmoji, (entity) => entity.FlagEmoji =Cryptocash.Domain.CountryMetadata.CreateFlagEmoji(createDto.FlagEmoji.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.FlagSvg, (entity) => entity.FlagSvg =Cryptocash.Domain.CountryMetadata.CreateFlagSvg(createDto.FlagSvg.NonNullValue<ImageDto>()));
+        entity.SetIfNotNull(createDto.FlagPng, (entity) => entity.FlagPng =Cryptocash.Domain.CountryMetadata.CreateFlagPng(createDto.FlagPng.NonNullValue<ImageDto>()));
+        entity.SetIfNotNull(createDto.CoatOfArmsSvg, (entity) => entity.CoatOfArmsSvg =Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsSvg(createDto.CoatOfArmsSvg.NonNullValue<ImageDto>()));
+        entity.SetIfNotNull(createDto.CoatOfArmsPng, (entity) => entity.CoatOfArmsPng =Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsPng(createDto.CoatOfArmsPng.NonNullValue<ImageDto>()));
+        entity.SetIfNotNull(createDto.GoogleMapsUrl, (entity) => entity.GoogleMapsUrl =Cryptocash.Domain.CountryMetadata.CreateGoogleMapsUrl(createDto.GoogleMapsUrl.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.OpenStreetMapsUrl, (entity) => entity.OpenStreetMapsUrl =Cryptocash.Domain.CountryMetadata.CreateOpenStreetMapsUrl(createDto.OpenStreetMapsUrl.NonNullValue<System.String>()));
         entity.StartOfWeek = Cryptocash.Domain.CountryMetadata.CreateStartOfWeek(createDto.StartOfWeek);
         createDto.CountryOwnedTimeZones.ForEach(dto => entity.CreateRefToCountryOwnedTimeZones(CountryTimeZoneFactory.CreateEntity(dto)));
         createDto.CountryOwnedHolidays.ForEach(dto => entity.CreateRefToCountryOwnedHolidays(HolidayFactory.CreateEntity(dto)));
         return entity;
     }
 
-    private void UpdateEntityInternal(CountryEntity entity, CountryUpdateDto updateDto)
+    private void UpdateEntityInternal(CountryEntity entity, CountryUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Name = Cryptocash.Domain.CountryMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
-        if (updateDto.OfficialName == null) { entity.OfficialName = null; } else {
-            entity.OfficialName = Cryptocash.Domain.CountryMetadata.CreateOfficialName(updateDto.OfficialName.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.CountryIsoNumeric == null) { entity.CountryIsoNumeric = null; } else {
-            entity.CountryIsoNumeric = Cryptocash.Domain.CountryMetadata.CreateCountryIsoNumeric(updateDto.CountryIsoNumeric.ToValueFromNonNull<System.UInt16>());
-        }
-        if (updateDto.CountryIsoAlpha3 == null) { entity.CountryIsoAlpha3 = null; } else {
-            entity.CountryIsoAlpha3 = Cryptocash.Domain.CountryMetadata.CreateCountryIsoAlpha3(updateDto.CountryIsoAlpha3.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.GeoCoords == null) { entity.GeoCoords = null; } else {
-            entity.GeoCoords = Cryptocash.Domain.CountryMetadata.CreateGeoCoords(updateDto.GeoCoords.ToValueFromNonNull<LatLongDto>());
-        }
-        if (updateDto.FlagEmoji == null) { entity.FlagEmoji = null; } else {
-            entity.FlagEmoji = Cryptocash.Domain.CountryMetadata.CreateFlagEmoji(updateDto.FlagEmoji.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.FlagSvg == null) { entity.FlagSvg = null; } else {
-            entity.FlagSvg = Cryptocash.Domain.CountryMetadata.CreateFlagSvg(updateDto.FlagSvg.ToValueFromNonNull<ImageDto>());
-        }
-        if (updateDto.FlagPng == null) { entity.FlagPng = null; } else {
-            entity.FlagPng = Cryptocash.Domain.CountryMetadata.CreateFlagPng(updateDto.FlagPng.ToValueFromNonNull<ImageDto>());
-        }
-        if (updateDto.CoatOfArmsSvg == null) { entity.CoatOfArmsSvg = null; } else {
-            entity.CoatOfArmsSvg = Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsSvg(updateDto.CoatOfArmsSvg.ToValueFromNonNull<ImageDto>());
-        }
-        if (updateDto.CoatOfArmsPng == null) { entity.CoatOfArmsPng = null; } else {
-            entity.CoatOfArmsPng = Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsPng(updateDto.CoatOfArmsPng.ToValueFromNonNull<ImageDto>());
-        }
-        if (updateDto.GoogleMapsUrl == null) { entity.GoogleMapsUrl = null; } else {
-            entity.GoogleMapsUrl = Cryptocash.Domain.CountryMetadata.CreateGoogleMapsUrl(updateDto.GoogleMapsUrl.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.OpenStreetMapsUrl == null) { entity.OpenStreetMapsUrl = null; } else {
-            entity.OpenStreetMapsUrl = Cryptocash.Domain.CountryMetadata.CreateOpenStreetMapsUrl(updateDto.OpenStreetMapsUrl.ToValueFromNonNull<System.String>());
-        }
+        entity.SetIfNotNull(updateDto.OfficialName, (entity) => entity.OfficialName = Cryptocash.Domain.CountryMetadata.CreateOfficialName(updateDto.OfficialName.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.CountryIsoNumeric, (entity) => entity.CountryIsoNumeric = Cryptocash.Domain.CountryMetadata.CreateCountryIsoNumeric(updateDto.CountryIsoNumeric.ToValueFromNonNull<System.UInt16>()));
+        entity.SetIfNotNull(updateDto.CountryIsoAlpha3, (entity) => entity.CountryIsoAlpha3 = Cryptocash.Domain.CountryMetadata.CreateCountryIsoAlpha3(updateDto.CountryIsoAlpha3.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.GeoCoords, (entity) => entity.GeoCoords = Cryptocash.Domain.CountryMetadata.CreateGeoCoords(updateDto.GeoCoords.ToValueFromNonNull<LatLongDto>()));
+        entity.SetIfNotNull(updateDto.FlagEmoji, (entity) => entity.FlagEmoji = Cryptocash.Domain.CountryMetadata.CreateFlagEmoji(updateDto.FlagEmoji.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.FlagSvg, (entity) => entity.FlagSvg = Cryptocash.Domain.CountryMetadata.CreateFlagSvg(updateDto.FlagSvg.ToValueFromNonNull<ImageDto>()));
+        entity.SetIfNotNull(updateDto.FlagPng, (entity) => entity.FlagPng = Cryptocash.Domain.CountryMetadata.CreateFlagPng(updateDto.FlagPng.ToValueFromNonNull<ImageDto>()));
+        entity.SetIfNotNull(updateDto.CoatOfArmsSvg, (entity) => entity.CoatOfArmsSvg = Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsSvg(updateDto.CoatOfArmsSvg.ToValueFromNonNull<ImageDto>()));
+        entity.SetIfNotNull(updateDto.CoatOfArmsPng, (entity) => entity.CoatOfArmsPng = Cryptocash.Domain.CountryMetadata.CreateCoatOfArmsPng(updateDto.CoatOfArmsPng.ToValueFromNonNull<ImageDto>()));
+        entity.SetIfNotNull(updateDto.GoogleMapsUrl, (entity) => entity.GoogleMapsUrl = Cryptocash.Domain.CountryMetadata.CreateGoogleMapsUrl(updateDto.GoogleMapsUrl.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.OpenStreetMapsUrl, (entity) => entity.OpenStreetMapsUrl = Cryptocash.Domain.CountryMetadata.CreateOpenStreetMapsUrl(updateDto.OpenStreetMapsUrl.ToValueFromNonNull<System.String>()));
         entity.StartOfWeek = Cryptocash.Domain.CountryMetadata.CreateStartOfWeek(updateDto.StartOfWeek.NonNullValue<System.UInt16>());
     }
 
-    private void PartialUpdateEntityInternal(CountryEntity entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(CountryEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
 
         if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
@@ -238,6 +217,9 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class CountryFactory : CountryFactoryBase
