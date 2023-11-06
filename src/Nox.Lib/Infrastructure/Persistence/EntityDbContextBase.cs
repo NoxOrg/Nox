@@ -169,7 +169,7 @@ namespace Nox.Infrastructure.Persistence
         /// <summary>
         /// Configure Entity Enumeration 
         /// </summary>
-        protected virtual void ConfigureEnumeration(EntityTypeBuilder enumModelBuilder)
+        protected virtual void ConfigureEnumeration(EntityTypeBuilder enumModelBuilder, EnumerationTypeOptions enumTypeOptions)
         {
             enumModelBuilder.HasKey(nameof(EnumerationBase.Id));
             
@@ -180,12 +180,17 @@ namespace Nox.Infrastructure.Persistence
             enumModelBuilder
                 .Property(nameof(EnumerationBase.Name))
                 .IsRequired(true);
+ 
+            foreach (var enumValue in enumTypeOptions.Values)
+            {
+                enumModelBuilder.HasData(new { Id = Enumeration.From(enumValue.Id, enumTypeOptions), Name = enumValue.Name });
+            }
         }
 
         /// <summary>
         /// Configure Entity Enumeration Localization 
         /// </summary>
-        protected virtual void ConfigureEnumerationLocalized(EntityTypeBuilder enumModelBuilder, Type enumType, Type enumLocalizedType)
+        protected virtual void ConfigureEnumerationLocalized(EntityTypeBuilder enumModelBuilder, Type enumType, Type enumLocalizedType, EnumerationTypeOptions enumTypeOptions, string defaultCultureCode)
         {
             enumModelBuilder.HasKey(nameof(EnumerationLocalizedBase.Id), nameof(EnumerationLocalizedBase.CultureCode));
 
@@ -205,6 +210,11 @@ namespace Nox.Infrastructure.Persistence
                 .HasOne(enumType)
                 .WithMany()
                 .HasForeignKey(nameof(EnumerationLocalizedBase.Id));
+
+            foreach (var enumValue in enumTypeOptions.Values)
+            {
+                enumModelBuilder.HasData(new { Id = Enumeration.From(enumValue.Id, enumTypeOptions), Name = enumValue.Name, CultureCode = CultureCode.From(defaultCultureCode) });
+            }
         }
     }
 }

@@ -89,6 +89,8 @@ internal class DtoDbContext : DbContext
         public DbSet<TestEntityLocalizationDto> TestEntityLocalizations { get; set; } = null!;
         public DbSet<TestEntityForAutoNumberUsagesDto> TestEntityForAutoNumberUsages { get; set; } = null!;
     public DbSet<TestEntityLocalizationLocalizedDto> TestEntityLocalizationsLocalized { get; set; } = null!;
+    public DbSet<DtoNameSpace.TestEntityForTypesEnumerationTestFieldDto> TestEntityForTypesEnumerationTestFields { get; set; } = null!;
+    public DbSet<DtoNameSpace.TestEntityForTypesEnumerationTestFieldLocalizedDto> TestEntityForTypesEnumerationTestFieldsLocalized { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

@@ -15,6 +15,7 @@ internal static class TestEntityForTypesExtensions
         var dto = new TestEntityForTypesDto();
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);
         dto.SetIfNotNull(entity?.TextTestField, (dto) => dto.TextTestField =entity!.TextTestField!.Value);
+        dto.SetIfNotNull(entity?.EnumerationTestField, (dto) => dto.EnumerationTestField =entity!.EnumerationTestField!.Value);
         dto.SetIfNotNull(entity?.NumberTestField, (dto) => dto.NumberTestField =entity!.NumberTestField!.Value);
         dto.SetIfNotNull(entity?.MoneyTestField, (dto) => dto.MoneyTestField =entity!.MoneyTestField!.ToDto());
         dto.SetIfNotNull(entity?.CountryCode2TestField, (dto) => dto.CountryCode2TestField =entity!.CountryCode2TestField!.Value);
