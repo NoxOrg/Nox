@@ -16,7 +16,7 @@ using TestEntityZeroOrManyEntity = TestWebApp.Domain.TestEntityZeroOrMany;
 
 namespace TestWebApp.Application.Commands;
 
-public record PartialUpdateTestEntityZeroOrManyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <TestEntityZeroOrManyKeyDto?>;
+public partial record PartialUpdateTestEntityZeroOrManyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <TestEntityZeroOrManyKeyDto?>;
 
 internal class PartialUpdateTestEntityZeroOrManyCommandHandler : PartialUpdateTestEntityZeroOrManyCommandHandlerBase
 {

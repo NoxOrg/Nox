@@ -158,7 +158,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return NoContent();
     }
     
-    private async Task<BankNoteDto?> TryGetCurrencyCommonBankNotes(System.String key, BankNoteKeyDto childKeyDto)
+    protected async Task<BankNoteDto?> TryGetCurrencyCommonBankNotes(System.String key, BankNoteKeyDto childKeyDto)
     {
         var parent = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SingleOrDefault();
         return parent?.CurrencyCommonBankNotes.SingleOrDefault(x => x.Id == childKeyDto.keyId);
@@ -294,7 +294,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return NoContent();
     }
     
-    private async Task<ExchangeRateDto?> TryGetCurrencyExchangedFromRates(System.String key, ExchangeRateKeyDto childKeyDto)
+    protected async Task<ExchangeRateDto?> TryGetCurrencyExchangedFromRates(System.String key, ExchangeRateKeyDto childKeyDto)
     {
         var parent = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SingleOrDefault();
         return parent?.CurrencyExchangedFromRates.SingleOrDefault(x => x.Id == childKeyDto.keyId);
@@ -319,6 +319,22 @@ public abstract partial class CurrenciesControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    public virtual async Task<ActionResult> PostToCurrencyUsedByCountry([FromRoute] System.String key, [FromBody] CountryCreateDto country)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        country.CountryUsedByCurrencyId = key;
+        var createdKey = await _mediator.Send(new CreateCountryCommand(country, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     public async Task<ActionResult> GetRefToCurrencyUsedByCountry([FromRoute] System.String key)
@@ -383,6 +399,22 @@ public abstract partial class CurrenciesControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    public virtual async Task<ActionResult> PostToCurrencyUsedByMinimumCashStocks([FromRoute] System.String key, [FromBody] MinimumCashStockCreateDto minimumCashStock)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        minimumCashStock.MinimumCashStockRelatedCurrencyId = key;
+        var createdKey = await _mediator.Send(new CreateMinimumCashStockCommand(minimumCashStock, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetMinimumCashStockByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     public async Task<ActionResult> GetRefToCurrencyUsedByMinimumCashStocks([FromRoute] System.String key)

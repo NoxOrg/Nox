@@ -63,7 +63,7 @@ public class DefaultLanguageProviderTests
         var actual = _provider.GetLanguage();
 
         // Assert
-        actual.Should().Be(expected);
+        actual.Value.Should().Be(expected);
     }
 
     [Theory]
@@ -85,7 +85,7 @@ public class DefaultLanguageProviderTests
         var actual = _provider.GetLanguage();
 
         // Assert
-        actual.Should().Be(expected);
+        actual.Value.Should().Be(expected);
     }
 
     [Theory]
@@ -108,6 +108,6 @@ public class DefaultLanguageProviderTests
         var actual = _provider.GetLanguage();
 
         // Assert
-        actual.Should().Be(expected);
+        actual.Value.Should().Be(expected);
     }
 }

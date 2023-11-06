@@ -13,7 +13,7 @@ using CountryQualityOfLifeIndexEntity = ClientApi.Domain.CountryQualityOfLifeInd
 
 namespace ClientApi.Application.Commands;
 
-public record DeleteCountryQualityOfLifeIndexByIdCommand(System.Int64 keyCountryId, System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteCountryQualityOfLifeIndexByIdCommand(System.Int64 keyCountryId, System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteCountryQualityOfLifeIndexByIdCommandHandler : DeleteCountryQualityOfLifeIndexByIdCommandHandlerBase
 {

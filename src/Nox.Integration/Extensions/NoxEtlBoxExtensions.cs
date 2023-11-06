@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Nox.Integration.Abstractions;
 using Nox.Integration.Services;
 
-namespace Nox.Integration;
+namespace Nox.Integration.Extensions;
 
 public static class NoxEtlBoxExtensions
 {

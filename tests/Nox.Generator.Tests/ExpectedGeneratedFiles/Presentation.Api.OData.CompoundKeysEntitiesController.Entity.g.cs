@@ -21,8 +21,6 @@ using SampleWebApp.Application.Commands;
 using SampleWebApp.Domain;
 using SampleWebApp.Infrastructure.Persistence;
 
-using Nox.Types;
-
 namespace SampleWebApp.Presentation.Api.OData;
 
 public partial class CompoundKeysEntitiesController : CompoundKeysEntitiesControllerBase
@@ -52,7 +50,7 @@ public abstract partial class CompoundKeysEntitiesControllerBase : ODataControll
     )
     {
         _mediator = mediator;
-        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
+        _cultureCode = httpLanguageProvider.GetLanguage();
     }
 
     [EnableQuery]

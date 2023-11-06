@@ -11,14 +11,15 @@ using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 using {{codeGeneratorState.PersistenceNameSpace}};
 using Nox.Presentation.Api;
 using Nox.Solution;
+using Nox.Types;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Queries;
 
-public class Get{{entity.PluralName}}Query : IRequest<IQueryable<{{entity.Name}}Dto>>
+public partial class Get{{entity.PluralName}}Query : IRequest<IQueryable<{{entity.Name}}Dto>>
 {
-    public string CultureCode { get; set; }
+    public CultureCode CultureCode { get; set; }
 
-    public Get{{entity.PluralName}}Query(string cultureCode)
+    public Get{{entity.PluralName}}Query(CultureCode cultureCode)
     {
         CultureCode = cultureCode;
     }
@@ -43,7 +44,7 @@ internal abstract class Get{{entity.PluralName}}QueryHandlerBase : QueryBase<IQu
 
     public virtual Task<IQueryable<{{entity.Name}}Dto>> Handle(Get{{entity.PluralName}}Query request, CancellationToken cancellationToken)
     {
-        var cultureCode = request.CultureCode;
+        var cultureCode = request.CultureCode.Value;
 
         IQueryable<{{entity.Name}}Dto> linqQueryBuilder =
             from item in DataDbContext.{{entity.PluralName}}.AsNoTracking()

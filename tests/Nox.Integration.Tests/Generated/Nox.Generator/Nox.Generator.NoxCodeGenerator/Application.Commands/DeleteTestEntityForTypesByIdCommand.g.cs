@@ -13,7 +13,7 @@ using TestEntityForTypesEntity = TestWebApp.Domain.TestEntityForTypes;
 
 namespace TestWebApp.Application.Commands;
 
-public record DeleteTestEntityForTypesByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteTestEntityForTypesByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteTestEntityForTypesByIdCommandHandler : DeleteTestEntityForTypesByIdCommandHandlerBase
 {

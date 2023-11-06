@@ -12,7 +12,7 @@ using TestWebApp.Infrastructure.Persistence;
 
 namespace TestWebApp.Application.Queries;
 
-public record GetTestEntityTwoRelationshipsOneToManiesQuery() : IRequest<IQueryable<TestEntityTwoRelationshipsOneToManyDto>>;
+public partial record GetTestEntityTwoRelationshipsOneToManiesQuery() : IRequest<IQueryable<TestEntityTwoRelationshipsOneToManyDto>>;
 
 internal partial class GetTestEntityTwoRelationshipsOneToManiesQueryHandler: GetTestEntityTwoRelationshipsOneToManiesQueryHandlerBase
 {

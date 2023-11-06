@@ -243,21 +243,38 @@ public class VolumeTests
     [Fact]
     public void Volume_SpecifyingMaxValue_WithGreaterValueInput_ThrowsException()
     {
-        var action = () => Volume.From(7.5, new VolumeTypeOptions { MaxValue = 5, Unit = VolumeTypeUnit.CubicMeter });
+        void Test()
+        {
+            var action = () =>
+                Volume.From(7.5, new VolumeTypeOptions { MaxValue = 5, Unit = VolumeTypeUnit.CubicMeter });
 
-        action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
-                "Could not create a Nox Volume type as value 7.5 m³ is greater than the specified maximum of 5 m³.")
-            });
+            action.Should().Throw<TypeValidationException>()
+                .And.Errors.Should().BeEquivalentTo(new[]
+                {
+                    new ValidationFailure("Value",
+                        "Could not create a Nox Volume type as value 7.5 m³ is greater than the specified maximum of 5 m³.")
+                });
+        }
+
+        TestUtility.RunInInvariantCulture(Test);
     }
 
     [Fact]
     public void Volume_SpecifyingMinValue_WithLesserValueInput_ThrowsException()
     {
-        var action = () => Volume.From(7.5, new VolumeTypeOptions { MinValue = 10, Unit = VolumeTypeUnit.CubicMeter });
+        void Test()
+        {
+            var action = () =>
+                Volume.From(7.5, new VolumeTypeOptions { MinValue = 10, Unit = VolumeTypeUnit.CubicMeter });
 
-        action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
-                "Could not create a Nox Volume type as value 7.5 m³ is lesser than the specified minimum of 10 m³.") });
+            action.Should().Throw<TypeValidationException>()
+                .And.Errors.Should().BeEquivalentTo(new[]
+                {
+                    new ValidationFailure("Value",
+                        "Could not create a Nox Volume type as value 7.5 m³ is lesser than the specified minimum of 10 m³.")
+                });
+        }
+
+        TestUtility.RunInInvariantCulture(Test);
     }
 }

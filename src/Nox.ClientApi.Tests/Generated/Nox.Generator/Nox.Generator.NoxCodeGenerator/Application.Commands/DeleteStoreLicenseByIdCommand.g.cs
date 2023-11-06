@@ -13,7 +13,7 @@ using StoreLicenseEntity = ClientApi.Domain.StoreLicense;
 
 namespace ClientApi.Application.Commands;
 
-public record DeleteStoreLicenseByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteStoreLicenseByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteStoreLicenseByIdCommandHandler : DeleteStoreLicenseByIdCommandHandlerBase
 {

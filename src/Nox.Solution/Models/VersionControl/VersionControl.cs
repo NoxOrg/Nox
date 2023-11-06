@@ -32,4 +32,8 @@ public class VersionControl : DefinitionBase
     [Description("The relative path to source code, tests, containers and other well-known code assets.")]
     [AdditionalProperties(false)]
     public VersionControlFolders? Folders { get; internal set; }
+
+    [Title("Overrides repository name for Nox solution.")]
+    [Description("Can be set when the repository name in DevOps is something different to the Nox convension. If it left undefined, Nox must default it to {Solution.Name}.v{solution.version}")]
+    public string? RepositoryName { get; internal set; }
 }

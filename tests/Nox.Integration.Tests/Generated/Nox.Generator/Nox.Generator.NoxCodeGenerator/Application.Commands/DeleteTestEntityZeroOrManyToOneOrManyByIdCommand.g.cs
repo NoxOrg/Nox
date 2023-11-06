@@ -13,7 +13,7 @@ using TestEntityZeroOrManyToOneOrManyEntity = TestWebApp.Domain.TestEntityZeroOr
 
 namespace TestWebApp.Application.Commands;
 
-public record DeleteTestEntityZeroOrManyToOneOrManyByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteTestEntityZeroOrManyToOneOrManyByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteTestEntityZeroOrManyToOneOrManyByIdCommandHandler : DeleteTestEntityZeroOrManyToOneOrManyByIdCommandHandlerBase
 {

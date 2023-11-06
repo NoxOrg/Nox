@@ -44,6 +44,22 @@ public abstract partial class TestEntityZeroOrOneToZeroOrManiesControllerBase : 
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToTestEntityZeroOrManyToZeroOrOne([FromRoute] System.String key, [FromBody] TestEntityZeroOrManyToZeroOrOneCreateDto testEntityZeroOrManyToZeroOrOne)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        testEntityZeroOrManyToZeroOrOne.TestEntityZeroOrOneToZeroOrManyId = new List<System.String> { key };
+        var createdKey = await _mediator.Send(new CreateTestEntityZeroOrManyToZeroOrOneCommand(testEntityZeroOrManyToZeroOrOne, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetTestEntityZeroOrManyToZeroOrOneByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToTestEntityZeroOrManyToZeroOrOne([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetTestEntityZeroOrOneToZeroOrManyByIdQuery(key))).Select(x => x.TestEntityZeroOrManyToZeroOrOne).SingleOrDefault();

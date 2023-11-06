@@ -158,7 +158,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    private async Task<CountryLocalNameDto?> TryGetCountryShortNames(System.Int64 key, CountryLocalNameKeyDto childKeyDto)
+    protected async Task<CountryLocalNameDto?> TryGetCountryShortNames(System.Int64 key, CountryLocalNameKeyDto childKeyDto)
     {
         var parent = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault();
         return parent?.CountryShortNames.SingleOrDefault(x => x.Id == childKeyDto.keyId);
@@ -294,6 +294,22 @@ public abstract partial class CountriesControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    public virtual async Task<ActionResult> PostToPhysicalWorkplaces([FromRoute] System.Int64 key, [FromBody] WorkplaceCreateDto workplace)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        workplace.BelongsToCountryId = key;
+        var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     public async Task<ActionResult> GetRefToPhysicalWorkplaces([FromRoute] System.Int64 key)

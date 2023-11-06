@@ -182,7 +182,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
     private static void GeneratePrivateChildrenGetById(NoxSolution solution, EntityRelationship relationship, Entity child, Entity parent, CodeBuilder code)
     {
-        code.AppendLine($"private async Task<{child.Name}Dto?> TryGet{relationship.Name}({GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, {child.Name}KeyDto childKeyDto)");
+        code.AppendLine($"protected async Task<{child.Name}Dto?> TryGet{relationship.Name}({GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, {child.Name}KeyDto childKeyDto)");
 
         code.StartBlock();
         code.AppendLine($"var parent = (await _mediator.Send(new Get{parent.Name}ByIdQuery({GetPrimaryKeysQuery(parent)}))).SingleOrDefault();");
@@ -485,6 +485,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
                 if (CanCreate(entity))
                 {
                     GenerateCreateRefTo(entity, relationship, code, solution);
+                    GenerateRelatedPost(solution, relationship, entity, code);
                 }
                 if (CanRead(entity))
                 {
@@ -583,8 +584,9 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         var relatedEntity = relationship.Related.Entity;
         code.AppendLine($"public async Task<ActionResult> GetRefTo{relationship.Name}({GetPrimaryKeysRoute(entity, solution)})");
 
+        var localizationParameter = entity.IsLocalized ? "_cultureCode, " : "";
         code.StartBlock();
-        code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)})))" +
+        code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({localizationParameter}{GetPrimaryKeysQuery(entity)})))" +
             $".Select(x => x.{relationship.Name}).SingleOrDefault();");
         code.AppendLine($"if (related is null)");
         code.StartBlock();
@@ -610,6 +612,42 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"return Ok(references);");
 
         // End method
+        code.EndBlock();
+        code.AppendLine();
+    }
+
+    private static void GenerateRelatedPost(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code)
+    {
+        var relatedEntity = relationship.Related.Entity;
+        var isSingleRelationship = relationship.WithSingleEntity();
+        var reversedRelationship = relationship.Related.EntityRelationship;
+
+        //Only Single Keys entities are supported
+        if (entity.HasCompositeKey || relatedEntity.HasCompositeKey)
+            return;
+
+        code.AppendLine($"public virtual async Task<ActionResult> PostTo{relationship.Name}({GetPrimaryKeysRoute(entity, solution)}, [FromBody] {relatedEntity.Name}CreateDto {relatedEntity.Name.ToLowerFirstChar()})");
+
+        code.StartBlock();
+        code.AppendLine($"if (!ModelState.IsValid)");
+        code.StartBlock();
+        code.AppendLine($"return BadRequest(ModelState);");
+        code.EndBlock();
+        code.AppendLine();
+        code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
+
+        var localizationPart = relatedEntity.IsLocalized ? "_cultureCode, " : "";
+        if (reversedRelationship.WithSingleEntity())
+            code.AppendLine($"{relatedEntity.Name.ToLowerFirstChar()}.{reversedRelationship.Name}Id = key;");
+        else
+            code.AppendLine($"{relatedEntity.Name.ToLowerFirstChar()}.{reversedRelationship.Name}Id = " +
+                $"new List<{solution.GetSinglePrimitiveTypeForKey(entity.Keys[0])}> {{ key }};");
+        code.AppendLine($"var createdKey = await _mediator.Send(new Create{relatedEntity.Name}Command({relatedEntity.Name.ToLowerFirstChar()}, _cultureCode));");
+        code.AppendLine();
+        code.AppendLine($"var createdItem = (await _mediator.Send(new Get{relatedEntity.Name}ByIdQuery({localizationPart}createdKey.key{relatedEntity.Keys[0].Name}))).SingleOrDefault();");
+        code.AppendLine();
+        code.AppendLine($"return Created(createdItem);");
+
         code.EndBlock();
         code.AppendLine();
     }

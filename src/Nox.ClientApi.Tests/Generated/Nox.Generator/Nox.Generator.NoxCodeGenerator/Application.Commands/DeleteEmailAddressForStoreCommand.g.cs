@@ -14,7 +14,7 @@ using ClientApi.Application.Dto;
 using EmailAddressEntity = ClientApi.Domain.EmailAddress;
 
 namespace ClientApi.Application.Commands;
-public record DeleteEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto) : IRequest <bool>;
+public partial record DeleteEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto) : IRequest <bool>;
 
 
 internal partial class DeleteEmailAddressForStoreCommandHandler : DeleteEmailAddressForStoreCommandHandlerBase

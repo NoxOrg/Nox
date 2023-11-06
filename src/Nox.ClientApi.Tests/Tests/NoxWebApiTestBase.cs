@@ -90,9 +90,11 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
         return result;
     }
 
-    public async Task<HttpResponseMessage> PostAsync<TValue>(string requestUrl, TValue data)
+    public async Task<HttpResponseMessage> PostAsync<TValue>(string requestUrl, TValue data, Dictionary<string, IEnumerable<string>>? headers = null)
     {
         using var httpClient = _appFactory.CreateClient();
+
+        AddHeaders(httpClient, headers ?? new());
 
         var result = await httpClient.PostAsJsonAsync(requestUrl, data);
 

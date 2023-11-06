@@ -21,7 +21,7 @@ namespace ClientApi.Application.Commands;
 
 public abstract record RefStoreOwnerToStoresCommand(StoreOwnerKeyDto EntityKeyDto, StoreKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
-public record CreateRefStoreOwnerToStoresCommand(StoreOwnerKeyDto EntityKeyDto, StoreKeyDto RelatedEntityKeyDto)
+public partial record CreateRefStoreOwnerToStoresCommand(StoreOwnerKeyDto EntityKeyDto, StoreKeyDto RelatedEntityKeyDto)
 	: RefStoreOwnerToStoresCommand(EntityKeyDto, RelatedEntityKeyDto);
 
 internal partial class CreateRefStoreOwnerToStoresCommandHandler

@@ -44,6 +44,22 @@ public abstract partial class TestEntityOneOrManyToExactlyOnesControllerBase : O
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToTestEntityExactlyOneToOneOrMany([FromRoute] System.String key, [FromBody] TestEntityExactlyOneToOneOrManyCreateDto testEntityExactlyOneToOneOrMany)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        testEntityExactlyOneToOneOrMany.TestEntityOneOrManyToExactlyOneId = key;
+        var createdKey = await _mediator.Send(new CreateTestEntityExactlyOneToOneOrManyCommand(testEntityExactlyOneToOneOrMany, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetTestEntityExactlyOneToOneOrManyByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToTestEntityExactlyOneToOneOrMany([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetTestEntityOneOrManyToExactlyOneByIdQuery(key))).Select(x => x.TestEntityExactlyOneToOneOrMany).SingleOrDefault();

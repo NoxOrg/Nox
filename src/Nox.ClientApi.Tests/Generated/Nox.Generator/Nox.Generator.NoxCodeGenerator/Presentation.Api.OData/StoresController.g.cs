@@ -160,6 +160,22 @@ public abstract partial class StoresControllerBase : ODataController
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToOwnership([FromRoute] System.Guid key, [FromBody] StoreOwnerCreateDto storeOwner)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        storeOwner.StoresId = new List<System.Guid> { key };
+        var createdKey = await _mediator.Send(new CreateStoreOwnerCommand(storeOwner, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetStoreOwnerByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToOwnership([FromRoute] System.Guid key)
     {
         var related = (await _mediator.Send(new GetStoreByIdQuery(key))).Select(x => x.Ownership).SingleOrDefault();
@@ -218,6 +234,22 @@ public abstract partial class StoresControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    public virtual async Task<ActionResult> PostToLicense([FromRoute] System.Guid key, [FromBody] StoreLicenseCreateDto storeLicense)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        storeLicense.StoreWithLicenseId = key;
+        var createdKey = await _mediator.Send(new CreateStoreLicenseCommand(storeLicense, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetStoreLicenseByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     public async Task<ActionResult> GetRefToLicense([FromRoute] System.Guid key)

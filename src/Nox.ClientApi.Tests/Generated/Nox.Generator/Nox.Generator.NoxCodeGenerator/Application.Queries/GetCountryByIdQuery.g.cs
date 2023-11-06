@@ -12,7 +12,7 @@ using ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 
-public record GetCountryByIdQuery(System.Int64 keyId) : IRequest <IQueryable<CountryDto>>;
+public partial record GetCountryByIdQuery(System.Int64 keyId) : IRequest <IQueryable<CountryDto>>;
 
 internal partial class GetCountryByIdQueryHandler:GetCountryByIdQueryHandlerBase
 {

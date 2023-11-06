@@ -12,7 +12,7 @@ using ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 
-public record GetCountryQualityOfLifeIndicesQuery() : IRequest<IQueryable<CountryQualityOfLifeIndexDto>>;
+public partial record GetCountryQualityOfLifeIndicesQuery() : IRequest<IQueryable<CountryQualityOfLifeIndexDto>>;
 
 internal partial class GetCountryQualityOfLifeIndicesQueryHandler: GetCountryQualityOfLifeIndicesQueryHandlerBase
 {

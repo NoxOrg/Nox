@@ -21,8 +21,6 @@ using ClientApi.Application.Commands;
 using ClientApi.Domain;
 using ClientApi.Infrastructure.Persistence;
 
-using Nox.Types;
-
 namespace ClientApi.Presentation.Api.OData;
 
 public partial class StoreOwnersController : StoreOwnersControllerBase
@@ -52,7 +50,7 @@ public abstract partial class StoreOwnersControllerBase : ODataController
     )
     {
         _mediator = mediator;
-        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
+        _cultureCode = httpLanguageProvider.GetLanguage();
     }
 
     [EnableQuery]

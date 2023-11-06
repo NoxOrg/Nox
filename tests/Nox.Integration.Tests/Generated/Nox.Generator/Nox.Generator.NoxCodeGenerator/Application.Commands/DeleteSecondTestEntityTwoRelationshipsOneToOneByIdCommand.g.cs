@@ -13,7 +13,7 @@ using SecondTestEntityTwoRelationshipsOneToOneEntity = TestWebApp.Domain.SecondT
 
 namespace TestWebApp.Application.Commands;
 
-public record DeleteSecondTestEntityTwoRelationshipsOneToOneByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteSecondTestEntityTwoRelationshipsOneToOneByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteSecondTestEntityTwoRelationshipsOneToOneByIdCommandHandler : DeleteSecondTestEntityTwoRelationshipsOneToOneByIdCommandHandlerBase
 {

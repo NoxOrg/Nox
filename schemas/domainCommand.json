@@ -268,6 +268,150 @@
                   ]
                 },
                 "type": {    
+                  "const": "autoNumber"
+                },
+                "autoNumberTypeOptions": {    
+                  "oneOf": [
+                    {
+                      "type": "object"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "properties": {
+                    "startsAt": {    
+                      "oneOf": [
+                        {
+                          "type": "integer"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "incrementsBy": {    
+                      "oneOf": [
+                        {
+                          "type": "integer"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "isRequired": {    
+                  "title": "Is the attribute required? Boolean value.",
+                  "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
+                  "oneOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "userInterface": {    
+                  "anyOf": [
+                    { "$ref": "typeUserInterface.json" },
+                    {
+                      "additionalProperties": false, 
+                      "properties": {
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri",
+                          "pattern": "^[^\\s]*$"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "isReadonly": {    
+                  "title": "Is this attribute readonly? Boolean value.",
+                  "description": "Indicates whether this attribute is readonly. Defaults to false.",
+                  "oneOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "isLocalized": {    
+                  "oneOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "required": [
+                "name",
+                "type"
+              ],
+              "properties": {
+                "objectTypeOptions": {    
+                  "oneOf": [
+                    {
+                      "type": "object"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "required": [
+                    "attributes"
+                  ],
+                  "properties": {
+                    "attributes": {    
+                      "type": "array",
+                      "items":   {
+                        "anyOf": [
+                          { "$ref": "type.json" },
+                          {
+                            "additionalProperties": false, 
+                            "properties": {
+                              "$ref": {
+                                "type": "string",
+                                "format": "uri",
+                                "pattern": "^[^\\s]*$"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "name": {    
+                  "title": "The name of the attribute. Contains no spaces.",
+                  "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
+                  "type": "string",
+                  "pattern": "^[^\\s]*$"
+                },
+                "description": {    
+                  "title": "The description of the attribute.",
+                  "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "type": {    
                   "const": "area"
                 },
                 "areaTypeOptions": {    
@@ -5744,7 +5888,6 @@
                   "type": "string",
                   "enum": [
                     "array",
-                    "autoNumber",
                     "boolean",
                     "collection",
                     "color",
@@ -6002,6 +6145,150 @@
                   ]
                 },
                 "type": {    
+                  "const": "autoNumber"
+                },
+                "autoNumberTypeOptions": {    
+                  "oneOf": [
+                    {
+                      "type": "object"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "properties": {
+                    "startsAt": {    
+                      "oneOf": [
+                        {
+                          "type": "integer"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "incrementsBy": {    
+                      "oneOf": [
+                        {
+                          "type": "integer"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "isRequired": {    
+                  "title": "Is the attribute required? Boolean value.",
+                  "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
+                  "oneOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "userInterface": {    
+                  "anyOf": [
+                    { "$ref": "typeUserInterface.json" },
+                    {
+                      "additionalProperties": false, 
+                      "properties": {
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri",
+                          "pattern": "^[^\\s]*$"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "isReadonly": {    
+                  "title": "Is this attribute readonly? Boolean value.",
+                  "description": "Indicates whether this attribute is readonly. Defaults to false.",
+                  "oneOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "isLocalized": {    
+                  "oneOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "required": [
+                "name",
+                "type"
+              ],
+              "properties": {
+                "objectTypeOptions": {    
+                  "oneOf": [
+                    {
+                      "type": "object"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "required": [
+                    "attributes"
+                  ],
+                  "properties": {
+                    "attributes": {    
+                      "type": "array",
+                      "items":   {
+                        "anyOf": [
+                          { "$ref": "type.json" },
+                          {
+                            "additionalProperties": false, 
+                            "properties": {
+                              "$ref": {
+                                "type": "string",
+                                "format": "uri",
+                                "pattern": "^[^\\s]*$"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "name": {    
+                  "title": "The name of the attribute. Contains no spaces.",
+                  "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
+                  "type": "string",
+                  "pattern": "^[^\\s]*$"
+                },
+                "description": {    
+                  "title": "The description of the attribute.",
+                  "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "type": {    
                   "const": "area"
                 },
                 "areaTypeOptions": {    
@@ -11478,7 +11765,6 @@
                   "type": "string",
                   "enum": [
                     "array",
-                    "autoNumber",
                     "boolean",
                     "collection",
                     "color",
@@ -11562,6 +11848,137 @@
               "additionalProperties": false
             }
           ]
+        },
+        "isRequired": {    
+          "title": "Is the attribute required? Boolean value.",
+          "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "userInterface": {    
+          "anyOf": [
+            { "$ref": "typeUserInterface.json" },
+            {
+              "additionalProperties": false, 
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        },
+        "isReadonly": {    
+          "title": "Is this attribute readonly? Boolean value.",
+          "description": "Indicates whether this attribute is readonly. Defaults to false.",
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "isLocalized": {    
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "required": [
+        "name",
+        "type"
+      ],
+      "properties": {
+        "emitEvents": {    
+          "oneOf": [
+            {
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "items":   {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "name": {    
+          "title": "The name of the attribute. Contains no spaces.",
+          "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "description": {    
+          "title": "The description of the attribute.",
+          "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "type": {    
+          "const": "autoNumber"
+        },
+        "autoNumberTypeOptions": {    
+          "oneOf": [
+            {
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "properties": {
+            "startsAt": {    
+              "oneOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "incrementsBy": {    
+              "oneOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
         },
         "isRequired": {    
           "title": "Is the attribute required? Boolean value.",
@@ -16745,7 +17162,6 @@
         "type": {    
           "type": "string",
           "enum": [
-            "autoNumber",
             "boolean",
             "color",
             "countryCode2",

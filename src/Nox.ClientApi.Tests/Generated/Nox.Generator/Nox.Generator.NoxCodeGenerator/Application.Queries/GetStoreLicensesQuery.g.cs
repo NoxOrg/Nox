@@ -12,7 +12,7 @@ using ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 
-public record GetStoreLicensesQuery() : IRequest<IQueryable<StoreLicenseDto>>;
+public partial record GetStoreLicensesQuery() : IRequest<IQueryable<StoreLicenseDto>>;
 
 internal partial class GetStoreLicensesQueryHandler: GetStoreLicensesQueryHandlerBase
 {

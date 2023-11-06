@@ -21,7 +21,7 @@ namespace ClientApi.Application.Commands;
 
 public abstract record RefCountryToPhysicalWorkplacesCommand(CountryKeyDto EntityKeyDto, WorkplaceKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
-public record CreateRefCountryToPhysicalWorkplacesCommand(CountryKeyDto EntityKeyDto, WorkplaceKeyDto RelatedEntityKeyDto)
+public partial record CreateRefCountryToPhysicalWorkplacesCommand(CountryKeyDto EntityKeyDto, WorkplaceKeyDto RelatedEntityKeyDto)
 	: RefCountryToPhysicalWorkplacesCommand(EntityKeyDto, RelatedEntityKeyDto);
 
 internal partial class CreateRefCountryToPhysicalWorkplacesCommandHandler

@@ -16,7 +16,7 @@ using SecondTestEntityTwoRelationshipsManyToManyEntity = TestWebApp.Domain.Secon
 
 namespace TestWebApp.Application.Commands;
 
-public record PartialUpdateSecondTestEntityTwoRelationshipsManyToManyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <SecondTestEntityTwoRelationshipsManyToManyKeyDto?>;
+public partial record PartialUpdateSecondTestEntityTwoRelationshipsManyToManyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <SecondTestEntityTwoRelationshipsManyToManyKeyDto?>;
 
 internal class PartialUpdateSecondTestEntityTwoRelationshipsManyToManyCommandHandler : PartialUpdateSecondTestEntityTwoRelationshipsManyToManyCommandHandlerBase
 {

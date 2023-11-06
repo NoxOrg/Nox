@@ -92,6 +92,7 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
     public DbSet<TestWebApp.Domain.TestEntityForTypes> TestEntityForTypes { get; set; } = null!;
     public DbSet<TestWebApp.Domain.TestEntityForUniqueConstraints> TestEntityForUniqueConstraints { get; set; } = null!;
     public DbSet<TestWebApp.Domain.TestEntityLocalization> TestEntityLocalizations { get; set; } = null!;
+    public DbSet<TestWebApp.Domain.TestEntityForAutoNumberUsages> TestEntityForAutoNumberUsages { get; set; } = null!;
     public DbSet<TestWebApp.Domain.TestEntityLocalizationLocalized> TestEntityLocalizationsLocalized { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -122,7 +123,7 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
             }
 
             var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.Name));
-            ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(new EntityBuilderAdapter(modelBuilder.Entity(type!)), entity);
+            ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(modelBuilder, new EntityBuilderAdapter(modelBuilder.Entity(type!)), entity);
 
             if (entity.IsLocalized)
             {

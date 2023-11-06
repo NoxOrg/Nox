@@ -44,6 +44,22 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToThirdTestEntityZeroOrOneRelationship([FromRoute] System.String key, [FromBody] ThirdTestEntityZeroOrOneCreateDto thirdTestEntityZeroOrOne)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        thirdTestEntityZeroOrOne.ThirdTestEntityExactlyOneRelationshipId = key;
+        var createdKey = await _mediator.Send(new CreateThirdTestEntityZeroOrOneCommand(thirdTestEntityZeroOrOne, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetThirdTestEntityZeroOrOneByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToThirdTestEntityZeroOrOneRelationship([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetThirdTestEntityExactlyOneByIdQuery(key))).Select(x => x.ThirdTestEntityZeroOrOneRelationship).SingleOrDefault();

@@ -13,7 +13,7 @@ using TestEntityWithNuidEntity = TestWebApp.Domain.TestEntityWithNuid;
 
 namespace TestWebApp.Application.Commands;
 
-public record DeleteTestEntityWithNuidByIdCommand(System.UInt32 keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteTestEntityWithNuidByIdCommand(System.UInt32 keyId, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteTestEntityWithNuidByIdCommandHandler : DeleteTestEntityWithNuidByIdCommandHandlerBase
 {

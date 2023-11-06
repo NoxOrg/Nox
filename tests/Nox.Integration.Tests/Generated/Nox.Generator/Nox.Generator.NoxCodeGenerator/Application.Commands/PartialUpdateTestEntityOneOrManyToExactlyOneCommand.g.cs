@@ -16,7 +16,7 @@ using TestEntityOneOrManyToExactlyOneEntity = TestWebApp.Domain.TestEntityOneOrM
 
 namespace TestWebApp.Application.Commands;
 
-public record PartialUpdateTestEntityOneOrManyToExactlyOneCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <TestEntityOneOrManyToExactlyOneKeyDto?>;
+public partial record PartialUpdateTestEntityOneOrManyToExactlyOneCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <TestEntityOneOrManyToExactlyOneKeyDto?>;
 
 internal class PartialUpdateTestEntityOneOrManyToExactlyOneCommandHandler : PartialUpdateTestEntityOneOrManyToExactlyOneCommandHandlerBase
 {

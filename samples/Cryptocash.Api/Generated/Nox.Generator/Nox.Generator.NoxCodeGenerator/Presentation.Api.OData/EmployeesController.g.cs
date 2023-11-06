@@ -158,7 +158,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return NoContent();
     }
     
-    private async Task<EmployeePhoneNumberDto?> TryGetEmployeeContactPhoneNumbers(System.Int64 key, EmployeePhoneNumberKeyDto childKeyDto)
+    protected async Task<EmployeePhoneNumberDto?> TryGetEmployeeContactPhoneNumbers(System.Int64 key, EmployeePhoneNumberKeyDto childKeyDto)
     {
         var parent = (await _mediator.Send(new GetEmployeeByIdQuery(key))).SingleOrDefault();
         return parent?.EmployeeContactPhoneNumbers.SingleOrDefault(x => x.Id == childKeyDto.keyId);
@@ -183,6 +183,22 @@ public abstract partial class EmployeesControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    public virtual async Task<ActionResult> PostToEmployeeReviewingCashStockOrder([FromRoute] System.Int64 key, [FromBody] CashStockOrderCreateDto cashStockOrder)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        cashStockOrder.CashStockOrderReviewedByEmployeeId = key;
+        var createdKey = await _mediator.Send(new CreateCashStockOrderCommand(cashStockOrder, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetCashStockOrderByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
     }
     
     public async Task<ActionResult> GetRefToEmployeeReviewingCashStockOrder([FromRoute] System.Int64 key)

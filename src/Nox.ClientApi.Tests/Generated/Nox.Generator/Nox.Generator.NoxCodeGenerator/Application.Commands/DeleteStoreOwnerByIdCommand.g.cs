@@ -13,7 +13,7 @@ using StoreOwnerEntity = ClientApi.Domain.StoreOwner;
 
 namespace ClientApi.Application.Commands;
 
-public record DeleteStoreOwnerByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteStoreOwnerByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteStoreOwnerByIdCommandHandler : DeleteStoreOwnerByIdCommandHandlerBase
 {

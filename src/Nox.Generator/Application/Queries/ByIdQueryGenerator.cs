@@ -13,7 +13,7 @@ internal class ByIdQueryGenerator : ApplicationEntityDependentGeneratorBase
     protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, IEnumerable<Entity> entities)
     {
         var templateName = @"Application.Queries.ByIdQuery";
-        foreach (var entity in entities)
+        foreach (var entity in entities.Where(x => !x.IsLocalized))
         {
             if (entity.IsOwnedEntity)
                 continue;

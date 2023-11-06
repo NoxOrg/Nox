@@ -16,7 +16,7 @@ using TestEntityWithNuidEntity = TestWebApp.Domain.TestEntityWithNuid;
 
 namespace TestWebApp.Application.Commands;
 
-public record PartialUpdateTestEntityWithNuidCommand(System.UInt32 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <TestEntityWithNuidKeyDto?>;
+public partial record PartialUpdateTestEntityWithNuidCommand(System.UInt32 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <TestEntityWithNuidKeyDto?>;
 
 internal class PartialUpdateTestEntityWithNuidCommandHandler : PartialUpdateTestEntityWithNuidCommandHandlerBase
 {

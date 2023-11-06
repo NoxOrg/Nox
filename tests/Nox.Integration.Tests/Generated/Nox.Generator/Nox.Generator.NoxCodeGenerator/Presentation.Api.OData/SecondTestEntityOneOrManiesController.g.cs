@@ -44,6 +44,22 @@ public abstract partial class SecondTestEntityOneOrManiesControllerBase : ODataC
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToTestEntityOneOrManyRelationship([FromRoute] System.String key, [FromBody] TestEntityOneOrManyCreateDto testEntityOneOrMany)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        testEntityOneOrMany.SecondTestEntityOneOrManyRelationshipId = new List<System.String> { key };
+        var createdKey = await _mediator.Send(new CreateTestEntityOneOrManyCommand(testEntityOneOrMany, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetTestEntityOneOrManyByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToTestEntityOneOrManyRelationship([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetSecondTestEntityOneOrManyByIdQuery(key))).Select(x => x.TestEntityOneOrManyRelationship).SingleOrDefault();

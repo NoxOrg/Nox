@@ -13,7 +13,7 @@ using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
-public record DeleteCountryByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteCountryByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteCountryByIdCommandHandler : DeleteCountryByIdCommandHandlerBase
 {
