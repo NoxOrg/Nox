@@ -98,9 +98,23 @@
                     <PropertyRef Name="Id" />
                 </Key>
                 <Property Name="Id" Type="Edm.Int64" Nullable="false" />
-                <Property Name="Issuer" Type="Edm.String" />
+                <Property Name="Issuer" Type="Edm.String" Nullable="false" />
                 <Property Name="StoreId" Type="Edm.Guid" />
+                <Property Name="DefaultCurrencyId" Type="Edm.String" />
+                <Property Name="SoldInCurrencyId" Type="Edm.String" />
                 <NavigationProperty Name="Store" Type="ClientApi.Application.Dto.StoreDto" Nullable="false" ContainsTarget="true" />
+                <NavigationProperty Name="DefaultCurrency" Type="ClientApi.Application.Dto.CurrencyDto" ContainsTarget="true" />
+                <NavigationProperty Name="SoldInCurrency" Type="ClientApi.Application.Dto.CurrencyDto" ContainsTarget="true" />
+            </EntityType>
+            <EntityType Name="CurrencyDto">
+                <Key>
+                    <PropertyRef Name="Id" />
+                </Key>
+                <Property Name="Id" Type="Edm.String" Nullable="false" />
+                <Property Name="Name" Type="Edm.String" />
+                <Property Name="Symbol" Type="Edm.String" />
+                <NavigationProperty Name="StoreLicenseDefault" Type="Collection(ClientApi.Application.Dto.StoreLicenseDto)" ContainsTarget="true" />
+                <NavigationProperty Name="StoreLicenseSoldIn" Type="Collection(ClientApi.Application.Dto.StoreLicenseDto)" ContainsTarget="true" />
             </EntityType>
             <EntityType Name="EmailAddressDto">
                 <Property Name="Email" Type="Edm.String" />
@@ -592,6 +606,7 @@
                 <EntitySet Name="Workplaces" EntityType="ClientApi.Application.Dto.WorkplaceDto" />
                 <EntitySet Name="StoreOwners" EntityType="ClientApi.Application.Dto.StoreOwnerDto" />
                 <EntitySet Name="StoreLicenses" EntityType="ClientApi.Application.Dto.StoreLicenseDto" />
+                <EntitySet Name="Currencies" EntityType="ClientApi.Application.Dto.CurrencyDto" />
                 <EntitySet Name="Houses" EntityType="ClientApi.Tests.Application.Dto.HouseDto" />
                 <FunctionImport Name="countriesWithDebt" Function="Default.countriesWithDebt" EntitySet="Countries" IncludeInServiceDocument="true" />
             </EntityContainer>

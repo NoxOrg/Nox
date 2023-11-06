@@ -63,6 +63,20 @@ public abstract class StoreLicenseDtoBase : EntityDtoBase, IEntityDto<DomainName
     //EF maps ForeignKey Automatically
     public System.Guid? StoreId { get; set; } = default!;
     public virtual StoreDto? Store { get; set; } = null!;
+
+    /// <summary>
+    /// StoreLicense Default currency for this license ZeroOrOne Currencies
+    /// </summary>
+    //EF maps ForeignKey Automatically
+    public System.String? DefaultCurrencyId { get; set; } = default!;
+    public virtual CurrencyDto? DefaultCurrency { get; set; } = null!;
+
+    /// <summary>
+    /// StoreLicense Currency this license was sold in ZeroOrOne Currencies
+    /// </summary>
+    //EF maps ForeignKey Automatically
+    public System.String? SoldInCurrencyId { get; set; } = default!;
+    public virtual CurrencyDto? SoldInCurrency { get; set; } = null!;
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

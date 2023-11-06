@@ -8,5 +8,6 @@
         public const string StoresUrl = "api/stores";
         public const string WorkplacesUrl = $"api/workplaces";
         public const string RatingProgramsUrl = $"api/ratingprograms";
+        public const string CurrenciesUrl = $"api/currencies";
     }
 }

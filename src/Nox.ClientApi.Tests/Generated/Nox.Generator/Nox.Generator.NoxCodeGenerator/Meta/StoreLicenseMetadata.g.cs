@@ -42,6 +42,13 @@ public partial class StoreLicenseMetadata
         public static Nox.Types.Text CreateIssuer(System.String value)
             => Nox.Types.Text.From(value, IssuerTypeOptions);
         
+    
+        /// <summary>
+        /// Factory for property 'CurrencyId'
+        /// </summary>
+        public static Nox.Types.CurrencyCode3 CreateCurrencyId(System.String value)
+            => Nox.Types.CurrencyCode3.From(value);
+        
 
         /// <summary>
         /// User Interface for property 'Issuer'

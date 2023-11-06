@@ -31,6 +31,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<WorkplaceDto>().HasKey(e => new { e.Id });
         builder.EntityType<StoreOwnerDto>().HasKey(e => new { e.Id });
         builder.EntityType<StoreLicenseDto>().HasKey(e => new { e.Id });
+        builder.EntityType<CurrencyDto>().HasKey(e => new { e.Id });
         builder.EntityType<EmailAddressDto>().HasKey(e => new { });
 
         builder.EntitySet<CountryDto>("Countries");
@@ -72,10 +73,19 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<StoreOwnerDto>().Ignore(e => e.Etag);
         builder.EntitySet<StoreLicenseDto>("StoreLicenses");
         builder.EntityType<StoreLicenseDto>().ContainsRequired(e => e.Store);
+        builder.EntityType<StoreLicenseDto>().ContainsOptional(e => e.DefaultCurrency);
+        builder.EntityType<StoreLicenseDto>().ContainsOptional(e => e.SoldInCurrency);
 
         builder.EntityType<StoreLicenseDto>();
         builder.EntityType<StoreLicenseDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<StoreLicenseDto>().Ignore(e => e.Etag);
+        builder.EntitySet<CurrencyDto>("Currencies");
+        builder.EntityType<CurrencyDto>().ContainsMany(e => e.StoreLicenseDefault);
+        builder.EntityType<CurrencyDto>().ContainsMany(e => e.StoreLicenseSoldIn);
+
+        builder.EntityType<CurrencyDto>();
+        builder.EntityType<CurrencyDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<CurrencyDto>().Ignore(e => e.Etag);
 
         builder.EntityType<EmailAddressDto>();
 

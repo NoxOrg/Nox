@@ -113,6 +113,56 @@ internal abstract partial class StoreLicenseBase : AuditableEntityBase, IEntityC
     }
 
     /// <summary>
+    /// StoreLicense Default currency for this license ZeroOrOne Currencies
+    /// </summary>
+    public virtual Currency? DefaultCurrency { get; private set; } = null!;
+
+    /// <summary>
+    /// Foreign key for relationship ZeroOrOne to entity Currency
+    /// </summary>
+    public Nox.Types.CurrencyCode3? DefaultCurrencyId { get; set; } = null!;
+
+    public virtual void CreateRefToDefaultCurrency(Currency relatedCurrency)
+    {
+        DefaultCurrency = relatedCurrency;
+    }
+
+    public virtual void DeleteRefToDefaultCurrency(Currency relatedCurrency)
+    {
+        DefaultCurrency = null;
+    }
+
+    public virtual void DeleteAllRefToDefaultCurrency()
+    {
+        DefaultCurrencyId = null;
+    }
+
+    /// <summary>
+    /// StoreLicense Currency this license was sold in ZeroOrOne Currencies
+    /// </summary>
+    public virtual Currency? SoldInCurrency { get; private set; } = null!;
+
+    /// <summary>
+    /// Foreign key for relationship ZeroOrOne to entity Currency
+    /// </summary>
+    public Nox.Types.CurrencyCode3? SoldInCurrencyId { get; set; } = null!;
+
+    public virtual void CreateRefToSoldInCurrency(Currency relatedCurrency)
+    {
+        SoldInCurrency = relatedCurrency;
+    }
+
+    public virtual void DeleteRefToSoldInCurrency(Currency relatedCurrency)
+    {
+        SoldInCurrency = null;
+    }
+
+    public virtual void DeleteAllRefToSoldInCurrency()
+    {
+        SoldInCurrencyId = null;
+    }
+
+    /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>
     public System.Guid Etag { get; set; } = System.Guid.NewGuid();

@@ -23,6 +23,44 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region RELATIONSHIPS
 
+        #region POST
+
+        #region POST Create ref to related entities /api/{EntityPluralName}/{EntityKey} => api/storeLicenses/1/DefaultCurrency/USD
+
+        [Fact]
+        public async Task Post_RefToCurrency_Succes()
+        {
+            //Arrange
+            var usdCurrency = await PostAsync<CurrencyCreateDto, CurrencyDto>(Endpoints.CurrenciesUrl, new CurrencyCreateDto { Id = "USD" });
+            var eurCurrency = await PostAsync<CurrencyCreateDto, CurrencyDto>(Endpoints.CurrenciesUrl, new CurrencyCreateDto { Id = "EUR" });
+            var store = await CreateStore();
+            var storeLicenseReponse = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl,
+                new StoreLicenseCreateDto { 
+                    Issuer = _fixture.Create<string>(),
+                    StoreId = store!.Id
+                });
+
+            //Act
+            await PostAsync($"{Endpoints.StoreLicensesUrl}/{storeLicenseReponse!.Id}/DefaultCurrency/{usdCurrency!.Id}/$ref");
+            await PostAsync($"{Endpoints.StoreLicensesUrl}/{storeLicenseReponse!.Id}/SoldInCurrency/{eurCurrency!.Id}/$ref");
+
+            const string oDataRequest = $"$expand={nameof(StoreLicenseDto.DefaultCurrency)},{nameof(StoreLicenseDto.SoldInCurrency)}";
+            var getStoreLicenseResponse = await GetODataSimpleResponseAsync<StoreLicenseDto>($"{Endpoints.StoreLicensesUrl}/{storeLicenseReponse!.Id}?{oDataRequest}");
+
+            //Assert
+            getStoreLicenseResponse.Should().NotBeNull();
+            getStoreLicenseResponse!.DefaultCurrencyId.Should().Be(usdCurrency!.Id);
+            getStoreLicenseResponse!.DefaultCurrency.Should().NotBeNull();
+            getStoreLicenseResponse!.DefaultCurrency!.Id.Should().Be(usdCurrency!.Id);
+            getStoreLicenseResponse!.SoldInCurrencyId.Should().Be(eurCurrency!.Id);
+            getStoreLicenseResponse!.SoldInCurrency.Should().NotBeNull();
+            getStoreLicenseResponse!.SoldInCurrency!.Id.Should().Be(eurCurrency!.Id);
+        }
+
+        #endregion
+
+        #endregion
+
         #region PUT
 
         #region PUT Update related entity /api/{EntityPluralName}/{EntityKey} => api/storeLicenses/1

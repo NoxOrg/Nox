@@ -29,4 +29,16 @@ public partial class StoreLicenseUpdateDto : IEntityDto<DomainNamespace.StoreLic
     /// </summary>
     [Required(ErrorMessage = "Store is required")]
     public System.Guid StoreId { get; set; } = default!;
+
+    /// <summary>
+    /// StoreLicense Default currency for this license ZeroOrOne Currencies
+    /// </summary>
+    
+    public System.String? DefaultCurrencyId { get; set; } = default!;
+
+    /// <summary>
+    /// StoreLicense Currency this license was sold in ZeroOrOne Currencies
+    /// </summary>
+    
+    public System.String? SoldInCurrencyId { get; set; } = default!;
 }

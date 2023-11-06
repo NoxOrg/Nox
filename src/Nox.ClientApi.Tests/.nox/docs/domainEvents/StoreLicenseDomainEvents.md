@@ -14,6 +14,8 @@ Member|Type|Description
 ------|----|-----------
 Id|AutoNumber|
 Issuer|Text|License issuer
+CurrencyId|CurrencyCode3|Currency unique identifier
+CurrencyId|CurrencyCode3|Currency unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -27,6 +29,8 @@ Member|Type|Description
 ------|----|-----------
 Id|AutoNumber|
 Issuer|Text|License issuer
+CurrencyId|CurrencyCode3|Currency unique identifier
+CurrencyId|CurrencyCode3|Currency unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -40,5 +44,7 @@ Member|Type|Description
 ------|----|-----------
 Id|AutoNumber|
 Issuer|Text|License issuer
+CurrencyId|CurrencyCode3|Currency unique identifier
+CurrencyId|CurrencyCode3|Currency unique identifier
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
