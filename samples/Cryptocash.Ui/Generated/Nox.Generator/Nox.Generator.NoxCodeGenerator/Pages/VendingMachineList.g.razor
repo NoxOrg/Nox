@@ -120,26 +120,53 @@
                                             </MudTabPanel>
                                             <MudTabPanel Text="Location">
                                                 <MudGrid Style="margin-top:15px;">
-                                                    <MudItem xs=12>
-                                                        <UiEditLatLong_g @bind-Latlong="CurrentAddEntity.GeoLocation"
-                                                                         TitleLatitude="Latitude"
-                                                                         TitleLongitude="Longitude"
-                                                                         Format="#.########" />
-                                                    </MudItem>
-                                                    <MudItem xs=12>
-                                                        <UiEditStreetAddress_g @bind-StreetAddress="CurrentAddEntity.StreetAddress"
-                                                                               TitleStreetNumber="StreetNumber"
-                                                                               TitleAddressLine1="AddressLine1"
-                                                                               TitleAddressLine2="AddressLine2"
-                                                                               TitleRoute="Route"
-                                                                               TitleLocality="Locality"
-                                                                               TitleNeighborhood="Neighborhood"
-                                                                               TitleAdministrativeArea1="AdministrativeArea1"
-                                                                               TitleAdministrativeArea2="AdministrativeArea2"
-                                                                               TitlePostalCode="PostalCode"
-                                                                               TitleCountryId="CountryId"
-                                                                               CountrySelectionList="CountryEntityData?.EntityList" />
-                                                    </MudItem>
+                                                    @if(DisplayGoogleMap){
+                                                        <MudItem xs=12 sm=6>
+                                                            <UiEditLatLong_g @bind-Latlong="CurrentAddEntity.GeoLocation"
+                                                                             TitleLatitude="Latitude"
+                                                                             TitleLongitude="Longitude"
+                                                                             Format="#.########"
+                                                                             DisplayGoogleMap="DisplayGoogleMap" />
+                                                        </MudItem>
+                                                        <MudItem xs=12 sm=6>
+                                                            <UiEditStreetAddress_g @bind-StreetAddress="CurrentAddEntity.StreetAddress"
+                                                                                   TitleStreetNumber="StreetNumber"
+                                                                                   TitleAddressLine1="AddressLine1"
+                                                                                   TitleAddressLine2="AddressLine2"
+                                                                                   TitleRoute="Route"
+                                                                                   TitleLocality="Locality"
+                                                                                   TitleNeighborhood="Neighborhood"
+                                                                                   TitleAdministrativeArea1="AdministrativeArea1"
+                                                                                   TitleAdministrativeArea2="AdministrativeArea2"
+                                                                                   TitlePostalCode="PostalCode"
+                                                                                   TitleCountryId="CountryId"
+                                                                                   CountrySelectionList="CountryEntityData?.EntityList" />
+                                                        </MudItem>
+                                                    }
+                                                    else
+                                                    {
+                                                        <MudItem xs=12>
+                                                            <UiEditLatLong_g @bind-Latlong="CurrentAddEntity.GeoLocation"
+                                                                             TitleLatitude="Latitude"
+                                                                             TitleLongitude="Longitude"
+                                                                             Format="#.########"
+                                                                             DisplayGoogleMap="DisplayGoogleMap" />
+                                                        </MudItem>
+                                                        <MudItem xs=12>
+                                                            <UiEditStreetAddress_g @bind-StreetAddress="CurrentAddEntity.StreetAddress"
+                                                                                   TitleStreetNumber="StreetNumber"
+                                                                                   TitleAddressLine1="AddressLine1"
+                                                                                   TitleAddressLine2="AddressLine2"
+                                                                                   TitleRoute="Route"
+                                                                                   TitleLocality="Locality"
+                                                                                   TitleNeighborhood="Neighborhood"
+                                                                                   TitleAdministrativeArea1="AdministrativeArea1"
+                                                                                   TitleAdministrativeArea2="AdministrativeArea2"
+                                                                                   TitlePostalCode="PostalCode"
+                                                                                   TitleCountryId="CountryId"
+                                                                                   CountrySelectionList="CountryEntityData?.EntityList" />
+                                                        </MudItem>
+                                                    }                                                  
                                                 </MudGrid>
                                             </MudTabPanel>
                                             <MudTabPanel Text="Minimum Cash Stocks">
@@ -233,14 +260,41 @@
                                             </MudTabPanel>
                                             <MudTabPanel Text="Location">
                                                 <MudGrid Style="margin-top:15px;">
-                                                    <MudItem xs="12">
-                                                        <UiEditLatLong_g @bind-Latlong="CurrentEditEntity.GeoLocation"
-                                                                         TitleLatitude="Latitude"
-                                                                         TitleLongitude="Longitude"
-                                                                         Format="#.########" />
-                                                    </MudItem>
-                                                    <MudItem xs=12>
-                                                        <UiEditStreetAddress_g @bind-StreetAddress="CurrentEditEntity.StreetAddress"
+                                                    @if (DisplayGoogleMap)
+                                                    {
+                                                        <MudItem xs=12 sm=6>
+                                                            <UiEditLatLong_g @bind-Latlong="CurrentEditEntity.GeoLocation"
+                                                                             TitleLatitude="Latitude"
+                                                                             TitleLongitude="Longitude"
+                                                                             Format="#.########"
+                                                                             DisplayGoogleMap="DisplayGoogleMap" />
+                                                        </MudItem>
+                                                        <MudItem xs=12 sm=6>
+                                                            <UiEditStreetAddress_g @bind-StreetAddress="CurrentEditEntity.StreetAddress"
+                                                                                   TitleStreetNumber="StreetNumber"
+                                                                                   TitleAddressLine1="AddressLine1"
+                                                                                   TitleAddressLine2="AddressLine2"
+                                                                                   TitleRoute="Route"
+                                                                                   TitleLocality="Locality"
+                                                                                   TitleNeighborhood="Neighborhood"
+                                                                                   TitleAdministrativeArea1="AdministrativeArea1"
+                                                                                   TitleAdministrativeArea2="AdministrativeArea2"
+                                                                                   TitlePostalCode="PostalCode"
+                                                                                   TitleCountryId="CountryId"
+                                                                                   CountrySelectionList="CountryEntityData?.EntityList" />
+                                                        </MudItem>
+                                                    }
+                                                    else
+                                                    {
+                                                        <MudItem xs=12>
+                                                            <UiEditLatLong_g @bind-Latlong="CurrentEditEntity.GeoLocation"
+                                                                             TitleLatitude="Latitude"
+                                                                             TitleLongitude="Longitude"
+                                                                             Format="#.########"
+                                                                             DisplayGoogleMap="DisplayGoogleMap" />
+                                                        </MudItem>
+                                                        <MudItem xs=12>
+                                                            <UiEditStreetAddress_g @bind-StreetAddress="CurrentEditEntity.StreetAddress"
                                                                                TitleStreetNumber="StreetNumber"
                                                                                TitleAddressLine1="AddressLine1"
                                                                                TitleAddressLine2="AddressLine2"
@@ -252,7 +306,8 @@
                                                                                TitlePostalCode="PostalCode"
                                                                                TitleCountryId="CountryId"
                                                                                CountrySelectionList="CountryEntityData?.EntityList" />
-                                                    </MudItem>
+                                                        </MudItem>
+                                                    }
                                                 </MudGrid>
                                             </MudTabPanel>
                                         </MudTabs>
@@ -601,3 +656,8 @@ else
         border-bottom-width: 3px;
     }
 </style>
+
+@if (DisplayGoogleMap)
+{
+    <script src="@GoogleMapJsUrl" defer></script>
+}

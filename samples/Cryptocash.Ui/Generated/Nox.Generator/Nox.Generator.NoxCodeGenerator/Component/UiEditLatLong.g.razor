@@ -24,4 +24,9 @@
     </MudItem>
 </MudGrid>
 
-
+@if (DisplayGoogleMap)
+{
+    <div style="margin-top:30px;">
+        <UiEditGoogleMap_g LatLong="LatLong" LatLongChanged="OnLatLongChanged" />
+    </div>
+}
