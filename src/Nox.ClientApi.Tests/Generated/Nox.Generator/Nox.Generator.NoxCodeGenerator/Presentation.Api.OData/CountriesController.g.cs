@@ -307,7 +307,7 @@ public abstract partial class CountriesControllerBase : ODataController
         workplace.CountryId = key;
         var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace, _cultureCode));
         
-        var createdItem = (await _mediator.Send(new GetWorkplaceByIdQuery(createdKey.keyId))).SingleOrDefault();
+        var createdItem = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, createdKey.keyId))).SingleOrDefault();
         
         return Created(createdItem);
     }

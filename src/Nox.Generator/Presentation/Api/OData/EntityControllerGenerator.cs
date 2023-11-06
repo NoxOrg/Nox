@@ -589,8 +589,9 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"public async Task<ActionResult> GetRefTo{relationshipName}" +
             $"({GetPrimaryKeysRoute(entity, solution)})");
 
+        var localizationParameter = entity.IsLocalized ? "_cultureCode, " : "";
         code.StartBlock();
-        code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({GetPrimaryKeysQuery(entity)})))" +
+        code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({localizationParameter}{GetPrimaryKeysQuery(entity)})))" +
             $".Select(x => x.{relationshipName}).SingleOrDefault();");
         code.AppendLine($"if (related is null)");
         code.StartBlock();
@@ -641,6 +642,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine();
         code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
 
+        var localizationPart = relatedEntity.IsLocalized ? "_cultureCode, " : "";
         if(reversedRelationship.WithSingleEntity())
             code.AppendLine($"{relatedEntity.Name.ToLowerFirstChar()}.{reversedRelationshipName}Id = key;");
         else
@@ -648,7 +650,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
                 $"new List<{solution.GetSinglePrimitiveTypeForKey(entity.Keys[0])}> {{ key }};");
         code.AppendLine($"var createdKey = await _mediator.Send(new Create{relatedEntity.Name}Command({relatedEntity.Name.ToLowerFirstChar()}, _cultureCode));");
         code.AppendLine();
-        code.AppendLine($"var createdItem = (await _mediator.Send(new Get{relatedEntity.Name}ByIdQuery(createdKey.key{relatedEntity.Keys[0].Name}))).SingleOrDefault();");
+        code.AppendLine($"var createdItem = (await _mediator.Send(new Get{relatedEntity.Name}ByIdQuery({localizationPart}createdKey.key{relatedEntity.Keys[0].Name}))).SingleOrDefault();");
         code.AppendLine();
         code.AppendLine($"return Created(createdItem);");
 

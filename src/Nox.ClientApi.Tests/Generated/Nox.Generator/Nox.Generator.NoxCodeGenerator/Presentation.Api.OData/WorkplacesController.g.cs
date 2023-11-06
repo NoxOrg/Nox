@@ -62,7 +62,7 @@ public abstract partial class WorkplacesControllerBase : ODataController
     
     public async Task<ActionResult> GetRefToCountry([FromRoute] System.UInt32 key)
     {
-        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).Select(x => x.Country).SingleOrDefault();
         if (related is null)
         {
             return NotFound();

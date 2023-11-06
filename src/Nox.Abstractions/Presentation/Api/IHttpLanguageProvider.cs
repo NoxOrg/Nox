@@ -1,6 +1,8 @@
-﻿namespace Nox.Presentation.Api;
+﻿using Nox.Types;
+
+namespace Nox.Presentation.Api;
 
 public interface IHttpLanguageProvider
 {
-    string GetLanguage();
+    CultureCode GetLanguage();
 }

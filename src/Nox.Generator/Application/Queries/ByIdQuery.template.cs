@@ -35,7 +35,7 @@ internal abstract class Get{{entity.Name}}ByIdQueryHandlerBase:  QueryBase<IQuer
     {    
         var query = DataDbContext.{{entity.PluralName}}
             .AsNoTracking()
-            .Where(r =>                  
+            .Where(r =>
             {{- for key in entity.Keys }}
                 r.{{key.Name}}.Equals(request.key{{key.Name}}){{if !for.last}} &&{{end}}
             {{- end -}}
