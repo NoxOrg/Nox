@@ -13,7 +13,7 @@ using BookingEntity = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Commands;
 
-public record DeleteBookingByIdCommand(System.Guid keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record Delete BookingByIdCommand(System.Guid keyId, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteBookingByIdCommandHandler : DeleteBookingByIdCommandHandlerBase
 {

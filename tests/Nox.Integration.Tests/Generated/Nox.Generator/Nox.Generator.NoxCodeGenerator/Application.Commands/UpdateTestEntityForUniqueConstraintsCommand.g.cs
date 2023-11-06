@@ -17,7 +17,7 @@ using TestEntityForUniqueConstraintsEntity = TestWebApp.Domain.TestEntityForUniq
 
 namespace TestWebApp.Application.Commands;
 
-public record UpdateTestEntityForUniqueConstraintsCommand(System.String keyId, TestEntityForUniqueConstraintsUpdateDto EntityDto, System.Guid? Etag) : IRequest<TestEntityForUniqueConstraintsKeyDto?>;
+public partial record UpdateTestEntityForUniqueConstraintsCommand(System.String keyId, TestEntityForUniqueConstraintsUpdateDto EntityDto, System.Guid? Etag) : IRequest<TestEntityForUniqueConstraintsKeyDto?>;
 
 internal partial class UpdateTestEntityForUniqueConstraintsCommandHandler : UpdateTestEntityForUniqueConstraintsCommandHandlerBase
 {

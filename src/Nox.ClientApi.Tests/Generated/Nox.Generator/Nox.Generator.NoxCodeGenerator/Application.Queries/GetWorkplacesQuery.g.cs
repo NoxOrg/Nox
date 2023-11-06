@@ -15,7 +15,7 @@ using Nox.Types;
 
 namespace ClientApi.Application.Queries;
 
-public class GetWorkplacesQuery : IRequest<IQueryable<WorkplaceDto>>
+public partial class GetWorkplacesQuery : IRequest<IQueryable<WorkplaceDto>>
 {
     public CultureCode CultureCode { get; set; }
 

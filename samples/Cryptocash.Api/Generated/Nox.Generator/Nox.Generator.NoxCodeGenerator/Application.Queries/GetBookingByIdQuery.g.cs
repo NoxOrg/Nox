@@ -12,7 +12,7 @@ using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.Application.Queries;
 
-public record GetBookingByIdQuery(System.Guid keyId) : IRequest <IQueryable<BookingDto>>;
+public partial record Get BookingByIdQuery(System.Guid keyId) : IRequest <IQueryable<BookingDto>>;
 
 internal partial class GetBookingByIdQueryHandler:GetBookingByIdQueryHandlerBase
 {

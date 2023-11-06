@@ -16,7 +16,7 @@ using TestEntityOwnedRelationshipZeroOrManyEntity = TestWebApp.Domain.TestEntity
 
 namespace TestWebApp.Application.Commands;
 
-public record PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <TestEntityOwnedRelationshipZeroOrManyKeyDto?>;
+public partial record PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <TestEntityOwnedRelationshipZeroOrManyKeyDto?>;
 
 internal class PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommandHandler : PartialUpdateTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase
 {

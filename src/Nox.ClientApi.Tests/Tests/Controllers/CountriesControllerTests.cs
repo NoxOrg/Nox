@@ -7,6 +7,7 @@ using ClientApi.Tests.Tests.Models;
 using Xunit.Abstractions;
 using ClientApi.Tests.Controllers;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+using Humanizer;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
@@ -1316,6 +1317,31 @@ namespace ClientApi.Tests.Tests.Controllers
             result!.Continent.Should().Be(1);
         }
 
+        /// <summary>
+        /// We override PostToCountryShortNames in CountriesController to set  CustomField on the command
+        /// The Command Handler validates if the custom field is properly set
+        /// </summary>
+        /// <returns></returns>
+        [Fact]
+        public async Task Post_WithCustomCommandFieldShouldSucced()
+        {
+            // Arrange
+            var createDto = new CountryCreateDto
+            {
+                Name = "Portugal",
+                Population = 1,
+            };
+
+            var countryCreatedResult = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, createDto);
+
+            // Act
+            var headers = CreateEtagHeader(countryCreatedResult?.Etag);
+            var countryShortName = new CountryLocalNameCreateDto() { Name = "ShortName" };
+            var countryShortNameResult = await PostAsync($"{Endpoints.CountriesUrl}/{countryCreatedResult!.Id}/{nameof(createDto.CountryShortNames)}", countryShortName, headers);
+
+            // Assert
+            countryShortNameResult!.Should().HaveStatusCode(HttpStatusCode.Created);            
+        }
         #endregion TESTS
     }
 }

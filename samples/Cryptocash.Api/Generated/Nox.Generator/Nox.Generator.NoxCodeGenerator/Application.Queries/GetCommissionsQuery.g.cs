@@ -12,7 +12,7 @@ using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.Application.Queries;
 
-public record GetCommissionsQuery() : IRequest<IQueryable<CommissionDto>>;
+public partial record Get CommissionsQuery() : IRequest<IQueryable<CommissionDto>>;
 
 internal partial class GetCommissionsQueryHandler: GetCommissionsQueryHandlerBase
 {

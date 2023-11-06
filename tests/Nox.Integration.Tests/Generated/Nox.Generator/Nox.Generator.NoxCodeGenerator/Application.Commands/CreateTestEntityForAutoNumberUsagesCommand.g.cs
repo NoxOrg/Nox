@@ -19,7 +19,7 @@ using TestEntityForAutoNumberUsagesEntity = TestWebApp.Domain.TestEntityForAutoN
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateTestEntityForAutoNumberUsagesCommand(TestEntityForAutoNumberUsagesCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<TestEntityForAutoNumberUsagesKeyDto>;
+public partial record CreateTestEntityForAutoNumberUsagesCommand(TestEntityForAutoNumberUsagesCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<TestEntityForAutoNumberUsagesKeyDto>;
 
 internal partial class CreateTestEntityForAutoNumberUsagesCommandHandler : CreateTestEntityForAutoNumberUsagesCommandHandlerBase
 {

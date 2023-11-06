@@ -12,7 +12,7 @@ using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.Application.Queries;
 
-public record GetCashStockOrdersQuery() : IRequest<IQueryable<CashStockOrderDto>>;
+public partial record Get CashStockOrdersQuery() : IRequest<IQueryable<CashStockOrderDto>>;
 
 internal partial class GetCashStockOrdersQueryHandler: GetCashStockOrdersQueryHandlerBase
 {

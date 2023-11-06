@@ -19,7 +19,7 @@ using TestEntityForUniqueConstraintsEntity = TestWebApp.Domain.TestEntityForUniq
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateTestEntityForUniqueConstraintsCommand(TestEntityForUniqueConstraintsCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<TestEntityForUniqueConstraintsKeyDto>;
+public partial record CreateTestEntityForUniqueConstraintsCommand(TestEntityForUniqueConstraintsCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<TestEntityForUniqueConstraintsKeyDto>;
 
 internal partial class CreateTestEntityForUniqueConstraintsCommandHandler : CreateTestEntityForUniqueConstraintsCommandHandlerBase
 {

@@ -12,7 +12,7 @@ using TestWebApp.Infrastructure.Persistence;
 
 namespace TestWebApp.Application.Queries;
 
-public record GetTestEntityWithNuidsQuery() : IRequest<IQueryable<TestEntityWithNuidDto>>;
+public partial record GetTestEntityWithNuidsQuery() : IRequest<IQueryable<TestEntityWithNuidDto>>;
 
 internal partial class GetTestEntityWithNuidsQueryHandler: GetTestEntityWithNuidsQueryHandlerBase
 {

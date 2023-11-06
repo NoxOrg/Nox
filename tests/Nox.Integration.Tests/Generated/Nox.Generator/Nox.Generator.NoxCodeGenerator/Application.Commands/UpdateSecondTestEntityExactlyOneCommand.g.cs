@@ -17,7 +17,7 @@ using SecondTestEntityExactlyOneEntity = TestWebApp.Domain.SecondTestEntityExact
 
 namespace TestWebApp.Application.Commands;
 
-public record UpdateSecondTestEntityExactlyOneCommand(System.String keyId, SecondTestEntityExactlyOneUpdateDto EntityDto, System.Guid? Etag) : IRequest<SecondTestEntityExactlyOneKeyDto?>;
+public partial record UpdateSecondTestEntityExactlyOneCommand(System.String keyId, SecondTestEntityExactlyOneUpdateDto EntityDto, System.Guid? Etag) : IRequest<SecondTestEntityExactlyOneKeyDto?>;
 
 internal partial class UpdateSecondTestEntityExactlyOneCommandHandler : UpdateSecondTestEntityExactlyOneCommandHandlerBase
 {

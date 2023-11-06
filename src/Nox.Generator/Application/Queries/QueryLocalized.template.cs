@@ -15,7 +15,7 @@ using Nox.Types;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Queries;
 
-public class Get{{entity.PluralName}}Query : IRequest<IQueryable<{{entity.Name}}Dto>>
+public partial class Get{{entity.PluralName}}Query : IRequest<IQueryable<{{entity.Name}}Dto>>
 {
     public CultureCode CultureCode { get; set; }
 

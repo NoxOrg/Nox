@@ -12,7 +12,7 @@ using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.Application.Queries;
 
-public record GetVendingMachineByIdQuery(System.Guid keyId) : IRequest <IQueryable<VendingMachineDto>>;
+public partial record Get VendingMachineByIdQuery(System.Guid keyId) : IRequest <IQueryable<VendingMachineDto>>;
 
 internal partial class GetVendingMachineByIdQueryHandler:GetVendingMachineByIdQueryHandlerBase
 {

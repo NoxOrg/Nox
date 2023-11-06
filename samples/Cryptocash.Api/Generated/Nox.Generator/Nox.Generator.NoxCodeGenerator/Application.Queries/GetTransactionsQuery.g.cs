@@ -12,7 +12,7 @@ using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.Application.Queries;
 
-public record GetTransactionsQuery() : IRequest<IQueryable<TransactionDto>>;
+public partial record Get TransactionsQuery() : IRequest<IQueryable<TransactionDto>>;
 
 internal partial class GetTransactionsQueryHandler: GetTransactionsQueryHandlerBase
 {

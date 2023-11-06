@@ -13,7 +13,7 @@ using PaymentProviderEntity = Cryptocash.Domain.PaymentProvider;
 
 namespace Cryptocash.Application.Commands;
 
-public record DeletePaymentProviderByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record Delete PaymentProviderByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeletePaymentProviderByIdCommandHandler : DeletePaymentProviderByIdCommandHandlerBase
 {

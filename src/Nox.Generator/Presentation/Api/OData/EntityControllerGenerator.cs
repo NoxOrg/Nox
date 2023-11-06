@@ -182,7 +182,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
     private static void GeneratePrivateChildrenGetById(NoxSolution solution, EntityRelationship relationship, Entity child, Entity parent, CodeBuilder code)
     {
-        code.AppendLine($"private async Task<{child.Name}Dto?> TryGet{relationship.Name}({GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, {child.Name}KeyDto childKeyDto)");
+        code.AppendLine($"protected async Task<{child.Name}Dto?> TryGet{relationship.Name}({GetPrimaryKeysRoute(parent, solution, attributePrefix: "")}, {child.Name}KeyDto childKeyDto)");
 
         code.StartBlock();
         code.AppendLine($"var parent = (await _mediator.Send(new Get{parent.Name}ByIdQuery({GetPrimaryKeysQuery(parent)}))).SingleOrDefault();");

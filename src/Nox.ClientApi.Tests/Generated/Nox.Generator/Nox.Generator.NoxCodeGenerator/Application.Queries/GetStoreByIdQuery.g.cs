@@ -12,7 +12,7 @@ using ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 
-public record GetStoreByIdQuery(System.Guid keyId) : IRequest <IQueryable<StoreDto>>;
+public partial record GetStoreByIdQuery(System.Guid keyId) : IRequest <IQueryable<StoreDto>>;
 
 internal partial class GetStoreByIdQueryHandler:GetStoreByIdQueryHandlerBase
 {

@@ -12,7 +12,7 @@ using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.Application.Queries;
 
-public record GetCountriesQuery() : IRequest<IQueryable<CountryDto>>;
+public partial record Get CountriesQuery() : IRequest<IQueryable<CountryDto>>;
 
 internal partial class GetCountriesQueryHandler: GetCountriesQueryHandlerBase
 {

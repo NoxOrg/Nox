@@ -12,7 +12,7 @@ using TestWebApp.Infrastructure.Persistence;
 
 namespace TestWebApp.Application.Queries;
 
-public record GetTestEntityOwnedRelationshipOneOrManyByIdQuery(System.String keyId) : IRequest <IQueryable<TestEntityOwnedRelationshipOneOrManyDto>>;
+public partial record GetTestEntityOwnedRelationshipOneOrManyByIdQuery(System.String keyId) : IRequest <IQueryable<TestEntityOwnedRelationshipOneOrManyDto>>;
 
 internal partial class GetTestEntityOwnedRelationshipOneOrManyByIdQueryHandler:GetTestEntityOwnedRelationshipOneOrManyByIdQueryHandlerBase
 {

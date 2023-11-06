@@ -17,7 +17,7 @@ using TestEntityForTypesEntity = TestWebApp.Domain.TestEntityForTypes;
 
 namespace TestWebApp.Application.Commands;
 
-public record UpdateTestEntityForTypesCommand(System.String keyId, TestEntityForTypesUpdateDto EntityDto, System.Guid? Etag) : IRequest<TestEntityForTypesKeyDto?>;
+public partial record UpdateTestEntityForTypesCommand(System.String keyId, TestEntityForTypesUpdateDto EntityDto, System.Guid? Etag) : IRequest<TestEntityForTypesKeyDto?>;
 
 internal partial class UpdateTestEntityForTypesCommandHandler : UpdateTestEntityForTypesCommandHandlerBase
 {

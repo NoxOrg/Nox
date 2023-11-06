@@ -12,7 +12,7 @@ using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.Application.Queries;
 
-public record GetCurrenciesQuery() : IRequest<IQueryable<CurrencyDto>>;
+public partial record Get CurrenciesQuery() : IRequest<IQueryable<CurrencyDto>>;
 
 internal partial class GetCurrenciesQueryHandler: GetCurrenciesQueryHandlerBase
 {
