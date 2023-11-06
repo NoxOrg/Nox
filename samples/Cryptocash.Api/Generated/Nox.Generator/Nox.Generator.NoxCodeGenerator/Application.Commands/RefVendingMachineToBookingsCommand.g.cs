@@ -21,7 +21,7 @@ namespace Cryptocash.Application.Commands;
 
 public abstract record RefVendingMachineToBookingsCommand(VendingMachineKeyDto EntityKeyDto, BookingKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
-public record CreateRefVendingMachineToBookingsCommand(VendingMachineKeyDto EntityKeyDto, BookingKeyDto RelatedEntityKeyDto)
+public partial record CreateRefVendingMachineToBookingsCommand(VendingMachineKeyDto EntityKeyDto, BookingKeyDto RelatedEntityKeyDto)
 	: RefVendingMachineToBookingsCommand(EntityKeyDto, RelatedEntityKeyDto);
 
 internal partial class CreateRefVendingMachineToBookingsCommandHandler

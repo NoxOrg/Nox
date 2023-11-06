@@ -15,7 +15,7 @@ using Nox.Types;
 
 namespace TestWebApp.Application.Queries;
 
-public class GetTestEntityLocalizationsQuery : IRequest<IQueryable<TestEntityLocalizationDto>>
+public partial class GetTestEntityLocalizationsQuery : IRequest<IQueryable<TestEntityLocalizationDto>>
 {
     public CultureCode CultureCode { get; set; }
 

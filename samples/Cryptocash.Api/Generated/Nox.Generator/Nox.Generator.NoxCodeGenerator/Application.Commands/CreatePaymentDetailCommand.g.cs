@@ -20,7 +20,7 @@ using PaymentDetailEntity = Cryptocash.Domain.PaymentDetail;
 
 namespace Cryptocash.Application.Commands;
 
-public record CreatePaymentDetailCommand(PaymentDetailCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<PaymentDetailKeyDto>;
+public partial record CreatePaymentDetailCommand(PaymentDetailCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<PaymentDetailKeyDto>;
 
 internal partial class CreatePaymentDetailCommandHandler : CreatePaymentDetailCommandHandlerBase
 {

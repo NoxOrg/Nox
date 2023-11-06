@@ -158,7 +158,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return NoContent();
     }
     
-    private async Task<EmployeePhoneNumberDto?> TryGetEmployeeContactPhoneNumbers(System.Int64 key, EmployeePhoneNumberKeyDto childKeyDto)
+    protected async Task<EmployeePhoneNumberDto?> TryGetEmployeeContactPhoneNumbers(System.Int64 key, EmployeePhoneNumberKeyDto childKeyDto)
     {
         var parent = (await _mediator.Send(new GetEmployeeByIdQuery(key))).SingleOrDefault();
         return parent?.EmployeeContactPhoneNumbers.SingleOrDefault(x => x.Id == childKeyDto.keyId);

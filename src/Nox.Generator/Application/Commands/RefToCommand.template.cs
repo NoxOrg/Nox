@@ -22,7 +22,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
 public abstract record Ref{{entity.Name}}To{{relationshipName}}Command({{entity.Name}}KeyDto EntityKeyDto, {{relatedEntity.Name}}KeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
-public record CreateRef{{entity.Name}}To{{relationshipName}}Command({{entity.Name}}KeyDto EntityKeyDto, {{relatedEntity.Name}}KeyDto RelatedEntityKeyDto)
+public partial record CreateRef{{entity.Name}}To{{relationshipName}}Command({{entity.Name}}KeyDto EntityKeyDto, {{relatedEntity.Name}}KeyDto RelatedEntityKeyDto)
 	: Ref{{entity.Name}}To{{relationshipName}}Command(EntityKeyDto, RelatedEntityKeyDto);
 
 internal partial class CreateRef{{entity.Name}}To{{relationshipName}}CommandHandler

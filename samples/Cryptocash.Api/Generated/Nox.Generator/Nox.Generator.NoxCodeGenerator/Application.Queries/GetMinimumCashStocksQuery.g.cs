@@ -12,7 +12,7 @@ using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.Application.Queries;
 
-public record GetMinimumCashStocksQuery() : IRequest<IQueryable<MinimumCashStockDto>>;
+public partial record GetMinimumCashStocksQuery() : IRequest<IQueryable<MinimumCashStockDto>>;
 
 internal partial class GetMinimumCashStocksQueryHandler: GetMinimumCashStocksQueryHandlerBase
 {

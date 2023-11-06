@@ -21,7 +21,7 @@ namespace Cryptocash.Application.Commands;
 
 public abstract record RefEmployeeToCashStockOrderCommand(EmployeeKeyDto EntityKeyDto, CashStockOrderKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
-public record CreateRefEmployeeToCashStockOrderCommand(EmployeeKeyDto EntityKeyDto, CashStockOrderKeyDto RelatedEntityKeyDto)
+public partial record CreateRefEmployeeToCashStockOrderCommand(EmployeeKeyDto EntityKeyDto, CashStockOrderKeyDto RelatedEntityKeyDto)
 	: RefEmployeeToCashStockOrderCommand(EntityKeyDto, RelatedEntityKeyDto);
 
 internal partial class CreateRefEmployeeToCashStockOrderCommandHandler

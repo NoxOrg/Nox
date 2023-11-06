@@ -21,7 +21,7 @@ namespace Cryptocash.Application.Commands;
 
 public abstract record RefCurrencyToMinimumCashStocksCommand(CurrencyKeyDto EntityKeyDto, MinimumCashStockKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
-public record CreateRefCurrencyToMinimumCashStocksCommand(CurrencyKeyDto EntityKeyDto, MinimumCashStockKeyDto RelatedEntityKeyDto)
+public partial record CreateRefCurrencyToMinimumCashStocksCommand(CurrencyKeyDto EntityKeyDto, MinimumCashStockKeyDto RelatedEntityKeyDto)
 	: RefCurrencyToMinimumCashStocksCommand(EntityKeyDto, RelatedEntityKeyDto);
 
 internal partial class CreateRefCurrencyToMinimumCashStocksCommandHandler

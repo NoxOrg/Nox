@@ -20,7 +20,7 @@ using CashStockOrderEntity = Cryptocash.Domain.CashStockOrder;
 
 namespace Cryptocash.Application.Commands;
 
-public record CreateCashStockOrderCommand(CashStockOrderCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<CashStockOrderKeyDto>;
+public partial record CreateCashStockOrderCommand(CashStockOrderCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<CashStockOrderKeyDto>;
 
 internal partial class CreateCashStockOrderCommandHandler : CreateCashStockOrderCommandHandlerBase
 {

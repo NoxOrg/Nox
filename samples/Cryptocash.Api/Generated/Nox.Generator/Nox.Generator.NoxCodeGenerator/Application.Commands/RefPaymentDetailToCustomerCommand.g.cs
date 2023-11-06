@@ -21,7 +21,7 @@ namespace Cryptocash.Application.Commands;
 
 public abstract record RefPaymentDetailToCustomerCommand(PaymentDetailKeyDto EntityKeyDto, CustomerKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
-public record CreateRefPaymentDetailToCustomerCommand(PaymentDetailKeyDto EntityKeyDto, CustomerKeyDto RelatedEntityKeyDto)
+public partial record CreateRefPaymentDetailToCustomerCommand(PaymentDetailKeyDto EntityKeyDto, CustomerKeyDto RelatedEntityKeyDto)
 	: RefPaymentDetailToCustomerCommand(EntityKeyDto, RelatedEntityKeyDto);
 
 internal partial class CreateRefPaymentDetailToCustomerCommandHandler

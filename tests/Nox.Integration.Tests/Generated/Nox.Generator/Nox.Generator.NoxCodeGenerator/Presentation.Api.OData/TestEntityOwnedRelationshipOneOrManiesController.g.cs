@@ -158,7 +158,7 @@ public abstract partial class TestEntityOwnedRelationshipOneOrManiesControllerBa
         return NoContent();
     }
     
-    private async Task<SecondTestEntityOwnedRelationshipOneOrManyDto?> TryGetSecondTestEntityOwnedRelationshipOneOrMany(System.String key, SecondTestEntityOwnedRelationshipOneOrManyKeyDto childKeyDto)
+    protected async Task<SecondTestEntityOwnedRelationshipOneOrManyDto?> TryGetSecondTestEntityOwnedRelationshipOneOrMany(System.String key, SecondTestEntityOwnedRelationshipOneOrManyKeyDto childKeyDto)
     {
         var parent = (await _mediator.Send(new GetTestEntityOwnedRelationshipOneOrManyByIdQuery(key))).SingleOrDefault();
         return parent?.SecondTestEntityOwnedRelationshipOneOrMany.SingleOrDefault(x => x.Id == childKeyDto.keyId);

@@ -12,7 +12,7 @@ using ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 
-public record GetStoreLicenseByIdQuery(System.Int64 keyId) : IRequest <IQueryable<StoreLicenseDto>>;
+public partial record GetStoreLicenseByIdQuery(System.Int64 keyId) : IRequest <IQueryable<StoreLicenseDto>>;
 
 internal partial class GetStoreLicenseByIdQueryHandler:GetStoreLicenseByIdQueryHandlerBase
 {

@@ -21,7 +21,7 @@ namespace ClientApi.Application.Commands;
 
 public abstract record RefStoreLicenseToStoreCommand(StoreLicenseKeyDto EntityKeyDto, StoreKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
-public record CreateRefStoreLicenseToStoreCommand(StoreLicenseKeyDto EntityKeyDto, StoreKeyDto RelatedEntityKeyDto)
+public partial record CreateRefStoreLicenseToStoreCommand(StoreLicenseKeyDto EntityKeyDto, StoreKeyDto RelatedEntityKeyDto)
 	: RefStoreLicenseToStoreCommand(EntityKeyDto, RelatedEntityKeyDto);
 
 internal partial class CreateRefStoreLicenseToStoreCommandHandler

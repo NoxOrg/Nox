@@ -158,7 +158,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    private async Task<CountryLocalNameDto?> TryGetCountryShortNames(System.Int64 key, CountryLocalNameKeyDto childKeyDto)
+    protected async Task<CountryLocalNameDto?> TryGetCountryShortNames(System.Int64 key, CountryLocalNameKeyDto childKeyDto)
     {
         var parent = (await _mediator.Send(new GetCountryByIdQuery(key))).SingleOrDefault();
         return parent?.CountryShortNames.SingleOrDefault(x => x.Id == childKeyDto.keyId);

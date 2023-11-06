@@ -15,7 +15,7 @@ using Nox.Types;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Queries;
 
-public record {{className}}(CultureCode cultureCode, {{primaryKeys}}) : IRequest <IQueryable<{{entity.Name}}Dto>>;
+public partial record {{className}}(CultureCode cultureCode, {{primaryKeys}}) : IRequest <IQueryable<{{entity.Name}}Dto>>;
 
 internal partial class {{className}}Handler : {{className}}HandlerBase
 {

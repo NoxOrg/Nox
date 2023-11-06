@@ -12,7 +12,7 @@ using ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 
-public record GetStoreOwnersQuery() : IRequest<IQueryable<StoreOwnerDto>>;
+public partial record GetStoreOwnersQuery() : IRequest<IQueryable<StoreOwnerDto>>;
 
 internal partial class GetStoreOwnersQueryHandler: GetStoreOwnersQueryHandlerBase
 {

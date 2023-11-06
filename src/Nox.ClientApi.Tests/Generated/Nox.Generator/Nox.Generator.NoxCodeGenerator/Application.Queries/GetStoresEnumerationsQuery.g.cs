@@ -12,7 +12,7 @@ using PersistenceNameSpace = ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 
-public record GetStoresStatusesQuery() : IRequest<IQueryable<DtoNameSpace.StoreStatusDto>>;
+public partial record GetStoresStatusesQuery() : IRequest<IQueryable<DtoNameSpace.StoreStatusDto>>;
 
 internal partial class GetStoresStatusesQueryHandler: GetStoresStatusesQueryHandlerBase
 {

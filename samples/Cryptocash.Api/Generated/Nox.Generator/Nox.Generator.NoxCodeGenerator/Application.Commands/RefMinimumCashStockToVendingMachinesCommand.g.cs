@@ -21,7 +21,7 @@ namespace Cryptocash.Application.Commands;
 
 public abstract record RefMinimumCashStockToVendingMachinesCommand(MinimumCashStockKeyDto EntityKeyDto, VendingMachineKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
-public record CreateRefMinimumCashStockToVendingMachinesCommand(MinimumCashStockKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto)
+public partial record CreateRefMinimumCashStockToVendingMachinesCommand(MinimumCashStockKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto)
 	: RefMinimumCashStockToVendingMachinesCommand(EntityKeyDto, RelatedEntityKeyDto);
 
 internal partial class CreateRefMinimumCashStockToVendingMachinesCommandHandler

@@ -20,7 +20,7 @@ using StoreLicenseEntity = ClientApi.Domain.StoreLicense;
 
 namespace ClientApi.Application.Commands;
 
-public record CreateStoreLicenseCommand(StoreLicenseCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<StoreLicenseKeyDto>;
+public partial record CreateStoreLicenseCommand(StoreLicenseCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<StoreLicenseKeyDto>;
 
 internal partial class CreateStoreLicenseCommandHandler : CreateStoreLicenseCommandHandlerBase
 {
