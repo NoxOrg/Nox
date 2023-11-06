@@ -290,33 +290,44 @@ namespace ClientApi.Tests.Tests.Controllers
             // Arrange
             var createDto1 = new WorkplaceCreateDto
             {
+                Name = "Regus - Chertsey Hillswood Business Park",
+                Description = "The offices are ideal for those companies wanting immediate, available Wembley serviced offices.",
+            };
+
+            var createDto2 = new WorkplaceCreateDto
+            {
                 Name = "Regus - Dubai BCW Jafza View 18 & 19",
                 Description = "33-storey tower in Jebel Ali Free Zone, located on Sheikh Zayed Road and only a few kilometres from Al Maktoum Airport.",
             };
 
-            var createDto2 = new WorkplaceCreateDto
+            var createDto3 = new WorkplaceCreateDto
             {
                 Name = "Regus - Paris Gare de Lyon",
                 Description = "Un immeuble moderne de taille modeste avec parking, à quelques minutes de la Gare de Lyon et de la Gare d'Austerlitz.",
             };
 
             // Act
-            var postResult1 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto1, CreateAcceptLanguageHeader("en-US"));
-            var postResult2 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto2, CreateAcceptLanguageHeader("fr-FR"));
+            var postResult1 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto1);
+            var postResult2 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto2, CreateAcceptLanguageHeader("en-US"));
+            var postResult3 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto3, CreateAcceptLanguageHeader("fr-FR"));
 
             var result = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}", CreateAcceptLanguageHeader("en-US")))?.ToList();
 
             // Assert
             result.Should().NotBeNull();
-            result.Should().HaveCount(2);
+            result.Should().HaveCount(3);
 
-            var enResult = result!.First(x => x.Id == postResult1!.Id);
-            enResult.Name.Should().Be(createDto1.Name);
-            enResult.Description.Should().Be(createDto1.Description);
+            var defResult = result!.First(x => x.Id == postResult1!.Id);
+            defResult.Name.Should().Be(createDto1.Name);
+            defResult.Description.Should().Be(createDto1.Description);
 
-            var frResult = result!.First(x => x.Id == postResult2!.Id);
-            frResult.Name.Should().Be(createDto2.Name);
-            frResult.Description.Should().Be("[" + createDto2.Description + "]");
+            var enResult = result!.First(x => x.Id == postResult2!.Id);
+            enResult.Name.Should().Be(createDto2.Name);
+            enResult.Description.Should().Be(createDto2.Description);
+
+            var frResult = result!.First(x => x.Id == postResult3!.Id);
+            frResult.Name.Should().Be(createDto3.Name);
+            frResult.Description.Should().Be("[" + createDto3.Description + "]");
         }
 
         [Fact]
