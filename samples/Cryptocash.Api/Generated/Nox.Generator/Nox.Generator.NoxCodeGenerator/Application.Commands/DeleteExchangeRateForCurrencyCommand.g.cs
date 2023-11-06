@@ -14,7 +14,7 @@ using Cryptocash.Application.Dto;
 using ExchangeRateEntity = Cryptocash.Domain.ExchangeRate;
 
 namespace Cryptocash.Application.Commands;
-public partial record Delete ExchangeRateForCurrencyCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateKeyDto EntityKeyDto) : IRequest <bool>;
+public partial record DeleteExchangeRateForCurrencyCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateKeyDto EntityKeyDto) : IRequest <bool>;
 
 internal partial class DeleteExchangeRateForCurrencyCommandHandler : DeleteExchangeRateForCurrencyCommandHandlerBase
 {

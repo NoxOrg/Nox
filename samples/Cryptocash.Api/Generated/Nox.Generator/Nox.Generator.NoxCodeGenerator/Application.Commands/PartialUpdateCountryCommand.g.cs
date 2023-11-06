@@ -16,7 +16,7 @@ using CountryEntity = Cryptocash.Domain.Country;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record PartialUpdate CountryCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CountryKeyDto?>;
+public partial record PartialUpdateCountryCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CountryKeyDto?>;
 
 internal class PartialUpdateCountryCommandHandler : PartialUpdateCountryCommandHandlerBase
 {

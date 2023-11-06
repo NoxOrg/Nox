@@ -21,7 +21,7 @@ namespace Cryptocash.Application.Commands;
 
 public abstract record RefTransactionToTransactionForBookingCommand(TransactionKeyDto EntityKeyDto, BookingKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
-public partial record CreateRef TransactionToTransactionForBookingCommand(TransactionKeyDto EntityKeyDto, BookingKeyDto RelatedEntityKeyDto)
+public partial record CreateRefTransactionToTransactionForBookingCommand(TransactionKeyDto EntityKeyDto, BookingKeyDto RelatedEntityKeyDto)
 	: RefTransactionToTransactionForBookingCommand(EntityKeyDto, RelatedEntityKeyDto);
 
 internal partial class CreateRefTransactionToTransactionForBookingCommandHandler

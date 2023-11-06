@@ -14,7 +14,7 @@ using Cryptocash.Application.Dto;
 using BankNoteEntity = Cryptocash.Domain.BankNote;
 
 namespace Cryptocash.Application.Commands;
-public partial record Delete BankNoteForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteKeyDto EntityKeyDto) : IRequest <bool>;
+public partial record DeleteBankNoteForCurrencyCommand(CurrencyKeyDto ParentKeyDto, BankNoteKeyDto EntityKeyDto) : IRequest <bool>;
 
 internal partial class DeleteBankNoteForCurrencyCommandHandler : DeleteBankNoteForCurrencyCommandHandlerBase
 {

@@ -12,7 +12,7 @@ using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.Application.Queries;
 
-public partial record Get EmployeeByIdQuery(System.Int64 keyId) : IRequest <IQueryable<EmployeeDto>>;
+public partial record GetEmployeeByIdQuery(System.Int64 keyId) : IRequest <IQueryable<EmployeeDto>>;
 
 internal partial class GetEmployeeByIdQueryHandler:GetEmployeeByIdQueryHandlerBase
 {

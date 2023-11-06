@@ -13,7 +13,7 @@ using CurrencyEntity = Cryptocash.Domain.Currency;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record Delete CurrencyByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteCurrencyByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteCurrencyByIdCommandHandler : DeleteCurrencyByIdCommandHandlerBase
 {

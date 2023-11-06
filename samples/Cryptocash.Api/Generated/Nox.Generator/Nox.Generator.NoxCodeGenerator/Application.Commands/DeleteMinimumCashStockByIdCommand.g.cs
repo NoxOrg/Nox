@@ -13,7 +13,7 @@ using MinimumCashStockEntity = Cryptocash.Domain.MinimumCashStock;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record Delete MinimumCashStockByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteMinimumCashStockByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteMinimumCashStockByIdCommandHandler : DeleteMinimumCashStockByIdCommandHandlerBase
 {

@@ -21,7 +21,7 @@ namespace Cryptocash.Application.Commands;
 
 public abstract record RefCountryToCountryUsedByCustomersCommand(CountryKeyDto EntityKeyDto, CustomerKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
-public partial record CreateRef CountryToCountryUsedByCustomersCommand(CountryKeyDto EntityKeyDto, CustomerKeyDto RelatedEntityKeyDto)
+public partial record CreateRefCountryToCountryUsedByCustomersCommand(CountryKeyDto EntityKeyDto, CustomerKeyDto RelatedEntityKeyDto)
 	: RefCountryToCountryUsedByCustomersCommand(EntityKeyDto, RelatedEntityKeyDto);
 
 internal partial class CreateRefCountryToCountryUsedByCustomersCommandHandler

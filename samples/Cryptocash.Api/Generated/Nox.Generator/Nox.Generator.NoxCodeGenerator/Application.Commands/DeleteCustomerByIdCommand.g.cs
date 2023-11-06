@@ -13,7 +13,7 @@ using CustomerEntity = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record Delete CustomerByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteCustomerByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteCustomerByIdCommandHandler : DeleteCustomerByIdCommandHandlerBase
 {

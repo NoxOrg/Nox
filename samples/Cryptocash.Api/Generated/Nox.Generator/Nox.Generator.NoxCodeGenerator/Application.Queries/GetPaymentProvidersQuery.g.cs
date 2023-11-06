@@ -12,7 +12,7 @@ using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.Application.Queries;
 
-public partial record Get PaymentProvidersQuery() : IRequest<IQueryable<PaymentProviderDto>>;
+public partial record GetPaymentProvidersQuery() : IRequest<IQueryable<PaymentProviderDto>>;
 
 internal partial class GetPaymentProvidersQueryHandler: GetPaymentProvidersQueryHandlerBase
 {
