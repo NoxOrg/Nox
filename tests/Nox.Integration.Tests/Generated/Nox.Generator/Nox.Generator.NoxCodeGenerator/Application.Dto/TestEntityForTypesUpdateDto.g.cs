@@ -24,6 +24,10 @@ public partial class TestEntityForTypesUpdateDto : IEntityDto<DomainNamespace.Te
     
     public System.String TextTestField { get; set; } = default!;
     /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public System.Int32? EnumerationTestField { get; set; }
+    /// <summary>
     ///  (Required).
     /// </summary>
     [Required(ErrorMessage = "NumberTestField is required")]
