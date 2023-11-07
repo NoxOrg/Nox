@@ -31,7 +31,9 @@ internal class PartialUpdateRatingProgramCommandHandler : PartialUpdateRatingPro
 internal class PartialUpdateRatingProgramCommandHandlerBase : CommandBase<PartialUpdateRatingProgramCommand, RatingProgramEntity>, IRequestHandler<PartialUpdateRatingProgramCommand, RatingProgramKeyDto?>
 {
 	public AppDbContext DbContext { get; }
-	public IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> EntityFactory { get; }public PartialUpdateRatingProgramCommandHandlerBase(
+	public IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> EntityFactory { get; }
+
+	public PartialUpdateRatingProgramCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<RatingProgramEntity, RatingProgramCreateDto, RatingProgramUpdateDto> entityFactory)

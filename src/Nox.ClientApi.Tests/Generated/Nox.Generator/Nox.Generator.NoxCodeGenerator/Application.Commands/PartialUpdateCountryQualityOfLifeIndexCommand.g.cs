@@ -31,7 +31,9 @@ internal class PartialUpdateCountryQualityOfLifeIndexCommandHandler : PartialUpd
 internal class PartialUpdateCountryQualityOfLifeIndexCommandHandlerBase : CommandBase<PartialUpdateCountryQualityOfLifeIndexCommand, CountryQualityOfLifeIndexEntity>, IRequestHandler<PartialUpdateCountryQualityOfLifeIndexCommand, CountryQualityOfLifeIndexKeyDto?>
 {
 	public AppDbContext DbContext { get; }
-	public IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> EntityFactory { get; }public PartialUpdateCountryQualityOfLifeIndexCommandHandlerBase(
+	public IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> EntityFactory { get; }
+
+	public PartialUpdateCountryQualityOfLifeIndexCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto> entityFactory)

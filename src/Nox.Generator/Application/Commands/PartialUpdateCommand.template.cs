@@ -35,7 +35,7 @@ internal class PartialUpdate{{entity.Name}}CommandHandlerBase : CommandBase<Part
 	public IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> EntityFactory { get; }
 	{{- if entity.IsLocalized }}
 	public IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}UpdateDto> EntityLocalizedFactory { get; }
-	{{- end -}}
+	{{- end }}
 
 	public PartialUpdate{{entity.Name}}CommandHandlerBase(
         AppDbContext dbContext,

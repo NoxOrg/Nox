@@ -33,7 +33,9 @@ internal class PartialUpdateWorkplaceCommandHandlerBase : CommandBase<PartialUpd
 {
 	public AppDbContext DbContext { get; }
 	public IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> EntityFactory { get; }
-	public IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> EntityLocalizedFactory { get; }public PartialUpdateWorkplaceCommandHandlerBase(
+	public IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> EntityLocalizedFactory { get; }
+
+	public PartialUpdateWorkplaceCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,

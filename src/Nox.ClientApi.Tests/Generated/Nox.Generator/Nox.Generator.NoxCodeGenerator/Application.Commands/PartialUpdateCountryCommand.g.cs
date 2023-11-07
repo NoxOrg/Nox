@@ -31,7 +31,9 @@ internal class PartialUpdateCountryCommandHandler : PartialUpdateCountryCommandH
 internal class PartialUpdateCountryCommandHandlerBase : CommandBase<PartialUpdateCountryCommand, CountryEntity>, IRequestHandler<PartialUpdateCountryCommand, CountryKeyDto?>
 {
 	public AppDbContext DbContext { get; }
-	public IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> EntityFactory { get; }public PartialUpdateCountryCommandHandlerBase(
+	public IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> EntityFactory { get; }
+
+	public PartialUpdateCountryCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory)

@@ -31,7 +31,9 @@ internal class PartialUpdateStoreCommandHandler : PartialUpdateStoreCommandHandl
 internal class PartialUpdateStoreCommandHandlerBase : CommandBase<PartialUpdateStoreCommand, StoreEntity>, IRequestHandler<PartialUpdateStoreCommand, StoreKeyDto?>
 {
 	public AppDbContext DbContext { get; }
-	public IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> EntityFactory { get; }public PartialUpdateStoreCommandHandlerBase(
+	public IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> EntityFactory { get; }
+
+	public PartialUpdateStoreCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto> entityFactory)

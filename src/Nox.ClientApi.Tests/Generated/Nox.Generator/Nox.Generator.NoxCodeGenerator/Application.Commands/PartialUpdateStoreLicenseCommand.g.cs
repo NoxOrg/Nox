@@ -31,7 +31,9 @@ internal class PartialUpdateStoreLicenseCommandHandler : PartialUpdateStoreLicen
 internal class PartialUpdateStoreLicenseCommandHandlerBase : CommandBase<PartialUpdateStoreLicenseCommand, StoreLicenseEntity>, IRequestHandler<PartialUpdateStoreLicenseCommand, StoreLicenseKeyDto?>
 {
 	public AppDbContext DbContext { get; }
-	public IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> EntityFactory { get; }public PartialUpdateStoreLicenseCommandHandlerBase(
+	public IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> EntityFactory { get; }
+
+	public PartialUpdateStoreLicenseCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory)
