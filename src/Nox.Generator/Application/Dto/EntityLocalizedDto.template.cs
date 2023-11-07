@@ -19,15 +19,18 @@ namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto;
 /// <summary>
 /// {{entity.Description}} Localized DTO.
 /// </summary>
-internal partial class {{className}}
-{
+public partial class {{className}}
+{ 
+{{- keys = '' -}}
 {{- for key in entity.Keys }}
     /// <summary>
     /// {{key.Description}} (Required).
     /// </summary>
 {{- if key.Type == "EntityId" -}}
+    {{ keys = keys | string.append (SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity) + " " + key.Name + ", " }}
     public {{SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity}} {{key.Name}} { get; set; } = default!;
 {{- else }}
+    {{ keys = keys | string.append (SinglePrimitiveTypeForKey key) + " " + key.Name + ", "  }}
     public {{SinglePrimitiveTypeForKey key}} {{key.Name}} { get; set; } = default!;
 {{- end}}
 {{ end }}
@@ -41,3 +44,8 @@ internal partial class {{className}}
     [JsonPropertyName("@odata.etag")]
     public System.Guid Etag { get; init; }
 }
+
+/// <summary>
+/// Record for {{entity.Name}} Localized Key DTO.
+/// </summary>
+public record {{entity.Name}}LocalizedKeyDto({{keys}}System.String {{codeGeneratorState.LocalizationCultureField}});

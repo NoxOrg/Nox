@@ -21,6 +21,7 @@ internal partial class WorkplaceLocalizedDto
     /// <summary>
     /// Workplace unique identifier (Required).
     /// </summary>
+    
     public System.UInt32 Id { get; set; } = default!;
 
     public System.String CultureCode { get; set; } = default!;
@@ -33,3 +34,8 @@ internal partial class WorkplaceLocalizedDto
     [JsonPropertyName("@odata.etag")]
     public System.Guid Etag { get; init; }
 }
+
+/// <summary>
+/// Record for Workplace Localized Key DTO.
+/// </summary>
+public record WorkplaceLocalizedKeyDto(System.UInt32 Id, System.String CultureCode);

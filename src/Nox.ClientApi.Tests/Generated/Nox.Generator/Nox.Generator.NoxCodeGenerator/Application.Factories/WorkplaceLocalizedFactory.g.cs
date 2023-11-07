@@ -2,6 +2,7 @@
 
 #nullable enable
 
+using System.Net.Mime;
 using Nox.Application.Factories;
 using Nox.Extensions;
 using Nox.Types;
@@ -25,6 +26,17 @@ internal abstract class WorkplaceLocalizedFactoryBase : IEntityLocalizedFactory<
             Id = entity.Id,
             CultureCode = cultureCode,
             Description = entity.Description,
+        };
+
+        return localizedEntity;
+    }
+    
+    public virtual WorkplaceLocalized CreateLocalizedEntityFromDto(WorkplaceLocalizedDto localizedDto)
+    {
+        var localizedEntity = new WorkplaceLocalized
+        {Id = Nuid.FromDatabase(localizedDto.Id),
+            CultureCode = CultureCode.From(localizedDto.CultureCode),
+            Description = Text.From(localizedDto.Description),
         };
 
         return localizedEntity;

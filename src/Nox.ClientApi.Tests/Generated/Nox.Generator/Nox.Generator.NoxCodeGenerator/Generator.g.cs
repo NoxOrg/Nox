@@ -35,6 +35,7 @@
 //  - Nox.Generator.Presentation.Api.OData.EntityControllerEnumerationsGenerator
 //  - Nox.Generator.Presentation.Api.OData.EntityControllerOwnedRelationshipsGenerator
 //  - Nox.Generator.Presentation.Api.OData.EntityControllerRelationshipsGenerator
+//  - Nox.Generator.Presentation.Api.OData.EntityControllerTranslationsGenerator
 //  - Nox.Generator.Presentation.Api.OData.EntityControllerGenerator
 //  - Nox.Generator.Presentation.Api.OData.ODataServiceCollectionExtensions
 //  - Nox.Generator.Application.DomainEventHandlerGenerator
