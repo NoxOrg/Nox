@@ -99,6 +99,7 @@
                 </Key>
                 <Property Name="Id" Type="Edm.Int64" Nullable="false" />
                 <Property Name="Issuer" Type="Edm.String" />
+                <Property Name="ExternalId" Type="Edm.Int64" Nullable="false" />
                 <Property Name="StoreWithLicenseId" Type="Edm.Guid" />
                 <NavigationProperty Name="StoreWithLicense" Type="ClientApi.Application.Dto.StoreDto" Nullable="false" ContainsTarget="true" />
             </EntityType>

@@ -89,7 +89,7 @@ public abstract partial class RatingProgramsControllerBase : ODataController
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateRatingProgramCommand(keyStoreId, keyId, ratingProgram, etag));
+        var updatedKey = await _mediator.Send(new UpdateRatingProgramCommand(keyStoreId, keyId, ratingProgram, _cultureCode, etag));
 
         if (updatedKey is null)
         {

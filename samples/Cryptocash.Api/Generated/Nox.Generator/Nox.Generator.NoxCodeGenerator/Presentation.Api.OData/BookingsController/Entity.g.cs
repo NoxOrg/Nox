@@ -89,7 +89,7 @@ public abstract partial class BookingsControllerBase : ODataController
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateBookingCommand(key, booking, etag));
+        var updatedKey = await _mediator.Send(new UpdateBookingCommand(key, booking, _cultureCode, etag));
 
         if (updatedKey is null)
         {

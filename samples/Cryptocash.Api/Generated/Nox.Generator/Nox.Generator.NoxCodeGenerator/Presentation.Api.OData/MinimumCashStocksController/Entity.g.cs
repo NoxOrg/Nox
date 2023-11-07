@@ -89,7 +89,7 @@ public abstract partial class MinimumCashStocksControllerBase : ODataController
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateMinimumCashStockCommand(key, minimumCashStock, etag));
+        var updatedKey = await _mediator.Send(new UpdateMinimumCashStockCommand(key, minimumCashStock, _cultureCode, etag));
 
         if (updatedKey is null)
         {

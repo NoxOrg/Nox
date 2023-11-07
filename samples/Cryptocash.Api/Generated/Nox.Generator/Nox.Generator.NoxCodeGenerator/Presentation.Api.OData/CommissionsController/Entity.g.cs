@@ -89,7 +89,7 @@ public abstract partial class CommissionsControllerBase : ODataController
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateCommissionCommand(key, commission, etag));
+        var updatedKey = await _mediator.Send(new UpdateCommissionCommand(key, commission, _cultureCode, etag));
 
         if (updatedKey is null)
         {

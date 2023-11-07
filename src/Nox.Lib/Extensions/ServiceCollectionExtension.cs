@@ -48,7 +48,7 @@ public static class ServiceCollectionExtension
 
         services.Scan(scan =>
            scan.FromAssemblies(noxAssemblies)
-           .AddClasses(classes => classes.AssignableTo(typeof(IEntityLocalizedFactory<,>)))
+           .AddClasses(classes => classes.AssignableTo(typeof(IEntityLocalizedFactory<,,>)))
            .AsImplementedInterfaces()
            .WithTransientLifetime());
 

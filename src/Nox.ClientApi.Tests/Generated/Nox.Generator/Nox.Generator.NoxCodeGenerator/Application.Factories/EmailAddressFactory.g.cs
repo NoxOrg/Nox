@@ -25,6 +25,7 @@ namespace ClientApi.Application.Factories;
 
 internal abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddressEntity, EmailAddressCreateDto, EmailAddressUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public EmailAddressFactoryBase
     (
@@ -37,9 +38,9 @@ internal abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddressEnt
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(EmailAddressEntity entity, EmailAddressUpdateDto updateDto)
+    public virtual void UpdateEntity(EmailAddressEntity entity, EmailAddressUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(EmailAddressEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -50,19 +51,15 @@ internal abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddressEnt
     private ClientApi.Domain.EmailAddress ToEntity(EmailAddressCreateDto createDto)
     {
         var entity = new ClientApi.Domain.EmailAddress();
-        if (createDto.Email is not null)entity.Email = ClientApi.Domain.EmailAddressMetadata.CreateEmail(createDto.Email.NonNullValue<System.String>());
-        if (createDto.IsVerified is not null)entity.IsVerified = ClientApi.Domain.EmailAddressMetadata.CreateIsVerified(createDto.IsVerified.NonNullValue<System.Boolean>());
+        entity.SetIfNotNull(createDto.Email, (entity) => entity.Email =ClientApi.Domain.EmailAddressMetadata.CreateEmail(createDto.Email.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.IsVerified, (entity) => entity.IsVerified =ClientApi.Domain.EmailAddressMetadata.CreateIsVerified(createDto.IsVerified.NonNullValue<System.Boolean>()));
         return entity;
     }
 
-    private void UpdateEntityInternal(EmailAddressEntity entity, EmailAddressUpdateDto updateDto)
+    private void UpdateEntityInternal(EmailAddressEntity entity, EmailAddressUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        if (updateDto.Email == null) { entity.Email = null; } else {
-            entity.Email = ClientApi.Domain.EmailAddressMetadata.CreateEmail(updateDto.Email.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.IsVerified == null) { entity.IsVerified = null; } else {
-            entity.IsVerified = ClientApi.Domain.EmailAddressMetadata.CreateIsVerified(updateDto.IsVerified.ToValueFromNonNull<System.Boolean>());
-        }
+        entity.SetIfNotNull(updateDto.Email, (entity) => entity.Email = ClientApi.Domain.EmailAddressMetadata.CreateEmail(updateDto.Email.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.IsVerified, (entity) => entity.IsVerified = ClientApi.Domain.EmailAddressMetadata.CreateIsVerified(updateDto.IsVerified.ToValueFromNonNull<System.Boolean>()));
     }
 
     private void PartialUpdateEntityInternal(EmailAddressEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -86,6 +83,9 @@ internal abstract class EmailAddressFactoryBase : IEntityFactory<EmailAddressEnt
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class EmailAddressFactory : EmailAddressFactoryBase
