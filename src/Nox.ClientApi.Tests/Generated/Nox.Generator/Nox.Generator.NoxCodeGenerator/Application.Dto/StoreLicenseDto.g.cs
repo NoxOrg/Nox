@@ -42,6 +42,8 @@ public abstract class StoreLicenseDtoBase : EntityDtoBase, IEntityDto<DomainName
         else
             result.Add("Issuer", new [] { "Issuer is Required." });
     
+        ExecuteActionAndCollectValidationExceptions("ExternalId", () => DomainNamespace.StoreLicenseMetadata.CreateExternalId(this.ExternalId), result);
+    
 
         return result;
     }
@@ -56,6 +58,11 @@ public abstract class StoreLicenseDtoBase : EntityDtoBase, IEntityDto<DomainName
     /// License issuer (Required).
     /// </summary>
     public System.String Issuer { get; set; } = default!;
+
+    /// <summary>
+    /// License external id (Required).
+    /// </summary>
+    public System.Int64 ExternalId { get; set; } = default!;
 
     /// <summary>
     /// StoreLicense Store that this license related to ExactlyOne Stores

@@ -16,7 +16,7 @@ internal partial class WorkplaceLocalizedFactory : WorkplaceLocalizedFactoryBase
 {
 }
 
-internal abstract class WorkplaceLocalizedFactoryBase : IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity>
+internal abstract class WorkplaceLocalizedFactoryBase : IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto>
 {
     public virtual WorkplaceLocalized CreateLocalizedEntity(WorkplaceEntity entity, CultureCode cultureCode)
     {
@@ -28,5 +28,10 @@ internal abstract class WorkplaceLocalizedFactoryBase : IEntityLocalizedFactory<
         };
 
         return localizedEntity;
+    }
+
+    public virtual void UpdateLocalizedEntity(WorkplaceLocalized localizedEntity, WorkplaceUpdateDto updateDto, CultureCode cultureCode)
+    {
+        localizedEntity.SetIfNotNull(updateDto.Description, (localizedEntity) => localizedEntity.Description = ClientApi.Domain.WorkplaceMetadata.CreateDescription(updateDto.Description.ToValueFromNonNull<System.String>()));
     }
 }

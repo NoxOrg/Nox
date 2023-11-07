@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Cryptocash.Application.Dto;
-using Cryptocash.Ui.Generated.Data.Generic;
-using MudBlazor;
 
 namespace Cryptocash.Ui.Generated.Component
 {
@@ -15,6 +13,9 @@ namespace Cryptocash.Ui.Generated.Component
         public double? CurrentLatitude { get; set; }
 
         public double? CurrentLongitude { get; set; }
+
+        [Parameter]
+        public bool DisplayGoogleMap { get; set; } = false;
 
         [Parameter]
         public string TitleLatitude { get; set; }
@@ -76,6 +77,18 @@ namespace Cryptocash.Ui.Generated.Component
             LatLong = new LatLongDto(useLatitude, (double)CurrentLongitude);
 
             await LatLongChanged.InvokeAsync(LatLong);
+        }
+
+        protected async Task OnLatLongChanged(LatLongDto newValue)
+        {
+            if (newValue != null)
+            {
+                CurrentLatitude = newValue.Latitude;
+                CurrentLongitude = newValue.Longitude;
+                LatLong = newValue;
+
+                await LatLongChanged.InvokeAsync(LatLong);
+            }                  
         }
 
         protected string ErrorRequiredMessage(string CurrentTitle)

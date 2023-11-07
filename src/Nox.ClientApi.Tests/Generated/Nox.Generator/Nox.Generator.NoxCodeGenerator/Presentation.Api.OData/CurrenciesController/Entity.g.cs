@@ -89,7 +89,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateCurrencyCommand(key, currency, etag));
+        var updatedKey = await _mediator.Send(new UpdateCurrencyCommand(key, currency, _cultureCode, etag));
 
         if (updatedKey is null)
         {

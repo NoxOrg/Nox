@@ -92,7 +92,8 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             FullWidth = true,
             ClassBackground = "custom-dialog",
             DisableBackdropClick = true,
-            Position = DialogPosition.TopCenter
+            Position = DialogPosition.TopCenter,
+            MaxWidth = MaxWidth.Large
         };
 
         /// <summary>
@@ -103,7 +104,8 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             FullWidth = true,
             ClassBackground = "custom-dialog",
             DisableBackdropClick = true,
-            Position = DialogPosition.TopCenter
+            Position = DialogPosition.TopCenter,
+            MaxWidth = MaxWidth.Large
         };
 
         /// <summary>
@@ -190,6 +192,36 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         /// Property LandLordEntityData used to store LandLord list data in preparation for selection
         /// </summary>
         public EntityData<LandLordDto>? LandLordEntityData { get; set; }
+
+        /// <summary>
+        /// Property GoogleMapApiKey to define Api security key
+        /// </summary>
+        public string? GoogleMapApiKey { get; set; }
+
+        /// <summary>
+        /// Property GoogleMapJsUrl to define access to Google Maps Js
+        /// </summary>
+        public string? GoogleMapJsUrl
+        {
+            get
+            {
+                if (!String.IsNullOrWhiteSpace(GoogleMapApiKey))
+                {
+                    return $"https://maps.googleapis.com/maps/api/js?key={GoogleMapApiKey}&callback=initMap&v=weekly";
+                }
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Property DisplayGoogleMap to define if Google Maps can be displayed
+        /// </summary>
+        public bool DisplayGoogleMap { 
+            get
+            {
+                return !String.IsNullOrWhiteSpace(GoogleMapJsUrl);
+            } 
+        }
 
         #endregion
 

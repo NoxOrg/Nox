@@ -89,7 +89,7 @@ public abstract partial class ThirdTestEntityZeroOrManiesControllerBase : ODataC
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateThirdTestEntityZeroOrManyCommand(key, thirdTestEntityZeroOrMany, etag));
+        var updatedKey = await _mediator.Send(new UpdateThirdTestEntityZeroOrManyCommand(key, thirdTestEntityZeroOrMany, _cultureCode, etag));
 
         if (updatedKey is null)
         {

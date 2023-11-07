@@ -44,6 +44,13 @@ public partial class StoreLicenseMetadata
         
     
         /// <summary>
+        /// Factory for property 'ExternalId'
+        /// </summary>
+        public static Nox.Types.AutoNumber CreateExternalId(System.Int64 value)
+            => Nox.Types.AutoNumber.FromDatabase(value);
+        
+    
+        /// <summary>
         /// Factory for property 'CurrencyId'
         /// </summary>
         public static Nox.Types.CurrencyCode3 CreateCurrencyId(System.String value)
@@ -57,5 +64,14 @@ public partial class StoreLicenseMetadata
             => solution.Domain!
                 .GetEntityByName("StoreLicense")
                 .GetAttributeByName("Issuer")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'ExternalId'
+        /// </summary>
+        public static TypeUserInterface? ExternalIdUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("StoreLicense")
+                .GetAttributeByName("ExternalId")?
                 .UserInterface;
 }

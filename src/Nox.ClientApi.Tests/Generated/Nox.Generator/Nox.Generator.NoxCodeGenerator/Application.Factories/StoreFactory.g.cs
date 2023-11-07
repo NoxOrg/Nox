@@ -25,6 +25,7 @@ namespace ClientApi.Application.Factories;
 
 internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCreateDto, StoreUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
     protected IEntityFactory<ClientApi.Domain.EmailAddress, EmailAddressCreateDto, EmailAddressUpdateDto> EmailAddressFactory {get;}
 
     public StoreFactoryBase
@@ -40,9 +41,9 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(StoreEntity entity, StoreUpdateDto updateDto)
+    public virtual void UpdateEntity(StoreEntity entity, StoreUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(StoreEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -56,8 +57,8 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
         entity.Name = ClientApi.Domain.StoreMetadata.CreateName(createDto.Name);
         entity.Address = ClientApi.Domain.StoreMetadata.CreateAddress(createDto.Address);
         entity.Location = ClientApi.Domain.StoreMetadata.CreateLocation(createDto.Location);
-        if (createDto.OpeningDay is not null)entity.OpeningDay = ClientApi.Domain.StoreMetadata.CreateOpeningDay(createDto.OpeningDay.NonNullValue<System.DateTimeOffset>());
-        if (createDto.Status is not null)entity.Status = ClientApi.Domain.StoreMetadata.CreateStatus(createDto.Status.NonNullValue<System.Int32>());
+        entity.SetIfNotNull(createDto.OpeningDay, (entity) => entity.OpeningDay =ClientApi.Domain.StoreMetadata.CreateOpeningDay(createDto.OpeningDay.NonNullValue<System.DateTimeOffset>()));
+        entity.SetIfNotNull(createDto.Status, (entity) => entity.Status =ClientApi.Domain.StoreMetadata.CreateStatus(createDto.Status.NonNullValue<System.Int32>()));
         entity.EnsureId(createDto.Id);
         if (createDto.VerifiedEmails is not null)
         {
@@ -66,17 +67,13 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
         return entity;
     }
 
-    private void UpdateEntityInternal(StoreEntity entity, StoreUpdateDto updateDto)
+    private void UpdateEntityInternal(StoreEntity entity, StoreUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Name = ClientApi.Domain.StoreMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         entity.Address = ClientApi.Domain.StoreMetadata.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
         entity.Location = ClientApi.Domain.StoreMetadata.CreateLocation(updateDto.Location.NonNullValue<LatLongDto>());
-        if (updateDto.OpeningDay == null) { entity.OpeningDay = null; } else {
-            entity.OpeningDay = ClientApi.Domain.StoreMetadata.CreateOpeningDay(updateDto.OpeningDay.ToValueFromNonNull<System.DateTimeOffset>());
-        }
-        if (updateDto.Status == null) { entity.Status = null; } else {
-            entity.Status = ClientApi.Domain.StoreMetadata.CreateStatus(updateDto.Status.ToValueFromNonNull<System.Int32>());
-        }
+        entity.SetIfNotNull(updateDto.OpeningDay, (entity) => entity.OpeningDay = ClientApi.Domain.StoreMetadata.CreateOpeningDay(updateDto.OpeningDay.ToValueFromNonNull<System.DateTimeOffset>()));
+        entity.SetIfNotNull(updateDto.Status, (entity) => entity.Status = ClientApi.Domain.StoreMetadata.CreateStatus(updateDto.Status.ToValueFromNonNull<System.Int32>()));
     }
 
     private void PartialUpdateEntityInternal(StoreEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -133,6 +130,9 @@ internal abstract class StoreFactoryBase : IEntityFactory<StoreEntity, StoreCrea
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class StoreFactory : StoreFactoryBase

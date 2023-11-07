@@ -25,6 +25,7 @@ namespace Cryptocash.Application.Factories;
 
 internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, BankNoteCreateDto, BankNoteUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public BankNoteFactoryBase
     (
@@ -37,9 +38,9 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, Ban
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(BankNoteEntity entity, BankNoteUpdateDto updateDto)
+    public virtual void UpdateEntity(BankNoteEntity entity, BankNoteUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(BankNoteEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -55,7 +56,7 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, Ban
         return entity;
     }
 
-    private void UpdateEntityInternal(BankNoteEntity entity, BankNoteUpdateDto updateDto)
+    private void UpdateEntityInternal(BankNoteEntity entity, BankNoteUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.CashNote = Cryptocash.Domain.BankNoteMetadata.CreateCashNote(updateDto.CashNote.NonNullValue<System.String>());
         entity.Value = Cryptocash.Domain.BankNoteMetadata.CreateValue(updateDto.Value.NonNullValue<MoneyDto>());
@@ -86,6 +87,9 @@ internal abstract class BankNoteFactoryBase : IEntityFactory<BankNoteEntity, Ban
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class BankNoteFactory : BankNoteFactoryBase

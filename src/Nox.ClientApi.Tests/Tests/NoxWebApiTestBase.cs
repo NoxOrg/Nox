@@ -249,6 +249,21 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
             { "Accept-Language", language }
         };
 
+    public Dictionary<string, IEnumerable<string>> CreateHeaders(params Dictionary<string, IEnumerable<string>>[] headers)
+    {
+        var result = new Dictionary<string, IEnumerable<string>>();
+
+        foreach (var header in headers)
+        {
+            foreach (var item in header)
+            {
+                result.Add(item.Key, item.Value);
+            }
+        }
+
+        return result;
+    }
+
     private static void AddHeaders(HttpClient httpClient, Dictionary<string, IEnumerable<string>> headers)
     {
         foreach (var header in headers)

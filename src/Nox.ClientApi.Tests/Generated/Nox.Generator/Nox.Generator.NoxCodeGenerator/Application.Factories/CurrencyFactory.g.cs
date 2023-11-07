@@ -25,6 +25,7 @@ namespace ClientApi.Application.Factories;
 
 internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, CurrencyCreateDto, CurrencyUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public CurrencyFactoryBase
     (
@@ -37,9 +38,9 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(CurrencyEntity entity, CurrencyUpdateDto updateDto)
+    public virtual void UpdateEntity(CurrencyEntity entity, CurrencyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(CurrencyEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -51,19 +52,15 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
     {
         var entity = new ClientApi.Domain.Currency();
         entity.Id = CurrencyMetadata.CreateId(createDto.Id);
-        if (createDto.Name is not null)entity.Name = ClientApi.Domain.CurrencyMetadata.CreateName(createDto.Name.NonNullValue<System.String>());
-        if (createDto.Symbol is not null)entity.Symbol = ClientApi.Domain.CurrencyMetadata.CreateSymbol(createDto.Symbol.NonNullValue<System.String>());
+        entity.SetIfNotNull(createDto.Name, (entity) => entity.Name =ClientApi.Domain.CurrencyMetadata.CreateName(createDto.Name.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.Symbol, (entity) => entity.Symbol =ClientApi.Domain.CurrencyMetadata.CreateSymbol(createDto.Symbol.NonNullValue<System.String>()));
         return entity;
     }
 
-    private void UpdateEntityInternal(CurrencyEntity entity, CurrencyUpdateDto updateDto)
+    private void UpdateEntityInternal(CurrencyEntity entity, CurrencyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        if (updateDto.Name == null) { entity.Name = null; } else {
-            entity.Name = ClientApi.Domain.CurrencyMetadata.CreateName(updateDto.Name.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.Symbol == null) { entity.Symbol = null; } else {
-            entity.Symbol = ClientApi.Domain.CurrencyMetadata.CreateSymbol(updateDto.Symbol.ToValueFromNonNull<System.String>());
-        }
+        entity.SetIfNotNull(updateDto.Name, (entity) => entity.Name = ClientApi.Domain.CurrencyMetadata.CreateName(updateDto.Name.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.Symbol, (entity) => entity.Symbol = ClientApi.Domain.CurrencyMetadata.CreateSymbol(updateDto.Symbol.ToValueFromNonNull<System.String>()));
     }
 
     private void PartialUpdateEntityInternal(CurrencyEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -87,6 +84,9 @@ internal abstract class CurrencyFactoryBase : IEntityFactory<CurrencyEntity, Cur
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class CurrencyFactory : CurrencyFactoryBase

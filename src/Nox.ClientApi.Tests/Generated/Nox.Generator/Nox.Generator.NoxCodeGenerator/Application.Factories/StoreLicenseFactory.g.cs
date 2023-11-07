@@ -25,6 +25,7 @@ namespace ClientApi.Application.Factories;
 
 internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public StoreLicenseFactoryBase
     (
@@ -37,9 +38,9 @@ internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicenseEnt
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(StoreLicenseEntity entity, StoreLicenseUpdateDto updateDto)
+    public virtual void UpdateEntity(StoreLicenseEntity entity, StoreLicenseUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(StoreLicenseEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -51,12 +52,14 @@ internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicenseEnt
     {
         var entity = new ClientApi.Domain.StoreLicense();
         entity.Issuer = ClientApi.Domain.StoreLicenseMetadata.CreateIssuer(createDto.Issuer);
+        entity.ExternalId = ClientApi.Domain.StoreLicenseMetadata.CreateExternalId(createDto.ExternalId);
         return entity;
     }
 
-    private void UpdateEntityInternal(StoreLicenseEntity entity, StoreLicenseUpdateDto updateDto)
+    private void UpdateEntityInternal(StoreLicenseEntity entity, StoreLicenseUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Issuer = ClientApi.Domain.StoreLicenseMetadata.CreateIssuer(updateDto.Issuer.NonNullValue<System.String>());
+        entity.ExternalId = ClientApi.Domain.StoreLicenseMetadata.CreateExternalId(updateDto.ExternalId.NonNullValue<System.Int64>());
     }
 
     private void PartialUpdateEntityInternal(StoreLicenseEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -72,7 +75,21 @@ internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicenseEnt
                 entity.Issuer = ClientApi.Domain.StoreLicenseMetadata.CreateIssuer(IssuerUpdateValue);
             }
         }
+
+        if (updatedProperties.TryGetValue("ExternalId", out var ExternalIdUpdateValue))
+        {
+            if (ExternalIdUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'ExternalId' can't be null");
+            }
+            {
+                entity.ExternalId = ClientApi.Domain.StoreLicenseMetadata.CreateExternalId(ExternalIdUpdateValue);
+            }
+        }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class StoreLicenseFactory : StoreLicenseFactoryBase
