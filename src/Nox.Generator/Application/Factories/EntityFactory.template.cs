@@ -70,7 +70,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
         entity.{{key.Name}} = {{entity.Name}}Metadata.Create{{key.Name}}(createDto.{{key.Name}});
         {{- end }}
         {{- for attribute in entity.Attributes }}
-            {{- if !IsNoxTypeReadable attribute.Type || attribute.Type == "Formula" -}}
+            {{- if !IsNoxTypeReadable attribute.Type || attribute.Type == "Formula" || attribute.Type == "AutoNumber" -}}
                 {{ continue; }}
             {{- end}}
         {{- if !attribute.IsRequired }}

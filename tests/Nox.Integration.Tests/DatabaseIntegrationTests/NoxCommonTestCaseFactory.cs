@@ -4,6 +4,8 @@ using Nox.Integration.Tests.Fixtures;
 using Nox.Types;
 using System;
 using System.Text.Json;
+using TestWebApp.Application.Dto;
+using TestWebApp.Application.Factories;
 using TestWebApp.Domain;
 using TestWebApp.Infrastructure.Persistence;
 using DateTime = Nox.Types.DateTime;
@@ -1060,10 +1062,14 @@ public class NoxCommonTestCaseFactory
         var text1 = Text.From("TX1");
         var text2 = Text.From("TX2");
 
-        var newItem = new TestEntityForAutoNumberUsages()
+        var factory = new TestEntityForAutoNumberUsagesFactory();
+
+        var newItemDto = new TestEntityForAutoNumberUsagesCreateDto
         {
-            TextField = text1
+            TextField = "TX1"
         };
+
+        var newItem = factory.CreateEntity(newItemDto);
 
         DataContext.TestEntityForAutoNumberUsages.Add(newItem);
         

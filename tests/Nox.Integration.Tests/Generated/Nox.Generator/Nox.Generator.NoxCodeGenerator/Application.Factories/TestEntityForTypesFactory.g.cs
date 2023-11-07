@@ -100,7 +100,6 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
         if (createDto.UrlTestField is not null)entity.UrlTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateUrlTestField(createDto.UrlTestField.NonNullValue<System.String>());
         if (createDto.DateTimeScheduleTestField is not null)entity.DateTimeScheduleTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeScheduleTestField(createDto.DateTimeScheduleTestField.NonNullValue<System.String>());
         if (createDto.UserTestField is not null)entity.UserTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateUserTestField(createDto.UserTestField.NonNullValue<System.String>());
-        entity.AutoNumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateAutoNumberTestField(createDto.AutoNumberTestField);
         if (createDto.HtmlTestField is not null)entity.HtmlTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateHtmlTestField(createDto.HtmlTestField.NonNullValue<System.String>());
         if (createDto.ImageTestField is not null)entity.ImageTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateImageTestField(createDto.ImageTestField.NonNullValue<ImageDto>());
         return entity;
