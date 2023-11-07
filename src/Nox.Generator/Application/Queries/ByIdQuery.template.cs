@@ -12,7 +12,7 @@ using {{codeGeneratorState.PersistenceNameSpace}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Queries;
 
-public record Get{{entity.Name }}ByIdQuery({{primaryKeys}}) : IRequest <IQueryable<{{entity.Name}}Dto>>;
+public partial record Get{{entity.Name }}ByIdQuery({{primaryKeys}}) : IRequest <IQueryable<{{entity.Name}}Dto>>;
 
 internal partial class Get{{entity.Name}}ByIdQueryHandler:Get{{entity.Name}}ByIdQueryHandlerBase
 {

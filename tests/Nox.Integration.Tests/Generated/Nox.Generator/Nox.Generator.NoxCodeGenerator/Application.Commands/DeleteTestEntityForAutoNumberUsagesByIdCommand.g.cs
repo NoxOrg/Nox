@@ -13,7 +13,7 @@ using TestEntityForAutoNumberUsagesEntity = TestWebApp.Domain.TestEntityForAutoN
 
 namespace TestWebApp.Application.Commands;
 
-public record DeleteTestEntityForAutoNumberUsagesByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteTestEntityForAutoNumberUsagesByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteTestEntityForAutoNumberUsagesByIdCommandHandler : DeleteTestEntityForAutoNumberUsagesByIdCommandHandlerBase
 {

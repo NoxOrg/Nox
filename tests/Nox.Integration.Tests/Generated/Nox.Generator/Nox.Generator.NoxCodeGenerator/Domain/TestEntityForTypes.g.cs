@@ -61,6 +61,11 @@ internal abstract partial class TestEntityForTypesBase : AuditableEntityBase, IE
     public Nox.Types.Text TextTestField { get; set; } = null!;
 
     /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Nox.Types.Enumeration? EnumerationTestField { get; set; } = null!;
+
+    /// <summary>
     ///  (Required).
     /// </summary>
     public Nox.Types.Number NumberTestField { get; set; } = null!;

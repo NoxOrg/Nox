@@ -26,7 +26,7 @@ internal abstract class TestEntityLocalizationLocalizedFactoryBase : IEntityLoca
             CultureCode = cultureCode,
         };
 
-        if(withAttributes)
+        if (withAttributes)
         {
             localizedEntity.TextFieldToLocalize = entity.TextFieldToLocalize;
         }

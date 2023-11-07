@@ -20,7 +20,7 @@ using TestEntityOwnedRelationshipZeroOrManyEntity = TestWebApp.Domain.TestEntity
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateTestEntityOwnedRelationshipZeroOrManyCommand(TestEntityOwnedRelationshipZeroOrManyCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<TestEntityOwnedRelationshipZeroOrManyKeyDto>;
+public partial record CreateTestEntityOwnedRelationshipZeroOrManyCommand(TestEntityOwnedRelationshipZeroOrManyCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<TestEntityOwnedRelationshipZeroOrManyKeyDto>;
 
 internal partial class CreateTestEntityOwnedRelationshipZeroOrManyCommandHandler : CreateTestEntityOwnedRelationshipZeroOrManyCommandHandlerBase
 {

@@ -19,7 +19,7 @@ using WorkplaceEntity = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Commands;
 
-public record CreateWorkplaceCommand(WorkplaceCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<WorkplaceKeyDto>;
+public partial record CreateWorkplaceCommand(WorkplaceCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<WorkplaceKeyDto>;
 
 internal partial class CreateWorkplaceCommandHandler : CreateWorkplaceCommandHandlerBase
 {

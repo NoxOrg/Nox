@@ -20,7 +20,7 @@ using TestEntityExactlyOneToZeroOrManyEntity = TestWebApp.Domain.TestEntityExact
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateTestEntityExactlyOneToZeroOrManyCommand(TestEntityExactlyOneToZeroOrManyCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<TestEntityExactlyOneToZeroOrManyKeyDto>;
+public partial record CreateTestEntityExactlyOneToZeroOrManyCommand(TestEntityExactlyOneToZeroOrManyCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<TestEntityExactlyOneToZeroOrManyKeyDto>;
 
 internal partial class CreateTestEntityExactlyOneToZeroOrManyCommandHandler : CreateTestEntityExactlyOneToZeroOrManyCommandHandlerBase
 {

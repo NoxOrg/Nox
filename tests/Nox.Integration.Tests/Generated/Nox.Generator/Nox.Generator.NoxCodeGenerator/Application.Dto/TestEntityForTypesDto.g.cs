@@ -42,6 +42,8 @@ public abstract class TestEntityForTypesDtoBase : EntityDtoBase, IEntityDto<Doma
         else
             result.Add("TextTestField", new [] { "TextTestField is Required." });
     
+        if (this.EnumerationTestField is not null)
+            ExecuteActionAndCollectValidationExceptions("EnumerationTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateEnumerationTestField(this.EnumerationTestField.NonNullValue<System.Int32>()), result);
         ExecuteActionAndCollectValidationExceptions("NumberTestField", () => DomainNamespace.TestEntityForTypesMetadata.CreateNumberTestField(this.NumberTestField), result);
     
         if (this.MoneyTestField is not null)
@@ -156,6 +158,11 @@ public abstract class TestEntityForTypesDtoBase : EntityDtoBase, IEntityDto<Doma
     ///  (Required).
     /// </summary>
     public System.String TextTestField { get; set; } = default!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public System.Int32? EnumerationTestField { get; set; }
 
     /// <summary>
     ///  (Required).
@@ -411,6 +418,8 @@ public abstract class TestEntityForTypesDtoBase : EntityDtoBase, IEntityDto<Doma
     ///  (Optional).
     /// </summary>
     public ImageDto? ImageTestField { get; set; }
+    [NotMapped]
+    public string? EnumerationTestFieldName { get; set; } = default!;
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

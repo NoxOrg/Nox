@@ -13,7 +13,7 @@ using TestEntityOwnedRelationshipZeroOrOneEntity = TestWebApp.Domain.TestEntityO
 
 namespace TestWebApp.Application.Commands;
 
-public record DeleteTestEntityOwnedRelationshipZeroOrOneByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteTestEntityOwnedRelationshipZeroOrOneByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteTestEntityOwnedRelationshipZeroOrOneByIdCommandHandler : DeleteTestEntityOwnedRelationshipZeroOrOneByIdCommandHandlerBase
 {

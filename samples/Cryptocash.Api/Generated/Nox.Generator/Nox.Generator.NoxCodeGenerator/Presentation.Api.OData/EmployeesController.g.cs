@@ -158,7 +158,7 @@ public abstract partial class EmployeesControllerBase : ODataController
         return NoContent();
     }
     
-    private async Task<EmployeePhoneNumberDto?> TryGetEmployeeContactPhoneNumbers(System.Int64 key, EmployeePhoneNumberKeyDto childKeyDto)
+    protected async Task<EmployeePhoneNumberDto?> TryGetEmployeeContactPhoneNumbers(System.Int64 key, EmployeePhoneNumberKeyDto childKeyDto)
     {
         var parent = (await _mediator.Send(new GetEmployeeByIdQuery(key))).SingleOrDefault();
         return parent?.EmployeeContactPhoneNumbers.SingleOrDefault(x => x.Id == childKeyDto.keyId);
@@ -211,22 +211,6 @@ public abstract partial class EmployeesControllerBase : ODataController
         
         var references = new System.Uri($"CashStockOrders/{related.Id}", UriKind.Relative);
         return Ok(references);
-    }
-    
-    public async Task<ActionResult> DeleteRefToEmployeeReviewingCashStockOrder([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var deletedRef = await _mediator.Send(new DeleteRefEmployeeToEmployeeReviewingCashStockOrderCommand(new EmployeeKeyDto(key), new CashStockOrderKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
     }
     
     public async Task<ActionResult> DeleteRefToEmployeeReviewingCashStockOrder([FromRoute] System.Int64 key)

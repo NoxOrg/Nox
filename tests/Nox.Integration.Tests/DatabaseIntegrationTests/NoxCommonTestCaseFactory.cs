@@ -141,6 +141,17 @@ public class NoxCommonTestCaseFactory
         var imagePrettyName = "Image";
         var imageSizeInBytes = 128;
 
+        var enumeration = 1;
+        var enumerationOptions = new EnumerationTypeOptions
+        {
+            IsLocalized = true,
+            Values = new EnumerationValues[] {
+                new EnumerationValues { Id = 1, Name = "Value1" },
+                new EnumerationValues { Id = 2, Name = "Value2" },
+                new EnumerationValues { Id = 3, Name = "Value3" }
+                }
+        };
+
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -197,6 +208,7 @@ public class NoxCommonTestCaseFactory
             PhoneNumberTestField = PhoneNumber.From(phoneNumber),
             DateTimeTestField = DateTime.From(dateTime),
             DateTimeScheduleTestField = DateTimeSchedule.From(cronJobExpression),
+            EnumerationTestField = Enumeration.From(enumeration, enumerationOptions),
         };
         var temperatureCelsius = newItem.TemperatureTestField.ToCelsius();
         DataContext.TestEntityForTypes.Add(newItem);
@@ -206,6 +218,8 @@ public class NoxCommonTestCaseFactory
         _dbContextFixture.RefreshDbContext();
 
         var testEntity = DataContext.TestEntityForTypes.First();
+        var testEntityEnumerations = DataContext.TestEntityForTypesEnumerationTestFields.ToList();
+        var testEntityLocalizedEnumerations = DataContext.TestEntityForTypesEnumerationTestFieldsLocalized.ToList();
 
         // TODO: make it work without .Value
         testEntity.Id.Value.Should().Be(countryCode2);
@@ -276,7 +290,7 @@ public class NoxCommonTestCaseFactory
         testEntity.UriTestField!.Value.Should().BeEquivalentTo(new System.Uri(sampleUri));
         testEntity.GeoCoordTestField!.Latitude.Should().Be(latitude);
         testEntity.GeoCoordTestField!.Longitude.Should().Be(longitude);
-
+        
         if (supportDateTimeOffset)
         {
             testEntity.DateTimeRangeTestField!.Start.Should().Be(dateTimeRangeStart);
@@ -303,6 +317,16 @@ public class NoxCommonTestCaseFactory
         testEntity.PhoneNumberTestField!.Value.Should().Be(phoneNumber);
         testEntity.DateTimeScheduleTestField!.Value.Should().Be(cronJobExpression);
         testEntity.DateTimeTestField!.Value.Should().Be(dateTime);
+        testEntity.EnumerationTestField!.Value.Should().Be(enumeration);
+        testEntityEnumerations.Count.Should().Be(3);
+        testEntityEnumerations.Should().BeEquivalentTo(
+            enumerationOptions.Values.Select(x => new TestEntityForTypesEnumerationTestField { Id = Enumeration.From(x.Id, enumerationOptions), Name = x.Name }).ToList()
+        );
+
+        testEntityLocalizedEnumerations.Count.Should().Be(3);
+        testEntityLocalizedEnumerations.Should().BeEquivalentTo(
+            enumerationOptions.Values.Select(x => new TestEntityForTypesEnumerationTestFieldLocalized { Id = Enumeration.From(x.Id, enumerationOptions), Name = x.Name, CultureCode = CultureCode.From("en-US") }).ToList()
+        );
     }
 
     public void GeneratedRelationshipZeroOrMany()

@@ -13,7 +13,7 @@ using VendingMachineEntity = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application.Commands;
 
-public record DeleteVendingMachineByIdCommand(System.Guid keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteVendingMachineByIdCommand(System.Guid keyId, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteVendingMachineByIdCommandHandler : DeleteVendingMachineByIdCommandHandlerBase
 {

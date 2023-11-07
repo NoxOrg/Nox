@@ -15,7 +15,7 @@ using Nox.Types;
 
 namespace ClientApi.Application.Queries;
 
-public record GetWorkplaceByIdQuery(CultureCode cultureCode, System.UInt32 keyId) : IRequest <IQueryable<WorkplaceDto>>;
+public partial record GetWorkplaceByIdQuery(CultureCode cultureCode, System.UInt32 keyId) : IRequest <IQueryable<WorkplaceDto>>;
 
 internal partial class GetWorkplaceByIdQueryHandler : GetWorkplaceByIdQueryHandlerBase
 {

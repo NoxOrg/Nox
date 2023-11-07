@@ -15,9 +15,9 @@ using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Na
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 {{- if isSingleRelationship }}
-public record Delete{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto) : IRequest <bool>;
+public partial record Delete{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto) : IRequest <bool>;
 {{ else }}
-public record Delete{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}KeyDto EntityKeyDto) : IRequest <bool>;
+public partial record Delete{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}KeyDto EntityKeyDto) : IRequest <bool>;
 {{- end }}
 
 internal partial class Delete{{entity.Name}}For{{parent.Name}}CommandHandler : Delete{{entity.Name}}For{{parent.Name}}CommandHandlerBase

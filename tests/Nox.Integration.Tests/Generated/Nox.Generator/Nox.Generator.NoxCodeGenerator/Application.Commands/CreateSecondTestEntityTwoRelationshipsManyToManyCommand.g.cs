@@ -19,7 +19,7 @@ using SecondTestEntityTwoRelationshipsManyToManyEntity = TestWebApp.Domain.Secon
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateSecondTestEntityTwoRelationshipsManyToManyCommand(SecondTestEntityTwoRelationshipsManyToManyCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<SecondTestEntityTwoRelationshipsManyToManyKeyDto>;
+public partial record CreateSecondTestEntityTwoRelationshipsManyToManyCommand(SecondTestEntityTwoRelationshipsManyToManyCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<SecondTestEntityTwoRelationshipsManyToManyKeyDto>;
 
 internal partial class CreateSecondTestEntityTwoRelationshipsManyToManyCommandHandler : CreateSecondTestEntityTwoRelationshipsManyToManyCommandHandlerBase
 {

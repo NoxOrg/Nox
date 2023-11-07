@@ -14,7 +14,7 @@ using ClientApi.Application.Dto;
 using CountryBarCodeEntity = ClientApi.Domain.CountryBarCode;
 
 namespace ClientApi.Application.Commands;
-public record DeleteCountryBarCodeForCountryCommand(CountryKeyDto ParentKeyDto) : IRequest <bool>;
+public partial record DeleteCountryBarCodeForCountryCommand(CountryKeyDto ParentKeyDto) : IRequest <bool>;
 
 
 internal partial class DeleteCountryBarCodeForCountryCommandHandler : DeleteCountryBarCodeForCountryCommandHandlerBase

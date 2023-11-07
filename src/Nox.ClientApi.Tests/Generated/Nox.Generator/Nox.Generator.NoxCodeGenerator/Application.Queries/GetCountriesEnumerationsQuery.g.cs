@@ -12,7 +12,7 @@ using PersistenceNameSpace = ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 
-public record GetCountriesContinentsQuery() : IRequest<IQueryable<DtoNameSpace.CountryContinentDto>>;
+public partial record GetCountriesContinentsQuery() : IRequest<IQueryable<DtoNameSpace.CountryContinentDto>>;
 
 internal partial class GetCountriesContinentsQueryHandler: GetCountriesContinentsQueryHandlerBase
 {

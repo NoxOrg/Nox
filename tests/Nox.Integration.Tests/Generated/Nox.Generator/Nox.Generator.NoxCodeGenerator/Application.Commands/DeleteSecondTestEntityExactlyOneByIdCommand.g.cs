@@ -13,7 +13,7 @@ using SecondTestEntityExactlyOneEntity = TestWebApp.Domain.SecondTestEntityExact
 
 namespace TestWebApp.Application.Commands;
 
-public record DeleteSecondTestEntityExactlyOneByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteSecondTestEntityExactlyOneByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteSecondTestEntityExactlyOneByIdCommandHandler : DeleteSecondTestEntityExactlyOneByIdCommandHandlerBase
 {

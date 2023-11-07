@@ -72,22 +72,6 @@ public abstract partial class TestEntityExactlyOneToOneOrManiesControllerBase : 
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToTestEntityOneOrManyToExactlyOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var deletedRef = await _mediator.Send(new DeleteRefTestEntityExactlyOneToOneOrManyToTestEntityOneOrManyToExactlyOneCommand(new TestEntityExactlyOneToOneOrManyKeyDto(key), new TestEntityOneOrManyToExactlyOneKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
-    }
-    
     public async Task<ActionResult> DeleteRefToTestEntityOneOrManyToExactlyOne([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)

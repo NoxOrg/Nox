@@ -19,7 +19,7 @@ using RatingProgramEntity = ClientApi.Domain.RatingProgram;
 
 namespace ClientApi.Application.Commands;
 
-public record CreateRatingProgramCommand(RatingProgramCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<RatingProgramKeyDto>;
+public partial record CreateRatingProgramCommand(RatingProgramCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<RatingProgramKeyDto>;
 
 internal partial class CreateRatingProgramCommandHandler : CreateRatingProgramCommandHandlerBase
 {

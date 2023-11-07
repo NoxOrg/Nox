@@ -20,7 +20,7 @@ using LandLordEntity = Cryptocash.Domain.LandLord;
 
 namespace Cryptocash.Application.Commands;
 
-public record CreateLandLordCommand(LandLordCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<LandLordKeyDto>;
+public partial record CreateLandLordCommand(LandLordCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<LandLordKeyDto>;
 
 internal partial class CreateLandLordCommandHandler : CreateLandLordCommandHandlerBase
 {

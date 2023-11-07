@@ -23,6 +23,12 @@ public partial class StoreLicenseUpdateDto : IEntityDto<DomainNamespace.StoreLic
     [Required(ErrorMessage = "Issuer is required")]
     
     public System.String Issuer { get; set; } = default!;
+    /// <summary>
+    /// License external id (Required).
+    /// </summary>
+    [Required(ErrorMessage = "ExternalId is required")]
+    
+    public System.Int64 ExternalId { get; set; } = default!;
 
     /// <summary>
     /// StoreLicense Store that this license related to ExactlyOne Stores

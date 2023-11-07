@@ -14,7 +14,7 @@ using ClientApi.Application.Dto;
 using EmailAddressEntity = ClientApi.Domain.EmailAddress;
 
 namespace ClientApi.Application.Commands;
-public record UpdateEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto, EmailAddressUpdateDto EntityDto, System.Guid? Etag) : IRequest <EmailAddressKeyDto?>;
+public partial record UpdateEmailAddressForStoreCommand(StoreKeyDto ParentKeyDto, EmailAddressUpdateDto EntityDto, System.Guid? Etag) : IRequest <EmailAddressKeyDto?>;
 
 
 internal partial class UpdateEmailAddressForStoreCommandHandler : UpdateEmailAddressForStoreCommandHandlerBase

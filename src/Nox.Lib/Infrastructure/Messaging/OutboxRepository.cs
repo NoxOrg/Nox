@@ -1,11 +1,12 @@
-﻿using MassTransit;
+﻿using CloudNative.CloudEvents;
+using MassTransit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Nox.Abstractions;
 using Nox.Application;
 using Nox.Solution;
-using System.Net.Mime;
+using System.Reflection;
 
 namespace Nox.Infrastructure.Messaging
 {
@@ -14,32 +15,57 @@ namespace Nox.Infrastructure.Messaging
         private readonly IPublishEndpoint _bus;
         private readonly ILogger<OutboxRepository> _logger;
         private readonly IUserProvider _userProvider;
-        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly NoxSolution _noxSolution;
+        private readonly string _messagePrefix;
 
         public OutboxRepository(
             IPublishEndpoint bus,
             ILogger<OutboxRepository> logger,
             IUserProvider userProvider,
-            IWebHostEnvironment webHostEnvironment)
+            IWebHostEnvironment webHostEnvironment,
+            NoxSolution noxSolution)
         {
             _bus = bus;
             _logger = logger;
             _userProvider = userProvider;
-            _webHostEnvironment = webHostEnvironment;
+            _noxSolution = noxSolution;
+            _messagePrefix = webHostEnvironment.EnvironmentName == Environments.Production ? string.Empty : $"{webHostEnvironment.EnvironmentName.ToLower()}.";
         }
 
         public async Task AddAsync<T>(T integrationEvent) where T : IIntegrationEvent
         {
             _logger.LogInformation($"Publish message {typeof(T)} to {_bus.GetType()}");
 
-            var prefix = _webHostEnvironment.EnvironmentName == Environments.Production ? string.Empty : $"{_webHostEnvironment.EnvironmentName.ToLower()}.";
-
-            await _bus.Publish(new CloudEventMessage<T>(integrationEvent, _userProvider.GetUser().ToString(), prefix), sendContext =>
+            var integrationEventAttribute = integrationEvent.GetType().GetCustomAttribute<IntegrationEventTypeAttribute>();
+            var trait = integrationEventAttribute?.Trait;
+            var eventName = integrationEventAttribute?.EventName;
+            if (string.IsNullOrWhiteSpace(trait))
             {
-                sendContext.ContentType = new ContentType("application/cloudevents+json");
-            });
+                throw new EventTraitIsNotFoundException($"Provided {nameof(integrationEventAttribute.Trait)} in {nameof(IntegrationEventTypeAttribute)} for event {integrationEvent.GetType()} can't be null or empty.");
+            }
 
-            _logger.LogInformation("Publish message {typeName} in PublishEndpoint ", typeof(T));
+            if (string.IsNullOrWhiteSpace(eventName))
+            {
+                throw new EventNameIsNotFoundException($"Provided {nameof(integrationEventAttribute.EventName)} in {nameof(IntegrationEventTypeAttribute)} for event {integrationEvent.GetType()} can't be null or empty.");
+            }
+
+            var message = new CloudEventMessage<T>(integrationEvent) { UserId = _userProvider.GetUser().ToString() };
+
+            await _bus.Publish(message, sendContext =>
+            {
+                var cloudEvent = new CloudEvent();
+                cloudEvent.Data = integrationEvent;
+                cloudEvent.Id = sendContext.MessageId.ToString();
+                cloudEvent.Source = new Uri($"https://{_messagePrefix}{_noxSolution.PlatformId}.com/{_noxSolution.Name}");
+                cloudEvent.Time = sendContext.SentTime;
+                cloudEvent.Type = $"{_noxSolution.PlatformId}.{_noxSolution.Name}.{trait}.v{_noxSolution.Version}.{eventName}";
+                cloudEvent.DataSchema = new System.Uri($"https://{_messagePrefix}{_noxSolution.PlatformId}.com/schemas/{_noxSolution.Name}/{trait}/v{_noxSolution.Version}/{eventName}.json");
+                cloudEvent.DataContentType = "application/json";
+                cloudEvent.SetAttributeFromString("xuserid", _userProvider.GetUser().ToString());
+                cloudEvent.Validate();
+
+                message.SetCloudEvent(cloudEvent);
+            });
         }
     }
 }

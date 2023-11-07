@@ -12,7 +12,7 @@ using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.Application.Queries;
 
-public record GetLandLordByIdQuery(System.Int64 keyId) : IRequest <IQueryable<LandLordDto>>;
+public partial record GetLandLordByIdQuery(System.Int64 keyId) : IRequest <IQueryable<LandLordDto>>;
 
 internal partial class GetLandLordByIdQueryHandler:GetLandLordByIdQueryHandlerBase
 {

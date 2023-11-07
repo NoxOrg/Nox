@@ -53,6 +53,7 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
         var entity = new TestWebApp.Domain.TestEntityForTypes();
         entity.Id = TestEntityForTypesMetadata.CreateId(createDto.Id);
         entity.TextTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTextTestField(createDto.TextTestField);
+        entity.SetIfNotNull(createDto.EnumerationTestField, (entity) => entity.EnumerationTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateEnumerationTestField(createDto.EnumerationTestField.NonNullValue<System.Int32>()));
         entity.NumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateNumberTestField(createDto.NumberTestField);
         entity.SetIfNotNull(createDto.MoneyTestField, (entity) => entity.MoneyTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateMoneyTestField(createDto.MoneyTestField.NonNullValue<MoneyDto>()));
         entity.SetIfNotNull(createDto.CountryCode2TestField, (entity) => entity.CountryCode2TestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateCountryCode2TestField(createDto.CountryCode2TestField.NonNullValue<System.String>()));
@@ -109,6 +110,7 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
     private void UpdateEntityInternal(TestEntityForTypesEntity entity, TestEntityForTypesUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.TextTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTextTestField(updateDto.TextTestField.NonNullValue<System.String>());
+        entity.SetIfNotNull(updateDto.EnumerationTestField, (entity) => entity.EnumerationTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateEnumerationTestField(updateDto.EnumerationTestField.ToValueFromNonNull<System.Int32>()));
         entity.NumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateNumberTestField(updateDto.NumberTestField.NonNullValue<System.Int16>());
         entity.SetIfNotNull(updateDto.MoneyTestField, (entity) => entity.MoneyTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateMoneyTestField(updateDto.MoneyTestField.ToValueFromNonNull<MoneyDto>()));
         entity.SetIfNotNull(updateDto.CountryCode2TestField, (entity) => entity.CountryCode2TestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateCountryCode2TestField(updateDto.CountryCode2TestField.ToValueFromNonNull<System.String>()));
@@ -172,6 +174,15 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             }
             {
                 entity.TextTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTextTestField(TextTestFieldUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("EnumerationTestField", out var EnumerationTestFieldUpdateValue))
+        {
+            if (EnumerationTestFieldUpdateValue == null) { entity.EnumerationTestField = null; }
+            else
+            {
+                entity.EnumerationTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateEnumerationTestField(EnumerationTestFieldUpdateValue);
             }
         }
 

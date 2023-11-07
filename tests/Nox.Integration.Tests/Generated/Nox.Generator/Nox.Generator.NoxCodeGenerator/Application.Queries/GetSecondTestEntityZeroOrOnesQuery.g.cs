@@ -12,7 +12,7 @@ using TestWebApp.Infrastructure.Persistence;
 
 namespace TestWebApp.Application.Queries;
 
-public record GetSecondTestEntityZeroOrOnesQuery() : IRequest<IQueryable<SecondTestEntityZeroOrOneDto>>;
+public partial record GetSecondTestEntityZeroOrOnesQuery() : IRequest<IQueryable<SecondTestEntityZeroOrOneDto>>;
 
 internal partial class GetSecondTestEntityZeroOrOnesQueryHandler: GetSecondTestEntityZeroOrOnesQueryHandlerBase
 {

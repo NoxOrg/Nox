@@ -21,7 +21,7 @@ namespace Cryptocash.Application.Commands;
 
 public abstract record RefLandLordToContractedAreasForVendingMachinesCommand(LandLordKeyDto EntityKeyDto, VendingMachineKeyDto? RelatedEntityKeyDto) : IRequest <bool>;
 
-public record CreateRefLandLordToContractedAreasForVendingMachinesCommand(LandLordKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto)
+public partial record CreateRefLandLordToContractedAreasForVendingMachinesCommand(LandLordKeyDto EntityKeyDto, VendingMachineKeyDto RelatedEntityKeyDto)
 	: RefLandLordToContractedAreasForVendingMachinesCommand(EntityKeyDto, RelatedEntityKeyDto);
 
 internal partial class CreateRefLandLordToContractedAreasForVendingMachinesCommandHandler

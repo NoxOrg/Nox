@@ -12,7 +12,7 @@ using TestWebApp.Infrastructure.Persistence;
 
 namespace TestWebApp.Application.Queries;
 
-public record GetTestEntityZeroOrOneToOneOrManyByIdQuery(System.String keyId) : IRequest <IQueryable<TestEntityZeroOrOneToOneOrManyDto>>;
+public partial record GetTestEntityZeroOrOneToOneOrManyByIdQuery(System.String keyId) : IRequest <IQueryable<TestEntityZeroOrOneToOneOrManyDto>>;
 
 internal partial class GetTestEntityZeroOrOneToOneOrManyByIdQueryHandler:GetTestEntityZeroOrOneToOneOrManyByIdQueryHandlerBase
 {
