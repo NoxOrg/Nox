@@ -26,7 +26,7 @@ public class Entity : DefinitionBase
     private ConcurrentDictionary<string, NoxSimpleTypeDefinition>? _keysByName;
 
     [YamlIgnore]
-    private ConcurrentDictionary<EntityRelationship, string>? _relationshipPublicNamesByRelationship;
+    private Dictionary<EntityRelationship, string>? _relationshipPublicNamesByRelationship;
 
     [Required]
     [Title("The name of the entity. Contains no spaces.")]
@@ -276,7 +276,7 @@ public class Entity : DefinitionBase
             else
                 name = Relationships[i].Name;
 
-            _relationshipPublicNamesByRelationship.TryAdd(Relationships[i], name);
+            _relationshipPublicNamesByRelationship.Add(Relationships[i], name);
         }
     }
 
