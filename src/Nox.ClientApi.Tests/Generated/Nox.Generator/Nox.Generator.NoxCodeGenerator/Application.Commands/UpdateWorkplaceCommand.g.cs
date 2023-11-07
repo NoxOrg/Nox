@@ -105,6 +105,6 @@ internal abstract class UpdateWorkplaceCommandHandlerBase : CommandBase<UpdateWo
 			DbContext.Entry(entityLocalized).State = EntityState.Modified;
 		}
 
-		_entityLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto, cultureCode);
+		_entityLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto);
 	}
 }

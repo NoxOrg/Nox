@@ -90,6 +90,6 @@ internal abstract class UpdateTestEntityLocalizationCommandHandlerBase : Command
 			DbContext.Entry(entityLocalized).State = EntityState.Modified;
 		}
 
-		_entityLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto, cultureCode);
+		_entityLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto);
 	}
 }

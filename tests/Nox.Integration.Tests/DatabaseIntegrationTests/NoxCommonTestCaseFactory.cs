@@ -1023,7 +1023,7 @@ public class NoxCommonTestCaseFactory
         var testEntity = DataContext.TestEntityLocalizationsLocalized.First();
 
         Assert.Equal(testEntity.Id.Value, textId1);
-        Assert.Equal(testEntity.TextFieldToLocalize.Value, text);
+        Assert.Equal(testEntity.TextFieldToLocalize!.Value, text);
         Assert.Equal(testEntity.CultureCode.Value, culture);
     }
     

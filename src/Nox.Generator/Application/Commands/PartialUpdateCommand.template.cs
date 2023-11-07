@@ -85,11 +85,17 @@ internal class PartialUpdate{{entity.Name}}CommandHandlerBase : CommandBase<Part
 	private async Task PartiallyUpdateLocalizedEntityAsync({{entity.Name}}Entity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
 	{
 		var entityLocalized = await DbContext.{{entity.PluralName}}Localized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
-		if(entityLocalized is not null)
+		if(entityLocalized is null)
 		{
-			EntityLocalizedFactory.PartialUpdateEntity(entityLocalized, updatedProperties, cultureCode);
+			entityLocalized = EntityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode, withAttributes: false);
+			DbContext.{{entity.PluralName}}Localized.Add(entityLocalized);
+		}
+		else
+		{
 			DbContext.Entry(entityLocalized).State = EntityState.Modified;
 		}
+
+		EntityLocalizedFactory.PartialUpdateLocalizedEntity(entityLocalized, updatedProperties);
 	}
 	{{- end }}
 }
