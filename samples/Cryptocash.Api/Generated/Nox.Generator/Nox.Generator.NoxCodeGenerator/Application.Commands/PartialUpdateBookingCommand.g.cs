@@ -31,7 +31,9 @@ internal class PartialUpdateBookingCommandHandler : PartialUpdateBookingCommandH
 internal class PartialUpdateBookingCommandHandlerBase : CommandBase<PartialUpdateBookingCommand, BookingEntity>, IRequestHandler<PartialUpdateBookingCommand, BookingKeyDto?>
 {
 	public AppDbContext DbContext { get; }
-	public IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> EntityFactory { get; }public PartialUpdateBookingCommandHandlerBase(
+	public IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> EntityFactory { get; }
+
+	public PartialUpdateBookingCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> entityFactory)

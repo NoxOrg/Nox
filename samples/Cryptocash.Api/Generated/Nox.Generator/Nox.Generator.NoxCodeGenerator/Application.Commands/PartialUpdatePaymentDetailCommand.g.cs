@@ -31,7 +31,9 @@ internal class PartialUpdatePaymentDetailCommandHandler : PartialUpdatePaymentDe
 internal class PartialUpdatePaymentDetailCommandHandlerBase : CommandBase<PartialUpdatePaymentDetailCommand, PaymentDetailEntity>, IRequestHandler<PartialUpdatePaymentDetailCommand, PaymentDetailKeyDto?>
 {
 	public AppDbContext DbContext { get; }
-	public IEntityFactory<PaymentDetailEntity, PaymentDetailCreateDto, PaymentDetailUpdateDto> EntityFactory { get; }public PartialUpdatePaymentDetailCommandHandlerBase(
+	public IEntityFactory<PaymentDetailEntity, PaymentDetailCreateDto, PaymentDetailUpdateDto> EntityFactory { get; }
+
+	public PartialUpdatePaymentDetailCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<PaymentDetailEntity, PaymentDetailCreateDto, PaymentDetailUpdateDto> entityFactory)

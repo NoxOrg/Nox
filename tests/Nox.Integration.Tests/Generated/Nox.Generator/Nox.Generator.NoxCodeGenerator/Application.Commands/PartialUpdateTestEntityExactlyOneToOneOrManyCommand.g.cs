@@ -31,7 +31,9 @@ internal class PartialUpdateTestEntityExactlyOneToOneOrManyCommandHandler : Part
 internal class PartialUpdateTestEntityExactlyOneToOneOrManyCommandHandlerBase : CommandBase<PartialUpdateTestEntityExactlyOneToOneOrManyCommand, TestEntityExactlyOneToOneOrManyEntity>, IRequestHandler<PartialUpdateTestEntityExactlyOneToOneOrManyCommand, TestEntityExactlyOneToOneOrManyKeyDto?>
 {
 	public AppDbContext DbContext { get; }
-	public IEntityFactory<TestEntityExactlyOneToOneOrManyEntity, TestEntityExactlyOneToOneOrManyCreateDto, TestEntityExactlyOneToOneOrManyUpdateDto> EntityFactory { get; }public PartialUpdateTestEntityExactlyOneToOneOrManyCommandHandlerBase(
+	public IEntityFactory<TestEntityExactlyOneToOneOrManyEntity, TestEntityExactlyOneToOneOrManyCreateDto, TestEntityExactlyOneToOneOrManyUpdateDto> EntityFactory { get; }
+
+	public PartialUpdateTestEntityExactlyOneToOneOrManyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityExactlyOneToOneOrManyEntity, TestEntityExactlyOneToOneOrManyCreateDto, TestEntityExactlyOneToOneOrManyUpdateDto> entityFactory)

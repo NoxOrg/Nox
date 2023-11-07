@@ -31,7 +31,9 @@ internal class PartialUpdateLandLordCommandHandler : PartialUpdateLandLordComman
 internal class PartialUpdateLandLordCommandHandlerBase : CommandBase<PartialUpdateLandLordCommand, LandLordEntity>, IRequestHandler<PartialUpdateLandLordCommand, LandLordKeyDto?>
 {
 	public AppDbContext DbContext { get; }
-	public IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto> EntityFactory { get; }public PartialUpdateLandLordCommandHandlerBase(
+	public IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto> EntityFactory { get; }
+
+	public PartialUpdateLandLordCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto> entityFactory)

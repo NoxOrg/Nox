@@ -44,14 +44,9 @@ internal abstract class TestEntityLocalizationLocalizedFactoryBase : IEntityLoca
 
         if (updatedProperties.TryGetValue("TextFieldToLocalize", out var TextFieldToLocalizeUpdateValue))
         {
-            if (TextFieldToLocalizeUpdateValue == null)
-            {
-                localizedEntity.TextFieldToLocalize = null;
-            }
-            else
-            {
-                localizedEntity.TextFieldToLocalize = TestWebApp.Domain.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(TextFieldToLocalizeUpdateValue);
-            }
+            localizedEntity.TextFieldToLocalize = TextFieldToLocalizeUpdateValue == null 
+                ? null
+                : TestWebApp.Domain.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(TextFieldToLocalizeUpdateValue);
         }
     }
 }

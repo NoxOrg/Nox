@@ -31,7 +31,9 @@ internal class PartialUpdateEmployeeCommandHandler : PartialUpdateEmployeeComman
 internal class PartialUpdateEmployeeCommandHandlerBase : CommandBase<PartialUpdateEmployeeCommand, EmployeeEntity>, IRequestHandler<PartialUpdateEmployeeCommand, EmployeeKeyDto?>
 {
 	public AppDbContext DbContext { get; }
-	public IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto> EntityFactory { get; }public PartialUpdateEmployeeCommandHandlerBase(
+	public IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto> EntityFactory { get; }
+
+	public PartialUpdateEmployeeCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto> entityFactory)

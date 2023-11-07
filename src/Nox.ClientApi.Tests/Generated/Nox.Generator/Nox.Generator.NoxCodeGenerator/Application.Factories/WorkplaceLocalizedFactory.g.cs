@@ -44,14 +44,9 @@ internal abstract class WorkplaceLocalizedFactoryBase : IEntityLocalizedFactory<
 
         if (updatedProperties.TryGetValue("Description", out var DescriptionUpdateValue))
         {
-            if (DescriptionUpdateValue == null)
-            {
-                localizedEntity.Description = null;
-            }
-            else
-            {
-                localizedEntity.Description = ClientApi.Domain.WorkplaceMetadata.CreateDescription(DescriptionUpdateValue);
-            }
+            localizedEntity.Description = DescriptionUpdateValue == null 
+                ? null
+                : ClientApi.Domain.WorkplaceMetadata.CreateDescription(DescriptionUpdateValue);
         }
     }
 }

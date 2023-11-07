@@ -31,7 +31,9 @@ internal class PartialUpdateTestEntityForAutoNumberUsagesCommandHandler : Partia
 internal class PartialUpdateTestEntityForAutoNumberUsagesCommandHandlerBase : CommandBase<PartialUpdateTestEntityForAutoNumberUsagesCommand, TestEntityForAutoNumberUsagesEntity>, IRequestHandler<PartialUpdateTestEntityForAutoNumberUsagesCommand, TestEntityForAutoNumberUsagesKeyDto?>
 {
 	public AppDbContext DbContext { get; }
-	public IEntityFactory<TestEntityForAutoNumberUsagesEntity, TestEntityForAutoNumberUsagesCreateDto, TestEntityForAutoNumberUsagesUpdateDto> EntityFactory { get; }public PartialUpdateTestEntityForAutoNumberUsagesCommandHandlerBase(
+	public IEntityFactory<TestEntityForAutoNumberUsagesEntity, TestEntityForAutoNumberUsagesCreateDto, TestEntityForAutoNumberUsagesUpdateDto> EntityFactory { get; }
+
+	public PartialUpdateTestEntityForAutoNumberUsagesCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityForAutoNumberUsagesEntity, TestEntityForAutoNumberUsagesCreateDto, TestEntityForAutoNumberUsagesUpdateDto> entityFactory)

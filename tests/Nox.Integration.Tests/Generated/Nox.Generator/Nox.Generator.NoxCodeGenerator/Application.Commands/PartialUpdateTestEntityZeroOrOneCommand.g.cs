@@ -31,7 +31,9 @@ internal class PartialUpdateTestEntityZeroOrOneCommandHandler : PartialUpdateTes
 internal class PartialUpdateTestEntityZeroOrOneCommandHandlerBase : CommandBase<PartialUpdateTestEntityZeroOrOneCommand, TestEntityZeroOrOneEntity>, IRequestHandler<PartialUpdateTestEntityZeroOrOneCommand, TestEntityZeroOrOneKeyDto?>
 {
 	public AppDbContext DbContext { get; }
-	public IEntityFactory<TestEntityZeroOrOneEntity, TestEntityZeroOrOneCreateDto, TestEntityZeroOrOneUpdateDto> EntityFactory { get; }public PartialUpdateTestEntityZeroOrOneCommandHandlerBase(
+	public IEntityFactory<TestEntityZeroOrOneEntity, TestEntityZeroOrOneCreateDto, TestEntityZeroOrOneUpdateDto> EntityFactory { get; }
+
+	public PartialUpdateTestEntityZeroOrOneCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityZeroOrOneEntity, TestEntityZeroOrOneCreateDto, TestEntityZeroOrOneUpdateDto> entityFactory)

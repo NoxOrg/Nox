@@ -57,14 +57,9 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
 
         if (updatedProperties.TryGetValue("{{attribute.Name}}", out var {{attribute.Name}}UpdateValue))
         {
-            if ({{attribute.Name}}UpdateValue == null)
-            {
-                localizedEntity.{{attribute.Name}} = null;
-            }
-            else
-            {
-                localizedEntity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}({{attribute.Name}}UpdateValue);
-            }
+            localizedEntity.{{attribute.Name}} = {{attribute.Name}}UpdateValue == null 
+                ? null
+                : {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}({{attribute.Name}}UpdateValue);
         }
 
         {{- end }}

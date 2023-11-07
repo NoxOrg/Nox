@@ -31,7 +31,9 @@ internal class PartialUpdateCommissionCommandHandler : PartialUpdateCommissionCo
 internal class PartialUpdateCommissionCommandHandlerBase : CommandBase<PartialUpdateCommissionCommand, CommissionEntity>, IRequestHandler<PartialUpdateCommissionCommand, CommissionKeyDto?>
 {
 	public AppDbContext DbContext { get; }
-	public IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto> EntityFactory { get; }public PartialUpdateCommissionCommandHandlerBase(
+	public IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto> EntityFactory { get; }
+
+	public PartialUpdateCommissionCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto> entityFactory)

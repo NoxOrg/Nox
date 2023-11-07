@@ -31,7 +31,9 @@ internal class PartialUpdateTransactionCommandHandler : PartialUpdateTransaction
 internal class PartialUpdateTransactionCommandHandlerBase : CommandBase<PartialUpdateTransactionCommand, TransactionEntity>, IRequestHandler<PartialUpdateTransactionCommand, TransactionKeyDto?>
 {
 	public AppDbContext DbContext { get; }
-	public IEntityFactory<TransactionEntity, TransactionCreateDto, TransactionUpdateDto> EntityFactory { get; }public PartialUpdateTransactionCommandHandlerBase(
+	public IEntityFactory<TransactionEntity, TransactionCreateDto, TransactionUpdateDto> EntityFactory { get; }
+
+	public PartialUpdateTransactionCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TransactionEntity, TransactionCreateDto, TransactionUpdateDto> entityFactory)
