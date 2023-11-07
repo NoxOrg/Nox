@@ -72,22 +72,6 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToStoreWithLicense([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var deletedRef = await _mediator.Send(new DeleteRefStoreLicenseToStoreWithLicenseCommand(new StoreLicenseKeyDto(key), new StoreKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
-    }
-    
     public async Task<ActionResult> DeleteRefToStoreWithLicense([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)

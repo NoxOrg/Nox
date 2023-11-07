@@ -12,7 +12,7 @@ using PersistenceNameSpace = TestWebApp.Infrastructure.Persistence;
 
 namespace TestWebApp.Application.Queries;
 
-public record GetTestEntityForTypesEnumerationTestFieldsQuery() : IRequest<IQueryable<DtoNameSpace.TestEntityForTypesEnumerationTestFieldDto>>;
+public partial record GetTestEntityForTypesEnumerationTestFieldsQuery() : IRequest<IQueryable<DtoNameSpace.TestEntityForTypesEnumerationTestFieldDto>>;
 
 internal partial class GetTestEntityForTypesEnumerationTestFieldsQueryHandler: GetTestEntityForTypesEnumerationTestFieldsQueryHandlerBase
 {

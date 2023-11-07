@@ -12,7 +12,7 @@ using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.Application.Queries;
 
-public partial record Get CurrencyByIdQuery(System.String keyId) : IRequest <IQueryable<CurrencyDto>>;
+public partial record GetCurrencyByIdQuery(System.String keyId) : IRequest <IQueryable<CurrencyDto>>;
 
 internal partial class GetCurrencyByIdQueryHandler:GetCurrencyByIdQueryHandlerBase
 {
