@@ -14,6 +14,7 @@ Member|Type|Description
 ------|----|-----------
 Id|AutoNumber|
 Issuer|Text|License issuer
+ExternalId|AutoNumber|License external id
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -27,6 +28,7 @@ Member|Type|Description
 ------|----|-----------
 Id|AutoNumber|
 Issuer|Text|License issuer
+ExternalId|AutoNumber|License external id
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -40,5 +42,6 @@ Member|Type|Description
 ------|----|-----------
 Id|AutoNumber|
 Issuer|Text|License issuer
+ExternalId|AutoNumber|License external id
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 

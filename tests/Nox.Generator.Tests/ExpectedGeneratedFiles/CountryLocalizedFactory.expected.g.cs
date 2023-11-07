@@ -16,7 +16,7 @@ internal partial class CountryLocalizedFactory : CountryLocalizedFactoryBase
 {
 }
 
-internal abstract class CountryLocalizedFactoryBase : IEntityLocalizedFactory<CountryLocalized, CountryEntity>
+internal abstract class CountryLocalizedFactoryBase : IEntityLocalizedFactory<CountryLocalized, CountryEntity, CountryUpdateDto>
 {
     public virtual CountryLocalized CreateLocalizedEntity(CountryEntity entity, CultureCode cultureCode)
     {
@@ -30,5 +30,12 @@ internal abstract class CountryLocalizedFactoryBase : IEntityLocalizedFactory<Co
         };
 
         return localizedEntity;
+    }
+
+    public virtual void UpdateLocalizedEntity(CountryLocalized localizedEntity, CountryUpdateDto updateDto, CultureCode cultureCode)
+    {
+        localizedEntity.FormalName = SampleWebApp.Domain.CountryMetadata.CreateFormalName(updateDto.FormalName.NonNullValue<System.String>());
+        localizedEntity.AlphaCode3 = SampleWebApp.Domain.CountryMetadata.CreateAlphaCode3(updateDto.AlphaCode3.NonNullValue<System.String>());
+        localizedEntity.SetIfNotNull(updateDto.Capital, (localizedEntity) => localizedEntity.Capital = SampleWebApp.Domain.CountryMetadata.CreateCapital(updateDto.Capital.ToValueFromNonNull<System.String>()));
     }
 }

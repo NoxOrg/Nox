@@ -209,6 +209,7 @@ Member|Type|Description|Info
 ---------|----|----------|-------
 Id|AutoNumber||Required, Primary Key
 Issuer|Text|License issuer.|Required, MinLength: 4, MaxLength: 63
+ExternalId|AutoNumber|License external id.|Required, StartsAt: 3000000, IncrementsBy: 10
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 

@@ -89,7 +89,7 @@ public abstract partial class TestEntityForUniqueConstraintsControllerBase : ODa
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateTestEntityForUniqueConstraintsCommand(key, testEntityForUniqueConstraints, etag));
+        var updatedKey = await _mediator.Send(new UpdateTestEntityForUniqueConstraintsCommand(key, testEntityForUniqueConstraints, _cultureCode, etag));
 
         if (updatedKey is null)
         {

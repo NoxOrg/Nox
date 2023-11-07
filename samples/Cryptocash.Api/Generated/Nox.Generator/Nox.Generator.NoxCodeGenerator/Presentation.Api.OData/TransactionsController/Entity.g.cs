@@ -89,7 +89,7 @@ public abstract partial class TransactionsControllerBase : ODataController
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateTransactionCommand(key, transaction, etag));
+        var updatedKey = await _mediator.Send(new UpdateTransactionCommand(key, transaction, _cultureCode, etag));
 
         if (updatedKey is null)
         {

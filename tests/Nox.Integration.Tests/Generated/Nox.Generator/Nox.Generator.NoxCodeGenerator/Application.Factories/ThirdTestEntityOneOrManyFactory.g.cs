@@ -25,6 +25,7 @@ namespace TestWebApp.Application.Factories;
 
 internal abstract class ThirdTestEntityOneOrManyFactoryBase : IEntityFactory<ThirdTestEntityOneOrManyEntity, ThirdTestEntityOneOrManyCreateDto, ThirdTestEntityOneOrManyUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public ThirdTestEntityOneOrManyFactoryBase
     (
@@ -37,9 +38,9 @@ internal abstract class ThirdTestEntityOneOrManyFactoryBase : IEntityFactory<Thi
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(ThirdTestEntityOneOrManyEntity entity, ThirdTestEntityOneOrManyUpdateDto updateDto)
+    public virtual void UpdateEntity(ThirdTestEntityOneOrManyEntity entity, ThirdTestEntityOneOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(ThirdTestEntityOneOrManyEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -55,7 +56,7 @@ internal abstract class ThirdTestEntityOneOrManyFactoryBase : IEntityFactory<Thi
         return entity;
     }
 
-    private void UpdateEntityInternal(ThirdTestEntityOneOrManyEntity entity, ThirdTestEntityOneOrManyUpdateDto updateDto)
+    private void UpdateEntityInternal(ThirdTestEntityOneOrManyEntity entity, ThirdTestEntityOneOrManyUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.TextTestField = TestWebApp.Domain.ThirdTestEntityOneOrManyMetadata.CreateTextTestField(updateDto.TextTestField.NonNullValue<System.String>());
     }
@@ -74,6 +75,9 @@ internal abstract class ThirdTestEntityOneOrManyFactoryBase : IEntityFactory<Thi
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class ThirdTestEntityOneOrManyFactory : ThirdTestEntityOneOrManyFactoryBase

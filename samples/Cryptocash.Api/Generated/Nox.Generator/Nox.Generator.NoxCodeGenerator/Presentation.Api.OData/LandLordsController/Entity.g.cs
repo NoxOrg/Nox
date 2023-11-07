@@ -89,7 +89,7 @@ public abstract partial class LandLordsControllerBase : ODataController
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateLandLordCommand(key, landLord, etag));
+        var updatedKey = await _mediator.Send(new UpdateLandLordCommand(key, landLord, _cultureCode, etag));
 
         if (updatedKey is null)
         {

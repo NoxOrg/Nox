@@ -115,10 +115,10 @@ namespace Nox.Types.EntityFramework.Configurations
                     IsRequired = true,
                 }
             };
-            
-             //Configure keys without navigation properties
-             ConfigureKeys(CodeGenConventions, builder, localizedEntity, keys, false);
 
+            //Configure keys without navigation properties
+            ConfigureKeys(CodeGenConventions, builder, localizedEntity, keys, false, false);
+            
             ConfigureLocalizedAttributes(CodeGenConventions, builder, localizedEntity);
         }
 
@@ -262,7 +262,8 @@ namespace Nox.Types.EntityFramework.Configurations
             IEntityBuilder builder,
             Entity entity,
             IReadOnlyList<NoxSimpleTypeDefinition> keys,
-            bool configureNavigationProperty = true)
+            bool configureNavigationProperty = true,
+            bool configureForeignKey = true)
         {
             if (keys is { Count: > 0 })
             {
@@ -273,7 +274,7 @@ namespace Nox.Types.EntityFramework.Configurations
                     {
                         Console.WriteLine($"    Setup Key {key.Name} as Foreign Key for Entity {entity.Name}");
 
-                        ConfigureEntityKeyForEntityForeignKey(codeGeneratorState, builder, entity, key, configureNavigationProperty);
+                        ConfigureEntityKeyForEntityForeignKey(codeGeneratorState, builder, entity, key, configureNavigationProperty, configureForeignKey);
                         keysPropertyNames.Add(key.Name);
                     }
                     else if (TypesDatabaseConfigurations.TryGetValue(key.Type,
@@ -298,14 +299,19 @@ namespace Nox.Types.EntityFramework.Configurations
             IEntityBuilder builder,
             Entity entity,
             NoxSimpleTypeDefinition key,
-            bool configureNavigationProperty = true)
+            bool configureNavigationProperty = true,
+            bool configureForeignKey = true)
         {
             // Key type of the Foreign Entity Key
             var foreignEntityKeyType = codeGeneratorState.Solution.GetSingleKeyTypeForEntity(key.EntityIdTypeOptions!.Entity);
-            builder
-                .HasOne(codeGeneratorState.GetEntityTypeFullName(key.EntityIdTypeOptions.Entity), configureNavigationProperty ?  key.EntityIdTypeOptions!.Entity: null)
-                .WithOne()
-                .HasForeignKey(entity.Name, key.Name);
+
+            if (configureForeignKey)
+            {
+                builder
+                    .HasOne(codeGeneratorState.GetEntityTypeFullName(key.EntityIdTypeOptions.Entity), configureNavigationProperty ? key.EntityIdTypeOptions!.Entity : null)
+                    .WithOne()
+                    .HasForeignKey(entity.Name, key.Name);
+            }
 
             //Configure foreign key property
             if (TypesDatabaseConfigurations.TryGetValue(foreignEntityKeyType,

@@ -16,7 +16,7 @@ internal partial class TestEntityLocalizationLocalizedFactory : TestEntityLocali
 {
 }
 
-internal abstract class TestEntityLocalizationLocalizedFactoryBase : IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity>
+internal abstract class TestEntityLocalizationLocalizedFactoryBase : IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationUpdateDto>
 {
     public virtual TestEntityLocalizationLocalized CreateLocalizedEntity(TestEntityLocalizationEntity entity, CultureCode cultureCode)
     {
@@ -28,5 +28,10 @@ internal abstract class TestEntityLocalizationLocalizedFactoryBase : IEntityLoca
         };
 
         return localizedEntity;
+    }
+
+    public virtual void UpdateLocalizedEntity(TestEntityLocalizationLocalized localizedEntity, TestEntityLocalizationUpdateDto updateDto, CultureCode cultureCode)
+    {
+        localizedEntity.TextFieldToLocalize = TestWebApp.Domain.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(updateDto.TextFieldToLocalize.NonNullValue<System.String>());
     }
 }

@@ -25,6 +25,7 @@ namespace ClientApi.Application.Factories;
 
 internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<CountryQualityOfLifeIndexEntity, CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public CountryQualityOfLifeIndexFactoryBase
     (
@@ -37,9 +38,9 @@ internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<Co
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(CountryQualityOfLifeIndexEntity entity, CountryQualityOfLifeIndexUpdateDto updateDto)
+    public virtual void UpdateEntity(CountryQualityOfLifeIndexEntity entity, CountryQualityOfLifeIndexUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(CountryQualityOfLifeIndexEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -55,7 +56,7 @@ internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<Co
         return entity;
     }
 
-    private void UpdateEntityInternal(CountryQualityOfLifeIndexEntity entity, CountryQualityOfLifeIndexUpdateDto updateDto)
+    private void UpdateEntityInternal(CountryQualityOfLifeIndexEntity entity, CountryQualityOfLifeIndexUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.IndexRating = ClientApi.Domain.CountryQualityOfLifeIndexMetadata.CreateIndexRating(updateDto.IndexRating.NonNullValue<System.Int32>());
     }
@@ -74,6 +75,9 @@ internal abstract class CountryQualityOfLifeIndexFactoryBase : IEntityFactory<Co
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class CountryQualityOfLifeIndexFactory : CountryQualityOfLifeIndexFactoryBase

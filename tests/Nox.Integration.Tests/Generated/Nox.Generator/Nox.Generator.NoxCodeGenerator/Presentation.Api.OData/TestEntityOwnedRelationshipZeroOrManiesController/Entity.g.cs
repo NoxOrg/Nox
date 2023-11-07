@@ -89,7 +89,7 @@ public abstract partial class TestEntityOwnedRelationshipZeroOrManiesControllerB
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateTestEntityOwnedRelationshipZeroOrManyCommand(key, testEntityOwnedRelationshipZeroOrMany, etag));
+        var updatedKey = await _mediator.Send(new UpdateTestEntityOwnedRelationshipZeroOrManyCommand(key, testEntityOwnedRelationshipZeroOrMany, _cultureCode, etag));
 
         if (updatedKey is null)
         {

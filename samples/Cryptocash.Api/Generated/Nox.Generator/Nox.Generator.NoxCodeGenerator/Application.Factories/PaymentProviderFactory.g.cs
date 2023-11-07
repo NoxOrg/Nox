@@ -25,6 +25,7 @@ namespace Cryptocash.Application.Factories;
 
 internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProviderEntity, PaymentProviderCreateDto, PaymentProviderUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public PaymentProviderFactoryBase
     (
@@ -37,9 +38,9 @@ internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvi
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(PaymentProviderEntity entity, PaymentProviderUpdateDto updateDto)
+    public virtual void UpdateEntity(PaymentProviderEntity entity, PaymentProviderUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(PaymentProviderEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -55,7 +56,7 @@ internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvi
         return entity;
     }
 
-    private void UpdateEntityInternal(PaymentProviderEntity entity, PaymentProviderUpdateDto updateDto)
+    private void UpdateEntityInternal(PaymentProviderEntity entity, PaymentProviderUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.PaymentProviderName = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderName(updateDto.PaymentProviderName.NonNullValue<System.String>());
         entity.PaymentProviderType = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderType(updateDto.PaymentProviderType.NonNullValue<System.String>());
@@ -86,6 +87,9 @@ internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvi
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class PaymentProviderFactory : PaymentProviderFactoryBase

@@ -89,7 +89,7 @@ public abstract partial class SecondTestEntityTwoRelationshipsManyToManiesContro
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateSecondTestEntityTwoRelationshipsManyToManyCommand(key, secondTestEntityTwoRelationshipsManyToMany, etag));
+        var updatedKey = await _mediator.Send(new UpdateSecondTestEntityTwoRelationshipsManyToManyCommand(key, secondTestEntityTwoRelationshipsManyToMany, _cultureCode, etag));
 
         if (updatedKey is null)
         {
