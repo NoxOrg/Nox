@@ -158,7 +158,14 @@ namespace Nox.Solution {
                 return ResourceManager.GetString("EntityRelationshipEntityMissing", resourceCulture);
             }
         }
-        
+
+        internal static string EntityRelationshipCanNavigate
+        {
+            get {
+                return ResourceManager.GetString("EntityRelationshipCanNavigate", resourceCulture);
+            }
+        }
+
         internal static string EntityOwnedRelationshipNameEmpty {
             get {
                 return ResourceManager.GetString("EntityOwnedRelationshipNameEmpty", resourceCulture);

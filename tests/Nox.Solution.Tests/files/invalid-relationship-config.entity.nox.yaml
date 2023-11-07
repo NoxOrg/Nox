@@ -1,0 +1,76 @@
+#
+# invalid-relationship-config.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+
+name: TestService
+
+description: Yaml file for testing relationships
+
+domain:
+
+  entities:
+
+    - name: Currency
+      description: The list of currencies
+
+      keys:
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+        - name: Name        
+          description: The currency name
+          type: text          
+          isRequired: true
+          textTypeOptions:
+            isUnicode: false
+            minLength: 10
+            maxLength: 20            
+
+      relationships:
+
+        - name: CurrencyInCountries
+          description: accepted countries
+          relationship: zeroOrMany
+          entity: Country
+          canNavigate: false
+
+    - name: Country
+      description: The list of countries
+
+      persistence: 
+        isAudited: false
+
+      keys:
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+        - name: Name        
+          description: The country's common name
+          type: text          
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+
+        - name: CountryLegalCurrencies
+          description: accepted currencies
+          relationship: zeroOrOne
+          entity: Currency
+          canNavigate: false
