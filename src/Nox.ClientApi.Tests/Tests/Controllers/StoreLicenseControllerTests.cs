@@ -193,6 +193,7 @@ namespace ClientApi.Tests.Tests.Controllers
         {
             //Arrange
             var store1 = await CreateStore();
+            var store2 = await CreateStore();
 
             // Act
             var storeLicenseResponse = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl,
@@ -206,7 +207,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 new StoreLicenseCreateDto
                 {
                     Issuer = _fixture.Create<string>(),
-                    StoreId = store1!.Id,
+                    StoreId = store2!.Id,
                 });
 
             //Assert
