@@ -530,6 +530,9 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
     private static void GenerateDeleteRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
     {
+        if (relationship.Relationship == EntityRelationshipType.ExactlyOne)
+            return;
+
         var relatedEntity = relationship.Related.Entity;
         code.AppendLine($"public async Task<ActionResult> DeleteRefTo{relationship.Name}({GetPrimaryKeysRoute(entity, solution)}, {GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey")})");
 

@@ -96,6 +96,7 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
         foreach (var entity in _noxSolution.Domain!.Entities)
         {
             Console.WriteLine($"{{className}} Configure database for Entity {entity.Name}");
+            ConfigureEnumeratedAttributes(modelBuilder, entity);
 
             // Ignore owned entities configuration as they are configured inside entity constructor
             if (entity.IsOwnedEntity)
@@ -116,17 +117,20 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
 
         modelBuilder.ForEntitiesOfType<IEntityConcurrent>(
             builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());
-
-        {{- for entityAtt in enumerationAttributes #Setup Entity Enumerations}}
-        {{- for enumAtt in entityAtt.Attributes}}
-            ConfigureEnumeration(modelBuilder.Entity("{{codeGeneratorState.DomainNameSpace}}.{{enumAtt.EntityNameForEnumeration}}"));
-            {{- if enumAtt.Attribute.EnumerationTypeOptions.IsLocalized}}
-            var enumLocalizedType = _clientAssemblyProvider.GetType("{{codeGeneratorState.DomainNameSpace}}.{{enumAtt.EntityNameForLocalizedEnumeration}}")!;
-            var enumType = _clientAssemblyProvider.GetType("{{codeGeneratorState.DomainNameSpace}}.{{enumAtt.EntityNameForEnumeration}}")!;
-            ConfigureEnumerationLocalized(modelBuilder.Entity(enumLocalizedType), enumType, enumLocalizedType);
-            {{- end }}
-        {{- end }}
-        {{- end }}
+    }
+    
+    private void ConfigureEnumeratedAttributes(ModelBuilder modelBuilder, Entity entity)
+    {
+        foreach(var enumAttribute in entity.Attributes.Where(attribute => attribute.Type == NoxType.Enumeration))
+            {
+                ConfigureEnumeration(modelBuilder.Entity($"{{codeGeneratorState.DomainNameSpace}}.{_codeGenConventions.GetEntityNameForEnumeration(entity.Name, enumAttribute.Name)}"), enumAttribute.EnumerationTypeOptions!);
+                if (enumAttribute.EnumerationTypeOptions!.IsLocalized)
+                {
+                    var enumLocalizedType = _clientAssemblyProvider.GetType($"{{codeGeneratorState.DomainNameSpace}}.{_codeGenConventions.GetEntityNameForEnumerationLocalized(entity.Name, enumAttribute.Name)}")!;
+                    var enumType = _clientAssemblyProvider.GetType($"{{codeGeneratorState.DomainNameSpace}}.{_codeGenConventions.GetEntityNameForEnumeration(entity.Name, enumAttribute.Name)}")!;
+                    ConfigureEnumerationLocalized(modelBuilder.Entity(enumLocalizedType), enumType, enumLocalizedType, enumAttribute.EnumerationTypeOptions!, _noxSolution.Application!.Localization!.DefaultCulture);
+                }
+            }
     }
 
     private void ConfigureAuditable(ModelBuilder modelBuilder)

@@ -1178,6 +1178,15 @@ domain:
             maxLength: 63
           isRequired: true
 
+        - name: EnumerationTestField
+          type: enumeration
+          enumerationTypeOptions:
+            values:
+              - { id: 1, name: Value1 }
+              - { id: 2, name: Value2 }
+              - { id: 3, name: Value3 }
+            isLocalized: true
+
         - name: NumberTestField
           type: number
           numberTypeOptions:
