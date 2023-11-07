@@ -26,7 +26,7 @@ internal abstract class WorkplaceLocalizedFactoryBase : IEntityLocalizedFactory<
             CultureCode = cultureCode,
         };
 
-        if(withAttributes)
+        if (withAttributes)
         {
             localizedEntity.Description = entity.Description;
         }

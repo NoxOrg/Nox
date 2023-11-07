@@ -28,7 +28,7 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
             {{codeGeneratorState.LocalizationCultureField}} = cultureCode,
         };
 
-        if(withAttributes)
+        if (withAttributes)
         { 
             {{- for attribute in localizedEntityAttributes }}
             localizedEntity.{{attribute.Name}} = entity.{{attribute.Name}};

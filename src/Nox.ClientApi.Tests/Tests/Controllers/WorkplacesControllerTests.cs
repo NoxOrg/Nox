@@ -386,7 +386,7 @@ namespace ClientApi.Tests.Tests.Controllers
         }
 
         [Fact]
-        public async Task Patch_NotDefaultLanguageDescription_DoesNotCreateNorUpdateLocalization()
+        public async Task Patch_NotDefaultLanguageDescription_UpdatesLocalization()
         {
             // Arrange
             var createDto = new WorkplaceCreateDto
@@ -418,11 +418,12 @@ namespace ClientApi.Tests.Tests.Controllers
             enResult![0].Id.Should().Be(postResult.Id);
             enResult![0].Name.Should().Be(createDto.Name);
             enResult![0].Description.Should().Be(createDto.Description);
+
             frResult.Should().NotBeNull();
             frResult.Should().HaveCount(1);
             frResult![0].Id.Should().Be(postResult.Id);
             frResult![0].Name.Should().Be(createDto.Name);
-            frResult![0].Description.Should().Be("[" + createDto.Description + "]");
+            frResult![0].Description.Should().Be(updateDto.Description);
         }
 
         #endregion LOCALIZATIONS
