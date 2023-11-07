@@ -12,7 +12,7 @@ keys:
 
   - name: Id
     isRequired: true
-    description: The unique identifier 
+    description: The unique identifier of country
     type: autoNumber
     autoNumberTypeOptions:
       startsAt: 10
