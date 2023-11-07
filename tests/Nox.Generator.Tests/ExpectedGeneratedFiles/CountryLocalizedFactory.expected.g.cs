@@ -38,9 +38,15 @@ internal abstract class CountryLocalizedFactoryBase : IEntityLocalizedFactory<Co
 
     public virtual void UpdateLocalizedEntity(CountryLocalized localizedEntity, CountryUpdateDto updateDto)
     {
-        localizedEntity.SetIfNotNull(updateDto.FormalName, (localizedEntity) => localizedEntity.FormalName = SampleWebApp.Domain.CountryMetadata.CreateFormalName(updateDto.FormalName.ToValueFromNonNull<System.String>()));
-        localizedEntity.SetIfNotNull(updateDto.AlphaCode3, (localizedEntity) => localizedEntity.AlphaCode3 = SampleWebApp.Domain.CountryMetadata.CreateAlphaCode3(updateDto.AlphaCode3.ToValueFromNonNull<System.String>()));
-        localizedEntity.SetIfNotNull(updateDto.Capital, (localizedEntity) => localizedEntity.Capital = SampleWebApp.Domain.CountryMetadata.CreateCapital(updateDto.Capital.ToValueFromNonNull<System.String>()));
+        localizedEntity.FormalName = updateDto.FormalName == null
+            ? null
+            : SampleWebApp.Domain.CountryMetadata.CreateFormalName(updateDto.FormalName.ToValueFromNonNull<System.String>());
+        localizedEntity.AlphaCode3 = updateDto.AlphaCode3 == null
+            ? null
+            : SampleWebApp.Domain.CountryMetadata.CreateAlphaCode3(updateDto.AlphaCode3.ToValueFromNonNull<System.String>());
+        localizedEntity.Capital = updateDto.Capital == null
+            ? null
+            : SampleWebApp.Domain.CountryMetadata.CreateCapital(updateDto.Capital.ToValueFromNonNull<System.String>());
     }
 
     public virtual void PartialUpdateLocalizedEntity(CountryLocalized localizedEntity, Dictionary<string, dynamic> updatedProperties)
@@ -48,38 +54,23 @@ internal abstract class CountryLocalizedFactoryBase : IEntityLocalizedFactory<Co
 
         if (updatedProperties.TryGetValue("FormalName", out var FormalNameUpdateValue))
         {
-            if (FormalNameUpdateValue == null)
-            {
-                localizedEntity.FormalName = null;
-            }
-            else
-            {
-                localizedEntity.FormalName = SampleWebApp.Domain.CountryMetadata.CreateFormalName(FormalNameUpdateValue);
-            }
+            localizedEntity.FormalName = FormalNameUpdateValue == null
+                ? null
+                : SampleWebApp.Domain.CountryMetadata.CreateFormalName(FormalNameUpdateValue);
         }
 
         if (updatedProperties.TryGetValue("AlphaCode3", out var AlphaCode3UpdateValue))
         {
-            if (AlphaCode3UpdateValue == null)
-            {
-                localizedEntity.AlphaCode3 = null;
-            }
-            else
-            {
-                localizedEntity.AlphaCode3 = SampleWebApp.Domain.CountryMetadata.CreateAlphaCode3(AlphaCode3UpdateValue);
-            }
+            localizedEntity.AlphaCode3 = AlphaCode3UpdateValue == null
+                ? null
+                : SampleWebApp.Domain.CountryMetadata.CreateAlphaCode3(AlphaCode3UpdateValue);
         }
 
         if (updatedProperties.TryGetValue("Capital", out var CapitalUpdateValue))
         {
-            if (CapitalUpdateValue == null)
-            {
-                localizedEntity.Capital = null;
-            }
-            else
-            {
-                localizedEntity.Capital = SampleWebApp.Domain.CountryMetadata.CreateCapital(CapitalUpdateValue);
-            }
+            localizedEntity.Capital = CapitalUpdateValue == null
+                ? null
+                : SampleWebApp.Domain.CountryMetadata.CreateCapital(CapitalUpdateValue);
         }
     }
 }

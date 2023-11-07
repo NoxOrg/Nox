@@ -41,10 +41,12 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
     public virtual void UpdateLocalizedEntity({{ localizedEntityName}} localizedEntity, {{entity.Name}}UpdateDto updateDto)
     {
         {{- for attribute in localizedEntityAttributes }}
-        localizedEntity.SetIfNotNull(updateDto.{{attribute.Name}}, (localizedEntity) => localizedEntity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
+        localizedEntity.{{attribute.Name}} = updateDto.{{attribute.Name}} == null
+            ? null
+            : {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
             {{- if IsNoxTypeSimpleType attribute.Type -}}.ToValueFromNonNull<{{SinglePrimitiveTypeForKey attribute}}>()
             {{- else -}}.ToValueFromNonNull<{{attribute.Type}}Dto>()
-            {{- end}}));
+            {{- end}});
         {{- end }}
     }
 
@@ -57,7 +59,7 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
 
         if (updatedProperties.TryGetValue("{{attribute.Name}}", out var {{attribute.Name}}UpdateValue))
         {
-            localizedEntity.{{attribute.Name}} = {{attribute.Name}}UpdateValue == null 
+            localizedEntity.{{attribute.Name}} = {{attribute.Name}}UpdateValue == null
                 ? null
                 : {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}({{attribute.Name}}UpdateValue);
         }

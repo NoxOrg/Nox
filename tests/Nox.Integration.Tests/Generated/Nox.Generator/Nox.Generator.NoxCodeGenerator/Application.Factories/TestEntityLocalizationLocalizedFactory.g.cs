@@ -36,7 +36,9 @@ internal abstract class TestEntityLocalizationLocalizedFactoryBase : IEntityLoca
 
     public virtual void UpdateLocalizedEntity(TestEntityLocalizationLocalized localizedEntity, TestEntityLocalizationUpdateDto updateDto)
     {
-        localizedEntity.SetIfNotNull(updateDto.TextFieldToLocalize, (localizedEntity) => localizedEntity.TextFieldToLocalize = TestWebApp.Domain.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(updateDto.TextFieldToLocalize.ToValueFromNonNull<System.String>()));
+        localizedEntity.TextFieldToLocalize = updateDto.TextFieldToLocalize == null
+            ? null
+            : TestWebApp.Domain.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(updateDto.TextFieldToLocalize.ToValueFromNonNull<System.String>());
     }
 
     public virtual void PartialUpdateLocalizedEntity(TestEntityLocalizationLocalized localizedEntity, Dictionary<string, dynamic> updatedProperties)
@@ -44,7 +46,7 @@ internal abstract class TestEntityLocalizationLocalizedFactoryBase : IEntityLoca
 
         if (updatedProperties.TryGetValue("TextFieldToLocalize", out var TextFieldToLocalizeUpdateValue))
         {
-            localizedEntity.TextFieldToLocalize = TextFieldToLocalizeUpdateValue == null 
+            localizedEntity.TextFieldToLocalize = TextFieldToLocalizeUpdateValue == null
                 ? null
                 : TestWebApp.Domain.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(TextFieldToLocalizeUpdateValue);
         }

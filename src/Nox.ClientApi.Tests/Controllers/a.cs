@@ -10,7 +10,7 @@ using ClientApi.Application.Dto;
 using ClientApi.Domain;
 using WorkplaceEntity = ClientApi.Domain.Workplace;
 
-namespace ClientApi.Application.Factories;
+namespace ClientApi.Application.Factories2;
 
 internal partial class WorkplaceLocalizedFactory : WorkplaceLocalizedFactoryBase
 {
