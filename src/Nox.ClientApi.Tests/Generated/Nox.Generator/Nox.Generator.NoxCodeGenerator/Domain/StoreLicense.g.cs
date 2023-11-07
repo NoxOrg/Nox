@@ -59,6 +59,11 @@ internal abstract partial class StoreLicenseBase : AuditableEntityBase, IEntityC
     /// License issuer (Required).
     /// </summary>
     public Nox.Types.Text Issuer { get; set; } = null!;
+
+    /// <summary>
+    /// License external id (Required).
+    /// </summary>
+    public Nox.Types.AutoNumber ExternalId { get; set; } = null!;
     /// <summary>
     /// Domain events raised by this entity.
     /// </summary>
