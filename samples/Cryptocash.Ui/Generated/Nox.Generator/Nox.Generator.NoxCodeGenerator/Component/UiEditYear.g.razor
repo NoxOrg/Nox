@@ -1,0 +1,14 @@
+﻿@using Cryptocash.Ui.Generated.Component;
+@inherits UiEditYearBase
+
+<MudNumericField Label="@Title"
+              Variant="Variant.Outlined"
+              FullWidth="true"
+              Clearable="true"
+              Required="true"
+              RequiredError="@ErrorRequiredMessage"              
+              Format="@Format"
+              TextChanged="OnYearChanged"
+              Min="0"
+              Max="9999"
+              Value="Year" />

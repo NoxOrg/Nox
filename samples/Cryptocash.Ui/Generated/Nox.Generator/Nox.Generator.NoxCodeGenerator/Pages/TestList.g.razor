@@ -1,0 +1,183 @@
+﻿@using Cryptocash.Ui
+@using System.Dynamic
+@using System.Data
+@using Cryptocash.Application.Dto;
+@using Cryptocash.Ui.Generated.Component
+@using Cryptocash.Ui.Generated.Data.ApiSetting;
+@using Cryptocash.Ui.Generated.Data.Enum;
+@using Cryptocash.Ui.Generated.Nox_Generator.Nox_Generator_NoxCodeGenerator.Component
+@using Cryptocash.Ui.Generated.Pages.Generic
+@using MudBlazor
+@using global::Cryptocash.Ui.Generated.Data.Helper;
+
+@page "/Test"
+
+@inherits ListEntityPageBase<VendingMachineDto, VendingMachineCreateDto, VendingMachineUpdateDto>
+
+@if (!IsLoading)
+{
+    <MudGrid Spacing="0">
+        <MudItem xs="12">
+            <MudGrid Spacing="2" Style="margin-top:10px;">
+                <MudItem xs="6">
+                    <MudTextField @bind-Value="@SearchMainValue"
+                                  Label="Search"
+                                  Variant="Variant.Outlined"
+                                  FullWidth="true"
+                                  Clearable="true"
+                                  OnClearButtonClick="@(() => ClearMainSearchFilterList())"
+                                  OnKeyUp="@(e=>SearchEnterSubmit(e))"
+                                  Placeholder="@CurrentApiUiService!.SearchLabel"></MudTextField>
+                </MudItem>
+                <MudItem xs="3" Class="align-left justify-left" Style="margin-top:15px;">
+                    <table>
+                        <tr>
+                            <td style="padding-left:10px;">
+                                <MudButton OnClick="Search"
+                                           Variant="Variant.Filled"
+                                           StartIcon="@Icons.Material.Filled.Search"
+                                           Color="Color.Info">Search</MudButton>
+                            </td>
+                        </tr>
+                    </table>
+                </MudItem>
+            </MudGrid>
+        </MudItem>
+        <MudItem xs="12">
+            <MudGrid Spacing="2" Style="margin-top:15px;">
+
+                @if (CurrentApiUiService != null && CurrentAddEntity != null)
+                {
+                    var AddLabel = "ADD " + CurrentEntityName;
+
+                    <MudItem xs="12" Class="align-left justify-left">
+                        <MudButton OnClick="AddEntityOpenDialog"
+                                   Variant="Variant.Filled"
+                                   StartIcon="@Icons.Material.Filled.Add"
+                                   Color="Color.Info">ADD</MudButton>
+                    </MudItem>
+
+                    <MudDialog @bind-IsVisible="IsVisibleAddEntityDialog" Options="AddDialogOptions">
+                        <TitleContent>
+                            <MudText Typo="Typo.h6">@AddLabel</MudText>
+                        </TitleContent>
+                        <DialogContent>
+                            <MudForm @ref="AddEntityForm" @bind-IsValid="@AddEntityValidateSuccess">
+                                <MudGrid>
+                                    <MudItem xs="12">
+                                        <MudTabs Rounded="true" Border="true" HideSlider="true">
+                                            <MudTabPanel Text="Details">
+                                                <MudGrid Style="margin-top:15px;">
+                                                    <MudItem xs="6">
+                                                        <UiEditPercentage_g Title="Percentage"
+                                                            Format="#.##" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <UiEditYear_g Title="Year" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <UiEditBoolean_g Title="Boolean" />
+                                                    </MudItem>                                                    
+                                                </MudGrid>
+                                            </MudTabPanel>
+                                        </MudTabs>
+                                    </MudItem>
+                                    <MudItem xs="12">
+                                        <UiErrorSummary_g Errors="AddErrors" />
+                                    </MudItem>
+                                </MudGrid>
+                            </MudForm>                                                                       
+                        </DialogContent>
+                        <DialogActions>                              
+                                    <MudButton OnClick="AddEntityCloseDialog"
+                                               Variant="Variant.Outlined"
+                                               Color="Color.Info"
+                                               Style="Margin:15px;">CANCEL</MudButton>
+                                    <MudButton OnClick="@(async () => await AddEntitySubmit())"
+                                               Variant="Variant.Filled"
+                                               Color="Color.Info"
+                                               Style="Margin:15px;">
+                                        <MudText>SUBMIT</MudText>
+                                    </MudButton>
+                        </DialogActions>
+                    </MudDialog>
+                }
+
+                <MudItem xs="12">
+                    @if (PagedData != null
+                   && CurrentApiUiService != null)
+                    {
+                        float? testPercentage = (float)36.67;
+
+                        <MudTable ServerData="@(new Func<TableState, Task<TableData<VendingMachineDto>>>(ServerReload))"
+                        @ref="DataGridTable"
+                                  CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
+                                  RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"
+                                  Loading="@IsDataGridLoading"
+                                  Hover="true"
+                                  Breakpoint="Breakpoint.Sm"
+                                  T="VendingMachineDto"
+                                  Elevation="0"
+                                  Style="border-style:solid;border-width:2px;border-color:lightgray;"
+                                  HeaderClass="custom-header"
+                                  Dense="true">
+                            <HeaderContent>
+                                        <MudTh>Percentage</MudTh>
+                                        <MudTh>Year</MudTh>
+                                <MudTh>Year</MudTh>
+                            </HeaderContent>
+                            <RowTemplate> 
+                                <MudTd>
+                                    <UiViewPercentage_g Percentage="@testPercentage" />                                    
+                                </MudTd> 
+                                <MudTd>
+                                    <UiViewYear_g Year="2023" />
+                                </MudTd>
+                                <MudTd>
+                                    <UiViewBoolean_g Boolean="true" TitleTrue="True" TitleFalse="False" />
+                                </MudTd>
+                            </RowTemplate>
+                            <NoRecordsContent>
+                                <MudText Typo="Typo.h6">No Results Found</MudText>
+                            </NoRecordsContent>
+                            <PagerContent>
+                                <MudTablePager PageSizeOptions="CurrentApiUiService!.Paging?.PageSizeList?.ToArray()" />
+                            </PagerContent>
+                        </MudTable>
+                    }
+                </MudItem>
+            </MudGrid>
+        </MudItem>
+    </MudGrid>
+}
+else
+{
+    <MudPaper Class="d-flex align-center justify-center mud-width-full" Style="padding:100px;" Elevation="0">
+        <MudProgressCircular Color="Color.Info"
+                             Size="Size.Large"
+                             Indeterminate="true" />
+    </MudPaper>
+}
+
+
+<style>
+    .custom-header {
+        background-color: #f0f3f5;
+    }
+
+    .custom-dialog {
+        backdrop-filter: blur(2px);
+    }
+
+    .mud-tab.mud-tab-active {
+        color: var(--mud-palette-info);
+        border-bottom-style: solid;
+        border-bottom-color: var(--mud-palette-info);
+        border-bottom-width: 3px;
+    }
+</style>
+
+@if (DisplayGoogleMap)
+{
+    <script src="@GoogleMapJsUrl" defer></script>
+}
