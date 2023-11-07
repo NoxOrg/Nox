@@ -49,6 +49,13 @@ public partial class StoreLicenseMetadata
         public static Nox.Types.AutoNumber CreateExternalId(System.Int64 value)
             => Nox.Types.AutoNumber.FromDatabase(value);
         
+    
+        /// <summary>
+        /// Factory for property 'CurrencyId'
+        /// </summary>
+        public static Nox.Types.CurrencyCode3 CreateCurrencyId(System.String value)
+            => Nox.Types.CurrencyCode3.From(value);
+        
 
         /// <summary>
         /// User Interface for property 'Issuer'

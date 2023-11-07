@@ -16,7 +16,7 @@ internal static class PaymentProviderExtensions
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);
         dto.SetIfNotNull(entity?.PaymentProviderName, (dto) => dto.PaymentProviderName =entity!.PaymentProviderName!.Value);
         dto.SetIfNotNull(entity?.PaymentProviderType, (dto) => dto.PaymentProviderType =entity!.PaymentProviderType!.Value);
-        dto.SetIfNotNull(entity?.PaymentProviderRelatedPaymentDetails, (dto) => dto.PaymentProviderRelatedPaymentDetails = entity!.PaymentProviderRelatedPaymentDetails.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.PaymentDetails, (dto) => dto.PaymentDetails = entity!.PaymentDetails.Select(e => e.ToDto()).ToList());
 
         return dto;
     }

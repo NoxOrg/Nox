@@ -16,8 +16,8 @@ internal static class CommissionExtensions
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);
         dto.SetIfNotNull(entity?.Rate, (dto) => dto.Rate =entity!.Rate!.Value);
         dto.SetIfNotNull(entity?.EffectiveAt, (dto) => dto.EffectiveAt =entity!.EffectiveAt!.Value);
-        dto.SetIfNotNull(entity?.CommissionFeesForCountryId, (dto) => dto.CommissionFeesForCountryId = entity!.CommissionFeesForCountryId!.Value);
-        dto.SetIfNotNull(entity?.CommissionFeesForBooking, (dto) => dto.CommissionFeesForBooking = entity!.CommissionFeesForBooking.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.CountryId, (dto) => dto.CountryId = entity!.CountryId!.Value);
+        dto.SetIfNotNull(entity?.Bookings, (dto) => dto.Bookings = entity!.Bookings.Select(e => e.ToDto()).ToList());
 
         return dto;
     }

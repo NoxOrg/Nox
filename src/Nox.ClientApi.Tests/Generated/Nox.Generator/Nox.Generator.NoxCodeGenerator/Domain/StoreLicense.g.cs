@@ -95,26 +95,76 @@ internal abstract partial class StoreLicenseBase : AuditableEntityBase, IEntityC
     /// <summary>
     /// StoreLicense Store that this license related to ExactlyOne Stores
     /// </summary>
-    public virtual Store StoreWithLicense { get; private set; } = null!;
+    public virtual Store Store { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Store
     /// </summary>
-    public Nox.Types.Guid StoreWithLicenseId { get; set; } = null!;
+    public Nox.Types.Guid StoreId { get; set; } = null!;
 
-    public virtual void CreateRefToStoreWithLicense(Store relatedStore)
+    public virtual void CreateRefToStore(Store relatedStore)
     {
-        StoreWithLicense = relatedStore;
+        Store = relatedStore;
     }
 
-    public virtual void DeleteRefToStoreWithLicense(Store relatedStore)
+    public virtual void DeleteRefToStore(Store relatedStore)
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
-    public virtual void DeleteAllRefToStoreWithLicense()
+    public virtual void DeleteAllRefToStore()
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
+    }
+
+    /// <summary>
+    /// StoreLicense Default currency for this license ZeroOrOne Currencies
+    /// </summary>
+    public virtual Currency? DefaultCurrency { get; private set; } = null!;
+
+    /// <summary>
+    /// Foreign key for relationship ZeroOrOne to entity Currency
+    /// </summary>
+    public Nox.Types.CurrencyCode3? DefaultCurrencyId { get; set; } = null!;
+
+    public virtual void CreateRefToDefaultCurrency(Currency relatedCurrency)
+    {
+        DefaultCurrency = relatedCurrency;
+    }
+
+    public virtual void DeleteRefToDefaultCurrency(Currency relatedCurrency)
+    {
+        DefaultCurrency = null;
+    }
+
+    public virtual void DeleteAllRefToDefaultCurrency()
+    {
+        DefaultCurrencyId = null;
+    }
+
+    /// <summary>
+    /// StoreLicense Currency this license was sold in ZeroOrOne Currencies
+    /// </summary>
+    public virtual Currency? SoldInCurrency { get; private set; } = null!;
+
+    /// <summary>
+    /// Foreign key for relationship ZeroOrOne to entity Currency
+    /// </summary>
+    public Nox.Types.CurrencyCode3? SoldInCurrencyId { get; set; } = null!;
+
+    public virtual void CreateRefToSoldInCurrency(Currency relatedCurrency)
+    {
+        SoldInCurrency = relatedCurrency;
+    }
+
+    public virtual void DeleteRefToSoldInCurrency(Currency relatedCurrency)
+    {
+        SoldInCurrency = null;
+    }
+
+    public virtual void DeleteAllRefToSoldInCurrency()
+    {
+        SoldInCurrencyId = null;
     }
 
     /// <summary>

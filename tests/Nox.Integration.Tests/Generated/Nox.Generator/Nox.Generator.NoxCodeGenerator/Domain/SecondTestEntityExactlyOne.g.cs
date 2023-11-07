@@ -90,19 +90,19 @@ internal abstract partial class SecondTestEntityExactlyOneBase : AuditableEntity
     /// <summary>
     /// SecondTestEntityExactlyOne Test entity relationship to TestEntityExactlyOneRelationship ExactlyOne TestEntityExactlyOnes
     /// </summary>
-    public virtual TestEntityExactlyOne TestEntityExactlyOneRelationship { get; private set; } = null!;
+    public virtual TestEntityExactlyOne TestEntityExactlyOne { get; private set; } = null!;
 
-    public virtual void CreateRefToTestEntityExactlyOneRelationship(TestEntityExactlyOne relatedTestEntityExactlyOne)
+    public virtual void CreateRefToTestEntityExactlyOne(TestEntityExactlyOne relatedTestEntityExactlyOne)
     {
-        TestEntityExactlyOneRelationship = relatedTestEntityExactlyOne;
+        TestEntityExactlyOne = relatedTestEntityExactlyOne;
     }
 
-    public virtual void DeleteRefToTestEntityExactlyOneRelationship(TestEntityExactlyOne relatedTestEntityExactlyOne)
+    public virtual void DeleteRefToTestEntityExactlyOne(TestEntityExactlyOne relatedTestEntityExactlyOne)
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
-    public virtual void DeleteAllRefToTestEntityExactlyOneRelationship()
+    public virtual void DeleteAllRefToTestEntityExactlyOne()
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }

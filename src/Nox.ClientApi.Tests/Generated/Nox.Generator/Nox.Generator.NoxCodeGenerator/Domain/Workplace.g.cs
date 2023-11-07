@@ -120,26 +120,26 @@ internal abstract partial class WorkplaceBase : EntityBase, IEntityConcurrent
     /// <summary>
     /// Workplace Workplace country ZeroOrOne Countries
     /// </summary>
-    public virtual Country? BelongsToCountry { get; private set; } = null!;
+    public virtual Country? Country { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ZeroOrOne to entity Country
     /// </summary>
-    public Nox.Types.AutoNumber? BelongsToCountryId { get; set; } = null!;
+    public Nox.Types.AutoNumber? CountryId { get; set; } = null!;
 
-    public virtual void CreateRefToBelongsToCountry(Country relatedCountry)
+    public virtual void CreateRefToCountry(Country relatedCountry)
     {
-        BelongsToCountry = relatedCountry;
+        Country = relatedCountry;
     }
 
-    public virtual void DeleteRefToBelongsToCountry(Country relatedCountry)
+    public virtual void DeleteRefToCountry(Country relatedCountry)
     {
-        BelongsToCountry = null;
+        Country = null;
     }
 
-    public virtual void DeleteAllRefToBelongsToCountry()
+    public virtual void DeleteAllRefToCountry()
     {
-        BelongsToCountryId = null;
+        CountryId = null;
     }
 
     /// <summary>

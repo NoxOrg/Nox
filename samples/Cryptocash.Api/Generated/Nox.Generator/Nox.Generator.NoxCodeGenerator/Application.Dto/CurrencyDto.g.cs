@@ -155,12 +155,12 @@ public abstract class CurrencyDtoBase : EntityDtoBase, IEntityDto<DomainNamespac
     /// <summary>
     /// Currency used by OneOrMany Countries
     /// </summary>
-    public virtual List<CountryDto> CurrencyUsedByCountry { get; set; } = new();
+    public virtual List<CountryDto> Countries { get; set; } = new();
 
     /// <summary>
     /// Currency used by ZeroOrMany MinimumCashStocks
     /// </summary>
-    public virtual List<MinimumCashStockDto> CurrencyUsedByMinimumCashStocks { get; set; } = new();
+    public virtual List<MinimumCashStockDto> MinimumCashStocks { get; set; } = new();
 
     /// <summary>
     /// Currency commonly used ZeroOrMany BankNotes

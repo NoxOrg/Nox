@@ -61,8 +61,8 @@ public abstract class TestEntityZeroOrOneDtoBase : EntityDtoBase, IEntityDto<Dom
     /// TestEntityZeroOrOne Test entity relationship to SecondTestEntity ZeroOrOne SecondTestEntityZeroOrOnes
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.String? SecondTestEntityZeroOrOneRelationshipId { get; set; } = default!;
-    public virtual SecondTestEntityZeroOrOneDto? SecondTestEntityZeroOrOneRelationship { get; set; } = null!;
+    public System.String? SecondTestEntityZeroOrOneId { get; set; } = default!;
+    public virtual SecondTestEntityZeroOrOneDto? SecondTestEntityZeroOrOne { get; set; } = null!;
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

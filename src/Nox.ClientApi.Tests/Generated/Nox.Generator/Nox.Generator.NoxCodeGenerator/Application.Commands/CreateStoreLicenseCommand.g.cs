@@ -28,8 +28,9 @@ internal partial class CreateStoreLicenseCommandHandler : CreateStoreLicenseComm
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
+		IEntityFactory<ClientApi.Domain.Currency, CurrencyCreateDto, CurrencyUpdateDto> CurrencyFactory,
 		IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory)
-		: base(dbContext, noxSolution,StoreFactory, entityFactory)
+		: base(dbContext, noxSolution,StoreFactory, CurrencyFactory, entityFactory)
 	{
 	}
 }
@@ -40,17 +41,20 @@ internal abstract class CreateStoreLicenseCommandHandlerBase : CommandBase<Creat
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> EntityFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory;
+	protected readonly IEntityFactory<ClientApi.Domain.Currency, CurrencyCreateDto, CurrencyUpdateDto> CurrencyFactory;
 
 	public CreateStoreLicenseCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
+		IEntityFactory<ClientApi.Domain.Currency, CurrencyCreateDto, CurrencyUpdateDto> CurrencyFactory,
 		IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory)
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
 		this.StoreFactory = StoreFactory;
+		this.CurrencyFactory = CurrencyFactory;
 	}
 
 	public virtual async Task<StoreLicenseKeyDto> Handle(CreateStoreLicenseCommand request, CancellationToken cancellationToken)
@@ -59,19 +63,47 @@ internal abstract class CreateStoreLicenseCommandHandlerBase : CommandBase<Creat
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.StoreWithLicenseId is not null)
+		if(request.EntityDto.StoreId is not null)
 		{
-			var relatedKey = ClientApi.Domain.StoreMetadata.CreateId(request.EntityDto.StoreWithLicenseId.NonNullValue<System.Guid>());
+			var relatedKey = ClientApi.Domain.StoreMetadata.CreateId(request.EntityDto.StoreId.NonNullValue<System.Guid>());
 			var relatedEntity = await DbContext.Stores.FindAsync(relatedKey);
 			if(relatedEntity is not null)
-				entityToCreate.CreateRefToStoreWithLicense(relatedEntity);
+				entityToCreate.CreateRefToStore(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("StoreWithLicense", request.EntityDto.StoreWithLicenseId.NonNullValue<System.Guid>().ToString());
+				throw new RelatedEntityNotFoundException("Store", request.EntityDto.StoreId.NonNullValue<System.Guid>().ToString());
 		}
-		else if(request.EntityDto.StoreWithLicense is not null)
+		else if(request.EntityDto.Store is not null)
 		{
-			var relatedEntity = StoreFactory.CreateEntity(request.EntityDto.StoreWithLicense);
-			entityToCreate.CreateRefToStoreWithLicense(relatedEntity);
+			var relatedEntity = StoreFactory.CreateEntity(request.EntityDto.Store);
+			entityToCreate.CreateRefToStore(relatedEntity);
+		}
+		if(request.EntityDto.DefaultCurrencyId is not null)
+		{
+			var relatedKey = ClientApi.Domain.CurrencyMetadata.CreateId(request.EntityDto.DefaultCurrencyId.NonNullValue<System.String>());
+			var relatedEntity = await DbContext.Currencies.FindAsync(relatedKey);
+			if(relatedEntity is not null)
+				entityToCreate.CreateRefToDefaultCurrency(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("DefaultCurrency", request.EntityDto.DefaultCurrencyId.NonNullValue<System.String>().ToString());
+		}
+		else if(request.EntityDto.DefaultCurrency is not null)
+		{
+			var relatedEntity = CurrencyFactory.CreateEntity(request.EntityDto.DefaultCurrency);
+			entityToCreate.CreateRefToDefaultCurrency(relatedEntity);
+		}
+		if(request.EntityDto.SoldInCurrencyId is not null)
+		{
+			var relatedKey = ClientApi.Domain.CurrencyMetadata.CreateId(request.EntityDto.SoldInCurrencyId.NonNullValue<System.String>());
+			var relatedEntity = await DbContext.Currencies.FindAsync(relatedKey);
+			if(relatedEntity is not null)
+				entityToCreate.CreateRefToSoldInCurrency(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("SoldInCurrency", request.EntityDto.SoldInCurrencyId.NonNullValue<System.String>().ToString());
+		}
+		else if(request.EntityDto.SoldInCurrency is not null)
+		{
+			var relatedEntity = CurrencyFactory.CreateEntity(request.EntityDto.SoldInCurrency);
+			entityToCreate.CreateRefToSoldInCurrency(relatedEntity);
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

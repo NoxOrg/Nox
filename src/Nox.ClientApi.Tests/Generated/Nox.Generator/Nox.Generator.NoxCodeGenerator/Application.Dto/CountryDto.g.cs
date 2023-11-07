@@ -123,7 +123,7 @@ public abstract class CountryDtoBase : EntityDtoBase, IEntityDto<DomainNamespace
     /// <summary>
     /// Country Country workplaces ZeroOrMany Workplaces
     /// </summary>
-    public virtual List<WorkplaceDto> PhysicalWorkplaces { get; set; } = new();
+    public virtual List<WorkplaceDto> Workplaces { get; set; } = new();
 
     /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames

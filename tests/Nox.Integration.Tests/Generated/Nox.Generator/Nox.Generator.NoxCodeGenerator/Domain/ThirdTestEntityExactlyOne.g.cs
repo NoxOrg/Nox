@@ -90,24 +90,24 @@ internal abstract partial class ThirdTestEntityExactlyOneBase : AuditableEntityB
     /// <summary>
     /// ThirdTestEntityExactlyOne Test entity relationship to ThirdTestEntityZeroOrOne ExactlyOne ThirdTestEntityZeroOrOnes
     /// </summary>
-    public virtual ThirdTestEntityZeroOrOne ThirdTestEntityZeroOrOneRelationship { get; private set; } = null!;
+    public virtual ThirdTestEntityZeroOrOne ThirdTestEntityZeroOrOne { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity ThirdTestEntityZeroOrOne
     /// </summary>
-    public Nox.Types.Text ThirdTestEntityZeroOrOneRelationshipId { get; set; } = null!;
+    public Nox.Types.Text ThirdTestEntityZeroOrOneId { get; set; } = null!;
 
-    public virtual void CreateRefToThirdTestEntityZeroOrOneRelationship(ThirdTestEntityZeroOrOne relatedThirdTestEntityZeroOrOne)
+    public virtual void CreateRefToThirdTestEntityZeroOrOne(ThirdTestEntityZeroOrOne relatedThirdTestEntityZeroOrOne)
     {
-        ThirdTestEntityZeroOrOneRelationship = relatedThirdTestEntityZeroOrOne;
+        ThirdTestEntityZeroOrOne = relatedThirdTestEntityZeroOrOne;
     }
 
-    public virtual void DeleteRefToThirdTestEntityZeroOrOneRelationship(ThirdTestEntityZeroOrOne relatedThirdTestEntityZeroOrOne)
+    public virtual void DeleteRefToThirdTestEntityZeroOrOne(ThirdTestEntityZeroOrOne relatedThirdTestEntityZeroOrOne)
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
-    public virtual void DeleteAllRefToThirdTestEntityZeroOrOneRelationship()
+    public virtual void DeleteAllRefToThirdTestEntityZeroOrOne()
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }

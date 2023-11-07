@@ -57,37 +57,37 @@ internal abstract class UpdateBookingCommandHandlerBase : CommandBase<UpdateBook
 			return null;
 		}
 
-		var bookingForCustomerKey = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityDto.BookingForCustomerId);
-		var bookingForCustomerEntity = await DbContext.Customers.FindAsync(bookingForCustomerKey);
+		var customerKey = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityDto.CustomerId);
+		var customerEntity = await DbContext.Customers.FindAsync(customerKey);
 						
-		if(bookingForCustomerEntity is not null)
-			entity.CreateRefToBookingForCustomer(bookingForCustomerEntity);
+		if(customerEntity is not null)
+			entity.CreateRefToCustomer(customerEntity);
 		else
-			throw new RelatedEntityNotFoundException("BookingForCustomer", request.EntityDto.BookingForCustomerId.ToString());
+			throw new RelatedEntityNotFoundException("Customer", request.EntityDto.CustomerId.ToString());
 
-		var bookingRelatedVendingMachineKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(request.EntityDto.BookingRelatedVendingMachineId);
-		var bookingRelatedVendingMachineEntity = await DbContext.VendingMachines.FindAsync(bookingRelatedVendingMachineKey);
+		var vendingMachineKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(request.EntityDto.VendingMachineId);
+		var vendingMachineEntity = await DbContext.VendingMachines.FindAsync(vendingMachineKey);
 						
-		if(bookingRelatedVendingMachineEntity is not null)
-			entity.CreateRefToBookingRelatedVendingMachine(bookingRelatedVendingMachineEntity);
+		if(vendingMachineEntity is not null)
+			entity.CreateRefToVendingMachine(vendingMachineEntity);
 		else
-			throw new RelatedEntityNotFoundException("BookingRelatedVendingMachine", request.EntityDto.BookingRelatedVendingMachineId.ToString());
+			throw new RelatedEntityNotFoundException("VendingMachine", request.EntityDto.VendingMachineId.ToString());
 
-		var bookingFeesForCommissionKey = Cryptocash.Domain.CommissionMetadata.CreateId(request.EntityDto.BookingFeesForCommissionId);
-		var bookingFeesForCommissionEntity = await DbContext.Commissions.FindAsync(bookingFeesForCommissionKey);
+		var commissionKey = Cryptocash.Domain.CommissionMetadata.CreateId(request.EntityDto.CommissionId);
+		var commissionEntity = await DbContext.Commissions.FindAsync(commissionKey);
 						
-		if(bookingFeesForCommissionEntity is not null)
-			entity.CreateRefToBookingFeesForCommission(bookingFeesForCommissionEntity);
+		if(commissionEntity is not null)
+			entity.CreateRefToCommission(commissionEntity);
 		else
-			throw new RelatedEntityNotFoundException("BookingFeesForCommission", request.EntityDto.BookingFeesForCommissionId.ToString());
+			throw new RelatedEntityNotFoundException("Commission", request.EntityDto.CommissionId.ToString());
 
-		var bookingRelatedTransactionKey = Cryptocash.Domain.TransactionMetadata.CreateId(request.EntityDto.BookingRelatedTransactionId);
-		var bookingRelatedTransactionEntity = await DbContext.Transactions.FindAsync(bookingRelatedTransactionKey);
+		var transactionKey = Cryptocash.Domain.TransactionMetadata.CreateId(request.EntityDto.TransactionId);
+		var transactionEntity = await DbContext.Transactions.FindAsync(transactionKey);
 						
-		if(bookingRelatedTransactionEntity is not null)
-			entity.CreateRefToBookingRelatedTransaction(bookingRelatedTransactionEntity);
+		if(transactionEntity is not null)
+			entity.CreateRefToTransaction(transactionEntity);
 		else
-			throw new RelatedEntityNotFoundException("BookingRelatedTransaction", request.EntityDto.BookingRelatedTransactionId.ToString());
+			throw new RelatedEntityNotFoundException("Transaction", request.EntityDto.TransactionId.ToString());
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

@@ -27,5 +27,5 @@ public partial class TestEntityOneOrManyToExactlyOneUpdateDto : IEntityDto<Domai
     /// <summary>
     /// TestEntityOneOrManyToExactlyOne Test entity relationship to TestEntityExactlyOneToOneOrMany OneOrMany TestEntityExactlyOneToOneOrManies
     /// </summary>
-    public List<System.String> TestEntityExactlyOneToOneOrManyId { get; set; } = new();
+    public List<System.String> TestEntityExactlyOneToOneOrManiesId { get; set; } = new();
 }

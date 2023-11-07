@@ -100,7 +100,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region Relationship Examples
 
-        #region GET Expand Relation /api/{EntityPluralName}/{EntityKey} => api/stores/1?$expand=Ownership
+        #region GET Expand Relation /api/{EntityPluralName}/{EntityKey} => api/stores/1?$expand=StoreOwner
 
         [Fact]
         public async Task Get_StoreOwnerOdataQuery_ReturnOwner()
@@ -129,23 +129,23 @@ namespace ClientApi.Tests.Tests.Controllers
                     CountryId: CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
                 // we are not allowing this for now, create a related entity
-                //Ownership = createOwner
+                //StoreOwner = createOwner
             };
             var store = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, createStore);
             var owner = await PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(Endpoints.StoreOwnersUrl, createOwner);
-            await PostAsync($"{Endpoints.StoresUrl}/{store!.Id}/Ownership/{owner!.Id}/$ref");
+            await PostAsync($"{Endpoints.StoresUrl}/{store!.Id}/StoreOwner/{owner!.Id}/$ref");
 
             // Act
-            const string oDataRequest = $"$expand={nameof(StoreDto.Ownership)}";
+            const string oDataRequest = $"$expand={nameof(StoreDto.StoreOwner)}";
             var response = await GetODataSimpleResponseAsync<StoreDto>($"{Endpoints.StoresUrl}/{store!.Id}?{oDataRequest}");
 
             //Assert
             response.Should().NotBeNull();
-            response!.Ownership.Should().NotBeNull();
-            response!.Ownership!.Name.Should().Be(ownerExpectedName);
+            response!.StoreOwner.Should().NotBeNull();
+            response!.StoreOwner!.Name.Should().Be(ownerExpectedName);
         }
 
-        #endregion GET Expand Relation /api/{EntityPluralName}/{EntityKey} => api/stores/1?$expand=Ownership
+        #endregion GET Expand Relation /api/{EntityPluralName}/{EntityKey} => api/stores/1?$expand=StoreOwner
 
         #region POST Entity with RelationshipId /api/{EntityPluralName} => api/stores
 
@@ -158,7 +158,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var licenseCreateDto = new StoreLicenseCreateDto
             {
                 Issuer = licenseName,
-                StoreWithLicenseId = store1!.Id
+                StoreId = store1!.Id
             };
             var licensePostResponse = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl, licenseCreateDto);
 
@@ -177,13 +177,13 @@ namespace ClientApi.Tests.Tests.Controllers
                     PostalCode: "KT16 0RS",
                     CountryId: CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
-                LicenseId = licensePostResponse!.Id
+                StoreLicenseId = licensePostResponse!.Id
             };
 
             // Act
             var result = await PostAsync<StoreCreateDto, StoreDto>(Endpoints.StoresUrl, storeCreateDto);
 
-            const string oDataRequest = $"$expand={nameof(StoreDto.License)}";
+            const string oDataRequest = $"$expand={nameof(StoreDto.StoreLicense)}";
             var response = await GetODataSimpleResponseAsync<StoreDto>($"{Endpoints.StoresUrl}/{result!.Id}?{oDataRequest}");
 
             //Assert
@@ -192,9 +192,9 @@ namespace ClientApi.Tests.Tests.Controllers
                 .BeOfType<StoreDto>()
                 .Which.Id.Should().NotBeEmpty();
             response.Should().NotBeNull();
-            response!.License.Should().NotBeNull();
-            response!.License!.Id.Should().Be(licensePostResponse!.Id);
-            response!.License!.Issuer.Should().Be(licenseName);
+            response!.StoreLicense.Should().NotBeNull();
+            response!.StoreLicense!.Id.Should().Be(licensePostResponse!.Id);
+            response!.StoreLicense!.Issuer.Should().Be(licenseName);
         }
 
         #endregion POST Entity with RelationshipId /api/{EntityPluralName} => api/stores
@@ -220,7 +220,7 @@ namespace ClientApi.Tests.Tests.Controllers
                     PostalCode: "KT16 0RS",
                     CountryId: CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
-                LicenseId = _fixture.Create<int>()
+                StoreLicenseId = _fixture.Create<int>()
             };
 
             // Act
@@ -244,7 +244,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var licenseCreateDto = new StoreLicenseCreateDto
             {
                 Issuer = licenseName,
-                StoreWithLicenseId = store1!.Id
+                StoreId = store1!.Id
             };
             var licensePostResponse = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl, licenseCreateDto);
 
@@ -266,7 +266,7 @@ namespace ClientApi.Tests.Tests.Controllers
                    PostalCode: "KT16 0RS",
                    CountryId: CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
-                LicenseId = licensePostResponse!.Id
+                StoreLicenseId = licensePostResponse!.Id
             };
 
             // Act

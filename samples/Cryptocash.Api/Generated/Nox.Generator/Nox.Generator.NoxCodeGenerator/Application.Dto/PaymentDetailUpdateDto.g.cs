@@ -37,12 +37,12 @@ public partial class PaymentDetailUpdateDto : IEntityDto<DomainNamespace.Payment
     /// <summary>
     /// PaymentDetail used by ExactlyOne Customers
     /// </summary>
-    [Required(ErrorMessage = "PaymentDetailsUsedByCustomer is required")]
-    public System.Int64 PaymentDetailsUsedByCustomerId { get; set; } = default!;
+    [Required(ErrorMessage = "Customer is required")]
+    public System.Int64 CustomerId { get; set; } = default!;
 
     /// <summary>
     /// PaymentDetail related to ExactlyOne PaymentProviders
     /// </summary>
-    [Required(ErrorMessage = "PaymentDetailsRelatedPaymentProvider is required")]
-    public System.Int64 PaymentDetailsRelatedPaymentProviderId { get; set; } = default!;
+    [Required(ErrorMessage = "PaymentProvider is required")]
+    public System.Int64 PaymentProviderId { get; set; } = default!;
 }

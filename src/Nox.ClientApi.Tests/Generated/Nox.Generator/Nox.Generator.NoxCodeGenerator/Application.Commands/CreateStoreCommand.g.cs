@@ -63,33 +63,33 @@ internal abstract class CreateStoreCommandHandlerBase : CommandBase<CreateStoreC
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.OwnershipId is not null)
+		if(request.EntityDto.StoreOwnerId is not null)
 		{
-			var relatedKey = ClientApi.Domain.StoreOwnerMetadata.CreateId(request.EntityDto.OwnershipId.NonNullValue<System.String>());
+			var relatedKey = ClientApi.Domain.StoreOwnerMetadata.CreateId(request.EntityDto.StoreOwnerId.NonNullValue<System.String>());
 			var relatedEntity = await DbContext.StoreOwners.FindAsync(relatedKey);
 			if(relatedEntity is not null)
-				entityToCreate.CreateRefToOwnership(relatedEntity);
+				entityToCreate.CreateRefToStoreOwner(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("Ownership", request.EntityDto.OwnershipId.NonNullValue<System.String>().ToString());
+				throw new RelatedEntityNotFoundException("StoreOwner", request.EntityDto.StoreOwnerId.NonNullValue<System.String>().ToString());
 		}
-		else if(request.EntityDto.Ownership is not null)
+		else if(request.EntityDto.StoreOwner is not null)
 		{
-			var relatedEntity = StoreOwnerFactory.CreateEntity(request.EntityDto.Ownership);
-			entityToCreate.CreateRefToOwnership(relatedEntity);
+			var relatedEntity = StoreOwnerFactory.CreateEntity(request.EntityDto.StoreOwner);
+			entityToCreate.CreateRefToStoreOwner(relatedEntity);
 		}
-		if(request.EntityDto.LicenseId is not null)
+		if(request.EntityDto.StoreLicenseId is not null)
 		{
-			var relatedKey = ClientApi.Domain.StoreLicenseMetadata.CreateId(request.EntityDto.LicenseId.NonNullValue<System.Int64>());
+			var relatedKey = ClientApi.Domain.StoreLicenseMetadata.CreateId(request.EntityDto.StoreLicenseId.NonNullValue<System.Int64>());
 			var relatedEntity = await DbContext.StoreLicenses.FindAsync(relatedKey);
 			if(relatedEntity is not null)
-				entityToCreate.CreateRefToLicense(relatedEntity);
+				entityToCreate.CreateRefToStoreLicense(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("License", request.EntityDto.LicenseId.NonNullValue<System.Int64>().ToString());
+				throw new RelatedEntityNotFoundException("StoreLicense", request.EntityDto.StoreLicenseId.NonNullValue<System.Int64>().ToString());
 		}
-		else if(request.EntityDto.License is not null)
+		else if(request.EntityDto.StoreLicense is not null)
 		{
-			var relatedEntity = StoreLicenseFactory.CreateEntity(request.EntityDto.License);
-			entityToCreate.CreateRefToLicense(relatedEntity);
+			var relatedEntity = StoreLicenseFactory.CreateEntity(request.EntityDto.StoreLicense);
+			entityToCreate.CreateRefToStoreLicense(relatedEntity);
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

@@ -89,10 +89,10 @@ public partial class CurrencyUpdateDto : IEntityDto<DomainNamespace.Currency>
     /// <summary>
     /// Currency used by OneOrMany Countries
     /// </summary>
-    public List<System.String> CurrencyUsedByCountryId { get; set; } = new();
+    public List<System.String> CountriesId { get; set; } = new();
 
     /// <summary>
     /// Currency used by ZeroOrMany MinimumCashStocks
     /// </summary>
-    public List<System.Int64> CurrencyUsedByMinimumCashStocksId { get; set; } = new();
+    public List<System.Int64> MinimumCashStocksId { get; set; } = new();
 }

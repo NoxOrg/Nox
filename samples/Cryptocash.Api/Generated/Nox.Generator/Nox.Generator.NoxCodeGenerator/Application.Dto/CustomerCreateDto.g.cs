@@ -56,32 +56,32 @@ public abstract class CustomerCreateDtoBase : IEntityDto<DomainNamespace.Custome
     /// <summary>
     /// Customer related to ZeroOrMany PaymentDetails
     /// </summary>
-    public virtual List<System.Int64> CustomerRelatedPaymentDetailsId { get; set; } = new();
+    public virtual List<System.Int64> PaymentDetailsId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual List<PaymentDetailCreateDto> CustomerRelatedPaymentDetails { get; set; } = new();
+    public virtual List<PaymentDetailCreateDto> PaymentDetails { get; set; } = new();
 
     /// <summary>
     /// Customer related to ZeroOrMany Bookings
     /// </summary>
-    public virtual List<System.Guid> CustomerRelatedBookingsId { get; set; } = new();
+    public virtual List<System.Guid> BookingsId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual List<BookingCreateDto> CustomerRelatedBookings { get; set; } = new();
+    public virtual List<BookingCreateDto> Bookings { get; set; } = new();
 
     /// <summary>
     /// Customer related to ZeroOrMany Transactions
     /// </summary>
-    public virtual List<System.Int64> CustomerRelatedTransactionsId { get; set; } = new();
+    public virtual List<System.Int64> TransactionsId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual List<TransactionCreateDto> CustomerRelatedTransactions { get; set; } = new();
+    public virtual List<TransactionCreateDto> Transactions { get; set; } = new();
 
     /// <summary>
     /// Customer based in ExactlyOne Countries
     /// </summary>
-    public System.String? CustomerBaseCountryId { get; set; } = default!;
+    public System.String? CountryId { get; set; } = default!;
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual CountryCreateDto? CustomerBaseCountry { get; set; } = default!;
+    public virtual CountryCreateDto? Country { get; set; } = default!;
 }

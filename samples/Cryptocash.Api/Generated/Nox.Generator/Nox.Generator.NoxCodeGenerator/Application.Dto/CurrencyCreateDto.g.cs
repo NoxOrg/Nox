@@ -101,18 +101,18 @@ public abstract class CurrencyCreateDtoBase : IEntityDto<DomainNamespace.Currenc
     /// <summary>
     /// Currency used by OneOrMany Countries
     /// </summary>
-    public virtual List<System.String> CurrencyUsedByCountryId { get; set; } = new();
+    public virtual List<System.String> CountriesId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual List<CountryCreateDto> CurrencyUsedByCountry { get; set; } = new();
+    public virtual List<CountryCreateDto> Countries { get; set; } = new();
 
     /// <summary>
     /// Currency used by ZeroOrMany MinimumCashStocks
     /// </summary>
-    public virtual List<System.Int64> CurrencyUsedByMinimumCashStocksId { get; set; } = new();
+    public virtual List<System.Int64> MinimumCashStocksId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual List<MinimumCashStockCreateDto> CurrencyUsedByMinimumCashStocks { get; set; } = new();
+    public virtual List<MinimumCashStockCreateDto> MinimumCashStocks { get; set; } = new();
 
     /// <summary>
     /// Currency commonly used ZeroOrMany BankNotes

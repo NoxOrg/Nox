@@ -52,7 +52,7 @@ public abstract partial class StoreOwnersControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        store.OwnershipId = key;
+        store.StoreOwnerId = key;
         var createdKey = await _mediator.Send(new CreateStoreCommand(store, _cultureCode));
         
         var createdItem = (await _mediator.Send(new GetStoreByIdQuery(createdKey.keyId))).SingleOrDefault();

@@ -57,19 +57,19 @@ internal abstract class UpdateSecondTestEntityZeroOrOneCommandHandlerBase : Comm
 			return null;
 		}
 
-		if(request.EntityDto.TestEntityZeroOrOneRelationshipId is not null)
+		if(request.EntityDto.TestEntityZeroOrOneId is not null)
 		{
-			var testEntityZeroOrOneRelationshipKey = TestWebApp.Domain.TestEntityZeroOrOneMetadata.CreateId(request.EntityDto.TestEntityZeroOrOneRelationshipId.NonNullValue<System.String>());
-			var testEntityZeroOrOneRelationshipEntity = await DbContext.TestEntityZeroOrOnes.FindAsync(testEntityZeroOrOneRelationshipKey);
+			var testEntityZeroOrOneKey = TestWebApp.Domain.TestEntityZeroOrOneMetadata.CreateId(request.EntityDto.TestEntityZeroOrOneId.NonNullValue<System.String>());
+			var testEntityZeroOrOneEntity = await DbContext.TestEntityZeroOrOnes.FindAsync(testEntityZeroOrOneKey);
 						
-			if(testEntityZeroOrOneRelationshipEntity is not null)
-				entity.CreateRefToTestEntityZeroOrOneRelationship(testEntityZeroOrOneRelationshipEntity);
+			if(testEntityZeroOrOneEntity is not null)
+				entity.CreateRefToTestEntityZeroOrOne(testEntityZeroOrOneEntity);
 			else
-				throw new RelatedEntityNotFoundException("TestEntityZeroOrOneRelationship", request.EntityDto.TestEntityZeroOrOneRelationshipId.NonNullValue<System.String>().ToString());
+				throw new RelatedEntityNotFoundException("TestEntityZeroOrOne", request.EntityDto.TestEntityZeroOrOneId.NonNullValue<System.String>().ToString());
 		}
 		else
 		{
-			entity.DeleteAllRefToTestEntityZeroOrOneRelationship();
+			entity.DeleteAllRefToTestEntityZeroOrOne();
 		}
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);

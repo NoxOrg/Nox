@@ -57,33 +57,33 @@ internal abstract class UpdateCurrencyCommandHandlerBase : CommandBase<UpdateCur
 			return null;
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.CurrencyUsedByCountry).LoadAsync();
-		var currencyUsedByCountryEntities = new List<Country>();
-		foreach(var relatedEntityId in request.EntityDto.CurrencyUsedByCountryId)
+		await DbContext.Entry(entity).Collection(x => x.Countries).LoadAsync();
+		var countriesEntities = new List<Country>();
+		foreach(var relatedEntityId in request.EntityDto.CountriesId)
 		{
 			var relatedKey = Cryptocash.Domain.CountryMetadata.CreateId(relatedEntityId);
 			var relatedEntity = await DbContext.Countries.FindAsync(relatedKey);
 						
 			if(relatedEntity is not null)
-				currencyUsedByCountryEntities.Add(relatedEntity);
+				countriesEntities.Add(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("CurrencyUsedByCountry", relatedEntityId.ToString());
+				throw new RelatedEntityNotFoundException("Countries", relatedEntityId.ToString());
 		}
-		entity.UpdateRefToCurrencyUsedByCountry(currencyUsedByCountryEntities);
+		entity.UpdateRefToCountries(countriesEntities);
 
-		await DbContext.Entry(entity).Collection(x => x.CurrencyUsedByMinimumCashStocks).LoadAsync();
-		var currencyUsedByMinimumCashStocksEntities = new List<MinimumCashStock>();
-		foreach(var relatedEntityId in request.EntityDto.CurrencyUsedByMinimumCashStocksId)
+		await DbContext.Entry(entity).Collection(x => x.MinimumCashStocks).LoadAsync();
+		var minimumCashStocksEntities = new List<MinimumCashStock>();
+		foreach(var relatedEntityId in request.EntityDto.MinimumCashStocksId)
 		{
 			var relatedKey = Cryptocash.Domain.MinimumCashStockMetadata.CreateId(relatedEntityId);
 			var relatedEntity = await DbContext.MinimumCashStocks.FindAsync(relatedKey);
 						
 			if(relatedEntity is not null)
-				currencyUsedByMinimumCashStocksEntities.Add(relatedEntity);
+				minimumCashStocksEntities.Add(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("CurrencyUsedByMinimumCashStocks", relatedEntityId.ToString());
+				throw new RelatedEntityNotFoundException("MinimumCashStocks", relatedEntityId.ToString());
 		}
-		entity.UpdateRefToCurrencyUsedByMinimumCashStocks(currencyUsedByMinimumCashStocksEntities);
+		entity.UpdateRefToMinimumCashStocks(minimumCashStocksEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

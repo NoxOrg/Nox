@@ -90,33 +90,33 @@ internal abstract partial class SecondTestEntityOneOrManyBase : AuditableEntityB
     /// <summary>
     /// SecondTestEntityOneOrMany Test entity relationship to TestEntityOneOrMany OneOrMany TestEntityOneOrManies
     /// </summary>
-    public virtual List<TestEntityOneOrMany> TestEntityOneOrManyRelationship { get; private set; } = new();
+    public virtual List<TestEntityOneOrMany> TestEntityOneOrManies { get; private set; } = new();
 
-    public virtual void CreateRefToTestEntityOneOrManyRelationship(TestEntityOneOrMany relatedTestEntityOneOrMany)
+    public virtual void CreateRefToTestEntityOneOrManies(TestEntityOneOrMany relatedTestEntityOneOrMany)
     {
-        TestEntityOneOrManyRelationship.Add(relatedTestEntityOneOrMany);
+        TestEntityOneOrManies.Add(relatedTestEntityOneOrMany);
     }
 
-    public virtual void UpdateRefToTestEntityOneOrManyRelationship(List<TestEntityOneOrMany> relatedTestEntityOneOrMany)
+    public virtual void UpdateRefToTestEntityOneOrManies(List<TestEntityOneOrMany> relatedTestEntityOneOrMany)
     {
         if(relatedTestEntityOneOrMany is null || relatedTestEntityOneOrMany.Count < 2)
             throw new RelationshipDeletionException($"The relationship cannot be updated.");
-        TestEntityOneOrManyRelationship.Clear();
-        TestEntityOneOrManyRelationship.AddRange(relatedTestEntityOneOrMany);
+        TestEntityOneOrManies.Clear();
+        TestEntityOneOrManies.AddRange(relatedTestEntityOneOrMany);
     }
 
-    public virtual void DeleteRefToTestEntityOneOrManyRelationship(TestEntityOneOrMany relatedTestEntityOneOrMany)
+    public virtual void DeleteRefToTestEntityOneOrManies(TestEntityOneOrMany relatedTestEntityOneOrMany)
     {
-        if(TestEntityOneOrManyRelationship.Count() < 2)
+        if(TestEntityOneOrManies.Count() < 2)
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
-        TestEntityOneOrManyRelationship.Remove(relatedTestEntityOneOrMany);
+        TestEntityOneOrManies.Remove(relatedTestEntityOneOrMany);
     }
 
-    public virtual void DeleteAllRefToTestEntityOneOrManyRelationship()
+    public virtual void DeleteAllRefToTestEntityOneOrManies()
     {
-        if(TestEntityOneOrManyRelationship.Count() < 2)
+        if(TestEntityOneOrManies.Count() < 2)
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
-        TestEntityOneOrManyRelationship.Clear();
+        TestEntityOneOrManies.Clear();
     }
 
     /// <summary>

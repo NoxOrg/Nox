@@ -55,24 +55,24 @@ public partial class BookingUpdateDto : IEntityDto<DomainNamespace.Booking>
     /// <summary>
     /// Booking for ExactlyOne Customers
     /// </summary>
-    [Required(ErrorMessage = "BookingForCustomer is required")]
-    public System.Int64 BookingForCustomerId { get; set; } = default!;
+    [Required(ErrorMessage = "Customer is required")]
+    public System.Int64 CustomerId { get; set; } = default!;
 
     /// <summary>
     /// Booking related to ExactlyOne VendingMachines
     /// </summary>
-    [Required(ErrorMessage = "BookingRelatedVendingMachine is required")]
-    public System.Guid BookingRelatedVendingMachineId { get; set; } = default!;
+    [Required(ErrorMessage = "VendingMachine is required")]
+    public System.Guid VendingMachineId { get; set; } = default!;
 
     /// <summary>
     /// Booking fees for ExactlyOne Commissions
     /// </summary>
-    [Required(ErrorMessage = "BookingFeesForCommission is required")]
-    public System.Int64 BookingFeesForCommissionId { get; set; } = default!;
+    [Required(ErrorMessage = "Commission is required")]
+    public System.Int64 CommissionId { get; set; } = default!;
 
     /// <summary>
     /// Booking related to ExactlyOne Transactions
     /// </summary>
-    [Required(ErrorMessage = "BookingRelatedTransaction is required")]
-    public System.Int64 BookingRelatedTransactionId { get; set; } = default!;
+    [Required(ErrorMessage = "Transaction is required")]
+    public System.Int64 TransactionId { get; set; } = default!;
 }

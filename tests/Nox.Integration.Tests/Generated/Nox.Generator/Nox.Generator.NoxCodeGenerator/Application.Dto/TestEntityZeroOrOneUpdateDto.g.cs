@@ -28,5 +28,5 @@ public partial class TestEntityZeroOrOneUpdateDto : IEntityDto<DomainNamespace.T
     /// TestEntityZeroOrOne Test entity relationship to SecondTestEntity ZeroOrOne SecondTestEntityZeroOrOnes
     /// </summary>
     
-    public System.String? SecondTestEntityZeroOrOneRelationshipId { get; set; } = default!;
+    public System.String? SecondTestEntityZeroOrOneId { get; set; } = default!;
 }

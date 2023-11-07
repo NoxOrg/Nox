@@ -97,13 +97,13 @@ public abstract class StoreDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.S
     /// Store Owner of the Store ZeroOrOne StoreOwners
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.String? OwnershipId { get; set; } = default!;
-    public virtual StoreOwnerDto? Ownership { get; set; } = null!;
+    public System.String? StoreOwnerId { get; set; } = default!;
+    public virtual StoreOwnerDto? StoreOwner { get; set; } = null!;
 
     /// <summary>
     /// Store License that this store uses ZeroOrOne StoreLicenses
     /// </summary>
-    public virtual StoreLicenseDto? License { get; set; } = null!;
+    public virtual StoreLicenseDto? StoreLicense { get; set; } = null!;
 
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses

@@ -27,5 +27,5 @@ public partial class TestEntityZeroOrManyToZeroOrOneUpdateDto : IEntityDto<Domai
     /// <summary>
     /// TestEntityZeroOrManyToZeroOrOne Test entity relationship to TestEntityZeroOrOneToZeroOrMany ZeroOrMany TestEntityZeroOrOneToZeroOrManies
     /// </summary>
-    public List<System.String> TestEntityZeroOrOneToZeroOrManyId { get; set; } = new();
+    public List<System.String> TestEntityZeroOrOneToZeroOrManiesId { get; set; } = new();
 }

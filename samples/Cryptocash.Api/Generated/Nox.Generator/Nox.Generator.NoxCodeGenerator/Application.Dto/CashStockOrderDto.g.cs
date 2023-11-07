@@ -80,13 +80,13 @@ public abstract class CashStockOrderDtoBase : EntityDtoBase, IEntityDto<DomainNa
     /// CashStockOrder for ExactlyOne VendingMachines
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Guid? CashStockOrderForVendingMachineId { get; set; } = default!;
-    public virtual VendingMachineDto? CashStockOrderForVendingMachine { get; set; } = null!;
+    public System.Guid? VendingMachineId { get; set; } = default!;
+    public virtual VendingMachineDto? VendingMachine { get; set; } = null!;
 
     /// <summary>
     /// CashStockOrder reviewed by ExactlyOne Employees
     /// </summary>
-    public virtual EmployeeDto? CashStockOrderReviewedByEmployee { get; set; } = null!;
+    public virtual EmployeeDto? Employee { get; set; } = null!;
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

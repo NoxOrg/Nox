@@ -60,7 +60,7 @@ public abstract class ThirdTestEntityZeroOrManyDtoBase : EntityDtoBase, IEntityD
     /// <summary>
     /// ThirdTestEntityZeroOrMany Test entity relationship to ThirdTestEntityOneOrMany ZeroOrMany ThirdTestEntityOneOrManies
     /// </summary>
-    public virtual List<ThirdTestEntityOneOrManyDto> ThirdTestEntityOneOrManyRelationship { get; set; } = new();
+    public virtual List<ThirdTestEntityOneOrManyDto> ThirdTestEntityOneOrManies { get; set; } = new();
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

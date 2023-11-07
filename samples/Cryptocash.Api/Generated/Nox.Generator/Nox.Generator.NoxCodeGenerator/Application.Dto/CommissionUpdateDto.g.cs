@@ -34,10 +34,10 @@ public partial class CommissionUpdateDto : IEntityDto<DomainNamespace.Commission
     /// Commission fees for ZeroOrOne Countries
     /// </summary>
     
-    public System.String? CommissionFeesForCountryId { get; set; } = default!;
+    public System.String? CountryId { get; set; } = default!;
 
     /// <summary>
     /// Commission fees for ZeroOrMany Bookings
     /// </summary>
-    public List<System.Guid> CommissionFeesForBookingId { get; set; } = new();
+    public List<System.Guid> BookingsId { get; set; } = new();
 }

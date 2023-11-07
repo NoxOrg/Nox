@@ -109,24 +109,24 @@ internal abstract partial class CashStockOrderBase : AuditableEntityBase, IEntit
     /// <summary>
     /// CashStockOrder for ExactlyOne VendingMachines
     /// </summary>
-    public virtual VendingMachine CashStockOrderForVendingMachine { get; private set; } = null!;
+    public virtual VendingMachine VendingMachine { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity VendingMachine
     /// </summary>
-    public Nox.Types.Guid CashStockOrderForVendingMachineId { get; set; } = null!;
+    public Nox.Types.Guid VendingMachineId { get; set; } = null!;
 
-    public virtual void CreateRefToCashStockOrderForVendingMachine(VendingMachine relatedVendingMachine)
+    public virtual void CreateRefToVendingMachine(VendingMachine relatedVendingMachine)
     {
-        CashStockOrderForVendingMachine = relatedVendingMachine;
+        VendingMachine = relatedVendingMachine;
     }
 
-    public virtual void DeleteRefToCashStockOrderForVendingMachine(VendingMachine relatedVendingMachine)
+    public virtual void DeleteRefToVendingMachine(VendingMachine relatedVendingMachine)
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
-    public virtual void DeleteAllRefToCashStockOrderForVendingMachine()
+    public virtual void DeleteAllRefToVendingMachine()
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
@@ -134,19 +134,19 @@ internal abstract partial class CashStockOrderBase : AuditableEntityBase, IEntit
     /// <summary>
     /// CashStockOrder reviewed by ExactlyOne Employees
     /// </summary>
-    public virtual Employee CashStockOrderReviewedByEmployee { get; private set; } = null!;
+    public virtual Employee Employee { get; private set; } = null!;
 
-    public virtual void CreateRefToCashStockOrderReviewedByEmployee(Employee relatedEmployee)
+    public virtual void CreateRefToEmployee(Employee relatedEmployee)
     {
-        CashStockOrderReviewedByEmployee = relatedEmployee;
+        Employee = relatedEmployee;
     }
 
-    public virtual void DeleteRefToCashStockOrderReviewedByEmployee(Employee relatedEmployee)
+    public virtual void DeleteRefToEmployee(Employee relatedEmployee)
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
-    public virtual void DeleteAllRefToCashStockOrderReviewedByEmployee()
+    public virtual void DeleteAllRefToEmployee()
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }

@@ -33,5 +33,5 @@ public partial class LandLordUpdateDto : IEntityDto<DomainNamespace.LandLord>
     /// <summary>
     /// LandLord leases an area to house ZeroOrMany VendingMachines
     /// </summary>
-    public List<System.Guid> ContractedAreasForVendingMachinesId { get; set; } = new();
+    public List<System.Guid> VendingMachinesId { get; set; } = new();
 }

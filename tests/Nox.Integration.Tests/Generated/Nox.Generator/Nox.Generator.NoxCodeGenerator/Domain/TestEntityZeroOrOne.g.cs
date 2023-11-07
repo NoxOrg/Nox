@@ -90,26 +90,26 @@ internal abstract partial class TestEntityZeroOrOneBase : AuditableEntityBase, I
     /// <summary>
     /// TestEntityZeroOrOne Test entity relationship to SecondTestEntity ZeroOrOne SecondTestEntityZeroOrOnes
     /// </summary>
-    public virtual SecondTestEntityZeroOrOne? SecondTestEntityZeroOrOneRelationship { get; private set; } = null!;
+    public virtual SecondTestEntityZeroOrOne? SecondTestEntityZeroOrOne { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ZeroOrOne to entity SecondTestEntityZeroOrOne
     /// </summary>
-    public Nox.Types.Text? SecondTestEntityZeroOrOneRelationshipId { get; set; } = null!;
+    public Nox.Types.Text? SecondTestEntityZeroOrOneId { get; set; } = null!;
 
-    public virtual void CreateRefToSecondTestEntityZeroOrOneRelationship(SecondTestEntityZeroOrOne relatedSecondTestEntityZeroOrOne)
+    public virtual void CreateRefToSecondTestEntityZeroOrOne(SecondTestEntityZeroOrOne relatedSecondTestEntityZeroOrOne)
     {
-        SecondTestEntityZeroOrOneRelationship = relatedSecondTestEntityZeroOrOne;
+        SecondTestEntityZeroOrOne = relatedSecondTestEntityZeroOrOne;
     }
 
-    public virtual void DeleteRefToSecondTestEntityZeroOrOneRelationship(SecondTestEntityZeroOrOne relatedSecondTestEntityZeroOrOne)
+    public virtual void DeleteRefToSecondTestEntityZeroOrOne(SecondTestEntityZeroOrOne relatedSecondTestEntityZeroOrOne)
     {
-        SecondTestEntityZeroOrOneRelationship = null;
+        SecondTestEntityZeroOrOne = null;
     }
 
-    public virtual void DeleteAllRefToSecondTestEntityZeroOrOneRelationship()
+    public virtual void DeleteAllRefToSecondTestEntityZeroOrOne()
     {
-        SecondTestEntityZeroOrOneRelationshipId = null;
+        SecondTestEntityZeroOrOneId = null;
     }
 
     /// <summary>

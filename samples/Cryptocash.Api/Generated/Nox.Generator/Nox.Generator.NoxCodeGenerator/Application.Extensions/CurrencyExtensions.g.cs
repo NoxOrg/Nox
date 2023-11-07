@@ -26,8 +26,8 @@ internal static class CurrencyExtensions
         dto.SetIfNotNull(entity?.MinorName, (dto) => dto.MinorName =entity!.MinorName!.Value);
         dto.SetIfNotNull(entity?.MinorSymbol, (dto) => dto.MinorSymbol =entity!.MinorSymbol!.Value);
         dto.SetIfNotNull(entity?.MinorToMajorValue, (dto) => dto.MinorToMajorValue =entity!.MinorToMajorValue!.ToDto());
-        dto.SetIfNotNull(entity?.CurrencyUsedByCountry, (dto) => dto.CurrencyUsedByCountry = entity!.CurrencyUsedByCountry.Select(e => e.ToDto()).ToList());
-        dto.SetIfNotNull(entity?.CurrencyUsedByMinimumCashStocks, (dto) => dto.CurrencyUsedByMinimumCashStocks = entity!.CurrencyUsedByMinimumCashStocks.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.Countries, (dto) => dto.Countries = entity!.Countries.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.MinimumCashStocks, (dto) => dto.MinimumCashStocks = entity!.MinimumCashStocks.Select(e => e.ToDto()).ToList());
         dto.SetIfNotNull(entity?.CurrencyCommonBankNotes, (dto) => dto.CurrencyCommonBankNotes = entity!.CurrencyCommonBankNotes.Select(e => e.ToDto()).ToList());
         dto.SetIfNotNull(entity?.CurrencyExchangedFromRates, (dto) => dto.CurrencyExchangedFromRates = entity!.CurrencyExchangedFromRates.Select(e => e.ToDto()).ToList());
 

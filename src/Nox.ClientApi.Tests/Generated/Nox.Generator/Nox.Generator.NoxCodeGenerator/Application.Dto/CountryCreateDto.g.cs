@@ -70,10 +70,10 @@ public abstract class CountryCreateDtoBase : IEntityDto<DomainNamespace.Country>
     /// <summary>
     /// Country Country workplaces ZeroOrMany Workplaces
     /// </summary>
-    public virtual List<System.UInt32> PhysicalWorkplacesId { get; set; } = new();
+    public virtual List<System.UInt32> WorkplacesId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual List<WorkplaceCreateDto> PhysicalWorkplaces { get; set; } = new();
+    public virtual List<WorkplaceCreateDto> Workplaces { get; set; } = new();
 
     /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames

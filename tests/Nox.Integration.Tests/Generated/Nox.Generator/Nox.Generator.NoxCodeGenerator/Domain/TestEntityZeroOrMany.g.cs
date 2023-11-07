@@ -90,27 +90,27 @@ internal abstract partial class TestEntityZeroOrManyBase : AuditableEntityBase, 
     /// <summary>
     /// TestEntityZeroOrMany Test entity relationship to SecondTestEntityZeroOrMany ZeroOrMany SecondTestEntityZeroOrManies
     /// </summary>
-    public virtual List<SecondTestEntityZeroOrMany> SecondTestEntityZeroOrManyRelationship { get; private set; } = new();
+    public virtual List<SecondTestEntityZeroOrMany> SecondTestEntityZeroOrManies { get; private set; } = new();
 
-    public virtual void CreateRefToSecondTestEntityZeroOrManyRelationship(SecondTestEntityZeroOrMany relatedSecondTestEntityZeroOrMany)
+    public virtual void CreateRefToSecondTestEntityZeroOrManies(SecondTestEntityZeroOrMany relatedSecondTestEntityZeroOrMany)
     {
-        SecondTestEntityZeroOrManyRelationship.Add(relatedSecondTestEntityZeroOrMany);
+        SecondTestEntityZeroOrManies.Add(relatedSecondTestEntityZeroOrMany);
     }
 
-    public virtual void UpdateRefToSecondTestEntityZeroOrManyRelationship(List<SecondTestEntityZeroOrMany> relatedSecondTestEntityZeroOrMany)
+    public virtual void UpdateRefToSecondTestEntityZeroOrManies(List<SecondTestEntityZeroOrMany> relatedSecondTestEntityZeroOrMany)
     {
-        SecondTestEntityZeroOrManyRelationship.Clear();
-        SecondTestEntityZeroOrManyRelationship.AddRange(relatedSecondTestEntityZeroOrMany);
+        SecondTestEntityZeroOrManies.Clear();
+        SecondTestEntityZeroOrManies.AddRange(relatedSecondTestEntityZeroOrMany);
     }
 
-    public virtual void DeleteRefToSecondTestEntityZeroOrManyRelationship(SecondTestEntityZeroOrMany relatedSecondTestEntityZeroOrMany)
+    public virtual void DeleteRefToSecondTestEntityZeroOrManies(SecondTestEntityZeroOrMany relatedSecondTestEntityZeroOrMany)
     {
-        SecondTestEntityZeroOrManyRelationship.Remove(relatedSecondTestEntityZeroOrMany);
+        SecondTestEntityZeroOrManies.Remove(relatedSecondTestEntityZeroOrMany);
     }
 
-    public virtual void DeleteAllRefToSecondTestEntityZeroOrManyRelationship()
+    public virtual void DeleteAllRefToSecondTestEntityZeroOrManies()
     {
-        SecondTestEntityZeroOrManyRelationship.Clear();
+        SecondTestEntityZeroOrManies.Clear();
     }
 
     /// <summary>

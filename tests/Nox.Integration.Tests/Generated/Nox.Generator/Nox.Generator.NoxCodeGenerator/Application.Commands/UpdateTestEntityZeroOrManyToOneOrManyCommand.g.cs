@@ -57,19 +57,19 @@ internal abstract class UpdateTestEntityZeroOrManyToOneOrManyCommandHandlerBase 
 			return null;
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.TestEntityOneOrManyToZeroOrMany).LoadAsync();
-		var testEntityOneOrManyToZeroOrManyEntities = new List<TestEntityOneOrManyToZeroOrMany>();
-		foreach(var relatedEntityId in request.EntityDto.TestEntityOneOrManyToZeroOrManyId)
+		await DbContext.Entry(entity).Collection(x => x.TestEntityOneOrManyToZeroOrManies).LoadAsync();
+		var testEntityOneOrManyToZeroOrManiesEntities = new List<TestEntityOneOrManyToZeroOrMany>();
+		foreach(var relatedEntityId in request.EntityDto.TestEntityOneOrManyToZeroOrManiesId)
 		{
 			var relatedKey = TestWebApp.Domain.TestEntityOneOrManyToZeroOrManyMetadata.CreateId(relatedEntityId);
 			var relatedEntity = await DbContext.TestEntityOneOrManyToZeroOrManies.FindAsync(relatedKey);
 						
 			if(relatedEntity is not null)
-				testEntityOneOrManyToZeroOrManyEntities.Add(relatedEntity);
+				testEntityOneOrManyToZeroOrManiesEntities.Add(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("TestEntityOneOrManyToZeroOrMany", relatedEntityId.ToString());
+				throw new RelatedEntityNotFoundException("TestEntityOneOrManyToZeroOrManies", relatedEntityId.ToString());
 		}
-		entity.UpdateRefToTestEntityOneOrManyToZeroOrMany(testEntityOneOrManyToZeroOrManyEntities);
+		entity.UpdateRefToTestEntityOneOrManyToZeroOrManies(testEntityOneOrManyToZeroOrManiesEntities);
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
