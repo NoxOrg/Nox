@@ -17,7 +17,7 @@ namespace {{codeGeneratorState.DomainNameSpace}};
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-internal partial class {{className}} : IEntityConcurrent
+internal partial class {{className}} : IEntity, IEntityConcurrent
 {
 {{- for key in entity.Keys }}
     /// <summary>

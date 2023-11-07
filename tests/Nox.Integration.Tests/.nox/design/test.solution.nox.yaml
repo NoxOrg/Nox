@@ -1414,7 +1414,7 @@ domain:
             - UniqueCountryCode
             - UniqueCurrencyCode
 
-    - name: TestEntityLocalization
+    - name: TestEntityLocalization 
       description: Entity created for testing localization
 
       keys:
@@ -1461,7 +1461,7 @@ domain:
       
       attributes:
         - name: AutoNumberFieldWithOptions
-          type: autoNumber
+          type: autoNumber 
           autoNumberTypeOptions:
               startsAt: 20
               incrementsBy: 2
