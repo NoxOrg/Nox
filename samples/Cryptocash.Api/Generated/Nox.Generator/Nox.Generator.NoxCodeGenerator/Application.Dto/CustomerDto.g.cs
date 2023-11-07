@@ -97,24 +97,24 @@ public abstract class CustomerDtoBase : EntityDtoBase, IEntityDto<DomainNamespac
     /// <summary>
     /// Customer related to ZeroOrMany PaymentDetails
     /// </summary>
-    public virtual List<PaymentDetailDto> CustomerRelatedPaymentDetails { get; set; } = new();
+    public virtual List<PaymentDetailDto> PaymentDetails { get; set; } = new();
 
     /// <summary>
     /// Customer related to ZeroOrMany Bookings
     /// </summary>
-    public virtual List<BookingDto> CustomerRelatedBookings { get; set; } = new();
+    public virtual List<BookingDto> Bookings { get; set; } = new();
 
     /// <summary>
     /// Customer related to ZeroOrMany Transactions
     /// </summary>
-    public virtual List<TransactionDto> CustomerRelatedTransactions { get; set; } = new();
+    public virtual List<TransactionDto> Transactions { get; set; } = new();
 
     /// <summary>
     /// Customer based in ExactlyOne Countries
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.String? CustomerBaseCountryId { get; set; } = default!;
-    public virtual CountryDto? CustomerBaseCountry { get; set; } = null!;
+    public System.String? CountryId { get; set; } = default!;
+    public virtual CountryDto? Country { get; set; } = null!;
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

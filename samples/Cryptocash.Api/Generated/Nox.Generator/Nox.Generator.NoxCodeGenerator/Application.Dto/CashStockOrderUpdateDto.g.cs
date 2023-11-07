@@ -37,12 +37,12 @@ public partial class CashStockOrderUpdateDto : IEntityDto<DomainNamespace.CashSt
     /// <summary>
     /// CashStockOrder for ExactlyOne VendingMachines
     /// </summary>
-    [Required(ErrorMessage = "CashStockOrderForVendingMachine is required")]
-    public System.Guid CashStockOrderForVendingMachineId { get; set; } = default!;
+    [Required(ErrorMessage = "VendingMachine is required")]
+    public System.Guid VendingMachineId { get; set; } = default!;
 
     /// <summary>
     /// CashStockOrder reviewed by ExactlyOne Employees
     /// </summary>
-    [Required(ErrorMessage = "CashStockOrderReviewedByEmployee is required")]
-    public System.Int64 CashStockOrderReviewedByEmployeeId { get; set; } = default!;
+    [Required(ErrorMessage = "Employee is required")]
+    public System.Int64 EmployeeId { get; set; } = default!;
 }

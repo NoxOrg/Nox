@@ -28,14 +28,14 @@ public abstract partial class CommissionsControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToCommissionFeesForCountry([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
+    public async Task<ActionResult> CreateRefToCountry([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var createdRef = await _mediator.Send(new CreateRefCommissionToCommissionFeesForCountryCommand(new CommissionKeyDto(key), new CountryKeyDto(relatedKey)));
+        var createdRef = await _mediator.Send(new CreateRefCommissionToCountryCommand(new CommissionKeyDto(key), new CountryKeyDto(relatedKey)));
         if (!createdRef)
         {
             return NotFound();
@@ -44,7 +44,7 @@ public abstract partial class CommissionsControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToCommissionFeesForCountry([FromRoute] System.Int64 key, [FromBody] CountryCreateDto country)
+    public virtual async Task<ActionResult> PostToCountry([FromRoute] System.Int64 key, [FromBody] CountryCreateDto country)
     {
         if (!ModelState.IsValid)
         {
@@ -52,7 +52,7 @@ public abstract partial class CommissionsControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        country.CountryUsedByCommissionsId = new List<System.Int64> { key };
+        country.CommissionsId = new List<System.Int64> { key };
         var createdKey = await _mediator.Send(new CreateCountryCommand(country, _cultureCode));
         
         var createdItem = (await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId))).SingleOrDefault();
@@ -60,9 +60,9 @@ public abstract partial class CommissionsControllerBase : ODataController
         return Created(createdItem);
     }
     
-    public async Task<ActionResult> GetRefToCommissionFeesForCountry([FromRoute] System.Int64 key)
+    public async Task<ActionResult> GetRefToCountry([FromRoute] System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).Select(x => x.CommissionFeesForCountry).SingleOrDefault();
+        var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
         if (related is null)
         {
             return NotFound();
@@ -72,14 +72,14 @@ public abstract partial class CommissionsControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToCommissionFeesForCountry([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
+    public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedRef = await _mediator.Send(new DeleteRefCommissionToCommissionFeesForCountryCommand(new CommissionKeyDto(key), new CountryKeyDto(relatedKey)));
+        var deletedRef = await _mediator.Send(new DeleteRefCommissionToCountryCommand(new CommissionKeyDto(key), new CountryKeyDto(relatedKey)));
         if (!deletedRef)
         {
             return NotFound();
@@ -88,14 +88,14 @@ public abstract partial class CommissionsControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToCommissionFeesForCountry([FromRoute] System.Int64 key)
+    public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefCommissionToCommissionFeesForCountryCommand(new CommissionKeyDto(key)));
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefCommissionToCountryCommand(new CommissionKeyDto(key)));
         if (!deletedAllRef)
         {
             return NotFound();
@@ -104,14 +104,14 @@ public abstract partial class CommissionsControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToCommissionFeesForBooking([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    public async Task<ActionResult> CreateRefToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var createdRef = await _mediator.Send(new CreateRefCommissionToCommissionFeesForBookingCommand(new CommissionKeyDto(key), new BookingKeyDto(relatedKey)));
+        var createdRef = await _mediator.Send(new CreateRefCommissionToBookingsCommand(new CommissionKeyDto(key), new BookingKeyDto(relatedKey)));
         if (!createdRef)
         {
             return NotFound();
@@ -120,7 +120,7 @@ public abstract partial class CommissionsControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToCommissionFeesForBooking([FromRoute] System.Int64 key, [FromBody] BookingCreateDto booking)
+    public virtual async Task<ActionResult> PostToBookings([FromRoute] System.Int64 key, [FromBody] BookingCreateDto booking)
     {
         if (!ModelState.IsValid)
         {
@@ -128,7 +128,7 @@ public abstract partial class CommissionsControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        booking.BookingFeesForCommissionId = key;
+        booking.CommissionId = key;
         var createdKey = await _mediator.Send(new CreateBookingCommand(booking, _cultureCode));
         
         var createdItem = (await _mediator.Send(new GetBookingByIdQuery(createdKey.keyId))).SingleOrDefault();
@@ -136,9 +136,9 @@ public abstract partial class CommissionsControllerBase : ODataController
         return Created(createdItem);
     }
     
-    public async Task<ActionResult> GetRefToCommissionFeesForBooking([FromRoute] System.Int64 key)
+    public async Task<ActionResult> GetRefToBookings([FromRoute] System.Int64 key)
     {
-        var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).Select(x => x.CommissionFeesForBooking).SingleOrDefault();
+        var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).Select(x => x.Bookings).SingleOrDefault();
         if (related is null)
         {
             return NotFound();
@@ -152,14 +152,14 @@ public abstract partial class CommissionsControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToCommissionFeesForBooking([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedRef = await _mediator.Send(new DeleteRefCommissionToCommissionFeesForBookingCommand(new CommissionKeyDto(key), new BookingKeyDto(relatedKey)));
+        var deletedRef = await _mediator.Send(new DeleteRefCommissionToBookingsCommand(new CommissionKeyDto(key), new BookingKeyDto(relatedKey)));
         if (!deletedRef)
         {
             return NotFound();
@@ -168,14 +168,14 @@ public abstract partial class CommissionsControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToCommissionFeesForBooking([FromRoute] System.Int64 key)
+    public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefCommissionToCommissionFeesForBookingCommand(new CommissionKeyDto(key)));
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefCommissionToBookingsCommand(new CommissionKeyDto(key)));
         if (!deletedAllRef)
         {
             return NotFound();

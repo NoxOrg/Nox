@@ -19,7 +19,7 @@
                 <Property Name="Continent" Type="Edm.Int32" />
                 <NavigationProperty Name="CountryShortNames" Type="Collection(ClientApi.Application.Dto.CountryLocalNameDto)" ContainsTarget="true" />
                 <NavigationProperty Name="CountryBarCode" Type="ClientApi.Application.Dto.CountryBarCodeDto" ContainsTarget="true" />
-                <NavigationProperty Name="PhysicalWorkplaces" Type="Collection(ClientApi.Application.Dto.WorkplaceDto)" ContainsTarget="true" />
+                <NavigationProperty Name="Workplaces" Type="Collection(ClientApi.Application.Dto.WorkplaceDto)" ContainsTarget="true" />
             </EntityType>
             <EntityType Name="CountryLocalNameDto">
                 <Key>
@@ -63,10 +63,10 @@
                 <Property Name="Location" Type="ClientApi.Application.Dto.LatLongDto" Nullable="false" />
                 <Property Name="OpeningDay" Type="Edm.DateTimeOffset" />
                 <Property Name="Status" Type="Edm.Int32" />
-                <Property Name="OwnershipId" Type="Edm.String" />
+                <Property Name="StoreOwnerId" Type="Edm.String" />
                 <NavigationProperty Name="VerifiedEmails" Type="ClientApi.Application.Dto.EmailAddressDto" ContainsTarget="true" />
-                <NavigationProperty Name="Ownership" Type="ClientApi.Application.Dto.StoreOwnerDto" ContainsTarget="true" />
-                <NavigationProperty Name="License" Type="ClientApi.Application.Dto.StoreLicenseDto" ContainsTarget="true" />
+                <NavigationProperty Name="StoreOwner" Type="ClientApi.Application.Dto.StoreOwnerDto" ContainsTarget="true" />
+                <NavigationProperty Name="StoreLicense" Type="ClientApi.Application.Dto.StoreLicenseDto" ContainsTarget="true" />
             </EntityType>
             <EntityType Name="WorkplaceDto">
                 <Key>
@@ -76,9 +76,9 @@
                 <Property Name="Name" Type="Edm.String" Nullable="false" />
                 <Property Name="Description" Type="Edm.String" />
                 <Property Name="Greeting" Type="Edm.String" />
-                <Property Name="BelongsToCountryId" Type="Edm.Int64" />
+                <Property Name="CountryId" Type="Edm.Int64" />
                 <Property Name="Etag" Type="Edm.Guid" Nullable="false" />
-                <NavigationProperty Name="BelongsToCountry" Type="ClientApi.Application.Dto.CountryDto" ContainsTarget="true" />
+                <NavigationProperty Name="Country" Type="ClientApi.Application.Dto.CountryDto" ContainsTarget="true" />
             </EntityType>
             <EntityType Name="StoreOwnerDto">
                 <Key>
@@ -98,10 +98,24 @@
                     <PropertyRef Name="Id" />
                 </Key>
                 <Property Name="Id" Type="Edm.Int64" Nullable="false" />
-                <Property Name="Issuer" Type="Edm.String" />
+                <Property Name="Issuer" Type="Edm.String" Nullable="false" />
                 <Property Name="ExternalId" Type="Edm.Int64" Nullable="false" />
-                <Property Name="StoreWithLicenseId" Type="Edm.Guid" />
-                <NavigationProperty Name="StoreWithLicense" Type="ClientApi.Application.Dto.StoreDto" Nullable="false" ContainsTarget="true" />
+                <Property Name="StoreId" Type="Edm.Guid" />
+                <Property Name="DefaultCurrencyId" Type="Edm.String" />
+                <Property Name="SoldInCurrencyId" Type="Edm.String" />
+                <NavigationProperty Name="Store" Type="ClientApi.Application.Dto.StoreDto" Nullable="false" ContainsTarget="true" />
+                <NavigationProperty Name="DefaultCurrency" Type="ClientApi.Application.Dto.CurrencyDto" ContainsTarget="true" />
+                <NavigationProperty Name="SoldInCurrency" Type="ClientApi.Application.Dto.CurrencyDto" ContainsTarget="true" />
+            </EntityType>
+            <EntityType Name="CurrencyDto">
+                <Key>
+                    <PropertyRef Name="Id" />
+                </Key>
+                <Property Name="Id" Type="Edm.String" Nullable="false" />
+                <Property Name="Name" Type="Edm.String" />
+                <Property Name="Symbol" Type="Edm.String" />
+                <NavigationProperty Name="StoreLicenseDefault" Type="Collection(ClientApi.Application.Dto.StoreLicenseDto)" ContainsTarget="true" />
+                <NavigationProperty Name="StoreLicenseSoldIn" Type="Collection(ClientApi.Application.Dto.StoreLicenseDto)" ContainsTarget="true" />
             </EntityType>
             <EntityType Name="EmailAddressDto">
                 <Property Name="Email" Type="Edm.String" />
@@ -593,6 +607,7 @@
                 <EntitySet Name="Workplaces" EntityType="ClientApi.Application.Dto.WorkplaceDto" />
                 <EntitySet Name="StoreOwners" EntityType="ClientApi.Application.Dto.StoreOwnerDto" />
                 <EntitySet Name="StoreLicenses" EntityType="ClientApi.Application.Dto.StoreLicenseDto" />
+                <EntitySet Name="Currencies" EntityType="ClientApi.Application.Dto.CurrencyDto" />
                 <EntitySet Name="Houses" EntityType="ClientApi.Tests.Application.Dto.HouseDto" />
                 <FunctionImport Name="countriesWithDebt" Function="Default.countriesWithDebt" EntitySet="Countries" IncludeInServiceDocument="true" />
             </EntityContainer>

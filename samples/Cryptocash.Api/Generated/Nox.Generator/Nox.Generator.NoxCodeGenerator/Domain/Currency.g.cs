@@ -145,59 +145,59 @@ internal abstract partial class CurrencyBase : AuditableEntityBase, IEntityConcu
     /// <summary>
     /// Currency used by OneOrMany Countries
     /// </summary>
-    public virtual List<Country> CurrencyUsedByCountry { get; private set; } = new();
+    public virtual List<Country> Countries { get; private set; } = new();
 
-    public virtual void CreateRefToCurrencyUsedByCountry(Country relatedCountry)
+    public virtual void CreateRefToCountries(Country relatedCountry)
     {
-        CurrencyUsedByCountry.Add(relatedCountry);
+        Countries.Add(relatedCountry);
     }
 
-    public virtual void UpdateRefToCurrencyUsedByCountry(List<Country> relatedCountry)
+    public virtual void UpdateRefToCountries(List<Country> relatedCountry)
     {
         if(relatedCountry is null || relatedCountry.Count < 2)
             throw new RelationshipDeletionException($"The relationship cannot be updated.");
-        CurrencyUsedByCountry.Clear();
-        CurrencyUsedByCountry.AddRange(relatedCountry);
+        Countries.Clear();
+        Countries.AddRange(relatedCountry);
     }
 
-    public virtual void DeleteRefToCurrencyUsedByCountry(Country relatedCountry)
+    public virtual void DeleteRefToCountries(Country relatedCountry)
     {
-        if(CurrencyUsedByCountry.Count() < 2)
+        if(Countries.Count() < 2)
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
-        CurrencyUsedByCountry.Remove(relatedCountry);
+        Countries.Remove(relatedCountry);
     }
 
-    public virtual void DeleteAllRefToCurrencyUsedByCountry()
+    public virtual void DeleteAllRefToCountries()
     {
-        if(CurrencyUsedByCountry.Count() < 2)
+        if(Countries.Count() < 2)
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
-        CurrencyUsedByCountry.Clear();
+        Countries.Clear();
     }
 
     /// <summary>
     /// Currency used by ZeroOrMany MinimumCashStocks
     /// </summary>
-    public virtual List<MinimumCashStock> CurrencyUsedByMinimumCashStocks { get; private set; } = new();
+    public virtual List<MinimumCashStock> MinimumCashStocks { get; private set; } = new();
 
-    public virtual void CreateRefToCurrencyUsedByMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
+    public virtual void CreateRefToMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
     {
-        CurrencyUsedByMinimumCashStocks.Add(relatedMinimumCashStock);
+        MinimumCashStocks.Add(relatedMinimumCashStock);
     }
 
-    public virtual void UpdateRefToCurrencyUsedByMinimumCashStocks(List<MinimumCashStock> relatedMinimumCashStock)
+    public virtual void UpdateRefToMinimumCashStocks(List<MinimumCashStock> relatedMinimumCashStock)
     {
-        CurrencyUsedByMinimumCashStocks.Clear();
-        CurrencyUsedByMinimumCashStocks.AddRange(relatedMinimumCashStock);
+        MinimumCashStocks.Clear();
+        MinimumCashStocks.AddRange(relatedMinimumCashStock);
     }
 
-    public virtual void DeleteRefToCurrencyUsedByMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
+    public virtual void DeleteRefToMinimumCashStocks(MinimumCashStock relatedMinimumCashStock)
     {
-        CurrencyUsedByMinimumCashStocks.Remove(relatedMinimumCashStock);
+        MinimumCashStocks.Remove(relatedMinimumCashStock);
     }
 
-    public virtual void DeleteAllRefToCurrencyUsedByMinimumCashStocks()
+    public virtual void DeleteAllRefToMinimumCashStocks()
     {
-        CurrencyUsedByMinimumCashStocks.Clear();
+        MinimumCashStocks.Clear();
     }
 
     /// <summary>

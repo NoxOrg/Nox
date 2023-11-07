@@ -59,7 +59,7 @@ public partial class CountryUpdateDto : IEntityDto<DomainNamespace.Country>
     /// <summary>
     /// Country Country workplaces ZeroOrMany Workplaces
     /// </summary>
-    public List<System.UInt32> PhysicalWorkplacesId { get; set; } = new();
+    public List<System.UInt32> WorkplacesId { get; set; } = new();
     /// <summary>
     /// Country is also coded as ZeroOrOne CountryBarCodes
     /// </summary>

@@ -52,11 +52,11 @@
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.PutToCountryBarCode (Nox.ClientApi.Tests)</td><td>PUT</td><td>api/Countries/{key}/CountryBarCode</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.PatchToCountryBarCode (Nox.ClientApi.Tests)</td><td>PATCH</td><td>api/Countries/{key}/CountryBarCode</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.DeleteCountryBarCodeNonConventional (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Countries/{key}/CountryBarCode</td><td>-</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.CountriesController.CreateRefToPhysicalWorkplaces (Nox.ClientApi.Tests)</td><td>POST,PUT</td><td>api/Countries/{key}/PhysicalWorkplaces/{relatedKey}/$ref</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.CountriesController.PostToPhysicalWorkplaces (Nox.ClientApi.Tests)</td><td>POST</td><td>api/Countries/{key}/PhysicalWorkplaces</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.CountriesController.GetRefToPhysicalWorkplaces (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Countries/{key}/PhysicalWorkplaces/$ref">api/Countries/{key}/PhysicalWorkplaces/$ref</a></td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.CountriesController.DeleteRefToPhysicalWorkplaces (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Countries/{key}/PhysicalWorkplaces/{relatedKey}/$ref</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.CountriesController.DeleteRefToPhysicalWorkplaces (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Countries/{key}/PhysicalWorkplaces/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CountriesController.CreateRefToWorkplaces (Nox.ClientApi.Tests)</td><td>POST,PUT</td><td>api/Countries/{key}/Workplaces/{relatedKey}/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CountriesController.PostToWorkplaces (Nox.ClientApi.Tests)</td><td>POST</td><td>api/Countries/{key}/Workplaces</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CountriesController.GetRefToWorkplaces (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Countries/{key}/Workplaces/$ref">api/Countries/{key}/Workplaces/$ref</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CountriesController.DeleteRefToWorkplaces (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Countries/{key}/Workplaces/{relatedKey}/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CountriesController.DeleteRefToWorkplaces (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Countries/{key}/Workplaces/$ref</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.StoreOwnersController.Post (Nox.ClientApi.Tests)</td><td>POST</td><td>api/StoreOwners</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.StoreOwnersController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/StoreOwners">api/StoreOwners</a></td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.StoreOwnersController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/StoreOwners/$count">api/StoreOwners/$count</a></td><td>Yes</td></tr>
@@ -95,16 +95,16 @@
 <tr><td>ClientApi.Presentation.Api.OData.StoresController.PutToVerifiedEmails (Nox.ClientApi.Tests)</td><td>PUT</td><td>api/Stores/{key}/VerifiedEmails</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.StoresController.PatchToVerifiedEmails (Nox.ClientApi.Tests)</td><td>PATCH</td><td>api/Stores/{key}/VerifiedEmails</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteEmailAddressNonConventional (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Stores/{key}/VerifiedEmails</td><td>-</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.CreateRefToOwnership (Nox.ClientApi.Tests)</td><td>POST,PUT</td><td>api/Stores/{key}/Ownership/{relatedKey}/$ref</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.PostToOwnership (Nox.ClientApi.Tests)</td><td>POST</td><td>api/Stores/{key}/Ownership</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.GetRefToOwnership (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Stores/{key}/Ownership/$ref">api/Stores/{key}/Ownership/$ref</a></td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteRefToOwnership (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Stores/{key}/Ownership/{relatedKey}/$ref</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteRefToOwnership (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Stores/{key}/Ownership/$ref</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.CreateRefToLicense (Nox.ClientApi.Tests)</td><td>POST,PUT</td><td>api/Stores/{key}/License/{relatedKey}/$ref</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.PostToLicense (Nox.ClientApi.Tests)</td><td>POST</td><td>api/Stores/{key}/License</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.GetRefToLicense (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Stores/{key}/License/$ref">api/Stores/{key}/License/$ref</a></td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteRefToLicense (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Stores/{key}/License/{relatedKey}/$ref</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteRefToLicense (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Stores/{key}/License/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.CreateRefToStoreOwner (Nox.ClientApi.Tests)</td><td>POST,PUT</td><td>api/Stores/{key}/StoreOwner/{relatedKey}/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.PostToStoreOwner (Nox.ClientApi.Tests)</td><td>POST</td><td>api/Stores/{key}/StoreOwner</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.GetRefToStoreOwner (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Stores/{key}/StoreOwner/$ref">api/Stores/{key}/StoreOwner/$ref</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteRefToStoreOwner (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Stores/{key}/StoreOwner/{relatedKey}/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteRefToStoreOwner (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Stores/{key}/StoreOwner/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.CreateRefToStoreLicense (Nox.ClientApi.Tests)</td><td>POST,PUT</td><td>api/Stores/{key}/StoreLicense/{relatedKey}/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.PostToStoreLicense (Nox.ClientApi.Tests)</td><td>POST</td><td>api/Stores/{key}/StoreLicense</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.GetRefToStoreLicense (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Stores/{key}/StoreLicense/$ref">api/Stores/{key}/StoreLicense/$ref</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteRefToStoreLicense (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Stores/{key}/StoreLicense/{relatedKey}/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteRefToStoreLicense (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Stores/{key}/StoreLicense/$ref</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Workplaces">api/Workplaces</a></td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Workplaces/$count">api/Workplaces/$count</a></td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Workplaces/{key}">api/Workplaces/{key}</a></td><td>Yes</td></tr>
@@ -112,11 +112,11 @@
 <tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.Put (Nox.ClientApi.Tests)</td><td>PUT</td><td>api/Workplaces/{key}</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.Patch (Nox.ClientApi.Tests)</td><td>PATCH</td><td>api/Workplaces/{key}</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.Delete (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Workplaces/{key}</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.CreateRefToBelongsToCountry (Nox.ClientApi.Tests)</td><td>POST,PUT</td><td>api/Workplaces/{key}/BelongsToCountry/{relatedKey}/$ref</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.PostToBelongsToCountry (Nox.ClientApi.Tests)</td><td>POST</td><td>api/Workplaces/{key}/BelongsToCountry</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.GetRefToBelongsToCountry (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Workplaces/{key}/BelongsToCountry/$ref">api/Workplaces/{key}/BelongsToCountry/$ref</a></td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.DeleteRefToBelongsToCountry (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Workplaces/{key}/BelongsToCountry/{relatedKey}/$ref</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.DeleteRefToBelongsToCountry (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Workplaces/{key}/BelongsToCountry/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.CreateRefToCountry (Nox.ClientApi.Tests)</td><td>POST,PUT</td><td>api/Workplaces/{key}/Country/{relatedKey}/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.PostToCountry (Nox.ClientApi.Tests)</td><td>POST</td><td>api/Workplaces/{key}/Country</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.GetRefToCountry (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Workplaces/{key}/Country/$ref">api/Workplaces/{key}/Country/$ref</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.DeleteRefToCountry (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Workplaces/{key}/Country/{relatedKey}/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.DeleteRefToCountry (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Workplaces/{key}/Country/$ref</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.StoreLicensesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/StoreLicenses">api/StoreLicenses</a></td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.StoreLicensesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/StoreLicenses/$count">api/StoreLicenses/$count</a></td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.StoreLicensesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/StoreLicenses/{key}">api/StoreLicenses/{key}</a></td><td>Yes</td></tr>
@@ -124,10 +124,37 @@
 <tr><td>ClientApi.Presentation.Api.OData.StoreLicensesController.Put (Nox.ClientApi.Tests)</td><td>PUT</td><td>api/StoreLicenses/{key}</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.StoreLicensesController.Patch (Nox.ClientApi.Tests)</td><td>PATCH</td><td>api/StoreLicenses/{key}</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.StoreLicensesController.Delete (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/StoreLicenses/{key}</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoreLicensesController.CreateRefToStoreWithLicense (Nox.ClientApi.Tests)</td><td>POST,PUT</td><td>api/StoreLicenses/{key}/StoreWithLicense/{relatedKey}/$ref</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoreLicensesController.PostToStoreWithLicense (Nox.ClientApi.Tests)</td><td>POST</td><td>api/StoreLicenses/{key}/StoreWithLicense</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoreLicensesController.GetRefToStoreWithLicense (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/StoreLicenses/{key}/StoreWithLicense/$ref">api/StoreLicenses/{key}/StoreWithLicense/$ref</a></td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoreLicensesController.DeleteRefToStoreWithLicense (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/StoreLicenses/{key}/StoreWithLicense/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoreLicensesController.CreateRefToStore (Nox.ClientApi.Tests)</td><td>POST,PUT</td><td>api/StoreLicenses/{key}/Store/{relatedKey}/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoreLicensesController.PostToStore (Nox.ClientApi.Tests)</td><td>POST</td><td>api/StoreLicenses/{key}/Store</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoreLicensesController.GetRefToStore (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/StoreLicenses/{key}/Store/$ref">api/StoreLicenses/{key}/Store/$ref</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoreLicensesController.DeleteRefToStore (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/StoreLicenses/{key}/Store/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoreLicensesController.CreateRefToDefaultCurrency (Nox.ClientApi.Tests)</td><td>POST,PUT</td><td>api/StoreLicenses/{key}/DefaultCurrency/{relatedKey}/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoreLicensesController.PostToDefaultCurrency (Nox.ClientApi.Tests)</td><td>POST</td><td>api/StoreLicenses/{key}/DefaultCurrency</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoreLicensesController.GetRefToDefaultCurrency (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/StoreLicenses/{key}/DefaultCurrency/$ref">api/StoreLicenses/{key}/DefaultCurrency/$ref</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoreLicensesController.DeleteRefToDefaultCurrency (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/StoreLicenses/{key}/DefaultCurrency/{relatedKey}/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoreLicensesController.DeleteRefToDefaultCurrency (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/StoreLicenses/{key}/DefaultCurrency/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoreLicensesController.CreateRefToSoldInCurrency (Nox.ClientApi.Tests)</td><td>POST,PUT</td><td>api/StoreLicenses/{key}/SoldInCurrency/{relatedKey}/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoreLicensesController.PostToSoldInCurrency (Nox.ClientApi.Tests)</td><td>POST</td><td>api/StoreLicenses/{key}/SoldInCurrency</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoreLicensesController.GetRefToSoldInCurrency (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/StoreLicenses/{key}/SoldInCurrency/$ref">api/StoreLicenses/{key}/SoldInCurrency/$ref</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoreLicensesController.DeleteRefToSoldInCurrency (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/StoreLicenses/{key}/SoldInCurrency/{relatedKey}/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoreLicensesController.DeleteRefToSoldInCurrency (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/StoreLicenses/{key}/SoldInCurrency/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Currencies">api/Currencies</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Currencies/$count">api/Currencies/$count</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Currencies/{key}">api/Currencies/{key}</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.Post (Nox.ClientApi.Tests)</td><td>POST</td><td>api/Currencies</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.Put (Nox.ClientApi.Tests)</td><td>PUT</td><td>api/Currencies/{key}</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.Patch (Nox.ClientApi.Tests)</td><td>PATCH</td><td>api/Currencies/{key}</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.Delete (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Currencies/{key}</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.CreateRefToStoreLicenseDefault (Nox.ClientApi.Tests)</td><td>POST,PUT</td><td>api/Currencies/{key}/StoreLicenseDefault/{relatedKey}/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.PostToStoreLicenseDefault (Nox.ClientApi.Tests)</td><td>POST</td><td>api/Currencies/{key}/StoreLicenseDefault</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.GetRefToStoreLicenseDefault (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Currencies/{key}/StoreLicenseDefault/$ref">api/Currencies/{key}/StoreLicenseDefault/$ref</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.DeleteRefToStoreLicenseDefault (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Currencies/{key}/StoreLicenseDefault/{relatedKey}/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.DeleteRefToStoreLicenseDefault (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Currencies/{key}/StoreLicenseDefault/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.CreateRefToStoreLicenseSoldIn (Nox.ClientApi.Tests)</td><td>POST,PUT</td><td>api/Currencies/{key}/StoreLicenseSoldIn/{relatedKey}/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.PostToStoreLicenseSoldIn (Nox.ClientApi.Tests)</td><td>POST</td><td>api/Currencies/{key}/StoreLicenseSoldIn</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.GetRefToStoreLicenseSoldIn (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Currencies/{key}/StoreLicenseSoldIn/$ref">api/Currencies/{key}/StoreLicenseSoldIn/$ref</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.DeleteRefToStoreLicenseSoldIn (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Currencies/{key}/StoreLicenseSoldIn/{relatedKey}/$ref</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.DeleteRefToStoreLicenseSoldIn (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Currencies/{key}/StoreLicenseSoldIn/$ref</td><td>Yes</td></tr>
 <tr><td>Microsoft.AspNetCore.OData.Routing.Controllers.MetadataController.GetMetadata (Microsoft.AspNetCore.OData)</td><td>GET</td><td><a href="api/$metadata">api/$metadata</a></td><td>Yes</td></tr>
 <tr><td>Microsoft.AspNetCore.OData.Routing.Controllers.MetadataController.GetServiceDocument (Microsoft.AspNetCore.OData)</td><td>GET</td><td><a href="api">api</a></td><td>Yes</td></tr>
 

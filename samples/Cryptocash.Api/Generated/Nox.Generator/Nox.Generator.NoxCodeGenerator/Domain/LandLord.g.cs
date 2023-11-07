@@ -95,27 +95,27 @@ internal abstract partial class LandLordBase : AuditableEntityBase, IEntityConcu
     /// <summary>
     /// LandLord leases an area to house ZeroOrMany VendingMachines
     /// </summary>
-    public virtual List<VendingMachine> ContractedAreasForVendingMachines { get; private set; } = new();
+    public virtual List<VendingMachine> VendingMachines { get; private set; } = new();
 
-    public virtual void CreateRefToContractedAreasForVendingMachines(VendingMachine relatedVendingMachine)
+    public virtual void CreateRefToVendingMachines(VendingMachine relatedVendingMachine)
     {
-        ContractedAreasForVendingMachines.Add(relatedVendingMachine);
+        VendingMachines.Add(relatedVendingMachine);
     }
 
-    public virtual void UpdateRefToContractedAreasForVendingMachines(List<VendingMachine> relatedVendingMachine)
+    public virtual void UpdateRefToVendingMachines(List<VendingMachine> relatedVendingMachine)
     {
-        ContractedAreasForVendingMachines.Clear();
-        ContractedAreasForVendingMachines.AddRange(relatedVendingMachine);
+        VendingMachines.Clear();
+        VendingMachines.AddRange(relatedVendingMachine);
     }
 
-    public virtual void DeleteRefToContractedAreasForVendingMachines(VendingMachine relatedVendingMachine)
+    public virtual void DeleteRefToVendingMachines(VendingMachine relatedVendingMachine)
     {
-        ContractedAreasForVendingMachines.Remove(relatedVendingMachine);
+        VendingMachines.Remove(relatedVendingMachine);
     }
 
-    public virtual void DeleteAllRefToContractedAreasForVendingMachines()
+    public virtual void DeleteAllRefToVendingMachines()
     {
-        ContractedAreasForVendingMachines.Clear();
+        VendingMachines.Clear();
     }
 
     /// <summary>

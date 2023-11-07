@@ -55,6 +55,6 @@ public partial class EmployeeUpdateDto : IEntityDto<DomainNamespace.Employee>
     /// <summary>
     /// Employee reviewing ExactlyOne CashStockOrders
     /// </summary>
-    [Required(ErrorMessage = "EmployeeReviewingCashStockOrder is required")]
-    public System.Int64 EmployeeReviewingCashStockOrderId { get; set; } = default!;
+    [Required(ErrorMessage = "CashStockOrder is required")]
+    public System.Int64 CashStockOrderId { get; set; } = default!;
 }

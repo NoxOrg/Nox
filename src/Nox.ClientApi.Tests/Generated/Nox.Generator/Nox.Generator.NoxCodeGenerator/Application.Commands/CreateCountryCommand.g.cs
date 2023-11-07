@@ -59,25 +59,25 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.PhysicalWorkplacesId.Any())
+		if(request.EntityDto.WorkplacesId.Any())
 		{
-			foreach(var relatedId in request.EntityDto.PhysicalWorkplacesId)
+			foreach(var relatedId in request.EntityDto.WorkplacesId)
 			{
 				var relatedKey = ClientApi.Domain.WorkplaceMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.Workplaces.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)
-					entityToCreate.CreateRefToPhysicalWorkplaces(relatedEntity);
+					entityToCreate.CreateRefToWorkplaces(relatedEntity);
 				else
-					throw new RelatedEntityNotFoundException("PhysicalWorkplaces", relatedId.ToString());
+					throw new RelatedEntityNotFoundException("Workplaces", relatedId.ToString());
 			}
 		}
 		else
 		{
-			foreach(var relatedCreateDto in request.EntityDto.PhysicalWorkplaces)
+			foreach(var relatedCreateDto in request.EntityDto.Workplaces)
 			{
 				var relatedEntity = WorkplaceFactory.CreateEntity(relatedCreateDto);
-				entityToCreate.CreateRefToPhysicalWorkplaces(relatedEntity);
+				entityToCreate.CreateRefToWorkplaces(relatedEntity);
 			}
 		}
 

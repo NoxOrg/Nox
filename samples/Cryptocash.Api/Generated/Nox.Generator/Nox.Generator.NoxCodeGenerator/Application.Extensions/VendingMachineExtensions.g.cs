@@ -21,11 +21,11 @@ internal static class VendingMachineExtensions
         dto.SetIfNotNull(entity?.SerialNumber, (dto) => dto.SerialNumber =entity!.SerialNumber!.Value);
         dto.SetIfNotNull(entity?.InstallationFootPrint, (dto) => dto.InstallationFootPrint =entity!.InstallationFootPrint!.Value);
         dto.SetIfNotNull(entity?.RentPerSquareMetre, (dto) => dto.RentPerSquareMetre =entity!.RentPerSquareMetre!.ToDto());
-        dto.SetIfNotNull(entity?.VendingMachineInstallationCountryId, (dto) => dto.VendingMachineInstallationCountryId = entity!.VendingMachineInstallationCountryId!.Value);
-        dto.SetIfNotNull(entity?.VendingMachineContractedAreaLandLordId, (dto) => dto.VendingMachineContractedAreaLandLordId = entity!.VendingMachineContractedAreaLandLordId!.Value);
-        dto.SetIfNotNull(entity?.VendingMachineRelatedBookings, (dto) => dto.VendingMachineRelatedBookings = entity!.VendingMachineRelatedBookings.Select(e => e.ToDto()).ToList());
-        dto.SetIfNotNull(entity?.VendingMachineRelatedCashStockOrders, (dto) => dto.VendingMachineRelatedCashStockOrders = entity!.VendingMachineRelatedCashStockOrders.Select(e => e.ToDto()).ToList());
-        dto.SetIfNotNull(entity?.VendingMachineRequiredMinimumCashStocks, (dto) => dto.VendingMachineRequiredMinimumCashStocks = entity!.VendingMachineRequiredMinimumCashStocks.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.CountryId, (dto) => dto.CountryId = entity!.CountryId!.Value);
+        dto.SetIfNotNull(entity?.LandLordId, (dto) => dto.LandLordId = entity!.LandLordId!.Value);
+        dto.SetIfNotNull(entity?.Bookings, (dto) => dto.Bookings = entity!.Bookings.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.CashStockOrders, (dto) => dto.CashStockOrders = entity!.CashStockOrders.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.MinimumCashStocks, (dto) => dto.MinimumCashStocks = entity!.MinimumCashStocks.Select(e => e.ToDto()).ToList());
 
         return dto;
     }

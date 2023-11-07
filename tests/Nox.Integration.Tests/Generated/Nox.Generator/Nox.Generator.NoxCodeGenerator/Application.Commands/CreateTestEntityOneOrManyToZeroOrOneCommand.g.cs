@@ -59,25 +59,25 @@ internal abstract class CreateTestEntityOneOrManyToZeroOrOneCommandHandlerBase :
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.TestEntityZeroOrOneToOneOrManyId.Any())
+		if(request.EntityDto.TestEntityZeroOrOneToOneOrManiesId.Any())
 		{
-			foreach(var relatedId in request.EntityDto.TestEntityZeroOrOneToOneOrManyId)
+			foreach(var relatedId in request.EntityDto.TestEntityZeroOrOneToOneOrManiesId)
 			{
 				var relatedKey = TestWebApp.Domain.TestEntityZeroOrOneToOneOrManyMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.TestEntityZeroOrOneToOneOrManies.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)
-					entityToCreate.CreateRefToTestEntityZeroOrOneToOneOrMany(relatedEntity);
+					entityToCreate.CreateRefToTestEntityZeroOrOneToOneOrManies(relatedEntity);
 				else
-					throw new RelatedEntityNotFoundException("TestEntityZeroOrOneToOneOrMany", relatedId.ToString());
+					throw new RelatedEntityNotFoundException("TestEntityZeroOrOneToOneOrManies", relatedId.ToString());
 			}
 		}
 		else
 		{
-			foreach(var relatedCreateDto in request.EntityDto.TestEntityZeroOrOneToOneOrMany)
+			foreach(var relatedCreateDto in request.EntityDto.TestEntityZeroOrOneToOneOrManies)
 			{
 				var relatedEntity = TestEntityZeroOrOneToOneOrManyFactory.CreateEntity(relatedCreateDto);
-				entityToCreate.CreateRefToTestEntityZeroOrOneToOneOrMany(relatedEntity);
+				entityToCreate.CreateRefToTestEntityZeroOrOneToOneOrManies(relatedEntity);
 			}
 		}
 

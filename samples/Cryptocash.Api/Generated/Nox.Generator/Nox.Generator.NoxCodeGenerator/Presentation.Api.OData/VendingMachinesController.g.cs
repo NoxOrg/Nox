@@ -28,14 +28,14 @@ public abstract partial class VendingMachinesControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToVendingMachineInstallationCountry([FromRoute] System.Guid key, [FromRoute] System.String relatedKey)
+    public async Task<ActionResult> CreateRefToCountry([FromRoute] System.Guid key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var createdRef = await _mediator.Send(new CreateRefVendingMachineToVendingMachineInstallationCountryCommand(new VendingMachineKeyDto(key), new CountryKeyDto(relatedKey)));
+        var createdRef = await _mediator.Send(new CreateRefVendingMachineToCountryCommand(new VendingMachineKeyDto(key), new CountryKeyDto(relatedKey)));
         if (!createdRef)
         {
             return NotFound();
@@ -44,7 +44,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToVendingMachineInstallationCountry([FromRoute] System.Guid key, [FromBody] CountryCreateDto country)
+    public virtual async Task<ActionResult> PostToCountry([FromRoute] System.Guid key, [FromBody] CountryCreateDto country)
     {
         if (!ModelState.IsValid)
         {
@@ -52,7 +52,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        country.CountryUsedByVendingMachinesId = new List<System.Guid> { key };
+        country.VendingMachinesId = new List<System.Guid> { key };
         var createdKey = await _mediator.Send(new CreateCountryCommand(country, _cultureCode));
         
         var createdItem = (await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId))).SingleOrDefault();
@@ -60,9 +60,9 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Created(createdItem);
     }
     
-    public async Task<ActionResult> GetRefToVendingMachineInstallationCountry([FromRoute] System.Guid key)
+    public async Task<ActionResult> GetRefToCountry([FromRoute] System.Guid key)
     {
-        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.VendingMachineInstallationCountry).SingleOrDefault();
+        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
         if (related is null)
         {
             return NotFound();
@@ -72,14 +72,14 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToVendingMachineInstallationCountry([FromRoute] System.Guid key)
+    public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefVendingMachineToVendingMachineInstallationCountryCommand(new VendingMachineKeyDto(key)));
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefVendingMachineToCountryCommand(new VendingMachineKeyDto(key)));
         if (!deletedAllRef)
         {
             return NotFound();
@@ -88,14 +88,14 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToVendingMachineContractedAreaLandLord([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    public async Task<ActionResult> CreateRefToLandLord([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var createdRef = await _mediator.Send(new CreateRefVendingMachineToVendingMachineContractedAreaLandLordCommand(new VendingMachineKeyDto(key), new LandLordKeyDto(relatedKey)));
+        var createdRef = await _mediator.Send(new CreateRefVendingMachineToLandLordCommand(new VendingMachineKeyDto(key), new LandLordKeyDto(relatedKey)));
         if (!createdRef)
         {
             return NotFound();
@@ -104,7 +104,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToVendingMachineContractedAreaLandLord([FromRoute] System.Guid key, [FromBody] LandLordCreateDto landLord)
+    public virtual async Task<ActionResult> PostToLandLord([FromRoute] System.Guid key, [FromBody] LandLordCreateDto landLord)
     {
         if (!ModelState.IsValid)
         {
@@ -112,7 +112,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        landLord.ContractedAreasForVendingMachinesId = new List<System.Guid> { key };
+        landLord.VendingMachinesId = new List<System.Guid> { key };
         var createdKey = await _mediator.Send(new CreateLandLordCommand(landLord, _cultureCode));
         
         var createdItem = (await _mediator.Send(new GetLandLordByIdQuery(createdKey.keyId))).SingleOrDefault();
@@ -120,9 +120,9 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Created(createdItem);
     }
     
-    public async Task<ActionResult> GetRefToVendingMachineContractedAreaLandLord([FromRoute] System.Guid key)
+    public async Task<ActionResult> GetRefToLandLord([FromRoute] System.Guid key)
     {
-        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.VendingMachineContractedAreaLandLord).SingleOrDefault();
+        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.LandLord).SingleOrDefault();
         if (related is null)
         {
             return NotFound();
@@ -132,14 +132,14 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToVendingMachineContractedAreaLandLord([FromRoute] System.Guid key)
+    public async Task<ActionResult> DeleteRefToLandLord([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefVendingMachineToVendingMachineContractedAreaLandLordCommand(new VendingMachineKeyDto(key)));
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefVendingMachineToLandLordCommand(new VendingMachineKeyDto(key)));
         if (!deletedAllRef)
         {
             return NotFound();
@@ -148,14 +148,14 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToVendingMachineRelatedBookings([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
+    public async Task<ActionResult> CreateRefToBookings([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var createdRef = await _mediator.Send(new CreateRefVendingMachineToVendingMachineRelatedBookingsCommand(new VendingMachineKeyDto(key), new BookingKeyDto(relatedKey)));
+        var createdRef = await _mediator.Send(new CreateRefVendingMachineToBookingsCommand(new VendingMachineKeyDto(key), new BookingKeyDto(relatedKey)));
         if (!createdRef)
         {
             return NotFound();
@@ -164,7 +164,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToVendingMachineRelatedBookings([FromRoute] System.Guid key, [FromBody] BookingCreateDto booking)
+    public virtual async Task<ActionResult> PostToBookings([FromRoute] System.Guid key, [FromBody] BookingCreateDto booking)
     {
         if (!ModelState.IsValid)
         {
@@ -172,7 +172,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        booking.BookingRelatedVendingMachineId = key;
+        booking.VendingMachineId = key;
         var createdKey = await _mediator.Send(new CreateBookingCommand(booking, _cultureCode));
         
         var createdItem = (await _mediator.Send(new GetBookingByIdQuery(createdKey.keyId))).SingleOrDefault();
@@ -180,9 +180,9 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Created(createdItem);
     }
     
-    public async Task<ActionResult> GetRefToVendingMachineRelatedBookings([FromRoute] System.Guid key)
+    public async Task<ActionResult> GetRefToBookings([FromRoute] System.Guid key)
     {
-        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.VendingMachineRelatedBookings).SingleOrDefault();
+        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.Bookings).SingleOrDefault();
         if (related is null)
         {
             return NotFound();
@@ -196,14 +196,14 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToVendingMachineRelatedBookings([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
+    public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedRef = await _mediator.Send(new DeleteRefVendingMachineToVendingMachineRelatedBookingsCommand(new VendingMachineKeyDto(key), new BookingKeyDto(relatedKey)));
+        var deletedRef = await _mediator.Send(new DeleteRefVendingMachineToBookingsCommand(new VendingMachineKeyDto(key), new BookingKeyDto(relatedKey)));
         if (!deletedRef)
         {
             return NotFound();
@@ -212,14 +212,14 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToVendingMachineRelatedBookings([FromRoute] System.Guid key)
+    public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefVendingMachineToVendingMachineRelatedBookingsCommand(new VendingMachineKeyDto(key)));
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefVendingMachineToBookingsCommand(new VendingMachineKeyDto(key)));
         if (!deletedAllRef)
         {
             return NotFound();
@@ -228,14 +228,14 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToVendingMachineRelatedCashStockOrders([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    public async Task<ActionResult> CreateRefToCashStockOrders([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var createdRef = await _mediator.Send(new CreateRefVendingMachineToVendingMachineRelatedCashStockOrdersCommand(new VendingMachineKeyDto(key), new CashStockOrderKeyDto(relatedKey)));
+        var createdRef = await _mediator.Send(new CreateRefVendingMachineToCashStockOrdersCommand(new VendingMachineKeyDto(key), new CashStockOrderKeyDto(relatedKey)));
         if (!createdRef)
         {
             return NotFound();
@@ -244,7 +244,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToVendingMachineRelatedCashStockOrders([FromRoute] System.Guid key, [FromBody] CashStockOrderCreateDto cashStockOrder)
+    public virtual async Task<ActionResult> PostToCashStockOrders([FromRoute] System.Guid key, [FromBody] CashStockOrderCreateDto cashStockOrder)
     {
         if (!ModelState.IsValid)
         {
@@ -252,7 +252,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        cashStockOrder.CashStockOrderForVendingMachineId = key;
+        cashStockOrder.VendingMachineId = key;
         var createdKey = await _mediator.Send(new CreateCashStockOrderCommand(cashStockOrder, _cultureCode));
         
         var createdItem = (await _mediator.Send(new GetCashStockOrderByIdQuery(createdKey.keyId))).SingleOrDefault();
@@ -260,9 +260,9 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Created(createdItem);
     }
     
-    public async Task<ActionResult> GetRefToVendingMachineRelatedCashStockOrders([FromRoute] System.Guid key)
+    public async Task<ActionResult> GetRefToCashStockOrders([FromRoute] System.Guid key)
     {
-        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.VendingMachineRelatedCashStockOrders).SingleOrDefault();
+        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.CashStockOrders).SingleOrDefault();
         if (related is null)
         {
             return NotFound();
@@ -276,14 +276,14 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToVendingMachineRelatedCashStockOrders([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    public async Task<ActionResult> DeleteRefToCashStockOrders([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedRef = await _mediator.Send(new DeleteRefVendingMachineToVendingMachineRelatedCashStockOrdersCommand(new VendingMachineKeyDto(key), new CashStockOrderKeyDto(relatedKey)));
+        var deletedRef = await _mediator.Send(new DeleteRefVendingMachineToCashStockOrdersCommand(new VendingMachineKeyDto(key), new CashStockOrderKeyDto(relatedKey)));
         if (!deletedRef)
         {
             return NotFound();
@@ -292,14 +292,14 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToVendingMachineRelatedCashStockOrders([FromRoute] System.Guid key)
+    public async Task<ActionResult> DeleteRefToCashStockOrders([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefVendingMachineToVendingMachineRelatedCashStockOrdersCommand(new VendingMachineKeyDto(key)));
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefVendingMachineToCashStockOrdersCommand(new VendingMachineKeyDto(key)));
         if (!deletedAllRef)
         {
             return NotFound();
@@ -308,14 +308,14 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToVendingMachineRequiredMinimumCashStocks([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    public async Task<ActionResult> CreateRefToMinimumCashStocks([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var createdRef = await _mediator.Send(new CreateRefVendingMachineToVendingMachineRequiredMinimumCashStocksCommand(new VendingMachineKeyDto(key), new MinimumCashStockKeyDto(relatedKey)));
+        var createdRef = await _mediator.Send(new CreateRefVendingMachineToMinimumCashStocksCommand(new VendingMachineKeyDto(key), new MinimumCashStockKeyDto(relatedKey)));
         if (!createdRef)
         {
             return NotFound();
@@ -324,7 +324,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToVendingMachineRequiredMinimumCashStocks([FromRoute] System.Guid key, [FromBody] MinimumCashStockCreateDto minimumCashStock)
+    public virtual async Task<ActionResult> PostToMinimumCashStocks([FromRoute] System.Guid key, [FromBody] MinimumCashStockCreateDto minimumCashStock)
     {
         if (!ModelState.IsValid)
         {
@@ -332,7 +332,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        minimumCashStock.MinimumCashStocksRequiredByVendingMachinesId = new List<System.Guid> { key };
+        minimumCashStock.VendingMachinesId = new List<System.Guid> { key };
         var createdKey = await _mediator.Send(new CreateMinimumCashStockCommand(minimumCashStock, _cultureCode));
         
         var createdItem = (await _mediator.Send(new GetMinimumCashStockByIdQuery(createdKey.keyId))).SingleOrDefault();
@@ -340,9 +340,9 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Created(createdItem);
     }
     
-    public async Task<ActionResult> GetRefToVendingMachineRequiredMinimumCashStocks([FromRoute] System.Guid key)
+    public async Task<ActionResult> GetRefToMinimumCashStocks([FromRoute] System.Guid key)
     {
-        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.VendingMachineRequiredMinimumCashStocks).SingleOrDefault();
+        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.MinimumCashStocks).SingleOrDefault();
         if (related is null)
         {
             return NotFound();
@@ -356,14 +356,14 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToVendingMachineRequiredMinimumCashStocks([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    public async Task<ActionResult> DeleteRefToMinimumCashStocks([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedRef = await _mediator.Send(new DeleteRefVendingMachineToVendingMachineRequiredMinimumCashStocksCommand(new VendingMachineKeyDto(key), new MinimumCashStockKeyDto(relatedKey)));
+        var deletedRef = await _mediator.Send(new DeleteRefVendingMachineToMinimumCashStocksCommand(new VendingMachineKeyDto(key), new MinimumCashStockKeyDto(relatedKey)));
         if (!deletedRef)
         {
             return NotFound();
@@ -372,14 +372,14 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToVendingMachineRequiredMinimumCashStocks([FromRoute] System.Guid key)
+    public async Task<ActionResult> DeleteRefToMinimumCashStocks([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefVendingMachineToVendingMachineRequiredMinimumCashStocksCommand(new VendingMachineKeyDto(key)));
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefVendingMachineToMinimumCashStocksCommand(new VendingMachineKeyDto(key)));
         if (!deletedAllRef)
         {
             return NotFound();

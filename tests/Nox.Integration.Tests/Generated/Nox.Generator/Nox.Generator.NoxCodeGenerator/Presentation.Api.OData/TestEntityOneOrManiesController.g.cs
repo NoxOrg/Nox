@@ -28,14 +28,14 @@ public abstract partial class TestEntityOneOrManiesControllerBase : ODataControl
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToSecondTestEntityOneOrManyRelationship([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public async Task<ActionResult> CreateRefToSecondTestEntityOneOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var createdRef = await _mediator.Send(new CreateRefTestEntityOneOrManyToSecondTestEntityOneOrManyRelationshipCommand(new TestEntityOneOrManyKeyDto(key), new SecondTestEntityOneOrManyKeyDto(relatedKey)));
+        var createdRef = await _mediator.Send(new CreateRefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommand(new TestEntityOneOrManyKeyDto(key), new SecondTestEntityOneOrManyKeyDto(relatedKey)));
         if (!createdRef)
         {
             return NotFound();
@@ -44,7 +44,7 @@ public abstract partial class TestEntityOneOrManiesControllerBase : ODataControl
         return NoContent();
     }
     
-    public virtual async Task<ActionResult> PostToSecondTestEntityOneOrManyRelationship([FromRoute] System.String key, [FromBody] SecondTestEntityOneOrManyCreateDto secondTestEntityOneOrMany)
+    public virtual async Task<ActionResult> PostToSecondTestEntityOneOrManies([FromRoute] System.String key, [FromBody] SecondTestEntityOneOrManyCreateDto secondTestEntityOneOrMany)
     {
         if (!ModelState.IsValid)
         {
@@ -52,7 +52,7 @@ public abstract partial class TestEntityOneOrManiesControllerBase : ODataControl
         }
         
         var etag = Request.GetDecodedEtagHeader();
-        secondTestEntityOneOrMany.TestEntityOneOrManyRelationshipId = new List<System.String> { key };
+        secondTestEntityOneOrMany.TestEntityOneOrManiesId = new List<System.String> { key };
         var createdKey = await _mediator.Send(new CreateSecondTestEntityOneOrManyCommand(secondTestEntityOneOrMany, _cultureCode));
         
         var createdItem = (await _mediator.Send(new GetSecondTestEntityOneOrManyByIdQuery(createdKey.keyId))).SingleOrDefault();
@@ -60,9 +60,9 @@ public abstract partial class TestEntityOneOrManiesControllerBase : ODataControl
         return Created(createdItem);
     }
     
-    public async Task<ActionResult> GetRefToSecondTestEntityOneOrManyRelationship([FromRoute] System.String key)
+    public async Task<ActionResult> GetRefToSecondTestEntityOneOrManies([FromRoute] System.String key)
     {
-        var related = (await _mediator.Send(new GetTestEntityOneOrManyByIdQuery(key))).Select(x => x.SecondTestEntityOneOrManyRelationship).SingleOrDefault();
+        var related = (await _mediator.Send(new GetTestEntityOneOrManyByIdQuery(key))).Select(x => x.SecondTestEntityOneOrManies).SingleOrDefault();
         if (related is null)
         {
             return NotFound();
@@ -76,14 +76,14 @@ public abstract partial class TestEntityOneOrManiesControllerBase : ODataControl
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToSecondTestEntityOneOrManyRelationship([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public async Task<ActionResult> DeleteRefToSecondTestEntityOneOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedRef = await _mediator.Send(new DeleteRefTestEntityOneOrManyToSecondTestEntityOneOrManyRelationshipCommand(new TestEntityOneOrManyKeyDto(key), new SecondTestEntityOneOrManyKeyDto(relatedKey)));
+        var deletedRef = await _mediator.Send(new DeleteRefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommand(new TestEntityOneOrManyKeyDto(key), new SecondTestEntityOneOrManyKeyDto(relatedKey)));
         if (!deletedRef)
         {
             return NotFound();
@@ -92,14 +92,14 @@ public abstract partial class TestEntityOneOrManiesControllerBase : ODataControl
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToSecondTestEntityOneOrManyRelationship([FromRoute] System.String key)
+    public async Task<ActionResult> DeleteRefToSecondTestEntityOneOrManies([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefTestEntityOneOrManyToSecondTestEntityOneOrManyRelationshipCommand(new TestEntityOneOrManyKeyDto(key)));
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefTestEntityOneOrManyToSecondTestEntityOneOrManiesCommand(new TestEntityOneOrManyKeyDto(key)));
         if (!deletedAllRef)
         {
             return NotFound();

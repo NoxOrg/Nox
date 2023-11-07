@@ -63,33 +63,33 @@ internal abstract class CreateCashStockOrderCommandHandlerBase : CommandBase<Cre
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.CashStockOrderForVendingMachineId is not null)
+		if(request.EntityDto.VendingMachineId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(request.EntityDto.CashStockOrderForVendingMachineId.NonNullValue<System.Guid>());
+			var relatedKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(request.EntityDto.VendingMachineId.NonNullValue<System.Guid>());
 			var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKey);
 			if(relatedEntity is not null)
-				entityToCreate.CreateRefToCashStockOrderForVendingMachine(relatedEntity);
+				entityToCreate.CreateRefToVendingMachine(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("CashStockOrderForVendingMachine", request.EntityDto.CashStockOrderForVendingMachineId.NonNullValue<System.Guid>().ToString());
+				throw new RelatedEntityNotFoundException("VendingMachine", request.EntityDto.VendingMachineId.NonNullValue<System.Guid>().ToString());
 		}
-		else if(request.EntityDto.CashStockOrderForVendingMachine is not null)
+		else if(request.EntityDto.VendingMachine is not null)
 		{
-			var relatedEntity = VendingMachineFactory.CreateEntity(request.EntityDto.CashStockOrderForVendingMachine);
-			entityToCreate.CreateRefToCashStockOrderForVendingMachine(relatedEntity);
+			var relatedEntity = VendingMachineFactory.CreateEntity(request.EntityDto.VendingMachine);
+			entityToCreate.CreateRefToVendingMachine(relatedEntity);
 		}
-		if(request.EntityDto.CashStockOrderReviewedByEmployeeId is not null)
+		if(request.EntityDto.EmployeeId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.EmployeeMetadata.CreateId(request.EntityDto.CashStockOrderReviewedByEmployeeId.NonNullValue<System.Int64>());
+			var relatedKey = Cryptocash.Domain.EmployeeMetadata.CreateId(request.EntityDto.EmployeeId.NonNullValue<System.Int64>());
 			var relatedEntity = await DbContext.Employees.FindAsync(relatedKey);
 			if(relatedEntity is not null)
-				entityToCreate.CreateRefToCashStockOrderReviewedByEmployee(relatedEntity);
+				entityToCreate.CreateRefToEmployee(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("CashStockOrderReviewedByEmployee", request.EntityDto.CashStockOrderReviewedByEmployeeId.NonNullValue<System.Int64>().ToString());
+				throw new RelatedEntityNotFoundException("Employee", request.EntityDto.EmployeeId.NonNullValue<System.Int64>().ToString());
 		}
-		else if(request.EntityDto.CashStockOrderReviewedByEmployee is not null)
+		else if(request.EntityDto.Employee is not null)
 		{
-			var relatedEntity = EmployeeFactory.CreateEntity(request.EntityDto.CashStockOrderReviewedByEmployee);
-			entityToCreate.CreateRefToCashStockOrderReviewedByEmployee(relatedEntity);
+			var relatedEntity = EmployeeFactory.CreateEntity(request.EntityDto.Employee);
+			entityToCreate.CreateRefToEmployee(relatedEntity);
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

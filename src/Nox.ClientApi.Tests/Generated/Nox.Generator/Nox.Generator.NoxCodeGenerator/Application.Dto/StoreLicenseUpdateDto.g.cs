@@ -33,6 +33,18 @@ public partial class StoreLicenseUpdateDto : IEntityDto<DomainNamespace.StoreLic
     /// <summary>
     /// StoreLicense Store that this license related to ExactlyOne Stores
     /// </summary>
-    [Required(ErrorMessage = "StoreWithLicense is required")]
-    public System.Guid StoreWithLicenseId { get; set; } = default!;
+    [Required(ErrorMessage = "Store is required")]
+    public System.Guid StoreId { get; set; } = default!;
+
+    /// <summary>
+    /// StoreLicense Default currency for this license ZeroOrOne Currencies
+    /// </summary>
+    
+    public System.String? DefaultCurrencyId { get; set; } = default!;
+
+    /// <summary>
+    /// StoreLicense Currency this license was sold in ZeroOrOne Currencies
+    /// </summary>
+    
+    public System.String? SoldInCurrencyId { get; set; } = default!;
 }

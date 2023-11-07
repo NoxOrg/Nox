@@ -52,16 +52,16 @@ public abstract class TransactionCreateDtoBase : IEntityDto<DomainNamespace.Tran
     /// <summary>
     /// Transaction for ExactlyOne Customers
     /// </summary>
-    public System.Int64? TransactionForCustomerId { get; set; } = default!;
+    public System.Int64? CustomerId { get; set; } = default!;
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual CustomerCreateDto? TransactionForCustomer { get; set; } = default!;
+    public virtual CustomerCreateDto? Customer { get; set; } = default!;
 
     /// <summary>
     /// Transaction for ExactlyOne Bookings
     /// </summary>
-    public System.Guid? TransactionForBookingId { get; set; } = default!;
+    public System.Guid? BookingId { get; set; } = default!;
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual BookingCreateDto? TransactionForBooking { get; set; } = default!;
+    public virtual BookingCreateDto? Booking { get; set; } = default!;
 }

@@ -39,8 +39,8 @@ public abstract class TestEntityZeroOrManyCreateDtoBase : IEntityDto<DomainNames
     /// <summary>
     /// TestEntityZeroOrMany Test entity relationship to SecondTestEntityZeroOrMany ZeroOrMany SecondTestEntityZeroOrManies
     /// </summary>
-    public virtual List<System.String> SecondTestEntityZeroOrManyRelationshipId { get; set; } = new();
+    public virtual List<System.String> SecondTestEntityZeroOrManiesId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual List<SecondTestEntityZeroOrManyCreateDto> SecondTestEntityZeroOrManyRelationship { get; set; } = new();
+    public virtual List<SecondTestEntityZeroOrManyCreateDto> SecondTestEntityZeroOrManies { get; set; } = new();
 }

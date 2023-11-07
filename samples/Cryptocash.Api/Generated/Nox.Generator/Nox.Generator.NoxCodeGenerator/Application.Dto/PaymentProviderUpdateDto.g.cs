@@ -33,5 +33,5 @@ public partial class PaymentProviderUpdateDto : IEntityDto<DomainNamespace.Payme
     /// <summary>
     /// PaymentProvider related to ZeroOrMany PaymentDetails
     /// </summary>
-    public List<System.Int64> PaymentProviderRelatedPaymentDetailsId { get; set; } = new();
+    public List<System.Int64> PaymentDetailsId { get; set; } = new();
 }

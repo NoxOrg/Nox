@@ -59,25 +59,25 @@ internal abstract class CreateThirdTestEntityOneOrManyCommandHandlerBase : Comma
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.ThirdTestEntityZeroOrManyRelationshipId.Any())
+		if(request.EntityDto.ThirdTestEntityZeroOrManiesId.Any())
 		{
-			foreach(var relatedId in request.EntityDto.ThirdTestEntityZeroOrManyRelationshipId)
+			foreach(var relatedId in request.EntityDto.ThirdTestEntityZeroOrManiesId)
 			{
 				var relatedKey = TestWebApp.Domain.ThirdTestEntityZeroOrManyMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.ThirdTestEntityZeroOrManies.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)
-					entityToCreate.CreateRefToThirdTestEntityZeroOrManyRelationship(relatedEntity);
+					entityToCreate.CreateRefToThirdTestEntityZeroOrManies(relatedEntity);
 				else
-					throw new RelatedEntityNotFoundException("ThirdTestEntityZeroOrManyRelationship", relatedId.ToString());
+					throw new RelatedEntityNotFoundException("ThirdTestEntityZeroOrManies", relatedId.ToString());
 			}
 		}
 		else
 		{
-			foreach(var relatedCreateDto in request.EntityDto.ThirdTestEntityZeroOrManyRelationship)
+			foreach(var relatedCreateDto in request.EntityDto.ThirdTestEntityZeroOrManies)
 			{
 				var relatedEntity = ThirdTestEntityZeroOrManyFactory.CreateEntity(relatedCreateDto);
-				entityToCreate.CreateRefToThirdTestEntityZeroOrManyRelationship(relatedEntity);
+				entityToCreate.CreateRefToThirdTestEntityZeroOrManies(relatedEntity);
 			}
 		}
 

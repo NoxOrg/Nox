@@ -57,34 +57,34 @@ internal abstract class UpdateStoreCommandHandlerBase : CommandBase<UpdateStoreC
 			return null;
 		}
 
-		if(request.EntityDto.OwnershipId is not null)
+		if(request.EntityDto.StoreOwnerId is not null)
 		{
-			var ownershipKey = ClientApi.Domain.StoreOwnerMetadata.CreateId(request.EntityDto.OwnershipId.NonNullValue<System.String>());
-			var ownershipEntity = await DbContext.StoreOwners.FindAsync(ownershipKey);
+			var storeOwnerKey = ClientApi.Domain.StoreOwnerMetadata.CreateId(request.EntityDto.StoreOwnerId.NonNullValue<System.String>());
+			var storeOwnerEntity = await DbContext.StoreOwners.FindAsync(storeOwnerKey);
 						
-			if(ownershipEntity is not null)
-				entity.CreateRefToOwnership(ownershipEntity);
+			if(storeOwnerEntity is not null)
+				entity.CreateRefToStoreOwner(storeOwnerEntity);
 			else
-				throw new RelatedEntityNotFoundException("Ownership", request.EntityDto.OwnershipId.NonNullValue<System.String>().ToString());
+				throw new RelatedEntityNotFoundException("StoreOwner", request.EntityDto.StoreOwnerId.NonNullValue<System.String>().ToString());
 		}
 		else
 		{
-			entity.DeleteAllRefToOwnership();
+			entity.DeleteAllRefToStoreOwner();
 		}
 
-		if(request.EntityDto.LicenseId is not null)
+		if(request.EntityDto.StoreLicenseId is not null)
 		{
-			var licenseKey = ClientApi.Domain.StoreLicenseMetadata.CreateId(request.EntityDto.LicenseId.NonNullValue<System.Int64>());
-			var licenseEntity = await DbContext.StoreLicenses.FindAsync(licenseKey);
+			var storeLicenseKey = ClientApi.Domain.StoreLicenseMetadata.CreateId(request.EntityDto.StoreLicenseId.NonNullValue<System.Int64>());
+			var storeLicenseEntity = await DbContext.StoreLicenses.FindAsync(storeLicenseKey);
 						
-			if(licenseEntity is not null)
-				entity.CreateRefToLicense(licenseEntity);
+			if(storeLicenseEntity is not null)
+				entity.CreateRefToStoreLicense(storeLicenseEntity);
 			else
-				throw new RelatedEntityNotFoundException("License", request.EntityDto.LicenseId.NonNullValue<System.Int64>().ToString());
+				throw new RelatedEntityNotFoundException("StoreLicense", request.EntityDto.StoreLicenseId.NonNullValue<System.Int64>().ToString());
 		}
 		else
 		{
-			entity.DeleteAllRefToLicense();
+			entity.DeleteAllRefToStoreLicense();
 		}
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);

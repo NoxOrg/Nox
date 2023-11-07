@@ -57,18 +57,18 @@ public abstract class StoreCreateDtoBase : IEntityDto<DomainNamespace.Store>
     /// <summary>
     /// Store Owner of the Store ZeroOrOne StoreOwners
     /// </summary>
-    public System.String? OwnershipId { get; set; } = default!;
+    public System.String? StoreOwnerId { get; set; } = default!;
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual StoreOwnerCreateDto? Ownership { get; set; } = default!;
+    public virtual StoreOwnerCreateDto? StoreOwner { get; set; } = default!;
 
     /// <summary>
     /// Store License that this store uses ZeroOrOne StoreLicenses
     /// </summary>
-    public System.Int64? LicenseId { get; set; } = default!;
+    public System.Int64? StoreLicenseId { get; set; } = default!;
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual StoreLicenseCreateDto? License { get; set; } = default!;
+    public virtual StoreLicenseCreateDto? StoreLicense { get; set; } = default!;
 
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses

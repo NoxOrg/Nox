@@ -28,5 +28,5 @@ public partial class ThirdTestEntityZeroOrOneUpdateDto : IEntityDto<DomainNamesp
     /// ThirdTestEntityZeroOrOne Test entity relationship to ThirdTestEntityExactlyOne ZeroOrOne ThirdTestEntityExactlyOnes
     /// </summary>
     
-    public System.String? ThirdTestEntityExactlyOneRelationshipId { get; set; } = default!;
+    public System.String? ThirdTestEntityExactlyOneId { get; set; } = default!;
 }

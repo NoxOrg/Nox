@@ -34,6 +34,10 @@ erDiagram
     StoreLicense {
     }
     StoreLicense|o..||Store : "Store that this license related to"
+    StoreLicense}|..o|Currency : "Default currency for this license"
+    StoreLicense}|..o|Currency : "Currency this license was sold in"
+    Currency {
+    }
     EmailAddress {
     }
 
@@ -130,6 +134,32 @@ IndexRating|Number|Rating Index.|Required, MinValue: 1
 
 
 
+### Currency
+
+Currency and related data. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
+
+[Endpoints](./endpoints/CurrencyEndpoints.md)
+
+[Domain Events](./domainEvents/CurrencyDomainEvents.md)
+
+#### <u>Members (Keys, Attributes & Relationships)</u>
+
+Member|Type|Description|Info
+---------|----|----------|-------
+Id|CurrencyCode3|Currency unique identifier.|Required, Primary Key
+Name|Text|Currency's name.|MinLength: 4, MaxLength: 63
+Symbol|Text|Currency's symbol.|MinLength: 4, MaxLength: 63
+*(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
+
+
+#### <u>Relationships</u>
+
+Description|Cardinality|Related Entity|Name|Can Navigate?
+-----------|-----------|--------------|----|-------------
+List of store licenses where this currency is a default one|OneOrMany|StoreLicense|StoreLicenseDefault|Yes
+List of store licenses that were sold in this currency|OneOrMany|StoreLicense|StoreLicenseSoldIn|Yes
+
+
 ### RatingProgram
 
 Rating program for store.
@@ -210,6 +240,8 @@ Member|Type|Description|Info
 Id|AutoNumber||Required, Primary Key
 Issuer|Text|License issuer.|Required, MinLength: 4, MaxLength: 63
 ExternalId|AutoNumber|License external id.|Required, StartsAt: 3000000, IncrementsBy: 10
+CurrencyId|CurrencyCode3|Currency unique identifier.|Required, Foreign Key
+CurrencyId|CurrencyCode3|Currency unique identifier.|Required, Foreign Key
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -218,6 +250,8 @@ ExternalId|AutoNumber|License external id.|Required, StartsAt: 3000000, Incremen
 Description|Cardinality|Related Entity|Name|Can Navigate?
 -----------|-----------|--------------|----|-------------
 Store that this license related to|ExactlyOne|Store|StoreWithLicense|Yes
+Default currency for this license|ZeroOrOne|Currency|DefaultCurrency|Yes
+Currency this license was sold in|ZeroOrOne|Currency|SoldInCurrency|Yes
 
 
 ### StoreOwner

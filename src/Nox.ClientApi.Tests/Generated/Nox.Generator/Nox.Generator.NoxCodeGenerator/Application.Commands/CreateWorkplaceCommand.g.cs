@@ -62,19 +62,19 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.BelongsToCountryId is not null)
+		if(request.EntityDto.CountryId is not null)
 		{
-			var relatedKey = ClientApi.Domain.CountryMetadata.CreateId(request.EntityDto.BelongsToCountryId.NonNullValue<System.Int64>());
+			var relatedKey = ClientApi.Domain.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.Int64>());
 			var relatedEntity = await DbContext.Countries.FindAsync(relatedKey);
 			if(relatedEntity is not null)
-				entityToCreate.CreateRefToBelongsToCountry(relatedEntity);
+				entityToCreate.CreateRefToCountry(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("BelongsToCountry", request.EntityDto.BelongsToCountryId.NonNullValue<System.Int64>().ToString());
+				throw new RelatedEntityNotFoundException("Country", request.EntityDto.CountryId.NonNullValue<System.Int64>().ToString());
 		}
-		else if(request.EntityDto.BelongsToCountry is not null)
+		else if(request.EntityDto.Country is not null)
 		{
-			var relatedEntity = CountryFactory.CreateEntity(request.EntityDto.BelongsToCountry);
-			entityToCreate.CreateRefToBelongsToCountry(relatedEntity);
+			var relatedEntity = CountryFactory.CreateEntity(request.EntityDto.Country);
+			entityToCreate.CreateRefToCountry(relatedEntity);
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

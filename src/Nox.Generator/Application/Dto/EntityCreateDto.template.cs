@@ -60,21 +60,22 @@ public abstract class {{className}}Base : IEntityDto<DomainNamespace.{{entity.Na
 {{- end }}
 
 {{- for relationship in entity.Relationships}}
+	{{- relationshipName = GetRelationshipPublicName entity relationship }}
 
     /// <summary>
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
     {{- if relationship.WithSingleEntity }}
-    public {{relationship.ForeignKeyPrimitiveType}}? {{relationship.Name}}Id { get; set; } = default!;
+    public {{relationship.ForeignKeyPrimitiveType}}? {{relationshipName}}Id { get; set; } = default!;
     {{#Simplify Avoid complexity by not allowing circular dependency between dtos
     #User Can set a relationship on the creation phase using the id (entity already exists), for single relations}}
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual {{relationship.Entity}}CreateDto? {{relationship.Name}} { get; set; } = default!;
+    public virtual {{relationship.Entity}}CreateDto? {{relationshipName}} { get; set; } = default!;
     {{- else }}
-    public virtual List<{{relationship.ForeignKeyPrimitiveType}}> {{relationship.Name}}Id { get; set; } = new();
+    public virtual List<{{relationship.ForeignKeyPrimitiveType}}> {{relationshipName}}Id { get; set; } = new();
     {{#Simplify Avoid complexity by not allowing circular dependency between dtos}}
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual List<{{relationship.Entity}}CreateDto> {{relationship.Name}} { get; set; } = new();
+    public virtual List<{{relationship.Entity}}CreateDto> {{relationshipName}} { get; set; } = new();
     {{-end}}
 {{- end }}
 {{- for relationship in entity.OwnedRelationships #TODO how to reuse as partial template?}}

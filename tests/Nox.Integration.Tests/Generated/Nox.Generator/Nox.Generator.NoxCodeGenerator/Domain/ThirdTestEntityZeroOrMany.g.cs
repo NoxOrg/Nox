@@ -90,27 +90,27 @@ internal abstract partial class ThirdTestEntityZeroOrManyBase : AuditableEntityB
     /// <summary>
     /// ThirdTestEntityZeroOrMany Test entity relationship to ThirdTestEntityOneOrMany ZeroOrMany ThirdTestEntityOneOrManies
     /// </summary>
-    public virtual List<ThirdTestEntityOneOrMany> ThirdTestEntityOneOrManyRelationship { get; private set; } = new();
+    public virtual List<ThirdTestEntityOneOrMany> ThirdTestEntityOneOrManies { get; private set; } = new();
 
-    public virtual void CreateRefToThirdTestEntityOneOrManyRelationship(ThirdTestEntityOneOrMany relatedThirdTestEntityOneOrMany)
+    public virtual void CreateRefToThirdTestEntityOneOrManies(ThirdTestEntityOneOrMany relatedThirdTestEntityOneOrMany)
     {
-        ThirdTestEntityOneOrManyRelationship.Add(relatedThirdTestEntityOneOrMany);
+        ThirdTestEntityOneOrManies.Add(relatedThirdTestEntityOneOrMany);
     }
 
-    public virtual void UpdateRefToThirdTestEntityOneOrManyRelationship(List<ThirdTestEntityOneOrMany> relatedThirdTestEntityOneOrMany)
+    public virtual void UpdateRefToThirdTestEntityOneOrManies(List<ThirdTestEntityOneOrMany> relatedThirdTestEntityOneOrMany)
     {
-        ThirdTestEntityOneOrManyRelationship.Clear();
-        ThirdTestEntityOneOrManyRelationship.AddRange(relatedThirdTestEntityOneOrMany);
+        ThirdTestEntityOneOrManies.Clear();
+        ThirdTestEntityOneOrManies.AddRange(relatedThirdTestEntityOneOrMany);
     }
 
-    public virtual void DeleteRefToThirdTestEntityOneOrManyRelationship(ThirdTestEntityOneOrMany relatedThirdTestEntityOneOrMany)
+    public virtual void DeleteRefToThirdTestEntityOneOrManies(ThirdTestEntityOneOrMany relatedThirdTestEntityOneOrMany)
     {
-        ThirdTestEntityOneOrManyRelationship.Remove(relatedThirdTestEntityOneOrMany);
+        ThirdTestEntityOneOrManies.Remove(relatedThirdTestEntityOneOrMany);
     }
 
-    public virtual void DeleteAllRefToThirdTestEntityOneOrManyRelationship()
+    public virtual void DeleteAllRefToThirdTestEntityOneOrManies()
     {
-        ThirdTestEntityOneOrManyRelationship.Clear();
+        ThirdTestEntityOneOrManies.Clear();
     }
 
     /// <summary>

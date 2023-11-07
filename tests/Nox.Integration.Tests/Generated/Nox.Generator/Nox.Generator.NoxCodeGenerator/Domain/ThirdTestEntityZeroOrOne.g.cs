@@ -90,21 +90,21 @@ internal abstract partial class ThirdTestEntityZeroOrOneBase : AuditableEntityBa
     /// <summary>
     /// ThirdTestEntityZeroOrOne Test entity relationship to ThirdTestEntityExactlyOne ZeroOrOne ThirdTestEntityExactlyOnes
     /// </summary>
-    public virtual ThirdTestEntityExactlyOne? ThirdTestEntityExactlyOneRelationship { get; private set; } = null!;
+    public virtual ThirdTestEntityExactlyOne? ThirdTestEntityExactlyOne { get; private set; } = null!;
 
-    public virtual void CreateRefToThirdTestEntityExactlyOneRelationship(ThirdTestEntityExactlyOne relatedThirdTestEntityExactlyOne)
+    public virtual void CreateRefToThirdTestEntityExactlyOne(ThirdTestEntityExactlyOne relatedThirdTestEntityExactlyOne)
     {
-        ThirdTestEntityExactlyOneRelationship = relatedThirdTestEntityExactlyOne;
+        ThirdTestEntityExactlyOne = relatedThirdTestEntityExactlyOne;
     }
 
-    public virtual void DeleteRefToThirdTestEntityExactlyOneRelationship(ThirdTestEntityExactlyOne relatedThirdTestEntityExactlyOne)
+    public virtual void DeleteRefToThirdTestEntityExactlyOne(ThirdTestEntityExactlyOne relatedThirdTestEntityExactlyOne)
     {
-        ThirdTestEntityExactlyOneRelationship = null;
+        ThirdTestEntityExactlyOne = null;
     }
 
-    public virtual void DeleteAllRefToThirdTestEntityExactlyOneRelationship()
+    public virtual void DeleteAllRefToThirdTestEntityExactlyOne()
     {
-        ThirdTestEntityExactlyOneRelationship = null;
+        ThirdTestEntityExactlyOne = null;
     }
 
     /// <summary>

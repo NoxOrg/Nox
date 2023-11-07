@@ -90,27 +90,27 @@ internal abstract partial class SecondTestEntityZeroOrManyBase : AuditableEntity
     /// <summary>
     /// SecondTestEntityZeroOrMany Test entity relationship to TestEntityZeroOrMany ZeroOrMany TestEntityZeroOrManies
     /// </summary>
-    public virtual List<TestEntityZeroOrMany> TestEntityZeroOrManyRelationship { get; private set; } = new();
+    public virtual List<TestEntityZeroOrMany> TestEntityZeroOrManies { get; private set; } = new();
 
-    public virtual void CreateRefToTestEntityZeroOrManyRelationship(TestEntityZeroOrMany relatedTestEntityZeroOrMany)
+    public virtual void CreateRefToTestEntityZeroOrManies(TestEntityZeroOrMany relatedTestEntityZeroOrMany)
     {
-        TestEntityZeroOrManyRelationship.Add(relatedTestEntityZeroOrMany);
+        TestEntityZeroOrManies.Add(relatedTestEntityZeroOrMany);
     }
 
-    public virtual void UpdateRefToTestEntityZeroOrManyRelationship(List<TestEntityZeroOrMany> relatedTestEntityZeroOrMany)
+    public virtual void UpdateRefToTestEntityZeroOrManies(List<TestEntityZeroOrMany> relatedTestEntityZeroOrMany)
     {
-        TestEntityZeroOrManyRelationship.Clear();
-        TestEntityZeroOrManyRelationship.AddRange(relatedTestEntityZeroOrMany);
+        TestEntityZeroOrManies.Clear();
+        TestEntityZeroOrManies.AddRange(relatedTestEntityZeroOrMany);
     }
 
-    public virtual void DeleteRefToTestEntityZeroOrManyRelationship(TestEntityZeroOrMany relatedTestEntityZeroOrMany)
+    public virtual void DeleteRefToTestEntityZeroOrManies(TestEntityZeroOrMany relatedTestEntityZeroOrMany)
     {
-        TestEntityZeroOrManyRelationship.Remove(relatedTestEntityZeroOrMany);
+        TestEntityZeroOrManies.Remove(relatedTestEntityZeroOrMany);
     }
 
-    public virtual void DeleteAllRefToTestEntityZeroOrManyRelationship()
+    public virtual void DeleteAllRefToTestEntityZeroOrManies()
     {
-        TestEntityZeroOrManyRelationship.Clear();
+        TestEntityZeroOrManies.Clear();
     }
 
     /// <summary>

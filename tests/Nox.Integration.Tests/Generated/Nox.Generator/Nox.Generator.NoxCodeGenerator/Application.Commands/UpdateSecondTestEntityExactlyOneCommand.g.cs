@@ -57,13 +57,13 @@ internal abstract class UpdateSecondTestEntityExactlyOneCommandHandlerBase : Com
 			return null;
 		}
 
-		var testEntityExactlyOneRelationshipKey = TestWebApp.Domain.TestEntityExactlyOneMetadata.CreateId(request.EntityDto.TestEntityExactlyOneRelationshipId);
-		var testEntityExactlyOneRelationshipEntity = await DbContext.TestEntityExactlyOnes.FindAsync(testEntityExactlyOneRelationshipKey);
+		var testEntityExactlyOneKey = TestWebApp.Domain.TestEntityExactlyOneMetadata.CreateId(request.EntityDto.TestEntityExactlyOneId);
+		var testEntityExactlyOneEntity = await DbContext.TestEntityExactlyOnes.FindAsync(testEntityExactlyOneKey);
 						
-		if(testEntityExactlyOneRelationshipEntity is not null)
-			entity.CreateRefToTestEntityExactlyOneRelationship(testEntityExactlyOneRelationshipEntity);
+		if(testEntityExactlyOneEntity is not null)
+			entity.CreateRefToTestEntityExactlyOne(testEntityExactlyOneEntity);
 		else
-			throw new RelatedEntityNotFoundException("TestEntityExactlyOneRelationship", request.EntityDto.TestEntityExactlyOneRelationshipId.ToString());
+			throw new RelatedEntityNotFoundException("TestEntityExactlyOne", request.EntityDto.TestEntityExactlyOneId.ToString());
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

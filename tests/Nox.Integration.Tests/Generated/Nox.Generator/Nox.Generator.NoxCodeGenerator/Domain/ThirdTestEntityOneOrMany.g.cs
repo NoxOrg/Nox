@@ -90,33 +90,33 @@ internal abstract partial class ThirdTestEntityOneOrManyBase : AuditableEntityBa
     /// <summary>
     /// ThirdTestEntityOneOrMany Test entity relationship to ThirdTestEntityZeroOrMany OneOrMany ThirdTestEntityZeroOrManies
     /// </summary>
-    public virtual List<ThirdTestEntityZeroOrMany> ThirdTestEntityZeroOrManyRelationship { get; private set; } = new();
+    public virtual List<ThirdTestEntityZeroOrMany> ThirdTestEntityZeroOrManies { get; private set; } = new();
 
-    public virtual void CreateRefToThirdTestEntityZeroOrManyRelationship(ThirdTestEntityZeroOrMany relatedThirdTestEntityZeroOrMany)
+    public virtual void CreateRefToThirdTestEntityZeroOrManies(ThirdTestEntityZeroOrMany relatedThirdTestEntityZeroOrMany)
     {
-        ThirdTestEntityZeroOrManyRelationship.Add(relatedThirdTestEntityZeroOrMany);
+        ThirdTestEntityZeroOrManies.Add(relatedThirdTestEntityZeroOrMany);
     }
 
-    public virtual void UpdateRefToThirdTestEntityZeroOrManyRelationship(List<ThirdTestEntityZeroOrMany> relatedThirdTestEntityZeroOrMany)
+    public virtual void UpdateRefToThirdTestEntityZeroOrManies(List<ThirdTestEntityZeroOrMany> relatedThirdTestEntityZeroOrMany)
     {
         if(relatedThirdTestEntityZeroOrMany is null || relatedThirdTestEntityZeroOrMany.Count < 2)
             throw new RelationshipDeletionException($"The relationship cannot be updated.");
-        ThirdTestEntityZeroOrManyRelationship.Clear();
-        ThirdTestEntityZeroOrManyRelationship.AddRange(relatedThirdTestEntityZeroOrMany);
+        ThirdTestEntityZeroOrManies.Clear();
+        ThirdTestEntityZeroOrManies.AddRange(relatedThirdTestEntityZeroOrMany);
     }
 
-    public virtual void DeleteRefToThirdTestEntityZeroOrManyRelationship(ThirdTestEntityZeroOrMany relatedThirdTestEntityZeroOrMany)
+    public virtual void DeleteRefToThirdTestEntityZeroOrManies(ThirdTestEntityZeroOrMany relatedThirdTestEntityZeroOrMany)
     {
-        if(ThirdTestEntityZeroOrManyRelationship.Count() < 2)
+        if(ThirdTestEntityZeroOrManies.Count() < 2)
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
-        ThirdTestEntityZeroOrManyRelationship.Remove(relatedThirdTestEntityZeroOrMany);
+        ThirdTestEntityZeroOrManies.Remove(relatedThirdTestEntityZeroOrMany);
     }
 
-    public virtual void DeleteAllRefToThirdTestEntityZeroOrManyRelationship()
+    public virtual void DeleteAllRefToThirdTestEntityZeroOrManies()
     {
-        if(ThirdTestEntityZeroOrManyRelationship.Count() < 2)
+        if(ThirdTestEntityZeroOrManies.Count() < 2)
             throw new RelationshipDeletionException($"The relationship cannot be deleted.");
-        ThirdTestEntityZeroOrManyRelationship.Clear();
+        ThirdTestEntityZeroOrManies.Clear();
     }
 
     /// <summary>

@@ -90,27 +90,27 @@ internal abstract partial class TestEntityZeroOrManyToOneOrManyBase : AuditableE
     /// <summary>
     /// TestEntityZeroOrManyToOneOrMany Test entity relationship to TestEntityOneOrManyToZeroOrMany ZeroOrMany TestEntityOneOrManyToZeroOrManies
     /// </summary>
-    public virtual List<TestEntityOneOrManyToZeroOrMany> TestEntityOneOrManyToZeroOrMany { get; private set; } = new();
+    public virtual List<TestEntityOneOrManyToZeroOrMany> TestEntityOneOrManyToZeroOrManies { get; private set; } = new();
 
-    public virtual void CreateRefToTestEntityOneOrManyToZeroOrMany(TestEntityOneOrManyToZeroOrMany relatedTestEntityOneOrManyToZeroOrMany)
+    public virtual void CreateRefToTestEntityOneOrManyToZeroOrManies(TestEntityOneOrManyToZeroOrMany relatedTestEntityOneOrManyToZeroOrMany)
     {
-        TestEntityOneOrManyToZeroOrMany.Add(relatedTestEntityOneOrManyToZeroOrMany);
+        TestEntityOneOrManyToZeroOrManies.Add(relatedTestEntityOneOrManyToZeroOrMany);
     }
 
-    public virtual void UpdateRefToTestEntityOneOrManyToZeroOrMany(List<TestEntityOneOrManyToZeroOrMany> relatedTestEntityOneOrManyToZeroOrMany)
+    public virtual void UpdateRefToTestEntityOneOrManyToZeroOrManies(List<TestEntityOneOrManyToZeroOrMany> relatedTestEntityOneOrManyToZeroOrMany)
     {
-        TestEntityOneOrManyToZeroOrMany.Clear();
-        TestEntityOneOrManyToZeroOrMany.AddRange(relatedTestEntityOneOrManyToZeroOrMany);
+        TestEntityOneOrManyToZeroOrManies.Clear();
+        TestEntityOneOrManyToZeroOrManies.AddRange(relatedTestEntityOneOrManyToZeroOrMany);
     }
 
-    public virtual void DeleteRefToTestEntityOneOrManyToZeroOrMany(TestEntityOneOrManyToZeroOrMany relatedTestEntityOneOrManyToZeroOrMany)
+    public virtual void DeleteRefToTestEntityOneOrManyToZeroOrManies(TestEntityOneOrManyToZeroOrMany relatedTestEntityOneOrManyToZeroOrMany)
     {
-        TestEntityOneOrManyToZeroOrMany.Remove(relatedTestEntityOneOrManyToZeroOrMany);
+        TestEntityOneOrManyToZeroOrManies.Remove(relatedTestEntityOneOrManyToZeroOrMany);
     }
 
-    public virtual void DeleteAllRefToTestEntityOneOrManyToZeroOrMany()
+    public virtual void DeleteAllRefToTestEntityOneOrManyToZeroOrManies()
     {
-        TestEntityOneOrManyToZeroOrMany.Clear();
+        TestEntityOneOrManyToZeroOrManies.Clear();
     }
 
     /// <summary>

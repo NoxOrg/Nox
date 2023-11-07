@@ -135,7 +135,7 @@ namespace ClientApi.Tests.Application.Messaging
             var createDto = new WorkplaceCreateDto
             {
                 Name = _fixture.Create<string>(),
-                BelongsToCountryId = countryId,
+                CountryId = countryId,
             };
 
             var createResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(WorkplacesControllerName, createDto);

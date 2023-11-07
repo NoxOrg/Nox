@@ -49,21 +49,21 @@ public partial class CustomerUpdateDto : IEntityDto<DomainNamespace.Customer>
     /// <summary>
     /// Customer related to ZeroOrMany PaymentDetails
     /// </summary>
-    public List<System.Int64> CustomerRelatedPaymentDetailsId { get; set; } = new();
+    public List<System.Int64> PaymentDetailsId { get; set; } = new();
 
     /// <summary>
     /// Customer related to ZeroOrMany Bookings
     /// </summary>
-    public List<System.Guid> CustomerRelatedBookingsId { get; set; } = new();
+    public List<System.Guid> BookingsId { get; set; } = new();
 
     /// <summary>
     /// Customer related to ZeroOrMany Transactions
     /// </summary>
-    public List<System.Int64> CustomerRelatedTransactionsId { get; set; } = new();
+    public List<System.Int64> TransactionsId { get; set; } = new();
 
     /// <summary>
     /// Customer based in ExactlyOne Countries
     /// </summary>
-    [Required(ErrorMessage = "CustomerBaseCountry is required")]
-    public System.String CustomerBaseCountryId { get; set; } = default!;
+    [Required(ErrorMessage = "Country is required")]
+    public System.String CountryId { get; set; } = default!;
 }

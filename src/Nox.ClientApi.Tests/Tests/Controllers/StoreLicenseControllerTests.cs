@@ -23,6 +23,44 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region RELATIONSHIPS
 
+        #region POST
+
+        #region POST Create ref to related entities /api/{EntityPluralName}/{EntityKey} => api/storeLicenses/1/DefaultCurrency/USD
+
+        [Fact]
+        public async Task Post_RefToCurrency_Succes()
+        {
+            //Arrange
+            var usdCurrency = await PostAsync<CurrencyCreateDto, CurrencyDto>(Endpoints.CurrenciesUrl, new CurrencyCreateDto { Id = "USD" });
+            var eurCurrency = await PostAsync<CurrencyCreateDto, CurrencyDto>(Endpoints.CurrenciesUrl, new CurrencyCreateDto { Id = "EUR" });
+            var store = await CreateStore();
+            var storeLicenseReponse = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl,
+                new StoreLicenseCreateDto { 
+                    Issuer = _fixture.Create<string>(),
+                    StoreId = store!.Id
+                });
+
+            //Act
+            await PostAsync($"{Endpoints.StoreLicensesUrl}/{storeLicenseReponse!.Id}/DefaultCurrency/{usdCurrency!.Id}/$ref");
+            await PostAsync($"{Endpoints.StoreLicensesUrl}/{storeLicenseReponse!.Id}/SoldInCurrency/{eurCurrency!.Id}/$ref");
+
+            const string oDataRequest = $"$expand={nameof(StoreLicenseDto.DefaultCurrency)},{nameof(StoreLicenseDto.SoldInCurrency)}";
+            var getStoreLicenseResponse = await GetODataSimpleResponseAsync<StoreLicenseDto>($"{Endpoints.StoreLicensesUrl}/{storeLicenseReponse!.Id}?{oDataRequest}");
+
+            //Assert
+            getStoreLicenseResponse.Should().NotBeNull();
+            getStoreLicenseResponse!.DefaultCurrencyId.Should().Be(usdCurrency!.Id);
+            getStoreLicenseResponse!.DefaultCurrency.Should().NotBeNull();
+            getStoreLicenseResponse!.DefaultCurrency!.Id.Should().Be(usdCurrency!.Id);
+            getStoreLicenseResponse!.SoldInCurrencyId.Should().Be(eurCurrency!.Id);
+            getStoreLicenseResponse!.SoldInCurrency.Should().NotBeNull();
+            getStoreLicenseResponse!.SoldInCurrency!.Id.Should().Be(eurCurrency!.Id);
+        }
+
+        #endregion
+
+        #endregion
+
         #region PUT
 
         #region PUT Update related entity /api/{EntityPluralName}/{EntityKey} => api/storeLicenses/1
@@ -37,7 +75,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 new StoreLicenseCreateDto
                 {
                     Issuer = _fixture.Create<string>(),
-                    StoreWithLicenseId = store1!.Id,
+                    StoreId = store1!.Id,
                 });
 
             //Act
@@ -46,7 +84,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 new StoreLicenseUpdateDto
                 {
                     Issuer = storeLicenseResponse!.Issuer,
-                    StoreWithLicenseId = store2!.Id
+                    StoreId = store2!.Id
                 },
                 headers);
 
@@ -54,7 +92,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             getStoreLicenseResponse.Should().NotBeNull();
-            getStoreLicenseResponse!.StoreWithLicenseId.Should().Be(store2!.Id);
+            getStoreLicenseResponse!.StoreId.Should().Be(store2!.Id);
         }
 
         [Fact]
@@ -66,7 +104,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 new StoreLicenseCreateDto
                 {
                     Issuer = _fixture.Create<string>(),
-                    StoreWithLicenseId = store1!.Id,
+                    StoreId = store1!.Id,
                 });
 
             //Act
@@ -105,18 +143,18 @@ namespace ClientApi.Tests.Tests.Controllers
             var createDto = new StoreLicenseCreateDto
             {
                 Issuer = issuer,
-                StoreWithLicenseId = store!.Id,
+                StoreId = store!.Id,
             };
             var postResult = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl, createDto);
 
             // Act
-            await PostAsync($"{Endpoints.StoreLicensesUrl}/{postResult!.Id}/StoreWithLicense/{store2!.Id}/$ref");
+            await PostAsync($"{Endpoints.StoreLicensesUrl}/{postResult!.Id}/store/{store2!.Id}/$ref");
             var response = await GetODataSimpleResponseAsync<StoreLicenseDto>($"{Endpoints.StoreLicensesUrl}/{postResult!.Id}");
 
             //Assert
             response.Should().NotBeNull();
             response!.Issuer.Should().BeEquivalentTo(issuer);
-            response!.StoreWithLicenseId.Should().Be(store2!.Id);
+            response!.StoreId.Should().Be(store2!.Id);
         }
 
         #endregion GET Entity By Key /api/{EntityPluralName}/{EntityKey} => api/storelicenses/1
@@ -133,7 +171,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var createDto = new StoreLicenseCreateDto
             {
                 Issuer = issuer,
-                StoreWithLicenseId = store!.Id,
+                StoreId = store!.Id,
             };
             var postResult = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl, createDto);
 
@@ -143,7 +181,7 @@ namespace ClientApi.Tests.Tests.Controllers
             //Assert
             response.Should().NotBeNull();
             response!.Issuer.Should().BeEquivalentTo(issuer);
-            response!.StoreWithLicenseId.Should().Be(store.Id);
+            response!.StoreId.Should().Be(store.Id);
         }
 
         #endregion GET Entity By Key /api/{EntityPluralName}/{EntityKey} => api/storelicenses/1
@@ -161,14 +199,14 @@ namespace ClientApi.Tests.Tests.Controllers
                 new StoreLicenseCreateDto
                 {
                     Issuer = _fixture.Create<string>(),
-                    StoreWithLicenseId = store1!.Id,
+                    StoreId = store1!.Id,
                 });
 
             var storeLicenseResponse2 = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl,
                 new StoreLicenseCreateDto
                 {
                     Issuer = _fixture.Create<string>(),
-                    StoreWithLicenseId = store1!.Id,
+                    StoreId = store1!.Id,
                 });
 
             //Assert

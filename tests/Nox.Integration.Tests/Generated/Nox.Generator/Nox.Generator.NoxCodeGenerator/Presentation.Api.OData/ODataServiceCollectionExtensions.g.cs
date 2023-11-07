@@ -67,13 +67,13 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<TestEntityForAutoNumberUsagesDto>().HasKey(e => new { e.Id });
 
         builder.EntitySet<TestEntityZeroOrOneDto>("TestEntityZeroOrOnes");
-        builder.EntityType<TestEntityZeroOrOneDto>().ContainsOptional(e => e.SecondTestEntityZeroOrOneRelationship);
+        builder.EntityType<TestEntityZeroOrOneDto>().ContainsOptional(e => e.SecondTestEntityZeroOrOne);
 
         builder.EntityType<TestEntityZeroOrOneDto>();
         builder.EntityType<TestEntityZeroOrOneDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityZeroOrOneDto>().Ignore(e => e.Etag);
         builder.EntitySet<SecondTestEntityZeroOrOneDto>("SecondTestEntityZeroOrOnes");
-        builder.EntityType<SecondTestEntityZeroOrOneDto>().ContainsOptional(e => e.TestEntityZeroOrOneRelationship);
+        builder.EntityType<SecondTestEntityZeroOrOneDto>().ContainsOptional(e => e.TestEntityZeroOrOne);
 
         builder.EntityType<SecondTestEntityZeroOrOneDto>();
         builder.EntityType<SecondTestEntityZeroOrOneDto>().Ignore(e => e.DeletedAtUtc);
@@ -84,61 +84,61 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<TestEntityWithNuidDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityWithNuidDto>().Ignore(e => e.Etag);
         builder.EntitySet<TestEntityOneOrManyDto>("TestEntityOneOrManies");
-        builder.EntityType<TestEntityOneOrManyDto>().ContainsMany(e => e.SecondTestEntityOneOrManyRelationship);
+        builder.EntityType<TestEntityOneOrManyDto>().ContainsMany(e => e.SecondTestEntityOneOrManies);
 
         builder.EntityType<TestEntityOneOrManyDto>();
         builder.EntityType<TestEntityOneOrManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityOneOrManyDto>().Ignore(e => e.Etag);
         builder.EntitySet<SecondTestEntityOneOrManyDto>("SecondTestEntityOneOrManies");
-        builder.EntityType<SecondTestEntityOneOrManyDto>().ContainsMany(e => e.TestEntityOneOrManyRelationship);
+        builder.EntityType<SecondTestEntityOneOrManyDto>().ContainsMany(e => e.TestEntityOneOrManies);
 
         builder.EntityType<SecondTestEntityOneOrManyDto>();
         builder.EntityType<SecondTestEntityOneOrManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<SecondTestEntityOneOrManyDto>().Ignore(e => e.Etag);
         builder.EntitySet<TestEntityZeroOrManyDto>("TestEntityZeroOrManies");
-        builder.EntityType<TestEntityZeroOrManyDto>().ContainsMany(e => e.SecondTestEntityZeroOrManyRelationship);
+        builder.EntityType<TestEntityZeroOrManyDto>().ContainsMany(e => e.SecondTestEntityZeroOrManies);
 
         builder.EntityType<TestEntityZeroOrManyDto>();
         builder.EntityType<TestEntityZeroOrManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityZeroOrManyDto>().Ignore(e => e.Etag);
         builder.EntitySet<SecondTestEntityZeroOrManyDto>("SecondTestEntityZeroOrManies");
-        builder.EntityType<SecondTestEntityZeroOrManyDto>().ContainsMany(e => e.TestEntityZeroOrManyRelationship);
+        builder.EntityType<SecondTestEntityZeroOrManyDto>().ContainsMany(e => e.TestEntityZeroOrManies);
 
         builder.EntityType<SecondTestEntityZeroOrManyDto>();
         builder.EntityType<SecondTestEntityZeroOrManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<SecondTestEntityZeroOrManyDto>().Ignore(e => e.Etag);
         builder.EntitySet<ThirdTestEntityOneOrManyDto>("ThirdTestEntityOneOrManies");
-        builder.EntityType<ThirdTestEntityOneOrManyDto>().ContainsMany(e => e.ThirdTestEntityZeroOrManyRelationship);
+        builder.EntityType<ThirdTestEntityOneOrManyDto>().ContainsMany(e => e.ThirdTestEntityZeroOrManies);
 
         builder.EntityType<ThirdTestEntityOneOrManyDto>();
         builder.EntityType<ThirdTestEntityOneOrManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<ThirdTestEntityOneOrManyDto>().Ignore(e => e.Etag);
         builder.EntitySet<ThirdTestEntityZeroOrManyDto>("ThirdTestEntityZeroOrManies");
-        builder.EntityType<ThirdTestEntityZeroOrManyDto>().ContainsMany(e => e.ThirdTestEntityOneOrManyRelationship);
+        builder.EntityType<ThirdTestEntityZeroOrManyDto>().ContainsMany(e => e.ThirdTestEntityOneOrManies);
 
         builder.EntityType<ThirdTestEntityZeroOrManyDto>();
         builder.EntityType<ThirdTestEntityZeroOrManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<ThirdTestEntityZeroOrManyDto>().Ignore(e => e.Etag);
         builder.EntitySet<ThirdTestEntityExactlyOneDto>("ThirdTestEntityExactlyOnes");
-        builder.EntityType<ThirdTestEntityExactlyOneDto>().ContainsRequired(e => e.ThirdTestEntityZeroOrOneRelationship);
+        builder.EntityType<ThirdTestEntityExactlyOneDto>().ContainsRequired(e => e.ThirdTestEntityZeroOrOne);
 
         builder.EntityType<ThirdTestEntityExactlyOneDto>();
         builder.EntityType<ThirdTestEntityExactlyOneDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<ThirdTestEntityExactlyOneDto>().Ignore(e => e.Etag);
         builder.EntitySet<ThirdTestEntityZeroOrOneDto>("ThirdTestEntityZeroOrOnes");
-        builder.EntityType<ThirdTestEntityZeroOrOneDto>().ContainsOptional(e => e.ThirdTestEntityExactlyOneRelationship);
+        builder.EntityType<ThirdTestEntityZeroOrOneDto>().ContainsOptional(e => e.ThirdTestEntityExactlyOne);
 
         builder.EntityType<ThirdTestEntityZeroOrOneDto>();
         builder.EntityType<ThirdTestEntityZeroOrOneDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<ThirdTestEntityZeroOrOneDto>().Ignore(e => e.Etag);
         builder.EntitySet<TestEntityExactlyOneDto>("TestEntityExactlyOnes");
-        builder.EntityType<TestEntityExactlyOneDto>().ContainsRequired(e => e.SecondTestEntityExactlyOneRelationship);
+        builder.EntityType<TestEntityExactlyOneDto>().ContainsRequired(e => e.SecondTestEntityExactlyOne);
 
         builder.EntityType<TestEntityExactlyOneDto>();
         builder.EntityType<TestEntityExactlyOneDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityExactlyOneDto>().Ignore(e => e.Etag);
         builder.EntitySet<SecondTestEntityExactlyOneDto>("SecondTestEntityExactlyOnes");
-        builder.EntityType<SecondTestEntityExactlyOneDto>().ContainsRequired(e => e.TestEntityExactlyOneRelationship);
+        builder.EntityType<SecondTestEntityExactlyOneDto>().ContainsRequired(e => e.TestEntityExactlyOne);
 
         builder.EntityType<SecondTestEntityExactlyOneDto>();
         builder.EntityType<SecondTestEntityExactlyOneDto>().Ignore(e => e.DeletedAtUtc);
@@ -150,7 +150,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<TestEntityZeroOrOneToZeroOrManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityZeroOrOneToZeroOrManyDto>().Ignore(e => e.Etag);
         builder.EntitySet<TestEntityZeroOrManyToZeroOrOneDto>("TestEntityZeroOrManyToZeroOrOnes");
-        builder.EntityType<TestEntityZeroOrManyToZeroOrOneDto>().ContainsMany(e => e.TestEntityZeroOrOneToZeroOrMany);
+        builder.EntityType<TestEntityZeroOrManyToZeroOrOneDto>().ContainsMany(e => e.TestEntityZeroOrOneToZeroOrManies);
 
         builder.EntityType<TestEntityZeroOrManyToZeroOrOneDto>();
         builder.EntityType<TestEntityZeroOrManyToZeroOrOneDto>().Ignore(e => e.DeletedAtUtc);
@@ -162,7 +162,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<TestEntityExactlyOneToOneOrManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityExactlyOneToOneOrManyDto>().Ignore(e => e.Etag);
         builder.EntitySet<TestEntityOneOrManyToExactlyOneDto>("TestEntityOneOrManyToExactlyOnes");
-        builder.EntityType<TestEntityOneOrManyToExactlyOneDto>().ContainsMany(e => e.TestEntityExactlyOneToOneOrMany);
+        builder.EntityType<TestEntityOneOrManyToExactlyOneDto>().ContainsMany(e => e.TestEntityExactlyOneToOneOrManies);
 
         builder.EntityType<TestEntityOneOrManyToExactlyOneDto>();
         builder.EntityType<TestEntityOneOrManyToExactlyOneDto>().Ignore(e => e.DeletedAtUtc);
@@ -174,19 +174,19 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<TestEntityExactlyOneToZeroOrManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityExactlyOneToZeroOrManyDto>().Ignore(e => e.Etag);
         builder.EntitySet<TestEntityZeroOrManyToExactlyOneDto>("TestEntityZeroOrManyToExactlyOnes");
-        builder.EntityType<TestEntityZeroOrManyToExactlyOneDto>().ContainsMany(e => e.TestEntityExactlyOneToZeroOrMany);
+        builder.EntityType<TestEntityZeroOrManyToExactlyOneDto>().ContainsMany(e => e.TestEntityExactlyOneToZeroOrManies);
 
         builder.EntityType<TestEntityZeroOrManyToExactlyOneDto>();
         builder.EntityType<TestEntityZeroOrManyToExactlyOneDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityZeroOrManyToExactlyOneDto>().Ignore(e => e.Etag);
         builder.EntitySet<TestEntityOneOrManyToZeroOrManyDto>("TestEntityOneOrManyToZeroOrManies");
-        builder.EntityType<TestEntityOneOrManyToZeroOrManyDto>().ContainsMany(e => e.TestEntityZeroOrManyToOneOrMany);
+        builder.EntityType<TestEntityOneOrManyToZeroOrManyDto>().ContainsMany(e => e.TestEntityZeroOrManyToOneOrManies);
 
         builder.EntityType<TestEntityOneOrManyToZeroOrManyDto>();
         builder.EntityType<TestEntityOneOrManyToZeroOrManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityOneOrManyToZeroOrManyDto>().Ignore(e => e.Etag);
         builder.EntitySet<TestEntityZeroOrManyToOneOrManyDto>("TestEntityZeroOrManyToOneOrManies");
-        builder.EntityType<TestEntityZeroOrManyToOneOrManyDto>().ContainsMany(e => e.TestEntityOneOrManyToZeroOrMany);
+        builder.EntityType<TestEntityZeroOrManyToOneOrManyDto>().ContainsMany(e => e.TestEntityOneOrManyToZeroOrManies);
 
         builder.EntityType<TestEntityZeroOrManyToOneOrManyDto>();
         builder.EntityType<TestEntityZeroOrManyToOneOrManyDto>().Ignore(e => e.DeletedAtUtc);
@@ -198,7 +198,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<TestEntityZeroOrOneToOneOrManyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<TestEntityZeroOrOneToOneOrManyDto>().Ignore(e => e.Etag);
         builder.EntitySet<TestEntityOneOrManyToZeroOrOneDto>("TestEntityOneOrManyToZeroOrOnes");
-        builder.EntityType<TestEntityOneOrManyToZeroOrOneDto>().ContainsMany(e => e.TestEntityZeroOrOneToOneOrMany);
+        builder.EntityType<TestEntityOneOrManyToZeroOrOneDto>().ContainsMany(e => e.TestEntityZeroOrOneToOneOrManies);
 
         builder.EntityType<TestEntityOneOrManyToZeroOrOneDto>();
         builder.EntityType<TestEntityOneOrManyToZeroOrOneDto>().Ignore(e => e.DeletedAtUtc);

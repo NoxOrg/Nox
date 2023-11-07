@@ -1045,9 +1045,9 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
                 var FindCountry = CountryEntityData.EntityList.FirstOrDefault(Country => String.Equals(Country.Id, CountryId, StringComparison.CurrentCultureIgnoreCase));
 
                 if (FindCountry != null 
-                    && !String.IsNullOrWhiteSpace(FindCountry.CountryUsedByCurrencyId))
+                    && !String.IsNullOrWhiteSpace(FindCountry.CurrencyId))
                 {
-                    CurrencyId = FindCountry.CountryUsedByCurrencyId;
+                    CurrencyId = FindCountry.CurrencyId;
                 }
             }
 

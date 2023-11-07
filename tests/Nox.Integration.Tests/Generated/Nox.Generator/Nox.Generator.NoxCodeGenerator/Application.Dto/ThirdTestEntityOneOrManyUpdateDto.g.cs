@@ -27,5 +27,5 @@ public partial class ThirdTestEntityOneOrManyUpdateDto : IEntityDto<DomainNamesp
     /// <summary>
     /// ThirdTestEntityOneOrMany Test entity relationship to ThirdTestEntityZeroOrMany OneOrMany ThirdTestEntityZeroOrManies
     /// </summary>
-    public List<System.String> ThirdTestEntityZeroOrManyRelationshipId { get; set; } = new();
+    public List<System.String> ThirdTestEntityZeroOrManiesId { get; set; } = new();
 }
