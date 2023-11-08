@@ -42,6 +42,8 @@ public abstract class StoreLicenseDtoBase : EntityDtoBase, IEntityDto<DomainName
         else
             result.Add("Issuer", new [] { "Issuer is Required." });
     
+        ExecuteActionAndCollectValidationExceptions("ExternalId", () => DomainNamespace.StoreLicenseMetadata.CreateExternalId(this.ExternalId), result);
+    
 
         return result;
     }
@@ -58,11 +60,30 @@ public abstract class StoreLicenseDtoBase : EntityDtoBase, IEntityDto<DomainName
     public System.String Issuer { get; set; } = default!;
 
     /// <summary>
+    /// License external id (Required).
+    /// </summary>
+    public System.Int64 ExternalId { get; set; } = default!;
+
+    /// <summary>
     /// StoreLicense Store that this license related to ExactlyOne Stores
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Guid? StoreWithLicenseId { get; set; } = default!;
-    public virtual StoreDto? StoreWithLicense { get; set; } = null!;
+    public System.Guid? StoreId { get; set; } = default!;
+    public virtual StoreDto? Store { get; set; } = null!;
+
+    /// <summary>
+    /// StoreLicense Default currency for this license ZeroOrOne Currencies
+    /// </summary>
+    //EF maps ForeignKey Automatically
+    public System.String? DefaultCurrencyId { get; set; } = default!;
+    public virtual CurrencyDto? DefaultCurrency { get; set; } = null!;
+
+    /// <summary>
+    /// StoreLicense Currency this license was sold in ZeroOrOne Currencies
+    /// </summary>
+    //EF maps ForeignKey Automatically
+    public System.String? SoldInCurrencyId { get; set; } = default!;
+    public virtual CurrencyDto? SoldInCurrency { get; set; } = null!;
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

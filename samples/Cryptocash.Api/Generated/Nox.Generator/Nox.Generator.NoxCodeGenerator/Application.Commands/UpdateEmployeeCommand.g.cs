@@ -17,14 +17,15 @@ using EmployeeEntity = Cryptocash.Domain.Employee;
 
 namespace Cryptocash.Application.Commands;
 
-public record UpdateEmployeeCommand(System.Int64 keyId, EmployeeUpdateDto EntityDto, System.Guid? Etag) : IRequest<EmployeeKeyDto?>;
+public record UpdateEmployeeCommand(System.Int64 keyId, EmployeeUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<EmployeeKeyDto?>;
 
 internal partial class UpdateEmployeeCommandHandler : UpdateEmployeeCommandHandlerBase
 {
 	public UpdateEmployeeCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto> entityFactory) 
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -37,7 +38,8 @@ internal abstract class UpdateEmployeeCommandHandlerBase : CommandBase<UpdateEmp
 	public UpdateEmployeeCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<EmployeeEntity, EmployeeCreateDto, EmployeeUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -55,15 +57,15 @@ internal abstract class UpdateEmployeeCommandHandlerBase : CommandBase<UpdateEmp
 			return null;
 		}
 
-		var employeeReviewingCashStockOrderKey = Cryptocash.Domain.CashStockOrderMetadata.CreateId(request.EntityDto.EmployeeReviewingCashStockOrderId);
-		var employeeReviewingCashStockOrderEntity = await DbContext.CashStockOrders.FindAsync(employeeReviewingCashStockOrderKey);
+		var cashStockOrderKey = Cryptocash.Domain.CashStockOrderMetadata.CreateId(request.EntityDto.CashStockOrderId);
+		var cashStockOrderEntity = await DbContext.CashStockOrders.FindAsync(cashStockOrderKey);
 						
-		if(employeeReviewingCashStockOrderEntity is not null)
-			entity.CreateRefToEmployeeReviewingCashStockOrder(employeeReviewingCashStockOrderEntity);
+		if(cashStockOrderEntity is not null)
+			entity.CreateRefToCashStockOrder(cashStockOrderEntity);
 		else
-			throw new RelatedEntityNotFoundException("EmployeeReviewingCashStockOrder", request.EntityDto.EmployeeReviewingCashStockOrderId.ToString());
+			throw new RelatedEntityNotFoundException("CashStockOrder", request.EntityDto.CashStockOrderId.ToString());
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

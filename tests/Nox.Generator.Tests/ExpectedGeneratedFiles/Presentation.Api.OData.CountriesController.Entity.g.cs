@@ -21,8 +21,6 @@ using SampleWebApp.Application.Commands;
 using SampleWebApp.Domain;
 using SampleWebApp.Infrastructure.Persistence;
 
-using Nox.Types;
-
 namespace SampleWebApp.Presentation.Api.OData;
 
 public partial class CountriesController : CountriesControllerBase
@@ -53,7 +51,7 @@ public abstract partial class CountriesControllerBase : ODataController
     )
     {
         _mediator = mediator;
-        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
+        _cultureCode = httpLanguageProvider.GetLanguage();
         _getCountriesByContinent = getCountriesByContinent;
     }
 
@@ -93,7 +91,7 @@ public abstract partial class CountriesControllerBase : ODataController
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateCountryCommand(key, country, etag));
+        var updatedKey = await _mediator.Send(new UpdateCountryCommand(key, country, _cultureCode, etag));
 
         if (updatedKey is null)
         {

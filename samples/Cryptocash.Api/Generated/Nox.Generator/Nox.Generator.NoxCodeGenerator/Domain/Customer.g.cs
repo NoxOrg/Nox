@@ -110,102 +110,102 @@ internal abstract partial class CustomerBase : AuditableEntityBase, IEntityConcu
     /// <summary>
     /// Customer related to ZeroOrMany PaymentDetails
     /// </summary>
-    public virtual List<PaymentDetail> CustomerRelatedPaymentDetails { get; private set; } = new();
+    public virtual List<PaymentDetail> PaymentDetails { get; private set; } = new();
 
-    public virtual void CreateRefToCustomerRelatedPaymentDetails(PaymentDetail relatedPaymentDetail)
+    public virtual void CreateRefToPaymentDetails(PaymentDetail relatedPaymentDetail)
     {
-        CustomerRelatedPaymentDetails.Add(relatedPaymentDetail);
+        PaymentDetails.Add(relatedPaymentDetail);
     }
 
-    public virtual void UpdateRefToCustomerRelatedPaymentDetails(List<PaymentDetail> relatedPaymentDetail)
+    public virtual void UpdateRefToPaymentDetails(List<PaymentDetail> relatedPaymentDetail)
     {
-        CustomerRelatedPaymentDetails.Clear();
-        CustomerRelatedPaymentDetails.AddRange(relatedPaymentDetail);
+        PaymentDetails.Clear();
+        PaymentDetails.AddRange(relatedPaymentDetail);
     }
 
-    public virtual void DeleteRefToCustomerRelatedPaymentDetails(PaymentDetail relatedPaymentDetail)
+    public virtual void DeleteRefToPaymentDetails(PaymentDetail relatedPaymentDetail)
     {
-        CustomerRelatedPaymentDetails.Remove(relatedPaymentDetail);
+        PaymentDetails.Remove(relatedPaymentDetail);
     }
 
-    public virtual void DeleteAllRefToCustomerRelatedPaymentDetails()
+    public virtual void DeleteAllRefToPaymentDetails()
     {
-        CustomerRelatedPaymentDetails.Clear();
+        PaymentDetails.Clear();
     }
 
     /// <summary>
     /// Customer related to ZeroOrMany Bookings
     /// </summary>
-    public virtual List<Booking> CustomerRelatedBookings { get; private set; } = new();
+    public virtual List<Booking> Bookings { get; private set; } = new();
 
-    public virtual void CreateRefToCustomerRelatedBookings(Booking relatedBooking)
+    public virtual void CreateRefToBookings(Booking relatedBooking)
     {
-        CustomerRelatedBookings.Add(relatedBooking);
+        Bookings.Add(relatedBooking);
     }
 
-    public virtual void UpdateRefToCustomerRelatedBookings(List<Booking> relatedBooking)
+    public virtual void UpdateRefToBookings(List<Booking> relatedBooking)
     {
-        CustomerRelatedBookings.Clear();
-        CustomerRelatedBookings.AddRange(relatedBooking);
+        Bookings.Clear();
+        Bookings.AddRange(relatedBooking);
     }
 
-    public virtual void DeleteRefToCustomerRelatedBookings(Booking relatedBooking)
+    public virtual void DeleteRefToBookings(Booking relatedBooking)
     {
-        CustomerRelatedBookings.Remove(relatedBooking);
+        Bookings.Remove(relatedBooking);
     }
 
-    public virtual void DeleteAllRefToCustomerRelatedBookings()
+    public virtual void DeleteAllRefToBookings()
     {
-        CustomerRelatedBookings.Clear();
+        Bookings.Clear();
     }
 
     /// <summary>
     /// Customer related to ZeroOrMany Transactions
     /// </summary>
-    public virtual List<Transaction> CustomerRelatedTransactions { get; private set; } = new();
+    public virtual List<Transaction> Transactions { get; private set; } = new();
 
-    public virtual void CreateRefToCustomerRelatedTransactions(Transaction relatedTransaction)
+    public virtual void CreateRefToTransactions(Transaction relatedTransaction)
     {
-        CustomerRelatedTransactions.Add(relatedTransaction);
+        Transactions.Add(relatedTransaction);
     }
 
-    public virtual void UpdateRefToCustomerRelatedTransactions(List<Transaction> relatedTransaction)
+    public virtual void UpdateRefToTransactions(List<Transaction> relatedTransaction)
     {
-        CustomerRelatedTransactions.Clear();
-        CustomerRelatedTransactions.AddRange(relatedTransaction);
+        Transactions.Clear();
+        Transactions.AddRange(relatedTransaction);
     }
 
-    public virtual void DeleteRefToCustomerRelatedTransactions(Transaction relatedTransaction)
+    public virtual void DeleteRefToTransactions(Transaction relatedTransaction)
     {
-        CustomerRelatedTransactions.Remove(relatedTransaction);
+        Transactions.Remove(relatedTransaction);
     }
 
-    public virtual void DeleteAllRefToCustomerRelatedTransactions()
+    public virtual void DeleteAllRefToTransactions()
     {
-        CustomerRelatedTransactions.Clear();
+        Transactions.Clear();
     }
 
     /// <summary>
     /// Customer based in ExactlyOne Countries
     /// </summary>
-    public virtual Country CustomerBaseCountry { get; private set; } = null!;
+    public virtual Country Country { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Country
     /// </summary>
-    public Nox.Types.CountryCode2 CustomerBaseCountryId { get; set; } = null!;
+    public Nox.Types.CountryCode2 CountryId { get; set; } = null!;
 
-    public virtual void CreateRefToCustomerBaseCountry(Country relatedCountry)
+    public virtual void CreateRefToCountry(Country relatedCountry)
     {
-        CustomerBaseCountry = relatedCountry;
+        Country = relatedCountry;
     }
 
-    public virtual void DeleteRefToCustomerBaseCountry(Country relatedCountry)
+    public virtual void DeleteRefToCountry(Country relatedCountry)
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
-    public virtual void DeleteAllRefToCustomerBaseCountry()
+    public virtual void DeleteAllRefToCountry()
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }

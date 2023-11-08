@@ -90,24 +90,24 @@ internal abstract partial class TestEntityExactlyOneBase : AuditableEntityBase, 
     /// <summary>
     /// TestEntityExactlyOne Test entity relationship to SecondTestEntityExactlyOneRelationship ExactlyOne SecondTestEntityExactlyOnes
     /// </summary>
-    public virtual SecondTestEntityExactlyOne SecondTestEntityExactlyOneRelationship { get; private set; } = null!;
+    public virtual SecondTestEntityExactlyOne SecondTestEntityExactlyOne { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity SecondTestEntityExactlyOne
     /// </summary>
-    public Nox.Types.Text SecondTestEntityExactlyOneRelationshipId { get; set; } = null!;
+    public Nox.Types.Text SecondTestEntityExactlyOneId { get; set; } = null!;
 
-    public virtual void CreateRefToSecondTestEntityExactlyOneRelationship(SecondTestEntityExactlyOne relatedSecondTestEntityExactlyOne)
+    public virtual void CreateRefToSecondTestEntityExactlyOne(SecondTestEntityExactlyOne relatedSecondTestEntityExactlyOne)
     {
-        SecondTestEntityExactlyOneRelationship = relatedSecondTestEntityExactlyOne;
+        SecondTestEntityExactlyOne = relatedSecondTestEntityExactlyOne;
     }
 
-    public virtual void DeleteRefToSecondTestEntityExactlyOneRelationship(SecondTestEntityExactlyOne relatedSecondTestEntityExactlyOne)
+    public virtual void DeleteRefToSecondTestEntityExactlyOne(SecondTestEntityExactlyOne relatedSecondTestEntityExactlyOne)
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
-    public virtual void DeleteAllRefToSecondTestEntityExactlyOneRelationship()
+    public virtual void DeleteAllRefToSecondTestEntityExactlyOne()
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }

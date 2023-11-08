@@ -61,6 +61,7 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
     public DbSet<ClientApi.Domain.Workplace> Workplaces { get; set; } = null!;
     public DbSet<ClientApi.Domain.StoreOwner> StoreOwners { get; set; } = null!;
     public DbSet<ClientApi.Domain.StoreLicense> StoreLicenses { get; set; } = null!;
+    public DbSet<ClientApi.Domain.Currency> Currencies { get; set; } = null!;
     public DbSet<ClientApi.Domain.WorkplaceLocalized> WorkplacesLocalized { get; set; } = null!;
     public DbSet<DomainNameSpace.CountryContinent> CountriesContinents { get; set; } = null!;
     public DbSet<DomainNameSpace.CountryContinentLocalized> CountriesContinentsLocalized { get; set; } = null!;
@@ -86,6 +87,7 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
         foreach (var entity in _noxSolution.Domain!.Entities)
         {
             Console.WriteLine($"AppDbContext Configure database for Entity {entity.Name}");
+            ConfigureEnumeratedAttributes(modelBuilder, entity);
 
             // Ignore owned entities configuration as they are configured inside entity constructor
             if (entity.IsOwnedEntity)
@@ -106,11 +108,20 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
 
         modelBuilder.ForEntitiesOfType<IEntityConcurrent>(
             builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());
-            ConfigureEnumeration(modelBuilder.Entity("ClientApi.Domain.CountryContinent"));
-            var enumLocalizedType = _clientAssemblyProvider.GetType("ClientApi.Domain.CountryContinentLocalized")!;
-            var enumType = _clientAssemblyProvider.GetType("ClientApi.Domain.CountryContinent")!;
-            ConfigureEnumerationLocalized(modelBuilder.Entity(enumLocalizedType), enumType, enumLocalizedType);
-            ConfigureEnumeration(modelBuilder.Entity("ClientApi.Domain.StoreStatus"));
+    }
+    
+    private void ConfigureEnumeratedAttributes(ModelBuilder modelBuilder, Entity entity)
+    {
+        foreach(var enumAttribute in entity.Attributes.Where(attribute => attribute.Type == NoxType.Enumeration))
+            {
+                ConfigureEnumeration(modelBuilder.Entity($"ClientApi.Domain.{_codeGenConventions.GetEntityNameForEnumeration(entity.Name, enumAttribute.Name)}"), enumAttribute.EnumerationTypeOptions!);
+                if (enumAttribute.EnumerationTypeOptions!.IsLocalized)
+                {
+                    var enumLocalizedType = _clientAssemblyProvider.GetType($"ClientApi.Domain.{_codeGenConventions.GetEntityNameForEnumerationLocalized(entity.Name, enumAttribute.Name)}")!;
+                    var enumType = _clientAssemblyProvider.GetType($"ClientApi.Domain.{_codeGenConventions.GetEntityNameForEnumeration(entity.Name, enumAttribute.Name)}")!;
+                    ConfigureEnumerationLocalized(modelBuilder.Entity(enumLocalizedType), enumType, enumLocalizedType, enumAttribute.EnumerationTypeOptions!, _noxSolution.Application!.Localization!.DefaultCulture);
+                }
+            }
     }
 
     private void ConfigureAuditable(ModelBuilder modelBuilder)
@@ -119,5 +130,6 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
         modelBuilder.Entity<ClientApi.Domain.Store>().HasQueryFilter(p => p.DeletedAtUtc == null);
         modelBuilder.Entity<ClientApi.Domain.StoreOwner>().HasQueryFilter(p => p.DeletedAtUtc == null);
         modelBuilder.Entity<ClientApi.Domain.StoreLicense>().HasQueryFilter(p => p.DeletedAtUtc == null);
+        modelBuilder.Entity<ClientApi.Domain.Currency>().HasQueryFilter(p => p.DeletedAtUtc == null);
     }
 }

@@ -25,6 +25,7 @@ namespace TestWebApp.Application.Factories;
 
 internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntityForTypesEntity, TestEntityForTypesCreateDto, TestEntityForTypesUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public TestEntityForTypesFactoryBase
     (
@@ -37,9 +38,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(TestEntityForTypesEntity entity, TestEntityForTypesUpdateDto updateDto)
+    public virtual void UpdateEntity(TestEntityForTypesEntity entity, TestEntityForTypesUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(TestEntityForTypesEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -52,208 +53,114 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
         var entity = new TestWebApp.Domain.TestEntityForTypes();
         entity.Id = TestEntityForTypesMetadata.CreateId(createDto.Id);
         entity.TextTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTextTestField(createDto.TextTestField);
+        entity.SetIfNotNull(createDto.EnumerationTestField, (entity) => entity.EnumerationTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateEnumerationTestField(createDto.EnumerationTestField.NonNullValue<System.Int32>()));
         entity.NumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateNumberTestField(createDto.NumberTestField);
-        if (createDto.MoneyTestField is not null)entity.MoneyTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateMoneyTestField(createDto.MoneyTestField.NonNullValue<MoneyDto>());
-        if (createDto.CountryCode2TestField is not null)entity.CountryCode2TestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateCountryCode2TestField(createDto.CountryCode2TestField.NonNullValue<System.String>());
-        if (createDto.StreetAddressTestField is not null)entity.StreetAddressTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateStreetAddressTestField(createDto.StreetAddressTestField.NonNullValue<StreetAddressDto>());
-        if (createDto.CurrencyCode3TestField is not null)entity.CurrencyCode3TestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateCurrencyCode3TestField(createDto.CurrencyCode3TestField.NonNullValue<System.String>());
-        if (createDto.DayOfWeekTestField is not null)entity.DayOfWeekTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDayOfWeekTestField(createDto.DayOfWeekTestField.NonNullValue<System.UInt16>());
-        if (createDto.JwtTokenTestField is not null)entity.JwtTokenTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateJwtTokenTestField(createDto.JwtTokenTestField.NonNullValue<System.String>());
-        if (createDto.GeoCoordTestField is not null)entity.GeoCoordTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateGeoCoordTestField(createDto.GeoCoordTestField.NonNullValue<LatLongDto>());
-        if (createDto.AreaTestField is not null)entity.AreaTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateAreaTestField(createDto.AreaTestField.NonNullValue<System.Decimal>());
-        if (createDto.TimeZoneCodeTestField is not null)entity.TimeZoneCodeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTimeZoneCodeTestField(createDto.TimeZoneCodeTestField.NonNullValue<System.String>());
-        if (createDto.BooleanTestField is not null)entity.BooleanTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateBooleanTestField(createDto.BooleanTestField.NonNullValue<System.Boolean>());
-        if (createDto.CountryCode3TestField is not null)entity.CountryCode3TestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateCountryCode3TestField(createDto.CountryCode3TestField.NonNullValue<System.String>());
-        if (createDto.CountryNumberTestField is not null)entity.CountryNumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateCountryNumberTestField(createDto.CountryNumberTestField.NonNullValue<System.UInt16>());
-        if (createDto.CurrencyNumberTestField is not null)entity.CurrencyNumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateCurrencyNumberTestField(createDto.CurrencyNumberTestField.NonNullValue<System.Int16>());
-        if (createDto.DateTimeTestField is not null)entity.DateTimeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeTestField(createDto.DateTimeTestField.NonNullValue<System.DateTimeOffset>());
-        if (createDto.DateTimeRangeTestField is not null)entity.DateTimeRangeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeRangeTestField(createDto.DateTimeRangeTestField.NonNullValue<DateTimeRangeDto>());
-        if (createDto.DistanceTestField is not null)entity.DistanceTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDistanceTestField(createDto.DistanceTestField.NonNullValue<System.Decimal>());
-        if (createDto.EmailTestField is not null)entity.EmailTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateEmailTestField(createDto.EmailTestField.NonNullValue<System.String>());
-        if (createDto.GuidTestField is not null)entity.GuidTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateGuidTestField(createDto.GuidTestField.NonNullValue<System.Guid>());
-        if (createDto.InternetDomainTestField is not null)entity.InternetDomainTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateInternetDomainTestField(createDto.InternetDomainTestField.NonNullValue<System.String>());
-        if (createDto.IpAddressV4TestField is not null)entity.IpAddressV4TestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateIpAddressV4TestField(createDto.IpAddressV4TestField.NonNullValue<System.String>());
-        if (createDto.IpAddressV6TestField is not null)entity.IpAddressV6TestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateIpAddressV6TestField(createDto.IpAddressV6TestField.NonNullValue<System.String>());
-        if (createDto.JsonTestField is not null)entity.JsonTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateJsonTestField(createDto.JsonTestField.NonNullValue<System.String>());
-        if (createDto.LengthTestField is not null)entity.LengthTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateLengthTestField(createDto.LengthTestField.NonNullValue<System.Decimal>());
-        if (createDto.MacAddressTestField is not null)entity.MacAddressTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateMacAddressTestField(createDto.MacAddressTestField.NonNullValue<System.String>());
-        if (createDto.MonthTestField is not null)entity.MonthTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateMonthTestField(createDto.MonthTestField.NonNullValue<System.Byte>());
-        if (createDto.PercentageTestField is not null)entity.PercentageTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreatePercentageTestField(createDto.PercentageTestField.NonNullValue<System.Single>());
-        if (createDto.PhoneNumberTestField is not null)entity.PhoneNumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreatePhoneNumberTestField(createDto.PhoneNumberTestField.NonNullValue<System.String>());
-        if (createDto.TemperatureTestField is not null)entity.TemperatureTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTemperatureTestField(createDto.TemperatureTestField.NonNullValue<System.Decimal>());
-        if (createDto.TranslatedTextTestField is not null)entity.TranslatedTextTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTranslatedTextTestField(createDto.TranslatedTextTestField.NonNullValue<TranslatedTextDto>());
-        if (createDto.UriTestField is not null)entity.UriTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateUriTestField(createDto.UriTestField.NonNullValue<System.String>());
-        if (createDto.VolumeTestField is not null)entity.VolumeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateVolumeTestField(createDto.VolumeTestField.NonNullValue<System.Decimal>());
-        if (createDto.WeightTestField is not null)entity.WeightTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateWeightTestField(createDto.WeightTestField.NonNullValue<System.Decimal>());
-        if (createDto.YearTestField is not null)entity.YearTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateYearTestField(createDto.YearTestField.NonNullValue<System.UInt16>());
-        if (createDto.CultureCodeTestField is not null)entity.CultureCodeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateCultureCodeTestField(createDto.CultureCodeTestField.NonNullValue<System.String>());
-        if (createDto.LanguageCodeTestField is not null)entity.LanguageCodeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateLanguageCodeTestField(createDto.LanguageCodeTestField.NonNullValue<System.String>());
-        if (createDto.YamlTestField is not null)entity.YamlTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateYamlTestField(createDto.YamlTestField.NonNullValue<System.String>());
-        if (createDto.DateTimeDurationTestField is not null)entity.DateTimeDurationTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeDurationTestField(createDto.DateTimeDurationTestField.NonNullValue<System.Int64>());
-        if (createDto.TimeTestField is not null)entity.TimeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTimeTestField(createDto.TimeTestField.NonNullValue<System.DateTime>());
-        if (createDto.VatNumberTestField is not null)entity.VatNumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateVatNumberTestField(createDto.VatNumberTestField.NonNullValue<VatNumberDto>());
-        if (createDto.DateTestField is not null)entity.DateTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTestField(createDto.DateTestField.NonNullValue<System.DateTime>());
-        if (createDto.MarkdownTestField is not null)entity.MarkdownTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateMarkdownTestField(createDto.MarkdownTestField.NonNullValue<System.String>());
-        if (createDto.FileTestField is not null)entity.FileTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateFileTestField(createDto.FileTestField.NonNullValue<FileDto>());
-        if (createDto.ColorTestField is not null)entity.ColorTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateColorTestField(createDto.ColorTestField.NonNullValue<System.String>());
-        if (createDto.UrlTestField is not null)entity.UrlTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateUrlTestField(createDto.UrlTestField.NonNullValue<System.String>());
-        if (createDto.DateTimeScheduleTestField is not null)entity.DateTimeScheduleTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeScheduleTestField(createDto.DateTimeScheduleTestField.NonNullValue<System.String>());
-        if (createDto.UserTestField is not null)entity.UserTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateUserTestField(createDto.UserTestField.NonNullValue<System.String>());
+        entity.SetIfNotNull(createDto.MoneyTestField, (entity) => entity.MoneyTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateMoneyTestField(createDto.MoneyTestField.NonNullValue<MoneyDto>()));
+        entity.SetIfNotNull(createDto.CountryCode2TestField, (entity) => entity.CountryCode2TestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateCountryCode2TestField(createDto.CountryCode2TestField.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.StreetAddressTestField, (entity) => entity.StreetAddressTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateStreetAddressTestField(createDto.StreetAddressTestField.NonNullValue<StreetAddressDto>()));
+        entity.SetIfNotNull(createDto.CurrencyCode3TestField, (entity) => entity.CurrencyCode3TestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateCurrencyCode3TestField(createDto.CurrencyCode3TestField.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.DayOfWeekTestField, (entity) => entity.DayOfWeekTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateDayOfWeekTestField(createDto.DayOfWeekTestField.NonNullValue<System.UInt16>()));
+        entity.SetIfNotNull(createDto.JwtTokenTestField, (entity) => entity.JwtTokenTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateJwtTokenTestField(createDto.JwtTokenTestField.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.GeoCoordTestField, (entity) => entity.GeoCoordTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateGeoCoordTestField(createDto.GeoCoordTestField.NonNullValue<LatLongDto>()));
+        entity.SetIfNotNull(createDto.AreaTestField, (entity) => entity.AreaTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateAreaTestField(createDto.AreaTestField.NonNullValue<System.Decimal>()));
+        entity.SetIfNotNull(createDto.TimeZoneCodeTestField, (entity) => entity.TimeZoneCodeTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateTimeZoneCodeTestField(createDto.TimeZoneCodeTestField.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.BooleanTestField, (entity) => entity.BooleanTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateBooleanTestField(createDto.BooleanTestField.NonNullValue<System.Boolean>()));
+        entity.SetIfNotNull(createDto.CountryCode3TestField, (entity) => entity.CountryCode3TestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateCountryCode3TestField(createDto.CountryCode3TestField.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.CountryNumberTestField, (entity) => entity.CountryNumberTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateCountryNumberTestField(createDto.CountryNumberTestField.NonNullValue<System.UInt16>()));
+        entity.SetIfNotNull(createDto.CurrencyNumberTestField, (entity) => entity.CurrencyNumberTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateCurrencyNumberTestField(createDto.CurrencyNumberTestField.NonNullValue<System.Int16>()));
+        entity.SetIfNotNull(createDto.DateTimeTestField, (entity) => entity.DateTimeTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeTestField(createDto.DateTimeTestField.NonNullValue<System.DateTimeOffset>()));
+        entity.SetIfNotNull(createDto.DateTimeRangeTestField, (entity) => entity.DateTimeRangeTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeRangeTestField(createDto.DateTimeRangeTestField.NonNullValue<DateTimeRangeDto>()));
+        entity.SetIfNotNull(createDto.DistanceTestField, (entity) => entity.DistanceTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateDistanceTestField(createDto.DistanceTestField.NonNullValue<System.Decimal>()));
+        entity.SetIfNotNull(createDto.EmailTestField, (entity) => entity.EmailTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateEmailTestField(createDto.EmailTestField.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.GuidTestField, (entity) => entity.GuidTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateGuidTestField(createDto.GuidTestField.NonNullValue<System.Guid>()));
+        entity.SetIfNotNull(createDto.InternetDomainTestField, (entity) => entity.InternetDomainTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateInternetDomainTestField(createDto.InternetDomainTestField.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.IpAddressV4TestField, (entity) => entity.IpAddressV4TestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateIpAddressV4TestField(createDto.IpAddressV4TestField.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.IpAddressV6TestField, (entity) => entity.IpAddressV6TestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateIpAddressV6TestField(createDto.IpAddressV6TestField.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.JsonTestField, (entity) => entity.JsonTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateJsonTestField(createDto.JsonTestField.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.LengthTestField, (entity) => entity.LengthTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateLengthTestField(createDto.LengthTestField.NonNullValue<System.Decimal>()));
+        entity.SetIfNotNull(createDto.MacAddressTestField, (entity) => entity.MacAddressTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateMacAddressTestField(createDto.MacAddressTestField.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.MonthTestField, (entity) => entity.MonthTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateMonthTestField(createDto.MonthTestField.NonNullValue<System.Byte>()));
+        entity.SetIfNotNull(createDto.PercentageTestField, (entity) => entity.PercentageTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreatePercentageTestField(createDto.PercentageTestField.NonNullValue<System.Single>()));
+        entity.SetIfNotNull(createDto.PhoneNumberTestField, (entity) => entity.PhoneNumberTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreatePhoneNumberTestField(createDto.PhoneNumberTestField.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.TemperatureTestField, (entity) => entity.TemperatureTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateTemperatureTestField(createDto.TemperatureTestField.NonNullValue<System.Decimal>()));
+        entity.SetIfNotNull(createDto.TranslatedTextTestField, (entity) => entity.TranslatedTextTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateTranslatedTextTestField(createDto.TranslatedTextTestField.NonNullValue<TranslatedTextDto>()));
+        entity.SetIfNotNull(createDto.UriTestField, (entity) => entity.UriTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateUriTestField(createDto.UriTestField.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.VolumeTestField, (entity) => entity.VolumeTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateVolumeTestField(createDto.VolumeTestField.NonNullValue<System.Decimal>()));
+        entity.SetIfNotNull(createDto.WeightTestField, (entity) => entity.WeightTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateWeightTestField(createDto.WeightTestField.NonNullValue<System.Decimal>()));
+        entity.SetIfNotNull(createDto.YearTestField, (entity) => entity.YearTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateYearTestField(createDto.YearTestField.NonNullValue<System.UInt16>()));
+        entity.SetIfNotNull(createDto.CultureCodeTestField, (entity) => entity.CultureCodeTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateCultureCodeTestField(createDto.CultureCodeTestField.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.LanguageCodeTestField, (entity) => entity.LanguageCodeTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateLanguageCodeTestField(createDto.LanguageCodeTestField.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.YamlTestField, (entity) => entity.YamlTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateYamlTestField(createDto.YamlTestField.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.DateTimeDurationTestField, (entity) => entity.DateTimeDurationTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeDurationTestField(createDto.DateTimeDurationTestField.NonNullValue<System.Int64>()));
+        entity.SetIfNotNull(createDto.TimeTestField, (entity) => entity.TimeTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateTimeTestField(createDto.TimeTestField.NonNullValue<System.DateTime>()));
+        entity.SetIfNotNull(createDto.VatNumberTestField, (entity) => entity.VatNumberTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateVatNumberTestField(createDto.VatNumberTestField.NonNullValue<VatNumberDto>()));
+        entity.SetIfNotNull(createDto.DateTestField, (entity) => entity.DateTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTestField(createDto.DateTestField.NonNullValue<System.DateTime>()));
+        entity.SetIfNotNull(createDto.MarkdownTestField, (entity) => entity.MarkdownTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateMarkdownTestField(createDto.MarkdownTestField.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.FileTestField, (entity) => entity.FileTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateFileTestField(createDto.FileTestField.NonNullValue<FileDto>()));
+        entity.SetIfNotNull(createDto.ColorTestField, (entity) => entity.ColorTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateColorTestField(createDto.ColorTestField.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.UrlTestField, (entity) => entity.UrlTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateUrlTestField(createDto.UrlTestField.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.DateTimeScheduleTestField, (entity) => entity.DateTimeScheduleTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeScheduleTestField(createDto.DateTimeScheduleTestField.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.UserTestField, (entity) => entity.UserTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateUserTestField(createDto.UserTestField.NonNullValue<System.String>()));
         entity.AutoNumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateAutoNumberTestField(createDto.AutoNumberTestField);
-        if (createDto.HtmlTestField is not null)entity.HtmlTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateHtmlTestField(createDto.HtmlTestField.NonNullValue<System.String>());
-        if (createDto.ImageTestField is not null)entity.ImageTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateImageTestField(createDto.ImageTestField.NonNullValue<ImageDto>());
+        entity.SetIfNotNull(createDto.HtmlTestField, (entity) => entity.HtmlTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateHtmlTestField(createDto.HtmlTestField.NonNullValue<System.String>()));
+        entity.SetIfNotNull(createDto.ImageTestField, (entity) => entity.ImageTestField =TestWebApp.Domain.TestEntityForTypesMetadata.CreateImageTestField(createDto.ImageTestField.NonNullValue<ImageDto>()));
         return entity;
     }
 
-    private void UpdateEntityInternal(TestEntityForTypesEntity entity, TestEntityForTypesUpdateDto updateDto)
+    private void UpdateEntityInternal(TestEntityForTypesEntity entity, TestEntityForTypesUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.TextTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTextTestField(updateDto.TextTestField.NonNullValue<System.String>());
+        entity.SetIfNotNull(updateDto.EnumerationTestField, (entity) => entity.EnumerationTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateEnumerationTestField(updateDto.EnumerationTestField.ToValueFromNonNull<System.Int32>()));
         entity.NumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateNumberTestField(updateDto.NumberTestField.NonNullValue<System.Int16>());
-        if (updateDto.MoneyTestField == null) { entity.MoneyTestField = null; } else {
-            entity.MoneyTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateMoneyTestField(updateDto.MoneyTestField.ToValueFromNonNull<MoneyDto>());
-        }
-        if (updateDto.CountryCode2TestField == null) { entity.CountryCode2TestField = null; } else {
-            entity.CountryCode2TestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateCountryCode2TestField(updateDto.CountryCode2TestField.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.StreetAddressTestField == null) { entity.StreetAddressTestField = null; } else {
-            entity.StreetAddressTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateStreetAddressTestField(updateDto.StreetAddressTestField.ToValueFromNonNull<StreetAddressDto>());
-        }
-        if (updateDto.CurrencyCode3TestField == null) { entity.CurrencyCode3TestField = null; } else {
-            entity.CurrencyCode3TestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateCurrencyCode3TestField(updateDto.CurrencyCode3TestField.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.DayOfWeekTestField == null) { entity.DayOfWeekTestField = null; } else {
-            entity.DayOfWeekTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDayOfWeekTestField(updateDto.DayOfWeekTestField.ToValueFromNonNull<System.UInt16>());
-        }
-        if (updateDto.JwtTokenTestField == null) { entity.JwtTokenTestField = null; } else {
-            entity.JwtTokenTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateJwtTokenTestField(updateDto.JwtTokenTestField.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.GeoCoordTestField == null) { entity.GeoCoordTestField = null; } else {
-            entity.GeoCoordTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateGeoCoordTestField(updateDto.GeoCoordTestField.ToValueFromNonNull<LatLongDto>());
-        }
-        if (updateDto.AreaTestField == null) { entity.AreaTestField = null; } else {
-            entity.AreaTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateAreaTestField(updateDto.AreaTestField.ToValueFromNonNull<System.Decimal>());
-        }
-        if (updateDto.TimeZoneCodeTestField == null) { entity.TimeZoneCodeTestField = null; } else {
-            entity.TimeZoneCodeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTimeZoneCodeTestField(updateDto.TimeZoneCodeTestField.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.BooleanTestField == null) { entity.BooleanTestField = null; } else {
-            entity.BooleanTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateBooleanTestField(updateDto.BooleanTestField.ToValueFromNonNull<System.Boolean>());
-        }
-        if (updateDto.CountryCode3TestField == null) { entity.CountryCode3TestField = null; } else {
-            entity.CountryCode3TestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateCountryCode3TestField(updateDto.CountryCode3TestField.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.CountryNumberTestField == null) { entity.CountryNumberTestField = null; } else {
-            entity.CountryNumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateCountryNumberTestField(updateDto.CountryNumberTestField.ToValueFromNonNull<System.UInt16>());
-        }
-        if (updateDto.CurrencyNumberTestField == null) { entity.CurrencyNumberTestField = null; } else {
-            entity.CurrencyNumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateCurrencyNumberTestField(updateDto.CurrencyNumberTestField.ToValueFromNonNull<System.Int16>());
-        }
-        if (updateDto.DateTimeTestField == null) { entity.DateTimeTestField = null; } else {
-            entity.DateTimeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeTestField(updateDto.DateTimeTestField.ToValueFromNonNull<System.DateTimeOffset>());
-        }
-        if (updateDto.DateTimeRangeTestField == null) { entity.DateTimeRangeTestField = null; } else {
-            entity.DateTimeRangeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeRangeTestField(updateDto.DateTimeRangeTestField.ToValueFromNonNull<DateTimeRangeDto>());
-        }
-        if (updateDto.DistanceTestField == null) { entity.DistanceTestField = null; } else {
-            entity.DistanceTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDistanceTestField(updateDto.DistanceTestField.ToValueFromNonNull<System.Decimal>());
-        }
-        if (updateDto.EmailTestField == null) { entity.EmailTestField = null; } else {
-            entity.EmailTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateEmailTestField(updateDto.EmailTestField.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.GuidTestField == null) { entity.GuidTestField = null; } else {
-            entity.GuidTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateGuidTestField(updateDto.GuidTestField.ToValueFromNonNull<System.Guid>());
-        }
-        if (updateDto.InternetDomainTestField == null) { entity.InternetDomainTestField = null; } else {
-            entity.InternetDomainTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateInternetDomainTestField(updateDto.InternetDomainTestField.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.IpAddressV4TestField == null) { entity.IpAddressV4TestField = null; } else {
-            entity.IpAddressV4TestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateIpAddressV4TestField(updateDto.IpAddressV4TestField.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.IpAddressV6TestField == null) { entity.IpAddressV6TestField = null; } else {
-            entity.IpAddressV6TestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateIpAddressV6TestField(updateDto.IpAddressV6TestField.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.JsonTestField == null) { entity.JsonTestField = null; } else {
-            entity.JsonTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateJsonTestField(updateDto.JsonTestField.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.LengthTestField == null) { entity.LengthTestField = null; } else {
-            entity.LengthTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateLengthTestField(updateDto.LengthTestField.ToValueFromNonNull<System.Decimal>());
-        }
-        if (updateDto.MacAddressTestField == null) { entity.MacAddressTestField = null; } else {
-            entity.MacAddressTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateMacAddressTestField(updateDto.MacAddressTestField.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.MonthTestField == null) { entity.MonthTestField = null; } else {
-            entity.MonthTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateMonthTestField(updateDto.MonthTestField.ToValueFromNonNull<System.Byte>());
-        }
-        if (updateDto.PercentageTestField == null) { entity.PercentageTestField = null; } else {
-            entity.PercentageTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreatePercentageTestField(updateDto.PercentageTestField.ToValueFromNonNull<System.Single>());
-        }
-        if (updateDto.PhoneNumberTestField == null) { entity.PhoneNumberTestField = null; } else {
-            entity.PhoneNumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreatePhoneNumberTestField(updateDto.PhoneNumberTestField.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.TemperatureTestField == null) { entity.TemperatureTestField = null; } else {
-            entity.TemperatureTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTemperatureTestField(updateDto.TemperatureTestField.ToValueFromNonNull<System.Decimal>());
-        }
-        if (updateDto.TranslatedTextTestField == null) { entity.TranslatedTextTestField = null; } else {
-            entity.TranslatedTextTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTranslatedTextTestField(updateDto.TranslatedTextTestField.ToValueFromNonNull<TranslatedTextDto>());
-        }
-        if (updateDto.UriTestField == null) { entity.UriTestField = null; } else {
-            entity.UriTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateUriTestField(updateDto.UriTestField.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.VolumeTestField == null) { entity.VolumeTestField = null; } else {
-            entity.VolumeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateVolumeTestField(updateDto.VolumeTestField.ToValueFromNonNull<System.Decimal>());
-        }
-        if (updateDto.WeightTestField == null) { entity.WeightTestField = null; } else {
-            entity.WeightTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateWeightTestField(updateDto.WeightTestField.ToValueFromNonNull<System.Decimal>());
-        }
-        if (updateDto.YearTestField == null) { entity.YearTestField = null; } else {
-            entity.YearTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateYearTestField(updateDto.YearTestField.ToValueFromNonNull<System.UInt16>());
-        }
-        if (updateDto.CultureCodeTestField == null) { entity.CultureCodeTestField = null; } else {
-            entity.CultureCodeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateCultureCodeTestField(updateDto.CultureCodeTestField.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.LanguageCodeTestField == null) { entity.LanguageCodeTestField = null; } else {
-            entity.LanguageCodeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateLanguageCodeTestField(updateDto.LanguageCodeTestField.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.YamlTestField == null) { entity.YamlTestField = null; } else {
-            entity.YamlTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateYamlTestField(updateDto.YamlTestField.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.DateTimeDurationTestField == null) { entity.DateTimeDurationTestField = null; } else {
-            entity.DateTimeDurationTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeDurationTestField(updateDto.DateTimeDurationTestField.ToValueFromNonNull<System.Int64>());
-        }
-        if (updateDto.TimeTestField == null) { entity.TimeTestField = null; } else {
-            entity.TimeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTimeTestField(updateDto.TimeTestField.ToValueFromNonNull<System.DateTime>());
-        }
-        if (updateDto.VatNumberTestField == null) { entity.VatNumberTestField = null; } else {
-            entity.VatNumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateVatNumberTestField(updateDto.VatNumberTestField.ToValueFromNonNull<VatNumberDto>());
-        }
-        if (updateDto.DateTestField == null) { entity.DateTestField = null; } else {
-            entity.DateTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTestField(updateDto.DateTestField.ToValueFromNonNull<System.DateTime>());
-        }
-        if (updateDto.MarkdownTestField == null) { entity.MarkdownTestField = null; } else {
-            entity.MarkdownTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateMarkdownTestField(updateDto.MarkdownTestField.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.FileTestField == null) { entity.FileTestField = null; } else {
-            entity.FileTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateFileTestField(updateDto.FileTestField.ToValueFromNonNull<FileDto>());
-        }
-        if (updateDto.ColorTestField == null) { entity.ColorTestField = null; } else {
-            entity.ColorTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateColorTestField(updateDto.ColorTestField.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.UrlTestField == null) { entity.UrlTestField = null; } else {
-            entity.UrlTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateUrlTestField(updateDto.UrlTestField.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.DateTimeScheduleTestField == null) { entity.DateTimeScheduleTestField = null; } else {
-            entity.DateTimeScheduleTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeScheduleTestField(updateDto.DateTimeScheduleTestField.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.UserTestField == null) { entity.UserTestField = null; } else {
-            entity.UserTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateUserTestField(updateDto.UserTestField.ToValueFromNonNull<System.String>());
-        }
+        entity.SetIfNotNull(updateDto.MoneyTestField, (entity) => entity.MoneyTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateMoneyTestField(updateDto.MoneyTestField.ToValueFromNonNull<MoneyDto>()));
+        entity.SetIfNotNull(updateDto.CountryCode2TestField, (entity) => entity.CountryCode2TestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateCountryCode2TestField(updateDto.CountryCode2TestField.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.StreetAddressTestField, (entity) => entity.StreetAddressTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateStreetAddressTestField(updateDto.StreetAddressTestField.ToValueFromNonNull<StreetAddressDto>()));
+        entity.SetIfNotNull(updateDto.CurrencyCode3TestField, (entity) => entity.CurrencyCode3TestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateCurrencyCode3TestField(updateDto.CurrencyCode3TestField.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.DayOfWeekTestField, (entity) => entity.DayOfWeekTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDayOfWeekTestField(updateDto.DayOfWeekTestField.ToValueFromNonNull<System.UInt16>()));
+        entity.SetIfNotNull(updateDto.JwtTokenTestField, (entity) => entity.JwtTokenTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateJwtTokenTestField(updateDto.JwtTokenTestField.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.GeoCoordTestField, (entity) => entity.GeoCoordTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateGeoCoordTestField(updateDto.GeoCoordTestField.ToValueFromNonNull<LatLongDto>()));
+        entity.SetIfNotNull(updateDto.AreaTestField, (entity) => entity.AreaTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateAreaTestField(updateDto.AreaTestField.ToValueFromNonNull<System.Decimal>()));
+        entity.SetIfNotNull(updateDto.TimeZoneCodeTestField, (entity) => entity.TimeZoneCodeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTimeZoneCodeTestField(updateDto.TimeZoneCodeTestField.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.BooleanTestField, (entity) => entity.BooleanTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateBooleanTestField(updateDto.BooleanTestField.ToValueFromNonNull<System.Boolean>()));
+        entity.SetIfNotNull(updateDto.CountryCode3TestField, (entity) => entity.CountryCode3TestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateCountryCode3TestField(updateDto.CountryCode3TestField.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.CountryNumberTestField, (entity) => entity.CountryNumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateCountryNumberTestField(updateDto.CountryNumberTestField.ToValueFromNonNull<System.UInt16>()));
+        entity.SetIfNotNull(updateDto.CurrencyNumberTestField, (entity) => entity.CurrencyNumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateCurrencyNumberTestField(updateDto.CurrencyNumberTestField.ToValueFromNonNull<System.Int16>()));
+        entity.SetIfNotNull(updateDto.DateTimeTestField, (entity) => entity.DateTimeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeTestField(updateDto.DateTimeTestField.ToValueFromNonNull<System.DateTimeOffset>()));
+        entity.SetIfNotNull(updateDto.DateTimeRangeTestField, (entity) => entity.DateTimeRangeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeRangeTestField(updateDto.DateTimeRangeTestField.ToValueFromNonNull<DateTimeRangeDto>()));
+        entity.SetIfNotNull(updateDto.DistanceTestField, (entity) => entity.DistanceTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDistanceTestField(updateDto.DistanceTestField.ToValueFromNonNull<System.Decimal>()));
+        entity.SetIfNotNull(updateDto.EmailTestField, (entity) => entity.EmailTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateEmailTestField(updateDto.EmailTestField.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.GuidTestField, (entity) => entity.GuidTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateGuidTestField(updateDto.GuidTestField.ToValueFromNonNull<System.Guid>()));
+        entity.SetIfNotNull(updateDto.InternetDomainTestField, (entity) => entity.InternetDomainTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateInternetDomainTestField(updateDto.InternetDomainTestField.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.IpAddressV4TestField, (entity) => entity.IpAddressV4TestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateIpAddressV4TestField(updateDto.IpAddressV4TestField.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.IpAddressV6TestField, (entity) => entity.IpAddressV6TestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateIpAddressV6TestField(updateDto.IpAddressV6TestField.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.JsonTestField, (entity) => entity.JsonTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateJsonTestField(updateDto.JsonTestField.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.LengthTestField, (entity) => entity.LengthTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateLengthTestField(updateDto.LengthTestField.ToValueFromNonNull<System.Decimal>()));
+        entity.SetIfNotNull(updateDto.MacAddressTestField, (entity) => entity.MacAddressTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateMacAddressTestField(updateDto.MacAddressTestField.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.MonthTestField, (entity) => entity.MonthTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateMonthTestField(updateDto.MonthTestField.ToValueFromNonNull<System.Byte>()));
+        entity.SetIfNotNull(updateDto.PercentageTestField, (entity) => entity.PercentageTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreatePercentageTestField(updateDto.PercentageTestField.ToValueFromNonNull<System.Single>()));
+        entity.SetIfNotNull(updateDto.PhoneNumberTestField, (entity) => entity.PhoneNumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreatePhoneNumberTestField(updateDto.PhoneNumberTestField.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.TemperatureTestField, (entity) => entity.TemperatureTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTemperatureTestField(updateDto.TemperatureTestField.ToValueFromNonNull<System.Decimal>()));
+        entity.SetIfNotNull(updateDto.TranslatedTextTestField, (entity) => entity.TranslatedTextTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTranslatedTextTestField(updateDto.TranslatedTextTestField.ToValueFromNonNull<TranslatedTextDto>()));
+        entity.SetIfNotNull(updateDto.UriTestField, (entity) => entity.UriTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateUriTestField(updateDto.UriTestField.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.VolumeTestField, (entity) => entity.VolumeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateVolumeTestField(updateDto.VolumeTestField.ToValueFromNonNull<System.Decimal>()));
+        entity.SetIfNotNull(updateDto.WeightTestField, (entity) => entity.WeightTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateWeightTestField(updateDto.WeightTestField.ToValueFromNonNull<System.Decimal>()));
+        entity.SetIfNotNull(updateDto.YearTestField, (entity) => entity.YearTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateYearTestField(updateDto.YearTestField.ToValueFromNonNull<System.UInt16>()));
+        entity.SetIfNotNull(updateDto.CultureCodeTestField, (entity) => entity.CultureCodeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateCultureCodeTestField(updateDto.CultureCodeTestField.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.LanguageCodeTestField, (entity) => entity.LanguageCodeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateLanguageCodeTestField(updateDto.LanguageCodeTestField.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.YamlTestField, (entity) => entity.YamlTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateYamlTestField(updateDto.YamlTestField.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.DateTimeDurationTestField, (entity) => entity.DateTimeDurationTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeDurationTestField(updateDto.DateTimeDurationTestField.ToValueFromNonNull<System.Int64>()));
+        entity.SetIfNotNull(updateDto.TimeTestField, (entity) => entity.TimeTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTimeTestField(updateDto.TimeTestField.ToValueFromNonNull<System.DateTime>()));
+        entity.SetIfNotNull(updateDto.VatNumberTestField, (entity) => entity.VatNumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateVatNumberTestField(updateDto.VatNumberTestField.ToValueFromNonNull<VatNumberDto>()));
+        entity.SetIfNotNull(updateDto.DateTestField, (entity) => entity.DateTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTestField(updateDto.DateTestField.ToValueFromNonNull<System.DateTime>()));
+        entity.SetIfNotNull(updateDto.MarkdownTestField, (entity) => entity.MarkdownTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateMarkdownTestField(updateDto.MarkdownTestField.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.FileTestField, (entity) => entity.FileTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateFileTestField(updateDto.FileTestField.ToValueFromNonNull<FileDto>()));
+        entity.SetIfNotNull(updateDto.ColorTestField, (entity) => entity.ColorTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateColorTestField(updateDto.ColorTestField.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.UrlTestField, (entity) => entity.UrlTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateUrlTestField(updateDto.UrlTestField.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.DateTimeScheduleTestField, (entity) => entity.DateTimeScheduleTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateDateTimeScheduleTestField(updateDto.DateTimeScheduleTestField.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.UserTestField, (entity) => entity.UserTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateUserTestField(updateDto.UserTestField.ToValueFromNonNull<System.String>()));
         entity.AutoNumberTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateAutoNumberTestField(updateDto.AutoNumberTestField.NonNullValue<System.Int64>());
-        if (updateDto.HtmlTestField == null) { entity.HtmlTestField = null; } else {
-            entity.HtmlTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateHtmlTestField(updateDto.HtmlTestField.ToValueFromNonNull<System.String>());
-        }
-        if (updateDto.ImageTestField == null) { entity.ImageTestField = null; } else {
-            entity.ImageTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateImageTestField(updateDto.ImageTestField.ToValueFromNonNull<ImageDto>());
-        }
+        entity.SetIfNotNull(updateDto.HtmlTestField, (entity) => entity.HtmlTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateHtmlTestField(updateDto.HtmlTestField.ToValueFromNonNull<System.String>()));
+        entity.SetIfNotNull(updateDto.ImageTestField, (entity) => entity.ImageTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateImageTestField(updateDto.ImageTestField.ToValueFromNonNull<ImageDto>()));
     }
 
     private void PartialUpdateEntityInternal(TestEntityForTypesEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -267,6 +174,15 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             }
             {
                 entity.TextTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateTextTestField(TextTestFieldUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("EnumerationTestField", out var EnumerationTestFieldUpdateValue))
+        {
+            if (EnumerationTestFieldUpdateValue == null) { entity.EnumerationTestField = null; }
+            else
+            {
+                entity.EnumerationTestField = TestWebApp.Domain.TestEntityForTypesMetadata.CreateEnumerationTestField(EnumerationTestFieldUpdateValue);
             }
         }
 
@@ -724,6 +640,9 @@ internal abstract class TestEntityForTypesFactoryBase : IEntityFactory<TestEntit
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class TestEntityForTypesFactory : TestEntityForTypesFactoryBase

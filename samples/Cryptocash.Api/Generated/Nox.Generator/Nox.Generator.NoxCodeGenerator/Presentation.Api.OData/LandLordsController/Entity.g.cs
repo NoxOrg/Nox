@@ -21,8 +21,6 @@ using Cryptocash.Application.Commands;
 using Cryptocash.Domain;
 using Cryptocash.Infrastructure.Persistence;
 
-using Nox.Types;
-
 namespace Cryptocash.Presentation.Api.OData;
 
 public partial class LandLordsController : LandLordsControllerBase
@@ -52,7 +50,7 @@ public abstract partial class LandLordsControllerBase : ODataController
     )
     {
         _mediator = mediator;
-        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
+        _cultureCode = httpLanguageProvider.GetLanguage();
     }
 
     [EnableQuery]
@@ -91,7 +89,7 @@ public abstract partial class LandLordsControllerBase : ODataController
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateLandLordCommand(key, landLord, etag));
+        var updatedKey = await _mediator.Send(new UpdateLandLordCommand(key, landLord, _cultureCode, etag));
 
         if (updatedKey is null)
         {

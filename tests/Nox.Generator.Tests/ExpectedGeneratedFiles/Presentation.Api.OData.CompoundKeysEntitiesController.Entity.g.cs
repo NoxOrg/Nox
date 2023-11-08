@@ -21,8 +21,6 @@ using SampleWebApp.Application.Commands;
 using SampleWebApp.Domain;
 using SampleWebApp.Infrastructure.Persistence;
 
-using Nox.Types;
-
 namespace SampleWebApp.Presentation.Api.OData;
 
 public partial class CompoundKeysEntitiesController : CompoundKeysEntitiesControllerBase
@@ -52,7 +50,7 @@ public abstract partial class CompoundKeysEntitiesControllerBase : ODataControll
     )
     {
         _mediator = mediator;
-        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
+        _cultureCode = httpLanguageProvider.GetLanguage();
     }
 
     [EnableQuery]
@@ -91,7 +89,7 @@ public abstract partial class CompoundKeysEntitiesControllerBase : ODataControll
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateCompoundKeysEntityCommand(keyId1, keyId2, compoundKeysEntity, etag));
+        var updatedKey = await _mediator.Send(new UpdateCompoundKeysEntityCommand(keyId1, keyId2, compoundKeysEntity, _cultureCode, etag));
 
         if (updatedKey is null)
         {

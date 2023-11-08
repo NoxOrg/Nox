@@ -16,7 +16,7 @@ using TestEntityTwoRelationshipsOneToOneEntity = TestWebApp.Domain.TestEntityTwo
 
 namespace TestWebApp.Application.Commands;
 
-public record PartialUpdateTestEntityTwoRelationshipsOneToOneCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <TestEntityTwoRelationshipsOneToOneKeyDto?>;
+public partial record PartialUpdateTestEntityTwoRelationshipsOneToOneCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <TestEntityTwoRelationshipsOneToOneKeyDto?>;
 
 internal class PartialUpdateTestEntityTwoRelationshipsOneToOneCommandHandler : PartialUpdateTestEntityTwoRelationshipsOneToOneCommandHandlerBase
 {

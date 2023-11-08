@@ -12,7 +12,7 @@ using TestWebApp.Infrastructure.Persistence;
 
 namespace TestWebApp.Application.Queries;
 
-public record GetThirdTestEntityExactlyOnesQuery() : IRequest<IQueryable<ThirdTestEntityExactlyOneDto>>;
+public partial record GetThirdTestEntityExactlyOnesQuery() : IRequest<IQueryable<ThirdTestEntityExactlyOneDto>>;
 
 internal partial class GetThirdTestEntityExactlyOnesQueryHandler: GetThirdTestEntityExactlyOnesQueryHandlerBase
 {

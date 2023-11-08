@@ -48,16 +48,16 @@ public abstract class CashStockOrderCreateDtoBase : IEntityDto<DomainNamespace.C
     /// <summary>
     /// CashStockOrder for ExactlyOne VendingMachines
     /// </summary>
-    public System.Guid? CashStockOrderForVendingMachineId { get; set; } = default!;
+    public System.Guid? VendingMachineId { get; set; } = default!;
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual VendingMachineCreateDto? CashStockOrderForVendingMachine { get; set; } = default!;
+    public virtual VendingMachineCreateDto? VendingMachine { get; set; } = default!;
 
     /// <summary>
     /// CashStockOrder reviewed by ExactlyOne Employees
     /// </summary>
-    public System.Int64? CashStockOrderReviewedByEmployeeId { get; set; } = default!;
+    public System.Int64? EmployeeId { get; set; } = default!;
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual EmployeeCreateDto? CashStockOrderReviewedByEmployee { get; set; } = default!;
+    public virtual EmployeeCreateDto? Employee { get; set; } = default!;
 }

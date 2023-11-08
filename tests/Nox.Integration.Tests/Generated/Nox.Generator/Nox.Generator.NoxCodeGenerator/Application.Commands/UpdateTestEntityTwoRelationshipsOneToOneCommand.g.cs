@@ -17,14 +17,15 @@ using TestEntityTwoRelationshipsOneToOneEntity = TestWebApp.Domain.TestEntityTwo
 
 namespace TestWebApp.Application.Commands;
 
-public record UpdateTestEntityTwoRelationshipsOneToOneCommand(System.String keyId, TestEntityTwoRelationshipsOneToOneUpdateDto EntityDto, System.Guid? Etag) : IRequest<TestEntityTwoRelationshipsOneToOneKeyDto?>;
+public record UpdateTestEntityTwoRelationshipsOneToOneCommand(System.String keyId, TestEntityTwoRelationshipsOneToOneUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityTwoRelationshipsOneToOneKeyDto?>;
 
 internal partial class UpdateTestEntityTwoRelationshipsOneToOneCommandHandler : UpdateTestEntityTwoRelationshipsOneToOneCommandHandlerBase
 {
 	public UpdateTestEntityTwoRelationshipsOneToOneCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityTwoRelationshipsOneToOneEntity, TestEntityTwoRelationshipsOneToOneCreateDto, TestEntityTwoRelationshipsOneToOneUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<TestEntityTwoRelationshipsOneToOneEntity, TestEntityTwoRelationshipsOneToOneCreateDto, TestEntityTwoRelationshipsOneToOneUpdateDto> entityFactory) 
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -37,7 +38,8 @@ internal abstract class UpdateTestEntityTwoRelationshipsOneToOneCommandHandlerBa
 	public UpdateTestEntityTwoRelationshipsOneToOneCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityTwoRelationshipsOneToOneEntity, TestEntityTwoRelationshipsOneToOneCreateDto, TestEntityTwoRelationshipsOneToOneUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<TestEntityTwoRelationshipsOneToOneEntity, TestEntityTwoRelationshipsOneToOneCreateDto, TestEntityTwoRelationshipsOneToOneUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -71,7 +73,7 @@ internal abstract class UpdateTestEntityTwoRelationshipsOneToOneCommandHandlerBa
 		else
 			throw new RelatedEntityNotFoundException("TestRelationshipTwo", request.EntityDto.TestRelationshipTwoId.ToString());
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

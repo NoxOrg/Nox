@@ -31,11 +31,12 @@ internal static class {{className}}
     {{- else -}}entity!.{{attribute.Name}}!.ToDto(){{- end -}});
 {{- end }}
 {{- for relationship in entity.Relationships }}
+	{{- relationshipName = GetRelationshipPublicName entity relationship }}
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-        dto.SetIfNotNull(entity?.{{relationship.Name}}, (dto) => dto.{{relationship.Name}} = entity!.{{relationship.Name}}.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.{{relationshipName}}, (dto) => dto.{{relationshipName}} = entity!.{{relationshipName}}.Select(e => e.ToDto()).ToList());
     {{- else}}
         {{- if relationship.ShouldGenerateForeignOnThisSide}}
-        dto.SetIfNotNull(entity?.{{relationship.Name}}Id, (dto) => dto.{{relationship.Name}}Id = entity!.{{relationship.Name}}Id!.Value);
+        dto.SetIfNotNull(entity?.{{relationshipName}}Id, (dto) => dto.{{relationshipName}}Id = entity!.{{relationshipName}}Id!.Value);
         {{- end}}
     {{-end}}
 {{- end }}

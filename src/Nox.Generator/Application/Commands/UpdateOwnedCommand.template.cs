@@ -16,9 +16,9 @@ using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Na
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
 {{- if isSingleRelationship }}
-public record Update{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}UpdateDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
+public partial record Update{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}UpdateDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
 {{ else }}
-public record Update{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}KeyDto EntityKeyDto, {{entity.Name}}UpdateDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
+public partial record Update{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}KeyDto EntityKeyDto, {{entity.Name}}UpdateDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
 {{- end }}
 
 internal partial class Update{{entity.Name}}For{{parent.Name}}CommandHandler : Update{{entity.Name}}For{{parent.Name}}CommandHandlerBase
@@ -73,7 +73,7 @@ internal partial class Update{{entity.Name}}For{{parent.Name}}CommandHandlerBase
 			return null;
 		}
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto, DefaultCultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 

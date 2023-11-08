@@ -20,7 +20,7 @@ using TestEntityOneOrManyToExactlyOneEntity = TestWebApp.Domain.TestEntityOneOrM
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateTestEntityOneOrManyToExactlyOneCommand(TestEntityOneOrManyToExactlyOneCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<TestEntityOneOrManyToExactlyOneKeyDto>;
+public partial record CreateTestEntityOneOrManyToExactlyOneCommand(TestEntityOneOrManyToExactlyOneCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<TestEntityOneOrManyToExactlyOneKeyDto>;
 
 internal partial class CreateTestEntityOneOrManyToExactlyOneCommandHandler : CreateTestEntityOneOrManyToExactlyOneCommandHandlerBase
 {
@@ -59,25 +59,25 @@ internal abstract class CreateTestEntityOneOrManyToExactlyOneCommandHandlerBase 
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.TestEntityExactlyOneToOneOrManyId.Any())
+		if(request.EntityDto.TestEntityExactlyOneToOneOrManiesId.Any())
 		{
-			foreach(var relatedId in request.EntityDto.TestEntityExactlyOneToOneOrManyId)
+			foreach(var relatedId in request.EntityDto.TestEntityExactlyOneToOneOrManiesId)
 			{
 				var relatedKey = TestWebApp.Domain.TestEntityExactlyOneToOneOrManyMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.TestEntityExactlyOneToOneOrManies.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)
-					entityToCreate.CreateRefToTestEntityExactlyOneToOneOrMany(relatedEntity);
+					entityToCreate.CreateRefToTestEntityExactlyOneToOneOrManies(relatedEntity);
 				else
-					throw new RelatedEntityNotFoundException("TestEntityExactlyOneToOneOrMany", relatedId.ToString());
+					throw new RelatedEntityNotFoundException("TestEntityExactlyOneToOneOrManies", relatedId.ToString());
 			}
 		}
 		else
 		{
-			foreach(var relatedCreateDto in request.EntityDto.TestEntityExactlyOneToOneOrMany)
+			foreach(var relatedCreateDto in request.EntityDto.TestEntityExactlyOneToOneOrManies)
 			{
 				var relatedEntity = TestEntityExactlyOneToOneOrManyFactory.CreateEntity(relatedCreateDto);
-				entityToCreate.CreateRefToTestEntityExactlyOneToOneOrMany(relatedEntity);
+				entityToCreate.CreateRefToTestEntityExactlyOneToOneOrManies(relatedEntity);
 			}
 		}
 

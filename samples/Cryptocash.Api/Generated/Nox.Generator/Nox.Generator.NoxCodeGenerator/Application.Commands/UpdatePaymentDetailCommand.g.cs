@@ -17,14 +17,15 @@ using PaymentDetailEntity = Cryptocash.Domain.PaymentDetail;
 
 namespace Cryptocash.Application.Commands;
 
-public record UpdatePaymentDetailCommand(System.Int64 keyId, PaymentDetailUpdateDto EntityDto, System.Guid? Etag) : IRequest<PaymentDetailKeyDto?>;
+public record UpdatePaymentDetailCommand(System.Int64 keyId, PaymentDetailUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<PaymentDetailKeyDto?>;
 
 internal partial class UpdatePaymentDetailCommandHandler : UpdatePaymentDetailCommandHandlerBase
 {
 	public UpdatePaymentDetailCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<PaymentDetailEntity, PaymentDetailCreateDto, PaymentDetailUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<PaymentDetailEntity, PaymentDetailCreateDto, PaymentDetailUpdateDto> entityFactory) 
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -37,7 +38,8 @@ internal abstract class UpdatePaymentDetailCommandHandlerBase : CommandBase<Upda
 	public UpdatePaymentDetailCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<PaymentDetailEntity, PaymentDetailCreateDto, PaymentDetailUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<PaymentDetailEntity, PaymentDetailCreateDto, PaymentDetailUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -55,23 +57,23 @@ internal abstract class UpdatePaymentDetailCommandHandlerBase : CommandBase<Upda
 			return null;
 		}
 
-		var paymentDetailsUsedByCustomerKey = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityDto.PaymentDetailsUsedByCustomerId);
-		var paymentDetailsUsedByCustomerEntity = await DbContext.Customers.FindAsync(paymentDetailsUsedByCustomerKey);
+		var customerKey = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityDto.CustomerId);
+		var customerEntity = await DbContext.Customers.FindAsync(customerKey);
 						
-		if(paymentDetailsUsedByCustomerEntity is not null)
-			entity.CreateRefToPaymentDetailsUsedByCustomer(paymentDetailsUsedByCustomerEntity);
+		if(customerEntity is not null)
+			entity.CreateRefToCustomer(customerEntity);
 		else
-			throw new RelatedEntityNotFoundException("PaymentDetailsUsedByCustomer", request.EntityDto.PaymentDetailsUsedByCustomerId.ToString());
+			throw new RelatedEntityNotFoundException("Customer", request.EntityDto.CustomerId.ToString());
 
-		var paymentDetailsRelatedPaymentProviderKey = Cryptocash.Domain.PaymentProviderMetadata.CreateId(request.EntityDto.PaymentDetailsRelatedPaymentProviderId);
-		var paymentDetailsRelatedPaymentProviderEntity = await DbContext.PaymentProviders.FindAsync(paymentDetailsRelatedPaymentProviderKey);
+		var paymentProviderKey = Cryptocash.Domain.PaymentProviderMetadata.CreateId(request.EntityDto.PaymentProviderId);
+		var paymentProviderEntity = await DbContext.PaymentProviders.FindAsync(paymentProviderKey);
 						
-		if(paymentDetailsRelatedPaymentProviderEntity is not null)
-			entity.CreateRefToPaymentDetailsRelatedPaymentProvider(paymentDetailsRelatedPaymentProviderEntity);
+		if(paymentProviderEntity is not null)
+			entity.CreateRefToPaymentProvider(paymentProviderEntity);
 		else
-			throw new RelatedEntityNotFoundException("PaymentDetailsRelatedPaymentProvider", request.EntityDto.PaymentDetailsRelatedPaymentProviderId.ToString());
+			throw new RelatedEntityNotFoundException("PaymentProvider", request.EntityDto.PaymentProviderId.ToString());
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

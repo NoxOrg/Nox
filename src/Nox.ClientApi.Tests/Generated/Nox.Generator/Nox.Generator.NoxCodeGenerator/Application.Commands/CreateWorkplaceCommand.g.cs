@@ -19,7 +19,7 @@ using WorkplaceEntity = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Commands;
 
-public record CreateWorkplaceCommand(WorkplaceCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<WorkplaceKeyDto>;
+public partial record CreateWorkplaceCommand(WorkplaceCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<WorkplaceKeyDto>;
 
 internal partial class CreateWorkplaceCommandHandler : CreateWorkplaceCommandHandlerBase
 {
@@ -28,7 +28,7 @@ internal partial class CreateWorkplaceCommandHandler : CreateWorkplaceCommandHan
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
 		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
-		IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity> entityLocalizedFactory)
+		IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> entityLocalizedFactory)
 		: base(dbContext, noxSolution,CountryFactory, entityFactory, entityLocalizedFactory)
 	{
 	}
@@ -39,7 +39,7 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 {
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> EntityFactory;
-	protected readonly IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity> EntityLocalizedFactory;
+	protected readonly IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> EntityLocalizedFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory;
 
 	public CreateWorkplaceCommandHandlerBase(
@@ -47,7 +47,7 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
 		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
-		IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity> entityLocalizedFactory)
+		IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> entityLocalizedFactory)
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
@@ -62,19 +62,19 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.BelongsToCountryId is not null)
+		if(request.EntityDto.CountryId is not null)
 		{
-			var relatedKey = ClientApi.Domain.CountryMetadata.CreateId(request.EntityDto.BelongsToCountryId.NonNullValue<System.Int64>());
+			var relatedKey = ClientApi.Domain.CountryMetadata.CreateId(request.EntityDto.CountryId.NonNullValue<System.Int64>());
 			var relatedEntity = await DbContext.Countries.FindAsync(relatedKey);
 			if(relatedEntity is not null)
-				entityToCreate.CreateRefToBelongsToCountry(relatedEntity);
+				entityToCreate.CreateRefToCountry(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("BelongsToCountry", request.EntityDto.BelongsToCountryId.NonNullValue<System.Int64>().ToString());
+				throw new RelatedEntityNotFoundException("Country", request.EntityDto.CountryId.NonNullValue<System.Int64>().ToString());
 		}
-		else if(request.EntityDto.BelongsToCountry is not null)
+		else if(request.EntityDto.Country is not null)
 		{
-			var relatedEntity = CountryFactory.CreateEntity(request.EntityDto.BelongsToCountry);
-			entityToCreate.CreateRefToBelongsToCountry(relatedEntity);
+			var relatedEntity = CountryFactory.CreateEntity(request.EntityDto.Country);
+			entityToCreate.CreateRefToCountry(relatedEntity);
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

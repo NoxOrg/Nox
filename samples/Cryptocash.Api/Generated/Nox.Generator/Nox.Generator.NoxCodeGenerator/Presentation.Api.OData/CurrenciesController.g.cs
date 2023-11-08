@@ -158,7 +158,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return NoContent();
     }
     
-    private async Task<BankNoteDto?> TryGetCurrencyCommonBankNotes(System.String key, BankNoteKeyDto childKeyDto)
+    protected async Task<BankNoteDto?> TryGetCurrencyCommonBankNotes(System.String key, BankNoteKeyDto childKeyDto)
     {
         var parent = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SingleOrDefault();
         return parent?.CurrencyCommonBankNotes.SingleOrDefault(x => x.Id == childKeyDto.keyId);
@@ -294,7 +294,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return NoContent();
     }
     
-    private async Task<ExchangeRateDto?> TryGetCurrencyExchangedFromRates(System.String key, ExchangeRateKeyDto childKeyDto)
+    protected async Task<ExchangeRateDto?> TryGetCurrencyExchangedFromRates(System.String key, ExchangeRateKeyDto childKeyDto)
     {
         var parent = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SingleOrDefault();
         return parent?.CurrencyExchangedFromRates.SingleOrDefault(x => x.Id == childKeyDto.keyId);
@@ -305,14 +305,14 @@ public abstract partial class CurrenciesControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToCurrencyUsedByCountry([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public async Task<ActionResult> CreateRefToCountries([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var createdRef = await _mediator.Send(new CreateRefCurrencyToCurrencyUsedByCountryCommand(new CurrencyKeyDto(key), new CountryKeyDto(relatedKey)));
+        var createdRef = await _mediator.Send(new CreateRefCurrencyToCountriesCommand(new CurrencyKeyDto(key), new CountryKeyDto(relatedKey)));
         if (!createdRef)
         {
             return NotFound();
@@ -321,9 +321,25 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToCurrencyUsedByCountry([FromRoute] System.String key)
+    public virtual async Task<ActionResult> PostToCountries([FromRoute] System.String key, [FromBody] CountryCreateDto country)
     {
-        var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).Select(x => x.CurrencyUsedByCountry).SingleOrDefault();
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        country.CurrencyId = key;
+        var createdKey = await _mediator.Send(new CreateCountryCommand(country, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
+    public async Task<ActionResult> GetRefToCountries([FromRoute] System.String key)
+    {
+        var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).Select(x => x.Countries).SingleOrDefault();
         if (related is null)
         {
             return NotFound();
@@ -337,14 +353,14 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToCurrencyUsedByCountry([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public async Task<ActionResult> DeleteRefToCountries([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedRef = await _mediator.Send(new DeleteRefCurrencyToCurrencyUsedByCountryCommand(new CurrencyKeyDto(key), new CountryKeyDto(relatedKey)));
+        var deletedRef = await _mediator.Send(new DeleteRefCurrencyToCountriesCommand(new CurrencyKeyDto(key), new CountryKeyDto(relatedKey)));
         if (!deletedRef)
         {
             return NotFound();
@@ -353,14 +369,14 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToCurrencyUsedByCountry([FromRoute] System.String key)
+    public async Task<ActionResult> DeleteRefToCountries([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefCurrencyToCurrencyUsedByCountryCommand(new CurrencyKeyDto(key)));
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefCurrencyToCountriesCommand(new CurrencyKeyDto(key)));
         if (!deletedAllRef)
         {
             return NotFound();
@@ -369,14 +385,14 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToCurrencyUsedByMinimumCashStocks([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
+    public async Task<ActionResult> CreateRefToMinimumCashStocks([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var createdRef = await _mediator.Send(new CreateRefCurrencyToCurrencyUsedByMinimumCashStocksCommand(new CurrencyKeyDto(key), new MinimumCashStockKeyDto(relatedKey)));
+        var createdRef = await _mediator.Send(new CreateRefCurrencyToMinimumCashStocksCommand(new CurrencyKeyDto(key), new MinimumCashStockKeyDto(relatedKey)));
         if (!createdRef)
         {
             return NotFound();
@@ -385,9 +401,25 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToCurrencyUsedByMinimumCashStocks([FromRoute] System.String key)
+    public virtual async Task<ActionResult> PostToMinimumCashStocks([FromRoute] System.String key, [FromBody] MinimumCashStockCreateDto minimumCashStock)
     {
-        var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).Select(x => x.CurrencyUsedByMinimumCashStocks).SingleOrDefault();
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        minimumCashStock.CurrencyId = key;
+        var createdKey = await _mediator.Send(new CreateMinimumCashStockCommand(minimumCashStock, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetMinimumCashStockByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
+    public async Task<ActionResult> GetRefToMinimumCashStocks([FromRoute] System.String key)
+    {
+        var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).Select(x => x.MinimumCashStocks).SingleOrDefault();
         if (related is null)
         {
             return NotFound();
@@ -401,14 +433,14 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToCurrencyUsedByMinimumCashStocks([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
+    public async Task<ActionResult> DeleteRefToMinimumCashStocks([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedRef = await _mediator.Send(new DeleteRefCurrencyToCurrencyUsedByMinimumCashStocksCommand(new CurrencyKeyDto(key), new MinimumCashStockKeyDto(relatedKey)));
+        var deletedRef = await _mediator.Send(new DeleteRefCurrencyToMinimumCashStocksCommand(new CurrencyKeyDto(key), new MinimumCashStockKeyDto(relatedKey)));
         if (!deletedRef)
         {
             return NotFound();
@@ -417,14 +449,14 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToCurrencyUsedByMinimumCashStocks([FromRoute] System.String key)
+    public async Task<ActionResult> DeleteRefToMinimumCashStocks([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefCurrencyToCurrencyUsedByMinimumCashStocksCommand(new CurrencyKeyDto(key)));
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefCurrencyToMinimumCashStocksCommand(new CurrencyKeyDto(key)));
         if (!deletedAllRef)
         {
             return NotFound();

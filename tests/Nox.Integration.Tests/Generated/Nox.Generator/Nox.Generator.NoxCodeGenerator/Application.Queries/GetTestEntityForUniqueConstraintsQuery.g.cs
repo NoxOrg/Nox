@@ -12,7 +12,7 @@ using TestWebApp.Infrastructure.Persistence;
 
 namespace TestWebApp.Application.Queries;
 
-public record GetTestEntityForUniqueConstraintsQuery() : IRequest<IQueryable<TestEntityForUniqueConstraintsDto>>;
+public partial record GetTestEntityForUniqueConstraintsQuery() : IRequest<IQueryable<TestEntityForUniqueConstraintsDto>>;
 
 internal partial class GetTestEntityForUniqueConstraintsQueryHandler: GetTestEntityForUniqueConstraintsQueryHandlerBase
 {

@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 using MediatR;
 
@@ -12,9 +13,9 @@ using Nox.Application.Dto;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using System.Text.Json.Serialization;
-using TestWebApp.Domain;
-using TestEntityForAutoNumberUsagesEntity = TestWebApp.Domain.TestEntityForAutoNumberUsages;
+
+
+using DomainNamespace = TestWebApp.Domain;
 
 namespace TestWebApp.Application.Dto;
 
@@ -28,7 +29,7 @@ public partial class TestEntityForAutoNumberUsagesDto : TestEntityForAutoNumberU
 /// <summary>
 /// Entity created for testing auto number usages.
 /// </summary>
-public abstract class TestEntityForAutoNumberUsagesDtoBase : EntityDtoBase, IEntityDto<TestEntityForAutoNumberUsagesEntity>
+public abstract class TestEntityForAutoNumberUsagesDtoBase : EntityDtoBase, IEntityDto<DomainNamespace.TestEntityForAutoNumberUsages>
 {
 
     #region Validation
@@ -36,10 +37,12 @@ public abstract class TestEntityForAutoNumberUsagesDtoBase : EntityDtoBase, IEnt
     {
         var result = new Dictionary<string, IEnumerable<string>>();
     
-        ExecuteActionAndCollectValidationExceptions("AutoNumberField", () => TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateAutoNumberField(this.AutoNumberField), result);
+        ExecuteActionAndCollectValidationExceptions("AutoNumberFieldWithOptions", () => DomainNamespace.TestEntityForAutoNumberUsagesMetadata.CreateAutoNumberFieldWithOptions(this.AutoNumberFieldWithOptions), result);
+    
+        ExecuteActionAndCollectValidationExceptions("AutoNumberFieldWithoutOptions", () => DomainNamespace.TestEntityForAutoNumberUsagesMetadata.CreateAutoNumberFieldWithoutOptions(this.AutoNumberFieldWithoutOptions), result);
     
         if (this.TextField is not null)
-            ExecuteActionAndCollectValidationExceptions("TextField", () => TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateTextField(this.TextField.NonNullValue<System.String>()), result);
+            ExecuteActionAndCollectValidationExceptions("TextField", () => DomainNamespace.TestEntityForAutoNumberUsagesMetadata.CreateTextField(this.TextField.NonNullValue<System.String>()), result);
         else
             result.Add("TextField", new [] { "TextField is Required." });
     
@@ -56,7 +59,12 @@ public abstract class TestEntityForAutoNumberUsagesDtoBase : EntityDtoBase, IEnt
     /// <summary>
     ///  (Required).
     /// </summary>
-    public System.Int64 AutoNumberField { get; set; } = default!;
+    public System.Int64 AutoNumberFieldWithOptions { get; set; } = default!;
+
+    /// <summary>
+    ///  (Required).
+    /// </summary>
+    public System.Int64 AutoNumberFieldWithoutOptions { get; set; } = default!;
 
     /// <summary>
     ///  (Required).

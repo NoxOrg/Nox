@@ -135,7 +135,7 @@ namespace ClientApi.Tests.Application.Messaging
             var createDto = new WorkplaceCreateDto
             {
                 Name = _fixture.Create<string>(),
-                BelongsToCountryId = countryId,
+                CountryId = countryId,
             };
 
             var createResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(WorkplacesControllerName, createDto);
@@ -151,7 +151,7 @@ namespace ClientApi.Tests.Application.Messaging
             MassTransitTestHarness.AssertAnyPublished<WorkplaceDeleted>();
         }
 
-        [Fact(Skip ="Cloud event is being create in serialization phase, need to investigate how to assert the serialization")]
+        [Fact]
         public async Task Put_Country_SetsMessageValuesProperly()
         {
             // Arrange
@@ -176,12 +176,10 @@ namespace ClientApi.Tests.Application.Messaging
             //Assert
             updateResult.Should().NotBeNull();
 
-            //var events = MassTransitTestHarness.Published.S<CloudEventMessage>().Select(x => x.MessageObject as CloudEventMessage).ToArray();
-            //var first = events[0];
-            var events = MassTransitTestHarness.Sent.Select(x=>true).AsEnumerable().ToArray();
-            //first.IntegrationEvent.source!.OriginalString.Should().Be("https://Nox-Tests.com/ClientApi");
-            //((CloudEventMessage<CountryCreated>)messageObject).type.Should().Be("Nox-Tests.ClientApi.Country.v1.0.created");
-            //((CloudEventMessage<CountryCreated>)messageObject).dataschema!.OriginalString.Should().Be("https://Nox-Tests.com/schemas/ClientApi/Country/v1.0/created.json");
+            var messageObject = MassTransitTestHarness.Published.Select(x => true).AsEnumerable().First().MessageObject;
+            ((CloudEventMessage<CountryCreated>)messageObject).Source!.OriginalString.Should().Be("https://Nox-Tests.com/ClientApi");
+            ((CloudEventMessage<CountryCreated>)messageObject).Type.Should().Be("Nox-Tests.ClientApi.Country.v1.0.created");
+            ((CloudEventMessage<CountryCreated>)messageObject).DataSchema!.OriginalString.Should().Be("https://Nox-Tests.com/schemas/ClientApi/Country/v1.0/created.json");
         }
 
         #endregion Integration Events

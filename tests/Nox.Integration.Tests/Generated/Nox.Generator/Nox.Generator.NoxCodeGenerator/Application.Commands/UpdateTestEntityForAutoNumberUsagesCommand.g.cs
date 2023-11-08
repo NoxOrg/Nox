@@ -8,6 +8,8 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
@@ -15,14 +17,15 @@ using TestEntityForAutoNumberUsagesEntity = TestWebApp.Domain.TestEntityForAutoN
 
 namespace TestWebApp.Application.Commands;
 
-public record UpdateTestEntityForAutoNumberUsagesCommand(System.Int64 keyId, TestEntityForAutoNumberUsagesUpdateDto EntityDto, System.Guid? Etag) : IRequest<TestEntityForAutoNumberUsagesKeyDto?>;
+public record UpdateTestEntityForAutoNumberUsagesCommand(System.Int64 keyId, TestEntityForAutoNumberUsagesUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityForAutoNumberUsagesKeyDto?>;
 
 internal partial class UpdateTestEntityForAutoNumberUsagesCommandHandler : UpdateTestEntityForAutoNumberUsagesCommandHandlerBase
 {
 	public UpdateTestEntityForAutoNumberUsagesCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityForAutoNumberUsagesEntity, TestEntityForAutoNumberUsagesCreateDto, TestEntityForAutoNumberUsagesUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<TestEntityForAutoNumberUsagesEntity, TestEntityForAutoNumberUsagesCreateDto, TestEntityForAutoNumberUsagesUpdateDto> entityFactory) 
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -35,7 +38,8 @@ internal abstract class UpdateTestEntityForAutoNumberUsagesCommandHandlerBase : 
 	public UpdateTestEntityForAutoNumberUsagesCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityForAutoNumberUsagesEntity, TestEntityForAutoNumberUsagesCreateDto, TestEntityForAutoNumberUsagesUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<TestEntityForAutoNumberUsagesEntity, TestEntityForAutoNumberUsagesCreateDto, TestEntityForAutoNumberUsagesUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -44,7 +48,7 @@ internal abstract class UpdateTestEntityForAutoNumberUsagesCommandHandlerBase : 
 	public virtual async Task<TestEntityForAutoNumberUsagesKeyDto?> Handle(UpdateTestEntityForAutoNumberUsagesCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityForAutoNumberUsages.FindAsync(keyId);
@@ -53,7 +57,7 @@ internal abstract class UpdateTestEntityForAutoNumberUsagesCommandHandlerBase : 
 			return null;
 		}
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

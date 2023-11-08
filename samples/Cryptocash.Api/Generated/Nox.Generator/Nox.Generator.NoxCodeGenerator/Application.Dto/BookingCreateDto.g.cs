@@ -69,32 +69,32 @@ public abstract class BookingCreateDtoBase : IEntityDto<DomainNamespace.Booking>
     /// <summary>
     /// Booking for ExactlyOne Customers
     /// </summary>
-    public System.Int64? BookingForCustomerId { get; set; } = default!;
+    public System.Int64? CustomerId { get; set; } = default!;
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual CustomerCreateDto? BookingForCustomer { get; set; } = default!;
+    public virtual CustomerCreateDto? Customer { get; set; } = default!;
 
     /// <summary>
     /// Booking related to ExactlyOne VendingMachines
     /// </summary>
-    public System.Guid? BookingRelatedVendingMachineId { get; set; } = default!;
+    public System.Guid? VendingMachineId { get; set; } = default!;
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual VendingMachineCreateDto? BookingRelatedVendingMachine { get; set; } = default!;
+    public virtual VendingMachineCreateDto? VendingMachine { get; set; } = default!;
 
     /// <summary>
     /// Booking fees for ExactlyOne Commissions
     /// </summary>
-    public System.Int64? BookingFeesForCommissionId { get; set; } = default!;
+    public System.Int64? CommissionId { get; set; } = default!;
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual CommissionCreateDto? BookingFeesForCommission { get; set; } = default!;
+    public virtual CommissionCreateDto? Commission { get; set; } = default!;
 
     /// <summary>
     /// Booking related to ExactlyOne Transactions
     /// </summary>
-    public System.Int64? BookingRelatedTransactionId { get; set; } = default!;
+    public System.Int64? TransactionId { get; set; } = default!;
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual TransactionCreateDto? BookingRelatedTransaction { get; set; } = default!;
+    public virtual TransactionCreateDto? Transaction { get; set; } = default!;
 }

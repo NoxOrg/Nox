@@ -28,14 +28,14 @@ public abstract partial class CustomersControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToCustomerRelatedPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public async Task<ActionResult> CreateRefToPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var createdRef = await _mediator.Send(new CreateRefCustomerToCustomerRelatedPaymentDetailsCommand(new CustomerKeyDto(key), new PaymentDetailKeyDto(relatedKey)));
+        var createdRef = await _mediator.Send(new CreateRefCustomerToPaymentDetailsCommand(new CustomerKeyDto(key), new PaymentDetailKeyDto(relatedKey)));
         if (!createdRef)
         {
             return NotFound();
@@ -44,9 +44,25 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToCustomerRelatedPaymentDetails([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> PostToPaymentDetails([FromRoute] System.Int64 key, [FromBody] PaymentDetailCreateDto paymentDetail)
     {
-        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.CustomerRelatedPaymentDetails).SingleOrDefault();
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        paymentDetail.CustomerId = key;
+        var createdKey = await _mediator.Send(new CreatePaymentDetailCommand(paymentDetail, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetPaymentDetailByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
+    public async Task<ActionResult> GetRefToPaymentDetails([FromRoute] System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.PaymentDetails).SingleOrDefault();
         if (related is null)
         {
             return NotFound();
@@ -60,14 +76,14 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToCustomerRelatedPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public async Task<ActionResult> DeleteRefToPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedRef = await _mediator.Send(new DeleteRefCustomerToCustomerRelatedPaymentDetailsCommand(new CustomerKeyDto(key), new PaymentDetailKeyDto(relatedKey)));
+        var deletedRef = await _mediator.Send(new DeleteRefCustomerToPaymentDetailsCommand(new CustomerKeyDto(key), new PaymentDetailKeyDto(relatedKey)));
         if (!deletedRef)
         {
             return NotFound();
@@ -76,14 +92,14 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToCustomerRelatedPaymentDetails([FromRoute] System.Int64 key)
+    public async Task<ActionResult> DeleteRefToPaymentDetails([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefCustomerToCustomerRelatedPaymentDetailsCommand(new CustomerKeyDto(key)));
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefCustomerToPaymentDetailsCommand(new CustomerKeyDto(key)));
         if (!deletedAllRef)
         {
             return NotFound();
@@ -92,14 +108,14 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToCustomerRelatedBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    public async Task<ActionResult> CreateRefToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var createdRef = await _mediator.Send(new CreateRefCustomerToCustomerRelatedBookingsCommand(new CustomerKeyDto(key), new BookingKeyDto(relatedKey)));
+        var createdRef = await _mediator.Send(new CreateRefCustomerToBookingsCommand(new CustomerKeyDto(key), new BookingKeyDto(relatedKey)));
         if (!createdRef)
         {
             return NotFound();
@@ -108,9 +124,25 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToCustomerRelatedBookings([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> PostToBookings([FromRoute] System.Int64 key, [FromBody] BookingCreateDto booking)
     {
-        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.CustomerRelatedBookings).SingleOrDefault();
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        booking.CustomerId = key;
+        var createdKey = await _mediator.Send(new CreateBookingCommand(booking, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetBookingByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
+    public async Task<ActionResult> GetRefToBookings([FromRoute] System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.Bookings).SingleOrDefault();
         if (related is null)
         {
             return NotFound();
@@ -124,14 +156,14 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToCustomerRelatedBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedRef = await _mediator.Send(new DeleteRefCustomerToCustomerRelatedBookingsCommand(new CustomerKeyDto(key), new BookingKeyDto(relatedKey)));
+        var deletedRef = await _mediator.Send(new DeleteRefCustomerToBookingsCommand(new CustomerKeyDto(key), new BookingKeyDto(relatedKey)));
         if (!deletedRef)
         {
             return NotFound();
@@ -140,14 +172,14 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToCustomerRelatedBookings([FromRoute] System.Int64 key)
+    public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefCustomerToCustomerRelatedBookingsCommand(new CustomerKeyDto(key)));
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefCustomerToBookingsCommand(new CustomerKeyDto(key)));
         if (!deletedAllRef)
         {
             return NotFound();
@@ -156,14 +188,14 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToCustomerRelatedTransactions([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public async Task<ActionResult> CreateRefToTransactions([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var createdRef = await _mediator.Send(new CreateRefCustomerToCustomerRelatedTransactionsCommand(new CustomerKeyDto(key), new TransactionKeyDto(relatedKey)));
+        var createdRef = await _mediator.Send(new CreateRefCustomerToTransactionsCommand(new CustomerKeyDto(key), new TransactionKeyDto(relatedKey)));
         if (!createdRef)
         {
             return NotFound();
@@ -172,9 +204,25 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToCustomerRelatedTransactions([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> PostToTransactions([FromRoute] System.Int64 key, [FromBody] TransactionCreateDto transaction)
     {
-        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.CustomerRelatedTransactions).SingleOrDefault();
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        transaction.CustomerId = key;
+        var createdKey = await _mediator.Send(new CreateTransactionCommand(transaction, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetTransactionByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
+    public async Task<ActionResult> GetRefToTransactions([FromRoute] System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.Transactions).SingleOrDefault();
         if (related is null)
         {
             return NotFound();
@@ -188,14 +236,14 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToCustomerRelatedTransactions([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    public async Task<ActionResult> DeleteRefToTransactions([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedRef = await _mediator.Send(new DeleteRefCustomerToCustomerRelatedTransactionsCommand(new CustomerKeyDto(key), new TransactionKeyDto(relatedKey)));
+        var deletedRef = await _mediator.Send(new DeleteRefCustomerToTransactionsCommand(new CustomerKeyDto(key), new TransactionKeyDto(relatedKey)));
         if (!deletedRef)
         {
             return NotFound();
@@ -204,14 +252,14 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToCustomerRelatedTransactions([FromRoute] System.Int64 key)
+    public async Task<ActionResult> DeleteRefToTransactions([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefCustomerToCustomerRelatedTransactionsCommand(new CustomerKeyDto(key)));
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefCustomerToTransactionsCommand(new CustomerKeyDto(key)));
         if (!deletedAllRef)
         {
             return NotFound();
@@ -220,14 +268,14 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToCustomerBaseCountry([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
+    public async Task<ActionResult> CreateRefToCountry([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var createdRef = await _mediator.Send(new CreateRefCustomerToCustomerBaseCountryCommand(new CustomerKeyDto(key), new CountryKeyDto(relatedKey)));
+        var createdRef = await _mediator.Send(new CreateRefCustomerToCountryCommand(new CustomerKeyDto(key), new CountryKeyDto(relatedKey)));
         if (!createdRef)
         {
             return NotFound();
@@ -236,9 +284,25 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToCustomerBaseCountry([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> PostToCountry([FromRoute] System.Int64 key, [FromBody] CountryCreateDto country)
     {
-        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.CustomerBaseCountry).SingleOrDefault();
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        country.CustomersId = new List<System.Int64> { key };
+        var createdKey = await _mediator.Send(new CreateCountryCommand(country, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
+    public async Task<ActionResult> GetRefToCountry([FromRoute] System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
         if (related is null)
         {
             return NotFound();
@@ -248,30 +312,14 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToCustomerBaseCountry([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
+    public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedRef = await _mediator.Send(new DeleteRefCustomerToCustomerBaseCountryCommand(new CustomerKeyDto(key), new CountryKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
-    }
-    
-    public async Task<ActionResult> DeleteRefToCustomerBaseCountry([FromRoute] System.Int64 key)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefCustomerToCustomerBaseCountryCommand(new CustomerKeyDto(key)));
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefCustomerToCountryCommand(new CustomerKeyDto(key)));
         if (!deletedAllRef)
         {
             return NotFound();

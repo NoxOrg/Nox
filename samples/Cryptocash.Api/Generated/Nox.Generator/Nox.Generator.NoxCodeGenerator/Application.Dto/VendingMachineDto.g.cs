@@ -115,30 +115,30 @@ public abstract class VendingMachineDtoBase : EntityDtoBase, IEntityDto<DomainNa
     /// VendingMachine installed in ExactlyOne Countries
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.String? VendingMachineInstallationCountryId { get; set; } = default!;
-    public virtual CountryDto? VendingMachineInstallationCountry { get; set; } = null!;
+    public System.String? CountryId { get; set; } = default!;
+    public virtual CountryDto? Country { get; set; } = null!;
 
     /// <summary>
     /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Int64? VendingMachineContractedAreaLandLordId { get; set; } = default!;
-    public virtual LandLordDto? VendingMachineContractedAreaLandLord { get; set; } = null!;
+    public System.Int64? LandLordId { get; set; } = default!;
+    public virtual LandLordDto? LandLord { get; set; } = null!;
 
     /// <summary>
     /// VendingMachine related to ZeroOrMany Bookings
     /// </summary>
-    public virtual List<BookingDto> VendingMachineRelatedBookings { get; set; } = new();
+    public virtual List<BookingDto> Bookings { get; set; } = new();
 
     /// <summary>
     /// VendingMachine related to ZeroOrMany CashStockOrders
     /// </summary>
-    public virtual List<CashStockOrderDto> VendingMachineRelatedCashStockOrders { get; set; } = new();
+    public virtual List<CashStockOrderDto> CashStockOrders { get; set; } = new();
 
     /// <summary>
     /// VendingMachine required ZeroOrMany MinimumCashStocks
     /// </summary>
-    public virtual List<MinimumCashStockDto> VendingMachineRequiredMinimumCashStocks { get; set; } = new();
+    public virtual List<MinimumCashStockDto> MinimumCashStocks { get; set; } = new();
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

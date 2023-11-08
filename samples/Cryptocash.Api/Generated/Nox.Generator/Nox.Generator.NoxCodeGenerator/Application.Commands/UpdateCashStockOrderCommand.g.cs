@@ -17,14 +17,15 @@ using CashStockOrderEntity = Cryptocash.Domain.CashStockOrder;
 
 namespace Cryptocash.Application.Commands;
 
-public record UpdateCashStockOrderCommand(System.Int64 keyId, CashStockOrderUpdateDto EntityDto, System.Guid? Etag) : IRequest<CashStockOrderKeyDto?>;
+public record UpdateCashStockOrderCommand(System.Int64 keyId, CashStockOrderUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<CashStockOrderKeyDto?>;
 
 internal partial class UpdateCashStockOrderCommandHandler : UpdateCashStockOrderCommandHandlerBase
 {
 	public UpdateCashStockOrderCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<CashStockOrderEntity, CashStockOrderCreateDto, CashStockOrderUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<CashStockOrderEntity, CashStockOrderCreateDto, CashStockOrderUpdateDto> entityFactory) 
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -37,7 +38,8 @@ internal abstract class UpdateCashStockOrderCommandHandlerBase : CommandBase<Upd
 	public UpdateCashStockOrderCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<CashStockOrderEntity, CashStockOrderCreateDto, CashStockOrderUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<CashStockOrderEntity, CashStockOrderCreateDto, CashStockOrderUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -55,23 +57,23 @@ internal abstract class UpdateCashStockOrderCommandHandlerBase : CommandBase<Upd
 			return null;
 		}
 
-		var cashStockOrderForVendingMachineKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(request.EntityDto.CashStockOrderForVendingMachineId);
-		var cashStockOrderForVendingMachineEntity = await DbContext.VendingMachines.FindAsync(cashStockOrderForVendingMachineKey);
+		var vendingMachineKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(request.EntityDto.VendingMachineId);
+		var vendingMachineEntity = await DbContext.VendingMachines.FindAsync(vendingMachineKey);
 						
-		if(cashStockOrderForVendingMachineEntity is not null)
-			entity.CreateRefToCashStockOrderForVendingMachine(cashStockOrderForVendingMachineEntity);
+		if(vendingMachineEntity is not null)
+			entity.CreateRefToVendingMachine(vendingMachineEntity);
 		else
-			throw new RelatedEntityNotFoundException("CashStockOrderForVendingMachine", request.EntityDto.CashStockOrderForVendingMachineId.ToString());
+			throw new RelatedEntityNotFoundException("VendingMachine", request.EntityDto.VendingMachineId.ToString());
 
-		var cashStockOrderReviewedByEmployeeKey = Cryptocash.Domain.EmployeeMetadata.CreateId(request.EntityDto.CashStockOrderReviewedByEmployeeId);
-		var cashStockOrderReviewedByEmployeeEntity = await DbContext.Employees.FindAsync(cashStockOrderReviewedByEmployeeKey);
+		var employeeKey = Cryptocash.Domain.EmployeeMetadata.CreateId(request.EntityDto.EmployeeId);
+		var employeeEntity = await DbContext.Employees.FindAsync(employeeKey);
 						
-		if(cashStockOrderReviewedByEmployeeEntity is not null)
-			entity.CreateRefToCashStockOrderReviewedByEmployee(cashStockOrderReviewedByEmployeeEntity);
+		if(employeeEntity is not null)
+			entity.CreateRefToEmployee(employeeEntity);
 		else
-			throw new RelatedEntityNotFoundException("CashStockOrderReviewedByEmployee", request.EntityDto.CashStockOrderReviewedByEmployeeId.ToString());
+			throw new RelatedEntityNotFoundException("Employee", request.EntityDto.EmployeeId.ToString());
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

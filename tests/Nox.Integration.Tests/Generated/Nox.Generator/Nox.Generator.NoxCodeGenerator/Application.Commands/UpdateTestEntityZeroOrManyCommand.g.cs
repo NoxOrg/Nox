@@ -17,14 +17,15 @@ using TestEntityZeroOrManyEntity = TestWebApp.Domain.TestEntityZeroOrMany;
 
 namespace TestWebApp.Application.Commands;
 
-public record UpdateTestEntityZeroOrManyCommand(System.String keyId, TestEntityZeroOrManyUpdateDto EntityDto, System.Guid? Etag) : IRequest<TestEntityZeroOrManyKeyDto?>;
+public record UpdateTestEntityZeroOrManyCommand(System.String keyId, TestEntityZeroOrManyUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityZeroOrManyKeyDto?>;
 
 internal partial class UpdateTestEntityZeroOrManyCommandHandler : UpdateTestEntityZeroOrManyCommandHandlerBase
 {
 	public UpdateTestEntityZeroOrManyCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityZeroOrManyEntity, TestEntityZeroOrManyCreateDto, TestEntityZeroOrManyUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<TestEntityZeroOrManyEntity, TestEntityZeroOrManyCreateDto, TestEntityZeroOrManyUpdateDto> entityFactory) 
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -37,7 +38,8 @@ internal abstract class UpdateTestEntityZeroOrManyCommandHandlerBase : CommandBa
 	public UpdateTestEntityZeroOrManyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityZeroOrManyEntity, TestEntityZeroOrManyCreateDto, TestEntityZeroOrManyUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<TestEntityZeroOrManyEntity, TestEntityZeroOrManyCreateDto, TestEntityZeroOrManyUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -55,21 +57,21 @@ internal abstract class UpdateTestEntityZeroOrManyCommandHandlerBase : CommandBa
 			return null;
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.SecondTestEntityZeroOrManyRelationship).LoadAsync();
-		var secondTestEntityZeroOrManyRelationshipEntities = new List<SecondTestEntityZeroOrMany>();
-		foreach(var relatedEntityId in request.EntityDto.SecondTestEntityZeroOrManyRelationshipId)
+		await DbContext.Entry(entity).Collection(x => x.SecondTestEntityZeroOrManies).LoadAsync();
+		var secondTestEntityZeroOrManiesEntities = new List<SecondTestEntityZeroOrMany>();
+		foreach(var relatedEntityId in request.EntityDto.SecondTestEntityZeroOrManiesId)
 		{
 			var relatedKey = TestWebApp.Domain.SecondTestEntityZeroOrManyMetadata.CreateId(relatedEntityId);
 			var relatedEntity = await DbContext.SecondTestEntityZeroOrManies.FindAsync(relatedKey);
 						
 			if(relatedEntity is not null)
-				secondTestEntityZeroOrManyRelationshipEntities.Add(relatedEntity);
+				secondTestEntityZeroOrManiesEntities.Add(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("SecondTestEntityZeroOrManyRelationship", relatedEntityId.ToString());
+				throw new RelatedEntityNotFoundException("SecondTestEntityZeroOrManies", relatedEntityId.ToString());
 		}
-		entity.UpdateRefToSecondTestEntityZeroOrManyRelationship(secondTestEntityZeroOrManyRelationshipEntities);
+		entity.UpdateRefToSecondTestEntityZeroOrManies(secondTestEntityZeroOrManiesEntities);
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

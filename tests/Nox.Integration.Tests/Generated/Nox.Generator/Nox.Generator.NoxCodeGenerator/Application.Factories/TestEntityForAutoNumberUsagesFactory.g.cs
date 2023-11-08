@@ -25,6 +25,7 @@ namespace TestWebApp.Application.Factories;
 
 internal abstract class TestEntityForAutoNumberUsagesFactoryBase : IEntityFactory<TestEntityForAutoNumberUsagesEntity, TestEntityForAutoNumberUsagesCreateDto, TestEntityForAutoNumberUsagesUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public TestEntityForAutoNumberUsagesFactoryBase
     (
@@ -37,9 +38,9 @@ internal abstract class TestEntityForAutoNumberUsagesFactoryBase : IEntityFactor
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(TestEntityForAutoNumberUsagesEntity entity, TestEntityForAutoNumberUsagesUpdateDto updateDto)
+    public virtual void UpdateEntity(TestEntityForAutoNumberUsagesEntity entity, TestEntityForAutoNumberUsagesUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(TestEntityForAutoNumberUsagesEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -50,28 +51,41 @@ internal abstract class TestEntityForAutoNumberUsagesFactoryBase : IEntityFactor
     private TestWebApp.Domain.TestEntityForAutoNumberUsages ToEntity(TestEntityForAutoNumberUsagesCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.TestEntityForAutoNumberUsages();
-        entity.AutoNumberField = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateAutoNumberField(createDto.AutoNumberField);
+        entity.AutoNumberFieldWithOptions = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateAutoNumberFieldWithOptions(createDto.AutoNumberFieldWithOptions);
+        entity.AutoNumberFieldWithoutOptions = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateAutoNumberFieldWithoutOptions(createDto.AutoNumberFieldWithoutOptions);
         entity.TextField = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateTextField(createDto.TextField);
         return entity;
     }
 
-    private void UpdateEntityInternal(TestEntityForAutoNumberUsagesEntity entity, TestEntityForAutoNumberUsagesUpdateDto updateDto)
+    private void UpdateEntityInternal(TestEntityForAutoNumberUsagesEntity entity, TestEntityForAutoNumberUsagesUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        entity.AutoNumberField = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateAutoNumberField(updateDto.AutoNumberField.NonNullValue<System.Int64>());
+        entity.AutoNumberFieldWithOptions = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateAutoNumberFieldWithOptions(updateDto.AutoNumberFieldWithOptions.NonNullValue<System.Int64>());
+        entity.AutoNumberFieldWithoutOptions = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateAutoNumberFieldWithoutOptions(updateDto.AutoNumberFieldWithoutOptions.NonNullValue<System.Int64>());
         entity.TextField = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateTextField(updateDto.TextField.NonNullValue<System.String>());
     }
 
     private void PartialUpdateEntityInternal(TestEntityForAutoNumberUsagesEntity entity, Dictionary<string, dynamic> updatedProperties)
     {
 
-        if (updatedProperties.TryGetValue("AutoNumberField", out var AutoNumberFieldUpdateValue))
+        if (updatedProperties.TryGetValue("AutoNumberFieldWithOptions", out var AutoNumberFieldWithOptionsUpdateValue))
         {
-            if (AutoNumberFieldUpdateValue == null)
+            if (AutoNumberFieldWithOptionsUpdateValue == null)
             {
-                throw new ArgumentException("Attribute 'AutoNumberField' can't be null");
+                throw new ArgumentException("Attribute 'AutoNumberFieldWithOptions' can't be null");
             }
             {
-                entity.AutoNumberField = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateAutoNumberField(AutoNumberFieldUpdateValue);
+                entity.AutoNumberFieldWithOptions = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateAutoNumberFieldWithOptions(AutoNumberFieldWithOptionsUpdateValue);
+            }
+        }
+
+        if (updatedProperties.TryGetValue("AutoNumberFieldWithoutOptions", out var AutoNumberFieldWithoutOptionsUpdateValue))
+        {
+            if (AutoNumberFieldWithoutOptionsUpdateValue == null)
+            {
+                throw new ArgumentException("Attribute 'AutoNumberFieldWithoutOptions' can't be null");
+            }
+            {
+                entity.AutoNumberFieldWithoutOptions = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateAutoNumberFieldWithoutOptions(AutoNumberFieldWithoutOptionsUpdateValue);
             }
         }
 
@@ -86,6 +100,9 @@ internal abstract class TestEntityForAutoNumberUsagesFactoryBase : IEntityFactor
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class TestEntityForAutoNumberUsagesFactory : TestEntityForAutoNumberUsagesFactoryBase

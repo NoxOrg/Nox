@@ -20,7 +20,7 @@ using MinimumCashStockEntity = Cryptocash.Domain.MinimumCashStock;
 
 namespace Cryptocash.Application.Commands;
 
-public record CreateMinimumCashStockCommand(MinimumCashStockCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<MinimumCashStockKeyDto>;
+public partial record CreateMinimumCashStockCommand(MinimumCashStockCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<MinimumCashStockKeyDto>;
 
 internal partial class CreateMinimumCashStockCommandHandler : CreateMinimumCashStockCommandHandlerBase
 {
@@ -63,40 +63,40 @@ internal abstract class CreateMinimumCashStockCommandHandlerBase : CommandBase<C
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.MinimumCashStocksRequiredByVendingMachinesId.Any())
+		if(request.EntityDto.VendingMachinesId.Any())
 		{
-			foreach(var relatedId in request.EntityDto.MinimumCashStocksRequiredByVendingMachinesId)
+			foreach(var relatedId in request.EntityDto.VendingMachinesId)
 			{
 				var relatedKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)
-					entityToCreate.CreateRefToMinimumCashStocksRequiredByVendingMachines(relatedEntity);
+					entityToCreate.CreateRefToVendingMachines(relatedEntity);
 				else
-					throw new RelatedEntityNotFoundException("MinimumCashStocksRequiredByVendingMachines", relatedId.ToString());
+					throw new RelatedEntityNotFoundException("VendingMachines", relatedId.ToString());
 			}
 		}
 		else
 		{
-			foreach(var relatedCreateDto in request.EntityDto.MinimumCashStocksRequiredByVendingMachines)
+			foreach(var relatedCreateDto in request.EntityDto.VendingMachines)
 			{
 				var relatedEntity = VendingMachineFactory.CreateEntity(relatedCreateDto);
-				entityToCreate.CreateRefToMinimumCashStocksRequiredByVendingMachines(relatedEntity);
+				entityToCreate.CreateRefToVendingMachines(relatedEntity);
 			}
 		}
-		if(request.EntityDto.MinimumCashStockRelatedCurrencyId is not null)
+		if(request.EntityDto.CurrencyId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.CurrencyMetadata.CreateId(request.EntityDto.MinimumCashStockRelatedCurrencyId.NonNullValue<System.String>());
+			var relatedKey = Cryptocash.Domain.CurrencyMetadata.CreateId(request.EntityDto.CurrencyId.NonNullValue<System.String>());
 			var relatedEntity = await DbContext.Currencies.FindAsync(relatedKey);
 			if(relatedEntity is not null)
-				entityToCreate.CreateRefToMinimumCashStockRelatedCurrency(relatedEntity);
+				entityToCreate.CreateRefToCurrency(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("MinimumCashStockRelatedCurrency", request.EntityDto.MinimumCashStockRelatedCurrencyId.NonNullValue<System.String>().ToString());
+				throw new RelatedEntityNotFoundException("Currency", request.EntityDto.CurrencyId.NonNullValue<System.String>().ToString());
 		}
-		else if(request.EntityDto.MinimumCashStockRelatedCurrency is not null)
+		else if(request.EntityDto.Currency is not null)
 		{
-			var relatedEntity = CurrencyFactory.CreateEntity(request.EntityDto.MinimumCashStockRelatedCurrency);
-			entityToCreate.CreateRefToMinimumCashStockRelatedCurrency(relatedEntity);
+			var relatedEntity = CurrencyFactory.CreateEntity(request.EntityDto.Currency);
+			entityToCreate.CreateRefToCurrency(relatedEntity);
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

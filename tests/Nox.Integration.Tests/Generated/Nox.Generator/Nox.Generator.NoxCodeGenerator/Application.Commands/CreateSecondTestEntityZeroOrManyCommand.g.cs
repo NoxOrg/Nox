@@ -20,7 +20,7 @@ using SecondTestEntityZeroOrManyEntity = TestWebApp.Domain.SecondTestEntityZeroO
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateSecondTestEntityZeroOrManyCommand(SecondTestEntityZeroOrManyCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<SecondTestEntityZeroOrManyKeyDto>;
+public partial record CreateSecondTestEntityZeroOrManyCommand(SecondTestEntityZeroOrManyCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<SecondTestEntityZeroOrManyKeyDto>;
 
 internal partial class CreateSecondTestEntityZeroOrManyCommandHandler : CreateSecondTestEntityZeroOrManyCommandHandlerBase
 {
@@ -59,25 +59,25 @@ internal abstract class CreateSecondTestEntityZeroOrManyCommandHandlerBase : Com
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.TestEntityZeroOrManyRelationshipId.Any())
+		if(request.EntityDto.TestEntityZeroOrManiesId.Any())
 		{
-			foreach(var relatedId in request.EntityDto.TestEntityZeroOrManyRelationshipId)
+			foreach(var relatedId in request.EntityDto.TestEntityZeroOrManiesId)
 			{
 				var relatedKey = TestWebApp.Domain.TestEntityZeroOrManyMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.TestEntityZeroOrManies.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)
-					entityToCreate.CreateRefToTestEntityZeroOrManyRelationship(relatedEntity);
+					entityToCreate.CreateRefToTestEntityZeroOrManies(relatedEntity);
 				else
-					throw new RelatedEntityNotFoundException("TestEntityZeroOrManyRelationship", relatedId.ToString());
+					throw new RelatedEntityNotFoundException("TestEntityZeroOrManies", relatedId.ToString());
 			}
 		}
 		else
 		{
-			foreach(var relatedCreateDto in request.EntityDto.TestEntityZeroOrManyRelationship)
+			foreach(var relatedCreateDto in request.EntityDto.TestEntityZeroOrManies)
 			{
 				var relatedEntity = TestEntityZeroOrManyFactory.CreateEntity(relatedCreateDto);
-				entityToCreate.CreateRefToTestEntityZeroOrManyRelationship(relatedEntity);
+				entityToCreate.CreateRefToTestEntityZeroOrManies(relatedEntity);
 			}
 		}
 

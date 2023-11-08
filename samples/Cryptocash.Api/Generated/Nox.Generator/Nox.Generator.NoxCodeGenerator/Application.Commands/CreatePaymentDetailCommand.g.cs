@@ -20,7 +20,7 @@ using PaymentDetailEntity = Cryptocash.Domain.PaymentDetail;
 
 namespace Cryptocash.Application.Commands;
 
-public record CreatePaymentDetailCommand(PaymentDetailCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<PaymentDetailKeyDto>;
+public partial record CreatePaymentDetailCommand(PaymentDetailCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<PaymentDetailKeyDto>;
 
 internal partial class CreatePaymentDetailCommandHandler : CreatePaymentDetailCommandHandlerBase
 {
@@ -63,33 +63,33 @@ internal abstract class CreatePaymentDetailCommandHandlerBase : CommandBase<Crea
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.PaymentDetailsUsedByCustomerId is not null)
+		if(request.EntityDto.CustomerId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityDto.PaymentDetailsUsedByCustomerId.NonNullValue<System.Int64>());
+			var relatedKey = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityDto.CustomerId.NonNullValue<System.Int64>());
 			var relatedEntity = await DbContext.Customers.FindAsync(relatedKey);
 			if(relatedEntity is not null)
-				entityToCreate.CreateRefToPaymentDetailsUsedByCustomer(relatedEntity);
+				entityToCreate.CreateRefToCustomer(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("PaymentDetailsUsedByCustomer", request.EntityDto.PaymentDetailsUsedByCustomerId.NonNullValue<System.Int64>().ToString());
+				throw new RelatedEntityNotFoundException("Customer", request.EntityDto.CustomerId.NonNullValue<System.Int64>().ToString());
 		}
-		else if(request.EntityDto.PaymentDetailsUsedByCustomer is not null)
+		else if(request.EntityDto.Customer is not null)
 		{
-			var relatedEntity = CustomerFactory.CreateEntity(request.EntityDto.PaymentDetailsUsedByCustomer);
-			entityToCreate.CreateRefToPaymentDetailsUsedByCustomer(relatedEntity);
+			var relatedEntity = CustomerFactory.CreateEntity(request.EntityDto.Customer);
+			entityToCreate.CreateRefToCustomer(relatedEntity);
 		}
-		if(request.EntityDto.PaymentDetailsRelatedPaymentProviderId is not null)
+		if(request.EntityDto.PaymentProviderId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.PaymentProviderMetadata.CreateId(request.EntityDto.PaymentDetailsRelatedPaymentProviderId.NonNullValue<System.Int64>());
+			var relatedKey = Cryptocash.Domain.PaymentProviderMetadata.CreateId(request.EntityDto.PaymentProviderId.NonNullValue<System.Int64>());
 			var relatedEntity = await DbContext.PaymentProviders.FindAsync(relatedKey);
 			if(relatedEntity is not null)
-				entityToCreate.CreateRefToPaymentDetailsRelatedPaymentProvider(relatedEntity);
+				entityToCreate.CreateRefToPaymentProvider(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("PaymentDetailsRelatedPaymentProvider", request.EntityDto.PaymentDetailsRelatedPaymentProviderId.NonNullValue<System.Int64>().ToString());
+				throw new RelatedEntityNotFoundException("PaymentProvider", request.EntityDto.PaymentProviderId.NonNullValue<System.Int64>().ToString());
 		}
-		else if(request.EntityDto.PaymentDetailsRelatedPaymentProvider is not null)
+		else if(request.EntityDto.PaymentProvider is not null)
 		{
-			var relatedEntity = PaymentProviderFactory.CreateEntity(request.EntityDto.PaymentDetailsRelatedPaymentProvider);
-			entityToCreate.CreateRefToPaymentDetailsRelatedPaymentProvider(relatedEntity);
+			var relatedEntity = PaymentProviderFactory.CreateEntity(request.EntityDto.PaymentProvider);
+			entityToCreate.CreateRefToPaymentProvider(relatedEntity);
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

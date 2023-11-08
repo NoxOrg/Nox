@@ -25,6 +25,7 @@ namespace Cryptocash.Application.Factories;
 
 internal abstract class LandLordFactoryBase : IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public LandLordFactoryBase
     (
@@ -37,9 +38,9 @@ internal abstract class LandLordFactoryBase : IEntityFactory<LandLordEntity, Lan
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(LandLordEntity entity, LandLordUpdateDto updateDto)
+    public virtual void UpdateEntity(LandLordEntity entity, LandLordUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(LandLordEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -55,7 +56,7 @@ internal abstract class LandLordFactoryBase : IEntityFactory<LandLordEntity, Lan
         return entity;
     }
 
-    private void UpdateEntityInternal(LandLordEntity entity, LandLordUpdateDto updateDto)
+    private void UpdateEntityInternal(LandLordEntity entity, LandLordUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Name = Cryptocash.Domain.LandLordMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         entity.Address = Cryptocash.Domain.LandLordMetadata.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
@@ -86,6 +87,9 @@ internal abstract class LandLordFactoryBase : IEntityFactory<LandLordEntity, Lan
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class LandLordFactory : LandLordFactoryBase

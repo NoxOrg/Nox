@@ -25,6 +25,7 @@ namespace Cryptocash.Application.Factories;
 
 internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachineEntity, VendingMachineCreateDto, VendingMachineUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public VendingMachineFactoryBase
     (
@@ -37,9 +38,9 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(VendingMachineEntity entity, VendingMachineUpdateDto updateDto)
+    public virtual void UpdateEntity(VendingMachineEntity entity, VendingMachineUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(VendingMachineEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -55,25 +56,21 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
         entity.GeoLocation = Cryptocash.Domain.VendingMachineMetadata.CreateGeoLocation(createDto.GeoLocation);
         entity.StreetAddress = Cryptocash.Domain.VendingMachineMetadata.CreateStreetAddress(createDto.StreetAddress);
         entity.SerialNumber = Cryptocash.Domain.VendingMachineMetadata.CreateSerialNumber(createDto.SerialNumber);
-        if (createDto.InstallationFootPrint is not null)entity.InstallationFootPrint = Cryptocash.Domain.VendingMachineMetadata.CreateInstallationFootPrint(createDto.InstallationFootPrint.NonNullValue<System.Decimal>());
-        if (createDto.RentPerSquareMetre is not null)entity.RentPerSquareMetre = Cryptocash.Domain.VendingMachineMetadata.CreateRentPerSquareMetre(createDto.RentPerSquareMetre.NonNullValue<MoneyDto>());
+        entity.SetIfNotNull(createDto.InstallationFootPrint, (entity) => entity.InstallationFootPrint =Cryptocash.Domain.VendingMachineMetadata.CreateInstallationFootPrint(createDto.InstallationFootPrint.NonNullValue<System.Decimal>()));
+        entity.SetIfNotNull(createDto.RentPerSquareMetre, (entity) => entity.RentPerSquareMetre =Cryptocash.Domain.VendingMachineMetadata.CreateRentPerSquareMetre(createDto.RentPerSquareMetre.NonNullValue<MoneyDto>()));
         entity.EnsureId(createDto.Id);
         return entity;
     }
 
-    private void UpdateEntityInternal(VendingMachineEntity entity, VendingMachineUpdateDto updateDto)
+    private void UpdateEntityInternal(VendingMachineEntity entity, VendingMachineUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.MacAddress = Cryptocash.Domain.VendingMachineMetadata.CreateMacAddress(updateDto.MacAddress.NonNullValue<System.String>());
         entity.PublicIp = Cryptocash.Domain.VendingMachineMetadata.CreatePublicIp(updateDto.PublicIp.NonNullValue<System.String>());
         entity.GeoLocation = Cryptocash.Domain.VendingMachineMetadata.CreateGeoLocation(updateDto.GeoLocation.NonNullValue<LatLongDto>());
         entity.StreetAddress = Cryptocash.Domain.VendingMachineMetadata.CreateStreetAddress(updateDto.StreetAddress.NonNullValue<StreetAddressDto>());
         entity.SerialNumber = Cryptocash.Domain.VendingMachineMetadata.CreateSerialNumber(updateDto.SerialNumber.NonNullValue<System.String>());
-        if (updateDto.InstallationFootPrint == null) { entity.InstallationFootPrint = null; } else {
-            entity.InstallationFootPrint = Cryptocash.Domain.VendingMachineMetadata.CreateInstallationFootPrint(updateDto.InstallationFootPrint.ToValueFromNonNull<System.Decimal>());
-        }
-        if (updateDto.RentPerSquareMetre == null) { entity.RentPerSquareMetre = null; } else {
-            entity.RentPerSquareMetre = Cryptocash.Domain.VendingMachineMetadata.CreateRentPerSquareMetre(updateDto.RentPerSquareMetre.ToValueFromNonNull<MoneyDto>());
-        }
+        entity.SetIfNotNull(updateDto.InstallationFootPrint, (entity) => entity.InstallationFootPrint = Cryptocash.Domain.VendingMachineMetadata.CreateInstallationFootPrint(updateDto.InstallationFootPrint.ToValueFromNonNull<System.Decimal>()));
+        entity.SetIfNotNull(updateDto.RentPerSquareMetre, (entity) => entity.RentPerSquareMetre = Cryptocash.Domain.VendingMachineMetadata.CreateRentPerSquareMetre(updateDto.RentPerSquareMetre.ToValueFromNonNull<MoneyDto>()));
     }
 
     private void PartialUpdateEntityInternal(VendingMachineEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -152,6 +149,9 @@ internal abstract class VendingMachineFactoryBase : IEntityFactory<VendingMachin
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class VendingMachineFactory : VendingMachineFactoryBase

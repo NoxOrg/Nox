@@ -32,5 +32,5 @@ public partial class WorkplaceUpdateDto : IEntityDto<DomainNamespace.Workplace>
     /// Workplace Workplace country ZeroOrOne Countries
     /// </summary>
     
-    public System.Int64? BelongsToCountryId { get; set; } = default!;
+    public System.Int64? CountryId { get; set; } = default!;
 }

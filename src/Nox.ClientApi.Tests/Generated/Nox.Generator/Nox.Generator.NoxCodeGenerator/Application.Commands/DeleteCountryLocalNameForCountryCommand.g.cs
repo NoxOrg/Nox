@@ -14,7 +14,7 @@ using ClientApi.Application.Dto;
 using CountryLocalNameEntity = ClientApi.Domain.CountryLocalName;
 
 namespace ClientApi.Application.Commands;
-public record DeleteCountryLocalNameForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameKeyDto EntityKeyDto) : IRequest <bool>;
+public partial record DeleteCountryLocalNameForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameKeyDto EntityKeyDto) : IRequest <bool>;
 
 internal partial class DeleteCountryLocalNameForCountryCommandHandler : DeleteCountryLocalNameForCountryCommandHandlerBase
 {

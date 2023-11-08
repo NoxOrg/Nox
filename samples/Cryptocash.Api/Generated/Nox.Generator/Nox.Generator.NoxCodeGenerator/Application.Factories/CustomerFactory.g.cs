@@ -25,6 +25,7 @@ namespace Cryptocash.Application.Factories;
 
 internal abstract class CustomerFactoryBase : IEntityFactory<CustomerEntity, CustomerCreateDto, CustomerUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public CustomerFactoryBase
     (
@@ -37,9 +38,9 @@ internal abstract class CustomerFactoryBase : IEntityFactory<CustomerEntity, Cus
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(CustomerEntity entity, CustomerUpdateDto updateDto)
+    public virtual void UpdateEntity(CustomerEntity entity, CustomerUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(CustomerEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -54,19 +55,17 @@ internal abstract class CustomerFactoryBase : IEntityFactory<CustomerEntity, Cus
         entity.LastName = Cryptocash.Domain.CustomerMetadata.CreateLastName(createDto.LastName);
         entity.EmailAddress = Cryptocash.Domain.CustomerMetadata.CreateEmailAddress(createDto.EmailAddress);
         entity.Address = Cryptocash.Domain.CustomerMetadata.CreateAddress(createDto.Address);
-        if (createDto.MobileNumber is not null)entity.MobileNumber = Cryptocash.Domain.CustomerMetadata.CreateMobileNumber(createDto.MobileNumber.NonNullValue<System.String>());
+        entity.SetIfNotNull(createDto.MobileNumber, (entity) => entity.MobileNumber =Cryptocash.Domain.CustomerMetadata.CreateMobileNumber(createDto.MobileNumber.NonNullValue<System.String>()));
         return entity;
     }
 
-    private void UpdateEntityInternal(CustomerEntity entity, CustomerUpdateDto updateDto)
+    private void UpdateEntityInternal(CustomerEntity entity, CustomerUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.FirstName = Cryptocash.Domain.CustomerMetadata.CreateFirstName(updateDto.FirstName.NonNullValue<System.String>());
         entity.LastName = Cryptocash.Domain.CustomerMetadata.CreateLastName(updateDto.LastName.NonNullValue<System.String>());
         entity.EmailAddress = Cryptocash.Domain.CustomerMetadata.CreateEmailAddress(updateDto.EmailAddress.NonNullValue<System.String>());
         entity.Address = Cryptocash.Domain.CustomerMetadata.CreateAddress(updateDto.Address.NonNullValue<StreetAddressDto>());
-        if (updateDto.MobileNumber == null) { entity.MobileNumber = null; } else {
-            entity.MobileNumber = Cryptocash.Domain.CustomerMetadata.CreateMobileNumber(updateDto.MobileNumber.ToValueFromNonNull<System.String>());
-        }
+        entity.SetIfNotNull(updateDto.MobileNumber, (entity) => entity.MobileNumber = Cryptocash.Domain.CustomerMetadata.CreateMobileNumber(updateDto.MobileNumber.ToValueFromNonNull<System.String>()));
     }
 
     private void PartialUpdateEntityInternal(CustomerEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -125,6 +124,9 @@ internal abstract class CustomerFactoryBase : IEntityFactory<CustomerEntity, Cus
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class CustomerFactory : CustomerFactoryBase

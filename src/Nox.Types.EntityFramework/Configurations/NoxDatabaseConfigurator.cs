@@ -115,10 +115,10 @@ namespace Nox.Types.EntityFramework.Configurations
                     IsRequired = true,
                 }
             };
-            
-             //Configure keys without navigation properties
-             ConfigureKeys(CodeGenConventions, builder, localizedEntity, keys, false);
 
+            //Configure keys without navigation properties
+            ConfigureKeys(CodeGenConventions, builder, localizedEntity, keys, false, false);
+            
             ConfigureLocalizedAttributes(CodeGenConventions, builder, localizedEntity);
         }
 
@@ -149,14 +149,17 @@ namespace Nox.Types.EntityFramework.Configurations
         {
             foreach (var relationshipToCreate in relationshipsToCreate)
             {
+                var relationshipName = entity.GetRelationshipPublicName(relationshipToCreate.Relationship);
+                var reversedRelationshipName = relationshipToCreate.Relationship.Related.Entity.GetRelationshipPublicName(
+                    relationshipToCreate.Relationship.Related.EntityRelationship);
                 // Many to Many
                 // Currently, configured bi-directionally, shouldn't cause any issues.
                 if (relationshipToCreate.Relationship.WithMultiEntity &&
                     relationshipToCreate.Relationship.Related.EntityRelationship.WithMultiEntity)
                 {
                     builder
-                        .HasMany(relationshipToCreate.Relationship.Name)
-                        .WithMany(relationshipToCreate.Relationship.Related.EntityRelationship.Name)
+                        .HasMany(relationshipName)
+                        .WithMany(reversedRelationshipName)
                         .UsingEntity(x => x.ToTable(relationshipToCreate.Relationship.Name));
                 }
                 // OneToOne and OneToMany, setup should be done only on foreign key side
@@ -169,16 +172,16 @@ namespace Nox.Types.EntityFramework.Configurations
                         //#if DEBUG
                         Console.WriteLine($"***Relationship oneToMany {entity.Name}," +
                            $"Name {relationshipToCreate.Relationship.Name} " +
-                           $"HasOne {$"{codeGeneratorState.DomainNameSpace}.{relationshipToCreate.Relationship.Entity}"} , {relationshipToCreate.Relationship.Entity} " +
-                           $"WithMany {entity.PluralName} " +
-                           $"ForeignKey {relationshipToCreate.Relationship.Entity}Id " +
+                           $"HasOne {$"{codeGeneratorState.DomainNameSpace}.{relationshipToCreate.Relationship.Entity}"}, {relationshipName} " +
+                           $"WithMany {reversedRelationshipName} " +
+                           $"ForeignKey {relationshipName}Id " +
                            $"");
                         //#endif
 
                         builder
-                            .HasOne($"{codeGeneratorState.DomainNameSpace}.{relationshipToCreate.Relationship.Entity}", relationshipToCreate.Relationship.Name)
-                            .WithMany(relationshipToCreate.Relationship.Related.EntityRelationship.Name)
-                            .HasForeignKey($"{relationshipToCreate.Relationship.Name}Id")
+                            .HasOne($"{codeGeneratorState.DomainNameSpace}.{relationshipToCreate.Relationship.Entity}", relationshipName)
+                            .WithMany(reversedRelationshipName)
+                            .HasForeignKey($"{relationshipName}Id")
                             .OnDelete(DeleteBehavior.ClientSetNull);
                     }
                     else //One to One
@@ -186,15 +189,15 @@ namespace Nox.Types.EntityFramework.Configurations
                         //#if DEBUG2
                         Console.WriteLine($"***Relationship oneToOne {entity.Name} ," +
                             $"Name {relationshipToCreate.Relationship.Name} " +
-                            $"HasOne {relationshipToCreate.Relationship.Entity} " +
-                            $"WithOne {entity.Name}" +
-                            $"ForeignKey {relationshipToCreate.Relationship.Entity}Id " +
+                            $"HasOne {codeGeneratorState.DomainNameSpace}.{relationshipToCreate.Relationship.Entity}, {relationshipName} " +
+                            $"WithOne {reversedRelationshipName}" +
+                            $"ForeignKey {relationshipName}Id " +
                             $"");
                         //#endif
                         builder
-                            .HasOne($"{codeGeneratorState.DomainNameSpace}.{relationshipToCreate.Relationship.Entity}", relationshipToCreate.Relationship.Name)
-                            .WithOne(relationshipToCreate.Relationship.Related.EntityRelationship.Name)
-                            .HasForeignKey(entity.Name, $"{relationshipToCreate.Relationship.Name}Id")
+                            .HasOne($"{codeGeneratorState.DomainNameSpace}.{relationshipToCreate.Relationship.Entity}", relationshipName)
+                            .WithOne(reversedRelationshipName)
+                            .HasForeignKey(entity.Name, $"{relationshipName}Id")
                             .OnDelete(DeleteBehavior.ClientSetNull);
                     }
 
@@ -240,16 +243,17 @@ namespace Nox.Types.EntityFramework.Configurations
         {
             // Right now assuming that there is always one key present
             var key = relationshipToCreate.Relationship.Related.Entity.Keys![0];
+            var relationshipName = entity.GetRelationshipPublicName(relationshipToCreate.Relationship);
             if (TypesDatabaseConfigurations.TryGetValue(key.Type,
                 out var databaseConfiguration))
             {
                 Console.WriteLine($"++++ConfigureRelationForeignKeyProperty {entity.Name}, " +
                     $"rel {relationshipToCreate.Relationship.Name} " +
-                    $"Property {relationshipToCreate.Relationship.Related.Entity.Name}Id, " +
+                    $"Property {relationshipName}Id, " +
                     $"Keytype {key.Type}");
 
                 var keyToBeConfigured = key.ShallowCopy();
-                keyToBeConfigured.Name = $"{relationshipToCreate.Relationship.Name}Id";
+                keyToBeConfigured.Name = $"{relationshipName}Id";
                 keyToBeConfigured.Description = $"Foreign key for entity {relationshipToCreate.Relationship.Name}";
                 keyToBeConfigured.IsRequired = relationshipToCreate.Relationship.IsRequired();
                 keyToBeConfigured.IsReadonly = false;
@@ -262,7 +266,8 @@ namespace Nox.Types.EntityFramework.Configurations
             IEntityBuilder builder,
             Entity entity,
             IReadOnlyList<NoxSimpleTypeDefinition> keys,
-            bool configureNavigationProperty = true)
+            bool configureNavigationProperty = true,
+            bool configureForeignKey = true)
         {
             if (keys is { Count: > 0 })
             {
@@ -273,7 +278,7 @@ namespace Nox.Types.EntityFramework.Configurations
                     {
                         Console.WriteLine($"    Setup Key {key.Name} as Foreign Key for Entity {entity.Name}");
 
-                        ConfigureEntityKeyForEntityForeignKey(codeGeneratorState, builder, entity, key, configureNavigationProperty);
+                        ConfigureEntityKeyForEntityForeignKey(codeGeneratorState, builder, entity, key, configureNavigationProperty, configureForeignKey);
                         keysPropertyNames.Add(key.Name);
                     }
                     else if (TypesDatabaseConfigurations.TryGetValue(key.Type,
@@ -298,14 +303,19 @@ namespace Nox.Types.EntityFramework.Configurations
             IEntityBuilder builder,
             Entity entity,
             NoxSimpleTypeDefinition key,
-            bool configureNavigationProperty = true)
+            bool configureNavigationProperty = true,
+            bool configureForeignKey = true)
         {
             // Key type of the Foreign Entity Key
             var foreignEntityKeyType = codeGeneratorState.Solution.GetSingleKeyTypeForEntity(key.EntityIdTypeOptions!.Entity);
-            builder
-                .HasOne(codeGeneratorState.GetEntityTypeFullName(key.EntityIdTypeOptions.Entity), configureNavigationProperty ?  key.EntityIdTypeOptions!.Entity: null)
-                .WithOne()
-                .HasForeignKey(entity.Name, key.Name);
+
+            if (configureForeignKey)
+            {
+                builder
+                    .HasOne(codeGeneratorState.GetEntityTypeFullName(key.EntityIdTypeOptions.Entity), configureNavigationProperty ? key.EntityIdTypeOptions!.Entity : null)
+                    .WithOne()
+                    .HasForeignKey(entity.Name, key.Name);
+            }
 
             //Configure foreign key property
             if (TypesDatabaseConfigurations.TryGetValue(foreignEntityKeyType,

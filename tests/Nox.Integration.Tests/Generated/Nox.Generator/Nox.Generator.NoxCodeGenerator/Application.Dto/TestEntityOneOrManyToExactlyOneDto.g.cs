@@ -60,7 +60,7 @@ public abstract class TestEntityOneOrManyToExactlyOneDtoBase : EntityDtoBase, IE
     /// <summary>
     /// TestEntityOneOrManyToExactlyOne Test entity relationship to TestEntityExactlyOneToOneOrMany OneOrMany TestEntityExactlyOneToOneOrManies
     /// </summary>
-    public virtual List<TestEntityExactlyOneToOneOrManyDto> TestEntityExactlyOneToOneOrMany { get; set; } = new();
+    public virtual List<TestEntityExactlyOneToOneOrManyDto> TestEntityExactlyOneToOneOrManies { get; set; } = new();
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

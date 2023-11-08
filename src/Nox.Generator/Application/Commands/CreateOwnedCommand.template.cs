@@ -17,7 +17,7 @@ using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
-public record Create{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}CreateDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
+public partial record Create{{entity.Name}}For{{parent.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}CreateDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
 
 internal partial class Create{{entity.Name}}For{{parent.Name}}CommandHandler : Create{{entity.Name}}For{{parent.Name}}CommandHandlerBase
 {

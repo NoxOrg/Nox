@@ -90,21 +90,21 @@ internal abstract partial class SecondTestEntityZeroOrOneBase : AuditableEntityB
     /// <summary>
     /// SecondTestEntityZeroOrOne Test entity relationship to TestEntity ZeroOrOne TestEntityZeroOrOnes
     /// </summary>
-    public virtual TestEntityZeroOrOne? TestEntityZeroOrOneRelationship { get; private set; } = null!;
+    public virtual TestEntityZeroOrOne? TestEntityZeroOrOne { get; private set; } = null!;
 
-    public virtual void CreateRefToTestEntityZeroOrOneRelationship(TestEntityZeroOrOne relatedTestEntityZeroOrOne)
+    public virtual void CreateRefToTestEntityZeroOrOne(TestEntityZeroOrOne relatedTestEntityZeroOrOne)
     {
-        TestEntityZeroOrOneRelationship = relatedTestEntityZeroOrOne;
+        TestEntityZeroOrOne = relatedTestEntityZeroOrOne;
     }
 
-    public virtual void DeleteRefToTestEntityZeroOrOneRelationship(TestEntityZeroOrOne relatedTestEntityZeroOrOne)
+    public virtual void DeleteRefToTestEntityZeroOrOne(TestEntityZeroOrOne relatedTestEntityZeroOrOne)
     {
-        TestEntityZeroOrOneRelationship = null;
+        TestEntityZeroOrOne = null;
     }
 
-    public virtual void DeleteAllRefToTestEntityZeroOrOneRelationship()
+    public virtual void DeleteAllRefToTestEntityZeroOrOne()
     {
-        TestEntityZeroOrOneRelationship = null;
+        TestEntityZeroOrOne = null;
     }
 
     /// <summary>

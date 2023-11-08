@@ -16,7 +16,7 @@ using TestEntityForAutoNumberUsagesEntity = TestWebApp.Domain.TestEntityForAutoN
 
 namespace TestWebApp.Application.Commands;
 
-public record PartialUpdateTestEntityForAutoNumberUsagesCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <TestEntityForAutoNumberUsagesKeyDto?>;
+public partial record PartialUpdateTestEntityForAutoNumberUsagesCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <TestEntityForAutoNumberUsagesKeyDto?>;
 
 internal class PartialUpdateTestEntityForAutoNumberUsagesCommandHandler : PartialUpdateTestEntityForAutoNumberUsagesCommandHandlerBase
 {
@@ -44,7 +44,7 @@ internal class PartialUpdateTestEntityForAutoNumberUsagesCommandHandlerBase : Co
 	public virtual async Task<TestEntityForAutoNumberUsagesKeyDto?> Handle(PartialUpdateTestEntityForAutoNumberUsagesCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityForAutoNumberUsages.FindAsync(keyId);

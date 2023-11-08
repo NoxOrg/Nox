@@ -25,6 +25,7 @@ namespace Cryptocash.Application.Factories;
 
 internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZoneEntity, CountryTimeZoneCreateDto, CountryTimeZoneUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public CountryTimeZoneFactoryBase
     (
@@ -37,9 +38,9 @@ internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZ
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(CountryTimeZoneEntity entity, CountryTimeZoneUpdateDto updateDto)
+    public virtual void UpdateEntity(CountryTimeZoneEntity entity, CountryTimeZoneUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(CountryTimeZoneEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -54,7 +55,7 @@ internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZ
         return entity;
     }
 
-    private void UpdateEntityInternal(CountryTimeZoneEntity entity, CountryTimeZoneUpdateDto updateDto)
+    private void UpdateEntityInternal(CountryTimeZoneEntity entity, CountryTimeZoneUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.TimeZoneCode = Cryptocash.Domain.CountryTimeZoneMetadata.CreateTimeZoneCode(updateDto.TimeZoneCode.NonNullValue<System.String>());
     }
@@ -73,6 +74,9 @@ internal abstract class CountryTimeZoneFactoryBase : IEntityFactory<CountryTimeZ
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class CountryTimeZoneFactory : CountryTimeZoneFactoryBase

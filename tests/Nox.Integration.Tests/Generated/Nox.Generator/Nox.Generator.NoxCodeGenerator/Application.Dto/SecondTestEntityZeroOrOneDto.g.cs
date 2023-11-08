@@ -60,7 +60,7 @@ public abstract class SecondTestEntityZeroOrOneDtoBase : EntityDtoBase, IEntityD
     /// <summary>
     /// SecondTestEntityZeroOrOne Test entity relationship to TestEntity ZeroOrOne TestEntityZeroOrOnes
     /// </summary>
-    public virtual TestEntityZeroOrOneDto? TestEntityZeroOrOneRelationship { get; set; } = null!;
+    public virtual TestEntityZeroOrOneDto? TestEntityZeroOrOne { get; set; } = null!;
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

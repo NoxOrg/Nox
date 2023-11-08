@@ -28,11 +28,11 @@ public partial class StoreLicenseMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions IssuerTypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = false,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = false,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
@@ -42,6 +42,20 @@ public partial class StoreLicenseMetadata
         public static Nox.Types.Text CreateIssuer(System.String value)
             => Nox.Types.Text.From(value, IssuerTypeOptions);
         
+    
+        /// <summary>
+        /// Factory for property 'ExternalId'
+        /// </summary>
+        public static Nox.Types.AutoNumber CreateExternalId(System.Int64 value)
+            => Nox.Types.AutoNumber.FromDatabase(value);
+        
+    
+        /// <summary>
+        /// Factory for property 'CurrencyId'
+        /// </summary>
+        public static Nox.Types.CurrencyCode3 CreateCurrencyId(System.String value)
+            => Nox.Types.CurrencyCode3.From(value);
+        
 
         /// <summary>
         /// User Interface for property 'Issuer'
@@ -50,5 +64,14 @@ public partial class StoreLicenseMetadata
             => solution.Domain!
                 .GetEntityByName("StoreLicense")
                 .GetAttributeByName("Issuer")?
+                .UserInterface;
+
+        /// <summary>
+        /// User Interface for property 'ExternalId'
+        /// </summary>
+        public static TypeUserInterface? ExternalIdUiOptions(NoxSolution solution) 
+            => solution.Domain!
+                .GetEntityByName("StoreLicense")
+                .GetAttributeByName("ExternalId")?
                 .UserInterface;
 }

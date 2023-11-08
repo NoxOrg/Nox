@@ -20,7 +20,7 @@ using TransactionEntity = Cryptocash.Domain.Transaction;
 
 namespace Cryptocash.Application.Commands;
 
-public record CreateTransactionCommand(TransactionCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<TransactionKeyDto>;
+public partial record CreateTransactionCommand(TransactionCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<TransactionKeyDto>;
 
 internal partial class CreateTransactionCommandHandler : CreateTransactionCommandHandlerBase
 {
@@ -63,33 +63,33 @@ internal abstract class CreateTransactionCommandHandlerBase : CommandBase<Create
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.TransactionForCustomerId is not null)
+		if(request.EntityDto.CustomerId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityDto.TransactionForCustomerId.NonNullValue<System.Int64>());
+			var relatedKey = Cryptocash.Domain.CustomerMetadata.CreateId(request.EntityDto.CustomerId.NonNullValue<System.Int64>());
 			var relatedEntity = await DbContext.Customers.FindAsync(relatedKey);
 			if(relatedEntity is not null)
-				entityToCreate.CreateRefToTransactionForCustomer(relatedEntity);
+				entityToCreate.CreateRefToCustomer(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("TransactionForCustomer", request.EntityDto.TransactionForCustomerId.NonNullValue<System.Int64>().ToString());
+				throw new RelatedEntityNotFoundException("Customer", request.EntityDto.CustomerId.NonNullValue<System.Int64>().ToString());
 		}
-		else if(request.EntityDto.TransactionForCustomer is not null)
+		else if(request.EntityDto.Customer is not null)
 		{
-			var relatedEntity = CustomerFactory.CreateEntity(request.EntityDto.TransactionForCustomer);
-			entityToCreate.CreateRefToTransactionForCustomer(relatedEntity);
+			var relatedEntity = CustomerFactory.CreateEntity(request.EntityDto.Customer);
+			entityToCreate.CreateRefToCustomer(relatedEntity);
 		}
-		if(request.EntityDto.TransactionForBookingId is not null)
+		if(request.EntityDto.BookingId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.BookingMetadata.CreateId(request.EntityDto.TransactionForBookingId.NonNullValue<System.Guid>());
+			var relatedKey = Cryptocash.Domain.BookingMetadata.CreateId(request.EntityDto.BookingId.NonNullValue<System.Guid>());
 			var relatedEntity = await DbContext.Bookings.FindAsync(relatedKey);
 			if(relatedEntity is not null)
-				entityToCreate.CreateRefToTransactionForBooking(relatedEntity);
+				entityToCreate.CreateRefToBooking(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("TransactionForBooking", request.EntityDto.TransactionForBookingId.NonNullValue<System.Guid>().ToString());
+				throw new RelatedEntityNotFoundException("Booking", request.EntityDto.BookingId.NonNullValue<System.Guid>().ToString());
 		}
-		else if(request.EntityDto.TransactionForBooking is not null)
+		else if(request.EntityDto.Booking is not null)
 		{
-			var relatedEntity = BookingFactory.CreateEntity(request.EntityDto.TransactionForBooking);
-			entityToCreate.CreateRefToTransactionForBooking(relatedEntity);
+			var relatedEntity = BookingFactory.CreateEntity(request.EntityDto.Booking);
+			entityToCreate.CreateRefToBooking(relatedEntity);
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

@@ -12,7 +12,7 @@ using TestWebApp.Infrastructure.Persistence;
 
 namespace TestWebApp.Application.Queries;
 
-public record GetTestEntityForAutoNumberUsagesByIdQuery(System.Int64 keyId) : IRequest <IQueryable<TestEntityForAutoNumberUsagesDto>>;
+public partial record GetTestEntityForAutoNumberUsagesByIdQuery(System.Int64 keyId) : IRequest <IQueryable<TestEntityForAutoNumberUsagesDto>>;
 
 internal partial class GetTestEntityForAutoNumberUsagesByIdQueryHandler:GetTestEntityForAutoNumberUsagesByIdQueryHandlerBase
 {

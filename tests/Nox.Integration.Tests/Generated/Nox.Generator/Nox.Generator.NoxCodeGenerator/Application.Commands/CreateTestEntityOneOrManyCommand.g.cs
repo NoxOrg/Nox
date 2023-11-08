@@ -20,7 +20,7 @@ using TestEntityOneOrManyEntity = TestWebApp.Domain.TestEntityOneOrMany;
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateTestEntityOneOrManyCommand(TestEntityOneOrManyCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<TestEntityOneOrManyKeyDto>;
+public partial record CreateTestEntityOneOrManyCommand(TestEntityOneOrManyCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<TestEntityOneOrManyKeyDto>;
 
 internal partial class CreateTestEntityOneOrManyCommandHandler : CreateTestEntityOneOrManyCommandHandlerBase
 {
@@ -59,25 +59,25 @@ internal abstract class CreateTestEntityOneOrManyCommandHandlerBase : CommandBas
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.SecondTestEntityOneOrManyRelationshipId.Any())
+		if(request.EntityDto.SecondTestEntityOneOrManiesId.Any())
 		{
-			foreach(var relatedId in request.EntityDto.SecondTestEntityOneOrManyRelationshipId)
+			foreach(var relatedId in request.EntityDto.SecondTestEntityOneOrManiesId)
 			{
 				var relatedKey = TestWebApp.Domain.SecondTestEntityOneOrManyMetadata.CreateId(relatedId);
 				var relatedEntity = await DbContext.SecondTestEntityOneOrManies.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)
-					entityToCreate.CreateRefToSecondTestEntityOneOrManyRelationship(relatedEntity);
+					entityToCreate.CreateRefToSecondTestEntityOneOrManies(relatedEntity);
 				else
-					throw new RelatedEntityNotFoundException("SecondTestEntityOneOrManyRelationship", relatedId.ToString());
+					throw new RelatedEntityNotFoundException("SecondTestEntityOneOrManies", relatedId.ToString());
 			}
 		}
 		else
 		{
-			foreach(var relatedCreateDto in request.EntityDto.SecondTestEntityOneOrManyRelationship)
+			foreach(var relatedCreateDto in request.EntityDto.SecondTestEntityOneOrManies)
 			{
 				var relatedEntity = SecondTestEntityOneOrManyFactory.CreateEntity(relatedCreateDto);
-				entityToCreate.CreateRefToSecondTestEntityOneOrManyRelationship(relatedEntity);
+				entityToCreate.CreateRefToSecondTestEntityOneOrManies(relatedEntity);
 			}
 		}
 

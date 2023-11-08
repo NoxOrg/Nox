@@ -28,14 +28,14 @@ public abstract partial class WorkplacesControllerBase : ODataController
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToBelongsToCountry([FromRoute] System.UInt32 key, [FromRoute] System.Int64 relatedKey)
+    public async Task<ActionResult> CreateRefToCountry([FromRoute] System.UInt32 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var createdRef = await _mediator.Send(new CreateRefWorkplaceToBelongsToCountryCommand(new WorkplaceKeyDto(key), new CountryKeyDto(relatedKey)));
+        var createdRef = await _mediator.Send(new CreateRefWorkplaceToCountryCommand(new WorkplaceKeyDto(key), new CountryKeyDto(relatedKey)));
         if (!createdRef)
         {
             return NotFound();
@@ -44,9 +44,25 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToBelongsToCountry([FromRoute] System.UInt32 key)
+    public virtual async Task<ActionResult> PostToCountry([FromRoute] System.UInt32 key, [FromBody] CountryCreateDto country)
     {
-        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(key))).Select(x => x.BelongsToCountry).SingleOrDefault();
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        country.WorkplacesId = new List<System.UInt32> { key };
+        var createdKey = await _mediator.Send(new CreateCountryCommand(country, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
+    public async Task<ActionResult> GetRefToCountry([FromRoute] System.UInt32 key)
+    {
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).Select(x => x.Country).SingleOrDefault();
         if (related is null)
         {
             return NotFound();
@@ -56,14 +72,14 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToBelongsToCountry([FromRoute] System.UInt32 key, [FromRoute] System.Int64 relatedKey)
+    public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.UInt32 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedRef = await _mediator.Send(new DeleteRefWorkplaceToBelongsToCountryCommand(new WorkplaceKeyDto(key), new CountryKeyDto(relatedKey)));
+        var deletedRef = await _mediator.Send(new DeleteRefWorkplaceToCountryCommand(new WorkplaceKeyDto(key), new CountryKeyDto(relatedKey)));
         if (!deletedRef)
         {
             return NotFound();
@@ -72,14 +88,14 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToBelongsToCountry([FromRoute] System.UInt32 key)
+    public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.UInt32 key)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefWorkplaceToBelongsToCountryCommand(new WorkplaceKeyDto(key)));
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefWorkplaceToCountryCommand(new WorkplaceKeyDto(key)));
         if (!deletedAllRef)
         {
             return NotFound();

@@ -17,14 +17,16 @@ using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Na
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
-public record Update{{entity.Name}}Command({{primaryKeys}}, {{entity.Name}}UpdateDto EntityDto{{ if !entity.IsOwnedEntity}}, System.Guid? Etag{{end}}) : IRequest<{{entity.Name}}KeyDto?>;
+public record Update{{entity.Name}}Command({{primaryKeys}}, {{entity.Name}}UpdateDto EntityDto, Nox.Types.CultureCode {{codeGeneratorState.LocalizationCultureField}}{{ if !entity.IsOwnedEntity}}, System.Guid? Etag{{end}}) : IRequest<{{entity.Name}}KeyDto?>;
 
 internal partial class Update{{entity.Name}}CommandHandler : Update{{entity.Name}}CommandHandlerBase
 {
 	public Update{{entity.Name}}CommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory{{if entity.IsLocalized }},
+		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}UpdateDto> entityLocalizedFactory{{ end -}}) 
+		: base(dbContext, noxSolution, entityFactory{{- if entity.IsLocalized }}, entityLocalizedFactory{{ end -}})
 	{
 	}
 }
@@ -33,14 +35,22 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 {
 	public AppDbContext DbContext { get; }
 	private readonly IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> _entityFactory;
+	{{- if entity.IsLocalized }}
+	private readonly IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}UpdateDto> _entityLocalizedFactory;
+	{{- end }}
 
 	public Update{{entity.Name}}CommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory{{if entity.IsLocalized }},
+		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}UpdateDto> entityLocalizedFactory{{ end -}})
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
+		{{- if entity.IsLocalized }} 
+		_entityLocalizedFactory = entityLocalizedFactory;
+		{{- end }}
 	}
 
 	public virtual async Task<{{entity.Name}}KeyDto?> Handle(Update{{entity.Name}}Command request, CancellationToken cancellationToken)
@@ -60,54 +70,59 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 
 	{{- for relationship in entity.Relationships }}
 		{{- relatedEntity =  relationship.Related.Entity }}
+		{{- relationshipName = GetRelationshipPublicName entity relationship }}
 		{{- key = array.first relatedEntity.Keys }}
 		{{- if relationship.Relationship == "ZeroOrOne" }}
 
-		if(request.EntityDto.{{relationship.Name}}Id is not null)
+		if(request.EntityDto.{{relationshipName}}Id is not null)
 		{
-			var {{ToLowerFirstChar relationship.Name}}Key = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{relationship.Name}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>());
-			var {{ToLowerFirstChar relationship.Name}}Entity = await DbContext.{{relatedEntity.PluralName}}.FindAsync({{ToLowerFirstChar relationship.Name}}Key);
+			var {{ToLowerFirstChar relationshipName}}Key = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{relationshipName}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>());
+			var {{ToLowerFirstChar relationshipName}}Entity = await DbContext.{{relatedEntity.PluralName}}.FindAsync({{ToLowerFirstChar relationshipName}}Key);
 						
-			if({{ToLowerFirstChar relationship.Name}}Entity is not null)
-				entity.CreateRefTo{{relationship.Name}}({{ToLowerFirstChar relationship.Name}}Entity);
+			if({{ToLowerFirstChar relationshipName}}Entity is not null)
+				entity.CreateRefTo{{relationshipName}}({{ToLowerFirstChar relationshipName}}Entity);
 			else
-				throw new RelatedEntityNotFoundException("{{relationship.Name}}", request.EntityDto.{{relationship.Name}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>().ToString());
+				throw new RelatedEntityNotFoundException("{{relationshipName}}", request.EntityDto.{{relationshipName}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>().ToString());
 		}
 		else
 		{
-			entity.DeleteAllRefTo{{relationship.Name}}();
+			entity.DeleteAllRefTo{{relationshipName}}();
 		}
 		{{- else if relationship.Relationship == "ExactlyOne" }}
 
-		var {{ToLowerFirstChar relationship.Name}}Key = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{relationship.Name}}Id);
-		var {{ToLowerFirstChar relationship.Name}}Entity = await DbContext.{{relatedEntity.PluralName}}.FindAsync({{ToLowerFirstChar relationship.Name}}Key);
+		var {{ToLowerFirstChar relationshipName}}Key = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{relationshipName}}Id);
+		var {{ToLowerFirstChar relationshipName}}Entity = await DbContext.{{relatedEntity.PluralName}}.FindAsync({{ToLowerFirstChar relationshipName}}Key);
 						
-		if({{ToLowerFirstChar relationship.Name}}Entity is not null)
-			entity.CreateRefTo{{relationship.Name}}({{ToLowerFirstChar relationship.Name}}Entity);
+		if({{ToLowerFirstChar relationshipName}}Entity is not null)
+			entity.CreateRefTo{{relationshipName}}({{ToLowerFirstChar relationshipName}}Entity);
 		else
-			throw new RelatedEntityNotFoundException("{{relationship.Name}}", request.EntityDto.{{relationship.Name}}Id.ToString());
+			throw new RelatedEntityNotFoundException("{{relationshipName}}", request.EntityDto.{{relationshipName}}Id.ToString());
 		{{- else }}
 
-		await DbContext.Entry(entity).Collection(x => x.{{relationship.Name}}).LoadAsync();
-		var {{ToLowerFirstChar relationship.Name}}Entities = new List<{{relationship.Entity}}>();
-		foreach(var relatedEntityId in request.EntityDto.{{relationship.Name}}Id)
+		await DbContext.Entry(entity).Collection(x => x.{{relationshipName}}).LoadAsync();
+		var {{ToLowerFirstChar relationshipName}}Entities = new List<{{relationship.Entity}}>();
+		foreach(var relatedEntityId in request.EntityDto.{{relationshipName}}Id)
 		{
 			var relatedKey = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(relatedEntityId);
 			var relatedEntity = await DbContext.{{relatedEntity.PluralName}}.FindAsync(relatedKey);
 						
 			if(relatedEntity is not null)
-				{{ToLowerFirstChar relationship.Name}}Entities.Add(relatedEntity);
+				{{ToLowerFirstChar relationshipName}}Entities.Add(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("{{relationship.Name}}", relatedEntityId.ToString());
+				throw new RelatedEntityNotFoundException("{{relationshipName}}", relatedEntityId.ToString());
 		}
-		entity.UpdateRefTo{{relationship.Name}}({{ToLowerFirstChar relationship.Name}}Entities);
+		entity.UpdateRefTo{{relationshipName}}({{ToLowerFirstChar relationshipName}}Entities);
 		{{-end}}
 	{{- end }}
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 
 		{{- if !entity.IsOwnedEntity }}
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		{{- end }}
+		
+		{{- if entity.IsLocalized }}
+		await UpdateLocalizedEntityAsync(entity, request.EntityDto, request.CultureCode);
 		{{- end }}
 
 		await OnCompletedAsync(request, entity);
@@ -121,4 +136,22 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
 	}
+	{{- if entity.IsLocalized }}
+
+	private async Task UpdateLocalizedEntityAsync({{entity.Name}}Entity entity, {{entity.Name}}UpdateDto updateDto, Nox.Types.CultureCode cultureCode)
+	{
+		var entityLocalized = await DbContext.{{entity.PluralName}}Localized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
+		if(entityLocalized is null)
+		{
+			entityLocalized = _entityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode);
+			DbContext.{{entity.PluralName}}Localized.Add(entityLocalized);
+		}
+		else
+		{
+			DbContext.Entry(entityLocalized).State = EntityState.Modified;
+		}
+
+		_entityLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto, cultureCode);
+	}
+	{{- end }}
 }

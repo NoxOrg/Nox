@@ -44,6 +44,22 @@ public abstract partial class TestEntityExactlyOneToZeroOrOnesControllerBase : O
         return NoContent();
     }
     
+    public virtual async Task<ActionResult> PostToTestEntityZeroOrOneToExactlyOne([FromRoute] System.String key, [FromBody] TestEntityZeroOrOneToExactlyOneCreateDto testEntityZeroOrOneToExactlyOne)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        testEntityZeroOrOneToExactlyOne.TestEntityExactlyOneToZeroOrOneId = key;
+        var createdKey = await _mediator.Send(new CreateTestEntityZeroOrOneToExactlyOneCommand(testEntityZeroOrOneToExactlyOne, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetTestEntityZeroOrOneToExactlyOneByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
     public async Task<ActionResult> GetRefToTestEntityZeroOrOneToExactlyOne([FromRoute] System.String key)
     {
         var related = (await _mediator.Send(new GetTestEntityExactlyOneToZeroOrOneByIdQuery(key))).Select(x => x.TestEntityZeroOrOneToExactlyOne).SingleOrDefault();
@@ -54,22 +70,6 @@ public abstract partial class TestEntityExactlyOneToZeroOrOnesControllerBase : O
         
         var references = new System.Uri($"TestEntityZeroOrOneToExactlyOnes/{related.Id}", UriKind.Relative);
         return Ok(references);
-    }
-    
-    public async Task<ActionResult> DeleteRefToTestEntityZeroOrOneToExactlyOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var deletedRef = await _mediator.Send(new DeleteRefTestEntityExactlyOneToZeroOrOneToTestEntityZeroOrOneToExactlyOneCommand(new TestEntityExactlyOneToZeroOrOneKeyDto(key), new TestEntityZeroOrOneToExactlyOneKeyDto(relatedKey)));
-        if (!deletedRef)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
     }
     
     public async Task<ActionResult> DeleteRefToTestEntityZeroOrOneToExactlyOne([FromRoute] System.String key)

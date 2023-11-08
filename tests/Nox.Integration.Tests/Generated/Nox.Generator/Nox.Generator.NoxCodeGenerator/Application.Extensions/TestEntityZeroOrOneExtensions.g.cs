@@ -15,7 +15,7 @@ internal static class TestEntityZeroOrOneExtensions
         var dto = new TestEntityZeroOrOneDto();
         dto.SetIfNotNull(entity?.Id, (dto) => dto.Id = entity!.Id.Value);
         dto.SetIfNotNull(entity?.TextTestField, (dto) => dto.TextTestField =entity!.TextTestField!.Value);
-        dto.SetIfNotNull(entity?.SecondTestEntityZeroOrOneRelationshipId, (dto) => dto.SecondTestEntityZeroOrOneRelationshipId = entity!.SecondTestEntityZeroOrOneRelationshipId!.Value);
+        dto.SetIfNotNull(entity?.SecondTestEntityZeroOrOneId, (dto) => dto.SecondTestEntityZeroOrOneId = entity!.SecondTestEntityZeroOrOneId!.Value);
 
         return dto;
     }

@@ -28,14 +28,14 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
     
     #region Relationships
     
-    public async Task<ActionResult> CreateRefToTestEntityZeroOrManyRelationship([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public async Task<ActionResult> CreateRefToTestEntityZeroOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var createdRef = await _mediator.Send(new CreateRefSecondTestEntityZeroOrManyToTestEntityZeroOrManyRelationshipCommand(new SecondTestEntityZeroOrManyKeyDto(key), new TestEntityZeroOrManyKeyDto(relatedKey)));
+        var createdRef = await _mediator.Send(new CreateRefSecondTestEntityZeroOrManyToTestEntityZeroOrManiesCommand(new SecondTestEntityZeroOrManyKeyDto(key), new TestEntityZeroOrManyKeyDto(relatedKey)));
         if (!createdRef)
         {
             return NotFound();
@@ -44,9 +44,25 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
         return NoContent();
     }
     
-    public async Task<ActionResult> GetRefToTestEntityZeroOrManyRelationship([FromRoute] System.String key)
+    public virtual async Task<ActionResult> PostToTestEntityZeroOrManies([FromRoute] System.String key, [FromBody] TestEntityZeroOrManyCreateDto testEntityZeroOrMany)
     {
-        var related = (await _mediator.Send(new GetSecondTestEntityZeroOrManyByIdQuery(key))).Select(x => x.TestEntityZeroOrManyRelationship).SingleOrDefault();
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        testEntityZeroOrMany.SecondTestEntityZeroOrManiesId = new List<System.String> { key };
+        var createdKey = await _mediator.Send(new CreateTestEntityZeroOrManyCommand(testEntityZeroOrMany, _cultureCode));
+        
+        var createdItem = (await _mediator.Send(new GetTestEntityZeroOrManyByIdQuery(createdKey.keyId))).SingleOrDefault();
+        
+        return Created(createdItem);
+    }
+    
+    public async Task<ActionResult> GetRefToTestEntityZeroOrManies([FromRoute] System.String key)
+    {
+        var related = (await _mediator.Send(new GetSecondTestEntityZeroOrManyByIdQuery(key))).Select(x => x.TestEntityZeroOrManies).SingleOrDefault();
         if (related is null)
         {
             return NotFound();
@@ -60,14 +76,14 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToTestEntityZeroOrManyRelationship([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public async Task<ActionResult> DeleteRefToTestEntityZeroOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedRef = await _mediator.Send(new DeleteRefSecondTestEntityZeroOrManyToTestEntityZeroOrManyRelationshipCommand(new SecondTestEntityZeroOrManyKeyDto(key), new TestEntityZeroOrManyKeyDto(relatedKey)));
+        var deletedRef = await _mediator.Send(new DeleteRefSecondTestEntityZeroOrManyToTestEntityZeroOrManiesCommand(new SecondTestEntityZeroOrManyKeyDto(key), new TestEntityZeroOrManyKeyDto(relatedKey)));
         if (!deletedRef)
         {
             return NotFound();
@@ -76,14 +92,14 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
         return NoContent();
     }
     
-    public async Task<ActionResult> DeleteRefToTestEntityZeroOrManyRelationship([FromRoute] System.String key)
+    public async Task<ActionResult> DeleteRefToTestEntityZeroOrManies([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefSecondTestEntityZeroOrManyToTestEntityZeroOrManyRelationshipCommand(new SecondTestEntityZeroOrManyKeyDto(key)));
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefSecondTestEntityZeroOrManyToTestEntityZeroOrManiesCommand(new SecondTestEntityZeroOrManyKeyDto(key)));
         if (!deletedAllRef)
         {
             return NotFound();

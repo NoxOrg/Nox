@@ -14,7 +14,7 @@ using Cryptocash.Application.Dto;
 using HolidayEntity = Cryptocash.Domain.Holiday;
 
 namespace Cryptocash.Application.Commands;
-public record DeleteHolidayForCountryCommand(CountryKeyDto ParentKeyDto, HolidayKeyDto EntityKeyDto) : IRequest <bool>;
+public partial record DeleteHolidayForCountryCommand(CountryKeyDto ParentKeyDto, HolidayKeyDto EntityKeyDto) : IRequest <bool>;
 
 internal partial class DeleteHolidayForCountryCommandHandler : DeleteHolidayForCountryCommandHandlerBase
 {

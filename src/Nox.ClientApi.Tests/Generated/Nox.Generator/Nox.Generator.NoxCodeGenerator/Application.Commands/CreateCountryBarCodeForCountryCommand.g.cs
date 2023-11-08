@@ -17,7 +17,7 @@ using ClientApi.Application.Dto;
 using CountryBarCodeEntity = ClientApi.Domain.CountryBarCode;
 
 namespace ClientApi.Application.Commands;
-public record CreateCountryBarCodeForCountryCommand(CountryKeyDto ParentKeyDto, CountryBarCodeCreateDto EntityDto, System.Guid? Etag) : IRequest <CountryBarCodeKeyDto?>;
+public partial record CreateCountryBarCodeForCountryCommand(CountryKeyDto ParentKeyDto, CountryBarCodeCreateDto EntityDto, System.Guid? Etag) : IRequest <CountryBarCodeKeyDto?>;
 
 internal partial class CreateCountryBarCodeForCountryCommandHandler : CreateCountryBarCodeForCountryCommandHandlerBase
 {

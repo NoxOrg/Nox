@@ -17,14 +17,15 @@ using TestEntityZeroOrManyToZeroOrOneEntity = TestWebApp.Domain.TestEntityZeroOr
 
 namespace TestWebApp.Application.Commands;
 
-public record UpdateTestEntityZeroOrManyToZeroOrOneCommand(System.String keyId, TestEntityZeroOrManyToZeroOrOneUpdateDto EntityDto, System.Guid? Etag) : IRequest<TestEntityZeroOrManyToZeroOrOneKeyDto?>;
+public record UpdateTestEntityZeroOrManyToZeroOrOneCommand(System.String keyId, TestEntityZeroOrManyToZeroOrOneUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<TestEntityZeroOrManyToZeroOrOneKeyDto?>;
 
 internal partial class UpdateTestEntityZeroOrManyToZeroOrOneCommandHandler : UpdateTestEntityZeroOrManyToZeroOrOneCommandHandlerBase
 {
 	public UpdateTestEntityZeroOrManyToZeroOrOneCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityZeroOrManyToZeroOrOneEntity, TestEntityZeroOrManyToZeroOrOneCreateDto, TestEntityZeroOrManyToZeroOrOneUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<TestEntityZeroOrManyToZeroOrOneEntity, TestEntityZeroOrManyToZeroOrOneCreateDto, TestEntityZeroOrManyToZeroOrOneUpdateDto> entityFactory) 
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -37,7 +38,8 @@ internal abstract class UpdateTestEntityZeroOrManyToZeroOrOneCommandHandlerBase 
 	public UpdateTestEntityZeroOrManyToZeroOrOneCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityZeroOrManyToZeroOrOneEntity, TestEntityZeroOrManyToZeroOrOneCreateDto, TestEntityZeroOrManyToZeroOrOneUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<TestEntityZeroOrManyToZeroOrOneEntity, TestEntityZeroOrManyToZeroOrOneCreateDto, TestEntityZeroOrManyToZeroOrOneUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -55,21 +57,21 @@ internal abstract class UpdateTestEntityZeroOrManyToZeroOrOneCommandHandlerBase 
 			return null;
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.TestEntityZeroOrOneToZeroOrMany).LoadAsync();
-		var testEntityZeroOrOneToZeroOrManyEntities = new List<TestEntityZeroOrOneToZeroOrMany>();
-		foreach(var relatedEntityId in request.EntityDto.TestEntityZeroOrOneToZeroOrManyId)
+		await DbContext.Entry(entity).Collection(x => x.TestEntityZeroOrOneToZeroOrManies).LoadAsync();
+		var testEntityZeroOrOneToZeroOrManiesEntities = new List<TestEntityZeroOrOneToZeroOrMany>();
+		foreach(var relatedEntityId in request.EntityDto.TestEntityZeroOrOneToZeroOrManiesId)
 		{
 			var relatedKey = TestWebApp.Domain.TestEntityZeroOrOneToZeroOrManyMetadata.CreateId(relatedEntityId);
 			var relatedEntity = await DbContext.TestEntityZeroOrOneToZeroOrManies.FindAsync(relatedKey);
 						
 			if(relatedEntity is not null)
-				testEntityZeroOrOneToZeroOrManyEntities.Add(relatedEntity);
+				testEntityZeroOrOneToZeroOrManiesEntities.Add(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("TestEntityZeroOrOneToZeroOrMany", relatedEntityId.ToString());
+				throw new RelatedEntityNotFoundException("TestEntityZeroOrOneToZeroOrManies", relatedEntityId.ToString());
 		}
-		entity.UpdateRefToTestEntityZeroOrOneToZeroOrMany(testEntityZeroOrOneToZeroOrManyEntities);
+		entity.UpdateRefToTestEntityZeroOrOneToZeroOrManies(testEntityZeroOrOneToZeroOrManiesEntities);
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

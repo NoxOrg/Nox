@@ -13,7 +13,7 @@ using ThirdTestEntityExactlyOneEntity = TestWebApp.Domain.ThirdTestEntityExactly
 
 namespace TestWebApp.Application.Commands;
 
-public record DeleteThirdTestEntityExactlyOneByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteThirdTestEntityExactlyOneByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteThirdTestEntityExactlyOneByIdCommandHandler : DeleteThirdTestEntityExactlyOneByIdCommandHandlerBase
 {

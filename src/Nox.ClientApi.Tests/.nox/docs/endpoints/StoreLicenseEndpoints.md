@@ -52,6 +52,54 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/StoreLicenses/{key}/StoreWithLicense/$ref`
   - Description: Delete all existing Stores relations for a specific StoreLicense.
 
+### Currency
+
+#### Get Currency relations
+- **GET** `/api/StoreLicenses/{key}/DefaultCurrency/$ref`
+  - Description: Retrieve all existing Currencies relations for a specific StoreLicense.
+  
+#### Create Currency relation
+- **POST** `/api/StoreLicenses/{key}/DefaultCurrency/{relatedKey}/$ref`
+  - Description: Create a new Currency relation for a specific StoreLicense.
+  
+#### Update Currency relation
+- **PUT** `/api/StoreLicenses/{key}/DefaultCurrency/{relatedKey}/$ref`
+  - Description: Updates an existing Currency relation for a specific StoreLicense.
+
+#### Delete Currency relation
+- **DELETE** `/api/StoreLicenses/{key}/DefaultCurrency/{relatedKey}/$ref`
+  - Description: Delete an existing Currency relation for a specific StoreLicense.
+
+#### Delete Currency relations
+- **DELETE** `/api/StoreLicenses/{key}/DefaultCurrency/$ref`
+  - Description: Delete all existing Currencies relations for a specific StoreLicense.
+
+### Currency
+
+#### Get Currency relations
+- **GET** `/api/StoreLicenses/{key}/SoldInCurrency/$ref`
+  - Description: Retrieve all existing Currencies relations for a specific StoreLicense.
+  
+#### Create Currency relation
+- **POST** `/api/StoreLicenses/{key}/SoldInCurrency/{relatedKey}/$ref`
+  - Description: Create a new Currency relation for a specific StoreLicense.
+  
+#### Update Currency relation
+- **PUT** `/api/StoreLicenses/{key}/SoldInCurrency/{relatedKey}/$ref`
+  - Description: Updates an existing Currency relation for a specific StoreLicense.
+
+#### Delete Currency relation
+- **DELETE** `/api/StoreLicenses/{key}/SoldInCurrency/{relatedKey}/$ref`
+  - Description: Delete an existing Currency relation for a specific StoreLicense.
+
+#### Delete Currency relations
+- **DELETE** `/api/StoreLicenses/{key}/SoldInCurrency/$ref`
+  - Description: Delete all existing Currencies relations for a specific StoreLicense.
+
 ## Related Entities
 
 [Store](StoreEndpoints.md)
+
+[Currency](CurrencyEndpoints.md)
+
+[Currency](CurrencyEndpoints.md)

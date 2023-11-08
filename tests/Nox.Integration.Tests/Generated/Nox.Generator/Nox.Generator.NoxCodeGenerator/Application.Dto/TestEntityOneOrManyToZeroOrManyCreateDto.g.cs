@@ -39,8 +39,8 @@ public abstract class TestEntityOneOrManyToZeroOrManyCreateDtoBase : IEntityDto<
     /// <summary>
     /// TestEntityOneOrManyToZeroOrMany Test entity relationship to TestEntityZeroOrManyToOneOrMany OneOrMany TestEntityZeroOrManyToOneOrManies
     /// </summary>
-    public virtual List<System.String> TestEntityZeroOrManyToOneOrManyId { get; set; } = new();
+    public virtual List<System.String> TestEntityZeroOrManyToOneOrManiesId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual List<TestEntityZeroOrManyToOneOrManyCreateDto> TestEntityZeroOrManyToOneOrMany { get; set; } = new();
+    public virtual List<TestEntityZeroOrManyToOneOrManyCreateDto> TestEntityZeroOrManyToOneOrManies { get; set; } = new();
 }

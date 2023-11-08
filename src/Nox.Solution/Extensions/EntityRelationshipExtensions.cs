@@ -1,6 +1,7 @@
 using Nox.Types;
 using Nox.Types.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Nox.Solution.Extensions;
@@ -45,7 +46,6 @@ public static class EntityRelationshipExtensions
 
         return generate;
     }
-
 
     public static bool IsRequired(this EntityRelationship relationship)
     {

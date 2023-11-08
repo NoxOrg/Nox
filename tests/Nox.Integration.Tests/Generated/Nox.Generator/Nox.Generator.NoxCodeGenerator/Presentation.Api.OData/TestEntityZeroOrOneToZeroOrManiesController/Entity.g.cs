@@ -21,8 +21,6 @@ using TestWebApp.Application.Commands;
 using TestWebApp.Domain;
 using TestWebApp.Infrastructure.Persistence;
 
-using Nox.Types;
-
 namespace TestWebApp.Presentation.Api.OData;
 
 public partial class TestEntityZeroOrOneToZeroOrManiesController : TestEntityZeroOrOneToZeroOrManiesControllerBase
@@ -52,7 +50,7 @@ public abstract partial class TestEntityZeroOrOneToZeroOrManiesControllerBase : 
     )
     {
         _mediator = mediator;
-        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
+        _cultureCode = httpLanguageProvider.GetLanguage();
     }
 
     [EnableQuery]
@@ -91,7 +89,7 @@ public abstract partial class TestEntityZeroOrOneToZeroOrManiesControllerBase : 
         }
 
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateTestEntityZeroOrOneToZeroOrManyCommand(key, testEntityZeroOrOneToZeroOrMany, etag));
+        var updatedKey = await _mediator.Send(new UpdateTestEntityZeroOrOneToZeroOrManyCommand(key, testEntityZeroOrOneToZeroOrMany, _cultureCode, etag));
 
         if (updatedKey is null)
         {

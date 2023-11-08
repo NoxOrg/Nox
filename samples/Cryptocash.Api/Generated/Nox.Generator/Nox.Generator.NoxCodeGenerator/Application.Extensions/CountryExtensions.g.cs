@@ -27,10 +27,10 @@ internal static class CountryExtensions
         dto.SetIfNotNull(entity?.GoogleMapsUrl, (dto) => dto.GoogleMapsUrl =entity!.GoogleMapsUrl!.Value.ToString());
         dto.SetIfNotNull(entity?.OpenStreetMapsUrl, (dto) => dto.OpenStreetMapsUrl =entity!.OpenStreetMapsUrl!.Value.ToString());
         dto.SetIfNotNull(entity?.StartOfWeek, (dto) => dto.StartOfWeek =entity!.StartOfWeek!.Value);
-        dto.SetIfNotNull(entity?.CountryUsedByCurrencyId, (dto) => dto.CountryUsedByCurrencyId = entity!.CountryUsedByCurrencyId!.Value);
-        dto.SetIfNotNull(entity?.CountryUsedByCommissions, (dto) => dto.CountryUsedByCommissions = entity!.CountryUsedByCommissions.Select(e => e.ToDto()).ToList());
-        dto.SetIfNotNull(entity?.CountryUsedByVendingMachines, (dto) => dto.CountryUsedByVendingMachines = entity!.CountryUsedByVendingMachines.Select(e => e.ToDto()).ToList());
-        dto.SetIfNotNull(entity?.CountryUsedByCustomers, (dto) => dto.CountryUsedByCustomers = entity!.CountryUsedByCustomers.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.CurrencyId, (dto) => dto.CurrencyId = entity!.CurrencyId!.Value);
+        dto.SetIfNotNull(entity?.Commissions, (dto) => dto.Commissions = entity!.Commissions.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.VendingMachines, (dto) => dto.VendingMachines = entity!.VendingMachines.Select(e => e.ToDto()).ToList());
+        dto.SetIfNotNull(entity?.Customers, (dto) => dto.Customers = entity!.Customers.Select(e => e.ToDto()).ToList());
         dto.SetIfNotNull(entity?.CountryOwnedTimeZones, (dto) => dto.CountryOwnedTimeZones = entity!.CountryOwnedTimeZones.Select(e => e.ToDto()).ToList());
         dto.SetIfNotNull(entity?.CountryOwnedHolidays, (dto) => dto.CountryOwnedHolidays = entity!.CountryOwnedHolidays.Select(e => e.ToDto()).ToList());
 

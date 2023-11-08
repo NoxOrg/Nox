@@ -13,7 +13,7 @@ using TestEntityForAutoNumberUsagesEntity = TestWebApp.Domain.TestEntityForAutoN
 
 namespace TestWebApp.Application.Commands;
 
-public record DeleteTestEntityForAutoNumberUsagesByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteTestEntityForAutoNumberUsagesByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteTestEntityForAutoNumberUsagesByIdCommandHandler : DeleteTestEntityForAutoNumberUsagesByIdCommandHandlerBase
 {
@@ -37,7 +37,7 @@ internal abstract class DeleteTestEntityForAutoNumberUsagesByIdCommandHandlerBas
 	public virtual async Task<bool> Handle(DeleteTestEntityForAutoNumberUsagesByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityForAutoNumberUsages.FindAsync(keyId);

@@ -25,6 +25,7 @@ namespace ClientApi.Application.Factories;
 
 internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity, StoreOwnerCreateDto, StoreOwnerUpdateDto>
 {
+    private static readonly Nox.Types.CultureCode _defaultCultureCode = Nox.Types.CultureCode.From("en-US");
 
     public StoreOwnerFactoryBase
     (
@@ -37,9 +38,9 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity,
         return ToEntity(createDto);
     }
 
-    public virtual void UpdateEntity(StoreOwnerEntity entity, StoreOwnerUpdateDto updateDto)
+    public virtual void UpdateEntity(StoreOwnerEntity entity, StoreOwnerUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
-        UpdateEntityInternal(entity, updateDto);
+        UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
     public virtual void PartialUpdateEntity(StoreOwnerEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -53,29 +54,21 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity,
         entity.Id = StoreOwnerMetadata.CreateId(createDto.Id);
         entity.Name = ClientApi.Domain.StoreOwnerMetadata.CreateName(createDto.Name);
         entity.TemporaryOwnerName = ClientApi.Domain.StoreOwnerMetadata.CreateTemporaryOwnerName(createDto.TemporaryOwnerName);
-        if (createDto.VatNumber is not null)entity.VatNumber = ClientApi.Domain.StoreOwnerMetadata.CreateVatNumber(createDto.VatNumber.NonNullValue<VatNumberDto>());
-        if (createDto.StreetAddress is not null)entity.StreetAddress = ClientApi.Domain.StoreOwnerMetadata.CreateStreetAddress(createDto.StreetAddress.NonNullValue<StreetAddressDto>());
-        if (createDto.LocalGreeting is not null)entity.LocalGreeting = ClientApi.Domain.StoreOwnerMetadata.CreateLocalGreeting(createDto.LocalGreeting.NonNullValue<TranslatedTextDto>());
-        if (createDto.Notes is not null)entity.Notes = ClientApi.Domain.StoreOwnerMetadata.CreateNotes(createDto.Notes.NonNullValue<System.String>());
+        entity.SetIfNotNull(createDto.VatNumber, (entity) => entity.VatNumber =ClientApi.Domain.StoreOwnerMetadata.CreateVatNumber(createDto.VatNumber.NonNullValue<VatNumberDto>()));
+        entity.SetIfNotNull(createDto.StreetAddress, (entity) => entity.StreetAddress =ClientApi.Domain.StoreOwnerMetadata.CreateStreetAddress(createDto.StreetAddress.NonNullValue<StreetAddressDto>()));
+        entity.SetIfNotNull(createDto.LocalGreeting, (entity) => entity.LocalGreeting =ClientApi.Domain.StoreOwnerMetadata.CreateLocalGreeting(createDto.LocalGreeting.NonNullValue<TranslatedTextDto>()));
+        entity.SetIfNotNull(createDto.Notes, (entity) => entity.Notes =ClientApi.Domain.StoreOwnerMetadata.CreateNotes(createDto.Notes.NonNullValue<System.String>()));
         return entity;
     }
 
-    private void UpdateEntityInternal(StoreOwnerEntity entity, StoreOwnerUpdateDto updateDto)
+    private void UpdateEntityInternal(StoreOwnerEntity entity, StoreOwnerUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Name = ClientApi.Domain.StoreOwnerMetadata.CreateName(updateDto.Name.NonNullValue<System.String>());
         entity.TemporaryOwnerName = ClientApi.Domain.StoreOwnerMetadata.CreateTemporaryOwnerName(updateDto.TemporaryOwnerName.NonNullValue<System.String>());
-        if (updateDto.VatNumber == null) { entity.VatNumber = null; } else {
-            entity.VatNumber = ClientApi.Domain.StoreOwnerMetadata.CreateVatNumber(updateDto.VatNumber.ToValueFromNonNull<VatNumberDto>());
-        }
-        if (updateDto.StreetAddress == null) { entity.StreetAddress = null; } else {
-            entity.StreetAddress = ClientApi.Domain.StoreOwnerMetadata.CreateStreetAddress(updateDto.StreetAddress.ToValueFromNonNull<StreetAddressDto>());
-        }
-        if (updateDto.LocalGreeting == null) { entity.LocalGreeting = null; } else {
-            entity.LocalGreeting = ClientApi.Domain.StoreOwnerMetadata.CreateLocalGreeting(updateDto.LocalGreeting.ToValueFromNonNull<TranslatedTextDto>());
-        }
-        if (updateDto.Notes == null) { entity.Notes = null; } else {
-            entity.Notes = ClientApi.Domain.StoreOwnerMetadata.CreateNotes(updateDto.Notes.ToValueFromNonNull<System.String>());
-        }
+        entity.SetIfNotNull(updateDto.VatNumber, (entity) => entity.VatNumber = ClientApi.Domain.StoreOwnerMetadata.CreateVatNumber(updateDto.VatNumber.ToValueFromNonNull<VatNumberDto>()));
+        entity.SetIfNotNull(updateDto.StreetAddress, (entity) => entity.StreetAddress = ClientApi.Domain.StoreOwnerMetadata.CreateStreetAddress(updateDto.StreetAddress.ToValueFromNonNull<StreetAddressDto>()));
+        entity.SetIfNotNull(updateDto.LocalGreeting, (entity) => entity.LocalGreeting = ClientApi.Domain.StoreOwnerMetadata.CreateLocalGreeting(updateDto.LocalGreeting.ToValueFromNonNull<TranslatedTextDto>()));
+        entity.SetIfNotNull(updateDto.Notes, (entity) => entity.Notes = ClientApi.Domain.StoreOwnerMetadata.CreateNotes(updateDto.Notes.ToValueFromNonNull<System.String>()));
     }
 
     private void PartialUpdateEntityInternal(StoreOwnerEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -139,6 +132,9 @@ internal abstract class StoreOwnerFactoryBase : IEntityFactory<StoreOwnerEntity,
             }
         }
     }
+
+    private static bool IsDefaultCultureCode(Nox.Types.CultureCode cultureCode)
+        => cultureCode == _defaultCultureCode;
 }
 
 internal partial class StoreOwnerFactory : StoreOwnerFactoryBase

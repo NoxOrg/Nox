@@ -23,9 +23,27 @@ attributes:
       maxLength: 63
     isRequired: true
 
+  - name: ExternalId
+    description: License external id
+    type: autoNumber
+    autoNumberTypeOptions:
+      startsAt: 3000000
+      incrementsBy: 10
+    isRequired: true
+
 relationships:
 
     - name: StoreWithLicense
       description: Store that this license related to
       relationship: exactlyOne
       entity: Store
+
+    - name: DefaultCurrency
+      description: Default currency for this license
+      relationship: zeroOrOne
+      entity: Currency
+
+    - name: SoldInCurrency
+      description: Currency this license was sold in
+      relationship: zeroOrOne
+      entity: Currency

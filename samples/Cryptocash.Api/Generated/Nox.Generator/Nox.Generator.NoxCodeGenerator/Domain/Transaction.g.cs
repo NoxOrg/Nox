@@ -105,24 +105,24 @@ internal abstract partial class TransactionBase : AuditableEntityBase, IEntityCo
     /// <summary>
     /// Transaction for ExactlyOne Customers
     /// </summary>
-    public virtual Customer TransactionForCustomer { get; private set; } = null!;
+    public virtual Customer Customer { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Customer
     /// </summary>
-    public Nox.Types.AutoNumber TransactionForCustomerId { get; set; } = null!;
+    public Nox.Types.AutoNumber CustomerId { get; set; } = null!;
 
-    public virtual void CreateRefToTransactionForCustomer(Customer relatedCustomer)
+    public virtual void CreateRefToCustomer(Customer relatedCustomer)
     {
-        TransactionForCustomer = relatedCustomer;
+        Customer = relatedCustomer;
     }
 
-    public virtual void DeleteRefToTransactionForCustomer(Customer relatedCustomer)
+    public virtual void DeleteRefToCustomer(Customer relatedCustomer)
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
-    public virtual void DeleteAllRefToTransactionForCustomer()
+    public virtual void DeleteAllRefToCustomer()
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
@@ -130,24 +130,24 @@ internal abstract partial class TransactionBase : AuditableEntityBase, IEntityCo
     /// <summary>
     /// Transaction for ExactlyOne Bookings
     /// </summary>
-    public virtual Booking TransactionForBooking { get; private set; } = null!;
+    public virtual Booking Booking { get; private set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Booking
     /// </summary>
-    public Nox.Types.Guid TransactionForBookingId { get; set; } = null!;
+    public Nox.Types.Guid BookingId { get; set; } = null!;
 
-    public virtual void CreateRefToTransactionForBooking(Booking relatedBooking)
+    public virtual void CreateRefToBooking(Booking relatedBooking)
     {
-        TransactionForBooking = relatedBooking;
+        Booking = relatedBooking;
     }
 
-    public virtual void DeleteRefToTransactionForBooking(Booking relatedBooking)
+    public virtual void DeleteRefToBooking(Booking relatedBooking)
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }
 
-    public virtual void DeleteAllRefToTransactionForBooking()
+    public virtual void DeleteAllRefToBooking()
     {
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
     }

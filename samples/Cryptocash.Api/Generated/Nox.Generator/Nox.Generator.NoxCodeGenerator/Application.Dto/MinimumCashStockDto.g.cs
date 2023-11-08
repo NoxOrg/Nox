@@ -60,14 +60,14 @@ public abstract class MinimumCashStockDtoBase : EntityDtoBase, IEntityDto<Domain
     /// <summary>
     /// MinimumCashStock required by ZeroOrMany VendingMachines
     /// </summary>
-    public virtual List<VendingMachineDto> MinimumCashStocksRequiredByVendingMachines { get; set; } = new();
+    public virtual List<VendingMachineDto> VendingMachines { get; set; } = new();
 
     /// <summary>
     /// MinimumCashStock related to ExactlyOne Currencies
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.String? MinimumCashStockRelatedCurrencyId { get; set; } = default!;
-    public virtual CurrencyDto? MinimumCashStockRelatedCurrency { get; set; } = null!;
+    public System.String? CurrencyId { get; set; } = default!;
+    public virtual CurrencyDto? Currency { get; set; } = null!;
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

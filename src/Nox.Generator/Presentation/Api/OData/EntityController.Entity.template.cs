@@ -21,8 +21,6 @@ using {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.PersistenceNameSpace}};
 
-using Nox.Types;
-
 namespace {{codeGeneratorState.ODataNameSpace}};
 
 public partial class {{entity.PluralName}}Controller : {{entity.PluralName}}ControllerBase
@@ -55,7 +53,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     )
     {
         _mediator = mediator;
-        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
+        _cultureCode = httpLanguageProvider.GetLanguage();
 
         {{- for query in entity.Queries }}
         _{{ ToLowerFirstChar query.Name}} = {{ ToLowerFirstChar query.Name }};
@@ -65,14 +63,14 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<{{entity.Name}}Dto>>> Get()
     {
-        var result = await _mediator.Send(new Get{{entity.PluralName}}Query({{if entity.IsLocalized}}_cultureCode.Value{{end}}));
+        var result = await _mediator.Send(new Get{{entity.PluralName}}Query({{if entity.IsLocalized}}_cultureCode{{end}}));
         return Ok(result);
     }
 
     [EnableQuery]
     public async Task<SingleResult<{{entity.Name}}Dto>> Get({{ primaryKeysRoute }})
     {
-        var result = await _mediator.Send(new Get{{ entity.Name }}ByIdQuery({{ primaryKeysQuery }}));
+        var result = await _mediator.Send(new Get{{ entity.Name }}ByIdQuery({{if entity.IsLocalized}}_cultureCode, {{end}}{{ primaryKeysQuery }}));
         return SingleResult.Create(result);
     }
     {{- end }}
@@ -86,7 +84,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
 
         var createdKey = await _mediator.Send(new Create{{entity.Name}}Command({{ToLowerFirstChar entity.Name}}, _cultureCode));
 
-        var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ createdKeyPrimaryKeysQuery }}))).SingleOrDefault();
+        var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{if entity.IsLocalized}}_cultureCode, {{end}}{{ createdKeyPrimaryKeysQuery }}))).SingleOrDefault();
 
         return Created(item);
     }
@@ -100,9 +98,9 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
         }
         {{~ if !entity.IsOwnedEntity }}
         var etag = Request.GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new Update{{ entity.Name }}Command({{ primaryKeysQuery }}, {{ToLowerFirstChar entity.Name}}, etag));
+        var updatedKey = await _mediator.Send(new Update{{ entity.Name }}Command({{ primaryKeysQuery }}, {{ToLowerFirstChar entity.Name}}, _cultureCode, etag));
         {{- else }}
-        var updatedKey = await _mediator.Send(new Update{{ entity.Name }}Command({{ primaryKeysQuery }}, {{ToLowerFirstChar entity.Name}}));
+        var updatedKey = await _mediator.Send(new Update{{ entity.Name }}Command({{ primaryKeysQuery }}, {{ToLowerFirstChar entity.Name}}, _cultureCode));
         {{- end}}
 
         if (updatedKey is null)
@@ -110,7 +108,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
             return NotFound();
         }
 
-        var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ updatedKeyPrimaryKeysQuery }}))).SingleOrDefault();
+        var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{if entity.IsLocalized}}_cultureCode, {{end}}{{ updatedKeyPrimaryKeysQuery }}))).SingleOrDefault();
 
         return Ok(item);
     }
@@ -143,7 +141,7 @@ public abstract partial class {{entity.PluralName}}ControllerBase : ODataControl
             return NotFound();
         }
 
-        var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{ updatedKeyPrimaryKeysQuery }}))).SingleOrDefault();
+        var item = (await _mediator.Send(new Get{{entity.Name}}ByIdQuery({{if entity.IsLocalized}}_cultureCode, {{end}}{{ updatedKeyPrimaryKeysQuery }}))).SingleOrDefault();
 
         return Ok(item);
     }

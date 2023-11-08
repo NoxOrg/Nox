@@ -61,8 +61,8 @@ public abstract class ThirdTestEntityExactlyOneDtoBase : EntityDtoBase, IEntityD
     /// ThirdTestEntityExactlyOne Test entity relationship to ThirdTestEntityZeroOrOne ExactlyOne ThirdTestEntityZeroOrOnes
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.String? ThirdTestEntityZeroOrOneRelationshipId { get; set; } = default!;
-    public virtual ThirdTestEntityZeroOrOneDto? ThirdTestEntityZeroOrOneRelationship { get; set; } = null!;
+    public System.String? ThirdTestEntityZeroOrOneId { get; set; } = default!;
+    public virtual ThirdTestEntityZeroOrOneDto? ThirdTestEntityZeroOrOne { get; set; } = null!;
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }
 

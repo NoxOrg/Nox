@@ -59,27 +59,27 @@ public partial class VendingMachineUpdateDto : IEntityDto<DomainNamespace.Vendin
     /// <summary>
     /// VendingMachine installed in ExactlyOne Countries
     /// </summary>
-    [Required(ErrorMessage = "VendingMachineInstallationCountry is required")]
-    public System.String VendingMachineInstallationCountryId { get; set; } = default!;
+    [Required(ErrorMessage = "Country is required")]
+    public System.String CountryId { get; set; } = default!;
 
     /// <summary>
     /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
-    [Required(ErrorMessage = "VendingMachineContractedAreaLandLord is required")]
-    public System.Int64 VendingMachineContractedAreaLandLordId { get; set; } = default!;
+    [Required(ErrorMessage = "LandLord is required")]
+    public System.Int64 LandLordId { get; set; } = default!;
 
     /// <summary>
     /// VendingMachine related to ZeroOrMany Bookings
     /// </summary>
-    public List<System.Guid> VendingMachineRelatedBookingsId { get; set; } = new();
+    public List<System.Guid> BookingsId { get; set; } = new();
 
     /// <summary>
     /// VendingMachine related to ZeroOrMany CashStockOrders
     /// </summary>
-    public List<System.Int64> VendingMachineRelatedCashStockOrdersId { get; set; } = new();
+    public List<System.Int64> CashStockOrdersId { get; set; } = new();
 
     /// <summary>
     /// VendingMachine required ZeroOrMany MinimumCashStocks
     /// </summary>
-    public List<System.Int64> VendingMachineRequiredMinimumCashStocksId { get; set; } = new();
+    public List<System.Int64> MinimumCashStocksId { get; set; } = new();
 }

@@ -34,15 +34,16 @@ public partial class {{className}} : IEntityDto<DomainNamespace.{{entity.Name}}>
     {{- end}}
 {{- end }}
 {{- for relationship in entity.Relationships}}
+	{{- relationshipName = GetRelationshipPublicName entity relationship }}
 
     /// <summary>
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
     {{- if relationship.WithSingleEntity }}
-    {{ if relationship.Relationship == "ExactlyOne" }}[Required(ErrorMessage = "{{relationship.Name}} is required")]{{-end}}
-    public {{relationship.ForeignKeyPrimitiveType}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}}Id { get; set; } = default!;
+    {{ if relationship.Relationship == "ExactlyOne" }}[Required(ErrorMessage = "{{relationshipName}} is required")]{{-end}}
+    public {{relationship.ForeignKeyPrimitiveType}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationshipName}}Id { get; set; } = default!;
     {{-else}}
-    public List<{{relationship.ForeignKeyPrimitiveType}}> {{relationship.Name}}Id { get; set; } = new();
+    public List<{{relationship.ForeignKeyPrimitiveType}}> {{relationshipName}}Id { get; set; } = new();
     {{-end}}
 {{- end }}
 {{- for relationship in entity.OwnedRelationships}}

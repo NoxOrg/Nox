@@ -13,7 +13,7 @@ using CountryEntity = Cryptocash.Domain.Country;
 
 namespace Cryptocash.Application.Commands;
 
-public record DeleteCountryByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
+public partial record DeleteCountryByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
 
 internal class DeleteCountryByIdCommandHandler : DeleteCountryByIdCommandHandlerBase
 {

@@ -12,7 +12,7 @@ using ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 
-public record GetRatingProgramsQuery() : IRequest<IQueryable<RatingProgramDto>>;
+public partial record GetRatingProgramsQuery() : IRequest<IQueryable<RatingProgramDto>>;
 
 internal partial class GetRatingProgramsQueryHandler: GetRatingProgramsQueryHandlerBase
 {

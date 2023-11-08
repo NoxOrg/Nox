@@ -14,7 +14,7 @@ using Cryptocash.Application.Dto;
 using HolidayEntity = Cryptocash.Domain.Holiday;
 
 namespace Cryptocash.Application.Commands;
-public record PartialUpdateHolidayForCountryCommand(CountryKeyDto ParentKeyDto, HolidayKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <HolidayKeyDto?>;
+public partial record PartialUpdateHolidayForCountryCommand(CountryKeyDto ParentKeyDto, HolidayKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <HolidayKeyDto?>;
 internal partial class PartialUpdateHolidayForCountryCommandHandler: PartialUpdateHolidayForCountryCommandHandlerBase
 {
 	public PartialUpdateHolidayForCountryCommandHandler(

@@ -2,12 +2,15 @@
 
 #nullable enable
 
+// Using Nox version 7.0.3.0
+
 // Found files ->
 //  - clientapi.solution.nox.yaml
 //  - country.entity.nox.yaml
 //  - countrybarcode.entity.nox.yaml
 //  - countrylocalname.entity.nox.yaml
 //  - countryqualityoflifeindex.entity.nox.yaml
+//  - currency.entity.nox.yaml
 //  - ratingprogram.entity.nox.yaml
 //  - store-license.entity.nox.yaml
 //  - store-owner.entity.nox.yaml
@@ -42,6 +45,7 @@
 //  - Nox.Generator.Application.DefaultIntegrationEventGenerator
 //  - Nox.Generator.Application.ServiceCollectionExtensionsGenerator
 //  - Nox.Generator.Application.Queries.ByIdQueryGenerator
+//  - Nox.Generator.Application.Queries.ByIdQueryLocalizedGenerator
 //  - Nox.Generator.Application.Queries.EnumerationQueryGenerator
 //  - Nox.Generator.Application.Queries.QueryGenerator
 //  - Nox.Generator.Application.Queries.QueryLocalizedGenerator

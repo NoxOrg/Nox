@@ -9,9 +9,14 @@ namespace Nox.Application.Commands;
 public abstract class CommandBase<TRequest, TEntity>: INoxCommand where TEntity : IEntity
 {
     protected NoxSolution NoxSolution { get; }
+
+    protected Types.CultureCode DefaultCultureCode;
+
+
     protected CommandBase(NoxSolution noxSolution)
     {
         NoxSolution = noxSolution;
+        DefaultCultureCode = Types.CultureCode.From(NoxSolution!.Application!.Localization!.DefaultCulture);
     }
 
     protected Entity GetEntityDefinition<E>()

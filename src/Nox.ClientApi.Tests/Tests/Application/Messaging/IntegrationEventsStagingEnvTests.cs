@@ -20,7 +20,7 @@ namespace ClientApi.Tests.Application.Messaging
 
         #region Integration Events Staging
 
-        [Fact(Skip ="Cloud event is being create in serialization phase, need to investigate how to assert the serialization")]
+        [Fact]
         public async Task Put_Country_WithDevelopmentEnvironment_SetsEnvelopValuesProperly()
         {
             // Arrange
@@ -45,9 +45,9 @@ namespace ClientApi.Tests.Application.Messaging
             //Assert
             updateResult.Should().NotBeNull();
             var messageObject = MassTransitTestHarness.Published.Select(x => true).AsEnumerable().First().MessageObject;
-            //((CloudEventMessage<CountryCreated>)messageObject).source!.OriginalString.Should().Be("https://staging.Nox-Tests.com/ClientApi");
-            //((CloudEventMessage<CountryCreated>)messageObject).type.Should().Be("Nox-Tests.ClientApi.Country.v1.0.created");
-            //((CloudEventMessage<CountryCreated>)messageObject).dataschema!.OriginalString.Should().Be("https://staging.Nox-Tests.com/schemas/ClientApi/Country/v1.0/created.json");
+            ((CloudEventMessage<CountryCreated>)messageObject).Source!.OriginalString.Should().Be("https://staging.Nox-Tests.com/ClientApi");
+            ((CloudEventMessage<CountryCreated>)messageObject).Type.Should().Be("Nox-Tests.ClientApi.Country.v1.0.created");
+            ((CloudEventMessage<CountryCreated>)messageObject).DataSchema!.OriginalString.Should().Be("https://staging.Nox-Tests.com/schemas/ClientApi/Country/v1.0/created.json");
         }
 
         #endregion Integration Events

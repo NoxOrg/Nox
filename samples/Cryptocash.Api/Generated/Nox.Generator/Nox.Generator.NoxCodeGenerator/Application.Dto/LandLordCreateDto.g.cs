@@ -40,8 +40,8 @@ public abstract class LandLordCreateDtoBase : IEntityDto<DomainNamespace.LandLor
     /// <summary>
     /// LandLord leases an area to house ZeroOrMany VendingMachines
     /// </summary>
-    public virtual List<System.Guid> ContractedAreasForVendingMachinesId { get; set; } = new();
+    public virtual List<System.Guid> VendingMachinesId { get; set; } = new();
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual List<VendingMachineCreateDto> ContractedAreasForVendingMachines { get; set; } = new();
+    public virtual List<VendingMachineCreateDto> VendingMachines { get; set; } = new();
 }

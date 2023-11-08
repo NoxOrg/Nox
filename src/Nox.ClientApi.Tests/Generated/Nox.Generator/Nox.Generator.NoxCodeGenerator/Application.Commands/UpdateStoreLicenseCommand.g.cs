@@ -17,14 +17,15 @@ using StoreLicenseEntity = ClientApi.Domain.StoreLicense;
 
 namespace ClientApi.Application.Commands;
 
-public record UpdateStoreLicenseCommand(System.Int64 keyId, StoreLicenseUpdateDto EntityDto, System.Guid? Etag) : IRequest<StoreLicenseKeyDto?>;
+public record UpdateStoreLicenseCommand(System.Int64 keyId, StoreLicenseUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<StoreLicenseKeyDto?>;
 
 internal partial class UpdateStoreLicenseCommandHandler : UpdateStoreLicenseCommandHandlerBase
 {
 	public UpdateStoreLicenseCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory) 
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -37,7 +38,8 @@ internal abstract class UpdateStoreLicenseCommandHandlerBase : CommandBase<Updat
 	public UpdateStoreLicenseCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -55,15 +57,45 @@ internal abstract class UpdateStoreLicenseCommandHandlerBase : CommandBase<Updat
 			return null;
 		}
 
-		var storeWithLicenseKey = ClientApi.Domain.StoreMetadata.CreateId(request.EntityDto.StoreWithLicenseId);
-		var storeWithLicenseEntity = await DbContext.Stores.FindAsync(storeWithLicenseKey);
+		var storeKey = ClientApi.Domain.StoreMetadata.CreateId(request.EntityDto.StoreId);
+		var storeEntity = await DbContext.Stores.FindAsync(storeKey);
 						
-		if(storeWithLicenseEntity is not null)
-			entity.CreateRefToStoreWithLicense(storeWithLicenseEntity);
+		if(storeEntity is not null)
+			entity.CreateRefToStore(storeEntity);
 		else
-			throw new RelatedEntityNotFoundException("StoreWithLicense", request.EntityDto.StoreWithLicenseId.ToString());
+			throw new RelatedEntityNotFoundException("Store", request.EntityDto.StoreId.ToString());
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto);
+		if(request.EntityDto.DefaultCurrencyId is not null)
+		{
+			var defaultCurrencyKey = ClientApi.Domain.CurrencyMetadata.CreateId(request.EntityDto.DefaultCurrencyId.NonNullValue<System.String>());
+			var defaultCurrencyEntity = await DbContext.Currencies.FindAsync(defaultCurrencyKey);
+						
+			if(defaultCurrencyEntity is not null)
+				entity.CreateRefToDefaultCurrency(defaultCurrencyEntity);
+			else
+				throw new RelatedEntityNotFoundException("DefaultCurrency", request.EntityDto.DefaultCurrencyId.NonNullValue<System.String>().ToString());
+		}
+		else
+		{
+			entity.DeleteAllRefToDefaultCurrency();
+		}
+
+		if(request.EntityDto.SoldInCurrencyId is not null)
+		{
+			var soldInCurrencyKey = ClientApi.Domain.CurrencyMetadata.CreateId(request.EntityDto.SoldInCurrencyId.NonNullValue<System.String>());
+			var soldInCurrencyEntity = await DbContext.Currencies.FindAsync(soldInCurrencyKey);
+						
+			if(soldInCurrencyEntity is not null)
+				entity.CreateRefToSoldInCurrency(soldInCurrencyEntity);
+			else
+				throw new RelatedEntityNotFoundException("SoldInCurrency", request.EntityDto.SoldInCurrencyId.NonNullValue<System.String>().ToString());
+		}
+		else
+		{
+			entity.DeleteAllRefToSoldInCurrency();
+		}
+
+		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

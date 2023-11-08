@@ -62,10 +62,10 @@ public abstract class EmployeeCreateDtoBase : IEntityDto<DomainNamespace.Employe
     /// <summary>
     /// Employee reviewing ExactlyOne CashStockOrders
     /// </summary>
-    public System.Int64? EmployeeReviewingCashStockOrderId { get; set; } = default!;
+    public System.Int64? CashStockOrderId { get; set; } = default!;
     
     [System.Text.Json.Serialization.JsonIgnore]
-    public virtual CashStockOrderCreateDto? EmployeeReviewingCashStockOrder { get; set; } = default!;
+    public virtual CashStockOrderCreateDto? CashStockOrder { get; set; } = default!;
 
     /// <summary>
     /// Employee contacted by ZeroOrMany EmployeePhoneNumbers

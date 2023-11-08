@@ -20,7 +20,7 @@ using EmployeeEntity = Cryptocash.Domain.Employee;
 
 namespace Cryptocash.Application.Commands;
 
-public record CreateEmployeeCommand(EmployeeCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<EmployeeKeyDto>;
+public partial record CreateEmployeeCommand(EmployeeCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<EmployeeKeyDto>;
 
 internal partial class CreateEmployeeCommandHandler : CreateEmployeeCommandHandlerBase
 {
@@ -59,19 +59,19 @@ internal abstract class CreateEmployeeCommandHandlerBase : CommandBase<CreateEmp
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.EmployeeReviewingCashStockOrderId is not null)
+		if(request.EntityDto.CashStockOrderId is not null)
 		{
-			var relatedKey = Cryptocash.Domain.CashStockOrderMetadata.CreateId(request.EntityDto.EmployeeReviewingCashStockOrderId.NonNullValue<System.Int64>());
+			var relatedKey = Cryptocash.Domain.CashStockOrderMetadata.CreateId(request.EntityDto.CashStockOrderId.NonNullValue<System.Int64>());
 			var relatedEntity = await DbContext.CashStockOrders.FindAsync(relatedKey);
 			if(relatedEntity is not null)
-				entityToCreate.CreateRefToEmployeeReviewingCashStockOrder(relatedEntity);
+				entityToCreate.CreateRefToCashStockOrder(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("EmployeeReviewingCashStockOrder", request.EntityDto.EmployeeReviewingCashStockOrderId.NonNullValue<System.Int64>().ToString());
+				throw new RelatedEntityNotFoundException("CashStockOrder", request.EntityDto.CashStockOrderId.NonNullValue<System.Int64>().ToString());
 		}
-		else if(request.EntityDto.EmployeeReviewingCashStockOrder is not null)
+		else if(request.EntityDto.CashStockOrder is not null)
 		{
-			var relatedEntity = CashStockOrderFactory.CreateEntity(request.EntityDto.EmployeeReviewingCashStockOrder);
-			entityToCreate.CreateRefToEmployeeReviewingCashStockOrder(relatedEntity);
+			var relatedEntity = CashStockOrderFactory.CreateEntity(request.EntityDto.CashStockOrder);
+			entityToCreate.CreateRefToCashStockOrder(relatedEntity);
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

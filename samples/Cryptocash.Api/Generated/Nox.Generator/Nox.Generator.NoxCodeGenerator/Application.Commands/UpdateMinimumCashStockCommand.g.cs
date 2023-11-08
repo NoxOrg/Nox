@@ -17,14 +17,15 @@ using MinimumCashStockEntity = Cryptocash.Domain.MinimumCashStock;
 
 namespace Cryptocash.Application.Commands;
 
-public record UpdateMinimumCashStockCommand(System.Int64 keyId, MinimumCashStockUpdateDto EntityDto, System.Guid? Etag) : IRequest<MinimumCashStockKeyDto?>;
+public record UpdateMinimumCashStockCommand(System.Int64 keyId, MinimumCashStockUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<MinimumCashStockKeyDto?>;
 
 internal partial class UpdateMinimumCashStockCommandHandler : UpdateMinimumCashStockCommandHandlerBase
 {
 	public UpdateMinimumCashStockCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<MinimumCashStockEntity, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<MinimumCashStockEntity, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> entityFactory) 
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -37,7 +38,8 @@ internal abstract class UpdateMinimumCashStockCommandHandlerBase : CommandBase<U
 	public UpdateMinimumCashStockCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<MinimumCashStockEntity, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<MinimumCashStockEntity, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -55,29 +57,29 @@ internal abstract class UpdateMinimumCashStockCommandHandlerBase : CommandBase<U
 			return null;
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.MinimumCashStocksRequiredByVendingMachines).LoadAsync();
-		var minimumCashStocksRequiredByVendingMachinesEntities = new List<VendingMachine>();
-		foreach(var relatedEntityId in request.EntityDto.MinimumCashStocksRequiredByVendingMachinesId)
+		await DbContext.Entry(entity).Collection(x => x.VendingMachines).LoadAsync();
+		var vendingMachinesEntities = new List<VendingMachine>();
+		foreach(var relatedEntityId in request.EntityDto.VendingMachinesId)
 		{
 			var relatedKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(relatedEntityId);
 			var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKey);
 						
 			if(relatedEntity is not null)
-				minimumCashStocksRequiredByVendingMachinesEntities.Add(relatedEntity);
+				vendingMachinesEntities.Add(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("MinimumCashStocksRequiredByVendingMachines", relatedEntityId.ToString());
+				throw new RelatedEntityNotFoundException("VendingMachines", relatedEntityId.ToString());
 		}
-		entity.UpdateRefToMinimumCashStocksRequiredByVendingMachines(minimumCashStocksRequiredByVendingMachinesEntities);
+		entity.UpdateRefToVendingMachines(vendingMachinesEntities);
 
-		var minimumCashStockRelatedCurrencyKey = Cryptocash.Domain.CurrencyMetadata.CreateId(request.EntityDto.MinimumCashStockRelatedCurrencyId);
-		var minimumCashStockRelatedCurrencyEntity = await DbContext.Currencies.FindAsync(minimumCashStockRelatedCurrencyKey);
+		var currencyKey = Cryptocash.Domain.CurrencyMetadata.CreateId(request.EntityDto.CurrencyId);
+		var currencyEntity = await DbContext.Currencies.FindAsync(currencyKey);
 						
-		if(minimumCashStockRelatedCurrencyEntity is not null)
-			entity.CreateRefToMinimumCashStockRelatedCurrency(minimumCashStockRelatedCurrencyEntity);
+		if(currencyEntity is not null)
+			entity.CreateRefToCurrency(currencyEntity);
 		else
-			throw new RelatedEntityNotFoundException("MinimumCashStockRelatedCurrency", request.EntityDto.MinimumCashStockRelatedCurrencyId.ToString());
+			throw new RelatedEntityNotFoundException("Currency", request.EntityDto.CurrencyId.ToString());
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

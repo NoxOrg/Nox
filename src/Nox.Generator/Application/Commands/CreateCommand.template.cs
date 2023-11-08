@@ -31,7 +31,7 @@ using {{entity.Name}}Entity = {{codeGeneratorState.DomainNameSpace}}.{{entity.Na
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
-public record Create{{entity.Name}}Command({{entity.Name}}CreateDto EntityDto, Nox.Types.CultureCode {{codeGeneratorState.LocalizationCultureField}}) : IRequest<{{entity.Name}}KeyDto>;
+public partial record Create{{entity.Name}}Command({{entity.Name}}CreateDto EntityDto, Nox.Types.CultureCode {{codeGeneratorState.LocalizationCultureField}}) : IRequest<{{entity.Name}}KeyDto>;
 
 internal partial class Create{{entity.Name}}CommandHandler : Create{{entity.Name}}CommandHandlerBase
 {
@@ -42,7 +42,7 @@ internal partial class Create{{entity.Name}}CommandHandler : Create{{entity.Name
 		IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{relatedEntity}}, {{relatedEntity}}CreateDto, {{relatedEntity}}UpdateDto> {{fieldFactoryName relatedEntity}},
 		{{- end }}
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory{{if entity.IsLocalized }},
-		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity> entityLocalizedFactory{{ end -}})
+		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}UpdateDto> entityLocalizedFactory{{ end -}})
 		: base(dbContext, noxSolution, {{- for relatedEntity in relatedEntities}}{{fieldFactoryName relatedEntity}}, {{end}}entityFactory{{- if entity.IsLocalized }}, entityLocalizedFactory{{ end -}})
 	{
 	}
@@ -54,7 +54,7 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> EntityFactory;
 	{{- if entity.IsLocalized }}
-	protected readonly IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity> EntityLocalizedFactory;
+	protected readonly IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}UpdateDto> EntityLocalizedFactory;
 	{{- end -}}
 	{{- for relatedEntity in relatedEntities }}
 	protected readonly IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{relatedEntity}}, {{relatedEntity}}CreateDto, {{relatedEntity}}UpdateDto> {{fieldFactoryName relatedEntity}};
@@ -67,7 +67,7 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 		IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{relatedEntity}}, {{relatedEntity}}CreateDto, {{relatedEntity}}UpdateDto> {{fieldFactoryName relatedEntity}},
 		{{- end }}
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory{{if entity.IsLocalized }},
-		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity> entityLocalizedFactory{{ end -}})
+		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}UpdateDto> entityLocalizedFactory{{ end -}})
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
@@ -88,56 +88,57 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 
 	{{- for relationship in entity.Relationships }}
+		{{- relationshipName = GetRelationshipPublicName entity relationship }}
 		{{- if relationship.WithSingleEntity }}
-		if(request.EntityDto.{{relationship.Name}}Id is not null)
+		if(request.EntityDto.{{relationshipName}}Id is not null)
 		{
 			{{- relatedEntity =  relationship.Related.Entity }}
 			{{- if (array.size relatedEntity.Keys) == 1 }}
 
 			{{- key = array.first relatedEntity.Keys }}
-			var relatedKey = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{relationship.Name}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>());
+			var relatedKey = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{relationshipName}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>());
 			var relatedEntity = await DbContext.{{relatedEntity.PluralName}}.FindAsync(relatedKey);
 			
 			{{- else }}
 
 			{{- for key in relatedEntity.Keys }}
-			var relatedKey{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}request.EntityDto.{{relationship.Name}}Id!.key{{key.Name}});
+			var relatedKey{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}request.EntityDto.{{relationshipName}}Id!.key{{key.Name}});
 			{{- end }}
 			var relatedEntity = await DbContext.{{relatedEntity.PluralName}}.FindAsync({{relatedEntity.Keys | array.map "Name" | keysQuery}});
 			
 			{{- end }}
 			if(relatedEntity is not null)
-				entityToCreate.CreateRefTo{{relationship.Name}}(relatedEntity);
+				entityToCreate.CreateRefTo{{relationshipName}}(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("{{relationship.Name}}", request.EntityDto.{{relationship.Name}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>().ToString());
+				throw new RelatedEntityNotFoundException("{{relationshipName}}", request.EntityDto.{{relationshipName}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>().ToString());
 		}
-		else if(request.EntityDto.{{relationship.Name}} is not null)
+		else if(request.EntityDto.{{relationshipName}} is not null)
 		{
-			var relatedEntity = {{fieldFactoryName relationship.Entity}}.CreateEntity(request.EntityDto.{{relationship.Name}});
-			entityToCreate.CreateRefTo{{relationship.Name}}(relatedEntity);
+			var relatedEntity = {{fieldFactoryName relationship.Entity}}.CreateEntity(request.EntityDto.{{relationshipName}});
+			entityToCreate.CreateRefTo{{relationshipName}}(relatedEntity);
 		}
 		{{- else}}
-		if(request.EntityDto.{{relationship.Name}}Id.Any())
+		if(request.EntityDto.{{relationshipName}}Id.Any())
 		{
 			{{- relatedEntity =  relationship.Related.Entity }}
 			{{- key = array.first relatedEntity.Keys }}
-			foreach(var relatedId in request.EntityDto.{{relationship.Name}}Id)
+			foreach(var relatedId in request.EntityDto.{{relationshipName}}Id)
 			{
 				var relatedKey = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(relatedId);
 				var relatedEntity = await DbContext.{{relatedEntity.PluralName}}.FindAsync(relatedKey);
 
 				if(relatedEntity is not null)
-					entityToCreate.CreateRefTo{{relationship.Name}}(relatedEntity);
+					entityToCreate.CreateRefTo{{relationshipName}}(relatedEntity);
 				else
-					throw new RelatedEntityNotFoundException("{{relationship.Name}}", relatedId.ToString());
+					throw new RelatedEntityNotFoundException("{{relationshipName}}", relatedId.ToString());
 			}
 		}
 		else
 		{
-			foreach(var relatedCreateDto in request.EntityDto.{{relationship.Name}})
+			foreach(var relatedCreateDto in request.EntityDto.{{relationshipName}})
 			{
 				var relatedEntity = {{fieldFactoryName relationship.Entity}}.CreateEntity(relatedCreateDto);
-				entityToCreate.CreateRefTo{{relationship.Name}}(relatedEntity);
+				entityToCreate.CreateRefTo{{relationshipName}}(relatedEntity);
 			}
 		}
 		{{-end}}

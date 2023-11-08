@@ -20,7 +20,7 @@ using ThirdTestEntityZeroOrOneEntity = TestWebApp.Domain.ThirdTestEntityZeroOrOn
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateThirdTestEntityZeroOrOneCommand(ThirdTestEntityZeroOrOneCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<ThirdTestEntityZeroOrOneKeyDto>;
+public partial record CreateThirdTestEntityZeroOrOneCommand(ThirdTestEntityZeroOrOneCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<ThirdTestEntityZeroOrOneKeyDto>;
 
 internal partial class CreateThirdTestEntityZeroOrOneCommandHandler : CreateThirdTestEntityZeroOrOneCommandHandlerBase
 {
@@ -59,19 +59,19 @@ internal abstract class CreateThirdTestEntityZeroOrOneCommandHandlerBase : Comma
 		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		if(request.EntityDto.ThirdTestEntityExactlyOneRelationshipId is not null)
+		if(request.EntityDto.ThirdTestEntityExactlyOneId is not null)
 		{
-			var relatedKey = TestWebApp.Domain.ThirdTestEntityExactlyOneMetadata.CreateId(request.EntityDto.ThirdTestEntityExactlyOneRelationshipId.NonNullValue<System.String>());
+			var relatedKey = TestWebApp.Domain.ThirdTestEntityExactlyOneMetadata.CreateId(request.EntityDto.ThirdTestEntityExactlyOneId.NonNullValue<System.String>());
 			var relatedEntity = await DbContext.ThirdTestEntityExactlyOnes.FindAsync(relatedKey);
 			if(relatedEntity is not null)
-				entityToCreate.CreateRefToThirdTestEntityExactlyOneRelationship(relatedEntity);
+				entityToCreate.CreateRefToThirdTestEntityExactlyOne(relatedEntity);
 			else
-				throw new RelatedEntityNotFoundException("ThirdTestEntityExactlyOneRelationship", request.EntityDto.ThirdTestEntityExactlyOneRelationshipId.NonNullValue<System.String>().ToString());
+				throw new RelatedEntityNotFoundException("ThirdTestEntityExactlyOne", request.EntityDto.ThirdTestEntityExactlyOneId.NonNullValue<System.String>().ToString());
 		}
-		else if(request.EntityDto.ThirdTestEntityExactlyOneRelationship is not null)
+		else if(request.EntityDto.ThirdTestEntityExactlyOne is not null)
 		{
-			var relatedEntity = ThirdTestEntityExactlyOneFactory.CreateEntity(request.EntityDto.ThirdTestEntityExactlyOneRelationship);
-			entityToCreate.CreateRefToThirdTestEntityExactlyOneRelationship(relatedEntity);
+			var relatedEntity = ThirdTestEntityExactlyOneFactory.CreateEntity(request.EntityDto.ThirdTestEntityExactlyOne);
+			entityToCreate.CreateRefToThirdTestEntityExactlyOne(relatedEntity);
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

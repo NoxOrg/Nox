@@ -12,7 +12,7 @@ using TestWebApp.Infrastructure.Persistence;
 
 namespace TestWebApp.Application.Queries;
 
-public record GetSecondTestEntityOneOrManyByIdQuery(System.String keyId) : IRequest <IQueryable<SecondTestEntityOneOrManyDto>>;
+public partial record GetSecondTestEntityOneOrManyByIdQuery(System.String keyId) : IRequest <IQueryable<SecondTestEntityOneOrManyDto>>;
 
 internal partial class GetSecondTestEntityOneOrManyByIdQueryHandler:GetSecondTestEntityOneOrManyByIdQueryHandlerBase
 {

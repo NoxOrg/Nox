@@ -14,7 +14,7 @@ using ClientApi.Application.Dto;
 using CountryLocalNameEntity = ClientApi.Domain.CountryLocalName;
 
 namespace ClientApi.Application.Commands;
-public record UpdateCountryLocalNameForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameKeyDto EntityKeyDto, CountryLocalNameUpdateDto EntityDto, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto?>;
+public partial record UpdateCountryLocalNameForCountryCommand(CountryKeyDto ParentKeyDto, CountryLocalNameKeyDto EntityKeyDto, CountryLocalNameUpdateDto EntityDto, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto?>;
 
 internal partial class UpdateCountryLocalNameForCountryCommandHandler : UpdateCountryLocalNameForCountryCommandHandlerBase
 {
@@ -58,7 +58,7 @@ internal partial class UpdateCountryLocalNameForCountryCommandHandlerBase : Comm
 			return null;
 		}
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto, DefaultCultureCode);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		await OnCompletedAsync(request, entity);
 

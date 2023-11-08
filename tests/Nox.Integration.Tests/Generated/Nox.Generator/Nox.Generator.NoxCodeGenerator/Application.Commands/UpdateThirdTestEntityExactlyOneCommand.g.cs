@@ -17,14 +17,15 @@ using ThirdTestEntityExactlyOneEntity = TestWebApp.Domain.ThirdTestEntityExactly
 
 namespace TestWebApp.Application.Commands;
 
-public record UpdateThirdTestEntityExactlyOneCommand(System.String keyId, ThirdTestEntityExactlyOneUpdateDto EntityDto, System.Guid? Etag) : IRequest<ThirdTestEntityExactlyOneKeyDto?>;
+public record UpdateThirdTestEntityExactlyOneCommand(System.String keyId, ThirdTestEntityExactlyOneUpdateDto EntityDto, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest<ThirdTestEntityExactlyOneKeyDto?>;
 
 internal partial class UpdateThirdTestEntityExactlyOneCommandHandler : UpdateThirdTestEntityExactlyOneCommandHandlerBase
 {
 	public UpdateThirdTestEntityExactlyOneCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<ThirdTestEntityExactlyOneEntity, ThirdTestEntityExactlyOneCreateDto, ThirdTestEntityExactlyOneUpdateDto> entityFactory) : base(dbContext, noxSolution, entityFactory)
+		IEntityFactory<ThirdTestEntityExactlyOneEntity, ThirdTestEntityExactlyOneCreateDto, ThirdTestEntityExactlyOneUpdateDto> entityFactory) 
+		: base(dbContext, noxSolution, entityFactory)
 	{
 	}
 }
@@ -37,7 +38,8 @@ internal abstract class UpdateThirdTestEntityExactlyOneCommandHandlerBase : Comm
 	public UpdateThirdTestEntityExactlyOneCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<ThirdTestEntityExactlyOneEntity, ThirdTestEntityExactlyOneCreateDto, ThirdTestEntityExactlyOneUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<ThirdTestEntityExactlyOneEntity, ThirdTestEntityExactlyOneCreateDto, ThirdTestEntityExactlyOneUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		_entityFactory = entityFactory;
@@ -55,15 +57,15 @@ internal abstract class UpdateThirdTestEntityExactlyOneCommandHandlerBase : Comm
 			return null;
 		}
 
-		var thirdTestEntityZeroOrOneRelationshipKey = TestWebApp.Domain.ThirdTestEntityZeroOrOneMetadata.CreateId(request.EntityDto.ThirdTestEntityZeroOrOneRelationshipId);
-		var thirdTestEntityZeroOrOneRelationshipEntity = await DbContext.ThirdTestEntityZeroOrOnes.FindAsync(thirdTestEntityZeroOrOneRelationshipKey);
+		var thirdTestEntityZeroOrOneKey = TestWebApp.Domain.ThirdTestEntityZeroOrOneMetadata.CreateId(request.EntityDto.ThirdTestEntityZeroOrOneId);
+		var thirdTestEntityZeroOrOneEntity = await DbContext.ThirdTestEntityZeroOrOnes.FindAsync(thirdTestEntityZeroOrOneKey);
 						
-		if(thirdTestEntityZeroOrOneRelationshipEntity is not null)
-			entity.CreateRefToThirdTestEntityZeroOrOneRelationship(thirdTestEntityZeroOrOneRelationshipEntity);
+		if(thirdTestEntityZeroOrOneEntity is not null)
+			entity.CreateRefToThirdTestEntityZeroOrOne(thirdTestEntityZeroOrOneEntity);
 		else
-			throw new RelatedEntityNotFoundException("ThirdTestEntityZeroOrOneRelationship", request.EntityDto.ThirdTestEntityZeroOrOneRelationshipId.ToString());
+			throw new RelatedEntityNotFoundException("ThirdTestEntityZeroOrOne", request.EntityDto.ThirdTestEntityZeroOrOneId.ToString());
 
-		_entityFactory.UpdateEntity(entity, request.EntityDto);
+		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);
