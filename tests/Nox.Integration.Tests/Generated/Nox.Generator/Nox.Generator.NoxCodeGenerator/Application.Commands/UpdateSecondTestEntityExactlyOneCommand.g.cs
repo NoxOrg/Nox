@@ -8,6 +8,8 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
@@ -44,7 +46,7 @@ internal abstract class UpdateSecondTestEntityExactlyOneCommandHandlerBase : Com
 	public virtual async Task<SecondTestEntityExactlyOneKeyDto?> Handle(UpdateSecondTestEntityExactlyOneCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.SecondTestEntityExactlyOneMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.SecondTestEntityExactlyOnes.FindAsync(keyId);
@@ -52,6 +54,14 @@ internal abstract class UpdateSecondTestEntityExactlyOneCommandHandlerBase : Com
 		{
 			return null;
 		}
+
+		var testEntityExactlyOneRelationshipKey = TestWebApp.Domain.TestEntityExactlyOneMetadata.CreateId(request.EntityDto.TestEntityExactlyOneRelationshipId);
+		var testEntityExactlyOneRelationshipEntity = await DbContext.TestEntityExactlyOnes.FindAsync(testEntityExactlyOneRelationshipKey);
+						
+		if(testEntityExactlyOneRelationshipEntity is not null)
+			entity.CreateRefToTestEntityExactlyOneRelationship(testEntityExactlyOneRelationshipEntity);
+		else
+			throw new RelatedEntityNotFoundException("TestEntityExactlyOneRelationship", request.EntityDto.TestEntityExactlyOneRelationshipId.ToString());
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

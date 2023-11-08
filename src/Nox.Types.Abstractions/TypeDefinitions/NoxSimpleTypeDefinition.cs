@@ -26,6 +26,9 @@ public class NoxSimpleTypeDefinition
     public NoxType Type { get; internal set; } = NoxType.Object;
 
     #region TypeOptions
+    
+    [IfEquals(nameof(Type), NoxType.AutoNumber)]
+    public AutoNumberTypeOptions? AutoNumberTypeOptions { get; set; }
 
     [IfEquals(nameof(Type), NoxType.Area)]
     public AreaTypeOptions? AreaTypeOptions { get; set; }
@@ -128,6 +131,8 @@ public class NoxSimpleTypeDefinition
     [Title("Is this attribute readonly? Boolean value.")]
     [Description("Indicates whether this attribute is readonly. Defaults to false.")]
     public bool IsReadonly { get; internal set; } = false;
+
+    public bool IsLocalized => Type == NoxType.Text && TextTypeOptions!.IsLocalized;
 
     public NoxSimpleTypeDefinition ShallowCopy()
     {

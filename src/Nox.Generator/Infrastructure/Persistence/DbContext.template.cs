@@ -27,7 +27,7 @@ using Nox.Solution;
 using Nox.Configuration;
 using Nox.Infrastructure;
 
-
+using DomainNameSpace = {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 
 namespace {{codeGeneratorState.PersistenceNameSpace}};
@@ -55,21 +55,21 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
             _clientAssemblyProvider = clientAssemblyProvider;
             _codeGenConventions = codeGeneratorState;
         }
-{{ for entity in solution.Domain.Entities -}}
-{{- if (!entity.IsOwnedEntity) }}
+    {{ for entity in solution.Domain.Entities -}}
+    {{- if (!entity.IsOwnedEntity) }}
     public DbSet<{{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}> {{entity.PluralName}} { get; set; } = null!;
-{{- end }}
-{{ end }}
-{{ for entity in entitiesToLocalize -}}
+    {{- end }}
+    {{- end }}
+    {{ for entity in entitiesToLocalize -}}
     public DbSet<{{codeGeneratorState.DomainNameSpace}}.{{GetEntityNameForLocalizedType entity.Name}}> {{GetEntityNameForLocalizedType entity.PluralName}} { get; set; } = null!;
-{{ end }}
+    {{- end }}
 
     {{- for entityAtt in enumerationAttributes #Setup Entity Enumerations}}
     {{- for enumAtt in entityAtt.Attributes}}
-    public DbSet<{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{enumAtt.Name}}> {{Pluralize (entityAtt.Entity.Name)}}{{Pluralize (enumAtt.Name)}} { get; set; } = null!;
-        {{- if enumAtt.EnumerationTypeOptions.IsLocalized}}
-    public DbSet<{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{GetEntityNameForLocalizedType enumAtt.Name}}> {{Pluralize (entityAtt.Entity.Name)}}{{GetEntityNameForLocalizedType (Pluralize (enumAtt.Name))}} { get; set; } = null!;
-        {{- end }}
+    public DbSet<DomainNameSpace.{{enumAtt.EntityNameForEnumeration}}> {{enumAtt.DbSetNameForEnumeration}} { get; set; } = null!;
+    {{- if enumAtt.Attribute.EnumerationTypeOptions.IsLocalized}}
+    public DbSet<DomainNameSpace.{{ enumAtt.EntityNameForLocalizedEnumeration}}> {{enumAtt.DbSetNameForLocalizedEnumeration}} { get; set; } = null!;
+    {{- end }}
     {{- end }}
     {{- end }}
 
@@ -104,9 +104,9 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
             }
 
             var type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(entity.Name));
-            ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(new EntityBuilderAdapter(modelBuilder.Entity(type!)), entity);
+            ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(modelBuilder, new EntityBuilderAdapter(modelBuilder.Entity(type!)), entity);
 
-            if (entity.ShouldBeLocalized)
+            if (entity.IsLocalized)
             {
                 type = _clientAssemblyProvider.GetType(_codeGenConventions.GetEntityTypeFullName(NoxCodeGenConventions.GetEntityNameForLocalizedType(entity.Name)));
 
@@ -119,10 +119,10 @@ internal partial class AppDbContext : Nox.Infrastructure.Persistence.EntityDbCon
 
         {{- for entityAtt in enumerationAttributes #Setup Entity Enumerations}}
         {{- for enumAtt in entityAtt.Attributes}}
-            ConfigureEnumeration(modelBuilder.Entity("{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{enumAtt.Name}}"));
-            {{- if enumAtt.EnumerationTypeOptions.IsLocalized}}
-            var enumLocalizedType = _clientAssemblyProvider.GetType("{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{GetEntityNameForLocalizedType enumAtt.Name}}")!;
-            var enumType = _clientAssemblyProvider.GetType("{{codeGeneratorState.DomainNameSpace}}.{{entityAtt.Entity.Name}}{{enumAtt.Name}}")!;
+            ConfigureEnumeration(modelBuilder.Entity("{{codeGeneratorState.DomainNameSpace}}.{{enumAtt.EntityNameForEnumeration}}"));
+            {{- if enumAtt.Attribute.EnumerationTypeOptions.IsLocalized}}
+            var enumLocalizedType = _clientAssemblyProvider.GetType("{{codeGeneratorState.DomainNameSpace}}.{{enumAtt.EntityNameForLocalizedEnumeration}}")!;
+            var enumType = _clientAssemblyProvider.GetType("{{codeGeneratorState.DomainNameSpace}}.{{enumAtt.EntityNameForEnumeration}}")!;
             ConfigureEnumerationLocalized(modelBuilder.Entity(enumLocalizedType), enumType, enumLocalizedType);
             {{- end }}
         {{- end }}

@@ -8,6 +8,8 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
@@ -44,7 +46,7 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 	public virtual async Task<{{entity.Name}}KeyDto?> Handle(Update{{entity.Name}}Command request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		{{- for key in entity.Keys }}
 		var key{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(request.key{{key.Name}});
@@ -55,6 +57,52 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 		{
 			return null;
 		}
+
+	{{- for relationship in entity.Relationships }}
+		{{- relatedEntity =  relationship.Related.Entity }}
+		{{- key = array.first relatedEntity.Keys }}
+		{{- if relationship.Relationship == "ZeroOrOne" }}
+
+		if(request.EntityDto.{{relationship.Name}}Id is not null)
+		{
+			var {{ToLowerFirstChar relationship.Name}}Key = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{relationship.Name}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>());
+			var {{ToLowerFirstChar relationship.Name}}Entity = await DbContext.{{relatedEntity.PluralName}}.FindAsync({{ToLowerFirstChar relationship.Name}}Key);
+						
+			if({{ToLowerFirstChar relationship.Name}}Entity is not null)
+				entity.CreateRefTo{{relationship.Name}}({{ToLowerFirstChar relationship.Name}}Entity);
+			else
+				throw new RelatedEntityNotFoundException("{{relationship.Name}}", request.EntityDto.{{relationship.Name}}Id.NonNullValue<{{relationship.ForeignKeyPrimitiveType}}>().ToString());
+		}
+		else
+		{
+			entity.DeleteAllRefTo{{relationship.Name}}();
+		}
+		{{- else if relationship.Relationship == "ExactlyOne" }}
+
+		var {{ToLowerFirstChar relationship.Name}}Key = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(request.EntityDto.{{relationship.Name}}Id);
+		var {{ToLowerFirstChar relationship.Name}}Entity = await DbContext.{{relatedEntity.PluralName}}.FindAsync({{ToLowerFirstChar relationship.Name}}Key);
+						
+		if({{ToLowerFirstChar relationship.Name}}Entity is not null)
+			entity.CreateRefTo{{relationship.Name}}({{ToLowerFirstChar relationship.Name}}Entity);
+		else
+			throw new RelatedEntityNotFoundException("{{relationship.Name}}", request.EntityDto.{{relationship.Name}}Id.ToString());
+		{{- else }}
+
+		await DbContext.Entry(entity).Collection(x => x.{{relationship.Name}}).LoadAsync();
+		var {{ToLowerFirstChar relationship.Name}}Entities = new List<{{relationship.Entity}}>();
+		foreach(var relatedEntityId in request.EntityDto.{{relationship.Name}}Id)
+		{
+			var relatedKey = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(relatedEntityId);
+			var relatedEntity = await DbContext.{{relatedEntity.PluralName}}.FindAsync(relatedKey);
+						
+			if(relatedEntity is not null)
+				{{ToLowerFirstChar relationship.Name}}Entities.Add(relatedEntity);
+			else
+				throw new RelatedEntityNotFoundException("{{relationship.Name}}", relatedEntityId.ToString());
+		}
+		entity.UpdateRefTo{{relationship.Name}}({{ToLowerFirstChar relationship.Name}}Entities);
+		{{-end}}
+	{{- end }}
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 

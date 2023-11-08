@@ -20,7 +20,7 @@ using CountryEntity = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
-public record CreateCountryCommand(CountryCreateDto EntityDto) : IRequest<CountryKeyDto>;
+public record CreateCountryCommand(CountryCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<CountryKeyDto>;
 
 internal partial class CreateCountryCommandHandler : CreateCountryCommandHandlerBase
 {
@@ -45,7 +45,8 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Workplace, WorkplaceCreateDto, WorkplaceUpdateDto> WorkplaceFactory,
-		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<CountryEntity, CountryCreateDto, CountryUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -55,13 +56,29 @@ internal abstract class CreateCountryCommandHandlerBase : CommandBase<CreateCoun
 	public virtual async Task<CountryKeyDto> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		foreach(var relatedCreateDto in request.EntityDto.PhysicalWorkplaces)
+		if(request.EntityDto.PhysicalWorkplacesId.Any())
 		{
-			var relatedEntity = WorkplaceFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToPhysicalWorkplaces(relatedEntity);
+			foreach(var relatedId in request.EntityDto.PhysicalWorkplacesId)
+			{
+				var relatedKey = ClientApi.Domain.WorkplaceMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.Workplaces.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToPhysicalWorkplaces(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("PhysicalWorkplaces", relatedId.ToString());
+			}
+		}
+		else
+		{
+			foreach(var relatedCreateDto in request.EntityDto.PhysicalWorkplaces)
+			{
+				var relatedEntity = WorkplaceFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToPhysicalWorkplaces(relatedEntity);
+			}
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

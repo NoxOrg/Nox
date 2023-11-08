@@ -20,7 +20,7 @@ using CashStockOrderEntity = Cryptocash.Domain.CashStockOrder;
 
 namespace Cryptocash.Application.Commands;
 
-public record CreateCashStockOrderCommand(CashStockOrderCreateDto EntityDto) : IRequest<CashStockOrderKeyDto>;
+public record CreateCashStockOrderCommand(CashStockOrderCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<CashStockOrderKeyDto>;
 
 internal partial class CreateCashStockOrderCommandHandler : CreateCashStockOrderCommandHandlerBase
 {
@@ -48,7 +48,8 @@ internal abstract class CreateCashStockOrderCommandHandlerBase : CommandBase<Cre
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory,
 		IEntityFactory<Cryptocash.Domain.Employee, EmployeeCreateDto, EmployeeUpdateDto> EmployeeFactory,
-		IEntityFactory<CashStockOrderEntity, CashStockOrderCreateDto, CashStockOrderUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<CashStockOrderEntity, CashStockOrderCreateDto, CashStockOrderUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -59,7 +60,7 @@ internal abstract class CreateCashStockOrderCommandHandlerBase : CommandBase<Cre
 	public virtual async Task<CashStockOrderKeyDto> Handle(CreateCashStockOrderCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.CashStockOrderForVendingMachineId is not null)

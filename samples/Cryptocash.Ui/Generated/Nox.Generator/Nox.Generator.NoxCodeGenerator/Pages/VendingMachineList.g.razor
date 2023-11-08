@@ -58,7 +58,7 @@
         <MudItem xs="12">
             <MudGrid Spacing="2" Style="margin-top:15px;">
 
-                @if (CurrentApiUiService != null  && CurrentAddEntity != null)
+                @if (CurrentApiUiService != null && CurrentAddEntity != null)
                 {
                     var AddLabel = "ADD " + CurrentEntityName;
 
@@ -76,15 +76,10 @@
                         <DialogContent>
                             <MudForm @ref="AddEntityForm" @bind-IsValid="@AddEntityValidateSuccess">
                                 <MudGrid>
-                                    <MudItem xs="4">
-                                        <MudCard Outlined="true">
-                                            <MudCardHeader>
-                                                <CardHeaderContent>
-                                                    <MudText Typo="Typo.h6">Details</MudText>
-                                                </CardHeaderContent>
-                                            </MudCardHeader>
-                                            <MudCardContent>
-                                                <MudGrid>
+                                    <MudItem xs="12">
+                                        <MudTabs Rounded="true" Border="true" HideSlider="true">
+                                            <MudTabPanel Text="Details">
+                                                <MudGrid Style="margin-top:15px;">
                                                     <MudItem xs="6">
                                                         <UiEditMacAddress_g @bind-MacAddress="CurrentAddEntity.MacAddress"
                                                                             Title="MAC Address"
@@ -92,7 +87,7 @@
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <UiEditIpV4Address_g @bind-IpAddress="CurrentAddEntity.PublicIp"
-                                                                           Title="Public Ip" />
+                                                                             Title="Public Ip" />
                                                     </MudItem>
                                                     <MudItem xs=6>
                                                         <UiEditText_g @bind-Text="CurrentAddEntity.SerialNumber"
@@ -112,9 +107,9 @@
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <UiEditMoney_g @bind-Money="CurrentAddEntity.RentPerSquareMetre"
-                                                                          Currency="GetCurrencyByCountryId(CurrentAddEntity.VendingMachineInstallationCountryId)"
-                                                                          Title="Rent per Square Metre"
-                                                                          Format="#.##" />                                                   
+                                                                       Currency="GetCurrencyByCountryId(CurrentAddEntity.VendingMachineInstallationCountryId)"
+                                                                       Title="Rent per Square Metre"
+                                                                       Format="#.##" />
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <UiEditEntitySelectLandLord_g @bind-LandLordId="CurrentAddEntity.VendingMachineContractedAreaLandLordId"
@@ -122,76 +117,66 @@
                                                                                       LandLordSelectionList="LandLordEntityData?.EntityList" />
                                                     </MudItem>
                                                 </MudGrid>
-                                            </MudCardContent>
-                                        </MudCard>
+                                            </MudTabPanel>
+                                            <MudTabPanel Text="Location">
+                                                <MudGrid Style="margin-top:15px;">
+                                                    <MudItem xs=12>
+                                                        <UiEditLatLong_g @bind-Latlong="CurrentAddEntity.GeoLocation"
+                                                                         TitleLatitude="Latitude"
+                                                                         TitleLongitude="Longitude"
+                                                                         Format="#.########" />
+                                                    </MudItem>
+                                                    <MudItem xs=12>
+                                                        <UiEditStreetAddress_g @bind-StreetAddress="CurrentAddEntity.StreetAddress"
+                                                                               TitleStreetNumber="StreetNumber"
+                                                                               TitleAddressLine1="AddressLine1"
+                                                                               TitleAddressLine2="AddressLine2"
+                                                                               TitleRoute="Route"
+                                                                               TitleLocality="Locality"
+                                                                               TitleNeighborhood="Neighborhood"
+                                                                               TitleAdministrativeArea1="AdministrativeArea1"
+                                                                               TitleAdministrativeArea2="AdministrativeArea2"
+                                                                               TitlePostalCode="PostalCode"
+                                                                               TitleCountryId="CountryId"
+                                                                               CountrySelectionList="CountryEntityData?.EntityList" />
+                                                    </MudItem>
+                                                </MudGrid>
+                                            </MudTabPanel>
+                                            <MudTabPanel Text="Minimum Cash Stocks">
+                                                <MudGrid Style="margin-top:15px;">
+                                                    <MudItem xs=12>
+                                                        <UiEditEntityCreateMinimumCashStock_g @bind-MinimumCashStockList="CurrentAddEntity.VendingMachineRequiredMinimumCashStocks"
+                                                                                              TitleCurrency="Currency"
+                                                                                              TitleAmount="Amount"
+                                                                                              CurrencySelectionList="CurrencyEntityData?.EntityList" />
+                                                        <UiEditEntityListMinimumCashStock_g @bind-MinimumCashStockList="CurrentAddEntity.VendingMachineRequiredMinimumCashStocks"
+                                                                                            TitleCurrency="CurrencyCode"
+                                                                                            TitleAmount="Amount" />
+                                                    </MudItem>
+                                                </MudGrid>
+                                            </MudTabPanel>
+                                        </MudTabs>
                                     </MudItem>
-                                    <MudItem xs="4">
-                                        <MudCard Outlined="true">
-                                            <MudCardHeader>
-                                                <CardHeaderContent>
-                                                    <MudText Typo="Typo.h6">Location</MudText>
-                                                </CardHeaderContent>
-                                            </MudCardHeader>
-                                            <MudCardContent>
-                                                <MudItem xs="12">
-                                                    <UiEditLatLong_g @bind-Latlong="CurrentAddEntity.GeoLocation"
-                                                                     TitleLatitude="Latitude"
-                                                                     TitleLongitude="Longitude"
-                                                                     Format="#.########" />
-                                                </MudItem>
-                                                <MudItem xs=12>
-                                                    <UiEditStreetAddress_g @bind-StreetAddress="CurrentAddEntity.StreetAddress"
-                                                                           TitleStreetNumber="StreetNumber"
-                                                                           TitleAddressLine1="AddressLine1"
-                                                                           TitleAddressLine2="AddressLine2"
-                                                                           TitleRoute="Route"
-                                                                           TitleLocality="Locality"
-                                                                           TitleNeighborhood="Neighborhood"
-                                                                           TitleAdministrativeArea1="AdministrativeArea1"
-                                                                           TitleAdministrativeArea2="AdministrativeArea2"
-                                                                           TitlePostalCode="PostalCode"
-                                                                           TitleCountryId="CountryId"
-                                                                           CountrySelectionList="CountryEntityData?.EntityList" />
-                                                </MudItem>
-                                            </MudCardContent>
-                                        </MudCard>
+                                    <MudItem xs="12">
+                                        <UiErrorSummary_g Errors="AddErrors" />
                                     </MudItem>
-                                    <MudItem xs="4">
-                                        <MudCard Outlined="true">
-                                            <MudCardHeader>
-                                                <CardHeaderContent>
-                                                    <MudText Typo="Typo.h6">MinimumCashStocks</MudText>
-                                                </CardHeaderContent>
-                                            </MudCardHeader>
-                                            <MudCardContent>
-                                                <UiEditEntityCreateMinimumCashStock_g @bind-MinimumCashStockList="CurrentAddEntity.VendingMachineRequiredMinimumCashStocks"
-                                                                                      TitleCurrency="Currency"
-                                                                                      TitleAmount="Amount"
-                                                                                      CurrencySelectionList="CurrencyEntityData?.EntityList" />
-                                                <UiEditEntityListMinimumCashStock_g @bind-MinimumCashStockList="CurrentAddEntity.VendingMachineRequiredMinimumCashStocks"
-                                                                                    TitleCurrency="CurrencyCode"
-                                                                                    TitleAmount="Amount" />
-                                            </MudCardContent>
-                                        </MudCard>
-                                    </MudItem> 
                                 </MudGrid>
-                            </MudForm>
+                            </MudForm>                                                                       
                         </DialogContent>
-                        <DialogActions>
-                                        <MudButton OnClick="AddEntityCloseDialog"
-                                                   Variant="Variant.Outlined"
-                                                   Color="Color.Info"
-                                                   Style="Margin:15px;">CANCEL</MudButton>
-                                        <MudButton OnClick="@(async () => await AddEntitySubmit())"
-                                                   Variant="Variant.Filled"
-                                                   Color="Color.Info"
-                                                   Style="Margin:15px;">
-                                            <MudText>SUBMIT</MudText>
-                                        </MudButton>
+                        <DialogActions>                              
+                                    <MudButton OnClick="AddEntityCloseDialog"
+                                               Variant="Variant.Outlined"
+                                               Color="Color.Info"
+                                               Style="Margin:15px;">CANCEL</MudButton>
+                                    <MudButton OnClick="@(async () => await AddEntitySubmit())"
+                                               Variant="Variant.Filled"
+                                               Color="Color.Info"
+                                               Style="Margin:15px;">
+                                        <MudText>SUBMIT</MudText>
+                                    </MudButton>
                         </DialogActions>
                     </MudDialog>
                 }
-
 
                 @if (CurrentApiUiService != null && CurrentEditEntity != null)
                 {
@@ -204,90 +189,81 @@
                         <DialogContent>
                             <MudForm @ref="EditEntityForm" @bind-IsValid="@EditEntityValidateSuccess">
                                 <MudGrid>
-                                    <MudItem xs="6">
-                                        <MudCard Outlined="true">
-                                            <MudCardHeader>
-                                                <CardHeaderContent>
-                                                    <MudText Typo="Typo.h6">Details</MudText>
-                                                </CardHeaderContent>
-                                            </MudCardHeader>
-                                            <MudCardContent>
-                                                <MudGrid>
-                                                    <MudItem xs="6">
-                                                        <UiEditMacAddress_g @bind-MacAddress="CurrentEditEntity.MacAddress"
-                                                                            Title="MAC Address"
-                                                                            Format="##:##:##:##:##:##" />
+                                    <MudItem xs="12">
+                                        <MudTabs Rounded="true" Border="true" HideSlider="true">
+                                            <MudTabPanel Text="Details">
+                                                <MudGrid Style="margin-top:15px;">
+                                                        <MudItem xs="6">
+                                                            <UiEditMacAddress_g @bind-MacAddress="CurrentEditEntity.MacAddress"
+                                                                                Title="MAC Address"
+                                                                                Format="##:##:##:##:##:##" />
+                                                        </MudItem>
+                                                        <MudItem xs="6">
+                                                            <UiEditIpV4Address_g @bind-IpAddress="CurrentEditEntity.PublicIp"
+                                                                                 Title="Public Ip" />
+                                                        </MudItem>
+                                                        <MudItem xs=6>
+                                                            <UiEditText_g @bind-Text="CurrentEditEntity.SerialNumber"
+                                                                          Title="Serial Number"
+                                                                          MaxLength="63"
+                                                                          MinLength="4" />
+                                                        </MudItem>
+                                                        <MudItem xs="6">
+                                                            <UiEditCountry_g @bind-CountryId="CurrentEditEntity.VendingMachineInstallationCountryId"
+                                                                             Title="Installation Country"
+                                                                             CountrySelectionList="CountryEntityData?.EntityList" />
+                                                        </MudItem>
+                                                        <MudItem xs="6">
+                                                            <UiEditArea_g @bind-Area="CurrentEditEntity.InstallationFootPrint"
+                                                                          Title="Installation Area"
+                                                                          Format="#.##" />
+                                                        </MudItem>
+                                                        <MudItem xs="6">
+                                                            <UiEditMoney_g @bind-Money="CurrentEditEntity.RentPerSquareMetre"
+                                                                           Currency="GetCurrencyByCountryId(CurrentEditEntity.VendingMachineInstallationCountryId)"
+                                                                           Title="Rent per Square Metre"
+                                                                           Format="#.##" />
+                                                        </MudItem>
+                                                        <MudItem xs="6">
+                                                            <UiEditEntitySelectLandLord_g @bind-LandLordIdLong="CurrentEditEntity.VendingMachineContractedAreaLandLordId"
+                                                                                          Title="Contracted Area LandLord"
+                                                                                          LandLordSelectionList="LandLordEntityData?.EntityList" />
+                                                        </MudItem>
+                                                </MudGrid>
+                                            </MudTabPanel>
+                                            <MudTabPanel Text="Location">
+                                                <MudGrid Style="margin-top:15px;">
+                                                    <MudItem xs="12">
+                                                        <UiEditLatLong_g @bind-Latlong="CurrentEditEntity.GeoLocation"
+                                                                         TitleLatitude="Latitude"
+                                                                         TitleLongitude="Longitude"
+                                                                         Format="#.########" />
                                                     </MudItem>
-                                                    <MudItem xs="6">
-                                                        <UiEditIpV4Address_g @bind-IpAddress="CurrentEditEntity.PublicIp"
-                                                                             Title="Public Ip" />
-                                                    </MudItem>
-                                                    <MudItem xs=6>
-                                                        <UiEditText_g @bind-Text="CurrentEditEntity.SerialNumber"
-                                                                      Title="Serial Number"
-                                                                      MaxLength="63"
-                                                                      MinLength="4" />
-                                                    </MudItem>
-                                                    <MudItem xs="6">
-                                                        <UiEditCountry_g @bind-CountryId="CurrentEditEntity.VendingMachineInstallationCountryId"
-                                                                         Title="Installation Country"
-                                                                         CountrySelectionList="CountryEntityData?.EntityList" />
-                                                    </MudItem>
-                                                    <MudItem xs="6">
-                                                        <UiEditArea_g @bind-Area="CurrentEditEntity.InstallationFootPrint"
-                                                                      Title="Installation Area"
-                                                                      Format="#.##" />
-                                                    </MudItem>
-                                                    <MudItem xs="6">
-                                                        <UiEditMoney_g @bind-Money="CurrentEditEntity.RentPerSquareMetre"
-                                                                       Currency="GetCurrencyByCountryId(CurrentEditEntity.VendingMachineInstallationCountryId)"
-                                                                       Title="Rent per Square Metre"
-                                                                       Format="#.##" />
-                                                    </MudItem>
-                                                    <MudItem xs="6">
-                                                        <UiEditEntitySelectLandLord_g @bind-LandLordIdLong="CurrentEditEntity.VendingMachineContractedAreaLandLordId"
-                                                                                      Title="ContractedAreaLandLord"
-                                                                                      LandLordSelectionList="LandLordEntityData?.EntityList" />
+                                                    <MudItem xs=12>
+                                                        <UiEditStreetAddress_g @bind-StreetAddress="CurrentEditEntity.StreetAddress"
+                                                                               TitleStreetNumber="StreetNumber"
+                                                                               TitleAddressLine1="AddressLine1"
+                                                                               TitleAddressLine2="AddressLine2"
+                                                                               TitleRoute="Route"
+                                                                               TitleLocality="Locality"
+                                                                               TitleNeighborhood="Neighborhood"
+                                                                               TitleAdministrativeArea1="AdministrativeArea1"
+                                                                               TitleAdministrativeArea2="AdministrativeArea2"
+                                                                               TitlePostalCode="PostalCode"
+                                                                               TitleCountryId="CountryId"
+                                                                               CountrySelectionList="CountryEntityData?.EntityList" />
                                                     </MudItem>
                                                 </MudGrid>
-                                            </MudCardContent>
-                                        </MudCard>
+                                            </MudTabPanel>
+                                        </MudTabs>
                                     </MudItem>
-                                    <MudItem xs="6">
-                                        <MudCard Outlined="true">
-                                            <MudCardHeader>
-                                                <CardHeaderContent>
-                                                    <MudText Typo="Typo.h6">Location</MudText>
-                                                </CardHeaderContent>
-                                            </MudCardHeader>
-                                            <MudCardContent>
-                                                <MudItem xs="12">
-                                                    <UiEditLatLong_g @bind-Latlong="CurrentEditEntity.GeoLocation"
-                                                                     TitleLatitude="Latitude"
-                                                                     TitleLongitude="Longitude"
-                                                                     Format="#.########" />
-                                                </MudItem>
-                                                <MudItem xs=12>
-                                                    <UiEditStreetAddress_g @bind-StreetAddress="CurrentEditEntity.StreetAddress"
-                                                                           TitleStreetNumber="StreetNumber"
-                                                                           TitleAddressLine1="AddressLine1"
-                                                                           TitleAddressLine2="AddressLine2"
-                                                                           TitleRoute="Route"
-                                                                           TitleLocality="Locality"
-                                                                           TitleNeighborhood="Neighborhood"
-                                                                           TitleAdministrativeArea1="AdministrativeArea1"
-                                                                           TitleAdministrativeArea2="AdministrativeArea2"
-                                                                           TitlePostalCode="PostalCode"
-                                                                           TitleCountryId="CountryId"
-                                                                           CountrySelectionList="CountryEntityData?.EntityList" />
-                                                </MudItem>
-                                            </MudCardContent>
-                                        </MudCard>
+                                    <MudItem xs="12">
+                                        <UiErrorSummary_g Errors="EditErrors" />
                                     </MudItem>
                                 </MudGrid>
                             </MudForm>
                         </DialogContent>
-                        <DialogActions>
+                        <DialogActions>                           
                             <MudButton OnClick="EditEntityCloseDialog"
                                        Variant="Variant.Outlined"
                                        Color="Color.Info"
@@ -374,7 +350,7 @@
                                     {
                                         <MudTh>PublicIp</MudTh>
                                     }
-                                }                                
+                                }
 
                             </HeaderContent>
                             <RowTemplate>
@@ -393,21 +369,21 @@
                                 @if (CurrentApiUiService!.IsPropertyShowInSearch("SerialNumber"))
                                 {
                                     <MudTd>
-                                        <UiViewText_g Text="@context.SerialNumber" />                                        
+                                        <UiViewText_g Text="@context.SerialNumber" />
                                     </MudTd>
                                 }
 
                                 @if (CurrentApiUiService!.IsPropertyShowInSearch("MacAddress"))
                                 {
                                     <MudTd>
-                                        <UiViewMacAddress_g MacAddress="@context.MacAddress" MacAddressFormat="Nox.Types.MacAddressFormat.ByteGroupWithColon" />                                        
+                                        <UiViewMacAddress_g MacAddress="@context.MacAddress" MacAddressFormat="Nox.Types.MacAddressFormat.ByteGroupWithColon" />
                                     </MudTd>
                                 }
 
                                 @if (CurrentApiUiService!.IsPropertyShowInSearch("PublicIp"))
                                 {
                                     <MudTd>
-                                        <UiViewIpAddress_g IpAddress="@context.PublicIp" />                                        
+                                        <UiViewIpAddress_g IpAddress="@context.PublicIp" />
                                     </MudTd>
                                 }
 
@@ -616,5 +592,12 @@ else
 
     .custom-dialog {
         backdrop-filter: blur(2px);
+    }
+
+    .mud-tab.mud-tab-active {
+        color: var(--mud-palette-info);
+        border-bottom-style: solid;
+        border-bottom-color: var(--mud-palette-info);
+        border-bottom-width: 3px;
     }
 </style>

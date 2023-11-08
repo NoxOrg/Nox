@@ -23,4 +23,10 @@ public partial class TestEntityZeroOrOneToExactlyOneUpdateDto : IEntityDto<Domai
     [Required(ErrorMessage = "TextTestField is required")]
     
     public System.String TextTestField { get; set; } = default!;
+
+    /// <summary>
+    /// TestEntityZeroOrOneToExactlyOne Test entity relationship to TestEntityExactlyOneToZeroOrOne ZeroOrOne TestEntityExactlyOneToZeroOrOnes
+    /// </summary>
+    
+    public System.String? TestEntityExactlyOneToZeroOrOneId { get; set; } = default!;
 }

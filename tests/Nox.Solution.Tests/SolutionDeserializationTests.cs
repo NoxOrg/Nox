@@ -261,7 +261,7 @@ public class SolutionDeserializationTests
         
         Assert.NotNull(noxConfig.Infrastructure.Persistence.SearchServer);
         Assert.Equal("SampleSearch", noxConfig.Infrastructure.Persistence.SearchServer.Name);
-        Assert.Equal("elastic.igwplc.com", noxConfig.Infrastructure.Persistence.SearchServer.ServerUri);
+        Assert.Equal("elastic.iwgplc.com", noxConfig.Infrastructure.Persistence.SearchServer.ServerUri);
         Assert.Equal(SearchServerProvider.ElasticSearch, noxConfig.Infrastructure.Persistence.SearchServer.Provider);
         Assert.Equal("ElasticUser", noxConfig.Infrastructure.Persistence.SearchServer.User);
         Assert.Equal("ElasticPassword", noxConfig.Infrastructure.Persistence.SearchServer.Password);
@@ -298,7 +298,7 @@ public class SolutionDeserializationTests
         Assert.NotNull(noxConfig.Infrastructure.Dependencies.Notifications.EmailServer);
         Assert.Equal("SampleEmailServer", noxConfig.Infrastructure.Dependencies.Notifications.EmailServer!.Name);
         Assert.Equal(EmailServerProvider.SendGrid, noxConfig.Infrastructure.Dependencies.Notifications.EmailServer!.Provider);
-        Assert.Equal("sendgrid.igwplc.com", noxConfig.Infrastructure.Dependencies.Notifications.EmailServer!.ServerUri);
+        Assert.Equal("sendgrid.iwgplc.com", noxConfig.Infrastructure.Dependencies.Notifications.EmailServer!.ServerUri);
         Assert.Equal("SendGridUser", noxConfig.Infrastructure.Dependencies.Notifications.EmailServer!.User);
         Assert.Equal("SendGridPassword", noxConfig.Infrastructure.Dependencies.Notifications.EmailServer!.Password);
         

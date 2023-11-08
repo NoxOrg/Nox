@@ -85,7 +85,7 @@ internal abstract class RefPaymentProviderToPaymentProviderRelatedPaymentDetails
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.PaymentProviderMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.PaymentProviders.FindAsync(keyId);
 		if (entity == null)

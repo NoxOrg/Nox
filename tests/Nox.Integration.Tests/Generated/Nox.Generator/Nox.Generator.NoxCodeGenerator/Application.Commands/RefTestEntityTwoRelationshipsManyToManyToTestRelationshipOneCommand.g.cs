@@ -85,7 +85,7 @@ internal abstract class RefTestEntityTwoRelationshipsManyToManyToTestRelationshi
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityTwoRelationshipsManyToManyMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.TestEntityTwoRelationshipsManyToManies.FindAsync(keyId);
 		if (entity == null)

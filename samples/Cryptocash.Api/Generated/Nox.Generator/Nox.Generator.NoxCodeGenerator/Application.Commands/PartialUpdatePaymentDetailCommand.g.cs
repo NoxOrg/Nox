@@ -44,7 +44,7 @@ internal class PartialUpdatePaymentDetailCommandHandlerBase : CommandBase<Partia
 	public virtual async Task<PaymentDetailKeyDto?> Handle(PartialUpdatePaymentDetailCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.PaymentDetailMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.PaymentDetails.FindAsync(keyId);

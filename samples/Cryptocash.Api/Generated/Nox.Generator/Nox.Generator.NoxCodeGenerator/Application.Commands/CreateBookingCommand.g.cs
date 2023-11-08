@@ -20,7 +20,7 @@ using BookingEntity = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Commands;
 
-public record CreateBookingCommand(BookingCreateDto EntityDto) : IRequest<BookingKeyDto>;
+public record CreateBookingCommand(BookingCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<BookingKeyDto>;
 
 internal partial class CreateBookingCommandHandler : CreateBookingCommandHandlerBase
 {
@@ -54,7 +54,8 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 		IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory,
 		IEntityFactory<Cryptocash.Domain.Commission, CommissionCreateDto, CommissionUpdateDto> CommissionFactory,
 		IEntityFactory<Cryptocash.Domain.Transaction, TransactionCreateDto, TransactionUpdateDto> TransactionFactory,
-		IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<BookingEntity, BookingCreateDto, BookingUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -67,7 +68,7 @@ internal abstract class CreateBookingCommandHandlerBase : CommandBase<CreateBook
 	public virtual async Task<BookingKeyDto> Handle(CreateBookingCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.BookingForCustomerId is not null)

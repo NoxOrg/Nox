@@ -20,7 +20,7 @@ using PaymentProviderEntity = Cryptocash.Domain.PaymentProvider;
 
 namespace Cryptocash.Application.Commands;
 
-public record CreatePaymentProviderCommand(PaymentProviderCreateDto EntityDto) : IRequest<PaymentProviderKeyDto>;
+public record CreatePaymentProviderCommand(PaymentProviderCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<PaymentProviderKeyDto>;
 
 internal partial class CreatePaymentProviderCommandHandler : CreatePaymentProviderCommandHandlerBase
 {
@@ -45,7 +45,8 @@ internal abstract class CreatePaymentProviderCommandHandlerBase : CommandBase<Cr
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.PaymentDetail, PaymentDetailCreateDto, PaymentDetailUpdateDto> PaymentDetailFactory,
-		IEntityFactory<PaymentProviderEntity, PaymentProviderCreateDto, PaymentProviderUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<PaymentProviderEntity, PaymentProviderCreateDto, PaymentProviderUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -55,13 +56,29 @@ internal abstract class CreatePaymentProviderCommandHandlerBase : CommandBase<Cr
 	public virtual async Task<PaymentProviderKeyDto> Handle(CreatePaymentProviderCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		foreach(var relatedCreateDto in request.EntityDto.PaymentProviderRelatedPaymentDetails)
+		if(request.EntityDto.PaymentProviderRelatedPaymentDetailsId.Any())
 		{
-			var relatedEntity = PaymentDetailFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToPaymentProviderRelatedPaymentDetails(relatedEntity);
+			foreach(var relatedId in request.EntityDto.PaymentProviderRelatedPaymentDetailsId)
+			{
+				var relatedKey = Cryptocash.Domain.PaymentDetailMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.PaymentDetails.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToPaymentProviderRelatedPaymentDetails(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("PaymentProviderRelatedPaymentDetails", relatedId.ToString());
+			}
+		}
+		else
+		{
+			foreach(var relatedCreateDto in request.EntityDto.PaymentProviderRelatedPaymentDetails)
+			{
+				var relatedEntity = PaymentDetailFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToPaymentProviderRelatedPaymentDetails(relatedEntity);
+			}
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

@@ -324,6 +324,9 @@
   <data name="PersistenceDatabaseServerEmpty" xml:space="preserve">
     <value>The database server for infrastructure persistence has not been specified. a Nox solution must always have a database definition.</value>
   </data>
+  <data name="PersistenceDatabaseSqliteAutoNumberLimitation" xml:space="preserve">
+    <value>SQLite does not support more than one AutoNumber per entity. Please remove the AutoNumber attribute from all but one attribute in entity '{0}'.</value>
+  </data>
   <data name="SecretsValidForInvalidTimespan" xml:space="preserve">
     <value>The secrets valid for in {0} must have a valid time span specified.</value>
   </data>

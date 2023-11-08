@@ -6,6 +6,7 @@ using System.Net;
 using ClientApi.Tests.Tests.Models;
 using Xunit.Abstractions;
 using ClientApi.Tests.Controllers;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
@@ -232,10 +233,10 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             result.Should().NotBeNull();
-            result!.Id.Should().BeGreaterThan(0);
+            result!.Id.Should().BeGreaterThanOrEqualTo(10);
 
             getCountryResponse.Should().NotBeNull();
-            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.Id.Should().BeGreaterThanOrEqualTo(10);
             getCountryResponse!.CountryShortNames!.Single().Name.Should().Be(expectedCountryLocalName);
             getCountryResponse!.CountryBarCode.Should().NotBeNull();
             getCountryResponse!.CountryBarCode!.BarCodeName.Should().Be(expectedBarCodeName);
@@ -561,7 +562,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             countryResponse.Should().NotBeNull();
-            countryResponse!.Id.Should().BeGreaterThan(0);
+            countryResponse!.Id.Should().BeGreaterThanOrEqualTo(10);
 
             getRefResponse.Should().NotBeNull();
             getRefResponse.Should().HaveCount(3)
@@ -598,10 +599,10 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             result.Should().NotBeNull();
-            result!.Id.Should().BeGreaterThan(0);
+            result!.Id.Should().BeGreaterThanOrEqualTo(10);
 
             getCountryResponse.Should().NotBeNull();
-            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.Id.Should().BeGreaterThanOrEqualTo(10);
             getCountryResponse!.PhysicalWorkplaces.Should().NotBeNull();
             getCountryResponse!.PhysicalWorkplaces!.Should()
                 .HaveCount(3)
@@ -630,12 +631,12 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             countryResponse.Should().NotBeNull();
-            countryResponse!.Id.Should().BeGreaterThan(0);
+            countryResponse!.Id.Should().BeGreaterThanOrEqualTo(10);
             workplaceResponse.Should().NotBeNull();
             workplaceResponse!.Id.Should().BeGreaterThan(0);
 
             getCountryResponse.Should().NotBeNull();
-            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.Id.Should().BeGreaterThanOrEqualTo(10);
             getCountryResponse!.PhysicalWorkplaces.Should().NotBeNull();
             getCountryResponse!.PhysicalWorkplaces!.Should()
                 .HaveCount(1)
@@ -644,6 +645,62 @@ namespace ClientApi.Tests.Tests.Controllers
         }
 
         #endregion POST Create ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedEntityKey}/$ref => api/countries/1/PhysicalWorkplaces/1/$ref
+
+        #region POST Entity with Related Entities Ids /api/{EntityPluralName} => api/countries
+
+        [Fact]
+        public async Task Post_WithPhysicalWorkplacesId_Success()
+        {
+            // Arrange
+            var workplaceResponse1 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, 
+                new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
+            var workplaceResponse2 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl,
+                new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
+            var workplaceResponse3 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl,
+                new WorkplaceCreateDto() { Name = _fixture.Create<string>() });
+            var countryCreateDto = new CountryCreateDto { 
+                Name = _fixture.Create<string>(),
+                PhysicalWorkplacesId = new List<UInt32> {
+                    workplaceResponse1!.Id,
+                    workplaceResponse2!.Id,
+                    workplaceResponse3!.Id,
+                }
+            };
+
+            // Act
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, countryCreateDto);
+
+            const string oDataRequest = $"$expand={nameof(CountryDto.PhysicalWorkplaces)}";
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{countryResponse!.Id}?{oDataRequest}");
+
+            //Assert
+            countryResponse.Should().NotBeNull();
+            countryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.PhysicalWorkplaces.Should().NotBeNull();
+            getCountryResponse!.PhysicalWorkplaces!.Should().HaveCount(3);
+        }
+
+        [Fact]
+        public async Task Post_WithInvalidPhysicalWorkplacesId_Fails()
+        {
+            // Arrange
+            var countryCreateDto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                PhysicalWorkplacesId = new List<UInt32> { _fixture.Create<UInt32>() }
+            };
+
+            // Act
+            var countryResponse = await PostAsync(Endpoints.CountriesUrl, countryCreateDto);
+
+            //Assert
+            countryResponse.Should().NotBeNull();
+            countryResponse!.Should().HaveStatusCode(HttpStatusCode.BadRequest);
+        }
+
+        #endregion
 
         #endregion POST
 
@@ -682,10 +739,10 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             countryResponse.Should().NotBeNull();
-            countryResponse!.Id.Should().BeGreaterThan(0);
+            countryResponse!.Id.Should().BeGreaterThanOrEqualTo(10);
 
             getCountryResponse.Should().NotBeNull();
-            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.Id.Should().BeGreaterThanOrEqualTo(10);
             getCountryResponse!.PhysicalWorkplaces.Should().NotBeNull();
             getCountryResponse!.PhysicalWorkplaces!.Should()
                 .HaveCount(2)
@@ -721,10 +778,10 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             countryResponse.Should().NotBeNull();
-            countryResponse!.Id.Should().BeGreaterThan(0);
+            countryResponse!.Id.Should().BeGreaterThanOrEqualTo(10);
 
             getCountryResponse.Should().NotBeNull();
-            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.Id.Should().BeGreaterThanOrEqualTo(10);
             getCountryResponse!.PhysicalWorkplaces.Should().NotBeNull();
             getCountryResponse!.PhysicalWorkplaces.Should().BeEmpty();
         }
@@ -732,6 +789,130 @@ namespace ClientApi.Tests.Tests.Controllers
         #endregion DELETE Delete all ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/$ref => api/countries/1/PhysicalWorkplaces/1/$ref
 
         #endregion DELETE
+
+        #region PUT
+
+        #region PUT Update related entity /api/{EntityPluralName}/{EntityKey} => api/countries/1
+
+        [Fact]
+        public async Task Put_UpdateCountryPhysicalWorkplaces_FromEmptyToList_Success()
+        {
+            // Arrange
+            var countryCreateDto = new CountryCreateDto { Name = _fixture.Create<string>() };
+            var workplaceCreateDto = new WorkplaceCreateDto() { Name = _fixture.Create<string>() };
+
+            // Act
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, countryCreateDto);
+            var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, workplaceCreateDto);
+
+            var headers = CreateEtagHeader(countryResponse?.Etag);
+            var updateCountryResponse = await PutAsync<CountryUpdateDto, CountryDto>($"{Endpoints.CountriesUrl}/{countryResponse!.Id}",
+                new CountryUpdateDto
+                {
+                    Name = countryResponse!.Name,
+                    PhysicalWorkplacesId = new List<UInt32> { workplaceResponse!.Id }
+                },
+                headers);
+
+            const string oDataRequest = $"$expand={nameof(CountryDto.PhysicalWorkplaces)}";
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{countryResponse!.Id}?{oDataRequest}");
+
+            //Assert
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.PhysicalWorkplaces.Should().NotBeNull();
+            getCountryResponse!.PhysicalWorkplaces!.Should().HaveCount(1);
+            getCountryResponse!.PhysicalWorkplaces!.First().Name.Should().Be(workplaceResponse!.Name);
+        }
+
+        [Fact]
+        public async Task Put_UpdateCountryPhysicalWorkplaces_FromListToEmpty_Success()
+        {
+            // Arrange
+            var countryCreateDto = new CountryCreateDto { Name = _fixture.Create<string>() };
+            var workplaceCreateDto = new WorkplaceCreateDto() { Name = _fixture.Create<string>() };
+
+            // Act
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, countryCreateDto);
+            var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, workplaceCreateDto);
+            var createRefResponse = await PostAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/physicalworkplaces/{workplaceResponse!.Id}/$ref");
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{countryResponse!.Id}");
+
+            var headers = CreateEtagHeader(getCountryResponse!.Etag);
+            var updateCountryResponse = await PutAsync<CountryUpdateDto, CountryDto>($"{Endpoints.CountriesUrl}/{countryResponse!.Id}",
+                new CountryUpdateDto
+                {
+                    Name = countryResponse!.Name,
+                    PhysicalWorkplacesId = new List<UInt32>()
+                },
+                headers);
+
+            const string oDataRequest = $"$expand={nameof(CountryDto.PhysicalWorkplaces)}";
+            getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{countryResponse!.Id}?{oDataRequest}");
+
+            //Assert
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.PhysicalWorkplaces.Should().NotBeNull();
+            getCountryResponse!.PhysicalWorkplaces!.Should().HaveCount(0);
+        }
+
+        [Fact]
+        public async Task Put_UpdateCountryPhysicalWorkplaces_FromListToList_Success()
+        {
+            // Arrange
+            var countryCreateDto = new CountryCreateDto { Name = _fixture.Create<string>() };
+            var workplaceCreateDto1 = new WorkplaceCreateDto() { Name = _fixture.Create<string>() };
+            var workplaceCreateDto2 = new WorkplaceCreateDto() { Name = _fixture.Create<string>() };
+            var workplaceCreateDto3 = new WorkplaceCreateDto() { Name = _fixture.Create<string>() };
+            var workplaceCreateDto4 = new WorkplaceCreateDto() { Name = _fixture.Create<string>() };
+            var workplaceCreateDto5 = new WorkplaceCreateDto() { Name = _fixture.Create<string>() };
+
+            // Act
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, countryCreateDto);
+            var workplaceResponse1 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, workplaceCreateDto1);
+            var workplaceResponse2 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, workplaceCreateDto2);
+            var workplaceResponse3 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, workplaceCreateDto3);
+            var workplaceResponse4 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, workplaceCreateDto4);
+            var workplaceResponse5 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, workplaceCreateDto5);
+            await PostAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/physicalworkplaces/{workplaceResponse1!.Id}/$ref");
+            await PostAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/physicalworkplaces/{workplaceResponse2!.Id}/$ref");
+            await PostAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/physicalworkplaces/{workplaceResponse3!.Id}/$ref");
+
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{countryResponse!.Id}");
+
+            var headers = CreateEtagHeader(getCountryResponse!.Etag);
+            var updateCountryResponse = await PutAsync<CountryUpdateDto, CountryDto>($"{Endpoints.CountriesUrl}/{countryResponse!.Id}",
+                new CountryUpdateDto
+                {
+                    Name = countryResponse!.Name,
+                    PhysicalWorkplacesId = new List<UInt32>
+                    {
+                        workplaceResponse2!.Id,
+                        workplaceResponse4!.Id,
+                        workplaceResponse5!.Id
+                    }
+                },
+                headers);
+
+            const string oDataRequest = $"$expand={nameof(CountryDto.PhysicalWorkplaces)}";
+            getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{countryResponse!.Id}?{oDataRequest}");
+
+            //Assert
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.PhysicalWorkplaces.Should().NotBeNull();
+            getCountryResponse!.PhysicalWorkplaces!.Should().HaveCount(3);
+            getCountryResponse!.PhysicalWorkplaces!.Should().Contain(w => w.Id.Equals(workplaceResponse2!.Id));
+            getCountryResponse!.PhysicalWorkplaces!.Should().Contain(w => w.Id.Equals(workplaceResponse4!.Id));
+            getCountryResponse!.PhysicalWorkplaces!.Should().Contain(w => w.Id.Equals(workplaceResponse5!.Id));
+            getCountryResponse!.PhysicalWorkplaces!.Should().NotContain(w => w.Id.Equals(workplaceResponse1!.Id));
+            getCountryResponse!.PhysicalWorkplaces!.Should().NotContain(w => w.Id.Equals(workplaceResponse3!.Id));
+        }
+
+        #endregion
+
+        #endregion
 
         #endregion RELATIONSHIPS EXAMPLES
 
@@ -751,7 +932,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             result.Should().NotBeNull();
-            result!.Id.Should().BeGreaterThan(0);
+            result!.Id.Should().BeGreaterThanOrEqualTo(10);
         }
 
         [Fact]
@@ -799,7 +980,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             result.Should().NotBeNull();
-            result.Id.Should().BeGreaterThan(0);
+            result.Id.Should().BeGreaterThanOrEqualTo(10);
 
             queryResult.Should().NotBeNull();
             queryResult!.CountryDebt!.Amount.Should().Be(expectedAmount);
@@ -935,7 +1116,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 Population = 1
             };
 
-            var updateDto = new CountryUpdateDto
+            var updateDto = new CountryDto
             {
                 Population = expectedNumber
             };
@@ -944,7 +1125,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var postResult = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, createDto);
             var headers = CreateEtagHeader(postResult!.Etag);
 
-            var patchResult = await PatchAsync<CountryUpdateDto, CountryDto>($"{Endpoints.CountriesUrl}/{postResult!.Id}", updateDto, headers);
+            var patchResult = await PatchAsync<CountryDto, CountryDto>($"{Endpoints.CountriesUrl}/{postResult!.Id}", updateDto, headers);
 
             //Assert
             patchResult!.Population.Should().Be(expectedNumber);
@@ -1003,7 +1184,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             result.Should().NotBeNull();
-            result!.Id.Should().BeGreaterThan(0);
+            result!.Id.Should().BeGreaterThanOrEqualTo(10);
             result!.FirstLanguageCode.Should().Be(expectedLanguageCode);
         }
 

@@ -25,7 +25,7 @@
 //  - Nox.Generator.Infrastructure.Persistence.DbContextGenerator
 //  - Nox.Generator.Infrastructure.Persistence.DtoDbContextGenerator
 //  - Nox.Generator.Domain.EntitiesGenerator
-//  - Nox.Generator.Domain.EntitiesLocalizedGenerator
+//  - Nox.Generator.Domain.EntityLocalizedGenerator
 //  - Nox.Generator.Domain.ModelGenerator.EntityMetaGenerator
 //  - Nox.Generator.Domain.DomainEventGenerator.DomainEventGenerator
 //  - Nox.Generator.Presentation.Api.OData.EntityDtoGenerator
@@ -42,8 +42,11 @@
 //  - Nox.Generator.Application.DefaultIntegrationEventGenerator
 //  - Nox.Generator.Application.ServiceCollectionExtensionsGenerator
 //  - Nox.Generator.Application.Queries.ByIdQueryGenerator
+//  - Nox.Generator.Application.Queries.EnumerationQueryGenerator
 //  - Nox.Generator.Application.Queries.QueryGenerator
+//  - Nox.Generator.Application.Queries.QueryLocalizedGenerator
 //  - Nox.Generator.Application.Factories.EntityFactoryGenerator
+//  - Nox.Generator.Application.Factories.EntityLocalizedFactoryGenerator
 //  - Nox.Generator.Application.Extensions.EntityExtensionsGenerator
 //  - Nox.Generator.Application.Extensions.NoxTypeDtoExtensionsGenerator
 //  - Nox.Generator.Application.Dto.EntityCreateDtoGenerator

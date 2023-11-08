@@ -8,6 +8,8 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
@@ -44,13 +46,28 @@ internal abstract class UpdateWorkplaceCommandHandlerBase : CommandBase<UpdateWo
 	public virtual async Task<WorkplaceKeyDto?> Handle(UpdateWorkplaceCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = ClientApi.Domain.WorkplaceMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.Workplaces.FindAsync(keyId);
 		if (entity == null)
 		{
 			return null;
+		}
+
+		if(request.EntityDto.BelongsToCountryId is not null)
+		{
+			var belongsToCountryKey = ClientApi.Domain.CountryMetadata.CreateId(request.EntityDto.BelongsToCountryId.NonNullValue<System.Int64>());
+			var belongsToCountryEntity = await DbContext.Countries.FindAsync(belongsToCountryKey);
+						
+			if(belongsToCountryEntity is not null)
+				entity.CreateRefToBelongsToCountry(belongsToCountryEntity);
+			else
+				throw new RelatedEntityNotFoundException("BelongsToCountry", request.EntityDto.BelongsToCountryId.NonNullValue<System.Int64>().ToString());
+		}
+		else
+		{
+			entity.DeleteAllRefToBelongsToCountry();
 		}
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);

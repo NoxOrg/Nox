@@ -37,7 +37,8 @@ internal class NoxFileGenerator
         var _debug = new CodeBuilder($"Generator.g.cs", AbsoluteOutputPath);
         _errors.Clear();
 
-        _debug.AppendLine("Found files ->");
+        _debug.AppendLine("// 1 0 0 35");
+        _debug.AppendLine("/* Found files ->");
         _debug.AppendLine(string.Join("\r\n", _noxYamls.Select(path => $"- {Path.GetFileName(path)}")));
 
         try

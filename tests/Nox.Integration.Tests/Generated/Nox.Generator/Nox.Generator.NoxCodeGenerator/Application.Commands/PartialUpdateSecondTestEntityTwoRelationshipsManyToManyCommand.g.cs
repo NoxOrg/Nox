@@ -44,7 +44,7 @@ internal class PartialUpdateSecondTestEntityTwoRelationshipsManyToManyCommandHan
 	public virtual async Task<SecondTestEntityTwoRelationshipsManyToManyKeyDto?> Handle(PartialUpdateSecondTestEntityTwoRelationshipsManyToManyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.SecondTestEntityTwoRelationshipsManyToManyMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.SecondTestEntityTwoRelationshipsManyToManies.FindAsync(keyId);

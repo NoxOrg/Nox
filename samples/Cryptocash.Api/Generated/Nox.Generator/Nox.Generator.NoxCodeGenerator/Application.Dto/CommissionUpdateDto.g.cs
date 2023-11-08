@@ -35,4 +35,9 @@ public partial class CommissionUpdateDto : IEntityDto<DomainNamespace.Commission
     /// </summary>
     
     public System.String? CommissionFeesForCountryId { get; set; } = default!;
+
+    /// <summary>
+    /// Commission fees for ZeroOrMany Bookings
+    /// </summary>
+    public List<System.Guid> CommissionFeesForBookingId { get; set; } = new();
 }

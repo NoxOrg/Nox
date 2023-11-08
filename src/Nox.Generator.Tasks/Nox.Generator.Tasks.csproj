@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
+		<Version>1.0.0.35</Version>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<LangVersion>10.0</LangVersion>
 		<Nullable>enable</Nullable>
@@ -93,5 +94,15 @@
 		<Content Include="build\Nox.Generator.Tasks.props" PackagePath="build\" />
 		<Content Include="build\Nox.Generator.Tasks.targets" PackagePath="build\" />
 	</ItemGroup>
+
+	<PropertyGroup>
+		<!-- Define the local NuGet feed path -->
+		<LocalFeedPath>..\nuget</LocalFeedPath>
+	</PropertyGroup>
+
+	<Target Name="CopyPackage" AfterTargets="Pack">
+		<Copy SourceFiles="$(OutputPath)..\$(PackageId).$(Version).nupkg" DestinationFolder="$(LocalFeedPath)" />
+	</Target>
+
 </Project>
 	

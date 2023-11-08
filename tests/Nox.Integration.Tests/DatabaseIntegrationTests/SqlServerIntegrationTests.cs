@@ -131,4 +131,10 @@ public class SqlServerIntegrationTests : NoxIntegrationContainerTestBase<NoxTest
     {
         _noxCommonTestCases.LocalizedEntitiesBeingGenerated();
     }
+    
+    [Fact]
+    public void GeneratedEntities_SqlServer_AutoNumberedEntitiesBeingGenerated()
+    {
+        _noxCommonTestCases.AutoNumberedEntitiesBeingGenerated();
+    }
 }

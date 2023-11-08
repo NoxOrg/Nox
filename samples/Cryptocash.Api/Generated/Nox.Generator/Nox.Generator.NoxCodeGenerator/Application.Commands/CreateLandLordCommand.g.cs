@@ -20,7 +20,7 @@ using LandLordEntity = Cryptocash.Domain.LandLord;
 
 namespace Cryptocash.Application.Commands;
 
-public record CreateLandLordCommand(LandLordCreateDto EntityDto) : IRequest<LandLordKeyDto>;
+public record CreateLandLordCommand(LandLordCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<LandLordKeyDto>;
 
 internal partial class CreateLandLordCommandHandler : CreateLandLordCommandHandlerBase
 {
@@ -45,7 +45,8 @@ internal abstract class CreateLandLordCommandHandlerBase : CommandBase<CreateLan
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.VendingMachine, VendingMachineCreateDto, VendingMachineUpdateDto> VendingMachineFactory,
-		IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<LandLordEntity, LandLordCreateDto, LandLordUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -55,13 +56,29 @@ internal abstract class CreateLandLordCommandHandlerBase : CommandBase<CreateLan
 	public virtual async Task<LandLordKeyDto> Handle(CreateLandLordCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		foreach(var relatedCreateDto in request.EntityDto.ContractedAreasForVendingMachines)
+		if(request.EntityDto.ContractedAreasForVendingMachinesId.Any())
 		{
-			var relatedEntity = VendingMachineFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToContractedAreasForVendingMachines(relatedEntity);
+			foreach(var relatedId in request.EntityDto.ContractedAreasForVendingMachinesId)
+			{
+				var relatedKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToContractedAreasForVendingMachines(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("ContractedAreasForVendingMachines", relatedId.ToString());
+			}
+		}
+		else
+		{
+			foreach(var relatedCreateDto in request.EntityDto.ContractedAreasForVendingMachines)
+			{
+				var relatedEntity = VendingMachineFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToContractedAreasForVendingMachines(relatedEntity);
+			}
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

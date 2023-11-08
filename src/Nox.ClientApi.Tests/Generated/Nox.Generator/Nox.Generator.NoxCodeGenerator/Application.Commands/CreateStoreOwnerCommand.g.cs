@@ -20,7 +20,7 @@ using StoreOwnerEntity = ClientApi.Domain.StoreOwner;
 
 namespace ClientApi.Application.Commands;
 
-public record CreateStoreOwnerCommand(StoreOwnerCreateDto EntityDto) : IRequest<StoreOwnerKeyDto>;
+public record CreateStoreOwnerCommand(StoreOwnerCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<StoreOwnerKeyDto>;
 
 internal partial class CreateStoreOwnerCommandHandler : CreateStoreOwnerCommandHandlerBase
 {
@@ -45,7 +45,8 @@ internal abstract class CreateStoreOwnerCommandHandlerBase : CommandBase<CreateS
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
-		IEntityFactory<StoreOwnerEntity, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<StoreOwnerEntity, StoreOwnerCreateDto, StoreOwnerUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -55,13 +56,29 @@ internal abstract class CreateStoreOwnerCommandHandlerBase : CommandBase<CreateS
 	public virtual async Task<StoreOwnerKeyDto> Handle(CreateStoreOwnerCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		foreach(var relatedCreateDto in request.EntityDto.Stores)
+		if(request.EntityDto.StoresId.Any())
 		{
-			var relatedEntity = StoreFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToStores(relatedEntity);
+			foreach(var relatedId in request.EntityDto.StoresId)
+			{
+				var relatedKey = ClientApi.Domain.StoreMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.Stores.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToStores(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("Stores", relatedId.ToString());
+			}
+		}
+		else
+		{
+			foreach(var relatedCreateDto in request.EntityDto.Stores)
+			{
+				var relatedEntity = StoreFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToStores(relatedEntity);
+			}
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

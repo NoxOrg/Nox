@@ -8,6 +8,8 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
@@ -44,7 +46,7 @@ internal abstract class UpdateTestEntityExactlyOneToZeroOrOneCommandHandlerBase 
 	public virtual async Task<TestEntityExactlyOneToZeroOrOneKeyDto?> Handle(UpdateTestEntityExactlyOneToZeroOrOneCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityExactlyOneToZeroOrOneMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.TestEntityExactlyOneToZeroOrOnes.FindAsync(keyId);
@@ -52,6 +54,14 @@ internal abstract class UpdateTestEntityExactlyOneToZeroOrOneCommandHandlerBase 
 		{
 			return null;
 		}
+
+		var testEntityZeroOrOneToExactlyOneKey = TestWebApp.Domain.TestEntityZeroOrOneToExactlyOneMetadata.CreateId(request.EntityDto.TestEntityZeroOrOneToExactlyOneId);
+		var testEntityZeroOrOneToExactlyOneEntity = await DbContext.TestEntityZeroOrOneToExactlyOnes.FindAsync(testEntityZeroOrOneToExactlyOneKey);
+						
+		if(testEntityZeroOrOneToExactlyOneEntity is not null)
+			entity.CreateRefToTestEntityZeroOrOneToExactlyOne(testEntityZeroOrOneToExactlyOneEntity);
+		else
+			throw new RelatedEntityNotFoundException("TestEntityZeroOrOneToExactlyOne", request.EntityDto.TestEntityZeroOrOneToExactlyOneId.ToString());
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;

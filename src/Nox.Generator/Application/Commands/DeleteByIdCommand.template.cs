@@ -37,7 +37,7 @@ internal abstract class Delete{{entity.Name}}ByIdCommandHandlerBase : CommandBas
 	public virtual async Task<bool> Handle(Delete{{entity.Name}}ByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		{{- for key in entity.Keys }}
 		{{- keyType = SingleTypeForKey key }}

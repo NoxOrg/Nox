@@ -45,7 +45,7 @@ internal abstract class CreateSecondTestEntityOwnedRelationshipExactlyOneForTest
 
 	public virtual  async Task<SecondTestEntityOwnedRelationshipExactlyOneKeyDto?> Handle(CreateSecondTestEntityOwnedRelationshipExactlyOneForTestEntityOwnedRelationshipExactlyOneCommand request, CancellationToken cancellationToken)
 	{
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityOwnedRelationshipExactlyOneMetadata.CreateId(request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.TestEntityOwnedRelationshipExactlyOnes.FindAsync(keyId);

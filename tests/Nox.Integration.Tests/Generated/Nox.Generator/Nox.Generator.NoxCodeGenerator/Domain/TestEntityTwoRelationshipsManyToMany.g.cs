@@ -97,6 +97,14 @@ internal abstract partial class TestEntityTwoRelationshipsManyToManyBase : Audit
         TestRelationshipOne.Add(relatedSecondTestEntityTwoRelationshipsManyToMany);
     }
 
+    public virtual void UpdateRefToTestRelationshipOne(List<SecondTestEntityTwoRelationshipsManyToMany> relatedSecondTestEntityTwoRelationshipsManyToMany)
+    {
+        if(relatedSecondTestEntityTwoRelationshipsManyToMany is null || relatedSecondTestEntityTwoRelationshipsManyToMany.Count < 2)
+            throw new RelationshipDeletionException($"The relationship cannot be updated.");
+        TestRelationshipOne.Clear();
+        TestRelationshipOne.AddRange(relatedSecondTestEntityTwoRelationshipsManyToMany);
+    }
+
     public virtual void DeleteRefToTestRelationshipOne(SecondTestEntityTwoRelationshipsManyToMany relatedSecondTestEntityTwoRelationshipsManyToMany)
     {
         if(TestRelationshipOne.Count() < 2)
@@ -119,6 +127,14 @@ internal abstract partial class TestEntityTwoRelationshipsManyToManyBase : Audit
     public virtual void CreateRefToTestRelationshipTwo(SecondTestEntityTwoRelationshipsManyToMany relatedSecondTestEntityTwoRelationshipsManyToMany)
     {
         TestRelationshipTwo.Add(relatedSecondTestEntityTwoRelationshipsManyToMany);
+    }
+
+    public virtual void UpdateRefToTestRelationshipTwo(List<SecondTestEntityTwoRelationshipsManyToMany> relatedSecondTestEntityTwoRelationshipsManyToMany)
+    {
+        if(relatedSecondTestEntityTwoRelationshipsManyToMany is null || relatedSecondTestEntityTwoRelationshipsManyToMany.Count < 2)
+            throw new RelationshipDeletionException($"The relationship cannot be updated.");
+        TestRelationshipTwo.Clear();
+        TestRelationshipTwo.AddRange(relatedSecondTestEntityTwoRelationshipsManyToMany);
     }
 
     public virtual void DeleteRefToTestRelationshipTwo(SecondTestEntityTwoRelationshipsManyToMany relatedSecondTestEntityTwoRelationshipsManyToMany)

@@ -9,6 +9,6 @@
 
  <!--The generated file is deleted after a general clean. It will force the regeneration on rebuild-->
  <Target Name="AfterClean">
- 	<Delete Files="$(OutputDirectory)\**" />
+    <RemoveDir Directories="$(OutputDirectory)" />
  </Target> 
  </Project>

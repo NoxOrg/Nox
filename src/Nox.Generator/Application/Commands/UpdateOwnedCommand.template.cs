@@ -49,7 +49,7 @@ internal partial class Update{{entity.Name}}For{{parent.Name}}CommandHandlerBase
 	public virtual async Task<{{entity.Name}}KeyDto?> Handle(Update{{entity.Name}}For{{parent.Name}}Command request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		{{- for key in parent.Keys }}
 		var key{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{parent.Name}}Metadata.Create{{key.Name}}(request.ParentKeyDto.key{{key.Name}});

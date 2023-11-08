@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using Humanizer;
+using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Types;
@@ -12,7 +13,7 @@ internal class DbContextGenerator : INoxCodeGenerator
 
     public void Generate(
       SourceProductionContext context,
-      NoxCodeGenConventions codeGeneratorState,
+      NoxCodeGenConventions noxCodeGenCodeConventions,
       GeneratorConfig config,
       System.Action<string> log,
       string? projectRootPath
@@ -20,20 +21,33 @@ internal class DbContextGenerator : INoxCodeGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Domain is null)
+        if (noxCodeGenCodeConventions.Solution.Domain is null)
         {
             return;
         }
         
-        var templateName = @"Infrastructure.Persistence.DbContext";
-        var enumerationAttributes = codeGeneratorState.Solution.Domain.Entities
-            .Select(entity => new { Entity = entity, Attributes = entity.Attributes.Where(attribute => attribute.Type == NoxType.Enumeration).ToArray() })
-            .Where(entity => entity.Attributes.Any());
+        const string templateName = @"Infrastructure.Persistence.DbContext";
 
-        var entitiesToLocalize = codeGeneratorState.Solution.Domain.Entities
-            .Where(entity => entity.ShouldBeLocalized);
+        var entitiesToLocalize = noxCodeGenCodeConventions.Solution.Domain.Entities
+            .Where(entity => entity.IsLocalized);
 
-        new TemplateCodeBuilder(context, codeGeneratorState)
+        var enumerationAttributes = noxCodeGenCodeConventions.Solution.Domain.Entities
+           .Select(entity =>
+           new {
+               Entity = entity,
+               Attributes =
+                   entity.Attributes.Where(attribute => attribute.Type == NoxType.Enumeration).Select(attribute =>
+                   new {
+                       Attribute = attribute,
+                       EntityNameForEnumeration = noxCodeGenCodeConventions.GetEntityNameForEnumeration(entity.Name, attribute.Name),
+                       EntityNameForLocalizedEnumeration = noxCodeGenCodeConventions.GetEntityNameForEnumerationLocalized(entity.Name, attribute.Name),
+                       DbSetNameForEnumeration = $"{entity.Name.Pluralize()}{attribute.Name.Pluralize()}",
+                       DbSetNameForLocalizedEnumeration = $"{entity.Name.Pluralize()}{attribute.Name.Pluralize()}Localized"
+                   })
+           })
+           .Where(entity => entity.Attributes.Any());
+
+        new TemplateCodeBuilder(context, noxCodeGenCodeConventions)
             .WithClassName("AppDbContext")
             .WithFileNamePrefix("Infrastructure.Persistence")
             .WithObject("enumerationAttributes", enumerationAttributes)

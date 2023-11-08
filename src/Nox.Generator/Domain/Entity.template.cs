@@ -86,7 +86,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
 	{{- prefix = key.NuidTypeOptions.Prefix | object.default entity.Name + key.NuidTypeOptions.Separator -}}
     {{- codeGeneratorNuidGetter = "Nuid.From(\""+prefix+"\" + string.Join(\""+key.NuidTypeOptions.Separator +"\", "+ (key.NuidTypeOptions.PropertyNames | array.join "," @(do; ret $0 + ".Value.ToString()"; end)) +"))" -}}
     public {{key.Type}} {{key.Name}} {get; set;} = null!;
-
+   
 	public virtual void Ensure{{ key.Name}}()
 	{
 		if({{key.Name}} is null)
@@ -104,7 +104,9 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
 	}
 	{{- else if key.Type == "Guid" -}}
     public Nox.Types.{{key.Type}} {{key.Name}} {get; set;} = null!;
-
+     /// <summary>
+    /// Ensures that a Guid Id is set or will be generate a new one
+    /// </summary>
 	public virtual void Ensure{{ key.Name}}(System.Guid guid)
 	{
 		if(System.Guid.Empty.Equals(guid))
@@ -113,11 +115,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
 		}
 		else
 		{
-			var currentGuid = Nox.Types.Guid.From(guid);
-			if({{key.Name}} != currentGuid)
-			{
-				throw new NoxGuidTypeException("Immutable guid property {{key.Name}} value is different since it has been initialized");
-			}
+			{{key.Name}} = Nox.Types.Guid.From(guid);
 		}
 	}
     {{- else -}}
@@ -204,6 +202,19 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
         {{relationship.Name}}.Add(related{{relationship.Entity}});
         {{- end }}
     }
+
+    {{- if relationship.WithMultiEntity }}
+
+    public virtual void UpdateRefTo{{relationship.Name}}(List<{{relationship.Entity}}> related{{relationship.Entity}})
+    {
+        {{- if relationship.Relationship == "OneOrMany" }}
+        if(related{{relationship.Entity}} is null || related{{relationship.Entity}}.Count < 2)
+            throw new RelationshipDeletionException($"The relationship cannot be updated.");
+        {{- end }}
+        {{relationship.Name}}.Clear();
+        {{relationship.Name}}.AddRange(related{{relationship.Entity}});
+    }
+    {{- end }}
 
     public virtual void DeleteRefTo{{relationship.Name}}({{relationship.Entity}} related{{relationship.Entity}})
     {

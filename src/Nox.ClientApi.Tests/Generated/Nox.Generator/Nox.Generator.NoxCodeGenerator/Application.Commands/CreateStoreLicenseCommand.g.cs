@@ -20,7 +20,7 @@ using StoreLicenseEntity = ClientApi.Domain.StoreLicense;
 
 namespace ClientApi.Application.Commands;
 
-public record CreateStoreLicenseCommand(StoreLicenseCreateDto EntityDto) : IRequest<StoreLicenseKeyDto>;
+public record CreateStoreLicenseCommand(StoreLicenseCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<StoreLicenseKeyDto>;
 
 internal partial class CreateStoreLicenseCommandHandler : CreateStoreLicenseCommandHandlerBase
 {
@@ -45,7 +45,8 @@ internal abstract class CreateStoreLicenseCommandHandlerBase : CommandBase<Creat
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Store, StoreCreateDto, StoreUpdateDto> StoreFactory,
-		IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<StoreLicenseEntity, StoreLicenseCreateDto, StoreLicenseUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -55,7 +56,7 @@ internal abstract class CreateStoreLicenseCommandHandlerBase : CommandBase<Creat
 	public virtual async Task<StoreLicenseKeyDto> Handle(CreateStoreLicenseCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.StoreWithLicenseId is not null)

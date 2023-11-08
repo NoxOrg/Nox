@@ -85,7 +85,7 @@ internal abstract class RefCurrencyToCurrencyUsedByCountryCommandHandlerBase<TRe
 	public virtual async Task<bool> Handle(TRequest request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.CurrencyMetadata.CreateId(request.EntityKeyDto.keyId);
 		var entity = await DbContext.Currencies.FindAsync(keyId);
 		if (entity == null)

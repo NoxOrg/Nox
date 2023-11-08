@@ -226,7 +226,7 @@ namespace Nox.Configuration
                 IMessageBrokerProvider messageBrokerProvider = messagingConfig.Provider switch
                 {
                     MessageBrokerProvider.AzureServiceBus => new AzureServiceBusBrokerProvider(noxSolution),
-                    MessageBrokerProvider.InMemory => new InMemoryBrokerProvider(),
+                    MessageBrokerProvider.InMemory => new InMemoryBrokerProvider(noxSolution),
                     //MessageBrokerProvider.RabbitMq => throw new NotImplementedException(),
                     //MessageBrokerProvider.AmazonSqs => throw new NotImplementedException(),
                     _ => throw new NotImplementedException()

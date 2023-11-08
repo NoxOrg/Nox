@@ -49,6 +49,12 @@ public partial class StoreUpdateDto : IEntityDto<DomainNamespace.Store>
     /// </summary>
     
     public System.String? OwnershipId { get; set; } = default!;
+
+    /// <summary>
+    /// Store License that this store uses ZeroOrOne StoreLicenses
+    /// </summary>
+    
+    public System.Int64? LicenseId { get; set; } = default!;
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>

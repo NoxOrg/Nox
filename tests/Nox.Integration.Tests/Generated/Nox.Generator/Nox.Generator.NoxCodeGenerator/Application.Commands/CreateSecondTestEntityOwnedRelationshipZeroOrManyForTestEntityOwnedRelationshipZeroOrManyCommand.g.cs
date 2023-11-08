@@ -45,7 +45,7 @@ internal abstract class CreateSecondTestEntityOwnedRelationshipZeroOrManyForTest
 
 	public virtual  async Task<SecondTestEntityOwnedRelationshipZeroOrManyKeyDto?> Handle(CreateSecondTestEntityOwnedRelationshipZeroOrManyForTestEntityOwnedRelationshipZeroOrManyCommand request, CancellationToken cancellationToken)
 	{
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.TestEntityOwnedRelationshipZeroOrManyMetadata.CreateId(request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.TestEntityOwnedRelationshipZeroOrManies.FindAsync(keyId);

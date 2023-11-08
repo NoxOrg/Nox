@@ -8,6 +8,8 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
@@ -44,7 +46,7 @@ internal abstract class UpdateRatingProgramCommandHandlerBase : CommandBase<Upda
 	public virtual async Task<RatingProgramKeyDto?> Handle(UpdateRatingProgramCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyStoreId = ClientApi.Domain.RatingProgramMetadata.CreateStoreId(request.keyStoreId);
 		var keyId = ClientApi.Domain.RatingProgramMetadata.CreateId(request.keyId);
 

@@ -54,7 +54,9 @@ internal abstract partial class BookingBase : AuditableEntityBase, IEntityConcur
     /// Booking unique identifier (Required).
     /// </summary>
     public Nox.Types.Guid Id {get; set;} = null!;
-    
+         /// <summary>
+        /// Ensures that a Guid Id is set or will be generate a new one
+        /// </summary>
     	public virtual void EnsureId(System.Guid guid)
     	{
     		if(System.Guid.Empty.Equals(guid))
@@ -63,11 +65,7 @@ internal abstract partial class BookingBase : AuditableEntityBase, IEntityConcur
     		}
     		else
     		{
-    			var currentGuid = Nox.Types.Guid.From(guid);
-    			if(Id != currentGuid)
-    			{
-    				throw new NoxGuidTypeException("Immutable guid property Id value is different since it has been initialized");
-    			}
+    			Id = Nox.Types.Guid.From(guid);
     		}
     	}
 

@@ -8,6 +8,8 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Application.Factories;
+using Nox.Exceptions;
+using Nox.Extensions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Domain;
 using TestWebApp.Application.Dto;
@@ -44,13 +46,28 @@ internal abstract class UpdateThirdTestEntityZeroOrOneCommandHandlerBase : Comma
 	public virtual async Task<ThirdTestEntityZeroOrOneKeyDto?> Handle(UpdateThirdTestEntityZeroOrOneCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = TestWebApp.Domain.ThirdTestEntityZeroOrOneMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.ThirdTestEntityZeroOrOnes.FindAsync(keyId);
 		if (entity == null)
 		{
 			return null;
+		}
+
+		if(request.EntityDto.ThirdTestEntityExactlyOneRelationshipId is not null)
+		{
+			var thirdTestEntityExactlyOneRelationshipKey = TestWebApp.Domain.ThirdTestEntityExactlyOneMetadata.CreateId(request.EntityDto.ThirdTestEntityExactlyOneRelationshipId.NonNullValue<System.String>());
+			var thirdTestEntityExactlyOneRelationshipEntity = await DbContext.ThirdTestEntityExactlyOnes.FindAsync(thirdTestEntityExactlyOneRelationshipKey);
+						
+			if(thirdTestEntityExactlyOneRelationshipEntity is not null)
+				entity.CreateRefToThirdTestEntityExactlyOneRelationship(thirdTestEntityExactlyOneRelationshipEntity);
+			else
+				throw new RelatedEntityNotFoundException("ThirdTestEntityExactlyOneRelationship", request.EntityDto.ThirdTestEntityExactlyOneRelationshipId.NonNullValue<System.String>().ToString());
+		}
+		else
+		{
+			entity.DeleteAllRefToThirdTestEntityExactlyOneRelationship();
 		}
 
 		_entityFactory.UpdateEntity(entity, request.EntityDto);

@@ -20,7 +20,7 @@ using ThirdTestEntityZeroOrManyEntity = TestWebApp.Domain.ThirdTestEntityZeroOrM
 
 namespace TestWebApp.Application.Commands;
 
-public record CreateThirdTestEntityZeroOrManyCommand(ThirdTestEntityZeroOrManyCreateDto EntityDto) : IRequest<ThirdTestEntityZeroOrManyKeyDto>;
+public record CreateThirdTestEntityZeroOrManyCommand(ThirdTestEntityZeroOrManyCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<ThirdTestEntityZeroOrManyKeyDto>;
 
 internal partial class CreateThirdTestEntityZeroOrManyCommandHandler : CreateThirdTestEntityZeroOrManyCommandHandlerBase
 {
@@ -45,7 +45,8 @@ internal abstract class CreateThirdTestEntityZeroOrManyCommandHandlerBase : Comm
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestWebApp.Domain.ThirdTestEntityOneOrMany, ThirdTestEntityOneOrManyCreateDto, ThirdTestEntityOneOrManyUpdateDto> ThirdTestEntityOneOrManyFactory,
-		IEntityFactory<ThirdTestEntityZeroOrManyEntity, ThirdTestEntityZeroOrManyCreateDto, ThirdTestEntityZeroOrManyUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<ThirdTestEntityZeroOrManyEntity, ThirdTestEntityZeroOrManyCreateDto, ThirdTestEntityZeroOrManyUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -55,13 +56,29 @@ internal abstract class CreateThirdTestEntityZeroOrManyCommandHandlerBase : Comm
 	public virtual async Task<ThirdTestEntityZeroOrManyKeyDto> Handle(CreateThirdTestEntityZeroOrManyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		foreach(var relatedCreateDto in request.EntityDto.ThirdTestEntityOneOrManyRelationship)
+		if(request.EntityDto.ThirdTestEntityOneOrManyRelationshipId.Any())
 		{
-			var relatedEntity = ThirdTestEntityOneOrManyFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToThirdTestEntityOneOrManyRelationship(relatedEntity);
+			foreach(var relatedId in request.EntityDto.ThirdTestEntityOneOrManyRelationshipId)
+			{
+				var relatedKey = TestWebApp.Domain.ThirdTestEntityOneOrManyMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.ThirdTestEntityOneOrManies.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToThirdTestEntityOneOrManyRelationship(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("ThirdTestEntityOneOrManyRelationship", relatedId.ToString());
+			}
+		}
+		else
+		{
+			foreach(var relatedCreateDto in request.EntityDto.ThirdTestEntityOneOrManyRelationship)
+			{
+				var relatedEntity = ThirdTestEntityOneOrManyFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToThirdTestEntityOneOrManyRelationship(relatedEntity);
+			}
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

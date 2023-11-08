@@ -5,6 +5,8 @@ using System.Net;
 using ClientApi.Tests.Tests.Models;
 using Xunit.Abstractions;
 using ClientApi.Tests.Controllers;
+using Microsoft.AspNetCore.Http.HttpResults;
+using static MassTransit.ValidationResultExtensions;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
@@ -123,6 +125,48 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #endregion POST
 
+        #region PUT
+
+        #region PUT Update related entity /api/{EntityPluralName}/{EntityKey} => api/workplaces/1
+
+        [Fact]
+        public async Task Put_UpdateBelongsToCountry_Success()
+        {
+            // Arrange
+            var workplaceCreateDto = new WorkplaceCreateDto() { Name = _fixture.Create<string>() };
+            var countryCreateDto1 = new CountryCreateDto { Name = _fixture.Create<string>() };
+            var countryCreateDto2 = new CountryCreateDto { Name = _fixture.Create<string>() };
+
+            // Act
+            var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, workplaceCreateDto);
+            var countryResponse1 = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, countryCreateDto1);
+            var countryResponse2 = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, countryCreateDto2);
+            await PostAsync($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/belongstocountry/{countryResponse1!.Id}/$ref");
+
+            var getWorkplaceResponse = await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}");
+            var headers = CreateEtagHeader(getWorkplaceResponse!.Etag);
+            await PutAsync<WorkplaceUpdateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}",
+                new WorkplaceUpdateDto
+                {
+                    Name = workplaceResponse!.Name,
+                    BelongsToCountryId = countryResponse2!.Id
+                },
+                headers);
+
+            const string oDataRequest = $"$expand={nameof(WorkplaceDto.BelongsToCountry)}";
+            getWorkplaceResponse = await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}?{oDataRequest}");
+
+            //Assert
+            getWorkplaceResponse.Should().NotBeNull();
+            getWorkplaceResponse!.Id.Should().BeGreaterThan(0);
+            getWorkplaceResponse!.BelongsToCountry.Should().NotBeNull();
+            getWorkplaceResponse!.BelongsToCountry!.Id.Should().Be(countryResponse2!.Id);
+        }
+
+        #endregion
+
+        #endregion
+
         #region DELETE
 
         #region DELETE Delete ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedEntityKey}/$ref => api/workplaces/1/belongstocountry/1/$ref
@@ -192,6 +236,90 @@ namespace ClientApi.Tests.Tests.Controllers
         #endregion DELETE
 
         #endregion RELATIONSHIPS
+
+        #region LOCALIZATIONS
+
+        [Fact]
+        public async Task Post_DefaultLanguageDescription_CreateLocalization()
+        {
+            // Arrange
+            var createDto = new WorkplaceCreateDto
+            {
+                Name = "Regus - Paris Gare de Lyon",
+                Description = "A modern, modestly sized building with parking, just minutes from the Gare de Lyon and Gare d'Austerlitz.",
+            };
+
+            var headers = CreateAcceptLanguageHeader("en-US");
+
+            // Act
+            var result = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, headers);
+
+            // Need to perform a GET with fr-FR and en-US language to validate the localization
+
+            // Assert
+            result.Should().NotBeNull();
+            result!.Id.Should().BeGreaterThan(0);
+            result!.Name.Should().Be(createDto.Name);
+            result!.Description.Should().Be(createDto.Description);
+        }
+
+        [Fact]
+        public async Task Post_NotDefaultLanguageDescription_CreateLocalization()
+        {
+            // Arrange
+            var createDto = new WorkplaceCreateDto
+            {
+                Name = "Regus - Paris Gare de Lyon",
+                Description = "Un immeuble moderne de taille modeste avec parking, à quelques minutes de la Gare de Lyon et de la Gare d'Austerlitz.",
+            };
+
+            var headers = CreateAcceptLanguageHeader("fr-FR");
+
+            // Act
+            var result = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, headers);
+
+
+            // Need to perform a GET with fr-FR and en-US language to validate the localization
+
+            // Assert
+            result.Should().NotBeNull();
+            result!.Id.Should().BeGreaterThan(0);
+            result!.Name.Should().Be(createDto.Name);
+            result!.Description.Should().Be(createDto.Description);
+        }
+
+        [Fact]
+        public async Task Post_WhenInvokedMultipleTimes_CreatesCorrectLocalizations()
+        {
+            // Arrange
+            var createDto1 = new WorkplaceCreateDto
+            {
+                Name = "Regus - Dubai BCW Jafza View 18 & 19",
+	            Description = "33-storey tower in Jebel Ali Free Zone, located on Sheikh Zayed Road and only a few kilometres from Al Maktoum Airport.",
+            };
+
+            var createDto2 = new WorkplaceCreateDto
+            {
+                Name = "Regus - Paris Gare de Lyon",
+                Description = "Un immeuble moderne de taille modeste avec parking, à quelques minutes de la Gare de Lyon et de la Gare d'Austerlitz.",
+            };
+
+            // Act
+            var result1 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto1, CreateAcceptLanguageHeader("en-US"));
+
+            var result2 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto2, CreateAcceptLanguageHeader("fr-FR"));
+
+            // Need to perform a GET with fr-FR and en-US language to validate the localization
+
+            // Assert
+            result1!.Name.Should().Be(createDto1.Name);
+            result1!.Description.Should().Be(createDto1.Description);
+
+            result2!.Name.Should().Be(createDto2.Name);
+            result2!.Description.Should().Be(createDto2.Description);
+        }
+
+        #endregion LOCALIZATIONS
 
         [Fact]
         public async Task Post_ToEntityWithNuid_NuidIsCreated()
@@ -398,5 +526,66 @@ namespace ClientApi.Tests.Tests.Controllers
             content.Should()
                 .Contain("ETag is not well-formed.");
         }
+
+        [Fact]
+        public async Task Get_LocalizedValueNotFound_ShouldReturnDefaultValue()
+        {
+            var nameFixture = _fixture.Create<string>();
+
+            // Arrange
+            var createDto = new WorkplaceCreateDto
+            {
+                Name = nameFixture,
+                Description = _fixture.Create<string>(),
+            };
+
+            await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto);
+
+            var headers = new Dictionary<string, IEnumerable<string>>()
+            {
+                { "Accept-Language", new List<string> { $"fr-FR, fr;q=0.9, en;q=0.8, de;q=0.7, *;q=0.5" } }
+            };
+
+            // Act
+            var localizedWorkplaces = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}", headers))?.ToList();
+
+            // Assert
+            localizedWorkplaces.Should().NotBeNull();
+            localizedWorkplaces.Should().HaveCount(1);
+            localizedWorkplaces![0].Description.Should().NotBeNull();
+            localizedWorkplaces![0].Description.Should().StartWith("[");
+            localizedWorkplaces![0].Description.Should().EndWith("]");
+        }
+
+        // TODO: implement once create command works
+        //[Fact]
+        //public async Task Get_LocalizedValue_ShouldReturnLocalizationValue()
+        //{
+        //    var nameFixture = _fixture.Create<string>();
+
+        //    // Arrange
+        //    var createDto = new WorkplaceCreateDto
+        //    {
+        //        Name = nameFixture,
+        //        Description = _fixture.Create<string>(),
+        //    };
+
+        //    await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto);
+
+        //    var headers = new Dictionary<string, IEnumerable<string>>()
+        //    {
+        //        { "Accept-Language", new List<string> { $"fr-CH, fr;q=0.9, en;q=0.8, de;q=0.7, *;q=0.5" } }
+        //    };
+
+        //    // Act
+        //    var localizedWorkplaces = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}", headers))?.ToList();
+
+        //    // Assert
+        //    localizedWorkplaces.Should().NotBeNull();
+        //    localizedWorkplaces.Should().HaveCount(1);
+        //    localizedWorkplaces![0].Description.Should().NotBeNull();
+        //    localizedWorkplaces![0].Description.Should().StartWith("[");
+        //    localizedWorkplaces![0].Description.Should().EndWith("]");
+        //}
     }
 }

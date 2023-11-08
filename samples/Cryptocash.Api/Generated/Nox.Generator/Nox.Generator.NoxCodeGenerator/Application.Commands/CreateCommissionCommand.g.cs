@@ -20,7 +20,7 @@ using CommissionEntity = Cryptocash.Domain.Commission;
 
 namespace Cryptocash.Application.Commands;
 
-public record CreateCommissionCommand(CommissionCreateDto EntityDto) : IRequest<CommissionKeyDto>;
+public record CreateCommissionCommand(CommissionCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<CommissionKeyDto>;
 
 internal partial class CreateCommissionCommandHandler : CreateCommissionCommandHandlerBase
 {
@@ -48,7 +48,8 @@ internal abstract class CreateCommissionCommandHandlerBase : CommandBase<CreateC
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
 		IEntityFactory<Cryptocash.Domain.Booking, BookingCreateDto, BookingUpdateDto> BookingFactory,
-		IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<CommissionEntity, CommissionCreateDto, CommissionUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -59,7 +60,7 @@ internal abstract class CreateCommissionCommandHandlerBase : CommandBase<CreateC
 	public virtual async Task<CommissionKeyDto> Handle(CreateCommissionCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		if(request.EntityDto.CommissionFeesForCountryId is not null)
@@ -76,10 +77,26 @@ internal abstract class CreateCommissionCommandHandlerBase : CommandBase<CreateC
 			var relatedEntity = CountryFactory.CreateEntity(request.EntityDto.CommissionFeesForCountry);
 			entityToCreate.CreateRefToCommissionFeesForCountry(relatedEntity);
 		}
-		foreach(var relatedCreateDto in request.EntityDto.CommissionFeesForBooking)
+		if(request.EntityDto.CommissionFeesForBookingId.Any())
 		{
-			var relatedEntity = BookingFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToCommissionFeesForBooking(relatedEntity);
+			foreach(var relatedId in request.EntityDto.CommissionFeesForBookingId)
+			{
+				var relatedKey = Cryptocash.Domain.BookingMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.Bookings.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToCommissionFeesForBooking(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("CommissionFeesForBooking", relatedId.ToString());
+			}
+		}
+		else
+		{
+			foreach(var relatedCreateDto in request.EntityDto.CommissionFeesForBooking)
+			{
+				var relatedEntity = BookingFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToCommissionFeesForBooking(relatedEntity);
+			}
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

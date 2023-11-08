@@ -37,7 +37,7 @@ internal abstract class DeleteCashStockOrderByIdCommandHandlerBase : CommandBase
 	public virtual async Task<bool> Handle(DeleteCashStockOrderByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 		var keyId = Cryptocash.Domain.CashStockOrderMetadata.CreateId(request.keyId);
 
 		var entity = await DbContext.CashStockOrders.FindAsync(keyId);

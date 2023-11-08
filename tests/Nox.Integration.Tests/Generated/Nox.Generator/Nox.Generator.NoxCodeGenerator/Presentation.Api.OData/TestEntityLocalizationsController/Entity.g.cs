@@ -41,7 +41,10 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
     /// </summary>
     protected readonly IMediator _mediator;
 
-    protected readonly Nox.Presentation.Api.IHttpLanguageProvider _httpLanguageProvider;
+    /// <symmary>
+    /// The Culture Code from the HTTP request.
+    /// </symmary>
+    protected readonly Nox.Types.CultureCode _cultureCode;
 
     public TestEntityLocalizationsControllerBase(
         IMediator mediator,
@@ -49,13 +52,13 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
     )
     {
         _mediator = mediator;
-        _httpLanguageProvider = httpLanguageProvider;
+        _cultureCode = Nox.Types.CultureCode.From(httpLanguageProvider.GetLanguage());
     }
 
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<TestEntityLocalizationDto>>> Get()
     {
-        var result = await _mediator.Send(new GetTestEntityLocalizationsQuery());
+        var result = await _mediator.Send(new GetTestEntityLocalizationsQuery(_cultureCode.Value));
         return Ok(result);
     }
 
@@ -73,7 +76,7 @@ public abstract partial class TestEntityLocalizationsControllerBase : ODataContr
             return BadRequest(ModelState);
         }
 
-        var createdKey = await _mediator.Send(new CreateTestEntityLocalizationCommand(testEntityLocalization));
+        var createdKey = await _mediator.Send(new CreateTestEntityLocalizationCommand(testEntityLocalization, _cultureCode));
 
         var item = (await _mediator.Send(new GetTestEntityLocalizationByIdQuery(createdKey.keyId))).SingleOrDefault();
 

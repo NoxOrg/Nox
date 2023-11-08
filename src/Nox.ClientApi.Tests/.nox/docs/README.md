@@ -30,7 +30,7 @@ erDiagram
     Workplace}o..o|Country : "Workplace country"
     StoreOwner {
     }
-    StoreOwner|o..o{Store : "Set of stores that this owner owns"
+    StoreOwner|o..|{Store : "Set of stores that this owner owns"
     StoreLicense {
     }
     StoreLicense|o..||Store : "Store that this license related to"
@@ -56,7 +56,7 @@ Country Entity. *This entity is auditable and tracks info about who, which syste
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|AutoNumber|The unique identifier.|Required, Primary Key
+Id|AutoNumber|The unique identifier.|Required, Primary Key, StartsAt: 10, IncrementsBy: 5
 Name|Text|The Country Name.|Required, MinLength: 4, MaxLength: 63
 Population|Number|Population.|MaxValue: 1500000000
 CountryDebt|Money|The Money.|MinValue: 100000
@@ -245,7 +245,7 @@ Notes|Text|Notes.|
 
 Description|Cardinality|Related Entity|Name|Can Navigate?
 -----------|-----------|--------------|----|-------------
-Set of stores that this owner owns|ZeroOrMany|Store|Stores|Yes
+Set of stores that this owner owns|OneOrMany|Store|Stores|Yes
 
 
 ### Workplace
@@ -262,9 +262,9 @@ Member|Type|Description|Info
 ---------|----|----------|-------
 Id|Nuid|Workplace unique identifier.|Required, Primary Key, Separator: -, PropertyNames: System.String[]
 Name|Text|Workplace Name.|Required, MinLength: 4, MaxLength: 63
-Description|Text|Workplace Description.|MinLength: 4, MaxLength: 63, IsLocalized: true
+Description|Text|Workplace Description.|MinLength: 4, IsLocalized: true
 Greeting|Formula|The Formula.|
-CountryId|AutoNumber|The unique identifier.|Required, Foreign Key
+CountryId|AutoNumber|The unique identifier.|Required, Foreign Key, StartsAt: 10, IncrementsBy: 5
 
 
 #### <u>Relationships</u>

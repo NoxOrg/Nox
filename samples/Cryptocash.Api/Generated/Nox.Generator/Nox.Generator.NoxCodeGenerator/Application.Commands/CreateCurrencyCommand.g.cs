@@ -20,7 +20,7 @@ using CurrencyEntity = Cryptocash.Domain.Currency;
 
 namespace Cryptocash.Application.Commands;
 
-public record CreateCurrencyCommand(CurrencyCreateDto EntityDto) : IRequest<CurrencyKeyDto>;
+public record CreateCurrencyCommand(CurrencyCreateDto EntityDto, Nox.Types.CultureCode CultureCode) : IRequest<CurrencyKeyDto>;
 
 internal partial class CreateCurrencyCommandHandler : CreateCurrencyCommandHandlerBase
 {
@@ -48,7 +48,8 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 		NoxSolution noxSolution,
 		IEntityFactory<Cryptocash.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
 		IEntityFactory<Cryptocash.Domain.MinimumCashStock, MinimumCashStockCreateDto, MinimumCashStockUpdateDto> MinimumCashStockFactory,
-		IEntityFactory<CurrencyEntity, CurrencyCreateDto, CurrencyUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<CurrencyEntity, CurrencyCreateDto, CurrencyUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -59,18 +60,50 @@ internal abstract class CreateCurrencyCommandHandlerBase : CommandBase<CreateCur
 	public virtual async Task<CurrencyKeyDto> Handle(CreateCurrencyCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		OnExecuting(request);
+		await OnExecutingAsync(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		foreach(var relatedCreateDto in request.EntityDto.CurrencyUsedByCountry)
+		if(request.EntityDto.CurrencyUsedByCountryId.Any())
 		{
-			var relatedEntity = CountryFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToCurrencyUsedByCountry(relatedEntity);
+			foreach(var relatedId in request.EntityDto.CurrencyUsedByCountryId)
+			{
+				var relatedKey = Cryptocash.Domain.CountryMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.Countries.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToCurrencyUsedByCountry(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("CurrencyUsedByCountry", relatedId.ToString());
+			}
 		}
-		foreach(var relatedCreateDto in request.EntityDto.CurrencyUsedByMinimumCashStocks)
+		else
 		{
-			var relatedEntity = MinimumCashStockFactory.CreateEntity(relatedCreateDto);
-			entityToCreate.CreateRefToCurrencyUsedByMinimumCashStocks(relatedEntity);
+			foreach(var relatedCreateDto in request.EntityDto.CurrencyUsedByCountry)
+			{
+				var relatedEntity = CountryFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToCurrencyUsedByCountry(relatedEntity);
+			}
+		}
+		if(request.EntityDto.CurrencyUsedByMinimumCashStocksId.Any())
+		{
+			foreach(var relatedId in request.EntityDto.CurrencyUsedByMinimumCashStocksId)
+			{
+				var relatedKey = Cryptocash.Domain.MinimumCashStockMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.MinimumCashStocks.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToCurrencyUsedByMinimumCashStocks(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("CurrencyUsedByMinimumCashStocks", relatedId.ToString());
+			}
+		}
+		else
+		{
+			foreach(var relatedCreateDto in request.EntityDto.CurrencyUsedByMinimumCashStocks)
+			{
+				var relatedEntity = MinimumCashStockFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToCurrencyUsedByMinimumCashStocks(relatedEntity);
+			}
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

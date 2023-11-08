@@ -1000,14 +1000,21 @@ public class NoxCommonTestCaseFactory
         var textId1 = "T1";
         var culture = "en-US";
 
-        var newItem = new TestEntityLocalizationLocalized()
+        var newItem = new TestEntityLocalization()
+        {
+            Id = Text.From(textId1),
+            TextFieldToLocalize = Text.From(text),
+            NumberField = Number.From(123)
+        };
+        var newLocalizedItem = new TestEntityLocalizationLocalized()
         {
             Id = Text.From(textId1),
             TextFieldToLocalize = Text.From(text),
             CultureCode = CultureCode.From(culture)
         };
 
-        DataContext.TestEntityLocalizationsLocalized.Add(newItem);
+        DataContext.TestEntityLocalizations.Add(newItem);
+        DataContext.TestEntityLocalizationsLocalized.Add(newLocalizedItem);
         DataContext.SaveChanges();
 
         // Force the recreation of DataContext and ensure we have fresh data from database
@@ -1018,5 +1025,46 @@ public class NoxCommonTestCaseFactory
         Assert.Equal(testEntity.Id.Value, textId1);
         Assert.Equal(testEntity.TextFieldToLocalize.Value, text);
         Assert.Equal(testEntity.CultureCode.Value, culture);
+    }
+    
+    public void AutoNumberedEntitiesBeingGenerated()
+    {
+
+        var idValue = 10;
+        var propertyValue = 20;
+        
+        var text1 = Text.From("TX1");
+        var text2 = Text.From("TX2");
+
+        var newItem = new TestEntityForAutoNumberUsages()
+        {
+            TextField = text1
+        };
+
+        DataContext.TestEntityForAutoNumberUsages.Add(newItem);
+        
+        var newItem2 = new TestEntityForAutoNumberUsages()
+        {
+            TextField = text2
+        };
+
+        DataContext.TestEntityForAutoNumberUsages.Add(newItem2);
+        DataContext.SaveChanges();
+
+        // Force the recreation of DataContext and ensure we have fresh data from database
+        _dbContextFixture.RefreshDbContext();
+
+        var testEntity1 = DataContext.TestEntityForAutoNumberUsages.First(e=>e.TextField == text1);
+        var testEntity2 = DataContext.TestEntityForAutoNumberUsages.First(e=>e.TextField == text2);
+
+        testEntity1.Id.Value.Should().Be(idValue);
+        testEntity2.Id.Value.Should().Be(idValue + 2);
+        testEntity1.TextField.Should().Be(text1);
+        testEntity2.TextField.Should().Be(text2);
+        testEntity1.AutoNumberFieldWithOptions.Value.Should().Be(propertyValue);
+        testEntity2.AutoNumberFieldWithOptions.Value.Should().Be(propertyValue + 2);
+        testEntity1.AutoNumberFieldWithoutOptions.Value.Should().Be(1);
+        testEntity2.AutoNumberFieldWithoutOptions.Value.Should().Be(2);
+        
     }
 }
