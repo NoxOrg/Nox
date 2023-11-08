@@ -25,12 +25,14 @@ public partial class CountryQualityOfLifeIndexCreateDto : CountryQualityOfLifeIn
 public abstract class CountryQualityOfLifeIndexCreateDtoBase : IEntityDto<DomainNamespace.CountryQualityOfLifeIndex>
 {
     /// <summary>
-    ///  (Required).
+    /// 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "CountryId is required")]
     public System.Int64 CountryId { get; set; } = default!;
     /// <summary>
-    /// Rating Index (Required).
+    /// Rating Index 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "IndexRating is required")]
     

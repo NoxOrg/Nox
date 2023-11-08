@@ -25,12 +25,14 @@ public partial class TestEntityOwnedRelationshipExactlyOneCreateDto : TestEntity
 public abstract class TestEntityOwnedRelationshipExactlyOneCreateDtoBase : IEntityDto<DomainNamespace.TestEntityOwnedRelationshipExactlyOne>
 {
     /// <summary>
-    ///  (Required).
+    /// 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Id is required")]
     public System.String Id { get; set; } = default!;
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "TextTestField is required")]
     

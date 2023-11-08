@@ -51,7 +51,8 @@ internal record StoreDeleted(Store Store) : IDomainEvent, INotification;
 internal abstract partial class StoreBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    ///  (Required).
+    /// 
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Guid Id {get; set;} = null!;
          /// <summary>
@@ -70,27 +71,32 @@ internal abstract partial class StoreBase : AuditableEntityBase, IEntityConcurre
     	}
 
     /// <summary>
-    /// Store Name (Required).
+    /// Store Name
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text Name { get; set; } = null!;
 
     /// <summary>
-    /// Street Address (Required).
+    /// Street Address
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.StreetAddress Address { get; set; } = null!;
 
     /// <summary>
-    /// Location (Required).
+    /// Location
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.LatLong Location { get; set; } = null!;
 
     /// <summary>
-    /// Opening day (Optional).
+    /// Opening day
+    /// <remarks>Optional.</remarks>   
     /// </summary>
     public Nox.Types.DateTime? OpeningDay { get; set; } = null!;
 
     /// <summary>
-    /// Store Status (Optional).
+    /// Store Status
+    /// <remarks>Optional.</remarks>   
     /// </summary>
     public Nox.Types.Enumeration? Status { get; set; } = null!;
     /// <summary>

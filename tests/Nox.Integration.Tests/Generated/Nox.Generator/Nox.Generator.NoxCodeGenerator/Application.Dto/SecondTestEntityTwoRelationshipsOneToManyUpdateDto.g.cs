@@ -13,12 +13,13 @@ using DomainNamespace = TestWebApp.Domain;
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
-/// .
+/// 
 /// </summary>
 public partial class SecondTestEntityTwoRelationshipsOneToManyUpdateDto : IEntityDto<DomainNamespace.SecondTestEntityTwoRelationshipsOneToMany>
 {
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "TextTestField2 is required")]
     

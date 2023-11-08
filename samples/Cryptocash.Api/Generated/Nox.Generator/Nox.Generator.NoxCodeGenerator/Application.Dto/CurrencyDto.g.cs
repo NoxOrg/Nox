@@ -88,67 +88,79 @@ public abstract class CurrencyDtoBase : EntityDtoBase, IEntityDto<DomainNamespac
     #endregion
 
     /// <summary>
-    /// Currency unique identifier (Required).
-    /// </summary>
+    /// Currency unique identifier
+    /// </summary>    
     public System.String Id { get; set; } = default!;
 
     /// <summary>
-    /// Currency's name (Required).
+    /// Currency's name 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String Name { get; set; } = default!;
 
     /// <summary>
-    /// Currency's iso number id (Required).
+    /// Currency's iso number id 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.Int16 CurrencyIsoNumeric { get; set; } = default!;
 
     /// <summary>
-    /// Currency's symbol (Required).
+    /// Currency's symbol 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String Symbol { get; set; } = default!;
 
     /// <summary>
-    /// Currency's numeric thousands notation separator (Optional).
+    /// Currency's numeric thousands notation separator 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.String? ThousandsSeparator { get; set; }
 
     /// <summary>
-    /// Currency's numeric decimal notation separator (Optional).
+    /// Currency's numeric decimal notation separator 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.String? DecimalSeparator { get; set; }
 
     /// <summary>
-    /// Currency's numeric space between amount and symbol (Required).
+    /// Currency's numeric space between amount and symbol 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.Boolean SpaceBetweenAmountAndSymbol { get; set; } = default!;
 
     /// <summary>
-    /// Currency's numeric decimal digits (Required).
+    /// Currency's numeric decimal digits 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.Int32 DecimalDigits { get; set; } = default!;
 
     /// <summary>
-    /// Currency's major name (Required).
+    /// Currency's major name 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String MajorName { get; set; } = default!;
 
     /// <summary>
-    /// Currency's major display symbol (Required).
+    /// Currency's major display symbol 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String MajorSymbol { get; set; } = default!;
 
     /// <summary>
-    /// Currency's minor name (Required).
+    /// Currency's minor name 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String MinorName { get; set; } = default!;
 
     /// <summary>
-    /// Currency's minor display symbol (Required).
+    /// Currency's minor display symbol 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String MinorSymbol { get; set; } = default!;
 
     /// <summary>
-    /// Currency's minor value when converted to major (Required).
+    /// Currency's minor value when converted to major 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public MoneyDto MinorToMajorValue { get; set; } = default!;
 

@@ -52,27 +52,31 @@ public abstract class CashStockOrderDtoBase : EntityDtoBase, IEntityDto<DomainNa
     #endregion
 
     /// <summary>
-    /// Vending machine's order unique identifier (Required).
-    /// </summary>
+    /// Vending machine's order unique identifier
+    /// </summary>    
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Order amount (Required).
+    /// Order amount 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public MoneyDto Amount { get; set; } = default!;
 
     /// <summary>
-    /// Order requested delivery date (Required).
+    /// Order requested delivery date 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.DateTime RequestedDeliveryDate { get; set; } = default!;
 
     /// <summary>
-    /// Order delivery date (Optional).
+    /// Order delivery date 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.DateTimeOffset? DeliveryDateTime { get; set; }
 
     /// <summary>
-    /// Order status (Optional).
+    /// Order status 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.String? Status { get; set; }
 

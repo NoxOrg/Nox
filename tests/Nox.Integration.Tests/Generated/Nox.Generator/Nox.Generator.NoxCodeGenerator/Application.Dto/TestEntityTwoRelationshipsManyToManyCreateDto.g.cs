@@ -25,12 +25,14 @@ public partial class TestEntityTwoRelationshipsManyToManyCreateDto : TestEntityT
 public abstract class TestEntityTwoRelationshipsManyToManyCreateDtoBase : IEntityDto<DomainNamespace.TestEntityTwoRelationshipsManyToMany>
 {
     /// <summary>
-    ///  (Required).
+    /// 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Id is required")]
     public System.String Id { get; set; } = default!;
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "TextTestField is required")]
     

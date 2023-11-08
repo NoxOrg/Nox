@@ -20,7 +20,7 @@ public partial class {{className}} : {{className}}Base
 }
 
 /// <summary>
-/// {{entity.Description}}.
+/// {{entity.Description  | string.rstrip}}.
 /// </summary>
 public abstract class {{className}}Base : IEntityDto<DomainNamespace.{{entity.Name}}>
 {
@@ -30,11 +30,13 @@ public abstract class {{className}}Base : IEntityDto<DomainNamespace.{{entity.Na
     {{- else if key.Type == "Guid" -}}
 
     /// <summary>
-    /// {{key.Description}} (Optional).
+    /// {{key.Description  | string.rstrip}} 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     {{- else }}
     /// <summary>
-    /// {{key.Description}} (Required).
+    /// {{key.Description  | string.rstrip}}
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "{{key.Name}} is required")]
     {{- end }}
@@ -47,7 +49,8 @@ public abstract class {{className}}Base : IEntityDto<DomainNamespace.{{entity.Na
 
 {{- for attribute in entity.Attributes }}
     /// <summary>
-    /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
+    /// {{attribute.Description  | string.rstrip}} 
+    /// <remarks>{{if attribute.IsRequired}}Required{{else}}Optional{{end}}</remarks>    
     /// </summary>
     {{- if attribute.IsRequired}}
     [Required(ErrorMessage = "{{attribute.Name}} is required")]

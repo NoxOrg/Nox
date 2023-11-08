@@ -52,12 +52,14 @@ internal abstract partial class CountryBarCodeBase : EntityBase, IOwnedEntity
 {
 
     /// <summary>
-    /// Bar code name (Required).
+    /// Bar code name
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text BarCodeName { get; set; } = null!;
 
     /// <summary>
-    /// Bar code number (Optional).
+    /// Bar code number
+    /// <remarks>Optional.</remarks>   
     /// </summary>
     public Nox.Types.Number? BarCodeNumber { get; set; } = null!;
     /// <summary>

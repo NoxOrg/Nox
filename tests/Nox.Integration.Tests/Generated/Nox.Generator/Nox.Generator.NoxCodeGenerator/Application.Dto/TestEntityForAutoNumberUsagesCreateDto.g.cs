@@ -25,19 +25,22 @@ public partial class TestEntityForAutoNumberUsagesCreateDto : TestEntityForAutoN
 public abstract class TestEntityForAutoNumberUsagesCreateDtoBase : IEntityDto<DomainNamespace.TestEntityForAutoNumberUsages>
 {
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "AutoNumberFieldWithOptions is required")]
     
     public virtual System.Int64 AutoNumberFieldWithOptions { get; set; } = default!;
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "AutoNumberFieldWithoutOptions is required")]
     
     public virtual System.Int64 AutoNumberFieldWithoutOptions { get; set; } = default!;
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "TextField is required")]
     

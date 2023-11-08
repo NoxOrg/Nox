@@ -51,32 +51,38 @@ internal record CustomerDeleted(Customer Customer) : IDomainEvent, INotification
 internal abstract partial class CustomerBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// Customer's unique identifier (Required).
+    /// Customer's unique identifier
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// Customer's first name (Required).
+    /// Customer's first name
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text FirstName { get; set; } = null!;
 
     /// <summary>
-    /// Customer's last name (Required).
+    /// Customer's last name
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text LastName { get; set; } = null!;
 
     /// <summary>
-    /// Customer's email address (Required).
+    /// Customer's email address
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Email EmailAddress { get; set; } = null!;
 
     /// <summary>
-    /// Customer's street address (Required).
+    /// Customer's street address
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.StreetAddress Address { get; set; } = null!;
 
     /// <summary>
-    /// Customer's mobile number (Optional).
+    /// Customer's mobile number
+    /// <remarks>Optional.</remarks>   
     /// </summary>
     public Nox.Types.PhoneNumber? MobileNumber { get; set; } = null!;
     /// <summary>

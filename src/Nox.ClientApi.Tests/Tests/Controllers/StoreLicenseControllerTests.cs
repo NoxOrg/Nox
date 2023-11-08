@@ -16,7 +16,10 @@ namespace ClientApi.Tests.Tests.Controllers
 
         public StoreLicenseControllerTests(
             ITestOutputHelper testOutput,
-            TestDatabaseContainerService containerService)
+            TestDatabaseContainerService containerService
+            //For development purposes
+            //TestDatabaseInstanceService containerService
+            )
             : base(testOutput, containerService)
         {
         }

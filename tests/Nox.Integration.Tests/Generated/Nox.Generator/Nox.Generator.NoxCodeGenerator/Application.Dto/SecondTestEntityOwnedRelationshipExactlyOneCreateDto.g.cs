@@ -25,7 +25,8 @@ public partial class SecondTestEntityOwnedRelationshipExactlyOneCreateDto : Seco
 public abstract class SecondTestEntityOwnedRelationshipExactlyOneCreateDtoBase : IEntityDto<DomainNamespace.SecondTestEntityOwnedRelationshipExactlyOne>
 {
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "TextTestField2 is required")]
     

@@ -25,19 +25,22 @@ public partial class HolidayCreateDto : HolidayCreateDtoBase
 public abstract class HolidayCreateDtoBase : IEntityDto<DomainNamespace.Holiday>
 {
     /// <summary>
-    /// Country holiday name (Required).
+    /// Country holiday name 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
     public virtual System.String Name { get; set; } = default!;
     /// <summary>
-    /// Country holiday type (Required).
+    /// Country holiday type 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Type is required")]
     
     public virtual System.String Type { get; set; } = default!;
     /// <summary>
-    /// Country holiday date (Required).
+    /// Country holiday date 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Date is required")]
     

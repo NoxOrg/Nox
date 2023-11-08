@@ -49,17 +49,18 @@ public abstract class CountryQualityOfLifeIndexDtoBase : EntityDtoBase, IEntityD
     #endregion
 
     /// <summary>
-    ///  (Required).
-    /// </summary>
+    /// 
+    /// </summary>    
     public System.Int64 CountryId { get; set; } = default!;
 
     /// <summary>
-    /// The unique identifier (Required).
-    /// </summary>
+    /// The unique identifier
+    /// </summary>    
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Rating Index (Required).
+    /// Rating Index 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.Int32 IndexRating { get; set; } = default!;
 

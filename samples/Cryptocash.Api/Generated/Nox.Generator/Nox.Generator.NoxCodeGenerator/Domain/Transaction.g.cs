@@ -51,27 +51,32 @@ internal record TransactionDeleted(Transaction Transaction) : IDomainEvent, INot
 internal abstract partial class TransactionBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// Customer transaction unique identifier (Required).
+    /// Customer transaction unique identifier
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// Transaction type (Required).
+    /// Transaction type
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text TransactionType { get; set; } = null!;
 
     /// <summary>
-    /// Transaction processed datetime (Required).
+    /// Transaction processed datetime
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.DateTime ProcessedOnDateTime { get; set; } = null!;
 
     /// <summary>
-    /// Transaction amount (Required).
+    /// Transaction amount
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Money Amount { get; set; } = null!;
 
     /// <summary>
-    /// Transaction external reference (Required).
+    /// Transaction external reference
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text Reference { get; set; } = null!;
     /// <summary>

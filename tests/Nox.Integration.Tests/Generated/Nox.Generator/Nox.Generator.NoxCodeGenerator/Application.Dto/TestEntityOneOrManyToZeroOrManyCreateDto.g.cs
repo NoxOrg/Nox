@@ -25,12 +25,14 @@ public partial class TestEntityOneOrManyToZeroOrManyCreateDto : TestEntityOneOrM
 public abstract class TestEntityOneOrManyToZeroOrManyCreateDtoBase : IEntityDto<DomainNamespace.TestEntityOneOrManyToZeroOrMany>
 {
     /// <summary>
-    ///  (Required).
+    /// 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Id is required")]
     public System.String Id { get; set; } = default!;
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "TextTestField is required")]
     

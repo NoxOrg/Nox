@@ -13,24 +13,27 @@ using DomainNamespace = TestWebApp.Domain;
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
-/// Entity created for testing auto number usages.
+/// Entity created for testing auto number usages
 /// </summary>
 public partial class TestEntityForAutoNumberUsagesUpdateDto : IEntityDto<DomainNamespace.TestEntityForAutoNumberUsages>
 {
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "AutoNumberFieldWithOptions is required")]
     
     public System.Int64 AutoNumberFieldWithOptions { get; set; } = default!;
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "AutoNumberFieldWithoutOptions is required")]
     
     public System.Int64 AutoNumberFieldWithoutOptions { get; set; } = default!;
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "TextField is required")]
     

@@ -52,7 +52,8 @@ internal abstract partial class SecondTestEntityOwnedRelationshipZeroOrOneBase :
 {
 
     /// <summary>
-    ///  (Required).
+    /// 
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text TextTestField2 { get; set; } = null!;
     /// <summary>

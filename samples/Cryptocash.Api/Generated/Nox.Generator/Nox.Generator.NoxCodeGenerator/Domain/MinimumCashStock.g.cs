@@ -51,12 +51,14 @@ internal record MinimumCashStockDeleted(MinimumCashStock MinimumCashStock) : IDo
 internal abstract partial class MinimumCashStockBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// Vending machine cash stock unique identifier (Required).
+    /// Vending machine cash stock unique identifier
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// Cash stock amount (Required).
+    /// Cash stock amount
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Money Amount { get; set; } = null!;
     /// <summary>

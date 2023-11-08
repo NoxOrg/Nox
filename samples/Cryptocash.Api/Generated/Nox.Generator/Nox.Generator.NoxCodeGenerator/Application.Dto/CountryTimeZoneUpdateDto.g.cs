@@ -13,12 +13,13 @@ using DomainNamespace = Cryptocash.Domain;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
-/// Time zone related to country.
+/// Time zone related to country
 /// </summary>
 public partial class CountryTimeZoneUpdateDto : IEntityDto<DomainNamespace.CountryTimeZone>
 {
     /// <summary>
-    /// Country's related time zone code (Required).
+    /// Country's related time zone code 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "TimeZoneCode is required")]
     

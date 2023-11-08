@@ -13,7 +13,7 @@ using DomainNamespace = {{codeGeneratorState.DomainNameSpace}};
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 /// <summary>
-/// {{entity.Description}}.
+/// {{entity.Description  | string.rstrip}}
 /// </summary>
 public partial class {{className}} : IEntityDto<DomainNamespace.{{entity.Name}}>
 {
@@ -22,7 +22,8 @@ public partial class {{className}} : IEntityDto<DomainNamespace.{{entity.Name}}>
     {{ continue; }}
     {{- end}}
     /// <summary>
-    /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
+    /// {{attribute.Description  | string.rstrip}} 
+    /// <remarks>{{if attribute.IsRequired}}Required{{else}}Optional{{end}}.</remarks>    
     /// </summary>
     {{- if attribute.IsRequired}}
     [Required(ErrorMessage = "{{attribute.Name}} is required")]

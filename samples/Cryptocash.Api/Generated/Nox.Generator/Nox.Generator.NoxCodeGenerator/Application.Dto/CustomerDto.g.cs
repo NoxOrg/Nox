@@ -65,32 +65,37 @@ public abstract class CustomerDtoBase : EntityDtoBase, IEntityDto<DomainNamespac
     #endregion
 
     /// <summary>
-    /// Customer's unique identifier (Required).
-    /// </summary>
+    /// Customer's unique identifier
+    /// </summary>    
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Customer's first name (Required).
+    /// Customer's first name 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String FirstName { get; set; } = default!;
 
     /// <summary>
-    /// Customer's last name (Required).
+    /// Customer's last name 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String LastName { get; set; } = default!;
 
     /// <summary>
-    /// Customer's email address (Required).
+    /// Customer's email address 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String EmailAddress { get; set; } = default!;
 
     /// <summary>
-    /// Customer's street address (Required).
+    /// Customer's street address 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public StreetAddressDto Address { get; set; } = default!;
 
     /// <summary>
-    /// Customer's mobile number (Optional).
+    /// Customer's mobile number 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.String? MobileNumber { get; set; }
 

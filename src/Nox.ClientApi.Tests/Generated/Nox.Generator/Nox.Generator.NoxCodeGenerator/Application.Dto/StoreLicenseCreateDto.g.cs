@@ -25,13 +25,15 @@ public partial class StoreLicenseCreateDto : StoreLicenseCreateDtoBase
 public abstract class StoreLicenseCreateDtoBase : IEntityDto<DomainNamespace.StoreLicense>
 {
     /// <summary>
-    /// License issuer (Required).
+    /// License issuer 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Issuer is required")]
     
     public virtual System.String Issuer { get; set; } = default!;
     /// <summary>
-    /// License external id (Required).
+    /// License external id 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "ExternalId is required")]
     

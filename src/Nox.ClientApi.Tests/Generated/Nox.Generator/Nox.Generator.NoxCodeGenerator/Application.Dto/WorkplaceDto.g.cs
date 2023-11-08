@@ -50,22 +50,25 @@ public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<DomainNamespa
     #endregion
 
     /// <summary>
-    /// Workplace unique identifier (Required).
-    /// </summary>
+    /// Workplace unique identifier
+    /// </summary>    
     public System.UInt32 Id { get; set; } = default!;
 
     /// <summary>
-    /// Workplace Name (Required).
+    /// Workplace Name 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String Name { get; set; } = default!;
 
     /// <summary>
-    /// Workplace Description (Optional).
+    /// Workplace Description 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.String? Description { get; set; }
 
     /// <summary>
-    /// The Formula (Optional).
+    /// The Formula 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.String? Greeting { get; set; }
 

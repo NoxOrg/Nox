@@ -51,12 +51,14 @@ internal record ThirdTestEntityZeroOrManyDeleted(ThirdTestEntityZeroOrMany Third
 internal abstract partial class ThirdTestEntityZeroOrManyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    ///  (Required).
+    /// 
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
-    ///  (Required).
+    /// 
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text TextTestField2 { get; set; } = null!;
     /// <summary>

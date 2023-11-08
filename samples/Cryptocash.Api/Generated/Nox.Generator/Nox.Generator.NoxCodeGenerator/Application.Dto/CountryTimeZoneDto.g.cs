@@ -48,12 +48,13 @@ public abstract class CountryTimeZoneDtoBase : EntityDtoBase, IEntityDto<DomainN
     #endregion
 
     /// <summary>
-    /// Country's time zone unique identifier (Required).
-    /// </summary>
+    /// Country's time zone unique identifier
+    /// </summary>    
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Country's related time zone code (Required).
+    /// Country's related time zone code 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String TimeZoneCode { get; set; } = default!;
 }

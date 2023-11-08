@@ -13,18 +13,20 @@ using DomainNamespace = Cryptocash.Domain;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
-/// Currencies related frequent and rare bank notes.
+/// Currencies related frequent and rare bank notes
 /// </summary>
 public partial class BankNoteUpdateDto : IEntityDto<DomainNamespace.BankNote>
 {
     /// <summary>
-    /// Currency's cash bank note identifier (Required).
+    /// Currency's cash bank note identifier 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "CashNote is required")]
     
     public System.String CashNote { get; set; } = default!;
     /// <summary>
-    /// Bank note value (Required).
+    /// Bank note value 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Value is required")]
     

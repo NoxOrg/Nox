@@ -13,34 +13,39 @@ using DomainNamespace = ClientApi.Domain;
 namespace ClientApi.Application.Dto;
 
 /// <summary>
-/// Stores.
+/// Stores
 /// </summary>
 public partial class StoreUpdateDto : IEntityDto<DomainNamespace.Store>
 {
     /// <summary>
-    /// Store Name (Required).
+    /// Store Name 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
     public System.String Name { get; set; } = default!;
     /// <summary>
-    /// Street Address (Required).
+    /// Street Address 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Address is required")]
     
     public StreetAddressDto Address { get; set; } = default!;
     /// <summary>
-    /// Location (Required).
+    /// Location 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Location is required")]
     
     public LatLongDto Location { get; set; } = default!;
     /// <summary>
-    /// Opening day (Optional).
+    /// Opening day 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.DateTimeOffset? OpeningDay { get; set; }
     /// <summary>
-    /// Store Status (Optional).
+    /// Store Status 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.Int32? Status { get; set; }
 

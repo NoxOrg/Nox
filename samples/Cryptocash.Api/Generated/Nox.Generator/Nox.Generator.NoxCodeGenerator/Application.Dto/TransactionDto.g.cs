@@ -60,27 +60,31 @@ public abstract class TransactionDtoBase : EntityDtoBase, IEntityDto<DomainNames
     #endregion
 
     /// <summary>
-    /// Customer transaction unique identifier (Required).
-    /// </summary>
+    /// Customer transaction unique identifier
+    /// </summary>    
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Transaction type (Required).
+    /// Transaction type 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String TransactionType { get; set; } = default!;
 
     /// <summary>
-    /// Transaction processed datetime (Required).
+    /// Transaction processed datetime 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.DateTimeOffset ProcessedOnDateTime { get; set; } = default!;
 
     /// <summary>
-    /// Transaction amount (Required).
+    /// Transaction amount 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public MoneyDto Amount { get; set; } = default!;
 
     /// <summary>
-    /// Transaction external reference (Required).
+    /// Transaction external reference 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String Reference { get; set; } = default!;
 

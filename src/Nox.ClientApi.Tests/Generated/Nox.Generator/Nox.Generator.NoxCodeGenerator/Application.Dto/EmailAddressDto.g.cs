@@ -47,12 +47,14 @@ public abstract class EmailAddressDtoBase : EntityDtoBase, IEntityDto<DomainName
     #endregion
 
     /// <summary>
-    /// Email (Optional).
+    /// Email 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.String? Email { get; set; }
 
     /// <summary>
-    /// Verified (Optional).
+    /// Verified 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.Boolean? IsVerified { get; set; }
 }

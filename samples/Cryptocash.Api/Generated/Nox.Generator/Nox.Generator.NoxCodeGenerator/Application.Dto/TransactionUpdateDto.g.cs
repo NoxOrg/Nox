@@ -13,30 +13,34 @@ using DomainNamespace = Cryptocash.Domain;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
-/// Customer transaction log and related data.
+/// Customer transaction log and related data
 /// </summary>
 public partial class TransactionUpdateDto : IEntityDto<DomainNamespace.Transaction>
 {
     /// <summary>
-    /// Transaction type (Required).
+    /// Transaction type 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "TransactionType is required")]
     
     public System.String TransactionType { get; set; } = default!;
     /// <summary>
-    /// Transaction processed datetime (Required).
+    /// Transaction processed datetime 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "ProcessedOnDateTime is required")]
     
     public System.DateTimeOffset ProcessedOnDateTime { get; set; } = default!;
     /// <summary>
-    /// Transaction amount (Required).
+    /// Transaction amount 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Amount is required")]
     
     public MoneyDto Amount { get; set; } = default!;
     /// <summary>
-    /// Transaction external reference (Required).
+    /// Transaction external reference 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Reference is required")]
     

@@ -25,7 +25,8 @@ public partial class TestEntityWithNuidCreateDto : TestEntityWithNuidCreateDtoBa
 public abstract class TestEntityWithNuidCreateDtoBase : IEntityDto<DomainNamespace.TestEntityWithNuid>
 {
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     

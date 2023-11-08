@@ -25,62 +25,76 @@ public partial class CountryCreateDto : CountryCreateDtoBase
 public abstract class CountryCreateDtoBase : IEntityDto<DomainNamespace.Country>
 {
     /// <summary>
-    /// Country unique identifier (Required).
+    /// Country unique identifier
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Id is required")]
     public System.String Id { get; set; } = default!;
     /// <summary>
-    /// Country's name (Required).
+    /// Country's name 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
     public virtual System.String Name { get; set; } = default!;
     /// <summary>
-    /// Country's official name (Optional).
+    /// Country's official name 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.String? OfficialName { get; set; }
     /// <summary>
-    /// Country's iso number id (Optional).
+    /// Country's iso number id 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.UInt16? CountryIsoNumeric { get; set; }
     /// <summary>
-    /// Country's iso alpha3 id (Optional).
+    /// Country's iso alpha3 id 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.String? CountryIsoAlpha3 { get; set; }
     /// <summary>
-    /// Country's geo coordinates (Optional).
+    /// Country's geo coordinates 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual LatLongDto? GeoCoords { get; set; }
     /// <summary>
-    /// Country's flag emoji (Optional).
+    /// Country's flag emoji 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.String? FlagEmoji { get; set; }
     /// <summary>
-    /// Country's flag in svg format (Optional).
+    /// Country's flag in svg format 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual ImageDto? FlagSvg { get; set; }
     /// <summary>
-    /// Country's flag in png format (Optional).
+    /// Country's flag in png format 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual ImageDto? FlagPng { get; set; }
     /// <summary>
-    /// Country's coat of arms in svg format (Optional).
+    /// Country's coat of arms in svg format 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual ImageDto? CoatOfArmsSvg { get; set; }
     /// <summary>
-    /// Country's coat of arms in png format (Optional).
+    /// Country's coat of arms in png format 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual ImageDto? CoatOfArmsPng { get; set; }
     /// <summary>
-    /// Country's map via google maps (Optional).
+    /// Country's map via google maps 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.String? GoogleMapsUrl { get; set; }
     /// <summary>
-    /// Country's map via open street maps (Optional).
+    /// Country's map via open street maps 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.String? OpenStreetMapsUrl { get; set; }
     /// <summary>
-    /// Country's start of week day (Required).
+    /// Country's start of week day 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "StartOfWeek is required")]
     

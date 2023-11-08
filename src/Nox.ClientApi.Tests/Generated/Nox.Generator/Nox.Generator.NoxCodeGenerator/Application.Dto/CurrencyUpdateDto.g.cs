@@ -13,16 +13,18 @@ using DomainNamespace = ClientApi.Domain;
 namespace ClientApi.Application.Dto;
 
 /// <summary>
-/// Currency and related data.
+/// Currency and related data
 /// </summary>
 public partial class CurrencyUpdateDto : IEntityDto<DomainNamespace.Currency>
 {
     /// <summary>
-    /// Currency's name (Optional).
+    /// Currency's name 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.String? Name { get; set; }
     /// <summary>
-    /// Currency's symbol (Optional).
+    /// Currency's symbol 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.String? Symbol { get; set; }
 

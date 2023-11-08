@@ -13,12 +13,13 @@ using DomainNamespace = TestWebApp.Domain;
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
-/// Entity created for testing nuid.
+/// Entity created for testing nuid
 /// </summary>
 public partial class TestEntityWithNuidUpdateDto : IEntityDto<DomainNamespace.TestEntityWithNuid>
 {
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     

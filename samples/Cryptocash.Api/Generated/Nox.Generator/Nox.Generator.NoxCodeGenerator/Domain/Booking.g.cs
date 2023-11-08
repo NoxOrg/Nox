@@ -51,7 +51,8 @@ internal record BookingDeleted(Booking Booking) : IDomainEvent, INotification;
 internal abstract partial class BookingBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// Booking unique identifier (Required).
+    /// Booking unique identifier
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Guid Id {get; set;} = null!;
          /// <summary>
@@ -70,37 +71,44 @@ internal abstract partial class BookingBase : AuditableEntityBase, IEntityConcur
     	}
 
     /// <summary>
-    /// Booking's amount exchanged from (Required).
+    /// Booking's amount exchanged from
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Money AmountFrom { get; set; } = null!;
 
     /// <summary>
-    /// Booking's amount exchanged to (Required).
+    /// Booking's amount exchanged to
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Money AmountTo { get; set; } = null!;
 
     /// <summary>
-    /// Booking's requested pick up date (Required).
+    /// Booking's requested pick up date
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.DateTimeRange RequestedPickUpDate { get; set; } = null!;
 
     /// <summary>
-    /// Booking's actual pick up date (Optional).
+    /// Booking's actual pick up date
+    /// <remarks>Optional.</remarks>   
     /// </summary>
     public Nox.Types.DateTimeRange? PickedUpDateTime { get; set; } = null!;
 
     /// <summary>
-    /// Booking's expiry date (Optional).
+    /// Booking's expiry date
+    /// <remarks>Optional.</remarks>   
     /// </summary>
     public Nox.Types.DateTime? ExpiryDateTime { get; set; } = null!;
 
     /// <summary>
-    /// Booking's cancelled date (Optional).
+    /// Booking's cancelled date
+    /// <remarks>Optional.</remarks>   
     /// </summary>
     public Nox.Types.DateTime? CancelledDateTime { get; set; } = null!;
 
     /// <summary>
-    /// Booking's status (Optional).
+    /// Booking's status
+    /// <remarks>Optional.</remarks>   
     /// </summary>
     public string? Status
     { 
@@ -109,7 +117,8 @@ internal abstract partial class BookingBase : AuditableEntityBase, IEntityConcur
     }
 
     /// <summary>
-    /// Booking's related vat number (Optional).
+    /// Booking's related vat number
+    /// <remarks>Optional.</remarks>   
     /// </summary>
     public Nox.Types.VatNumber? VatNumber { get; set; } = null!;
     /// <summary>

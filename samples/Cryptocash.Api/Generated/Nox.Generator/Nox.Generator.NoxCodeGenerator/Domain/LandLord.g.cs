@@ -51,17 +51,20 @@ internal record LandLordDeleted(LandLord LandLord) : IDomainEvent, INotification
 internal abstract partial class LandLordBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// Landlord unique identifier (Required).
+    /// Landlord unique identifier
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// Landlord name (Required).
+    /// Landlord name
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text Name { get; set; } = null!;
 
     /// <summary>
-    /// Landlord's street address (Required).
+    /// Landlord's street address
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.StreetAddress Address { get; set; } = null!;
     /// <summary>
