@@ -52,7 +52,6 @@ internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicenseEnt
     {
         var entity = new ClientApi.Domain.StoreLicense();
         entity.Issuer = ClientApi.Domain.StoreLicenseMetadata.CreateIssuer(createDto.Issuer);
-        entity.ExternalId = ClientApi.Domain.StoreLicenseMetadata.CreateExternalId(createDto.ExternalId);
         return entity;
     }
 
