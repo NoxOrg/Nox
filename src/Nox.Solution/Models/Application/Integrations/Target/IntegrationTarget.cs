@@ -32,11 +32,7 @@ public class IntegrationTarget
 
     [AdditionalProperties(false)]
     [IfEquals(nameof(TargetAdapterType),IntegrationTargetAdapterType.DatabaseTable)]
-    public IntegrationTargetTableOptions? TableOptions { get; set; }
-    
-    [AdditionalProperties(false)]
-    [IfEquals(nameof(TargetAdapterType),IntegrationTargetAdapterType.StoredProcedure)]
-    public IntegrationTargetStoredProcedureOptions? StoredProcedureOptions { get; set; }
+    public IntegrationTargetDatabaseOptions? DatabaseOptions { get; set; }
 
     [AdditionalProperties(false)]
     [IfEquals(nameof(IntegrationTargetAdapterType),IntegrationTargetAdapterType.File)]

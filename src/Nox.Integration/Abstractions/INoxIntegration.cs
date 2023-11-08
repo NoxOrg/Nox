@@ -9,6 +9,11 @@ public interface INoxIntegration
     IntegrationMergeType MergeType { get; }
     internal INoxReceiveAdapter? ReceiveAdapter { get; set; }
     internal INoxSendAdapter? SendAdapter { get; set; }
+    
+    List<string>? IdColumns { get; }
+    List<string>? DateColumns { get; }
+        
+    
     internal Task<bool> ExecuteAsync();
 
     //todo mapping handler, custom or AutoMapper.

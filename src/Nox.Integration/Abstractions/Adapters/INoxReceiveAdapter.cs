@@ -5,6 +5,6 @@ namespace Nox.Integration.Abstractions.Adapters;
 
 public interface INoxReceiveAdapter
 {
-    IntegrationSourceAdapterType SourceAdapterType { get; }
+    IntegrationSourceAdapterType AdapterType { get; }
     IDataFlowExecutableSource<ExpandoObject> DataFlowSource { get; }
 }

@@ -5,12 +5,17 @@ namespace Nox.Solution;
 [Title("Definition namespace for a database integration target.")]
 [Description("This section specified attributes related to an integration target of type Database Table. Attributes include the name of the table that will be updated.")]
 [AdditionalProperties(false)]
-public class IntegrationTargetTableOptions
+public class IntegrationTargetDatabaseOptions
 {
     [Required]
     [Title("The name of the table to update.")]
     [Description("The table that will be updated on the target database.")]
     public string TableName { get; set; } = null!;
+    
+    [Required]
+    [Title("The stored procedure to execute.")]
+    [Description("The stored procedure that will be executed on the target database.")]
+    public string StoredProcedure { get; set; } = null!;
     
     [Required]
     [Title("Schema Name")]

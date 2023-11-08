@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
 using Nox.Integration.Abstractions;
 using Nox.Integration.Services;
 using Nox.Solution;
@@ -14,7 +15,8 @@ public static class ServiceExtension
         {
             services.TryAddSingleton<INoxIntegrationContext>(p =>
             {
-                var context = new NoxIntegrationContext(solution);
+                var loggerFactory = p.GetRequiredService<LoggerFactory>();
+                var context = new NoxIntegrationContext(loggerFactory, solution);
                 context.Initialize();
                 return context;
             });

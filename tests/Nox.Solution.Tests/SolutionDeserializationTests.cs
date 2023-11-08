@@ -224,7 +224,7 @@ public class SolutionDeserializationTests
         Assert.Equal(2, noxConfig.Application.Integrations[0].Source!.Watermark!.DateColumns!.Count);
         Assert.Equal("CreateDate", noxConfig.Application.Integrations[0].Source!.Watermark!.DateColumns![0]);
         Assert.Equal("EditDate", noxConfig.Application.Integrations[0].Source!.Watermark!.DateColumns![1]);
-        Assert.Equal("CountryId", noxConfig.Application.Integrations[0].Source!.Watermark!.SequentialKeyColumn);
+        Assert.Equal("CountryId", noxConfig.Application.Integrations[0].Source!.Watermark!.SequentialKeyColumns![0]);
         
         Assert.Equal(IntegrationTransformType.DefaultTransform, noxConfig.Application.Integrations[0].TransformationType);
         

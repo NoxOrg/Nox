@@ -61,7 +61,8 @@ application:
           dateColumns:
             - "CreateDate"
             - "EditDate"
-          sequentialKeyColumn: CountryId
+          sequentialKeyColumns: 
+            - "CountryId"
       
       transformationType: defaultTransform
       

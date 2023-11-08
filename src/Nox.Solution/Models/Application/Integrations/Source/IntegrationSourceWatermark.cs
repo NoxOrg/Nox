@@ -14,6 +14,6 @@ namespace Nox.Solution
 
         [Title("Sequential key column used for watermark purpose.")]
         [Description("Specify a sequential key columns to be compared to target data to indicate if data has changed.")]
-        public string? SequentialKeyColumn { get; internal set; }
+        public IReadOnlyList<string>? SequentialKeyColumns { get; internal set; }
     }
 }

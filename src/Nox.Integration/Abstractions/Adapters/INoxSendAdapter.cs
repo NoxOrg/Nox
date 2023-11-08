@@ -1,10 +1,11 @@
+using System.Dynamic;
 using ETLBox;
+using ETLBox.DataFlow;
 
 namespace Nox.Integration.Abstractions.Adapters;
 
 public interface INoxSendAdapter
 {
-    public IntegrationSourceAdapterType SourceAdapterType { get; }
-    public IDataFlowDestination DataFlowTarget { get; }
+    public IntegrationTargetAdapterType AdapterType { get; }
    
 }

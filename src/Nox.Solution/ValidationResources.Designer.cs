@@ -597,27 +597,21 @@ namespace Nox.Solution {
             }
         }
         
-        internal static string IntegrationTargetTableOptionsNameEmpty {
+        internal static string IntegrationTargetDatabaseOptionsTableNameEmpty {
             get {
-                return ResourceManager.GetString("IntegrationTargetTableOptionsNameEmpty", resourceCulture);
+                return ResourceManager.GetString("IntegrationTargetDatabaseOptionsTableNameEmpty", resourceCulture);
             }
         }
         
-        internal static string IntegrationTargetTableOptionsSchemaEmpty {
+        internal static string IntegrationTargetDatabaseOptionsSchemaEmpty {
             get {
-                return ResourceManager.GetString("IntegrationTargetTableOptionsSchemaEmpty", resourceCulture);
+                return ResourceManager.GetString("IntegrationTargetDatabaseOptionsSchemaEmpty", resourceCulture);
             }
         }
         
-        internal static string IntegrationTargetStoredProcOptionsNameEmpty {
+        internal static string IntegrationTargetDatabaseOptionsStoredProcEmpty {
             get {
-                return ResourceManager.GetString("IntegrationTargetStoredProcOptionsNameEmpty", resourceCulture);
-            }
-        }
-        
-        internal static string IntegrationTargetStoredProcOptionsSchemaEmpty {
-            get {
-                return ResourceManager.GetString("IntegrationTargetStoredProcOptionsSchemaEmpty", resourceCulture);
+                return ResourceManager.GetString("IntegrationTargetDatabaseOptionsStoredProcEmpty", resourceCulture);
             }
         }
         

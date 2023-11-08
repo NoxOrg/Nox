@@ -8,7 +8,7 @@ namespace Nox.Integration.Adapters;
 
 public class SqlServerReceiveAdapter: INoxDatabaseReceiveAdapter
 {
-    public IntegrationSourceAdapterType SourceAdapterType => IntegrationSourceAdapterType.Database;
+    public IntegrationSourceAdapterType AdapterType => IntegrationSourceAdapterType.DatabaseQuery;
     public IDataFlowExecutableSource<ExpandoObject> DataFlowSource { get; }
 
     public string Query { get; }

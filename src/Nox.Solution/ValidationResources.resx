@@ -393,17 +393,14 @@
   <data name="IntegrationSourceDatabaseOptionsQueryEmpty" xml:space="preserve">
     <value>The query in the database options of the source for integration {0} has not been specified. Database sources must have a query specified.</value>
   </data>
-  <data name="IntegrationTargetTableOptionsNameEmpty" xml:space="preserve">
-    <value>The table name in the table options of the target for integration {0} has not been specified. Database table targets must have a table name specified.</value>
+  <data name="IntegrationTargetDatabaseOptionsTableNameEmpty" xml:space="preserve">
+    <value>The table name in the database options of the target for integration {0} has not been specified. Database table targets must have a table name specified.</value>
   </data>
-  <data name="IntegrationTargetTableOptionsSchemaEmpty" xml:space="preserve">
-    <value>The schema name in the table options of the target for integration {0} has not been specified. Database table targets must have a schema name specified.</value>
+  <data name="IntegrationTargetDatabaseOptionsSchemaEmpty" xml:space="preserve">
+    <value>The schema name in the database options of the target for integration {0} has not been specified. Database targets must have a schema name specified.</value>
   </data>
-  <data name="IntegrationTargetStoredProcOptionsNameEmpty" xml:space="preserve">
-    <value>The stored procedure in the database options of the target for integration {0} has not been specified. Database targets must have a stored procedure specified.</value>
-  </data>
-  <data name="IntegrationTargetStoredProcOptionsSchemaEmpty" xml:space="preserve">
-    <value>The schema name in the stored procedure options of the target for integration {0} has not been specified. Stored Procedure targets must have a schema specified.</value>
+  <data name="IntegrationTargetDatabaseOptionsStoredProcEmpty" xml:space="preserve">
+    <value>The stored procedure in the database options of the target for integration {0} has not been specified. Database Stored Procedure targets must have a stored procedure specified.</value>
   </data>
   <data name="IntegrationSourceDatabaseOptionsMinExptectedRecordsInvalid" xml:space="preserve">
     <value>The database options for the source of integration {0} has an invalid MinimumExpectedRecords setting. MinimumExpectedRecords must be equal to or greater than 1.</value>

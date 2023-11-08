@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Nox.Integration.Extensions;
 using Nox.Integration.Services;
 using Nox.Solution;
@@ -6,42 +7,73 @@ namespace Nox.Integration.Tests;
 
 public class IntegrationTests
 {
+    [Fact]
     public async Task Can_Execute_an_integration()
     {
+        var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+        
         var dataConnections = new List<DataConnection>();
         dataConnections.Add(new DataConnection
         {
-            Name = "SourceDatabase",
+            Name = "CountrySource",
             Provider = DataConnectionProvider.SqlServer,
             User = "sa",
             Password = "Developer*123",
             Port = 1433,
-            ServerUri = "localhost"
+            ServerUri = "localhost",
+            Options = "pooling=false;encrypt=false"
         });
         dataConnections.Add(new DataConnection
         {
-            Name = "TargetDatabase",
+            Name = "EtlSample",
             Provider = DataConnectionProvider.SqlServer,
             User = "sa",
             Password = "Developer*123",
             Port = 1433,
-            ServerUri = "localhost"
+            ServerUri = "localhost",
+            Options = "pooling=false;encrypt=false"
         });
 
-        var integration = new NoxIntegration("EtlTest", "This is a test Integration", IntegrationMergeType.MergeNew)
+        var definition = new Solution.Integration
+        {
+            Name = "EtlTest",
+            Description = "This is a test Integration",
+            MergeType = IntegrationMergeType.MergeNew,
+            Source = new IntegrationSource
+            {
+                Watermark = new IntegrationSourceWatermark
+                {
+                    SequentialKeyColumns = new List<string>
+                    {
+                        "Id"
+                    },
+                    DateColumns = new List<string>
+                    {
+                        "CreateDate",
+                        "EditDate"
+                    }
+                }
+            }
+        };
+
+        var integration = new NoxIntegration(loggerFactory, definition)
             .WithReceiveAdapter(new IntegrationSource
             {
                 Name = "TestSource",
                 Description = "Integration Source for testing",
                 QueryOptions = new IntegrationSourceQueryOptions
                 {
-                    Query = "SELECT * FROM SourceTable",
+                    Query = "SELECT Id, Name, Population, CreateDate, EditDate FROM CountryMaster",
                     MinimumExpectedRecords = 10
                 },
                 SourceSourceAdapterType = IntegrationSourceAdapterType.DatabaseQuery,
-                DataConnectionName = "SourceDataConnection",
+                DataConnectionName = "CountrySource",
                 Watermark = new IntegrationSourceWatermark
                 {
+                    SequentialKeyColumns = new []
+                    {
+                        "Id"
+                    },
                     DateColumns = new[]
                     {
                         "CreateDate",
@@ -53,16 +85,15 @@ public class IntegrationTests
             {
                 Name = "TestTarget",
                 Description = "Integration target for testing.",
-                StoredProcedureOptions = new IntegrationTargetStoredProcedureOptions
+                DatabaseOptions = new IntegrationTargetDatabaseOptions
                 {
-                    StoredProcedure = "up_Insert_Target",
-                    SchemaName = "dbo"
+                    TableName = "Country"
                 },
-                DataConnectionName = "TargetDatabase",
-                TargetAdapterType = IntegrationTargetAdapterType.StoredProcedure
+                DataConnectionName = "EtlSample",
+                TargetAdapterType = IntegrationTargetAdapterType.DatabaseTable
             }, dataConnections);
 
-        var context = new NoxIntegrationContext(new Solution.Solution());
+        var context = new NoxIntegrationContext(loggerFactory, new Solution.Solution());
         context.AddIntegration(integration);
         var result = await context.ExecuteIntegrationAsync("EtlTest");
         Assert.True(result);

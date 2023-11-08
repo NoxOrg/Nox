@@ -27,20 +27,13 @@ namespace Nox.Solution.Validation
                 .Must(HaveValidDataConnection)
                 .WithMessage(m => string.Format(ValidationResources.IntegrationTargetDataConnectionMissing, m.Name, integrationName, m.DataConnectionName));
 
-            //Table options required when adapter type == Table
-            RuleFor(target => target!.TableOptions)
+            //Database options required when adapter type == Table || type == StoredProcedure
+            RuleFor(target => target!.DatabaseOptions)
                 .NotNull()
                 .WithMessage(target => string.Format(ValidationResources.IntegrationTargetTableOptionsEmpty, target!.Name, integrationName))
-                .SetValidator(target => new IntegrationTargetTableOptionsValidator(integrationName))
-                .When(target => target?.TargetAdapterType == IntegrationTargetAdapterType.DatabaseTable);
+                .SetValidator(target => new IntegrationTargetDatabaseOptionsValidator(integrationName, target.TargetAdapterType))
+                .When(target => target?.TargetAdapterType is IntegrationTargetAdapterType.DatabaseTable or IntegrationTargetAdapterType.StoredProcedure);
             
-            //Stored Proc options required when adapter type == StoredProcedure
-            RuleFor(target => target!.StoredProcedureOptions)
-                .NotNull()
-                .WithMessage(target => string.Format(ValidationResources.IntegrationTargetStoredProcedureOptionsEmpty, target!.Name, integrationName))
-                .SetValidator(target => new IntegrationTargetStoredProcedureOptionsValidator(integrationName))
-                .When(target => target?.TargetAdapterType == IntegrationTargetAdapterType.DatabaseTable);
-
             //File options required when adapter type == File
             RuleFor(target => target!.FileOptions)
                 .NotNull()

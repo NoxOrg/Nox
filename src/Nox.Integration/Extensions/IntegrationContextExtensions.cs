@@ -56,7 +56,7 @@ public static class IntegrationContextExtensions
         {
             case IntegrationTargetAdapterType.DatabaseTable:
                 var dataConnection = ProcessDatabaseTargetDefinition(targetDefinition, dataConnections);
-                instance.WithDatabaseSendAdapter(targetDefinition.TableOptions!, dataConnection);
+                instance.WithDatabaseSendAdapter(targetDefinition.DatabaseOptions!, dataConnection);
                 break;
         }
         return instance;
@@ -64,7 +64,7 @@ public static class IntegrationContextExtensions
 
     private static DataConnection ProcessDatabaseTargetDefinition(IntegrationTarget targetDefinition, IReadOnlyList<DataConnection>? dataConnections)
     {
-        if (targetDefinition.StoredProcedureOptions == null)
+        if (targetDefinition.DatabaseOptions == null)
         {
             throw new NoxIntegrationConfigurationException(
                 "Database options missing. Integrations that send data to databases must specify valid database options.");
