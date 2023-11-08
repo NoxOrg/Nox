@@ -56,6 +56,8 @@ application:
           delaySeconds: 5
           doubleDelayLimit: 10
         runOnStartup: true
+        
+      mergeType: mergeNew
       
       source:
         name: CountryJsonSource
@@ -85,16 +87,17 @@ application:
           dateColumns:
             - "CreateDate"
             - "EditDate"
-          sequentialKeyColumn: CountryId
+          sequentialKeyColumns: 
+            - "CountryId"
           
       transformationType: defaultTransform
 
       target:
         name: Country
         dataConnectionName: SampleCurrencyDb
-        targetAdapterType: entity
-        entityOptions:
-            entity: Country 
+        targetAdapterType: databaseTable
+        databaseOptions:
+            tableName: Currency 
 
 infrastructure:
   
