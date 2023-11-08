@@ -319,4 +319,32 @@ public class YamlFileValidationTests
         exception.Message.Should().Contain("Missing property [\"name\"]");
         exception.Message.Should().Contain("Missing property [\"attributeNames\"]");
     }
+
+    [Fact]
+    public void Deserialize_InvalidRelationshipConfig_ThrowsException()
+    {
+        var action = () => new NoxSolutionBuilder()
+            .UseYamlFile($"./files/invalid-relationship-config.entity.nox.yaml")
+            .Build();
+
+        var errors = action.Should()
+            .ThrowExactly<ValidationException>()
+            .Subject
+            .First()
+            .Errors.ToArray();
+
+        var expectedErrors = new[]
+        {
+            "The Relationship 'CurrencyInCountries' between 'Currency' and 'Country' must have CanNavigate property set to True at least on one side.",
+            "The Relationship 'CountryLegalCurrencies' between 'Country' and 'Currency' must have CanNavigate property set to True at least on one side."
+        };
+
+        errors.Length.Should().BePositive();
+        errors.Should()
+            .NotBeEmpty()
+            .And.HaveCount(expectedErrors.Length)
+            .And.Subject.Select(x => x.ErrorMessage)
+            .Should()
+            .Contain(x => Array.Exists(expectedErrors, x.StartsWith));
+    }
 }
