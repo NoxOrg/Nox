@@ -10,7 +10,7 @@ public static class IntegrationContextExtensions
 {
     public static INoxIntegration WithReceiveAdapter(this INoxIntegration instance, IntegrationSource sourceDefinition, IReadOnlyList<DataConnection>? dataConnections)
     {
-        switch (sourceDefinition.SourceSourceAdapterType)
+        switch (sourceDefinition.SourceAdapterType)
         {
             case IntegrationSourceAdapterType.DatabaseQuery:
                 var dataConnection = ProcessDatabaseSourceDefinition(sourceDefinition, dataConnections);

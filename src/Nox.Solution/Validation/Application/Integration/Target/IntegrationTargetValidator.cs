@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentValidation;
+using Nox.Solution.Exceptions;
 using Nox.Solution.Extensions;
 
 namespace Nox.Solution.Validation
@@ -30,8 +32,8 @@ namespace Nox.Solution.Validation
             //Database options required when adapter type == Table || type == StoredProcedure
             RuleFor(target => target!.DatabaseOptions)
                 .NotNull()
-                .WithMessage(target => string.Format(ValidationResources.IntegrationTargetTableOptionsEmpty, target!.Name, integrationName))
-                .SetValidator(target => new IntegrationTargetDatabaseOptionsValidator(integrationName, target.TargetAdapterType))
+                .WithMessage(target => string.Format(ValidationResources.IntegrationTargetDatabaseOptionsEmpty, target!.Name, integrationName))
+                .SetValidator(target => new IntegrationTargetDatabaseOptionsValidator(integrationName, target.TargetAdapterType, GetDataConnectionProvider(target.DataConnectionName)))
                 .When(target => target?.TargetAdapterType is IntegrationTargetAdapterType.DatabaseTable or IntegrationTargetAdapterType.StoredProcedure);
             
             //File options required when adapter type == File
@@ -65,6 +67,20 @@ namespace Nox.Solution.Validation
             }
 
             return true;
+        }
+
+        private DataConnectionProvider GetDataConnectionProvider(string dataConnectionName)
+        {
+            if (_dataConnections != null)
+            {
+                var dataConnection = _dataConnections.FirstOrDefault(dc => dc.Name.Equals(dataConnectionName, StringComparison.OrdinalIgnoreCase));
+                if (dataConnection is { Provider: not null })
+                {
+                    return dataConnection.Provider!.Value;
+                }
+            }
+
+            throw new NoxSolutionConfigurationException($"Unable to determine data connection provider for {dataConnectionName}.");
         }
     }
 }

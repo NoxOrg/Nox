@@ -13,6 +13,7 @@
   "required": [
     "name",
     "schedule",
+    "mergeType",
     "source",
     "transformationType",
     "target"
@@ -108,6 +109,13 @@
         }
       },
       "additionalProperties": false
+    },
+    "mergeType": {    
+      "type": "string",
+      "enum": [
+        "addNew",
+        "mergeNew"
+      ]
     },
     "source": {    
       "anyOf": [

@@ -387,7 +387,7 @@
   <data name="IntegrationSourceDatabaseOptionsEmpty" xml:space="preserve">
     <value>The source for integration {0} does not specify database options. When an integration sources data from a database, database options must be specified.</value>
   </data>
-  <data name="IntegrationTargetTableOptionsEmpty" xml:space="preserve">
+  <data name="IntegrationTargetDatabaseOptionsEmpty" xml:space="preserve">
     <value>The target for integration {0} does not specify table options. When an integration targets data to a database table, table options must be specified.</value>
   </data>
   <data name="IntegrationTargetStoredProcedureOptionsEmpty" xml:space="preserve">
@@ -545,5 +545,8 @@
   </data>
   <data name="EntityOwnedTextFieldsCantBeLocalized" xml:space="preserve">
     <value>The entity '{0}' can't have localized text attributes because it is owned entity. Localized text attributes are only supported for non-owned entities.</value>
+  </data>
+  <data name="IntegrationTargetDatabaseOptionsDefaultsFalse" xml:space="preserve">
+    <value>Unable to apply defaults for the database target of integration '{0}'.</value>
   </data>
 </root>

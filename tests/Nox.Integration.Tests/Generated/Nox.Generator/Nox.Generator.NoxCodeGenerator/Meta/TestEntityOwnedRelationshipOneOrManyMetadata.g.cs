@@ -21,11 +21,11 @@ public partial class TestEntityOwnedRelationshipOneOrManyMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions IdTypeOptions {get; private set;} = new ()
         {
-            MinLength = 2,
-            MaxLength = 2,
-            IsUnicode = false,
-            IsLocalized = false,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 2,
+            MaxLength = 2,
+            IsUnicode = false,
+            IsLocalized = false,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
@@ -41,11 +41,11 @@ public partial class TestEntityOwnedRelationshipOneOrManyMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions TextTestFieldTypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = false,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = false,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
@@ -61,11 +61,11 @@ public partial class TestEntityOwnedRelationshipOneOrManyMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions SecondTestEntityOwnedRelationshipOneOrManyIdTypeOptions {get; private set;} = new ()
         {
-            MinLength = 2,
-            MaxLength = 2,
-            IsUnicode = false,
-            IsLocalized = false,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 2,
+            MaxLength = 2,
+            IsUnicode = false,
+            IsLocalized = false,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     

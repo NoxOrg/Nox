@@ -7,7 +7,11 @@ namespace Nox.Integration.Tests;
 
 public class IntegrationTests
 {
+#if DEBUG
     [Fact]
+#else
+    [Fact (Skip = "This test can only be run locally if you have a loal sql server instance and have created the CountrySource database using ./files/Create_CoutrySource.sql")]
+#endif 
     public async Task Can_Execute_an_integration()
     {
         var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
@@ -66,7 +70,7 @@ public class IntegrationTests
                     Query = "SELECT Id, Name, Population, CreateDate, EditDate FROM CountryMaster",
                     MinimumExpectedRecords = 10
                 },
-                SourceSourceAdapterType = IntegrationSourceAdapterType.DatabaseQuery,
+                SourceAdapterType = IntegrationSourceAdapterType.DatabaseQuery,
                 DataConnectionName = "CountrySource",
                 Watermark = new IntegrationSourceWatermark
                 {

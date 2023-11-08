@@ -7,18 +7,34 @@ namespace Nox.Solution;
 [AdditionalProperties(false)]
 public class IntegrationTargetDatabaseOptions
 {
-    [Required]
     [Title("The name of the table to update.")]
     [Description("The table that will be updated on the target database.")]
     public string TableName { get; set; } = null!;
     
-    [Required]
     [Title("The stored procedure to execute.")]
     [Description("The stored procedure that will be executed on the target database.")]
     public string StoredProcedure { get; set; } = null!;
-    
-    [Required]
+
     [Title("Schema Name")]
     [Description("The name of the schema in which the table resides.")]
-    public string SchemaName { get; set; } = null!;
+    public string SchemaName { get; set; } = string.Empty;
+
+    internal bool ApplyDefaults(DataConnectionProvider provider)
+    {
+        if (string.IsNullOrWhiteSpace(SchemaName))
+        {
+            switch (provider)
+            {
+                case DataConnectionProvider.Postgres:
+                    SchemaName = "public";
+                    break;
+                case DataConnectionProvider.SqlServer:
+                    SchemaName = "dbo";
+                    break;
+            }
+        }
+
+        return true;
+    }
 }
+

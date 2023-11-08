@@ -459,6 +459,12 @@ namespace Nox.Solution {
             }
         }
         
+        internal static string PersistenceDatabaseSqliteAutoNumberLimitation {
+            get {
+                return ResourceManager.GetString("PersistenceDatabaseSqliteAutoNumberLimitation", resourceCulture);
+            }
+        }
+        
         internal static string SecretsValidForInvalidTimespan {
             get {
                 return ResourceManager.GetString("SecretsValidForInvalidTimespan", resourceCulture);
@@ -579,9 +585,9 @@ namespace Nox.Solution {
             }
         }
         
-        internal static string IntegrationTargetTableOptionsEmpty {
+        internal static string IntegrationTargetDatabaseOptionsEmpty {
             get {
-                return ResourceManager.GetString("IntegrationTargetTableOptionsEmpty", resourceCulture);
+                return ResourceManager.GetString("IntegrationTargetDatabaseOptionsEmpty", resourceCulture);
             }
         }
         
@@ -894,6 +900,12 @@ namespace Nox.Solution {
         internal static string EntityOwnedTextFieldsCantBeLocalized {
             get {
                 return ResourceManager.GetString("EntityOwnedTextFieldsCantBeLocalized", resourceCulture);
+            }
+        }
+        
+        internal static string IntegrationTargetDatabaseOptionsDefaultsFalse {
+            get {
+                return ResourceManager.GetString("IntegrationTargetDatabaseOptionsDefaultsFalse", resourceCulture);
             }
         }
     }
