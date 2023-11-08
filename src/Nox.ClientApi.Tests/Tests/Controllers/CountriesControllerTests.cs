@@ -1342,6 +1342,19 @@ namespace ClientApi.Tests.Tests.Controllers
             // Assert
             countryShortNameResult!.Should().HaveStatusCode(HttpStatusCode.Created);            
         }
+
+        [Fact]
+        public async Task CustomCreateCountry_Success()
+        {
+            var result = await PostAsync($"{Endpoints.CountriesUrl}/CustomCreateCountry", 
+                new CountryCreateDto
+                {
+                    Name = _fixture.Create<string>()
+                });
+
+            result.IsSuccessStatusCode.Should().BeTrue();
+        }
+
         #endregion TESTS
     }
 }

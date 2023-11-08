@@ -85,4 +85,22 @@ public partial class CountriesController
             }
         });
     }
+
+    /// <summary>
+    /// Example of a non OData end point that returns Created StatusCode
+    /// </summary>
+    /// <returns></returns>
+    [HttpPost("api/[controller]/[action]")]
+    public IResult CustomCreateCountry([FromBody] Application.Dto.CountryCreateDto country) 
+    {
+        var createdCountry = new Application.Dto.CountryDto()
+            {
+                Id = 1,
+                Name = country.Name
+            };
+
+        var routeValues = new { key = createdCountry.Id };
+        return Results.Created($"api/Countries/{createdCountry.Id}", routeValues);
+    }
+
 }

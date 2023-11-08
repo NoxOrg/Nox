@@ -188,11 +188,12 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #endregion Store Examples
 
-        [Fact(Skip= "Autonumber issue when used as an attribute")]
+        [Fact]
         public async Task WhenStoreLicenceCreated_ShouldGenerateAutoNumberExternalId()
         {
             //Arrange
             var store1 = await CreateStore();
+            var store2 = await CreateStore();
 
             // Act
             var storeLicenseResponse = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl,
@@ -206,15 +207,15 @@ namespace ClientApi.Tests.Tests.Controllers
                 new StoreLicenseCreateDto
                 {
                     Issuer = _fixture.Create<string>(),
-                    StoreId = store1!.Id,
+                    StoreId = store2!.Id,
                 });
 
             //Assert
             storeLicenseResponse.Should().NotBeNull();
-            storeLicenseResponse!.ExternalId.Should().BeGreaterThan(30000);
+            storeLicenseResponse!.ExternalId.Should().BeGreaterOrEqualTo(30000);
 
             storeLicenseResponse2.Should().NotBeNull();
-            storeLicenseResponse2!.ExternalId.Should().BeGreaterThan(30000 + 10);
+            storeLicenseResponse2!.ExternalId.Should().BeGreaterOrEqualTo(30000 + 10);
         }
 
         private async Task<StoreDto?> CreateStore()

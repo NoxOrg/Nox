@@ -51,8 +51,6 @@ internal abstract class TestEntityForAutoNumberUsagesFactoryBase : IEntityFactor
     private TestWebApp.Domain.TestEntityForAutoNumberUsages ToEntity(TestEntityForAutoNumberUsagesCreateDto createDto)
     {
         var entity = new TestWebApp.Domain.TestEntityForAutoNumberUsages();
-        entity.AutoNumberFieldWithOptions = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateAutoNumberFieldWithOptions(createDto.AutoNumberFieldWithOptions);
-        entity.AutoNumberFieldWithoutOptions = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateAutoNumberFieldWithoutOptions(createDto.AutoNumberFieldWithoutOptions);
         entity.TextField = TestWebApp.Domain.TestEntityForAutoNumberUsagesMetadata.CreateTextField(createDto.TextField);
         return entity;
     }
