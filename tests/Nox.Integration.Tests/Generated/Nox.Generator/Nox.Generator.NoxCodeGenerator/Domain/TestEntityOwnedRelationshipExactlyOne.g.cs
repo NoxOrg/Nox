@@ -51,12 +51,14 @@ internal record TestEntityOwnedRelationshipExactlyOneDeleted(TestEntityOwnedRela
 internal abstract partial class TestEntityOwnedRelationshipExactlyOneBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    ///  (Required).
+    /// 
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text Id { get; set; } = null!;
 
     /// <summary>
-    ///  (Required).
+    /// 
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text TextTestField { get; set; } = null!;
     /// <summary>

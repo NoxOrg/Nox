@@ -13,18 +13,20 @@ using DomainNamespace = Cryptocash.Domain;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
-/// Landlord related data.
+/// Landlord related data
 /// </summary>
 public partial class LandLordUpdateDto : IEntityDto<DomainNamespace.LandLord>
 {
     /// <summary>
-    /// Landlord name (Required).
+    /// Landlord name 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
     public System.String Name { get; set; } = default!;
     /// <summary>
-    /// Landlord's street address (Required).
+    /// Landlord's street address 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Address is required")]
     

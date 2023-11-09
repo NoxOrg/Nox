@@ -48,7 +48,8 @@ public abstract class SecondTestEntityOwnedRelationshipExactlyOneDtoBase : Entit
     #endregion
 
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String TextTestField2 { get; set; } = default!;
 }

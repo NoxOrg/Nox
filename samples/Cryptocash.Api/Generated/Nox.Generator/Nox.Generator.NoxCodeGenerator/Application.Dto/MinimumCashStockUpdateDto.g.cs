@@ -13,12 +13,13 @@ using DomainNamespace = Cryptocash.Domain;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
-/// Minimum cash stock required for vending machine.
+/// Minimum cash stock required for vending machine
 /// </summary>
 public partial class MinimumCashStockUpdateDto : IEntityDto<DomainNamespace.MinimumCashStock>
 {
     /// <summary>
-    /// Cash stock amount (Required).
+    /// Cash stock amount 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Amount is required")]
     

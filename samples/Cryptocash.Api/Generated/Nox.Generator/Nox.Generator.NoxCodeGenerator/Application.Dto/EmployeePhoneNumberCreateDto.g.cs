@@ -25,13 +25,15 @@ public partial class EmployeePhoneNumberCreateDto : EmployeePhoneNumberCreateDto
 public abstract class EmployeePhoneNumberCreateDtoBase : IEntityDto<DomainNamespace.EmployeePhoneNumber>
 {
     /// <summary>
-    /// Employee's phone number type (Required).
+    /// Employee's phone number type 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "PhoneNumberType is required")]
     
     public virtual System.String PhoneNumberType { get; set; } = default!;
     /// <summary>
-    /// Employee's phone number (Required).
+    /// Employee's phone number 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "PhoneNumber is required")]
     

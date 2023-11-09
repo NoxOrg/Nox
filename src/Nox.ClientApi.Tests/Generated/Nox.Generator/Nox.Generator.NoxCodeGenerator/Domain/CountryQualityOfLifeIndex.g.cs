@@ -51,18 +51,21 @@ internal record CountryQualityOfLifeIndexDeleted(CountryQualityOfLifeIndex Count
 internal abstract partial class CountryQualityOfLifeIndexBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
-    ///  (Required).
+    /// 
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.AutoNumber CountryId { get; set; } = null!;
     
         public virtual Country Country { get; set; } = null!;
     /// <summary>
-    /// The unique identifier (Required).
+    /// The unique identifier
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// Rating Index (Required).
+    /// Rating Index
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Number IndexRating { get; set; } = null!;
     /// <summary>

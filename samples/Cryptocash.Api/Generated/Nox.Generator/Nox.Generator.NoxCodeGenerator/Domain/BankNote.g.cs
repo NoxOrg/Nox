@@ -51,17 +51,20 @@ internal record BankNoteDeleted(BankNote BankNote) : IDomainEvent, INotification
 internal abstract partial class BankNoteBase : EntityBase, IOwnedEntity
 {
     /// <summary>
-    /// Currency bank note unique identifier (Required).
+    /// Currency bank note unique identifier
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// Currency's cash bank note identifier (Required).
+    /// Currency's cash bank note identifier
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text CashNote { get; set; } = null!;
 
     /// <summary>
-    /// Bank note value (Required).
+    /// Bank note value
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Money Value { get; set; } = null!;
     /// <summary>

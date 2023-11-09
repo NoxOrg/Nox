@@ -70,8 +70,8 @@
       ]
     },
     "canNavigate": {    
-      "title": "Determines whether this side of the relationship is exposed in the generated code and ODATA endpoints.",
-      "description": "This boolean controls whether this side of the relationship is exposed in the generated code and ODATA endpoints.",
+      "title": "Define the Entity on this relationship side contains a Navigation Property to the related Entity.",
+      "description": "Default is true, allows to navigate from this Entity to the related Entity, and generates all endpoints to manage the Entity relaionships, including enabling ODataQueries for related entities.",
       "oneOf": [
         {
           "type": "boolean"

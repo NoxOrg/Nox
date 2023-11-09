@@ -93,7 +93,7 @@ namespace Cryptocash.Ui.Generated.Component
 
         protected string ErrorRequiredMessage(string CurrentTitle)
         {
-            return CurrentTitle += " is required";
+            return CurrentTitle + " is required";
         }
     }
 }

@@ -13,12 +13,13 @@ using DomainNamespace = ClientApi.Domain;
 namespace ClientApi.Application.Dto;
 
 /// <summary>
-/// Country Quality Of Life Index.
+/// Country Quality Of Life Index
 /// </summary>
 public partial class CountryQualityOfLifeIndexUpdateDto : IEntityDto<DomainNamespace.CountryQualityOfLifeIndex>
 {
     /// <summary>
-    /// Rating Index (Required).
+    /// Rating Index 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "IndexRating is required")]
     

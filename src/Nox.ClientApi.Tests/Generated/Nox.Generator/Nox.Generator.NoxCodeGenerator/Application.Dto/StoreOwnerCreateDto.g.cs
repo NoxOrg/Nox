@@ -25,36 +25,43 @@ public partial class StoreOwnerCreateDto : StoreOwnerCreateDtoBase
 public abstract class StoreOwnerCreateDtoBase : IEntityDto<DomainNamespace.StoreOwner>
 {
     /// <summary>
-    ///  (Required).
+    /// 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Id is required")]
     public System.String Id { get; set; } = default!;
     /// <summary>
-    /// Owner Name (Required).
+    /// Owner Name 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
     public virtual System.String Name { get; set; } = default!;
     /// <summary>
-    /// Temporary Owner Name (Required).
+    /// Temporary Owner Name 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "TemporaryOwnerName is required")]
     
     public virtual System.String TemporaryOwnerName { get; set; } = default!;
     /// <summary>
-    /// Vat Number (Optional).
+    /// Vat Number 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual VatNumberDto? VatNumber { get; set; }
     /// <summary>
-    /// Street Address (Optional).
+    /// Street Address 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual StreetAddressDto? StreetAddress { get; set; }
     /// <summary>
-    /// Owner Greeting (Optional).
+    /// Owner Greeting 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual TranslatedTextDto? LocalGreeting { get; set; }
     /// <summary>
-    /// Notes (Optional).
+    /// Notes 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.String? Notes { get; set; }
 

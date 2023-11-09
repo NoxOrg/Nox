@@ -25,25 +25,29 @@ public partial class TransactionCreateDto : TransactionCreateDtoBase
 public abstract class TransactionCreateDtoBase : IEntityDto<DomainNamespace.Transaction>
 {
     /// <summary>
-    /// Transaction type (Required).
+    /// Transaction type 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "TransactionType is required")]
     
     public virtual System.String TransactionType { get; set; } = default!;
     /// <summary>
-    /// Transaction processed datetime (Required).
+    /// Transaction processed datetime 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "ProcessedOnDateTime is required")]
     
     public virtual System.DateTimeOffset ProcessedOnDateTime { get; set; } = default!;
     /// <summary>
-    /// Transaction amount (Required).
+    /// Transaction amount 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Amount is required")]
     
     public virtual MoneyDto Amount { get; set; } = default!;
     /// <summary>
-    /// Transaction external reference (Required).
+    /// Transaction external reference 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Reference is required")]
     

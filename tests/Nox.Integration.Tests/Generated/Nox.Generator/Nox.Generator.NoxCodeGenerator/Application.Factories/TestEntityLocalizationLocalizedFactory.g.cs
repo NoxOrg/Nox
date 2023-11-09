@@ -18,20 +18,37 @@ internal partial class TestEntityLocalizationLocalizedFactory : TestEntityLocali
 
 internal abstract class TestEntityLocalizationLocalizedFactoryBase : IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationUpdateDto>
 {
-    public virtual TestEntityLocalizationLocalized CreateLocalizedEntity(TestEntityLocalizationEntity entity, CultureCode cultureCode)
+    public virtual TestEntityLocalizationLocalized CreateLocalizedEntity(TestEntityLocalizationEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
     {
         var localizedEntity = new TestEntityLocalizationLocalized
         {
             Id = entity.Id,
             CultureCode = cultureCode,
-            TextFieldToLocalize = entity.TextFieldToLocalize,
         };
+
+        if (copyEntityAttributes)
+        {
+            localizedEntity.TextFieldToLocalize = entity.TextFieldToLocalize;
+        }
 
         return localizedEntity;
     }
 
-    public virtual void UpdateLocalizedEntity(TestEntityLocalizationLocalized localizedEntity, TestEntityLocalizationUpdateDto updateDto, CultureCode cultureCode)
+    public virtual void UpdateLocalizedEntity(TestEntityLocalizationLocalized localizedEntity, TestEntityLocalizationUpdateDto updateDto)
     {
-        localizedEntity.TextFieldToLocalize = TestWebApp.Domain.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(updateDto.TextFieldToLocalize.NonNullValue<System.String>());
+        localizedEntity.TextFieldToLocalize = updateDto.TextFieldToLocalize == null
+            ? null
+            : TestWebApp.Domain.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(updateDto.TextFieldToLocalize.ToValueFromNonNull<System.String>());
+    }
+
+    public virtual void PartialUpdateLocalizedEntity(TestEntityLocalizationLocalized localizedEntity, Dictionary<string, dynamic> updatedProperties)
+    {
+
+        if (updatedProperties.TryGetValue("TextFieldToLocalize", out var TextFieldToLocalizeUpdateValue))
+        {
+            localizedEntity.TextFieldToLocalize = TextFieldToLocalizeUpdateValue == null
+                ? null
+                : TestWebApp.Domain.TestEntityLocalizationMetadata.CreateTextFieldToLocalize(TextFieldToLocalizeUpdateValue);
+        }
     }
 }

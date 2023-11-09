@@ -53,17 +53,19 @@ public abstract class LandLordDtoBase : EntityDtoBase, IEntityDto<DomainNamespac
     #endregion
 
     /// <summary>
-    /// Landlord unique identifier (Required).
-    /// </summary>
+    /// Landlord unique identifier
+    /// </summary>    
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Landlord name (Required).
+    /// Landlord name 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String Name { get; set; } = default!;
 
     /// <summary>
-    /// Landlord's street address (Required).
+    /// Landlord's street address 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public StreetAddressDto Address { get; set; } = default!;
 

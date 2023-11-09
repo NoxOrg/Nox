@@ -6,7 +6,7 @@ namespace Nox.Application.Commands;
 /// <summary>
 /// Base Implementation for aNox Command
 /// </summary>
-public abstract class CommandBase<TRequest, TEntity>: INoxCommand where TEntity : IEntity
+public abstract class CommandBase<TRequest, TEntity> : INoxCommand where TEntity : IEntity
 {
     protected NoxSolution NoxSolution { get; }
 
@@ -39,4 +39,3 @@ public abstract class CommandBase<TRequest, TEntity>: INoxCommand where TEntity 
     /// <param name="cancellationToken"></param>
     protected virtual Task OnCompletedAsync(TRequest request, TEntity entity) { return Task.CompletedTask; }
 }
-

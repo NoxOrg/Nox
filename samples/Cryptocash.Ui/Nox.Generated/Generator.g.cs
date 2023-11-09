@@ -2,7 +2,8 @@
 
 #nullable enable
 
-// 1 0 0 35
+// Using Nox version 7.0.84.0
+
 /* Found files ->
 - cryptocash.application.nox.yaml
 - CountrySync.integration.nox.yaml

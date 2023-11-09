@@ -13,16 +13,18 @@ using DomainNamespace = ClientApi.Domain;
 namespace ClientApi.Application.Dto;
 
 /// <summary>
-/// Verified Email Address.
+/// Verified Email Address
 /// </summary>
 public partial class EmailAddressUpdateDto : IEntityDto<DomainNamespace.EmailAddress>
 {
     /// <summary>
-    /// Email (Optional).
+    /// Email 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.String? Email { get; set; }
     /// <summary>
-    /// Verified (Optional).
+    /// Verified 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.Boolean? IsVerified { get; set; }
 }

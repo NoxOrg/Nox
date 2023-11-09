@@ -51,7 +51,11 @@ public static class EntityExtensions
         }
     }
 
-    public static IEnumerable<NoxSimpleTypeDefinition> GetAttributesToLocalize(this Entity entity) => entity
-        .Attributes
-        .Where(x => x.IsLocalized);
+    public static IEnumerable<NoxSimpleTypeDefinition> GetAttributesToLocalize(this Entity entity)
+        => entity.Attributes.Where(x => x.IsLocalized).Select(property =>
+        {
+            var localized = property.ShallowCopy();
+            localized.IsRequired = false;
+            return localized;
+        });
 }

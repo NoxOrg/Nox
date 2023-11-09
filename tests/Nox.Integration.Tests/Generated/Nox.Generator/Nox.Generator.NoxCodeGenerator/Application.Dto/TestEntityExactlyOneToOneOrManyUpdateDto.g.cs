@@ -13,12 +13,13 @@ using DomainNamespace = TestWebApp.Domain;
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
-/// Entity created for testing database.
+/// Entity created for testing database
 /// </summary>
 public partial class TestEntityExactlyOneToOneOrManyUpdateDto : IEntityDto<DomainNamespace.TestEntityExactlyOneToOneOrMany>
 {
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "TextTestField is required")]
     

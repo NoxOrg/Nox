@@ -13,18 +13,20 @@ using DomainNamespace = ClientApi.Domain;
 namespace ClientApi.Application.Dto;
 
 /// <summary>
-/// Workplace.
+/// Workplace
 /// </summary>
 public partial class WorkplaceUpdateDto : IEntityDto<DomainNamespace.Workplace>
 {
     /// <summary>
-    /// Workplace Name (Required).
+    /// Workplace Name 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
     public System.String Name { get; set; } = default!;
     /// <summary>
-    /// Workplace Description (Optional).
+    /// Workplace Description 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.String? Description { get; set; }
 

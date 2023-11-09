@@ -13,24 +13,27 @@ using DomainNamespace = Cryptocash.Domain;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
-/// Vending machine cash stock order and related data.
+/// Vending machine cash stock order and related data
 /// </summary>
 public partial class CashStockOrderUpdateDto : IEntityDto<DomainNamespace.CashStockOrder>
 {
     /// <summary>
-    /// Order amount (Required).
+    /// Order amount 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Amount is required")]
     
     public MoneyDto Amount { get; set; } = default!;
     /// <summary>
-    /// Order requested delivery date (Required).
+    /// Order requested delivery date 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "RequestedDeliveryDate is required")]
     
     public System.DateTime RequestedDeliveryDate { get; set; } = default!;
     /// <summary>
-    /// Order delivery date (Optional).
+    /// Order delivery date 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.DateTimeOffset? DeliveryDateTime { get; set; }
 

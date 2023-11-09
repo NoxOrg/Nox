@@ -50,17 +50,19 @@ public abstract class TestEntityLocalizationDtoBase : EntityDtoBase, IEntityDto<
     #endregion
 
     /// <summary>
-    ///  (Required).
-    /// </summary>
+    /// 
+    /// </summary>    
     public System.String Id { get; set; } = default!;
 
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String TextFieldToLocalize { get; set; } = default!;
 
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.Int16 NumberField { get; set; } = default!;
     [System.Text.Json.Serialization.JsonIgnore]

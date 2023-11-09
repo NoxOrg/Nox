@@ -51,37 +51,44 @@ internal record EmployeeDeleted(Employee Employee) : IDomainEvent, INotification
 internal abstract partial class EmployeeBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// Employee's unique identifier (Required).
+    /// Employee's unique identifier
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// Employee's first name (Required).
+    /// Employee's first name
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text FirstName { get; set; } = null!;
 
     /// <summary>
-    /// Employee's last name (Required).
+    /// Employee's last name
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text LastName { get; set; } = null!;
 
     /// <summary>
-    /// Employee's email address (Required).
+    /// Employee's email address
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Email EmailAddress { get; set; } = null!;
 
     /// <summary>
-    /// Employee's street address (Required).
+    /// Employee's street address
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.StreetAddress Address { get; set; } = null!;
 
     /// <summary>
-    /// Employee's first working day (Required).
+    /// Employee's first working day
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Date FirstWorkingDay { get; set; } = null!;
 
     /// <summary>
-    /// Employee's last working day (Optional).
+    /// Employee's last working day
+    /// <remarks>Optional.</remarks>   
     /// </summary>
     public Nox.Types.Date? LastWorkingDay { get; set; } = null!;
     /// <summary>

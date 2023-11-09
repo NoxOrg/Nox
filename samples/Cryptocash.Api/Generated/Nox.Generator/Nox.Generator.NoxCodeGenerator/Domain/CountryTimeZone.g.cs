@@ -51,12 +51,14 @@ internal record CountryTimeZoneDeleted(CountryTimeZone CountryTimeZone) : IDomai
 internal abstract partial class CountryTimeZoneBase : EntityBase, IOwnedEntity
 {
     /// <summary>
-    /// Country's time zone unique identifier (Required).
+    /// Country's time zone unique identifier
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// Country's related time zone code (Required).
+    /// Country's related time zone code
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.TimeZoneCode TimeZoneCode { get; set; } = null!;
     /// <summary>

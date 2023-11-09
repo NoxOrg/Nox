@@ -50,17 +50,19 @@ public abstract class StoreLicenseDtoBase : EntityDtoBase, IEntityDto<DomainName
     #endregion
 
     /// <summary>
-    ///  (Required).
-    /// </summary>
+    /// 
+    /// </summary>    
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// License issuer (Required).
+    /// License issuer 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String Issuer { get; set; } = default!;
 
     /// <summary>
-    /// License external id (Required).
+    /// License external id 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.Int64 ExternalId { get; set; } = default!;
 

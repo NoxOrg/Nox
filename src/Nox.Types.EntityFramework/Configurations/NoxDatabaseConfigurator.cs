@@ -84,8 +84,6 @@ namespace Nox.Types.EntityFramework.Configurations
             ConfigureUniqueAttributeConstraints(builder, entity);
             
             ConfigureAutoNumberAttributeSequences(modelBuilder, entity);
-            
-            
         }
 
         public virtual void ConfigureLocalizedEntity(

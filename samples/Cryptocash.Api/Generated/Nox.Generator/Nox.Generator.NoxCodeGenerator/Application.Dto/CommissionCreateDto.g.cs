@@ -25,13 +25,15 @@ public partial class CommissionCreateDto : CommissionCreateDtoBase
 public abstract class CommissionCreateDtoBase : IEntityDto<DomainNamespace.Commission>
 {
     /// <summary>
-    /// Commission rate (Required).
+    /// Commission rate 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Rate is required")]
     
     public virtual System.Single Rate { get; set; } = default!;
     /// <summary>
-    /// Exchange rate conversion amount (Required).
+    /// Exchange rate conversion amount 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "EffectiveAt is required")]
     

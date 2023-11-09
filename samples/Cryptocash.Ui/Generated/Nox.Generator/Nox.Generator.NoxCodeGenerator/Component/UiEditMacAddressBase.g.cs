@@ -22,7 +22,7 @@ namespace Cryptocash.Ui.Generated.Component
         {
             get
             {
-                return Title += " is required";
+                return Title + " is required";
             }
         }
 

@@ -53,17 +53,19 @@ public abstract class EmployeePhoneNumberDtoBase : EntityDtoBase, IEntityDto<Dom
     #endregion
 
     /// <summary>
-    /// Employee's phone number identifier (Required).
-    /// </summary>
+    /// Employee's phone number identifier
+    /// </summary>    
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Employee's phone number type (Required).
+    /// Employee's phone number type 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String PhoneNumberType { get; set; } = default!;
 
     /// <summary>
-    /// Employee's phone number (Required).
+    /// Employee's phone number 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String PhoneNumber { get; set; } = default!;
 }

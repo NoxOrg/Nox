@@ -51,17 +51,20 @@ internal record EmployeePhoneNumberDeleted(EmployeePhoneNumber EmployeePhoneNumb
 internal abstract partial class EmployeePhoneNumberBase : EntityBase, IOwnedEntity
 {
     /// <summary>
-    /// Employee's phone number identifier (Required).
+    /// Employee's phone number identifier
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.AutoNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// Employee's phone number type (Required).
+    /// Employee's phone number type
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.Text PhoneNumberType { get; set; } = null!;
 
     /// <summary>
-    /// Employee's phone number (Required).
+    /// Employee's phone number
+    /// <remarks>Required.</remarks>   
     /// </summary>
     public Nox.Types.PhoneNumber PhoneNumber { get; set; } = null!;
     /// <summary>

@@ -13,18 +13,20 @@ using DomainNamespace = TestWebApp.Domain;
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
-/// Entity created for testing localization.
+/// Entity created for testing localization
 /// </summary>
 public partial class TestEntityLocalizationUpdateDto : IEntityDto<DomainNamespace.TestEntityLocalization>
 {
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "TextFieldToLocalize is required")]
     
     public System.String TextFieldToLocalize { get; set; } = default!;
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "NumberField is required")]
     

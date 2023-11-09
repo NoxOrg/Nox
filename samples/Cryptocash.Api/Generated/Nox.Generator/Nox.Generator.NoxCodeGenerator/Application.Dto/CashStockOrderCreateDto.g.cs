@@ -25,23 +25,27 @@ public partial class CashStockOrderCreateDto : CashStockOrderCreateDtoBase
 public abstract class CashStockOrderCreateDtoBase : IEntityDto<DomainNamespace.CashStockOrder>
 {
     /// <summary>
-    /// Order amount (Required).
+    /// Order amount 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Amount is required")]
     
     public virtual MoneyDto Amount { get; set; } = default!;
     /// <summary>
-    /// Order requested delivery date (Required).
+    /// Order requested delivery date 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "RequestedDeliveryDate is required")]
     
     public virtual System.DateTime RequestedDeliveryDate { get; set; } = default!;
     /// <summary>
-    /// Order delivery date (Optional).
+    /// Order delivery date 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.DateTimeOffset? DeliveryDateTime { get; set; }
     /// <summary>
-    /// Order status (Optional).
+    /// Order status 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.String? Status { get; set; }
 

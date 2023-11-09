@@ -13,18 +13,20 @@ using DomainNamespace = ClientApi.Domain;
 namespace ClientApi.Application.Dto;
 
 /// <summary>
-/// Store license info.
+/// Store license info
 /// </summary>
 public partial class StoreLicenseUpdateDto : IEntityDto<DomainNamespace.StoreLicense>
 {
     /// <summary>
-    /// License issuer (Required).
+    /// License issuer 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Issuer is required")]
     
     public System.String Issuer { get; set; } = default!;
     /// <summary>
-    /// License external id (Required).
+    /// License external id 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "ExternalId is required")]
     

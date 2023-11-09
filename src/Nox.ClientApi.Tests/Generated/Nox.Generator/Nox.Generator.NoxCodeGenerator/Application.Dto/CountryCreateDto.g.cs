@@ -20,50 +20,60 @@ public partial class CountryCreateDto : CountryCreateDtoBase
 }
 
 /// <summary>
-/// Country Entity.
+/// Country Entity Country representation for the Client API tests.
 /// </summary>
 public abstract class CountryCreateDtoBase : IEntityDto<DomainNamespace.Country>
 {
     /// <summary>
-    /// The Country Name (Required).
+    /// The Country Name     Set a unique name for the country Do not use abbreviations 
+    /// <remarks>Required</remarks>    
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
     public virtual System.String Name { get; set; } = default!;
     /// <summary>
-    /// Population (Optional).
+    /// Population Number of People living in the country 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.Int32? Population { get; set; }
     /// <summary>
-    /// The Money (Optional).
+    /// The Money 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual MoneyDto? CountryDebt { get; set; }
     /// <summary>
-    /// First Official Language (Optional).
+    /// First Official Language 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.String? FirstLanguageCode { get; set; }
     /// <summary>
-    /// The Formula (Optional).
+    /// The Formula 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.String? ShortDescription { get; set; }
     /// <summary>
-    /// Country's iso number id (Optional).
+    /// Country's iso number id 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.UInt16? CountryIsoNumeric { get; set; }
     /// <summary>
-    /// Country's iso alpha3 id (Optional).
+    /// Country's iso alpha3 id 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.String? CountryIsoAlpha3 { get; set; }
     /// <summary>
-    /// Country's map via google maps (Optional).
+    /// Country's map via google maps 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.String? GoogleMapsUrl { get; set; }
     /// <summary>
-    /// Country's start of week day (Optional).
+    /// Country's start of week day 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.UInt16? StartOfWeek { get; set; }
     /// <summary>
-    /// Country Continent (Optional).
+    /// Country Continent 
+    /// <remarks>Optional</remarks>    
     /// </summary>
     public virtual System.Int32? Continent { get; set; }
 

@@ -30,7 +30,7 @@ public partial class {{className}} : {{className}}Base
 }
 
 /// <summary>
-/// {{entity.Description}}.
+/// {{entity.Description  | string.rstrip}}.
 /// </summary>
 public abstract class {{className}}Base : EntityDtoBase, IEntityDto<DomainNamespace.{{entity.Name}}>
 {
@@ -85,8 +85,8 @@ public abstract class {{className}}Base : EntityDtoBase, IEntityDto<DomainNamesp
 {{- for key in entity.Keys }}
 
     /// <summary>
-    /// {{key.Description}} (Required).
-    /// </summary>
+    /// {{key.Description  | string.rstrip}}
+    /// </summary>    
     {{ if key.Type == "EntityId" -}}
     public {{SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity}} {{key.Name}} { get; set; } = default!;
     {{- else -}}
@@ -99,7 +99,8 @@ public abstract class {{className}}Base : EntityDtoBase, IEntityDto<DomainNamesp
     {{- end}}
 
     /// <summary>
-    /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
+    /// {{attribute.Description  | string.rstrip}} 
+    /// <remarks>{{if attribute.IsRequired}}Required{{else}}Optional{{end}}.</remarks>    
     /// </summary>
     public {{attributeType attribute}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
 {{- end }}

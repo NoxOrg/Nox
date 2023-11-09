@@ -48,12 +48,13 @@ public abstract class TestEntityWithNuidDtoBase : EntityDtoBase, IEntityDto<Doma
     #endregion
 
     /// <summary>
-    ///  (Required).
-    /// </summary>
+    /// 
+    /// </summary>    
     public System.UInt32 Id { get; set; } = default!;
 
     /// <summary>
-    ///  (Required).
+    ///  
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.String Name { get; set; } = default!;
     [System.Text.Json.Serialization.JsonIgnore]

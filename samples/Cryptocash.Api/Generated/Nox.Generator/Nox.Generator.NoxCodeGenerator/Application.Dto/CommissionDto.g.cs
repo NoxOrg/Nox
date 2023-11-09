@@ -47,17 +47,19 @@ public abstract class CommissionDtoBase : EntityDtoBase, IEntityDto<DomainNamesp
     #endregion
 
     /// <summary>
-    /// Commission unique identifier (Required).
-    /// </summary>
+    /// Commission unique identifier
+    /// </summary>    
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Commission rate (Required).
+    /// Commission rate 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.Single Rate { get; set; } = default!;
 
     /// <summary>
-    /// Exchange rate conversion amount (Required).
+    /// Exchange rate conversion amount 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     public System.DateTimeOffset EffectiveAt { get; set; } = default!;
 

@@ -13,24 +13,27 @@ using DomainNamespace = Cryptocash.Domain;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
-/// Customer payment account related data.
+/// Customer payment account related data
 /// </summary>
 public partial class PaymentDetailUpdateDto : IEntityDto<DomainNamespace.PaymentDetail>
 {
     /// <summary>
-    /// Payment account name (Required).
+    /// Payment account name 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "PaymentAccountName is required")]
     
     public System.String PaymentAccountName { get; set; } = default!;
     /// <summary>
-    /// Payment account reference number (Required).
+    /// Payment account reference number 
+    /// <remarks>Required.</remarks>    
     /// </summary>
     [Required(ErrorMessage = "PaymentAccountNumber is required")]
     
     public System.String PaymentAccountNumber { get; set; } = default!;
     /// <summary>
-    /// Payment account sort code (Optional).
+    /// Payment account sort code 
+    /// <remarks>Optional.</remarks>    
     /// </summary>
     public System.String? PaymentAccountSortCode { get; set; }
 
