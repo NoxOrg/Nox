@@ -136,7 +136,10 @@ namespace Nox.Configuration
 
         public void Configure(IServiceCollection services, WebApplicationBuilder? webApplicationBuilder)
         {
-            var referencedAssemblies = _clientAssembly!.GetReferencedAssemblies();
+            var referencedAssemblies = _clientAssembly!
+                .GetReferencedAssemblies()
+                .Union(Assembly.GetExecutingAssembly()!.GetReferencedAssemblies())
+                .Distinct();
 
             // Nox + Entry Assembly
             var noxAndEntryAssemblies = referencedAssemblies
