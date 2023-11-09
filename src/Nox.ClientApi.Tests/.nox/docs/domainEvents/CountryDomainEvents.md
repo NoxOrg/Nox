@@ -13,8 +13,9 @@ This event is triggered when a new Country is created.
 Member|Type|Description
 ------|----|-----------
 Id|AutoNumber|The unique identifier
-Name|Text|The Country Name
-Population|Number|Population
+Name|Text|The Country Name     Set a unique name for the country Do not use abbreviations
+
+Population|Number|Population Number of People living in the country
 CountryDebt|Money|The Money
 FirstLanguageCode|LanguageCode|First Official Language
 ShortDescription|Formula|The Formula
@@ -36,8 +37,9 @@ This event is triggered when an existing Country is updated.
 Member|Type|Description
 ------|----|-----------
 Id|AutoNumber|The unique identifier
-Name|Text|The Country Name
-Population|Number|Population
+Name|Text|The Country Name     Set a unique name for the country Do not use abbreviations
+
+Population|Number|Population Number of People living in the country
 CountryDebt|Money|The Money
 FirstLanguageCode|LanguageCode|First Official Language
 ShortDescription|Formula|The Formula
@@ -59,8 +61,9 @@ This event is triggered when an existing Country is deleted.
 Member|Type|Description
 ------|----|-----------
 Id|AutoNumber|The unique identifier
-Name|Text|The Country Name
-Population|Number|Population
+Name|Text|The Country Name     Set a unique name for the country Do not use abbreviations
+
+Population|Number|Population Number of People living in the country
 CountryDebt|Money|The Money
 FirstLanguageCode|LanguageCode|First Official Language
 ShortDescription|Formula|The Formula
