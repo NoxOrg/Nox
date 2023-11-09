@@ -157,8 +157,8 @@ Symbol|Text|Currency's symbol.|MinLength: 4, MaxLength: 63
 
 Description|Cardinality|Related Entity|Name|Can Navigate?
 -----------|-----------|--------------|----|-------------
-List of store licenses where this currency is a default one|OneOrMany|StoreLicense|StoreLicenseDefault|Yes
-List of store licenses that were sold in this currency|OneOrMany|StoreLicense|StoreLicenseSoldIn|Yes
+List of store licenses where this currency is a default one|OneOrMany|StoreLicense|StoreLicenseDefault|No
+List of store licenses that were sold in this currency|OneOrMany|StoreLicense|StoreLicenseSoldIn|No
 
 
 ### RatingProgram
