@@ -146,6 +146,9 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine();
             foreach (var relationship in entity.OwnedRelationships)
             {
+                if (!relationship.CanNavigate)
+                    continue;
+
                 var child = relationship.Related.Entity;
 
                 if (CanRead(entity) && CanRead(child))
@@ -482,6 +485,8 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             code.AppendLine();
             foreach (var relationship in entity.Relationships)
             {
+                if (!relationship.CanNavigate)
+                    continue;
                 if (CanCreate(entity))
                 {
                     GenerateCreateRefTo(entity, relationship, code, solution);
