@@ -18,7 +18,7 @@ internal partial class {{className}} : {{className}}Base
 
 internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedEntityName}}, {{entity.Name}}Entity, {{entity.Name}}UpdateDto>
 {
-    public virtual {{localizedEntityName}} CreateLocalizedEntity({{entity.Name}}Entity entity, CultureCode cultureCode, bool withAttributes = true)
+    public virtual {{localizedEntityName}} CreateLocalizedEntity({{entity.Name}}Entity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
     {
         var localizedEntity = new {{localizedEntityName}}
         {
@@ -28,7 +28,7 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
             {{codeGeneratorState.LocalizationCultureField}} = cultureCode,
         };
 
-        if (withAttributes)
+        if (copyEntityAttributes)
         { 
             {{- for attribute in localizedEntityAttributes }}
             localizedEntity.{{attribute.Name}} = entity.{{attribute.Name}};

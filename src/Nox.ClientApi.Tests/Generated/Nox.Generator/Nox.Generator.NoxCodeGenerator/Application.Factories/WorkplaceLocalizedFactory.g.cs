@@ -18,7 +18,7 @@ internal partial class WorkplaceLocalizedFactory : WorkplaceLocalizedFactoryBase
 
 internal abstract class WorkplaceLocalizedFactoryBase : IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto>
 {
-    public virtual WorkplaceLocalized CreateLocalizedEntity(WorkplaceEntity entity, CultureCode cultureCode, bool withAttributes = true)
+    public virtual WorkplaceLocalized CreateLocalizedEntity(WorkplaceEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
     {
         var localizedEntity = new WorkplaceLocalized
         {
@@ -26,7 +26,7 @@ internal abstract class WorkplaceLocalizedFactoryBase : IEntityLocalizedFactory<
             CultureCode = cultureCode,
         };
 
-        if (withAttributes)
+        if (copyEntityAttributes)
         {
             localizedEntity.Description = entity.Description;
         }

@@ -18,7 +18,7 @@ internal partial class TestEntityLocalizationLocalizedFactory : TestEntityLocali
 
 internal abstract class TestEntityLocalizationLocalizedFactoryBase : IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationUpdateDto>
 {
-    public virtual TestEntityLocalizationLocalized CreateLocalizedEntity(TestEntityLocalizationEntity entity, CultureCode cultureCode, bool withAttributes = true)
+    public virtual TestEntityLocalizationLocalized CreateLocalizedEntity(TestEntityLocalizationEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
     {
         var localizedEntity = new TestEntityLocalizationLocalized
         {
@@ -26,7 +26,7 @@ internal abstract class TestEntityLocalizationLocalizedFactoryBase : IEntityLoca
             CultureCode = cultureCode,
         };
 
-        if (withAttributes)
+        if (copyEntityAttributes)
         {
             localizedEntity.TextFieldToLocalize = entity.TextFieldToLocalize;
         }

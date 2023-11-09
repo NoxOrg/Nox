@@ -13,9 +13,9 @@ namespace Nox.Application.Factories
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="cultureCode"></param>
-        /// <param name="withAttributes"></param>
+        /// <param name="copyEntityAttributes"></param>
         /// <returns></returns>
-        TEntityLocalizedType CreateLocalizedEntity(TEntityType entity, CultureCode cultureCode, bool withAttributes = true);
+        TEntityLocalizedType CreateLocalizedEntity(TEntityType entity, CultureCode cultureCode, bool copyEntityAttributes = true);
 
         /// <summary>
         /// Updates a localized entity from an update dto.

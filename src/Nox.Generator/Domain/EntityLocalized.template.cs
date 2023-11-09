@@ -33,9 +33,9 @@ internal partial class {{className}} : IEntityConcurrent
     public Nox.Types.CultureCode {{codeGeneratorState.LocalizationCultureField}} { get; set; } = null!;
 {{ for attribute in entityAttributesToLocalize }}
     /// <summary>
-    /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
+    /// {{attribute.Description}} (Optional).
     /// </summary>
-    public Nox.Types.{{attribute.Type}}{{if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } = null!;
+    public Nox.Types.{{attribute.Type}}? {{attribute.Name}} { get; set; } = null!;
 {{ end }}
     /// <summary>
     /// Entity tag used as concurrency token.

@@ -74,7 +74,7 @@ internal class PartialUpdateTestEntityLocalizationCommandHandlerBase : CommandBa
 		var entityLocalized = await DbContext.TestEntityLocalizationsLocalized.FirstOrDefaultAsync(x => x.Id == entity.Id && x.CultureCode == cultureCode);
 		if(entityLocalized is null)
 		{
-			entityLocalized = EntityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode, withAttributes: false);
+			entityLocalized = EntityLocalizedFactory.CreateLocalizedEntity(entity, cultureCode, copyEntityAttributes: false);
 			DbContext.TestEntityLocalizationsLocalized.Add(entityLocalized);
 		}
 		else

@@ -18,7 +18,7 @@ internal partial class CountryLocalizedFactory : CountryLocalizedFactoryBase
 
 internal abstract class CountryLocalizedFactoryBase : IEntityLocalizedFactory<CountryLocalized, CountryEntity, CountryUpdateDto>
 {
-    public virtual CountryLocalized CreateLocalizedEntity(CountryEntity entity, CultureCode cultureCode, bool withAttributes = true)
+    public virtual CountryLocalized CreateLocalizedEntity(CountryEntity entity, CultureCode cultureCode, bool copyEntityAttributes = true)
     {
         var localizedEntity = new CountryLocalized
         {
@@ -26,7 +26,7 @@ internal abstract class CountryLocalizedFactoryBase : IEntityLocalizedFactory<Co
             CultureCode = cultureCode,
         };
 
-        if (withAttributes)
+        if (copyEntityAttributes)
         {
             localizedEntity.FormalName = entity.FormalName;
             localizedEntity.AlphaCode3 = entity.AlphaCode3;
