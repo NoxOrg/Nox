@@ -43,9 +43,9 @@ internal abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetailE
         UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
-    public virtual void PartialUpdateEntity(PaymentDetailEntity entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(PaymentDetailEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties);
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private Cryptocash.Domain.PaymentDetail ToEntity(PaymentDetailCreateDto createDto)
@@ -64,7 +64,7 @@ internal abstract class PaymentDetailFactoryBase : IEntityFactory<PaymentDetailE
         entity.SetIfNotNull(updateDto.PaymentAccountSortCode, (entity) => entity.PaymentAccountSortCode = Cryptocash.Domain.PaymentDetailMetadata.CreatePaymentAccountSortCode(updateDto.PaymentAccountSortCode.ToValueFromNonNull<System.String>()));
     }
 
-    private void PartialUpdateEntityInternal(PaymentDetailEntity entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(PaymentDetailEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
 
         if (updatedProperties.TryGetValue("PaymentAccountName", out var PaymentAccountNameUpdateValue))

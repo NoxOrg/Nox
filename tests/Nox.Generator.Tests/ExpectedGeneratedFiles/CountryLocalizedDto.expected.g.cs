@@ -26,14 +26,14 @@ internal partial class CountryLocalizedDto
     public System.String CultureCode { get; set; } = default!;
 
     /// <summary>
-    /// The country's official name (Required).
+    /// The country's official name (Optional).
     /// </summary>
-    public System.String FormalName { get; set; } = default!;
+    public System.String? FormalName { get; set; }
 
     /// <summary>
-    /// The country's official ISO 4217 alpha-3 code (Required).
+    /// The country's official ISO 4217 alpha-3 code (Optional).
     /// </summary>
-    public System.String AlphaCode3 { get; set; } = default!;
+    public System.String? AlphaCode3 { get; set; }
 
     /// <summary>
     /// The capital city of the country (Optional).

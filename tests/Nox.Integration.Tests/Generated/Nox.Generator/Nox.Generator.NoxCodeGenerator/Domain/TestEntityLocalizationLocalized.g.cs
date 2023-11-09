@@ -1,5 +1,5 @@
 ﻿// Generated
- 
+
 #nullable enable
 
 using System;
@@ -25,12 +25,11 @@ internal partial class TestEntityLocalizationLocalized : IEntityConcurrent
     public Nox.Types.Text Id { get; set; } = null!;
 
     public Nox.Types.CultureCode CultureCode { get; set; } = null!;
-    
-    
-        /// <summary>
-        ///  (Required).
-        /// </summary>
-        public Nox.Types.Text TextFieldToLocalize { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Nox.Types.Text? TextFieldToLocalize { get; set; } = null!;
 
     /// <summary>
     /// Entity tag used as concurrency token.

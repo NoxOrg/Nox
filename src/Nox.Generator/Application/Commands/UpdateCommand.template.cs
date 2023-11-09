@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -151,7 +151,7 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 			DbContext.Entry(entityLocalized).State = EntityState.Modified;
 		}
 
-		_entityLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto, cultureCode);
+		_entityLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto);
 	}
 	{{- end }}
 }
