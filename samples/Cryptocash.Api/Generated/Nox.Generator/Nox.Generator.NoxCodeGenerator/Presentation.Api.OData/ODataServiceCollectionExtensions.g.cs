@@ -111,7 +111,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<TransactionDto>().Ignore(e => e.Etag);
         builder.EntitySet<EmployeeDto>("Employees");
         builder.EntityType<EmployeeDto>().ContainsMany(e => e.EmployeeContactPhoneNumbers).AutoExpand = true;
-        builder.EntityType<EmployeeDto>().ContainsRequired(e => e.CashStockOrder);
+        builder.EntityType<EmployeeDto>().ContainsOptional(e => e.CashStockOrder);
 
         builder.EntityType<EmployeeDto>();
         builder.EntityType<EmployeeDto>().Ignore(e => e.DeletedAtUtc);

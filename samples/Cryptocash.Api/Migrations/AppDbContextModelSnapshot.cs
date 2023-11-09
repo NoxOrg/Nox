@@ -137,6 +137,9 @@ namespace Cryptocash.Api.Migrations
                     b.Property<DateTimeOffset?>("DeliveryDateTime")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<long>("EmployeeId")
+                        .HasColumnType("bigint");
+
                     b.Property<Guid>("Etag")
                         .IsConcurrencyToken()
                         .HasColumnType("uniqueidentifier");
@@ -164,6 +167,9 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId")
+                        .IsUnique();
 
                     b.HasIndex("VendingMachineId");
 
@@ -544,9 +550,6 @@ namespace Cryptocash.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("CashStockOrderId")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
@@ -614,9 +617,6 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CashStockOrderId")
-                        .IsUnique();
 
                     b.ToTable("Employees");
                 });
@@ -1393,6 +1393,11 @@ namespace Cryptocash.Api.Migrations
 
             modelBuilder.Entity("Cryptocash.Domain.CashStockOrder", b =>
                 {
+                    b.HasOne("Cryptocash.Domain.Employee", "Employee")
+                        .WithOne("CashStockOrder")
+                        .HasForeignKey("Cryptocash.Domain.CashStockOrder", "EmployeeId")
+                        .IsRequired();
+
                     b.HasOne("Cryptocash.Domain.VendingMachine", "VendingMachine")
                         .WithMany("CashStockOrders")
                         .HasForeignKey("VendingMachineId")
@@ -1419,6 +1424,8 @@ namespace Cryptocash.Api.Migrations
 
                     b.Navigation("Amount")
                         .IsRequired();
+
+                    b.Navigation("Employee");
 
                     b.Navigation("VendingMachine");
                 });
@@ -1834,11 +1841,6 @@ namespace Cryptocash.Api.Migrations
 
             modelBuilder.Entity("Cryptocash.Domain.Employee", b =>
                 {
-                    b.HasOne("Cryptocash.Domain.CashStockOrder", "CashStockOrder")
-                        .WithOne("Employee")
-                        .HasForeignKey("Cryptocash.Domain.Employee", "CashStockOrderId")
-                        .IsRequired();
-
                     b.OwnsOne("Nox.Types.StreetAddress", "Address", b1 =>
                         {
                             b1.Property<long>("EmployeeId")
@@ -1932,8 +1934,6 @@ namespace Cryptocash.Api.Migrations
 
                     b.Navigation("Address")
                         .IsRequired();
-
-                    b.Navigation("CashStockOrder");
 
                     b.Navigation("EmployeeContactPhoneNumbers");
                 });
@@ -2228,12 +2228,6 @@ namespace Cryptocash.Api.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Cryptocash.Domain.CashStockOrder", b =>
-                {
-                    b.Navigation("Employee")
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Cryptocash.Domain.Commission", b =>
                 {
                     b.Navigation("Bookings");
@@ -2262,6 +2256,11 @@ namespace Cryptocash.Api.Migrations
                     b.Navigation("PaymentDetails");
 
                     b.Navigation("Transactions");
+                });
+
+            modelBuilder.Entity("Cryptocash.Domain.Employee", b =>
+                {
+                    b.Navigation("CashStockOrder");
                 });
 
             modelBuilder.Entity("Cryptocash.Domain.LandLord", b =>
