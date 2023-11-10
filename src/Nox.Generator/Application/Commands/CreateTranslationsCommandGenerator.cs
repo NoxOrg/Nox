@@ -20,14 +20,13 @@ internal class CreateTranslationsCommandGenerator : ApplicationEntityDependentGe
                 continue;
             }
             
+
             var primaryKeysQuery = string.Join(", ", entity.Keys.Select(k => $"entityLocalizedToCreate.{k.Name}.Value"));
 
-            var relatedEntities = entity.Relationships.GroupBy(r => r.Entity).Select(g => g.First().Entity).ToList();
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"Create{entity.Name}TranslationsCommand")
                 .WithFileNamePrefix($"Application.Commands")
                 .WithObject("entity", entity)
-                .WithObject("relatedEntities", relatedEntities)
                 .WithObject("primaryKeysQuery", primaryKeysQuery)
                 .GenerateSourceCodeFromResource(templateName);
         }

@@ -42,7 +42,7 @@ internal partial class Create{{entity.Name}}CommandHandler : Create{{entity.Name
 		IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{relatedEntity}}, {{relatedEntity}}CreateDto, {{relatedEntity}}UpdateDto> {{fieldFactoryName relatedEntity}},
 		{{- end }}
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory{{if entity.IsLocalized }},
-		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}LocalizedDto> entityLocalizedFactory{{ end -}})
+		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}LocalizedCreateDto> entityLocalizedFactory{{ end -}})
 		: base(dbContext, noxSolution, {{- for relatedEntity in relatedEntities}}{{fieldFactoryName relatedEntity}}, {{end}}entityFactory{{- if entity.IsLocalized }}, entityLocalizedFactory{{ end -}})
 	{
 	}
@@ -54,7 +54,7 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> EntityFactory;
 	{{- if entity.IsLocalized }}
-	protected readonly IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}LocalizedDto> EntityLocalizedFactory;
+	protected readonly IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}LocalizedCreateDto> EntityLocalizedFactory;
 	{{- end -}}
 	{{- for relatedEntity in relatedEntities }}
 	protected readonly IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{relatedEntity}}, {{relatedEntity}}CreateDto, {{relatedEntity}}UpdateDto> {{fieldFactoryName relatedEntity}};
@@ -67,7 +67,7 @@ internal abstract class Create{{entity.Name}}CommandHandlerBase : CommandBase<Cr
 		IEntityFactory<{{codeGeneratorState.DomainNameSpace}}.{{relatedEntity}}, {{relatedEntity}}CreateDto, {{relatedEntity}}UpdateDto> {{fieldFactoryName relatedEntity}},
 		{{- end }}
 		IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory{{if entity.IsLocalized }},
-		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}LocalizedDto> entityLocalizedFactory{{ end -}})
+		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}LocalizedCreateDto> entityLocalizedFactory{{ end -}})
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
