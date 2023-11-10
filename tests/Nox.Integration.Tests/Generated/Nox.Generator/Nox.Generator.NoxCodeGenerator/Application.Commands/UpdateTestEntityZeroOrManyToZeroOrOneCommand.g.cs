@@ -58,7 +58,7 @@ internal abstract class UpdateTestEntityZeroOrManyToZeroOrOneCommandHandlerBase 
 		}
 
 		await DbContext.Entry(entity).Collection(x => x.TestEntityZeroOrOneToZeroOrManies).LoadAsync();
-		var testEntityZeroOrOneToZeroOrManiesEntities = new List<TestEntityZeroOrOneToZeroOrMany>();
+		var testEntityZeroOrOneToZeroOrManiesEntities = new List<TestWebApp.Domain.TestEntityZeroOrOneToZeroOrMany>();
 		foreach(var relatedEntityId in request.EntityDto.TestEntityZeroOrOneToZeroOrManiesId)
 		{
 			var relatedKey = TestWebApp.Domain.TestEntityZeroOrOneToZeroOrManyMetadata.CreateId(relatedEntityId);

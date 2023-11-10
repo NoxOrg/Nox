@@ -58,7 +58,7 @@ internal abstract class UpdateTestEntityOneOrManyCommandHandlerBase : CommandBas
 		}
 
 		await DbContext.Entry(entity).Collection(x => x.SecondTestEntityOneOrManies).LoadAsync();
-		var secondTestEntityOneOrManiesEntities = new List<SecondTestEntityOneOrMany>();
+		var secondTestEntityOneOrManiesEntities = new List<TestWebApp.Domain.SecondTestEntityOneOrMany>();
 		foreach(var relatedEntityId in request.EntityDto.SecondTestEntityOneOrManiesId)
 		{
 			var relatedKey = TestWebApp.Domain.SecondTestEntityOneOrManyMetadata.CreateId(relatedEntityId);

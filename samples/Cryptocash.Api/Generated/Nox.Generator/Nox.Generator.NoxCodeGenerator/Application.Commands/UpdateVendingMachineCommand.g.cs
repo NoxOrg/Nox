@@ -74,7 +74,7 @@ internal abstract class UpdateVendingMachineCommandHandlerBase : CommandBase<Upd
 			throw new RelatedEntityNotFoundException("LandLord", request.EntityDto.LandLordId.ToString());
 
 		await DbContext.Entry(entity).Collection(x => x.Bookings).LoadAsync();
-		var bookingsEntities = new List<Booking>();
+		var bookingsEntities = new List<Cryptocash.Domain.Booking>();
 		foreach(var relatedEntityId in request.EntityDto.BookingsId)
 		{
 			var relatedKey = Cryptocash.Domain.BookingMetadata.CreateId(relatedEntityId);
@@ -88,7 +88,7 @@ internal abstract class UpdateVendingMachineCommandHandlerBase : CommandBase<Upd
 		entity.UpdateRefToBookings(bookingsEntities);
 
 		await DbContext.Entry(entity).Collection(x => x.CashStockOrders).LoadAsync();
-		var cashStockOrdersEntities = new List<CashStockOrder>();
+		var cashStockOrdersEntities = new List<Cryptocash.Domain.CashStockOrder>();
 		foreach(var relatedEntityId in request.EntityDto.CashStockOrdersId)
 		{
 			var relatedKey = Cryptocash.Domain.CashStockOrderMetadata.CreateId(relatedEntityId);
@@ -102,7 +102,7 @@ internal abstract class UpdateVendingMachineCommandHandlerBase : CommandBase<Upd
 		entity.UpdateRefToCashStockOrders(cashStockOrdersEntities);
 
 		await DbContext.Entry(entity).Collection(x => x.MinimumCashStocks).LoadAsync();
-		var minimumCashStocksEntities = new List<MinimumCashStock>();
+		var minimumCashStocksEntities = new List<Cryptocash.Domain.MinimumCashStock>();
 		foreach(var relatedEntityId in request.EntityDto.MinimumCashStocksId)
 		{
 			var relatedKey = Cryptocash.Domain.MinimumCashStockMetadata.CreateId(relatedEntityId);
