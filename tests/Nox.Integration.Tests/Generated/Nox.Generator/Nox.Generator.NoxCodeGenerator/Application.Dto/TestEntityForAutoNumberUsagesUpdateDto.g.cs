@@ -21,20 +21,6 @@ public partial class TestEntityForAutoNumberUsagesUpdateDto : IEntityDto<DomainN
     ///  
     /// <remarks>Required.</remarks>    
     /// </summary>
-    [Required(ErrorMessage = "AutoNumberFieldWithOptions is required")]
-    
-    public System.Int64 AutoNumberFieldWithOptions { get; set; } = default!;
-    /// <summary>
-    ///  
-    /// <remarks>Required.</remarks>    
-    /// </summary>
-    [Required(ErrorMessage = "AutoNumberFieldWithoutOptions is required")]
-    
-    public System.Int64 AutoNumberFieldWithoutOptions { get; set; } = default!;
-    /// <summary>
-    ///  
-    /// <remarks>Required.</remarks>    
-    /// </summary>
     [Required(ErrorMessage = "TextField is required")]
     
     public System.String TextField { get; set; } = default!;

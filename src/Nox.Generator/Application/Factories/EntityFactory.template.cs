@@ -112,7 +112,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
     private void UpdateEntityInternal({{entity.Name}}Entity entity, {{entity.Name}}UpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         {{- for attribute in entity.Attributes }}
-            {{- if !IsNoxTypeReadable attribute.Type || attribute.Type == "Formula" -}}
+            {{- if !IsNoxTypeReadable attribute.Type || !IsNoxTypeUpdatable attribute.Type -}}
                 {{ continue; }}
             {{- end}}
         {{ if attribute.IsLocalized }}if(IsDefaultCultureCode(cultureCode)) {{ end }}
@@ -139,7 +139,7 @@ internal abstract class {{className}}Base : IEntityFactory<{{entity.Name}}Entity
     private void PartialUpdateEntityInternal({{entity.Name}}Entity entity, Dictionary<string, dynamic> updatedProperties)
     {
         {{- for attribute in entity.Attributes }}
-            {{- if !IsNoxTypeReadable attribute.Type || attribute.Type == "Formula" -}}
+            {{- if !IsNoxTypeReadable attribute.Type || !IsNoxTypeUpdatable attribute.Type -}}
                 {{ continue; }}
             {{- end}}
 

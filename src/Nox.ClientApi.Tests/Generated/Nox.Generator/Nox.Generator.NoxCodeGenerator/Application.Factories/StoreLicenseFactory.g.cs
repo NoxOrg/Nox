@@ -58,7 +58,6 @@ internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicenseEnt
     private void UpdateEntityInternal(StoreLicenseEntity entity, StoreLicenseUpdateDto updateDto, Nox.Types.CultureCode cultureCode)
     {
         entity.Issuer = ClientApi.Domain.StoreLicenseMetadata.CreateIssuer(updateDto.Issuer.NonNullValue<System.String>());
-        entity.ExternalId = ClientApi.Domain.StoreLicenseMetadata.CreateExternalId(updateDto.ExternalId.NonNullValue<System.Int64>());
     }
 
     private void PartialUpdateEntityInternal(StoreLicenseEntity entity, Dictionary<string, dynamic> updatedProperties)
@@ -72,17 +71,6 @@ internal abstract class StoreLicenseFactoryBase : IEntityFactory<StoreLicenseEnt
             }
             {
                 entity.Issuer = ClientApi.Domain.StoreLicenseMetadata.CreateIssuer(IssuerUpdateValue);
-            }
-        }
-
-        if (updatedProperties.TryGetValue("ExternalId", out var ExternalIdUpdateValue))
-        {
-            if (ExternalIdUpdateValue == null)
-            {
-                throw new ArgumentException("Attribute 'ExternalId' can't be null");
-            }
-            {
-                entity.ExternalId = ClientApi.Domain.StoreLicenseMetadata.CreateExternalId(ExternalIdUpdateValue);
             }
         }
     }
