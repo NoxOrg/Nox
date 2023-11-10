@@ -1,7 +1,6 @@
 using Nox.Types;
 using Nox.Types.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Nox.Solution.Extensions;
@@ -15,12 +14,22 @@ public static class EntityRelationshipExtensions
         var reverseRelationship = relationship.Related.EntityRelationship;
         if (reverseRelationship != null)
         {
+            //Many to Many
+            if (relationship.WithMultiEntity && reverseRelationship.WithMultiEntity 
+                //&& string.Compare(relationship.Entity, reverseRelationship.Entity,StringComparison.InvariantCulture) > 0
+             )
+            {
+                //for now we generate on both sides
+                return true;
+            }
+
             // Will be always ignored by default
             if (relationship.Relationship == EntityRelationshipType.OneOrMany ||
                 relationship.Relationship == EntityRelationshipType.ZeroOrMany)
             {
-                generate = false;
+                return false;
             }
+
             // OneToMany should be handled on one side
             else if (relationship.WithMultiEntity &&
                 reverseRelationship.WithSingleEntity)
@@ -40,15 +49,7 @@ public static class EntityRelationshipExtensions
                          StringComparison.InvariantCulture) > 0)
             {
                 generate = false;
-            }
-            // ManyToMany 
-            else if (relationship.WithMultiEntity && reverseRelationship.WithMultiEntity &&
-                // Ascending alphabetical sort
-                string.Compare(relationship.Entity, reverseRelationship.Entity,
-                         StringComparison.InvariantCulture) > 0)
-            {
-                generate = true;
-            }
+            }            
         }
 
         return generate;
