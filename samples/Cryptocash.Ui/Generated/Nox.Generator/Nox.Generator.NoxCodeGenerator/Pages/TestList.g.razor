@@ -12,7 +12,7 @@
 
 @page "/Test"
 
-@inherits ListEntityPageBase<VendingMachineDto, VendingMachineCreateDto, VendingMachineUpdateDto>
+@inherits ListEntityPageBase<CustomerDto, CustomerCreateDto, CustomerUpdateDto>
 
 @if (!IsLoading)
 {
@@ -125,14 +125,11 @@
                         Decimal? testDistance = (Decimal)74.25;
                         Decimal? testLength = (Decimal)11.87;
 
-                        <MudTable ServerData="@(new Func<TableState, Task<TableData<VendingMachineDto>>>(ServerReload))"
-                        @ref="DataGridTable"
-                                  CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
-                                  RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"
+                        <MudTable ServerData="@(new Func<TableState, Task<TableData<CustomerDto>>>(ServerReload))"
+                                  T="CustomerDto"
                                   Loading="@IsDataGridLoading"
-                                  Hover="true"
+                                  Hover="true"                                  
                                   Breakpoint="Breakpoint.Sm"
-                                  T="VendingMachineDto"
                                   Elevation="0"
                                   Style="border-style:solid;border-width:2px;border-color:lightgray;"
                                   HeaderClass="custom-header"
