@@ -72,22 +72,6 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToVendingMachine([FromRoute] System.Int64 key)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefCashStockOrderToVendingMachineCommand(new CashStockOrderKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
-    }
-    
     public async Task<ActionResult> CreateRefToEmployee([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -130,22 +114,6 @@ public abstract partial class CashStockOrdersControllerBase : ODataController
         
         var references = new System.Uri($"Employees/{related.Id}", UriKind.Relative);
         return Ok(references);
-    }
-    
-    public async Task<ActionResult> DeleteRefToEmployee([FromRoute] System.Int64 key)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefCashStockOrderToEmployeeCommand(new CashStockOrderKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
     }
     
     #endregion

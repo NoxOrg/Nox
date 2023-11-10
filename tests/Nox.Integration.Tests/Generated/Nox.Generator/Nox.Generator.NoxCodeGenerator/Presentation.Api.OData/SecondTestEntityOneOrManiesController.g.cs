@@ -76,6 +76,7 @@ public abstract partial class SecondTestEntityOneOrManiesControllerBase : ODataC
         return Ok(references);
     }
     
+    [HttpDelete("api/SecondTestEntityOneOrManies/{key}/TestEntityOneOrManies/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToTestEntityOneOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -85,22 +86,6 @@ public abstract partial class SecondTestEntityOneOrManiesControllerBase : ODataC
         
         var deletedRef = await _mediator.Send(new DeleteRefSecondTestEntityOneOrManyToTestEntityOneOrManiesCommand(new SecondTestEntityOneOrManyKeyDto(key), new TestEntityOneOrManyKeyDto(relatedKey)));
         if (!deletedRef)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
-    }
-    
-    public async Task<ActionResult> DeleteRefToTestEntityOneOrManies([FromRoute] System.String key)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefSecondTestEntityOneOrManyToTestEntityOneOrManiesCommand(new SecondTestEntityOneOrManyKeyDto(key)));
-        if (!deletedAllRef)
         {
             return NotFound();
         }

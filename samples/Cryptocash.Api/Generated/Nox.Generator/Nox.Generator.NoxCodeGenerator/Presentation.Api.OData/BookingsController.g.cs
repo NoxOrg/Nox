@@ -72,22 +72,6 @@ public abstract partial class BookingsControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToCustomer([FromRoute] System.Guid key)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefBookingToCustomerCommand(new BookingKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
-    }
-    
     public async Task<ActionResult> CreateRefToVendingMachine([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -130,22 +114,6 @@ public abstract partial class BookingsControllerBase : ODataController
         
         var references = new System.Uri($"VendingMachines/{related.Id}", UriKind.Relative);
         return Ok(references);
-    }
-    
-    public async Task<ActionResult> DeleteRefToVendingMachine([FromRoute] System.Guid key)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefBookingToVendingMachineCommand(new BookingKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
     }
     
     public async Task<ActionResult> CreateRefToCommission([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
@@ -192,22 +160,6 @@ public abstract partial class BookingsControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToCommission([FromRoute] System.Guid key)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefBookingToCommissionCommand(new BookingKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
-    }
-    
     public async Task<ActionResult> CreateRefToTransaction([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -250,22 +202,6 @@ public abstract partial class BookingsControllerBase : ODataController
         
         var references = new System.Uri($"Transactions/{related.Id}", UriKind.Relative);
         return Ok(references);
-    }
-    
-    public async Task<ActionResult> DeleteRefToTransaction([FromRoute] System.Guid key)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefBookingToTransactionCommand(new BookingKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
     }
     
     #endregion

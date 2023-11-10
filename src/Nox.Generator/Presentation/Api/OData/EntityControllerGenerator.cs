@@ -540,7 +540,10 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             return;
 
         var relatedEntity = relationship.Related.Entity;
-        code.AppendLine($"public async Task<ActionResult> DeleteRefTo{entity.GetRelationshipPublicName(relationship)}" +
+        var relationshipName = entity.GetRelationshipPublicName(relationship);
+
+        code.AppendLine($"[HttpDelete(\"api/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{relationshipName}/{PrimaryKeysAttribute(relatedEntity, "relatedKey")}\")]");
+        code.AppendLine($"public async Task<ActionResult> DeleteRefTo{relationshipName}" +
             $"({GetPrimaryKeysRoute(entity, solution)}, {GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey")})");
 
         code.StartBlock();
@@ -549,7 +552,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine($"var deletedRef = await _mediator.Send(new DeleteRef{entity.Name}To{entity.GetRelationshipPublicName(relationship)}Command(" +
+        code.AppendLine($"var deletedRef = await _mediator.Send(new DeleteRef{entity.Name}To{relationshipName}Command(" +
             $"new {entity.Name}KeyDto({GetPrimaryKeysQuery(entity)}), new {relatedEntity.Name}KeyDto({GetPrimaryKeysQuery(relatedEntity, "relatedKey")})));");
         code.AppendLine($"if (!deletedRef)");
         code.StartBlock();
@@ -566,6 +569,13 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
     private static void GenerateDeleteAllRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
     {
+        if (relationship.Relationship == EntityRelationshipType.ExactlyOne || 
+            relationship.Relationship == EntityRelationshipType.OneOrMany)
+            return;
+
+        var relationshipName = entity.GetRelationshipPublicName(relationship);
+
+        code.AppendLine($"[HttpDelete(\"api/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{relationshipName}\")]");
         code.AppendLine($"public async Task<ActionResult> DeleteRefTo{entity.GetRelationshipPublicName(relationship)}" +
             $"({GetPrimaryKeysRoute(entity, solution)})");
 
@@ -575,7 +585,8 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine($"var deletedAllRef = await _mediator.Send(new DeleteAllRef{entity.Name}To{entity.GetRelationshipPublicName(relationship)}Command(" +
+
+        code.AppendLine($"var deletedAllRef = await _mediator.Send(new DeleteAllRef{entity.Name}To{relationshipName}Command(" +
             $"new {entity.Name}KeyDto({GetPrimaryKeysQuery(entity)})));");
         code.AppendLine($"if (!deletedAllRef)");
         code.StartBlock();

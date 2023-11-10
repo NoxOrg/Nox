@@ -76,6 +76,7 @@ public abstract partial class LandLordsControllerBase : ODataController
         return Ok(references);
     }
     
+    [HttpDelete("api/LandLords/{key}/VendingMachines/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -92,6 +93,7 @@ public abstract partial class LandLordsControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpDelete("api/LandLords/{key}/VendingMachines")]
     public async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)

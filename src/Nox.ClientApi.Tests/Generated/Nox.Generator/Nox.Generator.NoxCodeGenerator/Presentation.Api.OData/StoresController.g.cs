@@ -77,6 +77,7 @@ public abstract partial class StoresControllerBase : ODataController
         return Ok(references);
     }
     
+    [HttpDelete("api/Stores/{key}/StoreOwner/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToStoreOwner([FromRoute] System.Guid key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -93,6 +94,7 @@ public abstract partial class StoresControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpDelete("api/Stores/{key}/StoreOwner")]
     public async Task<ActionResult> DeleteRefToStoreOwner([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
@@ -153,6 +155,7 @@ public abstract partial class StoresControllerBase : ODataController
         return Ok(references);
     }
     
+    [HttpDelete("api/Stores/{key}/StoreLicense/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToStoreLicense([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -169,6 +172,7 @@ public abstract partial class StoresControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpDelete("api/Stores/{key}/StoreLicense")]
     public async Task<ActionResult> DeleteRefToStoreLicense([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)

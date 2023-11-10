@@ -328,6 +328,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(references);
     }
     
+    [HttpDelete("api/Countries/{key}/Workplaces/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToWorkplaces([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -344,6 +345,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpDelete("api/Countries/{key}/Workplaces")]
     public async Task<ActionResult> DeleteRefToWorkplaces([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)

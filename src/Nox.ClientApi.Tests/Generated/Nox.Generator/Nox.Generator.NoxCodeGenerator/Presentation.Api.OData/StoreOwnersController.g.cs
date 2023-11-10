@@ -76,6 +76,7 @@ public abstract partial class StoreOwnersControllerBase : ODataController
         return Ok(references);
     }
     
+    [HttpDelete("api/StoreOwners/{key}/Stores/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToStores([FromRoute] System.String key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -85,22 +86,6 @@ public abstract partial class StoreOwnersControllerBase : ODataController
         
         var deletedRef = await _mediator.Send(new DeleteRefStoreOwnerToStoresCommand(new StoreOwnerKeyDto(key), new StoreKeyDto(relatedKey)));
         if (!deletedRef)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
-    }
-    
-    public async Task<ActionResult> DeleteRefToStores([FromRoute] System.String key)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefStoreOwnerToStoresCommand(new StoreOwnerKeyDto(key)));
-        if (!deletedAllRef)
         {
             return NotFound();
         }

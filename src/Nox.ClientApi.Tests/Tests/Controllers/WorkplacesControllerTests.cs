@@ -264,6 +264,39 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #endregion DELETE Delete all ref to related entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/$ref => api/workplaces/1/Country/$ref
 
+        #region DELETE Related Entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName} => api/workplaces/1/Country
+
+        [Fact]
+        public async Task Delete_Country_Success()
+        {
+            // Arrange
+            var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl,
+                new WorkplaceCreateDto { Name = _fixture.Create<string>() });
+
+            // Act
+            var headers = CreateEtagHeader(workplaceResponse?.Etag);
+            var postToCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(
+                $"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}",
+                new CountryCreateDto() { Name = _fixture.Create<string>() },
+                headers);
+
+            var deleteCountryResponse = await DeleteAsync($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}");
+
+            const string oDataRequest = $"$expand={nameof(WorkplaceDto.Country)}";
+            var getWorkplaceResponse = await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}?{oDataRequest}");
+
+            //Assert
+            deleteCountryResponse.Should().NotBeNull();
+            deleteCountryResponse!.StatusCode.Should().Be(HttpStatusCode.NoContent);
+
+            getWorkplaceResponse.Should().NotBeNull();
+            getWorkplaceResponse!.Id.Should().BeGreaterThan(0);
+            getWorkplaceResponse!.CountryId.Should().BeNull();
+            getWorkplaceResponse!.Country!.Should().BeNull();
+        }
+
+        #endregion
+
         #endregion DELETE
 
         #endregion RELATIONSHIPS

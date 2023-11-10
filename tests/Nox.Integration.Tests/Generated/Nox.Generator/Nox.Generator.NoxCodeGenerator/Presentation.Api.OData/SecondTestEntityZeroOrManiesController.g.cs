@@ -76,6 +76,7 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
         return Ok(references);
     }
     
+    [HttpDelete("api/SecondTestEntityZeroOrManies/{key}/TestEntityZeroOrManies/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToTestEntityZeroOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -92,6 +93,7 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
         return NoContent();
     }
     
+    [HttpDelete("api/SecondTestEntityZeroOrManies/{key}/TestEntityZeroOrManies")]
     public async Task<ActionResult> DeleteRefToTestEntityZeroOrManies([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)

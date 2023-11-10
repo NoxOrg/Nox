@@ -72,22 +72,6 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToStore([FromRoute] System.Int64 key)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefStoreLicenseToStoreCommand(new StoreLicenseKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
-    }
-    
     public async Task<ActionResult> CreateRefToDefaultCurrency([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -132,6 +116,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return Ok(references);
     }
     
+    [HttpDelete("api/StoreLicenses/{key}/DefaultCurrency/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToDefaultCurrency([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -148,6 +133,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpDelete("api/StoreLicenses/{key}/DefaultCurrency")]
     public async Task<ActionResult> DeleteRefToDefaultCurrency([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
@@ -208,6 +194,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return Ok(references);
     }
     
+    [HttpDelete("api/StoreLicenses/{key}/SoldInCurrency/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToSoldInCurrency([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -224,6 +211,7 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpDelete("api/StoreLicenses/{key}/SoldInCurrency")]
     public async Task<ActionResult> DeleteRefToSoldInCurrency([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)

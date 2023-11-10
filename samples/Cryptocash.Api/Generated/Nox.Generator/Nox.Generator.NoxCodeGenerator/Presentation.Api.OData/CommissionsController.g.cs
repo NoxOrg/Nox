@@ -72,6 +72,7 @@ public abstract partial class CommissionsControllerBase : ODataController
         return Ok(references);
     }
     
+    [HttpDelete("api/Commissions/{key}/Country/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -88,6 +89,7 @@ public abstract partial class CommissionsControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpDelete("api/Commissions/{key}/Country")]
     public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
@@ -152,6 +154,7 @@ public abstract partial class CommissionsControllerBase : ODataController
         return Ok(references);
     }
     
+    [HttpDelete("api/Commissions/{key}/Bookings/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -168,6 +171,7 @@ public abstract partial class CommissionsControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpDelete("api/Commissions/{key}/Bookings")]
     public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)

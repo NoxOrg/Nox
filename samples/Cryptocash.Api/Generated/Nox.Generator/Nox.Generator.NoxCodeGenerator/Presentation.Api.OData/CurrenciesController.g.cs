@@ -353,6 +353,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return Ok(references);
     }
     
+    [HttpDelete("api/Currencies/{key}/Countries/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToCountries([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -362,22 +363,6 @@ public abstract partial class CurrenciesControllerBase : ODataController
         
         var deletedRef = await _mediator.Send(new DeleteRefCurrencyToCountriesCommand(new CurrencyKeyDto(key), new CountryKeyDto(relatedKey)));
         if (!deletedRef)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
-    }
-    
-    public async Task<ActionResult> DeleteRefToCountries([FromRoute] System.String key)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefCurrencyToCountriesCommand(new CurrencyKeyDto(key)));
-        if (!deletedAllRef)
         {
             return NotFound();
         }
@@ -433,6 +418,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return Ok(references);
     }
     
+    [HttpDelete("api/Currencies/{key}/MinimumCashStocks/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToMinimumCashStocks([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -449,6 +435,7 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpDelete("api/Currencies/{key}/MinimumCashStocks")]
     public async Task<ActionResult> DeleteRefToMinimumCashStocks([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)

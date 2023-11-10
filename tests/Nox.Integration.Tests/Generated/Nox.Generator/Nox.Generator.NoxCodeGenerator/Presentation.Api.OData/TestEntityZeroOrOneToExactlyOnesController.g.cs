@@ -72,6 +72,7 @@ public abstract partial class TestEntityZeroOrOneToExactlyOnesControllerBase : O
         return Ok(references);
     }
     
+    [HttpDelete("api/TestEntityZeroOrOneToExactlyOnes/{key}/TestEntityExactlyOneToZeroOrOne/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToTestEntityExactlyOneToZeroOrOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -88,6 +89,7 @@ public abstract partial class TestEntityZeroOrOneToExactlyOnesControllerBase : O
         return NoContent();
     }
     
+    [HttpDelete("api/TestEntityZeroOrOneToExactlyOnes/{key}/TestEntityExactlyOneToZeroOrOne")]
     public async Task<ActionResult> DeleteRefToTestEntityExactlyOneToZeroOrOne([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)

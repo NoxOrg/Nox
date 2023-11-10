@@ -349,22 +349,6 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToCurrency([FromRoute] System.String key)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefCountryToCurrencyCommand(new CountryKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
-    }
-    
     public async Task<ActionResult> CreateRefToCommissions([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -413,6 +397,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(references);
     }
     
+    [HttpDelete("api/Countries/{key}/Commissions/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToCommissions([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -422,22 +407,6 @@ public abstract partial class CountriesControllerBase : ODataController
         
         var deletedRef = await _mediator.Send(new DeleteRefCountryToCommissionsCommand(new CountryKeyDto(key), new CommissionKeyDto(relatedKey)));
         if (!deletedRef)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
-    }
-    
-    public async Task<ActionResult> DeleteRefToCommissions([FromRoute] System.String key)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefCountryToCommissionsCommand(new CountryKeyDto(key)));
-        if (!deletedAllRef)
         {
             return NotFound();
         }
@@ -493,6 +462,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(references);
     }
     
+    [HttpDelete("api/Countries/{key}/VendingMachines/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.String key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -509,6 +479,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpDelete("api/Countries/{key}/VendingMachines")]
     public async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
@@ -573,6 +544,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(references);
     }
     
+    [HttpDelete("api/Countries/{key}/Customers/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToCustomers([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -589,6 +561,7 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpDelete("api/Countries/{key}/Customers")]
     public async Task<ActionResult> DeleteRefToCustomers([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)

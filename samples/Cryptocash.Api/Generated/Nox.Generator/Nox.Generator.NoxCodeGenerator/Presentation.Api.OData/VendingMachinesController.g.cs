@@ -72,22 +72,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Ok(references);
     }
     
-    public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.Guid key)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefVendingMachineToCountryCommand(new VendingMachineKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
-    }
-    
     public async Task<ActionResult> CreateRefToLandLord([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -130,22 +114,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         
         var references = new System.Uri($"LandLords/{related.Id}", UriKind.Relative);
         return Ok(references);
-    }
-    
-    public async Task<ActionResult> DeleteRefToLandLord([FromRoute] System.Guid key)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefVendingMachineToLandLordCommand(new VendingMachineKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
     }
     
     public async Task<ActionResult> CreateRefToBookings([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
@@ -196,6 +164,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Ok(references);
     }
     
+    [HttpDelete("api/VendingMachines/{key}/Bookings/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -212,6 +181,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpDelete("api/VendingMachines/{key}/Bookings")]
     public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
@@ -276,6 +246,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Ok(references);
     }
     
+    [HttpDelete("api/VendingMachines/{key}/CashStockOrders/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToCashStockOrders([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -292,6 +263,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpDelete("api/VendingMachines/{key}/CashStockOrders")]
     public async Task<ActionResult> DeleteRefToCashStockOrders([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
@@ -356,6 +328,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Ok(references);
     }
     
+    [HttpDelete("api/VendingMachines/{key}/MinimumCashStocks/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToMinimumCashStocks([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -372,6 +345,7 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpDelete("api/VendingMachines/{key}/MinimumCashStocks")]
     public async Task<ActionResult> DeleteRefToMinimumCashStocks([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)

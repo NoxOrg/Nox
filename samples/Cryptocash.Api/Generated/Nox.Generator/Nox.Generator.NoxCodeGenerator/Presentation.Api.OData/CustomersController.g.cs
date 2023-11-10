@@ -76,6 +76,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok(references);
     }
     
+    [HttpDelete("api/Customers/{key}/PaymentDetails/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -92,6 +93,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpDelete("api/Customers/{key}/PaymentDetails")]
     public async Task<ActionResult> DeleteRefToPaymentDetails([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
@@ -156,6 +158,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok(references);
     }
     
+    [HttpDelete("api/Customers/{key}/Bookings/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -172,6 +175,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpDelete("api/Customers/{key}/Bookings")]
     public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
@@ -236,6 +240,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok(references);
     }
     
+    [HttpDelete("api/Customers/{key}/Transactions/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToTransactions([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -252,6 +257,7 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpDelete("api/Customers/{key}/Transactions")]
     public async Task<ActionResult> DeleteRefToTransactions([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
@@ -310,22 +316,6 @@ public abstract partial class CustomersControllerBase : ODataController
         
         var references = new System.Uri($"Countries/{related.Id}", UriKind.Relative);
         return Ok(references);
-    }
-    
-    public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.Int64 key)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var deletedAllRef = await _mediator.Send(new DeleteAllRefCustomerToCountryCommand(new CustomerKeyDto(key)));
-        if (!deletedAllRef)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
     }
     
     #endregion

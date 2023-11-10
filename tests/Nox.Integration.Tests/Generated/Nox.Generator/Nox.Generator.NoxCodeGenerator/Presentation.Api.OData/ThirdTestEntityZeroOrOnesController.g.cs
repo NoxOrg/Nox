@@ -72,6 +72,7 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
         return Ok(references);
     }
     
+    [HttpDelete("api/ThirdTestEntityZeroOrOnes/{key}/ThirdTestEntityExactlyOne/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToThirdTestEntityExactlyOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -88,6 +89,7 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
         return NoContent();
     }
     
+    [HttpDelete("api/ThirdTestEntityZeroOrOnes/{key}/ThirdTestEntityExactlyOne")]
     public async Task<ActionResult> DeleteRefToThirdTestEntityExactlyOne([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)

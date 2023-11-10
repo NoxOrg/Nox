@@ -76,6 +76,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         return Ok(references);
     }
     
+    [HttpDelete("api/TestEntityTwoRelationshipsOneToManies/{key}/TestRelationshipOne/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToTestRelationshipOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -92,6 +93,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         return NoContent();
     }
     
+    [HttpDelete("api/TestEntityTwoRelationshipsOneToManies/{key}/TestRelationshipOne")]
     public async Task<ActionResult> DeleteRefToTestRelationshipOne([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
@@ -156,6 +158,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         return Ok(references);
     }
     
+    [HttpDelete("api/TestEntityTwoRelationshipsOneToManies/{key}/TestRelationshipTwo/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToTestRelationshipTwo([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -172,6 +175,7 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         return NoContent();
     }
     
+    [HttpDelete("api/TestEntityTwoRelationshipsOneToManies/{key}/TestRelationshipTwo")]
     public async Task<ActionResult> DeleteRefToTestRelationshipTwo([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
