@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -58,7 +58,7 @@ internal abstract class UpdateThirdTestEntityOneOrManyCommandHandlerBase : Comma
 		}
 
 		await DbContext.Entry(entity).Collection(x => x.ThirdTestEntityZeroOrManies).LoadAsync();
-		var thirdTestEntityZeroOrManiesEntities = new List<ThirdTestEntityZeroOrMany>();
+		var thirdTestEntityZeroOrManiesEntities = new List<TestWebApp.Domain.ThirdTestEntityZeroOrMany>();
 		foreach(var relatedEntityId in request.EntityDto.ThirdTestEntityZeroOrManiesId)
 		{
 			var relatedKey = TestWebApp.Domain.ThirdTestEntityZeroOrManyMetadata.CreateId(relatedEntityId);

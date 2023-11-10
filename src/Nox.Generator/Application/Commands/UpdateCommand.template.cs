@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -100,7 +100,7 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 		{{- else }}
 
 		await DbContext.Entry(entity).Collection(x => x.{{relationshipName}}).LoadAsync();
-		var {{ToLowerFirstChar relationshipName}}Entities = new List<{{relationship.Entity}}>();
+		var {{ToLowerFirstChar relationshipName}}Entities = new List<{{codeGeneratorState.DomainNameSpace}}.{{relationship.Entity}}>();
 		foreach(var relatedEntityId in request.EntityDto.{{relationshipName}}Id)
 		{
 			var relatedKey = {{codeGeneratorState.DomainNameSpace}}.{{relatedEntity.Name}}Metadata.Create{{key.Name}}(relatedEntityId);
@@ -151,7 +151,7 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 			DbContext.Entry(entityLocalized).State = EntityState.Modified;
 		}
 
-		_entityLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto, cultureCode);
+		_entityLocalizedFactory.UpdateLocalizedEntity(entityLocalized, updateDto);
 	}
 	{{- end }}
 }

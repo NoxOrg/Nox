@@ -1,5 +1,5 @@
 // Generated
- 
+
 #nullable enable
 
 using System;
@@ -23,24 +23,20 @@ internal partial class {{className}} : IEntityConcurrent
     /// <summary>
     /// {{key.Description}} (Required).
     /// </summary>
-    {{ if key.Type == "EntityId" -}}
+{{- if key.Type == "EntityId" -}}
     public Nox.Types.{{SingleKeyTypeForEntity key.EntityIdTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;    
-    {{- else -}}
+{{- else }}
     public Nox.Types.{{key.Type}} {{key.Name}} { get; set; } = null!;    
-    {{- end}}
+{{- end }}
 {{- end }}
 
     public Nox.Types.CultureCode {{codeGeneratorState.LocalizationCultureField}} { get; set; } = null!;
-{{- for attribute in entityAttributesToLocalize }}
-    {{ if attribute.Type == "Text" }}
-
+{{ for attribute in entityAttributesToLocalize }}
     /// <summary>
-    /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
+    /// {{attribute.Description}} (Optional).
     /// </summary>
-    public Nox.Types.{{attribute.Type}}{{if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } = null!;
-    {{- end}}
-{{- end }}
-
+    public Nox.Types.{{attribute.Type}}? {{attribute.Name}} { get; set; } = null!;
+{{ end }}
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>

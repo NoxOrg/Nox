@@ -43,9 +43,9 @@ internal abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCash
         UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
-    public virtual void PartialUpdateEntity(MinimumCashStockEntity entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(MinimumCashStockEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties);
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private Cryptocash.Domain.MinimumCashStock ToEntity(MinimumCashStockCreateDto createDto)
@@ -60,7 +60,7 @@ internal abstract class MinimumCashStockFactoryBase : IEntityFactory<MinimumCash
         entity.Amount = Cryptocash.Domain.MinimumCashStockMetadata.CreateAmount(updateDto.Amount.NonNullValue<MoneyDto>());
     }
 
-    private void PartialUpdateEntityInternal(MinimumCashStockEntity entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(MinimumCashStockEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
 
         if (updatedProperties.TryGetValue("Amount", out var AmountUpdateValue))

@@ -46,9 +46,9 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
         UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
-    public virtual void PartialUpdateEntity(EmployeeEntity entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(EmployeeEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties);
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private Cryptocash.Domain.Employee ToEntity(EmployeeCreateDto createDto)
@@ -74,7 +74,7 @@ internal abstract class EmployeeFactoryBase : IEntityFactory<EmployeeEntity, Emp
         entity.SetIfNotNull(updateDto.LastWorkingDay, (entity) => entity.LastWorkingDay = Cryptocash.Domain.EmployeeMetadata.CreateLastWorkingDay(updateDto.LastWorkingDay.ToValueFromNonNull<System.DateTime>()));
     }
 
-    private void PartialUpdateEntityInternal(EmployeeEntity entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(EmployeeEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
 
         if (updatedProperties.TryGetValue("FirstName", out var FirstNameUpdateValue))

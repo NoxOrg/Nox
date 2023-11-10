@@ -1300,7 +1300,7 @@ namespace ClientApi.Tests.Tests.Controllers
         }
 
         [Fact]
-        public async Task WhenPostWithContinent_ShouldGetContinent()
+        public async Task WhenPostWithEnumerationId_ShouldGetEnumerationName()
         {
             // Arrange
             var dto = new CountryCreateDto
@@ -1313,8 +1313,34 @@ namespace ClientApi.Tests.Tests.Controllers
             var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, dto);
 
             result.Should().NotBeNull();
-            //TODO Translated
+            
             result!.Continent.Should().Be(1);
+            //TODO Translated
+            //result!.ContinentName.Should().Be("Portugal");            
+        }
+
+        [Fact]
+        public async Task WhenGetEnumerationValues_ShouldGetTranslatedName()
+        {
+            // Arrange
+            var expectedResult = new[] {
+                new CountryContinentDto() { Id = 1, Name = "Europe" },
+                new CountryContinentDto() { Id = 2, Name = "Asia" },
+                new CountryContinentDto() { Id = 3, Name = "Africa" },
+                new CountryContinentDto() { Id = 4, Name = "America" },
+                new CountryContinentDto() { Id = 5, Name = "Oceania" }
+            };
+            // Act
+            var result = await GetODataCollectionResponseAsync<IEnumerable<CountryContinentDto>>($"{Endpoints.CountriesUrl}/CountryContinents");
+
+
+            result.Should().NotBeNull();
+
+            result.Should().HaveCount(5);
+            result.Should().BeEquivalentTo(expectedResult);
+
+            //TODO Translated test translated names
+
         }
 
         /// <summary>

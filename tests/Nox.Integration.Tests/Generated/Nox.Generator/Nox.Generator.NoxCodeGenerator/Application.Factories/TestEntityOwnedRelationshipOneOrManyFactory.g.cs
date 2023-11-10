@@ -46,9 +46,9 @@ internal abstract class TestEntityOwnedRelationshipOneOrManyFactoryBase : IEntit
         UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
-    public virtual void PartialUpdateEntity(TestEntityOwnedRelationshipOneOrManyEntity entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(TestEntityOwnedRelationshipOneOrManyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties);
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private TestWebApp.Domain.TestEntityOwnedRelationshipOneOrMany ToEntity(TestEntityOwnedRelationshipOneOrManyCreateDto createDto)
@@ -65,7 +65,7 @@ internal abstract class TestEntityOwnedRelationshipOneOrManyFactoryBase : IEntit
         entity.TextTestField = TestWebApp.Domain.TestEntityOwnedRelationshipOneOrManyMetadata.CreateTextTestField(updateDto.TextTestField.NonNullValue<System.String>());
     }
 
-    private void PartialUpdateEntityInternal(TestEntityOwnedRelationshipOneOrManyEntity entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(TestEntityOwnedRelationshipOneOrManyEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
 
         if (updatedProperties.TryGetValue("TextTestField", out var TextTestFieldUpdateValue))

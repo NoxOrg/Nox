@@ -43,9 +43,9 @@ internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvi
         UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
-    public virtual void PartialUpdateEntity(PaymentProviderEntity entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(PaymentProviderEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties);
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private Cryptocash.Domain.PaymentProvider ToEntity(PaymentProviderCreateDto createDto)
@@ -62,7 +62,7 @@ internal abstract class PaymentProviderFactoryBase : IEntityFactory<PaymentProvi
         entity.PaymentProviderType = Cryptocash.Domain.PaymentProviderMetadata.CreatePaymentProviderType(updateDto.PaymentProviderType.NonNullValue<System.String>());
     }
 
-    private void PartialUpdateEntityInternal(PaymentProviderEntity entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(PaymentProviderEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
 
         if (updatedProperties.TryGetValue("PaymentProviderName", out var PaymentProviderNameUpdateValue))

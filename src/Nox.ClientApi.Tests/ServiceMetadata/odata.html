@@ -41,6 +41,7 @@
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.Put (Nox.ClientApi.Tests)</td><td>PUT</td><td>api/Countries/{key}</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.Patch (Nox.ClientApi.Tests)</td><td>PATCH</td><td>api/Countries/{key}</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.Delete (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Countries/{key}</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CountriesController.GetContinentsNonConventional (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Countries/CountryContinents">api/Countries/CountryContinents</a></td><td>-</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.GetCountryShortNames (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Countries/{key}/CountryShortNames">api/Countries/{key}/CountryShortNames</a></td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.GetCountryShortNames (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Countries/{key}/CountryShortNames/$count">api/Countries/{key}/CountryShortNames/$count</a></td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.GetCountryShortNamesNonConventional (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Countries/{key}/CountryShortNames/{relatedKey}">api/Countries/{key}/CountryShortNames/{relatedKey}</a></td><td>-</td></tr>
@@ -90,11 +91,7 @@
 <tr><td>ClientApi.Presentation.Api.OData.StoresController.Put (Nox.ClientApi.Tests)</td><td>PUT</td><td>api/Stores/{key}</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.StoresController.Patch (Nox.ClientApi.Tests)</td><td>PATCH</td><td>api/Stores/{key}</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.StoresController.Delete (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Stores/{key}</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.GetVerifiedEmails (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Stores/{key}/VerifiedEmails">api/Stores/{key}/VerifiedEmails</a></td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.PostToVerifiedEmails (Nox.ClientApi.Tests)</td><td>POST</td><td>api/Stores/{key}/VerifiedEmails</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.PutToVerifiedEmails (Nox.ClientApi.Tests)</td><td>PUT</td><td>api/Stores/{key}/VerifiedEmails</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.PatchToVerifiedEmails (Nox.ClientApi.Tests)</td><td>PATCH</td><td>api/Stores/{key}/VerifiedEmails</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.DeleteEmailAddressNonConventional (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Stores/{key}/VerifiedEmails</td><td>-</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.GetStatusesNonConventional (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Stores/StoreStatuses">api/Stores/StoreStatuses</a></td><td>-</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.StoresController.CreateRefToStoreOwner (Nox.ClientApi.Tests)</td><td>POST,PUT</td><td>api/Stores/{key}/StoreOwner/{relatedKey}/$ref</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.StoresController.PostToStoreOwner (Nox.ClientApi.Tests)</td><td>POST</td><td>api/Stores/{key}/StoreOwner</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.StoresController.GetRefToStoreOwner (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Stores/{key}/StoreOwner/$ref">api/Stores/{key}/StoreOwner/$ref</a></td><td>Yes</td></tr>
@@ -145,16 +142,6 @@
 <tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.Put (Nox.ClientApi.Tests)</td><td>PUT</td><td>api/Currencies/{key}</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.Patch (Nox.ClientApi.Tests)</td><td>PATCH</td><td>api/Currencies/{key}</td><td>Yes</td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.Delete (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Currencies/{key}</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.CreateRefToStoreLicenseDefault (Nox.ClientApi.Tests)</td><td>POST,PUT</td><td>api/Currencies/{key}/StoreLicenseDefault/{relatedKey}/$ref</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.PostToStoreLicenseDefault (Nox.ClientApi.Tests)</td><td>POST</td><td>api/Currencies/{key}/StoreLicenseDefault</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.GetRefToStoreLicenseDefault (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Currencies/{key}/StoreLicenseDefault/$ref">api/Currencies/{key}/StoreLicenseDefault/$ref</a></td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.DeleteRefToStoreLicenseDefault (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Currencies/{key}/StoreLicenseDefault/{relatedKey}/$ref</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.DeleteRefToStoreLicenseDefault (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Currencies/{key}/StoreLicenseDefault/$ref</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.CreateRefToStoreLicenseSoldIn (Nox.ClientApi.Tests)</td><td>POST,PUT</td><td>api/Currencies/{key}/StoreLicenseSoldIn/{relatedKey}/$ref</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.PostToStoreLicenseSoldIn (Nox.ClientApi.Tests)</td><td>POST</td><td>api/Currencies/{key}/StoreLicenseSoldIn</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.GetRefToStoreLicenseSoldIn (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Currencies/{key}/StoreLicenseSoldIn/$ref">api/Currencies/{key}/StoreLicenseSoldIn/$ref</a></td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.DeleteRefToStoreLicenseSoldIn (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Currencies/{key}/StoreLicenseSoldIn/{relatedKey}/$ref</td><td>Yes</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.CurrenciesController.DeleteRefToStoreLicenseSoldIn (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Currencies/{key}/StoreLicenseSoldIn/$ref</td><td>Yes</td></tr>
 <tr><td>Microsoft.AspNetCore.OData.Routing.Controllers.MetadataController.GetMetadata (Microsoft.AspNetCore.OData)</td><td>GET</td><td><a href="api/$metadata">api/$metadata</a></td><td>Yes</td></tr>
 <tr><td>Microsoft.AspNetCore.OData.Routing.Controllers.MetadataController.GetServiceDocument (Microsoft.AspNetCore.OData)</td><td>GET</td><td><a href="api">api</a></td><td>Yes</td></tr>
 
@@ -172,8 +159,6 @@
         <tr><td>ClientApi.Controllers.HousesController.HousesToRent (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Houses/HousesToRent">api/Houses/HousesToRent</a></td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.CountriesWithDebt2 (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Countries/CountriesWithDebt2">api/Countries/CountriesWithDebt2</a></td></tr>
 <tr><td>ClientApi.Presentation.Api.OData.CountriesController.CustomCreateCountry (Nox.ClientApi.Tests)</td><td>POST</td><td>api/Countries/CustomCreateCountry</td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.CountriesController.GetContinentsNonConventional (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Countries/Continents">api/Countries/Continents</a></td></tr>
-<tr><td>ClientApi.Presentation.Api.OData.StoresController.GetStatusesNonConventional (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Stores/Statuses">api/Stores/Statuses</a></td></tr>
 
     </table>
 </body>

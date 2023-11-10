@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -66,7 +66,7 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 			throw new RelatedEntityNotFoundException("Currency", request.EntityDto.CurrencyId.ToString());
 
 		await DbContext.Entry(entity).Collection(x => x.Commissions).LoadAsync();
-		var commissionsEntities = new List<Commission>();
+		var commissionsEntities = new List<Cryptocash.Domain.Commission>();
 		foreach(var relatedEntityId in request.EntityDto.CommissionsId)
 		{
 			var relatedKey = Cryptocash.Domain.CommissionMetadata.CreateId(relatedEntityId);
@@ -80,7 +80,7 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 		entity.UpdateRefToCommissions(commissionsEntities);
 
 		await DbContext.Entry(entity).Collection(x => x.VendingMachines).LoadAsync();
-		var vendingMachinesEntities = new List<VendingMachine>();
+		var vendingMachinesEntities = new List<Cryptocash.Domain.VendingMachine>();
 		foreach(var relatedEntityId in request.EntityDto.VendingMachinesId)
 		{
 			var relatedKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(relatedEntityId);
@@ -94,7 +94,7 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 		entity.UpdateRefToVendingMachines(vendingMachinesEntities);
 
 		await DbContext.Entry(entity).Collection(x => x.Customers).LoadAsync();
-		var customersEntities = new List<Customer>();
+		var customersEntities = new List<Cryptocash.Domain.Customer>();
 		foreach(var relatedEntityId in request.EntityDto.CustomersId)
 		{
 			var relatedKey = Cryptocash.Domain.CustomerMetadata.CreateId(relatedEntityId);

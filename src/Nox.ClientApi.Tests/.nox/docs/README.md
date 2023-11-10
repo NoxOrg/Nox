@@ -50,7 +50,7 @@ erDiagram
 
 ### Country
 
-Country Entity. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
+Country Entity Country representation for the Client API tests. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
 [Endpoints](./endpoints/CountryEndpoints.md)
 
@@ -61,8 +61,9 @@ Country Entity. *This entity is auditable and tracks info about who, which syste
 Member|Type|Description|Info
 ---------|----|----------|-------
 Id|AutoNumber|The unique identifier.|Required, Primary Key, StartsAt: 10, IncrementsBy: 5
-Name|Text|The Country Name.|Required, MinLength: 4, MaxLength: 63
-Population|Number|Population.|MaxValue: 1500000000
+Name|Text|The Country Name     Set a unique name for the country Do not use abbreviations
+.|Required, MinLength: 4, MaxLength: 63
+Population|Number|Population Number of People living in the country.|MaxValue: 1500000000
 CountryDebt|Money|The Money.|MinValue: 100000
 FirstLanguageCode|LanguageCode|First Official Language.|
 ShortDescription|Formula|The Formula.|
@@ -156,8 +157,8 @@ Symbol|Text|Currency's symbol.|MinLength: 4, MaxLength: 63
 
 Description|Cardinality|Related Entity|Name|Can Navigate?
 -----------|-----------|--------------|----|-------------
-List of store licenses where this currency is a default one|OneOrMany|StoreLicense|StoreLicenseDefault|Yes
-List of store licenses that were sold in this currency|OneOrMany|StoreLicense|StoreLicenseSoldIn|Yes
+List of store licenses where this currency is a default one|OneOrMany|StoreLicense|StoreLicenseDefault|No
+List of store licenses that were sold in this currency|OneOrMany|StoreLicense|StoreLicenseSoldIn|No
 
 
 ### RatingProgram

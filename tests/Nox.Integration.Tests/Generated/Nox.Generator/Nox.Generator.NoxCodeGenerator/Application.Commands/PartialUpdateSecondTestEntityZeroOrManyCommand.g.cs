@@ -16,14 +16,15 @@ using SecondTestEntityZeroOrManyEntity = TestWebApp.Domain.SecondTestEntityZeroO
 
 namespace TestWebApp.Application.Commands;
 
-public partial record PartialUpdateSecondTestEntityZeroOrManyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <SecondTestEntityZeroOrManyKeyDto?>;
+public record PartialUpdateSecondTestEntityZeroOrManyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <SecondTestEntityZeroOrManyKeyDto?>;
 
 internal class PartialUpdateSecondTestEntityZeroOrManyCommandHandler : PartialUpdateSecondTestEntityZeroOrManyCommandHandlerBase
 {
 	public PartialUpdateSecondTestEntityZeroOrManyCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<SecondTestEntityZeroOrManyEntity, SecondTestEntityZeroOrManyCreateDto, SecondTestEntityZeroOrManyUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
+		IEntityFactory<SecondTestEntityZeroOrManyEntity, SecondTestEntityZeroOrManyCreateDto, SecondTestEntityZeroOrManyUpdateDto> entityFactory)
+		: base(dbContext,noxSolution, entityFactory)
 	{
 	}
 }
@@ -35,7 +36,8 @@ internal class PartialUpdateSecondTestEntityZeroOrManyCommandHandlerBase : Comma
 	public PartialUpdateSecondTestEntityZeroOrManyCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<SecondTestEntityZeroOrManyEntity, SecondTestEntityZeroOrManyCreateDto, SecondTestEntityZeroOrManyUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<SecondTestEntityZeroOrManyEntity, SecondTestEntityZeroOrManyCreateDto, SecondTestEntityZeroOrManyUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -52,7 +54,7 @@ internal class PartialUpdateSecondTestEntityZeroOrManyCommandHandlerBase : Comma
 		{
 			return null;
 		}
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

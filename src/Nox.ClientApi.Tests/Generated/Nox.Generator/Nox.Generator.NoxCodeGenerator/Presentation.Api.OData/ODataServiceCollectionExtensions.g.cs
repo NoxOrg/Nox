@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.OData.Formatter.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Lib;
 using ClientApi.Application.Dto;
+using DtoNameSpace = ClientApi.Application.Dto;
 
 namespace ClientApi.Presentation.Api.OData;
 
@@ -87,7 +88,17 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<CurrencyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<CurrencyDto>().Ignore(e => e.Etag);
 
-        builder.EntityType<EmailAddressDto>();
+        builder.EntityType<EmailAddressDto>(); 
+        // Setup Enumeration End Points
+        builder.EntityType<CountryDto>()
+                            .Collection
+                            .Function("CountryContinents")
+                            .ReturnsCollection<DtoNameSpace.CountryContinentDto>(); 
+        // Setup Enumeration End Points
+        builder.EntityType<StoreDto>()
+                            .Collection
+                            .Function("StoreStatuses")
+                            .ReturnsCollection<DtoNameSpace.StoreStatusDto>();
 
         if(configure != null) configure(builder);
 

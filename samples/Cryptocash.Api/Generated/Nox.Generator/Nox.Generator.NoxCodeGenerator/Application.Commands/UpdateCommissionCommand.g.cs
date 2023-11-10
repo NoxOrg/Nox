@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -73,7 +73,7 @@ internal abstract class UpdateCommissionCommandHandlerBase : CommandBase<UpdateC
 		}
 
 		await DbContext.Entry(entity).Collection(x => x.Bookings).LoadAsync();
-		var bookingsEntities = new List<Booking>();
+		var bookingsEntities = new List<Cryptocash.Domain.Booking>();
 		foreach(var relatedEntityId in request.EntityDto.BookingsId)
 		{
 			var relatedKey = Cryptocash.Domain.BookingMetadata.CreateId(relatedEntityId);

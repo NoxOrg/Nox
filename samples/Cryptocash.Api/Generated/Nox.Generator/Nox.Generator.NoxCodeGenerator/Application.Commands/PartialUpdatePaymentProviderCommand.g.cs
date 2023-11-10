@@ -16,14 +16,15 @@ using PaymentProviderEntity = Cryptocash.Domain.PaymentProvider;
 
 namespace Cryptocash.Application.Commands;
 
-public partial record PartialUpdatePaymentProviderCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <PaymentProviderKeyDto?>;
+public record PartialUpdatePaymentProviderCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <PaymentProviderKeyDto?>;
 
 internal class PartialUpdatePaymentProviderCommandHandler : PartialUpdatePaymentProviderCommandHandlerBase
 {
 	public PartialUpdatePaymentProviderCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<PaymentProviderEntity, PaymentProviderCreateDto, PaymentProviderUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
+		IEntityFactory<PaymentProviderEntity, PaymentProviderCreateDto, PaymentProviderUpdateDto> entityFactory)
+		: base(dbContext,noxSolution, entityFactory)
 	{
 	}
 }
@@ -35,7 +36,8 @@ internal class PartialUpdatePaymentProviderCommandHandlerBase : CommandBase<Part
 	public PartialUpdatePaymentProviderCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<PaymentProviderEntity, PaymentProviderCreateDto, PaymentProviderUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<PaymentProviderEntity, PaymentProviderCreateDto, PaymentProviderUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -52,7 +54,7 @@ internal class PartialUpdatePaymentProviderCommandHandlerBase : CommandBase<Part
 		{
 			return null;
 		}
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

@@ -121,6 +121,14 @@
                 <Property Name="Email" Type="Edm.String" />
                 <Property Name="IsVerified" Type="Edm.Boolean" />
             </EntityType>
+            <ComplexType Name="CountryContinentDto">
+                <Property Name="Id" Type="Edm.Int32" Nullable="false" />
+                <Property Name="Name" Type="Edm.String" />
+            </ComplexType>
+            <ComplexType Name="StoreStatusDto">
+                <Property Name="Id" Type="Edm.Int32" Nullable="false" />
+                <Property Name="Name" Type="Edm.String" />
+            </ComplexType>
             <ComplexType Name="MoneyDto">
                 <Property Name="Amount" Type="Edm.Decimal" Nullable="false" Scale="Variable" />
                 <Property Name="CurrencyCode" Type="Nox.Types.CurrencyCode" Nullable="false" />
@@ -595,6 +603,14 @@
             </EnumType>
         </Schema>
         <Schema Namespace="Default" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <Function Name="CountryContinents" IsBound="true">
+                <Parameter Name="bindingParameter" Type="Collection(ClientApi.Application.Dto.CountryDto)" />
+                <ReturnType Type="Collection(ClientApi.Application.Dto.CountryContinentDto)" />
+            </Function>
+            <Function Name="StoreStatuses" IsBound="true">
+                <Parameter Name="bindingParameter" Type="Collection(ClientApi.Application.Dto.StoreDto)" />
+                <ReturnType Type="Collection(ClientApi.Application.Dto.StoreStatusDto)" />
+            </Function>
             <Function Name="countriesWithDebt">
                 <ReturnType Type="Collection(ClientApi.Application.Dto.CountryDto)" />
             </Function>

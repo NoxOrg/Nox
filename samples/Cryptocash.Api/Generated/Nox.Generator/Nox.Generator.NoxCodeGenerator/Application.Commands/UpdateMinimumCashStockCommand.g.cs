@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -58,7 +58,7 @@ internal abstract class UpdateMinimumCashStockCommandHandlerBase : CommandBase<U
 		}
 
 		await DbContext.Entry(entity).Collection(x => x.VendingMachines).LoadAsync();
-		var vendingMachinesEntities = new List<VendingMachine>();
+		var vendingMachinesEntities = new List<Cryptocash.Domain.VendingMachine>();
 		foreach(var relatedEntityId in request.EntityDto.VendingMachinesId)
 		{
 			var relatedKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(relatedEntityId);

@@ -16,14 +16,15 @@ using TestEntityExactlyOneEntity = TestWebApp.Domain.TestEntityExactlyOne;
 
 namespace TestWebApp.Application.Commands;
 
-public partial record PartialUpdateTestEntityExactlyOneCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <TestEntityExactlyOneKeyDto?>;
+public record PartialUpdateTestEntityExactlyOneCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, Nox.Types.CultureCode CultureCode, System.Guid? Etag) : IRequest <TestEntityExactlyOneKeyDto?>;
 
 internal class PartialUpdateTestEntityExactlyOneCommandHandler : PartialUpdateTestEntityExactlyOneCommandHandlerBase
 {
 	public PartialUpdateTestEntityExactlyOneCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityExactlyOneEntity, TestEntityExactlyOneCreateDto, TestEntityExactlyOneUpdateDto> entityFactory) : base(dbContext,noxSolution, entityFactory)
+		IEntityFactory<TestEntityExactlyOneEntity, TestEntityExactlyOneCreateDto, TestEntityExactlyOneUpdateDto> entityFactory)
+		: base(dbContext,noxSolution, entityFactory)
 	{
 	}
 }
@@ -35,7 +36,8 @@ internal class PartialUpdateTestEntityExactlyOneCommandHandlerBase : CommandBase
 	public PartialUpdateTestEntityExactlyOneCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
-		IEntityFactory<TestEntityExactlyOneEntity, TestEntityExactlyOneCreateDto, TestEntityExactlyOneUpdateDto> entityFactory) : base(noxSolution)
+		IEntityFactory<TestEntityExactlyOneEntity, TestEntityExactlyOneCreateDto, TestEntityExactlyOneUpdateDto> entityFactory)
+		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
@@ -52,7 +54,7 @@ internal class PartialUpdateTestEntityExactlyOneCommandHandlerBase : CommandBase
 		{
 			return null;
 		}
-		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties);
+		EntityFactory.PartialUpdateEntity(entity, request.UpdatedProperties, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		await OnCompletedAsync(request, entity);

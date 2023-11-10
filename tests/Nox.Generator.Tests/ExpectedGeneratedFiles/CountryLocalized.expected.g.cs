@@ -1,5 +1,5 @@
 // Generated
- 
+
 #nullable enable
 
 using System;
@@ -25,24 +25,21 @@ internal partial class CountryLocalized : IEntityConcurrent
     public Nox.Types.Text Id { get; set; } = null!;
 
     public Nox.Types.CultureCode CultureCode { get; set; } = null!;
-    
-    
-        /// <summary>
-        /// The country's official name (Required).
-        /// </summary>
-        public Nox.Types.Text FormalName { get; set; } = null!;
-    
-    
-        /// <summary>
-        /// The country's official ISO 4217 alpha-3 code (Required).
-        /// </summary>
-        public Nox.Types.Text AlphaCode3 { get; set; } = null!;
-    
-    
-        /// <summary>
-        /// The capital city of the country (Optional).
-        /// </summary>
-        public Nox.Types.Text? Capital { get; set; } = null!;
+
+    /// <summary>
+    /// The country's official name (Optional).
+    /// </summary>
+    public Nox.Types.Text? FormalName { get; set; } = null!;
+
+    /// <summary>
+    /// The country's official ISO 4217 alpha-3 code (Optional).
+    /// </summary>
+    public Nox.Types.Text? AlphaCode3 { get; set; } = null!;
+
+    /// <summary>
+    /// The capital city of the country (Optional).
+    /// </summary>
+    public Nox.Types.Text? Capital { get; set; } = null!;
 
     /// <summary>
     /// Entity tag used as concurrency token.

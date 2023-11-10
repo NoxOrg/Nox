@@ -12,14 +12,24 @@ namespace Nox.Application.Factories
         /// Create a localized entity from an entity.
         /// </summary>
         /// <param name="entity"></param>
+        /// <param name="cultureCode"></param>
+        /// <param name="copyEntityAttributes"></param>
         /// <returns></returns>
-        TEntityLocalizedType CreateLocalizedEntity(TEntityType entity, CultureCode cultureCode);
+        TEntityLocalizedType CreateLocalizedEntity(TEntityType entity, CultureCode cultureCode, bool copyEntityAttributes = true);
 
         /// <summary>
         /// Updates a localized entity from an update dto.
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="localizedEntity"></param>
+        /// <param name="updateDto"></param>
         /// <returns></returns>
-        void UpdateLocalizedEntity(TEntityLocalizedType localizedEntity, TUpdateEntityDtoType updateDto, CultureCode cultureCode);
+        void UpdateLocalizedEntity(TEntityLocalizedType localizedEntity, TUpdateEntityDtoType updateDto);
+
+        /// <summary>
+        /// Updates some properties of a localized entity.
+        /// </summary>
+        /// <param name="localizedEntity"></param>
+        /// <param name="updatedProperties"></param>
+        void PartialUpdateLocalizedEntity(TEntityLocalizedType localizedEntity, Dictionary<string, dynamic> updatedProperties);
     }
 }

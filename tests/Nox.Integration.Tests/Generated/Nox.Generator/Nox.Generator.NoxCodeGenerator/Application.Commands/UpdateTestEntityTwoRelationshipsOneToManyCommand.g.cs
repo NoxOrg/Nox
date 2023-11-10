@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -58,7 +58,7 @@ internal abstract class UpdateTestEntityTwoRelationshipsOneToManyCommandHandlerB
 		}
 
 		await DbContext.Entry(entity).Collection(x => x.TestRelationshipOne).LoadAsync();
-		var testRelationshipOneEntities = new List<SecondTestEntityTwoRelationshipsOneToMany>();
+		var testRelationshipOneEntities = new List<TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToMany>();
 		foreach(var relatedEntityId in request.EntityDto.TestRelationshipOneId)
 		{
 			var relatedKey = TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToManyMetadata.CreateId(relatedEntityId);
@@ -72,7 +72,7 @@ internal abstract class UpdateTestEntityTwoRelationshipsOneToManyCommandHandlerB
 		entity.UpdateRefToTestRelationshipOne(testRelationshipOneEntities);
 
 		await DbContext.Entry(entity).Collection(x => x.TestRelationshipTwo).LoadAsync();
-		var testRelationshipTwoEntities = new List<SecondTestEntityTwoRelationshipsOneToMany>();
+		var testRelationshipTwoEntities = new List<TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToMany>();
 		foreach(var relatedEntityId in request.EntityDto.TestRelationshipTwoId)
 		{
 			var relatedKey = TestWebApp.Domain.SecondTestEntityTwoRelationshipsOneToManyMetadata.CreateId(relatedEntityId);

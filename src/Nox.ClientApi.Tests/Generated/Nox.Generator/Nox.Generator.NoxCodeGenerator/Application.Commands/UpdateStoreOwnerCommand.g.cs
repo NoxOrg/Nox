@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -58,7 +58,7 @@ internal abstract class UpdateStoreOwnerCommandHandlerBase : CommandBase<UpdateS
 		}
 
 		await DbContext.Entry(entity).Collection(x => x.Stores).LoadAsync();
-		var storesEntities = new List<Store>();
+		var storesEntities = new List<ClientApi.Domain.Store>();
 		foreach(var relatedEntityId in request.EntityDto.StoresId)
 		{
 			var relatedKey = ClientApi.Domain.StoreMetadata.CreateId(relatedEntityId);

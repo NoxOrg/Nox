@@ -55,8 +55,10 @@ internal abstract class {{className}}HandlerBase:  QueryBase<IQueryable<{{entity
         {{attribute.Name}} = {{if attribute.IsLocalized}}itemLocalized.{{attribute.Name}} ?? "[" + item.{{attribute.Name}} + "]"{{else}}item.{{attribute.Name}}{{end}},
         {{- end }}
         {{- for rel in entity.Relationships }}
-	    {{- relationshipName = GetRelationshipPublicName entity rel }}
+            {{- if rel.WithSingleEntity && rel.ShouldGenerateForeignOnThisSide}}
+	        {{- relationshipName = GetRelationshipPublicName entity rel }}
         {{relationshipName}}Id = item.{{relationshipName}}Id,
+            {{- end }}
         {{- end }}
         Etag = item.Etag
             };

@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -58,7 +58,7 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 		}
 
 		await DbContext.Entry(entity).Collection(x => x.Workplaces).LoadAsync();
-		var workplacesEntities = new List<Workplace>();
+		var workplacesEntities = new List<ClientApi.Domain.Workplace>();
 		foreach(var relatedEntityId in request.EntityDto.WorkplacesId)
 		{
 			var relatedKey = ClientApi.Domain.WorkplaceMetadata.CreateId(relatedEntityId);

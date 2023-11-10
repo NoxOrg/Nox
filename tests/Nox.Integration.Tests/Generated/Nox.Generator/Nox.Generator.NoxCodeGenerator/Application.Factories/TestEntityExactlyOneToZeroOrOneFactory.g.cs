@@ -43,9 +43,9 @@ internal abstract class TestEntityExactlyOneToZeroOrOneFactoryBase : IEntityFact
         UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
-    public virtual void PartialUpdateEntity(TestEntityExactlyOneToZeroOrOneEntity entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(TestEntityExactlyOneToZeroOrOneEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties);
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private TestWebApp.Domain.TestEntityExactlyOneToZeroOrOne ToEntity(TestEntityExactlyOneToZeroOrOneCreateDto createDto)
@@ -61,7 +61,7 @@ internal abstract class TestEntityExactlyOneToZeroOrOneFactoryBase : IEntityFact
         entity.TextTestField2 = TestWebApp.Domain.TestEntityExactlyOneToZeroOrOneMetadata.CreateTextTestField2(updateDto.TextTestField2.NonNullValue<System.String>());
     }
 
-    private void PartialUpdateEntityInternal(TestEntityExactlyOneToZeroOrOneEntity entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(TestEntityExactlyOneToZeroOrOneEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
 
         if (updatedProperties.TryGetValue("TextTestField2", out var TextTestField2UpdateValue))

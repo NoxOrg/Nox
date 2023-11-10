@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -58,7 +58,7 @@ internal abstract class UpdateCustomerCommandHandlerBase : CommandBase<UpdateCus
 		}
 
 		await DbContext.Entry(entity).Collection(x => x.PaymentDetails).LoadAsync();
-		var paymentDetailsEntities = new List<PaymentDetail>();
+		var paymentDetailsEntities = new List<Cryptocash.Domain.PaymentDetail>();
 		foreach(var relatedEntityId in request.EntityDto.PaymentDetailsId)
 		{
 			var relatedKey = Cryptocash.Domain.PaymentDetailMetadata.CreateId(relatedEntityId);
@@ -72,7 +72,7 @@ internal abstract class UpdateCustomerCommandHandlerBase : CommandBase<UpdateCus
 		entity.UpdateRefToPaymentDetails(paymentDetailsEntities);
 
 		await DbContext.Entry(entity).Collection(x => x.Bookings).LoadAsync();
-		var bookingsEntities = new List<Booking>();
+		var bookingsEntities = new List<Cryptocash.Domain.Booking>();
 		foreach(var relatedEntityId in request.EntityDto.BookingsId)
 		{
 			var relatedKey = Cryptocash.Domain.BookingMetadata.CreateId(relatedEntityId);
@@ -86,7 +86,7 @@ internal abstract class UpdateCustomerCommandHandlerBase : CommandBase<UpdateCus
 		entity.UpdateRefToBookings(bookingsEntities);
 
 		await DbContext.Entry(entity).Collection(x => x.Transactions).LoadAsync();
-		var transactionsEntities = new List<Transaction>();
+		var transactionsEntities = new List<Cryptocash.Domain.Transaction>();
 		foreach(var relatedEntityId in request.EntityDto.TransactionsId)
 		{
 			var relatedKey = Cryptocash.Domain.TransactionMetadata.CreateId(relatedEntityId);

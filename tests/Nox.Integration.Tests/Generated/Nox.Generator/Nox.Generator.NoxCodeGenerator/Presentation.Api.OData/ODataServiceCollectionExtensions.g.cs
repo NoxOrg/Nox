@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.OData.Formatter.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Lib;
 using TestWebApp.Application.Dto;
+using DtoNameSpace = TestWebApp.Application.Dto;
 
 namespace TestWebApp.Presentation.Api.OData;
 
@@ -300,7 +301,12 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<TestEntityLocalizationDto>().Ignore(e => e.Etag);
         builder.EntitySet<TestEntityForAutoNumberUsagesDto>("TestEntityForAutoNumberUsages");
 
-        builder.EntityType<TestEntityForAutoNumberUsagesDto>();
+        builder.EntityType<TestEntityForAutoNumberUsagesDto>(); 
+        // Setup Enumeration End Points
+        builder.EntityType<TestEntityForTypesDto>()
+                            .Collection
+                            .Function("TestEntityForTypesEnumerationTestFields")
+                            .ReturnsCollection<DtoNameSpace.TestEntityForTypesEnumerationTestFieldDto>();
 
         if(configure != null) configure(builder);
 

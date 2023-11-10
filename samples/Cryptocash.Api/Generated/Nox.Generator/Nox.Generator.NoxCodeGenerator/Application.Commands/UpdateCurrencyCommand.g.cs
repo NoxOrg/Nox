@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -58,7 +58,7 @@ internal abstract class UpdateCurrencyCommandHandlerBase : CommandBase<UpdateCur
 		}
 
 		await DbContext.Entry(entity).Collection(x => x.Countries).LoadAsync();
-		var countriesEntities = new List<Country>();
+		var countriesEntities = new List<Cryptocash.Domain.Country>();
 		foreach(var relatedEntityId in request.EntityDto.CountriesId)
 		{
 			var relatedKey = Cryptocash.Domain.CountryMetadata.CreateId(relatedEntityId);
@@ -72,7 +72,7 @@ internal abstract class UpdateCurrencyCommandHandlerBase : CommandBase<UpdateCur
 		entity.UpdateRefToCountries(countriesEntities);
 
 		await DbContext.Entry(entity).Collection(x => x.MinimumCashStocks).LoadAsync();
-		var minimumCashStocksEntities = new List<MinimumCashStock>();
+		var minimumCashStocksEntities = new List<Cryptocash.Domain.MinimumCashStock>();
 		foreach(var relatedEntityId in request.EntityDto.MinimumCashStocksId)
 		{
 			var relatedKey = Cryptocash.Domain.MinimumCashStockMetadata.CreateId(relatedEntityId);

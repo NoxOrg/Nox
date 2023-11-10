@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿﻿﻿// Generated
 
 #nullable enable
 
@@ -58,7 +58,7 @@ internal abstract class UpdateSecondTestEntityZeroOrManyCommandHandlerBase : Com
 		}
 
 		await DbContext.Entry(entity).Collection(x => x.TestEntityZeroOrManies).LoadAsync();
-		var testEntityZeroOrManiesEntities = new List<TestEntityZeroOrMany>();
+		var testEntityZeroOrManiesEntities = new List<TestWebApp.Domain.TestEntityZeroOrMany>();
 		foreach(var relatedEntityId in request.EntityDto.TestEntityZeroOrManiesId)
 		{
 			var relatedKey = TestWebApp.Domain.TestEntityZeroOrManyMetadata.CreateId(relatedEntityId);

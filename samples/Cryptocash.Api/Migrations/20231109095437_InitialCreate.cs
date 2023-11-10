@@ -36,13 +36,36 @@ namespace Cryptocash.Api.Migrations
                     MajorSymbol = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     MinorName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     MinorSymbol = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    MinorToMajorValue_Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    MinorToMajorValue_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: false),
                     MinorToMajorValue_CurrencyCode = table.Column<int>(type: "int", nullable: false),
                     Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Currencies", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "InboxState",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MessageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ConsumerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LockId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
+                    Received = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ReceiveCount = table.Column<int>(type: "int", nullable: false),
+                    ExpirationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Consumed = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Delivered = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastSequenceNumber = table.Column<long>(type: "bigint", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InboxState", x => x.Id);
+                    table.UniqueConstraint("AK_InboxState_MessageId_ConsumerId", x => new { x.MessageId, x.ConsumerId });
                 });
 
             migrationBuilder.CreateTable(
@@ -79,6 +102,54 @@ namespace Cryptocash.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "OutboxMessage",
+                columns: table => new
+                {
+                    SequenceNumber = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EnqueueTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    SentTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Headers = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Properties = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InboxMessageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    InboxConsumerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    OutboxId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    MessageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ContentType = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    MessageType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Body = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ConversationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CorrelationId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    InitiatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    RequestId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    SourceAddress = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    DestinationAddress = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    ResponseAddress = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    FaultAddress = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    ExpirationTime = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OutboxMessage", x => x.SequenceNumber);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OutboxState",
+                columns: table => new
+                {
+                    OutboxId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LockId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Delivered = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastSequenceNumber = table.Column<long>(type: "bigint", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OutboxState", x => x.OutboxId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PaymentProviders",
                 columns: table => new
                 {
@@ -111,7 +182,7 @@ namespace Cryptocash.Api.Migrations
                     CurrencyId = table.Column<string>(type: "char(3)", nullable: false),
                     AsAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CashNote = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    Value_Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Value_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: false),
                     Value_CurrencyCode = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -161,15 +232,15 @@ namespace Cryptocash.Api.Migrations
                     GoogleMapsUrl = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: true),
                     OpenStreetMapsUrl = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: true),
                     StartOfWeek = table.Column<int>(type: "int", nullable: false),
-                    CountryUsedByCurrencyId = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: true),
+                    CurrencyId = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
                     Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Countries", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Countries_Currencies_CountryUsedByCurrencyId",
-                        column: x => x.CountryUsedByCurrencyId,
+                        name: "FK_Countries_Currencies_CurrencyId",
+                        column: x => x.CurrencyId,
                         principalTable: "Currencies",
                         principalColumn: "Id");
                 });
@@ -211,17 +282,17 @@ namespace Cryptocash.Api.Migrations
                     DeletedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
-                    Amount_Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Amount_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: false),
                     Amount_CurrencyCode = table.Column<int>(type: "int", nullable: false),
-                    MinimumCashStockRelatedCurrencyId = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: true),
+                    CurrencyId = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
                     Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MinimumCashStocks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MinimumCashStocks_Currencies_MinimumCashStockRelatedCurrencyId",
-                        column: x => x.MinimumCashStockRelatedCurrencyId,
+                        name: "FK_MinimumCashStocks_Currencies_CurrencyId",
+                        column: x => x.CurrencyId,
                         principalTable: "Currencies",
                         principalColumn: "Id");
                 });
@@ -243,15 +314,15 @@ namespace Cryptocash.Api.Migrations
                     DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     Rate = table.Column<float>(type: "real", maxLength: 2, nullable: false),
                     EffectiveAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    CommissionFeesForCountryId = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: true),
+                    CountryId = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: true),
                     Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Commissions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Commissions_Countries_CommissionFeesForCountryId",
-                        column: x => x.CommissionFeesForCountryId,
+                        name: "FK_Commissions_Countries_CountryId",
+                        column: x => x.CountryId,
                         principalTable: "Countries",
                         principalColumn: "Id");
                 });
@@ -306,15 +377,15 @@ namespace Cryptocash.Api.Migrations
                     Address_PostalCode = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
                     Address_CountryId = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
                     MobileNumber = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
-                    CustomerBaseCountryId = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: true),
+                    CountryId = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
                     Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Customers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Customers_Countries_CustomerBaseCountryId",
-                        column: x => x.CustomerBaseCountryId,
+                        name: "FK_Customers_Countries_CountryId",
+                        column: x => x.CountryId,
                         principalTable: "Countries",
                         principalColumn: "Id");
                 });
@@ -371,24 +442,24 @@ namespace Cryptocash.Api.Migrations
                     StreetAddress_PostalCode = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
                     StreetAddress_CountryId = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
                     SerialNumber = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    InstallationFootPrint = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    RentPerSquareMetre_Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    InstallationFootPrint = table.Column<decimal>(type: "DECIMAL(21,6)", nullable: true),
+                    RentPerSquareMetre_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: true),
                     RentPerSquareMetre_CurrencyCode = table.Column<int>(type: "int", nullable: true),
-                    VendingMachineInstallationCountryId = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: true),
-                    VendingMachineContractedAreaLandLordId = table.Column<long>(type: "bigint", nullable: true),
+                    CountryId = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
+                    LandLordId = table.Column<long>(type: "bigint", nullable: false),
                     Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_VendingMachines", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_VendingMachines_Countries_VendingMachineInstallationCountryId",
-                        column: x => x.VendingMachineInstallationCountryId,
+                        name: "FK_VendingMachines_Countries_CountryId",
+                        column: x => x.CountryId,
                         principalTable: "Countries",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_VendingMachines_LandLords_VendingMachineContractedAreaLandLordId",
-                        column: x => x.VendingMachineContractedAreaLandLordId,
+                        name: "FK_VendingMachines_LandLords_LandLordId",
+                        column: x => x.LandLordId,
                         principalTable: "LandLords",
                         principalColumn: "Id");
                 });
@@ -411,21 +482,21 @@ namespace Cryptocash.Api.Migrations
                     PaymentAccountName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     PaymentAccountNumber = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     PaymentAccountSortCode = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: true),
-                    PaymentDetailsUsedByCustomerId = table.Column<long>(type: "bigint", nullable: true),
-                    PaymentDetailsRelatedPaymentProviderId = table.Column<long>(type: "bigint", nullable: true),
+                    CustomerId = table.Column<long>(type: "bigint", nullable: false),
+                    PaymentProviderId = table.Column<long>(type: "bigint", nullable: false),
                     Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PaymentDetails", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PaymentDetails_Customers_PaymentDetailsUsedByCustomerId",
-                        column: x => x.PaymentDetailsUsedByCustomerId,
+                        name: "FK_PaymentDetails_Customers_CustomerId",
+                        column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_PaymentDetails_PaymentProviders_PaymentDetailsRelatedPaymentProviderId",
-                        column: x => x.PaymentDetailsRelatedPaymentProviderId,
+                        name: "FK_PaymentDetails_PaymentProviders_PaymentProviderId",
+                        column: x => x.PaymentProviderId,
                         principalTable: "PaymentProviders",
                         principalColumn: "Id");
                 });
@@ -444,40 +515,40 @@ namespace Cryptocash.Api.Migrations
                     DeletedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
-                    AmountFrom_Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    AmountFrom_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: false),
                     AmountFrom_CurrencyCode = table.Column<int>(type: "int", nullable: false),
-                    AmountTo_Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    AmountTo_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: false),
                     AmountTo_CurrencyCode = table.Column<int>(type: "int", nullable: false),
-                    RequestedPickUpDate_Start = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RequestedPickUpDate_End = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PickedUpDateTime_Start = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    PickedUpDateTime_End = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    RequestedPickUpDate_Start = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    RequestedPickUpDate_End = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    PickedUpDateTime_Start = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    PickedUpDateTime_End = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     ExpiryDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     CancelledDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     VatNumber_Number = table.Column<string>(type: "varchar(64)", unicode: false, maxLength: 64, nullable: true),
                     VatNumber_CountryCode = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: true),
-                    BookingForCustomerId = table.Column<long>(type: "bigint", nullable: true),
-                    BookingRelatedVendingMachineId = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: true),
-                    BookingFeesForCommissionId = table.Column<long>(type: "bigint", nullable: true),
+                    CustomerId = table.Column<long>(type: "bigint", nullable: false),
+                    VendingMachineId = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
+                    CommissionId = table.Column<long>(type: "bigint", nullable: false),
                     Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Bookings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Bookings_Commissions_BookingFeesForCommissionId",
-                        column: x => x.BookingFeesForCommissionId,
+                        name: "FK_Bookings_Commissions_CommissionId",
+                        column: x => x.CommissionId,
                         principalTable: "Commissions",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Bookings_Customers_BookingForCustomerId",
-                        column: x => x.BookingForCustomerId,
+                        name: "FK_Bookings_Customers_CustomerId",
+                        column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Bookings_VendingMachines_BookingRelatedVendingMachineId",
-                        column: x => x.BookingRelatedVendingMachineId,
+                        name: "FK_Bookings_VendingMachines_VendingMachineId",
+                        column: x => x.VendingMachineId,
                         principalTable: "VendingMachines",
                         principalColumn: "Id");
                 });
@@ -497,20 +568,20 @@ namespace Cryptocash.Api.Migrations
                     DeletedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
-                    Amount_Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Amount_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: false),
                     Amount_CurrencyCode = table.Column<int>(type: "int", nullable: false),
                     RequestedDeliveryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DeliveryDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CashStockOrderForVendingMachineId = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: true),
+                    VendingMachineId = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
                     Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CashStockOrders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CashStockOrders_VendingMachines_CashStockOrderForVendingMachineId",
-                        column: x => x.CashStockOrderForVendingMachineId,
+                        name: "FK_CashStockOrders_VendingMachines_VendingMachineId",
+                        column: x => x.VendingMachineId,
                         principalTable: "VendingMachines",
                         principalColumn: "Id");
                 });
@@ -519,21 +590,21 @@ namespace Cryptocash.Api.Migrations
                 name: "VendingMachineRequiredMinimumCashStocks",
                 columns: table => new
                 {
-                    MinimumCashStocksRequiredByVendingMachinesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    VendingMachineRequiredMinimumCashStocksId = table.Column<long>(type: "bigint", nullable: false)
+                    MinimumCashStocksId = table.Column<long>(type: "bigint", nullable: false),
+                    VendingMachinesId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VendingMachineRequiredMinimumCashStocks", x => new { x.MinimumCashStocksRequiredByVendingMachinesId, x.VendingMachineRequiredMinimumCashStocksId });
+                    table.PrimaryKey("PK_VendingMachineRequiredMinimumCashStocks", x => new { x.MinimumCashStocksId, x.VendingMachinesId });
                     table.ForeignKey(
-                        name: "FK_VendingMachineRequiredMinimumCashStocks_MinimumCashStocks_VendingMachineRequiredMinimumCashStocksId",
-                        column: x => x.VendingMachineRequiredMinimumCashStocksId,
+                        name: "FK_VendingMachineRequiredMinimumCashStocks_MinimumCashStocks_MinimumCashStocksId",
+                        column: x => x.MinimumCashStocksId,
                         principalTable: "MinimumCashStocks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_VendingMachineRequiredMinimumCashStocks_VendingMachines_MinimumCashStocksRequiredByVendingMachinesId",
-                        column: x => x.MinimumCashStocksRequiredByVendingMachinesId,
+                        name: "FK_VendingMachineRequiredMinimumCashStocks_VendingMachines_VendingMachinesId",
+                        column: x => x.VendingMachinesId,
                         principalTable: "VendingMachines",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -556,24 +627,24 @@ namespace Cryptocash.Api.Migrations
                     DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     TransactionType = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     ProcessedOnDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    Amount_Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Amount_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: false),
                     Amount_CurrencyCode = table.Column<int>(type: "int", nullable: false),
                     Reference = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    TransactionForCustomerId = table.Column<long>(type: "bigint", nullable: true),
-                    TransactionForBookingId = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: true),
+                    CustomerId = table.Column<long>(type: "bigint", nullable: false),
+                    BookingId = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
                     Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Transactions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Transactions_Bookings_TransactionForBookingId",
-                        column: x => x.TransactionForBookingId,
+                        name: "FK_Transactions_Bookings_BookingId",
+                        column: x => x.BookingId,
                         principalTable: "Bookings",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Transactions_Customers_TransactionForCustomerId",
-                        column: x => x.TransactionForCustomerId,
+                        name: "FK_Transactions_Customers_CustomerId",
+                        column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "Id");
                 });
@@ -608,15 +679,15 @@ namespace Cryptocash.Api.Migrations
                     Address_CountryId = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
                     FirstWorkingDay = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastWorkingDay = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    EmployeeReviewingCashStockOrderId = table.Column<long>(type: "bigint", nullable: true),
+                    CashStockOrderId = table.Column<long>(type: "bigint", nullable: false),
                     Etag = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employees", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Employees_CashStockOrders_EmployeeReviewingCashStockOrderId",
-                        column: x => x.EmployeeReviewingCashStockOrderId,
+                        name: "FK_Employees_CashStockOrders_CashStockOrderId",
+                        column: x => x.CashStockOrderId,
                         principalTable: "CashStockOrders",
                         principalColumn: "Id");
                 });
@@ -649,34 +720,34 @@ namespace Cryptocash.Api.Migrations
                 column: "CurrencyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bookings_BookingFeesForCommissionId",
+                name: "IX_Bookings_CommissionId",
                 table: "Bookings",
-                column: "BookingFeesForCommissionId");
+                column: "CommissionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bookings_BookingForCustomerId",
+                name: "IX_Bookings_CustomerId",
                 table: "Bookings",
-                column: "BookingForCustomerId");
+                column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bookings_BookingRelatedVendingMachineId",
+                name: "IX_Bookings_VendingMachineId",
                 table: "Bookings",
-                column: "BookingRelatedVendingMachineId");
+                column: "VendingMachineId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CashStockOrders_CashStockOrderForVendingMachineId",
+                name: "IX_CashStockOrders_VendingMachineId",
                 table: "CashStockOrders",
-                column: "CashStockOrderForVendingMachineId");
+                column: "VendingMachineId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Commissions_CommissionFeesForCountryId",
+                name: "IX_Commissions_CountryId",
                 table: "Commissions",
-                column: "CommissionFeesForCountryId");
+                column: "CountryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Countries_CountryUsedByCurrencyId",
+                name: "IX_Countries_CurrencyId",
                 table: "Countries",
-                column: "CountryUsedByCurrencyId");
+                column: "CurrencyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CountryTimeZone_CountryId",
@@ -684,9 +755,9 @@ namespace Cryptocash.Api.Migrations
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Customers_CustomerBaseCountryId",
+                name: "IX_Customers_CountryId",
                 table: "Customers",
-                column: "CustomerBaseCountryId");
+                column: "CountryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EmployeePhoneNumber_EmployeeId",
@@ -694,11 +765,10 @@ namespace Cryptocash.Api.Migrations
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employees_EmployeeReviewingCashStockOrderId",
+                name: "IX_Employees_CashStockOrderId",
                 table: "Employees",
-                column: "EmployeeReviewingCashStockOrderId",
-                unique: true,
-                filter: "[EmployeeReviewingCashStockOrderId] IS NOT NULL");
+                column: "CashStockOrderId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExchangeRate_CurrencyId",
@@ -711,46 +781,79 @@ namespace Cryptocash.Api.Migrations
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MinimumCashStocks_MinimumCashStockRelatedCurrencyId",
+                name: "IX_InboxState_Delivered",
+                table: "InboxState",
+                column: "Delivered");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MinimumCashStocks_CurrencyId",
                 table: "MinimumCashStocks",
-                column: "MinimumCashStockRelatedCurrencyId");
+                column: "CurrencyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PaymentDetails_PaymentDetailsRelatedPaymentProviderId",
-                table: "PaymentDetails",
-                column: "PaymentDetailsRelatedPaymentProviderId");
+                name: "IX_OutboxMessage_EnqueueTime",
+                table: "OutboxMessage",
+                column: "EnqueueTime");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PaymentDetails_PaymentDetailsUsedByCustomerId",
-                table: "PaymentDetails",
-                column: "PaymentDetailsUsedByCustomerId");
+                name: "IX_OutboxMessage_ExpirationTime",
+                table: "OutboxMessage",
+                column: "ExpirationTime");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transactions_TransactionForBookingId",
-                table: "Transactions",
-                column: "TransactionForBookingId",
+                name: "IX_OutboxMessage_InboxMessageId_InboxConsumerId_SequenceNumber",
+                table: "OutboxMessage",
+                columns: new[] { "InboxMessageId", "InboxConsumerId", "SequenceNumber" },
                 unique: true,
-                filter: "[TransactionForBookingId] IS NOT NULL");
+                filter: "[InboxMessageId] IS NOT NULL AND [InboxConsumerId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transactions_TransactionForCustomerId",
+                name: "IX_OutboxMessage_OutboxId_SequenceNumber",
+                table: "OutboxMessage",
+                columns: new[] { "OutboxId", "SequenceNumber" },
+                unique: true,
+                filter: "[OutboxId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OutboxState_Created",
+                table: "OutboxState",
+                column: "Created");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PaymentDetails_CustomerId",
+                table: "PaymentDetails",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PaymentDetails_PaymentProviderId",
+                table: "PaymentDetails",
+                column: "PaymentProviderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transactions_BookingId",
                 table: "Transactions",
-                column: "TransactionForCustomerId");
+                column: "BookingId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_VendingMachineRequiredMinimumCashStocks_VendingMachineRequiredMinimumCashStocksId",
+                name: "IX_Transactions_CustomerId",
+                table: "Transactions",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VendingMachineRequiredMinimumCashStocks_VendingMachinesId",
                 table: "VendingMachineRequiredMinimumCashStocks",
-                column: "VendingMachineRequiredMinimumCashStocksId");
+                column: "VendingMachinesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_VendingMachines_VendingMachineContractedAreaLandLordId",
+                name: "IX_VendingMachines_CountryId",
                 table: "VendingMachines",
-                column: "VendingMachineContractedAreaLandLordId");
+                column: "CountryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_VendingMachines_VendingMachineInstallationCountryId",
+                name: "IX_VendingMachines_LandLordId",
                 table: "VendingMachines",
-                column: "VendingMachineInstallationCountryId");
+                column: "LandLordId");
         }
 
         /// <inheritdoc />
@@ -770,6 +873,15 @@ namespace Cryptocash.Api.Migrations
 
             migrationBuilder.DropTable(
                 name: "Holiday");
+
+            migrationBuilder.DropTable(
+                name: "InboxState");
+
+            migrationBuilder.DropTable(
+                name: "OutboxMessage");
+
+            migrationBuilder.DropTable(
+                name: "OutboxState");
 
             migrationBuilder.DropTable(
                 name: "PaymentDetails");

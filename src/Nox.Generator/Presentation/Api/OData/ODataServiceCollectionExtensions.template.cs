@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.OData.Formatter.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Lib;
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
+using DtoNameSpace = {{codeGeneratorState.DtoNameSpace}};
 
 namespace {{codeGeneratorState.ODataNameSpace}};
 
@@ -60,6 +61,14 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<{{entity.Name}}Dto>().Ignore(e => e.Etag);
 
         {{- end }}
+        {{- end }}
+
+        {{- for enumeration in enumerationAttributes #Configure Enumeration endpoints}} 
+        // Setup Enumeration End Points
+        builder.EntityType<{{enumeration.Entity.Name}}Dto>()
+                            .Collection
+                            .Function("{{enumeration.Entity.Name}}{{Pluralize (enumeration.Attribute.Name)}}")
+                            .ReturnsCollection<DtoNameSpace.{{ enumeration.EntityNameForEnumeration}}>();
         {{- end }}
 
         if(configure != null) configure(builder);
