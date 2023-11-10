@@ -52,6 +52,30 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Workplaces/{key}/BelongsToCountry/$ref`
   - Description: Delete all existing Countries relations for a specific Workplace.
 
+### Tenant
+
+#### Get Tenant relations
+- **GET** `/api/Workplaces/{key}/TenantsInWorkplace/$ref`
+  - Description: Retrieve all existing Tenants relations for a specific Workplace.
+  
+#### Create Tenant relation
+- **POST** `/api/Workplaces/{key}/TenantsInWorkplace/{relatedKey}/$ref`
+  - Description: Create a new Tenant relation for a specific Workplace.
+  
+#### Update Tenant relation
+- **PUT** `/api/Workplaces/{key}/TenantsInWorkplace/{relatedKey}/$ref`
+  - Description: Updates an existing Tenant relation for a specific Workplace.
+
+#### Delete Tenant relation
+- **DELETE** `/api/Workplaces/{key}/TenantsInWorkplace/{relatedKey}/$ref`
+  - Description: Delete an existing Tenant relation for a specific Workplace.
+
+#### Delete Tenant relations
+- **DELETE** `/api/Workplaces/{key}/TenantsInWorkplace/$ref`
+  - Description: Delete all existing Tenants relations for a specific Workplace.
+
 ## Related Entities
 
 [Country](CountryEndpoints.md)
+
+[Tenant](TenantEndpoints.md)
