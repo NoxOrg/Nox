@@ -95,6 +95,8 @@ public static class ServiceCollectionExtension
     {
         services.AddScoped<IUserProvider, DefaultUserProvider>();
         services.AddScoped<ISystemProvider, DefaultSystemProvider>();
+        services.AddScoped<IHttpQueryParamValueProvider, HttpQueryParamValueProvider>();
+        services.AddScoped<IHttpHeaderValueProvider, HttpHeaderValueProvider>();
         services.AddScoped<IHttpLanguageProvider, DefaultLanguageProvider>();
 
         return services;
