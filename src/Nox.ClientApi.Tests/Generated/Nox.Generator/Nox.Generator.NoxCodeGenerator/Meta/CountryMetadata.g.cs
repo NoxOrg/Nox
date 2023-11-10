@@ -28,11 +28,11 @@ public partial class CountryMetadata
         /// </summary>
         public static Nox.Types.TextTypeOptions NameTypeOptions {get; private set;} = new ()
         {
-            MinLength = 4,
-            MaxLength = 63,
-            IsUnicode = true,
-            IsLocalized = false,
-            Casing = Nox.Types.TextTypeCasing.Normal,
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = false,
+            Casing = Nox.Types.TextTypeCasing.Normal,
         };
     
     
@@ -48,9 +48,9 @@ public partial class CountryMetadata
         /// </summary>
         public static Nox.Types.NumberTypeOptions PopulationTypeOptions {get; private set;} = new ()
         {
-            MinValue = -999999999m,
-            MaxValue = 1500000000m,
-            DecimalDigits = 0,
+            MinValue = -999999999m,
+            MaxValue = 1500000000m,
+            DecimalDigits = 0,
         };
     
     
@@ -66,11 +66,11 @@ public partial class CountryMetadata
         /// </summary>
         public static Nox.Types.MoneyTypeOptions CountryDebtTypeOptions {get; private set;} = new ()
         {
-            DecimalDigits = 4,
-            IntegerDigits = 9,
-            MinValue = 100000m,
-            MaxValue = 999999999.9999m,
-            DefaultCurrency = Nox.Types.CurrencyCode.USD,
+            DecimalDigits = 4,
+            IntegerDigits = 9,
+            MinValue = 100000m,
+            MaxValue = 999999999.9999m,
+            DefaultCurrency = Nox.Types.CurrencyCode.USD,
         };
     
     
@@ -93,8 +93,8 @@ public partial class CountryMetadata
         /// </summary>
         public static Nox.Types.FormulaTypeOptions ShortDescriptionTypeOptions {get; private set;} = new ()
         {
-            Expression = "$\"{Name} has a population of {Population} people.\"",
-            Returns = Nox.Types.FormulaReturnType.@string,
+            Expression = "$\"{Name} has a population of {Population} people.\"",
+            Returns = Nox.Types.FormulaReturnType.@string,
         };
     
     
@@ -138,35 +138,35 @@ public partial class CountryMetadata
         /// </summary>
         public static Nox.Types.EnumerationTypeOptions ContinentTypeOptions {get; private set;} = new ()
         {
-            Values = new System.Collections.Generic.List<Nox.Types.EnumerationValues>()
-            {
-                new Nox.Types.EnumerationValues()
-                {
-                    Id = 1,
-                    Name = "Europe",
-                },
-                new Nox.Types.EnumerationValues()
-                {
-                    Id = 2,
-                    Name = "Asia",
-                },
-                new Nox.Types.EnumerationValues()
-                {
-                    Id = 3,
-                    Name = "Africa",
-                },
-                new Nox.Types.EnumerationValues()
-                {
-                    Id = 4,
-                    Name = "America",
-                },
-                new Nox.Types.EnumerationValues()
-                {
-                    Id = 5,
-                    Name = "Oceania",
-                },
-            },
-            IsLocalized = true,
+            Values = new System.Collections.Generic.List<Nox.Types.EnumerationValues>()
+            {
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 1,
+                    Name = "Europe",
+                },
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 2,
+                    Name = "Asia",
+                },
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 3,
+                    Name = "Africa",
+                },
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 4,
+                    Name = "America",
+                },
+                new Nox.Types.EnumerationValues()
+                {
+                    Id = 5,
+                    Name = "Oceania",
+                },
+            },
+            IsLocalized = true,
         };
     
     

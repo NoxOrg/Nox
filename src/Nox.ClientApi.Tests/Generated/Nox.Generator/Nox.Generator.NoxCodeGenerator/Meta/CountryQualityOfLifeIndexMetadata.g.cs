@@ -35,9 +35,9 @@ public partial class CountryQualityOfLifeIndexMetadata
         /// </summary>
         public static Nox.Types.NumberTypeOptions IndexRatingTypeOptions {get; private set;} = new ()
         {
-            MinValue = 1m,
-            MaxValue = 999999999m,
-            DecimalDigits = 0,
+            MinValue = 1m,
+            MaxValue = 999999999m,
+            DecimalDigits = 0,
         };
     
     

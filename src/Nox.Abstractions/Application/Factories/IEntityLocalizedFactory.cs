@@ -3,7 +3,7 @@ using Nox.Types;
 
 namespace Nox.Application.Factories
 {
-    public interface IEntityLocalizedFactory<out TEntityLocalizedType, in TEntityType, in TEntityLocalizedDtoType>
+    public interface IEntityLocalizedFactory<out TEntityLocalizedType, in TEntityType, in TEntityLocalizedCreateDtoType>
         where TEntityType : IEntity
     {
         /// <summary>
@@ -15,10 +15,10 @@ namespace Nox.Application.Factories
         TEntityLocalizedType CreateLocalizedEntity(TEntityType entity,  CultureCode cultureCode);
         
         /// <summary>
-        /// Create a localized entity from an entity localized dto.
+        /// Create a localized entity from a localized DTO.
         /// </summary>
-        /// <param name="entityLocalizedDto"></param>
+        /// <param name="entityLocalizedCreateDtoType"></param>
         /// <returns></returns>
-        TEntityLocalizedType CreateLocalizedEntityFromDto(TEntityLocalizedDtoType entityLocalizedDto);
+        TEntityLocalizedType CreateLocalizedEntity(TEntityLocalizedCreateDtoType entityLocalizedCreateDtoType);
     }
 }

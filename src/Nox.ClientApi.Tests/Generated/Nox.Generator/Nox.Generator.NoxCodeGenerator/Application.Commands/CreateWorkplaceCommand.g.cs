@@ -28,7 +28,7 @@ internal partial class CreateWorkplaceCommandHandler : CreateWorkplaceCommandHan
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
 		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
-		IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity> entityLocalizedFactory)
+		IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceLocalizedCreateDto> entityLocalizedFactory)
 		: base(dbContext, noxSolution,CountryFactory, entityFactory, entityLocalizedFactory)
 	{
 	}
@@ -39,7 +39,7 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 {
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> EntityFactory;
-	protected readonly IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity> EntityLocalizedFactory;
+	protected readonly IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceLocalizedCreateDto> EntityLocalizedFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory;
 
 	public CreateWorkplaceCommandHandlerBase(
@@ -47,7 +47,7 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
 		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
-		IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity> entityLocalizedFactory)
+		IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceLocalizedCreateDto> entityLocalizedFactory)
 		: base(noxSolution)
 	{
 		DbContext = dbContext;

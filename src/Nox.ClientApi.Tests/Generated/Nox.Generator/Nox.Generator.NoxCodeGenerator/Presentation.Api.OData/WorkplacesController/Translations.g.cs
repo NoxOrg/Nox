@@ -22,6 +22,9 @@ using ClientApi.Domain;
 using ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Presentation.Api.OData;
+         
+
+
 
 public abstract partial class WorkplacesControllerBase
 {
@@ -29,12 +32,18 @@ public abstract partial class WorkplacesControllerBase
     // This endpoint should receive a request body of type <Entity>LocalizedDto containing the
     // new data for localization. There's no need to create a separate DTO;
     // we'll use the existing DTO for this purpose.
-    // [HttpPost("api/Workplaces/{key}/WorkplaceLocalized/")]
-    // public virtual async Task<ActionResult<WorkplaceLocalizedDto>> CreateWorkplaceLocalized( , [FromBody] WorkplaceLocalizedDto workplaceLocalizedDto)
-    // {
-    //     var result = await _mediator.Send(new ApplicationCommandsNameSpace.CreateWorkplaceLocalizedCommand(workplaceLocalizedDto));
-    //     return Ok(result);
-    // }
+    [HttpPost("api/Workplaces/{key}/WorkplaceLocalized/{cultureCode}")]
+    public virtual async Task<ActionResult<WorkplaceLocalizedDto>> CreateWorkplaceLocalized( [FromRoute] System.UInt32 key, [FromRoute] System.String cultureCode, [FromBody] WorkplaceLocalizedCreateDto workplaceLocalizedCreateDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var createdKey = await _mediator.Send(new CreateWorkplaceTranslationsCommand(workplaceLocalizedCreateDto, key, cultureCode));
+        var item = (await _mediator.Send(new GetWorkplaceTranslationsByIdQuery( createdKey.Id, createdKey.CultureCode))).SingleOrDefault();
+
+        return Created(item);
+    }
     
     
     // //Endpoint: PUT /api/<entity>/{key}/<Entity>Localized/{culturecode}

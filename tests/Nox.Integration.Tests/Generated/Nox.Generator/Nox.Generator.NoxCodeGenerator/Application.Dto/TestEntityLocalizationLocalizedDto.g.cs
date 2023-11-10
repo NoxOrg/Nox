@@ -16,11 +16,12 @@ namespace TestWebApp.Application.Dto;
 /// <summary>
 /// Entity created for testing localization Localized DTO.
 /// </summary>
-internal partial class TestEntityLocalizationLocalizedDto
+public partial class TestEntityLocalizationLocalizedDto
 {
     /// <summary>
     ///  (Required).
     /// </summary>
+    
     public System.String Id { get; set; } = default!;
 
     public System.String CultureCode { get; set; } = default!;
@@ -33,3 +34,8 @@ internal partial class TestEntityLocalizationLocalizedDto
     [JsonPropertyName("@odata.etag")]
     public System.Guid Etag { get; init; }
 }
+
+/// <summary>
+/// Record for TestEntityLocalization Localized Key DTO.
+/// </summary>
+public record TestEntityLocalizationLocalizedKeyDto(System.String Id, System.String CultureCode);

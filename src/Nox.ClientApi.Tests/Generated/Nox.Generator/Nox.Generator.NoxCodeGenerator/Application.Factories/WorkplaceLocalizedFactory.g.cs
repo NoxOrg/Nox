@@ -17,7 +17,7 @@ internal partial class WorkplaceLocalizedFactory : WorkplaceLocalizedFactoryBase
 {
 }
 
-internal abstract class WorkplaceLocalizedFactoryBase : IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity>
+internal abstract class WorkplaceLocalizedFactoryBase : IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceLocalizedCreateDto>
 {
     public virtual WorkplaceLocalized CreateLocalizedEntity(WorkplaceEntity entity, CultureCode cultureCode)
     {
@@ -31,12 +31,12 @@ internal abstract class WorkplaceLocalizedFactoryBase : IEntityLocalizedFactory<
         return localizedEntity;
     }
     
-    public virtual WorkplaceLocalized CreateLocalizedEntityFromDto(WorkplaceLocalizedDto localizedDto)
+    public virtual WorkplaceLocalized CreateLocalizedEntity(WorkplaceLocalizedCreateDto localizedCreateDto)
     {
         var localizedEntity = new WorkplaceLocalized
-        {Id = Nuid.FromDatabase(localizedDto.Id),
-            CultureCode = CultureCode.From(localizedDto.CultureCode),
-            Description = Text.From(localizedDto.Description),
+        {Id = Nuid.FromDatabase(localizedCreateDto.Id),
+            CultureCode = CultureCode.From(localizedCreateDto.CultureCode),
+            Description = Text.From(localizedCreateDto.Description.ToValueFromNonNull()),
         };
 
         return localizedEntity;

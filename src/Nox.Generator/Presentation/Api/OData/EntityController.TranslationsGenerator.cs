@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System.Linq;
+using Microsoft.CodeAnalysis;
 
 using Nox.Generator.Common;
 using Nox.Solution;
@@ -31,11 +32,16 @@ internal class EntityControllerTranslationsGenerator : EntityControllerGenerator
                 continue;
             }
 
+            var keysForRouting = GetPrimaryKeysQuery(entity).Split(',').Select(x => x.Trim()).ToList();
+            
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"{entity.PluralName}Controller")
                 .WithFileNamePrefix("Presentation.Api.OData")
                 .WithFileNameSuffix("Translations")
+                .WithObject("primaryKeysRoute", GetPrimaryKeysRoute(entity,codeGeneratorState.Solution))
                 .WithObject("primaryKeysQuery", GetPrimaryKeysQuery(entity))
+                .WithObject("createdKeyPrimaryKeysQuery", GetPrimaryKeysQuery(entity, "createdKey.", true))
+                .WithObject("keysForRouting", keysForRouting)
                 .WithObject("entity", entity)
                 .GenerateSourceCodeFromResource(templateName);
         }

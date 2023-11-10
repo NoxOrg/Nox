@@ -2,6 +2,7 @@
 
 #nullable enable
 
+using System.Net.Mime;
 using Nox.Application.Factories;
 using Nox.Extensions;
 using Nox.Types;
@@ -16,7 +17,7 @@ internal partial class TestEntityLocalizationLocalizedFactory : TestEntityLocali
 {
 }
 
-internal abstract class TestEntityLocalizationLocalizedFactoryBase : IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity>
+internal abstract class TestEntityLocalizationLocalizedFactoryBase : IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationLocalizedCreateDto>
 {
     public virtual TestEntityLocalizationLocalized CreateLocalizedEntity(TestEntityLocalizationEntity entity, CultureCode cultureCode)
     {
@@ -25,6 +26,18 @@ internal abstract class TestEntityLocalizationLocalizedFactoryBase : IEntityLoca
             Id = entity.Id,
             CultureCode = cultureCode,
             TextFieldToLocalize = entity.TextFieldToLocalize,
+        };
+
+        return localizedEntity;
+    }
+    
+    public virtual TestEntityLocalizationLocalized CreateLocalizedEntity(TestEntityLocalizationLocalizedCreateDto localizedCreateDto)
+    {
+        var localizedEntity = new TestEntityLocalizationLocalized
+        { 
+            Id = Text.From(localizedCreateDto.Id),
+            CultureCode = CultureCode.From(localizedCreateDto.CultureCode),
+            TextFieldToLocalize = Text.From(localizedCreateDto.TextFieldToLocalize.ToValueFromNonNull()),
         };
 
         return localizedEntity;

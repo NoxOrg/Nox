@@ -28,7 +28,7 @@ internal partial class CreateTestEntityLocalizationCommandHandler : CreateTestEn
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> entityFactory,
-		IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity> entityLocalizedFactory)
+		IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationLocalizedCreateDto> entityLocalizedFactory)
 		: base(dbContext, noxSolution,entityFactory, entityLocalizedFactory)
 	{
 	}
@@ -39,13 +39,13 @@ internal abstract class CreateTestEntityLocalizationCommandHandlerBase : Command
 {
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> EntityFactory;
-	protected readonly IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity> EntityLocalizedFactory;
+	protected readonly IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationLocalizedCreateDto> EntityLocalizedFactory;
 
 	public CreateTestEntityLocalizationCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<TestEntityLocalizationEntity, TestEntityLocalizationCreateDto, TestEntityLocalizationUpdateDto> entityFactory,
-		IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity> entityLocalizedFactory)
+		IEntityLocalizedFactory<TestEntityLocalizationLocalized, TestEntityLocalizationEntity, TestEntityLocalizationLocalizedCreateDto> entityLocalizedFactory)
 		: base(noxSolution)
 	{
 		DbContext = dbContext;

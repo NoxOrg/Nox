@@ -14,28 +14,18 @@ using Nox.Types;
 namespace ClientApi.Application.Dto;
 
 /// <summary>
-/// Workplace Localized DTO.
+/// Workplace Localized Create DTO.
 /// </summary>
-public partial class WorkplaceLocalizedDto
+public partial class WorkplaceLocalizedCreateDto
 {
     /// <summary>
     /// Workplace unique identifier (Required).
     /// </summary>
+    internal System.UInt32 Id { get; set; } = default!;
     
-    public System.UInt32 Id { get; set; } = default!;
-
-    public System.String CultureCode { get; set; } = default!;
-
+    internal System.String CultureCode { get; set; } = default!;
     /// <summary>
     /// Workplace Description (Optional).
     /// </summary>
     public System.String? Description { get; set; }
-
-    [JsonPropertyName("@odata.etag")]
-    public System.Guid Etag { get; init; }
 }
-
-/// <summary>
-/// Record for Workplace Localized Key DTO.
-/// </summary>
-public record WorkplaceLocalizedKeyDto(System.UInt32 Id, System.String CultureCode);
