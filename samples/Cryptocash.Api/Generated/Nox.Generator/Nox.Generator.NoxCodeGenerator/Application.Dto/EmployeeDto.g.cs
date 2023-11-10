@@ -108,10 +108,8 @@ public abstract class EmployeeDtoBase : EntityDtoBase, IEntityDto<DomainNamespac
     public System.DateTime? LastWorkingDay { get; set; }
 
     /// <summary>
-    /// Employee reviewing ExactlyOne CashStockOrders
+    /// Employee reviewing ZeroOrOne CashStockOrders
     /// </summary>
-    //EF maps ForeignKey Automatically
-    public System.Int64? CashStockOrderId { get; set; } = default!;
     public virtual CashStockOrderDto? CashStockOrder { get; set; } = null!;
 
     /// <summary>

@@ -10,6 +10,7 @@ using System.Text.Json;
 using Cryptocash.Ui.Generated.Data.Generic.Service;
 using Cryptocash.Application.Dto;
 using AutoMapper;
+using System.Reflection;
 
 namespace Cryptocash.Ui.Generated.Pages.Generic
 {
@@ -369,12 +370,31 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
             ResetViewList();
             ResetAddEntity();
             ResetEditEntity();
-            await GetAllCountries();
-            await GetAllCurrencies();
-            await GetAllLandLords();
+
+            if (CurrentEntityName == "Customer") //TODO set Test Datagrid
+            {
+                var testItem = (T?)Activator.CreateInstance(typeof(T?));
+                
+                List<T> testData = new List<T>();
+                if (testItem != null)
+                {
+                    PropertyInfo? prop = testItem!.GetType().GetProperty("Id", BindingFlags.Public | BindingFlags.Instance);
+                    if (prop != null && prop.CanWrite)
+                    {
+                        prop.SetValue(testItem, 1, null);
+                    }
+
+                    testData.Add(testItem);
+                };                
+
+                PagedData = testData;
+            }
 
             if (CurrentEntityName == "VendingMachine") //TODO just VendingMachine for now
             {
+                await GetAllCountries();
+                await GetAllCurrencies();
+                await GetAllLandLords();
                 await GetApiEntityData();
             }            
 
