@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.OData.Formatter.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Lib;
 using Cryptocash.Application.Dto;
+using DtoNameSpace = Cryptocash.Application.Dto;
 
 namespace Cryptocash.Presentation.Api.OData;
 

@@ -10,7 +10,7 @@ namespace ClientApi.Presentation.Api.OData;
 
 public abstract partial class StoresControllerBase
 {
-    [HttpGet("api/Stores/Statuses")]
+    [HttpGet("api/Stores/StoreStatuses")]
     public virtual async Task<ActionResult<IQueryable<DtoNameSpace.StoreStatusDto>>> GetStatusesNonConventional()
     {            
         var result = await _mediator.Send(new ApplicationQueriesNameSpace.GetStoresStatusesQuery());                        
