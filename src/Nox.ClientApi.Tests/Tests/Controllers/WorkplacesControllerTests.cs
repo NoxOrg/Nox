@@ -2,10 +2,13 @@
 using ClientApi.Application.Dto;
 using AutoFixture;
 using System.Net;
+using ClientApi.Domain;
+using ClientApi.Infrastructure.Persistence;
 using ClientApi.Tests.Tests.Models;
 using Xunit.Abstractions;
 using ClientApi.Tests.Controllers;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Nox.Types;
 using static MassTransit.ValidationResultExtensions;
 
 namespace ClientApi.Tests.Tests.Controllers
@@ -366,14 +369,18 @@ namespace ClientApi.Tests.Tests.Controllers
             // Act
             var result = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, headers);
 
-            var localizationCultureCode = "fr-FR";
+            var localizationCultureCode = "tr-TR";
             var createLocalizedDto = new WorkplaceLocalizedCreateDto
             {
-                Description = "Un immeuble moderne de taille modeste avec parking, à quelques minutes de la Gare de Lyon et de la Gare d'Austerlitz.",
-                // CultureCode = "fr-FR"
+               Description = "Gare de Lyon ve Gare d'Austerlitz'e sadece birkaç dakika uzaklıkta, park yeri olan modern, mütevazı büyüklükte bir bina.",
             };
+
+            var localizedNew = GetEntitiesByFilter<WorkplaceLocalized>(dto => dto.Id == Nuid.From(result!.Id));
+            var localizedAll = GetEntitiesByFilter<WorkplaceLocalized>(dto => dto.Id > Nuid.From(0));
             
             var localizedResult = await PostAsync<WorkplaceLocalizedCreateDto, WorkplaceLocalizedDto>($"{Endpoints.WorkplacesUrl}/{result!.Id}/WorkplaceLocalized/{localizationCultureCode}", createLocalizedDto, headers);
+            
+            
             
             // Assert
             result.Should().NotBeNull();

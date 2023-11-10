@@ -273,4 +273,11 @@ public abstract class NoxWebApiTestBase : IClassFixture<TestDatabaseContainerSer
         var entity = ctx.Set<TResult>().Where(filter).FirstOrDefault();
         return entity;
     }
+    
+    protected List<TResult>? GetEntitiesByFilter<TResult>(Func<TResult, bool> filter) where TResult : class
+    {
+        var ctx = _appFactory.GetDbContext();
+        var entity = ctx.Set<TResult>().Where(filter).ToList();
+        return entity;
+    }
 }
