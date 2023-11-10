@@ -13,10 +13,10 @@ using Nox.Solution;
 using Nox.Types;
 
 namespace ClientApi.Domain;
-
 /// <summary>
 /// Workplace.
 /// </summary>
+[PrimaryKey(nameof(Id),nameof(CultureCode))]
 internal partial class WorkplaceLocalized : IEntity, IEntityConcurrent
 {
     /// <summary>

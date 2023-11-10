@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 using MediatR;
 
@@ -14,9 +15,17 @@ using Nox.Types;
 
 namespace {{codeGeneratorState.DomainNameSpace}};
 
+{{-keyAnnotation = '[PrimaryKey('}}
+{{- for key in entity.Keys }}
+
+    {{-keyAnnotation = keyAnnotation + 'nameof(' + key.Name + '),'}}
+
+{{- end }}
+{{-keyAnnotation = keyAnnotation + 'nameof(' + codeGeneratorState.LocalizationCultureField + '))]'}}
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
+{{keyAnnotation}}
 internal partial class {{className}} : IEntity, IEntityConcurrent
 {
 {{- for key in entity.Keys }}

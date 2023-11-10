@@ -350,6 +350,41 @@ namespace ClientApi.Tests.Tests.Controllers
             result2!.Name.Should().Be(createDto2.Name);
             result2!.Description.Should().Be(createDto2.Description);
         }
+        
+        [Fact]
+        public async Task Post_WorkplaceLocalized_CreateLocalization()
+        {
+            // Arrange
+            var createDto = new WorkplaceCreateDto
+            {
+                Name = "Regus - Paris Gare de Lyon",
+                Description = "A modern, modestly sized building with parking, just minutes from the Gare de Lyon and Gare d'Austerlitz.",
+            };
+
+            var headers = CreateAcceptLanguageHeader("en-US");
+
+            // Act
+            var result = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, headers);
+
+            var localizationCultureCode = "fr-FR";
+            var createLocalizedDto = new WorkplaceLocalizedCreateDto
+            {
+                Description = "Un immeuble moderne de taille modeste avec parking, à quelques minutes de la Gare de Lyon et de la Gare d'Austerlitz.",
+                // CultureCode = "fr-FR"
+            };
+            
+            var localizedResult = await PostAsync<WorkplaceLocalizedCreateDto, WorkplaceLocalizedDto>($"{Endpoints.WorkplacesUrl}/{result!.Id}/WorkplaceLocalized/{localizationCultureCode}", createLocalizedDto, headers);
+            
+            // Assert
+            result.Should().NotBeNull();
+            result!.Id.Should().BeGreaterThan(0);
+            result!.Name.Should().Be(createDto.Name);
+            result!.Description.Should().Be(createDto.Description);
+            localizedResult.Should().NotBeNull();
+            localizedResult!.Id.Should().Be(result!.Id);
+            localizedResult!.CultureCode.Should().Be(localizationCultureCode);
+            localizedResult!.Description.Should().Be(createLocalizedDto.Description);
+        }
 
         #endregion LOCALIZATIONS
 
