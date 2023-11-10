@@ -27,7 +27,7 @@ public class DefaultLanguageProvider : IHttpLanguageProvider
     public CultureCode GetLanguage()
     {
         var language = GetQueryParamLanguage() ?? GetHeaderLanguage() ?? _defaultLanguage.Value;
-        return string.IsNullOrEmpty(language) ? _defaultLanguage : CultureCode.From(language);
+        return CultureCode.From(language);
     }
 
     private string? GetQueryParamLanguage()
