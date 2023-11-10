@@ -67,18 +67,21 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
     {
         foreach (var relationshipToCreate in entity.Relationships)
         {
-            var relationshipName = entity.GetRelationshipPublicName(relationshipToCreate);
-            var reversedRelationshipName = relationshipToCreate.Related.Entity.GetRelationshipPublicName(
+            var navigationPropertyName = entity.GetRelationshipPublicName(relationshipToCreate);
+            var reversedNavigationPropertyName = relationshipToCreate.Related.Entity.GetRelationshipPublicName(
                 relationshipToCreate.Related.EntityRelationship);
             // ManyToMany
             // Currently, configured bi-directionally, shouldn't cause any issues.
             if (relationshipToCreate.WithMultiEntity &&
                 relationshipToCreate.Related.EntityRelationship.WithMultiEntity)
             {
-                builder
-                    .HasMany(relationshipName)
-                    .WithMany(reversedRelationshipName)
-                    .UsingEntity(x => x.ToTable(relationshipName));
+                if (relationshipToCreate.ShouldGenerateForeignKeyOnThisSide())
+                {
+                    builder
+                    .HasMany(navigationPropertyName)
+                    .WithMany(reversedNavigationPropertyName)
+                    .UsingEntity(x => x.ToTable(relationshipToCreate.Name));
+                }
             }
             // OneToOne and OneToMany, setup should be done only on foreign key side
             else if (relationshipToCreate.ShouldGenerateForeignKeyOnThisSide() &&
@@ -88,17 +91,17 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
                 if (relationshipToCreate.Related.EntityRelationship.WithMultiEntity)
                 {
                     builder
-                        .HasOne($"{_codeGenConventions.DtoNameSpace}.{relationshipToCreate.Entity}Dto", relationshipName)
-                        .WithMany(reversedRelationshipName)
-                        .HasForeignKey($"{relationshipName}Id");
+                        .HasOne($"{_codeGenConventions.DtoNameSpace}.{relationshipToCreate.Entity}Dto", navigationPropertyName)
+                        .WithMany(reversedNavigationPropertyName)
+                        .HasForeignKey($"{navigationPropertyName}Id");
                 }
                 //One to One
                 else
                 {
                     builder
-                        .HasOne($"{_codeGenConventions.DtoNameSpace}.{relationshipToCreate.Entity}Dto", relationshipName)
-                        .WithOne(reversedRelationshipName)
-                        .HasForeignKey($"{_codeGenConventions.DtoNameSpace}.{entity.Name}Dto", $"{relationshipName}Id");
+                        .HasOne($"{_codeGenConventions.DtoNameSpace}.{relationshipToCreate.Entity}Dto", navigationPropertyName)
+                        .WithOne(reversedNavigationPropertyName)
+                        .HasForeignKey($"{_codeGenConventions.DtoNameSpace}.{entity.Name}Dto", $"{navigationPropertyName}Id");
                 }
             }
         }

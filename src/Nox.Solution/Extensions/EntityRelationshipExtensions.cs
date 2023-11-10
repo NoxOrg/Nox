@@ -12,10 +12,9 @@ public static class EntityRelationshipExtensions
     {
         var generate = true;
 
-        var pairRelationship = relationship.Related.EntityRelationship;
-        if (pairRelationship != null)
+        var reverseRelationship = relationship.Related.EntityRelationship;
+        if (reverseRelationship != null)
         {
-            // ManyToMany does not need to be handled as it doesn't have special logic
             // Will be always ignored by default
             if (relationship.Relationship == EntityRelationshipType.OneOrMany ||
                 relationship.Relationship == EntityRelationshipType.ZeroOrMany)
@@ -24,23 +23,31 @@ public static class EntityRelationshipExtensions
             }
             // OneToMany should be handled on one side
             else if (relationship.WithMultiEntity &&
-                pairRelationship.WithSingleEntity)
+                reverseRelationship.WithSingleEntity)
             {
                 generate = true;
             }
             // If ZeroOrOne vs ExactlyOne handle on ExactlyOne side
-            else if (pairRelationship.Relationship == EntityRelationshipType.ExactlyOne &&
+            else if (reverseRelationship.Relationship == EntityRelationshipType.ExactlyOne &&
                 relationship.Relationship == EntityRelationshipType.ZeroOrOne)
             {
                 generate = false;
             }
             // If same type on both sides cover on first by ascending alphabetical sort
-            else if (pairRelationship.Relationship == relationship.Relationship &&
+            else if (reverseRelationship.Relationship == relationship.Relationship &&
                      // Ascending alphabetical sort
-                     string.Compare(relationship.Entity, pairRelationship.Entity,
+                     string.Compare(relationship.Entity, reverseRelationship.Entity,
                          StringComparison.InvariantCulture) > 0)
             {
                 generate = false;
+            }
+            // ManyToMany 
+            else if (relationship.WithMultiEntity && reverseRelationship.WithMultiEntity &&
+                // Ascending alphabetical sort
+                string.Compare(relationship.Entity, reverseRelationship.Entity,
+                         StringComparison.InvariantCulture) > 0)
+            {
+                generate = true;
             }
         }
 
