@@ -116,13 +116,13 @@ public abstract partial class TestEntityZeroOrManyToExactlyOnesControllerBase : 
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         var related = (await _mediator.Send(new GetTestEntityZeroOrManyToExactlyOneByIdQuery(key))).Select(x => x.TestEntityExactlyOneToZeroOrManies).SingleOrDefault()?.SingleOrDefault(x => x.Id == relatedKey);
         if (related == null)
         {
             return NotFound();
         }
         
+        var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateTestEntityExactlyOneToZeroOrManyCommand(relatedKey, testEntityExactlyOneToZeroOrMany, _cultureCode, etag));
         if (updated == null)
         {

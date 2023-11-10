@@ -697,7 +697,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
 
         var localizationPart = entity.IsLocalized ? "_cultureCode, " : "";
 
@@ -716,6 +715,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"return NotFound();");
         code.EndBlock();
         code.AppendLine();
+        code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
         var relatedKeyQuery = isSingleRelationship ? 
             $"{GetPrimaryKeysQuery(relatedEntity, "related.", true)}" : 
             $"{GetPrimaryKeysQuery(relatedEntity, "relatedKey")}";

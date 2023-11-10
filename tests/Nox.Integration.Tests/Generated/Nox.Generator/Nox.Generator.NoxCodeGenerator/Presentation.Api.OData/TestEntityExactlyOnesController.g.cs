@@ -95,13 +95,13 @@ public abstract partial class TestEntityExactlyOnesControllerBase : ODataControl
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         var related = (await _mediator.Send(new GetTestEntityExactlyOneByIdQuery(key))).Select(x => x.SecondTestEntityExactlyOne).SingleOrDefault();
         if (related == null)
         {
             return NotFound();
         }
         
+        var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateSecondTestEntityExactlyOneCommand(related.Id, secondTestEntityExactlyOne, _cultureCode, etag));
         if (updated == null)
         {

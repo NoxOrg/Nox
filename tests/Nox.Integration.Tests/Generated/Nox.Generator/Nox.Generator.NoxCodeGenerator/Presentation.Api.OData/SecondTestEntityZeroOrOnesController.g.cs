@@ -111,13 +111,13 @@ public abstract partial class SecondTestEntityZeroOrOnesControllerBase : ODataCo
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         var related = (await _mediator.Send(new GetSecondTestEntityZeroOrOneByIdQuery(key))).Select(x => x.TestEntityZeroOrOne).SingleOrDefault();
         if (related == null)
         {
             return NotFound();
         }
         
+        var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateTestEntityZeroOrOneCommand(related.Id, testEntityZeroOrOne, _cultureCode, etag));
         if (updated == null)
         {

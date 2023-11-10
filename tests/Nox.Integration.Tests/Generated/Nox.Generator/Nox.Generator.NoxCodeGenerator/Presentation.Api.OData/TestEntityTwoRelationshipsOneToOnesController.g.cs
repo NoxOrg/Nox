@@ -95,13 +95,13 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipOne).SingleOrDefault();
         if (related == null)
         {
             return NotFound();
         }
         
+        var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateSecondTestEntityTwoRelationshipsOneToOneCommand(related.Id, secondTestEntityTwoRelationshipsOneToOne, _cultureCode, etag));
         if (updated == null)
         {
@@ -178,13 +178,13 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
             return BadRequest(ModelState);
         }
         
-        var etag = Request.GetDecodedEtagHeader();
         var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Select(x => x.TestRelationshipTwo).SingleOrDefault();
         if (related == null)
         {
             return NotFound();
         }
         
+        var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateSecondTestEntityTwoRelationshipsOneToOneCommand(related.Id, secondTestEntityTwoRelationshipsOneToOne, _cultureCode, etag));
         if (updated == null)
         {
