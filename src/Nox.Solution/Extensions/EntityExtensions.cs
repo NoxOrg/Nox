@@ -6,6 +6,7 @@ namespace Nox.Solution.Extensions;
 
 public static class EntityExtensions
 {
+
     public static bool TryGetRelationshipByName(this Entity entity, NoxSolution solution, string relationshipName, out NoxSimpleTypeDefinition? result)
     {
         result = null;
@@ -14,9 +15,9 @@ public static class EntityExtensions
             return false;
         }
 
-        var rel = entity.Relationships!.First(x => x.Name.Equals(relationshipName));
+        EntityRelationship rel = entity.Relationships!.Single(x => x.Name.Equals(relationshipName));
         // TODO: possibly extend for other types
-        if (!rel.ShouldGenerateForeignOnThisSide ||
+        if (!EntityRelationshipExtensions.ShouldGenerateForeignKeyOnThisSide(rel) ||
             rel.WithMultiEntity)
         {
             return false;

@@ -908,9 +908,11 @@ namespace ClientApi.Tests.Tests.Controllers
             // Act
             var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, workplaceCreateDto);
             const string oDataRequest = $"$expand={nameof(WorkplaceDto.Tenants)}";
-            // TODO Odata expand is failing in a Namy to Many
+            
             var getWorkplaceResponse = await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}?{oDataRequest}");
-            //var getWorkplaceResponse = await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}");
+
+            //TODO Anna when we are able to Get Related Entities
+            //var getTenants = await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Tenants)}");
 
             // Assert
             getWorkplaceResponse.Should().NotBeNull();

@@ -155,7 +155,7 @@ namespace Nox.Types.EntityFramework.Configurations
                 if (relationshipToCreate.Relationship.WithMultiEntity &&
                     relationshipToCreate.Relationship.Related.EntityRelationship.WithMultiEntity)
                 {
-                    if (relationshipToCreate.Relationship.ShouldGenerateForeignKeyOnThisSide())
+                    if (relationshipToCreate.Relationship.ConfigureThisSide())
                     {
                         builder
                         .HasMany(navigationPropertyName)
@@ -164,7 +164,7 @@ namespace Nox.Types.EntityFramework.Configurations
                     }
                 }
                 // OneToOne and OneToMany, setup should be done only on foreign key side
-                else if (relationshipToCreate.Relationship.ShouldGenerateForeignKeyOnThisSide() &&
+                else if (relationshipToCreate.Relationship.ConfigureThisSide() &&
                     relationshipToCreate.Relationship.WithSingleEntity())
                 {
                     //One to Many

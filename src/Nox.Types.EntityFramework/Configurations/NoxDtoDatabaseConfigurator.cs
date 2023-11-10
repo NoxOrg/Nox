@@ -75,7 +75,7 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
             if (relationshipToCreate.WithMultiEntity &&
                 relationshipToCreate.Related.EntityRelationship.WithMultiEntity)
             {
-                if (relationshipToCreate.ShouldGenerateForeignKeyOnThisSide())
+                if (relationshipToCreate.ConfigureThisSide())
                 {
                     builder
                     .HasMany(navigationPropertyName)
@@ -84,7 +84,7 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
                 }
             }
             // OneToOne and OneToMany, setup should be done only on foreign key side
-            else if (relationshipToCreate.ShouldGenerateForeignKeyOnThisSide() &&
+            else if (relationshipToCreate.ConfigureThisSide() &&
                 relationshipToCreate.WithSingleEntity())
             {
                 //One to Many
