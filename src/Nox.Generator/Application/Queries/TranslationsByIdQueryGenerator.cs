@@ -12,7 +12,7 @@ internal class TranslationsByIdQueryGenerator : ApplicationEntityDependentGenera
 {
     protected override void DoGenerate(SourceProductionContext context, NoxCodeGenConventions codeGeneratorState, IEnumerable<Entity> entities)
     {
-        var templateName = @"Application.Queries.LocalizedByIdQuery";
+        var templateName = @"Application.Queries.TranslationsByIdQuery";
         foreach (var entity in entities.Where(x => x.IsLocalized))
         {
             if (entity.IsOwnedEntity)
@@ -28,6 +28,6 @@ internal class TranslationsByIdQueryGenerator : ApplicationEntityDependentGenera
                 .WithObject("entity", entity)
                 .WithObject("primaryKeys", primaryKeys)
                 .GenerateSourceCodeFromResource(templateName);
-        }
+        }  
     }
 }
