@@ -58,7 +58,7 @@ internal abstract class UpdatePaymentProviderCommandHandlerBase : CommandBase<Up
 		}
 
 		await DbContext.Entry(entity).Collection(x => x.PaymentDetails).LoadAsync();
-		var paymentDetailsEntities = new List<PaymentDetail>();
+		var paymentDetailsEntities = new List<Cryptocash.Domain.PaymentDetail>();
 		foreach(var relatedEntityId in request.EntityDto.PaymentDetailsId)
 		{
 			var relatedKey = Cryptocash.Domain.PaymentDetailMetadata.CreateId(relatedEntityId);

@@ -58,7 +58,7 @@ internal abstract class UpdateCurrencyCommandHandlerBase : CommandBase<UpdateCur
 		}
 
 		await DbContext.Entry(entity).Collection(x => x.StoreLicenseDefault).LoadAsync();
-		var storeLicenseDefaultEntities = new List<StoreLicense>();
+		var storeLicenseDefaultEntities = new List<ClientApi.Domain.StoreLicense>();
 		foreach(var relatedEntityId in request.EntityDto.StoreLicenseDefaultId)
 		{
 			var relatedKey = ClientApi.Domain.StoreLicenseMetadata.CreateId(relatedEntityId);
@@ -72,7 +72,7 @@ internal abstract class UpdateCurrencyCommandHandlerBase : CommandBase<UpdateCur
 		entity.UpdateRefToStoreLicenseDefault(storeLicenseDefaultEntities);
 
 		await DbContext.Entry(entity).Collection(x => x.StoreLicenseSoldIn).LoadAsync();
-		var storeLicenseSoldInEntities = new List<StoreLicense>();
+		var storeLicenseSoldInEntities = new List<ClientApi.Domain.StoreLicense>();
 		foreach(var relatedEntityId in request.EntityDto.StoreLicenseSoldInId)
 		{
 			var relatedKey = ClientApi.Domain.StoreLicenseMetadata.CreateId(relatedEntityId);
