@@ -32,7 +32,7 @@ public class DefaultLanguageProvider : IHttpLanguageProvider
 
     private string? GetQueryParamLanguage()
     {
-        var language = _queryParamProvider.GetQueryParamValue("lang");
+        var language = _queryParamProvider.GetQueryParamValue(QueryParams.Language);
         return !string.IsNullOrEmpty(language) && _supportedLanguages.Contains(language) ? language : null;
     }
 

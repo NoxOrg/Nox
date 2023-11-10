@@ -1,9 +1,8 @@
-﻿using Elastic.Apm.Api;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Moq;
+using Nox.Presentation.Api;
 using Nox.Presentation.Api.Providers;
-using YamlDotNet.Core.Tokens;
 
 namespace Nox.Lib.Tests.Presentation.Providers;
 
@@ -23,7 +22,7 @@ public class HttpQueryParamValueProviderTests
     {
         // Arrange
         // Act
-        var actual = _provider.GetQueryParamValue("lang");
+        var actual = _provider.GetQueryParamValue(QueryParams.Language);
 
         // Assert
         actual.Should().BeNull();
@@ -53,12 +52,12 @@ public class HttpQueryParamValueProviderTests
     {
         // Arrange
         var httpContext = new DefaultHttpContext();
-        httpContext.Request.QueryString = new QueryString($"?lang=");
+        httpContext.Request.QueryString = new QueryString($"?{QueryParams.Language}=");
 
         _httpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(httpContext);
 
         // Act
-        var actual = _provider.GetQueryParamValue("lang");
+        var actual = _provider.GetQueryParamValue(QueryParams.Language);
 
         // Assert
         actual.Should().BeNull();
@@ -93,12 +92,12 @@ public class HttpQueryParamValueProviderTests
     {
         // Arrange
         var httpContext = new DefaultHttpContext();
-        httpContext.Request.QueryString = new QueryString($"?lang={value}");
+        httpContext.Request.QueryString = new QueryString($"?{QueryParams.Language}={value}");
 
         _httpContextAccessorMock.SetupGet(x => x.HttpContext).Returns(httpContext);
 
         // Act
-        var actual = _provider.GetQueryParamValue("lang");
+        var actual = _provider.GetQueryParamValue(QueryParams.Language);
 
         // Assert
         actual.Should().Be(value);
