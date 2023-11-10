@@ -43,9 +43,9 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         UpdateEntityInternal(entity, updateDto, cultureCode);
     }
 
-    public virtual void PartialUpdateEntity(CountryEntity entity, Dictionary<string, dynamic> updatedProperties)
+    public virtual void PartialUpdateEntity(CountryEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
-        PartialUpdateEntityInternal(entity, updatedProperties);
+        PartialUpdateEntityInternal(entity, updatedProperties, cultureCode);
     }
 
     private SampleWebApp.Domain.Country ToEntity(CountryCreateDto createDto)
@@ -89,7 +89,7 @@ internal abstract class CountryFactoryBase : IEntityFactory<CountryEntity, Count
         entity.SetIfNotNull(updateDto.TopLevelDomains, (entity) => entity.TopLevelDomains = SampleWebApp.Domain.CountryMetadata.CreateTopLevelDomains(updateDto.TopLevelDomains.ToValueFromNonNull<System.String>()));
     }
 
-    private void PartialUpdateEntityInternal(CountryEntity entity, Dictionary<string, dynamic> updatedProperties)
+    private void PartialUpdateEntityInternal(CountryEntity entity, Dictionary<string, dynamic> updatedProperties, Nox.Types.CultureCode cultureCode)
     {
 
         if (updatedProperties.TryGetValue("Name", out var NameUpdateValue))
