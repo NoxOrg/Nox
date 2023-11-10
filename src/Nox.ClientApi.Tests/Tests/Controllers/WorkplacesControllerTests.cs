@@ -196,6 +196,51 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #endregion
 
+        #region PUT to Related Entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName} => api/workplaces/1/Country
+
+        [Fact]
+        public async Task Put_CountryToWorkplaces_Success()
+        {
+            // Arrange
+            var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl,
+                new WorkplaceCreateDto { Name = _fixture.Create<string>() });
+
+            var headers = CreateEtagHeader(workplaceResponse?.Etag);
+            var postToCountryResponse = await PostAsync<CountryCreateDto, CountryDto>(
+                $"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}",
+                new CountryCreateDto() { Name = _fixture.Create<string>() },
+                headers);
+
+            var expectedName = _fixture.Create<string>();
+
+            // Act
+            headers = CreateEtagHeader(postToCountryResponse?.Etag);
+            var putToCountryResponse = await PutAsync<CountryUpdateDto>(
+                $"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}",
+                new CountryUpdateDto()
+                {
+                    Name = expectedName,
+                    WorkplacesId = new List<uint> { workplaceResponse!.Id }
+                },
+                headers);
+
+            const string oDataRequest = $"$expand={nameof(WorkplaceDto.Country)}";
+            var getWorkplaceResponse = await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}?{oDataRequest}");
+
+            //Assert
+            putToCountryResponse.Should().NotBeNull();
+            putToCountryResponse!.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            getWorkplaceResponse.Should().NotBeNull();
+            getWorkplaceResponse!.Id.Should().BeGreaterThan(0);
+            getWorkplaceResponse!.CountryId.Should().Be(postToCountryResponse!.Id);
+            getWorkplaceResponse!.Country.Should().NotBeNull();
+            getWorkplaceResponse!.Country!.Id.Should().Be(postToCountryResponse!.Id);
+            getWorkplaceResponse!.Country!.Name.Should().Be(expectedName);
+        }
+
+        #endregion
+
         #endregion
 
         #region DELETE
