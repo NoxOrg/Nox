@@ -41,11 +41,11 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 		{{ keys = keys | string.append (SinglePrimitiveTypeForKey key) + " " + key.Name + ", "  }}
 	{{- end}}
 {{ end }}
-public record Create{{entity.Name}}TranslationsCommand({{entity.Name}}LocalizedCreateDto {{entity.Name}}LocalizedCreateDto, {{keys}}System.String {{codeGeneratorState.LocalizationCultureField}}) : IRequest<{{entity.Name}}LocalizedKeyDto>;
+public record Update{{entity.Name}}TranslationsCommand({{entity.Name}}LocalizedUpdateDto {{entity.Name}}LocalizedUpdateDto, {{keys}}System.String {{codeGeneratorState.LocalizationCultureField}}, System.Guid? Etag) : IRequest<{{entity.Name}}LocalizedKeyDto>;
 
-internal partial class Create{{entity.Name}}TranslationsCommandHandler : Create{{entity.Name}}TranslationsCommandHandlerBase
+internal partial class Update{{entity.Name}}TranslationsCommandHandler : Update{{entity.Name}}TranslationsCommandHandlerBase
 {
-	public Create{{entity.Name}}TranslationsCommandHandler(
+	public Update{{entity.Name}}TranslationsCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}LocalizedCreateDto, {{entity.Name}}LocalizedUpdateDto> entityLocalizedFactory)
@@ -55,13 +55,13 @@ internal partial class Create{{entity.Name}}TranslationsCommandHandler : Create{
 }
 
 
-internal abstract class Create{{entity.Name}}TranslationsCommandHandlerBase : CommandBase<Create{{entity.Name}}TranslationsCommand, {{entity.Name}}LocalizedEntity>, IRequestHandler <Create{{entity.Name}}TranslationsCommand, {{entity.Name}}LocalizedKeyDto>
+internal abstract class Update{{entity.Name}}TranslationsCommandHandlerBase : CommandBase<Update{{entity.Name}}TranslationsCommand, {{entity.Name}}LocalizedEntity>, IRequestHandler <Update{{entity.Name}}TranslationsCommand, {{entity.Name}}LocalizedKeyDto?>
 {
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}LocalizedCreateDto, {{entity.Name}}LocalizedUpdateDto> EntityLocalizedFactory;
 	
 
-	public Create{{entity.Name}}TranslationsCommandHandlerBase(
+	public Update{{entity.Name}}TranslationsCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}LocalizedCreateDto, {{entity.Name}}LocalizedUpdateDto> entityLocalizedFactory)
@@ -71,18 +71,39 @@ internal abstract class Create{{entity.Name}}TranslationsCommandHandlerBase : Co
 		EntityLocalizedFactory = entityLocalizedFactory;
 	}
 
-	public virtual async Task<{{entity.Name}}LocalizedKeyDto> Handle(Create{{entity.Name}}TranslationsCommand command, CancellationToken cancellationToken)
+	public virtual async Task<{{entity.Name}}LocalizedKeyDto?> Handle(Update{{entity.Name}}TranslationsCommand command, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		await OnExecutingAsync(command);
+		
 		{{- for key in entity.Keys }}
-		command.{{entity.Name}}LocalizedCreateDto.{{key.Name}} = command.{{key.Name}};
+		var key{{key.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{key.Name}}(command.{{key.Name}});
 		{{- end }}
-		command.{{entity.Name}}LocalizedCreateDto.{{codeGeneratorState.LocalizationCultureField}} = command.{{codeGeneratorState.LocalizationCultureField}};
-		var entityLocalizedToCreate = EntityLocalizedFactory.CreateLocalizedEntity(command.{{entity.Name}}LocalizedCreateDto);
-		await OnCompletedAsync(command, entityLocalizedToCreate);
-		DbContext.{{entity.PluralName}}Localized.Add(entityLocalizedToCreate);
+		
+		var culture = Nox.Types.CultureCode.From(command.{{codeGeneratorState.LocalizationCultureField}});
+		
+		var entityLocalizedToUpdate = await DbContext.{{entity.PluralName}}Localized.FindAsync({{primaryKeysFindQuery}}, culture);
+		if (entityLocalizedToUpdate == null)
+		{
+			return null;
+		}
+		
+		EntityLocalizedFactory.UpdateLocalizedEntity(entityLocalizedToUpdate, command.{{entity.Name}}LocalizedUpdateDto);
+		
+		entityLocalizedToUpdate.Etag = command.Etag.HasValue ? command.Etag.Value : System.Guid.Empty;
+		await OnCompletedAsync(command, entityLocalizedToUpdate);
+		
+		DbContext.Entry(entityLocalizedToUpdate).State = EntityState.Modified;
+		var result = await DbContext.SaveChangesAsync();
+		if (result < 1)
+		{
+			return null;
+		}
+		
+		
 		await DbContext.SaveChangesAsync();
-		return new {{entity.Name}}LocalizedKeyDto({{primaryKeysQuery}}, entityLocalizedToCreate.{{codeGeneratorState.LocalizationCultureField}}.Value);
+		
+		
+		return new {{entity.Name}}LocalizedKeyDto({{primaryKeysQuery}}, entityLocalizedToUpdate.{{codeGeneratorState.LocalizationCultureField}}.Value);
 	}
 }

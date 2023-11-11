@@ -36,7 +36,7 @@ internal class EntityLocalizedUpdateDtoGenerator : INoxCodeGenerator
                 .WithFileNamePrefix("Application.Dto")
                 .WithObject("entity", entity)
                 .WithObject("entityAttributesToLocalize", entityAttributesToLocalize)
-                .GenerateSourceCodeFromResource("Application.Dto.EntityLocalizedCreateDto");
+                .GenerateSourceCodeFromResource("Application.Dto.EntityLocalizedUpdateDto");
         }
     }
 }

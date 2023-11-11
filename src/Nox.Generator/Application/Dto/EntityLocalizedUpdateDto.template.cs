@@ -27,6 +27,4 @@ public partial class {{className}}
     /// </summary>
     public {{attributeType attribute}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
 {{- end }}
-    [JsonPropertyName("@odata.etag")]
-    public System.Guid Etag { get; init; }
 }

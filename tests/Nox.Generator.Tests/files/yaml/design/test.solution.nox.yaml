@@ -1390,3 +1390,67 @@ domain:
           attributeNames:
             - UniqueCountryCode
             - UniqueCurrencyCode
+    
+    - name: CompoundKeysEntity
+
+      description: Entity to test nox compound keys
+
+      keys:
+
+        - name: Id1
+          isRequired: true
+          description: First Id
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 1
+            maxLength: 3
+
+        - name: Id2
+          isRequired: true
+          description: Second Id
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 1
+            maxLength: 3
+
+      attributes:
+
+        - name: Name
+          description: Name of the entity
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+          
+    - name: TestEntityLocalization
+      description: Entity created for testing localization
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextFieldToLocalize
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+            isLocalized: true
+          isRequired: true
+
+        - name: NumberField
+          type: number
+          numberTypeOptions:
+            minValue: 4
+            maxValue: 894
+          isRequired: true      
