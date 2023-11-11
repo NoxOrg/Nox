@@ -96,7 +96,12 @@ public class SolutionBuilderTests
             .AllowMissingSolutionYaml()
             .Build();
         Assert.NotNull(solution);
-        Assert.Null(solution.Infrastructure);
+        //Infrastructure will always have a default value
+        Assert.NotNull(solution.Infrastructure);
+        //Persistence is Optional
+        Assert.Null(solution.Infrastructure.Persistence);
+        //End Points will always have a default value, even if no endpoints is being generated
+        Assert.NotNull(solution.Infrastructure.Endpoints);
         Assert.Null(solution.Domain);
         Assert.Null(solution.Environments);
     }
@@ -122,7 +127,7 @@ public class SolutionBuilderTests
         var instance = NoxSolutionBuilder.Instance;
 
         Assert.NotNull(instance);
-        Assert.Equal(DatabaseServerProvider.SqlServer, instance.Infrastructure!.Persistence.DatabaseServer.Provider);
+        Assert.Equal(DatabaseServerProvider.SqlServer, instance.Infrastructure!.Persistence!.DatabaseServer.Provider);
 
         var allProperties = instance.Domain!.Entities[0].Attributes.Union(instance.Domain!.Entities[0].Keys);
         Assert.True(allProperties.Count(p=>p.Type == NoxType.AutoNumber) > 1);
@@ -137,7 +142,7 @@ public class SolutionBuilderTests
         var instance = NoxSolutionBuilder.Instance;
 
         Assert.NotNull(instance);
-        Assert.Equal(DatabaseServerProvider.Postgres, instance.Infrastructure!.Persistence.DatabaseServer.Provider);
+        Assert.Equal(DatabaseServerProvider.Postgres, instance.Infrastructure!.Persistence!.DatabaseServer.Provider);
 
         var allProperties = instance.Domain!.Entities[0].Attributes.Union(instance.Domain!.Entities[0].Keys);
         Assert.True(allProperties.Count(p=>p.Type == NoxType.AutoNumber) > 1);
