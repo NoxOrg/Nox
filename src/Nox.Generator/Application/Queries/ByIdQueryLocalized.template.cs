@@ -56,7 +56,7 @@ internal abstract class {{className}}HandlerBase:  QueryBase<IQueryable<{{entity
         {{- end }}
         {{- for rel in entity.Relationships }}
             {{- if rel.WithSingleEntity && rel.ShouldGenerateForeignOnThisSide}}
-	        {{- relationshipName = GetRelationshipPublicName entity rel }}
+	        {{- relationshipName = GetNavigationPropertyName entity rel }}
         {{relationshipName}}Id = item.{{relationshipName}}Id,
             {{- end }}
         {{- end }}

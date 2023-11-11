@@ -111,7 +111,7 @@ public abstract class {{className}}Base : EntityDtoBase, IEntityDto<DomainNamesp
 {{- end }}
 {{- ######################################### Relationships###################################################### -}}
 {{- for relationship in entity.Relationships }}
-	{{- relationshipName = GetRelationshipPublicName entity relationship }}
+	{{- relationshipName = GetNavigationPropertyName entity relationship }}
 
     /// <summary>
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}

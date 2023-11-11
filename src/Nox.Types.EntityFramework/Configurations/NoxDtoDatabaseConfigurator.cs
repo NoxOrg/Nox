@@ -67,8 +67,8 @@ public sealed class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
     {
         foreach (var relationshipToCreate in entity.Relationships)
         {
-            var navigationPropertyName = entity.GetRelationshipPublicName(relationshipToCreate);
-            var reversedNavigationPropertyName = relationshipToCreate.Related.Entity.GetRelationshipPublicName(
+            var navigationPropertyName = entity.GetNavigationPropertyName(relationshipToCreate);
+            var reversedNavigationPropertyName = relationshipToCreate.Related.Entity.GetNavigationPropertyName(
                 relationshipToCreate.Related.EntityRelationship);
             // ManyToMany
             // Currently, configured bi-directionally, shouldn't cause any issues.

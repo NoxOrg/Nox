@@ -147,8 +147,8 @@ namespace Nox.Types.EntityFramework.Configurations
         {
             foreach (var relationshipToCreate in relationshipsToCreate)
             {
-                var navigationPropertyName = entity.GetRelationshipPublicName(relationshipToCreate.Relationship);
-                var reversedNavigationPropertyName = relationshipToCreate.Relationship.Related.Entity.GetRelationshipPublicName(
+                var navigationPropertyName = entity.GetNavigationPropertyName(relationshipToCreate.Relationship);
+                var reversedNavigationPropertyName = relationshipToCreate.Relationship.Related.Entity.GetNavigationPropertyName(
                     relationshipToCreate.Relationship.Related.EntityRelationship);
                 // Many to Many
                 // Currently, configured bi-directionally, shouldn't cause any issues.
@@ -244,7 +244,7 @@ namespace Nox.Types.EntityFramework.Configurations
         {
             // Right now assuming that there is always one key present
             var key = relationshipToCreate.Relationship.Related.Entity.Keys![0];
-            var relationshipName = entity.GetRelationshipPublicName(relationshipToCreate.Relationship);
+            var relationshipName = entity.GetNavigationPropertyName(relationshipToCreate.Relationship);
             if (TypesDatabaseConfigurations.TryGetValue(key.Type,
                 out var databaseConfiguration))
             {
