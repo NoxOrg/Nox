@@ -147,25 +147,23 @@ namespace Nox.Types.EntityFramework.Configurations
         {
             foreach (var relationshipToCreate in relationshipsToCreate)
             {
+                if (!relationshipToCreate.Relationship.ConfigureThisSide())
+                    continue;
+
                 var navigationPropertyName = entity.GetNavigationPropertyName(relationshipToCreate.Relationship);
                 var reversedNavigationPropertyName = relationshipToCreate.Relationship.Related.Entity.GetNavigationPropertyName(
                     relationshipToCreate.Relationship.Related.EntityRelationship);
                 // Many to Many
                 // Currently, configured bi-directionally, shouldn't cause any issues.
-                if (relationshipToCreate.Relationship.WithMultiEntity &&
-                    relationshipToCreate.Relationship.Related.EntityRelationship.WithMultiEntity)
+                if (relationshipToCreate.Relationship.WithMultiEntity && relationshipToCreate.Relationship.Related.EntityRelationship.WithMultiEntity)
                 {
-                    if (relationshipToCreate.Relationship.ConfigureThisSide())
-                    {
                         builder
                         .HasMany(navigationPropertyName)
                         .WithMany(reversedNavigationPropertyName)
                         .UsingEntity(x => x.ToTable(relationshipToCreate.Relationship.Name));
-                    }
                 }
                 // OneToOne and OneToMany, setup should be done only on foreign key side
-                else if (relationshipToCreate.Relationship.ConfigureThisSide() &&
-                    relationshipToCreate.Relationship.WithSingleEntity())
+                else if (relationshipToCreate.Relationship.WithSingleEntity())
                 {
                     //One to Many
                     if (relationshipToCreate.Relationship.Related.EntityRelationship.WithMultiEntity)

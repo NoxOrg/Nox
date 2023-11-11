@@ -18,10 +18,10 @@ namespace Nox.Solution.Tests.Extensions
             relationship.Setup(r => r.Related.EntityRelationship).Returns(relatedRelationship.Object);            
 
             // Act
-            bool shouldGenerateForeignOnThisSide = relationship.Object.ShouldGenerateForeignKeyOnThisSide();
+            bool IsForeignKeyOnThisSide = relationship.Object.IsForeignKeyOnThisSide();
 
             // Assert
-            shouldGenerateForeignOnThisSide.Should().BeFalse();
+            IsForeignKeyOnThisSide.Should().BeFalse();
 
         }
     }

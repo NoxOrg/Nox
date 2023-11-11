@@ -7,7 +7,14 @@ namespace Nox.Solution.Extensions;
 
 public static class EntityRelationshipExtensions
 {
-    public static bool ShouldGenerateForeignKeyOnThisSide(this EntityRelationship relationship)
+    /// <summary>
+    /// Define the side of the relationship where the foreign key should be generated
+    /// if ManyToMany is on Both sides
+    /// </summary>
+    /// <param name="relationship"></param>
+    /// <returns></returns>
+    /// <exception cref="NotSupportedException"></exception>
+    public static bool IsForeignKeyOnThisSide(this EntityRelationship relationship)
     {
         var reverseRelationship = relationship.Related.EntityRelationship;
         //Many to Many

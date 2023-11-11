@@ -43,7 +43,7 @@ public class EntityRelationship : DefinitionBase
     public bool CanNavigate { get; internal set; } = true;
 
     [YamlIgnore]
-    public bool ShouldGenerateForeignOnThisSide => EntityRelationshipExtensions.ShouldGenerateForeignKeyOnThisSide(this);
+    public bool IsForeignKeyOnThisSide => EntityRelationshipExtensions.IsForeignKeyOnThisSide(this);
 
     /// <summary>
     /// This relationship is a zero or one relation to the other entity

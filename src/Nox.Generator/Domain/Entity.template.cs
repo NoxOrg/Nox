@@ -188,7 +188,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
     public virtual List<{{relationship.Entity}}> {{relationshipName}} { get; private set; } = new();
     {{- else}}
     public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationshipName}} { get; private set; } = null!;
-    {{- if relationship.ShouldGenerateForeignOnThisSide}}
+    {{- if relationship.IsForeignKeyOnThisSide}}
 
     /// <summary>
     /// Foreign key for relationship {{relationship.Relationship}} to entity {{relationship.Entity}}
@@ -247,7 +247,7 @@ internal abstract partial class {{className}}Base{{ if !entity.IsOwnedEntity }} 
         {{- if relationship.Relationship == "ExactlyOne" }}
         throw new RelationshipDeletionException($"The relationship cannot be deleted.");
         {{- else }}
-        {{- if relationship.ShouldGenerateForeignOnThisSide }}
+        {{- if relationship.IsForeignKeyOnThisSide }}
         {{relationshipName}}Id = null;
         {{- else }}
         {{relationshipName}} = null;

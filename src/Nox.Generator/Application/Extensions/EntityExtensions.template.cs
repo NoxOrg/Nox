@@ -35,7 +35,7 @@ internal static class {{className}}
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
         dto.SetIfNotNull(entity?.{{relationshipName}}, (dto) => dto.{{relationshipName}} = entity!.{{relationshipName}}.Select(e => e.ToDto()).ToList());
     {{- else}}
-        {{- if relationship.ShouldGenerateForeignOnThisSide}}
+        {{- if relationship.IsForeignKeyOnThisSide}}
         dto.SetIfNotNull(entity?.{{relationshipName}}Id, (dto) => dto.{{relationshipName}}Id = entity!.{{relationshipName}}Id!.Value);
         {{- end}}
     {{-end}}

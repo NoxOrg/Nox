@@ -17,7 +17,7 @@ public static class EntityExtensions
 
         EntityRelationship rel = entity.Relationships!.Single(x => x.Name.Equals(relationshipName));
         // TODO: possibly extend for other types
-        if (!EntityRelationshipExtensions.ShouldGenerateForeignKeyOnThisSide(rel) ||
+        if (!EntityRelationshipExtensions.IsForeignKeyOnThisSide(rel) ||
             rel.WithMultiEntity)
         {
             return false;
