@@ -41,6 +41,7 @@ internal class EntityControllerTranslationsGenerator : EntityControllerGenerator
                 .WithObject("primaryKeysRoute", GetPrimaryKeysRoute(entity,codeGeneratorState.Solution))
                 .WithObject("primaryKeysQuery", GetPrimaryKeysQuery(entity))
                 .WithObject("createdKeyPrimaryKeysQuery", GetPrimaryKeysQuery(entity, "createdKey.", true))
+                .WithObject("updatedKeyPrimaryKeysQuery", GetPrimaryKeysQuery(entity, "updatedKey.", true))
                 .WithObject("keysForRouting", keysForRouting)
                 .WithObject("entity", entity)
                 .GenerateSourceCodeFromResource(templateName);

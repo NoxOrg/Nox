@@ -23,13 +23,17 @@ internal class UpdateTranslationsCommandGenerator : ApplicationEntityDependentGe
 
             var primaryKeysFindQuery = string.Join(", ", entity.Keys.Select(k => $"key{k.Name}"));
             var primaryKeysQuery = string.Join(", ", entity.Keys.Select(k => $"entityLocalizedToUpdate.{k.Name}.Value"));
+            var entityAttributesToLocalize = entity.Attributes
+                .Where(x => x.IsLocalized);
 
+            
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"Update{entity.Name}TranslationsCommand")
                 .WithFileNamePrefix($"Application.Commands")
                 .WithObject("entity", entity)
                 .WithObject("primaryKeysQuery", primaryKeysQuery)
                 .WithObject("primaryKeysFindQuery", primaryKeysFindQuery)
+                .WithObject("entityAttributesToLocalize", entityAttributesToLocalize)
                 .GenerateSourceCodeFromResource(templateName);
         }
     }

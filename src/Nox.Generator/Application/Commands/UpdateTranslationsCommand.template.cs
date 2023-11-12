@@ -1,4 +1,6 @@
-﻿{{- func fieldFactoryName
+﻿using Nox.Generator.Application.Factories;
+
+{{- func fieldFactoryName
 	ret ($0 + "Factory")
 end -}}
 {{- func relatedKeyName
@@ -48,8 +50,9 @@ internal partial class Update{{entity.Name}}TranslationsCommandHandler : Update{
 	public Update{{entity.Name}}TranslationsCommandHandler(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory,
 		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}LocalizedCreateDto, {{entity.Name}}LocalizedUpdateDto> entityLocalizedFactory)
-		: base(dbContext, noxSolution, entityLocalizedFactory)
+		: base(dbContext, noxSolution, entityFactory, entityLocalizedFactory)
 	{
 	}
 }
@@ -59,16 +62,18 @@ internal abstract class Update{{entity.Name}}TranslationsCommandHandlerBase : Co
 {
 	protected readonly AppDbContext DbContext;
 	protected readonly IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}LocalizedCreateDto, {{entity.Name}}LocalizedUpdateDto> EntityLocalizedFactory;
-	
+	protected readonly IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> EntityFactory;
 
 	public Update{{entity.Name}}TranslationsCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<{{entity.Name}}Entity, {{entity.Name}}CreateDto, {{entity.Name}}UpdateDto> entityFactory,
 		IEntityLocalizedFactory<{{entity.Name}}Localized, {{entity.Name}}Entity, {{entity.Name}}LocalizedCreateDto, {{entity.Name}}LocalizedUpdateDto> entityLocalizedFactory)
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityLocalizedFactory = entityLocalizedFactory;
+		EntityFactory = entityFactory;
 	}
 
 	public virtual async Task<{{entity.Name}}LocalizedKeyDto?> Handle(Update{{entity.Name}}TranslationsCommand command, CancellationToken cancellationToken)
@@ -91,6 +96,22 @@ internal abstract class Update{{entity.Name}}TranslationsCommandHandlerBase : Co
 		EntityLocalizedFactory.UpdateLocalizedEntity(entityLocalizedToUpdate, command.{{entity.Name}}LocalizedUpdateDto);
 		
 		entityLocalizedToUpdate.Etag = command.Etag.HasValue ? command.Etag.Value : System.Guid.Empty;
+		
+		if (NoxSolution.Application!.Localization!.DefaultCulture == command.CultureCode)
+		{
+			var entityToUpdate = await DbContext.TestEntityLocalizations.FindAsync({{primaryKeysFindQuery}});
+			
+			if (entityToUpdate != null)
+			{
+				Dictionary<string,dynamic> updateValues = new();
+				{{- for attribute in entityAttributesToLocalize }}
+				updateValues.Add(nameof(entityLocalizedToUpdate.{{attribute.Name}}), command.{{entity.Name}}LocalizedUpdateDto.{{attribute.Name}});
+				{{- end }}
+				EntityFactory.PartialUpdateEntity(entityToUpdate, updateValues);
+				DbContext.Entry(entityToUpdate).State = EntityState.Modified;
+			}
+		}
+		
 		await OnCompletedAsync(command, entityLocalizedToUpdate);
 		
 		DbContext.Entry(entityLocalizedToUpdate).State = EntityState.Modified;
@@ -101,9 +122,8 @@ internal abstract class Update{{entity.Name}}TranslationsCommandHandlerBase : Co
 		}
 		
 		
-		await DbContext.SaveChangesAsync();
-		
-		
 		return new {{entity.Name}}LocalizedKeyDto({{primaryKeysQuery}}, entityLocalizedToUpdate.{{codeGeneratorState.LocalizationCultureField}}.Value);
 	}
+	
+	
 }

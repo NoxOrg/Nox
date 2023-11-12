@@ -54,17 +54,17 @@ public abstract partial class {{ entity.PluralName }}ControllerBase
     // // This endpoint should receive a request body of type <Entity>LocalizedDto containing the
     // // new data for localization. There's no need to create a separate update DTO;
     // // we'll use the existing DTO for this purpose.
-    // [HttpPut("api/{{entity.PluralName}}/{key}/{{entity.Name}}Localized/{{culturecode}}")]
-    // public virtual async Task<ActionResult<DtoNameSpace.{{entity.Name}}LocalizedDto>> Update{{entity.Name}}Localized(
-    //     Nox.Types.Guid key,
-    //     Nox.Types.CultureCode culturecode,
-    //     DtoNameSpace.{{entity.Name}}LocalizedDto {{ToLowerFirstChar entity.Name}}LocalizedDto)
-    // {
-    //     var result = await _mediator.Send(new ApplicationCommandsNameSpace.Update{{entity.Name}}LocalizedCommand(
-    //         key,
-    //         culturecode,
-    //         {{ToLowerFirstChar entity.Name}}LocalizedDto
-    //     ));
-    //     return Ok(result);
-    // }
+    [HttpPost("api/{{entity.PluralName}}/{{keysRoute}}{{entity.Name}}Localized/{%{{}%}{{cultureCode}}{%{}}%}")]
+    public virtual async Task<ActionResult<{{entity.Name}}LocalizedDto>> Put{{entity.Name}}Localized( {{ primaryKeysRoute }}, [FromRoute] System.String {{cultureCode}}, [FromBody] {{entity.Name}}LocalizedUpdateDto {{ToLowerFirstChar entity.Name}}LocalizedUpdateDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var etag = Request.GetDecodedEtagHeader();
+        var updatedKey = await _mediator.Send(new Update{{entity.Name}}TranslationsCommand({{ToLowerFirstChar entity.Name}}LocalizedUpdateDto, {{primaryKeysQuery}}, {{cultureCode}}, etag));
+        var item = (await _mediator.Send(new Get{{entity.Name }}TranslationsByIdQuery( {{ updatedKeyPrimaryKeysQuery }}, updatedKey.{{codeGeneratorState.LocalizationCultureField}}))).SingleOrDefault();
+
+        return Created(item);
+    }
 }
