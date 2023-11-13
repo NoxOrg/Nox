@@ -116,8 +116,8 @@ public abstract partial class TestEntityZeroOrManiesControllerBase : ODataContro
             return BadRequest(ModelState);
         }
         
-        var related = (await _mediator.Send(new GetTestEntityZeroOrManyByIdQuery(key))).Select(x => x.SecondTestEntityZeroOrManies).SingleOrDefault()?.SingleOrDefault(x => x.Id == relatedKey);
-        if (related == null)
+        var related = (await _mediator.Send(new GetTestEntityZeroOrManyByIdQuery(key))).Select(x => x.SecondTestEntityZeroOrManies).SingleOrDefault()?.Any(x => x.Id == relatedKey);
+        if (related == null || related == false)
         {
             return NotFound();
         }

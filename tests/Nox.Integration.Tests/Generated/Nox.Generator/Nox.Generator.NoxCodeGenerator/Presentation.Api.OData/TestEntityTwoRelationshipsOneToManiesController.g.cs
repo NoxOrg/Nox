@@ -116,8 +116,8 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
             return BadRequest(ModelState);
         }
         
-        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToManyByIdQuery(key))).Select(x => x.TestRelationshipOne).SingleOrDefault()?.SingleOrDefault(x => x.Id == relatedKey);
-        if (related == null)
+        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToManyByIdQuery(key))).Select(x => x.TestRelationshipOne).SingleOrDefault()?.Any(x => x.Id == relatedKey);
+        if (related == null || related == false)
         {
             return NotFound();
         }
@@ -220,8 +220,8 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
             return BadRequest(ModelState);
         }
         
-        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToManyByIdQuery(key))).Select(x => x.TestRelationshipTwo).SingleOrDefault()?.SingleOrDefault(x => x.Id == relatedKey);
-        if (related == null)
+        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToManyByIdQuery(key))).Select(x => x.TestRelationshipTwo).SingleOrDefault()?.Any(x => x.Id == relatedKey);
+        if (related == null || related == false)
         {
             return NotFound();
         }

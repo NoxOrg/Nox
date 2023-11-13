@@ -116,8 +116,8 @@ public abstract partial class ThirdTestEntityOneOrManiesControllerBase : ODataCo
             return BadRequest(ModelState);
         }
         
-        var related = (await _mediator.Send(new GetThirdTestEntityOneOrManyByIdQuery(key))).Select(x => x.ThirdTestEntityZeroOrManies).SingleOrDefault()?.SingleOrDefault(x => x.Id == relatedKey);
-        if (related == null)
+        var related = (await _mediator.Send(new GetThirdTestEntityOneOrManyByIdQuery(key))).Select(x => x.ThirdTestEntityZeroOrManies).SingleOrDefault()?.Any(x => x.Id == relatedKey);
+        if (related == null || related == false)
         {
             return NotFound();
         }

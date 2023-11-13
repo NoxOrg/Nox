@@ -673,7 +673,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
     private static void GenerateRelatedPut(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code)
     {
         var relatedEntity = relationship.Related.Entity;
-        var relationshipName= entity.GetRelationshipPublicName(relationship);
+        var relationshipName= entity.GetNavigationPropertyName(relationship);
         var isSingleRelationship = relationship.WithSingleEntity();
 
         if (isSingleRelationship)
@@ -701,16 +701,18 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         var localizationPart = entity.IsLocalized ? "_cultureCode, " : "";
 
         if (isSingleRelationship)
+        {
             code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({localizationPart}{GetPrimaryKeysQuery(entity)})))" +
                 $".Select(x => x.{relationshipName}).SingleOrDefault();");
+            code.AppendLine($"if (related == null)");
+        }
         else
         {
             var param = string.Join(" && ", relatedEntity.Keys.Select(k => $"x.{k.Name} == relatedKey{(relatedEntity.Keys.Count > 1 ? k.Name : "")}"));
             code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({localizationPart}{GetPrimaryKeysQuery(entity)})))" +
-                $".Select(x => x.{relationshipName}).SingleOrDefault()?.SingleOrDefault(x => {param});");
+                $".Select(x => x.{relationshipName}).SingleOrDefault()?.Any(x => {param});");
+            code.AppendLine($"if (related == null || related == false)");
         }
-
-        code.AppendLine($"if (related == null)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
         code.EndBlock();
