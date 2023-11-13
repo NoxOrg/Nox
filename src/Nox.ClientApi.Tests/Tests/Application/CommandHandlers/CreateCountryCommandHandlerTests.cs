@@ -1,14 +1,13 @@
 ﻿using FluentAssertions;
-using ClientApi.Application.Dto;
 using Xunit.Abstractions;
+using ClientApi.Tests.Controllers;
+using ClientApi.Application.Dto;
 
 namespace ClientApi.Tests.Application.CommandHandlers;
 
 [Collection("CreateCountryCommandHandlerTests")]
 public class CreateCountryCommandHandlerTests : NoxWebApiTestBase
 {
-    private const string CountryControllerName = "api/countries";
-
     public CreateCountryCommandHandlerTests(
         ITestOutputHelper testOutputHelper,
         TestDatabaseContainerService containerService) : base(testOutputHelper, containerService)
@@ -36,9 +35,9 @@ public class CreateCountryCommandHandlerTests : NoxWebApiTestBase
         };
 
         // Act
-        var postResult = await PostAsync<CountryCreateDto, CountryDto>(CountryControllerName, countryDto);
+        var postResult = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, countryDto);
         var headers = CreateEtagHeader(postResult?.Etag);
-        var putResult = await PutAsync<CountryUpdateDto, CountryDto>($"{CountryControllerName}/{postResult!.Id}", countryUpdateDto, headers);
+        var putResult = await PutAsync<CountryUpdateDto, CountryDto>($"{Endpoints.CountriesUrl}/{postResult!.Id}", countryUpdateDto, headers);
 
         //Assert
 
@@ -63,7 +62,7 @@ public class CreateCountryCommandHandlerTests : NoxWebApiTestBase
         };
 
         // Act
-        var result = await PostAsync<CountryCreateDto, CountryDto>(CountryControllerName, countryDto);
+        var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, countryDto);
 
         //Assert
         result.Should().NotBeNull();

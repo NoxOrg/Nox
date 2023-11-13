@@ -11,20 +11,20 @@ namespace Nox.Solution
     {
         [Title("The api route prefix, defaults to api/v1 or to api/vMajor({Solution.Version}) if Version is set in the root of the Solution.")]
         [Description(@"Defines the prefix for all Api routes end points.")]
-        public string ApiRootPrefix { get; internal set; } = null!;
+        public string ApiRoutePrefix { get; internal set; } = null!;
         public ApiServer? ApiServer { get; internal set; }
         public BffServer? BffServer { get; internal set; }
                 
         public void ApplyDefaults(string solutionVersion)
         {
-            if (ApiRootPrefix is null || string.IsNullOrEmpty(ApiRootPrefix))
+            if (ApiRoutePrefix is null || string.IsNullOrEmpty(ApiRoutePrefix))
             {
-                ApiRootPrefix = "/api/v" + new Version(solutionVersion).Major;
+                ApiRoutePrefix = "/api/v" + new Version(solutionVersion).Major;
                 return;
             }
             else
             {
-                ApiRootPrefix = SanitizeRoutePrefix(ApiRootPrefix);
+                ApiRoutePrefix = SanitizeRoutePrefix(ApiRoutePrefix);
             }
         }
         /// <summary>
@@ -35,8 +35,15 @@ namespace Nox.Solution
         private static string SanitizeRoutePrefix(string routePrefix)
         {
             Debug.Assert(routePrefix != null);
-
-            if(!routePrefix!.StartsWith("/"))
+            if(string.IsNullOrEmpty(routePrefix))
+            {
+                return "/";
+            }
+            if (routePrefix == "/")
+            {
+                return routePrefix;
+            }
+            if (!routePrefix!.StartsWith("/"))
             {
                 routePrefix = "/" + routePrefix;
             }
