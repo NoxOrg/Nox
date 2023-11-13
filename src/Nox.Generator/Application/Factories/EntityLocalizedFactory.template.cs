@@ -30,7 +30,7 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
 
         if (copyEntityAttributes)
         { 
-            {{- for attribute in localizedEntityAttributes }}
+            {{- for attribute in entityLocalizedAttributes }}
             localizedEntity.{{attribute.Name}} = entity.{{attribute.Name}};
             {{- end }}
         }
@@ -40,7 +40,7 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
 
     public virtual void UpdateLocalizedEntity({{ localizedEntityName}} localizedEntity, {{entity.Name}}UpdateDto updateDto)
     {
-        {{- for attribute in localizedEntityAttributes }}
+        {{- for attribute in entityLocalizedAttributes }}
         localizedEntity.{{attribute.Name}} = updateDto.{{attribute.Name}} == null
             ? null
             : {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}Metadata.Create{{attribute.Name}}(updateDto.{{attribute.Name}}
@@ -52,7 +52,7 @@ internal abstract class {{className}}Base : IEntityLocalizedFactory<{{localizedE
 
     public virtual void PartialUpdateLocalizedEntity({{ localizedEntityName}} localizedEntity, Dictionary<string, dynamic> updatedProperties)
     {
-        {{- for attribute in localizedEntityAttributes }}
+        {{- for attribute in entityLocalizedAttributes }}
             {{- if !IsNoxTypeReadable attribute.Type || attribute.Type == "Formula" -}}
                 {{ continue; }}
             {{- end}}

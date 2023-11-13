@@ -25,7 +25,7 @@ internal class RefToCommandGenerator : ApplicationEntityDependentGeneratorBase
                     relationship.Related.Entity.Keys.Select(k => $"relatedKey{k.Name}"));
 
                 new TemplateCodeBuilder(context, codeGeneratorState)
-                    .WithClassName($"Ref{entity.Name}To{entity.GetRelationshipPublicName(relationship)}Command")
+                    .WithClassName($"Ref{entity.Name}To{entity.GetNavigationPropertyName(relationship)}Command")
                     .WithFileNamePrefix($"Application.Commands")
                     .WithObject("entity", entity)
                     .WithObject("relationship", relationship)

@@ -70,7 +70,7 @@ internal abstract class Update{{entity.Name}}CommandHandlerBase : CommandBase<Up
 
 	{{- for relationship in entity.Relationships }}
 		{{- relatedEntity =  relationship.Related.Entity }}
-		{{- relationshipName = GetRelationshipPublicName entity relationship }}
+		{{- relationshipName = GetNavigationPropertyName entity relationship }}
 		{{- key = array.first relatedEntity.Keys }}
 		{{- if relationship.Relationship == "ZeroOrOne" }}
 

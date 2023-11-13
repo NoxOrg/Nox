@@ -63,7 +63,7 @@ public abstract class {{className}}Base : IEntityDto<DomainNamespace.{{entity.Na
 {{- end }}
 
 {{- for relationship in entity.Relationships}}
-	{{- relationshipName = GetRelationshipPublicName entity relationship }}
+	{{- relationshipName = GetNavigationPropertyName entity relationship }}
 
     /// <summary>
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}

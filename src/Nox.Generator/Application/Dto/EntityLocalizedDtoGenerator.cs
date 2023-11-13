@@ -26,16 +26,14 @@ internal class EntityLocalizedDtoGenerator : INoxCodeGenerator
         {
             if (!entity.IsLocalized)
                 continue;
-
-            var entityAttributesToLocalize = entity.GetAttributesToLocalize();
-
+            
             context.CancellationToken.ThrowIfCancellationRequested();
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName(NoxCodeGenConventions.GetEntityDtoNameForLocalizedType(entity.Name))
                 .WithFileNamePrefix("Application.Dto")
                 .WithObject("entity", entity)
-                .WithObject("entityAttributesToLocalize", entityAttributesToLocalize)
+                .WithObject("entityLocalizedAttributes", entity.GetLocalizedAttributes())
                 .GenerateSourceCodeFromResource("Application.Dto.EntityLocalizedDto");
         }
     }

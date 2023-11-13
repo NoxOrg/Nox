@@ -236,7 +236,7 @@ namespace Nox.Configuration
                 };
                 messageBrokerProvider.ConfigureMassTransit(messagingConfig, x);
 
-                _configureMassTransitTransactionalOutbox?.Invoke(x, noxSolution.Infrastructure.Persistence.DatabaseServer.Provider);
+                _configureMassTransitTransactionalOutbox?.Invoke(x, noxSolution.Infrastructure.Persistence!.DatabaseServer.Provider);
             });
         }
 

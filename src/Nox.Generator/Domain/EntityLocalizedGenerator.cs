@@ -29,16 +29,13 @@ internal class EntityLocalizedGenerator : INoxCodeGenerator
                 continue;
             }
 
-            var entityAttributesToLocalize = entity
-                .GetAttributesToLocalize();
-
             context.CancellationToken.ThrowIfCancellationRequested();
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName(NoxCodeGenConventions.GetEntityNameForLocalizedType(entity.Name))
                 .WithFileNamePrefix($"Domain")
                 .WithObject("entity", entity)
-                .WithObject("entityAttributesToLocalize", entityAttributesToLocalize)
+                .WithObject("entityLocalizedAttributes", entity.GetLocalizedAttributes())
                 .GenerateSourceCodeFromResource("Domain.EntityLocalized");
         }
     }

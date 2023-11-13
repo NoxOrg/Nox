@@ -31,7 +31,7 @@ internal partial class {{className}} : IEntityConcurrent
 {{- end }}
 
     public Nox.Types.CultureCode {{codeGeneratorState.LocalizationCultureField}} { get; set; } = null!;
-{{ for attribute in entityAttributesToLocalize }}
+{{ for attribute in entityLocalizedAttributes }}
     /// <summary>
     /// {{attribute.Description}} (Optional).
     /// </summary>

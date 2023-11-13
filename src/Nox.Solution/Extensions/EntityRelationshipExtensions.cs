@@ -7,52 +7,44 @@ namespace Nox.Solution.Extensions;
 
 public static class EntityRelationshipExtensions
 {
-    public static bool ShouldGenerateForeignKeyOnThisSide(this EntityRelationship relationship)
+    /// <summary>
+    /// Define the side of the relationship where the foreign key should be generated
+    /// if ManyToMany is on Both sides
+    /// </summary>
+    /// <param name="relationship"></param>
+    /// <returns></returns>
+    /// <exception cref="NotSupportedException"></exception>
+    public static bool IsForeignKeyOnThisSide(this EntityRelationship relationship)
     {
-        var generate = true;
-
         var reverseRelationship = relationship.Related.EntityRelationship;
-        if (reverseRelationship != null)
+        //Many to Many
+        if (relationship.WithMultiEntity && reverseRelationship!.WithMultiEntity)
         {
-            //Many to Many
-            if (relationship.WithMultiEntity && reverseRelationship.WithMultiEntity 
-                //&& string.Compare(relationship.Entity, reverseRelationship.Entity,StringComparison.InvariantCulture) > 0
-             )
-            {
-                //for now we generate on both sides
-                return true;
-            }
-
-            // Will be always ignored by default
-            if (relationship.Relationship == EntityRelationshipType.OneOrMany ||
-                relationship.Relationship == EntityRelationshipType.ZeroOrMany)
-            {
-                return false;
-            }
-
-            // OneToMany should be handled on one side
-            else if (relationship.WithMultiEntity &&
-                reverseRelationship.WithSingleEntity)
-            {
-                generate = true;
-            }
-            // If ZeroOrOne vs ExactlyOne handle on ExactlyOne side
-            else if (reverseRelationship.Relationship == EntityRelationshipType.ExactlyOne &&
-                relationship.Relationship == EntityRelationshipType.ZeroOrOne)
-            {
-                generate = false;
-            }
-            // If same type on both sides cover on first by ascending alphabetical sort
-            else if (reverseRelationship.Relationship == relationship.Relationship &&
-                     // Ascending alphabetical sort
-                     string.Compare(relationship.Entity, reverseRelationship.Entity,
-                         StringComparison.InvariantCulture) > 0)
-            {
-                generate = false;
-            }            
+            return true;
+        }
+        // Same =>  pick by entity name sorted
+        if (reverseRelationship!.Relationship == relationship.Relationship)
+        {
+            return string.Compare(relationship.Entity, reverseRelationship.Entity, StringComparison.InvariantCulture) <= 0;
         }
 
-        return generate;
+        // Single To Many
+        if (relationship.WithSingleEntity && reverseRelationship.WithMultiEntity)
+        {
+            return true;
+        }
+        // Many To Single
+        if (relationship.WithMultiEntity && reverseRelationship.WithSingleEntity)
+        {
+            return false;
+        }
+
+        // Single to Single pick Exactly one
+        if (relationship.WithSingleEntity && reverseRelationship.WithSingleEntity)
+        {
+            return relationship.Relationship == EntityRelationshipType.ExactlyOne;
+        }
+        throw new NotSupportedException($"Can not compute foreign key side for {relationship.Name}");
     }
 
     public static bool IsRequired(this EntityRelationship relationship)
