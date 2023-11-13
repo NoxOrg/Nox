@@ -66,11 +66,19 @@ namespace Nox.Solution
         {
             ResolveAndValidateFilesAndContent();
 
-            if (_yamlFilesAndContent == null) return new NoxSolution();
+            if (_yamlFilesAndContent == null)
+            {
+                var noxSolution = new NoxSolution();
+                // Should we not validate the Default Solution?
+                noxSolution.ApplyDefaults();
+                return noxSolution;
+            }
 
             var config = ResolveAndLoadConfiguration();
 
             config.Validate();
+            config.ApplyDefaults();            
+
             Instance = config;
             return config;
         }

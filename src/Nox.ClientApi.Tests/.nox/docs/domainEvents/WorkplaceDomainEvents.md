@@ -17,6 +17,7 @@ Name|Text|Workplace Name
 Description|Text|Workplace Description
 Greeting|Formula|The Formula
 CountryId|AutoNumber|The unique identifier
+TenantId|Guid|
 
 
 ### `WorkplaceUpdated`
@@ -32,6 +33,7 @@ Name|Text|Workplace Name
 Description|Text|Workplace Description
 Greeting|Formula|The Formula
 CountryId|AutoNumber|The unique identifier
+TenantId|Guid|
 
 
 ### `WorkplaceDeleted`
@@ -47,4 +49,5 @@ Name|Text|Workplace Name
 Description|Text|Workplace Description
 Greeting|Formula|The Formula
 CountryId|AutoNumber|The unique identifier
+TenantId|Guid|
 

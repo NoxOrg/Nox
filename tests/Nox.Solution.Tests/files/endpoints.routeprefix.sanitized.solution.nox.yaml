@@ -1,0 +1,21 @@
+#
+# workplace.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+
+name: SampleService
+
+platformId: "Nox"
+
+version: "2.0"
+
+description: Sample Nox solution yaml configuration
+
+
+infrastructure:
+
+  endpoints:
+    
+    apiRootPrefix: /testapi/

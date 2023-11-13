@@ -4,7 +4,7 @@ using Nox.Types;
 
 namespace Cryptocash.Ui.Generated.Component
 {
-    public class UiEditIpV4AddressBase : ComponentBase
+    public class UiEditIpAddressBase : ComponentBase
     {
         #region Declarations
 
@@ -13,6 +13,9 @@ namespace Cryptocash.Ui.Generated.Component
 
         [Parameter]
         public string Title { get; set; }
+
+        [Parameter]
+        public string Type { get; set; } = "IpV4";
 
         [Parameter]
         public EventCallback<string> IpAddressChanged { get; set; }
@@ -39,7 +42,12 @@ namespace Cryptocash.Ui.Generated.Component
 
         public IMask DisplayMask()
         {
-            return RegexMask.IPv4();
+            switch (Type.Trim().ToLower())
+            {
+                case "ipv4":
+                default:
+                    return RegexMask.IPv4();
+            }            
         }
     }
 }

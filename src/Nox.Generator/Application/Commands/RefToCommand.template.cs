@@ -1,5 +1,5 @@
 ﻿{{-relatedEntity = relationship.Related.Entity }}
-{{-relationshipName = GetRelationshipPublicName entity relationship }}
+{{-relationshipName = GetNavigationPropertyName entity relationship }}
 // Generated
 
 #nullable enable

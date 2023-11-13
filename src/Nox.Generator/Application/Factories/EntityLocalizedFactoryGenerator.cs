@@ -33,7 +33,7 @@ internal class EntityLocalizedFactoryGenerator : INoxCodeGenerator
                 .WithClassName($"{entity.Name}LocalizedFactory")
                 .WithObject("entity", entity)
                 .WithObject("localizedEntityName", $"{entity.Name}Localized")
-                .WithObject("localizedEntityAttributes", entity.GetAttributesToLocalize())
+                .WithObject("entityLocalizedAttributes", entity.GetLocalizedAttributes())
                 .GenerateSourceCodeFromResource("Application.Factories.EntityLocalizedFactory");
         }
     }

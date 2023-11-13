@@ -44,4 +44,12 @@ public abstract class WorkplaceCreateDtoBase : IEntityDto<DomainNamespace.Workpl
     
     [System.Text.Json.Serialization.JsonIgnore]
     public virtual CountryCreateDto? Country { get; set; } = default!;
+
+    /// <summary>
+    /// Workplace Actve Tenants in the workplace ZeroOrMany Tenants
+    /// </summary>
+    public virtual List<System.Guid> TenantsId { get; set; } = new();
+    
+    [System.Text.Json.Serialization.JsonIgnore]
+    public virtual List<TenantCreateDto> Tenants { get; set; } = new();
 }

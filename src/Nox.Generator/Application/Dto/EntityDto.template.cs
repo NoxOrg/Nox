@@ -111,7 +111,7 @@ public abstract class {{className}}Base : EntityDtoBase, IEntityDto<DomainNamesp
 {{- end }}
 {{- ######################################### Relationships###################################################### -}}
 {{- for relationship in entity.Relationships }}
-	{{- relationshipName = GetRelationshipPublicName entity relationship }}
+	{{- relationshipName = GetNavigationPropertyName entity relationship }}
 
     /// <summary>
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
@@ -119,7 +119,7 @@ public abstract class {{className}}Base : EntityDtoBase, IEntityDto<DomainNamesp
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
     public virtual List<{{relationship.Entity}}Dto> {{relationshipName}} { get; set; } = new();
     {{- else}}
-        {{- if relationship.ShouldGenerateForeignOnThisSide}}
+        {{- if relationship.IsForeignKeyOnThisSide}}
     //EF maps ForeignKey Automatically
     public {{relationship.ForeignKeyPrimitiveType}}? {{relationshipName}}Id { get; set; } = default!;
         {{- end}}

@@ -43,7 +43,7 @@ internal static class ODataServiceCollectionExtensions
 
         {{- if entity.Relationships != null }}
             {{- for relationship in entity.Relationships  }}
-		        {{- relationshipName = GetRelationshipPublicName entity relationship }}
+		        {{- relationshipName = GetNavigationPropertyName entity relationship }}
                 {{- if relationship.Relationship == "ExactlyOne" }}
         builder.EntityType<{{entity.Name}}Dto>().ContainsRequired(e => e.{{relationshipName}});
                 {{- else if relationship.Relationship == "ZeroOrOne" }}

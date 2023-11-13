@@ -27,9 +27,10 @@ internal partial class CreateWorkplaceCommandHandler : CreateWorkplaceCommandHan
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
+		IEntityFactory<ClientApi.Domain.Tenant, TenantCreateDto, TenantUpdateDto> TenantFactory,
 		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
 		IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> entityLocalizedFactory)
-		: base(dbContext, noxSolution,CountryFactory, entityFactory, entityLocalizedFactory)
+		: base(dbContext, noxSolution,CountryFactory, TenantFactory, entityFactory, entityLocalizedFactory)
 	{
 	}
 }
@@ -41,18 +42,21 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 	protected readonly IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> EntityFactory;
 	protected readonly IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> EntityLocalizedFactory;
 	protected readonly IEntityFactory<ClientApi.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory;
+	protected readonly IEntityFactory<ClientApi.Domain.Tenant, TenantCreateDto, TenantUpdateDto> TenantFactory;
 
 	public CreateWorkplaceCommandHandlerBase(
         AppDbContext dbContext,
 		NoxSolution noxSolution,
 		IEntityFactory<ClientApi.Domain.Country, CountryCreateDto, CountryUpdateDto> CountryFactory,
+		IEntityFactory<ClientApi.Domain.Tenant, TenantCreateDto, TenantUpdateDto> TenantFactory,
 		IEntityFactory<WorkplaceEntity, WorkplaceCreateDto, WorkplaceUpdateDto> entityFactory,
 		IEntityLocalizedFactory<WorkplaceLocalized, WorkplaceEntity, WorkplaceUpdateDto> entityLocalizedFactory)
 		: base(noxSolution)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
-		this.CountryFactory = CountryFactory; 
+		this.CountryFactory = CountryFactory;
+		this.TenantFactory = TenantFactory; 
 		EntityLocalizedFactory = entityLocalizedFactory;
 	}
 
@@ -75,6 +79,27 @@ internal abstract class CreateWorkplaceCommandHandlerBase : CommandBase<CreateWo
 		{
 			var relatedEntity = CountryFactory.CreateEntity(request.EntityDto.Country);
 			entityToCreate.CreateRefToCountry(relatedEntity);
+		}
+		if(request.EntityDto.TenantsId.Any())
+		{
+			foreach(var relatedId in request.EntityDto.TenantsId)
+			{
+				var relatedKey = ClientApi.Domain.TenantMetadata.CreateId(relatedId);
+				var relatedEntity = await DbContext.Tenants.FindAsync(relatedKey);
+
+				if(relatedEntity is not null)
+					entityToCreate.CreateRefToTenants(relatedEntity);
+				else
+					throw new RelatedEntityNotFoundException("Tenants", relatedId.ToString());
+			}
+		}
+		else
+		{
+			foreach(var relatedCreateDto in request.EntityDto.Tenants)
+			{
+				var relatedEntity = TenantFactory.CreateEntity(relatedCreateDto);
+				entityToCreate.CreateRefToTenants(relatedEntity);
+			}
 		}
 
 		await OnCompletedAsync(request, entityToCreate);

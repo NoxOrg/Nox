@@ -34,6 +34,8 @@ domain:
     - $ref: ./Entities/store-license.entity.nox.yaml
   
     - $ref: ./Entities/currency.entity.nox.yaml
+  
+    - $ref: ./Entities/tenant.entity.nox.yaml
 
     - name: EmailAddress #owned by store
       description: Verified Email Address

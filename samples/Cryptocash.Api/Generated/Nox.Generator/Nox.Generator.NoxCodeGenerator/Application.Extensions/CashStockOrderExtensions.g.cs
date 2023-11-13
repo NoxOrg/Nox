@@ -19,6 +19,7 @@ internal static class CashStockOrderExtensions
         dto.SetIfNotNull(entity?.DeliveryDateTime, (dto) => dto.DeliveryDateTime =entity!.DeliveryDateTime!.Value);
         dto.SetIfNotNull(entity?.Status, (dto) => dto.Status =entity!.Status!.ToString());
         dto.SetIfNotNull(entity?.VendingMachineId, (dto) => dto.VendingMachineId = entity!.VendingMachineId!.Value);
+        dto.SetIfNotNull(entity?.EmployeeId, (dto) => dto.EmployeeId = entity!.EmployeeId!.Value);
 
         return dto;
     }

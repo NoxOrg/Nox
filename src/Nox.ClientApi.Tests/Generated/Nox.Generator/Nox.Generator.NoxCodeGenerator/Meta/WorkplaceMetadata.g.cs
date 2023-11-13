@@ -99,6 +99,13 @@ public partial class WorkplaceMetadata
         public static Nox.Types.AutoNumber CreateCountryId(System.Int64 value)
             => Nox.Types.AutoNumber.FromDatabase(value);
         
+    
+        /// <summary>
+        /// Factory for property 'TenantId'
+        /// </summary>
+        public static Nox.Types.Guid CreateTenantId(System.Guid value)
+            => Nox.Types.Guid.From(value);
+        
 
         /// <summary>
         /// User Interface for property 'Name'

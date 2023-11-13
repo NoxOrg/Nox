@@ -147,6 +147,32 @@ internal abstract partial class WorkplaceBase : EntityBase, IEntityConcurrent
     }
 
     /// <summary>
+    /// Workplace Actve Tenants in the workplace ZeroOrMany Tenants
+    /// </summary>
+    public virtual List<Tenant> Tenants { get; private set; } = new();
+
+    public virtual void CreateRefToTenants(Tenant relatedTenant)
+    {
+        Tenants.Add(relatedTenant);
+    }
+
+    public virtual void UpdateRefToTenants(List<Tenant> relatedTenant)
+    {
+        Tenants.Clear();
+        Tenants.AddRange(relatedTenant);
+    }
+
+    public virtual void DeleteRefToTenants(Tenant relatedTenant)
+    {
+        Tenants.Remove(relatedTenant);
+    }
+
+    public virtual void DeleteAllRefToTenants()
+    {
+        Tenants.Clear();
+    }
+
+    /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>
     public System.Guid Etag { get; set; } = System.Guid.NewGuid();

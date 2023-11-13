@@ -79,6 +79,11 @@ public abstract class WorkplaceDtoBase : EntityDtoBase, IEntityDto<DomainNamespa
     public System.Int64? CountryId { get; set; } = default!;
     public virtual CountryDto? Country { get; set; } = null!;
 
+    /// <summary>
+    /// Workplace Actve Tenants in the workplace ZeroOrMany Tenants
+    /// </summary>
+    public virtual List<TenantDto> Tenants { get; set; } = new();
+
     [JsonPropertyName("@odata.etag")]
     public System.Guid Etag { get; init; }
 }

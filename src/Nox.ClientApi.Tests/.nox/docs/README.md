@@ -28,6 +28,7 @@ erDiagram
     Workplace {
     }
     Workplace}o..o|Country : "Workplace country"
+    Workplace}o..o{Tenant : "Actve Tenants in the workplace"
     StoreOwner {
     }
     StoreOwner|o..|{Store : "Set of stores that this owner owns"
@@ -37,6 +38,8 @@ erDiagram
     StoreLicense}|..o|Currency : "Default currency for this license"
     StoreLicense}|..o|Currency : "Currency this license was sold in"
     Currency {
+    }
+    Tenant {
     }
     EmailAddress {
     }
@@ -284,6 +287,30 @@ Description|Cardinality|Related Entity|Name|Can Navigate?
 Set of stores that this owner owns|OneOrMany|Store|Stores|Yes
 
 
+### Tenant
+
+Tenant.
+
+[Endpoints](./endpoints/TenantEndpoints.md)
+
+[Domain Events](./domainEvents/TenantDomainEvents.md)
+
+#### <u>Members (Keys, Attributes & Relationships)</u>
+
+Member|Type|Description|Info
+---------|----|----------|-------
+Id|Guid||Required, Primary Key
+Name|Text|Teanant Name.|Required, MinLength: 4, MaxLength: 63
+WorkplaceId|Nuid|Workplace unique identifier.|Required, Foreign Key, Separator: -, PropertyNames: System.String[]
+
+
+#### <u>Relationships</u>
+
+Description|Cardinality|Related Entity|Name|Can Navigate?
+-----------|-----------|--------------|----|-------------
+Workplaces where the tenant is active|ZeroOrMany|Workplace|TenantWorkplaces|Yes
+
+
 ### Workplace
 
 Workplace.
@@ -301,6 +328,7 @@ Name|Text|Workplace Name.|Required, MinLength: 4, MaxLength: 63
 Description|Text|Workplace Description.|MinLength: 4, IsLocalized: true
 Greeting|Formula|The Formula.|
 CountryId|AutoNumber|The unique identifier.|Required, Foreign Key, StartsAt: 10, IncrementsBy: 5
+TenantId|Guid||Required, Foreign Key
 
 
 #### <u>Relationships</u>
@@ -308,6 +336,7 @@ CountryId|AutoNumber|The unique identifier.|Required, Foreign Key, StartsAt: 10,
 Description|Cardinality|Related Entity|Name|Can Navigate?
 -----------|-----------|--------------|----|-------------
 Workplace country|ZeroOrOne|Country|BelongsToCountry|Yes
+Actve Tenants in the workplace|ZeroOrMany|Tenant|TenantsInWorkplace|Yes
 
 
 

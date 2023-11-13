@@ -162,6 +162,7 @@ Name|System.String|Workplace Name
 Description|System.String|Workplace Description
 Greeting|System.String|The Formula
 CountryId|System.Int64|The unique identifier
+TenantId|System.Guid|
 
 
 ### `StoreOwnerCreated`
