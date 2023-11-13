@@ -72,7 +72,6 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return Ok(references);
     }
     
-    [HttpDelete("api/Workplaces/{key}/Country/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.UInt32 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -89,7 +88,6 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Workplaces/{key}/Country")]
     public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.UInt32 key)
     {
         if (!ModelState.IsValid)
@@ -103,6 +101,29 @@ public abstract partial class WorkplacesControllerBase : ODataController
             return NotFound();
         }
         
+        return NoContent();
+    }
+    
+    [HttpDelete("api/Workplaces/{key}/Country")]
+    public async Task<ActionResult> DeleteToCountry([FromRoute] System.UInt32 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).Select(x => x.Country).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteCountryByIdCommand(related.Id, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
         return NoContent();
     }
     
@@ -154,7 +175,6 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return Ok(references);
     }
     
-    [HttpDelete("api/Workplaces/{key}/Tenants/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToTenants([FromRoute] System.UInt32 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -171,7 +191,6 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Workplaces/{key}/Tenants")]
     public async Task<ActionResult> DeleteRefToTenants([FromRoute] System.UInt32 key)
     {
         if (!ModelState.IsValid)
@@ -185,6 +204,52 @@ public abstract partial class WorkplacesControllerBase : ODataController
             return NotFound();
         }
         
+        return NoContent();
+    }
+    
+    [HttpDelete("api/Workplaces/{key}/Tenants/{relatedKey}")]
+    public async Task<ActionResult> DeleteToTenants([FromRoute] System.UInt32 key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).SelectMany(x => x.Tenants).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteTenantByIdCommand(relatedKey, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpDelete("api/Workplaces/{key}/Tenants")]
+    public async Task<ActionResult> DeleteToTenants([FromRoute] System.UInt32 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).Select(x => x.Tenants).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        foreach(var item in related)
+        {
+            await _mediator.Send(new DeleteTenantByIdCommand(item.Id, etag));
+        }
         return NoContent();
     }
     

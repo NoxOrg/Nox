@@ -72,7 +72,6 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
         return Ok(references);
     }
     
-    [HttpDelete("api/TestEntityZeroOrOnes/{key}/SecondTestEntityZeroOrOne/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToSecondTestEntityZeroOrOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -89,7 +88,6 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
         return NoContent();
     }
     
-    [HttpDelete("api/TestEntityZeroOrOnes/{key}/SecondTestEntityZeroOrOne")]
     public async Task<ActionResult> DeleteRefToSecondTestEntityZeroOrOne([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
@@ -103,6 +101,29 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
             return NotFound();
         }
         
+        return NoContent();
+    }
+    
+    [HttpDelete("api/TestEntityZeroOrOnes/{key}/SecondTestEntityZeroOrOne")]
+    public async Task<ActionResult> DeleteToSecondTestEntityZeroOrOne([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityZeroOrOneByIdQuery(key))).Select(x => x.SecondTestEntityZeroOrOne).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteSecondTestEntityZeroOrOneByIdCommand(related.Id, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
         return NoContent();
     }
     

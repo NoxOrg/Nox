@@ -353,7 +353,6 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return Ok(references);
     }
     
-    [HttpDelete("api/Currencies/{key}/Countries/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToCountries([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -363,6 +362,30 @@ public abstract partial class CurrenciesControllerBase : ODataController
         
         var deletedRef = await _mediator.Send(new DeleteRefCurrencyToCountriesCommand(new CurrencyKeyDto(key), new CountryKeyDto(relatedKey)));
         if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpDelete("api/Currencies/{key}/Countries/{relatedKey}")]
+    public async Task<ActionResult> DeleteToCountries([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SelectMany(x => x.Countries).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteCountryByIdCommand(relatedKey, etag));
+        if (!deleted)
         {
             return NotFound();
         }
@@ -418,7 +441,6 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return Ok(references);
     }
     
-    [HttpDelete("api/Currencies/{key}/MinimumCashStocks/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToMinimumCashStocks([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -435,7 +457,6 @@ public abstract partial class CurrenciesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Currencies/{key}/MinimumCashStocks")]
     public async Task<ActionResult> DeleteRefToMinimumCashStocks([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
@@ -449,6 +470,52 @@ public abstract partial class CurrenciesControllerBase : ODataController
             return NotFound();
         }
         
+        return NoContent();
+    }
+    
+    [HttpDelete("api/Currencies/{key}/MinimumCashStocks/{relatedKey}")]
+    public async Task<ActionResult> DeleteToMinimumCashStocks([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).SelectMany(x => x.MinimumCashStocks).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteMinimumCashStockByIdCommand(relatedKey, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpDelete("api/Currencies/{key}/MinimumCashStocks")]
+    public async Task<ActionResult> DeleteToMinimumCashStocks([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCurrencyByIdQuery(key))).Select(x => x.MinimumCashStocks).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        foreach(var item in related)
+        {
+            await _mediator.Send(new DeleteMinimumCashStockByIdCommand(item.Id, etag));
+        }
         return NoContent();
     }
     

@@ -72,7 +72,6 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
         return Ok(references);
     }
     
-    [HttpDelete("api/ThirdTestEntityZeroOrOnes/{key}/ThirdTestEntityExactlyOne/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToThirdTestEntityExactlyOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -89,7 +88,6 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
         return NoContent();
     }
     
-    [HttpDelete("api/ThirdTestEntityZeroOrOnes/{key}/ThirdTestEntityExactlyOne")]
     public async Task<ActionResult> DeleteRefToThirdTestEntityExactlyOne([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
@@ -103,6 +101,29 @@ public abstract partial class ThirdTestEntityZeroOrOnesControllerBase : ODataCon
             return NotFound();
         }
         
+        return NoContent();
+    }
+    
+    [HttpDelete("api/ThirdTestEntityZeroOrOnes/{key}/ThirdTestEntityExactlyOne")]
+    public async Task<ActionResult> DeleteToThirdTestEntityExactlyOne([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetThirdTestEntityZeroOrOneByIdQuery(key))).Select(x => x.ThirdTestEntityExactlyOne).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteThirdTestEntityExactlyOneByIdCommand(related.Id, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
         return NoContent();
     }
     

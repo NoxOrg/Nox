@@ -397,7 +397,6 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(references);
     }
     
-    [HttpDelete("api/Countries/{key}/Commissions/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToCommissions([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -407,6 +406,30 @@ public abstract partial class CountriesControllerBase : ODataController
         
         var deletedRef = await _mediator.Send(new DeleteRefCountryToCommissionsCommand(new CountryKeyDto(key), new CommissionKeyDto(relatedKey)));
         if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpDelete("api/Countries/{key}/Commissions/{relatedKey}")]
+    public async Task<ActionResult> DeleteToCommissions([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Commissions).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteCommissionByIdCommand(relatedKey, etag));
+        if (!deleted)
         {
             return NotFound();
         }
@@ -462,7 +485,6 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(references);
     }
     
-    [HttpDelete("api/Countries/{key}/VendingMachines/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.String key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -479,7 +501,6 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Countries/{key}/VendingMachines")]
     public async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
@@ -493,6 +514,52 @@ public abstract partial class CountriesControllerBase : ODataController
             return NotFound();
         }
         
+        return NoContent();
+    }
+    
+    [HttpDelete("api/Countries/{key}/VendingMachines/{relatedKey}")]
+    public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.String key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.VendingMachines).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteVendingMachineByIdCommand(relatedKey, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpDelete("api/Countries/{key}/VendingMachines")]
+    public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.VendingMachines).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        foreach(var item in related)
+        {
+            await _mediator.Send(new DeleteVendingMachineByIdCommand(item.Id, etag));
+        }
         return NoContent();
     }
     
@@ -544,7 +611,6 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(references);
     }
     
-    [HttpDelete("api/Countries/{key}/Customers/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToCustomers([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -561,7 +627,6 @@ public abstract partial class CountriesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Countries/{key}/Customers")]
     public async Task<ActionResult> DeleteRefToCustomers([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
@@ -575,6 +640,52 @@ public abstract partial class CountriesControllerBase : ODataController
             return NotFound();
         }
         
+        return NoContent();
+    }
+    
+    [HttpDelete("api/Countries/{key}/Customers/{relatedKey}")]
+    public async Task<ActionResult> DeleteToCustomers([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Customers).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteCustomerByIdCommand(relatedKey, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpDelete("api/Countries/{key}/Customers")]
+    public async Task<ActionResult> DeleteToCustomers([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Select(x => x.Customers).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        foreach(var item in related)
+        {
+            await _mediator.Send(new DeleteCustomerByIdCommand(item.Id, etag));
+        }
         return NoContent();
     }
     

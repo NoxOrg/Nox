@@ -838,10 +838,14 @@ namespace ClientApi.Tests.Tests.Controllers
                 new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
                 headers);
 
-            var deleteWorkplaceResponse = await DeleteAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{postToWorkplaceResponse!.Id}");
+            headers = CreateEtagHeader(postToWorkplaceResponse?.Etag);
+            var deleteWorkplaceResponse = await DeleteAsync(
+                $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{postToWorkplaceResponse!.Id}",
+                headers);
 
             const string oDataRequest = $"$expand={nameof(CountryDto.Workplaces)}";
             var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{countryResponse!.Id}?{oDataRequest}");
+            var getWorkplaceResponse = await GetAsync($"{Endpoints.WorkplacesUrl}/{postToWorkplaceResponse!.Id}");
 
             //Assert
             deleteWorkplaceResponse.Should().NotBeNull();
@@ -849,6 +853,9 @@ namespace ClientApi.Tests.Tests.Controllers
             
             getCountryResponse.Should().NotBeNull();
             getCountryResponse!.Workplaces.Should().BeEmpty();
+
+            getWorkplaceResponse.Should().NotBeNull();
+            getWorkplaceResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
         #endregion 
@@ -869,10 +876,12 @@ namespace ClientApi.Tests.Tests.Controllers
                 new WorkplaceCreateDto() { Name = _fixture.Create<string>() },
                 headers);
 
-            var deleteWorkplaceResponse = await DeleteAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}");
+            headers = CreateEtagHeader(postToWorkplaceResponse?.Etag);
+            var deleteWorkplaceResponse = await DeleteAsync($"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}", headers);
 
             const string oDataRequest = $"$expand={nameof(CountryDto.Workplaces)}";
             var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{countryResponse!.Id}?{oDataRequest}");
+            var getWorkplaceResponse = await GetAsync($"{Endpoints.WorkplacesUrl}/{postToWorkplaceResponse!.Id}");
 
             //Assert
             deleteWorkplaceResponse.Should().NotBeNull();
@@ -880,6 +889,9 @@ namespace ClientApi.Tests.Tests.Controllers
 
             getCountryResponse.Should().NotBeNull();
             getCountryResponse!.Workplaces.Should().BeEmpty();
+
+            getWorkplaceResponse.Should().NotBeNull();
+            getWorkplaceResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
         #endregion 

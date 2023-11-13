@@ -76,7 +76,6 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
         return Ok(references);
     }
     
-    [HttpDelete("api/SecondTestEntityZeroOrManies/{key}/TestEntityZeroOrManies/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToTestEntityZeroOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -93,7 +92,6 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
         return NoContent();
     }
     
-    [HttpDelete("api/SecondTestEntityZeroOrManies/{key}/TestEntityZeroOrManies")]
     public async Task<ActionResult> DeleteRefToTestEntityZeroOrManies([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
@@ -107,6 +105,52 @@ public abstract partial class SecondTestEntityZeroOrManiesControllerBase : OData
             return NotFound();
         }
         
+        return NoContent();
+    }
+    
+    [HttpDelete("api/SecondTestEntityZeroOrManies/{key}/TestEntityZeroOrManies/{relatedKey}")]
+    public async Task<ActionResult> DeleteToTestEntityZeroOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetSecondTestEntityZeroOrManyByIdQuery(key))).SelectMany(x => x.TestEntityZeroOrManies).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteTestEntityZeroOrManyByIdCommand(relatedKey, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpDelete("api/SecondTestEntityZeroOrManies/{key}/TestEntityZeroOrManies")]
+    public async Task<ActionResult> DeleteToTestEntityZeroOrManies([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetSecondTestEntityZeroOrManyByIdQuery(key))).Select(x => x.TestEntityZeroOrManies).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        foreach(var item in related)
+        {
+            await _mediator.Send(new DeleteTestEntityZeroOrManyByIdCommand(item.Id, etag));
+        }
         return NoContent();
     }
     

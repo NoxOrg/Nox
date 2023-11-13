@@ -76,7 +76,6 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         return Ok(references);
     }
     
-    [HttpDelete("api/TestEntityTwoRelationshipsOneToManies/{key}/TestRelationshipOne/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToTestRelationshipOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -93,7 +92,6 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         return NoContent();
     }
     
-    [HttpDelete("api/TestEntityTwoRelationshipsOneToManies/{key}/TestRelationshipOne")]
     public async Task<ActionResult> DeleteRefToTestRelationshipOne([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
@@ -107,6 +105,52 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
             return NotFound();
         }
         
+        return NoContent();
+    }
+    
+    [HttpDelete("api/TestEntityTwoRelationshipsOneToManies/{key}/TestRelationshipOne/{relatedKey}")]
+    public async Task<ActionResult> DeleteToTestRelationshipOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipOne).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteSecondTestEntityTwoRelationshipsOneToManyByIdCommand(relatedKey, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpDelete("api/TestEntityTwoRelationshipsOneToManies/{key}/TestRelationshipOne")]
+    public async Task<ActionResult> DeleteToTestRelationshipOne([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToManyByIdQuery(key))).Select(x => x.TestRelationshipOne).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        foreach(var item in related)
+        {
+            await _mediator.Send(new DeleteSecondTestEntityTwoRelationshipsOneToManyByIdCommand(item.Id, etag));
+        }
         return NoContent();
     }
     
@@ -158,7 +202,6 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         return Ok(references);
     }
     
-    [HttpDelete("api/TestEntityTwoRelationshipsOneToManies/{key}/TestRelationshipTwo/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToTestRelationshipTwo([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -175,7 +218,6 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         return NoContent();
     }
     
-    [HttpDelete("api/TestEntityTwoRelationshipsOneToManies/{key}/TestRelationshipTwo")]
     public async Task<ActionResult> DeleteRefToTestRelationshipTwo([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
@@ -189,6 +231,52 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
             return NotFound();
         }
         
+        return NoContent();
+    }
+    
+    [HttpDelete("api/TestEntityTwoRelationshipsOneToManies/{key}/TestRelationshipTwo/{relatedKey}")]
+    public async Task<ActionResult> DeleteToTestRelationshipTwo([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipTwo).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteSecondTestEntityTwoRelationshipsOneToManyByIdCommand(relatedKey, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpDelete("api/TestEntityTwoRelationshipsOneToManies/{key}/TestRelationshipTwo")]
+    public async Task<ActionResult> DeleteToTestRelationshipTwo([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToManyByIdQuery(key))).Select(x => x.TestRelationshipTwo).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        foreach(var item in related)
+        {
+            await _mediator.Send(new DeleteSecondTestEntityTwoRelationshipsOneToManyByIdCommand(item.Id, etag));
+        }
         return NoContent();
     }
     

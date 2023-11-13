@@ -164,7 +164,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Ok(references);
     }
     
-    [HttpDelete("api/VendingMachines/{key}/Bookings/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -181,7 +180,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/VendingMachines/{key}/Bookings")]
     public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
@@ -195,6 +193,52 @@ public abstract partial class VendingMachinesControllerBase : ODataController
             return NotFound();
         }
         
+        return NoContent();
+    }
+    
+    [HttpDelete("api/VendingMachines/{key}/Bookings/{relatedKey}")]
+    public async Task<ActionResult> DeleteToBookings([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.Bookings).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteBookingByIdCommand(relatedKey, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpDelete("api/VendingMachines/{key}/Bookings")]
+    public async Task<ActionResult> DeleteToBookings([FromRoute] System.Guid key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.Bookings).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        foreach(var item in related)
+        {
+            await _mediator.Send(new DeleteBookingByIdCommand(item.Id, etag));
+        }
         return NoContent();
     }
     
@@ -246,7 +290,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Ok(references);
     }
     
-    [HttpDelete("api/VendingMachines/{key}/CashStockOrders/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToCashStockOrders([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -263,7 +306,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/VendingMachines/{key}/CashStockOrders")]
     public async Task<ActionResult> DeleteRefToCashStockOrders([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
@@ -277,6 +319,52 @@ public abstract partial class VendingMachinesControllerBase : ODataController
             return NotFound();
         }
         
+        return NoContent();
+    }
+    
+    [HttpDelete("api/VendingMachines/{key}/CashStockOrders/{relatedKey}")]
+    public async Task<ActionResult> DeleteToCashStockOrders([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.CashStockOrders).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteCashStockOrderByIdCommand(relatedKey, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpDelete("api/VendingMachines/{key}/CashStockOrders")]
+    public async Task<ActionResult> DeleteToCashStockOrders([FromRoute] System.Guid key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.CashStockOrders).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        foreach(var item in related)
+        {
+            await _mediator.Send(new DeleteCashStockOrderByIdCommand(item.Id, etag));
+        }
         return NoContent();
     }
     
@@ -328,7 +416,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return Ok(references);
     }
     
-    [HttpDelete("api/VendingMachines/{key}/MinimumCashStocks/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToMinimumCashStocks([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -345,7 +432,6 @@ public abstract partial class VendingMachinesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/VendingMachines/{key}/MinimumCashStocks")]
     public async Task<ActionResult> DeleteRefToMinimumCashStocks([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
@@ -359,6 +445,52 @@ public abstract partial class VendingMachinesControllerBase : ODataController
             return NotFound();
         }
         
+        return NoContent();
+    }
+    
+    [HttpDelete("api/VendingMachines/{key}/MinimumCashStocks/{relatedKey}")]
+    public async Task<ActionResult> DeleteToMinimumCashStocks([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).SelectMany(x => x.MinimumCashStocks).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteMinimumCashStockByIdCommand(relatedKey, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpDelete("api/VendingMachines/{key}/MinimumCashStocks")]
+    public async Task<ActionResult> DeleteToMinimumCashStocks([FromRoute] System.Guid key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetVendingMachineByIdQuery(key))).Select(x => x.MinimumCashStocks).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        foreach(var item in related)
+        {
+            await _mediator.Send(new DeleteMinimumCashStockByIdCommand(item.Id, etag));
+        }
         return NoContent();
     }
     

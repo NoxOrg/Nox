@@ -72,7 +72,6 @@ public abstract partial class CommissionsControllerBase : ODataController
         return Ok(references);
     }
     
-    [HttpDelete("api/Commissions/{key}/Country/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -89,7 +88,6 @@ public abstract partial class CommissionsControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Commissions/{key}/Country")]
     public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
@@ -103,6 +101,29 @@ public abstract partial class CommissionsControllerBase : ODataController
             return NotFound();
         }
         
+        return NoContent();
+    }
+    
+    [HttpDelete("api/Commissions/{key}/Country")]
+    public async Task<ActionResult> DeleteToCountry([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).Select(x => x.Country).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteCountryByIdCommand(related.Id, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
         return NoContent();
     }
     
@@ -154,7 +175,6 @@ public abstract partial class CommissionsControllerBase : ODataController
         return Ok(references);
     }
     
-    [HttpDelete("api/Commissions/{key}/Bookings/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -171,7 +191,6 @@ public abstract partial class CommissionsControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Commissions/{key}/Bookings")]
     public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
@@ -185,6 +204,52 @@ public abstract partial class CommissionsControllerBase : ODataController
             return NotFound();
         }
         
+        return NoContent();
+    }
+    
+    [HttpDelete("api/Commissions/{key}/Bookings/{relatedKey}")]
+    public async Task<ActionResult> DeleteToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).SelectMany(x => x.Bookings).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteBookingByIdCommand(relatedKey, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpDelete("api/Commissions/{key}/Bookings")]
+    public async Task<ActionResult> DeleteToBookings([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).Select(x => x.Bookings).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        foreach(var item in related)
+        {
+            await _mediator.Send(new DeleteBookingByIdCommand(item.Id, etag));
+        }
         return NoContent();
     }
     

@@ -76,7 +76,6 @@ public abstract partial class TenantsControllerBase : ODataController
         return Ok(references);
     }
     
-    [HttpDelete("api/Tenants/{key}/Workplaces/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToWorkplaces([FromRoute] System.Guid key, [FromRoute] System.UInt32 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -93,7 +92,6 @@ public abstract partial class TenantsControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Tenants/{key}/Workplaces")]
     public async Task<ActionResult> DeleteRefToWorkplaces([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
@@ -107,6 +105,52 @@ public abstract partial class TenantsControllerBase : ODataController
             return NotFound();
         }
         
+        return NoContent();
+    }
+    
+    [HttpDelete("api/Tenants/{key}/Workplaces/{relatedKey}")]
+    public async Task<ActionResult> DeleteToWorkplaces([FromRoute] System.Guid key, [FromRoute] System.UInt32 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTenantByIdQuery(key))).SelectMany(x => x.Workplaces).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteWorkplaceByIdCommand(relatedKey, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpDelete("api/Tenants/{key}/Workplaces")]
+    public async Task<ActionResult> DeleteToWorkplaces([FromRoute] System.Guid key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTenantByIdQuery(key))).Select(x => x.Workplaces).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        foreach(var item in related)
+        {
+            await _mediator.Send(new DeleteWorkplaceByIdCommand(item.Id, etag));
+        }
         return NoContent();
     }
     

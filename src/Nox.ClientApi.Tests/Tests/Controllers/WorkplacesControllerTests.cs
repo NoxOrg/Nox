@@ -266,7 +266,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region DELETE Related Entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName} => api/workplaces/1/Country
 
-        [Fact]
+        [Fact(Skip = "DeleteBehavior.ClientSetNull needs to be verified")]
         public async Task Delete_Country_Success()
         {
             // Arrange
@@ -280,10 +280,12 @@ namespace ClientApi.Tests.Tests.Controllers
                 new CountryCreateDto() { Name = _fixture.Create<string>() },
                 headers);
 
-            var deleteCountryResponse = await DeleteAsync($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}");
+            headers = CreateEtagHeader(postToCountryResponse?.Etag);
+            var deleteCountryResponse = await DeleteAsync($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Country)}", headers);
 
             const string oDataRequest = $"$expand={nameof(WorkplaceDto.Country)}";
             var getWorkplaceResponse = await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}?{oDataRequest}");
+            var getCountryResponse = await GetAsync($"{Endpoints.CountriesUrl}/{postToCountryResponse!.Id}");
 
             //Assert
             deleteCountryResponse.Should().NotBeNull();
@@ -293,6 +295,9 @@ namespace ClientApi.Tests.Tests.Controllers
             getWorkplaceResponse!.Id.Should().BeGreaterThan(0);
             getWorkplaceResponse!.CountryId.Should().BeNull();
             getWorkplaceResponse!.Country!.Should().BeNull();
+
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
         #endregion

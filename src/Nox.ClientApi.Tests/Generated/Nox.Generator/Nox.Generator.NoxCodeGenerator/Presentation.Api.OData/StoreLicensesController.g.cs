@@ -116,7 +116,6 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return Ok(references);
     }
     
-    [HttpDelete("api/StoreLicenses/{key}/DefaultCurrency/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToDefaultCurrency([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -133,7 +132,6 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/StoreLicenses/{key}/DefaultCurrency")]
     public async Task<ActionResult> DeleteRefToDefaultCurrency([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
@@ -147,6 +145,29 @@ public abstract partial class StoreLicensesControllerBase : ODataController
             return NotFound();
         }
         
+        return NoContent();
+    }
+    
+    [HttpDelete("api/StoreLicenses/{key}/DefaultCurrency")]
+    public async Task<ActionResult> DeleteToDefaultCurrency([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.DefaultCurrency).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteCurrencyByIdCommand(related.Id, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
         return NoContent();
     }
     
@@ -194,7 +215,6 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return Ok(references);
     }
     
-    [HttpDelete("api/StoreLicenses/{key}/SoldInCurrency/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToSoldInCurrency([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -211,7 +231,6 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/StoreLicenses/{key}/SoldInCurrency")]
     public async Task<ActionResult> DeleteRefToSoldInCurrency([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
@@ -225,6 +244,29 @@ public abstract partial class StoreLicensesControllerBase : ODataController
             return NotFound();
         }
         
+        return NoContent();
+    }
+    
+    [HttpDelete("api/StoreLicenses/{key}/SoldInCurrency")]
+    public async Task<ActionResult> DeleteToSoldInCurrency([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Select(x => x.SoldInCurrency).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteCurrencyByIdCommand(related.Id, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
         return NoContent();
     }
     

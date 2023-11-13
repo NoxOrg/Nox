@@ -500,6 +500,9 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
                 {
                     GenerateDeleteRefTo(entity, relationship, code, solution);
                     GenerateDeleteAllRefTo(entity, relationship, code, solution);
+
+                    GenerateRelatedDelete(solution, relationship, entity, code);
+                    GenerateRelatedDeleteAll(solution, relationship, entity, code);
                 }
             }
             code.AppendLine($"#endregion");
@@ -542,7 +545,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         var relatedEntity = relationship.Related.Entity;
         var relationshipName = entity.GetNavigationPropertyName(relationship);
 
-        code.AppendLine($"[HttpDelete(\"api/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{relationshipName}/{PrimaryKeysAttribute(relatedEntity, "relatedKey")}\")]");
         code.AppendLine($"public async Task<ActionResult> DeleteRefTo{relationshipName}" +
             $"({GetPrimaryKeysRoute(entity, solution)}, {GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey")})");
 
@@ -575,7 +577,6 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
         var relationshipName = entity.GetNavigationPropertyName(relationship);
 
-        code.AppendLine($"[HttpDelete(\"api/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{relationshipName}\")]");
         code.AppendLine($"public async Task<ActionResult> DeleteRefTo{relationshipName}({GetPrimaryKeysRoute(entity, solution)})");
 
         code.StartBlock();
@@ -678,7 +679,102 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
     private static void GenerateRelatedDelete(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code)
     {
+        if (relationship.WithSingleEntity)
+            return;
 
+        var relatedEntity = relationship.Related.Entity;
+        var relationshipName = entity.GetNavigationPropertyName(relationship);
+
+        code.AppendLine($"[HttpDelete(\"api/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{relationshipName}/{PrimaryKeysAttribute(relatedEntity, "relatedKey")}\")]");
+        code.AppendLine($"public async Task<ActionResult> DeleteTo{relationshipName}" +
+            $"({GetPrimaryKeysRoute(entity, solution)}, {GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey")})");
+
+        code.StartBlock();
+        code.AppendLine($"if (!ModelState.IsValid)");
+        code.StartBlock();
+        code.AppendLine($"return BadRequest(ModelState);");
+        code.EndBlock();
+        code.AppendLine();
+
+        var localizationPart = entity.IsLocalized ? "_cultureCode, " : "";
+        var param = string.Join(" && ", relatedEntity.Keys.Select(k => $"x.{k.Name} == relatedKey{(relatedEntity.Keys.Count > 1 ? k.Name : "")}"));
+        code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({localizationPart}{GetPrimaryKeysQuery(entity)})))" +
+            $".SelectMany(x => x.{relationshipName})" +
+            $".Any(x => {param});");
+        code.AppendLine($"if (!related)");
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+        code.AppendLine();
+        var relatedKeyQuery = $"{GetPrimaryKeysQuery(relatedEntity, "relatedKey")}";
+        code.AppendLine($"var etag = Request.GetDecodedEtagHeader();");
+        code.AppendLine($"var deleted = await _mediator.Send(new Delete{relatedEntity.Name}ByIdCommand({relatedKeyQuery}, etag));");
+        code.AppendLine($"if (!deleted)");
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+        code.AppendLine();
+        code.AppendLine($"return NoContent();");
+
+        code.EndBlock();
+        code.AppendLine();
+    }
+
+    private static void GenerateRelatedDeleteAll(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code)
+    {
+        if (relationship.Relationship == EntityRelationshipType.ExactlyOne ||
+            relationship.Relationship == EntityRelationshipType.OneOrMany)
+            return;
+
+        var relatedEntity = relationship.Related.Entity;
+        var relationshipName = entity.GetNavigationPropertyName(relationship);
+
+        code.AppendLine($"[HttpDelete(\"api/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{relationshipName}\")]");
+        code.AppendLine($"public async Task<ActionResult> DeleteTo{relationshipName}({GetPrimaryKeysRoute(entity, solution)})");
+
+        code.StartBlock();
+        code.AppendLine($"if (!ModelState.IsValid)");
+        code.StartBlock();
+        code.AppendLine($"return BadRequest(ModelState);");
+        code.EndBlock();
+        code.AppendLine();
+
+        var localizationPart = entity.IsLocalized ? "_cultureCode, " : "";
+        if (relationship.WithSingleEntity)
+            code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({localizationPart}{GetPrimaryKeysQuery(entity)})))" +
+                $".Select(x => x.{relationshipName}).SingleOrDefault();");
+        else
+            code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({localizationPart}{GetPrimaryKeysQuery(entity)})))" +
+                $".Select(x => x.{relationshipName}).SingleOrDefault();");
+        code.AppendLine($"if (related == null)");
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+        code.AppendLine();
+
+        code.AppendLine($"var etag = Request.GetDecodedEtagHeader();");
+        if (relationship.WithSingleEntity)
+        {
+            code.AppendLine($"var deleted = await _mediator.Send(new Delete{relatedEntity.Name}ByIdCommand(" +
+                $"{GetPrimaryKeysQuery(relatedEntity, "related.", true)}, " +
+                $"etag));"); 
+            code.AppendLine($"if (!deleted)");
+            code.StartBlock();
+            code.AppendLine($"return NotFound();");
+            code.EndBlock();
+        }
+        else
+        {
+            code.AppendLine($"foreach(var item in related)");
+            code.StartBlock();
+            code.AppendLine($"await _mediator.Send(new Delete{relatedEntity.Name}ByIdCommand(" +
+                $"{GetPrimaryKeysQuery(relatedEntity, "item.", true)}, " +
+                $"etag));");
+            code.EndBlock();
+        }
+        code.AppendLine($"return NoContent();");
+        code.EndBlock();
+        code.AppendLine();
     }
 
     private static string PrimaryKeysAttribute(Entity entity, string prefix = "key", bool withKeyName = false)

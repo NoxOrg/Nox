@@ -76,7 +76,6 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok(references);
     }
     
-    [HttpDelete("api/Customers/{key}/PaymentDetails/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -93,7 +92,6 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Customers/{key}/PaymentDetails")]
     public async Task<ActionResult> DeleteRefToPaymentDetails([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
@@ -107,6 +105,52 @@ public abstract partial class CustomersControllerBase : ODataController
             return NotFound();
         }
         
+        return NoContent();
+    }
+    
+    [HttpDelete("api/Customers/{key}/PaymentDetails/{relatedKey}")]
+    public async Task<ActionResult> DeleteToPaymentDetails([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.PaymentDetails).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeletePaymentDetailByIdCommand(relatedKey, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpDelete("api/Customers/{key}/PaymentDetails")]
+    public async Task<ActionResult> DeleteToPaymentDetails([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.PaymentDetails).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        foreach(var item in related)
+        {
+            await _mediator.Send(new DeletePaymentDetailByIdCommand(item.Id, etag));
+        }
         return NoContent();
     }
     
@@ -158,7 +202,6 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok(references);
     }
     
-    [HttpDelete("api/Customers/{key}/Bookings/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -175,7 +218,6 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Customers/{key}/Bookings")]
     public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
@@ -189,6 +231,52 @@ public abstract partial class CustomersControllerBase : ODataController
             return NotFound();
         }
         
+        return NoContent();
+    }
+    
+    [HttpDelete("api/Customers/{key}/Bookings/{relatedKey}")]
+    public async Task<ActionResult> DeleteToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.Bookings).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteBookingByIdCommand(relatedKey, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpDelete("api/Customers/{key}/Bookings")]
+    public async Task<ActionResult> DeleteToBookings([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.Bookings).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        foreach(var item in related)
+        {
+            await _mediator.Send(new DeleteBookingByIdCommand(item.Id, etag));
+        }
         return NoContent();
     }
     
@@ -240,7 +328,6 @@ public abstract partial class CustomersControllerBase : ODataController
         return Ok(references);
     }
     
-    [HttpDelete("api/Customers/{key}/Transactions/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToTransactions([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -257,7 +344,6 @@ public abstract partial class CustomersControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/Customers/{key}/Transactions")]
     public async Task<ActionResult> DeleteRefToTransactions([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
@@ -271,6 +357,52 @@ public abstract partial class CustomersControllerBase : ODataController
             return NotFound();
         }
         
+        return NoContent();
+    }
+    
+    [HttpDelete("api/Customers/{key}/Transactions/{relatedKey}")]
+    public async Task<ActionResult> DeleteToTransactions([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).SelectMany(x => x.Transactions).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteTransactionByIdCommand(relatedKey, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpDelete("api/Customers/{key}/Transactions")]
+    public async Task<ActionResult> DeleteToTransactions([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetCustomerByIdQuery(key))).Select(x => x.Transactions).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        foreach(var item in related)
+        {
+            await _mediator.Send(new DeleteTransactionByIdCommand(item.Id, etag));
+        }
         return NoContent();
     }
     

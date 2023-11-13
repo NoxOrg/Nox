@@ -76,7 +76,6 @@ public abstract partial class LandLordsControllerBase : ODataController
         return Ok(references);
     }
     
-    [HttpDelete("api/LandLords/{key}/VendingMachines/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -93,7 +92,6 @@ public abstract partial class LandLordsControllerBase : ODataController
         return NoContent();
     }
     
-    [HttpDelete("api/LandLords/{key}/VendingMachines")]
     public async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.Int64 key)
     {
         if (!ModelState.IsValid)
@@ -107,6 +105,52 @@ public abstract partial class LandLordsControllerBase : ODataController
             return NotFound();
         }
         
+        return NoContent();
+    }
+    
+    [HttpDelete("api/LandLords/{key}/VendingMachines/{relatedKey}")]
+    public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetLandLordByIdQuery(key))).SelectMany(x => x.VendingMachines).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteVendingMachineByIdCommand(relatedKey, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpDelete("api/LandLords/{key}/VendingMachines")]
+    public async Task<ActionResult> DeleteToVendingMachines([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetLandLordByIdQuery(key))).Select(x => x.VendingMachines).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        foreach(var item in related)
+        {
+            await _mediator.Send(new DeleteVendingMachineByIdCommand(item.Id, etag));
+        }
         return NoContent();
     }
     
