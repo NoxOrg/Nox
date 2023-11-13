@@ -58,7 +58,12 @@ public class Solution
 
     public Domain? Domain { get; internal set; }
 
-    public Infrastructure? Infrastructure { get; internal set; }
+    public Infrastructure Infrastructure { get; internal set; } = new();
 
     public Application? Application { get; internal set; } = new Application();
+
+    internal void ApplyDefaults()
+    {
+        Infrastructure!.ApplyDefaults(Version);
+    }
 }
