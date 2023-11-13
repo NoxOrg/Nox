@@ -16,7 +16,7 @@ namespace TestWebApp.Application.Dto;
 /// <summary>
 /// Entity created for testing localization Localized DTO.
 /// </summary>
-internal partial class TestEntityLocalizationLocalizedDto
+public partial class TestEntityLocalizationLocalizedDto
 {
     /// <summary>
     ///  (Required).

@@ -16,7 +16,7 @@ namespace SampleWebApp.Application.Dto;
 /// <summary>
 /// The list of countries Localized DTO.
 /// </summary>
-internal partial class CountryLocalizedDto
+public partial class CountryLocalizedDto
 {
     /// <summary>
     ///  (Required).
