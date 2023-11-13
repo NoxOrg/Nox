@@ -47,11 +47,6 @@ public abstract class CountryCreateDtoBase : IEntityDto<DomainNamespace.Country>
     /// </summary>
     public virtual System.String? FirstLanguageCode { get; set; }
     /// <summary>
-    /// The Formula 
-    /// <remarks>Optional</remarks>    
-    /// </summary>
-    public virtual System.String? ShortDescription { get; set; }
-    /// <summary>
     /// Country's iso number id 
     /// <remarks>Optional</remarks>    
     /// </summary>

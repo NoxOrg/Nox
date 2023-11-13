@@ -106,7 +106,7 @@ public enum NoxType : uint
     [SimpleType(typeof(short))]
     CurrencyNumber = 2377452890,
 
-    [SimpleType(typeof(long), Update = false)]
+    [SimpleType(typeof(long), Update = false, Create = false)]
     AutoNumber = 24779567,
 
     [SimpleType(typeof(DateTime))]
@@ -140,7 +140,7 @@ public enum NoxType : uint
     [SimpleType(typeof(int))]
     Enumeration = 3545666060,
 
-    [SimpleType(typeof(string), Update = false)]
+    [SimpleType(typeof(string), Update = false, Create = false)]
     Formula = 2602269623,
 
     [SimpleType(typeof(Guid))]

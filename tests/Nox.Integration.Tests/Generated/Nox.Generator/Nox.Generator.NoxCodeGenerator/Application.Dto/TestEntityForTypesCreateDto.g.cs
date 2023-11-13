@@ -298,11 +298,6 @@ public abstract class TestEntityForTypesCreateDtoBase : IEntityDto<DomainNamespa
     ///  
     /// <remarks>Optional</remarks>    
     /// </summary>
-    public virtual System.String? FormulaTestField { get; set; }
-    /// <summary>
-    ///  
-    /// <remarks>Optional</remarks>    
-    /// </summary>
     public virtual System.String? HtmlTestField { get; set; }
     /// <summary>
     ///  

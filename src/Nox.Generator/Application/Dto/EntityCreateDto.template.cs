@@ -48,7 +48,7 @@ public abstract class {{className}}Base : IEntityDto<DomainNamespace.{{entity.Na
 {{- end }}
 
 {{- for attribute in entity.Attributes }}
-    {{- if attribute.Type == "AutoNumber" -}}
+    {{- if !IsNoxTypeCreatable attribute.Type -}}
     {{ continue; -}}
     {{- end }}
     /// <summary>
