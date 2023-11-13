@@ -44,7 +44,7 @@ public abstract partial class {{ entity.PluralName }}ControllerBase
         var updatedProperties = new Dictionary<string, dynamic>();
         var etag = Request.GetDecodedEtagHeader();
         
-        foreach (var propertyName in {{ToLowerFirstChar entity.Name}}LocalizedUpsertDto.GetChangedPropertyNames())
+        foreach (var propertyName in {{ToLowerFirstChar entity.Name}}LocalizedUpsertDto.GetDynamicMemberNames())
         {
             if ({{ToLowerFirstChar entity.Name}}LocalizedUpsertDto.TryGetPropertyValue(propertyName, out dynamic value))
             {

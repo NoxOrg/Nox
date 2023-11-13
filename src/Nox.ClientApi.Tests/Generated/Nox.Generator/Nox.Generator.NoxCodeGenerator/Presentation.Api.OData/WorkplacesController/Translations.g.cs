@@ -40,7 +40,7 @@ public abstract partial class WorkplacesControllerBase
         var updatedProperties = new Dictionary<string, dynamic>();
         var etag = Request.GetDecodedEtagHeader();
         
-        foreach (var propertyName in workplaceLocalizedUpsertDto.GetChangedPropertyNames())
+        foreach (var propertyName in workplaceLocalizedUpsertDto.GetDynamicMemberNames())
         {
             if (workplaceLocalizedUpsertDto.TryGetPropertyValue(propertyName, out dynamic value))
             {
