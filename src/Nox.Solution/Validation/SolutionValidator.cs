@@ -43,7 +43,7 @@ namespace Nox.Solution.Validation
                         sln.Infrastructure?.Dependencies?.DataConnections
                         ?? Enumerable.Empty<DataConnection>();
 
-                    if (sln.Infrastructure?.Persistence.DatabaseServer is not null)
+                    if (sln.Infrastructure!.Persistence?.DatabaseServer is not null)
                     {
                         var db = sln.Infrastructure.Persistence.DatabaseServer;
                         var connectionProxyForDatabase = new DataConnection

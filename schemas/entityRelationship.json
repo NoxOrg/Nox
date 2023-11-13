@@ -81,7 +81,7 @@
         }
       ]
     },
-    "shouldGenerateForeignOnThisSide": {    
+    "isForeignKeyOnThisSide": {    
       "oneOf": [
         {
           "type": "boolean"

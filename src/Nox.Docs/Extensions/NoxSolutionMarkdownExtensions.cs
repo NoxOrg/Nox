@@ -96,7 +96,7 @@ public static class NoxSolutionMarkdownExtensions
                 ? " *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*"
                 : string.Empty;
 
-            var endpointsInfo = entity.IsOwnedEntity
+            var endpointsInfo = entity.IsOwnedEntity || !entityEndpoints.Any(x => x.EntityName == entity.Name)
                 ? string.Empty
                 : $"\n\n[Endpoints]({entityEndpoints.First(x => x.EntityName == entity.Name).Name})";
 

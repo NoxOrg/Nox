@@ -32,7 +32,7 @@ internal partial class {{className}}
 {{- end}}
 {{ end }}
     public System.String {{codeGeneratorState.LocalizationCultureField}} { get; set; } = default!;
-{{ for attribute in entityAttributesToLocalize }}
+{{ for attribute in entityLocalizedAttributes }}
     /// <summary>
     /// {{attribute.Description}} (Optional).
     /// </summary>

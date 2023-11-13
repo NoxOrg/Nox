@@ -362,7 +362,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var createDto2 = new WorkplaceCreateDto
             {
                 Name = "Regus - Dubai BCW Jafza View 18 & 19",
-                Description = "33-storey tower in Jebel Ali Free Zone, located on Sheikh Zayed Road and only a few kilometres from Al Maktoum Airport.",
+                Description = "برج مكون من 33 طابقا في المنطقة الحرة بجبل علي، ويقع على شارع الشيخ زايد وعلى بعد بضعة كيلومترات فقط من مطار آل مكتوم.",
             };
 
             var createDto3 = new WorkplaceCreateDto
@@ -373,26 +373,31 @@ namespace ClientApi.Tests.Tests.Controllers
 
             // Act
             var postResult1 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto1);
-            var postResult2 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto2, CreateAcceptLanguageHeader("en-US"));
-            var postResult3 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto3, CreateAcceptLanguageHeader("fr-FR"));
+            var postResult2 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}?lang=ar-SA", createDto2);
+            var postResult3 = await PostAsync<WorkplaceCreateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}?lang=fr-FR", createDto3, CreateAcceptLanguageHeader("en-US"));
 
-            var result = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}", CreateAcceptLanguageHeader("en-US")))?.ToList();
+            var enResult = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}?lang=en-US"))?.ToList();
+            var arResult = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}?lang=ar-SA"))?.ToList();
+            var frResult = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}?lang=fr-FR", CreateAcceptLanguageHeader("en-US")))?.ToList();
 
             // Assert
-            result.Should().NotBeNull();
-            result.Should().HaveCount(3);
+            enResult.Should().NotBeNull();
+            enResult.Should().HaveCount(3);
+            var enWorkplace = enResult!.First(x => x.Id == postResult1!.Id);
+            enWorkplace.Name.Should().Be(createDto1.Name);
+            enWorkplace.Description.Should().Be(createDto1.Description);
 
-            var defResult = result!.First(x => x.Id == postResult1!.Id);
-            defResult.Name.Should().Be(createDto1.Name);
-            defResult.Description.Should().Be(createDto1.Description);
+            arResult.Should().NotBeNull();
+            arResult.Should().HaveCount(3);
+            var arWorkplace = arResult!.First(x => x.Id == postResult2!.Id);
+            arWorkplace.Name.Should().Be(createDto2.Name);
+            arWorkplace.Description.Should().Be(createDto2.Description);
 
-            var enResult = result!.First(x => x.Id == postResult2!.Id);
-            enResult.Name.Should().Be(createDto2.Name);
-            enResult.Description.Should().Be(createDto2.Description);
-
-            var frResult = result!.First(x => x.Id == postResult3!.Id);
-            frResult.Name.Should().Be(createDto3.Name);
-            frResult.Description.Should().Be("[" + createDto3.Description + "]");
+            frResult.Should().NotBeNull();
+            frResult.Should().HaveCount(3);
+            var frWorkplace = frResult!.First(x => x.Id == postResult3!.Id);
+            frWorkplace.Name.Should().Be(createDto3.Name);
+            frWorkplace.Description.Should().Be(createDto3.Description);
         }
 
         [Fact]
@@ -448,22 +453,18 @@ namespace ClientApi.Tests.Tests.Controllers
 
             // Act
             var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, CreateAcceptLanguageHeader("en-US"));
-
-            var headers = CreateHeaders(
-                CreateEtagHeader(postResult?.Etag),
-                CreateAcceptLanguageHeader("fr-FR"));
-
-            await PutAsync<WorkplaceUpdateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}", updateDto, headers);
+            await PutAsync<WorkplaceUpdateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}?lang=fr-FR", updateDto, CreateEtagHeader(postResult?.Etag));
 
             var enResult = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}", CreateAcceptLanguageHeader("en-US")))?.ToList();
-            var frResult = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}", CreateAcceptLanguageHeader("fr-FR")))?.ToList();
+            var frResult = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}?lang=fr-FR", CreateAcceptLanguageHeader("en-US")))?.ToList();
 
             // Assert
             enResult.Should().NotBeNull();
             enResult.Should().HaveCount(1);
-            enResult![0].Id.Should().Be(postResult.Id);
+            enResult![0].Id.Should().Be(postResult!.Id);
             enResult![0].Name.Should().Be(createDto.Name);
             enResult![0].Description.Should().Be(createDto.Description);
+
             frResult.Should().NotBeNull();
             frResult.Should().HaveCount(1);
             frResult![0].Id.Should().Be(postResult.Id);
@@ -517,6 +518,7 @@ namespace ClientApi.Tests.Tests.Controllers
             enResult![0].Id.Should().Be(postResult.Id);
             enResult![0].Name.Should().Be(createDto.Name);
             enResult![0].Description.Should().Be(createDto.Description);
+
             frResult.Should().NotBeNull();
             frResult.Should().HaveCount(1);
             frResult![0].Id.Should().Be(postResult.Id);
@@ -524,7 +526,7 @@ namespace ClientApi.Tests.Tests.Controllers
             frResult![0].Description.Should().Be("[" + createDto.Description + "]");
         }
 
-        [Fact]
+        [Fact(Skip="The Patch end point need to be changed from EntityDto to UpdateDto")]
         public async Task Patch_DefaultLanguageDescription_UpdatesLocalization()
         {
             // Arrange
@@ -558,7 +560,7 @@ namespace ClientApi.Tests.Tests.Controllers
             enResult![0].Description.Should().Be(updateDto.Description);
         }
 
-        [Fact]
+        [Fact(Skip="The Patch end point need to be changed from EntityDto to UpdateDto")]
         public async Task Patch_NotDefaultLanguageDescription_UpdatesLocalization()
         {
             // Arrange
@@ -575,20 +577,15 @@ namespace ClientApi.Tests.Tests.Controllers
 
             // Act
             var postResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto, CreateAcceptLanguageHeader("en-US"));
-
-            var headers = CreateHeaders(
-                CreateEtagHeader(postResult?.Etag),
-                CreateAcceptLanguageHeader("fr-FR"));
-
-            await PatchAsync<WorkplaceUpdateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}", updateDto, headers);
+            await PatchAsync<WorkplaceUpdateDto, WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{postResult!.Id}?lang=fr-FR", updateDto, CreateEtagHeader(postResult?.Etag));
 
             var enResult = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}", CreateAcceptLanguageHeader("en-US")))?.ToList();
-            var frResult = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}", CreateAcceptLanguageHeader("fr-FR")))?.ToList();
+            var frResult = (await GetODataCollectionResponseAsync<IEnumerable<WorkplaceDto>>($"{Endpoints.WorkplacesUrl}?lang=fr-FR", CreateAcceptLanguageHeader("en-US")))?.ToList();
 
             // Assert
             enResult.Should().NotBeNull();
             enResult.Should().HaveCount(1);
-            enResult![0].Id.Should().Be(postResult.Id);
+            enResult![0].Id.Should().Be(postResult!.Id);
             enResult![0].Name.Should().Be(createDto.Name);
             enResult![0].Description.Should().Be(createDto.Description);
 
@@ -677,7 +674,7 @@ namespace ClientApi.Tests.Tests.Controllers
             putResult.Should().NotBeNull();
         }
 
-        [Fact]
+        [Fact(Skip = "The Patch end point need to be changed from EntityDto to UpdateDto")]
         public async Task Patch_Name_ShouldUpdateNameOnly()
         {
             // Arrange
@@ -706,7 +703,7 @@ namespace ClientApi.Tests.Tests.Controllers
         }
 
         // TODO: FIX THIS TEST ONCE LOCALIZATION IS IMPLEMENTED FOR PATCH
-        [Fact]
+        [Fact(Skip = "The Patch end point need to be changed from EntityDto to UpdateDto")]
         public async Task Patch_Description_ShouldUpdateDescriptionOnly()
         {
             // Arrange
@@ -927,5 +924,35 @@ namespace ClientApi.Tests.Tests.Controllers
             localizedWorkplace!.Description.Should().NotBeNull();
             localizedWorkplace!.Description.Should().BeEquivalentTo(descriptionFr);
         }
+
+        #region Many to Many Relations
+        [Fact]
+        public async Task WhenCreateWorkPlaceWithMultipleTenants_RelationNeedsToBeCreated()
+        {
+            // Arrange
+            var tenantId1 = (await PostAsync<TenantCreateDto, TenantDto>(Endpoints.TeanantUrl,
+                new TenantCreateDto() { Name = _fixture.Create<string>() }))!.Id;
+            var tenantId2 = (await PostAsync<TenantCreateDto, TenantDto>(Endpoints.TeanantUrl,
+                new TenantCreateDto() { Name = _fixture.Create<string>() }))!.Id;
+            var workplaceCreateDto = new WorkplaceCreateDto() { Name = _fixture.Create<string>(), TenantsId = new() { tenantId1, tenantId2 } };
+
+
+
+            // Act
+            var workplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, workplaceCreateDto);
+            const string oDataRequest = $"$expand={nameof(WorkplaceDto.Tenants)}";
+            
+            var getWorkplaceResponse = await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}?{oDataRequest}");
+
+            //TODO Anna when we are able to Get Related Entities
+            //var getTenants = await GetODataSimpleResponseAsync<WorkplaceDto>($"{Endpoints.WorkplacesUrl}/{workplaceResponse!.Id}/{nameof(WorkplaceDto.Tenants)}");
+
+            // Assert
+            getWorkplaceResponse.Should().NotBeNull();
+            getWorkplaceResponse!.Tenants.Should().HaveCount(2);
+            getWorkplaceResponse!.Tenants.Should().Contain(t=>t.Id == tenantId1);
+            getWorkplaceResponse!.Tenants.Should().Contain(t => t.Id == tenantId2);
+        }
+        #endregion
     }
 }

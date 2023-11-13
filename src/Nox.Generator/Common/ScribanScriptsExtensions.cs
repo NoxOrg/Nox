@@ -64,8 +64,8 @@ internal static class ScribanScriptsExtensions
             entityName => NoxCodeGenConventions.GetEntityDtoNameForLocalizedType(entityName)));
 
         var scriptObject13 = new ScriptObject();
-        scriptObject13.Import("GetRelationshipPublicName", new Func<Entity, EntityRelationship, string>(
-            (entity, relationship) => entity.GetRelationshipPublicName(relationship)));
+        scriptObject13.Import("GetNavigationPropertyName", new Func<Entity, EntityRelationship, string>(
+            (entity, relationship) => entity.GetNavigationPropertyName(relationship)));
 
         context.PushGlobal(scriptObject1);
         context.PushGlobal(scriptObject2);

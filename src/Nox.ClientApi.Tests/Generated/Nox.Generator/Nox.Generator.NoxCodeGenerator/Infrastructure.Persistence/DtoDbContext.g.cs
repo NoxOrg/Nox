@@ -57,6 +57,7 @@ internal class DtoDbContext : DbContext
         public DbSet<StoreOwnerDto> StoreOwners { get; set; } = null!;
         public DbSet<StoreLicenseDto> StoreLicenses { get; set; } = null!;
         public DbSet<CurrencyDto> Currencies { get; set; } = null!;
+        public DbSet<TenantDto> Tenants { get; set; } = null!;
     public DbSet<WorkplaceLocalizedDto> WorkplacesLocalized { get; set; } = null!;
     public DbSet<DtoNameSpace.CountryContinentDto> CountriesContinents { get; set; } = null!;
     public DbSet<DtoNameSpace.CountryContinentLocalizedDto> CountriesContinentsLocalized { get; set; } = null!;

@@ -79,6 +79,7 @@
                 <Property Name="CountryId" Type="Edm.Int64" />
                 <Property Name="Etag" Type="Edm.Guid" Nullable="false" />
                 <NavigationProperty Name="Country" Type="ClientApi.Application.Dto.CountryDto" ContainsTarget="true" />
+                <NavigationProperty Name="Tenants" Type="Collection(ClientApi.Application.Dto.TenantDto)" ContainsTarget="true" />
             </EntityType>
             <EntityType Name="StoreOwnerDto">
                 <Key>
@@ -116,6 +117,15 @@
                 <Property Name="Symbol" Type="Edm.String" />
                 <NavigationProperty Name="StoreLicenseDefault" Type="Collection(ClientApi.Application.Dto.StoreLicenseDto)" ContainsTarget="true" />
                 <NavigationProperty Name="StoreLicenseSoldIn" Type="Collection(ClientApi.Application.Dto.StoreLicenseDto)" ContainsTarget="true" />
+            </EntityType>
+            <EntityType Name="TenantDto">
+                <Key>
+                    <PropertyRef Name="Id" />
+                </Key>
+                <Property Name="Id" Type="Edm.Guid" Nullable="false" />
+                <Property Name="Name" Type="Edm.String" />
+                <Property Name="Etag" Type="Edm.Guid" Nullable="false" />
+                <NavigationProperty Name="Workplaces" Type="Collection(ClientApi.Application.Dto.WorkplaceDto)" ContainsTarget="true" />
             </EntityType>
             <EntityType Name="EmailAddressDto">
                 <Property Name="Email" Type="Edm.String" />
@@ -624,6 +634,7 @@
                 <EntitySet Name="StoreOwners" EntityType="ClientApi.Application.Dto.StoreOwnerDto" />
                 <EntitySet Name="StoreLicenses" EntityType="ClientApi.Application.Dto.StoreLicenseDto" />
                 <EntitySet Name="Currencies" EntityType="ClientApi.Application.Dto.CurrencyDto" />
+                <EntitySet Name="Tenants" EntityType="ClientApi.Application.Dto.TenantDto" />
                 <EntitySet Name="Houses" EntityType="ClientApi.Tests.Application.Dto.HouseDto" />
                 <FunctionImport Name="countriesWithDebt" Function="Default.countriesWithDebt" EntitySet="Countries" IncludeInServiceDocument="true" />
             </EntityContainer>

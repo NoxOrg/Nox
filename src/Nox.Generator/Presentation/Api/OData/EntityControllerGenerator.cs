@@ -510,7 +510,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
     private static void GenerateCreateRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
     {
         var relatedEntity = relationship.Related.Entity;
-        code.AppendLine($"public async Task<ActionResult> CreateRefTo{entity.GetRelationshipPublicName(relationship)}" +
+        code.AppendLine($"public async Task<ActionResult> CreateRefTo{entity.GetNavigationPropertyName(relationship)}" +
             $"({GetPrimaryKeysRoute(entity, solution)}, {GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey")})");
 
         code.StartBlock();
@@ -519,7 +519,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine($"var createdRef = await _mediator.Send(new CreateRef{entity.Name}To{entity.GetRelationshipPublicName(relationship)}Command(" +
+        code.AppendLine($"var createdRef = await _mediator.Send(new CreateRef{entity.Name}To{entity.GetNavigationPropertyName(relationship)}Command(" +
             $"new {entity.Name}KeyDto({GetPrimaryKeysQuery(entity)}), new {relatedEntity.Name}KeyDto({GetPrimaryKeysQuery(relatedEntity, "relatedKey")})));");
         code.AppendLine($"if (!createdRef)");
         code.StartBlock();
@@ -604,7 +604,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
     private static void GenerateGetRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
     {
         var relatedEntity = relationship.Related.Entity;
-        var relationshipName = entity.GetRelationshipPublicName(relationship);
+        var relationshipName = entity.GetNavigationPropertyName(relationship);
         code.AppendLine($"public async Task<ActionResult> GetRefTo{relationshipName}" +
             $"({GetPrimaryKeysRoute(entity, solution)})");
 
@@ -644,13 +644,13 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
     {
         var relatedEntity = relationship.Related.Entity;
         var reversedRelationship = relationship.Related.EntityRelationship;
-        var reversedRelationshipName = relationship.Related.Entity.GetRelationshipPublicName(reversedRelationship);
+        var reversedRelationshipName = relationship.Related.Entity.GetNavigationPropertyName(reversedRelationship);
 
         //Only Single Keys entities are supported
         if (entity.HasCompositeKey || relatedEntity.HasCompositeKey)
             return;
 
-        code.AppendLine($"public virtual async Task<ActionResult> PostTo{entity.GetRelationshipPublicName(relationship)}" +
+        code.AppendLine($"public virtual async Task<ActionResult> PostTo{entity.GetNavigationPropertyName(relationship)}" +
             $"({GetPrimaryKeysRoute(entity, solution)}, [FromBody] {relatedEntity.Name}CreateDto {relatedEntity.Name.ToLowerFirstChar()})");
 
         code.StartBlock();

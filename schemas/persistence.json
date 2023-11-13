@@ -2,7 +2,14 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "The definition namespace for persistance settings pertaining to a Nox solution.",
   "description": "Defines settings pertinent to solution persistence here. These include database, event source, search and cache servers.",
-  "type": "object",
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
+  ],
   "required": [
     "databaseServer"
   ],

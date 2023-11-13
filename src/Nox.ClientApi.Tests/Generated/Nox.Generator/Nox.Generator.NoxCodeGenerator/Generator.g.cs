@@ -15,6 +15,7 @@
 //  - store-license.entity.nox.yaml
 //  - store-owner.entity.nox.yaml
 //  - store.entity.nox.yaml
+//  - tenant.entity.nox.yaml
 //  - workplace.entity.nox.yaml
 //  - generator.nox.yaml
 // Logging Verbosity Diagnostic

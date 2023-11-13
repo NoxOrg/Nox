@@ -33,6 +33,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<StoreOwnerDto>().HasKey(e => new { e.Id });
         builder.EntityType<StoreLicenseDto>().HasKey(e => new { e.Id });
         builder.EntityType<CurrencyDto>().HasKey(e => new { e.Id });
+        builder.EntityType<TenantDto>().HasKey(e => new { e.Id });
         builder.EntityType<EmailAddressDto>().HasKey(e => new { });
 
         builder.EntitySet<CountryDto>("Countries");
@@ -64,6 +65,7 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<StoreDto>().Ignore(e => e.Etag);
         builder.EntitySet<WorkplaceDto>("Workplaces");
         builder.EntityType<WorkplaceDto>().ContainsOptional(e => e.Country);
+        builder.EntityType<WorkplaceDto>().ContainsMany(e => e.Tenants);
 
         builder.EntityType<WorkplaceDto>();
         builder.EntitySet<StoreOwnerDto>("StoreOwners");
@@ -87,6 +89,10 @@ internal static class ODataServiceCollectionExtensions
         builder.EntityType<CurrencyDto>();
         builder.EntityType<CurrencyDto>().Ignore(e => e.DeletedAtUtc);
         builder.EntityType<CurrencyDto>().Ignore(e => e.Etag);
+        builder.EntitySet<TenantDto>("Tenants");
+        builder.EntityType<TenantDto>().ContainsMany(e => e.Workplaces);
+
+        builder.EntityType<TenantDto>();
 
         builder.EntityType<EmailAddressDto>(); 
         // Setup Enumeration End Points

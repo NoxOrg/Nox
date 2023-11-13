@@ -2,21 +2,18 @@
 
 namespace Nox.Presentation.Api.Providers;
 
-public abstract class HttpHeaderValueProvider
+public class HttpHeaderValueProvider : IHttpHeaderValueProvider
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    protected HttpHeaderValueProvider(IHttpContextAccessor httpContextAccessor)
+    public HttpHeaderValueProvider(IHttpContextAccessor httpContextAccessor)
     {
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public abstract string HeaderName { get; }
-    public abstract string DefaultHeaderValue { get; }
-
-    public string GetHeaderValue()
+    public string? GetHeaderValue(string key)
     {
-        var result = _httpContextAccessor.HttpContext?.Request.Headers[HeaderName].ToString();
-        return string.IsNullOrWhiteSpace(result) ? DefaultHeaderValue : result;
+        var result = _httpContextAccessor.HttpContext?.Request.Headers[key].ToString();
+        return string.IsNullOrWhiteSpace(result) ? null : result;
     }
 }

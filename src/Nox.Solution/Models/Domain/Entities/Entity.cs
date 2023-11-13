@@ -26,7 +26,7 @@ public class Entity : DefinitionBase
     private ConcurrentDictionary<string, NoxSimpleTypeDefinition>? _keysByName;
 
     [YamlIgnore]
-    private Dictionary<EntityRelationship, string>? _relationshipPublicNamesByRelationship;
+    private Dictionary<EntityRelationship, string>? _relationshipNavigationPropertyName;
 
     [Required]
     [Title("The name of the entity. Contains no spaces.")]
@@ -109,7 +109,7 @@ public class Entity : DefinitionBase
     public bool IsLocalized =>
         !HasCompositeKey &&
         !IsOwnedEntity &&
-        this.GetAttributesToLocalize().Any();
+        this.Attributes.Where(x => x.IsLocalized).Any();
 
     public Entity ShallowCopy(string? newName = null)
     {
@@ -231,9 +231,16 @@ public class Entity : DefinitionBase
         }
     }
 
-    public virtual string GetRelationshipPublicName(EntityRelationship relationship)
+    /// <summary>
+    /// Get the Navigation property name for a relationship
+    /// Considers ToSingle and to ToMany relationships
+    /// Considers the case where there are multiple relationships to the same entity
+    /// </summary>
+    /// <param name="relationship"></param>
+    /// <returns></returns>
+    public virtual string GetNavigationPropertyName(EntityRelationship relationship)
     {
-        return _relationshipPublicNamesByRelationship![relationship];
+        return _relationshipNavigationPropertyName![relationship];
     }
 
     private void EnsureKeyByName()
@@ -262,10 +269,10 @@ public class Entity : DefinitionBase
 
     private void EnsureRelationshipPublicNames()
     {
-        if (_relationshipPublicNamesByRelationship is not null)
+        if (_relationshipNavigationPropertyName is not null)
             return;
 
-        _relationshipPublicNamesByRelationship = new();
+        _relationshipNavigationPropertyName = new();
         for (int i = 0; i < Relationships!.Count; i++)
         {
             string name;
@@ -276,7 +283,7 @@ public class Entity : DefinitionBase
             else
                 name = Relationships[i].Name;
 
-            _relationshipPublicNamesByRelationship.Add(Relationships[i], name);
+            _relationshipNavigationPropertyName.Add(Relationships[i], name);
         }
     }
 
