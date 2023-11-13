@@ -540,7 +540,7 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             return;
 
         var relatedEntity = relationship.Related.Entity;
-        var relationshipName = entity.GetRelationshipPublicName(relationship);
+        var relationshipName = entity.GetNavigationPropertyName(relationship);
 
         code.AppendLine($"[HttpDelete(\"api/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{relationshipName}/{PrimaryKeysAttribute(relatedEntity, "relatedKey")}\")]");
         code.AppendLine($"public async Task<ActionResult> DeleteRefTo{relationshipName}" +
@@ -573,11 +573,10 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
             relationship.Relationship == EntityRelationshipType.OneOrMany)
             return;
 
-        var relationshipName = entity.GetRelationshipPublicName(relationship);
+        var relationshipName = entity.GetNavigationPropertyName(relationship);
 
         code.AppendLine($"[HttpDelete(\"api/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{relationshipName}\")]");
-        code.AppendLine($"public async Task<ActionResult> DeleteRefTo{entity.GetRelationshipPublicName(relationship)}" +
-            $"({GetPrimaryKeysRoute(entity, solution)})");
+        code.AppendLine($"public async Task<ActionResult> DeleteRefTo{relationshipName}({GetPrimaryKeysRoute(entity, solution)})");
 
         code.StartBlock();
         code.AppendLine($"if (!ModelState.IsValid)");
@@ -675,6 +674,11 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
 
         code.EndBlock();
         code.AppendLine();
+    }
+
+    private static void GenerateRelatedDelete(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code)
+    {
+
     }
 
     private static string PrimaryKeysAttribute(Entity entity, string prefix = "key", bool withKeyName = false)

@@ -76,6 +76,7 @@ public abstract partial class TenantsControllerBase : ODataController
         return Ok(references);
     }
     
+    [HttpDelete("api/Tenants/{key}/Workplaces/{relatedKey}")]
     public async Task<ActionResult> DeleteRefToWorkplaces([FromRoute] System.Guid key, [FromRoute] System.UInt32 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -92,6 +93,7 @@ public abstract partial class TenantsControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpDelete("api/Tenants/{key}/Workplaces")]
     public async Task<ActionResult> DeleteRefToWorkplaces([FromRoute] System.Guid key)
     {
         if (!ModelState.IsValid)
