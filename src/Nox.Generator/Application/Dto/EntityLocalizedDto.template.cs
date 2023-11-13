@@ -19,7 +19,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto;
 /// <summary>
 /// {{entity.Description}} Localized DTO.
 /// </summary>
-internal partial class {{className}}
+public partial class {{className}}
 {
 {{- for key in entity.Keys }}
     /// <summary>
