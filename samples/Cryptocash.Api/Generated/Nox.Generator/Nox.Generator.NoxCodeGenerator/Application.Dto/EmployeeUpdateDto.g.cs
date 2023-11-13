@@ -59,8 +59,8 @@ public partial class EmployeeUpdateDto : IEntityDto<DomainNamespace.Employee>
     public System.DateTime? LastWorkingDay { get; set; }
 
     /// <summary>
-    /// Employee reviewing ExactlyOne CashStockOrders
+    /// Employee reviewing ZeroOrOne CashStockOrders
     /// </summary>
-    [Required(ErrorMessage = "CashStockOrder is required")]
-    public System.Int64 CashStockOrderId { get; set; } = default!;
+    
+    public System.Int64? CashStockOrderId { get; set; } = default!;
 }
