@@ -116,6 +116,30 @@ public abstract partial class ThirdTestEntityOneOrManiesControllerBase : ODataCo
         return NoContent();
     }
     
+    [HttpPut("api/ThirdTestEntityOneOrManies/{key}/ThirdTestEntityZeroOrManies/{relatedKey}")]
+    public virtual async Task<ActionResult<ThirdTestEntityZeroOrManyDto>> PutToThirdTestEntityZeroOrManiesNonConventional(System.String key, System.String relatedKey, [FromBody] ThirdTestEntityZeroOrManyUpdateDto thirdTestEntityZeroOrMany)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetThirdTestEntityOneOrManyByIdQuery(key))).SelectMany(x => x.ThirdTestEntityZeroOrManies).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateThirdTestEntityZeroOrManyCommand(relatedKey, thirdTestEntityZeroOrMany, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
+    }
+    
     #endregion
     
 }

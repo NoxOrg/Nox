@@ -72,6 +72,29 @@ public abstract partial class SecondTestEntityExactlyOnesControllerBase : ODataC
         return Ok(references);
     }
     
+    public virtual async Task<ActionResult<TestEntityExactlyOneDto>> PutToTestEntityExactlyOne(System.String key, [FromBody] TestEntityExactlyOneUpdateDto testEntityExactlyOne)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetSecondTestEntityExactlyOneByIdQuery(key))).Select(x => x.TestEntityExactlyOne).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateTestEntityExactlyOneCommand(related.Id, testEntityExactlyOne, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
+    }
+    
     #endregion
     
 }

@@ -213,6 +213,84 @@ public abstract partial class EmployeesControllerBase : ODataController
         return Ok(references);
     }
     
+    public async Task<ActionResult> DeleteRefToCashStockOrder([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefEmployeeToCashStockOrderCommand(new EmployeeKeyDto(key), new CashStockOrderKeyDto(relatedKey)));
+        if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> DeleteRefToCashStockOrder([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedAllRef = await _mediator.Send(new DeleteAllRefEmployeeToCashStockOrderCommand(new EmployeeKeyDto(key)));
+        if (!deletedAllRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    [HttpDelete("api/Employees/{key}/CashStockOrder")]
+    public async Task<ActionResult> DeleteToCashStockOrder([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetEmployeeByIdQuery(key))).Select(x => x.CashStockOrder).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var deleted = await _mediator.Send(new DeleteCashStockOrderByIdCommand(related.Id, etag));
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        return NoContent();
+    }
+    
+    public virtual async Task<ActionResult<CashStockOrderDto>> PutToCashStockOrder(System.Int64 key, [FromBody] CashStockOrderUpdateDto cashStockOrder)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetEmployeeByIdQuery(key))).Select(x => x.CashStockOrder).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateCashStockOrderCommand(related.Id, cashStockOrder, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
+    }
+    
     #endregion
     
 }

@@ -154,6 +154,30 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         return NoContent();
     }
     
+    [HttpPut("api/TestEntityTwoRelationshipsOneToManies/{key}/TestRelationshipOne/{relatedKey}")]
+    public virtual async Task<ActionResult<SecondTestEntityTwoRelationshipsOneToManyDto>> PutToTestRelationshipOneNonConventional(System.String key, System.String relatedKey, [FromBody] SecondTestEntityTwoRelationshipsOneToManyUpdateDto secondTestEntityTwoRelationshipsOneToMany)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipOne).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateSecondTestEntityTwoRelationshipsOneToManyCommand(relatedKey, secondTestEntityTwoRelationshipsOneToMany, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
+    }
+    
     public async Task<ActionResult> CreateRefToTestRelationshipTwo([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -278,6 +302,30 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
             await _mediator.Send(new DeleteSecondTestEntityTwoRelationshipsOneToManyByIdCommand(item.Id, etag));
         }
         return NoContent();
+    }
+    
+    [HttpPut("api/TestEntityTwoRelationshipsOneToManies/{key}/TestRelationshipTwo/{relatedKey}")]
+    public virtual async Task<ActionResult<SecondTestEntityTwoRelationshipsOneToManyDto>> PutToTestRelationshipTwoNonConventional(System.String key, System.String relatedKey, [FromBody] SecondTestEntityTwoRelationshipsOneToManyUpdateDto secondTestEntityTwoRelationshipsOneToMany)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipTwo).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateSecondTestEntityTwoRelationshipsOneToManyCommand(relatedKey, secondTestEntityTwoRelationshipsOneToMany, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     #endregion

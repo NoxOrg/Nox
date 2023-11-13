@@ -154,6 +154,30 @@ public abstract partial class TenantsControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpPut("api/Tenants/{key}/Workplaces/{relatedKey}")]
+    public virtual async Task<ActionResult<WorkplaceDto>> PutToWorkplacesNonConventional(System.Guid key, System.UInt32 relatedKey, [FromBody] WorkplaceUpdateDto workplace)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTenantByIdQuery(key))).SelectMany(x => x.Workplaces).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateWorkplaceCommand(relatedKey, workplace, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
+    }
+    
     #endregion
     
 }

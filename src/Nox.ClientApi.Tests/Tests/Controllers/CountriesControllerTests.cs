@@ -1020,6 +1020,51 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #endregion
 
+        #region PUT Update Related Entity /api/{EntityPluralName}/{EntityKey}/{RelationshipName}/{RelatedEntityKey} => api/countries/1/Workplaces/1
+
+        [Fact]
+        public async Task Put_WorkplacesToCountry_Success()
+        {
+            // Arrange
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, 
+                new CountryCreateDto { Name = _fixture.Create<string>() });
+
+            var headers = CreateEtagHeader(countryResponse?.Etag);
+            var postToWorkplaceResponse = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(
+                $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}",
+                new WorkplaceCreateDto() { Name = _fixture.Create<string>(), Description = _fixture.Create<string>() },
+                headers);
+
+            var expectedDescription = _fixture.Create<string>();
+
+            // Act
+            headers = CreateEtagHeader(postToWorkplaceResponse?.Etag);
+            var putToWorkplaceResponse = await PutAsync<WorkplaceUpdateDto>(
+                $"{Endpoints.CountriesUrl}/{countryResponse!.Id}/{nameof(CountryDto.Workplaces)}/{postToWorkplaceResponse!.Id}",
+                new WorkplaceUpdateDto() { 
+                    Name = postToWorkplaceResponse!.Name, 
+                    Description = expectedDescription,
+                    CountryId = postToWorkplaceResponse!.CountryId },
+                headers);
+
+            const string oDataRequest = $"$expand={nameof(CountryDto.Workplaces)}";
+            var getCountryResponse = await GetODataSimpleResponseAsync<CountryDto>($"{Endpoints.CountriesUrl}/{countryResponse!.Id}?{oDataRequest}");
+
+            //Assert
+            putToWorkplaceResponse.Should().NotBeNull();
+            putToWorkplaceResponse!.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            getCountryResponse.Should().NotBeNull();
+            getCountryResponse!.Id.Should().BeGreaterThan(0);
+            getCountryResponse!.Workplaces.Should().NotBeNull();
+            getCountryResponse!.Workplaces!.Should().HaveCount(1);
+            getCountryResponse!.Workplaces!.First().Id.Should().Be(postToWorkplaceResponse!.Id);
+            getCountryResponse!.Workplaces!.First().Description.Should().Be(expectedDescription);
+            getCountryResponse!.Workplaces!.First().Name.Should().Be(postToWorkplaceResponse!.Name);
+        }
+
+        #endregion
+
         #endregion
 
         #endregion RELATIONSHIPS EXAMPLES

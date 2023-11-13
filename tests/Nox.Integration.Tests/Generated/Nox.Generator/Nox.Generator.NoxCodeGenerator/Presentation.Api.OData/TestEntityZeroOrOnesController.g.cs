@@ -127,6 +127,29 @@ public abstract partial class TestEntityZeroOrOnesControllerBase : ODataControll
         return NoContent();
     }
     
+    public virtual async Task<ActionResult<SecondTestEntityZeroOrOneDto>> PutToSecondTestEntityZeroOrOne(System.String key, [FromBody] SecondTestEntityZeroOrOneUpdateDto secondTestEntityZeroOrOne)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityZeroOrOneByIdQuery(key))).Select(x => x.SecondTestEntityZeroOrOne).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateSecondTestEntityZeroOrOneCommand(related.Id, secondTestEntityZeroOrOne, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
+    }
+    
     #endregion
     
 }

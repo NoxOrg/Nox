@@ -127,6 +127,29 @@ public abstract partial class TestEntityZeroOrOneToZeroOrManiesControllerBase : 
         return NoContent();
     }
     
+    public virtual async Task<ActionResult<TestEntityZeroOrManyToZeroOrOneDto>> PutToTestEntityZeroOrManyToZeroOrOne(System.String key, [FromBody] TestEntityZeroOrManyToZeroOrOneUpdateDto testEntityZeroOrManyToZeroOrOne)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityZeroOrOneToZeroOrManyByIdQuery(key))).Select(x => x.TestEntityZeroOrManyToZeroOrOne).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateTestEntityZeroOrManyToZeroOrOneCommand(related.Id, testEntityZeroOrManyToZeroOrOne, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
+    }
+    
     #endregion
     
 }

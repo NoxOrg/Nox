@@ -12,7 +12,7 @@
 
 @page "/Test"
 
-@inherits ListEntityPageBase<VendingMachineDto, VendingMachineCreateDto, VendingMachineUpdateDto>
+@inherits ListEntityPageBase<CustomerDto, CustomerCreateDto, CustomerUpdateDto>
 
 @if (!IsLoading)
 {
@@ -48,7 +48,7 @@
 
                 @if (CurrentApiUiService != null && CurrentAddEntity != null)
                 {
-                    var AddLabel = "ADD " + CurrentEntityName;
+                    var AddLabel = "ADD Test";
 
                     <MudItem xs="12" Class="align-left justify-left">
                         <MudButton OnClick="AddEntityOpenDialog"
@@ -77,7 +77,19 @@
                                                     </MudItem>
                                                     <MudItem xs="6">
                                                         <UiEditBoolean_g Title="Boolean" />
-                                                    </MudItem>                                                    
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <UiEditWeight_g Title="Weight" WeightUnit="Nox.Types.WeightUnit.Kilogram" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <UiEditVolume_g Title="Volume" VolumeUnit="Nox.Types.VolumeUnit.CubicMeter" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <UiEditDistance_g Title="Distance" DistanceUnit="Nox.Types.DistanceUnit.Kilometer" />
+                                                    </MudItem>
+                                                    <MudItem xs="6">
+                                                        <UiEditLength_g Title="Length" LengthUnit="Nox.Types.LengthUnit.Meter" />
+                                                    </MudItem>
                                                 </MudGrid>
                                             </MudTabPanel>
                                         </MudTabs>
@@ -108,23 +120,28 @@
                    && CurrentApiUiService != null)
                     {
                         float? testPercentage = (float)36.67;
+                        Decimal? testWeight = (Decimal)23.56;
+                        Decimal? testVolume = (Decimal)85.31;
+                        Decimal? testDistance = (Decimal)74.25;
+                        Decimal? testLength = (Decimal)11.87;
 
-                        <MudTable ServerData="@(new Func<TableState, Task<TableData<VendingMachineDto>>>(ServerReload))"
-                        @ref="DataGridTable"
-                                  CurrentPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPage)"
-                                  RowsPerPage="Convert.ToInt32(CurrentApiUiService!.Paging?.CurrentPageSize)"
+                        <MudTable ServerData="@(new Func<TableState, Task<TableData<CustomerDto>>>(ServerReload))"
+                                  T="CustomerDto"
                                   Loading="@IsDataGridLoading"
-                                  Hover="true"
+                                  Hover="true"                                  
                                   Breakpoint="Breakpoint.Sm"
-                                  T="VendingMachineDto"
                                   Elevation="0"
                                   Style="border-style:solid;border-width:2px;border-color:lightgray;"
                                   HeaderClass="custom-header"
                                   Dense="true">
                             <HeaderContent>
-                                        <MudTh>Percentage</MudTh>
-                                        <MudTh>Year</MudTh>
+                                <MudTh>Percentage</MudTh>
                                 <MudTh>Year</MudTh>
+                                <MudTh>Boolean</MudTh>
+                                <MudTh>Weight</MudTh>
+                                <MudTh>Volume</MudTh>
+                                <MudTh>Distance</MudTh>
+                                <MudTh>Length</MudTh>
                             </HeaderContent>
                             <RowTemplate> 
                                 <MudTd>
@@ -135,6 +152,18 @@
                                 </MudTd>
                                 <MudTd>
                                     <UiViewBoolean_g Boolean="true" TitleTrue="True" TitleFalse="False" />
+                                </MudTd>
+                                <MudTd>
+                                    <UiViewWeight_g Weight="@testWeight" WeightUnit="Nox.Types.WeightUnit.Kilogram" />
+                                </MudTd>
+                                <MudTd>
+                                    <UiViewVolume_g Volume="@testVolume" VolumeUnit="Nox.Types.VolumeUnit.CubicMeter" />
+                                </MudTd>
+                                <MudTd>
+                                    <UiViewDistance_g Distance="@testDistance" DistanceUnit="Nox.Types.DistanceUnit.Kilometer" />
+                                </MudTd>
+                                 <MudTd>
+                                    <UiViewLength_g Length="@testLength" LengthUnit="Nox.Types.LengthUnit.Meter" />
                                 </MudTd>
                             </RowTemplate>
                             <NoRecordsContent>

@@ -154,6 +154,30 @@ public abstract partial class LandLordsControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpPut("api/LandLords/{key}/VendingMachines/{relatedKey}")]
+    public virtual async Task<ActionResult<VendingMachineDto>> PutToVendingMachinesNonConventional(System.Int64 key, System.Guid relatedKey, [FromBody] VendingMachineUpdateDto vendingMachine)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetLandLordByIdQuery(key))).SelectMany(x => x.VendingMachines).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateVendingMachineCommand(relatedKey, vendingMachine, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
+    }
+    
     #endregion
     
 }

@@ -90,6 +90,8 @@ public abstract class CashStockOrderDtoBase : EntityDtoBase, IEntityDto<DomainNa
     /// <summary>
     /// CashStockOrder reviewed by ExactlyOne Employees
     /// </summary>
+    //EF maps ForeignKey Automatically
+    public System.Int64? EmployeeId { get; set; } = default!;
     public virtual EmployeeDto? Employee { get; set; } = null!;
     [System.Text.Json.Serialization.JsonIgnore]
     public System.DateTime? DeletedAtUtc { get; set; }

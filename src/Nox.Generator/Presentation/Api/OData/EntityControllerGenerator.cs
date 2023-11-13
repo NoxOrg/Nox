@@ -504,6 +504,10 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
                     GenerateRelatedDelete(solution, relationship, entity, code);
                     GenerateRelatedDeleteAll(solution, relationship, entity, code);
                 }
+                if (CanUpdate(entity))
+                {
+                    GenerateRelatedPut(solution, relationship, entity, code);
+                }
             }
             code.AppendLine($"#endregion");
             code.AppendLine();
@@ -672,6 +676,70 @@ internal class EntityControllerGenerator : EntityControllerGeneratorBase
         code.AppendLine($"var createdItem = (await _mediator.Send(new Get{relatedEntity.Name}ByIdQuery({localizationPart}createdKey.key{relatedEntity.Keys[0].Name}))).SingleOrDefault();");
         code.AppendLine();
         code.AppendLine($"return Created(createdItem);");
+
+        code.EndBlock();
+        code.AppendLine();
+    }
+
+    private static void GenerateRelatedPut(NoxSolution solution, EntityRelationship relationship, Entity entity, CodeBuilder code)
+    {
+        var relatedEntity = relationship.Related.Entity;
+        var relationshipName = entity.GetNavigationPropertyName(relationship);
+        var isSingleRelationship = relationship.WithSingleEntity();
+
+        if (isSingleRelationship)
+        {
+            code.AppendLine($"public virtual async Task<ActionResult<{relatedEntity.Name}Dto>> PutTo{relationshipName}(" +
+                $"{GetPrimaryKeysRoute(entity, solution, attributePrefix: "")}, " +
+                $"[FromBody] {relatedEntity.Name}UpdateDto {relatedEntity.Name.ToLowerFirstChar()})");
+        }
+        else
+        {
+            code.AppendLine($"[HttpPut(\"api/{entity.PluralName}/{PrimaryKeysAttribute(entity)}/{relationshipName}/{PrimaryKeysAttribute(relatedEntity, "relatedKey")}\")]");
+            code.AppendLine($"public virtual async Task<ActionResult<{relatedEntity.Name}Dto>> PutTo{relationshipName}NonConventional(" +
+                $"{GetPrimaryKeysRoute(entity, solution, attributePrefix: "")}, " +
+                $"{GetPrimaryKeysRoute(relatedEntity, solution, "relatedKey", "")}, " +
+                $"[FromBody] {relatedEntity.Name}UpdateDto {relatedEntity.Name.ToLowerFirstChar()})");
+        }
+
+        code.StartBlock();
+        code.AppendLine($"if (!ModelState.IsValid)");
+        code.StartBlock();
+        code.AppendLine($"return BadRequest(ModelState);");
+        code.EndBlock();
+        code.AppendLine();
+
+        var localizationPart = entity.IsLocalized ? "_cultureCode, " : "";
+
+        if (isSingleRelationship)
+        {
+            code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({localizationPart}{GetPrimaryKeysQuery(entity)})))" +
+                $".Select(x => x.{relationshipName}).SingleOrDefault();");
+            code.AppendLine($"if (related == null)");
+        }
+        else
+        {
+            var param = string.Join(" && ", relatedEntity.Keys.Select(k => $"x.{k.Name} == relatedKey{(relatedEntity.Keys.Count > 1 ? k.Name : "")}"));
+            code.AppendLine($"var related = (await _mediator.Send(new Get{entity.Name}ByIdQuery({localizationPart}{GetPrimaryKeysQuery(entity)})))" +
+                $".SelectMany(x => x.{relationshipName}).Any(x => {param});");
+            code.AppendLine($"if (!related)");
+        }
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+        code.AppendLine();
+        code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
+        var relatedKeyQuery = isSingleRelationship ?
+            $"{GetPrimaryKeysQuery(relatedEntity, "related.", true)}" :
+            $"{GetPrimaryKeysQuery(relatedEntity, "relatedKey")}";
+        code.AppendLine($"var updated = await _mediator.Send(new Update{relatedEntity.Name}Command({relatedKeyQuery}, " +
+            $"{relatedEntity.Name.ToLowerFirstChar()}, _cultureCode, etag));");
+        code.AppendLine($"if (updated == null)");
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+        code.AppendLine();
+        code.AppendLine($"return Ok();");
 
         code.EndBlock();
         code.AppendLine();

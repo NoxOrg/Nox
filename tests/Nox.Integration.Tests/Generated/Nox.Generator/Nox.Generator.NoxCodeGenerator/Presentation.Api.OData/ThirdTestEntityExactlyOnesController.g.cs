@@ -72,6 +72,29 @@ public abstract partial class ThirdTestEntityExactlyOnesControllerBase : ODataCo
         return Ok(references);
     }
     
+    public virtual async Task<ActionResult<ThirdTestEntityZeroOrOneDto>> PutToThirdTestEntityZeroOrOne(System.String key, [FromBody] ThirdTestEntityZeroOrOneUpdateDto thirdTestEntityZeroOrOne)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetThirdTestEntityExactlyOneByIdQuery(key))).Select(x => x.ThirdTestEntityZeroOrOne).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateThirdTestEntityZeroOrOneCommand(related.Id, thirdTestEntityZeroOrOne, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
+    }
+    
     #endregion
     
 }

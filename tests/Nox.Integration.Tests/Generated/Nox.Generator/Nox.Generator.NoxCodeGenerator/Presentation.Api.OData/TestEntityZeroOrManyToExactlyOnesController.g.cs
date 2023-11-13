@@ -154,6 +154,30 @@ public abstract partial class TestEntityZeroOrManyToExactlyOnesControllerBase : 
         return NoContent();
     }
     
+    [HttpPut("api/TestEntityZeroOrManyToExactlyOnes/{key}/TestEntityExactlyOneToZeroOrManies/{relatedKey}")]
+    public virtual async Task<ActionResult<TestEntityExactlyOneToZeroOrManyDto>> PutToTestEntityExactlyOneToZeroOrManiesNonConventional(System.String key, System.String relatedKey, [FromBody] TestEntityExactlyOneToZeroOrManyUpdateDto testEntityExactlyOneToZeroOrMany)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityZeroOrManyToExactlyOneByIdQuery(key))).SelectMany(x => x.TestEntityExactlyOneToZeroOrManies).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateTestEntityExactlyOneToZeroOrManyCommand(relatedKey, testEntityExactlyOneToZeroOrMany, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
+    }
+    
     #endregion
     
 }

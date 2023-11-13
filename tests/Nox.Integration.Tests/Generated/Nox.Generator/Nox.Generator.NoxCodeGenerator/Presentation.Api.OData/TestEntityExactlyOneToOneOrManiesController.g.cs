@@ -72,6 +72,29 @@ public abstract partial class TestEntityExactlyOneToOneOrManiesControllerBase : 
         return Ok(references);
     }
     
+    public virtual async Task<ActionResult<TestEntityOneOrManyToExactlyOneDto>> PutToTestEntityOneOrManyToExactlyOne(System.String key, [FromBody] TestEntityOneOrManyToExactlyOneUpdateDto testEntityOneOrManyToExactlyOne)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetTestEntityExactlyOneToOneOrManyByIdQuery(key))).Select(x => x.TestEntityOneOrManyToExactlyOne).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateTestEntityOneOrManyToExactlyOneCommand(related.Id, testEntityOneOrManyToExactlyOne, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
+    }
+    
     #endregion
     
 }

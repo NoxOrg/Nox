@@ -154,6 +154,30 @@ public abstract partial class PaymentProvidersControllerBase : ODataController
         return NoContent();
     }
     
+    [HttpPut("api/PaymentProviders/{key}/PaymentDetails/{relatedKey}")]
+    public virtual async Task<ActionResult<PaymentDetailDto>> PutToPaymentDetailsNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] PaymentDetailUpdateDto paymentDetail)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetPaymentProviderByIdQuery(key))).SelectMany(x => x.PaymentDetails).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdatePaymentDetailCommand(relatedKey, paymentDetail, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
+    }
+    
     #endregion
     
 }

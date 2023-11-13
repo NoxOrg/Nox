@@ -116,6 +116,30 @@ public abstract partial class SecondTestEntityOneOrManiesControllerBase : ODataC
         return NoContent();
     }
     
+    [HttpPut("api/SecondTestEntityOneOrManies/{key}/TestEntityOneOrManies/{relatedKey}")]
+    public virtual async Task<ActionResult<TestEntityOneOrManyDto>> PutToTestEntityOneOrManiesNonConventional(System.String key, System.String relatedKey, [FromBody] TestEntityOneOrManyUpdateDto testEntityOneOrMany)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetSecondTestEntityOneOrManyByIdQuery(key))).SelectMany(x => x.TestEntityOneOrManies).Any(x => x.Id == relatedKey);
+        if (!related)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateTestEntityOneOrManyCommand(relatedKey, testEntityOneOrMany, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
+    }
+    
     #endregion
     
 }

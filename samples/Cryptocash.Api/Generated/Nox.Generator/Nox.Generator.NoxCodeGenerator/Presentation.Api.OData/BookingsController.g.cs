@@ -72,6 +72,29 @@ public abstract partial class BookingsControllerBase : ODataController
         return Ok(references);
     }
     
+    public virtual async Task<ActionResult<CustomerDto>> PutToCustomer(System.Guid key, [FromBody] CustomerUpdateDto customer)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.Customer).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateCustomerCommand(related.Id, customer, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
+    }
+    
     public async Task<ActionResult> CreateRefToVendingMachine([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -114,6 +137,29 @@ public abstract partial class BookingsControllerBase : ODataController
         
         var references = new System.Uri($"VendingMachines/{related.Id}", UriKind.Relative);
         return Ok(references);
+    }
+    
+    public virtual async Task<ActionResult<VendingMachineDto>> PutToVendingMachine(System.Guid key, [FromBody] VendingMachineUpdateDto vendingMachine)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.VendingMachine).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateVendingMachineCommand(related.Id, vendingMachine, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     public async Task<ActionResult> CreateRefToCommission([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
@@ -160,6 +206,29 @@ public abstract partial class BookingsControllerBase : ODataController
         return Ok(references);
     }
     
+    public virtual async Task<ActionResult<CommissionDto>> PutToCommission(System.Guid key, [FromBody] CommissionUpdateDto commission)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.Commission).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateCommissionCommand(related.Id, commission, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
+    }
+    
     public async Task<ActionResult> CreateRefToTransaction([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -202,6 +271,29 @@ public abstract partial class BookingsControllerBase : ODataController
         
         var references = new System.Uri($"Transactions/{related.Id}", UriKind.Relative);
         return Ok(references);
+    }
+    
+    public virtual async Task<ActionResult<TransactionDto>> PutToTransaction(System.Guid key, [FromBody] TransactionUpdateDto transaction)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetBookingByIdQuery(key))).Select(x => x.Transaction).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateTransactionCommand(related.Id, transaction, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     #endregion
