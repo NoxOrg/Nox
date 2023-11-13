@@ -104,6 +104,29 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return NoContent();
     }
     
+    public virtual async Task<ActionResult<CountryDto>> PutToCountry(System.UInt32 key, [FromBody] CountryUpdateDto country)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).Select(x => x.Country).SingleOrDefault();
+        if (related == null)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateCountryCommand(related.Id, country, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
+    }
+    
     public async Task<ActionResult> CreateRefToTenants([FromRoute] System.UInt32 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -182,6 +205,30 @@ public abstract partial class WorkplacesControllerBase : ODataController
         }
         
         return NoContent();
+    }
+    
+    [HttpPut("api/Workplaces/{key}/Tenants/{relatedKey}")]
+    public virtual async Task<ActionResult<TenantDto>> PutToTenantsNonConventional(System.UInt32 key, System.Guid relatedKey, [FromBody] TenantUpdateDto tenant)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).Select(x => x.Tenants).SingleOrDefault()?.Any(x => x.Id == relatedKey);
+        if (related == null || related == false)
+        {
+            return NotFound();
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateTenantCommand(relatedKey, tenant, _cultureCode, etag));
+        if (updated == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok();
     }
     
     #endregion
