@@ -394,7 +394,9 @@ namespace Nox.Types.EntityFramework.Configurations
             IEntityBuilder builder,
             Entity entity)
         {
-            var attributes = entity.GetAttributesToLocalize().ToList();
+#pragma warning disable CS0618 // Type or member is obsolete
+            var attributes = entity.GetAttributesToLocalizeAsNotRequired().ToList();
+#pragma warning restore CS0618 // Type or member is obsolete
 
             foreach (var property in attributes)
             {

@@ -109,7 +109,7 @@ public class Entity : DefinitionBase
     public bool IsLocalized =>
         !HasCompositeKey &&
         !IsOwnedEntity &&
-        this.GetAttributesToLocalize().Any();
+        this.Attributes.Where(x => x.IsLocalized).Any();
 
     public Entity ShallowCopy(string? newName = null)
     {
