@@ -57,34 +57,6 @@ internal abstract class UpdateCurrencyCommandHandlerBase : CommandBase<UpdateCur
 			return null;
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.StoreLicenseDefault).LoadAsync();
-		var storeLicenseDefaultEntities = new List<ClientApi.Domain.StoreLicense>();
-		foreach(var relatedEntityId in request.EntityDto.StoreLicenseDefaultId)
-		{
-			var relatedKey = ClientApi.Domain.StoreLicenseMetadata.CreateId(relatedEntityId);
-			var relatedEntity = await DbContext.StoreLicenses.FindAsync(relatedKey);
-						
-			if(relatedEntity is not null)
-				storeLicenseDefaultEntities.Add(relatedEntity);
-			else
-				throw new RelatedEntityNotFoundException("StoreLicenseDefault", relatedEntityId.ToString());
-		}
-		entity.UpdateRefToStoreLicenseDefault(storeLicenseDefaultEntities);
-
-		await DbContext.Entry(entity).Collection(x => x.StoreLicenseSoldIn).LoadAsync();
-		var storeLicenseSoldInEntities = new List<ClientApi.Domain.StoreLicense>();
-		foreach(var relatedEntityId in request.EntityDto.StoreLicenseSoldInId)
-		{
-			var relatedKey = ClientApi.Domain.StoreLicenseMetadata.CreateId(relatedEntityId);
-			var relatedEntity = await DbContext.StoreLicenses.FindAsync(relatedKey);
-						
-			if(relatedEntity is not null)
-				storeLicenseSoldInEntities.Add(relatedEntity);
-			else
-				throw new RelatedEntityNotFoundException("StoreLicenseSoldIn", relatedEntityId.ToString());
-		}
-		entity.UpdateRefToStoreLicenseSoldIn(storeLicenseSoldInEntities);
-
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 

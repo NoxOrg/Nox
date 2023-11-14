@@ -59,9 +59,4 @@ public partial class StoreOwnerUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNa
     /// <remarks>Optional.</remarks>    
     /// </summary>
     public virtual System.String? Notes { get; set; }
-
-    /// <summary>
-    /// StoreOwner Set of stores that this owner owns OneOrMany Stores
-    /// </summary>
-    public virtual List<System.Guid> StoresId { get; set; } = new();
 }

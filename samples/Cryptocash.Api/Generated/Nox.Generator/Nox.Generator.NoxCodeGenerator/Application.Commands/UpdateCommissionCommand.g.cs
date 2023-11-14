@@ -72,20 +72,6 @@ internal abstract class UpdateCommissionCommandHandlerBase : CommandBase<UpdateC
 			entity.DeleteAllRefToCountry();
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.Bookings).LoadAsync();
-		var bookingsEntities = new List<Cryptocash.Domain.Booking>();
-		foreach(var relatedEntityId in request.EntityDto.BookingsId)
-		{
-			var relatedKey = Cryptocash.Domain.BookingMetadata.CreateId(relatedEntityId);
-			var relatedEntity = await DbContext.Bookings.FindAsync(relatedKey);
-						
-			if(relatedEntity is not null)
-				bookingsEntities.Add(relatedEntity);
-			else
-				throw new RelatedEntityNotFoundException("Bookings", relatedEntityId.ToString());
-		}
-		entity.UpdateRefToBookings(bookingsEntities);
-
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 

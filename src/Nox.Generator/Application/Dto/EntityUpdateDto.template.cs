@@ -44,15 +44,17 @@ public partial class {{className}}Base: EntityDtoBase, IEntityDto<DomainNamespac
 {{- end }}
 {{- for relationship in entity.Relationships}}
 	{{- relationshipName = GetNavigationPropertyName entity relationship }}
+    {{- if relationship.WithSingleEntity }}
 
     /// <summary>
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
-    {{- if relationship.WithSingleEntity }}
     {{ if relationship.Relationship == "ExactlyOne" }}[Required(ErrorMessage = "{{relationshipName}} is required")]{{-end}}
     public virtual {{relationship.ForeignKeyPrimitiveType}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationshipName}}Id { get; set; } = default!;
     {{-else}}
-    public virtual List<{{relationship.ForeignKeyPrimitiveType}}> {{relationshipName}}Id { get; set; } = new();
+    {{- ## NOX-237
+    public List<relationship.ForeignKeyPrimitiveType> relationshipNameId { get; set; } = new(); 
+    ## }}
     {{-end}}
 {{- end }}
 {{- for relationship in entity.OwnedRelationships}}

@@ -45,9 +45,4 @@ public partial class CommissionUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNa
     /// </summary>
     
     public virtual System.String? CountryId { get; set; } = default!;
-
-    /// <summary>
-    /// Commission fees for ZeroOrMany Bookings
-    /// </summary>
-    public virtual List<System.Guid> BookingsId { get; set; } = new();
 }

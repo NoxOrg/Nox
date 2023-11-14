@@ -65,48 +65,6 @@ internal abstract class UpdateCountryCommandHandlerBase : CommandBase<UpdateCoun
 		else
 			throw new RelatedEntityNotFoundException("Currency", request.EntityDto.CurrencyId.ToString());
 
-		await DbContext.Entry(entity).Collection(x => x.Commissions).LoadAsync();
-		var commissionsEntities = new List<Cryptocash.Domain.Commission>();
-		foreach(var relatedEntityId in request.EntityDto.CommissionsId)
-		{
-			var relatedKey = Cryptocash.Domain.CommissionMetadata.CreateId(relatedEntityId);
-			var relatedEntity = await DbContext.Commissions.FindAsync(relatedKey);
-						
-			if(relatedEntity is not null)
-				commissionsEntities.Add(relatedEntity);
-			else
-				throw new RelatedEntityNotFoundException("Commissions", relatedEntityId.ToString());
-		}
-		entity.UpdateRefToCommissions(commissionsEntities);
-
-		await DbContext.Entry(entity).Collection(x => x.VendingMachines).LoadAsync();
-		var vendingMachinesEntities = new List<Cryptocash.Domain.VendingMachine>();
-		foreach(var relatedEntityId in request.EntityDto.VendingMachinesId)
-		{
-			var relatedKey = Cryptocash.Domain.VendingMachineMetadata.CreateId(relatedEntityId);
-			var relatedEntity = await DbContext.VendingMachines.FindAsync(relatedKey);
-						
-			if(relatedEntity is not null)
-				vendingMachinesEntities.Add(relatedEntity);
-			else
-				throw new RelatedEntityNotFoundException("VendingMachines", relatedEntityId.ToString());
-		}
-		entity.UpdateRefToVendingMachines(vendingMachinesEntities);
-
-		await DbContext.Entry(entity).Collection(x => x.Customers).LoadAsync();
-		var customersEntities = new List<Cryptocash.Domain.Customer>();
-		foreach(var relatedEntityId in request.EntityDto.CustomersId)
-		{
-			var relatedKey = Cryptocash.Domain.CustomerMetadata.CreateId(relatedEntityId);
-			var relatedEntity = await DbContext.Customers.FindAsync(relatedKey);
-						
-			if(relatedEntity is not null)
-				customersEntities.Add(relatedEntity);
-			else
-				throw new RelatedEntityNotFoundException("Customers", relatedEntityId.ToString());
-		}
-		entity.UpdateRefToCustomers(customersEntities);
-
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 

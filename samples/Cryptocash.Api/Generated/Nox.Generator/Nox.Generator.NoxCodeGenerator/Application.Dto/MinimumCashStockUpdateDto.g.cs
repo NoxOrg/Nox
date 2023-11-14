@@ -34,11 +34,6 @@ public partial class MinimumCashStockUpdateDtoBase: EntityDtoBase, IEntityDto<Do
     public virtual MoneyDto Amount { get; set; } = default!;
 
     /// <summary>
-    /// MinimumCashStock required by ZeroOrMany VendingMachines
-    /// </summary>
-    public virtual List<System.Guid> VendingMachinesId { get; set; } = new();
-
-    /// <summary>
     /// MinimumCashStock related to ExactlyOne Currencies
     /// </summary>
     [Required(ErrorMessage = "Currency is required")]

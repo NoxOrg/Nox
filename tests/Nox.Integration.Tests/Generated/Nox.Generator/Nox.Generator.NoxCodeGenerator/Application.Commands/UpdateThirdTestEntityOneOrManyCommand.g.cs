@@ -57,20 +57,6 @@ internal abstract class UpdateThirdTestEntityOneOrManyCommandHandlerBase : Comma
 			return null;
 		}
 
-		await DbContext.Entry(entity).Collection(x => x.ThirdTestEntityZeroOrManies).LoadAsync();
-		var thirdTestEntityZeroOrManiesEntities = new List<TestWebApp.Domain.ThirdTestEntityZeroOrMany>();
-		foreach(var relatedEntityId in request.EntityDto.ThirdTestEntityZeroOrManiesId)
-		{
-			var relatedKey = TestWebApp.Domain.ThirdTestEntityZeroOrManyMetadata.CreateId(relatedEntityId);
-			var relatedEntity = await DbContext.ThirdTestEntityZeroOrManies.FindAsync(relatedKey);
-						
-			if(relatedEntity is not null)
-				thirdTestEntityZeroOrManiesEntities.Add(relatedEntity);
-			else
-				throw new RelatedEntityNotFoundException("ThirdTestEntityZeroOrManies", relatedEntityId.ToString());
-		}
-		entity.UpdateRefToThirdTestEntityZeroOrManies(thirdTestEntityZeroOrManiesEntities);
-
 		_entityFactory.UpdateEntity(entity, request.EntityDto, request.CultureCode);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 

@@ -31,6 +31,8 @@ public class NoxTestMsSqlContainerFixture : NoxTestContainerFixtureBase<MsSqlCon
 
     private string GetConnectionString()
     {
+        //For development purposes
+        //return "Data Source=localhost;TrustServerCertificate=true;Initial Catalog=integrationtests;User ID=sa;password=Developer*123;";
         var connectionString = _container.GetConnectionString();
         if (connectionString.Contains(MasterDbName))
         {
