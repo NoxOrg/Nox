@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Source code repository and related info for the solution.",
+  "description": "Contains information about where source code is kept and the folders of the main components thereof.",
+  "oneOf": [
+    {
+      "type": "object"
+    },
+    {
+      "type": "null"
+    }
+  ],
+  "required": [
+    "provider",
+    "host"
+  ],
+  "properties": {
+    "provider": {    
+      "title": "The source code and repository provider or service.",
+      "description": "The name of the provider or service for source code and version control",
+      "type": "string",
+      "pattern": "^[^\\s]*$",
+      "enum": [
+        "azureDevops"
+      ]
+    },
+    "host": {    
+      "title": "The URI for the host of the version control service.",
+      "description": "The URI for the person or organization's projects and repositories. Usually https://dev.azure.com/<organization>",
+      "type": "string",
+      "format": "uri",
+      "pattern": "^[^\\s]*$"
+    },
+    "folders": {    
+      "title": "A list of well-known folders pertaining to version control for the solution.",
+      "description": "The relative path to source code, tests, containers and other well-known code assets.",
+      "oneOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "required": [
+        "sourceCode",
+        "containers"
+      ],
+      "properties": {
+        "sourceCode": {    
+          "title": "The path or relative path to the source code root.",
+          "description": "The path or relative path that contains your source code. Allows auto-configuration of build pipelines.",
+          "type": "string"
+        },
+        "tests": {    
+          "title": "The path or relative path to the solution tests.",
+          "description": "The path or relative path that contains your solution tests. Allows auto-configuration of build pipelines.",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "containers": {    
+          "title": "The path or relative path to the docker containers.",
+          "description": "The path or relative path that contains your solution docker containers.",
+          "type": "string"
+        },
+        "samples": {    
+          "title": "The path or relative path to the samples folder.",
+          "description": "The path or relative path that contains your solution samples.",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "docs": {    
+          "title": "The path or relative path to the solution documentation.",
+          "description": "The path or relative path that contains your solution documentation.",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "repositoryName": {    
+      "title": "Overrides repository name for Nox solution.",
+      "description": "Can be set when the repository name in DevOps is something different to the Nox convension. If it left undefined, Nox must default it to {Solution.Name}.v{solution.version}",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}

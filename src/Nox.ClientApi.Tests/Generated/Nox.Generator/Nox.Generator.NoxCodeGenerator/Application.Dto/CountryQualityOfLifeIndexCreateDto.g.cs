@@ -14,6 +14,9 @@ using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
+/// <summary>
+/// Country Quality Of Life Index.
+/// </summary>
 public partial class CountryQualityOfLifeIndexCreateDto : CountryQualityOfLifeIndexCreateDtoBase
 {
 

@@ -21,6 +21,10 @@ namespace ClientApi.Application.Dto;
 
 public record CountryQualityOfLifeIndexKeyDto(System.Int64 keyCountryId, System.Int64 keyId);
 
+/// <summary>
+/// Update CountryQualityOfLifeIndex
+/// Country Quality Of Life Index.
+/// </summary>
 public partial class CountryQualityOfLifeIndexDto : CountryQualityOfLifeIndexDtoBase
 {
 

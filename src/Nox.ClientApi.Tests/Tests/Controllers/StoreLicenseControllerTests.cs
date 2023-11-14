@@ -36,7 +36,7 @@ namespace ClientApi.Tests.Tests.Controllers
             //Arrange
             var usdCurrency = await PostAsync<CurrencyCreateDto, CurrencyDto>(Endpoints.CurrenciesUrl, new CurrencyCreateDto { Id = "USD" });
             var eurCurrency = await PostAsync<CurrencyCreateDto, CurrencyDto>(Endpoints.CurrenciesUrl, new CurrencyCreateDto { Id = "EUR" });
-            var store = await CreateStore();
+            var store = await CreateStoreAsync();
             var storeLicenseReponse = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl,
                 new StoreLicenseCreateDto { 
                     Issuer = _fixture.Create<string>(),
@@ -72,8 +72,8 @@ namespace ClientApi.Tests.Tests.Controllers
         public async Task Put_UpdateRelatedStore_Success()
         {
             //Arrange
-            var store1 = await CreateStore();
-            var store2 = await CreateStore();
+            var store1 = await CreateStoreAsync();
+            var store2 = await CreateStoreAsync();
             var storeLicenseResponse = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl,
                 new StoreLicenseCreateDto
                 {
@@ -102,7 +102,7 @@ namespace ClientApi.Tests.Tests.Controllers
         public async Task Put_UpdateRelatedStoreToEmpty_Fail()
         {
             //Arrange
-            var store1 = await CreateStore();
+            var store1 = await CreateStoreAsync();
             var storeLicenseResponse = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl,
                 new StoreLicenseCreateDto
                 {
@@ -140,8 +140,8 @@ namespace ClientApi.Tests.Tests.Controllers
         {
             var issuer = _fixture.Create<string>();
             // Arrange
-            var store = await CreateStore();
-            var store2 = await CreateStore();
+            var store = await CreateStoreAsync();
+            var store2 = await CreateStoreAsync();
 
             var createDto = new StoreLicenseCreateDto
             {
@@ -169,7 +169,7 @@ namespace ClientApi.Tests.Tests.Controllers
         {
             var issuer = _fixture.Create<string>();
             // Arrange
-            StoreDto? store = await CreateStore();
+            StoreDto? store = await CreateStoreAsync();
 
             var createDto = new StoreLicenseCreateDto
             {
@@ -195,8 +195,8 @@ namespace ClientApi.Tests.Tests.Controllers
         public async Task WhenStoreLicenceCreated_ShouldGenerateAutoNumberExternalId()
         {
             //Arrange
-            var store1 = await CreateStore();
-            var store2 = await CreateStore();
+            var store1 = await CreateStoreAsync();
+            var store2 = await CreateStoreAsync();
 
             // Act
             var storeLicenseResponse = await PostAsync<StoreLicenseCreateDto, StoreLicenseDto>(Endpoints.StoreLicensesUrl,
@@ -215,13 +215,61 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             storeLicenseResponse.Should().NotBeNull();
-            storeLicenseResponse!.ExternalId.Should().BeGreaterOrEqualTo(30000);
+            storeLicenseResponse!.ExternalId.Should().Be(3000000);
 
             storeLicenseResponse2.Should().NotBeNull();
-            storeLicenseResponse2!.ExternalId.Should().BeGreaterOrEqualTo(30000 + 10);
+            storeLicenseResponse2!.ExternalId.Should().Be(3000000 + 10);
         }
 
-        private async Task<StoreDto?> CreateStore()
+        [Fact]
+        public async Task WhenStoreLicenceCreated_AutoNumberExternalIdIsSystemGenerated()
+        {
+            //Arrange
+            var store = await CreateStoreAsync();
+            var storeLicenseCreateResponse = await PostAsync<object, StoreLicenseDto>(Endpoints.StoreLicensesUrl,
+                new
+                {
+                    Issuer = _fixture.Create<string>(),
+                    StoreId = store!.Id,
+                    ExternalId = 123456
+                });
+
+            // Act
+            //Assert
+            storeLicenseCreateResponse.Should().NotBeNull();
+            storeLicenseCreateResponse!.ExternalId.Should().Be(3000000);
+        }
+
+        [Fact]
+        public async Task WhenStoreLicenceUpdated_AutoNumberExternalIdIsNotUpdated()
+        {
+            //Arrange
+            var store = await CreateStoreAsync();
+            var storeLicenseCreateResponse = await PostAsync<object, StoreLicenseDto>(Endpoints.StoreLicensesUrl,
+                new
+                {
+                    Issuer = _fixture.Create<string>(),
+                    StoreId = store!.Id,
+                });
+            var externalId = storeLicenseCreateResponse!.ExternalId;
+
+            // Act
+            var headers = CreateEtagHeader(storeLicenseCreateResponse!.Etag);
+            var storeLicenseUpdateResponse = await PutAsync<object, StoreLicenseDto>($"{Endpoints.StoreLicensesUrl}/{storeLicenseCreateResponse!.Id}",
+                new
+                {
+                    Issuer = _fixture.Create<string>(),
+                    StoreId = store!.Id,
+                    ExternalId = 123456
+                }, 
+                headers);
+
+            //Assert
+            storeLicenseUpdateResponse.Should().NotBeNull();
+            storeLicenseUpdateResponse!.ExternalId.Should().Be(externalId);
+        }
+
+        private async Task<StoreDto?> CreateStoreAsync()
         {
             var createDto = new StoreCreateDto
             {

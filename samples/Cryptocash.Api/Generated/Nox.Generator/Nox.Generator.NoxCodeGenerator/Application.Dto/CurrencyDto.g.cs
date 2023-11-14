@@ -21,6 +21,10 @@ namespace Cryptocash.Application.Dto;
 
 public record CurrencyKeyDto(System.String keyId);
 
+/// <summary>
+/// Update Currency
+/// Currency and related data.
+/// </summary>
 public partial class CurrencyDto : CurrencyDtoBase
 {
 

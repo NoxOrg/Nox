@@ -21,6 +21,10 @@ namespace Cryptocash.Application.Dto;
 
 public record CashStockOrderKeyDto(System.Int64 keyId);
 
+/// <summary>
+/// Update CashStockOrder
+/// Vending machine cash stock order and related data.
+/// </summary>
 public partial class CashStockOrderDto : CashStockOrderDtoBase
 {
 

@@ -4,4 +4,5 @@ internal interface IDtoGenerateControl
 {
     public bool Read { get; set; }
     public bool Update { get; set; }
+    public bool Create { get; set; }
 }

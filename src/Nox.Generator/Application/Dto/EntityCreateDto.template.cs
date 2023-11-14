@@ -14,6 +14,9 @@ using DomainNamespace = {{codeGeneratorState.DomainNameSpace}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto;
 
+/// <summary>
+/// {{entity.Description  | string.rstrip}}.
+/// </summary>
 public partial class {{className}} : {{className}}Base
 {
 
@@ -48,6 +51,9 @@ public abstract class {{className}}Base : IEntityDto<DomainNamespace.{{entity.Na
 {{- end }}
 
 {{- for attribute in entity.Attributes }}
+    {{- if !IsNoxTypeCreatable attribute.Type -}}
+    {{ continue; -}}
+    {{- end }}
     /// <summary>
     /// {{attribute.Description  | string.rstrip}} 
     /// <remarks>{{if attribute.IsRequired}}Required{{else}}Optional{{end}}</remarks>    

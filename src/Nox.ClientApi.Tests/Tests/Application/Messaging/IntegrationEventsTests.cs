@@ -13,10 +13,6 @@ namespace ClientApi.Tests.Application.Messaging
     [Collection("Sequential")]
     public class IntegrationEventsTests : NoxWebApiTestBase
     {
-        private const string StoreOwnersControllerName = "api/storeowners";
-        private const string CountriesControllerName = "api/countries";
-        private const string WorkplacesControllerName = "api/workplaces";
-
         public IntegrationEventsTests(
             ITestOutputHelper testOutput,
             TestDatabaseContainerService containerService
@@ -41,7 +37,7 @@ namespace ClientApi.Tests.Application.Messaging
             };
 
             // Act
-            var result = await PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(StoreOwnersControllerName, createDto);
+            var result = await PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(Endpoints.StoreOwnersUrl, createDto);
 
             //Assert
             result.Should().NotBeNull();
@@ -60,7 +56,7 @@ namespace ClientApi.Tests.Application.Messaging
             };
 
             // Act
-            var result = await PostAsync<CountryCreateDto, CountryDto>(CountriesControllerName, createDto);
+            var result = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, createDto);
 
             //Assert
             result.Should().NotBeNull();
@@ -78,7 +74,7 @@ namespace ClientApi.Tests.Application.Messaging
                 Population = 99_999_999,
             };
 
-            var createResult = await PostAsync<CountryCreateDto, CountryDto>(CountriesControllerName, createDto);
+            var createResult = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, createDto);
 
             var updateDto = new CountryUpdateDto
             {
@@ -88,7 +84,7 @@ namespace ClientApi.Tests.Application.Messaging
 
             // Act
             var headers = CreateEtagHeader(createResult?.Etag);
-            var updateResult = await PutAsync<CountryUpdateDto, CountryDto>($"{CountriesControllerName}/{createResult!.Id}", updateDto, headers);
+            var updateResult = await PutAsync<CountryUpdateDto, CountryDto>($"{Endpoints.CountriesUrl}/{createResult!.Id}", updateDto, headers);
 
             //Assert
             updateResult.Should().NotBeNull();
@@ -107,11 +103,11 @@ namespace ClientApi.Tests.Application.Messaging
                 Population = 99_999_999,
             };
 
-            var createResult = await PostAsync<CountryCreateDto, CountryDto>(CountriesControllerName, createDto);
+            var createResult = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, createDto);
 
             // Act
             var headers = CreateEtagHeader(createResult?.Etag);
-            var deleteResult = await DeleteAsync($"{CountriesControllerName}/{createResult!.Id}", headers);
+            var deleteResult = await DeleteAsync($"{Endpoints.CountriesUrl}/{createResult!.Id}", headers);
 
             //Assert
             deleteResult.Should().NotBeNull();
@@ -138,11 +134,11 @@ namespace ClientApi.Tests.Application.Messaging
                 CountryId = countryId,
             };
 
-            var createResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(WorkplacesControllerName, createDto);
+            var createResult = await PostAsync<WorkplaceCreateDto, WorkplaceDto>(Endpoints.WorkplacesUrl, createDto);
 
             // Act
             var headers = CreateEtagHeader(createResult?.Etag);
-            var deleteResult = await DeleteAsync($"{WorkplacesControllerName}/{createResult!.Id}", headers);
+            var deleteResult = await DeleteAsync($"{Endpoints.WorkplacesUrl}/{createResult!.Id}", headers);
 
             //Assert
             deleteResult.Should().NotBeNull();
@@ -161,7 +157,7 @@ namespace ClientApi.Tests.Application.Messaging
                 Population = 99_999_999,
             };
 
-            var createResult = await PostAsync<CountryCreateDto, CountryDto>(CountriesControllerName, createDto);
+            var createResult = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, createDto);
 
             var updateDto = new CountryUpdateDto
             {
@@ -171,7 +167,7 @@ namespace ClientApi.Tests.Application.Messaging
 
             // Act
             var headers = CreateEtagHeader(createResult?.Etag);
-            var updateResult = await PutAsync<CountryUpdateDto, CountryDto>($"{CountriesControllerName}/{createResult!.Id}", updateDto, headers);
+            var updateResult = await PutAsync<CountryUpdateDto, CountryDto>($"{Endpoints.CountriesUrl}/{createResult!.Id}", updateDto, headers);
 
             //Assert
             updateResult.Should().NotBeNull();

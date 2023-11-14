@@ -14,6 +14,9 @@ using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
+/// <summary>
+/// Verified Email Address.
+/// </summary>
 public partial class EmailAddressCreateDto : EmailAddressCreateDtoBase
 {
 

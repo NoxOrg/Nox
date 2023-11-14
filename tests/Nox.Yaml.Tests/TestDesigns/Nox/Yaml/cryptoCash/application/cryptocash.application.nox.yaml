@@ -1,0 +1,21 @@
+#
+# cryptocash.application.nox.yaml
+#
+# yaml-language-server: $schema=../../../Schemas/application.json
+#
+
+dataTransferObjects:
+  - name: TempDto
+    description: Temp Dto added to help Generator Compile
+    attributes:
+      - name: Id
+        description: Identity
+        type: text
+        textTypeOptions:
+          casing: lower
+          maxLength: 2
+          minLength: 2
+
+integrations:
+
+  - $ref: ./integrations/CountrySync.integration.nox.yaml

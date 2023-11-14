@@ -21,6 +21,10 @@ namespace Cryptocash.Application.Dto;
 
 public record EmployeePhoneNumberKeyDto(System.Int64 keyId);
 
+/// <summary>
+/// Update EmployeePhoneNumber
+/// Employee phone number and related data.
+/// </summary>
 public partial class EmployeePhoneNumberDto : EmployeePhoneNumberDtoBase
 {
 

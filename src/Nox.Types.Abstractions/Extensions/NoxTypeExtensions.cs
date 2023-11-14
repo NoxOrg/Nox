@@ -64,6 +64,11 @@ public static class NoxTypeExtensions
         return (noxType.DtoGenerateControl()?.Update) ?? true;
     }
 
+    public static bool IsCreatableType(this NoxType noxType)
+    {
+        return (noxType.DtoGenerateControl()?.Create) ?? true;
+    }
+
     private static IDtoGenerateControl? DtoGenerateControl(this NoxType noxType)
     {
         if (noxType.IsSimpleType())

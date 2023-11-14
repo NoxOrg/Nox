@@ -1,0 +1,9 @@
+#
+# uat.environment.nox.yaml
+#
+# yaml-language-server: $schema=../../../Schemas/environment.json
+#
+
+name: uat
+description: Environment used by end-user acceptance team to sign off functional changes
+isProduction: false

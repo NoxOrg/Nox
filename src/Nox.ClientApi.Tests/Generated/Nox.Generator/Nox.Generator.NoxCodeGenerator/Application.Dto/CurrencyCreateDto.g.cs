@@ -14,6 +14,9 @@ using DomainNamespace = ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
+/// <summary>
+/// Currency and related data.
+/// </summary>
 public partial class CurrencyCreateDto : CurrencyCreateDtoBase
 {
 

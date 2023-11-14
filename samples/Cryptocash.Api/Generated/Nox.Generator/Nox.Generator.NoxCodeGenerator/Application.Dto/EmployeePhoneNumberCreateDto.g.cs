@@ -14,6 +14,9 @@ using DomainNamespace = Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
+/// <summary>
+/// Employee phone number and related data.
+/// </summary>
 public partial class EmployeePhoneNumberCreateDto : EmployeePhoneNumberCreateDtoBase
 {
 

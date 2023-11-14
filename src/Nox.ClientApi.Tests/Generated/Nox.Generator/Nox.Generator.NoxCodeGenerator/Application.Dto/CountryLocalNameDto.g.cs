@@ -21,6 +21,10 @@ namespace ClientApi.Application.Dto;
 
 public record CountryLocalNameKeyDto(System.Int64 keyId);
 
+/// <summary>
+/// Update CountryLocalName
+/// Local names for countries.
+/// </summary>
 public partial class CountryLocalNameDto : CountryLocalNameDtoBase
 {
 

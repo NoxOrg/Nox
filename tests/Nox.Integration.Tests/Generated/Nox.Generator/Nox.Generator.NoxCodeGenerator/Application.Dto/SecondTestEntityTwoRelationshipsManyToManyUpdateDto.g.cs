@@ -13,9 +13,17 @@ using DomainNamespace = TestWebApp.Domain;
 namespace TestWebApp.Application.Dto;
 
 /// <summary>
+/// .
+/// </summary>
+public partial class SecondTestEntityTwoRelationshipsManyToManyUpdateDto : SecondTestEntityTwoRelationshipsManyToManyUpdateDtoBase
+{
+
+}
+
+/// <summary>
 /// 
 /// </summary>
-public partial class SecondTestEntityTwoRelationshipsManyToManyUpdateDto : IEntityDto<DomainNamespace.SecondTestEntityTwoRelationshipsManyToMany>
+public partial class SecondTestEntityTwoRelationshipsManyToManyUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.SecondTestEntityTwoRelationshipsManyToMany>
 {
     /// <summary>
     ///  
@@ -23,5 +31,5 @@ public partial class SecondTestEntityTwoRelationshipsManyToManyUpdateDto : IEnti
     /// </summary>
     [Required(ErrorMessage = "TextTestField2 is required")]
     
-    public System.String TextTestField2 { get; set; } = default!;
+    public virtual System.String TextTestField2 { get; set; } = default!;
 }

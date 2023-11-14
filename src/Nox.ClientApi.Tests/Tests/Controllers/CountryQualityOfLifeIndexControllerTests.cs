@@ -4,6 +4,7 @@ using AutoFixture;
 using Nox.Types;
 using System.Net;
 using Xunit.Abstractions;
+using ClientApi.Tests.Controllers;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
@@ -11,8 +12,7 @@ namespace ClientApi.Tests.Tests.Controllers
     public class CountryQualityOfLifeIndexControllerTests : NoxWebApiTestBase
     {
         private const string EntityPluralName = "CountryQualityOfLifeIndices";
-        private const string EntityUrl = $"api/{EntityPluralName}";
-        private const string CountriesUrl = $"api/countries";
+        private const string EntityUrl = $"En/{EntityPluralName}";      
 
         public CountryQualityOfLifeIndexControllerTests(ITestOutputHelper testOutput, TestDatabaseContainerService containerService)
             : base(testOutput, containerService)
@@ -31,7 +31,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 Population = 1_000_000
             };
 
-            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(CountriesUrl, countryDto);
+            var countryResponse = await PostAsync<CountryCreateDto, CountryDto>(Endpoints.CountriesUrl, countryDto);
 
             var indexDto = new CountryQualityOfLifeIndexCreateDto
             {
@@ -40,7 +40,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var indexResponse = await PostAsync<CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexDto>(EntityUrl, indexDto);
+            var indexResponse = await PostAsync<CountryQualityOfLifeIndexCreateDto, CountryQualityOfLifeIndexDto>(Endpoints.CountryQualityOfLifeIndicesUrl, indexDto);
 
             //Assert
             indexResponse.Should().NotBeNull();
@@ -59,7 +59,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await PostAsync(EntityUrl, indexDto);
+            var result = await PostAsync(Endpoints.CountryQualityOfLifeIndicesUrl, indexDto);
 
             //Assert
             result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);

@@ -13,9 +13,17 @@ using DomainNamespace = ClientApi.Domain;
 namespace ClientApi.Application.Dto;
 
 /// <summary>
+/// Tenant.
+/// </summary>
+public partial class TenantUpdateDto : TenantUpdateDtoBase
+{
+
+}
+
+/// <summary>
 /// Tenant
 /// </summary>
-public partial class TenantUpdateDto : IEntityDto<DomainNamespace.Tenant>
+public partial class TenantUpdateDtoBase: EntityDtoBase, IEntityDto<DomainNamespace.Tenant>
 {
     /// <summary>
     /// Teanant Name 
@@ -23,5 +31,5 @@ public partial class TenantUpdateDto : IEntityDto<DomainNamespace.Tenant>
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
-    public System.String Name { get; set; } = default!;
+    public virtual System.String Name { get; set; } = default!;
 }

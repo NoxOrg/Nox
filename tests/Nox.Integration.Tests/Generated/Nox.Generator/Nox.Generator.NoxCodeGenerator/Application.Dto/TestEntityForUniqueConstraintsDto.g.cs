@@ -21,6 +21,10 @@ namespace TestWebApp.Application.Dto;
 
 public record TestEntityForUniqueConstraintsKeyDto(System.String keyId);
 
+/// <summary>
+/// Update TestEntityForUniqueConstraints
+/// Entity created for testing constraints.
+/// </summary>
 public partial class TestEntityForUniqueConstraintsDto : TestEntityForUniqueConstraintsDtoBase
 {
 

@@ -21,6 +21,10 @@ namespace Cryptocash.Application.Dto;
 
 public record BookingKeyDto(System.Guid keyId);
 
+/// <summary>
+/// Update Booking
+/// Exchange booking and related data.
+/// </summary>
 public partial class BookingDto : BookingDtoBase
 {
 
