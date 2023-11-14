@@ -116,6 +116,12 @@ public class SqliteIntegrationTests
     }
 
     [Fact]
+    public void WhenUniqueConstraintsWithRelation_ShouldBeValid()
+    {
+        _noxCommonTestCases.WhenUniqueConstraintsWithRelation_ShouldBeValid();
+    }
+
+    [Fact]
     public void GeneratedRelationship_Sqlite_TwoRelationshipsToTheSameEntityOneToOne()
     {
         _noxCommonTestCases.GeneratedRelationshipTwoRelationshipsToTheSameEntityOneToOne();
