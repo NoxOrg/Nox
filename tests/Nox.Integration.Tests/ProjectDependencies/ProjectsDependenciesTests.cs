@@ -52,9 +52,10 @@ namespace Nox.Tests.ProjectDependencies
             var projectDependenciesNoxSolution =
                 _fixture.ProjectDependencyGraph.GetProjectsThatThisProjectDirectlyDependsOn(_fixture.NoxSolution.Id);
 
-            projectDependenciesNoxSolution.Should().HaveCount(1);
+            projectDependenciesNoxSolution.Should().HaveCount(2);
 
-            (projectDependenciesNoxSolution.Single() == _fixture.NoxTypesAbstractionsProject.Id).Should().BeTrue();
+            (projectDependenciesNoxSolution.First() == _fixture.NoxTypesAbstractionsProject.Id).Should().BeTrue();
+            (projectDependenciesNoxSolution.Skip(1).First() == _fixture.NoxYamlProject.Id).Should().BeTrue();
         }
 
         [Fact]
@@ -63,10 +64,10 @@ namespace Nox.Tests.ProjectDependencies
             // This method is not deterministic and returns sometimes transitive projects dependencies
             var projectDependencies = _fixture.ProjectDependencyGraph.GetProjectsThatThisProjectDirectlyDependsOn(_fixture.NoxGenerator.Id);
 
-            projectDependencies.Should().HaveCountLessOrEqualTo(2);
+            projectDependencies.Should().HaveCountLessOrEqualTo(3);
             projectDependencies.Should().Contain(_fixture.NoxSolution.Id);
 
-            if (projectDependencies.Count() == 2)
+            if (projectDependencies.Count() == 3)
             {
                 projectDependencies.Should().Contain(_fixture.NoxTypesAbstractionsProject.Id);
             }

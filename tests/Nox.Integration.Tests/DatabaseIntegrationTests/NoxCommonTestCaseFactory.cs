@@ -188,7 +188,7 @@ public class NoxCommonTestCaseFactory
             YearTestField = Year.From(year),
             BooleanTestField = Types.Boolean.From(boolean),
             EmailTestField = Email.From(email),
-            YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
+            YamlTestField = Types.Yaml.From(switzerlandCitiesCountiesYaml),
             VatNumberTestField = VatNumber.From(vatNumberValue, vatNumberCountryCode2),
             ColorTestField = Color.From(color[0], color[1], color[2], color[3]),
             PercentageTestField = Percentage.From(percentage),
@@ -269,7 +269,7 @@ public class NoxCommonTestCaseFactory
         testEntity.VatNumberTestField!.Value.CountryCode.Should().Be(vatNumberCountryCode2);
         testEntity.ColorTestField!.Value.Should().Be("#FFFF0000");
         testEntity.PercentageTestField!.Value.Should().Be(percentage);
-        testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);
+        testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Types.Yaml.From(switzerlandCitiesCountiesYaml).Value);
         testEntity.TemperatureTestField!.Value.Should().Be(temperatureCelsius);
         testEntity.TemperatureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
         testEntity.TemperatureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
@@ -564,13 +564,12 @@ public class NoxCommonTestCaseFactory
             Id = Text.From(textId1),
             TextTestField = Text.From(text),
         };
-        var newItem2 = new TestEntityExactlyOneToZeroOrOne()
+        var newItem2 = new TestEntityExactlyOneToZeroOrOne
         {
             Id = Text.From(textId2),
             TextTestField2 = Text.From(text),
+            TestEntityZeroOrOneToExactlyOneId = newItem.Id
         };
-
-        newItem2.TestEntityZeroOrOneToExactlyOneId = newItem.Id;
         DataContext.TestEntityZeroOrOneToExactlyOnes.Add(newItem);
         DataContext.TestEntityExactlyOneToZeroOrOnes.Add(newItem2);
         DataContext.SaveChanges();
