@@ -72,6 +72,17 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<SingleResult<TestEntityTwoRelationshipsOneToOneDto>> GetTestRelationshipOneOnOtherSide(System.String key)
+    {
+        var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Where(x => x.TestRelationshipOneOnOtherSide != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<TestEntityTwoRelationshipsOneToOneDto>(Enumerable.Empty<TestEntityTwoRelationshipsOneToOneDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.TestRelationshipOneOnOtherSide!));
+    }
+    
     public async Task<ActionResult> DeleteRefToTestRelationshipOneOnOtherSide([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -192,6 +203,17 @@ public abstract partial class SecondTestEntityTwoRelationshipsOneToOnesControlle
         
         var references = new System.Uri($"TestEntityTwoRelationshipsOneToOnes/{related.Id}", UriKind.Relative);
         return Ok(references);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<SingleResult<TestEntityTwoRelationshipsOneToOneDto>> GetTestRelationshipTwoOnOtherSide(System.String key)
+    {
+        var related = (await _mediator.Send(new GetSecondTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Where(x => x.TestRelationshipTwoOnOtherSide != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<TestEntityTwoRelationshipsOneToOneDto>(Enumerable.Empty<TestEntityTwoRelationshipsOneToOneDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.TestRelationshipTwoOnOtherSide!));
     }
     
     public async Task<ActionResult> DeleteRefToTestRelationshipTwoOnOtherSide([FromRoute] System.String key, [FromRoute] System.String relatedKey)

@@ -76,6 +76,29 @@ public abstract partial class TestEntityZeroOrManiesControllerBase : ODataContro
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<SecondTestEntityZeroOrManyDto>>> GetSecondTestEntityZeroOrManies(System.String key)
+    {
+        var entity = (await _mediator.Send(new GetTestEntityZeroOrManyByIdQuery(key))).SelectMany(x => x.SecondTestEntityZeroOrManies);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/TestEntityZeroOrManies/{key}/SecondTestEntityZeroOrManies/{relatedKey}")]
+    public virtual async Task<SingleResult<SecondTestEntityZeroOrManyDto>> GetSecondTestEntityZeroOrManiesNonConventional(System.String key, System.String relatedKey)
+    {
+        var related = (await _mediator.Send(new GetTestEntityZeroOrManyByIdQuery(key))).SelectMany(x => x.SecondTestEntityZeroOrManies).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<SecondTestEntityZeroOrManyDto>(Enumerable.Empty<SecondTestEntityZeroOrManyDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
+    }
+    
     public async Task<ActionResult> DeleteRefToSecondTestEntityZeroOrManies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)

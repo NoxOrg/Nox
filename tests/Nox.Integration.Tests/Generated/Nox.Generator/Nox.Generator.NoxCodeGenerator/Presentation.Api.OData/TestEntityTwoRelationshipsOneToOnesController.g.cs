@@ -72,6 +72,17 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<SingleResult<SecondTestEntityTwoRelationshipsOneToOneDto>> GetTestRelationshipOne(System.String key)
+    {
+        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Where(x => x.TestRelationshipOne != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<SecondTestEntityTwoRelationshipsOneToOneDto>(Enumerable.Empty<SecondTestEntityTwoRelationshipsOneToOneDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.TestRelationshipOne!));
+    }
+    
     public virtual async Task<ActionResult<SecondTestEntityTwoRelationshipsOneToOneDto>> PutToTestRelationshipOne(System.String key, [FromBody] SecondTestEntityTwoRelationshipsOneToOneUpdateDto secondTestEntityTwoRelationshipsOneToOne)
     {
         if (!ModelState.IsValid)
@@ -137,6 +148,17 @@ public abstract partial class TestEntityTwoRelationshipsOneToOnesControllerBase 
         
         var references = new System.Uri($"SecondTestEntityTwoRelationshipsOneToOnes/{related.Id}", UriKind.Relative);
         return Ok(references);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<SingleResult<SecondTestEntityTwoRelationshipsOneToOneDto>> GetTestRelationshipTwo(System.String key)
+    {
+        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToOneByIdQuery(key))).Where(x => x.TestRelationshipTwo != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<SecondTestEntityTwoRelationshipsOneToOneDto>(Enumerable.Empty<SecondTestEntityTwoRelationshipsOneToOneDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.TestRelationshipTwo!));
     }
     
     public virtual async Task<ActionResult<SecondTestEntityTwoRelationshipsOneToOneDto>> PutToTestRelationshipTwo(System.String key, [FromBody] SecondTestEntityTwoRelationshipsOneToOneUpdateDto secondTestEntityTwoRelationshipsOneToOne)

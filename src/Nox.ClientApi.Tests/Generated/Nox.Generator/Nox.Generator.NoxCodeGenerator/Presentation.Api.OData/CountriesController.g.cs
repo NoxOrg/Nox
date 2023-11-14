@@ -328,6 +328,29 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<WorkplaceDto>>> GetWorkplaces(System.Int64 key)
+    {
+        var entity = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Workplaces);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/Countries/{key}/Workplaces/{relatedKey}")]
+    public virtual async Task<SingleResult<WorkplaceDto>> GetWorkplacesNonConventional(System.Int64 key, System.UInt32 relatedKey)
+    {
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Workplaces).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<WorkplaceDto>(Enumerable.Empty<WorkplaceDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
+    }
+    
     public async Task<ActionResult> DeleteRefToWorkplaces([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
     {
         if (!ModelState.IsValid)

@@ -72,6 +72,17 @@ public abstract partial class CommissionsControllerBase : ODataController
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<SingleResult<CountryDto>> GetCountry(System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).Where(x => x.Country != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<CountryDto>(Enumerable.Empty<CountryDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.Country!));
+    }
+    
     public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -196,6 +207,29 @@ public abstract partial class CommissionsControllerBase : ODataController
             references.Add(new System.Uri($"Bookings/{item.Id}", UriKind.Relative));
         }
         return Ok(references);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<BookingDto>>> GetBookings(System.Int64 key)
+    {
+        var entity = (await _mediator.Send(new GetCommissionByIdQuery(key))).SelectMany(x => x.Bookings);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/Commissions/{key}/Bookings/{relatedKey}")]
+    public virtual async Task<SingleResult<BookingDto>> GetBookingsNonConventional(System.Int64 key, System.Guid relatedKey)
+    {
+        var related = (await _mediator.Send(new GetCommissionByIdQuery(key))).SelectMany(x => x.Bookings).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<BookingDto>(Enumerable.Empty<BookingDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
     }
     
     public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)

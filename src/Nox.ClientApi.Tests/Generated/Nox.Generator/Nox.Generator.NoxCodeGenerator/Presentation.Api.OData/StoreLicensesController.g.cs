@@ -72,6 +72,17 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<SingleResult<StoreDto>> GetStore(System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Where(x => x.Store != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<StoreDto>(Enumerable.Empty<StoreDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.Store!));
+    }
+    
     public virtual async Task<ActionResult<StoreDto>> PutToStore(System.Int64 key, [FromBody] StoreUpdateDto store)
     {
         if (!ModelState.IsValid)
@@ -137,6 +148,17 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         
         var references = new System.Uri($"Currencies/{related.Id}", UriKind.Relative);
         return Ok(references);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<SingleResult<CurrencyDto>> GetDefaultCurrency(System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Where(x => x.DefaultCurrency != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<CurrencyDto>(Enumerable.Empty<CurrencyDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.DefaultCurrency!));
     }
     
     public async Task<ActionResult> DeleteRefToDefaultCurrency([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
@@ -259,6 +281,17 @@ public abstract partial class StoreLicensesControllerBase : ODataController
         
         var references = new System.Uri($"Currencies/{related.Id}", UriKind.Relative);
         return Ok(references);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<SingleResult<CurrencyDto>> GetSoldInCurrency(System.Int64 key)
+    {
+        var related = (await _mediator.Send(new GetStoreLicenseByIdQuery(key))).Where(x => x.SoldInCurrency != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<CurrencyDto>(Enumerable.Empty<CurrencyDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.SoldInCurrency!));
     }
     
     public async Task<ActionResult> DeleteRefToSoldInCurrency([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)

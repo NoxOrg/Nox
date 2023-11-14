@@ -72,6 +72,17 @@ public abstract partial class TestEntityExactlyOneToOneOrManiesControllerBase : 
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<SingleResult<TestEntityOneOrManyToExactlyOneDto>> GetTestEntityOneOrManyToExactlyOne(System.String key)
+    {
+        var related = (await _mediator.Send(new GetTestEntityExactlyOneToOneOrManyByIdQuery(key))).Where(x => x.TestEntityOneOrManyToExactlyOne != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<TestEntityOneOrManyToExactlyOneDto>(Enumerable.Empty<TestEntityOneOrManyToExactlyOneDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.TestEntityOneOrManyToExactlyOne!));
+    }
+    
     public virtual async Task<ActionResult<TestEntityOneOrManyToExactlyOneDto>> PutToTestEntityOneOrManyToExactlyOne(System.String key, [FromBody] TestEntityOneOrManyToExactlyOneUpdateDto testEntityOneOrManyToExactlyOne)
     {
         if (!ModelState.IsValid)

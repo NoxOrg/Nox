@@ -76,6 +76,29 @@ public abstract partial class TenantsControllerBase : ODataController
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<WorkplaceDto>>> GetWorkplaces(System.Guid key)
+    {
+        var entity = (await _mediator.Send(new GetTenantByIdQuery(key))).SelectMany(x => x.Workplaces);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/Tenants/{key}/Workplaces/{relatedKey}")]
+    public virtual async Task<SingleResult<WorkplaceDto>> GetWorkplacesNonConventional(System.Guid key, System.UInt32 relatedKey)
+    {
+        var related = (await _mediator.Send(new GetTenantByIdQuery(key))).SelectMany(x => x.Workplaces).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<WorkplaceDto>(Enumerable.Empty<WorkplaceDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
+    }
+    
     public async Task<ActionResult> DeleteRefToWorkplaces([FromRoute] System.Guid key, [FromRoute] System.UInt32 relatedKey)
     {
         if (!ModelState.IsValid)

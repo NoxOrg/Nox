@@ -72,6 +72,17 @@ public abstract partial class WorkplacesControllerBase : ODataController
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<SingleResult<CountryDto>> GetCountry(System.UInt32 key)
+    {
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).Where(x => x.Country != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<CountryDto>(Enumerable.Empty<CountryDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.Country!));
+    }
+    
     public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.UInt32 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -196,6 +207,29 @@ public abstract partial class WorkplacesControllerBase : ODataController
             references.Add(new System.Uri($"Tenants/{item.Id}", UriKind.Relative));
         }
         return Ok(references);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<TenantDto>>> GetTenants(System.UInt32 key)
+    {
+        var entity = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).SelectMany(x => x.Tenants);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/Workplaces/{key}/Tenants/{relatedKey}")]
+    public virtual async Task<SingleResult<TenantDto>> GetTenantsNonConventional(System.UInt32 key, System.Guid relatedKey)
+    {
+        var related = (await _mediator.Send(new GetWorkplaceByIdQuery(_cultureCode, key))).SelectMany(x => x.Tenants).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<TenantDto>(Enumerable.Empty<TenantDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
     }
     
     public async Task<ActionResult> DeleteRefToTenants([FromRoute] System.UInt32 key, [FromRoute] System.Guid relatedKey)

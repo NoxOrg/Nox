@@ -349,6 +349,17 @@ public abstract partial class CountriesControllerBase : ODataController
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<SingleResult<CurrencyDto>> GetCurrency(System.String key)
+    {
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).Where(x => x.Currency != null);
+        if (!related.Any())
+        {
+            return SingleResult.Create<CurrencyDto>(Enumerable.Empty<CurrencyDto>().AsQueryable());
+        }
+        return SingleResult.Create(related.Select(x => x.Currency!));
+    }
+    
     public virtual async Task<ActionResult<CurrencyDto>> PutToCurrency(System.String key, [FromBody] CurrencyUpdateDto currency)
     {
         if (!ModelState.IsValid)
@@ -418,6 +429,29 @@ public abstract partial class CountriesControllerBase : ODataController
             references.Add(new System.Uri($"Commissions/{item.Id}", UriKind.Relative));
         }
         return Ok(references);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<CommissionDto>>> GetCommissions(System.String key)
+    {
+        var entity = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Commissions);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/Countries/{key}/Commissions/{relatedKey}")]
+    public virtual async Task<SingleResult<CommissionDto>> GetCommissionsNonConventional(System.String key, System.Int64 relatedKey)
+    {
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Commissions).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<CommissionDto>(Enumerable.Empty<CommissionDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
     }
     
     public async Task<ActionResult> DeleteRefToCommissions([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
@@ -530,6 +564,29 @@ public abstract partial class CountriesControllerBase : ODataController
             references.Add(new System.Uri($"VendingMachines/{item.Id}", UriKind.Relative));
         }
         return Ok(references);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<VendingMachineDto>>> GetVendingMachines(System.String key)
+    {
+        var entity = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.VendingMachines);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/Countries/{key}/VendingMachines/{relatedKey}")]
+    public virtual async Task<SingleResult<VendingMachineDto>> GetVendingMachinesNonConventional(System.String key, System.Guid relatedKey)
+    {
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.VendingMachines).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<VendingMachineDto>(Enumerable.Empty<VendingMachineDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
     }
     
     public async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.String key, [FromRoute] System.Guid relatedKey)
@@ -680,6 +737,29 @@ public abstract partial class CountriesControllerBase : ODataController
             references.Add(new System.Uri($"Customers/{item.Id}", UriKind.Relative));
         }
         return Ok(references);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<CustomerDto>>> GetCustomers(System.String key)
+    {
+        var entity = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Customers);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/Countries/{key}/Customers/{relatedKey}")]
+    public virtual async Task<SingleResult<CustomerDto>> GetCustomersNonConventional(System.String key, System.Int64 relatedKey)
+    {
+        var related = (await _mediator.Send(new GetCountryByIdQuery(key))).SelectMany(x => x.Customers).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<CustomerDto>(Enumerable.Empty<CustomerDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
     }
     
     public async Task<ActionResult> DeleteRefToCustomers([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)

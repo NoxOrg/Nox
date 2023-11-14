@@ -76,6 +76,29 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
         return Ok(references);
     }
     
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<SecondTestEntityTwoRelationshipsOneToManyDto>>> GetTestRelationshipOne(System.String key)
+    {
+        var entity = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipOne);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/TestEntityTwoRelationshipsOneToManies/{key}/TestRelationshipOne/{relatedKey}")]
+    public virtual async Task<SingleResult<SecondTestEntityTwoRelationshipsOneToManyDto>> GetTestRelationshipOneNonConventional(System.String key, System.String relatedKey)
+    {
+        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipOne).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<SecondTestEntityTwoRelationshipsOneToManyDto>(Enumerable.Empty<SecondTestEntityTwoRelationshipsOneToManyDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
+    }
+    
     public async Task<ActionResult> DeleteRefToTestRelationshipOne([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
@@ -224,6 +247,29 @@ public abstract partial class TestEntityTwoRelationshipsOneToManiesControllerBas
             references.Add(new System.Uri($"SecondTestEntityTwoRelationshipsOneToManies/{item.Id}", UriKind.Relative));
         }
         return Ok(references);
+    }
+    
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<SecondTestEntityTwoRelationshipsOneToManyDto>>> GetTestRelationshipTwo(System.String key)
+    {
+        var entity = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipTwo);
+        if (!entity.Any())
+        {
+            return NotFound();
+        }
+        return Ok(entity);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/v1/TestEntityTwoRelationshipsOneToManies/{key}/TestRelationshipTwo/{relatedKey}")]
+    public virtual async Task<SingleResult<SecondTestEntityTwoRelationshipsOneToManyDto>> GetTestRelationshipTwoNonConventional(System.String key, System.String relatedKey)
+    {
+        var related = (await _mediator.Send(new GetTestEntityTwoRelationshipsOneToManyByIdQuery(key))).SelectMany(x => x.TestRelationshipTwo).Where(x => x.Id == relatedKey);
+        if (!related.Any())
+        {
+            return SingleResult.Create<SecondTestEntityTwoRelationshipsOneToManyDto>(Enumerable.Empty<SecondTestEntityTwoRelationshipsOneToManyDto>().AsQueryable());
+        }
+        return SingleResult.Create(related);
     }
     
     public async Task<ActionResult> DeleteRefToTestRelationshipTwo([FromRoute] System.String key, [FromRoute] System.String relatedKey)
